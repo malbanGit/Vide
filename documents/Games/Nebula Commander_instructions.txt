@@ -1,0 +1,39 @@
+Overview                              
+
+As of early 2015, Nebula Commander is still the only real time strategy game for the Vectrex. One or two players must gather up resources and create and launch weapons to destroy the other’s space station while defending their own in turn. Two players can face off with each other or one player can go against the computer.
+Gameplay                              
+
+The player’s and enemy’s space stations appear in a sector of space. Space crystals fly about, which players can use their tractor beams to steer them into their own space stations (or sometimes the crystals will just collide with a station on its own) by positioning their onscreen cursor on the crystals and by holding button 4 for the tractor beam. Whenever a crystal makes contact with a space station, it raises up the station’s energy by a notch (which is indicated by the bar on the right side of the display inside the player’s space station; the bar to the left is the space station’s health meter). Each time a player uses their tractor beam, builds and launches a weapon, and uses their shield, it takes energy. If a player has no energy to perform a function, they must wait for their station’s solar batteries to recharge enough or acquire a crystal so they can then finish a function.
+
+In order to launch an attack against the enemy’s space station, players can create up to five missiles (if they have the energy to do so), which are indicated by dots that surround their station. Players can plot a trajectory and launch missiles at the enemy’s station by positioning their cursor on or in the direction of the enemy’s station and by activating the missiles by pressing button 3, although if the missiles overshoot a target the player can place their cursor on or near the missile’s target and press button 3 again to redirect the missile. Once a missile makes contact with a target the missile is destroyed. Space destroyers can also be used to attack an enemy’s station, which take more energy to create than missiles, but they take several hits from enemy missiles in order to be destroyed, plus they launch their own missiles at the enemy’s station. Creating, launching and redirecting destroyers can be done in the same manner as missiles, although they require pressing button 2 to be built and deployed. Only two destroyers maximum can be built at once.
+
+(Note: missiles can be launched at an enemy's station and space destroyers, whereas destroyers can only be used to attack a station.)
+
+Once a space station takes too much damage from attacks and is destroyed, a statistics screen will appear between rounds, showing the score and tally of destroyed stations before starting the next round (unless the rounds in games one and two become exhausted, then the game will end).
+Controls                              
+Main menu                              
+
+    Choose number of players--button 1
+    Choose game--buttons 2 and 3
+    Start game--button 4 
+
+In-game                              
+
+    Shields–button 1
+    Create destroyer–button 2 (while cursor is positioned on the player’s space station that is creating the destroyer), then press 2 again to launch (after cursor has been positioned as to where the player wants to move the destroyer for attack)
+    Create missile–button 3 (while cursor is positioned on the player’s space station that is creating the missile), then press 3 again to launch (after cursor has been positioned as to where the player wants to move the missile for attack)
+    Tractor beam–button 4 
+
+Scoring                              
+
+    Destroying enemy space station–1000 points
+    Building a space destroyer–150
+    Destroying enemy space destroyer–100
+    Hit enemy space station with missile–50
+    Collect space crystal–25
+    Building a missile–25
+    Deflect enemy missile with shield–25 
+
+Game variations                              
+
+Game 1 is for three rounds, 2 is for five, and 3 is a continuous marathon that does not end until the Vectrex is either reset or shut off. 

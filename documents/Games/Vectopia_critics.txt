@@ -1,0 +1,61 @@
+Vectopia (homebrew)
+
+Vectopia is kind of like the sophomore slump of a trilogy of movies, where the first movie’s great, the sequel didn’t live up to it, but the third movie was better than the second. Not that the cartridge is bad in any way, it’s just that there’s only two full new games here when it was released, having an unfinished demo that’s almost a full, complete game (that is very playable though), another full game that had been released before, but set for the original Vectrex analog controller, and the rest are demos that you can’t do much with.
+
+ 
+
+Because Vectopia is squashed in between the previous cartridge of Vecmania, which had seven full games (although the bonus secret game is the same as the one on the previously released Patriots), three of which were totally new, three were - remixes - , and there are two playable unfinished demos, and then the spectacular Gravitrex came afterwards (need I say more there?).
+
+ 
+
+So, lets see what we got from creator John Dondzila this time around!
+
+ 
+
+WORMHOLE - clone of the very classic arcade game Gyruss, where your ship spins around the screen in a giant circle to destroy as many enemy ships as possible. It’s amazing how far Dondzila came with the slow moving early releases of Vector Vaders and More Invaders! (from the All Good Things cartridge) to how incredibly fast the enemy ships swarm in and out of the center of the screen (the “wormhole”). At first this seems like Dondzila’s easiest game to date, since the ships can pass through you without harm and they don’t shoot back, but that won’t last for long (isn’t that always the way?). Making up for not having any of the cool music and the bonus stages, you’re granted three power-ups (rather than the arcade’s one) upon shooting special ships: double shots, destroying everything onscreen, and slowing down the action for several seconds. Pretty intense stuff...
+
+ 
+
+TRAKKERS - nice of Dondzila to clone an obscure game again (like Eliminator’s clone of Repulse from Vecmania), this one being Targ. In the arcade original you drove a car around a grid and shot at other cars; occasionally a pain known as the Spectar Smuggler would appear and make a beeline for your car. However, you can’t reverse and shoot at anything behind you, so this is not as easy as it may sound. You also can’t shoot away like mad, or else a car could suddenly turn onto your lane (without signaling first, grrrr) and destroy you before you can shoot again (as your shots travel kind of slow). Dondzila said this is more strategy than action, but it’s also a reflex game, since you need to use the gas button to speed your way out of messy situations as well. Not for Sunday drivers.
+
+ 
+
+SPIKE’S WATER BALLOONS (ANALOG VERSION) - don’t really know why this one’s here; it’s the exact same version of the one on All Good Things, except supposedly made for the original Vectrex analog controller. I say - supposedly - because it doesn’t really work that well! It’s pretty difficult moving Spike only a hair’s width (that the game can call for) to pop as many balloons as enemy Spud throws down to the point where I couldn’t even get past the third level. And no, my original controller still works fine, but it’s - control - (not really) is too squirrelly for this game. Next...
+
+ 
+
+The rest are just demos, the most complete one first:
+
+ 
+
+VECTROPOLIS 500 - a rare racing game for the Vectrex, like the old overhead-viewed Sprint and Indy arcade games (4 and 800) and Indy 500 for the Atari 2600. Supposedly the first person around the track three times is the winner, but I found a bug in the game where if there’s two players, another player will win even if they didn’t complete three laps first (which starts happening on about the fourth track or so). This has up to FOUR players at once, although it would be pretty nuts to have that many people crammed around the two Vectrex controllers. I’ve tried it with two players and it’s a bit of fun, despite no sound. I think this should be finished up and released, there’s not many racing games for the Vectrex.
+
+ 
+
+CONTROLLER TESTER - test to see if your controllers will work; pressing the buttons/moving the joystick corresponds on the screen if they’re functioning. Whee!
+
+ 
+
+STAR FIRE SPIRITS, levels 1 and 2 - early works. Level 2 (actually it says it’s level 1 on the screen, for some reason) won’t let you destroy any tower tops, however you can rotate the screen all the way around! That wasn’t in the released version on Vecmania! Level 1 is actually more difficult than the released version, the T. I. E. Fighter-like ships are small and usually tumble around the screen, being harder to destroy than in the released version. I like this one better actually, it’s more challenging. Too bad all you get are six hits on your shield and the game is over, there’s no working tally for your score or a lead-in to the next level; bummer.
+
+ 
+
+MAD PLANETOIDS-don’t know where on Earth Dondzila thought he could have done a Vectrex version of the (also obscure) frenzied Mad Planets arcade classic, which had a Tron-like joystick with the fire button AND a dial to rotate your ship around. However, he said it’s a - scratch pad - bit that possibly he was just seeing if it could be done, as all you can do is move and shoot, there’s two planetoids that can’t be destroyed and massive flickering smaller circles that could cause seizures (which I assume are the moons on the planets that you destroyed in the arcade original). Not much to see and do here...
+
+ 
+
+STAR FURY-...and the same goes with this one, it’s just a demo of a tiny ship flying around and a cursor following it. Huh? (An early sketch for Space Frenzy?)
+
+ 
+
+So there you have it, the cartridge is pretty much two frenzied shooters and a racing game, and that’s pretty much it. However, it’s worth it, the games are fun, and there’s some neat touches included as well, such as a much deserved pause button on both full games (gasp! Something sorely missing on a lot of Dondzila’s stuff!), vector versions of the indestructible asteroid and the twin ships with the beam from Gyruss, a secret Spike floating head, and three separate title screen music pieces. Controls work fairly well for the most part (aside from Water Balloons and the working the ship around in a circle on Wormhole with a digital controller), although the graphics fare better, and the sound and especially music are good. And, as any new game for the Vectrex deserves mention, with this one you got three!
+
+ 
+
+ 
+
+Score 7/10
+
+ 
+
+Review written by Darryl

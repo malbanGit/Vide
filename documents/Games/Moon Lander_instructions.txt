@@ -1,0 +1,26 @@
+Origins                              
+
+Lunar Lander was Atari's first vector graphic arcade game, which required the player to choose an area to land their ship on a lunar surface while contending with gravity and fuel all the while. Moon Lander was inspired by Lunar Lander, although the player had to contend with changing gravity and landscapes, wind, and troublesome satellites as well in the later levels. The game featured cinematics of the player's ship lifting off after a successful landing and has an ending, rather than Lunar Lander ending only once the player would eventually run out of credits (to keep on adding fuel to their ship) or they just flat-out ran out of fuel during a game without adding any more credits to replenish their ship's fuel tank. 
+
+Gameplay                              
+
+It is the player's duty to get their ship home to Earth, which is accomplished by making a safe landing on each moon. The player has to contend with their ship's fuel level, gravity (or lack thereof), wind factor, landscapes and/or satellites in the later levels in order to land.
+
+With the arrival at each new moon, the lander begins at the top of the screen, which needs to be guided to a safe landing spot (defined by bonus multipliers, such as "1X" or "5X", for example). Usually a planet's gravity will start the ship's descent, which the player must apply thrusters to counter the gravity for a safe landing or thrust towards the landscape for several of the levels that have negative gravity (i. e. if the player doesn't apply thrust, their lander will start heading up away from the moon's surface).
+
+Once the player is on a safe landing trajectory, an indicator that they are on the right path usually appears briefly (saying "OK!" on the screen, along with being marked by two musical notes), although that does not always mean the player can just let their lander fall to the surface as it is; land too hard, and they will lose a lander, and if the player runs out of landers the game ends.
+
+There are also other onscreen indicators to help the player, such as if the moon the player is currently on has a wind factor (shown by a flag facing whatever direction the wind is blowing) and there is a fuel gauge as well. Also when the player engages the pause feature, this screen has additional information as to the game's current level number, gravity and wind ratings, and if there is a satellite present during the level.
+
+Satellites will also start appearing after the player has cleared several levels; a regular satellite will just bob up and down over a lunar surface, although a Killer Satellite will home in on the player. Colliding with a satellite will also destroy a lander.
+
+A bonus lander is awarded with every five safe landings.
+Controls                              
+
+    Turn lander (left and right)--buttons one and two
+    Pause--button three
+    Use thrust--button four and up on joystick or D-pad 
+
+Scoring                              
+
+Successful landing--100 points plus fuel units remaining times the multiplier the player has landed on 

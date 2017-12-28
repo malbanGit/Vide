@@ -1,0 +1,25 @@
+Origins                              
+
+Asteroids was a gigantic hit in the arcades. Being one of the earlier vector games, it made sense for clones of it to appear on the Vectrex, which occurred with Mine Storm, then years later with Rockaroids as one of the earliest homebrew games, as well as this remix.
+Gameplay                              
+
+Players control a ship that must destroy rockaroids. Shooting a big rockaroid turns into two medium-sized ones; when shot, a medium rockaroid will turn into two small ones, which shooting a small rockaroid will destroy it. Flying saucers will also appear from time to time and fire several times as they cross the screen.
+
+Players can turn their ship, thrust, and use hyperspace to put them in a random position on the screen in case of an emergency. However, the player’s ship can be destroyed upon re-emerging from hyperspace. Collision with any rock, saucer, or saucer’s fire will also destroy the player’s ship. The player’s ship is invincible for several seconds with each new ship and new screen of rockaroids though.
+
+The game will end once the player is out of reserve ships.
+Scoring                              
+
+    Big rockaroid–10 points
+    Medium rockaroid–20 points
+    Small rockaroid–50 points
+    Large saucer–200 points
+    Small saucer–1000 points
+    Extra ship–every 10,000 points 
+
+Controls                              
+
+    Turn ship–buttons one and two
+    Thrust–button three
+    Fire–button four
+    Hyperspace–down on joystick or D-pad 

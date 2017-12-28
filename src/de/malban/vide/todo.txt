@@ -1,16 +1,44 @@
-Correct curly indenting!
-
-figure out how to add "h" to debgging!
 
 
-- Bei dieser Gelegenheit ist mir noch aufgefallen, dass in den Projekt xml Dateien 
-  der Projektpfad (relativ zum Vide Binary) abgespeichert ist. Beim Kopieren/Verschieben 
-  eines kompletten Projekt-Ordners stimmt diese Information dann nicht mehr, und es wird 
-  alles an der alten Location gesucht und nicht mehr gefunden (bzw. beim Kopieren arbeitet das 
-  Ganze dann unbemerkt auf dem „alten“ Folder). Wäre evtl. eine Funktionalität „load project“ 
-  sinnvoll, die beim Laden der xml Projekt-Informationen schlichtweg den Pfad nimmt, an dem die xml Datei liegt?
+Menschenjagd_alt:
+ db PITCH, 60, SPEED, 100, MM, EH, SLOW, NO, SH, FAST
+ db EH, FAST, NE, JH, UX, SLOW, EG, DO, EOP, EOP
 
-bug with different main files
+ 
+I got the pistol Alt:
+ db VOLUME, 125, SPEED, 120, PITCH, 88, OHIH, PAUSE5, SLOW, VOLUME
+ db 96, PITCH, 80, GO, SLOW, OH, TT, PITCH, 88, PAUSE6
+ db SLOW, DH, EH, PAUSE6, VOLUME, 110, PO, VOLUME, 96, IH
+ db SE, TT, PITCH, 85, SLOW, OW, SLOW, LO, EOP, EOP
+
+executed alt
+ db VOLUME, 110, SPEED, 100, PITCH, 70, FAST, EH, SPEED, 114
+ db FAST, KE, FAST, ZH, VOLUME, 80, SPEED, 120, PITCH, 65
+ db AX, VOLUME, 80, KE, SPEED, 120, FAST, IYUW, PAUSE0, TT
+ db TT, PAUSE5, PITCH, 60, SPEED, 100, VOLUME, 120, EY, ED
+ db EOP
+
+- Bug importing more than one draw_vlp is buggy
+ storyboard with animtions of 2 is not animating!
+
+- done: add "peek" counter in Tracky
+- done: "globale" Varialen/Funktionen/Makros pro VEDI nicht pro Vide instanz
+- done: correct curly indenting!
+- done: edit peepholes
+- done: BUG: load vecVox switches to vec Voice
+- done: BUG: fcw is red as syntax
+- done: add "C-Demos" credits in help
+- done: change project definitions, so that can be loaded from the directory they reside in REGARDLESS of path
+
+- figure out how to add "include files" to debgging!
+
+- VecFever header support in "C" (and/or ASM)
+- investigate BASH starting from post project build, reports say it slows vide down after a while (Martin White)
+- investigate: bug with different main files
+- mouse coorindates wrong in rotation (vinfi...)
+
+
+
 
 
 Info:
@@ -26,7 +54,8 @@ Checksum B796 :
 Second Release Release. 
 MB ROM. 
 Title screen "VECTREX”. 
-Vectrex with this ROM will have a buzz (unless manually de-buzzed). 
+Vectrex with this ROM will have a buzz (unless manually de-buzzed). +
+
 
 Checksum 7ADB : 
 MB ROM. 
@@ -81,17 +110,10 @@ https://gcc.gnu.org/onlinedocs/gcc/Constraints.html
 
 
 
-DEBUG RAM
-
-
-to peer
-#define Vec_Loop_Count        RAM(0xC825, unsigned long int) // Loop counter word (incremented in Wait_Recal)
-
-
-
-
-
+done: DEBUG RAM
+done:to peer #define Vec_Loop_Count        RAM(0xC825, unsigned long int) // Loop counter word (incremented in Wait_Recal)
 done: double click on mcro def in "No Frame" search the include path of "with frame" 
+done: enable direct addressing in vide
 
 
         
@@ -99,9 +121,9 @@ done: double click on mcro def in "No Frame" search the include path of "with fr
 
 done:
    if without curly
-                    else
-                    for next without curly
-                            while without curly
+    else
+    for next without curly
+            while without curly
             
 
 
@@ -110,9 +132,9 @@ done:
 - stepping one instruction with only one byte -> does two instructions
 - Hey dissi in c
 - zentralpunkt perspektive in veccy
-- document song and explosion edit
+- done: document song and explosion edit
 -YM player speed opti - only without USE_ENVELOPES
-- BUG Switch on macc from full to windowed
+- BUG Switch on mac from full to windowed
   a native window title appears in addition to the tiny laf
 Bug?
 - Unter windows können in anderen Laufwerken keine Projekte angelegt werden,
@@ -137,8 +159,7 @@ incorrect
   REVERTING BACK: Just,simply add true in place of false to the previous command like this:
   defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
 
-bug: rotated in "normal" mode overlay wrong!
-bug: mouse coorindates wrong in rotation (vinfi)
+done: rotated in "normal" mode overlay wrong!
 
 
 
@@ -244,7 +265,7 @@ Scott - huggings
 
 
 ----
-ongoing: BUG pythagorean theorem - Buffer overflow of VecVoice?
+done: BUG pythagorean theorem - Buffer overflow of VecVoice?
 ----
 Just googling - no - potrace can't. It seems a program called "autotrace" can -> 
 http://autotrace.sourceforge.net/

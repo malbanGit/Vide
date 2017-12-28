@@ -5,7 +5,9 @@
  */
 package de.malban.util.syntax.entities;
 
-import static de.malban.util.syntax.entities.ASM6809FileInfo.*;
+import static de.malban.util.syntax.entities.ASM6809File.ENTITY_CHANGED;
+import static de.malban.util.syntax.entities.ASM6809File.ENTITY_DELETED;
+import static de.malban.util.syntax.entities.ASM6809File.ENTITY_UNCHANGED;
 import de.malban.vide.dissy.DASM6809;
 import java.util.ArrayList;
 
@@ -66,13 +68,13 @@ public class EntityDefinition
     };
     
     private int status = ENTITY_DELETED;
-    ASM6809FileInfo file;
-    C6809FileInfo cfile;
-    public C6809FileInfo getCFile()
+    ASM6809File file;
+    C6809File cfile;
+    public C6809File getCFile()
     {
         return cfile;
     }
-    public ASM6809FileInfo getFile()
+    public ASM6809File getFile()
     {
         return file;
     }
@@ -131,7 +133,7 @@ public class EntityDefinition
     boolean isMacroEnd = false;
     
     // return null, if no known entity was found
-    public static EntityDefinition scanLine(ASM6809FileInfo _file, String _orgLine)
+    public static EntityDefinition scanLine(ASM6809File _file, String _orgLine)
     {
         if (_orgLine==null) return null;
         EntityDefinition entity = new EntityDefinition();
@@ -140,7 +142,7 @@ public class EntityDefinition
         return entity;
     }
     // return null, if no known entity was found
-    public static EntityDefinition scanLine(C6809FileInfo _file, String _orgLine)
+    public static EntityDefinition scanLine(C6809File _file, String _orgLine)
     {
         if (_orgLine==null) return null;
         EntityDefinition entity = new EntityDefinition();
@@ -877,11 +879,21 @@ public class EntityDefinition
                 line = de.malban.util.UtilityString.replace(line, "void", "", true);
                 line = de.malban.util.UtilityString.replace(line, "FUNCTION_TYPE", "", true);
                 String[] split = line.trim().split("\\(");
+
+                // if attribute is part of "first (", than this is a variable!
+                if (!(split[0].trim().contains("__attri")))
+                {
+                    name = split[0].trim();
+                    done = true;
+                    type = TYP_CFUNCTION;
+                    subtype = SUBTYPE_FUNCTION_LABEL;
+                }
+                else
+                {
+                    line = orgLine;
+                }
                 
-                name = split[0].trim();
-                done = true;
-                type = TYP_CFUNCTION;
-                subtype = SUBTYPE_FUNCTION_LABEL;
+                
             }
         }
 
@@ -917,7 +929,6 @@ public class EntityDefinition
             
             boolean endsOpen = line.trim().endsWith("=") || line.trim().endsWith("={")|| line.trim().endsWith("= {");
             
-
             if ((startWithType) && (nothingDisturbing) && ((hasSemicolon)||endsOpen) && (!inCCommentMacro()))
             {
                 line = de.malban.util.UtilityString.replace(line, "const", "", true);
@@ -947,6 +958,7 @@ public class EntityDefinition
                 }
                 else
                     name = line;
+
                 
                 done = true;
                 type = TYP_LABEL;
@@ -977,6 +989,7 @@ public class EntityDefinition
                 }
                 else
                     name = line;
+
                 
                 done = true;
                 type = TYP_MACRO;
@@ -1008,6 +1021,9 @@ public class EntityDefinition
                 {
                     name = "";
                 }
+
+
+                
             }
         }
         

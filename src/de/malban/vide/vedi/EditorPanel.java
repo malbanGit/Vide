@@ -17,8 +17,6 @@ import de.malban.util.UtilityString;
 import de.malban.util.syntax.Syntax.HighlightedDocument;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.syntax.entities.EntityDefinition;
-import de.malban.util.syntax.entities.FunctionSink;
-import de.malban.util.syntax.entities.LabelSink;
 import de.malban.vide.VideConfig;
 import de.malban.vide.veccy.VectorListFileChoserJPanel;
 import static de.malban.vide.vedi.DebugComment.SUB_WATCH_16BIT;
@@ -106,7 +104,7 @@ public class EditorPanel extends EditorPanelFoundation
     }
     public void resetDocument()
     {
-        editorPaneDocument = new HighlightedDocument();
+        editorPaneDocument = new HighlightedDocument(vediId);
     }
     protected boolean isInitError()
     {
@@ -128,8 +126,22 @@ public class EditorPanel extends EditorPanelFoundation
         }
     }
 
+    int vediId = -1;
+    public int getVediId()
+    {
+        if (vediId != -1) return vediId;
+        VediPanel vedi = VediPanel.getVedi(this);
+        if (vedi != null)
+        {
+            vediId = vedi.UID;
+        }
+        
+        return -1;
+    }
+    
     JPanel noWrapPanel = new JPanel( new BorderLayout() );
-    public EditorPanel(String fn, TinyLogInterface tl) {
+    public EditorPanel(String fn, TinyLogInterface tl, int id) {
+        vediId = id;
         tinyLog = tl;
         filename = fn;
         initComponents();
@@ -668,6 +680,7 @@ public class EditorPanel extends EditorPanelFoundation
     void recountBraces()
     {
         int lineCount = getLineCount(jTextPane1);
+        if (lineCount<=0) lineCount=0;
         int openCount = 0;
         brackCount = new int[lineCount];
         try
@@ -742,12 +755,12 @@ public class EditorPanel extends EditorPanelFoundation
                 {
                     synchronized (editorPaneDocument.getDocumentLock())
                     {
-                        jTextPane1.replaceSelection("");
+                        jTextPane1.replaceSelection("}");
+                        evt.consume();
                     }
                 }
                 jTextPane1.setSelectionStart(endPos);
                 jTextPane1.setSelectionEnd(endPos);
-                
                 
             }
             catch (Throwable e)
@@ -877,7 +890,7 @@ public class EditorPanel extends EditorPanelFoundation
         ArrayList<String> ret = new ArrayList<String>();
         if (assume6809Asm)
         {
-            Set entries = LabelSink.knownGlobalVariables.entrySet();
+            Set entries = VediPanel.getVedi(this).asmInfo.knownGlobalVariables.entrySet();
             Iterator it = entries.iterator();
             while (it.hasNext())
             {
@@ -891,7 +904,7 @@ public class EditorPanel extends EditorPanelFoundation
         }
         else if (assume6809C)
         {
-            Set entries = FunctionSink.knownGlobalFunctions.entrySet();
+            Set entries = VediPanel.getVedi(this).cInfo.knownGlobalFunctions.entrySet();
             Iterator it = entries.iterator();
             while (it.hasNext())
             {

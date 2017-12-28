@@ -1,3 +1,8 @@
+ include "vectrex.i"
+ bss
+ include "YM_VAR.I"
+ code
+ include "YM_MAK.I"
 ;***************************************************************************
 do_ym_sound:
                 ldd     ym_data_current
@@ -252,7 +257,7 @@ shifting_done:
 ; now the current counter should be set
 
 ; we still need to dechifer the following byte...
-                bra       dechifer
+                lbra       dechifer
 
 init_ym_sound:
                 ldx     #ym_data_start

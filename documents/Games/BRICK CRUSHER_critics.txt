@@ -1,0 +1,22 @@
+BRICK CRUSHER
+This is another breakout clone.
+
+This is game is actually quite complete - in the sense that:
+a) it has different levels, that "automatically" follow each other without user action
+b) it has a "game over" screen which gives you some feedback
+c) it has a "game finished" screen, which tells you that you did well.
+
+The only drawback is, that the game only features 4 levels - but you can not have it all - can you?
+
+In addition to the "normal" breakout - some bricks losen spikes, which fall down - you must
+avoid them - which might prove tricky if you also have to hit the ball.
+
+Technically:
+- screen refresh can get really low - but on a real vectrex it is still bearable
+- basic sound
+- sometimes one of the "outer" (left or right) bricks seems to have a quite lose collision detection
+- honorable mention - nice overlays!
+
+General vectrex game: 6/10 (5 plus a bonus point for "completeness" :-))
+For a first vectrex game: 9/10
+

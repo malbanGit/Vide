@@ -1,0 +1,93 @@
+Space Frenzy
+                              
+Comments
+Share
+Space Frenzy
+
+Spacefrenzy
+Developer 	John Dondzila
+Publishers 	Classic Game Creations
+Freeware
+Packrat Video Games, LLC
+Release Dates 	2006
+2015 (re-release)
+Genres 	Multi-directional shooter
+Platformer
+Mode 	Single player only
+Media 	Cartridge
+ROM file
+Contents[show]
+Origins                              
+
+Although somewhat of an Asteroids clone, Space Fury still managed to be a bit of a unique offering when it hit the arcades in the early 1980s.
+
+First off, it was one of the earlier games that talked, as a one-eyed alien appeared at the beginning of every game saying "so, a creature for my amusement", along with taunting the player at the beginning of every new round. It was also a bit of an "Asteroids in reverse" game, due to the player not breaking up big objects into small ones, but small objects would come together to form big ones, and plus players got to dock with shells to increase the firepower of their ship.
+
+Then, a little over 15 years later, Space Frenzy would make a logical vector clone to be brought to the Vectrex (although minus the color from the arcade original).
+Controls                              
+
+    Move ship left and right: joystick (or D-pad) or buttons one and two
+    Use thrust: button three
+    Fire weapons: button four 
+
+Gameplay                              
+
+The game begins with two groups of ship segments appearing onscreen in an attempt to join together to form a cruiser so it can attack the player. If only a partial cruiser forms (i. e. the player shoots at least one segment out of a batch before its other segments join together), then it will chase after the player's ship. However, if an entire cruiser forms, it will float listlessly around the screen, not chasing the player, but it will shoot at the player's ship.
+
+(One difference to note is that, unlike the arcade original, colliding with a ship segment is fatal, as the player[s] could pass through ship segments unharmed originally before a ship was complete.)
+
+After each wave (note: unlike with the original, there is no bonus for completing a wave), the player is given the choice of three ships to dock with to increase their firepower. A bonus is given for time remaining after a docking. These ships consist of:
+
+    Top ship: fires a single line of shots in front of the player's ship and two at a time behind it
+    Left ship: fires three shots straight forward
+    Right ship: fires a shot forward, one to the left, and one to the right of the player's ship 
+
+(Note: unlike with the original, if a player is able to dock with three ship shells, the last one they choose will be their shell for the rest of the game; with Space Frenzy, the player is allowed to continually change ships with every round.)
+Scoring                              
+
+Level one
+
+    Forming enemies - 10
+    Incomplete cruisers - 40
+    Completed cruisers - 20
+    Enemy shots - 30 
+
+Level two
+
+    Forming enemies - 20
+    Incomplete cruisers - 80
+    Completed cruisers - 40
+    Enemy shots - 60 
+
+Level three
+
+    Forming enemies - 30
+    Incomplete cruisers - 150
+    Completed cruisers - 80
+    Enemy shots - 100 
+
+Level four and on
+
+    Forming enemies - 40
+    Incomplete cruisers - 300
+    Completed cruisers - 150
+    Enemy shots - 200 
+
+Extras                              
+Space Frenzy variations                              
+
+Without a VecVox or AtariVox+, the alien won't speak out loud, but overhead text will appear instead, with the introduction from Space Fury of "So, a creature for my amusement, prepare for battle!". At the end of a game, the text will read "Our battle is complete, warrior. You were a ___ opponent", with a rank depending on how the player performed (such as "adequate").
+
+With a VecVox or AtariVox+ unit, however, not only will the alien say out loud the intro and closing rank, but during gameplay he will also state at the beginning of each new round either "So, you defeated my scouts. My cruisers will destroy you.", "You are starting to annoy me, creature. My destroyers will annihilate you.", "You survived! Warriors! Dispose of this annoyance at once.", "Is there no warrior mightier than I?", or "Does anyone dare challenge my imperial fleet?".
+
+Playing with the Digi-Speech version allows the alien to talk out loud without an added voice module, with only saying the introduction and "our battle is complete, warrior" without a rank at the end of a game. However, there can be some technical problems using this feature, depending on the Vectrex it is played on (see the last note in the Trivia section in regards to this).
+Super Spike World demo                              
+Super Spike World
+
+Super Spike World demo screen.
+An attempted clone of the SNES' Super Mario World, the unfinished Super Spike World demo, is also included on the cartridge. The player moves Spike around several screens, collecting some kind of v-shaped prizes and some rods of some sort off of a couple of telephone poles, jumping on birds, what appears to be Spike's enemy Spud, and even what seems to be a rendition of the Enterprise from Star Trek. Spike also can jump on platforms, some of which move or will crumble underneath his feet, as well as a couple of trees. This goes on for several screens until it wraps back to the beginning. There is no sound and no way to die.
+Controls                              
+
+    Move Spike: joystick or D-pad
+    Jump: button one
+    Exit demo: button four 

@@ -1,0 +1,12 @@
+Performance VX is a standalone demo cartridge and was the predecessor to the 3D Scape cart. It was first released in 2003 and was the second demo available from Revival Studios after the Oldskool +3 demo.
+
+
+Physical Release
+
+This demonstration consists of several 3D effects, which include rotating flying polygons, a shifting grid and a large rotating polygon. The demo also includes music. With this release, the demo is on a constant loop and begins as soon as the standard Vectrex introduction screen fades.
+
+The ROM file has always been available for download through the Revival Studios website, however, after an initial availability, it was discontinued in favor of the 3D Scape cart which included Performance VX as well as two other demos. Recently, the cartridge has been made available again for collectors.
+
+Its physical release consists of a PCB with full color professional stickers on each side and a plastic game case. No overlay or manual is included.
+
+There are no controls other than the ability to restart the demo by pressing button 1. 

@@ -1,5 +1,7 @@
 package de.malban.vide.vedi.project;
 
+import static de.malban.util.Utility.makeGlobalAbsolute;
+import java.io.File;
 import javax.swing.JOptionPane;
 import java.util.*;
 public class  ProjectPropertiesPool
@@ -35,18 +37,20 @@ public class  ProjectPropertiesPool
 			return false;
 		}
 	}
+        
+        
 	public boolean load()
 	{
             java.io.File f;
             if (pathName==null)
-                f = new java.io.File(de.malban.Global.mainPathPrefix+mFileName);
+                f = new java.io.File(makeGlobalAbsolute(mFileName) );
             else
-                f = new java.io.File(de.malban.Global.mainPathPrefix+pathName+mFileName);
+                    f = new java.io.File(makeGlobalAbsolute(pathName)+File.separator+mFileName);
             if (!f.exists()) return false;
             if (pathName == null)
                 mProjectProperties = ProjectProperties.getHashMapFromXML(mFileName);
             else
-                mProjectProperties = ProjectProperties.getHashMapFromXML(mFileName, de.malban.Global.mainPathPrefix+pathName);
+                mProjectProperties = ProjectProperties.getHashMapFromXML(mFileName, makeGlobalAbsolute(pathName));
             return true;
 	}
 	public void save()
@@ -54,7 +58,7 @@ public class  ProjectPropertiesPool
             if (pathName==null)
 		ProjectProperties.saveCollectionAsXML(mFileName, mProjectProperties.values());
             else
-		ProjectProperties.saveCollectionAsXML(de.malban.Global.mainPathPrefix+pathName, mFileName, mProjectProperties.values());
+		ProjectProperties.saveCollectionAsXML(makeGlobalAbsolute(pathName), mFileName, mProjectProperties.values());
             buildKlassenMap();
 	}
 	public void remove(ProjectProperties st)

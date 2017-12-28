@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 public class ExportDataPanel extends javax.swing.JPanel {
     
-    private HighlightedDocument document = new HighlightedDocument();
+    private HighlightedDocument document = new HighlightedDocument(-1);
     
     private ExportData mExportData = new ExportData();
     private ExportDataPool mExportDataPool;

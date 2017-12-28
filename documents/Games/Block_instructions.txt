@@ -1,0 +1,12 @@
+Background                              
+
+Blocks is a demo ROM file that can currently only be played on emulators or for those that have a VecFlash or similar item that can load ROMs onto a Vectrex.
+
+The game is Breakout clone, although it would eventually become more like an Arkanoid clone if it gets finished, complete with enemies and various other additions[1].
+Gameplay                              
+
+Once a game has started, the ball will automatically launch and the player must deflect it with their paddle back towards a wall of blocks. Each bottom row block takes two hits before it is removed from the screen, whereas blocks anywhere else on the screen take one hit from the ball before disappearing. There are currently no sounds, the game will end if the player misses the ball and if the wall of blocks is cleared a new wall will not come up.
+Controls                              
+
+    Start game–button 4 on title screen
+    Move paddle–left and right arrows on keyboard or D-pad or left and right on Vectrex controller (if played on a Vectrex) 

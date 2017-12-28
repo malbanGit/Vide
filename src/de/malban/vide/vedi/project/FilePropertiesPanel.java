@@ -4,6 +4,7 @@ package de.malban.vide.vedi.project;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.components.ModalInternalFrame;
+import static de.malban.util.Utility.makeGlobalAbsolute;
 import de.malban.vide.script.ExecutionDescriptor;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_FILE_ACTION;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_FILE_POST;
@@ -770,7 +771,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         
         String filenameOnly = Paths.get(mFileProperties.mFilename).getFileName().toString();
         
-        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, "", filenameOnly, "FilePropertiesPanel",Global.mainPathPrefix+ path);
+        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, "", filenameOnly, "FilePropertiesPanel",makeGlobalAbsolute(path));
         
         sdp.setSelected(mFileProperties.mActionScriptClass, mFileProperties.mActionScriptName, ed);
         modal = new ModalInternalFrame("Scripter", frame.getRootPane(), frame, sdp, "done");
@@ -789,7 +790,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         String path = Paths.get(mFileProperties.mFilename).getParent().toString();
         String filenameOnly = Paths.get(mFileProperties.mFilename).getFileName().toString();
         
-        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_PRE, "", filenameOnly, "FilePropertiesPanel", Global.mainPathPrefix+path);
+        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_PRE, "", filenameOnly, "FilePropertiesPanel", makeGlobalAbsolute(path));
         sdp.setSelected(mFileProperties.mPreScriptClass, mFileProperties.mPreScriptName, ed);
         modal = new ModalInternalFrame("Scripter", frame.getRootPane(), frame, sdp, "done");
         modal.setVisible(true);
@@ -808,7 +809,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         String path = Paths.get(mFileProperties.mFilename).getParent().toString();
         String filenameOnly = Paths.get(mFileProperties.mFilename).getFileName().toString();
         
-        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_POST, "", filenameOnly, "FilePropertiesPanel", Global.mainPathPrefix+path);
+        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_POST, "", filenameOnly, "FilePropertiesPanel", makeGlobalAbsolute(path));
         sdp.setSelected(mFileProperties.mPostScriptClass, mFileProperties.mPostScriptName, ed);
         modal = new ModalInternalFrame("Scripter", frame.getRootPane(), frame, sdp, "done");
         modal.setVisible(true);

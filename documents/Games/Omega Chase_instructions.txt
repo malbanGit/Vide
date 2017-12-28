@@ -1,0 +1,47 @@
+Background
+
+Omega Race was an arcade game where players flew around a limited playfield while destroying objects. Unlike many other games where collisions with walls would destroy a player's (/s') ship, players could bounce off of walls in Omega Race.
+
+Omega Chase is a clone of Omega Race, which was a free download. Omega Chase Deluxe was the physical cartridge release of the game, which also included Zap.
+Gameplay 
+Omega Chase
+
+The player(s) controls a ship in the Omega System. Fighters, Escorts and Freighters attack their ship and it's the player's job to destroy them first. They must avoid mines left by enemies and be careful when thrusting around the walls. Collision with either the enemies or their mines will result in losing a life.
+Zap
+
+The player controls the laser cannon on a space station while Bomber and Destroyers attack. The Bombers will send bombs on a collision course and the Destroyer will orbit the player's station. Action gets fast and faster, so the player's reflexes will need to as well. Miss a bomb and the player will lose a life.
+Scoring, Omega Chase
+
+    Mine--0 points
+    Freighter--5 points
+    Escort--25 points
+    Fighter--50 points
+    Extra ship--every 500 points 
+
+Zap
+
+    Gravity Bomb--5 points
+    Bomber--10 points
+    Destroyer--50 points 
+
+Controls
+Main Menu
+
+    Select between one or two players-joystick or D-pad
+    Select Omega Chase (original)-button one
+    Select Omega Chase Deluxe-button two
+    Select Omega Chase Deluxe with Infinite Lives (Collector's Edition only)-button three
+    Select Zap-button four 
+
+In-game-Omega Chase 
+
+    Rotate clockwise or counter-clockwise-joystick or D-pad
+    Rotate counter-clockwise-button one
+    Rotate clockwise-button two
+    Thrust-button three
+    Fire-button four 
+
+In-game-Zap
+
+    Aim Laser-joystick or D-pad
+    Fire-button four 

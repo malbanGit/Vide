@@ -249,12 +249,12 @@ public class GFXVectorAnimation
         }       
         return true;
     }
-    public boolean isAllPatternHigh()
+    public boolean isAllPatternHigh(boolean zeroOk)
     {
         GFXVectorAnimation al = this;
         for (int i=0; i< al.size(); i++)
         {
-            if (!al.get(i).isAllPatternHigh()) 
+            if (!al.get(i).isAllPatternHigh(zeroOk)) 
                 return false;
         }       
         return true;
@@ -321,7 +321,7 @@ public class GFXVectorAnimation
             log.addLog("isDraw_VLp failed, not continuous!", WARN);
             return false;
         }
-        if (!isAllPatternHigh())
+        if (!isAllPatternHigh(true))
         {
             log.addLog("isDraw_VLp failed, low patterns found!", WARN);
             return false;

@@ -1,0 +1,58 @@
+Overview                              
+
+Revector is a seven minute timed match between two players that must score higher than their opponent by shooting their vehicle. Energy and health is limited and power-ups can be collected and used to a player’s advantage.
+Gameplay                              
+
+Each game lasts seven minutes. Player one’s vehicle always starts off a round on the right side of the screen whereas player two’s vehicle always starts off on the left. Players can accelerate their vehicles all over the playfield unless they hit a screen edge, which will bounce them in the opposite direction. Players can also bounce off of their opponent without taking any damage.
+
+With each time a player fires, they will use up some of their energy. Energy gets replenished over time as long as a player does not shoot. Five projectiles can be fired at a time (with energy permitting), which, if they do not make contact with a vehicle, will bounce off the playfield’s walls up to three times before self-destructing upon hitting a fourth wall and that player can begin firing again (as long as they have reserve energy).
+
+In game one (see Game variations section below), two firing options are available: the semi-automatic weapon (using button four on the controller) and the automatic weapon (button three). The automatic weapon only fires one projectile at a time whereas the semi-automatic weapon will fire off as many shots as allowed per energy remaining. If a player has picked up the smart bullet power-up, then those are fired with button four.
+
+Once a vehicle takes a hit from a projectile, their energy will start depleting; once they are out of energy then they will lose that vehicle, the other player will be awarded points and the next round will begin. Players’ health is automatically fully recharged with each new round but their energy takes time to do the same. The game timer, players’ health and energy bars appear at the top of the screen (the latter two will appear for each player on the top corners of the screen).
+
+Power-up items (available in game one) appear randomly on the playfield to be picked up by players, having various effects and lasting either a certain time or with a set amount of uses. If neither player picks up an item after several seconds they will disappear.
+
+Once a game’s seven minutes have run out, the game will end once one or both players have destroyed the others’ vehicle (or they destroy each other at the same time).
+Power-up items                              
+
+    Health Recharge–fully charges a player’s vehicle’s health to maximum
+    Energy Recharge–fully charges a player’s vehicle’s energy reserve to maximum
+    Money–gives player 1000 points
+    Freeze–freezes a player’s vehicle for several seconds, although that player can still fire (note: this is an arrow that changes direction. If it is collected when it is facing left, player two is frozen. If it is collected when facing right, player one is frozen. A player can also freeze themselves)
+    Invisible–makes player’s vehicle invisible for a short time, although it will briefly become visible when hit by a projectile
+    Smart Bullets–adds 10 Smart Bullets to a player’s cache. These bounce off walls towards the opponent’s vehicle 
+
+Game variations                              
+
+    Game one–regular game with power-up items
+    Game two–no power-up items
+    Game three–same as game two, but with no automatic weapon
+    For either one player against the computer or two players simultaneously 
+
+Scoring                              
+
+    Shoot opponent–100 points
+    Player shoots themself–100 points awarded to opponent
+    Destroy opponent–1500 points
+    Collect Health Recharge power-up item: 25 points
+    Collect Energy Recharge–75 points
+    Collect Money–1000 points
+    Collect Freeze–125 points
+    Collect Invisible–200 points
+    Collect Smart Bullets–150 points 
+
+Controls                              
+Game options screen                              
+
+    Choose number of players–button one
+    Choose game variation–buttons two and three
+    Start game–button four 
+
+(in-game)                              
+
+    Turn vehicle–left/right on joystick or D-pad
+    Move forward–up on joystick or D-pad
+    Move backwards–back on joystick or D-pad
+    Fire automatic weapon (when applicable)–button three
+    Fire semi-automatic weapon/Smart Bullets (when applicable)–button four 

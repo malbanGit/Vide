@@ -1,0 +1,24 @@
+Y*A*S*I OverviewEdit
+
+Like the arcade original, each wave starts off with 55 invaders that move in formation from side to side; once they reach an edge of the screen, the entire formation drops down a notch closer to the player. Several times during a wave a high point U. F. O. will fly overhead as well. There are four bunkers for the player to hide behind but they can succumb to fire.
+
+The player receives an extra laser base with every 2500 points earned and the game is over when the player loses all bases from enemy fire or they get "invaded" if the invaders make it to the bottom of the screen. Also, there are several unlockable modes, as the game starts off with option A (the regular game), which options can be accessed at the Y*A*S*I menu screen. If the player scores 1000 or more points during a game, the next option will be unlocked. These are:
+
+    B: guided missiles--the player can guide their missiles after they are fired
+    C: moving bunkers--the bunkers move back and forth during a game
+    D: guided missiles and moving bunkers
+    E: cloaking invaders--the invaders are invisible until shot or the player loses a laser base
+    F: guided missiles and cloaking invaders
+    G: moving bunkers and cloaking invaders
+    H: guided missiles, moving bunkers and cloaking invaders 
+
+Once the player starts unlocking these options, once they are on this screen, pressing button number two repeatedly will cycle through the options. Also, there are nine skill levels to choose from as well, which can be chosen from the Y*A*S*I menu screen by pressing button three (which the modes can then be chosen by pressing button two).
+ControlsEdit
+
+    button 1: pause
+    buttons 2 and 3: move laser base left and right (note: the player can also use the joystick or D-pad for this function as well)
+    button 4: fire 
+
+BugsEdit
+
+    On Y*A*S*I, there are times when the player's shot will pass through a U. F. O. With the excellent programming that was done with these games, though (there are those who would have sworn that Protector was not possible to do on the Vectrex without a lot of flicker and/or the infamous Vectrex slowdown), this might actually be intentional (for some reason), rather than being a programming bug. 

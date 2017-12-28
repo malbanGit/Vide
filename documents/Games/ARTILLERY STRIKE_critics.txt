@@ -1,0 +1,24 @@
+ARTILLERY STRIKE
+This is (as the name suggests) an artillery clone - nowadays you might call it an "angry bird derivat" :-).
+The game is pretty straight forward - angle your gun correctly to hit the enemy.
+
+There is nothing much special going on, there is no two player variant.
+Ten different levels of increasing difficulty (which must be chosen manually).
+The in game music is taken from "Armor Attack" which is fitting.
+
+Nice:
+The angle of the gun seems to be correctly calculated on the fly!
+
+Technically
+- the WaitRecal routine is called multiple times per update round,
+this makes the display more "shaky" than needed, since each call "waits" till
+30000 cycles have passed (since last call)
+- the ingame music is VERY repetitive
+- personally I would have favoured joystick input for angles
+- the above mentioned "intensity" (bug)
+- the game was saved with "RAM", therefor the binary won't run on a
+vectrex (unless truncated)
+
+General vectrex game: 4/10
+For a first vectrex game: 7/10
+

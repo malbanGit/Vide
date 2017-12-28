@@ -1,0 +1,30 @@
+ Background                               
+
+Vec Fu was released only as a freely downloadable ROM file playable either through emulator or programmable multicart and was never given any physical release by creator Michael Borrmann himself, though a few custom carts have surfaced through eBay sale. Two versions of the game have been made available, both in unfinished form, one in 2007 and one in 2010. The 2007 version only features one enemy (Pole), while the 2010 version features at least six enemies. Borrmann announced in July 2016 on facebook that he continued to work on Vec Fu. According to Borrmann the new name of the game is going to be Oolong and will include a two player versus mode.
+Story                               
+
+The evil Daimyo and his minions have laid waste to the player's temple and killed off all of the other monks while the player was away in another province, and now the player is on to get their revenge. First off, the player has to fight against the Daimyos champions of martial arts before they can face the evil one himself.
+Gameplay                               
+
+The player controls a monk who uses his Kung Fu abilities to battle opponents to reach the boss. Each opponent is named after their main weapon of choice. While the 2007 version only features Pole, whose weapon is a long staff, the 2010 version begins with Hammer, then Pole, followed by Star, then Sword, Chain and finally Mandarin. With the exception of Hammer and Mandarin, all enemies have both a kick attack in addition to their namesake weapon. Star is the only enemy with a ranged weapon. Mandarin has no attack.
+Controls                               
+
+Main Menu
+
+    Begin Arcade mode-button four 
+
+In-game
+
+    Jump-up
+    Duck-down
+    Block-back
+    Move player forward or back-Left or right
+    Slide-down and button four
+    Low kick-diagonal down/forward and button four
+    High kick-foward and button four
+    Roundhouse kick-back and button four
+    Jump kick-up then down and button four 
+
+Scoring                               
+
+Each fight consists of one round. Defeat each opponent to progress to the fight. Defeat all opponents to win the game. The game is over when the player no longer has any lives left. 

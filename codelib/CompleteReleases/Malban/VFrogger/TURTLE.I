@@ -12,9 +12,12 @@
 ; turtle2 is moving to the left with a speed of -1
 ; turtle3 is moving to the right with a speed of 2
 ; turtle4 is moving to the left with a speed of -2
- db 10
 turtle1a_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB -5*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -3*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
@@ -36,9 +39,12 @@ turtle1a_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 12
 turtle1b_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 12
+ else
                 DW (MAX_LINE_NUM-(12+1))*ONE_LINE_LENGTH
+ endif
                 DB -3*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
@@ -62,9 +68,12 @@ turtle1b_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 12
 turtle1c_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 12
+ else
                 DW (MAX_LINE_NUM-(12+1))*ONE_LINE_LENGTH
+ endif
                 DB -3*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -88,9 +97,12 @@ turtle1c_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 10
 turtle2a_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  5*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
@@ -112,9 +124,12 @@ turtle2a_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 12
 turtle2b_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 12
+ else
                 DW (MAX_LINE_NUM-(12+1))*ONE_LINE_LENGTH
+ endif
                 DB  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
@@ -138,9 +153,12 @@ turtle2b_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 12
 turtle2c_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 12
+ else
                 DW (MAX_LINE_NUM-(12+1))*ONE_LINE_LENGTH
+ endif
                 DB  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  5*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
@@ -360,9 +378,12 @@ turtled4c_object:
                 DW turtlea4a_object     ; alternate object for diving
 
 ; sprite definition
- db 8
 turtlea1a_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 8
+ else
                 DW (MAX_LINE_NUM-(8+1))*ONE_LINE_LENGTH
+ endif
                 DB -2*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
@@ -373,9 +394,12 @@ turtlea1a_sprite:
                 DB -1*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
 ; sprite definition
- db 8
 turtlea1b_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 8
+ else
                 DW (MAX_LINE_NUM-(8+1))*ONE_LINE_LENGTH
+ endif
                 DB -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
@@ -386,9 +410,12 @@ turtlea1b_sprite:
                 DB -1*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
 ; sprite definition
- db 5
 turtlea1c_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 5
+ else
                 DW (MAX_LINE_NUM-(5+1))*ONE_LINE_LENGTH
+ endif
                 DB  1*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
@@ -396,9 +423,12 @@ turtlea1c_sprite:
                 DB  0*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
 turtlea1d_sprite:
- db 13
 ; sprite definition
+ if USE_LOOP_UNROLING !=1
+                DB 13
+ else
                 DW (MAX_LINE_NUM-(13+1))*ONE_LINE_LENGTH
+ endif
                 DB -3*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  3*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  3*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
@@ -414,9 +444,12 @@ turtlea1d_sprite:
                 DB  1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
 ; sprite definition
- db 8
 turtlea1e_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 8
+ else
                 DW (MAX_LINE_NUM-(8+1))*ONE_LINE_LENGTH
+ endif
                 DB -2*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
@@ -427,9 +460,12 @@ turtlea1e_sprite:
                 DB  1*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
 ; sprite definition
- db 3
 turtlea1f_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 3
+ else
                 DW (MAX_LINE_NUM-(3+1))*ONE_LINE_LENGTH
+ endif
                 DB -1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
@@ -656,9 +692,12 @@ turtleb3c_object:
                 DW turtleb3a_object     ; alternate object for diving
 
 ; sprite definition
- db 8
 turtlea2a_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 8
+ else
                 DW (MAX_LINE_NUM-(8+1))*ONE_LINE_LENGTH
+ endif
                 DB  1*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
@@ -669,9 +708,12 @@ turtlea2a_sprite:
                 DB  1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
                 DB -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
 ; sprite definition
- db 8
 turtlea2b_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 8
+ else
                 DW (MAX_LINE_NUM-(8+1))*ONE_LINE_LENGTH
+ endif
                 DB -1*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
@@ -682,9 +724,12 @@ turtlea2b_sprite:
                 DB -2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
 ; sprite definition
- db 13
 turtlea2d_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 13
+ else
                 DW (MAX_LINE_NUM-(13+1))*ONE_LINE_LENGTH
+ endif
                 DB -3*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  3*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  3*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
@@ -700,9 +745,12 @@ turtlea2d_sprite:
                 DB -1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
 ; sprite definition
- db 8
 turtlea2e_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 8
+ else
                 DW (MAX_LINE_NUM-(8+1))*ONE_LINE_LENGTH
+ endif
                 DB -2*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
@@ -713,9 +761,12 @@ turtlea2e_sprite:
                 DB  1*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
 ; sprite definition
- db 3
 turtlea2f_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 3
+ else
                 DW (MAX_LINE_NUM-(3+1))*ONE_LINE_LENGTH
+ endif
                 DB -1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP

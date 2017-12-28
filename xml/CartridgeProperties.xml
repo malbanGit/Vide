@@ -1055,7 +1055,7 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>cartridges/garry/retdev.bin</FullFilename>
+			<FullFilename>cartridges/garry/circus.bin</FullFilename>
 		</FullFilenames>
 		<Information>Garry Grierson</Information>
 		<Cheats></Cheats>
@@ -1881,6 +1881,7 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
+			<FullFilename>cartridges/thomas/2048-4K-v1.0.BIN</FullFilename>
 		</FullFilenames>
 		<Information>Thomas Sontwoski</Information>
 		<Cheats></Cheats>
@@ -2484,49 +2485,6 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
-		<Name>48K Sound Test</Name>
-		<CartName>48K Sound</CartName>
-		<Author>Thomas Sontwoski</Author>
-		<Year>2017</Year>
-		<CRC>0</CRC>
-		<TypeFlags>524288</TypeFlags>
-		<FullFilenames>
-			<FullFilename>SOUND.BIN</FullFilename>
-		</FullFilenames>
-		<Information>Thomas Sontwoski</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage></Homepage>
-		<InstructionFile>documents/games/_instructions.txt</InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage></InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink></BinaryLink>
-		<Licence></Licence>
-		<CopyrightType></CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage>cartridges/images/2048 - 4k-5027741157450990115.png</CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>true</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-		<ConfigOverwrite>true</ConfigOverwrite>
-		<CF_AutoSync>false</CF_AutoSync>
-		<CF_AllowROMWrite>true</CF_AllowROMWrite>
-		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -3679,49 +3637,6 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>Hex alpha</Name>
-		<CartName>Hex alpha</CartName>
-		<Author>Binary Star</Author>
-		<Year>2014</Year>
-		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download\cartridges\HEX_alpha2.BIN</FullFilename>
-		</FullFilenames>
-		<Information>Binary Star</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage>http://www.binarystarsoftware.com/</Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Hex alpha-1016253384549620108.png</InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink>Hex alpha Download BIN</BinaryLink>
-		<Licence></Licence>
-		<CopyrightType></CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>true</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>false</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-		<ConfigOverwrite>false</ConfigOverwrite>
-		<CF_AutoSync>false</CF_AutoSync>
-		<CF_AllowROMWrite>false</CF_AllowROMWrite>
-		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
 		<Name>BETH4</Name>
 		<CartName>Battle Earth Terror Hazard v4</CartName>
 		<Author>Manu P&#228;rssinen</Author>
@@ -3762,6 +3677,92 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vectrexagon</Name>
+		<CartName>Vectrexagon</CartName>
+		<Author>Andreas Gustafsson</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/vectrexagon.bin</FullFilename>
+		</FullFilenames>
+		<Information>Andreas Gustafsson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.sdwdevelopments.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>vectrexagonbin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright © SDW Developments</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Hex alpha</Name>
+		<CartName>Hex alpha</CartName>
+		<Author>Binary Star</Author>
+		<Year>2014</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Hex_v1_1.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Hex alpha-1016253384549620108.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Hex alpha Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -4582,7 +4583,7 @@ Judging by the videos of the fully working prototype I can surmise that the game
 		<Information>Andrew Coleman</Information>
 		<Cheats></Cheats>
 		<Eastereggs>
-	
+&#009;
 
 Based on an old VIC-20 title called &apos;Blitz&apos; (and countless other 8-bit incarnations), this is an incredibly simple game that&apos;s incredibly addictive:)
 
@@ -6381,7 +6382,7 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Other></Other>
 		<BinaryLink>VecFu Download BIN</BinaryLink>
 		<Licence>you are not allowed to sell this .bin file on any carts, multicarts, or spread this  for commercial uses.
-		
+&#009;&#009;
 You may give the Vecfu.bin file to your friends, but only together with this readme file. 
 </Licence>
 		<CopyrightType></CopyrightType>
@@ -7550,6 +7551,49 @@ Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and ful
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>ASTEROIDS</Name>
+		<CartName>ASTEROIDS</CartName>
+		<Author>Thomas Sontowski</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>65536</TypeFlags>
+		<FullFilenames>
+			<FullFilename>ASTEROIDS.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Thomas Sontowski</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>

@@ -1,0 +1,20 @@
+SPACE ATTACK
+A simple shoot em up. Player can move left and right and shoot enemies. There are 3 different enemie types.
+
+The game playes ok and the screen refresh doesn't hurt the eyes to much. The score is visible all the time, so
+the player knows where he stands.
+
+Only two things that I find bothering:
+a) you do not see in any way, when an enemy hits you (no explosion, no sound, no animation...)
+b) you have five lives, but these are not displayed.
+
+Both points taken together it feels "random" when the game over screen is shown - since you do not
+always recognized when hit.
+
+Technical:
+- refresh rate is ok
+- ships are good recognizable and "big"
+
+General vectrex game: 4/10
+For a first vectrex game: 8/10
+

@@ -1,0 +1,29 @@
+Background
+
+The Vectrex community was taken by surprise in 2003 when the announcement of the upcoming, original release of Protector LE was revealed, as programmer Alex Herbert envisioned that the arcade classic of Defender could be brought to the Vectrex. A downloadable video was posted as well, showing that the fast and furious gameplay from the original did indeed seem to be possible after all. It quickly sold out of its 100 copies in less than three weeks of release[1], which came with an overlay (a bit rare for Vectrex homebrews in general), was numbered and had an embossed foil logo on its box. It also came with the Spike Goes Down game included with it as well as an unlockable bonus.
+Protector
+
+Like the Defender original, the player controls a ship that flies over a planet's surface. Potentially the only enemy at the beginning are Landers, which do not move very quickly but occasionally shoot at the player. However, there are humanoids on the surface of the planet that the Landers can pick up, which, if they are to reach the top of the screen with a humanoid, the Lander will then turn into a Mutant, which moves much faster and fires more aggressively than a Lander. If all humanoids are taken captive during a wave then the planet will explode, causing all Landers to become Mutants, and "free space" is very difficult to survive for most players in general. The planet gets restored after every four waves though.
+
+Also, if a player takes too long during a wave, a fast-moving Baiter will appear and cause trouble until the player finishes that wave, which they will then receive a bonus for whatever humanoids are still remaining multiplied by the wave number.
+
+From the second wave on, slow-moving Pods are worth a thousand points each, but they will deploy fast, dangerous Swarmers when destroyed. Bombers do not move quickly though, but they leave bombs behind that will destroy the player’s ship upon impact.
+
+The player starts out each game with three Smart Bombs that will destroy everything onscreen (not counting Swarmers if Pods are bombed without being shot first) and an extra life and Smart Bomb is awarded with every 10,000 points.
+Controls
+
+    Joystick or D-pad: move ship up and down
+    Button 1: reverse
+    Button 2: thrust
+    Button 3: fire
+    Button 4: Smart Bomb/hyperspace 
+
+(Note: these are the default controls, which can be changed.)
+Spike Goes Down
+
+The "unofficial Vectrex mascot", Spike, starts off every game at the top of the screen. Multiple platforms start scrolling from the bottom towards the top of the screen. The player must move Spike off of a platform and land on another one below for as long as possible. There are a row of "pointy bits" at the very top and bottom of the screen; if Spike touches either row the game will end. Ten points are earned for each platform Spike steps off of.
+Controls
+
+    Button 1: start game (at title screen)
+    Button 2: options
+    Move Spike: joystick or D-pad (left/right only) 

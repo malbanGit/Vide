@@ -1,0 +1,35 @@
+Logo (homebrew)
+
+LOGO has arrived!
+
+ 
+
+BACKGROUND
+
+Programmed by Alex Nicholson, LOGO is by far the most in-depth Vectrex program to date. Fans of the LightPen programs will find LOGO to be much more involved, with tons of features. Not to confuse anyone, LOGO does NOT utilize the LightPen. It just seems fitting to classify it alongside a program like AnimAction, since LOGO is an advanced drawing/animation program. Moreover, LOGO (based on the original Logo learning tool from the 1980's) is an actual programming language on cartridge for the Vectrex!
+
+ 
+
+PACKAGE
+
+The packaging is excellent. The game box is done in the same style as the original Vectrex games. At one time I owned a copy of Cube Quest. I remember that the box for that game was very close to the original boxes. The box for LOGO is even better, being very, VERY close to the original boxes! If you own (or have seen) a Cube Quest box, visualize a much more vivid box print. The LOGO box is a bit lighter in weight than the original Vectrex boxes, this being the only significant difference (albeit not a visual difference). Inside the box is a cardboard cartridge tray, which serves its purpose well. The manual is a well written, nicely printed booklet covering the numerous features that await you. The overlay is very attractively done, displaying many of the symbols (glyphs) that appear in the program.
+
+ 
+
+PROGRAM
+
+I've spent a couple of hours in front of LOGO, and started feeling comfortable with the interface within a short period of time. I haven't completely made my way through all of the features yet, giving me something to look forward to. I have been able to successfully draw a number of designs, implementing some of my own techniques as well as those discussed in the manual. I look forward to becoming a more skilled LOGO user/programmer!
+
+ 
+
+FAVORITE FEATURE
+
+The ability to send and receive LOGO compatible programs via email! Too cool Alex!
+
+ 
+
+HIGHLY RECOMMENDED http://www.vectorzoa.com/
+
+ 
+
+Review written by George Pelonis

@@ -1,0 +1,16 @@
+Bloxorz is an unfinished but fully playable strategic puzzle demo game developed for the 2013 Retrochallenge Competition by Frank Buss. It is a port of the original Bloxorz developed by Damien Clarke as an online browser game in 2007. Frank Buss' version was made to be utilized with his own multi-platform cartridge PCB design entitled Crazy Cartridge also for use on the Commodore 64.
+
+As of the end of 2014, Frank Buss still claims to have a desire to continue work on Bloxorz.
+Gameplay                               
+
+The player controls a 1x2 rectangular block on a isometric grid-based platform. The goal is to navigate the platform by rolling either end or end or side to side to match the short end over the X of the exit. The platform itself has narrow spaces which much be approached in a specific way and additional areas available to align your rectangle as needed. If any of the player's rectanglar block moves so as to hang off the platform, it will fall and the player will have to start over from the starting position.
+
+In its unfinished state, the demo game consists of four levels which repeat infinitely.
+Controls                               
+
+    Flip rectangular block end over end-up or down on the joystick/D-pad
+    Rotate rectangular block side over side-left or right on the joystick/D-pad 
+
+Scoring                               
+
+There is no point system. Neither are levels numbered. 

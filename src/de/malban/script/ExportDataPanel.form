@@ -193,7 +193,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jPanel3" pref="520" max="32767" attributes="2"/>
+                  <Component id="jPanel3" pref="536" max="32767" attributes="2"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel4" max="32767" attributes="0"/>
               </Group>

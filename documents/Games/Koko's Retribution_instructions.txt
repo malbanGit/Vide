@@ -1,0 +1,26 @@
+Origins
+
+Star Castle was an arcade game (which was later ported to the Vectrex) where players had to shoot through several rotating rings in hopes of destroying the Star Castle in the center of the screen. Yars’ Revenge for the Atari 2600 was somewhat of a clone of the game, but with many detail changes, such as the overall story (a race known as the Yars seek revenge against their enemy, the Qotile) and the gameplay (the Qotile was guarded behind two different kinds of shields at the right, rather than the center of the screen, the player would be pursued by one lone missile, rather than three bombs on the arcade original, plus a special cannon had to be earned in order for the player could destroy the Qotile, among other differences).
+
+Koko’s Retribution is a clone of Yars’ Revenge. It is a ROM file only to be played on Vectrex emulators and has not been released on cartridge.
+Gameplay
+
+It is the player’s duty to destroy their enemy, who is located on the right side of the screen behind a protective shield. The player can shoot the shield for points, but this will not damage the shield. In order to destroy the enemy, the player must press against the front of the shield (this will not work if pressing the against the top or bottom parts of the shield) for several seconds until a cannon appears at the left side of the screen behind the player. If the player is able to shoot the enemy with the cannon when it is in its docile state, then the player will advance to the next level (if the enemy is hit by the cannon when it is in its swirl mode, though, it will not be destroyed, as it will return to its docile mode behind the shield). However, the player must first eradicate the two shield layers first by making contact with them for several seconds each, which will cause the layers to disappear. The player can also earn a cannon by touching the enemy when it is in its docile state.
+
+Meanwhile, the player is being tracked by an enemy missile, which follows the player’s every move, and at times the enemy can turn into a swirl and hurl itself towards the player.
+
+There is also a neutral zone where the player cannot shoot if they are inside the zone, although they can still be destroyed by the swirl or the missile.
+
+Being hit by the swirl, missile or cannon will cost the player a life and the game will end when there are no remaining lives.
+Differences
+
+There are many differences between Koko’s Retribution and Yars’ Revenge, one of which is that the player cannot shoot through the enemy’s shield. There is only one kind of shield here (there were two on the original, the second one being more dense, it was in a constant state of movement, and had many more cells to it), plus it cannot be whittled down by being shot or eaten by the player; in this version there are only two shield layers, which will only disappear after being touched for several seconds per layer by the player.
+
+Unlike the original, Koko will not instantly change direction when being moved (he will perform a bit of a turn before the player can move him in a different direction), plus Koko can’t wrap around the screen edges like on Yars’ Revenge. Koko’s Retribution also only has one game, as opposed to seven on the original (which had a childrens’ version, two players, a cannon would bounce back rather than being absorbed by the Qotile’s shield on one game variation, etc.). The difficulty level isn’t as steep either, as it takes a while longer before the enemy missile starts moving faster. The neutral zone also doesn’t disappear at times, and the player would not be killed on the original if they were in the zone and were struck by the missile (although being hit by the swirl would still destroy the player though).
+
+The enemy also charges across the screen four times before returning to its docile state, which originally the Qotile would reappear at the right side of the screen after a charge. The player’s cannon also won’t destroy the enemy this time around unless it is in its swirl state, there is no cinematic showing the enemy getting destroyed on the original, along with Koko shown flying off to the next level, and the game has a different scoring system in place.
+Controls
+
+    Move Koko–keyboard arrows (or joystick or D-pad if played on a multicart)
+    Fire–button 3
+    Continue between lives/rounds–button 1 

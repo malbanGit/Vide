@@ -1,0 +1,43 @@
+ Background                               
+
+Hexed! is a card-based game by FURY and proceeds Vector 21 and Royal 21. Similar to most of George Pelonis' releases, it had a limited production run. Due to slow sales, the production was set at 50 with extremely short notice. With such a small number produced, it has caused high collectability.
+Gameplay                               
+
+Hexed! is turn-based. Card info will be displayed when the player hovers their pointer over any of the three displayed cards. While hovering, the player can grab the card and drop it anywhere in the play area. Some cards can be combined by dropping the active card directly on top of a compatible card to make a new more powerful card to play on a subsequent turn. Cards that have the ability to be combined are labeled as combo cards on-screen, however only certain cards can be combined. The dealer cannot combine card and must play the next card in the deck of Voo-Doom.
+
+Life is indicated as an orb. Certain cards will increase the players life orb while others will diminish the dealer's life orb when played. The goal is to deplete the dealer's life orb of all power and win the game before the dealer drains all the player's life orb.
+
+In addition to cards which affect life, there are also cards which cause the player to both be infected or possessed and will gradually drain life until either a cure card is used or all life is drained.
+Controls                               
+
+Main Menu
+
+    Begin game-any button
+    Begin game without card information-button one 
+
+In-game
+
+    Move cursor around screen-joypad or D-pad
+    Select card-button four 
+
+Scoring                               
+
+    Amulet-Steals orb power from opponent
+    Stickpens-5 points (combo)
+    Pixie Powder-10 points (combo)
+    Shrunken Head-5 points from opponent
+    Zombie-infect opponent
+    Voodoo Doll-10 points (combo)
+    Voodoo Sun-cure infection/increase orb power
+    Pixie Stick-cure infection
+    Pixie Potion-increase orb power (combo)
+    Zombie Dog-5 points/infect opponent
+    Hoodoo Witch-Steal orb power from opponent
+    Voodoo Priestess-10 points/steals orb power from opponent
+    Voodoo Queen-15 points/steals orb power from opponent
+    Black Hawk-cure infection/increase orb power
+    Evil Spirit-possess dealer
+    Exorcist-cure possession
+    Pixie Jug-10 points/increase orb power
+    Vicious Doll-15 points/steals orb power from opponent
+    Bonus for every 100 points 

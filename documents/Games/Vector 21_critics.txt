@@ -1,0 +1,33 @@
+Vector 21 (homebrew)
+
+Vector 21 was and still is, at the time of this writing the only card game ever made to date for the Vectrex, combining Blackjack with Solitaire, and it’s a very fun and addicting combination of the two.
+
+ 
+
+In this game, the player is allowed four stacks in order to try to combine cards that are dealt from a deck to total 21; doing so will clear a stack and add points to the player’s score (which isn’t shown until the end of the game). Going over 21 results in a “bust” (no, not the kind of “bust” where a topless vector woman is shown, ha ha) with no points awarded. Points are awarded by a player’s stack adding up to 21/having a Blackjack or by having five cards in a stack adding up to less than 21. Obviously numbered cards are worth their face value a 2 card is worth 2 points, a 3 is worth 3, etc. but the Jack, Queen and King are worth 10 each, and an Ace is worth 1 or 11 (which it’s worth is automatically figured by the game depending on the stack). The game is also timed, as running out of time before going through the entire deck ends the game.
+
+ 
+
+There’s not a lot in the sound department to Vector 21, just short musical interludes when a player earns points from a stack or busts, but the sound is adequate, unless you have a(n) famous/infamous “buzzing” Vectrex, then that really stands out when you play the game, unfortunately (as it’s pretty quiet for the most part). The graphics are also adequate cards are totally blank, aside from their value as is the animation, just pretty much the flipping of the cards going on, although there’s no flicker or anything.
+
+ 
+
+The only problem I have with this game is that the stacks aren’t numbered, as there’s no way to position a card over a stack, and maybe pressing a button on the controller to drop it into that stack. Unfortunately the joystick isn’t used, just the numbers 1-4 on the controller correspond with the stacks on the screen (press a button and a card will appear in the stack the number on the controller corresponds with), which, again, aren’t numbered. So you’re going to screw up at some point and accidentally press the wrong button on the controller and put a card where you don’t mean to put it, usually with disastrous results. However it appears this problem was fixed by George of Fury Unlimited (the game’s creator), since a version for cell phones has been released since (Vector 21's 121 copies are currently sold out), and it appears from the screenshots at his site that the stacks are numbered this time around; I can’t comment on how this version plays since my cell phone is too obsolete to run a game like this, and I’m not replacing it until the day it dies. But it’s only $1.99 U. S., so that’s a very good deal indeed, I’d definitely check it out if you’re into card games.
+
+ 
+
+Because as I mentioned the game being sold out earlier it’s kind of funny how I’ve seen in forums before about people complaining about how what few games that originally came out for the Vectrex were shooters, yet when they get something different like this it takes two years for it’s small run of 121 copies to sell out. I would ask if you could feel the irony there, but I guess people just didn’t want a card game for the Vectrex.
+
+ 
+
+The package was rounded out by having a demo of Star Fury 3D included, but you have to have a 3D Imager or a modern reproduction of it, which I don’t, so I can’t comment on it. But if I recall correctly (which I’ll admit I’m being too lazy to go to my room, look it up and check) there isn’t much to do, just fire weapons and/or activate shields or something, there isn’t really any gameplay per se in it. But there’s plenty of fun, addicting gaming for Vector 21 though.
+
+ 
+
+ 
+
+Score 9/10
+
+ 
+
+Review written by Darryl

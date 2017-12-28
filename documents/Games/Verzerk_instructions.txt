@@ -1,0 +1,28 @@
+Origins/gameplay                              
+
+Berzerk was a unique game at the time when it was released in the arcade for several reasons; first, being a maze game, it had 64,000 mazes, which was a gigantic number for any game of any gaming genre back then. It was also one of the first games that had speech synthesis as well (costing [US] $1,000 a word), which involved sassing the player when they didn't destroy all the robots in a maze, saying "chicken! Fight like a robot!", among several other brief phrases.
+
+The A. I. for the game was also a bit unique as well, as the enemy robots were stupid, shooting and running into each other or walls, which would result in them being destroyed. The player would also earn points for every robot destroyed, no matter if they or the robots caused their [own] destruction.
+
+If the player took too long to escape from a level, the indestructible Evil Otto nemesis would appear from wherever the player had originated from in a maze and bounce his way across the screen, through walls and robots alike. The fewer robots that remained, the faster Otto would travel.
+
+Also, the indication of a difficulty level increase would be apparent with the robots changing color. They would also fire faster and with more shots as well as the player progressed through the levels.
+
+The game involved the player(s) running their way through a series of mazes while destroying as many robots as possible; destroying all robots in a maze would result in a bonus. Touching any robot, explosion from destroyed robot or wall segment or being shot would cause them to lose a life, and once the player ran out of lives the game would end.
+
+Verzerk is a hack of Berzerk, adding speech this time around, with a robotic voice welcoming the player during the attract mode, then states "this is Verzerk". The phrases from the original arcade version of "shoot him", "chicken, fight like a robot", "got you humanoid", etc. are included in this release. The game plays identically to Berzerk though, aside from that and only being for one player.
+Controls                              
+Main menu                              
+
+    Start game--any button 
+
+In-game controls                              
+
+    Move--joystick or D-pad
+    Fire--any button 
+
+Scoring                              
+
+    Robot--50 points
+    Bonus--10 points per robot
+    Extra life--5,000 points 

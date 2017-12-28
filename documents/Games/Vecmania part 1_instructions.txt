@@ -1,0 +1,141 @@
+Vecmania has the largest amount of games for a homebrew compilation for the Vectrex, with a full seven games (one hidden) and two unfinished demos, being clones of the arcade games of Tempest, Star Wars, Missile Command, Space Invaders, Eliminator, Breakout, Discs Of Tron, Asteroids and Phoenix.
+
+The games can be scrolled through at the main menu by moving the joystick or D-pad left and right and then chosen by pressing up on the joystick or D-pad. The main menu can be returned to by pressing three on the controller when the player is on an individual game's title screen (except for the demos).
+Contents[show]
+Full games                              
+Birds of Prey                              
+
+This is a clone of Phoenix, where the player shoots at an assortment of birds. A shield is used for protection from attacks and can kill a bird as well. The player can still shoot but not move, and they cannot use the shield again for a few seconds afterwards.
+
+Getting rammed by a bird or their fire will destroy the player's blaster and the game ends once the player has no more reserve blasters. However, an extra blaster is earned at 10,000 points.
+
+During the first level, the birds dive bomb the player. The second level is identical to the first except the player can shoot two shots at once. Levels three and four feature much larger birds that can only be shot if hit right in the middle, and the last level (before it starts over at a higher difficulty level) features the first level birds along with a mother ship that must have it's middle belt damaged enough so the player can shoot and destroy the ship itself.
+
+Controls
+
+    Start game--button four
+    Move left and right--buttons one and two
+    Fire--button four
+    Shields--button three 
+
+Bug
+
+Just a slight graphics bug where sometimes if a bird from the third or fourth level is shot right next to a screen edge, its explosion will emerge on the other side of the screen.
+Breakout                              
+
+The player knocks a ball against a wall, destroying bricks with the ball. If the ball gets past the player's paddle three times the game is over. From level two and on each brick takes two hits to destroy. (Note: this is a bonus hidden game; see the Vectrex game easter eggs page in regards to accessing it.)
+
+Controls
+
+    Move paddle left and right--move joystick or D-pad left or right
+    Launch ball--button one
+    Change paddle speed--button two 
+
+Bug
+
+Sometimes the ball, once it gets past the paddle, will appear at the top of the screen.
+Patriots Remix                              
+
+This is a clone of Missile Command, where the player must defend cities against enemy missiles that rain down from the sky by positioning their cursor at targets and shooting from two bases on the ground. The player will get attacked by regular missiles, smart bombs that can evade fire, and spaceships and planes that can launch missiles of their own.
+
+A destroyed city can be brought back with every 10,000 points until scores of over 70,000 is reached, plus there is a bonus at the end of every round for any remaining unfired missiles. The missile bases can also be destroyed as well if hit by an enemy missile. If there are no more bonus cities left after all are destroyed the game ends.
+
+Controls
+
+    Start game--button four
+    Fire from left base--button three
+    Fire from right base--button four
+    Pause--button two
+    Speed up cursor control--button one 
+
+Bug
+
+Same slight graphics one that Birds of Prey has, where an explosion will sometimes appear at the other side of the screen.
+Repulse                              
+
+This is a clone of Eliminator, where the player must destroy a floating fortress while evading sentry ships. The sentry ships will careen out of control when shot, but cannot be destroyed; the player can only shoot them and hopefully knock them against the fortress, which will temporarily destroy them (although they will reappear within seconds), and they can shoot you in the same manner as well. If the fortress isn't destroyed after a while, it's alien will emerge from it and come after you, but if shot several times it will re-appear inside the fortress.
+
+Colliding with the fortress or being shot by the alien will cause the player to lose a ship; after all ships have been depleted the game ends. An extra ship is granted with every time the fortress is destroyed, but with every time this is accomplished, more and more sentry ships are added to each successive level.
+
+Controls
+
+    Start game--button one
+    Start game with faster turning controls--button two
+    Move left and right--buttons one and two
+    Fire--button four
+    Thrust--button three 
+
+Bug
+
+Sometimes the player's ship, when it flies into one of the top corners of the screen, will go through the corner and re-emerge through a bottom screen corner.
+Rockaroids Remix: Third Rock                              
+
+This is a clone of Asteroids, where the player controls a ship that must destroy rockaroids by shooting them. Large rockaroids will split into two medium ones when hit, which will, in turn, split into two small ones. Bonus U. F. O.s can also be destroyed for big points but they shoot back at the player. Extra ships are awarded with every 10,000 points and hyperspace can be used in an emergency to send the player's ship to a random location on the screen, but they could blow up upon re-entry.
+
+Getting destroyed upon re-entry, getting hit by a rockaroid or U. F. O. fire will destroy the player's ship and the game will end when there are no more ships remaining.
+
+Controls
+
+    Start game--button four
+    Move left and right--buttons one and two
+    Fire--button three
+    Thrust--button four
+    Hyperspace--down on joystick or D-pad 
+
+Bug
+
+Sometimes when the player is shooting while facing towards the bottom of the screen, one or more large rockaroids will suddenly appear out of nowhere right below the player.
+Star Fire Spirits                              
+
+This is a clone of the Atari vector game Star Wars, which is comprised of three waves. The player starts with six shield units, which will drop every time a spaceship or any other obstacle collides with the player or the player is hit by enemy fire; if the player is hit when they have no more shields left the game will end.
+
+The first wave pits the player against a horde of T. I. E. Fighter-like ships and must shoot a certain number in order to advance to the next area of the game. After a certain number of these ships are hit the player starts their attack on the surface of Dark Planet.
+
+On the surface run, the player must shoot bunkers and the tops off laser towers. Shooting all of the laser tower tops results in a bonus. The laser towers and bunkers fire at the player in the meantime (although no more laser towers will appear once they are all destroyed).
+
+Finally, the player descends the trench of Dark Planet in hopes of destroying it. Bunkers fire from the sides and the player's photon torpedoes will fire at the target shaft automatically when the player positions their cursor over it (although there is no indication that the torpedoes have fired though). If the player destroys Dark Planet, then it starts over at the beginning, but at a higher difficulty level.
+
+Controls
+
+    Start game--button four
+    Start game with flight controls--button one
+    Move cursor--Joystick or D-pad
+    Fire--button one
+    Reverse (during first round only)--button two
+    Speed up cursor--button four 
+
+Bugs
+
+    Sometimes the player's cursor during the second area will jump from one side to the other (i. e. if the cursor is at the far right of the screen it could suddenly appear at the left).
+    It states in the instructions that the player will earn a shield back with each time Dark Planet is destroyed, but this actually does not happen, unless this was fixed on a later version. (Note: this could be a programmer omission actually rather than a "bug".) 
+
+Vector Vaders The Director's Cut                              
+
+This is a clone of Space Invaders, where a formation of 25 aliens march from side to side while shooting at the player's laser base. Once the formation reaches an edge of the screen they drop down a notch; if the player is hit by enemy fire they will lose a base and the game ends when there are no remaining bases or the player gets "invaded" (i. e. the invaders make it to the bottom of the screen). An extra base is awarded at 3010 points or higher (see note) and a high scoring U. F. O. appears overhead during a wave as well.
+
+Controls
+
+    Exit to game screen--button two
+    Start game--button four
+    Move left and right--buttons one and two
+    Fire--button three 
+
+Note: Unlike how the instructions claim, the player will not receive an extra laser base at 3000 points, but over it: it will be awarded at 3010 or higher.
+Demos                              
+Abyss                              
+
+This is an unfinished demo of what would have been a clone of Tempest. This is like the first level of the game, where the player spins in a circle and shoots at various enemies that appear from the innermost part of the level. The player cannot die, there's no sounds or scoring, and the only ways to end the demo is to press reset on the Vectrex or shut the machine off.
+Controls                              
+
+    Move left and right--buttons one and two
+    Fire--button three 
+
+Disc Duel                              
+
+This is a two player clone of Discs Of Tron. Two players throw discs at each other while dodging the other's shots. Players will automatically jump from one platform to the next when they move to an edge of a platform. There is no sound, the shields don't function and there is no scoring. The game can be exited by pressing reset on the Vectrex or by shutting the machine off.
+Controls                              
+
+    Move left and right--buttons two and three
+    Shoot discs--button four
+    Shield (non-functioning)--button one
+    Change aim--Joystick or D-pad 

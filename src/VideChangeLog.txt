@@ -1,5 +1,5 @@
 -------------
-Version 1.21
+Version 2.00
 - vedi: added an additional configuration for deep syntax check (in conficguration).
       with large files (larger than e.g. 100000 bytes, some syntax check need more time, since the
       complete document is scanned. If handling large files makes the editor chunky 
@@ -15,7 +15,7 @@ Version 1.21
          (PS. I made contact with Franck and he is ok with reuse!)
 - cartridge: some config options can be overwritten by the cartridge information, the config stays overwritten till
        next cartridge with "overwrite" is loaded, or config is reloaded/changed
-- display: added full JOGL (OpenGL support), since iit was so much work - I'll list the different steps:
+- display: added full JOGL (OpenGL support), since it was so much work - I'll list the different steps:
   - rendering of lines, points and linestrips (last - splines)
   - respecting movement speed, brightness and dotdwell
   - blur/glow/spill shaders for more nice output
@@ -84,6 +84,19 @@ Version 1.21
 - dissi: added (well hidden - see FAQ) the ability to also disasm RAM locations - for now this is a "Hack"
 - all: added support for 48k ROMs (must be configured for cartridge!)
 - C: CFLAGS can also be set via File properties
+- vedi: peepholes of Vide can be loaded and saved to "VidePeepholes.xml", if no file exists defaults are generated and saved,
+        as of yet there is no editor though. If you want to create your own peepholes look at directory "peeper" at the sources.
+- vedi: peepholes can (at least) be switched on and off seperately (project dialog)
+- config: added configuration section for peepholes
+- vedi: hopefully improved syntax check of copy/pasted/deleted varnames
+- vedi: C-breakpoints improved a little
+- vedi: new definitions of RAM/ROM/IO of Peer included now (enables direct page, and better "variable" usage (not indexed registers in -O0) )
+- vedi: hopefully slightly correcter {}
+- vedi: syntax highlite Var/Function definition is not "GLOBAL" but Vedi based. That means you can have independened Vedi instances open, without
+        their Var/function definitions interfere with each other (very good vor copy and paste :-) )
+- vedi: projects are now "independened" of their "home" directory, meaning - projects take the directory they  are loaded 
+        from as their home, no need to place them in exactly the same "vide - relative" position anymore.
+        Thus - projects can be much more easily be "transported" to other locations (computers) 
 
 BugFix:
 - vecx: vector (drawings) get better updates when debugging
@@ -94,6 +107,9 @@ BugFix:
 - vecx: vecx bug fixed, TFR of register "A" (read) resulted ALWAYS in $ff -> fixed
 - vecx: vecx bug fixed, read word value was implemented with "(datahi << 8) | datalo" which
         resulted in wrong values - correct it must be: (datahi << 8) | (datalo&0xff)
+- vecci: should export Draw_VLP with 0 pattern -> fixed
+- vedi: should start on vecFever, even if emulation is not started -> fixed
+- vedi: somewhere along the way breakpoints in enriched files were broken... corrected
 
 
 

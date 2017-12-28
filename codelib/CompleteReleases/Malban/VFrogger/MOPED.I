@@ -10,7 +10,11 @@
 ; for collision checking: SPRITES MUST HAVE THE LEFTMOST POINT AS STARTVECTOR (*)
 ; moped1 is moving to the left with a speed of -1
 moped1a_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 19
+ else
                 DW (MAX_LINE_NUM-(19+1))*ONE_LINE_LENGTH
+ endif
                 DB  2*SPRITE_BLOW_UP,   4*SPRITE_BLOW_UP    ;
                 DB -2*SPRITE_BLOW_UP,  -2*SPRITE_BLOW_UP    ;
                 DB -2*SPRITE_BLOW_UP,   2*SPRITE_BLOW_UP    ;
@@ -43,7 +47,11 @@ moped1a_object:
                 DB 0                    ; special flag
 
 moped1b_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 19
+ else
                 DW (MAX_LINE_NUM-(19+1))*ONE_LINE_LENGTH
+ endif
                 DB  2*SPRITE_BLOW_UP,   4*SPRITE_BLOW_UP    ;
                 DB -2*SPRITE_BLOW_UP,  -2*SPRITE_BLOW_UP    ;
                 DB -2*SPRITE_BLOW_UP,   2*SPRITE_BLOW_UP    ;
@@ -76,7 +84,11 @@ moped1b_object:
                 DB 0                    ; special flag
 
 moped1c_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 19
+ else
                 DW (MAX_LINE_NUM-(19+1))*ONE_LINE_LENGTH
+ endif
                 DB  2*SPRITE_BLOW_UP,   4*SPRITE_BLOW_UP    ;
                 DB -2*SPRITE_BLOW_UP,  -2*SPRITE_BLOW_UP    ;
                 DB -2*SPRITE_BLOW_UP,   2*SPRITE_BLOW_UP    ;

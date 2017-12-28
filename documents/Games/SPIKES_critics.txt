@@ -1,0 +1,17 @@
+SPIKES
+A jump and run game, where you must reach the exit and not hurt yourself touching
+any "spikes".
+
+The game consists of only two levels - which I consider unfinished.
+
+Technical:
+- refresh rate is ok.
+- the vectors of a level are drawn in one GO - on real vectrex the levels look
+not 100% correct due to drift.
+- the game binary was saved with the "RAM", the binary is larger than 50kb and thus
+does not run on a vectrex. Truncating the file to a shorter than 32769KB size does work.
+- the game over String line one is not terminated, which results in garbage on a real vectrex
+
+General vectrex game: 2/10 (would be higher if there were more levels)
+For a first vectrex game: 5/10
+

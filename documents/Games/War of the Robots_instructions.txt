@@ -1,0 +1,19 @@
+ Gameplay                               
+
+The player controls a gun turret on a watchtower in the Robot Drop Zone. Robots circle the tower and shoot seekers at the player in an attempt to deplete their damage gauge. Both the robots and the seekers must be destroyed, but ammo is not infinite and must be used with care. When the player's ammo is completely spent, it's only a matter of time before game over. In a phase where a certain number of robots must be destroyed, the player is just a sitting duck; however, in a survival phase, it is possible to advance to the next stage if the player has enough health, then they can can wait out the time limit.
+Controls                               
+Main Menu                               
+
+    Begin game-button 1 
+
+In-game                               
+
+    Move crosshairs-joystick or D-pad
+    Pause-button 1
+    Rotate left-button 2
+    Fire-button 3
+    Rotate right-button 4 
+
+Scoring                               
+
+Scoring is related to how many robots are left that need to be destroyed. This number will decrease by one each time a robot is destroyed. 

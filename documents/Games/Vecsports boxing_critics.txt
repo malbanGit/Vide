@@ -1,0 +1,29 @@
+Vec Sport Boxing (homebrew)
+
+The thought of a boxing game on the Vectrex is entertaining. We haven't seen a full blown boxing game for the Vec and this title adds to the range of sports titles including the elusive 'Pitcher's Duel' which arguably showed up in the United States not long ago. Very few overlays were made for Vec Sports Boxing and if you happen to have one you're the owner of a unique collector's item.
+
+ 
+
+Manu Parssisen, author of Vec Sports Boxing and Vectrex database compiler, has produced several short unofficial released titles for the Vectrex but this boxing game is his first major release for the Vec. I asked Manu a few question about the length of time spent programming the first ever Vectrex fighting game.
+
+ 
+
+"Well the preliminary work was about 2 years. Learning to program in assembler and all that. But once I started with VSB it took about 2-3 months, though of course I couldn't do it every day," said Manu.
+
+ 
+
+Vec Sports Boxing has 2 stages. Stage 1 is the one player game in which you must select one of four boxers, including Vectrex icon Spike, and the object is to synchronise timing the buttons on the control panel with the messages you receive on the screen from your coach for certain commands such as 'high punch' and 'low block'. Once you successfully hit the corresponding button your punch will hit the on-screen punching bag which bends with the impact. It's really quite difficult after a while and I found myself completing maybe 6 or 7 punches successfully.
+
+ 
+
+The two player stage is where you get to rumble with another person with a second control panel plugged into the Vec. You fight each other until all the stamina runs down and the first player to win two rounds wins. Vec Sports Boxing is fun for a while and scores more points for multiple stages.
+
+ 
+
+ 
+
+Score 7/10
+
+ 
+
+Review written by Daniel Foot

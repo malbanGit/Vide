@@ -1,0 +1,46 @@
+Overview                              
+
+Spike Hoppin' is a clone of the game Q*Bert, where the player must jump on all areas of a structure to make them the same color in order to advance to the next level. (With the Vectrex not being in color though, in this case, the player needs to make all the areas [which are represented by triangles] on a playfield either brighter or darker, depending on what the current level's requirement is.)
+
+Several enemies with various mannerisms will attempt Spike's downfall, although a few items can help Spike out as well during a game.
+Gameplay                              
+
+The player controls Spike, the unofficial Vectrex mascot, who starts off every game on the top triangle of the first level. He must hop on all triangles, making them all the same shade -- either bright or dark, depending on what the current level requires -- in order to advance to the next level. (For the first several levels, all of the triangles have to be made darker.) Later levels require all triangles to be hopped on twice, while others can be hopped on, but should Spike hop on them again, they will revert back to the original shade, then have to be jumped on two more times to get them back to their correct shade that is needed to advance to the next level.
+
+The levels are faced with perils; one of which that appears during a game are balls, which drop from the top down to the bottom of the playfield. Spike's enemy Spud will also behave like a ball when he first makes his entry during a level (although he will start off diamond-shaped) -- what with dropping from the top of the playfield to the bottom -- but then once he reaches the bottom row of triangles he will turn into Spud and start pursuing Spike.
+
+Upside-Down Monsters also start appearing after several levels, starting at the bottom of the screen and working their way up, zig-zagging in between rows of triangles in the process. And LOG appears last, who will start at the top of the screen, jump around and change the triangles back to their original color if Spike had already jumped on them.
+
+Colliding with any of these enemies (except for LOG) will result in Spike losing a life. Balls and Upside-Down Monsters can only be avoided, although Spud can be knocked away when Spike jumps on a disc that appears at the sides of the screen. However, Spud has to be himself, and not his original diamond form that he initially appears for this to work. An hourglass that starts showing up after several levels will also freeze all onscreen enemies for several seconds if Spike is able to grab it before it disappears from a level, as it starts off at the top of the screen and drops down to the bottom, one triangle at a time.
+Controls                              
+
+    Move Spike--Joystick or D-pad
+    Button 2--change to angled or regular stick control (menu screen only)
+    Button 4--start game (menu screen only) 
+
+Scoring                              
+
+    Changing triangle color--25 points
+    Hop on disc--100 points
+    Collecting Hourglass--200 points
+    Hop on LOG--50 points
+    Extra life--5,000 points 
+
+Vectrepede                              
+
+Vectrepede is a hidden bonus game that is a simplified clone of Centipede.
+
+In this version, the player controls a gun that maneuvers around the bottom section of the screen and shoots at a vectrepede that descends from the top. The vectrepede will move left and right, dropping a notch closer when it reaches the edge of the screen. It will also drop down a notch if there is a mushroom in its path, and with each vectrepede segment the player destroys, it will turn into a mushroom. A spider also appears in the player's area, darting about quickly.
+
+Unlike with the arcade original, there are no scorpions or fleas, along with there being no bonus either for any partially shot mushrooms left over when the player loses a life. And without a flea being present, the player can shoot all onscreen mushrooms without having the flea drop down to add more mushrooms like the original. However, mushrooms can't be shot in between waves like on the original.
+
+If the player is struck by a vectrepede segment or spider, they will lose a life, and the game will end when all three lives are lost.
+Controls                              
+
+    Move gun--Joystick or D-pad
+    Fire--button three 
+
+Scoring                              
+
+    Vectrepede segment--25 points
+    Spider--300 points 

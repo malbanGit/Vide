@@ -10,9 +10,12 @@
 ; for collision checking: SPRITES MUST HAVE THE LEFTMOST POINT AS STARTVECTOR (*)
 ; log1 is moving right with a speed of 1
 ; log2 is moving left with a speed of -1
- db 11
 log1a_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 11
+ else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -35,9 +38,12 @@ log1a_object:
                 DB -2                   ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 11
 log1b_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 11
+ else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -61,9 +67,12 @@ log1b_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 
- db 11
 log1c_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 11
+ else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -87,9 +96,12 @@ log1c_object:
                 DB -2                   ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 11
 log1d_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 11
+ else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -194,9 +206,12 @@ log2f_object:
                 DB -2                   ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 10
 log3a_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -220,7 +235,11 @@ log3a_object:
                 DB 0                    ; special flag
 
 log3b_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -242,9 +261,12 @@ log3b_object:
                 DB 0                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 10
 log3c_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -266,9 +288,12 @@ log3c_object:
                 DB 0                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 10
 log3d_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -310,9 +335,12 @@ log3f_object:
                 DB 0                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 10
 log4a_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -334,9 +362,12 @@ log4a_object:
                 DB 0                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 10
 log4b_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB -1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -358,9 +389,12 @@ log4b_object:
                 DB 0                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 10
 log4c_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -382,9 +416,12 @@ log4c_object:
                 DB 0                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
- db 10
 log4d_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 10
+ else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
+ endif
                 DB -1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP

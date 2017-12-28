@@ -1,0 +1,23 @@
+ROBHOP
+A little jump and run game, where you must collect "screws" to repair your robot.
+To finish a level - collect the battery. Falling does not hurt.
+
+Some collision detection seems to be "strange".
+You can not die or death has no consequences (other than perhaps starting new)
+
+The level must always be chosen from the main screen (even finishing a level does not
+start the next level).
+
+Game seems a bit unfinished.
+
+Technical:
+- screen refresh upon start = 12 Hz (nearly unbearable)
+- nice overlay - although, overlay does assume, that all vectrex have the
+same vector "layout" (which is not the case)
+
+Conclusion:
+In principal a fun little game - the screen refresh makes it nearly unplayable.
+
+General vectrex game: 2/10
+For a first vectrex game: 5/10
+

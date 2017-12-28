@@ -1,0 +1,16 @@
+HEXTREX
+You must protect your (centered) base from incoming ships. You can move around the base (HEX) and shoot at the
+incoming ships.
+
+- The ship movement is strangely implemented you must push the joytick in the direction you
+want to move and press button 1 - on the release of the button, the ship moves!
+- Fire is button 2 - together with the movement - a major obstacle to master the game is
+to learn the controls.
+- very annoying after game over you must reset the vectrex to start another game!
+
+Technical:
+- refresh rate is quite low (20-25 Hz)
+
+General vectrex game: 2/10 (the game and the idea is not bad, but the controls and reset to restart really bugs me)
+For a first vectrex game: 5/10
+

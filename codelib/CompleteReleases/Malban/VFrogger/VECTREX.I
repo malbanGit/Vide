@@ -1,7 +1,3 @@
-; this file is part of vectrex frogger, written by Malban
-; in March-April 1998
-; all stuff contained here is public domain (?)
-;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; this file contains includes for vectrex BIOS functions and variables      ;
 ; it was written by Bruce Tomlin, slighte changed by Malban                 ;
@@ -277,11 +273,20 @@ Get_Rise_Run    EQU     $F5EF   ;
 Rise_Run_X      EQU     $F5FF   ;
 Rise_Run_Y      EQU     $F601   ;
 Rise_Run_Len    EQU     $F603   ;
+
 Rot_VL_ab       EQU     $F610   ;
 Rot_VL          EQU     $F616   ;
-Rot_VL_Mode_a   EQU     $F61F   ;
-Rot_VL_Mode     EQU     $F62B   ;
-Rot_VL_dft      EQU     $F637   ;
+Rot_VL_Mode   EQU     $F61F   ;
+Rot_VL_M_dft     EQU     $F62B   ;
+;Rot_VL_dft      EQU     $F637   ;
+
+
+;Rot_VL_ab       EQU     $F610   ;
+;Rot_VL          EQU     $F616   ;
+;Rot_VL_Mode_a   EQU     $F61F   ;
+;Rot_VL_Mode     EQU     $F62B   ;
+;Rot_VL_dft      EQU     $F637   ;
+
 Xform_Run_a     EQU     $F65B   ;
 Xform_Run       EQU     $F65D   ;
 Xform_Rise_a    EQU     $F661   ;
@@ -317,5 +322,7 @@ musica  EQU $FF44               ;
 musicb  EQU $FF62               ;
 musicc  EQU $FF7A               ;
 musicd  EQU $FF8F               ;
+Char_Table EQU $F9F4
+Char_Table_End EQU $FBD4
 
         endif

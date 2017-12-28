@@ -1,0 +1,18 @@
+March 8, 1996 marked a day of the rebirth of Vectrex games, as programmer John Dondzila unveiled Vector Vaders, which was not only the very first homebrew game for the machine, but it also started the plethora of new games for the Vectrex as well.
+Contents[show]
+Gameplay                              
+
+Aside from having vector graphics and running a bit slow (although the game does speed up as more and more invaders are shot), this is a pretty standard Space Invaders-type game for the most part.
+
+A formation of invaders (25 total) march from side to side while dropping bombs and they will drop down a notch once the formation reaches the edge of the screen. The player’s laser base can take cover behind one of four bunkers on the screen, which the bunkers can withstand 16 shots from enemy and/or player fire before disappearing. A flying saucer will also pass overhead during a level and is worth big points if shot. The player starts off with three laser bases and the game will end once all bases are destroyed or if the player is “invaded” by the aliens reaching the bottom of the screen. However, an extra base is earned if over 3000 points are scored. The level number that the player is currently on is displayed at the bottom right corner of the screen.
+Scoring                              
+
+    Bottom two invaders – 10 points each
+    Middle two invaders – 20 points
+    Top row invaders – 30 points
+    Flying saucer – 50, 100, 150 or 300 points 
+
+Controls                              
+
+    Move base left and right – buttons one and two
+    Fire – button four 

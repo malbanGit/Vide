@@ -15,6 +15,7 @@ import de.malban.vide.script.ExportDataPool;
 import de.malban.vide.script.ScriptDataPanel;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vedi.VediPanel.convertSeperator;
+import static de.malban.vide.vedi.peeper.PeepJPanel.showEditPeepProperties;
 import de.muntjak.tinylookandfeel.Theme;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -100,7 +101,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                 if (mProjectProperties.mBankMainFiles.size()<= rowIndex) return ;
                 String path = aValue.toString();
                 
-                String ppath = mProjectProperties.mPath.toString();
+                String ppath = mProjectProperties.mOldPath.toString();
                 if (ppath.length() != 0 )ppath+=File.separator;
                 Path projectPath = Paths.get(ppath+mProjectProperties.mProjectName);
                 Path filePath = Paths.get(path);
@@ -184,7 +185,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jPanel1.setVisible(false);
 
         jTable1.setModel(model);
-        String ppath = mProjectProperties.mPath.toString();
+        String ppath = mProjectProperties.mOldPath.toString();
         if (ppath.length() != 0 )ppath+=File.separator;
         jTable1.getColumnModel().getColumn(1).setCellEditor(new FileChooserCellEditor(ppath+mProjectProperties.mProjectName));
 
@@ -220,7 +221,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jButtonFileSelect1.setEnabled(false);
         
         jTable1.setModel(model);
-        String ppath = mProjectProperties.mPath.toString();
+        String ppath = mProjectProperties.mOldPath.toString();
         if (ppath.length() != 0 )ppath+=File.separator;
         jTable1.getColumnModel().getColumn(1).setCellEditor(new FileChooserCellEditor(ppath+mProjectProperties.mProjectName));
 
@@ -279,7 +280,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         
         
         jTable1.tableChanged(null);
-        String ppath = mProjectProperties.mPath.toString();
+        String ppath = mProjectProperties.mOldPath.toString();
         if (ppath.length() != 0 )ppath+=File.separator;
         jTable1.getColumnModel().getColumn(1).setCellEditor(new FileChooserCellEditor(ppath+mProjectProperties.mProjectName));
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(5);                
@@ -378,7 +379,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jTextFieldAuthor.setText(mProjectProperties.mAuthor);
         jTextAreaDescription.setText(mProjectProperties.mDescription);
-        jTextFieldPath.setText(mProjectProperties.mPath );
+        jTextFieldPath.setText(mProjectProperties.mOldPath );
         jTextFieldProjectName.setText(mProjectProperties.mProjectName );
         if (!jCheckBoxCProject1.isSelected())
             jTextFieldMainFile.setText(mProjectProperties.mMainFile);
@@ -464,7 +465,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         mProjectProperties.mAuthor = jTextFieldAuthor.getText();
         mProjectProperties.mDescription = jTextAreaDescription.getText();
         mProjectProperties.mDirectoryName = "";
-        mProjectProperties.mPath = de.malban.util.Utility.makeRelative(jTextFieldPath.getText());
+        mProjectProperties.mOldPath = de.malban.util.Utility.makeRelative(jTextFieldPath.getText());
 
         mProjectProperties.mProjectName = jTextFieldProjectName.getText();
         mProjectProperties.mMainFile = jTextFieldMainFile.getText();
@@ -1151,7 +1152,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                         .addComponent(jTextFieldCFLAGS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jCheckBoxCDebugging))
                     .addComponent(jLabel11))
-                .addGap(6, 6, 6)
+                .addGap(5, 5, 5)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1371,7 +1372,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         ScriptDataPanel sdp = new ScriptDataPanel();
         JInternalFrame modal=null;
         
-        String pp = convertSeperator(mProjectProperties.getPath());
+        String pp = convertSeperator(mProjectProperties.getOldPath());
         if (pp.length() >0 ) pp += File.separator;
         pp += mProjectProperties.getProjectName();
         
@@ -1389,7 +1390,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ScriptDataPanel sdp = new ScriptDataPanel();
         JInternalFrame modal=null;
-        String pp = convertSeperator(mProjectProperties.getPath());
+        String pp = convertSeperator(mProjectProperties.getOldPath());
         if (pp.length() >0 ) pp += File.separator;
         pp += mProjectProperties.getProjectName();
         ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, mProjectProperties.mProjectName, "", "ProjectPropertiesPanel", pp);
@@ -1463,7 +1464,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBoxCDebugging.setEnabled(jCheckBoxCProject1.isSelected());
         jCheckBoxCKeepEnriched.setEnabled(jCheckBoxCProject1.isSelected());
         mClassSetting--;
-        jTextFieldCFLAGS.setText("-quiet -fverbose-asm -W -Wall -Wextra -Wconversion -Werror -fno-omit-frame-pointer -mint8 -msoft-reg-count=0 -std=gnu99 -fno-time-report -IC/PeerC/vectrex/include");
+        jTextFieldCFLAGS.setText("-quiet -fno-gcse -fverbose-asm -W -Wall -Wextra -Wconversion -Werror -fno-omit-frame-pointer -fno-toplevel-reorder -mint8 -msoft-reg-count=0 -std=gnu99 -fno-time-report -IC/PeerC/vectrex/include");
         
         enableASM(!jCheckBoxCProject1.isSelected());
         

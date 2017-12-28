@@ -1,0 +1,11 @@
+V-Pong, as the name implies, is pretty much a vertically played, one player game of Pong (or Breakout in screen orientation, but minus destroying any blocks).
+
+A ball is launched from the top of the screen and heads towards the bottom, which the player must deflect it back with their paddle, earning one point with each successful deflection. The game starts off really slow, but after several hits, the ball starts speeding up to the point where it is difficult to judge and position the paddle in time to deflect the ball back.
+
+At the top of the screen is a display of hits in succession, the player’s score, and remaining balls. The hits will revert to zero after each time a ball is missed and will only accumulate when a ball is in play.
+
+The player starts with five balls and the game will end when there are no remaining balls.
+Controls                              
+
+    Start game–any button
+    Move paddle–joystick or D-pad left and right (if played on a Vectrex) or left and right keys (if played on a keyboard/emulator) 

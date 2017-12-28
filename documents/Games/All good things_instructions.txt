@@ -1,0 +1,53 @@
+More Invaders!
+
+This is the follow-up to Classic Game Creations's homebrew of Vector Vaders and is based on the arcade game Space Invaders Part 2. Invaders travel from side to side dropping bombs, and once they reach the edge of the screen, the entire formation drops down a notch. The player must shoot as many invaders as possible while avoiding their fire.
+
+A bonus flying saucer will appear during a level that is worth many more points than the invaders (50, 100, 150 or 300 vs. 10, 20, or 30 points for each invader) and shoot at the player, and there is a possibility of one of two secret bonuses that can be awarded at the end of a level. The player can also hide behind one of four bunkers for protection, which will eventually disappear after being shot too many times by the player and/or enemy fire.
+
+The invaders are much more numerous this time than on the original Vector Vaders, having each level comprised of at least 48 invaders, rather than 25. Also, rather than having three unique graphical types of invaders as with Vector Vaders, this time around the invaders are all shaped like the letter 'v'.
+
+Starting with the second level, some invaders will split into two when shot.
+
+Either running out of bases (by being hit by enemy fire) or being overrun by invaders (i. e. the invaders reach the bottom of the screen) will end the game. An extra base is awarded at 5000 points.
+Controls
+
+    Move left and right: buttons one and two
+    Fire: button four 
+
+Rockaroids
+
+Originally a limited edition release, Rockaroids is a clone of the arcade game Asteroids. The player controls a ship that destroys rockaroids. Shooting a large rockaroid (10 points each) splits it into two medium-sized ones (20 points), which then split into two small ones (50 points), which can then be destroyed. Enemy saucers appear and shoot at the player; the large saucers are worth 200 points, while the small ones are 1000.
+
+The player starts out with three ships and the game will end when they are lost by either rockaroid collisions, being shot by saucers, or being destroyed upon re-entry from hyperspace (which is used to move the player to a random spot on the screen in case of emergency). Extra ships are awarded with every 10,000 points scored.
+Controls
+
+    Rotate ship left and right: buttons one and two
+    Fire: button three
+    Thrusters: button four
+    Hyperspace: down on joystick or D-pad 
+
+Spike's Water Balloons
+
+This is a clone of Kaboom!, a game that was ported to many home and computer consoles during the early 1980s by Activision. Instead of using buckets to catch bombs dropped by the "Mad Bomber" at the top of the screen like on the original, this time around the player uses Spike, the unofficial Vectrex mascot, to pop balloons with the top of his head that are dropped from his enemy Spud. Spike's head is a bit smaller than the original buckets, which, if the player misses a balloon, it will count against them, and once three balloons hit the ground the game is over. However, the player can kick a missed balloon back up towards Spud, somewhat reminiscent of the arcade game Kick Man.
+Controls
+
+    Move Spike left and right: joystick or D-pad
+    Control Spike's speed: buttons one, two or three
+    Kick balloons: button four 
+
+Vectris (aka Vectrex Blocks)
+
+Vectris is a clone of Tetris, where puzzle pieces float down from the top of the screen. It is the player's duty to arrange the differently-shaped pieces to form solid lines; once one to four horizontal lines are complete, those lines will disappear. Not being able to form complete lines will cause pieces to stack up higher and higher, and once the stack reaches the top of the screen the game is over.
+Controls
+
+    Move pieces: joystick or D-pad
+    Drop piece: down on joystick or D-pad
+    Rotate pieces (except for the square piece, which does not change shape): buttons three and four
+    Pause: button two 
+
+23 Matches
+
+This is a hidden bonus game, which is a clone of a game originally found on the TRS-80 computer. The player starts with 23 matches and must take away a certain amount per round until no matches are left. If the computer has to take away the last match the player loses the game. (Note: see the List of Vectrex game easter eggs page in regards to unlocking this game.)
+Controls
+
+Choose between taking one, two or three matches by pressing the corresponding keys on the controller 

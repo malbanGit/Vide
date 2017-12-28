@@ -563,7 +563,16 @@ public class VideConfig  implements Serializable{
     }
     private VideConfig()
     {
-        load("Default.vsv");
+        String name = "Default.vsv";
+        try
+        {
+            String loadfilename2 = de.malban.util.UtilityString.replace(name, "vsv", "vs2");
+            String completeName = Global.mainPathPrefix+"serialize"+File.separator+loadfilename2;
+            if (!(new File(completeName).exists())) name = "default.vsv";
+        }
+        catch (Throwable e) {} // for gui builder
+        
+        load(name);
     }
     public boolean saveControllerConfig()
     {

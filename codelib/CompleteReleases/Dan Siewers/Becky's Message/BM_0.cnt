@@ -1,0 +1,3587 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_b
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $C812 Buttons_State
+COMMENT_LABEL $C812 4 bytes - returned button states
+LABEL $C880 Recal_Count
+COMMENT_LABEL $C880 1 bytes
+LABEL $C881 Ladder_Position
+COMMENT_LABEL $C881 2 bytes
+LABEL $C883 Ladder_Vectors
+COMMENT_LABEL $C883 2 bytes
+LABEL $C885 Mario_Pos_Y
+COMMENT_LABEL $C885 2 bytes
+LABEL $C887 Mario_Pos_X
+COMMENT_LABEL $C887 2 bytes
+LABEL $C889 Mario_Move
+COMMENT_LABEL $C889 1 byte - 0= None, 1=Left, 2=Right, 3=Up, 4=Down
+LABEL $C88A Mario_Floor
+COMMENT_LABEL $C88A 1 byte - 1=1st,2=2nd,3=3rd,4=4th,5=L1,6=L2,7=L3,8=L4
+LABEL $C88B Floor1_Rise_Right
+COMMENT_LABEL $C88B 1 bytes - unused
+LABEL $C88C Floor1_Run_Right
+COMMENT_LABEL $C88C 1 bytes - unused
+LABEL $C88D Mario_Pos_Temp_Y
+COMMENT_LABEL $C88D 2 bytes
+LABEL $C88F Mario_Pos_Temp_X
+COMMENT_LABEL $C88F 2 bytes
+LABEL $C891 Temp_Rise
+COMMENT_LABEL $C891 2 bytes
+LABEL $C893 Angle_Temp
+COMMENT_LABEL $C893 1 byte
+LABEL $C894 Print1
+COMMENT_LABEL $C894 2 bytes - for test print string
+LABEL $C896 Print2
+COMMENT_LABEL $C896 2 bytes - for test print string
+LABEL $C898 counter2
+COMMENT_LABEL $C898 1 byte - for test print string
+LABEL $C899 Str_y
+COMMENT_LABEL $C899 1 byte - for test print string
+LABEL $C89A Str_x
+COMMENT_LABEL $C89A 1 byte - for test print string
+LABEL $C89B Test_String
+COMMENT_LABEL $C89B - for test print string
+LABEL $C8A3 String_End
+COMMENT_LABEL $C8A3 - for test print string
+LABEL $C8A4 Floor1_Rise_Left
+COMMENT_LABEL $C8A4 1 byte - unused
+LABEL $C8A5 Floor1_Run_Left
+COMMENT_LABEL $C8A5 1 byte - unused
+LABEL $C8A6 Temp_Run
+COMMENT_LABEL $C8A6 2 bytes
+LABEL $C8A8 Mario_Shape
+COMMENT_LABEL $C8A8 2 bytes - pointer to Mario vector list
+LABEL $C8AA Mario_Legs
+COMMENT_LABEL $C8AA 1 byte - =<3 Leg up, >3=<7 Leg Down
+LABEL $C8AB End_Of_Floor
+COMMENT_LABEL $C8AB 1 byte - end of floor variable
+LABEL $C8AC Y_Axis_Adjust
+COMMENT_LABEL $C8AC 1 byte - Adjust Y-Axis calculation for floor
+LABEL $C8AD Save_Scalar
+COMMENT_LABEL $C8AD 2 bytes - scalar values at base of ladder
+LABEL $C8AF Mario_Pos_Temp
+COMMENT_LABEL $C8AF 2 bytes - temp Mario position for Legs routine
+LABEL $C8B1 Kong_Legs
+COMMENT_LABEL $C8B1 1 byte - 3=right leg up, 6=left leg up
+LABEL $C8B2 Kong_Shape
+COMMENT_LABEL $C8B2 2 bytes - pointer to Kong vector list
+LABEL $C8B4 Kong_Move
+COMMENT_LABEL $C8B4 1 byte - 0=right ft dwn, 1=left ft dwn
+LABEL $C8B5 Mario_Jump
+COMMENT_LABEL $C8B5 1 byte - 0=no jmp, 1=jmp up, 2=jmp lft, 3=jmp rt
+LABEL $C8B6 Mario_Jump_State
+COMMENT_LABEL $C8B6 1 byte - 0=start jump, 1=mid jump
+LABEL $C8B7 Jump_Count
+COMMENT_LABEL $C8B7 1 byte - counter for jump routine
+LABEL $C8B8 Mario_Shape_Temp
+COMMENT_LABEL $C8B8 2 bytes - stores Mario's shape for jump routine
+LABEL $C8BA Mario_Save_X
+COMMENT_LABEL $C8BA 2 bytes
+LABEL $C8BC Mario_Save_Y
+COMMENT_LABEL $C8BC 2 bytes
+LABEL $C8BE Barrel1_Pos_X
+COMMENT_LABEL $C8BE 2 bytes
+LABEL $C8C0 Barrel1_Pos_Y
+COMMENT_LABEL $C8C0 2 bytes
+LABEL $C8C2 Barrel2_Pos_X
+COMMENT_LABEL $C8C2 2 bytes
+LABEL $C8C4 Barrel2_Pos_Y
+COMMENT_LABEL $C8C4 2 bytes
+LABEL $C8C6 Barrel3_Pos_X
+COMMENT_LABEL $C8C6 2 bytes
+LABEL $C8C8 Barrel3_Pos_Y
+COMMENT_LABEL $C8C8 2 bytes
+LABEL $C8CA Barrel4_Pos_X
+COMMENT_LABEL $C8CA 2 bytes
+LABEL $C8CC Barrel4_Pos_Y
+COMMENT_LABEL $C8CC 2 bytes
+LABEL $C8CE Barrel1_Floor
+COMMENT_LABEL $C8CE 2 byte - 1=1st,2=2nd,3=3rd,4=4th,5=L1,6=L2,7=L3,8=L4
+LABEL $C8D0 Barrel2_Floor
+COMMENT_LABEL $C8D0 2 bytes - 1=1st,2=2nd,3=3rd,4=4th,5=L1,6=L2,7=L3,8=L4
+LABEL $C8D2 Barrel3_Floor
+COMMENT_LABEL $C8D2 2 byte - 1=1st,2=2nd,3=3rd,4=4th,5=L1,6=L2,7=L3,8=L4
+LABEL $C8D4 Barrel4_Floor
+COMMENT_LABEL $C8D4 2 byte - 1=1st,2=2nd,3=3rd,4=4th,5=L1,6=L2,7=L3,8=L4
+LABEL $C8D6 Barrel1_Move
+COMMENT_LABEL $C8D6 2 byte - 0= None, 1=Left, 2=Right, 3=Down
+LABEL $C8D8 Barrel2_Move
+COMMENT_LABEL $C8D8 2 byte - 0= None, 1=Left, 2=Right, 3=Down
+LABEL $C8DA Barrel3_Move
+COMMENT_LABEL $C8DA 2 byte - 0= None, 1=Left, 2=Right, 3=Down
+LABEL $C8DC Barrel4_Move
+COMMENT_LABEL $C8DC 2 byte - 0= None, 1=Left, 2=Right, 3=Down
+LABEL $C8DE Add_Barrel
+COMMENT_LABEL $C8DE 2 byte - 0= None, 1=Barrel 1, 2= Barrel 2, 3=Barrel 3, 4=Barrel 4
+LABEL $C8E0 Barrel_Count
+COMMENT_LABEL $C8E0 2 byte
+LABEL $C8E2 Barrel_Move_Count
+COMMENT_LABEL $C8E2 2 bytes
+LABEL $C8E4 Barrel_Floor_Count
+COMMENT_LABEL $C8E4 2 bytes
+LABEL $C8E6 Barrel_Is_Moving
+COMMENT_LABEL $C8E6 2 byte
+LABEL $C8E8 Barrel1_Add
+COMMENT_LABEL $C8E8 2 byte
+LABEL $C8EA Barrel2_Add
+COMMENT_LABEL $C8EA 2 byte
+LABEL $C8EC Barrel3_Add
+COMMENT_LABEL $C8EC 2 byte
+LABEL $C8EE Barrel4_Add
+COMMENT_LABEL $C8EE 2 byte
+LABEL $C8F0 Barrel_On_Ladder1
+COMMENT_LABEL $C8F0 2 byte - 0 - barrel falling off edge, >=1 - barrel down ladder
+LABEL $C8F2 Barrel_On_Ladder2
+COMMENT_LABEL $C8F2 2 bytes
+LABEL $C8F4 Barrel_On_Ladder3
+COMMENT_LABEL $C8F4 2 bytes
+LABEL $C8F6 Barrel_On_Ladder4
+COMMENT_LABEL $C8F6 2 bytes
+LABEL $C8F8 Rise_Run_Temp
+COMMENT_LABEL $C8F8 2 bytes
+LABEL $C8FA Mult_Count
+COMMENT_LABEL $C8FA 2 bytes
+LABEL $C8FC Mult_Result
+COMMENT_LABEL $C8FC 2 bytes
+LABEL $C8FE Sound_Type
+COMMENT_LABEL $C8FE 1 bytes - 1=Jump Sound, 2=Walk Sound, 3=Over Barrel Sound
+LABEL $C8FF Sound_Counter
+COMMENT_LABEL $C8FF 1 byte - counter for length of sound being played
+LABEL $C900 Next_Sound_Counter
+COMMENT_LABEL $C900 1 byte - offset for note play index
+LABEL $C901 Reg_Edit_Loop
+COMMENT_LABEL $C901 1 byte - temp counter for Make_Sound Routine
+LABEL $C902 Sound_Init_Temp
+COMMENT_LABEL $C902 2 bytes - pointer for sound init list
+LABEL $C904 Sound_Temp
+COMMENT_LABEL $C904 2 bytes - pointer to sound list
+LABEL $C906 Ladder_Temp1
+COMMENT_LABEL $C906 1 byte - ladder X pos left
+LABEL $C907 Ladder_Temp2
+COMMENT_LABEL $C907 1 byte - ladder X pos right
+LABEL $C908 Ladder_Temp3
+COMMENT_LABEL $C908 1 byte - barrel X position down ladder
+LABEL $C909 Mario_Dead
+COMMENT_LABEL $C909 1 byte - 1=Mario hit by barrel
+LABEL $C90A Asterisk_Rotate
+COMMENT_LABEL $C90A 1 byte - rotate angle for asterisks
+LABEL $C90B Mario_Asterisks_Rotated
+COMMENT_LABEL $C90B 99 bytes - rotated vector list for asterisks ($c90b-$c96e)
+LABEL $C96F Dead_Count
+COMMENT_LABEL $C96F 1 byte - counter for Mario barrel crash routine
+LABEL $C970 Fireball_Pos_X
+COMMENT_LABEL $C970 2 bytes - Fireball's X position
+LABEL $C972 Fireball_Pos_Y
+COMMENT_LABEL $C972 2 bytes - Fireball's Y position
+LABEL $C974 Mario_Scale
+COMMENT_LABEL $C974 1 byte - Mario's scale when he dies
+LABEL $C975 Number_Barrels_Jumped
+COMMENT_LABEL $C975 1 byte - Number of Barrels that Mario has cleared
+LABEL $C976 Barrels_Left
+COMMENT_LABEL $C976 3 bytes - Number of barrels left to clear
+LABEL $C979 Back_To_Intro
+COMMENT_LABEL $C979 1 byte - 1=back to Intro
+LABEL $C97A All_Barrels_Cleared
+COMMENT_LABEL $C97A 1 byte - 1= All barrels cleared
+LABEL $C97B Mario_Got_The_Girl
+COMMENT_LABEL $C97B 1 byte - 1= Mario has reached the girl
+LABEL $C97C Star_Rotated
+COMMENT_LABEL $C97C 20 bytes - rotated star vector list ($c97c-$c990)
+LABEL $C991 Star_Count
+COMMENT_LABEL $C991 1 byte - used for start rotate routine
+LABEL $C992 Heartbeat
+COMMENT_LABEL $C992 1 byte - scale value for heart at end of game
+LABEL $C993 Heartbeat_Sign
+COMMENT_LABEL $C993 1 byte - 0=positive, 1=negative
+LABEL $15FF Allentown
+EQU $22 Setup_Hard_Start
+LABEL $002E Setup
+LABEL $0147 Intro
+COMMENT_LABEL $0147 we come here at the start of program
+LABEL $184F Mario_Right_Leg_Up
+LABEL $17C5 Kong_Left
+LABEL $0187 Intro_Repeat
+LABEL $168C Message1
+LABEL $169B Message2
+LABEL $16A7 Message3
+LABEL $16B8 Message4
+LABEL $16C8 Message5
+LABEL $16D5 Message6
+LABEL $16E1 Message7
+LABEL $16EE Message8
+LABEL $16FB Message9
+LABEL $1706 Message10
+LABEL $1712 Message11
+LABEL $171E Message12
+LABEL $01D8 Main_Loop
+LABEL $01E0 Main_Loop_1
+LABEL $0FCE Mario_Wins
+LABEL $0203 Main_Screen
+COMMENT_LABEL $0203 here we display the main screen graphics
+LABEL $01EA Main_Loop_Joystick
+COMMENT_LABEL $01EA Mario is alive, keep processing main loop
+LABEL $01F8 Mario_Is_Dead
+COMMENT_LABEL $01F8 here Mario has died
+LABEL $02E6 Joystick
+LABEL $0407 Mario
+LABEL $0C92 When_Sprites_Collide
+LABEL $0E4D Crash_Over_Barrel
+LABEL $172C Bottom_Floor
+LABEL $02BF Draw_Vectors
+LABEL $173E Second_Floor
+LABEL $1746 Third_Floor
+LABEL $174E Fourth_Floor
+LABEL $1756 Top_Floor
+LABEL $023E Main_Screen_No_Girl
+LABEL $1825 Girl_LegL
+LABEL $0259 Draw_Girl
+LABEL $182F Girl_LegR
+LABEL $1839 Girl_Body
+LABEL $1843 Girl_Head
+LABEL $175C Ladders
+LABEL $0242 Ladders_Here
+LABEL $024A Ladders_Here_1
+LABEL $026A Draw_Kong
+LABEL $02D1 Draw_Ladders
+LABEL $0270 Draw_Kong_1
+LABEL $17B9 Kong_Head
+LABEL $02B8 Draw_Kong_Finalize
+LABEL $0287 Draw_Kong_Right
+LABEL $17F5 Kong_Right
+LABEL $0290 Draw_Kong_Up_Down
+LABEL $02AB Draw_Kong_Body
+LABEL $02B5 Kong_Left_Down
+LABEL $02ED Joystick_1
+LABEL $0349 Jump
+LABEL $0305 Check_Up_Down
+LABEL $02FE Mario_Left
+LABEL $02F7 Mario_Right
+LABEL $031F Joy_Buttons
+LABEL $031A Mario_No_Move
+LABEL $0313 Mario_Down
+LABEL $030C Mario_Up
+LABEL $0326 Joy_Buttons1
+LABEL $032E Joy_Buttons_Go
+LABEL $0338 Joy_Button4
+LABEL $0345 Joy_Buttons_Back
+LABEL $034F Jump_Process
+LABEL $036C Jump_Reset
+LABEL $036B Jump_Process_Return
+LABEL $0385 Jump_Over_Barrel
+COMMENT_LABEL $0385 here we see if Mario jumped over a barrel
+LABEL $0396 Jump_Check_Over_Barrel
+LABEL $038F Jump_Over_Barrel1
+LABEL $03C1 Jump_Check_Over_Barrel2
+LABEL $03B2 Jump_Check_Over_Barrel1
+LABEL $03DE Jump_Over_Barrel_Flag
+LABEL $03D6 Jump_Check_Over_Barrel3
+LABEL $03C5 Jump_Check_Over_Barrel_Left
+LABEL $03DC Jump_Check_Over_Barrel4
+LABEL $0404 Jump_Over_Barrel_Flag_1
+LABEL $0423 Mario_Stay
+LABEL $0426 Mario_Go_Left
+COMMENT_LABEL $0426 ok now we make him run to the left
+LABEL $0470 Mario_Go_Right
+COMMENT_LABEL $0470 ok now we make him run to the right
+LABEL $04BA Mario_Go_Up
+LABEL $056D Mario_Go_Down
+COMMENT_LABEL $056D he's going down
+LABEL $0800 Draw_Mario
+LABEL $072E Run_Nowhere
+COMMENT_LABEL $072E here Mario is standing still or in a stationarey jump
+LABEL $043C Go_Left_Floor1
+LABEL $0449 Go_Left_Floor2
+LABEL $0456 Go_Left_Floor3
+LABEL $0463 Go_Left_Floor4
+LABEL $061F Run_To_The_Right_Left
+LABEL $0486 Go_Right_Floor1
+LABEL $0493 Go_Right_Floor2
+LABEL $04A0 Go_Right_Floor3
+LABEL $04AD Go_Right_Floor4
+LABEL $0545 Up_Floor4
+LABEL $04E2 Up_Floor1
+LABEL $0503 Up_Floor2
+LABEL $0524 Up_Floor3
+LABEL $0619 Kong_No_Move
+LABEL $067D Run_Up
+LABEL $0595 Down_Floor2
+LABEL $05B6 Down_Floor3
+LABEL $05D7 Down_Floor4
+LABEL $05F8 Down_Floor4_Ladder
+LABEL $06D9 Run_Down
+LABEL $0D00 Mult_Rise_Run_By_A
+LABEL $0665 Right_Finalize
+LABEL $0775 Mario_Move_Legs
+LABEL $06C7 Run_Up_Legs
+LABEL $06B6 Run_Up_Next_Floor
+LABEL $06CD Run_Up_Legs_1
+LABEL $071C Run_Down_Legs
+LABEL $0722 Run_Down_Legs_1
+LABEL $0781 Mario_Move_Legs_1
+LABEL $19D5 Mario_Legs_Jumping
+LABEL $0787 Mario_Move_Legs_2
+LABEL $07FC Mario_Move_Legs_Done
+LABEL $07BB Mario_Move_Legs_Down
+COMMENT_LABEL $07BB leg goes down
+LABEL $07A7 Mario_Move_Check_Right
+LABEL $18CC Mario_Left_Leg_Up
+LABEL $07B3 Mario_Move_Check_Up_Down
+LABEL $1949 Mario_Up_Leg_Up
+LABEL $07DB Mario_Move_Check_Legs_Down
+LABEL $07CD Mario_Move_Legs_Down1
+LABEL $07D2 Mario_Move_Legs_Down2
+LABEL $07EA Mario_Move_Right_Down
+LABEL $1912 Mario_Left_Leg_Down
+LABEL $07F6 Mario_Move_Check_Up_Down_2
+LABEL $1895 Mario_Right_Leg_Down
+LABEL $198F Mario_Up_Leg_Down
+LABEL $081C Draw_Mario_No_Jump
+LABEL $0822 Barrels_Start
+LABEL $0828 Barrels_Mario_Not_Dead
+LABEL $083D Barrels_Start_Check
+LABEL $08F2 Barrels_Check_Move_Back
+LABEL $08DC Barrels_Check_Move
+LABEL $08AA Barrels_Start_For_Real
+LABEL $0851 Barrel_Start_Again
+LABEL $0862 Barrels_Start_1
+LABEL $0874 Barrels_Start_2
+LABEL $0886 Barrels_Start_3
+LABEL $0898 Barrels_Start_4
+LABEL $0907 Barrel_Move_Left
+LABEL $0940 Barrel_Move_Right
+LABEL $0988 Barrel_Move_Down
+LABEL $0C7F Draw_Ceck_Last_Barrel
+LABEL $0917 Barrel_Left_Floor1
+LABEL $0924 Barrel_Left_Floor3
+LABEL $0A00 Barrel_To_The_Left
+LABEL $0950 Barrel_Right_Floor2
+LABEL $096C Barrel_Right_Floor4
+LABEL $0AEF Barrel_To_The_Right
+LABEL $09A0 Barrel_Down_Floor1
+LABEL $09BD Barrel_Down_Floor2
+LABEL $09CA Barrel_Down_Floor3
+LABEL $09E5 Barrel_Down_Floor4
+LABEL $09B3 Barrel_Down_Floor1_Add
+LABEL $09B5 Barrel_Down_Floor1_Add1
+LABEL $0B96 Barrel_Go_Down
+LABEL $09DD Barrel_Down_Floor3_Edge
+LABEL $09DF Barrel_Down_Floor3_Ladder
+LABEL $09F8 Barrel_Down_Floor4_Edge
+LABEL $09FA Barrel_Down_Floor4_Ladder
+LABEL $0A1F Barrel_To_The_Left_1
+LABEL $0AC5 Barrel_Left_Reset
+LABEL $0A5B Barrel_Left_No_Ladder
+LABEL $0AA1 Return_Check_Add_Barrel
+LABEL $0AD2 Check_Add_Barrel
+COMMENT_LABEL $0AD2 this routine handles initial barrel rollout
+LABEL $0ABF Barrel_Left_Finalize
+LABEL $0C4D Draw_Barrel
+LABEL $0B0A Barrel_To_The_Right_1
+LABEL $0B89 Barrel_Right_Reset
+LABEL $0B3A Barrel_Right_No_Ladder
+LABEL $0BF2 Barrel_Go_Down_Reset
+LABEL $0C4B Barrel_Go_Down_Finalize
+LABEL $0C0F Barrel_Go_Down_Reset_3
+LABEL $0C2C Barrel_Go_Down_Reset_2
+LABEL $0C49 Barrel_Go_Down_Reset_1
+LABEL $1A61 Barrel_VL
+LABEL $0C8F Draw_Again
+LABEL $0D1E Make_Sound
+LABEL $0CA1 Collision_Check
+LABEL $0CB9 Collision_No_Jump
+LABEL $0CBB Collision_Jump
+LABEL $0CD9 Sprites_Have_Collided
+LABEL $0CFB Sprites_Have_Collided_1
+LABEL $0CFE Mult_Rise_Run_By_9
+COMMENT_LABEL $0CFE Stolen from Star Castle
+LABEL $0D09 P0C3A
+LABEL $0D1D P0C4B
+LABEL $0D44 Sound_Jump
+LABEL $0D5C Sound_Mario_Run
+LABEL $0D6F Sound_Over_Barrel
+LABEL $0D82 Sound_Crash_Over_Barrel
+LABEL $0D95 Sound_Throw_Fireball
+LABEL $0DA8 Sound_Kong_Scale_Down
+LABEL $0DBB Sound_Broken_Heart
+LABEL $0DCE Sound_Fifteen_Barrels
+LABEL $0D58 Sound_Jump_Return
+LABEL $1C4E Sound_Jump_Init
+LABEL $1C52 Sound_Mario_Jump
+LABEL $0DE1 Make_Sound_Main
+LABEL $1C73 Sound_Run_Init
+LABEL $1C77 Mario_Sound_Run
+LABEL $1C88 Sound_Barrel_Init
+LABEL $1C8C Sound_Jump_Barrel
+LABEL $1CBD Sound_Crash_Init
+LABEL $1CC1 Sound_Crash
+LABEL $1CE2 Sound_Fireball_Init
+LABEL $1CE6 Sound_Fireball
+LABEL $1D5F Sound_Kong_Scale_Down_Init
+LABEL $1D63 Sound_Kong_Scale_Down_Play
+LABEL $1DCC Broken_Heart_Init
+LABEL $1DD0 Broken_Heart_Play
+LABEL $1DE9 Fifteen_Barrels_Init
+LABEL $1DED Fifteen_Barrels_Play
+LABEL $0E0B Sound_Continue
+LABEL $0DEE Sound_Volume
+LABEL $0E04 Sound_Reg_7
+LABEL $0E40 Sound_Done
+LABEL $0E22 Sound_Voice_Freq
+LABEL $0E56 Crash_Over_Barrel_1
+LABEL $0E93 Kong_Fireball
+LABEL $1A7D Mario_Asterisks
+LABEL $1193 Counter
+LABEL $0E9F Kong_Fireball_1
+LABEL $0EDA Kong_Fireball_Less_128
+LABEL $1ADE Fireball
+LABEL $0F4F Fireball_Has_Hit_Mario
+LABEL $0F5A Fireball_Has_HitMario_1
+LABEL $1A1B Mario_Big_Legs_Jumping
+LABEL $0F84 Fireball_Has_HitMario_2
+LABEL $0F8F Fireball_Has_HitMario_3
+LABEL $1AEB Broken_Heart
+LABEL $101A Mario_Wins_Loop
+LABEL $1BA6 Star
+LABEL $1060 Mario_Wins_Play_Music
+LABEL $105B Move_Star_Left
+LABEL $11A4 Mario_Wins_Music
+LABEL $1076 Draw_Heart_End
+LABEL $1090 Draw_Heart_End_Low
+LABEL $1092 Draw_Heart_End_4
+LABEL $10AA Draw_Heart_End_2
+LABEL $1098 Draw_Heart_End_1
+LABEL $10BE Draw_Heart_End_3
+LABEL $1B1C Heart
+LABEL $10C7 Draw_Mario_End
+LABEL $1B3B Mario_Left_Leg_Down_End
+LABEL $1118 Draw_Girl_End
+LABEL $1105 Draw_Mario_End_Right
+LABEL $1B72 Girl_End
+LABEL $1131 Draw_Koko_End
+LABEL $1BB9 Koko_End
+LABEL $1148 Draw_Final_Message
+LABEL $167C Message_End
+LABEL $1190 Draw_Message_End
+LABEL $1183 Draw_Message_Right
+LABEL $11A3 Counter1
+EQU $09 S
+EQU $0E E
+EQU $17 Q
+EQU $1B H
+LABEL $0080 N
+LABEL $1734 Barrel
+EQU $0A EE
+EQU $04 DD
+LABEL $1C3C Barrel_Ladders_Right
+LABEL $1C46 MUSIC
+LABEL $1E16 Print_String
+LABEL $1E1A Convert
+LABEL $1E21 Convert_1
+LABEL $1E2D Convert_2
+LABEL $1E3B Convert_3
+LABEL $1E49 Repeat_Print
+LABEL $1E58 *
+COMMENT_LINE $0000 *** KONG ****
+COMMENT_LINE $0000 *** By Dan Siewers ***
+COMMENT_LINE $0000 this file is part of vectrex frogger, written by Malban
+COMMENT_LINE $0000 in March-April 1998
+COMMENT_LINE $0000 all stuff contained here is public domain (?)
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 9=1/2,10=2/3,11=3/4
+COMMENT_LINE $0000 9=1/2,10=2/3,11=3/4
+COMMENT_LINE $0000 9=1/2,10=2/3,11=3/4
+COMMENT_LINE $0000 9=1/2,10=2/3,11=3/4
+COMMENT_LINE $0000 - 4=Mario Hit by barrel, 5= Fireball
+COMMENT_LINE $0000 - 6= Big Mario Scale Down, 7=Broken Heart, 8=Last Barrel
+COMMENT_LINE $0000 Magic Init Block
+FORCE_SYMBOL $0022 Number_Barrels_Jumped
+FORCE_SYMBOL $0025 Mario_Got_The_Girl
+FORCE_SYMBOL $0028 Setup
+FORCE_SYMBOL $002B Intro
+FORCE_SYMBOL $002E Wait_Recal
+FORCE_SYMBOL $0031 Clear_Sound
+FORCE_SYMBOL $0034 Heartbeat_Sign
+FORCE_SYMBOL $0037 Dead_Count
+FORCE_SYMBOL $003A Asterisk_Rotate
+FORCE_SYMBOL $003D Mario_Dead
+FORCE_SYMBOL $0040 Recal_Count
+FORCE_SYMBOL $0043 Ladder_Temp1
+FORCE_SYMBOL $0046 Ladder_Temp2
+FORCE_SYMBOL $0049 Ladder_Temp3
+FORCE_SYMBOL $004C Barrel1_Pos_X
+FORCE_SYMBOL $004F Barrel1_Pos_Y
+FORCE_SYMBOL $0052 Barrel2_Pos_X
+FORCE_SYMBOL $0055 Barrel2_Pos_Y
+FORCE_SYMBOL $0058 Barrel3_Pos_X
+FORCE_SYMBOL $005B Barrel3_Pos_Y
+FORCE_SYMBOL $005E Barrel4_Pos_X
+FORCE_SYMBOL $0061 Barrel4_Pos_Y
+FORCE_SYMBOL $0064 Barrel_Move_Count
+FORCE_SYMBOL $0067 Barrel_Floor_Count
+FORCE_SYMBOL $006A Barrel1_Floor
+FORCE_SYMBOL $006D Barrel2_Floor
+FORCE_SYMBOL $0070 Barrel3_Floor
+FORCE_SYMBOL $0073 Barrel4_Floor
+FORCE_SYMBOL $0076 Barrel1_Move
+FORCE_SYMBOL $0079 Barrel2_Move
+FORCE_SYMBOL $007C Barrel3_Move
+FORCE_SYMBOL $007F Barrel4_Move
+FORCE_SYMBOL $0082 Barrel2_Add
+FORCE_SYMBOL $0085 Barrel3_Add
+FORCE_SYMBOL $0088 Barrel4_Add
+FORCE_SYMBOL $008B Barrel_Count
+FORCE_SYMBOL $008E Barrel_Is_Moving
+FORCE_SYMBOL $0091 Add_Barrel
+FORCE_SYMBOL $0094 Barrel_On_Ladder1
+FORCE_SYMBOL $0097 Barrel_On_Ladder2
+FORCE_SYMBOL $009A Barrel_On_Ladder3
+FORCE_SYMBOL $009D Barrel_On_Ladder4
+FORCE_SYMBOL $00A0 Sound_Counter
+FORCE_SYMBOL $00A3 Next_Sound_Counter
+FORCE_NO_SYMBOL $00A6
+FORCE_SYMBOL $00A8 Mario_Scale
+FORCE_NO_SYMBOL $00AB
+FORCE_NO_SYMBOL $00AD
+FORCE_SYMBOL $00AF Fireball_Pos_Y
+FORCE_NO_SYMBOL $00B4
+FORCE_SYMBOL $00B6 Fireball_Pos_X
+FORCE_NO_SYMBOL $00B9
+COMMENT $00BB make sure we look at joystick 1 only
+FORCE_SYMBOL $00BB Vec_Joy_Mux_1_X
+FORCE_NO_SYMBOL $00BE
+FORCE_SYMBOL $00C0 Vec_Joy_Mux_1_Y
+FORCE_SYMBOL $00C3 Vec_Joy_Mux_2_X
+FORCE_SYMBOL $00C6 Vec_Joy_Mux_2_Y
+FORCE_SYMBOL $00C9 Mario_Jump
+FORCE_SYMBOL $00CC Mario_Jump_State
+FORCE_SYMBOL $00CF Jump_Count
+FORCE_SYMBOL $00D2 Print1
+FORCE_SYMBOL $00D8 Print2
+FORCE_SYMBOL $00DE Y_Axis_Adjust
+FORCE_SYMBOL $00E1 Kong_Legs
+FORCE_SYMBOL $00E4 Sound_Type
+FORCE_SYMBOL $00E7 Back_To_Intro
+COMMENT $00EC Mario's start position
+FORCE_SYMBOL $00EC Mario_Pos_Y
+FORCE_SYMBOL $00EF Floor1_Rise_Right
+FORCE_SYMBOL $00F4 Mario_Pos_X
+FORCE_SYMBOL $00F7 Floor1_Run_Right
+FORCE_NO_SYMBOL $00FA
+FORCE_SYMBOL $00FC Mario_Floor
+FORCE_SYMBOL $00FF Temp_Rise
+FORCE_SYMBOL $0102 Temp_Run
+FORCE_SYMBOL $0105 Mario_Right_Leg_Up
+FORCE_SYMBOL $0108 Mario_Shape
+FORCE_SYMBOL $010B Mario_Legs
+FORCE_SYMBOL $010E Kong_Left
+FORCE_SYMBOL $0111 Kong_Shape
+FORCE_SYMBOL $0114 Kong_Move
+FORCE_NO_SYMBOL $0117
+COMMENT $0119 make sure to add first barrel
+FORCE_SYMBOL $0119 Barrel1_Add
+FORCE_NO_SYMBOL $011C
+FORCE_SYMBOL $011F Rise_Run_Temp
+FORCE_SYMBOL $0122 Mult_Count
+FORCE_SYMBOL $0125 Mult_Result
+COMMENT $0128 for test only
+FORCE_NO_SYMBOL $0128
+FORCE_SYMBOL $012C Str_y
+FORCE_SYMBOL $012F Str_x
+FORCE_NO_SYMBOL $0132
+FORCE_SYMBOL $0134 String_End
+COMMENT $0137 end of print string for Intro
+FORCE_SYMBOL $013A Read_Btns
+FORCE_SYMBOL $013D Back_To_Intro
+FORCE_SYMBOL $0140 All_Barrels_Cleared
+FORCE_SYMBOL $0143 Heartbeat
+COMMENT $0147 and after each time Mario dies
+FORCE_SYMBOL $0147 Wait_Recal
+FORCE_SYMBOL $014A Reset0Ref
+FORCE_NO_SYMBOL $014D
+FORCE_SYMBOL $0150 Moveto_d
+FORCE_NO_SYMBOL $0153
+FORCE_SYMBOL $0155 Intensity_a
+COMMENT $0158 are we back from Mario dying?
+FORCE_SYMBOL $0158 Back_To_Intro
+COMMENT $015D print the intro message
+FORCE_SYMBOL $015D Message1
+FORCE_SYMBOL $0160 Print_List_hw
+FORCE_SYMBOL $0163 Message2
+FORCE_SYMBOL $0166 Print_List_hw
+FORCE_SYMBOL $0169 Message3
+FORCE_SYMBOL $016C Print_List_hw
+FORCE_SYMBOL $016F Message4
+FORCE_SYMBOL $0172 Print_List_hw
+FORCE_SYMBOL $0175 Message5
+FORCE_SYMBOL $0178 Print_List_hw
+FORCE_SYMBOL $017B Message6
+FORCE_SYMBOL $017E Print_List_hw
+FORCE_SYMBOL $0181 Message7
+FORCE_SYMBOL $0184 Print_List_hw
+FORCE_SYMBOL $0187 Message8
+FORCE_SYMBOL $018A Print_List_hw
+FORCE_SYMBOL $018D Message9
+FORCE_SYMBOL $0190 Print_List_hw
+FORCE_SYMBOL $0193 Message10
+FORCE_SYMBOL $0196 Print_List_hw
+FORCE_SYMBOL $0199 Message11
+FORCE_SYMBOL $019C Print_List_hw
+FORCE_SYMBOL $019F Message12
+FORCE_SYMBOL $01A2 Print_List_hw
+FORCE_NO_SYMBOL $01A5
+FORCE_SYMBOL $01A7 Number_Barrels_Jumped
+FORCE_SYMBOL $01AB Barrels_Left
+FORCE_NO_SYMBOL $01AE
+FORCE_NO_SYMBOL $01B0
+FORCE_SYMBOL $01B5 Barrels_Left
+FORCE_NO_SYMBOL $01BC
+FORCE_SYMBOL $01BE Barrels_Left
+FORCE_SYMBOL $01C1 Barrels_Left
+FORCE_NO_SYMBOL $01C6
+FORCE_SYMBOL $01C8 Print_Str_d
+COMMENT $01CB read state of all buttons
+FORCE_SYMBOL $01CB Read_Btns
+COMMENT $01CE get state of button 3
+COMMENT $01D1 not pressed, keep waiting
+FORCE_SYMBOL $01D5 Setup
+FORCE_SYMBOL $01D8 Mario_Got_The_Girl
+FORCE_SYMBOL $01DD Mario_Wins
+FORCE_SYMBOL $01E0 Main_Screen
+COMMENT $01E3 is Mario dead?
+FORCE_SYMBOL $01E3 Mario_Dead
+FORCE_SYMBOL $01EA Joystick
+FORCE_SYMBOL $01ED Mario
+FORCE_SYMBOL $01F0 When_Sprites_Collide
+FORCE_SYMBOL $01F3 Wait_Recal
+FORCE_SYMBOL $01F8 Crash_Over_Barrel
+FORCE_SYMBOL $01FB Back_To_Intro
+FORCE_SYMBOL $0200 Intro
+FORCE_SYMBOL $0203 Bottom_Floor
+FORCE_SYMBOL $0206 Draw_Vectors
+FORCE_SYMBOL $0209 Second_Floor
+FORCE_SYMBOL $020C Draw_Vectors
+FORCE_SYMBOL $020F Third_Floor
+FORCE_SYMBOL $0212 Draw_Vectors
+FORCE_SYMBOL $0215 Fourth_Floor
+FORCE_SYMBOL $0218 Draw_Vectors
+FORCE_SYMBOL $021B Top_Floor
+FORCE_SYMBOL $021E Draw_Vectors
+FORCE_SYMBOL $0221 All_Barrels_Cleared
+FORCE_SYMBOL $0226 Girl_LegL
+FORCE_SYMBOL $0229 Draw_Girl
+FORCE_SYMBOL $022C Girl_LegR
+FORCE_SYMBOL $022F Draw_Girl
+FORCE_SYMBOL $0232 Girl_Body
+FORCE_SYMBOL $0235 Draw_Girl
+FORCE_SYMBOL $0238 Girl_Head
+FORCE_SYMBOL $023B Draw_Girl
+COMMENT $023E get ladder list pointer
+FORCE_SYMBOL $023E Ladders
+COMMENT $0242 end of ladder list?
+FORCE_NO_SYMBOL $0242
+FORCE_NO_SYMBOL $0244
+COMMENT $0246 nope keep drawing ladder parts
+COMMENT $0248 yes, go draw Kong
+COMMENT $024A get ladder part position
+COMMENT $024C save it
+FORCE_SYMBOL $024C Ladder_Position
+COMMENT $024F get ladder part vectors
+COMMENT $0251 save it
+FORCE_SYMBOL $0251 Ladder_Vectors
+COMMENT $0254 now go draw the ladder part
+FORCE_SYMBOL $0254 Draw_Ladders
+COMMENT $0257 keep going until done
+FORCE_SYMBOL $0259 Reset0Ref
+FORCE_NO_SYMBOL $025C
+FORCE_SYMBOL $025E Intensity_a
+FORCE_SYMBOL $0263 Moveto_d_7F
+FORCE_SYMBOL $0266 Draw_VLcs
+FORCE_SYMBOL $026A All_Barrels_Cleared
+FORCE_SYMBOL $0270 Kong_Head
+FORCE_SYMBOL $0273 Draw_Vectors
+FORCE_SYMBOL $0276 Kong_Shape
+FORCE_SYMBOL $0279 Mario_Move
+FORCE_NO_SYMBOL $027E
+FORCE_SYMBOL $0282 Kong_Right
+FORCE_NO_SYMBOL $0287
+FORCE_SYMBOL $028B Kong_Left
+FORCE_NO_SYMBOL $0290
+FORCE_SYMBOL $0294 Kong_Legs
+FORCE_SYMBOL $0297 Kong_Legs
+FORCE_NO_SYMBOL $029A
+FORCE_SYMBOL $029E Kong_Legs
+FORCE_SYMBOL $02A1 Kong_Move
+COMMENT $02A4 toggle Kong's foot
+FORCE_NO_SYMBOL $02A4
+FORCE_SYMBOL $02A6 Kong_Move
+FORCE_SYMBOL $02AB Kong_Move
+FORCE_SYMBOL $02B0 Kong_Right
+FORCE_SYMBOL $02B5 Kong_Left
+FORCE_SYMBOL $02B8 Kong_Shape
+FORCE_SYMBOL $02BB Draw_Vectors
+COMMENT $02BF x-reg contains pointer to vector list
+FORCE_SYMBOL $02BF Reset0Ref
+FORCE_NO_SYMBOL $02C2
+FORCE_SYMBOL $02C5 Moveto_d_7F
+FORCE_NO_SYMBOL $02C8
+FORCE_SYMBOL $02CA Intensity_a
+FORCE_SYMBOL $02CD Mov_Draw_VLcs
+COMMENT $02D1 Here we draw the ladders
+FORCE_SYMBOL $02D1 Reset0Ref
+FORCE_SYMBOL $02D4 Ladder_Position
+FORCE_SYMBOL $02D7 Moveto_d_7F
+FORCE_NO_SYMBOL $02DA
+FORCE_SYMBOL $02DC Intensity_a
+FORCE_SYMBOL $02DF Ladder_Vectors
+FORCE_SYMBOL $02E2 Draw_Line_d
+COMMENT $02E6 is Mario jumping?
+FORCE_SYMBOL $02E6 Mario_Jump
+COMMENT $02E9 no, process joystick
+COMMENT $02EB yes, contuniue jumping
+COMMENT $02ED Read Joystick
+FORCE_SYMBOL $02ED Joy_Digital
+COMMENT $02F0 check left/right
+FORCE_SYMBOL $02F0 Vec_Joy_1_X
+COMMENT $02F5 left joy?
+COMMENT $02F7 no, must be right
+FORCE_NO_SYMBOL $02F7
+FORCE_SYMBOL $02F9 Mario_Move
+COMMENT $02FE left joy
+FORCE_NO_SYMBOL $02FE
+FORCE_SYMBOL $0300 Mario_Move
+COMMENT $0305 now check up/down
+FORCE_SYMBOL $0305 Vec_Joy_1_Y
+FORCE_NO_SYMBOL $030C
+FORCE_SYMBOL $030E Mario_Move
+FORCE_NO_SYMBOL $0313
+FORCE_SYMBOL $0315 Mario_Move
+COMMENT $031A no joystick pressed
+FORCE_NO_SYMBOL $031A
+FORCE_SYMBOL $031C Mario_Move
+COMMENT $031F is Mario already jumping?
+FORCE_SYMBOL $031F Mario_Jump
+COMMENT $0322 no, process buttons
+COMMENT $0324 yes, ignore joystick until jump is over
+FORCE_SYMBOL $0326 Mario_Floor
+COMMENT $0329 are we on a ladder?
+FORCE_NO_SYMBOL $0329
+COMMENT $032B nope, let's check the buttons
+COMMENT $032D yes, go back
+COMMENT $032E read state of all buttons
+FORCE_SYMBOL $032E Read_Btns
+COMMENT $0331 get state of button 4
+COMMENT $0334 button 4 pressed?
+COMMENT $0336 nope, go back
+COMMENT $0338 yes, set jump flag
+FORCE_SYMBOL $0338 Mario_Jump
+FORCE_NO_SYMBOL $033B
+COMMENT $033D start jump sound
+FORCE_SYMBOL $033D Sound_Type
+FORCE_SYMBOL $0340 Next_Sound_Counter
+COMMENT $0345 reset jump flag if we are not jumping
+FORCE_SYMBOL $0345 Mario_Jump
+COMMENT $0349 should we jump?
+FORCE_SYMBOL $0349 Mario_Jump
+COMMENT $034C yep
+COMMENT $034E no go back
+FORCE_SYMBOL $034F Jump_Count
+FORCE_SYMBOL $0352 Jump_Count
+COMMENT $0355 this is the jump 'hang time'
+FORCE_NO_SYMBOL $0355
+COMMENT $0359 are we just starting a jump?
+FORCE_NO_SYMBOL $0359
+COMMENT $035D save Mario's shape
+FORCE_SYMBOL $035D Mario_Shape
+FORCE_SYMBOL $0360 Mario_Shape_Temp
+COMMENT $0363 yes, let's make sure he jumps up
+FORCE_SYMBOL $0363 Mario_Pos_Y
+FORCE_NO_SYMBOL $0366
+FORCE_SYMBOL $0368 Mario_Pos_Y
+COMMENT $036C here Mario's feet touch back down
+FORCE_SYMBOL $036C Mario_Shape_Temp
+FORCE_SYMBOL $036F Mario_Shape
+FORCE_SYMBOL $0372 Mario_Pos_Y
+FORCE_NO_SYMBOL $0375
+FORCE_SYMBOL $0377 Mario_Pos_Y
+FORCE_SYMBOL $037A Mario_Jump
+FORCE_SYMBOL $037D Jump_Count
+FORCE_SYMBOL $0380 Mario_Floor
+FORCE_NO_SYMBOL $0383
+FORCE_SYMBOL $0385 Barrel1_Floor
+COMMENT $038A is barrel on same floor as Mario?
+FORCE_SYMBOL $038A Mario_Floor
+COMMENT $038D yes
+COMMENT $0390 nope check next barrel
+FORCE_NO_SYMBOL $0391
+FORCE_SYMBOL $0396 Barrel1_Move
+COMMENT $039B is the barrel going down?
+FORCE_NO_SYMBOL $039B
+COMMENT $039D yes, check next barrel
+COMMENT $03A1 get the barrels X position
+FORCE_SYMBOL $03A1 Barrel1_Pos_X
+FORCE_NO_SYMBOL $03A4
+COMMENT $03AB get Mario's floor
+FORCE_SYMBOL $03AB Mario_Floor
+COMMENT $03AE Mario on floor 1?
+FORCE_NO_SYMBOL $03AE
+COMMENT $03B2 get Mario's X position
+FORCE_SYMBOL $03B2 Mario_Pos_X
+COMMENT $03B7 subtract it from Barrels position
+COMMENT $03B9 we just clear a barrel?
+FORCE_NO_SYMBOL $03B9
+COMMENT $03BB yes go set the sound flag
+COMMENT $03BF no, go finish checking barrels
+COMMENT $03C1 Mario on floor2?
+FORCE_NO_SYMBOL $03C1
+COMMENT $03C5 yes, get Mario's X position
+FORCE_SYMBOL $03C5 Mario_Pos_X
+COMMENT $03CC subtract it from Barrels position
+COMMENT $03CE we just clear a barrel?
+FORCE_NO_SYMBOL $03CE
+COMMENT $03D0 yes go set the sound flag
+COMMENT $03D4 no, go finish checking barrels
+FORCE_NO_SYMBOL $03D6
+COMMENT $03DE make over the barrel sound
+FORCE_NO_SYMBOL $03DE
+FORCE_SYMBOL $03E0 Sound_Type
+FORCE_SYMBOL $03E3 Next_Sound_Counter
+COMMENT $03E6 increment # of barrels jumped
+FORCE_SYMBOL $03E6 Number_Barrels_Jumped
+FORCE_SYMBOL $03E9 Number_Barrels_Jumped
+COMMENT $03EC jumped over last barrel?
+FORCE_NO_SYMBOL $03EC
+COMMENT $03EE nope
+COMMENT $03F0 yes, make sure barrel jump counter
+FORCE_NO_SYMBOL $03F0
+COMMENT $03F2 does not change
+FORCE_SYMBOL $03F2 Number_Barrels_Jumped
+FORCE_SYMBOL $03F5 All_Barrels_Cleared
+FORCE_NO_SYMBOL $03FA
+FORCE_SYMBOL $03FC Sound_Type
+FORCE_NO_SYMBOL $03FF
+COMMENT $0401 last barrel so flag it
+FORCE_SYMBOL $0401 All_Barrels_Cleared
+COMMENT $0407 which way is Mario going to move?
+FORCE_SYMBOL $0407 Mario_Move
+COMMENT $040A he isn't, go draw him as stationary
+FORCE_NO_SYMBOL $040C
+COMMENT $040E he's going left
+FORCE_NO_SYMBOL $0410
+COMMENT $0412 he's going right
+FORCE_NO_SYMBOL $0414
+COMMENT $0416 he's going up
+FORCE_NO_SYMBOL $041A
+FORCE_SYMBOL $0420 Draw_Mario
+FORCE_SYMBOL $0423 Run_Nowhere
+FORCE_SYMBOL $0426 Mario_Floor
+COMMENT $0429 are we on floor 1?
+FORCE_NO_SYMBOL $0429
+COMMENT $042D are we on floor 2?
+FORCE_NO_SYMBOL $042D
+COMMENT $0431 are we on floor 3?
+FORCE_NO_SYMBOL $0431
+COMMENT $0435 are we on floor 4?
+FORCE_NO_SYMBOL $0435
+COMMENT $0439 nope we must be on a ladder
+FORCE_SYMBOL $0439 Draw_Mario
+COMMENT $043C Floor 1, set angle to 90 degrees
+FORCE_NO_SYMBOL $043C
+FORCE_SYMBOL $043E Angle_Temp
+COMMENT $0441 set the end of floor variable
+FORCE_SYMBOL $0443 End_Of_Floor
+FORCE_SYMBOL $0446 Run_To_The_Right_Left
+COMMENT $0449 Floor 1, set angle to 90 degrees
+FORCE_NO_SYMBOL $0449
+FORCE_SYMBOL $044B Angle_Temp
+COMMENT $044E set the end of floor variable
+FORCE_SYMBOL $0450 End_Of_Floor
+FORCE_SYMBOL $0453 Run_To_The_Right_Left
+COMMENT $0456 Floor 1, set angle to 90 degrees
+FORCE_NO_SYMBOL $0456
+FORCE_SYMBOL $0458 Angle_Temp
+COMMENT $045B set the end of floor variable
+FORCE_SYMBOL $045D End_Of_Floor
+FORCE_SYMBOL $0460 Run_To_The_Right_Left
+COMMENT $0463 Floor 1, set angle to 90 degrees
+FORCE_NO_SYMBOL $0463
+FORCE_SYMBOL $0465 Angle_Temp
+COMMENT $0468 set the end of floor variable
+FORCE_SYMBOL $046A End_Of_Floor
+FORCE_SYMBOL $046D Run_To_The_Right_Left
+FORCE_SYMBOL $0470 Mario_Floor
+COMMENT $0473 are we on floor 1?
+FORCE_NO_SYMBOL $0473
+COMMENT $0477 are we on floor 2?
+FORCE_NO_SYMBOL $0477
+FORCE_NO_SYMBOL $047B
+FORCE_NO_SYMBOL $047F
+COMMENT $0483 nope try next floor
+FORCE_SYMBOL $0483 Draw_Mario
+COMMENT $0486 yes, floor 1, set angle to 90 degrees
+FORCE_NO_SYMBOL $0486
+FORCE_SYMBOL $0488 Angle_Temp
+COMMENT $048B set the end of floor variable
+FORCE_NO_SYMBOL $048B
+FORCE_SYMBOL $048D End_Of_Floor
+FORCE_SYMBOL $0490 Run_To_The_Right_Left
+COMMENT $0493 yes, floor 2, set angle to xx degrees
+FORCE_NO_SYMBOL $0493
+FORCE_SYMBOL $0495 Angle_Temp
+COMMENT $0498 set the end of floor variable
+FORCE_NO_SYMBOL $0498
+FORCE_SYMBOL $049A End_Of_Floor
+FORCE_SYMBOL $049D Run_To_The_Right_Left
+COMMENT $04A0 yes, floor 3, set angle to xx degrees
+FORCE_NO_SYMBOL $04A0
+FORCE_SYMBOL $04A2 Angle_Temp
+COMMENT $04A5 set the end of floor variable
+FORCE_NO_SYMBOL $04A5
+FORCE_SYMBOL $04A7 End_Of_Floor
+FORCE_SYMBOL $04AA Run_To_The_Right_Left
+COMMENT $04AD yes, floor 2, set angle to xx degrees
+FORCE_NO_SYMBOL $04AD
+FORCE_SYMBOL $04AF Angle_Temp
+COMMENT $04B2 set the end of floor variable
+FORCE_NO_SYMBOL $04B2
+FORCE_SYMBOL $04B4 End_Of_Floor
+FORCE_SYMBOL $04B7 Run_To_The_Right_Left
+FORCE_SYMBOL $04BA Mario_Floor
+COMMENT $04BD are we on floor 4?
+FORCE_NO_SYMBOL $04BD
+COMMENT $04C3 are we o ladder floor 4?
+FORCE_NO_SYMBOL $04C3
+COMMENT $04C7 are we on ladder floor 1?
+FORCE_NO_SYMBOL $04C7
+COMMENT $04C9 yes, keep moving on up
+FORCE_NO_SYMBOL $04CB
+FORCE_NO_SYMBOL $04CF
+COMMENT $04D3 are we on Floor1?
+FORCE_NO_SYMBOL $04D3
+COMMENT $04D5 yes
+FORCE_NO_SYMBOL $04D7
+FORCE_NO_SYMBOL $04DB
+FORCE_SYMBOL $04DF Draw_Mario
+FORCE_SYMBOL $04E2 Mario_Pos_X
+COMMENT $04E5 are we left of the ladder?
+FORCE_NO_SYMBOL $04E5
+COMMENT $04E7 yep so Mario stays on the ground
+COMMENT $04EB are we right of the ladder?
+FORCE_NO_SYMBOL $04EB
+COMMENT $04ED yep so Mario stays on the ground
+FORCE_NO_SYMBOL $04F1
+COMMENT $04F3 set floor flag to ladder 1
+FORCE_SYMBOL $04F3 Mario_Floor
+FORCE_NO_SYMBOL $04F6
+FORCE_SYMBOL $04F8 Angle_Temp
+FORCE_SYMBOL $04FD End_Of_Floor
+FORCE_SYMBOL $0500 Run_Up
+FORCE_SYMBOL $0503 Mario_Pos_X
+COMMENT $0506 are we left of the ladder?
+COMMENT $0508 yep so Mario stays on the ground
+COMMENT $050C are we right of the ladder?
+COMMENT $050E yep so Mario stays on the ground
+FORCE_NO_SYMBOL $0512
+COMMENT $0514 set floor flag to ladder 2
+FORCE_SYMBOL $0514 Mario_Floor
+FORCE_NO_SYMBOL $0517
+FORCE_SYMBOL $0519 Angle_Temp
+FORCE_NO_SYMBOL $051C
+FORCE_SYMBOL $051E End_Of_Floor
+FORCE_SYMBOL $0521 Run_Up
+FORCE_SYMBOL $0524 Mario_Pos_X
+COMMENT $0527 are we left of the ladder?
+FORCE_NO_SYMBOL $0527
+COMMENT $0529 yep so Mario stays on the ground
+COMMENT $052D are we right of the ladder?
+FORCE_NO_SYMBOL $052D
+COMMENT $052F yep so Mario stays on the ground
+FORCE_NO_SYMBOL $0533
+COMMENT $0535 set floor flag to ladder 3
+FORCE_SYMBOL $0535 Mario_Floor
+FORCE_NO_SYMBOL $0538
+FORCE_SYMBOL $053A Angle_Temp
+FORCE_NO_SYMBOL $053D
+FORCE_SYMBOL $053F End_Of_Floor
+FORCE_SYMBOL $0542 Run_Up
+FORCE_SYMBOL $0545 All_Barrels_Cleared
+FORCE_SYMBOL $054C Mario_Pos_X
+COMMENT $054F are we left of the ladder?
+COMMENT $0551 yep so Mario stays on the ground
+COMMENT $0555 are we right of the ladder?
+COMMENT $0557 yep so Mario stays on the ground
+FORCE_NO_SYMBOL $055B
+COMMENT $055D set floor flag to ladder 2
+FORCE_SYMBOL $055D Mario_Floor
+FORCE_NO_SYMBOL $0560
+FORCE_SYMBOL $0562 Angle_Temp
+FORCE_NO_SYMBOL $0565
+FORCE_SYMBOL $0567 End_Of_Floor
+FORCE_SYMBOL $056A Run_Up
+FORCE_SYMBOL $056D Mario_Floor
+FORCE_NO_SYMBOL $0570
+COMMENT $0576 are we on ladder 1?
+FORCE_NO_SYMBOL $0576
+COMMENT $0578 yes keep moving down
+COMMENT $057A are we on ladder 2?
+FORCE_NO_SYMBOL $057A
+COMMENT $057C yes keep moving down
+COMMENT $057E are we on ladder 3?
+FORCE_NO_SYMBOL $057E
+COMMENT $0580 yes keep moving down
+FORCE_NO_SYMBOL $0582
+COMMENT $0586 are we on floor 2
+FORCE_NO_SYMBOL $0586
+COMMENT $0588 yes we are
+COMMENT $058A are we on floor 3?
+FORCE_NO_SYMBOL $058A
+COMMENT $058C yes we are
+COMMENT $058E are we on floor 4?
+FORCE_NO_SYMBOL $058E
+COMMENT $0590 yes we are
+FORCE_SYMBOL $0592 Draw_Mario
+FORCE_SYMBOL $0595 Mario_Pos_X
+COMMENT $0598 are we standing above ladder 2?
+FORCE_NO_SYMBOL $0598
+FORCE_NO_SYMBOL $059E
+COMMENT $05A4 yes, let's go down
+FORCE_NO_SYMBOL $05A4
+FORCE_SYMBOL $05A6 Mario_Floor
+FORCE_NO_SYMBOL $05A9
+FORCE_SYMBOL $05AB Angle_Temp
+FORCE_SYMBOL $05B0 End_Of_Floor
+FORCE_SYMBOL $05B3 Run_Down
+FORCE_SYMBOL $05B6 Mario_Pos_X
+COMMENT $05B9 are we standing above ladder 3?
+COMMENT $05C5 yes, let's go down
+FORCE_NO_SYMBOL $05C5
+FORCE_SYMBOL $05C7 Mario_Floor
+FORCE_NO_SYMBOL $05CA
+FORCE_SYMBOL $05CC Angle_Temp
+FORCE_SYMBOL $05D1 End_Of_Floor
+FORCE_SYMBOL $05D4 Run_Down
+FORCE_SYMBOL $05D7 Mario_Pos_X
+COMMENT $05DA are we standing above ladder 3?
+FORCE_NO_SYMBOL $05DA
+FORCE_NO_SYMBOL $05E0
+COMMENT $05E6 yes, let's go down
+FORCE_NO_SYMBOL $05E6
+FORCE_SYMBOL $05E8 Mario_Floor
+FORCE_NO_SYMBOL $05EB
+FORCE_SYMBOL $05ED Angle_Temp
+FORCE_NO_SYMBOL $05F0
+FORCE_SYMBOL $05F2 End_Of_Floor
+FORCE_SYMBOL $05F5 Run_Down
+FORCE_SYMBOL $05F8 Mario_Pos_X
+COMMENT $05FB are we standing above ladder 3?
+COMMENT $0607 yes, let's go down
+FORCE_NO_SYMBOL $0607
+FORCE_SYMBOL $0609 Mario_Floor
+FORCE_NO_SYMBOL $060C
+FORCE_SYMBOL $060E Angle_Temp
+FORCE_NO_SYMBOL $0611
+FORCE_SYMBOL $0613 End_Of_Floor
+FORCE_SYMBOL $0616 Run_Down
+FORCE_SYMBOL $0619 Mario_Move
+FORCE_SYMBOL $061C Draw_Mario
+FORCE_SYMBOL $061F Mario_Pos_X
+COMMENT $0622 reached end of floor?
+FORCE_SYMBOL $0622 End_Of_Floor
+COMMENT $0625 yep, we're done here
+COMMENT $0629 save X position for Legs routine
+FORCE_SYMBOL $0629 Mario_Pos_X
+FORCE_SYMBOL $062F DP_to_C8
+COMMENT $0632 this is the scalar value (Mario's speed)
+FORCE_NO_SYMBOL $0632
+COMMENT $0634 this is the angle of movement
+FORCE_SYMBOL $0634 Angle_Temp
+COMMENT $0637 go calculate the rise/run values
+FORCE_SYMBOL $0637 Rise_Run_Y
+FORCE_NO_SYMBOL $0640
+COMMENT $0642 multiply rise/run by xx
+FORCE_SYMBOL $0642 Mult_Rise_Run_By_A
+FORCE_SYMBOL $0645 Temp_Run
+FORCE_SYMBOL $0648 Mario_Pos_X
+FORCE_SYMBOL $064B Temp_Run
+COMMENT $064E store Mario's new X position
+FORCE_SYMBOL $064E Mario_Pos_X
+FORCE_NO_SYMBOL $0654
+FORCE_SYMBOL $0656 Mult_Rise_Run_By_A
+FORCE_SYMBOL $0659 Temp_Rise
+FORCE_SYMBOL $065C Mario_Pos_Y
+FORCE_SYMBOL $065F Temp_Rise
+COMMENT $0662 store Mario's new X position
+FORCE_SYMBOL $0662 Mario_Pos_Y
+FORCE_NO_SYMBOL $0665
+FORCE_SYMBOL $0668 Temp_Rise
+COMMENT $066B reset temp variables
+FORCE_SYMBOL $066B Temp_Run
+FORCE_SYMBOL $066E DP_to_D0
+FORCE_SYMBOL $0671 Mario_Pos_X
+COMMENT $0677 let's go see what to do about Mario's legs
+FORCE_SYMBOL $0677 Mario_Move_Legs
+FORCE_SYMBOL $067A Draw_Mario
+COMMENT $067D save Y Position for Legs routine
+FORCE_SYMBOL $067D Mario_Pos_Y
+FORCE_SYMBOL $0683 DP_to_C8
+COMMENT $0686 this is the scalar value (Mario's speed)
+FORCE_NO_SYMBOL $0686
+COMMENT $0688 this is the angle of movement
+FORCE_SYMBOL $0688 Angle_Temp
+COMMENT $068B go calculate the rise/run values
+FORCE_SYMBOL $068B Rise_Run_Y
+FORCE_NO_SYMBOL $0690
+FORCE_SYMBOL $0692 Mult_Rise_Run_By_A
+FORCE_SYMBOL $0695 Temp_Rise
+FORCE_SYMBOL $0698 Mario_Pos_Y
+FORCE_SYMBOL $069B Temp_Rise
+FORCE_SYMBOL $069E Mario_Pos_Y
+FORCE_SYMBOL $06A1 DP_to_D0
+FORCE_SYMBOL $06A4 Mario_Pos_Y
+COMMENT $06A7 reached end of floor?
+FORCE_SYMBOL $06A7 End_Of_Floor
+COMMENT $06AA nope, we're done here
+FORCE_SYMBOL $06AC Mario_Floor
+FORCE_NO_SYMBOL $06AF
+FORCE_SYMBOL $06B3 Mario_Got_The_Girl
+COMMENT $06B6 reset scalar values
+COMMENT $06BC Mario is now on the next floor up!
+FORCE_SYMBOL $06BC Mario_Floor
+FORCE_SYMBOL $06BF Mario_Floor
+FORCE_SYMBOL $06C2 Mario_Floor
+FORCE_SYMBOL $06C7 Mario_Pos_Temp
+FORCE_SYMBOL $06CA Mario_Move_Legs
+FORCE_NO_SYMBOL $06CD
+FORCE_SYMBOL $06D0 Temp_Rise
+FORCE_SYMBOL $06D3 Temp_Run
+FORCE_SYMBOL $06D6 Draw_Mario
+COMMENT $06D9 save Y position for Legs routine
+FORCE_SYMBOL $06D9 Mario_Pos_Y
+FORCE_SYMBOL $06DF DP_to_C8
+COMMENT $06E2 this is the scalar value ()
+FORCE_NO_SYMBOL $06E2
+COMMENT $06E4 this is the angle of movement
+FORCE_SYMBOL $06E4 Angle_Temp
+COMMENT $06E7 go calculate the rise/run values
+FORCE_SYMBOL $06E7 Rise_Run_Y
+COMMENT $06EC Mario's speed
+FORCE_NO_SYMBOL $06EC
+FORCE_SYMBOL $06EE Mult_Rise_Run_By_A
+FORCE_SYMBOL $06F1 Temp_Rise
+FORCE_SYMBOL $06F4 Mario_Pos_Y
+FORCE_SYMBOL $06F7 Temp_Rise
+FORCE_SYMBOL $06FA Mario_Pos_Y
+FORCE_SYMBOL $06FD DP_to_D0
+FORCE_SYMBOL $0700 Mario_Pos_Y
+COMMENT $0703 reached end of floor?
+FORCE_SYMBOL $0703 End_Of_Floor
+COMMENT $0706 nope, we're done here
+COMMENT $0708 reset scalar values
+COMMENT $070E Mario is now on the next floor down!
+FORCE_SYMBOL $070E Mario_Floor
+FORCE_SYMBOL $0711 Mario_Floor
+FORCE_SYMBOL $0714 Mario_Floor
+FORCE_SYMBOL $0717 Mario_Floor
+FORCE_SYMBOL $071C Mario_Pos_Temp
+FORCE_SYMBOL $071F Mario_Move_Legs
+FORCE_NO_SYMBOL $0722
+FORCE_SYMBOL $0725 Temp_Rise
+FORCE_SYMBOL $0728 Temp_Run
+FORCE_SYMBOL $072B Draw_Mario
+COMMENT $072E this routine makes sure that game timing
+FORCE_SYMBOL $072E Mario_Pos_X
+COMMENT $0731 remains constant when Mario stands still
+FORCE_SYMBOL $0731 Mario_Save_X
+FORCE_SYMBOL $0734 Mario_Pos_Y
+COMMENT $0737 save Mario's position, he's not going anywhere
+FORCE_SYMBOL $0737 Mario_Save_Y
+FORCE_SYMBOL $073A DP_to_C8
+COMMENT $073D this is the scalar value (Mario's speed)
+FORCE_NO_SYMBOL $073D
+COMMENT $073F this is the angle of movement
+FORCE_NO_SYMBOL $073F
+COMMENT $0741 go calculate the rise/run values
+FORCE_SYMBOL $0741 Rise_Run_X
+COMMENT $074A now adjust Mario's X-Axis Position
+FORCE_SYMBOL $074A Mario_Pos_X
+FORCE_NO_SYMBOL $074D
+FORCE_SYMBOL $074F Temp_Run
+FORCE_SYMBOL $0752 Mario_Pos_X
+FORCE_SYMBOL $0755 Mario_Pos_Y
+FORCE_NO_SYMBOL $0758
+FORCE_SYMBOL $075A Temp_Rise
+FORCE_SYMBOL $075D Mario_Pos_Y
+FORCE_SYMBOL $0760 DP_to_D0
+FORCE_SYMBOL $0763 Mario_Move_Legs
+COMMENT $0766 make sure Mario stays put
+FORCE_SYMBOL $0766 Mario_Save_X
+FORCE_SYMBOL $0769 Mario_Pos_X
+FORCE_SYMBOL $076C Mario_Save_Y
+FORCE_SYMBOL $076F Mario_Pos_Y
+FORCE_SYMBOL $0772 Draw_Mario
+COMMENT $0775 are we jumping?
+FORCE_SYMBOL $0775 Mario_Jump
+COMMENT $077A yes, show Mario jumping
+FORCE_SYMBOL $077A Mario_Legs_Jumping
+FORCE_SYMBOL $077D Mario_Shape
+COMMENT $0781 are we stationary?
+FORCE_SYMBOL $0781 Mario_Move
+COMMENT $0784 nope, we are moving
+COMMENT $0786 yes, we are stationary
+FORCE_SYMBOL $0787 Mario_Pos_Temp
+COMMENT $078A has Mario moved?
+COMMENT $078D nope, nothing to do here
+COMMENT $078F what do we do with Mario's legs?
+FORCE_SYMBOL $078F Mario_Legs
+FORCE_NO_SYMBOL $0792
+FORCE_SYMBOL $0796 Mario_Move
+COMMENT $079B are we moving left?
+FORCE_NO_SYMBOL $079B
+COMMENT $079F leg goes up
+FORCE_SYMBOL $079F Mario_Left_Leg_Up
+FORCE_SYMBOL $07A2 Mario_Shape
+COMMENT $07A7 are we moving right?
+FORCE_NO_SYMBOL $07A7
+COMMENT $07AB yep
+FORCE_SYMBOL $07AB Mario_Right_Leg_Up
+FORCE_SYMBOL $07AE Mario_Shape
+COMMENT $07B3 looks like we are moving up or down
+FORCE_SYMBOL $07B3 Mario_Up_Leg_Up
+FORCE_SYMBOL $07B6 Mario_Shape
+FORCE_SYMBOL $07BB Mario_Legs
+FORCE_NO_SYMBOL $07BE
+FORCE_SYMBOL $07C2 Mario_Legs
+FORCE_SYMBOL $07C5 Sound_Type
+COMMENT $07C8 are we making an over barrel sound?
+FORCE_NO_SYMBOL $07C8
+COMMENT $07CC yes, keep making that sound
+FORCE_NO_SYMBOL $07CD
+FORCE_NO_SYMBOL $07D2
+COMMENT $07D4 flag walking sound
+FORCE_SYMBOL $07D4 Sound_Type
+FORCE_SYMBOL $07D7 Next_Sound_Counter
+FORCE_SYMBOL $07DB Mario_Move
+COMMENT $07DE are we moving left?
+FORCE_NO_SYMBOL $07DE
+COMMENT $07E2 leg goes down
+FORCE_SYMBOL $07E2 Mario_Left_Leg_Down
+FORCE_SYMBOL $07E5 Mario_Shape
+COMMENT $07EA are we moving left?
+FORCE_NO_SYMBOL $07EA
+COMMENT $07EE leg goes down
+FORCE_SYMBOL $07EE Mario_Right_Leg_Down
+FORCE_SYMBOL $07F1 Mario_Shape
+COMMENT $07F6 looks like we are moving up or down
+FORCE_SYMBOL $07F6 Mario_Up_Leg_Down
+FORCE_SYMBOL $07F9 Mario_Shape
+FORCE_SYMBOL $07FC Mario_Legs
+COMMENT $0800 Here we draw Mario
+FORCE_SYMBOL $0800 Reset0Ref
+FORCE_SYMBOL $0803 Mario_Pos_Y
+FORCE_SYMBOL $0806 Mario_Pos_X
+FORCE_SYMBOL $0809 Moveto_d_7F
+FORCE_NO_SYMBOL $080C
+FORCE_SYMBOL $080E Intensity_a
+COMMENT $0811 are we jumping?
+FORCE_SYMBOL $0811 Mario_Jump
+COMMENT $0816 yes, show Mario jumping
+FORCE_SYMBOL $0816 Mario_Legs_Jumping
+FORCE_SYMBOL $0819 Mario_Shape
+FORCE_SYMBOL $081C Mario_Shape
+FORCE_SYMBOL $081F Draw_VLp_7F
+FORCE_SYMBOL $0822 Mario_Dead
+COMMENT $0827 If mario is dead then go back
+FORCE_SYMBOL $0828 Barrel1_Add
+FORCE_SYMBOL $082B Barrel_Move_Count
+COMMENT $082E Let's see if we need to add a barrel?
+COMMENT $0830 did this barrel leave floor 1 before barrel 4 started?
+FORCE_NO_SYMBOL $0830
+COMMENT $0834 yes, is it time for it to make an appearance?
+FORCE_SYMBOL $0834 Add_Barrel
+COMMENT $0837 nope, let's try the next barrel
+FORCE_NO_SYMBOL $083B
+FORCE_NO_SYMBOL $083D
+COMMENT $083F nope, process other barrels
+COMMENT $0843 has a barrel gone off the screen?
+FORCE_SYMBOL $0843 Add_Barrel
+COMMENT $0846 nope, it's a new barrel
+FORCE_NO_SYMBOL $0848
+COMMENT $084C yes, bring the barrel back
+FORCE_SYMBOL $084C Add_Barrel
+FORCE_SYMBOL $0851 Barrel_Move_Count
+COMMENT $0854 is this barrel 1?
+FORCE_NO_SYMBOL $0854
+COMMENT $0858 is this barrel 2?
+FORCE_NO_SYMBOL $0858
+FORCE_NO_SYMBOL $085C
+COMMENT $0862 time to bring back barrel 1?
+FORCE_SYMBOL $0862 Barrel4_Floor
+FORCE_NO_SYMBOL $0865
+COMMENT $086B yep, bring it back
+FORCE_SYMBOL $086B Barrel4_Pos_X
+FORCE_NO_SYMBOL $086E
+COMMENT $0874 time to bring back barrel 2?
+FORCE_SYMBOL $0874 Barrel1_Floor
+FORCE_NO_SYMBOL $0877
+COMMENT $087D yep, bring it back
+FORCE_SYMBOL $087D Barrel1_Pos_X
+FORCE_NO_SYMBOL $0880
+FORCE_SYMBOL $0886 Barrel2_Floor
+FORCE_NO_SYMBOL $0889
+FORCE_SYMBOL $088F Barrel2_Pos_X
+FORCE_NO_SYMBOL $0892
+FORCE_SYMBOL $0898 Barrel3_Floor
+FORCE_NO_SYMBOL $089B
+FORCE_SYMBOL $08A1 Barrel3_Pos_X
+FORCE_NO_SYMBOL $08A4
+FORCE_SYMBOL $08AA Barrel_Move_Count
+FORCE_SYMBOL $08AD Barrel1_Add
+FORCE_NO_SYMBOL $08B0
+COMMENT $08B2 reset the add barrel flag
+FORCE_SYMBOL $08B4 Barrel1_Move
+FORCE_SYMBOL $08B7 Barrel_Move_Count
+FORCE_NO_SYMBOL $08BA
+COMMENT $08BC set Barrel  move flag to 2 (Right)
+FORCE_SYMBOL $08BE Barrel1_Pos_Y
+FORCE_SYMBOL $08C1 Barrel_Count
+COMMENT $08C4 let's place it at the top of the screen
+FORCE_NO_SYMBOL $08C4
+FORCE_SYMBOL $08C8 Barrel1_Pos_X
+FORCE_SYMBOL $08CB Barrel_Count
+FORCE_SYMBOL $08D2 Barrel1_Floor
+FORCE_SYMBOL $08D5 Barrel_Move_Count
+COMMENT $08D8 we are on floor 4
+FORCE_NO_SYMBOL $08D8
+FORCE_SYMBOL $08DC Barrel1_Move
+FORCE_SYMBOL $08DF Barrel_Move_Count
+COMMENT $08E2 look at a barrel's move flag
+COMMENT $08E4 is this barrel moving to the left?
+FORCE_NO_SYMBOL $08E4
+FORCE_NO_SYMBOL $08E8
+COMMENT $08EA is this barrel moving to the right?
+FORCE_NO_SYMBOL $08EC
+COMMENT $08EE is this barrel moving Down?
+COMMENT $08F2 nope and nope, we do not draw this barrel
+FORCE_SYMBOL $08F2 Barrel_Count
+FORCE_SYMBOL $08F5 Barrel_Count
+FORCE_SYMBOL $08F8 Barrel_Count
+FORCE_SYMBOL $08FB Barrel_Count
+FORCE_SYMBOL $08FE Barrel_Move_Count
+FORCE_SYMBOL $0901 Barrel_Move_Count
+FORCE_SYMBOL $0904 Draw_Ceck_Last_Barrel
+FORCE_SYMBOL $0907 Barrel_Move_Count
+COMMENT $090A what floor is this barrel on?
+FORCE_SYMBOL $090A Barrel1_Floor
+FORCE_NO_SYMBOL $090F
+FORCE_NO_SYMBOL $0913
+COMMENT $0917 floor 1, set angle to 90 degrees
+FORCE_NO_SYMBOL $0917
+FORCE_SYMBOL $0919 Angle_Temp
+COMMENT $091C set the end of floor variable
+FORCE_SYMBOL $091E End_Of_Floor
+FORCE_SYMBOL $0921 Barrel_To_The_Left
+COMMENT $0924 floor 3, set angle to xx degrees
+FORCE_NO_SYMBOL $0924
+FORCE_SYMBOL $0926 Angle_Temp
+COMMENT $0929 set the end of floor variable
+FORCE_SYMBOL $092B End_Of_Floor
+COMMENT $092E load the ladder positions
+FORCE_SYMBOL $0930 Ladder_Temp1
+FORCE_SYMBOL $0935 Ladder_Temp2
+FORCE_SYMBOL $093A Ladder_Temp3
+FORCE_SYMBOL $093D Barrel_To_The_Left
+FORCE_SYMBOL $0940 Barrel_Move_Count
+COMMENT $0943 what floor is this barrel on?
+FORCE_SYMBOL $0943 Barrel1_Floor
+FORCE_NO_SYMBOL $0948
+FORCE_NO_SYMBOL $094C
+COMMENT $0950 yes, floor 2, set angle to xx degrees
+FORCE_NO_SYMBOL $0950
+FORCE_SYMBOL $0952 Angle_Temp
+COMMENT $0955 set the end of floor variable
+FORCE_NO_SYMBOL $0955
+FORCE_SYMBOL $0957 End_Of_Floor
+COMMENT $095A load the ladder positions
+FORCE_NO_SYMBOL $095A
+FORCE_SYMBOL $095C Ladder_Temp1
+FORCE_NO_SYMBOL $095F
+FORCE_SYMBOL $0961 Ladder_Temp2
+FORCE_NO_SYMBOL $0964
+FORCE_SYMBOL $0966 Ladder_Temp3
+FORCE_SYMBOL $0969 Barrel_To_The_Right
+COMMENT $096C yes, floor 4, set angle to 90 degrees
+FORCE_NO_SYMBOL $096C
+FORCE_SYMBOL $096E Angle_Temp
+COMMENT $0971 set the end of floor variable
+FORCE_NO_SYMBOL $0971
+FORCE_SYMBOL $0973 End_Of_Floor
+COMMENT $0976 load the ladder positions
+FORCE_NO_SYMBOL $0976
+FORCE_SYMBOL $0978 Ladder_Temp1
+FORCE_NO_SYMBOL $097B
+FORCE_SYMBOL $097D Ladder_Temp2
+FORCE_NO_SYMBOL $0980
+FORCE_SYMBOL $0982 Ladder_Temp3
+FORCE_SYMBOL $0985 Barrel_To_The_Right
+FORCE_SYMBOL $0988 Barrel_Move_Count
+COMMENT $098B what floor is this barrel on?
+FORCE_SYMBOL $098B Barrel1_Floor
+FORCE_NO_SYMBOL $0990
+FORCE_NO_SYMBOL $0994
+FORCE_NO_SYMBOL $0998
+FORCE_NO_SYMBOL $099C
+COMMENT $09A0 barrel move flag = 0
+FORCE_SYMBOL $09A0 Barrel1_Move
+FORCE_SYMBOL $09A3 Barrel_Move_Count
+FORCE_NO_SYMBOL $09A6
+FORCE_SYMBOL $09AA Add_Barrel
+FORCE_NO_SYMBOL $09AF
+FORCE_NO_SYMBOL $09B3
+FORCE_SYMBOL $09B5 Barrel1_Add
+FORCE_SYMBOL $09BA Draw_Ceck_Last_Barrel
+FORCE_NO_SYMBOL $09BD
+FORCE_SYMBOL $09BF Angle_Temp
+FORCE_SYMBOL $09C4 End_Of_Floor
+FORCE_SYMBOL $09C7 Barrel_Go_Down
+FORCE_NO_SYMBOL $09CA
+FORCE_SYMBOL $09CC Angle_Temp
+COMMENT $09CF barrel going down ladder?
+FORCE_SYMBOL $09CF Barrel_On_Ladder1
+FORCE_SYMBOL $09D2 Barrel_Move_Count
+COMMENT $09D7 nope
+COMMENT $09D9 yep
+FORCE_SYMBOL $09DF End_Of_Floor
+FORCE_SYMBOL $09E2 Barrel_Go_Down
+FORCE_NO_SYMBOL $09E5
+FORCE_SYMBOL $09E7 Angle_Temp
+COMMENT $09EA barrel going down ladder?
+FORCE_SYMBOL $09EA Barrel_On_Ladder1
+FORCE_SYMBOL $09ED Barrel_Move_Count
+COMMENT $09F2 nope
+COMMENT $09F4 yep
+FORCE_NO_SYMBOL $09F4
+FORCE_NO_SYMBOL $09F8
+FORCE_SYMBOL $09FA End_Of_Floor
+FORCE_SYMBOL $09FD Barrel_Go_Down
+COMMENT $0A00 Get current position of barrel
+FORCE_SYMBOL $0A00 Barrel1_Pos_X
+FORCE_SYMBOL $0A03 Barrel_Count
+FORCE_NO_SYMBOL $0A08
+COMMENT $0A0B we have not reached center screen
+FORCE_NO_SYMBOL $0A0D
+COMMENT $0A0F end of floor reached?
+FORCE_SYMBOL $0A0F End_Of_Floor
+COMMENT $0A12 not yet
+COMMENT $0A14 clear the ladder flag
+FORCE_SYMBOL $0A14 Barrel_On_Ladder1
+FORCE_SYMBOL $0A17 Barrel_Move_Count
+COMMENT $0A1C yep, we're done here
+FORCE_SYMBOL $0A1C Barrel_Left_Reset
+COMMENT $0A1F what floor is the barrel on?
+FORCE_SYMBOL $0A1F Barrel1_Floor
+FORCE_SYMBOL $0A22 Barrel_Move_Count
+COMMENT $0A27 first floor?
+FORCE_NO_SYMBOL $0A27
+COMMENT $0A29 then do not check for ladder
+FORCE_SYMBOL $0A2B Barrel1_Pos_X
+FORCE_SYMBOL $0A2E Barrel_Count
+FORCE_SYMBOL $0A33 Ladder_Temp1
+FORCE_SYMBOL $0A38 Ladder_Temp2
+COMMENT $0A3D we are on top of a ladder
+FORCE_SYMBOL $0A3D Random_3
+COMMENT $0A40 do we go down the ladder?
+FORCE_NO_SYMBOL $0A40
+FORCE_SYMBOL $0A44 Barrel_On_Ladder1
+COMMENT $0A47 set the ladder flag
+FORCE_SYMBOL $0A47 Barrel_Move_Count
+FORCE_NO_SYMBOL $0A4A
+COMMENT $0A4E make sure barrel is centered on ladder
+FORCE_SYMBOL $0A4E Barrel1_Pos_X
+FORCE_SYMBOL $0A51 Barrel_Count
+FORCE_SYMBOL $0A54 Ladder_Temp3
+COMMENT $0A59 yes
+FORCE_SYMBOL $0A5B DP_to_C8
+COMMENT $0A5E this is the scalar value (Barrel's speed)
+FORCE_NO_SYMBOL $0A5E
+COMMENT $0A60 this is the angle of movement
+FORCE_SYMBOL $0A60 Angle_Temp
+COMMENT $0A63 go calculate the rise/run values
+FORCE_SYMBOL $0A63 Rise_Run_Y
+FORCE_NO_SYMBOL $0A6C
+FORCE_SYMBOL $0A6E Mult_Rise_Run_By_A
+FORCE_SYMBOL $0A71 Temp_Run
+COMMENT $0A74 now add the rise/run values to...
+FORCE_SYMBOL $0A74 Barrel1_Pos_X
+FORCE_SYMBOL $0A77 Barrel_Count
+FORCE_SYMBOL $0A7C Barrel1_Pos_Y
+FORCE_NO_SYMBOL $0A82
+FORCE_SYMBOL $0A84 Temp_Run
+FORCE_NO_SYMBOL $0A87
+FORCE_NO_SYMBOL $0A89
+COMMENT $0A8B time to start a new barrel?
+FORCE_NO_SYMBOL $0A8B
+FORCE_SYMBOL $0A8F Add_Barrel
+FORCE_SYMBOL $0A94 Barrel1_Floor
+FORCE_SYMBOL $0A97 Barrel_Move_Count
+FORCE_NO_SYMBOL $0A9B
+FORCE_NO_SYMBOL $0A9D
+FORCE_NO_SYMBOL $0AA4
+FORCE_SYMBOL $0AA6 Mult_Rise_Run_By_A
+FORCE_SYMBOL $0AA9 Temp_Run
+FORCE_NO_SYMBOL $0AAC
+FORCE_SYMBOL $0AAE Temp_Run
+FORCE_NO_SYMBOL $0AB1
+FORCE_NO_SYMBOL $0AB3
+FORCE_SYMBOL $0AB6 Temp_Rise
+FORCE_SYMBOL $0AB9 Temp_Run
+FORCE_SYMBOL $0ABC DP_to_D0
+FORCE_SYMBOL $0ABF Y_Axis_Adjust
+FORCE_SYMBOL $0AC2 Draw_Barrel
+FORCE_SYMBOL $0AC5 Barrel1_Move
+FORCE_SYMBOL $0AC8 Barrel_Move_Count
+FORCE_NO_SYMBOL $0ACB
+FORCE_SYMBOL $0ACF Draw_Barrel
+FORCE_SYMBOL $0AD2 Barrel_Move_Count
+FORCE_SYMBOL $0AD7 Barrel1_Move
+FORCE_SYMBOL $0ADE Barrel1_Add
+FORCE_NO_SYMBOL $0AE1
+FORCE_SYMBOL $0AE5 Barrel4_Add
+FORCE_SYMBOL $0AEA Add_Barrel
+COMMENT $0AEF Get current position of barrel
+FORCE_SYMBOL $0AEF Barrel1_Pos_X
+FORCE_SYMBOL $0AF2 Barrel_Count
+FORCE_NO_SYMBOL $0AF7
+COMMENT $0AF9 we have not reached center screen
+COMMENT $0AFB end of floor reached?
+FORCE_SYMBOL $0AFB End_Of_Floor
+COMMENT $0AFE not yet
+COMMENT $0B00 clear the ladder flag
+FORCE_SYMBOL $0B00 Barrel_On_Ladder1
+FORCE_SYMBOL $0B03 Barrel_Move_Count
+COMMENT $0B08 yep, we're done here
+FORCE_SYMBOL $0B0A Barrel1_Pos_X
+FORCE_SYMBOL $0B0D Barrel_Count
+FORCE_SYMBOL $0B12 Ladder_Temp1
+FORCE_SYMBOL $0B17 Ladder_Temp2
+COMMENT $0B1C we are on top of a ladder
+FORCE_SYMBOL $0B1C Random_3
+COMMENT $0B1F do we go down the ladder?
+FORCE_NO_SYMBOL $0B1F
+FORCE_SYMBOL $0B23 Barrel_On_Ladder1
+COMMENT $0B26 set the ladder flag
+FORCE_SYMBOL $0B26 Barrel_Move_Count
+FORCE_NO_SYMBOL $0B29
+COMMENT $0B2D make sure barrel is centered on ladder
+FORCE_SYMBOL $0B2D Barrel1_Pos_X
+FORCE_SYMBOL $0B30 Barrel_Count
+FORCE_SYMBOL $0B33 Ladder_Temp3
+COMMENT $0B38 yes
+FORCE_SYMBOL $0B3A DP_to_C8
+COMMENT $0B3D this is the scalar value (Barrel's speed)
+FORCE_NO_SYMBOL $0B3D
+COMMENT $0B3F this is the angle of movement
+FORCE_SYMBOL $0B3F Angle_Temp
+COMMENT $0B42 go calculate the rise/run values
+FORCE_SYMBOL $0B42 Rise_Run_Y
+FORCE_NO_SYMBOL $0B4B
+FORCE_SYMBOL $0B4D Mult_Rise_Run_By_A
+FORCE_SYMBOL $0B50 Temp_Run
+COMMENT $0B53 now add the rise/run values to...
+FORCE_SYMBOL $0B53 Barrel1_Pos_X
+FORCE_SYMBOL $0B56 Barrel_Count
+FORCE_SYMBOL $0B5B Barrel1_Pos_Y
+FORCE_NO_SYMBOL $0B61
+FORCE_SYMBOL $0B63 Temp_Run
+FORCE_NO_SYMBOL $0B66
+FORCE_NO_SYMBOL $0B6B
+FORCE_SYMBOL $0B6D Mult_Rise_Run_By_A
+FORCE_SYMBOL $0B70 Temp_Run
+FORCE_NO_SYMBOL $0B73
+FORCE_SYMBOL $0B75 Temp_Run
+FORCE_NO_SYMBOL $0B78
+FORCE_NO_SYMBOL $0B7A
+FORCE_SYMBOL $0B7D Temp_Rise
+FORCE_SYMBOL $0B80 Temp_Run
+FORCE_SYMBOL $0B83 DP_to_D0
+FORCE_SYMBOL $0B86 Draw_Barrel
+FORCE_SYMBOL $0B89 Barrel1_Move
+FORCE_SYMBOL $0B8C Barrel_Move_Count
+COMMENT $0B8F set barrel's move flag to "down"
+FORCE_NO_SYMBOL $0B8F
+FORCE_SYMBOL $0B93 Draw_Barrel
+FORCE_SYMBOL $0B96 Barrel1_Pos_Y
+FORCE_SYMBOL $0B99 Barrel_Count
+FORCE_NO_SYMBOL $0B9D
+COMMENT $0B9F reached end of floor?
+FORCE_SYMBOL $0B9F End_Of_Floor
+FORCE_SYMBOL $0BA4 DP_to_C8
+COMMENT $0BA7 this is the scalar value (Barrel's speed)
+FORCE_NO_SYMBOL $0BA7
+COMMENT $0BA9 this is the angle of movement
+FORCE_SYMBOL $0BA9 Angle_Temp
+COMMENT $0BAC go calculate the rise/run values
+FORCE_SYMBOL $0BAC Rise_Run_Y
+FORCE_NO_SYMBOL $0BB5
+FORCE_SYMBOL $0BB7 Mult_Rise_Run_By_A
+FORCE_SYMBOL $0BBA Temp_Run
+COMMENT $0BBD now add the rise/run values to...
+FORCE_SYMBOL $0BBD Barrel1_Pos_X
+FORCE_SYMBOL $0BC0 Barrel_Count
+FORCE_SYMBOL $0BC5 Barrel1_Pos_Y
+FORCE_NO_SYMBOL $0BCB
+FORCE_SYMBOL $0BCD Temp_Run
+FORCE_NO_SYMBOL $0BD0
+FORCE_NO_SYMBOL $0BD5
+FORCE_SYMBOL $0BD7 Mult_Rise_Run_By_A
+FORCE_SYMBOL $0BDA Temp_Run
+FORCE_NO_SYMBOL $0BDD
+FORCE_SYMBOL $0BDF Temp_Run
+FORCE_NO_SYMBOL $0BE2
+FORCE_NO_SYMBOL $0BE4
+FORCE_SYMBOL $0BE7 Temp_Rise
+FORCE_SYMBOL $0BEA Temp_Run
+FORCE_SYMBOL $0BED DP_to_D0
+FORCE_SYMBOL $0BF2 Barrel1_Floor
+FORCE_SYMBOL $0BF5 Barrel_Move_Count
+FORCE_NO_SYMBOL $0BF9
+COMMENT $0BFB we just drop from floor 4?
+FORCE_NO_SYMBOL $0BFB
+COMMENT $0BFF yes, we are now on floor 3
+FORCE_NO_SYMBOL $0C00
+FORCE_SYMBOL $0C02 Barrel1_Move
+FORCE_SYMBOL $0C05 Barrel_Move_Count
+COMMENT $0C09 and now we move to the left
+FORCE_NO_SYMBOL $0C09
+FORCE_NO_SYMBOL $0C0B
+FORCE_SYMBOL $0C0F Barrel1_Floor
+FORCE_SYMBOL $0C12 Barrel_Move_Count
+FORCE_NO_SYMBOL $0C16
+COMMENT $0C18 we just drop from floor 3?
+FORCE_NO_SYMBOL $0C18
+COMMENT $0C1C yes, we are now on floor 2
+FORCE_NO_SYMBOL $0C1D
+FORCE_SYMBOL $0C1F Barrel1_Move
+FORCE_SYMBOL $0C22 Barrel_Move_Count
+COMMENT $0C26 and now we move to the right
+FORCE_NO_SYMBOL $0C26
+FORCE_NO_SYMBOL $0C28
+FORCE_SYMBOL $0C2C Barrel1_Floor
+FORCE_SYMBOL $0C2F Barrel_Move_Count
+FORCE_NO_SYMBOL $0C33
+COMMENT $0C35 we just drop from floor 2?
+FORCE_NO_SYMBOL $0C35
+COMMENT $0C39 yes, we are now on floor 1
+FORCE_NO_SYMBOL $0C3A
+FORCE_SYMBOL $0C3C Barrel1_Move
+FORCE_SYMBOL $0C3F Barrel_Move_Count
+COMMENT $0C43 and now we move to the right
+FORCE_NO_SYMBOL $0C43
+FORCE_NO_SYMBOL $0C45
+COMMENT $0C4D Here we draw the barrels
+FORCE_SYMBOL $0C4D Reset0Ref
+FORCE_NO_SYMBOL $0C50
+FORCE_SYMBOL $0C52 Intensity_a
+FORCE_SYMBOL $0C55 Barrel_Count
+FORCE_SYMBOL $0C58 Barrel1_Pos_Y
+FORCE_NO_SYMBOL $0C5C
+FORCE_SYMBOL $0C5E Barrel1_Pos_X
+FORCE_NO_SYMBOL $0C62
+FORCE_SYMBOL $0C64 Moveto_d_7F
+FORCE_SYMBOL $0C67 Barrel_VL
+FORCE_SYMBOL $0C6A Draw_VLp_7F
+FORCE_SYMBOL $0C6D Barrel_Count
+FORCE_SYMBOL $0C70 Barrel_Count
+FORCE_SYMBOL $0C73 Barrel_Count
+FORCE_SYMBOL $0C76 Barrel_Count
+FORCE_SYMBOL $0C79 Barrel_Move_Count
+FORCE_SYMBOL $0C7C Barrel_Move_Count
+COMMENT $0C7F have we processed all barrels yet?
+FORCE_SYMBOL $0C7F Barrel_Count
+FORCE_NO_SYMBOL $0C82
+COMMENT $0C86 yes, back to main loop
+FORCE_SYMBOL $0C86 Barrel_Count
+FORCE_SYMBOL $0C89 Barrel_Move_Count
+FORCE_SYMBOL $0C8C Make_Sound
+FORCE_SYMBOL $0C8F Barrels_Start
+FORCE_SYMBOL $0C92 Mario_Pos_Y
+FORCE_NO_SYMBOL $0C95
+FORCE_SYMBOL $0C97 Mario_Pos_X
+FORCE_NO_SYMBOL $0C9A
+FORCE_SYMBOL $0C9E Barrel_Count
+FORCE_SYMBOL $0CA1 Barrel1_Pos_Y
+FORCE_SYMBOL $0CA4 Barrel_Count
+FORCE_SYMBOL $0CA9 Barrel1_Pos_X
+FORCE_SYMBOL $0CB0 Mario_Jump
+FORCE_NO_SYMBOL $0CB5
+FORCE_SYMBOL $0CBD Obj_Hit
+FORCE_SYMBOL $0CC2 Barrel_Count
+FORCE_SYMBOL $0CC5 Barrel_Count
+FORCE_SYMBOL $0CC8 Barrel_Count
+FORCE_SYMBOL $0CCB Barrel_Count
+FORCE_SYMBOL $0CCE Barrel_Count
+FORCE_NO_SYMBOL $0CD1
+FORCE_SYMBOL $0CD5 Barrel_Count
+FORCE_SYMBOL $0CD9 Clear_Sound
+FORCE_NO_SYMBOL $0CDC
+FORCE_SYMBOL $0CDE Mario_Dead
+FORCE_NO_SYMBOL $0CE1
+FORCE_SYMBOL $0CE3 Sound_Type
+FORCE_SYMBOL $0CE6 Next_Sound_Counter
+FORCE_SYMBOL $0CE9 Sound_Counter
+FORCE_SYMBOL $0CEC All_Barrels_Cleared
+FORCE_SYMBOL $0CEF Number_Barrels_Jumped
+FORCE_NO_SYMBOL $0CF2
+FORCE_NO_SYMBOL $0CF6
+FORCE_SYMBOL $0CF8 Number_Barrels_Jumped
+FORCE_SYMBOL $0CFB Crash_Over_Barrel
+FORCE_NO_SYMBOL $0CFE
+FORCE_SYMBOL $0D00 Mult_Count
+COMMENT $0D06 /* Keep track if value is negative. */
+FORCE_SYMBOL $0D06 Mult_Count
+FORCE_SYMBOL $0D09 Abs_a_b
+FORCE_SYMBOL $0D0D Mult_Result
+FORCE_SYMBOL $0D10 Mult_Count
+COMMENT $0D15 /* If the rise/run value was negative */
+COMMENT $0D16 /* then take twos complement, to make */
+COMMENT $0D17 /* the result negative also.          */
+FORCE_NO_SYMBOL $0D17
+FORCE_SYMBOL $0D1A Mult_Result
+FORCE_SYMBOL $0D1E Sound_Type
+COMMENT $0D21 is Mario Jumping?
+FORCE_NO_SYMBOL $0D21
+FORCE_NO_SYMBOL $0D25
+FORCE_NO_SYMBOL $0D29
+FORCE_NO_SYMBOL $0D2D
+FORCE_NO_SYMBOL $0D31
+FORCE_NO_SYMBOL $0D35
+FORCE_NO_SYMBOL $0D39
+FORCE_NO_SYMBOL $0D3D
+COMMENT $0D44 sound still in progress?
+FORCE_SYMBOL $0D44 Sound_Counter
+FORCE_SYMBOL $0D49 Sound_Jump_Init
+FORCE_SYMBOL $0D4C Sound_Init_Temp
+FORCE_SYMBOL $0D4F Sound_Mario_Jump
+FORCE_SYMBOL $0D52 Sound_Temp
+FORCE_SYMBOL $0D55 Make_Sound_Main
+FORCE_SYMBOL $0D58 Sound_Counter
+COMMENT $0D5C sound still in progress?
+FORCE_SYMBOL $0D5C Sound_Counter
+FORCE_SYMBOL $0D61 Sound_Run_Init
+FORCE_SYMBOL $0D64 Sound_Init_Temp
+FORCE_SYMBOL $0D67 Mario_Sound_Run
+FORCE_SYMBOL $0D6A Sound_Temp
+COMMENT $0D6F sound still in progress?
+FORCE_SYMBOL $0D6F Sound_Counter
+FORCE_SYMBOL $0D74 Sound_Barrel_Init
+FORCE_SYMBOL $0D77 Sound_Init_Temp
+FORCE_SYMBOL $0D7A Sound_Jump_Barrel
+FORCE_SYMBOL $0D7D Sound_Temp
+COMMENT $0D82 sound still in progress?
+FORCE_SYMBOL $0D82 Sound_Counter
+FORCE_SYMBOL $0D87 Sound_Crash_Init
+FORCE_SYMBOL $0D8A Sound_Init_Temp
+FORCE_SYMBOL $0D8D Sound_Crash
+FORCE_SYMBOL $0D90 Sound_Temp
+COMMENT $0D95 sound still in progress?
+FORCE_SYMBOL $0D95 Sound_Counter
+FORCE_SYMBOL $0D9A Sound_Fireball_Init
+FORCE_SYMBOL $0D9D Sound_Init_Temp
+FORCE_SYMBOL $0DA0 Sound_Fireball
+FORCE_SYMBOL $0DA3 Sound_Temp
+COMMENT $0DA8 sound still in progress?
+FORCE_SYMBOL $0DA8 Sound_Counter
+FORCE_SYMBOL $0DAD Sound_Kong_Scale_Down_Init
+FORCE_SYMBOL $0DB0 Sound_Init_Temp
+FORCE_SYMBOL $0DB3 Sound_Kong_Scale_Down_Play
+FORCE_SYMBOL $0DB6 Sound_Temp
+COMMENT $0DBB sound still in progress?
+FORCE_SYMBOL $0DBB Sound_Counter
+FORCE_SYMBOL $0DC0 Broken_Heart_Init
+FORCE_SYMBOL $0DC3 Sound_Init_Temp
+FORCE_SYMBOL $0DC6 Broken_Heart_Play
+FORCE_SYMBOL $0DC9 Sound_Temp
+COMMENT $0DCE sound still in progress?
+FORCE_SYMBOL $0DCE Sound_Counter
+FORCE_SYMBOL $0DD3 Fifteen_Barrels_Init
+FORCE_SYMBOL $0DD6 Sound_Init_Temp
+FORCE_SYMBOL $0DD9 Fifteen_Barrels_Play
+FORCE_SYMBOL $0DDC Sound_Temp
+COMMENT $0DE1 are we playing a sound
+FORCE_SYMBOL $0DE1 Next_Sound_Counter
+COMMENT $0DE4 yes, keep going
+COMMENT $0DE6 new sound
+FORCE_SYMBOL $0DE6 Sound_Init_Temp
+COMMENT $0DE9 start with register 8 (vol v1)
+FORCE_NO_SYMBOL $0DE9
+FORCE_SYMBOL $0DEB Reg_Edit_Loop
+COMMENT $0DEE get volume for each voice
+FORCE_SYMBOL $0DF2 Reg_Edit_Loop
+FORCE_SYMBOL $0DF5 Sound_Byte
+COMMENT $0DFA next voice volume register
+FORCE_SYMBOL $0DFA Reg_Edit_Loop
+FORCE_SYMBOL $0DFD Reg_Edit_Loop
+FORCE_NO_SYMBOL $0E00
+COMMENT $0E04 now we turn on the voices (register 7)
+FORCE_NO_SYMBOL $0E04
+FORCE_NO_SYMBOL $0E06
+FORCE_SYMBOL $0E08 Sound_Byte
+FORCE_SYMBOL $0E0B Sound_Temp
+COMMENT $0E0E now point to the sound string
+FORCE_SYMBOL $0E0E Next_Sound_Counter
+COMMENT $0E11 get note duration
+FORCE_SYMBOL $0E13 Next_Sound_Counter
+FORCE_SYMBOL $0E16 Sound_Counter
+COMMENT $0E19 end of string?
+FORCE_NO_SYMBOL $0E19
+COMMENT $0E1B yes sound is done
+COMMENT $0E1F nope, let's get the next note
+FORCE_SYMBOL $0E1F Reg_Edit_Loop
+FORCE_SYMBOL $0E22 Sound_Temp
+FORCE_SYMBOL $0E25 Next_Sound_Counter
+COMMENT $0E28 go get the next note
+FORCE_NO_SYMBOL $0E2A
+COMMENT $0E2C this is the voice (register) counter
+FORCE_SYMBOL $0E2C Reg_Edit_Loop
+FORCE_SYMBOL $0E2F Sound_Byte
+FORCE_SYMBOL $0E32 Next_Sound_Counter
+FORCE_SYMBOL $0E35 Reg_Edit_Loop
+FORCE_SYMBOL $0E38 Reg_Edit_Loop
+COMMENT $0E3B have we processed all voices?
+FORCE_NO_SYMBOL $0E3B
+COMMENT $0E3D nope, next voice
+COMMENT $0E40 end sound here
+FORCE_SYMBOL $0E40 Sound_Type
+FORCE_SYMBOL $0E43 Sound_Counter
+FORCE_SYMBOL $0E46 Next_Sound_Counter
+FORCE_SYMBOL $0E49 Clear_Sound
+FORCE_SYMBOL $0E4D Sound_Type
+FORCE_NO_SYMBOL $0E50
+FORCE_NO_SYMBOL $0E56
+FORCE_SYMBOL $0E58 Mario_Move
+FORCE_NO_SYMBOL $0E5B
+COMMENT $0E5D Mario Legs up
+FORCE_SYMBOL $0E5D Mario_Jump
+FORCE_SYMBOL $0E60 Draw_Mario
+FORCE_SYMBOL $0E63 Asterisk_Rotate
+FORCE_NO_SYMBOL $0E66
+FORCE_SYMBOL $0E68 Asterisk_Rotate
+FORCE_SYMBOL $0E6B DP_to_C8
+FORCE_SYMBOL $0E6E Asterisk_Rotate
+FORCE_SYMBOL $0E71 Mario_Asterisks
+FORCE_SYMBOL $0E74 Mario_Asterisks_Rotated
+FORCE_SYMBOL $0E77 Rot_VL_Mode
+FORCE_SYMBOL $0E7A DP_to_D0
+FORCE_SYMBOL $0E7D Mario_Jump
+FORCE_SYMBOL $0E80 Mario_Asterisks_Rotated
+FORCE_SYMBOL $0E83 Mario_Shape
+FORCE_SYMBOL $0E86 Draw_Mario
+FORCE_SYMBOL $0E89 Mario_Jump
+FORCE_SYMBOL $0E8C Make_Sound
+FORCE_SYMBOL $0E8F Counter
+FORCE_SYMBOL $0E93 Sound_Type
+FORCE_NO_SYMBOL $0E96
+FORCE_NO_SYMBOL $0E9A
+FORCE_SYMBOL $0E9C Sound_Type
+COMMENT $0E9F calculate rise and run from Kong to Mario
+FORCE_SYMBOL $0E9F Mario_Pos_Y
+FORCE_SYMBOL $0EA2 Fireball_Pos_Y
+FORCE_SYMBOL $0EA5 Temp_Rise
+FORCE_SYMBOL $0EA8 Mario_Pos_X
+FORCE_SYMBOL $0EAB Fireball_Pos_X
+FORCE_SYMBOL $0EAE Temp_Run
+COMMENT $0EB1 now get the rise/run angle
+FORCE_SYMBOL $0EB1 DP_to_C8
+FORCE_SYMBOL $0EB4 Temp_Rise
+FORCE_SYMBOL $0EB7 Temp_Run
+FORCE_SYMBOL $0EBA Rise_Run_Angle
+COMMENT $0EBD convert to vectrex angle
+FORCE_NO_SYMBOL $0EBD
+FORCE_NO_SYMBOL $0EBF
+FORCE_SYMBOL $0EC1 Angle_Temp
+FORCE_SYMBOL $0EC4 Temp_Rise
+COMMENT $0EC7 is Mario standing more that 128 y-coord away?
+COMMENT $0EC9 yes, we must adjust the angle
+FORCE_SYMBOL $0EC9 Angle_Temp
+FORCE_SYMBOL $0ECC Angle_Temp
+FORCE_SYMBOL $0ECF Angle_Temp
+FORCE_NO_SYMBOL $0ED2
+FORCE_SYMBOL $0ED4 Angle_Temp
+FORCE_SYMBOL $0ED7 Angle_Temp
+FORCE_NO_SYMBOL $0EDA
+FORCE_SYMBOL $0EDD Temp_Rise
+FORCE_SYMBOL $0EE0 Temp_Run
+COMMENT $0EE3 calculate rise_run index values
+FORCE_NO_SYMBOL $0EE3
+FORCE_SYMBOL $0EE5 Angle_Temp
+FORCE_SYMBOL $0EE8 Rise_Run_Y
+FORCE_SYMBOL $0EF1 DP_to_D0
+FORCE_NO_SYMBOL $0EF4
+FORCE_SYMBOL $0EF9 Mult_Rise_Run_By_A
+FORCE_SYMBOL $0EFC Temp_Rise
+FORCE_SYMBOL $0EFF Fireball_Pos_Y
+FORCE_SYMBOL $0F02 Temp_Rise
+FORCE_SYMBOL $0F05 Fireball_Pos_Y
+FORCE_NO_SYMBOL $0F08
+FORCE_SYMBOL $0F0D Mult_Rise_Run_By_A
+FORCE_SYMBOL $0F10 Temp_Run
+FORCE_SYMBOL $0F13 Fireball_Pos_X
+FORCE_SYMBOL $0F16 Temp_Run
+FORCE_SYMBOL $0F19 Fireball_Pos_X
+COMMENT $0F1C now draw fireball
+FORCE_SYMBOL $0F1C Reset0Ref
+FORCE_NO_SYMBOL $0F1F
+FORCE_SYMBOL $0F21 Intensity_a
+FORCE_SYMBOL $0F24 Fireball_Pos_Y
+FORCE_SYMBOL $0F27 Fireball_Pos_X
+FORCE_SYMBOL $0F2A Moveto_d
+FORCE_SYMBOL $0F2D Fireball
+FORCE_SYMBOL $0F30 Draw_VLp_7F
+FORCE_SYMBOL $0F33 Fireball_Pos_Y
+FORCE_SYMBOL $0F36 Fireball_Pos_X
+FORCE_SYMBOL $0F3B Mario_Pos_Y
+FORCE_SYMBOL $0F3E Mario_Pos_X
+FORCE_NO_SYMBOL $0F43
+FORCE_NO_SYMBOL $0F45
+FORCE_SYMBOL $0F47 Obj_Hit
+FORCE_SYMBOL $0F4C Crash_Over_Barrel_1
+COMMENT $0F4F stop sounds
+FORCE_SYMBOL $0F4F Clear_Sound
+FORCE_NO_SYMBOL $0F52
+FORCE_SYMBOL $0F54 Sound_Type
+FORCE_SYMBOL $0F57 Next_Sound_Counter
+FORCE_SYMBOL $0F5A Make_Sound
+FORCE_SYMBOL $0F5D Reset0Ref
+FORCE_NO_SYMBOL $0F60
+FORCE_SYMBOL $0F63 Moveto_d
+COMMENT $0F66 set intensity
+FORCE_NO_SYMBOL $0F66
+FORCE_SYMBOL $0F68 Intensity_a
+COMMENT $0F6B get the scale factor
+FORCE_SYMBOL $0F6B Mario_Scale
+FORCE_SYMBOL $0F6E Mario_Big_Legs_Jumping
+COMMENT $0F71 draw giant Mario
+FORCE_SYMBOL $0F71 Draw_VLp_b
+FORCE_SYMBOL $0F74 Counter
+FORCE_SYMBOL $0F77 Mario_Scale
+COMMENT $0F7A now scale him down
+FORCE_NO_SYMBOL $0F7B
+FORCE_SYMBOL $0F7F Mario_Scale
+FORCE_SYMBOL $0F84 Clear_Sound
+FORCE_SYMBOL $0F87 Next_Sound_Counter
+FORCE_NO_SYMBOL $0F8A
+FORCE_SYMBOL $0F8C Sound_Type
+FORCE_SYMBOL $0F8F Make_Sound
+FORCE_SYMBOL $0F92 Reset0Ref
+FORCE_NO_SYMBOL $0F95
+FORCE_NO_SYMBOL $0F97
+FORCE_SYMBOL $0F99 Moveto_d_7F
+COMMENT $0F9C set intensity
+FORCE_NO_SYMBOL $0F9C
+FORCE_SYMBOL $0F9E Intensity_a
+FORCE_NO_SYMBOL $0FA1
+FORCE_SYMBOL $0FA3 Broken_Heart
+FORCE_SYMBOL $0FA6 Draw_VLp_b
+FORCE_SYMBOL $0FA9 Reset0Ref
+FORCE_NO_SYMBOL $0FAC
+FORCE_SYMBOL $0FAF Moveto_d_7F
+COMMENT $0FB2 set intensity
+FORCE_NO_SYMBOL $0FB2
+FORCE_SYMBOL $0FB4 Intensity_a
+FORCE_SYMBOL $0FB7 Mario_Scale
+FORCE_SYMBOL $0FBA Mario_Big_Legs_Jumping
+FORCE_SYMBOL $0FBD Draw_VLp_b
+FORCE_SYMBOL $0FC0 Counter
+FORCE_SYMBOL $0FC3 Sound_Type
+FORCE_NO_SYMBOL $0FC8
+FORCE_SYMBOL $0FCA Back_To_Intro
+FORCE_NO_SYMBOL $0FCE
+COMMENT $0FD0 set music to start playing
+FORCE_SYMBOL $0FD0 Vec_Music_Flag
+FORCE_NO_SYMBOL $0FD3
+FORCE_SYMBOL $0FD5 Fireball_Pos_Y
+FORCE_NO_SYMBOL $0FD8
+FORCE_SYMBOL $0FDA Fireball_Pos_X
+FORCE_SYMBOL $0FDF Mario_Pos_Y
+FORCE_NO_SYMBOL $0FE2
+FORCE_SYMBOL $0FE4 Mario_Pos_X
+COMMENT $0FF1 ******
+COMMENT $0FF3 ******
+FORCE_SYMBOL $0FF3 Ladder_Temp1
+COMMENT $0FF6 ******
+FORCE_NO_SYMBOL $0FF6
+COMMENT $0FF8 ******
+FORCE_SYMBOL $0FF8 Ladder_Temp2
+FORCE_NO_SYMBOL $0FFB
+FORCE_SYMBOL $0FFD Asterisk_Rotate
+FORCE_SYMBOL $1000 Star_Count
+FORCE_SYMBOL $1003 Heartbeat
+FORCE_SYMBOL $1006 Heartbeat_Sign
+FORCE_SYMBOL $1009 Mario_Move
+FORCE_SYMBOL $100C Jump_Count
+FORCE_SYMBOL $100F Recal_Count
+FORCE_SYMBOL $1014 Barrel1_Pos_X
+FORCE_SYMBOL $1017 Angle_Temp
+COMMENT $101A here we rotatate and draw the star
+FORCE_SYMBOL $101A DP_to_C8
+FORCE_SYMBOL $101D Asterisk_Rotate
+FORCE_SYMBOL $1020 Star
+FORCE_SYMBOL $1023 Star_Rotated
+FORCE_SYMBOL $1026 Rot_VL_Mode
+FORCE_SYMBOL $1029 DP_to_D0
+FORCE_SYMBOL $102C Reset0Ref
+FORCE_SYMBOL $102F Fireball_Pos_Y
+FORCE_SYMBOL $1032 Fireball_Pos_X
+FORCE_SYMBOL $1035 Moveto_d_7F
+COMMENT $1038 set intensity
+FORCE_NO_SYMBOL $1038
+FORCE_SYMBOL $103A Intensity_a
+COMMENT $103D get the scale factor
+FORCE_NO_SYMBOL $103D
+FORCE_SYMBOL $103F Star_Rotated
+COMMENT $1042 draw star
+FORCE_SYMBOL $1042 Draw_VLp_b
+FORCE_SYMBOL $1045 Asterisk_Rotate
+FORCE_SYMBOL $1048 Asterisk_Rotate
+FORCE_SYMBOL $104D Fireball_Pos_X
+FORCE_NO_SYMBOL $1050
+FORCE_NO_SYMBOL $1054
+FORCE_SYMBOL $1056 Fireball_Pos_X
+FORCE_SYMBOL $105D Fireball_Pos_X
+FORCE_SYMBOL $1060 Vec_Music_Flag
+FORCE_SYMBOL $1067 DP_to_C8
+FORCE_SYMBOL $106A Mario_Wins_Music
+FORCE_SYMBOL $106D Init_Music_chk
+FORCE_SYMBOL $1070 Wait_Recal
+FORCE_SYMBOL $1073 Do_Sound
+FORCE_SYMBOL $1076 Reset0Ref
+FORCE_NO_SYMBOL $1079
+FORCE_NO_SYMBOL $107B
+FORCE_SYMBOL $107D Moveto_d_7F
+COMMENT $1080 set intensity
+FORCE_NO_SYMBOL $1080
+FORCE_SYMBOL $1082 Intensity_a
+FORCE_SYMBOL $1085 Random
+FORCE_NO_SYMBOL $1088
+FORCE_NO_SYMBOL $108C
+FORCE_NO_SYMBOL $1090
+FORCE_SYMBOL $1092 Heartbeat_Sign
+FORCE_SYMBOL $1098 Heartbeat
+FORCE_SYMBOL $109B Heartbeat
+FORCE_NO_SYMBOL $109E
+FORCE_SYMBOL $10A2 Heartbeat
+FORCE_SYMBOL $10A5 Heartbeat_Sign
+FORCE_SYMBOL $10AA Heartbeat
+FORCE_SYMBOL $10AD Heartbeat
+FORCE_NO_SYMBOL $10B0
+FORCE_NO_SYMBOL $10B4
+FORCE_SYMBOL $10B6 Heartbeat
+FORCE_NO_SYMBOL $10B9
+FORCE_SYMBOL $10BB Heartbeat_Sign
+FORCE_SYMBOL $10BE Heartbeat
+FORCE_SYMBOL $10C1 Heart
+FORCE_SYMBOL $10C4 Draw_VLp_b
+FORCE_SYMBOL $10C7 Reset0Ref
+FORCE_SYMBOL $10CA Mario_Pos_Y
+FORCE_SYMBOL $10CD Mario_Pos_X
+FORCE_SYMBOL $10D0 Moveto_d_7F
+COMMENT $10D3 set intensity
+FORCE_NO_SYMBOL $10D3
+FORCE_SYMBOL $10D5 Intensity_a
+FORCE_NO_SYMBOL $10D8
+FORCE_SYMBOL $10DA Mario_Left_Leg_Down_End
+FORCE_SYMBOL $10DD Draw_VLp_b
+FORCE_SYMBOL $10E0 Jump_Count
+FORCE_SYMBOL $10E3 Jump_Count
+FORCE_NO_SYMBOL $10E6
+FORCE_SYMBOL $10EA Jump_Count
+COMMENT $10ED 0=left, 1=right
+FORCE_SYMBOL $10ED Mario_Move
+FORCE_SYMBOL $10F2 Mario_Pos_X
+FORCE_SYMBOL $10F8 Ladder_Temp2
+FORCE_SYMBOL $10FB Mario_Pos_X
+FORCE_SYMBOL $1102 Mario_Move
+FORCE_SYMBOL $1105 Mario_Pos_X
+FORCE_SYMBOL $110B Ladder_Temp2
+FORCE_SYMBOL $110E Mario_Pos_X
+FORCE_NO_SYMBOL $1111
+FORCE_SYMBOL $1115 Mario_Move
+FORCE_SYMBOL $1118 Reset0Ref
+FORCE_SYMBOL $1121 Moveto_d_7F
+COMMENT $1124 set intensity
+FORCE_NO_SYMBOL $1124
+FORCE_SYMBOL $1126 Intensity_a
+FORCE_NO_SYMBOL $1129
+FORCE_SYMBOL $112B Girl_End
+FORCE_SYMBOL $112E Draw_VLp_b
+FORCE_SYMBOL $1131 Reset0Ref
+FORCE_SYMBOL $1134 Ladder_Temp1
+FORCE_SYMBOL $1137 Ladder_Temp2
+FORCE_SYMBOL $113A Moveto_d_7F
+FORCE_NO_SYMBOL $113D
+FORCE_SYMBOL $113F Intensity_a
+FORCE_SYMBOL $1142 Koko_End
+FORCE_SYMBOL $1145 Draw_VLp_scale
+FORCE_SYMBOL $1148 Reset0Ref
+FORCE_NO_SYMBOL $114B
+FORCE_SYMBOL $114D Intensity_a
+FORCE_NO_SYMBOL $1152
+FORCE_NO_SYMBOL $1154
+FORCE_NO_SYMBOL $1157
+FORCE_SYMBOL $1159 Barrel1_Pos_X
+FORCE_SYMBOL $115C Message_End
+FORCE_SYMBOL $115F Print_Str_d
+FORCE_SYMBOL $1162 Recal_Count
+FORCE_SYMBOL $1165 Recal_Count
+FORCE_NO_SYMBOL $1168
+FORCE_SYMBOL $116C Recal_Count
+COMMENT $116F 0=left, 1=right
+FORCE_SYMBOL $116F Angle_Temp
+FORCE_SYMBOL $1174 Barrel1_Pos_X
+FORCE_SYMBOL $1177 Barrel1_Pos_X
+FORCE_SYMBOL $117E Angle_Temp
+FORCE_SYMBOL $1183 Barrel1_Pos_X
+FORCE_SYMBOL $1186 Barrel1_Pos_X
+FORCE_SYMBOL $118D Angle_Temp
+FORCE_SYMBOL $1190 Mario_Wins_Loop
+FORCE_SYMBOL $1193 Recal_Count
+FORCE_SYMBOL $1196 Recal_Count
+FORCE_NO_SYMBOL $1199
+FORCE_SYMBOL $119D Wait_Recal
+FORCE_SYMBOL $11A0 Recal_Count
+COMMENT $1603 bar #1
+COMMENT $1618 bar #2
+COMMENT $162E bar #3
+COMMENT $1643 bar #4
+COMMENT $1659 bar #5
+COMMENT $166A bar #6
+COMMENT $172E -
+COMMENT $1734 -
+COMMENT $173A Barrel on bottom floor
+COMMENT $1740 -(-31,-70)
+COMMENT $1742 -
+COMMENT $1746 -
+COMMENT $174E -
+COMMENT $1756 -
+COMMENT $175A Top floor
+COMMENT $175C -
+COMMENT $176A Ladder 4
+COMMENT $1772 -
+COMMENT $1774 -
+COMMENT $1782 Ladder 3
+COMMENT_LINE $178C fcb	10,30				;
+COMMENT_LINE $178C fcb	0,10				;-
+COMMENT $178C -
+COMMENT $1796 Ladder 2
+COMMENT $17A0 -
+COMMENT $17AA Ladder 1
+COMMENT $17B6 -
+COMMENT $17C5 -
+COMMENT $17F3 -
+COMMENT $17F5 -
+COMMENT $1823 -
+COMMENT $1A7D asterisk 1
+COMMENT $1A95 asterisk 2
+COMMENT $1AAD asterisk 3
+COMMENT $1AC5 asterisk 4
+COMMENT_LINE $1E16 ----------------------------------
+FORCE_SYMBOL $1E17 counter2
+FORCE_SYMBOL $1E1A Print1
+FORCE_SYMBOL $1E1D Test_String
+FORCE_NO_SYMBOL $1E21
+FORCE_NO_SYMBOL $1E27
+FORCE_NO_SYMBOL $1E2B
+FORCE_NO_SYMBOL $1E2D
+FORCE_NO_SYMBOL $1E33
+FORCE_NO_SYMBOL $1E35
+FORCE_NO_SYMBOL $1E39
+FORCE_NO_SYMBOL $1E3B
+FORCE_SYMBOL $1E3F counter2
+FORCE_SYMBOL $1E42 counter2
+FORCE_NO_SYMBOL $1E45
+FORCE_SYMBOL $1E49 Reset0Ref
+FORCE_SYMBOL $1E4E Moveto_d_7F
+FORCE_SYMBOL $1E51 Str_y
+FORCE_SYMBOL $1E54 Print_Str_yx
+COMMENT_LINE $1E57 dec	counter
+COMMENT_LINE $1E57 lda	counter
+COMMENT_LINE $1E57 cmpa	#$00
+COMMENT_LINE $1E57 bne	Repeat_Print
+COMMENT_LINE $1E57 clra
+COMMENT_LINE $1E57 sta	counter
+RANGE $0000-$0002 DB_DATA 2
+RANGE $0002-$000A CHAR_DATA 8
+RANGE $000A-$000B DB_DATA 1
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$000F DW_DATA 1
+RANGE $000F-$0011 DB_DATA 2
+RANGE $0011-$0020 CHAR_DATA 15
+RANGE $0020-$0022 DB_DATA 2
+RANGE $0022-$11A4 CODE
+RANGE $11A4-$11A8 DW_DATA 2
+RANGE $11A8-$11AB DB_DATA 3
+RANGE $11AB-$11AE DB_DATA 3
+RANGE $11AE-$11B1 DB_DATA 3
+RANGE $11B1-$11B4 DB_DATA 3
+RANGE $11B4-$11B8 DB_DATA 4
+RANGE $11B8-$11BC DB_DATA 4
+RANGE $11BC-$11C0 DB_DATA 4
+RANGE $11C0-$11C4 DB_DATA 4
+RANGE $11C4-$11C8 DB_DATA 4
+RANGE $11C8-$11CC DB_DATA 4
+RANGE $11CC-$11D0 DB_DATA 4
+RANGE $11D0-$11D4 DB_DATA 4
+RANGE $11D4-$11D8 DB_DATA 4
+RANGE $11D8-$11DC DB_DATA 4
+RANGE $11DC-$11E0 DB_DATA 4
+RANGE $11E0-$11E4 DB_DATA 4
+RANGE $11E4-$11E8 DB_DATA 4
+RANGE $11E8-$11EC DB_DATA 4
+RANGE $11EC-$11F0 DB_DATA 4
+RANGE $11F0-$11F4 DB_DATA 4
+RANGE $11F4-$11F8 DB_DATA 4
+RANGE $11F8-$11FC DB_DATA 4
+RANGE $11FC-$1200 DB_DATA 4
+RANGE $1200-$1204 DB_DATA 4
+RANGE $1204-$1208 DB_DATA 4
+RANGE $1208-$120C DB_DATA 4
+RANGE $120C-$1210 DB_DATA 4
+RANGE $1210-$1214 DB_DATA 4
+RANGE $1214-$1218 DB_DATA 4
+RANGE $1218-$121C DB_DATA 4
+RANGE $121C-$121F DB_DATA 3
+RANGE $121F-$1222 DB_DATA 3
+RANGE $1222-$1225 DB_DATA 3
+RANGE $1225-$1229 DB_DATA 4
+RANGE $1229-$122D DB_DATA 4
+RANGE $122D-$1231 DB_DATA 4
+RANGE $1231-$1235 DB_DATA 4
+RANGE $1235-$1239 DB_DATA 4
+RANGE $1239-$123D DB_DATA 4
+RANGE $123D-$1241 DB_DATA 4
+RANGE $1241-$1245 DB_DATA 4
+RANGE $1245-$1249 DB_DATA 4
+RANGE $1249-$124D DB_DATA 4
+RANGE $124D-$1251 DB_DATA 4
+RANGE $1251-$1255 DB_DATA 4
+RANGE $1255-$1259 DB_DATA 4
+RANGE $1259-$125D DB_DATA 4
+RANGE $125D-$1261 DB_DATA 4
+RANGE $1261-$1265 DB_DATA 4
+RANGE $1265-$1269 DB_DATA 4
+RANGE $1269-$126D DB_DATA 4
+RANGE $126D-$1271 DB_DATA 4
+RANGE $1271-$1275 DB_DATA 4
+RANGE $1275-$1279 DB_DATA 4
+RANGE $1279-$127D DB_DATA 4
+RANGE $127D-$1281 DB_DATA 4
+RANGE $1281-$1285 DB_DATA 4
+RANGE $1285-$1289 DB_DATA 4
+RANGE $1289-$128D DB_DATA 4
+RANGE $128D-$1291 DB_DATA 4
+RANGE $1291-$1295 DB_DATA 4
+RANGE $1295-$1299 DB_DATA 4
+RANGE $1299-$129D DB_DATA 4
+RANGE $129D-$12A1 DB_DATA 4
+RANGE $12A1-$12A5 DB_DATA 4
+RANGE $12A5-$12A9 DB_DATA 4
+RANGE $12A9-$12AD DB_DATA 4
+RANGE $12AD-$12B1 DB_DATA 4
+RANGE $12B1-$12B5 DB_DATA 4
+RANGE $12B5-$12B9 DB_DATA 4
+RANGE $12B9-$12BD DB_DATA 4
+RANGE $12BD-$12C1 DB_DATA 4
+RANGE $12C1-$12C5 DB_DATA 4
+RANGE $12C5-$12C9 DB_DATA 4
+RANGE $12C9-$12CD DB_DATA 4
+RANGE $12CD-$12D1 DB_DATA 4
+RANGE $12D1-$12D5 DB_DATA 4
+RANGE $12D5-$12D9 DB_DATA 4
+RANGE $12D9-$12DD DB_DATA 4
+RANGE $12DD-$12E1 DB_DATA 4
+RANGE $12E1-$12E5 DB_DATA 4
+RANGE $12E5-$12E9 DB_DATA 4
+RANGE $12E9-$12ED DB_DATA 4
+RANGE $12ED-$12F1 DB_DATA 4
+RANGE $12F1-$12F5 DB_DATA 4
+RANGE $12F5-$12F9 DB_DATA 4
+RANGE $12F9-$12FD DB_DATA 4
+RANGE $12FD-$1301 DB_DATA 4
+RANGE $1301-$1305 DB_DATA 4
+RANGE $1305-$1309 DB_DATA 4
+RANGE $1309-$130D DB_DATA 4
+RANGE $130D-$1311 DB_DATA 4
+RANGE $1311-$1315 DB_DATA 4
+RANGE $1315-$1319 DB_DATA 4
+RANGE $1319-$131D DB_DATA 4
+RANGE $131D-$1321 DB_DATA 4
+RANGE $1321-$1325 DB_DATA 4
+RANGE $1325-$1329 DB_DATA 4
+RANGE $1329-$132D DB_DATA 4
+RANGE $132D-$1331 DB_DATA 4
+RANGE $1331-$1335 DB_DATA 4
+RANGE $1335-$1339 DB_DATA 4
+RANGE $1339-$133D DB_DATA 4
+RANGE $133D-$1341 DB_DATA 4
+RANGE $1341-$1345 DB_DATA 4
+RANGE $1345-$1349 DB_DATA 4
+RANGE $1349-$134D DB_DATA 4
+RANGE $134D-$1351 DB_DATA 4
+RANGE $1351-$1355 DB_DATA 4
+RANGE $1355-$1359 DB_DATA 4
+RANGE $1359-$135D DB_DATA 4
+RANGE $135D-$1361 DB_DATA 4
+RANGE $1361-$1365 DB_DATA 4
+RANGE $1365-$1369 DB_DATA 4
+RANGE $1369-$136D DB_DATA 4
+RANGE $136D-$1371 DB_DATA 4
+RANGE $1371-$1375 DB_DATA 4
+RANGE $1375-$1379 DB_DATA 4
+RANGE $1379-$137D DB_DATA 4
+RANGE $137D-$1381 DB_DATA 4
+RANGE $1381-$1385 DB_DATA 4
+RANGE $1385-$1389 DB_DATA 4
+RANGE $1389-$138D DB_DATA 4
+RANGE $138D-$1391 DB_DATA 4
+RANGE $1391-$1395 DB_DATA 4
+RANGE $1395-$1399 DB_DATA 4
+RANGE $1399-$139D DB_DATA 4
+RANGE $139D-$13A1 DB_DATA 4
+RANGE $13A1-$13A5 DB_DATA 4
+RANGE $13A5-$13A9 DB_DATA 4
+RANGE $13A9-$13AD DB_DATA 4
+RANGE $13AD-$13B1 DB_DATA 4
+RANGE $13B1-$13B5 DB_DATA 4
+RANGE $13B5-$13B9 DB_DATA 4
+RANGE $13B9-$13BD DB_DATA 4
+RANGE $13BD-$13C1 DB_DATA 4
+RANGE $13C1-$13C5 DB_DATA 4
+RANGE $13C5-$13C9 DB_DATA 4
+RANGE $13C9-$13CD DB_DATA 4
+RANGE $13CD-$13D1 DB_DATA 4
+RANGE $13D1-$13D5 DB_DATA 4
+RANGE $13D5-$13D9 DB_DATA 4
+RANGE $13D9-$13DD DB_DATA 4
+RANGE $13DD-$13E1 DB_DATA 4
+RANGE $13E1-$13E5 DB_DATA 4
+RANGE $13E5-$13E9 DB_DATA 4
+RANGE $13E9-$13ED DB_DATA 4
+RANGE $13ED-$13F1 DB_DATA 4
+RANGE $13F1-$13F5 DB_DATA 4
+RANGE $13F5-$13F9 DB_DATA 4
+RANGE $13F9-$13FD DB_DATA 4
+RANGE $13FD-$1401 DB_DATA 4
+RANGE $1401-$1405 DB_DATA 4
+RANGE $1405-$1409 DB_DATA 4
+RANGE $1409-$140D DB_DATA 4
+RANGE $140D-$1411 DB_DATA 4
+RANGE $1411-$1415 DB_DATA 4
+RANGE $1415-$1419 DB_DATA 4
+RANGE $1419-$141D DB_DATA 4
+RANGE $141D-$1421 DB_DATA 4
+RANGE $1421-$1425 DB_DATA 4
+RANGE $1425-$1429 DB_DATA 4
+RANGE $1429-$142D DB_DATA 4
+RANGE $142D-$1431 DB_DATA 4
+RANGE $1431-$1435 DB_DATA 4
+RANGE $1435-$1439 DB_DATA 4
+RANGE $1439-$143D DB_DATA 4
+RANGE $143D-$1441 DB_DATA 4
+RANGE $1441-$1445 DB_DATA 4
+RANGE $1445-$1449 DB_DATA 4
+RANGE $1449-$144D DB_DATA 4
+RANGE $144D-$1451 DB_DATA 4
+RANGE $1451-$1455 DB_DATA 4
+RANGE $1455-$1459 DB_DATA 4
+RANGE $1459-$145D DB_DATA 4
+RANGE $145D-$1461 DB_DATA 4
+RANGE $1461-$1465 DB_DATA 4
+RANGE $1465-$1469 DB_DATA 4
+RANGE $1469-$146D DB_DATA 4
+RANGE $146D-$1471 DB_DATA 4
+RANGE $1471-$1475 DB_DATA 4
+RANGE $1475-$1479 DB_DATA 4
+RANGE $1479-$147D DB_DATA 4
+RANGE $147D-$1481 DB_DATA 4
+RANGE $1481-$1485 DB_DATA 4
+RANGE $1485-$1489 DB_DATA 4
+RANGE $1489-$148D DB_DATA 4
+RANGE $148D-$1491 DB_DATA 4
+RANGE $1491-$1495 DB_DATA 4
+RANGE $1495-$1499 DB_DATA 4
+RANGE $1499-$149D DB_DATA 4
+RANGE $149D-$14A1 DB_DATA 4
+RANGE $14A1-$14A5 DB_DATA 4
+RANGE $14A5-$14A9 DB_DATA 4
+RANGE $14A9-$14AD DB_DATA 4
+RANGE $14AD-$14B1 DB_DATA 4
+RANGE $14B1-$14B5 DB_DATA 4
+RANGE $14B5-$14B9 DB_DATA 4
+RANGE $14B9-$14BD DB_DATA 4
+RANGE $14BD-$14C1 DB_DATA 4
+RANGE $14C1-$14C5 DB_DATA 4
+RANGE $14C5-$14C9 DB_DATA 4
+RANGE $14C9-$14CD DB_DATA 4
+RANGE $14CD-$14D1 DB_DATA 4
+RANGE $14D1-$14D5 DB_DATA 4
+RANGE $14D5-$14D9 DB_DATA 4
+RANGE $14D9-$14DD DB_DATA 4
+RANGE $14DD-$14E1 DB_DATA 4
+RANGE $14E1-$14E5 DB_DATA 4
+RANGE $14E5-$14E9 DB_DATA 4
+RANGE $14E9-$14ED DB_DATA 4
+RANGE $14ED-$14F1 DB_DATA 4
+RANGE $14F1-$14F5 DB_DATA 4
+RANGE $14F5-$14F9 DB_DATA 4
+RANGE $14F9-$14FD DB_DATA 4
+RANGE $14FD-$1501 DB_DATA 4
+RANGE $1501-$1505 DB_DATA 4
+RANGE $1505-$1509 DB_DATA 4
+RANGE $1509-$150D DB_DATA 4
+RANGE $150D-$1511 DB_DATA 4
+RANGE $1511-$1515 DB_DATA 4
+RANGE $1515-$1519 DB_DATA 4
+RANGE $1519-$151D DB_DATA 4
+RANGE $151D-$1521 DB_DATA 4
+RANGE $1521-$1525 DB_DATA 4
+RANGE $1525-$1529 DB_DATA 4
+RANGE $1529-$152D DB_DATA 4
+RANGE $152D-$1531 DB_DATA 4
+RANGE $1531-$1535 DB_DATA 4
+RANGE $1535-$1539 DB_DATA 4
+RANGE $1539-$153D DB_DATA 4
+RANGE $153D-$1541 DB_DATA 4
+RANGE $1541-$1545 DB_DATA 4
+RANGE $1545-$1549 DB_DATA 4
+RANGE $1549-$154D DB_DATA 4
+RANGE $154D-$1551 DB_DATA 4
+RANGE $1551-$1555 DB_DATA 4
+RANGE $1555-$1559 DB_DATA 4
+RANGE $1559-$155D DB_DATA 4
+RANGE $155D-$1561 DB_DATA 4
+RANGE $1561-$1565 DB_DATA 4
+RANGE $1565-$1569 DB_DATA 4
+RANGE $1569-$156D DB_DATA 4
+RANGE $156D-$1571 DB_DATA 4
+RANGE $1571-$1575 DB_DATA 4
+RANGE $1575-$1579 DB_DATA 4
+RANGE $1579-$157D DB_DATA 4
+RANGE $157D-$1581 DB_DATA 4
+RANGE $1581-$1585 DB_DATA 4
+RANGE $1585-$1589 DB_DATA 4
+RANGE $1589-$158D DB_DATA 4
+RANGE $158D-$1591 DB_DATA 4
+RANGE $1591-$1595 DB_DATA 4
+RANGE $1595-$1599 DB_DATA 4
+RANGE $1599-$159D DB_DATA 4
+RANGE $159D-$15A1 DB_DATA 4
+RANGE $15A1-$15A5 DB_DATA 4
+RANGE $15A5-$15A9 DB_DATA 4
+RANGE $15A9-$15AD DB_DATA 4
+RANGE $15AD-$15B1 DB_DATA 4
+RANGE $15B1-$15B5 DB_DATA 4
+RANGE $15B5-$15B9 DB_DATA 4
+RANGE $15B9-$15BD DB_DATA 4
+RANGE $15BD-$15C1 DB_DATA 4
+RANGE $15C1-$15C5 DB_DATA 4
+RANGE $15C5-$15C9 DB_DATA 4
+RANGE $15C9-$15CD DB_DATA 4
+RANGE $15CD-$15D1 DB_DATA 4
+RANGE $15D1-$15D5 DB_DATA 4
+RANGE $15D5-$15D9 DB_DATA 4
+RANGE $15D9-$15DD DB_DATA 4
+RANGE $15DD-$15E1 DB_DATA 4
+RANGE $15E1-$15E5 DB_DATA 4
+RANGE $15E5-$15E9 DB_DATA 4
+RANGE $15E9-$15ED DB_DATA 4
+RANGE $15ED-$15F1 DB_DATA 4
+RANGE $15F1-$15F5 DB_DATA 4
+RANGE $15F5-$15F9 DB_DATA 4
+RANGE $15F9-$15FD DB_DATA 4
+RANGE $15FD-$15FF DB_DATA 2
+RANGE $15FF-$1603 DW_DATA 2
+RANGE $1603-$1607 DB_DATA 4
+RANGE $1607-$160A DB_DATA 3
+RANGE $160A-$160D DB_DATA 3
+RANGE $160D-$1610 DB_DATA 3
+RANGE $1610-$1614 DB_DATA 4
+RANGE $1614-$1618 DB_DATA 4
+RANGE $1618-$161C DB_DATA 4
+RANGE $161C-$161F DB_DATA 3
+RANGE $161F-$1622 DB_DATA 3
+RANGE $1622-$1625 DB_DATA 3
+RANGE $1625-$1628 DB_DATA 3
+RANGE $1628-$162B DB_DATA 3
+RANGE $162B-$162E DB_DATA 3
+RANGE $162E-$1632 DB_DATA 4
+RANGE $1632-$1635 DB_DATA 3
+RANGE $1635-$1638 DB_DATA 3
+RANGE $1638-$163B DB_DATA 3
+RANGE $163B-$163F DB_DATA 4
+RANGE $163F-$1643 DB_DATA 4
+RANGE $1643-$1647 DB_DATA 4
+RANGE $1647-$164A DB_DATA 3
+RANGE $164A-$164D DB_DATA 3
+RANGE $164D-$1650 DB_DATA 3
+RANGE $1650-$1653 DB_DATA 3
+RANGE $1653-$1656 DB_DATA 3
+RANGE $1656-$1659 DB_DATA 3
+RANGE $1659-$165D DB_DATA 4
+RANGE $165D-$1660 DB_DATA 3
+RANGE $1660-$1663 DB_DATA 3
+RANGE $1663-$1666 DB_DATA 3
+RANGE $1666-$166A DB_DATA 4
+RANGE $166A-$166E DB_DATA 4
+RANGE $166E-$1672 DB_DATA 4
+RANGE $1672-$1676 DB_DATA 4
+RANGE $1676-$167A DB_DATA 4
+RANGE $167A-$167C DB_DATA 2
+RANGE $167C-$168B CHAR_DATA 15
+RANGE $168B-$168C DB_DATA 1
+RANGE $168C-$1690 DB_DATA 4
+RANGE $1690-$1699 CHAR_DATA 9
+RANGE $1699-$169B DB_DATA 2
+RANGE $169B-$169F DB_DATA 4
+RANGE $169F-$16A5 CHAR_DATA 6
+RANGE $16A5-$16A7 DB_DATA 2
+RANGE $16A7-$16AB DB_DATA 4
+RANGE $16AB-$16B6 CHAR_DATA 11
+RANGE $16B6-$16B8 DB_DATA 2
+RANGE $16B8-$16BC DB_DATA 4
+RANGE $16BC-$16C6 CHAR_DATA 10
+RANGE $16C6-$16C7 DB_DATA 1
+RANGE $16C7-$16C8 DB_DATA 1
+RANGE $16C8-$16CC DB_DATA 4
+RANGE $16CC-$16D3 CHAR_DATA 7
+RANGE $16D3-$16D4 DB_DATA 1
+RANGE $16D4-$16D5 DB_DATA 1
+RANGE $16D5-$16D9 DB_DATA 4
+RANGE $16D9-$16DF CHAR_DATA 6
+RANGE $16DF-$16E0 DB_DATA 1
+RANGE $16E0-$16E1 DB_DATA 1
+RANGE $16E1-$16E5 DB_DATA 4
+RANGE $16E5-$16EC CHAR_DATA 7
+RANGE $16EC-$16ED DB_DATA 1
+RANGE $16ED-$16EE DB_DATA 1
+RANGE $16EE-$16F2 DB_DATA 4
+RANGE $16F2-$16F9 CHAR_DATA 7
+RANGE $16F9-$16FA DB_DATA 1
+RANGE $16FA-$16FB DB_DATA 1
+RANGE $16FB-$16FF DB_DATA 4
+RANGE $16FF-$1704 CHAR_DATA 5
+RANGE $1704-$1705 DB_DATA 1
+RANGE $1705-$1706 DB_DATA 1
+RANGE $1706-$170A DB_DATA 4
+RANGE $170A-$1710 CHAR_DATA 6
+RANGE $1710-$1711 DB_DATA 1
+RANGE $1711-$1712 DB_DATA 1
+RANGE $1712-$1716 DB_DATA 4
+RANGE $1716-$171C CHAR_DATA 6
+RANGE $171C-$171D DB_DATA 1
+RANGE $171D-$171E DB_DATA 1
+RANGE $171E-$1722 DB_DATA 4
+RANGE $1722-$172A CHAR_DATA 8
+RANGE $172A-$172B DB_DATA 1
+RANGE $172B-$172C DB_DATA 1
+RANGE $172C-$172E DB_DATA 2
+RANGE $172E-$1730 DB_DATA 2
+RANGE $1730-$1732 DB_DATA 2
+RANGE $1732-$1734 DB_DATA 2
+RANGE $1734-$1736 DB_DATA 2
+RANGE $1736-$1738 DB_DATA 2
+RANGE $1738-$173A DB_DATA 2
+RANGE $173A-$173C DB_DATA 2
+RANGE $173C-$173E DB_DATA 2
+RANGE $173E-$1740 DB_DATA 2
+RANGE $1740-$1742 DB_DATA 2
+RANGE $1742-$1744 DB_DATA 2
+RANGE $1744-$1746 DB_DATA 2
+RANGE $1746-$1748 DB_DATA 2
+RANGE $1748-$174A DB_DATA 2
+RANGE $174A-$174C DB_DATA 2
+RANGE $174C-$174E DB_DATA 2
+RANGE $174E-$1750 DB_DATA 2
+RANGE $1750-$1752 DB_DATA 2
+RANGE $1752-$1754 DB_DATA 2
+RANGE $1754-$1756 DB_DATA 2
+RANGE $1756-$1758 DB_DATA 2
+RANGE $1758-$175A DB_DATA 2
+RANGE $175A-$175C DB_DATA 2
+RANGE $175C-$175E DB_DATA 2
+RANGE $175E-$1760 DB_DATA 2
+RANGE $1760-$1762 DB_DATA 2
+RANGE $1762-$1764 DB_DATA 2
+RANGE $1764-$1766 DB_DATA 2
+RANGE $1766-$1768 DB_DATA 2
+RANGE $1768-$176A DB_DATA 2
+RANGE $176A-$176C DB_DATA 2
+RANGE $176C-$176E DB_DATA 2
+RANGE $176E-$1770 DB_DATA 2
+RANGE $1770-$1772 DB_DATA 2
+RANGE $1772-$1774 DB_DATA 2
+RANGE $1774-$1776 DB_DATA 2
+RANGE $1776-$1778 DB_DATA 2
+RANGE $1778-$177A DB_DATA 2
+RANGE $177A-$177C DB_DATA 2
+RANGE $177C-$177E DB_DATA 2
+RANGE $177E-$1780 DB_DATA 2
+RANGE $1780-$1782 DB_DATA 2
+RANGE $1782-$1784 DB_DATA 2
+RANGE $1784-$1786 DB_DATA 2
+RANGE $1786-$1788 DB_DATA 2
+RANGE $1788-$178A DB_DATA 2
+RANGE $178A-$178C DB_DATA 2
+RANGE $178C-$178E DB_DATA 2
+RANGE $178E-$1790 DB_DATA 2
+RANGE $1790-$1792 DB_DATA 2
+RANGE $1792-$1794 DB_DATA 2
+RANGE $1794-$1796 DB_DATA 2
+RANGE $1796-$1798 DB_DATA 2
+RANGE $1798-$179A DB_DATA 2
+RANGE $179A-$179C DB_DATA 2
+RANGE $179C-$179E DB_DATA 2
+RANGE $179E-$17A0 DB_DATA 2
+RANGE $17A0-$17A2 DB_DATA 2
+RANGE $17A2-$17A4 DB_DATA 2
+RANGE $17A4-$17A6 DB_DATA 2
+RANGE $17A6-$17A8 DB_DATA 2
+RANGE $17A8-$17AA DB_DATA 2
+RANGE $17AA-$17AC DB_DATA 2
+RANGE $17AC-$17AE DB_DATA 2
+RANGE $17AE-$17B0 DB_DATA 2
+RANGE $17B0-$17B2 DB_DATA 2
+RANGE $17B2-$17B4 DB_DATA 2
+RANGE $17B4-$17B6 DB_DATA 2
+RANGE $17B6-$17B8 DB_DATA 2
+RANGE $17B8-$17B9 DB_DATA 1
+RANGE $17B9-$17BB DB_DATA 2
+RANGE $17BB-$17BD DB_DATA 2
+RANGE $17BD-$17BF DB_DATA 2
+RANGE $17BF-$17C1 DB_DATA 2
+RANGE $17C1-$17C3 DB_DATA 2
+RANGE $17C3-$17C5 DB_DATA 2
+RANGE $17C5-$17C7 DB_DATA 2
+RANGE $17C7-$17C9 DB_DATA 2
+RANGE $17C9-$17CB DB_DATA 2
+RANGE $17CB-$17CD DB_DATA 2
+RANGE $17CD-$17CF DB_DATA 2
+RANGE $17CF-$17D1 DB_DATA 2
+RANGE $17D1-$17D3 DB_DATA 2
+RANGE $17D3-$17D5 DB_DATA 2
+RANGE $17D5-$17D7 DB_DATA 2
+RANGE $17D7-$17D9 DB_DATA 2
+RANGE $17D9-$17DB DB_DATA 2
+RANGE $17DB-$17DD DB_DATA 2
+RANGE $17DD-$17DF DB_DATA 2
+RANGE $17DF-$17E1 DB_DATA 2
+RANGE $17E1-$17E3 DB_DATA 2
+RANGE $17E3-$17E5 DB_DATA 2
+RANGE $17E5-$17E7 DB_DATA 2
+RANGE $17E7-$17E9 DB_DATA 2
+RANGE $17E9-$17EB DB_DATA 2
+RANGE $17EB-$17ED DB_DATA 2
+RANGE $17ED-$17EF DB_DATA 2
+RANGE $17EF-$17F1 DB_DATA 2
+RANGE $17F1-$17F3 DB_DATA 2
+RANGE $17F3-$17F5 DB_DATA 2
+RANGE $17F5-$17F7 DB_DATA 2
+RANGE $17F7-$17F9 DB_DATA 2
+RANGE $17F9-$17FB DB_DATA 2
+RANGE $17FB-$17FD DB_DATA 2
+RANGE $17FD-$17FF DB_DATA 2
+RANGE $17FF-$1801 DB_DATA 2
+RANGE $1801-$1803 DB_DATA 2
+RANGE $1803-$1805 DB_DATA 2
+RANGE $1805-$1807 DB_DATA 2
+RANGE $1807-$1809 DB_DATA 2
+RANGE $1809-$180B DB_DATA 2
+RANGE $180B-$180D DB_DATA 2
+RANGE $180D-$180F DB_DATA 2
+RANGE $180F-$1811 DB_DATA 2
+RANGE $1811-$1813 DB_DATA 2
+RANGE $1813-$1815 DB_DATA 2
+RANGE $1815-$1817 DB_DATA 2
+RANGE $1817-$1819 DB_DATA 2
+RANGE $1819-$181B DB_DATA 2
+RANGE $181B-$181D DB_DATA 2
+RANGE $181D-$181F DB_DATA 2
+RANGE $181F-$1821 DB_DATA 2
+RANGE $1821-$1823 DB_DATA 2
+RANGE $1823-$1825 DB_DATA 2
+RANGE $1825-$1827 DB_DATA 2
+RANGE $1827-$1829 DB_DATA 2
+RANGE $1829-$182B DB_DATA 2
+RANGE $182B-$182D DB_DATA 2
+RANGE $182D-$182F DB_DATA 2
+RANGE $182F-$1831 DB_DATA 2
+RANGE $1831-$1833 DB_DATA 2
+RANGE $1833-$1835 DB_DATA 2
+RANGE $1835-$1837 DB_DATA 2
+RANGE $1837-$1839 DB_DATA 2
+RANGE $1839-$183B DB_DATA 2
+RANGE $183B-$183D DB_DATA 2
+RANGE $183D-$183F DB_DATA 2
+RANGE $183F-$1841 DB_DATA 2
+RANGE $1841-$1843 DB_DATA 2
+RANGE $1843-$1845 DB_DATA 2
+RANGE $1845-$1847 DB_DATA 2
+RANGE $1847-$1849 DB_DATA 2
+RANGE $1849-$184B DB_DATA 2
+RANGE $184B-$184D DB_DATA 2
+RANGE $184D-$184F DB_DATA 2
+RANGE $184F-$1852 DB_DATA 3
+RANGE $1852-$1855 DB_DATA 3
+RANGE $1855-$1858 DB_DATA 3
+RANGE $1858-$185B DB_DATA 3
+RANGE $185B-$185E DB_DATA 3
+RANGE $185E-$1861 DB_DATA 3
+RANGE $1861-$1864 DB_DATA 3
+RANGE $1864-$1867 DB_DATA 3
+RANGE $1867-$186A DB_DATA 3
+RANGE $186A-$186D DB_DATA 3
+RANGE $186D-$1870 DB_DATA 3
+RANGE $1870-$1873 DB_DATA 3
+RANGE $1873-$1876 DB_DATA 3
+RANGE $1876-$1879 DB_DATA 3
+RANGE $1879-$187C DB_DATA 3
+RANGE $187C-$187F DB_DATA 3
+RANGE $187F-$1882 DB_DATA 3
+RANGE $1882-$1885 DB_DATA 3
+RANGE $1885-$1888 DB_DATA 3
+RANGE $1888-$188B DB_DATA 3
+RANGE $188B-$188E DB_DATA 3
+RANGE $188E-$1891 DB_DATA 3
+RANGE $1891-$1894 DB_DATA 3
+RANGE $1894-$1895 DB_DATA 1
+RANGE $1895-$1898 DB_DATA 3
+RANGE $1898-$189B DB_DATA 3
+RANGE $189B-$189E DB_DATA 3
+RANGE $189E-$18A1 DB_DATA 3
+RANGE $18A1-$18A4 DB_DATA 3
+RANGE $18A4-$18A7 DB_DATA 3
+RANGE $18A7-$18AA DB_DATA 3
+RANGE $18AA-$18AD DB_DATA 3
+RANGE $18AD-$18B0 DB_DATA 3
+RANGE $18B0-$18B3 DB_DATA 3
+RANGE $18B3-$18B6 DB_DATA 3
+RANGE $18B6-$18B9 DB_DATA 3
+RANGE $18B9-$18BC DB_DATA 3
+RANGE $18BC-$18BF DB_DATA 3
+RANGE $18BF-$18C2 DB_DATA 3
+RANGE $18C2-$18C5 DB_DATA 3
+RANGE $18C5-$18C8 DB_DATA 3
+RANGE $18C8-$18CB DB_DATA 3
+RANGE $18CB-$18CC DB_DATA 1
+RANGE $18CC-$18CF DB_DATA 3
+RANGE $18CF-$18D2 DB_DATA 3
+RANGE $18D2-$18D5 DB_DATA 3
+RANGE $18D5-$18D8 DB_DATA 3
+RANGE $18D8-$18DB DB_DATA 3
+RANGE $18DB-$18DE DB_DATA 3
+RANGE $18DE-$18E1 DB_DATA 3
+RANGE $18E1-$18E4 DB_DATA 3
+RANGE $18E4-$18E7 DB_DATA 3
+RANGE $18E7-$18EA DB_DATA 3
+RANGE $18EA-$18ED DB_DATA 3
+RANGE $18ED-$18F0 DB_DATA 3
+RANGE $18F0-$18F3 DB_DATA 3
+RANGE $18F3-$18F6 DB_DATA 3
+RANGE $18F6-$18F9 DB_DATA 3
+RANGE $18F9-$18FC DB_DATA 3
+RANGE $18FC-$18FF DB_DATA 3
+RANGE $18FF-$1902 DB_DATA 3
+RANGE $1902-$1905 DB_DATA 3
+RANGE $1905-$1908 DB_DATA 3
+RANGE $1908-$190B DB_DATA 3
+RANGE $190B-$190E DB_DATA 3
+RANGE $190E-$1911 DB_DATA 3
+RANGE $1911-$1912 DB_DATA 1
+RANGE $1912-$1915 DB_DATA 3
+RANGE $1915-$1918 DB_DATA 3
+RANGE $1918-$191B DB_DATA 3
+RANGE $191B-$191E DB_DATA 3
+RANGE $191E-$1921 DB_DATA 3
+RANGE $1921-$1924 DB_DATA 3
+RANGE $1924-$1927 DB_DATA 3
+RANGE $1927-$192A DB_DATA 3
+RANGE $192A-$192D DB_DATA 3
+RANGE $192D-$1930 DB_DATA 3
+RANGE $1930-$1933 DB_DATA 3
+RANGE $1933-$1936 DB_DATA 3
+RANGE $1936-$1939 DB_DATA 3
+RANGE $1939-$193C DB_DATA 3
+RANGE $193C-$193F DB_DATA 3
+RANGE $193F-$1942 DB_DATA 3
+RANGE $1942-$1945 DB_DATA 3
+RANGE $1945-$1948 DB_DATA 3
+RANGE $1948-$1949 DB_DATA 1
+RANGE $1949-$194C DB_DATA 3
+RANGE $194C-$194F DB_DATA 3
+RANGE $194F-$1952 DB_DATA 3
+RANGE $1952-$1955 DB_DATA 3
+RANGE $1955-$1958 DB_DATA 3
+RANGE $1958-$195B DB_DATA 3
+RANGE $195B-$195E DB_DATA 3
+RANGE $195E-$1961 DB_DATA 3
+RANGE $1961-$1964 DB_DATA 3
+RANGE $1964-$1967 DB_DATA 3
+RANGE $1967-$196A DB_DATA 3
+RANGE $196A-$196D DB_DATA 3
+RANGE $196D-$1970 DB_DATA 3
+RANGE $1970-$1973 DB_DATA 3
+RANGE $1973-$1976 DB_DATA 3
+RANGE $1976-$1979 DB_DATA 3
+RANGE $1979-$197C DB_DATA 3
+RANGE $197C-$197F DB_DATA 3
+RANGE $197F-$1982 DB_DATA 3
+RANGE $1982-$1985 DB_DATA 3
+RANGE $1985-$1988 DB_DATA 3
+RANGE $1988-$198B DB_DATA 3
+RANGE $198B-$198E DB_DATA 3
+RANGE $198E-$198F DB_DATA 1
+RANGE $198F-$1992 DB_DATA 3
+RANGE $1992-$1995 DB_DATA 3
+RANGE $1995-$1998 DB_DATA 3
+RANGE $1998-$199B DB_DATA 3
+RANGE $199B-$199E DB_DATA 3
+RANGE $199E-$19A1 DB_DATA 3
+RANGE $19A1-$19A4 DB_DATA 3
+RANGE $19A4-$19A7 DB_DATA 3
+RANGE $19A7-$19AA DB_DATA 3
+RANGE $19AA-$19AD DB_DATA 3
+RANGE $19AD-$19B0 DB_DATA 3
+RANGE $19B0-$19B3 DB_DATA 3
+RANGE $19B3-$19B6 DB_DATA 3
+RANGE $19B6-$19B9 DB_DATA 3
+RANGE $19B9-$19BC DB_DATA 3
+RANGE $19BC-$19BF DB_DATA 3
+RANGE $19BF-$19C2 DB_DATA 3
+RANGE $19C2-$19C5 DB_DATA 3
+RANGE $19C5-$19C8 DB_DATA 3
+RANGE $19C8-$19CB DB_DATA 3
+RANGE $19CB-$19CE DB_DATA 3
+RANGE $19CE-$19D1 DB_DATA 3
+RANGE $19D1-$19D4 DB_DATA 3
+RANGE $19D4-$19D5 DB_DATA 1
+RANGE $19D5-$19D8 DB_DATA 3
+RANGE $19D8-$19DB DB_DATA 3
+RANGE $19DB-$19DE DB_DATA 3
+RANGE $19DE-$19E1 DB_DATA 3
+RANGE $19E1-$19E4 DB_DATA 3
+RANGE $19E4-$19E7 DB_DATA 3
+RANGE $19E7-$19EA DB_DATA 3
+RANGE $19EA-$19ED DB_DATA 3
+RANGE $19ED-$19F0 DB_DATA 3
+RANGE $19F0-$19F3 DB_DATA 3
+RANGE $19F3-$19F6 DB_DATA 3
+RANGE $19F6-$19F9 DB_DATA 3
+RANGE $19F9-$19FC DB_DATA 3
+RANGE $19FC-$19FF DB_DATA 3
+RANGE $19FF-$1A02 DB_DATA 3
+RANGE $1A02-$1A05 DB_DATA 3
+RANGE $1A05-$1A08 DB_DATA 3
+RANGE $1A08-$1A0B DB_DATA 3
+RANGE $1A0B-$1A0E DB_DATA 3
+RANGE $1A0E-$1A11 DB_DATA 3
+RANGE $1A11-$1A14 DB_DATA 3
+RANGE $1A14-$1A17 DB_DATA 3
+RANGE $1A17-$1A1A DB_DATA 3
+RANGE $1A1A-$1A1B DB_DATA 1
+RANGE $1A1B-$1A1E DB_DATA 3
+RANGE $1A1E-$1A21 DB_DATA 3
+RANGE $1A21-$1A24 DB_DATA 3
+RANGE $1A24-$1A27 DB_DATA 3
+RANGE $1A27-$1A2A DB_DATA 3
+RANGE $1A2A-$1A2D DB_DATA 3
+RANGE $1A2D-$1A30 DB_DATA 3
+RANGE $1A30-$1A33 DB_DATA 3
+RANGE $1A33-$1A36 DB_DATA 3
+RANGE $1A36-$1A39 DB_DATA 3
+RANGE $1A39-$1A3C DB_DATA 3
+RANGE $1A3C-$1A3F DB_DATA 3
+RANGE $1A3F-$1A42 DB_DATA 3
+RANGE $1A42-$1A45 DB_DATA 3
+RANGE $1A45-$1A48 DB_DATA 3
+RANGE $1A48-$1A4B DB_DATA 3
+RANGE $1A4B-$1A4E DB_DATA 3
+RANGE $1A4E-$1A51 DB_DATA 3
+RANGE $1A51-$1A54 DB_DATA 3
+RANGE $1A54-$1A57 DB_DATA 3
+RANGE $1A57-$1A5A DB_DATA 3
+RANGE $1A5A-$1A5D DB_DATA 3
+RANGE $1A5D-$1A60 DB_DATA 3
+RANGE $1A60-$1A61 DB_DATA 1
+RANGE $1A61-$1A64 DB_DATA 3
+RANGE $1A64-$1A67 DB_DATA 3
+RANGE $1A67-$1A6A DB_DATA 3
+RANGE $1A6A-$1A6D DB_DATA 3
+RANGE $1A6D-$1A70 DB_DATA 3
+RANGE $1A70-$1A73 DB_DATA 3
+RANGE $1A73-$1A76 DB_DATA 3
+RANGE $1A76-$1A79 DB_DATA 3
+RANGE $1A79-$1A7C DB_DATA 3
+RANGE $1A7C-$1A7D DB_DATA 1
+RANGE $1A7D-$1A80 DB_DATA 3
+RANGE $1A80-$1A83 DB_DATA 3
+RANGE $1A83-$1A86 DB_DATA 3
+RANGE $1A86-$1A89 DB_DATA 3
+RANGE $1A89-$1A8C DB_DATA 3
+RANGE $1A8C-$1A8F DB_DATA 3
+RANGE $1A8F-$1A92 DB_DATA 3
+RANGE $1A92-$1A95 DB_DATA 3
+RANGE $1A95-$1A98 DB_DATA 3
+RANGE $1A98-$1A9B DB_DATA 3
+RANGE $1A9B-$1A9E DB_DATA 3
+RANGE $1A9E-$1AA1 DB_DATA 3
+RANGE $1AA1-$1AA4 DB_DATA 3
+RANGE $1AA4-$1AA7 DB_DATA 3
+RANGE $1AA7-$1AAA DB_DATA 3
+RANGE $1AAA-$1AAD DB_DATA 3
+RANGE $1AAD-$1AB0 DB_DATA 3
+RANGE $1AB0-$1AB3 DB_DATA 3
+RANGE $1AB3-$1AB6 DB_DATA 3
+RANGE $1AB6-$1AB9 DB_DATA 3
+RANGE $1AB9-$1ABC DB_DATA 3
+RANGE $1ABC-$1ABF DB_DATA 3
+RANGE $1ABF-$1AC2 DB_DATA 3
+RANGE $1AC2-$1AC5 DB_DATA 3
+RANGE $1AC5-$1AC8 DB_DATA 3
+RANGE $1AC8-$1ACB DB_DATA 3
+RANGE $1ACB-$1ACE DB_DATA 3
+RANGE $1ACE-$1AD1 DB_DATA 3
+RANGE $1AD1-$1AD4 DB_DATA 3
+RANGE $1AD4-$1AD7 DB_DATA 3
+RANGE $1AD7-$1ADA DB_DATA 3
+RANGE $1ADA-$1ADD DB_DATA 3
+RANGE $1ADD-$1ADE DB_DATA 1
+RANGE $1ADE-$1AE1 DB_DATA 3
+RANGE $1AE1-$1AE4 DB_DATA 3
+RANGE $1AE4-$1AE7 DB_DATA 3
+RANGE $1AE7-$1AEA DB_DATA 3
+RANGE $1AEA-$1AEB DB_DATA 1
+RANGE $1AEB-$1AEE DB_DATA 3
+RANGE $1AEE-$1AF1 DB_DATA 3
+RANGE $1AF1-$1AF4 DB_DATA 3
+RANGE $1AF4-$1AF7 DB_DATA 3
+RANGE $1AF7-$1AFA DB_DATA 3
+RANGE $1AFA-$1AFD DB_DATA 3
+RANGE $1AFD-$1B00 DB_DATA 3
+RANGE $1B00-$1B03 DB_DATA 3
+RANGE $1B03-$1B06 DB_DATA 3
+RANGE $1B06-$1B09 DB_DATA 3
+RANGE $1B09-$1B0C DB_DATA 3
+RANGE $1B0C-$1B0F DB_DATA 3
+RANGE $1B0F-$1B12 DB_DATA 3
+RANGE $1B12-$1B15 DB_DATA 3
+RANGE $1B15-$1B18 DB_DATA 3
+RANGE $1B18-$1B1B DB_DATA 3
+RANGE $1B1B-$1B1C DB_DATA 1
+RANGE $1B1C-$1B1F DB_DATA 3
+RANGE $1B1F-$1B22 DB_DATA 3
+RANGE $1B22-$1B25 DB_DATA 3
+RANGE $1B25-$1B28 DB_DATA 3
+RANGE $1B28-$1B2B DB_DATA 3
+RANGE $1B2B-$1B2E DB_DATA 3
+RANGE $1B2E-$1B31 DB_DATA 3
+RANGE $1B31-$1B34 DB_DATA 3
+RANGE $1B34-$1B37 DB_DATA 3
+RANGE $1B37-$1B3A DB_DATA 3
+RANGE $1B3A-$1B3B DB_DATA 1
+RANGE $1B3B-$1B3E DB_DATA 3
+RANGE $1B3E-$1B41 DB_DATA 3
+RANGE $1B41-$1B44 DB_DATA 3
+RANGE $1B44-$1B47 DB_DATA 3
+RANGE $1B47-$1B4A DB_DATA 3
+RANGE $1B4A-$1B4D DB_DATA 3
+RANGE $1B4D-$1B50 DB_DATA 3
+RANGE $1B50-$1B53 DB_DATA 3
+RANGE $1B53-$1B56 DB_DATA 3
+RANGE $1B56-$1B59 DB_DATA 3
+RANGE $1B59-$1B5C DB_DATA 3
+RANGE $1B5C-$1B5F DB_DATA 3
+RANGE $1B5F-$1B62 DB_DATA 3
+RANGE $1B62-$1B65 DB_DATA 3
+RANGE $1B65-$1B68 DB_DATA 3
+RANGE $1B68-$1B6B DB_DATA 3
+RANGE $1B6B-$1B6E DB_DATA 3
+RANGE $1B6E-$1B71 DB_DATA 3
+RANGE $1B71-$1B72 DB_DATA 1
+RANGE $1B72-$1B75 DB_DATA 3
+RANGE $1B75-$1B78 DB_DATA 3
+RANGE $1B78-$1B7B DB_DATA 3
+RANGE $1B7B-$1B7E DB_DATA 3
+RANGE $1B7E-$1B81 DB_DATA 3
+RANGE $1B81-$1B84 DB_DATA 3
+RANGE $1B84-$1B87 DB_DATA 3
+RANGE $1B87-$1B8A DB_DATA 3
+RANGE $1B8A-$1B8D DB_DATA 3
+RANGE $1B8D-$1B90 DB_DATA 3
+RANGE $1B90-$1B93 DB_DATA 3
+RANGE $1B93-$1B96 DB_DATA 3
+RANGE $1B96-$1B99 DB_DATA 3
+RANGE $1B99-$1B9C DB_DATA 3
+RANGE $1B9C-$1B9F DB_DATA 3
+RANGE $1B9F-$1BA2 DB_DATA 3
+RANGE $1BA2-$1BA5 DB_DATA 3
+RANGE $1BA5-$1BA6 DB_DATA 1
+RANGE $1BA6-$1BA9 DB_DATA 3
+RANGE $1BA9-$1BAC DB_DATA 3
+RANGE $1BAC-$1BAF DB_DATA 3
+RANGE $1BAF-$1BB2 DB_DATA 3
+RANGE $1BB2-$1BB5 DB_DATA 3
+RANGE $1BB5-$1BB8 DB_DATA 3
+RANGE $1BB8-$1BB9 DB_DATA 1
+RANGE $1BB9-$1BBA DB_DATA 1
+RANGE $1BBA-$1BBD DB_DATA 3
+RANGE $1BBD-$1BC0 DB_DATA 3
+RANGE $1BC0-$1BC3 DB_DATA 3
+RANGE $1BC3-$1BC6 DB_DATA 3
+RANGE $1BC6-$1BC9 DB_DATA 3
+RANGE $1BC9-$1BCC DB_DATA 3
+RANGE $1BCC-$1BCF DB_DATA 3
+RANGE $1BCF-$1BD2 DB_DATA 3
+RANGE $1BD2-$1BD5 DB_DATA 3
+RANGE $1BD5-$1BD8 DB_DATA 3
+RANGE $1BD8-$1BDB DB_DATA 3
+RANGE $1BDB-$1BDE DB_DATA 3
+RANGE $1BDE-$1BE1 DB_DATA 3
+RANGE $1BE1-$1BE4 DB_DATA 3
+RANGE $1BE4-$1BE7 DB_DATA 3
+RANGE $1BE7-$1BEA DB_DATA 3
+RANGE $1BEA-$1BED DB_DATA 3
+RANGE $1BED-$1BF0 DB_DATA 3
+RANGE $1BF0-$1BF3 DB_DATA 3
+RANGE $1BF3-$1BF6 DB_DATA 3
+RANGE $1BF6-$1BF9 DB_DATA 3
+RANGE $1BF9-$1BFC DB_DATA 3
+RANGE $1BFC-$1BFF DB_DATA 3
+RANGE $1BFF-$1C02 DB_DATA 3
+RANGE $1C02-$1C05 DB_DATA 3
+RANGE $1C05-$1C08 DB_DATA 3
+RANGE $1C08-$1C0B DB_DATA 3
+RANGE $1C0B-$1C0E DB_DATA 3
+RANGE $1C0E-$1C11 DB_DATA 3
+RANGE $1C11-$1C14 DB_DATA 3
+RANGE $1C14-$1C17 DB_DATA 3
+RANGE $1C17-$1C1A DB_DATA 3
+RANGE $1C1A-$1C1D DB_DATA 3
+RANGE $1C1D-$1C20 DB_DATA 3
+RANGE $1C20-$1C23 DB_DATA 3
+RANGE $1C23-$1C26 DB_DATA 3
+RANGE $1C26-$1C29 DB_DATA 3
+RANGE $1C29-$1C2C DB_DATA 3
+RANGE $1C2C-$1C2F DB_DATA 3
+RANGE $1C2F-$1C32 DB_DATA 3
+RANGE $1C32-$1C35 DB_DATA 3
+RANGE $1C35-$1C38 DB_DATA 3
+RANGE $1C38-$1C3B DB_DATA 3
+RANGE $1C3B-$1C3C DB_DATA 1
+RANGE $1C3C-$1C41 DB_DATA 5
+RANGE $1C41-$1C46 DB_DATA 5
+RANGE $1C46-$1C48 DW_DATA 1
+RANGE $1C48-$1C4A DW_DATA 1
+RANGE $1C4A-$1C4C DB_DATA 2
+RANGE $1C4C-$1C4E DB_DATA 2
+RANGE $1C4E-$1C52 DB_DATA 4
+RANGE $1C52-$1C5A DB_DATA 8
+RANGE $1C5A-$1C62 DB_DATA 8
+RANGE $1C62-$1C6A DB_DATA 8
+RANGE $1C6A-$1C72 DB_DATA 8
+RANGE $1C72-$1C73 DB_DATA 1
+RANGE $1C73-$1C77 DB_DATA 4
+RANGE $1C77-$1C7F DB_DATA 8
+RANGE $1C7F-$1C87 DB_DATA 8
+RANGE $1C87-$1C88 DB_DATA 1
+RANGE $1C88-$1C8C DB_DATA 4
+RANGE $1C8C-$1C94 DB_DATA 8
+RANGE $1C94-$1C9C DB_DATA 8
+RANGE $1C9C-$1CA4 DB_DATA 8
+RANGE $1CA4-$1CAC DB_DATA 8
+RANGE $1CAC-$1CB4 DB_DATA 8
+RANGE $1CB4-$1CBC DB_DATA 8
+RANGE $1CBC-$1CBD DB_DATA 1
+RANGE $1CBD-$1CC1 DB_DATA 4
+RANGE $1CC1-$1CC9 DB_DATA 8
+RANGE $1CC9-$1CD1 DB_DATA 8
+RANGE $1CD1-$1CD9 DB_DATA 8
+RANGE $1CD9-$1CE1 DB_DATA 8
+RANGE $1CE1-$1CE2 DB_DATA 1
+RANGE $1CE2-$1CE6 DB_DATA 4
+RANGE $1CE6-$1CEE DB_DATA 8
+RANGE $1CEE-$1CF6 DB_DATA 8
+RANGE $1CF6-$1CFE DB_DATA 8
+RANGE $1CFE-$1D06 DB_DATA 8
+RANGE $1D06-$1D0E DB_DATA 8
+RANGE $1D0E-$1D16 DB_DATA 8
+RANGE $1D16-$1D1E DB_DATA 8
+RANGE $1D1E-$1D26 DB_DATA 8
+RANGE $1D26-$1D2E DB_DATA 8
+RANGE $1D2E-$1D36 DB_DATA 8
+RANGE $1D36-$1D3E DB_DATA 8
+RANGE $1D3E-$1D46 DB_DATA 8
+RANGE $1D46-$1D4E DB_DATA 8
+RANGE $1D4E-$1D56 DB_DATA 8
+RANGE $1D56-$1D5E DB_DATA 8
+RANGE $1D5E-$1D5F DB_DATA 1
+RANGE $1D5F-$1D63 DB_DATA 4
+RANGE $1D63-$1D6B DB_DATA 8
+RANGE $1D6B-$1D73 DB_DATA 8
+RANGE $1D73-$1D7B DB_DATA 8
+RANGE $1D7B-$1D83 DB_DATA 8
+RANGE $1D83-$1D8B DB_DATA 8
+RANGE $1D8B-$1D93 DB_DATA 8
+RANGE $1D93-$1D9B DB_DATA 8
+RANGE $1D9B-$1DA3 DB_DATA 8
+RANGE $1DA3-$1DAB DB_DATA 8
+RANGE $1DAB-$1DB3 DB_DATA 8
+RANGE $1DB3-$1DBB DB_DATA 8
+RANGE $1DBB-$1DC3 DB_DATA 8
+RANGE $1DC3-$1DCB DB_DATA 8
+RANGE $1DCB-$1DCC DB_DATA 1
+RANGE $1DCC-$1DD0 DB_DATA 4
+RANGE $1DD0-$1DD8 DB_DATA 8
+RANGE $1DD8-$1DE0 DB_DATA 8
+RANGE $1DE0-$1DE8 DB_DATA 8
+RANGE $1DE8-$1DE9 DB_DATA 1
+RANGE $1DE9-$1DED DB_DATA 4
+RANGE $1DED-$1DF5 DB_DATA 8
+RANGE $1DF5-$1DFD DB_DATA 8
+RANGE $1DFD-$1E05 DB_DATA 8
+RANGE $1E05-$1E0D DB_DATA 8
+RANGE $1E0D-$1E15 DB_DATA 8
+RANGE $1E15-$1E16 DB_DATA 1
+RANGE $1E16-$1E58 CODE
+

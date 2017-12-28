@@ -24,8 +24,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import de.malban.util.syntax.Syntax.Lexer.*;
-import de.malban.util.syntax.entities.ASM6809FileInfo;
-import de.malban.util.syntax.entities.C6809FileInfo;
+import de.malban.util.syntax.entities.ASM6809File;
+import de.malban.util.syntax.entities.ASM6809FileMaster;
+import de.malban.util.syntax.entities.C6809File;
+import de.malban.util.syntax.entities.C6809FileMaster;
 
 /**
  * A <a href="http://ostermiller.org/syntax/editor.html">demonstration text
@@ -46,8 +48,8 @@ public class HighlightedDocument extends DefaultStyledDocument
 	public static final Object GRAYED_OUT_STYLE = new Object();
 	public static final Object M6809_STYLE = M6809Lexer.class;
 
-        ASM6809FileInfo asmFileInfo = null;
-        C6809FileInfo cFileInfo = null;
+        ASM6809File asmFileInfo = null;
+        C6809File cFileInfo = null;
         String knownFilename = null;
 	/**
 	 * A reader wrapped around the document so that the document can be fed into
@@ -74,11 +76,12 @@ public class HighlightedDocument extends DefaultStyledDocument
 	 */
 	private final Object docLock = new Object();
 
+        int vediId = -1;
 	/**
 	 * Create a new Demo
 	 */
-	public HighlightedDocument() {
-
+	public HighlightedDocument(int id) {
+            vediId = id;
 		// Start the thread that does the coloring
 	//	colorer.start();
                 // malban, moved thread start to be
@@ -123,7 +126,7 @@ public class HighlightedDocument extends DefaultStyledDocument
                 try
                 {
                     String text = getText(0, getLength());
-                    asmFileInfo = ASM6809FileInfo.handleFile(filename, text);
+                    asmFileInfo = ASM6809FileMaster.getInfo(vediId).handleFile(filename, text);
                 }
                 catch (Throwable e)
                 {
@@ -137,7 +140,7 @@ public class HighlightedDocument extends DefaultStyledDocument
                 try
                 {
                     String text = getText(0, getLength());
-                    cFileInfo = C6809FileInfo.handleFile(filename, text);
+                    cFileInfo = C6809FileMaster.getInfo(vediId).handleFile(filename, text);
                 }
                 catch (Throwable e)
                 {
@@ -225,6 +228,12 @@ public class HighlightedDocument extends DefaultStyledDocument
 			Constructor cons = source.getConstructor(parms);
 			syntaxLexer = (Lexer) cons.newInstance(args);
 			globalStyle = null;
+                        
+                        if (syntaxLexer instanceof M6809Lexer)
+                        {
+                            ((M6809Lexer)syntaxLexer).setVediId(vediId);
+                        }
+                        
                         if (colorAll)
                             colorAll();
 		} catch (SecurityException e) {
@@ -279,7 +288,7 @@ public class HighlightedDocument extends DefaultStyledDocument
                     }
                     catch (Throwable e)
                     {
-                        e.printStackTrace();
+                      //  e.printStackTrace();
                     }
 		}
 	}

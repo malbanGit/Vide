@@ -3754,7 +3754,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel39.setText("if disabled, so are export: (Mov_)Draw_VLc");
 
         jLabel40.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel40.setText("if disabled, so are export: Draw_VLp");
 
         jLabel41.setForeground(new java.awt.Color(102, 102, 102));
         jLabel41.setText("if disabled, so all exports");
@@ -8538,7 +8537,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 
         boolean allSamePattern = currentAnimation.isAllSamePattern();
         boolean allContinuous = currentAnimation.isCompleteRelative();
-        boolean allHighPattern = currentAnimation.isAllPatternHigh();
+        boolean allHighPattern = currentAnimation.isAllPatternHigh(true);
 
 
         if (!allSamePattern)
@@ -9461,7 +9460,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTextFieldVectorCount.setToolTipText(""+vl.getMoveCount()+" move vectors");
         jCheckBoxSameIntensity.setSelected(vl.isAllSameIntensity());
         jCheckBoxSamePattern.setSelected(vl.isAllSamePattern());
-        jCheckBoxHighPattern.setSelected(vl.isAllPatternHigh());
+        jCheckBoxHighPattern.setSelected(vl.isAllPatternHigh(false));
         jCheckBox2dOnly.setSelected(vl.isPure2d());
         jCheckBoxVectorsContinuous.setSelected(vl.isCompleteRelative());
         jCheckBoxVectorClosedPolygon.setSelected(vl.isClosed());
@@ -9518,10 +9517,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jButtonDraw_VL_mode.setEnabled(false);
             jButtonCodeGen.setEnabled(false);
         }
-        if (!jCheckBoxHighPattern.isSelected())
+       
+        if (!vl.isAllPatternHigh(true))
         {
             jButtonDraw_VLp.setEnabled(false);
         }
+    
         if ((vl.getXMaxLength()>127) || (vl.getYMaxLength()>127)|| (vl.getZMaxLength()>127))
         {
             jButtonMov_Draw_VLc_a.setEnabled(false);

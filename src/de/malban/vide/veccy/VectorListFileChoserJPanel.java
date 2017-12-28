@@ -532,7 +532,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
 
                 boolean allSamePattern = animation.isAllSamePattern();
                 boolean allContinuous = animation.isCompleteRelative();
-                boolean allHighPattern = animation.isAllPatternHigh();
+                boolean allHighPattern = animation.isAllPatternHigh(true);
 
 
                 if (!allSamePattern)
@@ -581,7 +581,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
                     jButtonDraw_VL_mode.setEnabled(false);
                     jButtonCodeGen.setEnabled(false);
                 }
-                if (!vl.isAllPatternHigh())
+                if (!vl.isAllPatternHigh(true))
                 {
                     jButtonDraw_VLp.setEnabled(false);
                 }

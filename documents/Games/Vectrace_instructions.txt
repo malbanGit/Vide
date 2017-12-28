@@ -1,0 +1,29 @@
+Vectrace                              
+Gameplay                              
+
+The player has a certain amount of time to pass a certain amount of cars during a race before time runs out or the player destroys their car. If the player doesn't occasionally increase their speed, their car will slow down by itself. The race takes place on a three lane road and other cars tend to overlap with each other, making the passing of the cars difficult at times.
+
+The player's speed, car's "shape", score, high score, and time is displayed on the screen.
+
+Whenever the player strikes a car, the shape goes down, which, if it reaches zero, the player loses one of their five cars and they will have to start the race over. The player starts with a shape of 10 with each race.
+Cars needed to pass/time in order to proceed                              
+
+    Level 1: 45 seconds/35 cars
+    Level 2: 35 seconds/65 cars
+    Level 3: 25 seconds/30 cars 
+
+Controls                              
+
+    Move left and right -- joystick or D-pad left and right
+    Speed up -- joystick or D-pad up
+    Slow down -- joystick or D-pad down 
+
+This game will also work with a modified Atari 2600 Paddle Controller.
+
+    Move left and right -- dial left and right
+    Speed up -- button 
+
+Scoring                              
+
+    Passing car: 10 points
+    Passing new cars in round 3: 30 points 

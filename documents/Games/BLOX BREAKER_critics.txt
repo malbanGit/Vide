@@ -1,0 +1,23 @@
+BLOX BREAKER
+A breakout clone.
+
+The ball moves hoizontally faster than the player - this ensures the player must do a bit
+of forward thinking and calculation - not to bad.
+
+Collision detection is sometimes a bit croocked - and I also had the ball bouncing "downward" from the player
+(and thus losing a ball [player has 3 to start with]).
+
+The higher the levels - the more blocks are visible - this means there is a dramatic drop in the framerate
+(below 15 Hz). This makes the game sometimes hard to the eyes - but also a bit easier (since slower).
+
+There is rudimentary sound support.
+
+Technical:
+- refresh rate is low to very low (10-25 Hz)
+- rudimentary sound support
+- collision detection sometimes "off"
+- ball also sometimes drawn in blocks
+
+General vectrex game: 3.5/10
+For a first vectrex game: 7/10
+

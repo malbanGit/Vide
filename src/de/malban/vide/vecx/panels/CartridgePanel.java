@@ -1140,7 +1140,6 @@ public class CartridgePanel extends javax.swing.JPanel implements
             }
         });
 
-        jTextFieldS4.setEditable(false);
         jTextFieldS4.setText("$00");
         jTextFieldS4.setToolTipText("");
         jTextFieldS4.setPreferredSize(new java.awt.Dimension(40, 20));
@@ -1150,7 +1149,6 @@ public class CartridgePanel extends javax.swing.JPanel implements
             }
         });
 
-        jTextFieldS3.setEditable(false);
         jTextFieldS3.setText("$00");
         jTextFieldS3.setToolTipText("");
         jTextFieldS3.setPreferredSize(new java.awt.Dimension(40, 20));
@@ -1160,7 +1158,6 @@ public class CartridgePanel extends javax.swing.JPanel implements
             }
         });
 
-        jTextFieldS2.setEditable(false);
         jTextFieldS2.setText("$00");
         jTextFieldS2.setToolTipText("");
         jTextFieldS2.setPreferredSize(new java.awt.Dimension(40, 20));
@@ -1170,7 +1167,6 @@ public class CartridgePanel extends javax.swing.JPanel implements
             }
         });
 
-        jTextFieldS1.setEditable(false);
         jTextFieldS1.setText("$00");
         jTextFieldS1.setToolTipText("");
         jTextFieldS1.setPreferredSize(new java.awt.Dimension(40, 20));
@@ -1180,7 +1176,6 @@ public class CartridgePanel extends javax.swing.JPanel implements
             }
         });
 
-        jTextFieldS5.setEditable(false);
         jTextFieldS5.setText("$00");
         jTextFieldS5.setToolTipText("");
         jTextFieldS5.setPreferredSize(new java.awt.Dimension(40, 20));
@@ -1190,7 +1185,6 @@ public class CartridgePanel extends javax.swing.JPanel implements
             }
         });
 
-        jTextFieldS6.setEditable(false);
         jTextFieldS6.setText("$00");
         jTextFieldS6.setToolTipText("");
         jTextFieldS6.setPreferredSize(new java.awt.Dimension(40, 20));

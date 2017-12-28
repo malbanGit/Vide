@@ -1,0 +1,26 @@
+THE HUNGRY PYTHON
+The game is an adapation of the "snake" theme.
+
+Starting the game is sometimes tricky - since as "starter" the snake runs "thru" the walls, once you start steering you have to
+avoid the screen edges. If you happen to start at the wrong time - you crash right into the wall - and game over!
+
+Due to the lower screen refresh rate with a longer snake - it seems that the game gets easier the longer you play.
+(up until the snake length suddenly resets - at 32 body "length")
+
+Funny:
+Pressing in game the "not occupied" button two plays a BIOS music tune.
+
+Funny 2:
+The manual explains a second control panel - but the game is single player.
+
+Technically:
+- the WaitRecal routine is called multiple times per update round,
+this makes the display more "shaky" than needed, since each call "waits" till
+30000 cycles have passed (since last call)
+- in addition to that the screen refresh can get really hurtfull with a long snake
+- the above mentioned "intensity" (bug) [only "in game" - in game mode 1 I got about 90 points befor it went all dark]
+- basic sound
+
+General vectrex game: 4/10
+For a first vectrex game: 7/10
+

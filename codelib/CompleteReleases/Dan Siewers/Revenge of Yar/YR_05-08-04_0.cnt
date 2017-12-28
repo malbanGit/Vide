@@ -1,0 +1,2867 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $0027 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_a
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $C811 Buttons_State
+LABEL $C880 Count
+COMMENT_LABEL $C880 2 bytes - general purpose counter
+LABEL $C882 Print1
+COMMENT_LABEL $C882 2 bytes - for test print string
+LABEL $C884 Print2
+COMMENT_LABEL $C884 2 bytes - for test print string
+LABEL $C886 counter2
+COMMENT_LABEL $C886 1 byte - for test print string
+LABEL $C887 Str_y
+COMMENT_LABEL $C887 1 byte - for test print string
+LABEL $C888 Str_x
+COMMENT_LABEL $C888 1 byte - for test print string
+LABEL $C889 Test_String
+COMMENT_LABEL $C889 9 bytes - for test print string
+LABEL $C891 String_End
+COMMENT_LABEL $C891 1 byte - for test print string
+LABEL $C892 Dashed_Line_Counter
+COMMENT_LABEL $C892 1 byte - counter for dashed lines routine
+LABEL $C893 Dashed_Line_Pattern
+COMMENT_LABEL $C893 1 byte - storage for dashed line pattern
+LABEL $C894 Dashed_Line_Intensity
+COMMENT_LABEL $C894 1 byte - dashed line intensity
+LABEL $C895 Line_Intensity_Dir
+COMMENT_LABEL $C895 1 byte - line intensity drection 0=up 1=down
+LABEL $C896 Joy_State
+COMMENT_LABEL $C896 1 byte - 1=left, 2=right, 3=up, 4=down
+LABEL $C897 Yar_x
+COMMENT_LABEL $C897 2 bytes - Yar's X-coordinates
+LABEL $C899 Yar_y
+COMMENT_LABEL $C899 2 bytes - Yar's Y-coordinates
+LABEL $C89B Yar_Speed
+COMMENT_LABEL $C89B 2 bytes - Yar's speed
+LABEL $C89D Yar_Angle
+COMMENT_LABEL $C89D 1 byte - Yar's current / incremental angle
+LABEL $C89E Yar_Target_Angle
+COMMENT_LABEL $C89E 1 byte - Yar's target angle
+LABEL $C89F Yar_Rotate_Dir
+COMMENT_LABEL $C89F 1 byte - +1=ccw, -1=cw
+LABEL $C8A0 Yar_VL_Pointer
+COMMENT_LABEL $C8A0 2 bytes - Pointer to Yar VL
+LABEL $C8A2 Yar_Wing_State_Counter
+COMMENT_LABEL $C8A2 1 byte - counter for Yar's wing state
+LABEL $C8A3 Enemy_y
+COMMENT_LABEL $C8A3 1 byte - Enemy ship's Y-coordinates
+LABEL $C8A4 Enemy_x
+COMMENT_LABEL $C8A4 1 byte - Enemy ship's X-coordinates
+LABEL $C8A5 Enemy_Dir_Flag
+COMMENT_LABEL $C8A5 1 byte - 0=up, 2=down
+LABEL $C8A6 Enemy_Move_Count
+COMMENT_LABEL $C8A6 1 byte - counter for enemy ship movement
+LABEL $C8A7 Force_Field_Status
+COMMENT_LABEL $C8A7 1 byte - 0=none, 1=inner field only , 2=both fields
+LABEL $C8A8 Collision_Flag
+COMMENT_LABEL $C8A8 1 byte - 0=none, 1=up, 2=down (direction of enemy travel)
+LABEL $C8A9 Force_Field_1_Strength
+COMMENT_LABEL $C8A9 2 bytes - Inner force field strength remaining
+LABEL $C8AB Force_Field_2_Strength
+COMMENT_LABEL $C8AB 2 bytes - Outer force field strength remaining
+LABEL $C8AD Force_Field_Hit_Flag
+COMMENT_LABEL $C8AD 1 byte - 0=not hit, 1=hit
+LABEL $C8AF Force_Field_1_Intensity
+COMMENT_LABEL $C8AF 2 bytes - Intensity value of inner force field
+LABEL $C8B1 Force_Field_2_Intensity
+COMMENT_LABEL $C8B1 1 byte - Intensity value of outer force field
+LABEL $C8B2 Shooting_Status_Flag
+COMMENT_LABEL $C8B2 1 byte - 0=not shooting, 1=shooting, 2=exploding
+LABEL $C8B3 Bullet_y
+COMMENT_LABEL $C8B3 2 bytes - bullet y position
+LABEL $C8B5 Bullet_x
+COMMENT_LABEL $C8B5 2 bytes - bullet x pos
+LABEL $C8B7 Bullet_Angle
+COMMENT_LABEL $C8B7 1 byte - bullet's angle of travel
+LABEL $C8B8 Bullet_Speed
+COMMENT_LABEL $C8B8 1 byte - bullet's speed
+LABEL $C8B9 Explosion_Timer
+COMMENT_LABEL $C8B9 1 byte - counter for bullet explosion routine
+LABEL $C8BA Explosion_Scale
+COMMENT_LABEL $C8BA 1 byte - scale factor of explosion
+LABEL $C8BB Vanguard_Speed
+COMMENT_LABEL $C8BB 1 byte - Vanguard's speed
+LABEL $C8BC Vanguard_y
+COMMENT_LABEL $C8BC 2 bytes - Vanguard's Y-position
+LABEL $C8BE Vanguard_x
+COMMENT_LABEL $C8BE 2 bytes - Vangurad's X-position
+LABEL $C8C0 Vanguard_Angle
+COMMENT_LABEL $C8C0 1 byte - Vanguard's angle of travel
+LABEL $C8C1 Vanguard_Hit_Yar_Flag
+COMMENT_LABEL $C8C1 1 byte - 0=no hit, $ff=hit
+LABEL $C8C2 Yar_Death_Spin_Counter
+COMMENT_LABEL $C8C2 1 byte - Counter for Yar's death spin
+LABEL $C8C3 Yar_Life_State
+COMMENT_LABEL $C8C3 1 byte - $ff=Yar finished dying
+LABEL $C8C4 Super_Bomb_Counter
+COMMENT_LABEL $C8C4 1 byte - Counter for super bomb
+LABEL $C8C5 Super_Bomb_Status_Flag
+COMMENT_LABEL $C8C5 1 byte - 0=no bomb, 1=show bomb, 2=shoot bomb, 3=explode
+LABEL $C8C6 Button_2_State
+COMMENT_LABEL $C8C6 1 byte - 0=button 2 not pressed, 1=button 2 pressed
+LABEL $C8C7 Super_Bomb_y
+COMMENT_LABEL $C8C7 2 bytes - Super Bomb's Y-position
+LABEL $C8C9 Super_Bomb_x
+COMMENT_LABEL $C8C9 2 bytes - Super Bomb's X-position
+LABEL $C8CB Super_Bomb_Nibbles
+COMMENT_LABEL $C8CB 1 byte - Yar # of "nibbles" to display super bomb
+LABEL $C8CC Fireball_Start_Counter
+COMMENT_LABEL $C8CC 2 bytes - when it reaches 0 fireball is displayed
+LABEL $C8CE Fire_Ball_Status
+COMMENT_LABEL $C8CE 2 bytes - 0=delay, 1=stationary, 2=shooting, 3=reset, 4=about to shoot
+LABEL $C8D0 Random_Seed
+COMMENT_LABEL $C8D0 3 bytes - random number generator seed
+LABEL $C8D4 Fireball_Angle
+COMMENT_LABEL $C8D4 1 byte - Firball's rotation angle
+LABEL $C8D5 Fireball_y
+COMMENT_LABEL $C8D5 2 bytes - Fireball's Y-coordinate
+LABEL $C8D7 Fireball_x
+COMMENT_LABEL $C8D7 2 bytes - Fireball's X-coordinate
+LABEL $C8D9 Fireball_Spin_Time
+COMMENT_LABEL $C8D9 1 byte - Fireball's rotation time
+LABEL $C8DA Fireball_Speed
+COMMENT_LABEL $C8DA 1 byte - Fireball's speed
+LABEL $C8DB Fireball_Shoot_Angle
+COMMENT_LABEL $C8DB 1 byte - Fireball's shooting angle
+LABEL $C8DC Fireball_Rise
+COMMENT_LABEL $C8DC 2 bytes - Yar's rise value from fireball
+LABEL $C8DE Fireball_Run
+COMMENT_LABEL $C8DE 2 bytes - Yar's run value from fireball
+LABEL $C8DF Fireball_Calc_Temp
+COMMENT_LABEL $C8DF 1 byte
+LABEL $C8E0 Level
+COMMENT_LABEL $C8E0 1 byte - Current level
+LABEL $C8E1 Level_List
+COMMENT_LABEL $C8E1 6 bytes - Level in ASCII
+LABEL $C8E7 Level_Print
+COMMENT_LABEL $C8E7 7 bytes - Level print list
+LABEL $C8EE Yar_Lives
+COMMENT_LABEL $C8EE 1 bytes - Yar's current number of lives
+LABEL $C8EF Yar_Lives_List
+COMMENT_LABEL $C8EF 6 bytes - Yar's number of lives in ASCII
+LABEL $C8F5 Yar_Lives_Print
+COMMENT_LABEL $C8F5 7 bytes - Yar's number of lives print list
+LABEL $C8FC Score
+COMMENT_LABEL $C8FC 6 bytes - Player's score
+LABEL $C902 Score_List
+COMMENT_LABEL $C902 6 bytes - Player's score in ASCII
+LABEL $C908 Score_Print
+COMMENT_LABEL $C908 11 bytes - Player's score print list
+LABEL $C913 Sound_Type
+COMMENT_LABEL $C913 1 byte - 0=grumble,1=fireball,3=fireball shooting
+LABEL $CA00 Yar_VL_Rotated
+COMMENT_LABEL $CA00 43 bytes - Rotated Yar vector list
+LABEL $CA30 Fireball_VL_Rotated
+COMMENT_LABEL $CA30 16 bytes - Rotated Fireball vector list
+LABEL $11C7 Intro_Music
+LABEL $00F1 Level_Start
+LABEL $0F26 Dashed_Line_String
+LABEL $0E96 Yar_VL_Wings_Up
+LABEL $01C7 Intro
+LABEL $0F73 Score_VL
+LABEL $0FD1 Level_VL
+LABEL $102D Equals_VL
+LABEL $1014 Button_1_To_Begin
+LABEL $02AF We_Start_Here
+LABEL $02CF Grumble_Sound
+LABEL $02C0 Fireball_Sound
+LABEL $02DE Fireball_Shooting_Sound
+LABEL $02ED Super_Bomb_Shooting_Sound
+LABEL $02FA Keep_Playing
+LABEL $10B3 Fireball_Music
+LABEL $1037 Grumble
+LABEL $10C9 Fireball_Shooting_Music
+LABEL $10E7 Super_Bomb_Shooting_Music
+LABEL $031D Dashed_Lines
+LABEL $031A End_Of_Game
+LABEL $0330 Dashed_Line_Intensity_Up
+COMMENT_LABEL $0330 dashed line intensity goes up here
+LABEL $0337 Change_Line_Intensity_Direction
+LABEL $033E Save_Dashed_Line_Intensity
+LABEL $0344 Dashed_Lines_Start
+LABEL $034F Change_Line_Pattern
+LABEL $0352 Dashed_Line_Reset
+LABEL $035E Dashed_Lines_1
+LABEL $037A Read_Joystick
+LABEL $03C5 Joy_No_Move
+LABEL $03CD Yar_Set_Rotation
+LABEL $03A6 Check_Up_Down
+LABEL $039A Joy_Left
+LABEL $038E Joy_Right
+LABEL $03B9 Joy_Down
+LABEL $03AD Joy_Up
+LABEL $0521 Move_Yar_Wings
+LABEL $041F Yar_Is_Rotating
+LABEL $0462 Move_Yar
+LABEL $03E8 Check_Joy_2
+LABEL $0451 Yar_Rot_Table_Left
+LABEL $0413 Yar_Start_Rotating
+LABEL $03FB Check_Joy_3
+LABEL $03F6 Right_Turn_Not_From_Up
+LABEL $0455 Yar_Rot_Table_Right
+LABEL $0410 Must_Be_Joy_4
+LABEL $040B Not_Rot_From_30
+LABEL $045A Yar_Rot_Table_Up
+LABEL $045E Yar_Rot_Table_Down
+LABEL $0435 Yar_Is_Rotating_1
+LABEL $0432 Clear_Direction_Register
+LABEL $054B Draw_Yar
+LABEL $0492 Move_Yar_2
+LABEL $0486 Move_Yar_Left_Plus
+LABEL $047E Move_Yar_Max_Left
+LABEL $04C6 Move_Yar_3
+LABEL $04BA Move_Yar_Right_Minus
+LABEL $04B2 Move_Yar_Max_Right
+LABEL $04F8 Move_Yar_4
+LABEL $04EC Move_Yar_Up_Plus
+LABEL $04E4 Move_Yar_Max_Up
+LABEL $0518 Move_Yar_Down_Plus
+LABEL $0511 Move_Yar_Max_Down
+LABEL $053F Yar_Wings_Down
+LABEL $0542 Yar_Set_Wings
+LABEL $0EC1 Yar_VL_Wings_Down
+LABEL $056F Draw_Enemy
+LABEL $059A Enemy_Stays_Put
+LABEL $0E92 Enemy_Ship_Move_Data
+LABEL $0592 Change_Enemy_Dir_Flag
+LABEL $05BE Draw_Force_Field
+LABEL $0EEC Enemy_VL
+LABEL $05FC No_Force_Field
+LABEL $05C9 Draw_Force_Field_Loop
+LABEL $0F0F Enemy_Force_Field
+LABEL $05F0 Draw_Inner_Force_Field_Only
+LABEL $0602 Check_Yar_Hit_Anything
+LABEL $06CD Force_Field_Update
+LABEL $06AD Check_Hit_Vanguard
+LABEL $0691 Check_Hit_Enemy
+LABEL $0630 Check_Col_2_Force_Fields
+LABEL $0634 Check_Yar_Hit_Force_Field
+LABEL $0E89 Hit_Force_Field_Data
+COMMENT_LABEL $0E89 this table for Yar in front of force field
+LABEL $0674 Yar_Is_Infront_Enemy
+LABEL $065E Enemy_Is_Moving_Down
+LABEL $0659 Yar_Is_Below_Enemy_Up
+LABEL $066F Yar_Is_Above_Enemy_Down
+LABEL $06CD Check_No_Hit
+LABEL $06D4 Force_Field_Was_Hit
+LABEL $071E Joy_Buttons
+LABEL $070A Force_Field_Dead
+LABEL $06EB Force_Field_Intensity_Update
+LABEL $0E7D Force_Field_Intensity_Data
+LABEL $06FA Change_Intensity
+LABEL $070F Force_Field_Add_Score
+LABEL $07B7 Still_Shooting
+LABEL $08D7 Joy_Buttons_Next
+LABEL $0734 Joy_Buttons_Not_Rotating
+LABEL $0740 Joy_Buttons_Right_Zone
+LABEL $0747 Joy_Buttons_Not_Zone
+LABEL $0752 Start_Shooting
+COMMENT_LABEL $0752 yes, start shooting here
+LABEL $075A Start_Shooting_Bullet
+LABEL $0942 Vanguard_Move
+LABEL $076B Shoot_Yar_Facing_Left
+LABEL $075F Shoot_Yar_Facing_Up
+LABEL $0797 Calculate_Bullet_Start_Pos
+LABEL $077B Shoot_Yar_Facing_Down
+LABEL $078B Shoot_Yar_Facing_Right
+LABEL $0E75 Shoot_Table_Data_Bullet
+LABEL $0893 Bullet_Exploding
+LABEL $07F1 Bullet_Check_Left
+LABEL $07C5 Bullet_Up
+LABEL $07E5 Move_Bullet_Up_Plus
+LABEL $07DA Move_Bullet_Max_Up
+LABEL $0873 Draw_Bullet
+LABEL $081E Check_Bullet_Down
+LABEL $0813 Move_Bullet_Left_Plus
+LABEL $0809 Move_Bullet_Max_Left
+LABEL $084B Check_Bullet_Right
+LABEL $0840 Move_Bullet_Down_Plus
+LABEL $0836 Move_Bullet_Max_Down
+LABEL $086A Move_Bullet_Right_Minus
+LABEL $085F Move_Bullet_Max_Right
+LABEL $08D9 Check_Bullet_Hit_Anything
+LABEL $08B7 Draw_Explosion
+LABEL $08B4 Prep_Scale_Explosion
+LABEL $0F38 Explosion_VL
+LABEL $0905 Check_Bullet_2_Force_Fields
+LABEL $0909 Check_Bullet_Hit_Force_Field
+LABEL $0924 Bullet_Hit_Traveling_Right
+LABEL $0E8F Hit_Force_Field_Doublecheck
+COMMENT_LABEL $0E8F this table for bullet above/below force field
+LABEL $092B Record_Bullet_Hit
+LABEL $0E8C Hit_Force_Field_Data_Bullet
+COMMENT_LABEL $0E8C this table for bullet in front of force field
+LABEL $0932 Bullet_Is_Infront_Enemy
+LABEL $095A Vanguard_Keep_Chasing_y
+LABEL $096A Vanguard_Chase_Yar_x
+LABEL $0964 Over_128_y
+LABEL $097C Vanguard_Keep_Chasing_x
+LABEL $098C Vanguard_Angle_Calc
+LABEL $0986 Over_128_x
+LABEL $09C3 Draw_Vanguard
+LABEL $0F1F Vanguard_VL
+LABEL $0D9C Yar_Was_Hit
+LABEL $09EF Yar_Super_Bomb
+LABEL $09FC Super_Bomb_Check_Status
+LABEL $0A0D Start_The_Bomb
+COMMENT_LABEL $0A0D here we place a new bomb on the screen
+LABEL $0BC3 Fireball
+LABEL $0A13 Show_The_Bomb
+LABEL $0A46 Shoot_The_Bomb
+COMMENT_LABEL $0A46 here we shoot the bomb
+LABEL $0B73 Super_Bomb_Explode
+LABEL $0A32 No_Shoot_The_Bomb
+LABEL $0B46 Draw_Super_Bomb
+LABEL $0A7B Move_Bomb_Right_Minus
+LABEL $0A5A Move_Bomb_Max_Right
+COMMENT_LABEL $0A5A bomb has hit edge of screen
+LABEL $0A84 Check_Bomb_Hit_Anything
+LABEL $0AFF Check_Bomb_Hit_Yar
+LABEL $0ADE Check_Bomb_Hit_Enemy
+LABEL $0AA9 Check_Bomb_2_Force_Fields
+LABEL $0AAD Check_Bomb_Hit_Force_Field
+LABEL $0ACB Check_Bomb_Hit_Force_Field_1
+LABEL $0ACD Check_Bomb_Add_Score
+LABEL $0B20 Check_Bomb_Hit_Fireball
+LABEL $0F63 Super_Bomb_VL
+LABEL $0B9F Draw_Super_Bomb_Explosion
+LABEL $0B9C Prep_Bomb_Scale_Explosion
+LABEL $0C20 Fireball_Stationary
+LABEL $0CE1 Shoot_Fireball
+LABEL $0C3A Fireball_Reset
+LABEL $0C69 Calc_Fireball_Angle
+LABEL $0C8A Fireball_Track_Yar_1
+LABEL $0CD2 Fireball_Be_Gone
+LABEL $0BF7 Fireball_Stationary_Start
+LABEL $0D3C Check_Fireball_Hit_Yar
+LABEL $0C78 Calc_Fireball_Angle_1
+LABEL $0C87 Fireball_Track_Yar
+LABEL $0C97 Fireball_Yar_Is_Right
+LABEL $0CC6 Fireball_Shoot_Straight
+LABEL $0D2E Shoot_Fireball_Check_6
+LABEL $0D5D Draw_Fireball
+LABEL $0EFF Fireball_VL
+LABEL $0DC8 Yar_Done_Spinning_1
+LABEL $0DC0 Yar_Done_Spinning
+LABEL $0DE5 Draw_Yar_Dying
+LABEL $0E3A Yar_Death_Scale_Table
+LABEL $0E35 Yar_Death_Dot_Table_Count
+LABEL $0E3F Yar_Death_Dot_Table
+EQU $02 E
+LABEL $10A3 Twang_Grumble
+LABEL $1181 Print_String
+LABEL $1185 Convert
+LABEL $118C Convert_1
+LABEL $1198 Convert_2
+LABEL $11A6 Convert_3
+LABEL $11B4 Repeat_Print
+LABEL $11C7 *
+COMMENT_LINE $0000 ************ REVENGE OF YAR ***************
+COMMENT_LINE $0000 *********** By Dan Siewers **************
+COMMENT_LINE $0000 NOTES:
+COMMENT_LINE $0000 Scale of objects = 20
+COMMENT_LINE $0000 Scale for pen movement = 127
+COMMENT_LINE $0000 Points:
+COMMENT_LINE $0000 1 points each "nibble" on front of force field
+COMMENT_LINE $0000 5 points for bullet hitting front of force field
+COMMENT_LINE $0000 500 points for Super Bomb hitting any part of force field
+COMMENT_LINE $0000 1000 points for destroying each part of force field
+COMMENT_LINE $0000 this file is part of vectrex frogger, written by Malban
+COMMENT_LINE $0000 in March-April 1998
+COMMENT_LINE $0000 all stuff contained here is public domain (?)
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 ******************
+COMMENT_LINE $0000 Magic Init Block
+COMMENT_LINE $0000 ******************
+FORCE_NO_SYMBOL $0027
+COMMENT $0029 make sure we start with two force fields
+FORCE_SYMBOL $0029 Force_Field_Status
+FORCE_NO_SYMBOL $002C
+COMMENT $002F set force fields to full strength
+FORCE_SYMBOL $002F Force_Field_1_Strength
+FORCE_SYMBOL $0032 Force_Field_2_Strength
+COMMENT $0035 clear the force field hit flag
+FORCE_SYMBOL $0035 Force_Field_Hit_Flag
+FORCE_NO_SYMBOL $0038
+COMMENT $003A set force field intensity
+FORCE_SYMBOL $003A Force_Field_1_Intensity
+FORCE_SYMBOL $003D Force_Field_2_Intensity
+FORCE_NO_SYMBOL $0040
+COMMENT $0042 set Vanguard's initital speed
+FORCE_SYMBOL $0042 Vanguard_Speed
+FORCE_NO_SYMBOL $0045
+COMMENT $0047 set Fireball's initial speed
+FORCE_SYMBOL $0047 Fireball_Speed
+COMMENT $004A set Level to 1
+FORCE_NO_SYMBOL $004A
+FORCE_SYMBOL $004C Level
+COMMENT $004F clear the level ASCII string
+FORCE_NO_SYMBOL $004F
+FORCE_SYMBOL $0051 Level_List
+COMMENT $005A make sure to put a 1 in level string
+FORCE_NO_SYMBOL $005A
+COMMENT $005F set up Level print string
+FORCE_NO_SYMBOL $005F
+FORCE_NO_SYMBOL $0061
+FORCE_SYMBOL $0063 Level_Print
+FORCE_NO_SYMBOL $006D
+COMMENT $0072 set up Print_String variables
+FORCE_SYMBOL $0072 Print1
+FORCE_SYMBOL $0078 Print2
+FORCE_NO_SYMBOL $007E
+FORCE_SYMBOL $0082 Str_y
+FORCE_SYMBOL $0085 Str_x
+FORCE_NO_SYMBOL $0088
+FORCE_SYMBOL $008A String_End
+COMMENT $008D Yar starts with 5 lives
+FORCE_NO_SYMBOL $008D
+FORCE_SYMBOL $008F Yar_Lives
+COMMENT $0092 clear the Yar lives left ASCII string
+FORCE_NO_SYMBOL $0092
+FORCE_SYMBOL $0094 Yar_Lives_List
+COMMENT $009D make sure to put a 5 in Yar lives string
+FORCE_NO_SYMBOL $009D
+COMMENT $00A2 set up Yar Lives print string
+FORCE_NO_SYMBOL $00A2
+FORCE_NO_SYMBOL $00A4
+FORCE_SYMBOL $00A6 Yar_Lives_Print
+FORCE_NO_SYMBOL $00A9
+FORCE_NO_SYMBOL $00B0
+COMMENT $00B5 clear the Score
+FORCE_SYMBOL $00B6 Score
+COMMENT $00C8 clear the Score ASCII string
+FORCE_NO_SYMBOL $00C8
+FORCE_SYMBOL $00CA Score_List
+FORCE_NO_SYMBOL $00D9
+COMMENT $00DE set up Score print string
+FORCE_NO_SYMBOL $00DE
+FORCE_NO_SYMBOL $00E0
+FORCE_SYMBOL $00E2 Score_Print
+FORCE_NO_SYMBOL $00E5
+FORCE_NO_SYMBOL $00EC
+COMMENT $00F1 clear the general counters
+FORCE_SYMBOL $00F1 Count
+FORCE_SYMBOL $00F7 Dashed_Line_String
+FORCE_NO_SYMBOL $00FA
+COMMENT $00FD set initial line pattern for dashed lines
+FORCE_SYMBOL $00FD Dashed_Line_Pattern
+FORCE_NO_SYMBOL $0100
+COMMENT $0103 set initial intensity for dashed lines
+FORCE_SYMBOL $0103 Dashed_Line_Intensity
+FORCE_SYMBOL $0106 Dashed_Line_Counter
+COMMENT $0109 set line intensity direction to "UP"
+FORCE_SYMBOL $0109 Line_Intensity_Dir
+COMMENT $010C here we set all joystick paramters
+FORCE_SYMBOL $010C Joy_State
+FORCE_NO_SYMBOL $010F
+COMMENT $0111 make sure we only look at joystick 1
+FORCE_SYMBOL $0111 Vec_Joy_Mux_1_X
+FORCE_NO_SYMBOL $0114
+FORCE_SYMBOL $0116 Vec_Joy_Mux_1_Y
+FORCE_SYMBOL $0119 Vec_Joy_Mux_2_X
+FORCE_SYMBOL $011C Vec_Joy_Mux_2_Y
+FORCE_NO_SYMBOL $011F
+FORCE_SYMBOL $0122 Yar_y
+FORCE_NO_SYMBOL $0127
+COMMENT $0129 set Yar's start position
+FORCE_SYMBOL $0129 Yar_x
+FORCE_NO_SYMBOL $012C
+COMMENT $012F set Yar's speed
+FORCE_SYMBOL $012F Yar_Speed
+FORCE_NO_SYMBOL $0132
+FORCE_SYMBOL $0134 Yar_Target_Angle
+COMMENT $0137 set Yar to face right
+FORCE_SYMBOL $0137 Yar_Angle
+COMMENT $013A set Yar to no rotate
+FORCE_SYMBOL $013A Yar_Rotate_Dir
+FORCE_SYMBOL $013D Yar_VL_Wings_Up
+COMMENT $0140 set Yar VL list pointer
+FORCE_SYMBOL $0140 Yar_VL_Pointer
+FORCE_SYMBOL $0143 Yar_Wing_State_Counter
+COMMENT $0146 set up Yar's VL list
+FORCE_SYMBOL $0146 DP_to_C8
+FORCE_SYMBOL $0149 Yar_Angle
+FORCE_SYMBOL $014C Yar_VL_Pointer
+FORCE_NO_SYMBOL $014F
+FORCE_SYMBOL $0151 Yar_VL_Rotated
+COMMENT $0154 now rotate Yar
+FORCE_SYMBOL $0154 Rot_VL_Mode
+FORCE_SYMBOL $0157 DP_to_D0
+COMMENT $015A set enemy ship's start position
+FORCE_NO_SYMBOL $015A
+FORCE_NO_SYMBOL $015C
+FORCE_SYMBOL $015E Enemy_y
+COMMENT $0161 set enemy ship to scroll up
+FORCE_SYMBOL $0161 Enemy_Dir_Flag
+COMMENT $0164 clear the enemy ship move counter
+FORCE_SYMBOL $0164 Enemy_Move_Count
+FORCE_SYMBOL $0167 Collision_Flag
+COMMENT $016A clear bullet (y,x) values
+FORCE_NO_SYMBOL $016A
+FORCE_SYMBOL $016D Bullet_y
+FORCE_SYMBOL $0170 Bullet_x
+COMMENT $0173 set bullet's speed
+FORCE_NO_SYMBOL $0173
+FORCE_SYMBOL $0176 Bullet_Speed
+COMMENT $0179 clear the shooting flag
+FORCE_SYMBOL $0179 Shooting_Status_Flag
+COMMENT $017C clear explosion timer
+FORCE_SYMBOL $017C Explosion_Timer
+FORCE_NO_SYMBOL $017F
+COMMENT $0181 set initial scale factor for explosion
+FORCE_SYMBOL $0181 Explosion_Scale
+FORCE_NO_SYMBOL $0184
+COMMENT $0187 set Vanguard's start position
+FORCE_SYMBOL $0187 Vanguard_y
+FORCE_NO_SYMBOL $018A
+FORCE_SYMBOL $018D Vanguard_x
+FORCE_SYMBOL $0190 Vanguard_Angle
+FORCE_SYMBOL $0193 Vanguard_Hit_Yar_Flag
+FORCE_SYMBOL $0196 Yar_Death_Spin_Counter
+FORCE_SYMBOL $0199 Yar_Life_State
+FORCE_SYMBOL $019C Super_Bomb_Status_Flag
+COMMENT $019F Yar needs to "nibble" this many times
+FORCE_NO_SYMBOL $019F
+FORCE_SYMBOL $01A1 Super_Bomb_Nibbles
+COMMENT $01A4 for the super bomb to appear
+FORCE_SYMBOL $01A4 Super_Bomb_Counter
+FORCE_SYMBOL $01A7 Button_2_State
+FORCE_NO_SYMBOL $01AA
+FORCE_SYMBOL $01AD Super_Bomb_y
+FORCE_SYMBOL $01B0 Super_Bomb_x
+FORCE_SYMBOL $01B3 Fireball_Start_Counter
+COMMENT $01B9 flag fireball to generate a random delay
+FORCE_NO_SYMBOL $01B9
+FORCE_SYMBOL $01BB Fire_Ball_Status
+FORCE_SYMBOL $01BE Fireball_Angle
+FORCE_SYMBOL $01C1 Clear_Sound
+FORCE_SYMBOL $01C4 Vec_Music_Flag
+FORCE_SYMBOL $01C7 Wait_Recal
+COMMENT $01CA display score
+FORCE_NO_SYMBOL $01CA
+FORCE_SYMBOL $01CC VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $01CE
+FORCE_SYMBOL $01D0 Intensity_a
+FORCE_SYMBOL $01D3 Reset0Ref
+FORCE_NO_SYMBOL $01D6
+FORCE_SYMBOL $01DA Moveto_d
+FORCE_NO_SYMBOL $01DD
+FORCE_SYMBOL $01DF VIA_t1_cnt_lo
+FORCE_SYMBOL $01E1 Score_VL
+FORCE_SYMBOL $01E4 Draw_VLp
+COMMENT $01E7 display level
+FORCE_NO_SYMBOL $01E7
+FORCE_SYMBOL $01E9 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $01EB
+FORCE_SYMBOL $01ED Intensity_a
+FORCE_SYMBOL $01F0 Reset0Ref
+FORCE_SYMBOL $01F7 Moveto_d
+FORCE_NO_SYMBOL $01FA
+FORCE_SYMBOL $01FC VIA_t1_cnt_lo
+FORCE_SYMBOL $01FE Level_VL
+FORCE_SYMBOL $0201 Draw_VLp
+COMMENT $0204 here we display the actual level in ASCII
+FORCE_SYMBOL $0210 Reset0Ref
+FORCE_NO_SYMBOL $0213
+FORCE_SYMBOL $0215 Intensity_a
+FORCE_SYMBOL $0218 Level_Print
+FORCE_SYMBOL $021B Print_Str_hwyx
+COMMENT $021E draw Yar symbol
+FORCE_NO_SYMBOL $021E
+FORCE_SYMBOL $0220 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $0222
+FORCE_SYMBOL $0224 Intensity_a
+FORCE_SYMBOL $0227 Reset0Ref
+FORCE_NO_SYMBOL $022A
+FORCE_SYMBOL $022E Moveto_d
+FORCE_NO_SYMBOL $0231
+FORCE_SYMBOL $0233 VIA_t1_cnt_lo
+FORCE_SYMBOL $0235 Yar_VL_Rotated
+FORCE_SYMBOL $0238 Draw_VLp
+COMMENT $023B display equals sign
+FORCE_NO_SYMBOL $023B
+FORCE_SYMBOL $023D VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $023F
+FORCE_SYMBOL $0241 Intensity_a
+FORCE_SYMBOL $0244 Reset0Ref
+FORCE_NO_SYMBOL $0247
+FORCE_SYMBOL $024B Moveto_d
+FORCE_NO_SYMBOL $024E
+FORCE_SYMBOL $0250 VIA_t1_cnt_lo
+FORCE_SYMBOL $0252 Equals_VL
+FORCE_SYMBOL $0255 Draw_VLp
+COMMENT $0258 here we display Yar's lives left in ASCII
+FORCE_SYMBOL $0264 Reset0Ref
+FORCE_NO_SYMBOL $0267
+FORCE_SYMBOL $0269 Intensity_a
+FORCE_SYMBOL $026C Yar_Lives_Print
+FORCE_SYMBOL $026F Print_Str_hwyx
+COMMENT $0272 here we display Yar's score in ASCII
+FORCE_SYMBOL $0272 Score_List
+FORCE_SYMBOL $0284 Reset0Ref
+FORCE_NO_SYMBOL $0287
+FORCE_SYMBOL $0289 Intensity_a
+FORCE_SYMBOL $028C Score_Print
+FORCE_SYMBOL $028F Print_Str_hwyx
+COMMENT $0292 now for the "Press Button 1" message
+FORCE_NO_SYMBOL $0292
+FORCE_SYMBOL $0294 VIA_t1_cnt_lo
+FORCE_SYMBOL $0296 Reset0Ref
+FORCE_NO_SYMBOL $0299
+FORCE_SYMBOL $029B Intensity_a
+FORCE_SYMBOL $029E Button_1_To_Begin
+FORCE_SYMBOL $02A1 Print_Str_hwyx
+COMMENT $02A4 read state of all buttons
+FORCE_SYMBOL $02A4 Read_Btns
+COMMENT $02A7 get state of button 1
+FORCE_SYMBOL $02A7 Buttons_State
+COMMENT $02AA button 1 pressed?
+COMMENT $02AC button 1 not pressed
+FORCE_SYMBOL $02AC Intro
+FORCE_SYMBOL $02AF Sound_Type
+FORCE_NO_SYMBOL $02B4
+FORCE_NO_SYMBOL $02B8
+FORCE_NO_SYMBOL $02BC
+FORCE_SYMBOL $02C0 Vec_Music_Flag
+FORCE_NO_SYMBOL $02C5
+FORCE_SYMBOL $02C7 Vec_Music_Flag
+FORCE_SYMBOL $02CA Fireball_Music
+FORCE_SYMBOL $02CF Vec_Music_Flag
+FORCE_NO_SYMBOL $02D4
+FORCE_SYMBOL $02D6 Vec_Music_Flag
+FORCE_SYMBOL $02D9 Grumble
+FORCE_SYMBOL $02DE Vec_Music_Flag
+FORCE_NO_SYMBOL $02E3
+FORCE_SYMBOL $02E5 Vec_Music_Flag
+FORCE_SYMBOL $02E8 Fireball_Shooting_Music
+FORCE_SYMBOL $02ED Vec_Music_Flag
+FORCE_NO_SYMBOL $02F2
+FORCE_SYMBOL $02F4 Vec_Music_Flag
+FORCE_SYMBOL $02F7 Super_Bomb_Shooting_Music
+COMMENT_LINE $02FA bra	Keep_Playing
+FORCE_SYMBOL $02FA DP_to_C8
+FORCE_SYMBOL $02FD Init_Music_chk
+FORCE_SYMBOL $0300 Wait_Recal
+FORCE_SYMBOL $0303 Do_Sound
+COMMENT_LINE $0308 jsr	Print_String
+COMMENT $0308 has Yar died?
+FORCE_SYMBOL $0308 Yar_Life_State
+FORCE_NO_SYMBOL $030B
+COMMENT $030D no, continue playing
+FORCE_SYMBOL $030F Yar_Lives
+FORCE_SYMBOL $0317 Level_Start
+FORCE_SYMBOL $031A Cold_Start
+COMMENT_LINE $031D *******************************************************************************
+COMMENT_LINE $031D ---Dashed_Lines---
+COMMENT_LINE $031D This routine draws the dashed lines on the screen
+COMMENT_LINE $031D Four lines are drawn, two above and two below the X-axis
+COMMENT_LINE $031D The line intensity is raised or lowered depending on the "Dashed_Line_Dir" flag
+COMMENT_LINE $031D *******************************************************************************
+COMMENT $031D pointer to x, y and pattern data
+FORCE_SYMBOL $031D Dashed_Line_String
+FORCE_SYMBOL $0320 Dashed_Line_Intensity
+COMMENT $0323 dashed line intensity goes up or down?
+FORCE_SYMBOL $0323 Line_Intensity_Dir
+COMMENT $0328 dashed line intesity goes down here
+FORCE_NO_SYMBOL $0328
+FORCE_NO_SYMBOL $0330
+COMMENT $0337 flip intensity direction flag when ready
+FORCE_NO_SYMBOL $0337
+FORCE_SYMBOL $0339 Line_Intensity_Dir
+FORCE_SYMBOL $033E Dashed_Line_Intensity
+COMMENT $0341 go set intensity
+FORCE_SYMBOL $0341 Intensity_a
+FORCE_SYMBOL $0344 Dashed_Line_Pattern
+COMMENT $0347 here we change the line pattern...
+FORCE_NO_SYMBOL $0347
+COMMENT $0349 by moving all bits over by on bit to the right
+COMMENT $034C here we reset the line patterns
+FORCE_NO_SYMBOL $034C
+FORCE_SYMBOL $034F Dashed_Line_Pattern
+FORCE_SYMBOL $0352 Dashed_Line_Counter
+FORCE_NO_SYMBOL $0355
+COMMENT $0357 we are drawing four lines
+FORCE_SYMBOL $0357 Count
+FORCE_NO_SYMBOL $035A
+COMMENT $035C set scale factor
+FORCE_SYMBOL $035C VIA_t1_cnt_lo
+FORCE_SYMBOL $035E Reset0Ref
+COMMENT $0363 move pen
+FORCE_SYMBOL $0363 Moveto_d
+FORCE_SYMBOL $0366 Dashed_Line_Pattern
+COMMENT $0369 set the line pattern
+FORCE_SYMBOL $0369 Vec_Pattern
+FORCE_NO_SYMBOL $036C
+FORCE_NO_SYMBOL $036E
+FORCE_NO_SYMBOL $0370
+COMMENT $0372 draw the dashed lines
+FORCE_SYMBOL $0372 Draw_Pat_VL_a
+FORCE_SYMBOL $0375 Count
+COMMENT $0378 make sure we draw all lines
+COMMENT_LINE $037A ***********************************************************
+COMMENT_LINE $037A This routine reads the joystick and then places the results
+COMMENT_LINE $037A in Joy_State
+COMMENT_LINE $037A Yar's Target angle is also determined here. The target angle
+COMMENT_LINE $037A is Yar's final resting angle should a turn be initiated
+COMMENT_LINE $037A ***********************************************************
+COMMENT $037A has Vanguard hit Yar?
+FORCE_SYMBOL $037A Vanguard_Hit_Yar_Flag
+COMMENT $037D yes, ignore joystick
+COMMENT $037F is Yar rotating?
+FORCE_SYMBOL $037F Yar_Rotate_Dir
+COMMENT $0382 yes, keep rotating
+COMMENT $0384 Read Joystick
+FORCE_SYMBOL $0384 Joy_Digital
+COMMENT $0387 check left/right
+FORCE_SYMBOL $0387 Vec_Joy_1_X
+COMMENT $038C left joy?
+COMMENT $038E no, must be right
+FORCE_NO_SYMBOL $038E
+FORCE_SYMBOL $0390 Joy_State
+FORCE_NO_SYMBOL $0393
+COMMENT $0395 set Yar's target angle
+FORCE_SYMBOL $0395 Yar_Target_Angle
+COMMENT $039A left joy
+FORCE_NO_SYMBOL $039A
+FORCE_SYMBOL $039C Joy_State
+FORCE_NO_SYMBOL $039F
+COMMENT $03A1 set Yar's target angle
+FORCE_SYMBOL $03A1 Yar_Target_Angle
+COMMENT $03A6 now check up/down
+FORCE_SYMBOL $03A6 Vec_Joy_1_Y
+COMMENT $03AD up joy
+FORCE_NO_SYMBOL $03AD
+FORCE_SYMBOL $03AF Joy_State
+FORCE_NO_SYMBOL $03B2
+COMMENT $03B4 set Yar's target angle
+FORCE_SYMBOL $03B4 Yar_Target_Angle
+COMMENT $03B9 down joy
+FORCE_NO_SYMBOL $03B9
+FORCE_SYMBOL $03BB Joy_State
+FORCE_NO_SYMBOL $03BE
+COMMENT $03C0 set Yar's target angle
+FORCE_SYMBOL $03C0 Yar_Target_Angle
+COMMENT $03C5 no joystick pressed
+FORCE_NO_SYMBOL $03C5
+FORCE_SYMBOL $03C7 Joy_State
+COMMENT $03CA go check wings
+FORCE_SYMBOL $03CA Move_Yar_Wings
+COMMENT_LINE $03CD **************************************************************
+COMMENT_LINE $03CD This routine calculates the Yar's rotation angle and direction
+COMMENT_LINE $03CD It is called from the Read_Joystick routine
+COMMENT_LINE $03CD **************************************************************
+FORCE_SYMBOL $03CD Yar_Rotate_Dir
+COMMENT $03D0 Yar is already rotating, go process
+FORCE_SYMBOL $03D2 Yar_Target_Angle
+COMMENT $03D5 Yar already facing desired direction of travel?
+FORCE_SYMBOL $03D5 Yar_Angle
+COMMENT $03D8 yes, go move him
+COMMENT $03DC no, he starts rotating here
+FORCE_SYMBOL $03DC Joy_State
+FORCE_NO_SYMBOL $03DF
+COMMENT $03E3 Joy left, pointer table for rotation values
+FORCE_SYMBOL $03E3 Yar_Rot_Table_Left
+COMMENT $03E8 Joy right
+FORCE_NO_SYMBOL $03E8
+FORCE_SYMBOL $03EC Yar_Angle
+COMMENT $03F1 if Yar is pointing up then
+FORCE_NO_SYMBOL $03F1
+COMMENT $03F3 change his start angle to $40 and count down to $30
+FORCE_SYMBOL $03F3 Yar_Angle
+COMMENT $03F6 Joy right, pointer table for rotation values
+FORCE_SYMBOL $03F6 Yar_Rot_Table_Right
+FORCE_NO_SYMBOL $03FB
+FORCE_SYMBOL $03FF Yar_Angle
+FORCE_NO_SYMBOL $0402
+COMMENT $0406 if Yar is pointing right then
+FORCE_NO_SYMBOL $0406
+COMMENT $0408 change his target angle to $40 and count up
+FORCE_SYMBOL $0408 Yar_Target_Angle
+COMMENT $040B Joy Up, pointer table for rotation values
+FORCE_SYMBOL $040B Yar_Rot_Table_Up
+COMMENT $0410 Joy down, pointer table for rotation values
+FORCE_SYMBOL $0410 Yar_Rot_Table_Down
+COMMENT $0413 get Yar's current angle
+FORCE_SYMBOL $0413 Yar_Angle
+COMMENT $041A get the rotation direction from table
+FORCE_SYMBOL $041C Yar_Rotate_Dir
+FORCE_SYMBOL $041F Yar_Angle
+COMMENT $0422 increment Yar's current angle
+FORCE_SYMBOL $0422 Yar_Rotate_Dir
+COMMENT $0425 Yar done rotating?
+FORCE_SYMBOL $0425 Yar_Target_Angle
+COMMENT $0428 nope, he still needs to spin a little more
+FORCE_NO_SYMBOL $042A
+COMMENT $042E make sure angle changes to $00 from $40
+COMMENT $042F same for target angle
+FORCE_SYMBOL $042F Yar_Target_Angle
+COMMENT $0432 yes, stop him from rotating
+FORCE_SYMBOL $0432 Yar_Rotate_Dir
+COMMENT $0435 save Yar's new angle
+FORCE_SYMBOL $0435 Yar_Angle
+FORCE_NO_SYMBOL $043A
+FORCE_SYMBOL $043E Yar_Angle
+FORCE_SYMBOL $0441 Yar_VL_Pointer
+FORCE_NO_SYMBOL $0444
+FORCE_SYMBOL $0446 Yar_VL_Rotated
+COMMENT $0449 now rotate Yar
+FORCE_SYMBOL $0449 Rot_VL_Mode
+FORCE_SYMBOL $044E Draw_Yar
+COMMENT $0451 direction if Yar_angle is $00
+COMMENT $0452 direction if Yar_angle is $10
+COMMENT $0453 direction if Yar_angle is $20
+COMMENT $0454 direction if Yar_angle is $30
+COMMENT $0455 direction if Yar_angle is $00
+COMMENT $0456 direction if Yar_angle is $10
+COMMENT $0457 direction if Yar_angle is $20
+COMMENT $0458 direction if Yar_angle is $30
+COMMENT $0459 direction if Yar_angle is $40
+COMMENT $045A direction if Yar_angle is $00
+COMMENT $045B direction if Yar_angle is $10
+COMMENT $045C direction if Yar_angle is $20
+COMMENT $045D direction if Yar_angle is $30
+COMMENT $045E direction if Yar_angle is $00
+COMMENT $045F direction if Yar_angle is $10
+COMMENT $0460 direction if Yar_angle is $20
+COMMENT $0461 direction if Yar_angle is $30
+COMMENT_LINE $0462 *********************************************************
+COMMENT_LINE $0462 This routine move's Yar around the screen
+COMMENT_LINE $0462 player's ship is adjusted to reflect joystick direction
+COMMENT_LINE $0462 Yar is prevented from running off edge of screen
+COMMENT_LINE $0462 Yar is also prevented from running through a force field
+COMMENT_LINE $0462 *********************************************************
+COMMENT $0462 Was Joystick moved?
+FORCE_SYMBOL $0462 Joy_State
+COMMENT $0465 joystick left
+FORCE_NO_SYMBOL $0465
+FORCE_SYMBOL $0469 Yar_x
+COMMENT $046C branch if we are right of Y-Axis
+COMMENT $046E here we are left of the Y-Axis
+FORCE_SYMBOL $046E Yar_x
+COMMENT $0471 move Yar to the left
+FORCE_SYMBOL $0471 Yar_Speed
+COMMENT $0474 have we reached the end of the screen?
+FORCE_NO_SYMBOL $0474
+COMMENT $0476 yes we have reached the end of the screen
+COMMENT $0478 no, save the new X coordinate value
+FORCE_SYMBOL $0478 Yar_x
+FORCE_SYMBOL $047B Move_Yar_Wings
+COMMENT $047E here we keep Yar from...
+FORCE_NO_SYMBOL $047E
+COMMENT $0480 going off screen edge
+FORCE_SYMBOL $0480 Yar_x
+FORCE_SYMBOL $0483 Move_Yar_Wings
+COMMENT $0486 Here we are to the right of the Y-axis
+FORCE_SYMBOL $0486 Yar_x
+FORCE_SYMBOL $0489 Yar_Speed
+FORCE_SYMBOL $048C Yar_x
+FORCE_SYMBOL $048F Move_Yar_Wings
+COMMENT $0492 joystick right
+FORCE_NO_SYMBOL $0492
+COMMENT $0496 don't move Yar if he has hit a force field
+FORCE_SYMBOL $0496 Collision_Flag
+FORCE_SYMBOL $049D Yar_x
+COMMENT $04A0 branch if we are left of Y-Axis
+COMMENT $04A2 here we are right of the Y-Axis
+FORCE_SYMBOL $04A2 Yar_x
+COMMENT $04A5 move Yar to the right
+FORCE_SYMBOL $04A5 Yar_Speed
+COMMENT $04A8 have we reached the end of the screen?
+FORCE_NO_SYMBOL $04A8
+COMMENT $04AA yes we have reached the end of the screen
+COMMENT $04AC no, save the new X coordinate value
+FORCE_SYMBOL $04AC Yar_x
+COMMENT $04B2 here we keep Yar from...
+FORCE_NO_SYMBOL $04B2
+COMMENT $04B4 going off screen edge
+FORCE_SYMBOL $04B4 Yar_x
+COMMENT $04BA here we are left of the Y-Axis
+FORCE_SYMBOL $04BA Yar_x
+FORCE_SYMBOL $04BD Yar_Speed
+FORCE_SYMBOL $04C0 Yar_x
+COMMENT $04C6 joystick up
+FORCE_NO_SYMBOL $04C6
+COMMENT $04CA don't move Yar if he has hit a force field
+FORCE_SYMBOL $04CA Collision_Flag
+FORCE_SYMBOL $04CF Yar_y
+COMMENT $04D2 branch if we are below the X-Axis
+COMMENT $04D4 here we are above of the X-Axis
+FORCE_SYMBOL $04D4 Yar_y
+COMMENT $04D7 move Yar up
+FORCE_SYMBOL $04D7 Yar_Speed
+COMMENT $04DA have we reached the end of the screen?
+FORCE_NO_SYMBOL $04DA
+COMMENT $04DC yes we have reached the end of the screen
+COMMENT $04DE no, save the new Y coordinate value
+FORCE_SYMBOL $04DE Yar_y
+COMMENT $04E4 here we keep Yar from...
+FORCE_NO_SYMBOL $04E4
+COMMENT $04E6 going off screen edge
+FORCE_SYMBOL $04E6 Yar_y
+COMMENT $04EC Here we are below the X-axis
+FORCE_SYMBOL $04EC Yar_y
+FORCE_SYMBOL $04EF Yar_Speed
+FORCE_SYMBOL $04F2 Yar_y
+COMMENT $04F8 don't move Yar if he has hit a force field
+FORCE_SYMBOL $04F8 Collision_Flag
+FORCE_SYMBOL $04FD Yar_y
+COMMENT $0500 branch if we are above the X-Axis
+COMMENT $0502 here we are below the X-Axis
+FORCE_SYMBOL $0502 Yar_y
+COMMENT $0505 move Yar down
+FORCE_SYMBOL $0505 Yar_Speed
+COMMENT $0508 have we reached the end of the screen?
+FORCE_NO_SYMBOL $0508
+COMMENT $050A yes we have reached the end of the screen
+COMMENT $050C no, save the new X coordinate value
+FORCE_SYMBOL $050C Yar_y
+COMMENT $0511 here we keep the Yar from...
+FORCE_NO_SYMBOL $0511
+COMMENT $0513 going off screen edge
+FORCE_SYMBOL $0513 Yar_y
+COMMENT $0518 Here we are above the X-axis
+FORCE_SYMBOL $0518 Yar_y
+FORCE_SYMBOL $051B Yar_Speed
+FORCE_SYMBOL $051E Yar_y
+COMMENT $0521 clear the collision flag
+FORCE_SYMBOL $0521 Collision_Flag
+FORCE_SYMBOL $0524 Yar_Wing_State_Counter
+FORCE_SYMBOL $0527 Yar_Wing_State_Counter
+COMMENT $052A time to change wing state?
+FORCE_NO_SYMBOL $052A
+COMMENT $052E yes, clear the counter
+FORCE_SYMBOL $052E Yar_Wing_State_Counter
+FORCE_SYMBOL $0531 Yar_VL_Pointer
+COMMENT $0534 check wing state
+FORCE_SYMBOL $0534 Yar_VL_Wings_Up
+COMMENT $053A wings are down, set them to go up
+FORCE_SYMBOL $053A Yar_VL_Wings_Up
+COMMENT $053F wings are up, set them to go down
+FORCE_SYMBOL $053F Yar_VL_Wings_Down
+FORCE_SYMBOL $0542 Yar_VL_Pointer
+COMMENT $0545 make sure new VL is in rotated VL table
+FORCE_SYMBOL $0545 Yar_Angle
+FORCE_SYMBOL $0548 Yar_Is_Rotating_1
+COMMENT_LINE $054B *******************************************
+COMMENT_LINE $054B Here we draw Yar
+COMMENT_LINE $054B *******************************************
+FORCE_SYMBOL $054B Yar_Life_State
+FORCE_NO_SYMBOL $0550
+FORCE_SYMBOL $0552 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $0554
+FORCE_SYMBOL $0556 Intensity_a
+FORCE_SYMBOL $0559 Reset0Ref
+FORCE_SYMBOL $055C Yar_y
+FORCE_SYMBOL $055F Yar_x
+FORCE_SYMBOL $0562 Moveto_d
+FORCE_NO_SYMBOL $0565
+FORCE_SYMBOL $0567 VIA_t1_cnt_lo
+FORCE_SYMBOL $0569 Yar_VL_Rotated
+FORCE_SYMBOL $056C Draw_VLp
+COMMENT_LINE $056F *******************************************
+COMMENT_LINE $056F Here we draw Enemy Ship
+COMMENT_LINE $056F Also, the enemy ship is moved up or down depending
+COMMENT_LINE $056F upon the Enemy_Dir_Flag status
+COMMENT_LINE $056F *******************************************
+FORCE_SYMBOL $056F Enemy_Move_Count
+FORCE_SYMBOL $0572 Enemy_Move_Count
+COMMENT $0575 move ship every second entry to this routine
+FORCE_NO_SYMBOL $0575
+COMMENT $0579 now start moving the ship
+FORCE_SYMBOL $0579 Enemy_Move_Count
+FORCE_SYMBOL $057C Enemy_Ship_Move_Data
+FORCE_SYMBOL $057F Enemy_Dir_Flag
+COMMENT $0584 move the ship according to enemy ship data table
+FORCE_SYMBOL $0584 Enemy_y
+FORCE_SYMBOL $0587 Enemy_y
+COMMENT $058D check to see if ship has reached end of travel limit
+FORCE_SYMBOL $058D Enemy_y
+COMMENT $0592 reverse ship direction of travel
+FORCE_SYMBOL $0592 Enemy_Dir_Flag
+FORCE_NO_SYMBOL $0595
+FORCE_SYMBOL $0597 Enemy_Dir_Flag
+COMMENT $059A make sure the firball is not on the screen
+FORCE_SYMBOL $059A Fire_Ball_Status
+COMMENT $059D if so do not draw the enemy ship
+COMMENT $059F otherwise draw it
+FORCE_NO_SYMBOL $059F
+FORCE_SYMBOL $05A1 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $05A3
+FORCE_SYMBOL $05A5 Intensity_a
+COMMENT $05A8 now draw the ship
+FORCE_SYMBOL $05A8 Reset0Ref
+FORCE_SYMBOL $05AB Enemy_y
+FORCE_SYMBOL $05AE Enemy_x
+FORCE_SYMBOL $05B1 Moveto_d
+FORCE_NO_SYMBOL $05B4
+FORCE_SYMBOL $05B6 VIA_t1_cnt_lo
+FORCE_SYMBOL $05B8 Enemy_VL
+FORCE_SYMBOL $05BB Draw_VLp
+COMMENT_LINE $05BE *******************************************************
+COMMENT_LINE $05BE Here we draw the force fields that surround the
+COMMENT_LINE $05BE the enemy ship
+COMMENT_LINE $05BE The force fields will move along with the enemy ship
+COMMENT_LINE $05BE *******************************************************
+FORCE_SYMBOL $05BE Force_Field_Status
+COMMENT $05C1 no force fields to draw
+FORCE_SYMBOL $05C3 Count
+FORCE_SYMBOL $05C6 Force_Field_1_Intensity
+COMMENT $05C9 vector list points to inner force field
+FORCE_SYMBOL $05C9 Enemy_Force_Field
+FORCE_NO_SYMBOL $05CC
+FORCE_SYMBOL $05CE VIA_t1_cnt_lo
+FORCE_SYMBOL $05D0 Reset0Ref
+FORCE_SYMBOL $05D3 Enemy_x
+FORCE_SYMBOL $05D6 Enemy_y
+COMMENT $05D9 move integrators to center of enemy ship
+FORCE_SYMBOL $05D9 Moveto_d
+FORCE_SYMBOL $05DC Count
+COMMENT $05DF which force field are we drawing here?
+FORCE_NO_SYMBOL $05DF
+COMMENT $05E5 set force field intensity
+FORCE_SYMBOL $05E5 Intensity_a
+COMMENT $05EA are we drawing outer force field here?
+FORCE_NO_SYMBOL $05EA
+COMMENT $05EC no, inner force field only
+COMMENT $05EE now vector list points to outer force field
+FORCE_NO_SYMBOL $05EE
+COMMENT $05F0 get number of coordinates to draw
+FORCE_NO_SYMBOL $05F0
+COMMENT $05F2 draw the force field
+FORCE_SYMBOL $05F2 Mov_Draw_VL_a
+FORCE_SYMBOL $05F5 Count
+COMMENT $05F8 leave routine if we are finished here
+COMMENT $05FC make sure to reset intensity back to...
+FORCE_SYMBOL $05FC Dashed_Line_Intensity
+COMMENT $05FF that of the dashed lines
+FORCE_SYMBOL $05FF Intensity_a
+COMMENT_LINE $0602 ******************************************************
+COMMENT_LINE $0602 This routine checks to see if yar has hit any objects
+COMMENT_LINE $0602 If Yar hits the front of one of the force fields
+COMMENT_LINE $0602 then that force field is flagged to be weakened
+COMMENT_LINE $0602 If yar hits the top or bottom of the force field then the
+COMMENT_LINE $0602 force field will push him
+COMMENT_LINE $0602 ******************************************************
+COMMENT $0602 has Vanguard hit Yar?
+FORCE_SYMBOL $0602 Vanguard_Hit_Yar_Flag
+COMMENT $0605 yes, skip collision detection routines
+FORCE_SYMBOL $0609 Yar_x
+COMMENT $060C is Yar close to enemy ship?
+FORCE_NO_SYMBOL $060C
+COMMENT $060E nope go check other potential collisions
+FORCE_SYMBOL $0612 Force_Field_Status
+COMMENT $0615 no force fields, check other collisions
+COMMENT $0617 now check to see if we have hit a force field
+FORCE_SYMBOL $0617 Enemy_y
+FORCE_SYMBOL $061B Yar_y
+FORCE_SYMBOL $061E Yar_x
+FORCE_SYMBOL $0623 Force_Field_Status
+COMMENT $0626 which one?
+FORCE_NO_SYMBOL $0626
+COMMENT $062A h/2 of inner force field
+FORCE_NO_SYMBOL $062A
+COMMENT $062C w/2 of inner force field
+FORCE_NO_SYMBOL $062C
+COMMENT $0630 h/2 of outer force field
+FORCE_NO_SYMBOL $0630
+COMMENT $0632 w/2 of outer force field
+FORCE_NO_SYMBOL $0632
+COMMENT $0634 force field hit?
+FORCE_SYMBOL $0634 Obj_Hit
+COMMENT $0637 nope go see if we hit anything else
+FORCE_SYMBOL $0639 Force_Field_Status
+FORCE_SYMBOL $063C Hit_Force_Field_Data
+FORCE_SYMBOL $063F Yar_x
+COMMENT $0642 is Yar in front of the Force Field?
+COMMENT $0644 yes, make sure he does not move forward
+COMMENT $0646 yes, we hit the force field
+FORCE_SYMBOL $0646 Enemy_Dir_Flag
+COMMENT $0649 which way is the enemy ship moving?
+COMMENT $064B here the enemy is moving up
+FORCE_SYMBOL $064B Enemy_y
+FORCE_SYMBOL $064E Yar_y
+COMMENT $0653 increment Yar's Y-pos if he is above the enemy
+FORCE_SYMBOL $0653 Yar_y
+FORCE_SYMBOL $0656 Yar_y
+COMMENT $0659 here Yar is below the ship
+FORCE_SYMBOL $0659 Collision_Flag
+COMMENT $065E here the enemy is moving down
+FORCE_SYMBOL $065E Enemy_y
+FORCE_SYMBOL $0661 Yar_y
+FORCE_SYMBOL $0666 Collision_Flag
+COMMENT $0669 decrement Yar's Y-Pos if he is below the ship
+FORCE_SYMBOL $0669 Yar_y
+FORCE_SYMBOL $066C Yar_y
+COMMENT $066F here Yar is above the ship
+FORCE_SYMBOL $066F Collision_Flag
+COMMENT $0674 Here we bounce Yar off the front of the
+FORCE_SYMBOL $0674 Yar_x
+COMMENT $0677 force field
+FORCE_SYMBOL $0677 Yar_Speed
+FORCE_SYMBOL $067A Yar_x
+COMMENT $067D set the collision flag
+FORCE_SYMBOL $067D Collision_Flag
+COMMENT $0680 set the force field hit flag
+FORCE_SYMBOL $0680 Force_Field_Hit_Flag
+COMMENT $0683 decrement the bomb counter
+FORCE_SYMBOL $0683 Super_Bomb_Counter
+COMMENT $0686 add 1 points to the score
+FORCE_NO_SYMBOL $0686
+FORCE_SYMBOL $0688 Score_List
+FORCE_SYMBOL $068B Add_Score_a
+COMMENT $068E get rid of any bullet the is on the screen
+FORCE_SYMBOL $068E Shooting_Status_Flag
+COMMENT $0691 now see if Vaguard has run into Yar
+FORCE_SYMBOL $0691 Enemy_y
+FORCE_SYMBOL $0694 Enemy_x
+FORCE_SYMBOL $0699 Yar_y
+FORCE_SYMBOL $069C Yar_x
+COMMENT $06A1 Enemy's h/2
+FORCE_NO_SYMBOL $06A1
+COMMENT $06A3 Enemy's w/2
+FORCE_NO_SYMBOL $06A3
+COMMENT $06A5 Enemy touched Yar?
+FORCE_SYMBOL $06A5 Obj_Hit
+COMMENT $06A8 nope, go check other collisions
+COMMENT $06AA yes flag the super bomb
+FORCE_SYMBOL $06AA Super_Bomb_Counter
+COMMENT $06AD now see if Vaguard has run into Yar
+FORCE_SYMBOL $06AD Vanguard_y
+FORCE_SYMBOL $06B0 Vanguard_x
+FORCE_SYMBOL $06B5 Yar_y
+FORCE_SYMBOL $06B8 Yar_x
+COMMENT $06BD Vanguard's h/2
+FORCE_NO_SYMBOL $06BD
+COMMENT $06BF Vanguard's w/2
+FORCE_NO_SYMBOL $06BF
+COMMENT $06C1 Vanguard touched Yar?
+FORCE_SYMBOL $06C1 Obj_Hit
+COMMENT $06C4 nope, go check other collisions
+COMMENT $06C6 yes, set the hit flag
+FORCE_NO_SYMBOL $06C6
+COMMENT $06C8 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+FORCE_SYMBOL $06C8 Vanguard_Hit_Yar_Flag
+COMMENT_LINE $06CD rts
+COMMENT_LINE $06CD ******************************************************
+COMMENT_LINE $06CD This routine updates the force fields
+COMMENT_LINE $06CD Here we decrease the force field strength and intensity
+COMMENT_LINE $06CD if the force field was hit
+COMMENT_LINE $06CD ******************************************************
+COMMENT $06CD was force field hit?
+FORCE_SYMBOL $06CD Force_Field_Hit_Flag
+COMMENT $06D2 no, go check button press
+COMMENT $06D4 clear the force field hit flag
+FORCE_SYMBOL $06D4 Force_Field_Hit_Flag
+FORCE_SYMBOL $06D7 Force_Field_1_Strength
+COMMENT $06DA make sure we look at the first
+FORCE_SYMBOL $06DA Force_Field_Status
+COMMENT $06DD active force field
+FORCE_NO_SYMBOL $06DD
+COMMENT $06E1 now decrease it's strength
+COMMENT $06E3 the force field needs to be destroyed
+COMMENT $06E5 save the force field strength data
+FORCE_SYMBOL $06E7 Count
+COMMENT $06EB has the force field weakened enough
+FORCE_SYMBOL $06EB Force_Field_Intensity_Data
+COMMENT $06EE to warrant decreasing the intensity?
+COMMENT $06F0 yes
+FORCE_NO_SYMBOL $06F2
+COMMENT $06F4 otherwise keep checking
+FORCE_NO_SYMBOL $06F4
+COMMENT $06F8 now go check button press
+COMMENT $06FC get the new intensity setting
+FORCE_SYMBOL $06FE Force_Field_Status
+FORCE_NO_SYMBOL $0701
+FORCE_SYMBOL $0703 Force_Field_1_Intensity
+COMMENT $0706 now save the new setting
+COMMENT $0708 now go check button press
+COMMENT $070A here we destroy the force field
+FORCE_SYMBOL $070A Force_Field_Status
+FORCE_NO_SYMBOL $070D
+COMMENT $070F now we add 1000 points to score
+FORCE_NO_SYMBOL $0711
+FORCE_SYMBOL $0713 Score_List
+FORCE_SYMBOL $0716 Add_Score_a
+COMMENT_LINE $071E *******************************************************************
+COMMENT_LINE $071E This routine reads the joystick buttons
+COMMENT_LINE $071E and processes the bullets
+COMMENT_LINE $071E Here we also draw the exploding bullet if it has hit a force field
+COMMENT_LINE $071E Yar is kept from firing if he is in the middle zone
+COMMENT_LINE $071E *******************************************************************
+COMMENT $071E is there a bullet already on screen?
+FORCE_SYMBOL $071E Shooting_Status_Flag
+COMMENT $0725 has Vanguard hit Yar?
+FORCE_SYMBOL $0725 Vanguard_Hit_Yar_Flag
+COMMENT $0728 yes, ignore button press
+COMMENT $072C first make sure Yar is not rotating
+FORCE_SYMBOL $072C Yar_Rotate_Dir
+COMMENT $0731 Yar is rotating so move on
+FORCE_SYMBOL $0731 Joy_Buttons_Next
+COMMENT $0734 is Yar in the middle zone?
+FORCE_SYMBOL $0734 Yar_x
+FORCE_NO_SYMBOL $0739
+COMMENT $073B no, he is to the right of it
+FORCE_SYMBOL $073D Joy_Buttons_Next
+FORCE_NO_SYMBOL $0740
+COMMENT $0742 no, he is to the left of it
+FORCE_SYMBOL $0744 Joy_Buttons_Next
+COMMENT $0747 read state of all buttons
+FORCE_SYMBOL $0747 Read_Btns
+COMMENT $074A get state of button 3
+COMMENT $074D button 3 pressed?
+COMMENT $074F button 2 not pressed
+FORCE_SYMBOL $074F Joy_Buttons_Next
+COMMENT $0752 super bomb on screen?
+FORCE_SYMBOL $0752 Super_Bomb_Status_Flag
+COMMENT $0757 yes, do not process bullets
+FORCE_SYMBOL $0757 Vanguard_Move
+COMMENT $075A first we see if Yar is too close to edge of screen
+FORCE_SYMBOL $075A Yar_Angle
+COMMENT $075F here Yar is facing up
+FORCE_SYMBOL $075F Yar_y
+COMMENT $0764 is he too close to the edge of screen?
+FORCE_NO_SYMBOL $0764
+FORCE_SYMBOL $0768 Joy_Buttons_Next
+FORCE_NO_SYMBOL $076B
+COMMENT $076D here Yar is facing left
+FORCE_SYMBOL $076F Yar_x
+COMMENT $0774 is he too close to the edge of screen?
+FORCE_NO_SYMBOL $0774
+FORCE_SYMBOL $0778 Joy_Buttons_Next
+FORCE_NO_SYMBOL $077B
+COMMENT $077D here Yar is facing left
+FORCE_SYMBOL $077F Yar_y
+COMMENT $0784 is he too close to the edge of screen?
+FORCE_NO_SYMBOL $0784
+FORCE_SYMBOL $0788 Joy_Buttons_Next
+COMMENT $078B here Yar is facing right
+FORCE_SYMBOL $078B Yar_x
+COMMENT $0790 is he too close to the edge of screen?
+FORCE_NO_SYMBOL $0790
+FORCE_SYMBOL $0794 Joy_Buttons_Next
+COMMENT $0797 now we determine the bullet's start position
+FORCE_SYMBOL $0797 Yar_Angle
+FORCE_SYMBOL $079A Bullet_Angle
+FORCE_SYMBOL $07A0 Shoot_Table_Data_Bullet
+FORCE_SYMBOL $07A3 Yar_y
+COMMENT $07A8 save bullet start position (y)
+FORCE_SYMBOL $07A8 Bullet_y
+FORCE_SYMBOL $07AC Yar_x
+COMMENT $07B1 save bullet start position (x)
+FORCE_SYMBOL $07B1 Bullet_x
+COMMENT $07B4 now we are shooting
+FORCE_SYMBOL $07B4 Shooting_Status_Flag
+FORCE_SYMBOL $07B7 Shooting_Status_Flag
+COMMENT $07BA is the bullet exploding?
+FORCE_NO_SYMBOL $07BA
+COMMENT $07C0 no, it is on the move... get bullet's angle
+FORCE_SYMBOL $07C0 Bullet_Angle
+FORCE_SYMBOL $07C5 Bullet_y
+COMMENT $07C8 branch if we are below the X-Axis
+COMMENT $07CA here we are above of the X-Axis
+FORCE_SYMBOL $07CA Bullet_y
+COMMENT $07CD move bullet up
+FORCE_SYMBOL $07CD Bullet_Speed
+COMMENT $07D0 have we reached the end of the screen?
+FORCE_NO_SYMBOL $07D0
+COMMENT $07D2 yes we have reached the end of the screen
+COMMENT $07D4 no, save the new Y coordinate value
+FORCE_SYMBOL $07D4 Bullet_y
+FORCE_SYMBOL $07D7 Draw_Bullet
+COMMENT $07DA here we keep bullet from...
+FORCE_NO_SYMBOL $07DA
+COMMENT $07DC going off screen edge
+FORCE_SYMBOL $07DC Bullet_y
+COMMENT $07DF bullet exists no more
+FORCE_SYMBOL $07DF Shooting_Status_Flag
+FORCE_SYMBOL $07E2 Draw_Bullet
+COMMENT $07E5 Here we are below the X-axis
+FORCE_SYMBOL $07E5 Bullet_y
+FORCE_SYMBOL $07E8 Bullet_Speed
+FORCE_SYMBOL $07EB Bullet_y
+FORCE_SYMBOL $07EE Draw_Bullet
+COMMENT $07F1 here we keep shooting to the left
+FORCE_NO_SYMBOL $07F1
+FORCE_SYMBOL $07F5 Bullet_x
+COMMENT $07F8 branch if we are right of Y-Axis
+COMMENT $07FA here we are left of the Y-Axis
+FORCE_SYMBOL $07FA Bullet_x
+COMMENT $07FD move Yar to the left
+FORCE_SYMBOL $07FD Bullet_Speed
+COMMENT $0800 have we reached the end of the screen?
+FORCE_NO_SYMBOL $0800
+COMMENT $0802 yes we have reached the end of the screen
+COMMENT $0804 no, save the new X coordinate value
+FORCE_SYMBOL $0804 Bullet_x
+COMMENT $0809 here we keep bullet from...
+FORCE_NO_SYMBOL $0809
+COMMENT $080B going off screen edge
+FORCE_SYMBOL $080B Bullet_x
+FORCE_SYMBOL $080E Shooting_Status_Flag
+COMMENT $0813 Here we are to the right of the Y-axis
+FORCE_SYMBOL $0813 Bullet_x
+FORCE_SYMBOL $0816 Bullet_Speed
+FORCE_SYMBOL $0819 Bullet_x
+COMMENT $081E here we keep shooting down
+FORCE_NO_SYMBOL $081E
+FORCE_SYMBOL $0822 Bullet_y
+COMMENT $0825 branch if we are above the X-Axis
+COMMENT $0827 here we are below the X-Axis
+FORCE_SYMBOL $0827 Bullet_y
+COMMENT $082A move bullet down
+FORCE_SYMBOL $082A Bullet_Speed
+COMMENT $082D have we reached the end of the screen?
+FORCE_NO_SYMBOL $082D
+COMMENT $082F yes we have reached the end of the screen
+COMMENT $0831 no, save the new X coordinate value
+FORCE_SYMBOL $0831 Bullet_y
+COMMENT $0836 here we keep the bullet from...
+FORCE_NO_SYMBOL $0836
+COMMENT $0838 going off screen edge
+FORCE_SYMBOL $0838 Bullet_y
+FORCE_SYMBOL $083B Shooting_Status_Flag
+COMMENT $0840 Here we are above the X-axis
+FORCE_SYMBOL $0840 Bullet_y
+FORCE_SYMBOL $0843 Bullet_Speed
+FORCE_SYMBOL $0846 Bullet_y
+FORCE_SYMBOL $084B Bullet_x
+COMMENT $084E branch if we are left of Y-Axis
+COMMENT $0850 here we are right of the Y-Axis
+FORCE_SYMBOL $0850 Bullet_x
+COMMENT $0853 move bullet to the right
+FORCE_SYMBOL $0853 Bullet_Speed
+COMMENT $0856 have we reached the end of the screen?
+FORCE_NO_SYMBOL $0856
+COMMENT $0858 yes we have reached the end of the screen
+COMMENT $085A no, save the new X coordinate value
+FORCE_SYMBOL $085A Bullet_x
+COMMENT $085F here we keep bullet from...
+FORCE_NO_SYMBOL $085F
+COMMENT $0862 going off screen edge
+FORCE_SYMBOL $0862 Bullet_x
+FORCE_SYMBOL $0865 Shooting_Status_Flag
+COMMENT $086A here we are left of the Y-Axis
+FORCE_SYMBOL $086A Bullet_x
+FORCE_SYMBOL $086D Bullet_Speed
+FORCE_SYMBOL $0870 Bullet_x
+COMMENT $0873 now draw the bullet
+FORCE_NO_SYMBOL $0873
+FORCE_SYMBOL $0875 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $0877
+FORCE_SYMBOL $0879 Intensity_a
+FORCE_SYMBOL $087C Reset0Ref
+FORCE_SYMBOL $087F Bullet_y
+FORCE_SYMBOL $0882 Bullet_x
+FORCE_SYMBOL $0885 Moveto_d
+FORCE_SYMBOL $0888 Dot_here
+COMMENT $088B make sure to reset intensity back to...
+FORCE_SYMBOL $088B Dashed_Line_Intensity
+COMMENT $088E that of the dashed lines
+FORCE_SYMBOL $088E Intensity_a
+FORCE_SYMBOL $0893 Explosion_Timer
+COMMENT $0896 here we process an exploding bullet
+FORCE_SYMBOL $0896 Explosion_Timer
+COMMENT $0899 adjust explosion size every 2 entries to routine
+FORCE_NO_SYMBOL $0899
+FORCE_SYMBOL $089D Explosion_Timer
+FORCE_NO_SYMBOL $08A0
+COMMENT $08A2 increase the explosion's scale factor
+FORCE_SYMBOL $08A2 Explosion_Scale
+COMMENT $08A5 check if finished exploding
+FORCE_NO_SYMBOL $08A5
+COMMENT $08A9 here we stop exploding and...
+FORCE_SYMBOL $08A9 Explosion_Timer
+COMMENT $08AC reset all related variables
+FORCE_NO_SYMBOL $08AC
+FORCE_SYMBOL $08AE Explosion_Scale
+COMMENT $08B1 make sure we stop exploding
+FORCE_SYMBOL $08B1 Shooting_Status_Flag
+FORCE_SYMBOL $08B4 Explosion_Scale
+COMMENT $08B7 here we draw the explosion
+FORCE_SYMBOL $08B7 Reset0Ref
+FORCE_NO_SYMBOL $08BA
+FORCE_SYMBOL $08BC Intensity_a
+FORCE_SYMBOL $08BF Bullet_y
+FORCE_SYMBOL $08C2 Bullet_x
+FORCE_SYMBOL $08C5 Moveto_d
+FORCE_SYMBOL $08C8 Explosion_VL
+FORCE_SYMBOL $08CB Explosion_Scale
+FORCE_SYMBOL $08CE Draw_VLp_b
+COMMENT $08D1 make sure to reset intensity back to...
+FORCE_SYMBOL $08D1 Dashed_Line_Intensity
+COMMENT $08D4 that of the dashed lines
+FORCE_SYMBOL $08D4 Intensity_a
+COMMENT_LINE $08D9 ************************************************************
+COMMENT_LINE $08D9 This routine checks to see if a bullet has hit anything
+COMMENT_LINE $08D9 If it hits a force field then it explodes the bullet
+COMMENT_LINE $08D9 If the front of the force field was hit then the force field
+COMMENT_LINE $08D9 strength is decreased, otherwise it just explodes
+COMMENT_LINE $08D9 This routine is only called from Draw_Bullet
+COMMENT_LINE $08D9 ************************************************************
+COMMENT $08D9 is bullet close to force field?
+FORCE_SYMBOL $08D9 Bullet_x
+FORCE_NO_SYMBOL $08DC
+COMMENT $08DE nope
+FORCE_SYMBOL $08E0 Bullet_Angle
+FORCE_NO_SYMBOL $08E3
+COMMENT $08E5 bullet is traveling left (away from force field)
+FORCE_SYMBOL $08E7 Force_Field_Status
+COMMENT $08EA no force fields, check other collisions
+COMMENT $08EC now check to see if we have hit a force field
+FORCE_SYMBOL $08EC Enemy_y
+FORCE_SYMBOL $08F0 Bullet_y
+FORCE_SYMBOL $08F3 Bullet_x
+FORCE_SYMBOL $08F8 Force_Field_Status
+COMMENT $08FB which one?
+FORCE_NO_SYMBOL $08FB
+COMMENT $08FF h/2 of inner force field
+FORCE_NO_SYMBOL $08FF
+COMMENT $0901 w/2 of inner force field
+FORCE_NO_SYMBOL $0901
+COMMENT $0905 h/2 of outer force field
+FORCE_NO_SYMBOL $0905
+COMMENT $0907 w/2 of outer force field
+FORCE_NO_SYMBOL $0907
+COMMENT $0909 force field hit?
+FORCE_SYMBOL $0909 Obj_Hit
+COMMENT $090C nope
+COMMENT $090E yes a hit
+FORCE_SYMBOL $090E Bullet_Angle
+COMMENT $0911 see if the shot came from the right
+FORCE_NO_SYMBOL $0911
+FORCE_SYMBOL $0915 Force_Field_Status
+FORCE_SYMBOL $0918 Hit_Force_Field_Doublecheck
+COMMENT $091B shot came from angle other then from right
+FORCE_SYMBOL $091B Bullet_x
+COMMENT $091E did we really hit the force field?
+COMMENT $0920 yes, go flag it
+COMMENT $0922 nope, bullet will keep going
+FORCE_SYMBOL $0924 Hit_Force_Field_Data_Bullet
+COMMENT $0927 is bullet in front of the Force Field?
+COMMENT $0929 yes, go process
+FORCE_NO_SYMBOL $092B
+COMMENT $092D yes, set the bullet to explode
+FORCE_SYMBOL $092D Shooting_Status_Flag
+COMMENT $0932 set the force field hit flag
+FORCE_SYMBOL $0932 Force_Field_Hit_Flag
+FORCE_NO_SYMBOL $0935
+COMMENT $0937 yes, set the bullet to explode
+FORCE_SYMBOL $0937 Shooting_Status_Flag
+FORCE_NO_SYMBOL $093A
+FORCE_SYMBOL $093C Score_List
+FORCE_SYMBOL $093F Add_Score_a
+COMMENT_LINE $0942 bra	Vanguard_Move
+COMMENT_LINE $0942 ***********************************************************************
+COMMENT_LINE $0942 This routine moves the Vanguard around the screen
+COMMENT_LINE $0942 In order for Vanguard to maintain the proper angle of travel
+COMMENT_LINE $0942 we must check Yar's position to see if he is more than 120 units away
+COMMENT_LINE $0942 We must also check to see if he is exactly 120 units away since the
+COMMENT_LINE $0942 Rise_Run_Angle routine will reverse Vanguard's angle if he is moving
+COMMENT_LINE $0942 from the bottom of the screen to the top or from the left of the
+COMMENT_LINE $0942 screen to the right
+COMMENT_LINE $0942 ***********************************************************************
+FORCE_NO_SYMBOL $0944
+FORCE_SYMBOL $0948 Yar_y
+COMMENT $094B even though I can't figure out why
+FORCE_SYMBOL $094B Vanguard_y
+COMMENT $094E the Rise_Run_Angle routine abhores $80
+FORCE_NO_SYMBOL $094E
+COMMENT $0952 is Yar in top half of screen?
+FORCE_SYMBOL $0952 Yar_y
+COMMENT $0957 yes, accumulator now hold
+COMMENT $0958 to keep Vanguard moving in proper direction
+COMMENT $095A here Yar is under 120 units away
+FORCE_SYMBOL $095A Yar_y
+FORCE_SYMBOL $095D Vanguard_y
+COMMENT $0964 here Yar is over 120 units away
+FORCE_SYMBOL $0964 Vanguard_y
+FORCE_SYMBOL $0967 Yar_y
+COMMENT $096A now the same goes for X axis
+FORCE_SYMBOL $096A Yar_x
+FORCE_SYMBOL $096D Vanguard_x
+FORCE_NO_SYMBOL $0970
+FORCE_SYMBOL $0974 Yar_x
+FORCE_SYMBOL $097C Yar_x
+FORCE_SYMBOL $097F Vanguard_x
+FORCE_SYMBOL $0986 Vanguard_x
+FORCE_SYMBOL $0989 Yar_x
+COMMENT $098C find the angle between them
+FORCE_SYMBOL $098C Rise_Run_Angle
+FORCE_NO_SYMBOL $098F
+FORCE_SYMBOL $0991 Vanguard_Speed
+COMMENT $0994 b=angle, a=velocity
+COMMENT $0996 now calculate rise/run angle to Yar
+FORCE_SYMBOL $0996 Rise_Run_Y
+FORCE_NO_SYMBOL $0999
+FORCE_NO_SYMBOL $09A2
+FORCE_NO_SYMBOL $09A4
+FORCE_NO_SYMBOL $09AD
+COMMENT $09AF y=rise, x=run
+FORCE_SYMBOL $09B5 Vanguard_y
+COMMENT $09B8 calculate Vanguard Y movement
+FORCE_SYMBOL $09B8 Vanguard_y
+FORCE_SYMBOL $09BD Vanguard_x
+COMMENT $09C0 calculate Vanguard X movement
+FORCE_SYMBOL $09C0 Vanguard_x
+COMMENT $09C3 now we draw Vanguard
+FORCE_NO_SYMBOL $09C3
+FORCE_SYMBOL $09C5 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $09C7
+FORCE_SYMBOL $09C9 Intensity_a
+FORCE_SYMBOL $09CC Reset0Ref
+FORCE_SYMBOL $09CF Vanguard_y
+FORCE_SYMBOL $09D2 Vanguard_x
+FORCE_SYMBOL $09D5 Moveto_d
+FORCE_NO_SYMBOL $09D8
+FORCE_SYMBOL $09DA VIA_t1_cnt_lo
+FORCE_SYMBOL $09DC Vanguard_VL
+FORCE_SYMBOL $09DF Draw_VLp
+COMMENT $09E2 make sure to reset intensity back to...
+FORCE_SYMBOL $09E2 Dashed_Line_Intensity
+COMMENT $09E5 that of the dashed lines
+FORCE_SYMBOL $09E5 Intensity_a
+COMMENT $09E8 has Vanguard hit Yar?
+FORCE_SYMBOL $09E8 Vanguard_Hit_Yar_Flag
+COMMENT $09EB <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $09EF **********************************************************************
+COMMENT_LINE $09EF This routine processes the super bomb
+COMMENT_LINE $09EF If the super bomb status flag is = then the bomb appears to left
+COMMENT_LINE $09EF of the screen. If button 2 is pressed then the bomb is launched
+COMMENT_LINE $09EF If super bomb hits a force field it explodes
+COMMENT_LINE $09EF If it hits the edge of the screen then it goes away
+COMMENT_LINE $09EF If it hits a fireball then it's fanfare and good times
+COMMENT_LINE $09EF If it hits the enemy ship then it's all good as well
+COMMENT_LINE $09EF **********************************************************************
+COMMENT $09EF is it time to display a super bomb?
+FORCE_SYMBOL $09EF Super_Bomb_Status_Flag
+COMMENT $09F4 new super bomb?
+FORCE_SYMBOL $09F4 Super_Bomb_Counter
+COMMENT $09F7 yes
+COMMENT $09F9 nope, no bomb here
+FORCE_SYMBOL $09F9 Fireball
+FORCE_NO_SYMBOL $09FC
+COMMENT $09FE branch here if the bomb is not launching
+FORCE_NO_SYMBOL $0A00
+COMMENT $0A02 branch here if the bomb has been launched
+FORCE_NO_SYMBOL $0A04
+COMMENT $0A0A no bomb
+FORCE_SYMBOL $0A0A Fireball
+FORCE_SYMBOL $0A0D Shooting_Status_Flag
+COMMENT $0A10 bomb status=1 (show bomb)
+FORCE_SYMBOL $0A10 Super_Bomb_Status_Flag
+COMMENT $0A13 button 3 pressed?
+FORCE_NO_SYMBOL $0A18
+FORCE_SYMBOL $0A1A Super_Bomb_Status_Flag
+FORCE_SYMBOL $0A1D Sound_Type
+COMMENT $0A20 no sound if fireball is on screen
+FORCE_NO_SYMBOL $0A20
+FORCE_NO_SYMBOL $0A24
+COMMENT $0A28 start super bomb shooting sound
+FORCE_NO_SYMBOL $0A28
+FORCE_SYMBOL $0A2A Sound_Type
+FORCE_SYMBOL $0A2D Vec_Music_Flag
+COMMENT $0A32 reset the counter
+FORCE_SYMBOL $0A32 Super_Bomb_Nibbles
+FORCE_SYMBOL $0A35 Super_Bomb_Counter
+COMMENT $0A38 set (y,x) position for new bomb
+FORCE_SYMBOL $0A38 Yar_y
+FORCE_SYMBOL $0A3D Super_Bomb_y
+FORCE_SYMBOL $0A40 Super_Bomb_x
+FORCE_SYMBOL $0A43 Draw_Super_Bomb
+FORCE_SYMBOL $0A46 Super_Bomb_x
+COMMENT $0A49 branch if we are left of Y-Axis
+COMMENT $0A4B here we are right of the Y-Axis
+FORCE_SYMBOL $0A4B Super_Bomb_x
+COMMENT $0A4E move bullet to the right
+FORCE_SYMBOL $0A4E Bullet_Speed
+COMMENT $0A51 have we reached the end of the screen?
+FORCE_NO_SYMBOL $0A51
+COMMENT $0A53 yes we have reached the end of the screen
+COMMENT $0A55 no, save the new X coordinate value
+FORCE_SYMBOL $0A55 Super_Bomb_x
+COMMENT $0A5A make bomb dissapear
+FORCE_SYMBOL $0A5A Super_Bomb_Status_Flag
+COMMENT $0A5D reset the Yar "nibble" counter
+FORCE_SYMBOL $0A5D Super_Bomb_Nibbles
+FORCE_SYMBOL $0A60 Super_Bomb_Counter
+FORCE_SYMBOL $0A63 Sound_Type
+COMMENT $0A66 no sound if fireball is on screen
+FORCE_NO_SYMBOL $0A66
+FORCE_NO_SYMBOL $0A6C
+COMMENT $0A72 set sound to Grumble
+FORCE_SYMBOL $0A72 Sound_Type
+FORCE_SYMBOL $0A75 Vec_Music_Flag
+FORCE_SYMBOL $0A78 Draw_Super_Bomb
+COMMENT $0A7B here we are left of the Y-Axis
+FORCE_SYMBOL $0A7B Super_Bomb_x
+FORCE_SYMBOL $0A7E Bullet_Speed
+FORCE_SYMBOL $0A81 Super_Bomb_x
+COMMENT $0A84 is Super Bomb close to force field?
+FORCE_SYMBOL $0A84 Super_Bomb_x
+FORCE_NO_SYMBOL $0A87
+COMMENT $0A89 nope
+FORCE_SYMBOL $0A8B Force_Field_Status
+COMMENT $0A8E no force fields, check other collisions
+COMMENT $0A90 now check to see if we have hit a force field
+FORCE_SYMBOL $0A90 Enemy_y
+FORCE_SYMBOL $0A94 Super_Bomb_y
+FORCE_SYMBOL $0A97 Super_Bomb_x
+FORCE_SYMBOL $0A9C Force_Field_Status
+COMMENT $0A9F which one?
+FORCE_NO_SYMBOL $0A9F
+COMMENT $0AA3 h/2 of inner force field
+FORCE_NO_SYMBOL $0AA3
+COMMENT $0AA5 w/2 of inner force field
+FORCE_NO_SYMBOL $0AA5
+COMMENT $0AA9 h/2 of outer force field
+FORCE_NO_SYMBOL $0AA9
+COMMENT $0AAB w/2 of outer force field
+FORCE_NO_SYMBOL $0AAB
+COMMENT $0AAD force field hit?
+FORCE_SYMBOL $0AAD Obj_Hit
+COMMENT $0AB0 nope
+COMMENT $0AB2 set the force field hit flag
+FORCE_SYMBOL $0AB2 Force_Field_Hit_Flag
+FORCE_NO_SYMBOL $0AB5
+COMMENT $0AB7 yes, set the bomb to explode
+FORCE_SYMBOL $0AB7 Super_Bomb_Status_Flag
+FORCE_SYMBOL $0ABA Sound_Type
+COMMENT $0ABD no sound if fireball is on screen
+FORCE_NO_SYMBOL $0ABD
+FORCE_NO_SYMBOL $0AC1
+FORCE_SYMBOL $0AC5 Sound_Type
+FORCE_SYMBOL $0AC8 Vec_Music_Flag
+FORCE_NO_SYMBOL $0ACB
+COMMENT $0ACD now we add 500 points to score
+FORCE_NO_SYMBOL $0ACF
+FORCE_SYMBOL $0AD1 Score_List
+FORCE_SYMBOL $0AD4 Add_Score_a
+COMMENT $0ADE now see if Super Bomb has run into Yar
+FORCE_SYMBOL $0ADE Super_Bomb_y
+FORCE_SYMBOL $0AE1 Super_Bomb_x
+FORCE_SYMBOL $0AE6 Enemy_y
+FORCE_SYMBOL $0AE9 Enemy_x
+COMMENT $0AEE Super Bomb's h/2
+FORCE_NO_SYMBOL $0AEE
+COMMENT $0AF0 Super Bomb's w/2
+FORCE_NO_SYMBOL $0AF0
+COMMENT $0AF2 Super Bomb touched Enemy?
+FORCE_SYMBOL $0AF2 Obj_Hit
+COMMENT $0AF5 nope, go check other collisions
+COMMENT $0AF7 yes, set the hit flag
+FORCE_NO_SYMBOL $0AF7
+COMMENT $0AF9 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+FORCE_SYMBOL $0AF9 Vanguard_Hit_Yar_Flag
+FORCE_SYMBOL $0AFC Force_Field_Update
+COMMENT $0AFF now see if Super Bomb has run into Yar
+FORCE_SYMBOL $0AFF Super_Bomb_y
+FORCE_SYMBOL $0B02 Super_Bomb_x
+FORCE_SYMBOL $0B07 Yar_y
+FORCE_SYMBOL $0B0A Yar_x
+COMMENT $0B0F Super Bomb's h/2
+FORCE_NO_SYMBOL $0B0F
+COMMENT $0B11 Super Bomb's w/2
+FORCE_NO_SYMBOL $0B11
+COMMENT $0B13 Super Bomb touched Yar?
+FORCE_SYMBOL $0B13 Obj_Hit
+COMMENT $0B16 nope, go check other collisions
+COMMENT $0B18 yes, set the hit flag
+FORCE_NO_SYMBOL $0B18
+COMMENT $0B1A <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+FORCE_SYMBOL $0B1A Vanguard_Hit_Yar_Flag
+FORCE_SYMBOL $0B1D Force_Field_Update
+FORCE_SYMBOL $0B20 Fire_Ball_Status
+COMMENT $0B25 now see if Super Bomb has run into Fireball
+FORCE_SYMBOL $0B25 Fireball_y
+FORCE_SYMBOL $0B28 Fireball_x
+FORCE_SYMBOL $0B2D Super_Bomb_y
+FORCE_SYMBOL $0B30 Super_Bomb_x
+COMMENT $0B35 Fireball's h/2
+FORCE_NO_SYMBOL $0B35
+COMMENT $0B37 Fireball's w/2
+FORCE_NO_SYMBOL $0B37
+COMMENT $0B39 Fireball touched Yar?
+FORCE_SYMBOL $0B39 Obj_Hit
+COMMENT $0B3C nope, go check other collisions
+COMMENT $0B3E yes, set the hit flag
+FORCE_NO_SYMBOL $0B3E
+COMMENT $0B40 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+FORCE_SYMBOL $0B40 Vanguard_Hit_Yar_Flag
+FORCE_SYMBOL $0B43 Force_Field_Update
+COMMENT $0B46 now we draw the super bomb
+FORCE_NO_SYMBOL $0B46
+FORCE_SYMBOL $0B48 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $0B4A
+FORCE_SYMBOL $0B4C Intensity_a
+FORCE_SYMBOL $0B4F Reset0Ref
+FORCE_SYMBOL $0B52 Super_Bomb_y
+FORCE_SYMBOL $0B55 Super_Bomb_x
+FORCE_SYMBOL $0B58 Moveto_d
+FORCE_NO_SYMBOL $0B5B
+FORCE_SYMBOL $0B5D VIA_t1_cnt_lo
+FORCE_SYMBOL $0B5F Super_Bomb_VL
+FORCE_SYMBOL $0B62 Draw_VLp
+COMMENT $0B65 make sure to reset intensity back to...
+FORCE_SYMBOL $0B65 Dashed_Line_Intensity
+COMMENT $0B68 that of the dashed lines
+FORCE_SYMBOL $0B68 Intensity_a
+FORCE_SYMBOL $0B6B Super_Bomb_Nibbles
+FORCE_SYMBOL $0B6E Super_Bomb_Counter
+FORCE_SYMBOL $0B73 Explosion_Timer
+COMMENT $0B76 here we process an exploding super bomb
+FORCE_SYMBOL $0B76 Explosion_Timer
+COMMENT $0B79 adjust explosion size every 2 entries to routine
+FORCE_NO_SYMBOL $0B79
+FORCE_SYMBOL $0B7D Explosion_Timer
+FORCE_NO_SYMBOL $0B80
+COMMENT $0B82 increase the explosion's scale factor
+FORCE_SYMBOL $0B82 Explosion_Scale
+COMMENT $0B85 check if finished exploding
+FORCE_NO_SYMBOL $0B85
+COMMENT $0B89 here we stop exploding and...
+FORCE_SYMBOL $0B89 Explosion_Timer
+COMMENT $0B8C reset all related variables
+FORCE_NO_SYMBOL $0B8C
+FORCE_SYMBOL $0B8E Explosion_Scale
+COMMENT $0B91 make bomb dissapear
+FORCE_SYMBOL $0B91 Super_Bomb_Status_Flag
+COMMENT $0B94 reset the Yar "nibble" counter
+FORCE_SYMBOL $0B94 Super_Bomb_Nibbles
+FORCE_SYMBOL $0B97 Super_Bomb_Counter
+FORCE_SYMBOL $0B9C Explosion_Scale
+FORCE_NO_SYMBOL $0B9F
+FORCE_SYMBOL $0BA1 VIA_t1_cnt_lo
+COMMENT $0BA3 here we draw the explosion
+FORCE_SYMBOL $0BA3 Reset0Ref
+FORCE_NO_SYMBOL $0BA6
+FORCE_SYMBOL $0BA8 Intensity_a
+FORCE_SYMBOL $0BAB Super_Bomb_y
+FORCE_SYMBOL $0BAE Super_Bomb_x
+FORCE_SYMBOL $0BB1 Moveto_d
+FORCE_SYMBOL $0BB4 Explosion_VL
+FORCE_SYMBOL $0BB7 Explosion_Scale
+FORCE_SYMBOL $0BBA Draw_VLp_b
+COMMENT $0BBD make sure to reset intensity back to...
+FORCE_SYMBOL $0BBD Dashed_Line_Intensity
+COMMENT $0BC0 that of the dashed lines
+FORCE_SYMBOL $0BC0 Intensity_a
+COMMENT_LINE $0BC3 ****************************************************************************************
+COMMENT_LINE $0BC3 This routine processes the Fireballs
+COMMENT_LINE $0BC3 First a random number is generated to produce the delay between fireballs
+COMMENT_LINE $0BC3 When the delay is up the fireball starts rotating and another delay is
+COMMENT_LINE $0BC3 is calculated for rotation time
+COMMENT_LINE $0BC3 Then the fireball is shot towards Yar
+COMMENT_LINE $0BC3 When fireball is done shooting is straightens out and leaves the left side
+COMMENT_LINE $0BC3 of the screen
+COMMENT_LINE $0BC3 ****************************************************************************************
+COMMENT $0BC3 is there a fireball on screen?
+FORCE_SYMBOL $0BC3 Fire_Ball_Status
+FORCE_NO_SYMBOL $0BC6
+COMMENT $0BC8 not ready to shoot yet
+FORCE_NO_SYMBOL $0BCA
+COMMENT $0BCC ready to shoot
+FORCE_NO_SYMBOL $0BD0
+COMMENT $0BD2 make it go away
+FORCE_NO_SYMBOL $0BD4
+COMMENT $0BD6 track fireball to target (Yar)
+FORCE_NO_SYMBOL $0BDA
+COMMENT $0BDC keep tracking it to the target (Yar)
+FORCE_NO_SYMBOL $0BE0
+COMMENT $0BE2 fireball gets ready to exit
+FORCE_NO_SYMBOL $0BE6
+COMMENT $0BE8 fireball exits stage left
+COMMENT $0BEC nope, is it time to place one on screen?
+FORCE_SYMBOL $0BEC Fireball_Start_Counter
+COMMENT $0BF1 nope, keep delaying
+FORCE_SYMBOL $0BF3 Fireball_Start_Counter
+FORCE_SYMBOL $0BF7 Vec_Music_Flag
+FORCE_NO_SYMBOL $0BFA
+COMMENT $0BFC start fireball spinning sound
+FORCE_SYMBOL $0BFC Sound_Type
+COMMENT $0BFF flag fireball as stationary
+FORCE_SYMBOL $0BFF Fire_Ball_Status
+COMMENT $0C02 here we calculate a random number
+FORCE_SYMBOL $0C02 Yar_y
+COMMENT $0C05 to determine fireballs rotation time
+FORCE_SYMBOL $0C05 Random_Seed
+FORCE_SYMBOL $0C08 Vanguard_x
+FORCE_SYMBOL $0C0E Enemy_y
+COMMENT $0C14 set random number seed pointer
+FORCE_SYMBOL $0C14 Random_Seed
+FORCE_NO_SYMBOL $0C17
+FORCE_SYMBOL $0C1A Random
+FORCE_SYMBOL $0C1D Fireball_Spin_Time
+COMMENT $0C20 fireball now takes the place of the enemy ship
+FORCE_SYMBOL $0C20 Enemy_y
+FORCE_SYMBOL $0C23 Fireball_y
+FORCE_SYMBOL $0C26 Enemy_x
+FORCE_SYMBOL $0C29 Fireball_x
+COMMENT $0C2C time to shoot the fireball?
+FORCE_SYMBOL $0C2C Fireball_Spin_Time
+COMMENT $0C2F nope, go draw spinning fireball
+FORCE_NO_SYMBOL $0C33
+COMMENT $0C35 yes, flag it
+FORCE_SYMBOL $0C35 Fire_Ball_Status
+COMMENT $0C3A stop sounds
+FORCE_SYMBOL $0C3A Sound_Type
+FORCE_SYMBOL $0C3D Vec_Music_Flag
+COMMENT $0C40 here we reset the fireball
+FORCE_SYMBOL $0C40 Yar_y
+COMMENT $0C43 here we calculate a random number
+FORCE_SYMBOL $0C43 Random_Seed
+COMMENT $0C46 to determine time between fireballs
+FORCE_SYMBOL $0C46 Vanguard_x
+FORCE_SYMBOL $0C4C Enemy_y
+COMMENT $0C52 set random number seed pointer
+FORCE_SYMBOL $0C52 Random_Seed
+FORCE_NO_SYMBOL $0C55
+COMMENT $0C58 get random number
+FORCE_SYMBOL $0C58 Random
+COMMENT $0C5B and store it in the counter
+FORCE_NO_SYMBOL $0C5E
+FORCE_NO_SYMBOL $0C60
+FORCE_SYMBOL $0C62 Fireball_Start_Counter
+COMMENT $0C65 hide the fireball
+FORCE_SYMBOL $0C65 Fire_Ball_Status
+COMMENT $0C69 Fireball Y-pos at zero?
+FORCE_SYMBOL $0C69 Enemy_y
+FORCE_NO_SYMBOL $0C6E
+COMMENT $0C70 start fireball shooting sound
+FORCE_SYMBOL $0C70 Sound_Type
+FORCE_SYMBOL $0C73 Vec_Music_Flag
+COMMENT $0C76 yes
+COMMENT $0C78 keep moving that fireball if
+FORCE_SYMBOL $0C78 Enemy_y
+COMMENT $0C7B it is not time to shoot
+FORCE_SYMBOL $0C7B Fireball_y
+FORCE_SYMBOL $0C7E Enemy_x
+FORCE_SYMBOL $0C81 Fireball_x
+FORCE_SYMBOL $0C84 Check_Fireball_Hit_Yar
+COMMENT $0C87 make sure  fireball Y-pos is zero
+FORCE_SYMBOL $0C87 Fireball_y
+FORCE_SYMBOL $0C8A Yar_x
+COMMENT $0C8D Yar is at right hand side of screen
+COMMENT $0C8F Yar is on left side of screen
+FORCE_SYMBOL $0C90 Fireball_x
+COMMENT $0C93 go calc angle from Yar to target
+FORCE_NO_SYMBOL $0C93
+COMMENT $0C95 if we are at the proper distance
+COMMENT $0C97 here we track fireball to the target (Yar)
+FORCE_SYMBOL $0C97 Yar_x
+FORCE_SYMBOL $0C9A Fireball_x
+FORCE_SYMBOL $0C9D Fireball_Run
+FORCE_SYMBOL $0CA0 Yar_y
+FORCE_SYMBOL $0CA3 Fireball_y
+FORCE_SYMBOL $0CA6 Fireball_Rise
+FORCE_NO_SYMBOL $0CAB
+COMMENT $0CAF get fireball's angle to Yar
+FORCE_SYMBOL $0CAF Fireball_Rise
+FORCE_SYMBOL $0CB2 Fireball_Run
+FORCE_SYMBOL $0CB5 Rise_Run_Angle
+COMMENT $0CB8 adjust it for Y-Axis
+FORCE_NO_SYMBOL $0CB8
+FORCE_SYMBOL $0CBA Fireball_Shoot_Angle
+COMMENT $0CBF make sure angle stays fixed from now on
+FORCE_NO_SYMBOL $0CBF
+FORCE_SYMBOL $0CC1 Fire_Ball_Status
+COMMENT $0CC6 here the fireball shoots straight out
+FORCE_NO_SYMBOL $0CC6
+FORCE_SYMBOL $0CC8 Fireball_Shoot_Angle
+COMMENT $0CCB flag that we are doing this
+FORCE_NO_SYMBOL $0CCB
+FORCE_SYMBOL $0CCD Fire_Ball_Status
+FORCE_NO_SYMBOL $0CD2
+FORCE_SYMBOL $0CD4 Fireball_Shoot_Angle
+FORCE_SYMBOL $0CD7 Fireball_x
+FORCE_NO_SYMBOL $0CDC
+FORCE_SYMBOL $0CDE Fire_Ball_Status
+FORCE_NO_SYMBOL $0CE3
+FORCE_SYMBOL $0CE7 Fireball_Speed
+FORCE_SYMBOL $0CEA Fireball_Shoot_Angle
+COMMENT $0CED b=angle, a=velocity
+COMMENT $0CEF now calculate rise/run angle to Yar
+FORCE_SYMBOL $0CEF Rise_Run_Y
+FORCE_NO_SYMBOL $0CF2
+FORCE_NO_SYMBOL $0CFB
+FORCE_NO_SYMBOL $0CFD
+FORCE_NO_SYMBOL $0D06
+COMMENT $0D08 y=rise, x=run
+FORCE_SYMBOL $0D0E Fireball_y
+COMMENT $0D11 calculate Vanguard Y movement
+FORCE_SYMBOL $0D11 Fireball_y
+FORCE_SYMBOL $0D16 Fireball_x
+COMMENT $0D19 calculate Vanguard X movement
+FORCE_SYMBOL $0D19 Fireball_x
+FORCE_SYMBOL $0D1C Fire_Ball_Status
+COMMENT $0D1F fireball trying to exit?
+FORCE_NO_SYMBOL $0D1F
+COMMENT $0D23 reset fireball?
+FORCE_SYMBOL $0D23 Fireball_x
+COMMENT $0D26 not yet
+COMMENT $0D28 reset the fireball
+FORCE_NO_SYMBOL $0D28
+FORCE_SYMBOL $0D2A Fire_Ball_Status
+FORCE_NO_SYMBOL $0D2E
+FORCE_SYMBOL $0D32 Fireball_Spin_Time
+FORCE_NO_SYMBOL $0D37
+FORCE_SYMBOL $0D39 Fire_Ball_Status
+COMMENT $0D3C now see if Fireball has run into Yar
+FORCE_SYMBOL $0D3C Fireball_y
+FORCE_SYMBOL $0D3F Fireball_x
+FORCE_SYMBOL $0D44 Yar_y
+FORCE_SYMBOL $0D47 Yar_x
+COMMENT $0D4C Fireball's h/2
+FORCE_NO_SYMBOL $0D4C
+COMMENT $0D4E Fireball's w/2
+FORCE_NO_SYMBOL $0D4E
+COMMENT $0D50 Super Bomb touched Yar?
+FORCE_SYMBOL $0D50 Obj_Hit
+COMMENT $0D53 nope, go check other collisions
+COMMENT $0D55 yes, set the hit flag
+FORCE_NO_SYMBOL $0D55
+COMMENT $0D57 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+FORCE_SYMBOL $0D57 Vanguard_Hit_Yar_Flag
+FORCE_SYMBOL $0D5A Force_Field_Update
+FORCE_SYMBOL $0D5D Fireball_Angle
+FORCE_NO_SYMBOL $0D60
+COMMENT $0D62 increment fireball's angle
+FORCE_SYMBOL $0D62 Fireball_Angle
+FORCE_NO_SYMBOL $0D67
+COMMENT $0D6B now rotate the fireball
+FORCE_SYMBOL $0D6B Fireball_VL
+FORCE_SYMBOL $0D6E Fireball_VL_Rotated
+FORCE_SYMBOL $0D71 Rot_VL_Mode
+COMMENT $0D76 now we draw the fireball
+FORCE_NO_SYMBOL $0D76
+FORCE_SYMBOL $0D78 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $0D7A
+FORCE_SYMBOL $0D7C Intensity_a
+FORCE_SYMBOL $0D7F Reset0Ref
+FORCE_SYMBOL $0D82 Fireball_y
+FORCE_SYMBOL $0D85 Fireball_x
+FORCE_SYMBOL $0D88 Moveto_d
+FORCE_NO_SYMBOL $0D8B
+FORCE_SYMBOL $0D8D VIA_t1_cnt_lo
+FORCE_SYMBOL $0D8F Fireball_VL_Rotated
+FORCE_SYMBOL $0D92 Draw_VLp
+COMMENT $0D95 make sure to reset intensity back to...
+FORCE_SYMBOL $0D95 Dashed_Line_Intensity
+COMMENT $0D98 that of the dashed lines
+FORCE_SYMBOL $0D98 Intensity_a
+COMMENT_LINE $0D9C ************************************************************
+COMMENT_LINE $0D9C This routine sends Yr into his death throws
+COMMENT_LINE $0D9C Basically he rotates around and eventually disintegrates
+COMMENT_LINE $0D9C ************************************************************
+FORCE_SYMBOL $0D9C Yar_Life_State
+COMMENT $0DA1 make sure Yar spins a few times first
+FORCE_SYMBOL $0DA1 Yar_Death_Spin_Counter
+FORCE_NO_SYMBOL $0DA8
+FORCE_SYMBOL $0DAC Yar_Angle
+FORCE_NO_SYMBOL $0DAF
+FORCE_SYMBOL $0DB1 Yar_Angle
+FORCE_SYMBOL $0DB4 Yar_VL_Wings_Up
+FORCE_SYMBOL $0DB7 Yar_VL_Rotated
+COMMENT $0DBA now rotate Yar
+FORCE_SYMBOL $0DBA Rot_VL_Mode
+FORCE_NO_SYMBOL $0DC0
+COMMENT $0DC2 Yar is done spinning, set flag appropriately
+FORCE_SYMBOL $0DC2 Yar_Life_State
+FORCE_SYMBOL $0DC5 Yar_Death_Spin_Counter
+COMMENT $0DC8 now Yar shrinks and dies
+FORCE_SYMBOL $0DC8 Yar_Death_Spin_Counter
+FORCE_SYMBOL $0DCB Yar_Death_Spin_Counter
+COMMENT $0DCE time to shrink him some more?
+FORCE_NO_SYMBOL $0DCE
+COMMENT $0DD2 yes, shrink him
+FORCE_SYMBOL $0DD2 Yar_Death_Spin_Counter
+FORCE_SYMBOL $0DD5 Yar_Life_State
+FORCE_SYMBOL $0DD8 Yar_Life_State
+COMMENT $0DDB finished shrinking?
+FORCE_NO_SYMBOL $0DDB
+COMMENT $0DDF Yar has finished dying
+FORCE_NO_SYMBOL $0DDF
+COMMENT $0DE1 flag it
+FORCE_SYMBOL $0DE1 Yar_Life_State
+COMMENT $0DE5 here we draw Yar dying
+FORCE_NO_SYMBOL $0DE5
+FORCE_SYMBOL $0DE7 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $0DE9
+FORCE_SYMBOL $0DEB Intensity_a
+FORCE_SYMBOL $0DEE Reset0Ref
+FORCE_SYMBOL $0DF1 Yar_y
+FORCE_SYMBOL $0DF4 Yar_x
+FORCE_SYMBOL $0DF7 Moveto_d
+COMMENT $0DFA now get scale
+FORCE_SYMBOL $0DFA Yar_Death_Scale_Table
+FORCE_SYMBOL $0DFD Yar_Life_State
+FORCE_SYMBOL $0E02 VIA_t1_cnt_lo
+FORCE_SYMBOL $0E04 Yar_VL_Rotated
+COMMENT $0E07 draw Yar
+FORCE_SYMBOL $0E07 Draw_VLp
+COMMENT $0E0A now we draw the incrementing dots
+FORCE_NO_SYMBOL $0E0A
+FORCE_SYMBOL $0E0C VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $0E0E
+FORCE_SYMBOL $0E10 Intensity_a
+FORCE_SYMBOL $0E13 Reset0Ref
+FORCE_SYMBOL $0E16 Yar_y
+FORCE_SYMBOL $0E19 Yar_x
+FORCE_SYMBOL $0E1C Moveto_d
+FORCE_NO_SYMBOL $0E1F
+FORCE_SYMBOL $0E21 VIA_t1_cnt_lo
+FORCE_SYMBOL $0E23 Yar_Death_Dot_Table_Count
+FORCE_SYMBOL $0E26 Yar_Life_State
+FORCE_NO_SYMBOL $0E2B
+FORCE_SYMBOL $0E2E Yar_Death_Dot_Table
+COMMENT $0E31 draw those dots
+FORCE_SYMBOL $0E31 Dot_List
+COMMENT $0E75 (y,x) bullet displacement values if Yar is facing up
+COMMENT $0E77 (y,x) bullet displacement values if Yar is facing left
+COMMENT $0E79 (y,x) bullet displacement values if Yar is facing down
+COMMENT $0E7B (y,x) bullet displacement values if Yar is facing right
+COMMENT $0E7D (force field strength),(Intensity)
+COMMENT $0E80 (force field strength),(Intensity)
+COMMENT $0E83 (force field strength),(Intensity)
+COMMENT $0E86 (force field strength),(Intensity)
+COMMENT $0E89 dummy value for table
+COMMENT $0E8A X-pos limit front of inner force field
+COMMENT $0E8B X-pos limit front of outer force field
+COMMENT $0E8C dummy value for table
+COMMENT $0E8D X-pos limit front of inner force field
+COMMENT $0E8E X-pos limit front of outer force field
+COMMENT $0E8F dummy value for table
+COMMENT $0E90 X-pos limit front of inner force field
+COMMENT $0E91 X-pos limit front of outer force field
+COMMENT $0E92 scalar value for moving enemy upwards
+COMMENT $0E93 upper travel limit of enemy ship
+COMMENT $0E94 scalar value for moving enemy downwards
+COMMENT $0E95 lower travel limit of enemy ship
+COMMENT $0F0F move coordinates for inner force field
+COMMENT $0F11 draw coordinates for inner force field
+COMMENT $0F17 move coordinates for outter force field
+COMMENT $0F19 draw coordinates for outter force field
+COMMENT $0F26 rel y, rel x - move pen for top line
+COMMENT $0F28 rel y, rel x - draw coordinates for top line
+COMMENT $0F2A rel y, rel x - move pen for bottom line
+COMMENT $0F2C rel y, rel x - draw coordinates for bottom line
+COMMENT $0F2E rel y, rel x - move pen for top line
+COMMENT $0F30 rel y, rel x - draw coordinates for top line
+COMMENT $0F32 rel y, rel x - move pen for bottom line
+COMMENT $0F34 rel y, rel x - draw coordinates for bottom line
+COMMENT $0F36 start pattern for dashed lines
+COMMENT $0F37 start intensity for dashed lines
+COMMENT $1039 ,$feb6
+FORCE_SYMBOL $1182 counter2
+FORCE_SYMBOL $1185 Print1
+FORCE_SYMBOL $1188 Test_String
+FORCE_NO_SYMBOL $118C
+FORCE_NO_SYMBOL $1192
+FORCE_NO_SYMBOL $1196
+FORCE_NO_SYMBOL $1198
+FORCE_NO_SYMBOL $119E
+FORCE_NO_SYMBOL $11A0
+FORCE_NO_SYMBOL $11A4
+FORCE_NO_SYMBOL $11A6
+FORCE_SYMBOL $11AA counter2
+FORCE_SYMBOL $11AD counter2
+FORCE_NO_SYMBOL $11B0
+FORCE_SYMBOL $11B4 Reset0Ref
+FORCE_NO_SYMBOL $11B7
+FORCE_SYMBOL $11B9 VIA_t1_cnt_lo
+FORCE_SYMBOL $11BD Moveto_d
+FORCE_SYMBOL $11C0 Str_y
+FORCE_SYMBOL $11C3 Print_Str_yx
+RANGE $0000-$11C5 DP $D0
+RANGE $0000-$0002 DB_DATA 2
+RANGE $0002-$000A CHAR_DATA 8
+RANGE $000A-$000B DB_DATA 1
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$000F DW_DATA 1
+RANGE $000F-$0011 DB_DATA 2
+RANGE $0011-$0025 CHAR_DATA 20
+RANGE $0025-$0027 DB_DATA 2
+RANGE $0027-$0451 CODE
+RANGE $0451-$0452 DB_DATA 1
+RANGE $0452-$0453 DB_DATA 1
+RANGE $0453-$0454 DB_DATA 1
+RANGE $0454-$0455 DB_DATA 1
+RANGE $0455-$0456 DB_DATA 1
+RANGE $0456-$0457 DB_DATA 1
+RANGE $0457-$0458 DB_DATA 1
+RANGE $0458-$0459 DB_DATA 1
+RANGE $0459-$045A DB_DATA 1
+RANGE $045A-$045B DB_DATA 1
+RANGE $045B-$045C DB_DATA 1
+RANGE $045C-$045D DB_DATA 1
+RANGE $045D-$045E DB_DATA 1
+RANGE $045E-$045F DB_DATA 1
+RANGE $045F-$0460 DB_DATA 1
+RANGE $0460-$0461 DB_DATA 1
+RANGE $0461-$0462 DB_DATA 1
+RANGE $0462-$04B1 CODE
+RANGE $04B2-$04B9 CODE
+RANGE $04BA-$04C5 CODE
+RANGE $04C6-$04E3 CODE
+RANGE $04E4-$04EB CODE
+RANGE $04EC-$04F7 CODE
+RANGE $04F8-$0E35 CODE
+RANGE $0E35-$0E36 DB_DATA 1
+RANGE $0E36-$0E37 DB_DATA 1
+RANGE $0E37-$0E38 DB_DATA 1
+RANGE $0E38-$0E39 DB_DATA 1
+RANGE $0E39-$0E3A DB_DATA 1
+RANGE $0E3A-$0E3B DB_DATA 1
+RANGE $0E3B-$0E3C DB_DATA 1
+RANGE $0E3C-$0E3D DB_DATA 1
+RANGE $0E3D-$0E3E DB_DATA 1
+RANGE $0E3E-$0E3F DB_DATA 1
+RANGE $0E3F-$0E41 DB_DATA 2
+RANGE $0E41-$0E43 DB_DATA 2
+RANGE $0E43-$0E45 DB_DATA 2
+RANGE $0E45-$0E47 DB_DATA 2
+RANGE $0E47-$0E49 DB_DATA 2
+RANGE $0E49-$0E4B DB_DATA 2
+RANGE $0E4B-$0E4D DB_DATA 2
+RANGE $0E4D-$0E4F DB_DATA 2
+RANGE $0E4F-$0E51 DB_DATA 2
+RANGE $0E51-$0E53 DB_DATA 2
+RANGE $0E53-$0E55 DB_DATA 2
+RANGE $0E55-$0E57 DB_DATA 2
+RANGE $0E57-$0E59 DB_DATA 2
+RANGE $0E59-$0E5B DB_DATA 2
+RANGE $0E5B-$0E5D DB_DATA 2
+RANGE $0E5D-$0E5F DB_DATA 2
+RANGE $0E5F-$0E61 DB_DATA 2
+RANGE $0E61-$0E63 DB_DATA 2
+RANGE $0E63-$0E65 DB_DATA 2
+RANGE $0E65-$0E67 DB_DATA 2
+RANGE $0E67-$0E69 DB_DATA 2
+RANGE $0E69-$0E6B DB_DATA 2
+RANGE $0E6B-$0E6D DB_DATA 2
+RANGE $0E6D-$0E6F DB_DATA 2
+RANGE $0E6F-$0E71 DB_DATA 2
+RANGE $0E71-$0E73 DB_DATA 2
+RANGE $0E73-$0E75 DB_DATA 2
+RANGE $0E75-$0E77 DB_DATA 2
+RANGE $0E77-$0E79 DB_DATA 2
+RANGE $0E79-$0E7B DB_DATA 2
+RANGE $0E7B-$0E7D DB_DATA 2
+RANGE $0E7D-$0E80 DB_DATA 3
+RANGE $0E80-$0E83 DB_DATA 3
+RANGE $0E83-$0E86 DB_DATA 3
+RANGE $0E86-$0E89 DB_DATA 3
+RANGE $0E89-$0E8A DB_DATA 1
+RANGE $0E8A-$0E8B DB_DATA 1
+RANGE $0E8B-$0E8C DB_DATA 1
+RANGE $0E8C-$0E8D DB_DATA 1
+RANGE $0E8D-$0E8E DB_DATA 1
+RANGE $0E8E-$0E8F DB_DATA 1
+RANGE $0E8F-$0E90 DB_DATA 1
+RANGE $0E90-$0E91 DB_DATA 1
+RANGE $0E91-$0E92 DB_DATA 1
+RANGE $0E92-$0E93 DB_DATA 1
+RANGE $0E93-$0E94 DB_DATA 1
+RANGE $0E94-$0E95 DB_DATA 1
+RANGE $0E95-$0E96 DB_DATA 1
+RANGE $0E96-$0E99 DB_DATA 3
+RANGE $0E99-$0E9C DB_DATA 3
+RANGE $0E9C-$0E9F DB_DATA 3
+RANGE $0E9F-$0EA2 DB_DATA 3
+RANGE $0EA2-$0EA5 DB_DATA 3
+RANGE $0EA5-$0EA8 DB_DATA 3
+RANGE $0EA8-$0EAB DB_DATA 3
+RANGE $0EAB-$0EAE DB_DATA 3
+RANGE $0EAE-$0EB1 DB_DATA 3
+RANGE $0EB1-$0EB4 DB_DATA 3
+RANGE $0EB4-$0EB7 DB_DATA 3
+RANGE $0EB7-$0EBA DB_DATA 3
+RANGE $0EBA-$0EBD DB_DATA 3
+RANGE $0EBD-$0EC0 DB_DATA 3
+RANGE $0EC0-$0EC1 DB_DATA 1
+RANGE $0EC1-$0EC4 DB_DATA 3
+RANGE $0EC4-$0EC7 DB_DATA 3
+RANGE $0EC7-$0ECA DB_DATA 3
+RANGE $0ECA-$0ECD DB_DATA 3
+RANGE $0ECD-$0ED0 DB_DATA 3
+RANGE $0ED0-$0ED3 DB_DATA 3
+RANGE $0ED3-$0ED6 DB_DATA 3
+RANGE $0ED6-$0ED9 DB_DATA 3
+RANGE $0ED9-$0EDC DB_DATA 3
+RANGE $0EDC-$0EDF DB_DATA 3
+RANGE $0EDF-$0EE2 DB_DATA 3
+RANGE $0EE2-$0EE5 DB_DATA 3
+RANGE $0EE5-$0EE8 DB_DATA 3
+RANGE $0EE8-$0EEB DB_DATA 3
+RANGE $0EEB-$0EEC DB_DATA 1
+RANGE $0EEC-$0EEF DB_DATA 3
+RANGE $0EEF-$0EF2 DB_DATA 3
+RANGE $0EF2-$0EF5 DB_DATA 3
+RANGE $0EF5-$0EF8 DB_DATA 3
+RANGE $0EF8-$0EFB DB_DATA 3
+RANGE $0EFB-$0EFE DB_DATA 3
+RANGE $0EFE-$0EFF DB_DATA 1
+RANGE $0EFF-$0F02 DB_DATA 3
+RANGE $0F02-$0F05 DB_DATA 3
+RANGE $0F05-$0F08 DB_DATA 3
+RANGE $0F08-$0F0B DB_DATA 3
+RANGE $0F0B-$0F0E DB_DATA 3
+RANGE $0F0E-$0F0F DB_DATA 1
+RANGE $0F0F-$0F11 DB_DATA 2
+RANGE $0F11-$0F13 DB_DATA 2
+RANGE $0F13-$0F15 DB_DATA 2
+RANGE $0F15-$0F17 DB_DATA 2
+RANGE $0F17-$0F19 DB_DATA 2
+RANGE $0F19-$0F1B DB_DATA 2
+RANGE $0F1B-$0F1D DB_DATA 2
+RANGE $0F1D-$0F1F DB_DATA 2
+RANGE $0F1F-$0F22 DB_DATA 3
+RANGE $0F22-$0F25 DB_DATA 3
+RANGE $0F25-$0F26 DB_DATA 1
+RANGE $0F26-$0F28 DB_DATA 2
+RANGE $0F28-$0F2A DB_DATA 2
+RANGE $0F2A-$0F2C DB_DATA 2
+RANGE $0F2C-$0F2E DB_DATA 2
+RANGE $0F2E-$0F30 DB_DATA 2
+RANGE $0F30-$0F32 DB_DATA 2
+RANGE $0F32-$0F34 DB_DATA 2
+RANGE $0F34-$0F36 DB_DATA 2
+RANGE $0F36-$0F37 DB_DATA 1
+RANGE $0F37-$0F38 DB_DATA 1
+RANGE $0F38-$0F3B DB_DATA 3
+RANGE $0F3B-$0F3E DB_DATA 3
+RANGE $0F3E-$0F41 DB_DATA 3
+RANGE $0F41-$0F44 DB_DATA 3
+RANGE $0F44-$0F47 DB_DATA 3
+RANGE $0F47-$0F4A DB_DATA 3
+RANGE $0F4A-$0F4D DB_DATA 3
+RANGE $0F4D-$0F50 DB_DATA 3
+RANGE $0F50-$0F53 DB_DATA 3
+RANGE $0F53-$0F56 DB_DATA 3
+RANGE $0F56-$0F59 DB_DATA 3
+RANGE $0F59-$0F5C DB_DATA 3
+RANGE $0F5C-$0F5F DB_DATA 3
+RANGE $0F5F-$0F62 DB_DATA 3
+RANGE $0F62-$0F63 DB_DATA 1
+RANGE $0F63-$0F66 DB_DATA 3
+RANGE $0F66-$0F69 DB_DATA 3
+RANGE $0F69-$0F6C DB_DATA 3
+RANGE $0F6C-$0F6F DB_DATA 3
+RANGE $0F6F-$0F72 DB_DATA 3
+RANGE $0F72-$0F73 DB_DATA 1
+RANGE $0F73-$0F76 DB_DATA 3
+RANGE $0F76-$0F79 DB_DATA 3
+RANGE $0F79-$0F7C DB_DATA 3
+RANGE $0F7C-$0F7F DB_DATA 3
+RANGE $0F7F-$0F82 DB_DATA 3
+RANGE $0F82-$0F85 DB_DATA 3
+RANGE $0F85-$0F88 DB_DATA 3
+RANGE $0F88-$0F8B DB_DATA 3
+RANGE $0F8B-$0F8E DB_DATA 3
+RANGE $0F8E-$0F91 DB_DATA 3
+RANGE $0F91-$0F94 DB_DATA 3
+RANGE $0F94-$0F97 DB_DATA 3
+RANGE $0F97-$0F9A DB_DATA 3
+RANGE $0F9A-$0F9D DB_DATA 3
+RANGE $0F9D-$0FA0 DB_DATA 3
+RANGE $0FA0-$0FA3 DB_DATA 3
+RANGE $0FA3-$0FA6 DB_DATA 3
+RANGE $0FA6-$0FA9 DB_DATA 3
+RANGE $0FA9-$0FAC DB_DATA 3
+RANGE $0FAC-$0FAF DB_DATA 3
+RANGE $0FAF-$0FB2 DB_DATA 3
+RANGE $0FB2-$0FB5 DB_DATA 3
+RANGE $0FB5-$0FB8 DB_DATA 3
+RANGE $0FB8-$0FBB DB_DATA 3
+RANGE $0FBB-$0FBE DB_DATA 3
+RANGE $0FBE-$0FC1 DB_DATA 3
+RANGE $0FC1-$0FC4 DB_DATA 3
+RANGE $0FC4-$0FC7 DB_DATA 3
+RANGE $0FC7-$0FCA DB_DATA 3
+RANGE $0FCA-$0FCD DB_DATA 3
+RANGE $0FCD-$0FD0 DB_DATA 3
+RANGE $0FD0-$0FD1 DB_DATA 1
+RANGE $0FD1-$0FD4 DB_DATA 3
+RANGE $0FD4-$0FD7 DB_DATA 3
+RANGE $0FD7-$0FDA DB_DATA 3
+RANGE $0FDA-$0FDD DB_DATA 3
+RANGE $0FDD-$0FE0 DB_DATA 3
+RANGE $0FE0-$0FE3 DB_DATA 3
+RANGE $0FE3-$0FE6 DB_DATA 3
+RANGE $0FE6-$0FE9 DB_DATA 3
+RANGE $0FE9-$0FEC DB_DATA 3
+RANGE $0FEC-$0FEF DB_DATA 3
+RANGE $0FEF-$0FF2 DB_DATA 3
+RANGE $0FF2-$0FF5 DB_DATA 3
+RANGE $0FF5-$0FF8 DB_DATA 3
+RANGE $0FF8-$0FFB DB_DATA 3
+RANGE $0FFB-$0FFE DB_DATA 3
+RANGE $0FFE-$1001 DB_DATA 3
+RANGE $1001-$1004 DB_DATA 3
+RANGE $1004-$1007 DB_DATA 3
+RANGE $1007-$100A DB_DATA 3
+RANGE $100A-$100D DB_DATA 3
+RANGE $100D-$1010 DB_DATA 3
+RANGE $1010-$1013 DB_DATA 3
+RANGE $1013-$1014 DB_DATA 1
+RANGE $1014-$1016 DB_DATA 2
+RANGE $1016-$1018 DB_DATA 2
+RANGE $1018-$102C CHAR_DATA 20
+RANGE $102C-$102D DB_DATA 1
+RANGE $102D-$1030 DB_DATA 3
+RANGE $1030-$1033 DB_DATA 3
+RANGE $1033-$1036 DB_DATA 3
+RANGE $1036-$1037 DB_DATA 1
+RANGE $1037-$1039 DW_DATA 1
+RANGE $1039-$103B DW_DATA 1
+RANGE $103B-$103D DB_DATA 2
+RANGE $103D-$103F DB_DATA 2
+RANGE $103F-$1041 DB_DATA 2
+RANGE $1041-$1043 DB_DATA 2
+RANGE $1043-$1045 DB_DATA 2
+RANGE $1045-$1047 DB_DATA 2
+RANGE $1047-$1049 DB_DATA 2
+RANGE $1049-$104B DB_DATA 2
+RANGE $104B-$104D DB_DATA 2
+RANGE $104D-$104F DB_DATA 2
+RANGE $104F-$1051 DB_DATA 2
+RANGE $1051-$1053 DB_DATA 2
+RANGE $1053-$1055 DB_DATA 2
+RANGE $1055-$1057 DB_DATA 2
+RANGE $1057-$1059 DB_DATA 2
+RANGE $1059-$105B DB_DATA 2
+RANGE $105B-$105D DB_DATA 2
+RANGE $105D-$105F DB_DATA 2
+RANGE $105F-$1061 DB_DATA 2
+RANGE $1061-$1063 DB_DATA 2
+RANGE $1063-$1065 DB_DATA 2
+RANGE $1065-$1067 DB_DATA 2
+RANGE $1067-$1069 DB_DATA 2
+RANGE $1069-$106B DB_DATA 2
+RANGE $106B-$106D DB_DATA 2
+RANGE $106D-$106F DB_DATA 2
+RANGE $106F-$1071 DB_DATA 2
+RANGE $1071-$1073 DB_DATA 2
+RANGE $1073-$1075 DB_DATA 2
+RANGE $1075-$1077 DB_DATA 2
+RANGE $1077-$1079 DB_DATA 2
+RANGE $1079-$107B DB_DATA 2
+RANGE $107B-$107D DB_DATA 2
+RANGE $107D-$107F DB_DATA 2
+RANGE $107F-$1081 DB_DATA 2
+RANGE $1081-$1083 DB_DATA 2
+RANGE $1083-$1085 DB_DATA 2
+RANGE $1085-$1087 DB_DATA 2
+RANGE $1087-$1089 DB_DATA 2
+RANGE $1089-$108B DB_DATA 2
+RANGE $108B-$108D DB_DATA 2
+RANGE $108D-$108F DB_DATA 2
+RANGE $108F-$1091 DB_DATA 2
+RANGE $1091-$1093 DB_DATA 2
+RANGE $1093-$1095 DB_DATA 2
+RANGE $1095-$1097 DB_DATA 2
+RANGE $1097-$1099 DB_DATA 2
+RANGE $1099-$109B DB_DATA 2
+RANGE $109B-$109D DB_DATA 2
+RANGE $109D-$109F DB_DATA 2
+RANGE $109F-$10A1 DB_DATA 2
+RANGE $10A1-$10A3 DB_DATA 2
+RANGE $10A3-$10B3 DW_DATA 8
+RANGE $10B3-$10B7 DW_DATA 2
+RANGE $10B7-$10B9 DB_DATA 2
+RANGE $10B9-$10BB DB_DATA 2
+RANGE $10BB-$10BD DB_DATA 2
+RANGE $10BD-$10BF DB_DATA 2
+RANGE $10BF-$10C1 DB_DATA 2
+RANGE $10C1-$10C3 DB_DATA 2
+RANGE $10C3-$10C5 DB_DATA 2
+RANGE $10C5-$10C7 DB_DATA 2
+RANGE $10C7-$10C9 DB_DATA 2
+RANGE $10C9-$10CD DW_DATA 2
+RANGE $10CD-$10D0 DB_DATA 3
+RANGE $10D0-$10D3 DB_DATA 3
+RANGE $10D3-$10D6 DB_DATA 3
+RANGE $10D6-$10D9 DB_DATA 3
+RANGE $10D9-$10DC DB_DATA 3
+RANGE $10DC-$10DF DB_DATA 3
+RANGE $10DF-$10E2 DB_DATA 3
+RANGE $10E2-$10E5 DB_DATA 3
+RANGE $10E5-$10E7 DB_DATA 2
+RANGE $10E7-$10EB DW_DATA 2
+RANGE $10EB-$10EF DB_DATA 4
+RANGE $10EF-$10F3 DB_DATA 4
+RANGE $10F3-$10F7 DB_DATA 4
+RANGE $10F7-$10FB DB_DATA 4
+RANGE $10FB-$10FF DB_DATA 4
+RANGE $10FF-$1103 DB_DATA 4
+RANGE $1103-$1107 DB_DATA 4
+RANGE $1107-$110B DB_DATA 4
+RANGE $110B-$110F DB_DATA 4
+RANGE $110F-$1113 DB_DATA 4
+RANGE $1113-$1117 DB_DATA 4
+RANGE $1117-$111B DB_DATA 4
+RANGE $111B-$111F DB_DATA 4
+RANGE $111F-$1123 DB_DATA 4
+RANGE $1123-$1127 DB_DATA 4
+RANGE $1127-$112B DB_DATA 4
+RANGE $112B-$112F DB_DATA 4
+RANGE $112F-$1133 DB_DATA 4
+RANGE $1133-$1137 DB_DATA 4
+RANGE $1137-$113B DB_DATA 4
+RANGE $113B-$113F DB_DATA 4
+RANGE $113F-$1143 DB_DATA 4
+RANGE $1143-$1147 DB_DATA 4
+RANGE $1147-$114B DB_DATA 4
+RANGE $114B-$114F DB_DATA 4
+RANGE $114F-$1153 DB_DATA 4
+RANGE $1153-$1157 DB_DATA 4
+RANGE $1157-$115B DB_DATA 4
+RANGE $115B-$115F DB_DATA 4
+RANGE $115F-$1163 DB_DATA 4
+RANGE $1163-$1167 DB_DATA 4
+RANGE $1167-$116B DB_DATA 4
+RANGE $116B-$116F DB_DATA 4
+RANGE $116F-$1173 DB_DATA 4
+RANGE $1173-$1177 DB_DATA 4
+RANGE $1177-$117B DB_DATA 4
+RANGE $117B-$117F DB_DATA 4
+RANGE $117F-$1181 DB_DATA 2
+RANGE $1181-$11C7 CODE
+RANGE $11C7-$11CB DW_DATA 2
+RANGE $11CB-$11CD DB_DATA 2
+

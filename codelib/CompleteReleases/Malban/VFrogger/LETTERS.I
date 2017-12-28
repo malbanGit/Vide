@@ -7,9 +7,12 @@
 ; this file contains 'sprite' definition data for letters (level done)      ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
- db 2
 _l_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 2
+ else
                 DW (MAX_LINE_NUM-(2+1))*ONE_LINE_LENGTH
+ endif
                 DB -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -23,9 +26,12 @@ _l_object:
                 DB 0                    ; offsets x in 'SCALE_IN_HOME', since this is a home object
 ;                DB $7f                  ; brightness
 ;                DB 0                    ; special flag
- db 6
 _e_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 6
+ else
                 DW (MAX_LINE_NUM-(6+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP, -5*SPRITE_BLOW_UP
                 DB -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
@@ -43,9 +49,12 @@ _e_object:
                 DB 0                    ; offsets x in 'SCALE_IN_HOME', since this is a home object
 ;                DB $7f                  ; brightness
 ;                DB 0                    ; special flag
- db 3
 _v_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 3
+ else
                 DW (MAX_LINE_NUM-(3+1))*ONE_LINE_LENGTH
+ endif
                 DB -5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB -5*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB  5*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
@@ -60,9 +69,12 @@ _v_object:
                 DB 0                    ; offsets x in 'SCALE_IN_HOME', since this is a home object
 ;                DB $7f                  ; brightness
 ;                DB 0                    ; special flag
- db 9
 _d_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 9
+ else
                 DW (MAX_LINE_NUM-(9+1))*ONE_LINE_LENGTH
+ endif
                 DB -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
@@ -83,9 +95,12 @@ _d_object:
                 DB 0                    ; offsets x in 'SCALE_IN_HOME', since this is a home object
 ;                DB $7f                  ; brightness
 ;                DB 0                    ; special flag
- db 11
 _o_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 11
+ else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
+ endif
                 DB -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
@@ -108,9 +123,12 @@ _o_object:
                 DB 0                    ; offsets x in 'SCALE_IN_HOME', since this is a home object
 ;                DB $7f                  ; brightness
 ;                DB 0                    ; special flag
- db 5
 _n_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 5
+ else
                 DW (MAX_LINE_NUM-(5+1))*ONE_LINE_LENGTH
+ endif
                 DB  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB -5*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP

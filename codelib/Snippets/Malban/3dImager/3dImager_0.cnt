@@ -1,26 +1,194 @@
 BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
 LABEL $C82A Vec_Text_Height
 COMMENT_LABEL $C82A Default text height
 LABEL $C82B Vec_Text_Width
 COMMENT_LABEL $C82B Default text width
 LABEL $C82C Vec_Str_Ptr
 COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
 LABEL $C83D Vec_Rfrsh
 COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
 LABEL $C845 Vec_Music_Wk_7
 COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
 LABEL $CBF8 Vec_IRQ_Vector
 COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
 LABEL $D000 VIA_port_b
 COMMENT_LABEL $D000 VIA port B data I/O register
 LABEL $D001 VIA_port_a
 COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
 LABEL $D003 VIA_DDR_a
 COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
 LABEL $D004 VIA_t1_cnt_lo
 COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
 LABEL $D005 VIA_t1_cnt_hi
 COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
 LABEL $D008 VIA_t2_lo
 COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
 LABEL $D009 VIA_t2_hi
@@ -35,15 +203,181 @@ LABEL $D00D VIA_int_flags
 COMMENT_LABEL $D00D VIA interrupt flags register
 LABEL $D00E VIA_int_enable
 COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
 LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
 LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_a
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
 LABEL $F354 Reset0Ref
 LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
 LABEL $F575 Delay_1
 COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
 LABEL $F57D Delay_RTS
 COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
 LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
 LABEL $F9F4 Char_Table
 LABEL $FBD4 Char_Table_End
 LABEL $C900 flagImagerSyncReceived
@@ -75,6 +409,7 @@ LABEL $7001 LEFT_BLUE_TIMER_WAIT
 LABEL $4AAC LEFT_GREEN_TIMER_WAIT
 LABEL $22DA LEFT_RED_TIMER_WAIT
 LABEL $CBF9 InterruptVectorRam
+EQU $1C start
 LABEL $00CE imagerInit
 LABEL $0026 ReturnFromIRQ
 EQU $45 wait_for_draw_right_blue
@@ -89,6 +424,7 @@ EQU $7E wait_for_draw_left_blue
 LABEL $0091 wait_for_draw_left_green
 LABEL $00A4 wait_for_draw_left_red
 LABEL $021F ZeroResetPenAndDelay
+LABEL $00E9 _0064
 LABEL $0173 IRQ_Handler
 LABEL $00FA spinFullWheel
 LABEL $0153 GetGoggleIndexState
@@ -106,12 +442,20 @@ LABEL $01DB slow_wheelToSlowAdjustment
 LABEL $01F5 ShuffleFailureInfo
 LABEL $0246 pwm_check_done10
 LABEL $02C9 Moveto_d_active
+LABEL $024D Print_Str_active
 LABEL $025D LF4A5
 LABEL $0283 LF4CB
 LABEL $027F LF4C7
 LABEL $02C2 LF50A
 LABEL $02A3 LF4EB
 LABEL $02E4 finish_moving_loop
+LABEL $02E8 *
+COMMENT_LINE $0000 ; hey dissi "watch $scrollIntensity 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $scrollBlink 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $speedx 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $speedy 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $scrollBlinkAdd 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $phase_count 1 0"
 COMMENT_LINE $0000 ***************************************************************************
 COMMENT_LINE $0000 DEFINE SECTION
 COMMENT_LINE $0000 ***************************************************************************
@@ -175,6 +519,12 @@ COMMENT_LINE $0000 4 CB1 interrupt enable
 COMMENT_LINE $0000 5 timer 2 interrupt enable
 COMMENT_LINE $0000 6 timer 1 interrupt enable
 COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
 COMMENT $0000 vectrex function includes
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
@@ -365,6 +715,12 @@ COMMENT $0000 20 cycles
 COMMENT $0000 12 cycles
 COMMENT $0000 5*B + 10 cycles
 COMMENT $0000 5 cycles
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
 COMMENT $C901 sample counter of IRQ Handler, 8 IRQs are taken as one sample sequence
 COMMENT $C902 storage for the current sampling
 COMMENT $C903 storage for the last sampling
@@ -421,11 +777,15 @@ COMMENT_LINE $001C *************************************************************
 COMMENT_LINE $001C CODE SECTION
 COMMENT_LINE $001C ***************************************************************************
 COMMENT_LINE $001C here the cartridge program starts off
+FORCE_NO_SYMBOL $001C
 COMMENT $0020 initiate the Imager
+FORCE_SYMBOL $0020 imagerInit
 COMMENT $0023 and do one interrupt handling
 COMMENT_LINE $0025 main "IRQ" Loop
 COMMENT $0026 initiate our timing reference!
+FORCE_SYMBOL $0026 Vec_Rfrsh
 COMMENT $0029 Set refresh timer
+FORCE_SYMBOL $0029 VIA_t2_lo
 COMMENT_LINE $002B the first thing we should do here is check the joystick ports (buttons!)
 COMMENT_LINE $002B so they do not interfere later with PWM pulses
 COMMENT_LINE $002B however - for the example
@@ -435,51 +795,101 @@ COMMENT_LINE $002B PSG_PORT_A_INPUT
 COMMENT_LINE $002B jsr      >Read_Btns
 COMMENT $002B start our duty cycle, PSG to output
 COMMENT $002B Get current I/O enable setting
+FORCE_SYMBOL $002B Vec_Music_Wk_7
+FORCE_NO_SYMBOL $002E
+FORCE_NO_SYMBOL $0030
 COMMENT $0032 Config Port A as an output
+FORCE_SYMBOL $0032 Sound_Byte_raw
 COMMENT $0035 and output a low signal
 COMMENT $0035 write $80 to reg 14 of psg
+FORCE_NO_SYMBOL $0035
 COMMENT $0038 this means pulse on
+FORCE_SYMBOL $0038 Sound_Byte
 COMMENT $003B Un-zero integrators, and trigger
+FORCE_NO_SYMBOL $003B
 COMMENT $003D IRQ on positive edge.
+FORCE_SYMBOL $003D VIA_cntl
 COMMENT $003F CA1 bitmask
+FORCE_NO_SYMBOL $003F
 COMMENT $0041 enable (clear) interrupt flag for CA1 in VIA
+FORCE_SYMBOL $0041 VIA_int_flags
 COMMENT $0043 and also enable interrupts in general in our CPU
+FORCE_NO_SYMBOL $0043
 COMMENT $0045 after each timeconsuming "thing" (or in iddle loop) check if PWM impulse should be put off duty
+FORCE_SYMBOL $0045 checkPWMOutput
 COMMENT $0048 check timee2 if we should start doing out current eye/color combination
+FORCE_SYMBOL $0048 RIGHT_BLUE_TIMER_WAIT
+FORCE_SYMBOL $004B VIA_t2_hi
 COMMENT $004D if not, just wait till time passes
 COMMENT $004F coordinate for current string (y,x)
+FORCE_NO_SYMBOL $004F
+FORCE_SYMBOL $0052 blueString
 COMMENT $0055 and just do a print (own version because of active edge CA1 interrupt)
+FORCE_SYMBOL $0055 Print_Str_d_active
 COMMENT $0058 after each timeconsuming "thing" (or in iddle loop) check if PWM impulse should be put off duty
+FORCE_SYMBOL $0058 checkPWMOutput
 COMMENT $005B check timer if we should start doing out current eye/color combination
+FORCE_SYMBOL $005B RIGHT_GREEN_TIMER_WAIT
+FORCE_SYMBOL $005E VIA_t2_hi
 COMMENT $0060 if not, just wait till time passes
 COMMENT $0062 coordinate for current string (y,x)
+FORCE_NO_SYMBOL $0062
+FORCE_SYMBOL $0065 greenString
 COMMENT $0068 and just do a print (own version because of active edge CA1 interrupt)
+FORCE_SYMBOL $0068 Print_Str_d_active
 COMMENT $006B after each timeconsuming "thing" (or in iddle loop) check if PWM impulse should be put off duty
+FORCE_SYMBOL $006B checkPWMOutput
 COMMENT $006E check timer2 if we should start doing out current eye/color combination
+FORCE_SYMBOL $006E RIGHT_RED_TIMER_WAIT
+FORCE_SYMBOL $0071 VIA_t2_hi
 COMMENT $0073 if not, just wait till time passes
 COMMENT $0075 coordinate for current string (y,x)
+FORCE_NO_SYMBOL $0075
+FORCE_SYMBOL $0078 redString
 COMMENT $007B and just do a print (own version because of active edge CA1 interrupt)
+FORCE_SYMBOL $007B Print_Str_d_active
 COMMENT $007E after each timeconsuming "thing" (or in iddle loop) check if PWM impulse should be put off duty
+FORCE_SYMBOL $007E checkPWMOutput
 COMMENT $0081 check timer2 if we should start doing out current eye/color combination
+FORCE_SYMBOL $0081 LEFT_BLUE_TIMER_WAIT
+FORCE_SYMBOL $0084 VIA_t2_hi
 COMMENT $0086 if not, just wait till time passes
 COMMENT $0088 coordinate for current string (y,x)
+FORCE_NO_SYMBOL $0088
+FORCE_SYMBOL $008B blueString
 COMMENT $008E and just do a print (own version because of active edge CA1 interrupt)
+FORCE_SYMBOL $008E Print_Str_d_active
 COMMENT $0091 after each timeconsuming "thing" (or in iddle loop) check if PWM impulse should be put off duty
+FORCE_SYMBOL $0091 checkPWMOutput
 COMMENT $0094 check timer2 if we should start doing out current eye/color combination
+FORCE_SYMBOL $0094 LEFT_GREEN_TIMER_WAIT
+FORCE_SYMBOL $0097 VIA_t2_hi
 COMMENT $0099 if not, just wait till time passes
 COMMENT $009B coordinate for current string (y,x)
+FORCE_NO_SYMBOL $009B
+FORCE_SYMBOL $009E greenString
 COMMENT $00A1 and just do a print (own version because of active edge CA1 interrupt)
+FORCE_SYMBOL $00A1 Print_Str_d_active
 COMMENT $00A4 after each timeconsuming "thing" (or in iddle loop) check if PWM impulse should be put off duty
+FORCE_SYMBOL $00A4 checkPWMOutput
 COMMENT $00A7 check timer2 if we should start doing out current eye/color combination
+FORCE_SYMBOL $00A7 LEFT_RED_TIMER_WAIT
+FORCE_SYMBOL $00AA VIA_t2_hi
 COMMENT $00AC if not, just wait till time passes
 COMMENT $00AE coordinate for current string (y,x)
+FORCE_NO_SYMBOL $00AE
+FORCE_SYMBOL $00B1 redString
 COMMENT $00B4 and just do a print (own version because of active edge CA1 interrupt)
+FORCE_SYMBOL $00B4 Print_Str_d_active
 COMMENT_LINE $00B7 at last we should check for joytick movement
 COMMENT_LINE $00B7 which actually for the example is not really neccessary!
 COMMENT_LINE $00B7 clr      >Vec_Misc_Count    ; Disable joystick approximation
 COMMENT_LINE $00B7 jsr      >Joy_Digital
 COMMENT $00B7 and finish main loop
+FORCE_SYMBOL $00B7 ZeroResetPenAndDelay
+FORCE_SYMBOL $00BA Reset_Pen
 COMMENT $00BD * Enable IRQ & wait for goggle index
+FORCE_NO_SYMBOL $00BD
 COMMENT_LINE $00BF ***************************************************************************
 COMMENT_LINE $00BF DATA SECTION
 COMMENT_LINE $00BF ***************************************************************************
@@ -680,50 +1090,98 @@ COMMENT $00CE 20 cycles
 COMMENT $00CE 12 cycles
 COMMENT $00CE 5*B + 10 cycles
 COMMENT $00CE 5 cycles
+COMMENT_LINE $00CE Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $00CE Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $00CE Rot_VL          EQU     $F616   ;
+COMMENT_LINE $00CE Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $00CE Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $00CE Rot_VL_dft      EQU     $F637   ;
 COMMENT_LINE $0000 subroutines for imager handling
 COMMENT_LINE $00CE ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $00CE sets wheel frequency (T2 Timer) to Narrow Escape timer value of $e000
 COMMENT_LINE $00CE init Interrupt
 COMMENT_LINE $00CE and vars used by later pwm calculation
+FORCE_SYMBOL $00CE T2_INVERSE
 COMMENT $00D1 Set refresh timer = 0.0382 sec
+FORCE_SYMBOL $00D1 Vec_Rfrsh
+FORCE_SYMBOL $00D4 PWM_T2_Compare_slower
+FORCE_NO_SYMBOL $00D7
+FORCE_SYMBOL $00DA countIRQFailureAfterRefreshFor8Samples
 COMMENT $00DD Init IRQ handler's loop counter
+FORCE_SYMBOL $00DD loopCounterIRQ1
+FORCE_SYMBOL $00E0 PWM_T2_Compare_faster
+FORCE_SYMBOL $00E3 PWM_T2_Compare_current
+FORCE_NO_SYMBOL $00E6
 COMMENT $00E9 Set up IRQ interrupt vector: JMP
+FORCE_SYMBOL $00E9 Vec_IRQ_Vector
+FORCE_SYMBOL $00EC VIA_int_enable
+FORCE_SYMBOL $00EE IRQ_Handler
 COMMENT $00F1 Set IRQ interrupt function: Sync
+FORCE_SYMBOL $00F1 InterruptVectorRam
 COMMENT $00F4 zero integrators, and ensure CA1 trigger on active edge
+FORCE_SYMBOL $00F4 ZeroResetPenAndDelay
 COMMENT $00F7 Set loop counter = 0 (we want 3 correct syncs, this is the counter for that)
+FORCE_SYMBOL $00F7 tmp_counter
 COMMENT_LINE $00FA from here on get the imager spinning with
 COMMENT_LINE $00FA short pulses (no output is done till we reach the spin frequency we want)
 COMMENT $00FA Wait for the goggle's disk to come upto speed*
+FORCE_SYMBOL $00FA Vec_Rfrsh
 COMMENT $00FD Set refresh timer
+FORCE_SYMBOL $00FD VIA_t2_lo
 COMMENT $00FF get the sync state befor we initiate next pulse sequences
 COMMENT $00FF Get current I/O enable setting
+FORCE_SYMBOL $00FF Vec_Music_Wk_7
+FORCE_NO_SYMBOL $0102
+FORCE_NO_SYMBOL $0104
 COMMENT $0106 Config Port A as an input
+FORCE_SYMBOL $0106 Sound_Byte_raw
 COMMENT $010B and store the result
+FORCE_SYMBOL $010B flagImagerSyncReceived
 COMMENT $010E switch to output, that we can set the pulse
 COMMENT $010E Get current I/O enable setting
+FORCE_SYMBOL $010E Vec_Music_Wk_7
+FORCE_NO_SYMBOL $0111
+FORCE_NO_SYMBOL $0113
 COMMENT $0115 Config Port A as an output
+FORCE_SYMBOL $0115 Sound_Byte_raw
 COMMENT $0118 write $80 to reg 14 of psg
+FORCE_NO_SYMBOL $0118
 COMMENT $011B this means pulse on
+FORCE_SYMBOL $011B Sound_Byte
 COMMENT $011E set delay loop value
+FORCE_NO_SYMBOL $011E
 COMMENT $0121 Delay for awhile
 COMMENT $0123 write $ff to reg 14 of psg
+FORCE_NO_SYMBOL $0123
 COMMENT $0126 this means pulse off
+FORCE_SYMBOL $0126 Sound_Byte
 COMMENT $0129 switch to input, so we can poll the "button 4" CA1 flag
 COMMENT $0129 Get current I/O enable setting
+FORCE_SYMBOL $0129 Vec_Music_Wk_7
+FORCE_NO_SYMBOL $012C
+FORCE_NO_SYMBOL $012E
 COMMENT $0130 Config Port A as an input
+FORCE_SYMBOL $0130 Sound_Byte_raw
 COMMENT $0135 check the last sync state
+FORCE_SYMBOL $0135 flagImagerSyncReceived
 COMMENT $0138 has gone from off to on (jump if previous was off)
 COMMENT $013A previous state of sync was on
 COMMENT $013B if switch was from on to off, than a full "round" was done -> jump
 COMMENT $013D otherwise store the current sync state and do another pulse sequence
+FORCE_SYMBOL $013D flagImagerSyncReceived
 COMMENT_LINE $0142 we have succeded in getting the imager wheel spinning for a full round (at least we see the sync hole)
 COMMENT_LINE $0142 now lets check if we did that in the required frequency, checking Timer T2 for that purpose
 COMMENT $0142 load T2 interrupt flag
+FORCE_SYMBOL $0142 VIA_int_flags
 COMMENT $0144 if the timer interrupt flag is set, than the timer elapsed BEFOR
+FORCE_NO_SYMBOL $0144
 COMMENT $0146 we got to the sync hole -> we are to slow, spin another full round
 COMMENT $0148 The disk is now upto speed; for
+FORCE_SYMBOL $0148 tmp_counter
 COMMENT $014B good measure, repeat, for a
+FORCE_SYMBOL $014B tmp_counter
 COMMENT $014E total of 3 times.
+FORCE_NO_SYMBOL $014E
 COMMENT $0152 setup done!
 COMMENT_LINE $0153 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0153 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -732,15 +1190,28 @@ COMMENT_LINE $0153 0 => index signal not seen
 COMMENT_LINE $0153 !=0 => index signal seen
 COMMENT_LINE $0153 GetGoggleIndexState()
 COMMENT $0153 Check to see if the color wheel index has been seen.
+FORCE_NO_SYMBOL $0153
 COMMENT $0155 PSG register 14
+FORCE_SYMBOL $0155 VIA_port_a
+FORCE_NO_SYMBOL $0157
 COMMENT $015A PSG latch
+FORCE_SYMBOL $015A VIA_port_b
 COMMENT $015D PSG inactive
+FORCE_SYMBOL $015D VIA_port_b
 COMMENT $015F configure port A of via as input
+FORCE_SYMBOL $015F VIA_DDR_a
+FORCE_NO_SYMBOL $0161
 COMMENT $0164 PSG read
+FORCE_SYMBOL $0164 VIA_port_b
 COMMENT $0167 Read Port VIA A and this PSG A lines
+FORCE_SYMBOL $0167 VIA_port_a
 COMMENT $016A PSG inactive
+FORCE_SYMBOL $016A VIA_port_b
+FORCE_NO_SYMBOL $016C
 COMMENT $016E Set Port A lines as outputs
+FORCE_SYMBOL $016E VIA_DDR_a
 COMMENT $0170 only button 4 of joystick 1 is of interested (CA1
+FORCE_NO_SYMBOL $0170
 COMMENT_LINE $0173 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0173 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0173 checks whether interrupt occured befor T2 expired or after
@@ -756,25 +1227,41 @@ COMMENT_LINE $0173 every 8 wheel spins (main loops) the values are reevaluated a
 COMMENT_LINE $0173 for a detailed explanation see VIDE documentation!
 COMMENT_LINE $0173 expects DP = D0
 COMMENT $0173 ensure vectors are not drawn anymore!, clear shift (blank = enabled)
+FORCE_SYMBOL $0173 VIA_shift_reg
 COMMENT $0175 load the current interruptflags
+FORCE_SYMBOL $0175 VIA_int_flags
 COMMENT $0177 did refresh timer2 already expire?
+FORCE_NO_SYMBOL $0177
 COMMENT $0179 Yes -> so mark another timeout
 COMMENT $017B if not, the pulse next round will be shorter
+FORCE_SYMBOL $017B PWM_T2_Compare_slower
+FORCE_SYMBOL $017E PWM_T2_Compare_current
 COMMENT $0181 decrement the IRQ loop counter
+FORCE_SYMBOL $0181 loopCounterIRQ1
 COMMENT $0184 have we taken 8 samples? -> if not "return" to main loop
 COMMENT $0186 if yes -> process the results
 COMMENT $0188 a timeout did occur, meaning, the wheel spun to slow, so we
+FORCE_SYMBOL $0188 PWM_T2_Compare_faster
 COMMENT $018B increase the pulse length slightly next round
+FORCE_SYMBOL $018B PWM_T2_Compare_current
 COMMENT $018E Increment failure counter
+FORCE_SYMBOL $018E countIRQFailureAfterRefreshFor8Samples
 COMMENT $0191 have we taken 8 samples?
+FORCE_SYMBOL $0191 loopCounterIRQ1
 COMMENT $0194 -> if not "return" to main loop
+FORCE_NO_SYMBOL $0196
 COMMENT $0198 reset IRQ sample counter
+FORCE_SYMBOL $0198 loopCounterIRQ1
 COMMENT_LINE $019B begin calculation for the "PWM_T2_Compare_faster" adjustment
 COMMENT $019B Sum the # of failures for this
+FORCE_SYMBOL $019B countIRQFailureAfterRefreshFor8Samples
 COMMENT $019E pass and the previous pass.
+FORCE_SYMBOL $019E countIRQFailureAfterRefreshFor8Samples_1
 COMMENT $01A1 duplicate b to a
 COMMENT $01A3 transform a to an adjustment value
+FORCE_NO_SYMBOL $01A3
 COMMENT $01A5 if to many misses (>13) (wheel to slow) A will be negative, if to "few" misses (<13) (wheel to fast) A will be positive
+FORCE_NO_SYMBOL $01A6
 COMMENT $01A8 jmp if last 2 failure counts == 13, no adjustment
 COMMENT $01AA jmp if last 2 failure counts > 13
 COMMENT_LINE $01AC here if last 2 failure counts < 13,
@@ -783,20 +1270,27 @@ COMMENT_LINE $01AC add positive value to the "fast compare",
 COMMENT_LINE $01AC so the resulting value is greater,
 COMMENT_LINE $01AC -> resulting in a shorter PWM pulse, and the speed gets slowed down
 COMMENT $01AC add positive difference
+FORCE_SYMBOL $01AC PWM_T2_Compare_faster
 COMMENT $01AF if we are above maximum, jump
 COMMENT $01B1 otherwise store the adjustment
+FORCE_SYMBOL $01B1 PWM_T2_Compare_faster
 COMMENT_LINE $01B6 here if last 2 failure counts > 13,
 COMMENT_LINE $01B6 then the wheel in average is too slow,
 COMMENT_LINE $01B6 add negative value to the "fast compare",
 COMMENT_LINE $01B6 so the resulting value is smaller,
 COMMENT_LINE $01B6 -> resulting in a longer PWM pulse, and the speed gets sped up
 COMMENT $01B6 add the negative difference
+FORCE_SYMBOL $01B6 PWM_T2_Compare_faster
 COMMENT $01B9 if underflow - jump
 COMMENT $01BB otherwise store the adjustment
+FORCE_SYMBOL $01BB PWM_T2_Compare_faster
 COMMENT_LINE $01BE begin calculation for the "PWM_T2_Compare_slower" adjustment
 COMMENT $01BE Failures for (pass - 2)
+FORCE_SYMBOL $01BE countIRQFailureAfterRefreshFor8Samples_2
 COMMENT $01C1 Failures for (pass - 3)
+FORCE_SYMBOL $01C1 countIRQFailureAfterRefreshFor8Samples_3
 COMMENT $01C4 b contains sum of 4 passes of failure counts (32 values), subtract 3/4
+FORCE_NO_SYMBOL $01C4
 COMMENT $01C6 if exactly 24 - we do not change the slower compare value -> jump
 COMMENT $01C8 double b to a
 COMMENT $01CA "extend" a to d
@@ -810,125 +1304,223 @@ COMMENT_LINE $01D1 add positive value to the "slow compare",
 COMMENT_LINE $01D1 so the resulting value is greater,
 COMMENT_LINE $01D1 -> resulting in a shorter PWM pulse, and the speed gets slowed down
 COMMENT $01D1 wheel to fast, add positive adjustment adjustment
+FORCE_SYMBOL $01D1 PWM_T2_Compare_slower
 COMMENT $01D4 if overflow jump
 COMMENT $01D6 otherwise store the new value
+FORCE_SYMBOL $01D6 PWM_T2_Compare_slower
 COMMENT_LINE $01DB here if last failue counts are more then 24 (out of 32)
 COMMENT_LINE $01DB in average the wheel is to slow, so
 COMMENT_LINE $01DB add negative value to the "slow compare",
 COMMENT_LINE $01DB so the resulting value is smaller,
 COMMENT_LINE $01DB -> resulting in a longer PWM pulse, and the speed gets sped up
 COMMENT $01DB "subtract" adjustment
+FORCE_SYMBOL $01DB PWM_T2_Compare_slower
 COMMENT $01DE if underflow - jump
 COMMENT $01E0 otherwise store the new value
+FORCE_SYMBOL $01E0 PWM_T2_Compare_slower
 COMMENT_LINE $01E3 here we begin our last check
 COMMENT_LINE $01E3 the "slower" and "faster" compare should not be too close to each other
 COMMENT_LINE $01E3 if slow is with a $1a reach of "fast", than ensure $1a as minimum distance bewteen the two
+FORCE_SYMBOL $01E3 PWM_T2_Compare_slower
+FORCE_NO_SYMBOL $01E6
+FORCE_SYMBOL $01E8 PWM_T2_Compare_faster
 COMMENT $01EB if distance hi enough jump
 COMMENT $01ED otherwise slow = fast + $1a
+FORCE_SYMBOL $01ED PWM_T2_Compare_faster
+FORCE_NO_SYMBOL $01F0
+FORCE_SYMBOL $01F2 PWM_T2_Compare_slower
 COMMENT $01F5 Shuffle down the failure results (16 bit this contains pass 1+2)
+FORCE_SYMBOL $01F5 countIRQFailureAfterRefreshFor8Samples_1
 COMMENT $01F8 information for the last 3 passes (and puts it into passt 2+3)
+FORCE_SYMBOL $01F8 countIRQFailureAfterRefreshFor8Samples_2
 COMMENT $01FB discarding the results for the (get current result)
+FORCE_SYMBOL $01FB countIRQFailureAfterRefreshFor8Samples
 COMMENT $01FE oldest pass (and store to 1)
+FORCE_SYMBOL $01FE countIRQFailureAfterRefreshFor8Samples_1
 COMMENT $0201 Start w/ 0 failures for next pass
+FORCE_SYMBOL $0201 countIRQFailureAfterRefreshFor8Samples
 COMMENT $0204 ensure PWM is off duty
 COMMENT $0205 write $ff to reg 14 of psg
+FORCE_NO_SYMBOL $0205
 COMMENT $0208 this means pulse off
+FORCE_SYMBOL $0208 Sound_Byte
 COMMENT $020B Get current I/O enable setting
+FORCE_SYMBOL $020B Vec_Music_Wk_7
+FORCE_NO_SYMBOL $020E
+FORCE_NO_SYMBOL $0210
 COMMENT $0212 Config Port A as an output
+FORCE_SYMBOL $0212 Sound_Byte_raw
 COMMENT $0215 don't bother with interrupt, edge thingy will be set in main...
+FORCE_SYMBOL $0215 Reset0Ref
 COMMENT $0218 restore stack frame
+FORCE_NO_SYMBOL $0218
+FORCE_SYMBOL $021C ReturnFromIRQ
 COMMENT_LINE $021F ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT $021F Zero integrators, and trigger IRQ
+FORCE_NO_SYMBOL $021F
 COMMENT $0221 on positive edge.
+FORCE_SYMBOL $0221 VIA_cntl
+FORCE_SYMBOL $0223 Reset_Pen
+FORCE_SYMBOL $0226 Delay_RTS
 COMMENT_LINE $022A ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $022A ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+FORCE_SYMBOL $022A PWM_T2_Compare_current
 COMMENT $022F if T2 still larger, than pulse must be kept in duty mode -> jump
+FORCE_SYMBOL $022F VIA_t2_hi
 COMMENT $0233 write $ff to reg 14 of psg
+FORCE_NO_SYMBOL $0233
 COMMENT $0236 this means pulse off
+FORCE_SYMBOL $0236 Sound_Byte
 COMMENT $0239 Get current I/O enable setting
+FORCE_SYMBOL $0239 Vec_Music_Wk_7
+FORCE_NO_SYMBOL $023C
+FORCE_NO_SYMBOL $023E
 COMMENT $0240 Config Port A as an input
+FORCE_SYMBOL $0240 Sound_Byte_raw
+FORCE_SYMBOL $0243 PWM_T2_Compare_current
 COMMENT_LINE $0247 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0247 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0247 copy of the BIOS Print_Str_d with the only difference being
 COMMENT_LINE $0247 that the active edge of the CA1 interrupt is kept
+FORCE_SYMBOL $0247 Moveto_d_active
+FORCE_SYMBOL $024A Delay_1
 COMMENT $024D Save string pointer
+FORCE_SYMBOL $024D Vec_Str_Ptr
 COMMENT $0250 Point to start of chargen bitmaps
 COMMENT $0253 a→AUX: b→ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)
+FORCE_NO_SYMBOL $0253
 COMMENT $0256 Clear D/A output
+FORCE_SYMBOL $0256 VIA_port_a
 COMMENT $0258 Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode
+FORCE_SYMBOL $0258 VIA_aux_cntl
 COMMENT $025A Point to start of chargen bitmaps
 COMMENT_LINE $025D first entry here, ramp is disabled
 COMMENT_LINE $025D if there was a jump from below
 COMMENT_LINE $025D ramp will be enabled by next line
 COMMENT $025D ramp off/on set mux to channel 1
+FORCE_SYMBOL $025D VIA_port_b
 COMMENT $025F Enable mux
+FORCE_SYMBOL $025F VIA_port_b
 COMMENT $0261 both to ORB, both disable ram, mux sel = 0 (y int), a:→enable mux: b:→disable mux
+FORCE_NO_SYMBOL $0261
 COMMENT $0264 Wait a moment
 COMMENT $0265 Disable mux
+FORCE_SYMBOL $0265 VIA_port_b
 COMMENT $0267 Disable RAMP, set mux to channel 0, disable mux
+FORCE_SYMBOL $0267 VIA_port_b
 COMMENT $0269 Enable mux
+FORCE_SYMBOL $0269 VIA_port_b
 COMMENT $026B I think this is a delay only
+FORCE_NO_SYMBOL $026B
 COMMENT $026E disable mux
+FORCE_SYMBOL $026E VIA_port_b
 COMMENT $0270 Get text width
+FORCE_SYMBOL $0270 Vec_Text_Width
 COMMENT $0273 Send it to the D/A
+FORCE_SYMBOL $0273 VIA_port_a
 COMMENT $0275 both to ORB, both ENABLE RAMP, a:→ disable mux, b:→ enable mux
+FORCE_NO_SYMBOL $0275
 COMMENT $0278 Point to start of text string
+FORCE_SYMBOL $0278 Vec_Str_Ptr
 COMMENT $027B [4]enable RAMP, disable mux
+FORCE_SYMBOL $027B VIA_port_b
 COMMENT $027D [3]
 COMMENT_LINE $027F one letter is drawn (one row that is) in 18 cycles
 COMMENT_LINE $027F 13 cycles overhead
 COMMENT_LINE $027F ramp is thus active for #ofLetters*18 + 13 cycles
 COMMENT $027F [+5]Get bitmap from chargen table
 COMMENT $0281 [+4]rasterout of char bitmap "row" thru shift out in shift register
+FORCE_SYMBOL $0281 VIA_shift_reg
 COMMENT $0283 [+6]Get next character
 COMMENT $0285 [+3]Go back if not terminator
 COMMENT $0287 [2]disable mux, disable ramp
+FORCE_NO_SYMBOL $0287
 COMMENT $0289 [4]disable RAMP, disable mux
+FORCE_SYMBOL $0289 VIA_port_b
 COMMENT $028B Negate text width to D/A
+FORCE_SYMBOL $028B VIA_port_a
 COMMENT $028D enable ramp, disable mux
+FORCE_NO_SYMBOL $028D
 COMMENT $028F enable RAMP, disable mux
+FORCE_SYMBOL $028F VIA_port_b
 COMMENT $0291 [4]Check for last row
 COMMENT $0294 [3]Branch if last row
 COMMENT $0296 [3]Point to next chargen row
+FORCE_NO_SYMBOL $0296
 COMMENT $0299 [6]Get string length
 COMMENT $029B [7]
+FORCE_SYMBOL $029B Vec_Str_Ptr
 COMMENT $029E [2] - 2
+FORCE_NO_SYMBOL $029E
 COMMENT $02A0 [2] * 2 calculate return "way"
 COMMENT $02A1 [3]Delay a moment
 COMMENT $02A3 [2]disable RAMP, disable mux
+FORCE_NO_SYMBOL $02A3
 COMMENT $02A5 [2]
 COMMENT $02A6 [2]
 COMMENT $02A7 Delay some more in a loop
 COMMENT $02A9 disable RAMP, disable mux
+FORCE_SYMBOL $02A9 VIA_port_b
 COMMENT $02AB Get text height
+FORCE_SYMBOL $02AB Vec_Text_Height
 COMMENT $02AE Store text height in D/A [go down → later]
+FORCE_SYMBOL $02AE VIA_port_a
 COMMENT $02B0 Enable mux
+FORCE_SYMBOL $02B0 VIA_port_b
+FORCE_NO_SYMBOL $02B2
 COMMENT $02B5 Wait a moment
 COMMENT $02B6 disable RAMP, disable mux
+FORCE_SYMBOL $02B6 VIA_port_b
 COMMENT $02B8 Clear D/A
+FORCE_SYMBOL $02B8 VIA_port_a
 COMMENT $02BA enable RAMP, disable mux
+FORCE_SYMBOL $02BA VIA_port_b
 COMMENT $02BC disable RAMP, disable mux
+FORCE_SYMBOL $02BC VIA_port_b
 COMMENT $02BE $0x = ENABLE RAMP?
+FORCE_NO_SYMBOL $02BE
 COMMENT $02C0 Go back for next scan line
+FORCE_NO_SYMBOL $02C2
 COMMENT $02C4 T1→PB7 enabled
+FORCE_SYMBOL $02C4 VIA_aux_cntl
 COMMENT $02C6 Reset the zero reference
+FORCE_SYMBOL $02C6 ZeroResetPenAndDelay
 COMMENT_LINE $02C9 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $02C9 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $02C9 copy of the BIOS Moveto_d with the only difference being
 COMMENT_LINE $02C9 that the active edge of the CA1 interrupt is kept
+FORCE_NO_SYMBOL $02CB
+FORCE_SYMBOL $02CD VIA_t1_cnt_lo
 COMMENT $02D1 Store Y in D/A register
+FORCE_SYMBOL $02D1 VIA_port_a
 COMMENT $02D3 Blank low, zero high, active edge
+FORCE_NO_SYMBOL $02D3
+FORCE_SYMBOL $02D5 VIA_cntl
 COMMENT $02D8 Enable mux
+FORCE_SYMBOL $02D8 VIA_port_b
 COMMENT $02DA Clear shift regigster
+FORCE_SYMBOL $02DA VIA_shift_reg
 COMMENT $02DC Disable mux
+FORCE_SYMBOL $02DC VIA_port_b
 COMMENT $02DE Store X in D/A register
+FORCE_SYMBOL $02DE VIA_port_a
 COMMENT $02E0 enable timer
+FORCE_SYMBOL $02E0 VIA_t1_cnt_hi
+FORCE_NO_SYMBOL $02E2
+FORCE_SYMBOL $02E4 VIA_int_flags
 RANGE $0020-$02E7 DP $D0
-RANGE $0000-$000B DB_DATA
-RANGE $000B-$000D DW_DATA
-RANGE $000D-$001C DB_DATA
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$001B CHAR_DATA 10
+RANGE $001B-$001C DB_DATA 1
 RANGE $001C-$0025 CODE
 RANGE $0026-$00BF CODE
-RANGE $00BF-$00CE DB_DATA
+RANGE $00BF-$00C2 CHAR_DATA 3
+RANGE $00C2-$00C3 DB_DATA 1
+RANGE $00C3-$00C8 CHAR_DATA 5
+RANGE $00C8-$00C9 DB_DATA 1
+RANGE $00C9-$00CD CHAR_DATA 4
+RANGE $00CD-$00CE DB_DATA 1
 RANGE $00CE-$02E9 CODE
 

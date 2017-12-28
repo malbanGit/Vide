@@ -1,0 +1,36 @@
+Origins                              
+
+Royal 21 is a follow-up to FURY's Vector 21, the first ever card game for the Vectrex.
+
+The object of Vector 21 -- a cross between Solitaire and Blackjack -- is to create as many stacks of cards possible equaling a total of 21 or to have a stack of five cards equal less than 21. In this follow-up, though, a Tetris element was added as well, where dealt cards advance towards the playfield area and the player has to move them to the appropriate stacks (note: unlike with Tetris though, the cards move from the bottom to the top of the screen, rather than top to bottom).
+Controls                              
+
+    Start game: any button one through four
+    Position a card: joystick or D-pad
+    Play card in stack: any button 
+
+Gameplay                              
+
+The object is to get as many cards as possible in a stack to equal 21 or to have five cards in a stack equal less than 21, which will then remove the stack from the game. A stack can only have five cards maximum; if a fifth card is placed in a stack and the stack amount is over 21, then that stack is a bust. There are four stacks from left to right on the screen, although they are not numbered. (The first stack is at the left side of the screen, the one next to it on the right is the second stack, etc.)
+
+Once a game has been started, a card appears from the bottom and begins rising to the top of the screen. The player must then position the card that they feel is best suited to a stack. If a stack goes over 21, the player has "busted", and the stack is removed, but the bust counts against the player and it is noted in the Bust-O-Meter at the top of the screen. If there are five busts then the game ends.
+
+Cards are worth their face value; i. e. a two card is worth two points, a three is worth three, etc., and the Kings, Queens, and Jacks are worth 10 points each. An Ace is worth either one or 11 points, which it's value is automatically determined by the game. A Joker (known as Jezebel) is worth not only a variety of points, depending on what cards are in the stack she is placed in, but she will also automatically clear out any stack, no matter how many cards are currently in it.
+
+After every 500 points are scored, the player earns an Anti-Bust, which removes a bust from their total. Also, a stack containing three seven cards in a row will earn the Royal Crown, which will remove the stack from the game and also earn the player an Anti-Bust.
+Scoring                              
+
+    21 (any combination of cards equaling 21, except for Blackjacks, Combos, and Royal Crowns)--10 points
+    Blackjack (Ace + 10 [Jack, Queen or King)--20 or 30 points (a Jacks' score is higher)
+    Fury (five cards in a stack equaling less than 21)--30 points
+    Combo (five cards in a stack equaling 21)--40 points
+    Royal Crown (three seven cards in a stack)--70 points + Anti-Bust
+    Joker Blackjack--50 points
+    Joker/Jack Blackjack--60 points
+    Joker in a stack with zero cards--10 points
+        With one card--20 points
+        With two cards--30 points
+        With three cards--40 points
+        With four cards--50 points 
+    Deck bonus (completing a deck)--10 points + Anti-Bust
+    Point bonus (every 500 points scored)--one Anti-Bust 

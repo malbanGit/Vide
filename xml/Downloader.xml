@@ -1661,7 +1661,7 @@
 			<FileInZip>3D Vector Space Cab\ludumdare.bin</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
-			<FileUnpacked>download\cartridges\3dSpaceCab.bin</FileUnpacked>
+			<FileUnpacked>download/cartridges/3dSpaceCab.bin</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll></DestinationDirAll>

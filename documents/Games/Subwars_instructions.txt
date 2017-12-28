@@ -1,0 +1,49 @@
+Sub Wars is a two player only game from Mountain Goat. In the game both players control a submarine and have to use different weapons to sink the other boat.
+Sub Wars
+Subwars3
+
+Intro scene
+Developer 	Mountain Goat
+Publishers 	Mountain Goat Entertainment
+Freeware
+Release date 	October, 2015
+Genre 	Action
+Mode 	2 players simultaneous only
+Media 	ROM file
+Contents[show]
+Background/Gameplay                               
+
+The inspiration for the game came from the Vectrex title Space Wars. Creator Mountain Goat felt that Space Wars could have been even more enjoyable if a bigger arsenal of weapons were available.
+
+The game was specifically created to be played in a family / party environment - hence the no support for a computer controlled enemy.
+
+The commanders of the submarines can use auto-homing torpedoes, mines, and they can even ram the other boat to sink it.
+
+Submarine commanders can launch countermeasures to defend against torpedoes.
+
+The submarines can move unconditionally during the game. For other offensive / defensive maneuvers the submarine needs energy. Commanders can replenish the energy of their subs by picking up energy points from the sea floor.
+Weapons                               
+
+Each submarine can have two torpedoes in the water at any time. Torpedoes follow the enemy sub and can only cause damage to the enemy.
+
+Subs can lay up to 4 mines each. Mines have a quiet period right after they are put in the water. After a few seconds they go active and either submarine coming in contact with them will be damaged.
+
+Countermeasures can be used to defend against torpedoes. If an enemy torpedo touches a countermeasure, both the torpedo and the CM is destroyed.
+Controls                               
+
+The controller on the right belongs to player 1 and the one on the left to player 2.
+
+Joystick left / right steers the submarine.
+
+Button 1 adds thrust to propel the sub forward.
+
+Button 2 launches a torpedo.
+
+Button 3 lays a mine.
+
+Button 4 releases a countermeasure.
+Display                               
+
+The two submarines launch slightly different shaped torpedoes to help identify them.
+
+On the bottom of the screen there are indicators for both subs for both their energy - a horizontal line - and also for the hull damage - vertical bars. Once the last vertical bar is gone, the sub is sunk. 

@@ -1,0 +1,27 @@
+BACTERIA
+In this game you play the title giving bacteria. You must eat the food that appears randomly on
+the screen to grow.
+
+Actually - I like this game! It offers some diversity and computer opponents.
+
+The game can be played in three modes.
+Game 1: (more like training) you are alone and must eat the food that appears.
+You grow and after a time limit there is an end :-).
+Game 2 (and three also, more info in the instruction):
+You have an opponent Bacteria, which also tries to eat the food. If you are larger than the
+opponent - you can eat him vice versa.
+
+What I find really great is, that with the numbers of players - you actually enter the number of
+"enemy" Bacteria. So there is realy some action and avoiding going on.
+
+The only thing missing for me is a little "intro" and some game over screen which shows your high score.
+But overall - a great effort and an original concept.
+
+Technically:
+- with many players - the screen update suffers a little
+- basic sound
+- a "game over" would have been great!
+
+General vectrex game: 6/10
+For a first vectrex game: 9/10
+

@@ -1,0 +1,49 @@
+Spike Hoppin' (homebrew)
+
+Who says an arcade adaption has to be vector in order to work on the Vectrex? Berzerk, Scramble and Pole Position’s arcade counterparts weren’t vector originally, but arguably two out of those three adaptions worked well anyway. (I’ll take the argument against Berzerk, which is way easier than the original, runs slow, loses a bit in translation by having no color change of the robots and no voice, plus the unforgivable collision detection problem of robots walking halfway through a wall before finally getting zapped bogged it down too much for it to be a good port, which I don’t think it is.)
+
+ 
+
+Granted, the Q*Bert clone of Spike Hoppin’ isn’t a port anyway, and Q*Bert wasn’t vector originally. But that doesn’t matter. Heck, the no color qualm doesn’t matter either, in this case!
+
+ 
+
+Q*Bert involved a big-nosed orange creature that must change the colors of a giant pyramid on the screen in order to make it to further levels. Obstacles dropping from the top of the screen and various humorous creatures pursued him to no end.
+
+ 
+
+Spike Hoppin’ follows the same formula, although who knows why it is that Spike is hopping around. Maybe he’s gone nuts in the black and white only vector world (which is why he’s trying to change colors [from light to dark]...I guess?) and from having to constantly save his dum-dum girlfriend Molly from his game from back in the heyday, since she could never take a hint in taking any self-defense classes and allowing herself to be constantly captured by Spike’s enemy Spud.
+
+ 
+
+Whatever the deal is, yes, Spike must change colors of all the triangles in a level. Balls drop from the top of the screen, which getting hit by one will result in losing a life. Spud arrives via a diamond-shaped capsule of some sort (or maybe that’s him rolled up), then grows to his full size upon reaching the bottom row of triangles, and then starts making a beeline for Spike.
+
+ 
+
+Luckily there are magical platforms that Spike can hop onto in order to knock Spud off the screen. As per usual, creator John Dondzila made this game difficult so we can keep on coming back for more, which Spike can get gangbanged pretty good at times. However, unlike with Q*Bert where Coily (that’s what Spud is in this game, basically) has to be only a few spaces away from Q*Bert in order for the discs to work, Spud can be anywhere on the screen in order to be knocked off. Also helping you out are a magical hourglass, which starts appearing within a few levels to stop everyone in their tracks for several seconds when caught, and you will earn an extra life at 5,000 points as well.
+
+ 
+
+However, later Upside-Down Monsters appear from the bottom of the playfield, triangles can start taking two jumps in order for them to change color, and some miserable little runt will appear to change the triangles back to their original color (named Log...for some reason).
+
+ 
+
+The game runs slower than Q*Bert, but it can still be just as hectic in the later levels. The graphics aren’t very good though, although I consider them to be a nod to the original Spike, since he looked more like a star with legs than the hedgehog that he supposedly is. Sounds don’t fare a whole lot better though, as the bouncing of many balls can get on the nerves, but there’s charming voice synthesis added of the title screen, “go for it!” with each new level and life, and the usual “darnit!” (Although Spike’s voice is a lot higher this time around, for some reason...someone hurt himself in the wrong place [if you get my drift] from landing on a platform wrong from the original Spike game?) Controls are also somewhat iffy – don’t know of ANY Q*Bert ports that played well with controls over the years, but I haven’t played ‘em all though – but there’s two different setups for that. I suggest turning the controller about 45 degrees to the left (to simulate a diagonal-only joystick) and maybe even placing it on a flat surface (I just use the S. Hoppin’ box). And a collision detection problem with Log, making it difficult to erase that little puke at times, isn’t good either (sometimes you can jump right through him!). Most of these quibbles are minor, though.
+
+ 
+
+Rounding out the package is the hidden bonus game of Vectrepede, although I think Dondzila realized he bit off a bit more than he could chew (speaking of originally raster graphic arcade games...), due to a lot of flicker with only mushrooms, the vectrepede, you and the spider, and that’s IT. No scorpions or fleas with the original Centipede, and a bug (pardon the pun) at times that causes the vectrepede to stay in one line without coming all the way down to the bottom of the screen. Sounds aren’t that great on this one either – the majority of them sounds like a lame choo-choo train when you shoot the vectrepede – but it’s good for a blast here and there.
+
+ 
+
+As usual, this is worth the $20 U. S. (plus shipping) Dondzila charges, as I still go back to this game time and again over the months, even though I got this over two and a half years ago! Dondzila sure does know how to make ‘em addictive, that’s for sure.
+
+ 
+
+ 
+
+Score 8/10
+
+ 
+
+Review written by Darryl

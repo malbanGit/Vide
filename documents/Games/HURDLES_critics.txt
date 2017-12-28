@@ -1,0 +1,39 @@
+HURDLES
+This is a sports game - you have to jump hurdles!
+
+The presentation of the game is very good!
+When you start the game you see a little intro of a guy running over hurdles
+and a hint of a reward ceremony.
+The game continues to go to a selection title screen (with animated hurdles on top).
+
+It feels "Track and Field"ish - great!
+Within the menu you can chose different game modes - and there even are 9 pages
+of instructions.
+
+The competition mode sports different "lengths" of disciplines
+first 110m than 400m and than 1000m (where I was disqualified).
+After the competition you are rewarded with a nice little ceremony display.
+
+You can controll the guy using the buttons.
+Button 3 is jump - the longer you press the higher he jumps.
+(Is it on purpose, that while in the air I can jump again - and thus keep him
+in the air quite some time?)
+(Is it on purpose, that while "jumping" and one touches the joystick, that he
+immediately falls down?)
+
+The actual runnning feels (for a sports game) quite slow - but if it were
+faster the controls would probably prove more fatal than they are (you have
+to press the button pretty exactly).
+
+The instruction is sometimes false, since (at least there I noticed) - within the
+1000m run the "meters" do display the number of hurdles taken, not the meters!
+
+Technically:
+- screen refresh is quite low for the amount of vectors display (about 30 Hz)
+(this is probably due to the Strings displayed)
+- the controls (see above) sometimes feel a bit buggy
+- basic sound
+
+General vectrex game: 4/10 (could also be much better - the whole game feels "to slow" for me actually - sport should be ACTION)
+For a first vectrex game: 7/10
+

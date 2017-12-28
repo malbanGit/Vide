@@ -1,0 +1,15 @@
+
+It’s (very) loosely based on an old ZX spectrum game called 'Twister: Mother of Harlots' game, but with a different end-screen 'boss' level.
+
+This is basically a dodge-em and collect-em-up. The player has to avoid, or destroy,  the flying diamond 'missile' shapes and the rectangular horizontal and vertical 'wall' shapes that come towards you up the continually moving pseudo 3D corridor, whilst collecting the two-triangular 'timer' objects.
+The attack-wave configuration changes four times before the end level 'boss' screen appears, where you have to kick enough of the small 'bird' objects to pass the level, whilst avoiding yet more diamond shaped 'missiles' being fired from the boss in the middle of the screen.
+
+
+Spike can only avoid being hit by the moving ‘walls’ but can kick out to the left or right to hit the diamond-shaped ‘missiles.'
+
+Enough timers must be collected in each wave in order to move to the next, but the more diamonds destroyed the mote points you get.
+
+Kicking can be useful for getting Spike out of tight situations, although this is more dangerous that simply avoiding all enemy objects.
+
+
+In the end 'boss' screen you must kick enough of the smaller bird enemies, which randomly scroll along the top and bottom of the screen, hitting enough of these will restart the main game waves.

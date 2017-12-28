@@ -1,0 +1,24 @@
+HEADLESS RUNNER
+You run on some sort of way and must either jump low, high or dodge obstacles. The longer you last the
+higher the score.
+
+The main character is rudimentary animated, which is nice and quite sufficient for the game.
+The game has two different modes which vary slightly in speed and approaching objects.
+
+The game actually might be fun - but there are bugs, which may - or may not hinder gameplay.
+I have not looked too hard to find them, but they seem to be two fold:
+
+a) some obstacles are not drawn correctly (or are not generated at all). On a real vectrex there is
+only one short line visible - but you do not get a score and can also not fail
+(but within the flow of the game it is obvious - obstacles ARE missing, sometimes quite a few after another)
+b) randomly - but mostly after a "reset" (selecting player 2) the system crashes
+
+Technically:
+- the highscore is displayed alongside the current score - I like that
+- screen update speed is ok
+- basic sound
+- I don't like the bugs (see above)
+
+General vectrex game: 3/10
+For a first vectrex game: 6/10
+

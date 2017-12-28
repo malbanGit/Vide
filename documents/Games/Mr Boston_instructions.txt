@@ -1,0 +1,39 @@
+Mr Boston was a modified version of Clean Sweep offered to promote Mr Boston spirits possibly in bars. Its not clear how they were offered as only 3-4 complete copies are known to exist. The box has stickers which make it themed to Mr Boston.  
+
+
+Due to the usual pattern of a game making it huge, clones of that game usually come next, which Clean Sweep proved to be no exception for when Pac-Man got gigantic in the arcade. However, even though the basics of Clean Sweep were pretty much identical to Pac-Man (clear mazes of dots, use special areas to turn the tables on your attackers), the idea of the game was totally changed, as the player(s) controlled a vacuum cleaner used to suck up money that robbers have attempted to steal from the player's(s') blown-up bank.
+
+Note: in this version, the player controls a top hat. 
+
+
+
+
+Gameplay
+
+The player(s) move(s) a top hat through a maze in order to suck up dollar bills that are strewn throughout the screen. After several bills are vacuumed up, the top hat will increase in size. After several size increases, the hat will become full and will not be able to vacuum up any more bills, so the money must be deposited in the vault in the center of the screen before the hat can start gathering up money again.
+
+Robbers (which look like the player's blaster in the Tempest arcade game) begin appearing, entering via the two escape tunnels (as opposed to Pac-Man's one) that run vertically and horizontally in the maze. If a robber catches the player they will lose a life; run out of lives and the game will end.
+
+Along with using the escape tunnels (which will warp the hat to the opposite end of the maze [i. e. entering an escape tunnel from the bottom will cause the player to reappear at the tunnel entrance at the top of the screen]), there are four special rooms -- one in each corner of the maze -- that the player can enter in order to be able to dispose of the robbers for a brief time. The robbers will re-emerge from an escape tunnel seconds later though, and any remaining robbers that the player was not able to eat up will start blinking, indicating that they are about to return to their previous, dangerous form.
+
+The difficulty level increases by having the hat fill up quicker, causing the player to make multiple trips to the vault during a level.
+
+Controls
+
+Main menu
+
+    Choose between players--button one
+    Choose starting level--buttons two and three
+    Start game--button four 
+
+In-game
+
+    Move hat--joystick or D-pad 
+
+Scoring
+
+    Gathering a bill--10 points
+    Depositing a bill--20 points
+    Supercharging--50 points
+    Eating up robbers--100, 200, 400, 800 points (in succession)
+    Extra life--10,000 points 

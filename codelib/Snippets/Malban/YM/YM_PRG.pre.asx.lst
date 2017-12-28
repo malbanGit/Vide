@@ -1,0 +1,969 @@
+                              1  .module YM_PRG.pre.s
+                              2  .bank rom(BASE=0x0000,SIZE=0x8000,FSFX=_rom)
+                              3  .area .cartridge (BANK=rom) 
+                              4  .area .text (BANK=rom)
+                              5  .area .text.hot (BANK=rom)
+                              6  .area .text.unlikely (BANK=rom)
+                              7 
+                              8  .bank ram(BASE=0xc880,SIZE=0x036b,FSFX=_ram)
+                              9  .area .data  (BANK=ram)
+                             10  .area .bss   (BANK=ram)
+                             11 
+                             12  .area .text
+                             13 
+                             14 ; include line ->  include "vectrex.i"
+                             15 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             16 ; this file contains includes for vectrex BIOS functions and variables      ;
+                             17 ; it was written by Bruce Tomlin, slighte changed by Malban                 ;
+                             18 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             19 
+                     0001    20 INCLUDE_I = 1
+                             21 
+                     C800    22 Vec_Snd_Shadow  =     0xC800   ;Shadow of sound chip registers (15 bytes)
+                     C80F    23 Vec_Btn_State   =     0xC80F   ;Current state of all joystick buttons
+                     C810    24 Vec_Prev_Btns   =     0xC810   ;Previous state of all joystick buttons
+                     C811    25 Vec_Buttons     =     0xC811   ;Current toggle state of all buttons
+                     C812    26 Vec_Button_1_1  =     0xC812   ;Current toggle state of stick 1 button 1
+                     C813    27 Vec_Button_1_2  =     0xC813   ;Current toggle state of stick 1 button 2
+                     C814    28 Vec_Button_1_3  =     0xC814   ;Current toggle state of stick 1 button 3
+                     C815    29 Vec_Button_1_4  =     0xC815   ;Current toggle state of stick 1 button 4
+                     C816    30 Vec_Button_2_1  =     0xC816   ;Current toggle state of stick 2 button 1
+                     C817    31 Vec_Button_2_2  =     0xC817   ;Current toggle state of stick 2 button 2
+                     C818    32 Vec_Button_2_3  =     0xC818   ;Current toggle state of stick 2 button 3
+                     C819    33 Vec_Button_2_4  =     0xC819   ;Current toggle state of stick 2 button 4
+                     C81A    34 Vec_Joy_Resltn  =     0xC81A   ;Joystick A/D resolution (0x80=min 0x00=max)
+                     C81B    35 Vec_Joy_1_X     =     0xC81B   ;Joystick 1 left/right
+                     C81C    36 Vec_Joy_1_Y     =     0xC81C   ;Joystick 1 up/down
+                     C81D    37 Vec_Joy_2_X     =     0xC81D   ;Joystick 2 left/right
+                     C81E    38 Vec_Joy_2_Y     =     0xC81E   ;Joystick 2 up/down
+                     C81F    39 Vec_Joy_Mux     =     0xC81F   ;Joystick enable/mux flags (4 bytes)
+                     C81F    40 Vec_Joy_Mux_1_X =     0xC81F   ;Joystick 1 X enable/mux flag (=1)
+                     C820    41 Vec_Joy_Mux_1_Y =     0xC820   ;Joystick 1 Y enable/mux flag (=3)
+                     C821    42 Vec_Joy_Mux_2_X =     0xC821   ;Joystick 2 X enable/mux flag (=5)
+                     C822    43 Vec_Joy_Mux_2_Y =     0xC822   ;Joystick 2 Y enable/mux flag (=7)
+                     C823    44 Vec_Misc_Count  =     0xC823   ;Misc counter/flag byte, zero when not in use
+                     C824    45 Vec_0Ref_Enable =     0xC824   ;Check0Ref enable flag
+                     C825    46 Vec_Loop_Count  =     0xC825   ;Loop counter word (incremented in Wait_Recal)
+                     C827    47 Vec_Brightness  =     0xC827   ;Default brightness
+                     C828    48 Vec_Dot_Dwell   =     0xC828   ;Dot dwell time?
+                     C829    49 Vec_Pattern     =     0xC829   ;Dot pattern (bits)
+                     C82A    50 Vec_Text_HW     =     0xC82A   ;Default text height and width
+                     C82A    51 Vec_Text_Height =     0xC82A   ;Default text height
+                     C82B    52 Vec_Text_Width  =     0xC82B   ;Default text width
+                     C82C    53 Vec_Str_Ptr     =     0xC82C   ;Temporary string pointer for Print_Str
+                     C82E    54 Vec_Counters    =     0xC82E   ;Six bytes of counters
+                     C82E    55 Vec_Counter_1   =     0xC82E   ;First  counter byte
+                     C82F    56 Vec_Counter_2   =     0xC82F   ;Second counter byte
+                     C830    57 Vec_Counter_3   =     0xC830   ;Third  counter byte
+                     C831    58 Vec_Counter_4   =     0xC831   ;Fourth counter byte
+                     C832    59 Vec_Counter_5   =     0xC832   ;Fifth  counter byte
+                     C833    60 Vec_Counter_6   =     0xC833   ;Sixth  counter byte
+                     C834    61 Vec_RiseRun_Tmp =     0xC834   ;Temp storage word for rise/run
+                     C836    62 Vec_Angle       =     0xC836   ;Angle for rise/run and rotation calculations
+                     C837    63 Vec_Run_Index   =     0xC837   ;Index pair for run
+                             64 ;                       0xC839   ;Pointer to copyright string during startup
+                     C839    65 Vec_Rise_Index  =     0xC839   ;Index pair for rise
+                             66 ;                       0xC83B   ;High score cold-start flag (=0 if valid)
+                     C83B    67 Vec_RiseRun_Len =     0xC83B   ;length for rise/run
+                             68 ;                       0xC83C   ;temp byte
+                     C83D    69 Vec_Rfrsh       =     0xC83D   ;Refresh time (divided by 1.5MHz)
+                     C83D    70 Vec_Rfrsh_lo    =     0xC83D   ;Refresh time low byte
+                     C83E    71 Vec_Rfrsh_hi    =     0xC83E   ;Refresh time high byte
+                     C83F    72 Vec_Music_Work  =     0xC83F   ;Music work buffer (14 bytes, backwards?)
+                     C842    73 Vec_Music_Wk_A  =     0xC842   ;        register 10
+                             74 ;                       0xC843   ;        register 9
+                             75 ;                       0xC844   ;        register 8
+                     C845    76 Vec_Music_Wk_7  =     0xC845   ;        register 7
+                     C846    77 Vec_Music_Wk_6  =     0xC846   ;        register 6
+                     C847    78 Vec_Music_Wk_5  =     0xC847   ;        register 5
+                             79 ;                       0xC848   ;        register 4
+                             80 ;                       0xC849   ;        register 3
+                             81 ;                       0xC84A   ;        register 2
+                     C84B    82 Vec_Music_Wk_1  =     0xC84B   ;        register 1
+                             83 ;                       0xC84C   ;        register 0
+                     C84D    84 Vec_Freq_Table  =     0xC84D   ;Pointer to note-to-frequency table (normally 0xFC8D)
+                     C84F    85 Vec_Max_Players =     0xC84F   ;Maximum number of players for Select_Game
+                     C850    86 Vec_Max_Games   =     0xC850   ;Maximum number of games for Select_Game
+                     C84F    87 Vec_ADSR_Table  =     0xC84F   ;Storage for first music header word (ADSR table)
+                     C851    88 Vec_Twang_Table =     0xC851   ;Storage for second music header word ('twang' table)
+                     C853    89 Vec_Music_Ptr   =     0xC853   ;Music data pointer
+                     C853    90 Vec_Expl_ChanA  =     0xC853   ;Used by Explosion_Snd - bit for first channel used?
+                     C854    91 Vec_Expl_Chans  =     0xC854   ;Used by Explosion_Snd - bits for all channels used?
+                     C855    92 Vec_Music_Chan  =     0xC855   ;Current sound channel number for Init_Music
+                     C856    93 Vec_Music_Flag  =     0xC856   ;Music active flag (0x00=off 0x01=start 0x80=on)
+                     C857    94 Vec_Duration    =     0xC857   ;Duration counter for Init_Music
+                     C858    95 Vec_Music_Twang =     0xC858   ;3 word 'twang' table used by Init_Music
+                     C858    96 Vec_Expl_1      =     0xC858   ;Four bytes copied from Explosion_Snd's U-reg parameters
+                     C859    97 Vec_Expl_2      =     0xC859   ;
+                     C85A    98 Vec_Expl_3      =     0xC85A   ;
+                     C85B    99 Vec_Expl_4      =     0xC85B   ;
+                     C85C   100 Vec_Expl_Chan   =     0xC85C   ;Used by Explosion_Snd - channel number in use?
+                     C85D   101 Vec_Expl_ChanB  =     0xC85D   ;Used by Explosion_Snd - bit for second channel used?
+                     C85E   102 Vec_ADSR_Timers =     0xC85E   ;ADSR timers for each sound channel (3 bytes)
+                     C861   103 Vec_Music_Freq  =     0xC861   ;Storage for base frequency of each channel (3 words)
+                            104 ;                       0xC85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+                     C867   105 Vec_Expl_Flag   =     0xC867   ;Explosion_Snd initialization flag?
+                            106 ;               0xC868...0xC876   ;Unused?
+                     C877   107 Vec_Expl_Timer  =     0xC877   ;Used by Explosion_Snd
+                            108 ;                       0xC878   ;Unused?
+                     C879   109 Vec_Num_Players =     0xC879   ;Number of players selected in Select_Game
+                     C87A   110 Vec_Num_Game    =     0xC87A   ;Game number selected in Select_Game
+                     C87B   111 Vec_Seed_Ptr    =     0xC87B   ;Pointer to 3-byte random number seed (=0xC87D)
+                     C87D   112 Vec_Random_Seed =     0xC87D   ;Default 3-byte random number seed
+                            113                                 ;
+                            114 ;    0xC880 - 0xCBEA is user RAM  ;
+                            115                                 ;
+                     CBEA   116 Vec_Default_Stk =     0xCBEA   ;Default top-of-stack
+                     CBEB   117 Vec_High_Score  =     0xCBEB   ;High score storage (7 bytes)
+                     CBF2   118 Vec_SWI3_Vector =     0xCBF2   ;SWI2/SWI3 interrupt vector (3 bytes)
+                     CBF2   119 Vec_SWI2_Vector =     0xCBF2   ;SWI2/SWI3 interrupt vector (3 bytes)
+                     CBF5   120 Vec_FIRQ_Vector =     0xCBF5   ;FIRQ interrupt vector (3 bytes)
+                     CBF8   121 Vec_IRQ_Vector  =     0xCBF8   ;IRQ interrupt vector (3 bytes)
+                     CBFB   122 Vec_SWI_Vector  =     0xCBFB   ;SWI/NMI interrupt vector (3 bytes)
+                     CBFB   123 Vec_NMI_Vector  =     0xCBFB   ;SWI/NMI interrupt vector (3 bytes)
+                     CBFE   124 Vec_Cold_Flag   =     0xCBFE   ;Cold start flag (warm start if = 0x7321)
+                            125                                 ;
+                     D000   126 VIA_port_b      =     0xD000   ;VIA port B data I/O register
+                            127 ;       0 sample/hold (0=enable  mux 1=disable mux)
+                            128 ;       1 mux sel 0
+                            129 ;       2 mux sel 1
+                            130 ;       3 sound BC1
+                            131 ;       4 sound BDIR
+                            132 ;       5 comparator input
+                            133 ;       6 external device (slot pin 35) initialized to input
+                            134 ;       7 /RAMP
+                     D001   135 VIA_port_a      =     0xD001   ;VIA port A data I/O register (handshaking)
+                     D002   136 VIA_DDR_b       =     0xD002   ;VIA port B data direction register (0=input 1=output)
+                     D003   137 VIA_DDR_a       =     0xD003   ;VIA port A data direction register (0=input 1=output)
+                     D004   138 VIA_t1_cnt_lo   =     0xD004   ;VIA timer 1 count register lo (scale factor)
+                     D005   139 VIA_t1_cnt_hi   =     0xD005   ;VIA timer 1 count register hi
+                     D006   140 VIA_t1_lch_lo   =     0xD006   ;VIA timer 1 latch register lo
+                     D007   141 VIA_t1_lch_hi   =     0xD007   ;VIA timer 1 latch register hi
+                     D008   142 VIA_t2_lo       =     0xD008   ;VIA timer 2 count/latch register lo (refresh)
+                     D009   143 VIA_t2_hi       =     0xD009   ;VIA timer 2 count/latch register hi
+                     D00A   144 VIA_shift_reg   =     0xD00A   ;VIA shift register
+                     D00B   145 VIA_aux_cntl    =     0xD00B   ;VIA auxiliary control register
+                            146 ;       0 PA latch enable
+                            147 ;       1 PB latch enable
+                            148 ;       2 \                     110=output to CB2 under control of phase 2 clock
+                            149 ;       3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+                            150 ;       4 /
+                            151 ;       5 0=t2 one shot                 1=t2 free running
+                            152 ;       6 0=t1 one shot                 1=t1 free running
+                            153 ;       7 0=t1 disable PB7 output       1=t1 enable PB7 output
+                     D00C   154 VIA_cntl        =     0xD00C   ;VIA control register
+                            155 ;       0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+                            156 ;       1 \
+                            157 ;       2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+                            158 ;       3 /
+                            159 ;       4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+                            160 ;       5 \
+                            161 ;       6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+                            162 ;       7 /
+                     D00D   163 VIA_int_flags   =     0xD00D   ;VIA interrupt flags register
+                            164 ;               bit                             cleared by
+                            165 ;       0 CA2 interrupt flag            reading or writing port A I/O
+                            166 ;       1 CA1 interrupt flag            reading or writing port A I/O
+                            167 ;       2 shift register interrupt flag reading or writing shift register
+                            168 ;       3 CB2 interrupt flag            reading or writing port B I/O
+                            169 ;       4 CB1 interrupt flag            reading or writing port A I/O
+                            170 ;       5 timer 2 interrupt flag        read t2 low or write t2 high
+                            171 ;       6 timer 1 interrupt flag        read t1 count low or write t1 high
+                            172 ;       7 IRQ status flag               write logic 0 to IER or IFR bit
+                     D00E   173 VIA_int_enable  =     0xD00E   ;VIA interrupt enable register
+                            174 ;       0 CA2 interrupt enable
+                            175 ;       1 CA1 interrupt enable
+                            176 ;       2 shift register interrupt enable
+                            177 ;       3 CB2 interrupt enable
+                            178 ;       4 CB1 interrupt enable
+                            179 ;       5 timer 2 interrupt enable
+                            180 ;       6 timer 1 interrupt enable
+                            181 ;       7 IER set/clear control
+                     D00F   182 VIA_port_a_nohs =     0xD00F   ;VIA port A data I/O register (no handshaking)
+                            183 
+                     F000   184 Cold_Start      =     0xF000   ;
+                     F06C   185 Warm_Start      =     0xF06C   ;
+                     F14C   186 Init_VIA        =     0xF14C   ;
+                     F164   187 Init_OS_RAM     =     0xF164   ;
+                     F18B   188 Init_OS         =     0xF18B   ;
+                     F192   189 Wait_Recal      =     0xF192   ;
+                     F1A2   190 Set_Refresh     =     0xF1A2   ;
+                     F1AA   191 DP_to_D0        =     0xF1AA   ;
+                     F1AF   192 DP_to_C8        =     0xF1AF   ;
+                     F1B4   193 Read_Btns_Mask  =     0xF1B4   ;
+                     F1BA   194 Read_Btns       =     0xF1BA   ;
+                     F1F5   195 Joy_Analog      =     0xF1F5   ;
+                     F1F8   196 Joy_Digital     =     0xF1F8   ;
+                     F256   197 Sound_Byte      =     0xF256   ;
+                     F259   198 Sound_Byte_x    =     0xF259   ;
+                     F25B   199 Sound_Byte_raw  =     0xF25B   ;
+                     F272   200 Clear_Sound     =     0xF272   ;
+                     F27D   201 Sound_Bytes     =     0xF27D   ;
+                     F284   202 Sound_Bytes_x   =     0xF284   ;
+                     F289   203 Do_Sound        =     0xF289   ;
+                     F28C   204 Do_Sound_x      =     0xF28C   ;
+                     F29D   205 Intensity_1F    =     0xF29D   ;
+                     F2A1   206 Intensity_3F    =     0xF2A1   ;
+                     F2A5   207 Intensity_5F    =     0xF2A5   ;
+                     F2A9   208 Intensity_7F    =     0xF2A9   ;
+                     F2AB   209 Intensity_a     =     0xF2AB   ;
+                     F2BE   210 Dot_ix_b        =     0xF2BE   ;
+                     F2C1   211 Dot_ix          =     0xF2C1   ;
+                     F2C3   212 Dot_d           =     0xF2C3   ;
+                     F2C5   213 Dot_here        =     0xF2C5   ;
+                     F2D5   214 Dot_List        =     0xF2D5   ;
+                     F2DE   215 Dot_List_Reset  =     0xF2DE   ;
+                     F2E6   216 Recalibrate     =     0xF2E6   ;
+                     F2F2   217 Moveto_x_7F     =     0xF2F2   ;
+                     F2FC   218 Moveto_d_7F     =     0xF2FC   ;
+                     F308   219 Moveto_ix_FF    =     0xF308   ;
+                     F30C   220 Moveto_ix_7F    =     0xF30C   ;
+                     F30E   221 Moveto_ix_b     =     0xF30E   ;
+                     F310   222 Moveto_ix       =     0xF310   ;
+                     F312   223 Moveto_d        =     0xF312   ;
+                     F34A   224 Reset0Ref_D0    =     0xF34A   ;
+                     F34F   225 Check0Ref       =     0xF34F   ;
+                     F354   226 Reset0Ref       =     0xF354   ;
+                     F35B   227 Reset_Pen       =     0xF35B   ;
+                     F36B   228 Reset0Int       =     0xF36B   ;
+                     F373   229 Print_Str_hwyx  =     0xF373   ;
+                     F378   230 Print_Str_yx    =     0xF378   ;
+                     F37A   231 Print_Str_d     =     0xF37A   ;
+                     F385   232 Print_List_hw   =     0xF385   ;
+                     F38A   233 Print_List      =     0xF38A   ;
+                     F38C   234 Print_List_chk  =     0xF38C   ;
+                     F391   235 Print_Ships_x   =     0xF391   ;
+                     F393   236 Print_Ships     =     0xF393   ;
+                     F3AD   237 Mov_Draw_VLc_a  =     0xF3AD   ;count y x y x ...
+                     F3B1   238 Mov_Draw_VL_b   =     0xF3B1   ;y x y x ...
+                     F3B5   239 Mov_Draw_VLcs   =     0xF3B5   ;count scale y x y x ...
+                     F3B7   240 Mov_Draw_VL_ab  =     0xF3B7   ;y x y x ...
+                     F3B9   241 Mov_Draw_VL_a   =     0xF3B9   ;y x y x ...
+                     F3BC   242 Mov_Draw_VL     =     0xF3BC   ;y x y x ...
+                     F3BE   243 Mov_Draw_VL_d   =     0xF3BE   ;y x y x ...
+                     F3CE   244 Draw_VLc        =     0xF3CE   ;count y x y x ...
+                     F3D2   245 Draw_VL_b       =     0xF3D2   ;y x y x ...
+                     F3D6   246 Draw_VLcs       =     0xF3D6   ;count scale y x y x ...
+                     F3D8   247 Draw_VL_ab      =     0xF3D8   ;y x y x ...
+                     F3DA   248 Draw_VL_a       =     0xF3DA   ;y x y x ...
+                     F3DD   249 Draw_VL         =     0xF3DD   ;y x y x ...
+                     F3DF   250 Draw_Line_d     =     0xF3DF   ;y x y x ...
+                     F404   251 Draw_VLp_FF     =     0xF404   ;pattern y x pattern y x ... 0x01
+                     F408   252 Draw_VLp_7F     =     0xF408   ;pattern y x pattern y x ... 0x01
+                     F40C   253 Draw_VLp_scale  =     0xF40C   ;scale pattern y x pattern y x ... 0x01
+                     F40E   254 Draw_VLp_b      =     0xF40E   ;pattern y x pattern y x ... 0x01
+                     F410   255 Draw_VLp        =     0xF410   ;pattern y x pattern y x ... 0x01
+                     F434   256 Draw_Pat_VL_a   =     0xF434   ;y x y x ...
+                     F437   257 Draw_Pat_VL     =     0xF437   ;y x y x ...
+                     F439   258 Draw_Pat_VL_d   =     0xF439   ;y x y x ...
+                     F46E   259 Draw_VL_mode    =     0xF46E   ;mode y x mode y x ... 0x01
+                     F495   260 Print_Str       =     0xF495   ;
+                     F511   261 Random_3        =     0xF511   ;
+                     F517   262 Random          =     0xF517   ;
+                     F533   263 Init_Music_Buf  =     0xF533   ;
+                     F53F   264 Clear_x_b       =     0xF53F   ;
+                     F542   265 Clear_C8_RAM    =     0xF542   ;never used by GCE carts?
+                     F545   266 Clear_x_256     =     0xF545   ;
+                     F548   267 Clear_x_d       =     0xF548   ;
+                     F550   268 Clear_x_b_80    =     0xF550   ;
+                     F552   269 Clear_x_b_a     =     0xF552   ;
+                     F55A   270 Dec_3_Counters  =     0xF55A   ;
+                     F55E   271 Dec_6_Counters  =     0xF55E   ;
+                     F563   272 Dec_Counters    =     0xF563   ;
+                     F56D   273 Delay_3         =     0xF56D   ;30 cycles
+                     F571   274 Delay_2         =     0xF571   ;25 cycles
+                     F575   275 Delay_1         =     0xF575   ;20 cycles
+                     F579   276 Delay_0         =     0xF579   ;12 cycles
+                     F57A   277 Delay_b         =     0xF57A   ;5*B + 10 cycles
+                     F57D   278 Delay_RTS       =     0xF57D   ;5 cycles
+                     F57E   279 Bitmask_a       =     0xF57E   ;
+                     F584   280 Abs_a_b         =     0xF584   ;
+                     F58B   281 Abs_b           =     0xF58B   ;
+                     F593   282 Rise_Run_Angle  =     0xF593   ;
+                     F5D9   283 Get_Rise_Idx    =     0xF5D9   ;
+                     F5DB   284 Get_Run_Idx     =     0xF5DB   ;
+                     F5EF   285 Get_Rise_Run    =     0xF5EF   ;
+                     F5FF   286 Rise_Run_X      =     0xF5FF   ;
+                     F601   287 Rise_Run_Y      =     0xF601   ;
+                     F603   288 Rise_Run_Len    =     0xF603   ;
+                            289 
+                     F610   290 Rot_VL_ab       =     0xF610   ;
+                     F616   291 Rot_VL          =     0xF616   ;
+                     F61F   292 Rot_VL_Mode   =     0xF61F   ;
+                     F62B   293 Rot_VL_M_dft     =     0xF62B   ;
+                            294 ;Rot_VL_dft      EQU     0xF637   ;
+                            295 
+                            296 
+                            297 ;Rot_VL_ab       EQU     0xF610   ;
+                            298 ;Rot_VL          EQU     0xF616   ;
+                            299 ;Rot_VL_Mode_a   EQU     0xF61F   ;
+                            300 ;Rot_VL_Mode     EQU     0xF62B   ;
+                            301 ;Rot_VL_dft      EQU     0xF637   ;
+                            302 
+                     F65B   303 Xform_Run_a     =     0xF65B   ;
+                     F65D   304 Xform_Run       =     0xF65D   ;
+                     F661   305 Xform_Rise_a    =     0xF661   ;
+                     F663   306 Xform_Rise      =     0xF663   ;
+                     F67F   307 Move_Mem_a_1    =     0xF67F   ;
+                     F683   308 Move_Mem_a      =     0xF683   ;
+                     F687   309 Init_Music_chk  =     0xF687   ;
+                     F68D   310 Init_Music      =     0xF68D   ;
+                     F692   311 Init_Music_x    =     0xF692   ;
+                     F7A9   312 Select_Game     =     0xF7A9   ;
+                     F84F   313 Clear_Score     =     0xF84F   ;
+                     F85E   314 Add_Score_a     =     0xF85E   ;
+                     F87C   315 Add_Score_d     =     0xF87C   ;
+                     F8B7   316 Strip_Zeros     =     0xF8B7   ;
+                     F8C7   317 Compare_Score   =     0xF8C7   ;
+                     F8D8   318 New_High_Score  =     0xF8D8   ;
+                     F8E5   319 Obj_Will_Hit_u  =     0xF8E5   ;
+                     F8F3   320 Obj_Will_Hit    =     0xF8F3   ;
+                     F8FF   321 Obj_Hit         =     0xF8FF   ;
+                     F92E   322 Explosion_Snd   =     0xF92E   ;
+                     FF9F   323 Draw_Grid_VL    =     0xFF9F   ;
+                            324                                 ;
+                     FD0D   325 music1  = 0xFD0D               ;
+                     FD1D   326 music2  = 0xFD1D               ;
+                     FD81   327 music3  = 0xFD81               ;
+                     FDD3   328 music4  = 0xFDD3               ;
+                     FE38   329 music5  = 0xFE38               ;
+                     FE76   330 music6  = 0xFE76               ;
+                     FEC6   331 music7  = 0xFEC6               ;
+                     FEF8   332 music8  = 0xFEF8               ;
+                     FF26   333 music9  = 0xFF26               ;
+                     FF44   334 musica  = 0xFF44               ;
+                     FF62   335 musicb  = 0xFF62               ;
+                     FF7A   336 musicc  = 0xFF7A               ;
+                     FF8F   337 musicd  = 0xFF8F               ;
+                     F9F4   338 Char_Table = 0xF9F4
+                     FBD4   339 Char_Table_End = 0xFBD4
+                            340 
+                            341  .area .bss
+                            342 ; include line ->  include "YM_VAR.I"
+                            343  .globl current_register
+   0000                     344 current_register:
+   0000 00                  345                 .byte 0
+                            346  .globl temp
+   0001                     347 temp:
+   0001 00                  348                 .byte 0
+                            349  .globl temp2
+   0002                     350 temp2:
+   0002 00                  351                 .byte 0
+                            352  .globl temp3
+   0003                     353 temp3:
+   0003 00                  354                 .byte 0
+                            355  .globl calc_coder
+   0004                     356 calc_coder:
+   0004 00                  357                 .byte 0
+                            358  .globl calc_bits
+   0005                     359 calc_bits:
+   0005 00                  360                 .byte 0
+                            361  .globl ym_data_len
+   0006                     362 ym_data_len:
+   0006 00 00               363                 .word 0
+                            364  .globl ym_data_current
+   0008                     365 ym_data_current:
+   0008 00 00               366                 .word 0
+                            367  .globl ym_name
+   000A                     368 ym_name:
+   000A 00 00               369                 .word 0
+                            370  .globl ym_data_start
+   000C                     371 ym_data_start:
+   000C                     372                 .blkb (STRUCTURE_LENGTH*11)
+                            373  .area .text
+                            374 ; include line ->  include "YM_MAK.I"
+                            375 ;
+                            376 ; I used the 6809 assembler:
+                            377 ; as09 [1.11].
+                            378 ; Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+                            379 ; Available at:
+                            380 ; http://www.falstaff.demon.co.uk/cross.html
+                            381 ;
+                            382 ; include line ->                 INCLUDE "VECTREX.I" ; vectrex function includes
+                            383 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            384 ; this file contains includes for vectrex BIOS functions and variables      ;
+                            385 ; it was written by Bruce Tomlin, slighte changed by Malban                 ;
+                            386 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            387 
+                     0000   388 INFO_START = 0
+                     0000   389 BYTE_POSITION = 0
+                     0002   390 BIT_POSITION = 2
+                     0003   391 CURRENT_BYTE = 3
+                     0004   392 CURRENT_UNPACKED_BYTE = 4
+                     0005   393 CURRENT_RLE_COUNTER = 5
+                     0007   394 CURRENT_RLE_MAPPER = 7
+                     0009   395 CURRENT_IS_PHRASE = 9
+                     000B   396 CURRENT_PHRASE_BYTE = 11
+                     000C   397 CURRENT_PHRASE_START = 12
+                     000E   398 INFO_END = 14
+                     000E   399 STRUCTURE_LENGTH = (INFO_END-INFO_START)
+                            400 ;***************************************************************************
+                            401  .globl do_ym_sound
+   0000                     402 do_ym_sound:
+   0000 FC 00 08      [ 6]  403                 ldd     ym_data_current
+   0003 27 22         [ 3]  404                 beq     do_ym_sound_done
+   0005 83 00 01      [ 4]  405                 subd    #1
+   0008 FD 00 08      [ 6]  406                 std     ym_data_current
+   000B 4F            [ 2]  407                 clra
+   000C B7 00 00      [ 5]  408                 sta     current_register
+   000F CE 00 0C      [ 3]  409                 ldu     #ym_data_start
+                            410  .globl next_reg
+   0012                     411 next_reg:
+   0012 BD 00 9D      [ 8]  412                 jsr    get_current_byte
+   0015 B6 00 00      [ 5]  413                 lda    current_register
+                            414                 ; A PSG reg
+                            415                 ; B data
+   0018 BD F2 56      [ 8]  416                 jsr Sound_Byte
+                            417 
+   001B 33 4E         [ 5]  418                 leau    STRUCTURE_LENGTH,u
+   001D 7C 00 00      [ 7]  419                 inc     current_register
+   0020 B6 00 00      [ 5]  420                 lda     current_register
+   0023 81 0B         [ 2]  421                 cmpa    #11
+   0025 26 EB         [ 3]  422                 bne     next_reg
+                            423  .globl do_ym_sound_done
+   0027                     424 do_ym_sound_done:
+   0027 39            [ 5]  425                 RTS
+                            426 
+                            427  .globl no_valid_byte
+   0028                     428 no_valid_byte:
+                            429 ; no we must look at the bits
+                            430 ; a will be our bit register
+                            431 ;;;;;;;;;;;;;;;;;;; GET_BIT START
+   0028 E6 42         [ 5]  432                 ldb     BIT_POSITION,u
+   002A 26 0C         [ 3]  433                 bne     byte_ready_1
+                            434 ; load a new byte
+   002C AE 40         [ 6]  435                 ldx     BYTE_POSITION,u
+   002E E6 80         [ 6]  436                 ldb     ,x+
+   0030 E7 43         [ 5]  437                 stb     CURRENT_BYTE,u
+   0032 AF 40         [ 6]  438                 stx     BYTE_POSITION,u
+   0034 C6 80         [ 2]  439                 ldb     #0x80
+   0036 E7 42         [ 5]  440                 stb     BIT_POSITION,u
+                            441  .globl byte_ready_1
+   0038                     442 byte_ready_1:
+                            443 ; bit position correct here
+                            444 ;
+                            445 ; remember we use one bit now!
+   0038 64 42         [ 7]  446                 lsr     BIT_POSITION,u
+                            447 
+                            448 ; is the bit at the current position set?
+   003A E4 43         [ 5]  449                 andb    CURRENT_BYTE,u
+                            450 ;;;;;;;;;;;;;;;;;;; GET_BIT END
+                            451 ; zero flag show bit
+                            452 ; A is 1 or zero
+   003C 10 26 00 7F   [ 6]  453                 lbne     no_single_byte
+                            454  .globl single_byte
+   0040                     455 single_byte:
+                            456                 ; must be zero
+                            457                 ; 1 is allways only 8 bit...
+   0040 6C 46         [ 7]  458                 inc      CURRENT_RLE_COUNTER+1,u
+                            459  .globl dechifer
+   0042                     460 dechifer:
+   0042 7F 00 05      [ 7]  461                 clr       calc_bits
+   0045 7F 00 04      [ 7]  462                 clr       calc_coder
+                            463  .globl try_next_bit
+   0048                     464 try_next_bit:
+   0048 78 00 04      [ 7]  465                 lsl       calc_coder
+   004B 7C 00 05      [ 7]  466                 inc       calc_bits    ; increase used bits
+                            467 ;;;;;;;;;;;; GET_BIT_START
+   004E E6 42         [ 5]  468                 ldb     BIT_POSITION,u
+   0050 26 0C         [ 3]  469                 bne     byte_ready
+                            470 ; load a new byte
+   0052 AE 40         [ 6]  471                 ldx     BYTE_POSITION,u
+   0054 E6 80         [ 6]  472                 ldb     ,x+
+   0056 E7 43         [ 5]  473                 stb     CURRENT_BYTE,u
+   0058 AF 40         [ 6]  474                 stx     BYTE_POSITION,u
+   005A C6 80         [ 2]  475                 ldb     #0x80
+   005C E7 42         [ 5]  476                 stb     BIT_POSITION,u
+                            477  .globl byte_ready
+   005E                     478 byte_ready:
+                            479 ; bit position correct here
+                            480 ;
+                            481 ; remember we use one bit now!
+   005E 64 42         [ 7]  482                 lsr     BIT_POSITION,u
+                            483 
+                            484 ; is the bit at the current position set?
+   0060 E4 43         [ 5]  485                 andb    CURRENT_BYTE,u
+   0062 27 03         [ 3]  486                 beq     no_add     ; and if non zero
+   0064 7C 00 04      [ 7]  487                 inc     calc_coder
+                            488 ;;;;;;;;;;;; GET_BIT_END
+                            489  .globl no_add
+   0067                     490 no_add:
+                            491 ; we load one complete = of mapper index, bits, coder, map-value
+   0067 AE 47         [ 6]  492                 ldx       CURRENT_RLE_MAPPER,u
+                            493  .globl search_again
+   0069                     494 search_again:
+   0069 30 03         [ 5]  495                 leax      3,x
+   006B A6 84         [ 4]  496                 lda       ,x          ; load bits from map
+   006D 84 7F         [ 2]  497                 anda      #127         ; map out phrases
+   006F B1 00 05      [ 5]  498                 cmpa      calc_bits      ; neu
+   0072 2E D4         [ 3]  499                 bgt       try_next_bit ; neu
+   0074 26 F3         [ 3]  500                 bne       search_again
+   0076 E6 01         [ 5]  501                 ldb       1,x          ; load coder-byte
+   0078 F1 00 04      [ 5]  502                 cmpb      calc_coder
+   007B 26 EC         [ 3]  503                 bne       search_again
+   007D E6 02         [ 5]  504                 ldb       2,x           ; load current mapped byte!
+                            505 ; in b is the byte value we sought
+                            506 ; test for phrase
+   007F A6 84         [ 4]  507                 lda       ,x          ; load bits from map
+   0081 84 80         [ 2]  508                 anda     #128         ; map in phrases only
+   0083 27 12         [ 3]  509                 beq      no_phrase_d
+                            510 ; if phrase, than in b the count of the phrase used
+   0085 AE 4C         [ 6]  511                 ldx      CURRENT_PHRASE_START,u
+   0087 5D            [ 2]  512                 tstb
+   0088 27 07         [ 3]  513                 beq     phrase_found
+                            514  .globl next_phrase
+   008A                     515 next_phrase:
+   008A A6 80         [ 6]  516                 lda     ,x+
+   008C 30 86         [ 5]  517                 leax    a,x
+   008E 5A            [ 2]  518                 decb
+   008F 26 F9         [ 3]  519                 bne     next_phrase
+                            520  .globl phrase_found
+   0091                     521 phrase_found:
+   0091 AF 49         [ 6]  522                 stx     CURRENT_IS_PHRASE,u
+   0093 6F 4B         [ 7]  523                 clr     CURRENT_PHRASE_BYTE,u
+   0095 20 06         [ 3]  524                 bra      out
+                            525  .globl no_phrase_d
+   0097                     526 no_phrase_d:
+   0097 6F 49         [ 7]  527                 clr      CURRENT_IS_PHRASE,u
+   0099 6F 4A         [ 7]  528                 clr      CURRENT_IS_PHRASE+1,u
+   009B E7 44         [ 5]  529                 stb      CURRENT_UNPACKED_BYTE,u
+                            530  .globl out
+   009D                     531 out:
+                            532 
+                            533 ; U pointer to data structure
+                            534 ; A number of register
+                            535  .globl get_current_byte
+   009D                     536 get_current_byte:
+                            537 ; do we have a byte that is valid?
+   009D EC 45         [ 6]  538                 ldd      CURRENT_RLE_COUNTER,u
+   009F 27 87         [ 3]  539                 beq      no_valid_byte
+                            540 ; yep... use current byte
+   00A1 AE 49         [ 6]  541                 ldx       CURRENT_IS_PHRASE,u
+   00A3 27 12         [ 3]  542                 beq       no_phrase
+   00A5 A6 80         [ 6]  543                 lda       ,x+ ; length of phrase
+   00A7 E6 4B         [ 5]  544                 ldb       CURRENT_PHRASE_BYTE,u
+   00A9 E6 85         [ 5]  545                 ldb       b,x ; this is the current byte
+   00AB E7 44         [ 5]  546                 stb       CURRENT_UNPACKED_BYTE,u
+   00AD 6C 4B         [ 7]  547                 inc       CURRENT_PHRASE_BYTE,u
+   00AF A1 4B         [ 5]  548                 cmpa      CURRENT_PHRASE_BYTE,u
+   00B1 26 09         [ 3]  549                 bne       counter_not_minus_one
+   00B3 6F 4B         [ 7]  550                 clr       CURRENT_PHRASE_BYTE,u
+   00B5 EC 45         [ 6]  551                 ldd       CURRENT_RLE_COUNTER,u
+                            552  .globl no_phrase
+   00B7                     553 no_phrase:
+   00B7 83 00 01      [ 4]  554                 subd      #1
+   00BA ED 45         [ 6]  555                 std       CURRENT_RLE_COUNTER,u
+                            556  .globl counter_not_minus_one
+   00BC                     557 counter_not_minus_one:
+   00BC E6 44         [ 5]  558                 ldb       CURRENT_UNPACKED_BYTE,u
+   00BE 39            [ 5]  559                 rts
+                            560 
+                            561  .globl no_single_byte
+   00BF                     562 no_single_byte:
+                            563 ; non single byte here... must decode
+                            564 ; first we look for how many bits the RLE counter spreads
+                            565 
+                            566                 ; we already encountered a 1
+                            567                 ; and we allways use + 2
+   00BF 86 02         [ 2]  568                 lda     #2
+   00C1 B7 00 01      [ 5]  569                 sta     temp
+                            570  .globl more_bits
+   00C4                     571 more_bits:
+   00C4 7C 00 01      [ 7]  572                 inc     temp
+                            573 ;;;;;;;;;;;;;;;;;;; GET_BIT START
+   00C7 E6 42         [ 5]  574                 ldb     BIT_POSITION,u
+   00C9 26 0C         [ 3]  575                 bne     byte_ready_2
+                            576 ; load a new byte
+   00CB AE 40         [ 6]  577                 ldx     BYTE_POSITION,u
+   00CD E6 80         [ 6]  578                 ldb     ,x+
+   00CF E7 43         [ 5]  579                 stb     CURRENT_BYTE,u
+   00D1 AF 40         [ 6]  580                 stx     BYTE_POSITION,u
+   00D3 C6 80         [ 2]  581                 ldb     #0x80
+   00D5 E7 42         [ 5]  582                 stb     BIT_POSITION,u
+                            583  .globl byte_ready_2
+   00D7                     584 byte_ready_2:
+                            585 ; bit position correct here
+                            586 ;
+                            587 ; remember we use one bit now!
+   00D7 64 42         [ 7]  588                 lsr     BIT_POSITION,u
+                            589 
+                            590 ; is the bit at the current position set?
+   00D9 E4 43         [ 5]  591                 andb    CURRENT_BYTE,u
+                            592 ;;;;;;;;;;;;;;;;;;; GET_BIT END
+   00DB 26 E7         [ 3]  593                 bne     more_bits
+                            594 ; in temp is the # of bits for the counter
+                            595 ; the following '#temp' bits represent the RLE count
+                            596 ; lsb first
+   00DD 5C            [ 2]  597                 incb            ; we start at 1, since zero is an
+                            598                                 ; 'own' 'subroutine',
+                            599                                 ; which doesn't manipulate the temps
+   00DE F7 00 02      [ 5]  600                 stb     temp2   ; bit counter for shifting
+   00E1 F7 00 03      [ 5]  601                 stb     temp3   ; bit counter for shifting
+                            602  .globl go_on
+   00E4                     603 go_on:
+                            604 ;;;;;;;;;;;;;;;;;;; GET_BIT START
+   00E4 E6 42         [ 5]  605                 ldb     BIT_POSITION,u
+   00E6 26 0C         [ 3]  606                 bne     byte_ready_3
+                            607 ; load a new byte
+   00E8 AE 40         [ 6]  608                 ldx     BYTE_POSITION,u
+   00EA E6 80         [ 6]  609                 ldb     ,x+
+   00EC E7 43         [ 5]  610                 stb     CURRENT_BYTE,u
+   00EE AF 40         [ 6]  611                 stx     BYTE_POSITION,u
+   00F0 C6 80         [ 2]  612                 ldb     #0x80
+   00F2 E7 42         [ 5]  613                 stb     BIT_POSITION,u
+                            614  .globl byte_ready_3
+   00F4                     615 byte_ready_3:
+                            616 ; bit position correct here
+                            617 ;
+                            618 ; remember we use one bit now!
+   00F4 64 42         [ 7]  619                 lsr     BIT_POSITION,u
+                            620 
+                            621 ; is the bit at the current position set?
+   00F6 E4 43         [ 5]  622                 andb    CURRENT_BYTE,u
+   00F8 27 02         [ 3]  623                 beq     end_here_3
+                            624 ; return 1
+   00FA C6 01         [ 2]  625                 ldb     #1
+                            626  .globl end_here_3
+   00FC                     627 end_here_3:
+                            628 ;;;;;;;;;;;;;;;;;;; GET_BIT END
+                            629 ; in D now one bit at the right position for the RLE counter
+   00FC E7 46         [ 5]  630                 stb     CURRENT_RLE_COUNTER+1,u
+                            631 ; the first 3 (here only the first one) rounds
+                            632 ; we need not check for temp, since it is at least 3...
+                            633  .globl go_on_2
+   00FE                     634 go_on_2:
+                            635 ;;;;;;;;;;;;;;;;;;; GET_BIT START
+   00FE E6 42         [ 5]  636                 ldb     BIT_POSITION,u
+   0100 26 0C         [ 3]  637                 bne     byte_ready_4
+                            638 ; load a new byte
+   0102 AE 40         [ 6]  639                 ldx     BYTE_POSITION,u
+   0104 E6 80         [ 6]  640                 ldb     ,x+
+   0106 E7 43         [ 5]  641                 stb     CURRENT_BYTE,u
+   0108 AF 40         [ 6]  642                 stx     BYTE_POSITION,u
+   010A C6 80         [ 2]  643                 ldb     #0x80
+   010C E7 42         [ 5]  644                 stb     BIT_POSITION,u
+                            645  .globl byte_ready_4
+   010E                     646 byte_ready_4:
+                            647 ; bit position correct here
+                            648 ;
+                            649 ; remember we use one bit now!
+   010E 64 42         [ 7]  650                 lsr     BIT_POSITION,u
+                            651 
+                            652 ; is the bit at the current position set?
+   0110 E4 43         [ 5]  653                 andb    CURRENT_BYTE,u
+   0112 27 02         [ 3]  654                 beq     end_here_4
+                            655 ; return 1
+   0114 C6 01         [ 2]  656                 ldb     #1
+                            657  .globl end_here_4
+   0116                     658 end_here_4:
+   0116 4F            [ 2]  659                 clra
+                            660  .globl shifting_not_yet_done
+   0117                     661 shifting_not_yet_done:
+   0117 48            [ 2]  662                       LSLA               ; LSR A
+   0118 58            [ 2]  663                       LSLB               ; LSR B
+   0119 24 02         [ 3]  664                       BCC no_carry       ; if no carry, than exit
+   011B 8A 01         [ 2]  665                       ORA #1             ; otherwise underflow from A to 7bit of B
+                            666  .globl no_carry
+   011D                     667 no_carry:
+   011D 7A 00 03      [ 7]  668                 dec     temp3
+   0120 26 F5         [ 3]  669                 bne     shifting_not_yet_done
+                            670  .globl shifting_done
+   0122                     671 shifting_done:
+                            672 ; in D now one bit at the right position for the RLE counter
+   0122 E3 45         [ 7]  673                 addd    CURRENT_RLE_COUNTER,u
+   0124 ED 45         [ 6]  674                 std     CURRENT_RLE_COUNTER,u
+                            675 
+   0126 7C 00 02      [ 7]  676                 inc     temp2
+   0129 B6 00 02      [ 5]  677                 lda     temp2
+   012C B7 00 03      [ 5]  678                 sta     temp3
+   012F B1 00 01      [ 5]  679                 cmpa    temp
+   0132 26 CA         [ 3]  680                 bne     go_on_2
+                            681 ; now the current counter should be set
+                            682 
+                            683 ; we still need to dechifer the following byte...
+   0134 7E 00 42      [ 4]  684                 jmp       dechifer
+                            685 
+                            686  .globl init_ym_sound
+   0137                     687 init_ym_sound:
+   0137 8E 00 0C      [ 3]  688                 ldx     #ym_data_start
+   013A CC 00 9A      [ 3]  689                 ldd     #(STRUCTURE_LENGTH*11)
+   013D BD F5 48      [ 8]  690                 jsr     Clear_x_d
+                            691 
+   0140 10 AE C1      [ 9]  692                 ldy     ,u++
+   0143 EC A4         [ 5]  693                 ldd     ,y
+   0145 FD 00 06      [ 6]  694                 std     ym_data_len
+   0148 FD 00 08      [ 6]  695                 std     ym_data_current
+   014B C6 0B         [ 2]  696                 ldb     #11
+                            697  .globl next_reg_init
+   014D                     698 next_reg_init:
+   014D 10 AE C1      [ 9]  699                 ldy     ,u++
+   0150 10 AF 07      [ 7]  700                 sty     CURRENT_RLE_MAPPER,x
+   0153 10 AE C1      [ 9]  701                 ldy     ,u++
+   0156 10 AF 0C      [ 7]  702                 sty     CURRENT_PHRASE_START,x
+   0159 10 AE C1      [ 9]  703                 ldy     ,u++
+   015C 10 AF 00      [ 7]  704                 sty     BYTE_POSITION,x
+   015F 30 0E         [ 5]  705                 leax    STRUCTURE_LENGTH,x
+   0161 5A            [ 2]  706                 decb
+   0162 26 E9         [ 3]  707                 bne     next_reg_init
+   0164 FF 00 0A      [ 6]  708                 stu     ym_name
+   0167 39            [ 5]  709                 RTS
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  3 A$YM_PRG.pre.a     0000 GR  |   3 A$YM_PRG.pre.a     0003 GR
+  3 A$YM_PRG.pre.a     0005 GR  |   3 A$YM_PRG.pre.a     0008 GR
+  3 A$YM_PRG.pre.a     000B GR  |   3 A$YM_PRG.pre.a     000C GR
+  3 A$YM_PRG.pre.a     000F GR  |   3 A$YM_PRG.pre.a     0012 GR
+  3 A$YM_PRG.pre.a     0015 GR  |   3 A$YM_PRG.pre.a     0018 GR
+  3 A$YM_PRG.pre.a     001B GR  |   3 A$YM_PRG.pre.a     001D GR
+  3 A$YM_PRG.pre.a     0020 GR  |   3 A$YM_PRG.pre.a     0023 GR
+  3 A$YM_PRG.pre.a     0025 GR  |   3 A$YM_PRG.pre.a     0027 GR
+  3 A$YM_PRG.pre.a     0028 GR  |   3 A$YM_PRG.pre.a     002A GR
+  3 A$YM_PRG.pre.a     002C GR  |   3 A$YM_PRG.pre.a     002E GR
+  3 A$YM_PRG.pre.a     0030 GR  |   3 A$YM_PRG.pre.a     0032 GR
+  3 A$YM_PRG.pre.a     0034 GR  |   3 A$YM_PRG.pre.a     0036 GR
+  3 A$YM_PRG.pre.a     0038 GR  |   3 A$YM_PRG.pre.a     003A GR
+  3 A$YM_PRG.pre.a     003C GR  |   3 A$YM_PRG.pre.a     0040 GR
+  3 A$YM_PRG.pre.a     0042 GR  |   3 A$YM_PRG.pre.a     0045 GR
+  3 A$YM_PRG.pre.a     0048 GR  |   3 A$YM_PRG.pre.a     004B GR
+  3 A$YM_PRG.pre.a     004E GR  |   3 A$YM_PRG.pre.a     0050 GR
+  3 A$YM_PRG.pre.a     0052 GR  |   3 A$YM_PRG.pre.a     0054 GR
+  3 A$YM_PRG.pre.a     0056 GR  |   3 A$YM_PRG.pre.a     0058 GR
+  3 A$YM_PRG.pre.a     005A GR  |   3 A$YM_PRG.pre.a     005C GR
+  3 A$YM_PRG.pre.a     005E GR  |   3 A$YM_PRG.pre.a     0060 GR
+  3 A$YM_PRG.pre.a     0062 GR  |   3 A$YM_PRG.pre.a     0064 GR
+  3 A$YM_PRG.pre.a     0067 GR  |   3 A$YM_PRG.pre.a     0069 GR
+  3 A$YM_PRG.pre.a     006B GR  |   3 A$YM_PRG.pre.a     006D GR
+  3 A$YM_PRG.pre.a     006F GR  |   3 A$YM_PRG.pre.a     0072 GR
+  3 A$YM_PRG.pre.a     0074 GR  |   3 A$YM_PRG.pre.a     0076 GR
+  3 A$YM_PRG.pre.a     0078 GR  |   3 A$YM_PRG.pre.a     007B GR
+  3 A$YM_PRG.pre.a     007D GR  |   3 A$YM_PRG.pre.a     007F GR
+  3 A$YM_PRG.pre.a     0081 GR  |   3 A$YM_PRG.pre.a     0083 GR
+  3 A$YM_PRG.pre.a     0085 GR  |   3 A$YM_PRG.pre.a     0087 GR
+  3 A$YM_PRG.pre.a     0088 GR  |   3 A$YM_PRG.pre.a     008A GR
+  3 A$YM_PRG.pre.a     008C GR  |   3 A$YM_PRG.pre.a     008E GR
+  3 A$YM_PRG.pre.a     008F GR  |   3 A$YM_PRG.pre.a     0091 GR
+  3 A$YM_PRG.pre.a     0093 GR  |   3 A$YM_PRG.pre.a     0095 GR
+  3 A$YM_PRG.pre.a     0097 GR  |   3 A$YM_PRG.pre.a     0099 GR
+  3 A$YM_PRG.pre.a     009B GR  |   3 A$YM_PRG.pre.a     009D GR
+  3 A$YM_PRG.pre.a     009F GR  |   3 A$YM_PRG.pre.a     00A1 GR
+  3 A$YM_PRG.pre.a     00A3 GR  |   3 A$YM_PRG.pre.a     00A5 GR
+  3 A$YM_PRG.pre.a     00A7 GR  |   3 A$YM_PRG.pre.a     00A9 GR
+  3 A$YM_PRG.pre.a     00AB GR  |   3 A$YM_PRG.pre.a     00AD GR
+  3 A$YM_PRG.pre.a     00AF GR  |   3 A$YM_PRG.pre.a     00B1 GR
+  3 A$YM_PRG.pre.a     00B3 GR  |   3 A$YM_PRG.pre.a     00B5 GR
+  3 A$YM_PRG.pre.a     00B7 GR  |   3 A$YM_PRG.pre.a     00BA GR
+  3 A$YM_PRG.pre.a     00BC GR  |   3 A$YM_PRG.pre.a     00BE GR
+  3 A$YM_PRG.pre.a     00BF GR  |   3 A$YM_PRG.pre.a     00C1 GR
+  3 A$YM_PRG.pre.a     00C4 GR  |   3 A$YM_PRG.pre.a     00C7 GR
+  3 A$YM_PRG.pre.a     00C9 GR  |   3 A$YM_PRG.pre.a     00CB GR
+  3 A$YM_PRG.pre.a     00CD GR  |   3 A$YM_PRG.pre.a     00CF GR
+  3 A$YM_PRG.pre.a     00D1 GR  |   3 A$YM_PRG.pre.a     00D3 GR
+  3 A$YM_PRG.pre.a     00D5 GR  |   3 A$YM_PRG.pre.a     00D7 GR
+  3 A$YM_PRG.pre.a     00D9 GR  |   3 A$YM_PRG.pre.a     00DB GR
+  3 A$YM_PRG.pre.a     00DD GR  |   3 A$YM_PRG.pre.a     00DE GR
+  3 A$YM_PRG.pre.a     00E1 GR  |   3 A$YM_PRG.pre.a     00E4 GR
+  3 A$YM_PRG.pre.a     00E6 GR  |   3 A$YM_PRG.pre.a     00E8 GR
+  3 A$YM_PRG.pre.a     00EA GR  |   3 A$YM_PRG.pre.a     00EC GR
+  3 A$YM_PRG.pre.a     00EE GR  |   3 A$YM_PRG.pre.a     00F0 GR
+  3 A$YM_PRG.pre.a     00F2 GR  |   3 A$YM_PRG.pre.a     00F4 GR
+  3 A$YM_PRG.pre.a     00F6 GR  |   3 A$YM_PRG.pre.a     00F8 GR
+  3 A$YM_PRG.pre.a     00FA GR  |   3 A$YM_PRG.pre.a     00FC GR
+  3 A$YM_PRG.pre.a     00FE GR  |   3 A$YM_PRG.pre.a     0100 GR
+  3 A$YM_PRG.pre.a     0102 GR  |   3 A$YM_PRG.pre.a     0104 GR
+  3 A$YM_PRG.pre.a     0106 GR  |   3 A$YM_PRG.pre.a     0108 GR
+  3 A$YM_PRG.pre.a     010A GR  |   3 A$YM_PRG.pre.a     010C GR
+  3 A$YM_PRG.pre.a     010E GR  |   3 A$YM_PRG.pre.a     0110 GR
+  3 A$YM_PRG.pre.a     0112 GR  |   3 A$YM_PRG.pre.a     0114 GR
+  3 A$YM_PRG.pre.a     0116 GR  |   3 A$YM_PRG.pre.a     0117 GR
+  3 A$YM_PRG.pre.a     0118 GR  |   3 A$YM_PRG.pre.a     0119 GR
+  3 A$YM_PRG.pre.a     011B GR  |   3 A$YM_PRG.pre.a     011D GR
+  3 A$YM_PRG.pre.a     0120 GR  |   3 A$YM_PRG.pre.a     0122 GR
+  3 A$YM_PRG.pre.a     0124 GR  |   3 A$YM_PRG.pre.a     0126 GR
+  3 A$YM_PRG.pre.a     0129 GR  |   3 A$YM_PRG.pre.a     012C GR
+  3 A$YM_PRG.pre.a     012F GR  |   3 A$YM_PRG.pre.a     0132 GR
+  3 A$YM_PRG.pre.a     0134 GR  |   3 A$YM_PRG.pre.a     0137 GR
+  3 A$YM_PRG.pre.a     013A GR  |   3 A$YM_PRG.pre.a     013D GR
+  3 A$YM_PRG.pre.a     0140 GR  |   3 A$YM_PRG.pre.a     0143 GR
+  3 A$YM_PRG.pre.a     0145 GR  |   3 A$YM_PRG.pre.a     0148 GR
+  3 A$YM_PRG.pre.a     014B GR  |   3 A$YM_PRG.pre.a     014D GR
+  3 A$YM_PRG.pre.a     0150 GR  |   3 A$YM_PRG.pre.a     0153 GR
+  3 A$YM_PRG.pre.a     0156 GR  |   3 A$YM_PRG.pre.a     0159 GR
+  3 A$YM_PRG.pre.a     015C GR  |   3 A$YM_PRG.pre.a     015F GR
+  3 A$YM_PRG.pre.a     0161 GR  |   3 A$YM_PRG.pre.a     0162 GR
+  3 A$YM_PRG.pre.a     0164 GR  |   3 A$YM_PRG.pre.a     0167 GR
+    Abs_a_b        =   F584     |     Abs_b          =   F58B 
+    Add_Score_a    =   F85E     |     Add_Score_d    =   F87C 
+    BIT_POSITION   =   0002     |     BYTE_POSITION  =   0000 
+    Bitmask_a      =   F57E     |     CURRENT_BYTE   =   0003 
+    CURRENT_IS_PHR =   0009     |     CURRENT_PHRASE =   000B 
+    CURRENT_PHRASE =   000C     |     CURRENT_RLE_CO =   0005 
+    CURRENT_RLE_MA =   0007     |     CURRENT_UNPACK =   0004 
+    Char_Table     =   F9F4     |     Char_Table_End =   FBD4 
+    Check0Ref      =   F34F     |     Clear_C8_RAM   =   F542 
+    Clear_Score    =   F84F     |     Clear_Sound    =   F272 
+    Clear_x_256    =   F545     |     Clear_x_b      =   F53F 
+    Clear_x_b_80   =   F550     |     Clear_x_b_a    =   F552 
+    Clear_x_d      =   F548     |     Cold_Start     =   F000 
+    Compare_Score  =   F8C7     |     DP_to_C8       =   F1AF 
+    DP_to_D0       =   F1AA     |     Dec_3_Counters =   F55A 
+    Dec_6_Counters =   F55E     |     Dec_Counters   =   F563 
+    Delay_0        =   F579     |     Delay_1        =   F575 
+    Delay_2        =   F571     |     Delay_3        =   F56D 
+    Delay_RTS      =   F57D     |     Delay_b        =   F57A 
+    Do_Sound       =   F289     |     Do_Sound_x     =   F28C 
+    Dot_List       =   F2D5     |     Dot_List_Reset =   F2DE 
+    Dot_d          =   F2C3     |     Dot_here       =   F2C5 
+    Dot_ix         =   F2C1     |     Dot_ix_b       =   F2BE 
+    Draw_Grid_VL   =   FF9F     |     Draw_Line_d    =   F3DF 
+    Draw_Pat_VL    =   F437     |     Draw_Pat_VL_a  =   F434 
+    Draw_Pat_VL_d  =   F439     |     Draw_VL        =   F3DD 
+    Draw_VL_a      =   F3DA     |     Draw_VL_ab     =   F3D8 
+    Draw_VL_b      =   F3D2     |     Draw_VL_mode   =   F46E 
+    Draw_VLc       =   F3CE     |     Draw_VLcs      =   F3D6 
+    Draw_VLp       =   F410     |     Draw_VLp_7F    =   F408 
+    Draw_VLp_FF    =   F404     |     Draw_VLp_b     =   F40E 
+    Draw_VLp_scale =   F40C     |     Explosion_Snd  =   F92E 
+    Get_Rise_Idx   =   F5D9     |     Get_Rise_Run   =   F5EF 
+    Get_Run_Idx    =   F5DB     |     INCLUDE_I      =   0001 
+    INFO_END       =   000E     |     INFO_START     =   0000 
+    Init_Music     =   F68D     |     Init_Music_Buf =   F533 
+    Init_Music_chk =   F687     |     Init_Music_x   =   F692 
+    Init_OS        =   F18B     |     Init_OS_RAM    =   F164 
+    Init_VIA       =   F14C     |     Intensity_1F   =   F29D 
+    Intensity_3F   =   F2A1     |     Intensity_5F   =   F2A5 
+    Intensity_7F   =   F2A9     |     Intensity_a    =   F2AB 
+    Joy_Analog     =   F1F5     |     Joy_Digital    =   F1F8 
+    Mov_Draw_VL    =   F3BC     |     Mov_Draw_VL_a  =   F3B9 
+    Mov_Draw_VL_ab =   F3B7     |     Mov_Draw_VL_b  =   F3B1 
+    Mov_Draw_VL_d  =   F3BE     |     Mov_Draw_VLc_a =   F3AD 
+    Mov_Draw_VLcs  =   F3B5     |     Move_Mem_a     =   F683 
+    Move_Mem_a_1   =   F67F     |     Moveto_d       =   F312 
+    Moveto_d_7F    =   F2FC     |     Moveto_ix      =   F310 
+    Moveto_ix_7F   =   F30C     |     Moveto_ix_FF   =   F308 
+    Moveto_ix_b    =   F30E     |     Moveto_x_7F    =   F2F2 
+    New_High_Score =   F8D8     |     Obj_Hit        =   F8FF 
+    Obj_Will_Hit   =   F8F3     |     Obj_Will_Hit_u =   F8E5 
+    Print_List     =   F38A     |     Print_List_chk =   F38C 
+    Print_List_hw  =   F385     |     Print_Ships    =   F393 
+    Print_Ships_x  =   F391     |     Print_Str      =   F495 
+    Print_Str_d    =   F37A     |     Print_Str_hwyx =   F373 
+    Print_Str_yx   =   F378     |     Random         =   F517 
+    Random_3       =   F511     |     Read_Btns      =   F1BA 
+    Read_Btns_Mask =   F1B4     |     Recalibrate    =   F2E6 
+    Reset0Int      =   F36B     |     Reset0Ref      =   F354 
+    Reset0Ref_D0   =   F34A     |     Reset_Pen      =   F35B 
+    Rise_Run_Angle =   F593     |     Rise_Run_Len   =   F603 
+    Rise_Run_X     =   F5FF     |     Rise_Run_Y     =   F601 
+    Rot_VL         =   F616     |     Rot_VL_M_dft   =   F62B 
+    Rot_VL_Mode    =   F61F     |     Rot_VL_ab      =   F610 
+    STRUCTURE_LENG =   000E     |     Select_Game    =   F7A9 
+    Set_Refresh    =   F1A2     |     Sound_Byte     =   F256 
+    Sound_Byte_raw =   F25B     |     Sound_Byte_x   =   F259 
+    Sound_Bytes    =   F27D     |     Sound_Bytes_x  =   F284 
+    Strip_Zeros    =   F8B7     |     VIA_DDR_a      =   D003 
+    VIA_DDR_b      =   D002     |     VIA_aux_cntl   =   D00B 
+    VIA_cntl       =   D00C     |     VIA_int_enable =   D00E 
+    VIA_int_flags  =   D00D     |     VIA_port_a     =   D001 
+    VIA_port_a_noh =   D00F     |     VIA_port_b     =   D000 
+    VIA_shift_reg  =   D00A     |     VIA_t1_cnt_hi  =   D005 
+    VIA_t1_cnt_lo  =   D004     |     VIA_t1_lch_hi  =   D007 
+    VIA_t1_lch_lo  =   D006     |     VIA_t2_hi      =   D009 
+    VIA_t2_lo      =   D008     |     Vec_0Ref_Enabl =   C824 
+    Vec_ADSR_Table =   C84F     |     Vec_ADSR_Timer =   C85E 
+    Vec_Angle      =   C836     |     Vec_Brightness =   C827 
+    Vec_Btn_State  =   C80F     |     Vec_Button_1_1 =   C812 
+    Vec_Button_1_2 =   C813     |     Vec_Button_1_3 =   C814 
+    Vec_Button_1_4 =   C815     |     Vec_Button_2_1 =   C816 
+    Vec_Button_2_2 =   C817     |     Vec_Button_2_3 =   C818 
+    Vec_Button_2_4 =   C819     |     Vec_Buttons    =   C811 
+    Vec_Cold_Flag  =   CBFE     |     Vec_Counter_1  =   C82E 
+    Vec_Counter_2  =   C82F     |     Vec_Counter_3  =   C830 
+    Vec_Counter_4  =   C831     |     Vec_Counter_5  =   C832 
+    Vec_Counter_6  =   C833     |     Vec_Counters   =   C82E 
+    Vec_Default_St =   CBEA     |     Vec_Dot_Dwell  =   C828 
+    Vec_Duration   =   C857     |     Vec_Expl_1     =   C858 
+    Vec_Expl_2     =   C859     |     Vec_Expl_3     =   C85A 
+    Vec_Expl_4     =   C85B     |     Vec_Expl_Chan  =   C85C 
+    Vec_Expl_ChanA =   C853     |     Vec_Expl_ChanB =   C85D 
+    Vec_Expl_Chans =   C854     |     Vec_Expl_Flag  =   C867 
+    Vec_Expl_Timer =   C877     |     Vec_FIRQ_Vecto =   CBF5 
+    Vec_Freq_Table =   C84D     |     Vec_High_Score =   CBEB 
+    Vec_IRQ_Vector =   CBF8     |     Vec_Joy_1_X    =   C81B 
+    Vec_Joy_1_Y    =   C81C     |     Vec_Joy_2_X    =   C81D 
+    Vec_Joy_2_Y    =   C81E     |     Vec_Joy_Mux    =   C81F 
+    Vec_Joy_Mux_1_ =   C81F     |     Vec_Joy_Mux_1_ =   C820 
+    Vec_Joy_Mux_2_ =   C821     |     Vec_Joy_Mux_2_ =   C822 
+    Vec_Joy_Resltn =   C81A     |     Vec_Loop_Count =   C825 
+    Vec_Max_Games  =   C850     |     Vec_Max_Player =   C84F 
+    Vec_Misc_Count =   C823     |     Vec_Music_Chan =   C855 
+    Vec_Music_Flag =   C856     |     Vec_Music_Freq =   C861 
+    Vec_Music_Ptr  =   C853     |     Vec_Music_Twan =   C858 
+    Vec_Music_Wk_1 =   C84B     |     Vec_Music_Wk_5 =   C847 
+    Vec_Music_Wk_6 =   C846     |     Vec_Music_Wk_7 =   C845 
+    Vec_Music_Wk_A =   C842     |     Vec_Music_Work =   C83F 
+    Vec_NMI_Vector =   CBFB     |     Vec_Num_Game   =   C87A 
+    Vec_Num_Player =   C879     |     Vec_Pattern    =   C829 
+    Vec_Prev_Btns  =   C810     |     Vec_Random_See =   C87D 
+    Vec_Rfrsh      =   C83D     |     Vec_Rfrsh_hi   =   C83E 
+    Vec_Rfrsh_lo   =   C83D     |     Vec_RiseRun_Le =   C83B 
+    Vec_RiseRun_Tm =   C834     |     Vec_Rise_Index =   C839 
+    Vec_Run_Index  =   C837     |     Vec_SWI2_Vecto =   CBF2 
+    Vec_SWI3_Vecto =   CBF2     |     Vec_SWI_Vector =   CBFB 
+    Vec_Seed_Ptr   =   C87B     |     Vec_Snd_Shadow =   C800 
+    Vec_Str_Ptr    =   C82C     |     Vec_Text_HW    =   C82A 
+    Vec_Text_Heigh =   C82A     |     Vec_Text_Width =   C82B 
+    Vec_Twang_Tabl =   C851     |     Wait_Recal     =   F192 
+    Warm_Start     =   F06C     |     Xform_Rise     =   F663 
+    Xform_Rise_a   =   F661     |     Xform_Run      =   F65D 
+    Xform_Run_a    =   F65B     |   3 byte_ready         005E GR
+  3 byte_ready_1       0038 GR  |   3 byte_ready_2       00D7 GR
+  3 byte_ready_3       00F4 GR  |   3 byte_ready_4       010E GR
+  7 calc_bits          0005 GR  |   7 calc_coder         0004 GR
+  3 counter_not_mi     00BC GR  |   7 current_regist     0000 GR
+  3 dechifer           0042 GR  |   3 do_ym_sound        0000 GR
+  3 do_ym_sound_do     0027 GR  |   3 end_here_3         00FC GR
+  3 end_here_4         0116 GR  |   3 get_current_by     009D GR
+  3 go_on              00E4 GR  |   3 go_on_2            00FE GR
+  3 init_ym_sound      0137 GR  |   3 more_bits          00C4 GR
+    music1         =   FD0D     |     music2         =   FD1D 
+    music3         =   FD81     |     music4         =   FDD3 
+    music5         =   FE38     |     music6         =   FE76 
+    music7         =   FEC6     |     music8         =   FEF8 
+    music9         =   FF26     |     musica         =   FF44 
+    musicb         =   FF62     |     musicc         =   FF7A 
+    musicd         =   FF8F     |   3 next_phrase        008A GR
+  3 next_reg           0012 GR  |   3 next_reg_init      014D GR
+  3 no_add             0067 GR  |   3 no_carry           011D GR
+  3 no_phrase          00B7 GR  |   3 no_phrase_d        0097 GR
+  3 no_single_byte     00BF GR  |   3 no_valid_byte      0028 GR
+  3 out                009D GR  |   3 phrase_found       0091 GR
+  3 search_again       0069 GR  |   3 shifting_done      0122 GR
+  3 shifting_not_y     0117 GR  |   3 single_byte        0040 GR
+  7 temp               0001 GR  |   7 temp2              0002 GR
+  7 temp3              0003 GR  |   3 try_next_bit       0048 GR
+  7 ym_data_curren     0008 GR  |   7 ym_data_len        0006 GR
+  7 ym_data_start      000C GR  |   7 ym_name            000A GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+[rom]
+   2 .cartridge       size    0   flags 8080
+   3 .text            size  168   flags 8180
+   4 .text.hot        size    0   flags 8080
+   5 .text.unlikely   size    0   flags 8080
+[ram]
+   6 .data            size    0   flags 8080
+   7 .bss             size   A6   flags 8180
+

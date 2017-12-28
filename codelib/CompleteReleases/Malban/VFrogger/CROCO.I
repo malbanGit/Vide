@@ -126,9 +126,12 @@
 ;                DB $60                  ; brightness
 ;                DB SPECIAL_RIGHT_CROCO  ; special flag
 
- db 13
 croco3a_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 13
+ else
                 DW (MAX_LINE_NUM-(13+1))*ONE_LINE_LENGTH
+ endif
                 DB -1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -153,10 +156,13 @@ croco3a_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB SPECIAL_LEFT_CROCO   ; special flag
- db 13
 
 croco3b_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 13
+ else
                 DW (MAX_LINE_NUM-(13+1))*ONE_LINE_LENGTH
+ endif
                 DB -1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -181,10 +187,12 @@ croco3b_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB SPECIAL_LEFT_CROCO   ; special flag
- db 11
-
 croco3c_sprite:
+ if USE_LOOP_UNROLING !=1
+                DB 11
+ else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
+ endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
@@ -239,7 +247,6 @@ croco4c_object:
                 DB 2                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB SPECIAL_LEFT_CROCO   ; special flag
- db 12
 
 crocoh1a_sprite:
                 DB 12
@@ -267,7 +274,6 @@ crocoh1a_object:
                 DB 0                    ; offsets x in 'SCALE_IN_HOME', since this is a home object
                 DB $60                  ; brightness
                 DB SPECIAL_CROCO_HALF   ; special flag
- db 15
 
 crocoh1b_sprite:
                 DB 15
@@ -297,7 +303,6 @@ crocoh1b_object:
                 DB 0                    ; offsets x in 'SCALE_IN_HOME', since this is a home object
                 DB $60                  ; brightness
                 DB SPECIAL_CROCO_HALF   ; special flag
- db 17
 
 crocoh1c_sprite:
                 DB 17
@@ -329,7 +334,6 @@ crocoh1c_object:
                 DB 0                    ; offsets x in 'SCALE_IN_HOME', since this is a home object
                 DB $60                  ; brightness
                 DB SPECIAL_CROCO_FULL   ; special flag
- db 17
 
 crocoh1d_sprite:
                 DB 17
@@ -361,7 +365,6 @@ crocoh1d_object:
                 DB -0                   ; offsets x in 'SCALE_IN_HOME', since this is a home object
                 DB $60                  ; brightness
                 DB SPECIAL_CROCO_FULL   ; special flag
- db 17
 
 crocoh1e_sprite:
                 DB 17

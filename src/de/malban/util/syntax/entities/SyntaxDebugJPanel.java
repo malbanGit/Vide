@@ -25,6 +25,7 @@ import javax.swing.table.TableRowSorter;
 public class SyntaxDebugJPanel extends javax.swing.JPanel  implements 
          Windowable{
 
+    int vediId = -1;
     String orgName = "";
 
     private int mClassSetting=0;
@@ -83,7 +84,8 @@ public class SyntaxDebugJPanel extends javax.swing.JPanel  implements
     /**
      * Creates new form SyntaxDebugJPanel
      */
-    public SyntaxDebugJPanel() {
+    public SyntaxDebugJPanel(int id) {
+        vediId = id;
         initComponents();
         jTable1.setModel(new LabelSingTableModel());
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jTable1.getModel());
@@ -142,10 +144,10 @@ public class SyntaxDebugJPanel extends javax.swing.JPanel  implements
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
-    public static void showSyntaxDebugPanelNoModal()
+    public static void showSyntaxDebugPanelNoModal(int id)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
-        SyntaxDebugJPanel panel = new SyntaxDebugJPanel();
+        SyntaxDebugJPanel panel = new SyntaxDebugJPanel(id);
         ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 1080, 800, "Syntax Debug");
     }        
 
@@ -153,8 +155,9 @@ public class SyntaxDebugJPanel extends javax.swing.JPanel  implements
     {
         public int getRowCount()
         {
-            if (FunctionSink.knownGlobalFunctions.size()!=0) return FunctionSink.knownGlobalFunctions.size();
-            return LabelSink.knownGlobalVariables.size();
+            if (C6809FileMaster.getInfo(vediId).knownGlobalFunctions.size()!=0) 
+                return C6809FileMaster.getInfo(vediId).knownGlobalFunctions.size();
+            return ASM6809FileMaster.getInfo(vediId).knownGlobalVariables.size();
         }
         public int getColumnCount()
         {
@@ -165,15 +168,15 @@ public class SyntaxDebugJPanel extends javax.swing.JPanel  implements
             try
             {
                 EntityDefinition ed;
-                if (FunctionSink.knownGlobalFunctions.size()!=0) 
+                if (C6809FileMaster.getInfo(vediId).knownGlobalFunctions.size()!=0) 
                 {
-                    ed = (EntityDefinition) FunctionSink.knownGlobalFunctions.values().toArray()[row];
+                    ed = (EntityDefinition) C6809FileMaster.getInfo(vediId).knownGlobalFunctions.values().toArray()[row];
                     if (col == 0) return ed.name;
                     if (col == 1) return ed.cfile+":"+ed.getLineNumber();
                 }
                 else
                 {
-                    ed = (EntityDefinition) LabelSink.knownGlobalVariables.values().toArray()[row];
+                    ed = (EntityDefinition) ASM6809FileMaster.getInfo(vediId).knownGlobalVariables.values().toArray()[row];
                     if (col == 0) return ed.name;
                     if (col == 1) return ed.file+":"+ed.getLineNumber();
                 }

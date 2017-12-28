@@ -1,0 +1,63 @@
+Vecmania (homebrew)
+
+Here it is, one of the last (at the time of this writing), biggest (one of the few 64K Vectrex releases to date), and best of homebrewer John Dondzila’s cartridges, full of arcade cloning goodness, containing three new games, three “remixed” ones, two unfinished demos, and one hidden bonus game.
+
+ 
+
+To wit, lets start with the newer versions of the older stuff:
+
+ 
+
+VECTOR VADERS THE DIRECTOR’S CUT–you all know what it is, invaders travel from the top of the screen and drop down closer and closer to you as you shoot them (and the bonus saucer) while avoiding their fire. I can’t say how this compares to the original Vector Vaders, since I’ve never played it, but I heard it ran a bit slow, so I’m guessing that this one’s a lot faster, as it definitely has far fewer invaders that move faster than the ones of More Invaders! on the All Good Things compilation from Dondzila. Who knows why the invaders are mad and are trying to shoot you down, but I was surprised at how addicting this is, I figured I would only play it a couple of times and that would be it. Nice to be wrong occasionally, as I can still play it, three years after first getting this cartridge.
+
+ 
+
+ROCKAROIDS REMIX: THIRD ROCK–compared to the Rockaroids available from All Good Things, this one is faster and more difficult, but more fun too. Here you shoot asteroids from big down to smaller fragments and then to vector oblivion. This also incorporates the look of the small spaceship and rotating rocks from the arcade Asteroids Deluxe. Bonus U. F. O.s also appear for big points, but they can pass through the rockaroids unharmed (that’s not fair!).
+
+ 
+
+PATRIOTS THE SPECIAL EDITION–I’ve only played the original Patriots in emulation a few times, and this seems like it has only minor changes (the bonus hidden game is even the same as on the original Patriots as well), just a slightly different pace and better sound. Here you must protect several cities from missiles raining down on them; maybe the missiles are in regards to the invaders wising up from V. Vaders TDC and realizing they should stop wasting manpower on you, and use machines and missiles instead to wreck havoc? Aircraft and smart missiles also add to this fun “remix” clone of Missile Command.
+
+ 
+
+Now, onto the new stuff!
+
+ 
+
+ABYSS (demo)–Dondzila’s attempt at a Tempest clone, but he didn’t properly plan out things in advance, wasn’t happy with it, and discontinued the project. All that there is is the first level, which never ends (until you either hit reset or shut off your Vectrex), as there’s no way to die as you face Flippers, Spikes and Spikers, and that’s it. Demos are hard to judge, but this one looks somewhat promising, and I sometimes still find myself kind of “zoning out” as I play this for 20 minutes or so occasionally (for some weird reason).
+
+ 
+
+DISC DUEL DEMO–the full game was going to be a two player version of the arcade Discs of Tron, but Dondzila accidentally wiped out the source code, so we get another demo without any sound, scoring, or end (again, like with Abyss). This one DID look pretty promising, especially since you get a shield to block shots with (although it isn’t functional though). My nephew and I played this for about 20 minutes when I introduced him to the Vectrex for the first time ever, he never played any of the other games for as long as this one (humph! Kids...)!
+
+ 
+
+And finally, onto the last, full new games...
+
+ 
+
+BIRDS OF PREY–pretty good clone of the Phoenix arcade game. It incorporates the first two waves of birds, two waves of big birds (which have to be hit dead center to be destroyed, no wing hits here as in the original), then the mother ship on the fifth wave. Gameplay on waves 3-5 are slightly different than the original, but then, this wasn’t a port, and it doesn’t matter, it’s still a lot of fun, and Dondzila fixed the shield bug from the original (i. e. You hear your shield activate after you get blown up at times, which is annoying, but that won’t happen here!).
+
+ 
+
+REPULSE–clone of the rare Eliminator vector game. I don’t know how it compares, since I never played the original (saw it, but never played it), but it’s addicting and can take a while, due to starting with five ships and then earning a new one with every successful elimination (sorry!) of the mother ship. Unfortunately firing a shot up the mother ship’s slim shaft is difficult, especially with sentry ships thrown in the mix, which a hit from them can send you careening across the screen. A fun, differently-paced challenge than the other games on here, but you need some pretty decent nerves to make it through this one though.
+
+ 
+
+STAR FIRE SPIRITS–clone of the Atari Star Wars vector game, although it plays a little differently. The first wave of T. I. E. Fighter-like ships doesn’t have any of the camera view panning around, taking you to the next ship after you destroyed one, so it can take a while before you nail all the ships before going onto the next stage, which involves blowing up laser towers and bunkers. The towers come in at random, rather than in pre-determined patterns like the original, and this wave also can take a bit of time to get through. The final stage is pretty much like the original’s though, however there are no catwalks in the later levels. Still fun though.
+
+ 
+
+Graphics on the games range from blah (just little ‘v‘s in Vaders) to good, although the sounds are better, and the control’s pretty solid throughout. Even with a few bugs and issues – no extra shield unlike promised on Spirits when you blow up the Death Star-like Dark Planet, explosions wrapping around the screen edges on Birds and Patriots, how come no pause on Vector Vaders, etc.? – this is one of the usual “must have” homebrews, especially when you consider at $20 U. S. (not counting shipping), that’s less than $2.50 a game! And a little over three years later, I can still whip this cartridge out and give it some playing that it deserves, it’ll take quite a while before you’ll get sick of these games.
+
+ 
+
+But then, most of y’all have this already anyway and already knew that anyhow, right?
+
+ 
+
+Score 9/10
+
+ 
+
+Review written by Darryl

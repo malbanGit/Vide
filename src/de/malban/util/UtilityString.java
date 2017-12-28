@@ -31,7 +31,6 @@ public class UtilityString
             out = "&#x20;"+out.substring(1);
             return toXML(out);
         }
-        
         if (out.endsWith(" "))
         {
             out = out.substring(0,out.length()-1)+"&#x20;";
@@ -42,9 +41,10 @@ public class UtilityString
         out = replace(out,"&","___TO#OT#OO__amp;");
         out = replace(out,"___TO#OT#OO__amp;","&amp;");
         out = replace(out,"'","&apos;");
+        out = replace(out,"'","&apos;");
         out = replace(out,"´","&apos;");
         out = replace(out,"`","&apos;");
-        out = replace(out,"<","&lt;");
+        out = replace(out,"\t","&#009;");
         out = replace(out,"<","&gt;");
         out = replace(out,"\"","&quot;");
 
@@ -61,8 +61,13 @@ public class UtilityString
     public static String fromXML(String in)
     {
         String out = in;
-        
+        // must be first
         out = replace(out,"&amp;","&");
+
+        
+        
+        
+        out = replace(out,"&#009;","\t");
         out = replace(out,"&#x20;"," ");
         out = replace(out,"&apos;", "'");
         out = replace(out,"&apos;","´");
@@ -163,7 +168,8 @@ public class UtilityString
     }
     // whole words defined as
     // borders are everyrhing that is non: _a-zA-Z0-9
-    static public String replace(String name, String search, String with, boolean onlyWholeWords) {
+    static public String replace(String name, String search, String with, boolean onlyWholeWords) 
+    {
             // bad!
             if (name == null)
             {

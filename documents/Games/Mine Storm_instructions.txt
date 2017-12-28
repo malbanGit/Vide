@@ -1,0 +1,48 @@
+Mine Storm is the built-in game that came with every Vectrex unit. It was also released in a 3-D version that required the use of the Vectrex 3D Imager and as a bug-free replacement cartridge called Mine Storm 2 (see Bugs section).
+Contents
+Gameplay                              
+
+Gameplay is similar to the arcade game Asteroids. The player moves around the screen shooting at star-shaped Mines of various sizes and mannerisms. Each screen has many dots, which can potentially turn into Mines; once a Mine is shot, two dots on the screen will turn into medium-sized Mines, which will then turn into two small Mines when shot (note: for the most part; sometimes, perhaps due to a glitch, a medium-sized Mine will just hatch one small Mine). When all dots have been turned into Mines on a screen, the Minelayer will come out, laying additional Mines in it's wake until the player destroys it.
+
+Making contact with any Mine, fireball, or Minelayer will destroy the player's ship and the game will end once there are no more reserve ships left (note: on some later versions, colliding with any piece of space dust or alien forces will also destroy the player's ship as well). Extra ships are earned after every four levels are cleared. The Escape function acts as Hyperspace, which moves the player's ship to a random area on the screen in case of emergency.
+Controls                              
+
+Main menu
+
+    Choose from one or two players--button one
+    Start game--button four 
+
+In-game
+
+    Move ship left and right--joystick or D-pad left and right
+    Escape--button two
+    Thrust--button three
+    Fire rockets--button four 
+
+Scoring                              
+
+(large, medium, small/points)
+
+    Floating Mine--100 135 200
+    Fireball Mine--325 360 425
+    Magnetic Mine--500 535 600
+    Magnetic-Fireball Mine--750 585 850
+    Fireball--110
+    Minelayer--1000
+    Space dust/alien forces--varies (note: on later U. S. versions only) 
+
+Mine types                              
+
+    Floating Mines--regular "dumb" Mines that just drift around
+    Fireball Mines--these will launch a fireball when shot, usually right at the player's ship
+    Magnetic Mines--follows the player around
+    Magnetic-Fireball Mines--combination of the behavior of Fireball and Magnetic Mines
+    Space dust--looks like dots, acts like Floating Mines (on certain later versions)
+    Alien forces--combination of Space dust and Magnetic-Fireball Mines (on certain later versions)
+    Invisible Mines--same as Floating Mines, but invisible (on certain later versions)
+    Invisible Magnetic Mines--combination of Invisible and Magnetic Mines (on certain later versions) 
+
+Bugs                              
+
+    There are at least three versions of the game; the original U. S. release contains the infamous level 13 bug, where the game would crash and end if a player is able to clear out this level. An extra printed sheet was added to the instructions of a later version advising players to press the reset button if their Vectrex screen went blank after clearing this level. Also, a Mine Storm 2 cartridge was made available for free upon request for Vectrex owners who wrote to GCE, which was bug-free, although it had many additional Mine Fields added and changes in the order of the Mines that appear (the Magnetic Mines make their debut during the second level, unlike the third on the second version of the game). This is one of the most rare and sought after Vectrex cartridges nowadays.
+    In addition to the above glitch, another later version allows a player to make it past level 13, although the game behaves strangely, as there is a brief cinematic bit at the end of every level where the player's ship is sucked up from whatever area of the screen it is at to the middle while stars seemingly project from it (perhaps it is hitting warp to jump to the next level). If the player stays as close to the center as possible at the end of every level after 13, they will continue to advance; however, there are many times when a level skips several numbers for some reason. Also, if the player presses Escape or Thrust after they shoot the last Mine or piece of space dust, that could cause the game to end and take the player to the menu screen. 

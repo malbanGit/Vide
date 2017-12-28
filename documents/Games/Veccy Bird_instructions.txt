@@ -1,0 +1,22 @@
+Flappy Bird migrates to the Vectrex, although with the computing power of a smart phone is considerably more than the first home computers and games consoles of the 80’s, quite a few phone game Apps (especially those written by a single author, rather than a full software house) fit the ethos of the early 8 bit games (i.e. with simple graphics and arguably addictive game play). So it is not uncommon to see some of these games get ported to the computers and games consoles of yesteryear.
+
+In February 2014, next level developer Michael Simonds surprised the Vectrex community with a free download of a Flappy Bird port (originally released for the iOS) for the Vectrex called "Veccy Bird". While the brief 'flappy bird' craze of 2014 spawned many copycats, imitators, and spinoffs, Veccy Bird is the only version which managed to arguably improve upon the original in three significant ways: it can be considered more enjoyable to play with an external controller (as opposed to tapping in the game field's touch screen), it has an end screen, and it's a real vector game, and playable on the only home vector gaming system ever created, our Vectrex.  
+Game play                               
+6gd2sj
+
+The attract mode beckons the player to "tap..."
+ 
+
+Fly Veccy bird between sets of oncoming pipes as they scroll across the screen. Only one finger is required for control. One tap flaps the bird's wings, causing Veccy Bird to fly upward. Gravity pulls the bird down. The bird's altitude varies logarithmically with time between flaps. Two flaps in rapid succession will send Veccy Bird skyrocketing. Longer periods of flaplessness causes Veccy to nose dive. 
+
+Like the original game, Veccy Bird can be considered to be easy to learn but difficult to master.  
+Final version                               
+
+The .bin for the final version (1.5) is improved upon previous versions in numerous ways 
+
+    Bird is brighter 
+    Added support for Vectrex standard high score 
+    Fixed high score bug where it would sometimes reset to a lower value  
+    Reduced the maximum score required to win to 50 points 
+    New score name ratings 
+    Added a win screen  

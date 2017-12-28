@@ -21,10 +21,8 @@ import de.malban.gui.dialogs.JOptionPaneDialog;
 import de.malban.gui.dialogs.QuickHelpTopFrame;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
-import de.malban.util.KeyboardListener;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
-import de.malban.util.syntax.entities.ASM6809FileInfo;
 import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DASM6809;
 import static de.malban.vide.dissy.DissiPanel.eval;
@@ -32,7 +30,6 @@ import static de.malban.vide.script.ExecutionDescriptor.*;
 import de.malban.vide.script.*;
 import static de.malban.vide.vecx.VecX.START_TYPE_DEBUG;
 import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
-import static de.malban.vide.vedi.VediPanel.convertSeperator;
 import de.malban.vide.vedi.project.FileProperties;
 import de.malban.vide.vedi.project.FilePropertiesPanel;
 import de.malban.vide.vedi.project.FilePropertiesPool;
@@ -40,7 +37,6 @@ import de.malban.vide.vedi.raster.RasterPanel;
 import de.malban.vide.vedi.raster.VectorJPanel;
 import de.malban.vide.vedi.sound.ModJPanel;
 import de.malban.vide.vedi.sound.YMJPanel;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -449,7 +445,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             }
         }
         if (!(new File(fullPathname).exists())) return null;
-        EditorPanel edi = new EditorPanel(fullPathname, this);
+        EditorPanel edi = new EditorPanel(fullPathname, this, UID);
         if (edi.isInitError()) return null;
         jTabbedPane1.addTab(name, edi);
         oneTimeTab = name;
@@ -2492,7 +2488,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             String oldFileName = leaf.pathAndName.toString();
             String newFileName = de.malban.util.UtilityString.replace(leaf.pathAndName.toString(), oldName, newFilename);
             leaf.pathAndName = Paths.get(newFileName);
-            ASM6809FileInfo.replaceFileName(oldFileName, newFileName);
+// TODO BASIC INFO FILES            ASM6809FileInfo.replaceFileName(oldFileName, newFileName);
             if (found != -1)
             {
                 jTabbedPane1.setTitleAt(found, newFilename);

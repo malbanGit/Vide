@@ -1,0 +1,36 @@
+ Gameplay                               
+
+Vec Sports Boxing has both a one player mode and a two player mode.
+
+In one player mode, the player controls a boxer who is training to become the top fighter. The player's coach will call out commands and the player will have to mimic those commands. Accuracy is important and if the player make a wrong move then he will have to start the training session over again.
+
+In two player mode, the players control boxers who are sparring. Each player is trying to wear the other's stamina down and knock them out first. The first to win two rounds wins the match.
+Controls                               
+Main Menu                               
+
+    Select one player game-button 1
+    Select two player game-button 2
+    View controls-button 3
+    Play bonus game-button 4 
+
+In-game                               
+
+    Move player left or right-left or right on the joystick or D-pad
+    High punch-button 1
+    High block-button 2
+    Low punch-button 3
+    Low block-button 4 
+
+Scoring                               
+
+In one player mode, 10 points are award for each command which is followed correctly. In two player mode, there are no points; however, there are stamina bars which decrease for each hit.
+Bonus Game                               
+Gameplay                               
+
+A simple game of Rock-Paper-Scissors is playable by pressing button 4 at the Menu Menu. This is the classic game where rock beats scissors, scissors beats paper and paper beats rock. Each player makes their selection, the computer will hold each player's selection until both players have selected and then will display the winner. In the event of a tie, the winner will be chosen by the player who makes another selection first.
+Controls                               
+
+    Exit game-up on joystick or D-pad
+    Select rock-button 1
+    Select paper-button 2
+    Select scissors-button 3 

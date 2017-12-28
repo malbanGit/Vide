@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>Becky&apos;s Message</Name>
+		<ProjectName>Becky&apos;s Message</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>codelib/CompleteReleases/Dan Siewers</Path>
+		<MainFile>BM.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author>Dan Siewers</Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>false</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>BM.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+		<WheelName></WheelName>
+	</ProjectProperties>
+</AllProjectProperties>

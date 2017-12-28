@@ -639,6 +639,7 @@ class Colorer extends Thread
                     {
                         ex.printStackTrace();
                         VediPanel.setInScan(false);
+//                        doc.initVediId();
                         return;
                     }
                 }

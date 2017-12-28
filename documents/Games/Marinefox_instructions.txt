@@ -1,0 +1,60 @@
+Background/gameplay                              
+
+Marine Fox is the first game from Mountain Goat released in August of 2015. It was inspired by the arcade and Atari 2600 classic Solar Fox.
+
+You are captain Ariel Fox in command of the submarine "Medusa". Ariel is actually featured in the game on the Level announcement screen.
+
+Your job is to gather all crystals from the sea floor but there is a catch...
+
+The Sentinels have sent sharks to stop you.
+
+The goal is to avoid being eaten while gathering all triangular crystals and advance through the levels. If there is any time remaining at the completion of a level (marked by a bar at the bottom of the screen), the player will receive a bonus of how much time is remaining. The player starts with five Medusas, which they will lose one whenever they come into contact with a shark. Once the player is out of Medusas the game will end.
+Later releases                              
+
+Due to creator Mountain Goat asking for suggestions for improvements on Marine Fox on the Vector gaming forums, he took several ideas into consideration, which resulted in him tweaking the game and releasing the following[1].
+Version 1.01                              
+
+This version played identical to the first, although a pause function was added.
+Version 1.2                              
+
+This version had the most amount of changes to it, such as reassigning the pause function, as the ability to steer the Medusa using the Vectrex controller’s buttons was also added. The shape of the crystals along with the tempo of the game were also changed, making it easier. An additional fox insignia was added at the bottom of the game over screen. There was also a shark reset bug that was fixed, which originally caused a shark to “start down (or up) a lane normally, and after a short while it would jump back to its starting position on the top (or at the bottom)”[2], along with five power-ups being added that can appear during the later levels to help the player out if captured in time before they disappeared (being ones that sped up the Medusa 1.5 times its original speed for several seconds, a shield to make the Medusa temporarily invincible to shark collisions, an entire row of crystals would clear out, the ability to slow down the sharks for several seconds and the end of level bonus can be refilled to the max rounded out the power-ups).
+Version 1.3                              
+
+The intensity of the crystals’ appearance was slightly changed, as well as the initial graphics bug that plagued the first three versions was corrected (see later Trivia section).
+Differences from the original Solar Fox                              
+
+Other than the sub-surface scene as opposed to space, there are a few differences in game mechanics between the original Solar Fox and Marine Fox.
+
+    The movement of the submarine is free form, not confined to a grid pattern. This is more in style for the Vectrex.
+    There are no direct Sentinels, just animated sharks swimming up and down the vertical lanes.
+    While the size of the grid is 8x8, the levels have changed from the original "racks".
+    There is no bonus level with no enemies.
+    The bonus time period lasts longer in Marine Fox than in the original.
+    There are 16 levels in Marine Fox compared to the 26 in Solar Fox.
+    In Marine Fox the levels get progressively harder by having significantly faster sharks and in later levels also more sharks. 
+
+License                              
+
+Marine Fox is free for non-commercial use.
+Scoring (all versions)                              
+
+    Picking up a crystal–100 points (note: with versions 1.2 and above, no points are tallied if the player catches the power-up that removes an entire row of crystals)
+    Bonus for time remaining at end of level 
+
+Controls                              
+
+    Start game–button1 (After initial first game; see Trivia)
+    Move Medusa–joystick or D-pad 
+
+Version 1.1                              
+
+The controls are the same as with the original version of the game with the following addition:
+
+    Pause game–button 1 
+
+Versions 1.2 and 1.3                              
+
+The controls are the same as with the original version with the following additions:
+
+    Steer Medusa–buttons 1 and 2 (along with left/right joystick/D-pad control)
+    Pause–button 4 

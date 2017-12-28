@@ -1,0 +1,1455 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_a
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $F9F4 Char_Table
+LABEL $FBD4 Char_Table_End
+LABEL $FEF8 current_song
+COMMENT_LABEL $FEF8 junk.
+LABEL $C880 score
+COMMENT_LABEL $C880 7 bytes as defined in BIOS routine Add_Score_?
+LABEL $C887 level
+LABEL $C888 spuds_left
+LABEL $C889 spud_ypos
+COMMENT_LABEL $C889 y
+LABEL $C88A spud_xpos
+COMMENT_LABEL $C88A x
+LABEL $C889 spud_coor
+COMMENT_LABEL $C889 for Obj_Hit routine load into Y-reg
+LABEL $C88B spudstate
+LABEL $C88C mollystate
+LABEL $C88D spud_start
+LABEL $C88F arrow_y
+COMMENT_LABEL $C88F y
+LABEL $C890 arrow_x
+COMMENT_LABEL $C890 x
+LABEL $C88F arrow_coor
+COMMENT_LABEL $C88F for Obj_Hit routines load into X
+LABEL $C891 intlevel
+LABEL $C892 brightdir
+LABEL $C893 coord
+LABEL $C895 count
+LABEL $C896 dec_score
+LABEL $C89D highscore
+LABEL $C8A4 SpudRot
+LABEL $C8A5 sfx_pointer
+LABEL $C8A6 sfx_status
+LABEL $C8A7 vox_addr
+LABEL $C8A9 currentframe
+EQU $14 MINBRIGHT
+EQU $64 MAXBRIGHT
+LABEL $0380 setup
+EQU $28 restart
+LABEL $03A1 start
+LABEL $0308 titlescreen
+LABEL $00B9 arrow_create
+EQU $31 main
+LABEL $0407 set_scale
+COMMENT_LABEL $0407 scales to content of reg A
+LABEL $03F1 guys_left
+COMMENT_LABEL $03F1 display number of 'guys' left
+LABEL $00C5 show_score
+LABEL $01D0 joystick_crap
+LABEL $01CF button_push
+LABEL $0054 cantscore
+LABEL $00FC check_if_score
+LABEL $013A draw_post
+LABEL $014F draw_molly
+LABEL $015B draw_mollysface
+LABEL $016F draw_mollyslegs
+LABEL $0186 draw_spud
+LABEL $01A6 draw_spudslegs
+COMMENT_LABEL $01A6 wip
+LABEL $0114 draw_arrow
+LABEL $0083 yer_hit
+LABEL $0089 yer_ok
+LABEL $01FD got_hit
+LABEL $00AC arrow_done
+LABEL $0798 time_frames
+LABEL $078E speed_distance
+LABEL $00A3 arrow_speed
+LABEL $01C8 move_arrow
+LABEL $0129 arrow_in_bounds
+LABEL $029F gameoverloop
+LABEL $00D0 show_highscore
+LABEL $00DB inc_score
+LABEL $00FB nope
+LABEL $010F no_score
+LABEL $0110 level_up
+LABEL $069E Arrow
+COMMENT_LABEL $069E only one not it 0x01 terminated format
+LABEL $0132 x_ok
+LABEL $0139 y_ok
+LABEL $0614 Post
+LABEL $0627 Molly
+LABEL $0696 MollysFace
+LABEL $016B nothumpedface
+LABEL $069A MollysFaceHum
+LABEL $0661 MollysLegs
+LABEL $017D nothumpeds
+LABEL $067D MollysLegsHum
+LABEL $0498 Spud
+LABEL $01A2 nothumpedspud
+LABEL $04F3 SpudHump
+COMMENT_LABEL $04F3 needs work
+LABEL $05AA SpudsLegsWalk1
+LABEL $01B8 walk1
+LABEL $05C9 SpudsLegsWalk2
+LABEL $01C3 nothumping
+LABEL $05FB SpudsLegsHum
+LABEL $01C7 sound_update
+LABEL $01FC done_moving
+LABEL $01EB going_left
+LABEL $01DA going_right
+LABEL $0208 loopy
+LABEL $0735 letter_O
+LABEL $0751 letter_W
+LABEL $0548 SpudDead
+LABEL $026F deadcont
+LABEL $0274 deadStar
+LABEL $059A SpudDeadFinal
+LABEL $06FD gameoverstr
+LABEL $06EC highscorestr
+LABEL $071D lolscore
+LABEL $02F0 lol
+LABEL $0724 lolstring
+LABEL $072B lolgraphic
+LABEL $0326 no_btn_psh
+LABEL $03D5 hidden_msg
+LABEL $06AD titlestring
+LABEL $0349 up
+LABEL $033D down
+LABEL $0355 changedir2up
+LABEL $0361 finish_pulse
+LABEL $035C changedir2down
+LABEL $06C0 startstring
+LABEL $0374 play_song
+LABEL $06D1 hidden1str
+LABEL $06DC hidden2str
+LABEL $040B sfx_doframe
+LABEL $041A sfx_checktonefreq
+LABEL $0487 sfx_endofeffect
+LABEL $0432 sfx_checknoisefreq
+LABEL $0441 sfx_checkvolume
+LABEL $044A sfx_checktonedisable
+LABEL $045C sfx_enabletone
+LABEL $0450 sfx_disabletone
+LABEL $0466 sfx_checknoisedisable
+LABEL $0478 sfx_enablenoise
+LABEL $046C sfx_disablenoise
+LABEL $0482 sfx_nextframe
+LABEL $05E2 SpudsLegsWalk3
+COMMENT_LABEL $05E2 TODO
+LABEL $06F7 owstr
+LABEL $0707 playagainstr
+LABEL $0761 abcd
+LABEL $07A2 musa
+LABEL $07AA *
+EQU $00 *xfer
+COMMENT_LINE $0000 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $0000 < Spudster's Revenge - a Play in 3 acts							<
+COMMENT_LINE $0000 > by Brian Mastrobuono (gauze@dropdead.org)						>
+COMMENT_LINE $0000 < copyright 2002-2014 GNU GPL licensed, use as you wish as long as <
+COMMENT_LINE $0000 > your changes in source form are made public					  >
+COMMENT_LINE $0000 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $0000 best viewed with vim :set ts=4  (www.vim.org)
+COMMENT_LINE $0000 BIOS ROUTINES and other crap
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 include "vecvox.i"
+COMMENT_LINE $0000 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+COMMENT_LINE $0000 VARIABLES
+COMMENT_LINE $0000 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+COMMENT_LINE $0000 data
+COMMENT_LINE $0000 org $C880
+COMMENT_LINE $0000 ;; player (Spud) values
+COMMENT_LINE $0000 missle
+COMMENT_LINE $0000 this routine take 2 bytes args
+COMMENT_LINE $0000 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+COMMENT_LINE $0000 @			CONSTANTS
+COMMENT_LINE $0000 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+COMMENT_LINE $0000 ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+COMMENT_LINE $0000 |			 SETTING UP AND MAIN BLOCK				  |
+COMMENT_LINE $0000 [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[
+COMMENT_LINE $0000 ; *** Init block
+COMMENT $000F X
+COMMENT $0010 Y
+COMMENT_LINE $0025 ;# end of magic init block.
+COMMENT_LINE $0025 end
+COMMENT $0025 sets up what hardware to use and stuff
+FORCE_SYMBOL $0025 setup
+FORCE_SYMBOL $0028 start
+COMMENT $002B wait for button press here before start
+FORCE_SYMBOL $002B titlescreen
+COMMENT $002E create an arrow
+FORCE_SYMBOL $002E arrow_create
+FORCE_SYMBOL $0031 Wait_Recal
+FORCE_SYMBOL $0034 Intensity_3F
+FORCE_NO_SYMBOL $0037
+FORCE_SYMBOL $0039 set_scale
+FORCE_NO_SYMBOL $003C
+FORCE_SYMBOL $003E guys_left
+FORCE_SYMBOL $0041 show_score
+COMMENT_LINE $0044 jsr		sound_update
+FORCE_SYMBOL $0044 joystick_crap
+FORCE_SYMBOL $0047 button_push
+COMMENT_LINE $004A SEE IF IT'S POSSIBLE TO 'SCORE'
+FORCE_SYMBOL $004A spud_xpos
+COMMENT $004D right next 2 molly
+FORCE_NO_SYMBOL $004D
+FORCE_SYMBOL $0051 check_if_score
+FORCE_SYMBOL $0054 draw_post
+FORCE_SYMBOL $0057 draw_molly
+COMMENT $005A TODO
+FORCE_SYMBOL $005A draw_mollysface
+FORCE_SYMBOL $005D draw_mollyslegs
+FORCE_SYMBOL $0060 draw_spud
+COMMENT $0063 TODO
+FORCE_SYMBOL $0063 draw_spudslegs
+FORCE_SYMBOL $0066 Reset0Int
+FORCE_SYMBOL $0069 draw_arrow
+COMMENT_LINE $006C collision
+FORCE_NO_SYMBOL $006C
+FORCE_SYMBOL $006E set_scale
+FORCE_SYMBOL $0071 arrow_coor
+FORCE_SYMBOL $0074 spud_coor
+COMMENT $0078 MUST fix ; spud h+arrow h/2
+FORCE_NO_SYMBOL $0078
+COMMENT $007A MUST fix ; spud w+arrow h/2
+FORCE_NO_SYMBOL $007A
+FORCE_SYMBOL $007C Obj_Hit
+FORCE_SYMBOL $0083 got_hit
+FORCE_SYMBOL $0086 arrow_create
+COMMENT_LINE $0089 move the arrow for next frame (or not)
+COMMENT $0089 check frame countdown
+FORCE_SYMBOL $0089 currentframe
+FORCE_NO_SYMBOL $008C
+COMMENT $008E still counting frames if false
+COMMENT $0090 reseting frame counter
+FORCE_SYMBOL $0090 level
+FORCE_SYMBOL $0093 time_frames
+COMMENT $0098 ^^
+FORCE_SYMBOL $0098 currentframe
+FORCE_SYMBOL $009B level
+FORCE_SYMBOL $009E speed_distance
+FORCE_SYMBOL $00A3 move_arrow
+COMMENT $00A9 check if it's at legal pos
+FORCE_SYMBOL $00A9 arrow_in_bounds
+FORCE_SYMBOL $00AC currentframe
+COMMENT_LINE $00AF checking for game over condition...
+FORCE_SYMBOL $00AF spuds_left
+COMMENT $00B2 jump to top
+FORCE_SYMBOL $00B6 gameoverloop
+COMMENT_LINE $00B9 *** end of main ***
+COMMENT_LINE $00B9 #######################################################
+COMMENT_LINE $00B9 SUBROUTINES/FUNCTIONS
+COMMENT_LINE $00B9 #######################################################
+COMMENT_LINE $00B9 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $00B9 < Spudster's Revenge - a Play in 3 acts                            <
+COMMENT_LINE $00B9 > by Brian Mastrobuono (gauze@dropdead.org)                        >
+COMMENT_LINE $00B9 < copyright 2002-2013 GNU GPL licensed, use as you wish as long as <
+COMMENT_LINE $00B9 > your changes in source form are made public                      >
+COMMENT_LINE $00B9 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $00B9 best viewed with vim :set ts=4  (www.vim.org)
+COMMENT_LINE $00B9 #######################################################
+COMMENT_LINE $00B9 SUBROUTINES/FUNCTIONS
+COMMENT_LINE $00B9 #######################################################
+FORCE_NO_SYMBOL $00B9
+COMMENT $00BB height
+FORCE_SYMBOL $00BB arrow_y
+FORCE_SYMBOL $00BE Random
+COMMENT_LINE $00C1 anda	#%01111111	; mask off 1st bit == positive numbers only
+COMMENT $00C1 set random x coord
+FORCE_SYMBOL $00C1 arrow_x
+COMMENT_LINE $00C5 display score, once per frame ...
+FORCE_SYMBOL $00C5 score
+FORCE_SYMBOL $00CC Print_Str_d
+FORCE_SYMBOL $00D0 highscore
+FORCE_NO_SYMBOL $00D3
+FORCE_SYMBOL $00D7 Print_Str_d
+COMMENT $00DB decimal score stored as a reference
+FORCE_SYMBOL $00DB dec_score
+FORCE_NO_SYMBOL $00DE
+FORCE_SYMBOL $00E1 dec_score
+FORCE_NO_SYMBOL $00E4
+FORCE_SYMBOL $00E6 score
+FORCE_SYMBOL $00E9 Add_Score_a
+COMMENT $00EC level
+FORCE_SYMBOL $00EC level
+COMMENT $00EF 50
+FORCE_NO_SYMBOL $00EF
+COMMENT $00F1 times
+COMMENT $00F2 if register > memory branch
+FORCE_SYMBOL $00F2 dec_score
+FORCE_SYMBOL $00F8 level
+FORCE_SYMBOL $00FC Read_Btns
+FORCE_SYMBOL $00FF Vec_Button_1_1
+FORCE_SYMBOL $0104 inc_score
+FORCE_NO_SYMBOL $0107
+FORCE_SYMBOL $0109 mollystate
+FORCE_SYMBOL $010C spudstate
+FORCE_SYMBOL $0110 level
+COMMENT_LINE $0113 add more stuff to increase game speed?
+FORCE_NO_SYMBOL $0114
+FORCE_SYMBOL $0116 set_scale
+FORCE_SYMBOL $0119 arrow_y
+FORCE_SYMBOL $011C arrow_x
+FORCE_SYMBOL $011F Moveto_d
+FORCE_SYMBOL $0122 Arrow
+FORCE_SYMBOL $0125 Draw_VLc
+COMMENT_LINE $0129 start of arrow bounds checking
+COMMENT_LINE $0129 x test
+FORCE_SYMBOL $0129 arrow_x
+COMMENT_LINE $0132 y test
+FORCE_SYMBOL $0132 arrow_y
+COMMENT_LINE $013A end of arrow bounds checking
+FORCE_NO_SYMBOL $013A
+FORCE_SYMBOL $013C set_scale
+FORCE_NO_SYMBOL $013F
+FORCE_SYMBOL $0142 Moveto_d
+FORCE_SYMBOL $0145 Intensity_3F
+FORCE_SYMBOL $0148 Post
+FORCE_SYMBOL $014B Draw_VLp
+FORCE_NO_SYMBOL $014F
+FORCE_SYMBOL $0151 set_scale
+FORCE_SYMBOL $0154 Molly
+FORCE_SYMBOL $0157 Draw_VLp
+COMMENT_LINE $015B TODO
+COMMENT_LINE $015B include bow animation?
+FORCE_NO_SYMBOL $015B
+FORCE_SYMBOL $015D set_scale
+FORCE_SYMBOL $0160 MollysFace
+COMMENT $0163 if state !=1
+FORCE_SYMBOL $0163 mollystate
+COMMENT $0166 branch
+FORCE_SYMBOL $0168 MollysFaceHum
+FORCE_SYMBOL $016B Draw_VLp
+FORCE_SYMBOL $016F MollysLegs
+COMMENT $0172 if state !=1
+FORCE_SYMBOL $0172 mollystate
+COMMENT $0175 branch
+FORCE_SYMBOL $0177 MollysLegsHum
+FORCE_SYMBOL $017A mollystate
+FORCE_NO_SYMBOL $017D
+FORCE_SYMBOL $017F set_scale
+FORCE_SYMBOL $0182 Draw_VLp
+FORCE_NO_SYMBOL $0186
+FORCE_SYMBOL $0188 set_scale
+FORCE_SYMBOL $018B Reset0Int
+FORCE_SYMBOL $018E spud_ypos
+FORCE_SYMBOL $0191 spud_xpos
+FORCE_SYMBOL $0194 Moveto_d
+FORCE_SYMBOL $0197 Spud
+COMMENT $019A if state !=1
+FORCE_SYMBOL $019A spudstate
+COMMENT $019D branch
+FORCE_SYMBOL $019F SpudHump
+FORCE_SYMBOL $01A2 Draw_VLp
+FORCE_NO_SYMBOL $01A6
+FORCE_SYMBOL $01A8 set_scale
+FORCE_SYMBOL $01AB SpudsLegsWalk1
+FORCE_SYMBOL $01AE spud_xpos
+COMMENT $01B1 mask 1 bit testing for odd number ...
+FORCE_NO_SYMBOL $01B1
+FORCE_SYMBOL $01B5 SpudsLegsWalk2
+COMMENT $01B8 if state !=1
+FORCE_SYMBOL $01B8 spudstate
+COMMENT $01BB branch
+FORCE_SYMBOL $01BD SpudsLegsHum
+FORCE_SYMBOL $01C0 spudstate
+FORCE_SYMBOL $01C3 Draw_VLp
+COMMENT_LINE $01C7 TODO
+FORCE_SYMBOL $01C8 arrow_x
+FORCE_SYMBOL $01CB arrow_y
+FORCE_SYMBOL $01D0 Joy_Digital
+FORCE_SYMBOL $01D3 Vec_Joy_1_X
+COMMENT $01D6 end
+FORCE_SYMBOL $01DA spud_xpos
+FORCE_NO_SYMBOL $01DD
+COMMENT $01DF if >= 52 don't move.
+FORCE_SYMBOL $01E1 spud_xpos
+FORCE_NO_SYMBOL $01E4
+FORCE_SYMBOL $01E6 spud_xpos
+FORCE_SYMBOL $01EB spud_xpos
+FORCE_SYMBOL $01F2 spud_xpos
+FORCE_NO_SYMBOL $01F5
+FORCE_SYMBOL $01F7 spud_xpos
+COMMENT_LINE $01FD Lost a guy ...
+FORCE_SYMBOL $01FD spuds_left
+FORCE_NO_SYMBOL $0200
+FORCE_SYMBOL $0202 count
+FORCE_SYMBOL $0205 spudstate
+COMMENT_LINE $0208 play sound
+COMMENT_LINE $0208 ldx #ploop
+COMMENT_LINE $0208 stx sfx_pointer
+COMMENT_LINE $0208 lda #$01
+COMMENT_LINE $0208 sta sfx_status
+COMMENT_LINE $0208 jsr sfx_doframe
+FORCE_SYMBOL $0208 Wait_Recal
+FORCE_NO_SYMBOL $020B
+FORCE_SYMBOL $020D set_scale
+FORCE_SYMBOL $0210 Intensity_5F
+FORCE_NO_SYMBOL $0213
+FORCE_SYMBOL $0217 Moveto_d
+FORCE_SYMBOL $021A letter_O
+FORCE_SYMBOL $021D Draw_VLp
+FORCE_SYMBOL $0220 Reset0Ref
+FORCE_NO_SYMBOL $0223
+FORCE_NO_SYMBOL $0225
+FORCE_SYMBOL $0227 Moveto_d
+FORCE_SYMBOL $022A letter_W
+FORCE_SYMBOL $022D Draw_VLp
+FORCE_SYMBOL $0230 Reset0Ref
+COMMENT_LINE $0233 lda		#-10
+COMMENT_LINE $0233 ldb		#96
+COMMENT_LINE $0233 std		Vec_Text_HW
+COMMENT_LINE $0233 ldu		#owstr
+COMMENT_LINE $0233 lda 	#0
+COMMENT_LINE $0233 ldb		#36
+COMMENT_LINE $0233 jsr 	Print_Str_d
+COMMENT_LINE $0233 shrink spud
+FORCE_NO_SYMBOL $0233
+FORCE_SYMBOL $0235 set_scale
+FORCE_SYMBOL $0238 spud_ypos
+FORCE_SYMBOL $023B spud_xpos
+FORCE_SYMBOL $023E Moveto_d
+FORCE_SYMBOL $0241 count
+FORCE_SYMBOL $0244 set_scale
+FORCE_SYMBOL $0247 SpudDead
+FORCE_SYMBOL $024A Draw_VLp
+COMMENT_LINE $024D jsr		Reset0Ref
+FORCE_SYMBOL $024D count
+FORCE_SYMBOL $0250 set_scale
+COMMENT_LINE $0253 lda		spud_ypos
+COMMENT_LINE $0253 ldb		spud_xpos
+COMMENT_LINE $0253 jsr 	Moveto_d
+FORCE_SYMBOL $0253 SpudsLegsWalk2
+FORCE_SYMBOL $0256 Draw_VLp
+FORCE_SYMBOL $0259 count
+FORCE_SYMBOL $025C count
+FORCE_SYMBOL $025F count
+FORCE_SYMBOL $0262 count
+FORCE_SYMBOL $0265 count
+FORCE_SYMBOL $0268 count
+COMMENT $026D loop
+COMMENT $026F reload counter
+FORCE_NO_SYMBOL $026F
+FORCE_SYMBOL $0271 count
+FORCE_SYMBOL $0274 Wait_Recal
+FORCE_NO_SYMBOL $0277
+FORCE_SYMBOL $0279 set_scale
+FORCE_SYMBOL $027C spud_ypos
+FORCE_SYMBOL $027F spud_xpos
+FORCE_SYMBOL $0282 Moveto_d
+FORCE_SYMBOL $0285 Intensity_3F
+FORCE_NO_SYMBOL $0288
+FORCE_SYMBOL $028A set_scale
+FORCE_SYMBOL $028D SpudDeadFinal
+FORCE_SYMBOL $0290 Draw_VLp
+FORCE_SYMBOL $0293 count
+COMMENT_LINE $0298 reset spud position
+FORCE_SYMBOL $0298 spud_start
+FORCE_SYMBOL $029B spud_xpos
+FORCE_SYMBOL $029F Wait_Recal
+FORCE_SYMBOL $02A2 Intensity_3F
+FORCE_SYMBOL $02A5 gameoverstr
+FORCE_NO_SYMBOL $02A8
+FORCE_NO_SYMBOL $02AA
+FORCE_SYMBOL $02AC Print_Str_d
+FORCE_SYMBOL $02AF show_score
+COMMENT $02B2 update highscore if needed
+FORCE_SYMBOL $02B2 score
+FORCE_SYMBOL $02B5 highscore
+FORCE_SYMBOL $02B8 New_High_Score
+FORCE_SYMBOL $02BB highscorestr
+FORCE_NO_SYMBOL $02BE
+FORCE_NO_SYMBOL $02C0
+COMMENT $02C2 print highscore label
+FORCE_SYMBOL $02C2 Print_Str_d
+FORCE_SYMBOL $02C5 show_highscore
+FORCE_SYMBOL $02C8 lolscore
+FORCE_SYMBOL $02CB score
+FORCE_SYMBOL $02CE Compare_Score
+FORCE_NO_SYMBOL $02D1
+COMMENT $02D5 pause a little before taking button input
+FORCE_NO_SYMBOL $02D5
+FORCE_SYMBOL $02D8 Delay_b
+FORCE_SYMBOL $02DB Read_Btns
+FORCE_SYMBOL $02DE Vec_Button_1_1
+FORCE_SYMBOL $02E1 Vec_Button_1_2
+FORCE_SYMBOL $02E4 Vec_Button_1_3
+FORCE_SYMBOL $02E7 Vec_Button_1_4
+FORCE_SYMBOL $02F0 lolstring
+FORCE_NO_SYMBOL $02F3
+FORCE_NO_SYMBOL $02F5
+FORCE_SYMBOL $02F7 Print_Str_d
+FORCE_NO_SYMBOL $02FA
+FORCE_SYMBOL $02FC set_scale
+FORCE_SYMBOL $02FF lolgraphic
+FORCE_SYMBOL $0302 Draw_VLp
+FORCE_NO_SYMBOL $0308
+FORCE_SYMBOL $030A Read_Btns_Mask
+FORCE_SYMBOL $030D Vec_Button_1_1
+FORCE_SYMBOL $0314 Vec_Button_1_2
+FORCE_SYMBOL $0319 Vec_Button_1_3
+FORCE_SYMBOL $031E Vec_Button_1_4
+COMMENT $0323 all 3 buttons pushed
+FORCE_SYMBOL $0323 hidden_msg
+FORCE_SYMBOL $0328 Wait_Recal
+FORCE_SYMBOL $032B Intensity_5F
+FORCE_SYMBOL $032E titlestring
+FORCE_NO_SYMBOL $0331
+FORCE_SYMBOL $0335 Print_Str_d
+COMMENT_LINE $0338 ; start variable intensity routine NEED 2 FIX
+COMMENT $0338 Load variable saying which
+FORCE_SYMBOL $0338 brightdir
+COMMENT $033B direction we're going & test
+COMMENT $033D load the 'level' of bright
+FORCE_SYMBOL $033D intlevel
+FORCE_SYMBOL $0340 intlevel
+COMMENT $0343 compare it to our threshhold
+FORCE_SYMBOL $0343 MINBRIGHT
+COMMENT $0345 if yes:
+FORCE_SYMBOL $0349 intlevel
+FORCE_SYMBOL $034C intlevel
+FORCE_SYMBOL $034F MAXBRIGHT
+FORCE_NO_SYMBOL $0355
+FORCE_SYMBOL $0357 brightdir
+FORCE_NO_SYMBOL $035C
+FORCE_SYMBOL $035E brightdir
+FORCE_SYMBOL $0361 intlevel
+COMMENT $0364 set intensity here
+FORCE_SYMBOL $0364 Intensity_a
+COMMENT_LINE $0367 end intensity routine
+FORCE_SYMBOL $0367 startstring
+FORCE_SYMBOL $036E Print_Str_d
+COMMENT $0371 if not pushed ... loop
+COMMENT $0374 movqi: #1 -> R:b
+FORCE_NO_SYMBOL $0374
+COMMENT $0376 movhi: R:x -> _current_song
+FORCE_SYMBOL $0376 current_song
+COMMENT $0379 direction 0 down 1 up
+FORCE_SYMBOL $0379 brightdir
+FORCE_SYMBOL $037C Do_Sound
+COMMENT $037F return from function
+COMMENT $0380 enable  joystick 1's x axis, disable all others.
+FORCE_NO_SYMBOL $0380
+FORCE_SYMBOL $0382 Vec_Joy_Mux_1_X
+FORCE_SYMBOL $0385 highscore
+COMMENT $0388 Bios routine yay
+FORCE_SYMBOL $0388 Clear_Score
+FORCE_NO_SYMBOL $038B
+COMMENT $038D intensity level
+FORCE_SYMBOL $038D intlevel
+COMMENT $0390 disable for Joy Mux's
+FORCE_NO_SYMBOL $0390
+FORCE_SYMBOL $0392 Vec_Joy_Mux_1_Y
+FORCE_SYMBOL $0395 Vec_Joy_Mux_2_X
+FORCE_SYMBOL $0398 Vec_Joy_Mux_2_Y
+COMMENT $039B set joymode, not analog.
+FORCE_SYMBOL $039B Joy_Digital
+FORCE_NO_SYMBOL $039E
+COMMENT_LINE $03A0 jsr		vox_init
+COMMENT_LINE $03A0 jsr 	Read_Btns		; no idea why this is here.
+COMMENT_LINE $03A0 jsr 	Wait_Recal
+COMMENT $03A0 return from function
+FORCE_NO_SYMBOL $03A1
+FORCE_SYMBOL $03A3 spuds_left
+FORCE_SYMBOL $03A6 score
+FORCE_SYMBOL $03A9 Clear_Score
+FORCE_NO_SYMBOL $03AC
+FORCE_SYMBOL $03AE spudstate
+FORCE_SYMBOL $03B1 mollystate
+FORCE_NO_SYMBOL $03B4
+FORCE_SYMBOL $03B7 dec_score
+FORCE_NO_SYMBOL $03BA
+FORCE_SYMBOL $03BC level
+COMMENT $03BF setting initial frame counter
+FORCE_SYMBOL $03BF time_frames
+COMMENT $03C4 ^^
+FORCE_SYMBOL $03C4 currentframe
+FORCE_SYMBOL $03C9 spud_start
+FORCE_SYMBOL $03CC spud_xpos
+FORCE_NO_SYMBOL $03CF
+FORCE_SYMBOL $03D1 spud_ypos
+COMMENT_LINE $03D5 show hidden msg requires reset to escape
+FORCE_SYMBOL $03D5 Intensity_3F
+FORCE_SYMBOL $03D8 Wait_Recal
+FORCE_SYMBOL $03DB hidden1str
+FORCE_NO_SYMBOL $03DE
+FORCE_SYMBOL $03E2 Print_Str_d
+FORCE_SYMBOL $03E5 hidden2str
+FORCE_SYMBOL $03EC Print_Str_d
+COMMENT $03EF no escape
+COMMENT_LINE $03F1 start_one_vectrex_round
+COMMENT_LINE $03F1 ldb		#200	;movqi: #200 -> R:b
+COMMENT_LINE $03F1 tfr 	b,dp 	; = dp to b (dp is direct page reg)
+COMMENT_LINE $03F1 pshs 	y 	; save y register to HW stack
+COMMENT_LINE $03F1 ldu		current_song	;movhi: _current_song -> R:u
+COMMENT_LINE $03F1 jsr 	Init_Music_chk
+COMMENT_LINE $03F1 puls 	y 	; restore y register
+COMMENT_LINE $03F1 jsr 	Wait_Recal 	; wait_recal
+COMMENT_LINE $03F1 jsr 	Do_Sound 	; do_sound
+COMMENT_LINE $03F1 rts		; return from function
+FORCE_SYMBOL $03F1 Intensity_3F
+COMMENT $03F4 fix
+COMMENT $03F6 change
+FORCE_NO_SYMBOL $03F6
+FORCE_SYMBOL $03F8 coord
+FORCE_NO_SYMBOL $03FB
+FORCE_SYMBOL $03FD spuds_left
+FORCE_SYMBOL $0400 coord
+FORCE_SYMBOL $0403 Print_Ships
+COMMENT $0407 VIA t1 cnt lo register.
+FORCE_NO_SYMBOL $0407
+COMMENT_LINE $040B sfx_pointer	EQU	$c880
+COMMENT_LINE $040B sfx_status	EQU	$c882
+COMMENT_LINE $040B LDX #sfx4					; play sfx4
+COMMENT_LINE $040B STX sfx_pointer
+COMMENT_LINE $040B LDA #$01
+COMMENT_LINE $040B STA sfx_status
+COMMENT $040B get current frame pointer
+FORCE_SYMBOL $040B sfx_pointer
+FORCE_NO_SYMBOL $040E
+COMMENT $0410 check first flag byte D0
+FORCE_NO_SYMBOL $0410
+COMMENT $0412 no match - continue to process frame
+FORCE_NO_SYMBOL $0414
+COMMENT $0416 check second flag byte 20
+FORCE_NO_SYMBOL $0416
+COMMENT $0418 match - end of effect found so stop playing
+COMMENT $041A init Y as pointer to next data or flag byte
+FORCE_NO_SYMBOL $041A
+COMMENT $041C check if need to set tone freq
+FORCE_NO_SYMBOL $041C
+COMMENT $041E if bit 5 of B is set
+FORCE_NO_SYMBOL $041E
+COMMENT $0420 skip as no tone freq data
+COMMENT $0422 get next data byte and copy to tone freq reg4
+FORCE_NO_SYMBOL $0422
+FORCE_NO_SYMBOL $0424
+COMMENT $0426 set tone freq
+FORCE_SYMBOL $0426 Sound_Byte
+COMMENT $0429 get next data byte and copy to tone freq reg5
+FORCE_NO_SYMBOL $0429
+FORCE_NO_SYMBOL $042B
+COMMENT $042D set tone freq
+FORCE_SYMBOL $042D Sound_Byte
+COMMENT $0430 increment pointer to next data/flag byte
+FORCE_NO_SYMBOL $0430
+COMMENT $0432 check if need to set noise freq
+FORCE_NO_SYMBOL $0432
+COMMENT $0434 if bit 6 of B is only set
+FORCE_NO_SYMBOL $0434
+COMMENT $0436 skip as no noise freq data
+COMMENT $0438 get next data byte and copy to noise freq reg
+FORCE_NO_SYMBOL $0438
+FORCE_NO_SYMBOL $043A
+COMMENT $043C set noise freq
+FORCE_SYMBOL $043C Sound_Byte
+COMMENT $043F increment pointer to next flag byte
+FORCE_NO_SYMBOL $043F
+COMMENT $0441 set volume on channel 3
+FORCE_NO_SYMBOL $0441
+COMMENT $0443 get volume from bits 0-3
+FORCE_NO_SYMBOL $0443
+COMMENT $0445 set reg10
+FORCE_NO_SYMBOL $0445
+COMMENT $0447 Set volume
+FORCE_SYMBOL $0447 Sound_Byte
+COMMENT $044A check disable tone channel 3
+FORCE_NO_SYMBOL $044A
+COMMENT $044C if bit 4 of B is set disable the tone
+FORCE_NO_SYMBOL $044C
+COMMENT $0450 set bit2 in reg7
+FORCE_NO_SYMBOL $0450
+FORCE_NO_SYMBOL $0453
+FORCE_NO_SYMBOL $0455
+COMMENT $0457 disable tone
+FORCE_SYMBOL $0457 Sound_Byte
+COMMENT $045C clear bit2 in reg7
+FORCE_NO_SYMBOL $045C
+FORCE_NO_SYMBOL $045F
+FORCE_NO_SYMBOL $0461
+COMMENT $0463 enable tone
+FORCE_SYMBOL $0463 Sound_Byte
+COMMENT $0466 check disable noise
+FORCE_NO_SYMBOL $0466
+COMMENT $0468 if bit7 of B is set disable noise
+FORCE_NO_SYMBOL $0468
+COMMENT $046C set bit5 in reg7
+FORCE_NO_SYMBOL $046C
+FORCE_NO_SYMBOL $046F
+FORCE_NO_SYMBOL $0471
+COMMENT $0473 disable noise
+FORCE_SYMBOL $0473 Sound_Byte
+COMMENT $0478 clear bit5 in reg 7
+FORCE_NO_SYMBOL $0478
+FORCE_NO_SYMBOL $047B
+FORCE_NO_SYMBOL $047D
+COMMENT $047F enable noise
+FORCE_SYMBOL $047F Sound_Byte
+COMMENT $0482 update frame pointer to next flag byte in Y
+FORCE_SYMBOL $0482 sfx_pointer
+COMMENT $0487 set volume off channel 3
+FORCE_NO_SYMBOL $0487
+COMMENT $0489 set reg1sf0
+FORCE_NO_SYMBOL $0489
+COMMENT $048B Set volume
+FORCE_SYMBOL $048B Sound_Byte
+COMMENT $048E reset sfx
+FORCE_NO_SYMBOL $048E
+FORCE_SYMBOL $0491 sfx_pointer
+FORCE_SYMBOL $0494 sfx_status
+COMMENT_LINE $0498 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+COMMENT_LINE $0498 DATA SECTION
+COMMENT_LINE $0498 ********************************************************
+COMMENT_LINE $0498 DATA section
+COMMENT $0498 BODY crotch (should start here)
+COMMENT $049B left ribs
+COMMENT $049E left ear
+COMMENT $04A1 top of head
+COMMENT $04A4 right ear
+COMMENT $04A7 right ribs
+COMMENT $04AA relocate to left ear ...
+COMMENT $04AD eyes
+COMMENT $04C8 DICK
+COMMENT $04DD mouth
+COMMENT $04F3 BODY crotch (should start here)
+COMMENT $04F6 left ribs
+COMMENT $04F9 left ear
+COMMENT $04FC top of head
+COMMENT $04FF right ear
+COMMENT $0502 right ribs
+COMMENT $0505 relocate to left ear ...
+COMMENT $0508 eyes
+COMMENT $0523 diiiiick
+COMMENT $0538 mouth
+COMMENT $0548 BODY crotch (should start here)
+COMMENT $054B left ribs
+COMMENT $054E left ear
+COMMENT $0551 top of head
+COMMENT $0554 right ear
+COMMENT $0557 right ribs
+COMMENT $055A relocate to left ear ...
+COMMENT $055D eyes
+COMMENT $0575 DICK
+COMMENT $058A mouth
+COMMENT $05AD left leg
+COMMENT $05B0 foot
+COMMENT $05B3 foot
+COMMENT $05B6 foot
+COMMENT $05B9 reset
+COMMENT $05BC right leg
+COMMENT $05BF foot
+COMMENT $05C2 foot
+COMMENT $05C5 foot
+COMMENT $0627 from bottom of post
+COMMENT $062A bottom of skirt
+COMMENT $062D left hem
+COMMENT $0630 hem line
+COMMENT $0633 right hem
+COMMENT $0636 dress right
+COMMENT $0639 head 5
+COMMENT $063C head 6
+COMMENT $063F head 7
+COMMENT $0642 head 8
+COMMENT $0645 head 9
+COMMENT $0648 head 10
+COMMENT $064B head 11
+COMMENT $064E head 12
+COMMENT $0651 head 3oclock
+COMMENT $0654 head 4oclock
+COMMENT $0657 invisible normally neckline
+COMMENT $065A left dress
+COMMENT $065D left hem
+COMMENT_LINE $06AD TEXT DATA
+COMMENT_LINE $078E arrow speed table below, speed is distance of movement, frames is number of frames (time)
+COMMENT_LINE $07AA include "sound2.asm"
+RANGE $0000-$000A CHAR_DATA 10
+RANGE $000A-$000B DB_DATA 1
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$000F DW_DATA 1
+RANGE $000F-$0010 DB_DATA 1
+RANGE $0010-$0011 DB_DATA 1
+RANGE $0011-$0023 CHAR_DATA 18
+RANGE $0023-$0024 DB_DATA 1
+RANGE $0024-$0025 DB_DATA 1
+RANGE $0025-$0498 CODE
+RANGE $0498-$049B DB_DATA 3
+RANGE $049B-$049E DB_DATA 3
+RANGE $049E-$04A1 DB_DATA 3
+RANGE $04A1-$04A4 DB_DATA 3
+RANGE $04A4-$04A7 DB_DATA 3
+RANGE $04A7-$04AA DB_DATA 3
+RANGE $04AA-$04AD DB_DATA 3
+RANGE $04AD-$04B0 DB_DATA 3
+RANGE $04B0-$04B3 DB_DATA 3
+RANGE $04B3-$04B6 DB_DATA 3
+RANGE $04B6-$04B9 DB_DATA 3
+RANGE $04B9-$04BC DB_DATA 3
+RANGE $04BC-$04BF DB_DATA 3
+RANGE $04BF-$04C2 DB_DATA 3
+RANGE $04C2-$04C5 DB_DATA 3
+RANGE $04C5-$04C8 DB_DATA 3
+RANGE $04C8-$04CB DB_DATA 3
+RANGE $04CB-$04CE DB_DATA 3
+RANGE $04CE-$04D1 DB_DATA 3
+RANGE $04D1-$04D4 DB_DATA 3
+RANGE $04D4-$04D7 DB_DATA 3
+RANGE $04D7-$04DA DB_DATA 3
+RANGE $04DA-$04DD DB_DATA 3
+RANGE $04DD-$04E0 DB_DATA 3
+RANGE $04E0-$04E3 DB_DATA 3
+RANGE $04E3-$04E6 DB_DATA 3
+RANGE $04E6-$04E9 DB_DATA 3
+RANGE $04E9-$04EC DB_DATA 3
+RANGE $04EC-$04EF DB_DATA 3
+RANGE $04EF-$04F2 DB_DATA 3
+RANGE $04F2-$04F3 DB_DATA 1
+RANGE $04F3-$04F6 DB_DATA 3
+RANGE $04F6-$04F9 DB_DATA 3
+RANGE $04F9-$04FC DB_DATA 3
+RANGE $04FC-$04FF DB_DATA 3
+RANGE $04FF-$0502 DB_DATA 3
+RANGE $0502-$0505 DB_DATA 3
+RANGE $0505-$0508 DB_DATA 3
+RANGE $0508-$050B DB_DATA 3
+RANGE $050B-$050E DB_DATA 3
+RANGE $050E-$0511 DB_DATA 3
+RANGE $0511-$0514 DB_DATA 3
+RANGE $0514-$0517 DB_DATA 3
+RANGE $0517-$051A DB_DATA 3
+RANGE $051A-$051D DB_DATA 3
+RANGE $051D-$0520 DB_DATA 3
+RANGE $0520-$0523 DB_DATA 3
+RANGE $0523-$0526 DB_DATA 3
+RANGE $0526-$0529 DB_DATA 3
+RANGE $0529-$052C DB_DATA 3
+RANGE $052C-$052F DB_DATA 3
+RANGE $052F-$0532 DB_DATA 3
+RANGE $0532-$0535 DB_DATA 3
+RANGE $0535-$0538 DB_DATA 3
+RANGE $0538-$053B DB_DATA 3
+RANGE $053B-$053E DB_DATA 3
+RANGE $053E-$0541 DB_DATA 3
+RANGE $0541-$0544 DB_DATA 3
+RANGE $0544-$0547 DB_DATA 3
+RANGE $0547-$0548 DB_DATA 1
+RANGE $0548-$054B DB_DATA 3
+RANGE $054B-$054E DB_DATA 3
+RANGE $054E-$0551 DB_DATA 3
+RANGE $0551-$0554 DB_DATA 3
+RANGE $0554-$0557 DB_DATA 3
+RANGE $0557-$055A DB_DATA 3
+RANGE $055A-$055D DB_DATA 3
+RANGE $055D-$0560 DB_DATA 3
+RANGE $0560-$0563 DB_DATA 3
+RANGE $0563-$0566 DB_DATA 3
+RANGE $0566-$0569 DB_DATA 3
+RANGE $0569-$056C DB_DATA 3
+RANGE $056C-$056F DB_DATA 3
+RANGE $056F-$0572 DB_DATA 3
+RANGE $0572-$0575 DB_DATA 3
+RANGE $0575-$0578 DB_DATA 3
+RANGE $0578-$057B DB_DATA 3
+RANGE $057B-$057E DB_DATA 3
+RANGE $057E-$0581 DB_DATA 3
+RANGE $0581-$0584 DB_DATA 3
+RANGE $0584-$0587 DB_DATA 3
+RANGE $0587-$058A DB_DATA 3
+RANGE $058A-$058D DB_DATA 3
+RANGE $058D-$0590 DB_DATA 3
+RANGE $0590-$0593 DB_DATA 3
+RANGE $0593-$0596 DB_DATA 3
+RANGE $0596-$0599 DB_DATA 3
+RANGE $0599-$059A DB_DATA 1
+RANGE $059A-$059D DB_DATA 3
+RANGE $059D-$05A0 DB_DATA 3
+RANGE $05A0-$05A3 DB_DATA 3
+RANGE $05A3-$05A6 DB_DATA 3
+RANGE $05A6-$05A9 DB_DATA 3
+RANGE $05A9-$05AA DB_DATA 1
+RANGE $05AA-$05AD DB_DATA 3
+RANGE $05AD-$05B0 DB_DATA 3
+RANGE $05B0-$05B3 DB_DATA 3
+RANGE $05B3-$05B6 DB_DATA 3
+RANGE $05B6-$05B9 DB_DATA 3
+RANGE $05B9-$05BC DB_DATA 3
+RANGE $05BC-$05BF DB_DATA 3
+RANGE $05BF-$05C2 DB_DATA 3
+RANGE $05C2-$05C5 DB_DATA 3
+RANGE $05C5-$05C8 DB_DATA 3
+RANGE $05C8-$05C9 DB_DATA 1
+RANGE $05C9-$05CC DB_DATA 3
+RANGE $05CC-$05CF DB_DATA 3
+RANGE $05CF-$05D2 DB_DATA 3
+RANGE $05D2-$05D5 DB_DATA 3
+RANGE $05D5-$05D8 DB_DATA 3
+RANGE $05D8-$05DB DB_DATA 3
+RANGE $05DB-$05DE DB_DATA 3
+RANGE $05DE-$05E1 DB_DATA 3
+RANGE $05E1-$05E2 DB_DATA 1
+RANGE $05E2-$05E5 DB_DATA 3
+RANGE $05E5-$05E8 DB_DATA 3
+RANGE $05E8-$05EB DB_DATA 3
+RANGE $05EB-$05EE DB_DATA 3
+RANGE $05EE-$05F1 DB_DATA 3
+RANGE $05F1-$05F4 DB_DATA 3
+RANGE $05F4-$05F7 DB_DATA 3
+RANGE $05F7-$05FA DB_DATA 3
+RANGE $05FA-$05FB DB_DATA 1
+RANGE $05FB-$05FE DB_DATA 3
+RANGE $05FE-$0601 DB_DATA 3
+RANGE $0601-$0604 DB_DATA 3
+RANGE $0604-$0607 DB_DATA 3
+RANGE $0607-$060A DB_DATA 3
+RANGE $060A-$060D DB_DATA 3
+RANGE $060D-$0610 DB_DATA 3
+RANGE $0610-$0613 DB_DATA 3
+RANGE $0613-$0614 DB_DATA 1
+RANGE $0614-$0617 DB_DATA 3
+RANGE $0617-$061A DB_DATA 3
+RANGE $061A-$061D DB_DATA 3
+RANGE $061D-$0620 DB_DATA 3
+RANGE $0620-$0623 DB_DATA 3
+RANGE $0623-$0626 DB_DATA 3
+RANGE $0626-$0627 DB_DATA 1
+RANGE $0627-$062A DB_DATA 3
+RANGE $062A-$062D DB_DATA 3
+RANGE $062D-$0630 DB_DATA 3
+RANGE $0630-$0633 DB_DATA 3
+RANGE $0633-$0636 DB_DATA 3
+RANGE $0636-$0639 DB_DATA 3
+RANGE $0639-$063C DB_DATA 3
+RANGE $063C-$063F DB_DATA 3
+RANGE $063F-$0642 DB_DATA 3
+RANGE $0642-$0645 DB_DATA 3
+RANGE $0645-$0648 DB_DATA 3
+RANGE $0648-$064B DB_DATA 3
+RANGE $064B-$064E DB_DATA 3
+RANGE $064E-$0651 DB_DATA 3
+RANGE $0651-$0654 DB_DATA 3
+RANGE $0654-$0657 DB_DATA 3
+RANGE $0657-$065A DB_DATA 3
+RANGE $065A-$065D DB_DATA 3
+RANGE $065D-$0660 DB_DATA 3
+RANGE $0660-$0661 DB_DATA 1
+RANGE $0661-$0664 DB_DATA 3
+RANGE $0664-$0667 DB_DATA 3
+RANGE $0667-$066A DB_DATA 3
+RANGE $066A-$066D DB_DATA 3
+RANGE $066D-$0670 DB_DATA 3
+RANGE $0670-$0673 DB_DATA 3
+RANGE $0673-$0676 DB_DATA 3
+RANGE $0676-$0679 DB_DATA 3
+RANGE $0679-$067C DB_DATA 3
+RANGE $067C-$067D DB_DATA 1
+RANGE $067D-$0680 DB_DATA 3
+RANGE $0680-$0683 DB_DATA 3
+RANGE $0683-$0686 DB_DATA 3
+RANGE $0686-$0689 DB_DATA 3
+RANGE $0689-$068C DB_DATA 3
+RANGE $068C-$068F DB_DATA 3
+RANGE $068F-$0692 DB_DATA 3
+RANGE $0692-$0695 DB_DATA 3
+RANGE $0695-$0696 DB_DATA 1
+RANGE $0696-$0699 DB_DATA 3
+RANGE $0699-$069A DB_DATA 1
+RANGE $069A-$069D DB_DATA 3
+RANGE $069D-$069E DB_DATA 1
+RANGE $069E-$069F DB_DATA 1
+RANGE $069F-$06A1 DB_DATA 2
+RANGE $06A1-$06A3 DB_DATA 2
+RANGE $06A3-$06A5 DB_DATA 2
+RANGE $06A5-$06A7 DB_DATA 2
+RANGE $06A7-$06A9 DB_DATA 2
+RANGE $06A9-$06AB DB_DATA 2
+RANGE $06AB-$06AD DB_DATA 2
+RANGE $06AD-$06BF CHAR_DATA 18
+RANGE $06BF-$06C0 DB_DATA 1
+RANGE $06C0-$06D0 CHAR_DATA 16
+RANGE $06D0-$06D1 DB_DATA 1
+RANGE $06D1-$06DB CHAR_DATA 10
+RANGE $06DB-$06DC DB_DATA 1
+RANGE $06DC-$06EB CHAR_DATA 15
+RANGE $06EB-$06EC DB_DATA 1
+RANGE $06EC-$06F6 CHAR_DATA 10
+RANGE $06F6-$06F7 DB_DATA 1
+RANGE $06F7-$06FC CHAR_DATA 5
+RANGE $06FC-$06FD DB_DATA 1
+RANGE $06FD-$0706 CHAR_DATA 9
+RANGE $0706-$0707 DB_DATA 1
+RANGE $0707-$071C CHAR_DATA 21
+RANGE $071C-$071D DB_DATA 1
+RANGE $071D-$0723 CHAR_DATA 6
+RANGE $0723-$0724 DB_DATA 1
+RANGE $0724-$072A CHAR_DATA 6
+RANGE $072A-$072B DB_DATA 1
+RANGE $072B-$072E DB_DATA 3
+RANGE $072E-$0731 DB_DATA 3
+RANGE $0731-$0734 DB_DATA 3
+RANGE $0734-$0735 DB_DATA 1
+RANGE $0735-$0738 DB_DATA 3
+RANGE $0738-$073B DB_DATA 3
+RANGE $073B-$073E DB_DATA 3
+RANGE $073E-$0741 DB_DATA 3
+RANGE $0741-$0744 DB_DATA 3
+RANGE $0744-$0747 DB_DATA 3
+RANGE $0747-$074A DB_DATA 3
+RANGE $074A-$074D DB_DATA 3
+RANGE $074D-$0750 DB_DATA 3
+RANGE $0750-$0751 DB_DATA 1
+RANGE $0751-$0754 DB_DATA 3
+RANGE $0754-$0757 DB_DATA 3
+RANGE $0757-$075A DB_DATA 3
+RANGE $075A-$075D DB_DATA 3
+RANGE $075D-$0760 DB_DATA 3
+RANGE $0760-$0761 DB_DATA 1
+RANGE $0761-$078D CHAR_DATA 44
+RANGE $078D-$078E DB_DATA 1
+RANGE $078E-$0798 DB_DATA 10
+RANGE $0798-$07A2 DB_DATA 10
+RANGE $07A2-$07A4 DW_DATA 1
+RANGE $07A4-$07A6 DW_DATA 1
+RANGE $07A6-$07A8 DB_DATA 2
+RANGE $07A8-$07AA DB_DATA 2
+

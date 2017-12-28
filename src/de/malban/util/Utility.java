@@ -42,6 +42,23 @@ public class Utility
         p.flush();
         return add;
     }
+    public static boolean isFilenameRelative(String relName)
+    {
+        if (relName.endsWith(File.separator)) relName = relName.substring(0, relName.length()-1);
+        String absName = de.malban.util.Utility.makeAbsolut(relName);
+        if (absName.endsWith(File.separator)) absName = absName.substring(0, absName.length()-1);
+        boolean isRelative = !relName.toLowerCase().equals(absName.toLowerCase());
+        
+        
+        return isRelative;
+    }
+    
+    public static String makeGlobalAbsolute(String relName)
+    {
+        relName = de.malban.util.UtilityFiles.convertSeperator(relName);
+        if (!isFilenameRelative(relName)) return relName;
+        return Global.mainPathPrefix+relName;
+    }
 
     public static String makeAbsolut(String relpath)
     {

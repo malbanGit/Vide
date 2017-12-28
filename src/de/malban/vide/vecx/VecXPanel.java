@@ -24,6 +24,7 @@ import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.ShowErrorDialog;
 import de.malban.gui.panels.LogPanel;
 import de.malban.jogl.JOGLSupport;
+import static de.malban.util.Utility.makeGlobalAbsolute;
 
 
 import de.malban.vide.ControllerConfig;
@@ -2412,7 +2413,7 @@ waitAMoment = false;
         
         if (cartProp.getFullFilename().size()>0)
         {
-            String name = Global.mainPathPrefix+convertSeperator(cartProp.getFullFilename().elementAt(0));
+            String name = makeGlobalAbsolute(de.malban.util.UtilityFiles.convertSeperator(cartProp.getFullFilename().elementAt(0)));
             jTextFieldstart.setText(name);
             lastOpenedDir = name;
         }
@@ -3413,6 +3414,14 @@ waitAMoment = false;
             }
         });
     }
-    
+    public long getTrackiCount()
+    {
+        return vecx.trackyCount;
+    }
+    public long getTrackiAbove()
+    {
+        return vecx.trackyAbove;
+    }
+
     
 }

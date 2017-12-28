@@ -1,0 +1,420 @@
+;!FILE /Users/chrissalo/NetBeansProjects/Vide/codelib/Snippets/Malban/YM/YM_PRG.pre.asx.s
+XH2
+H 8 areas CF global symbols 4 banks 1 modes
+M YM_PRG.pre.s
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+B rom base 0 size 8000 map 0 flags 7 fsfx _rom
+B ram base C880 size 36B map 0 flags 7 fsfx _ram
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .cartridge size 0 flags 8C80 bank 2
+A .text size 168 flags 8D80 bank 2
+S A$YM_PRG.pre.asx$703 Def0159
+S A$YM_PRG.pre.asx$640 Def0104
+S A$YM_PRG.pre.asx$622 Def00F6
+S A$YM_PRG.pre.asx$613 Def00F2
+S A$YM_PRG.pre.asx$550 Def00B3
+S A$YM_PRG.pre.asx$541 Def00A1
+S A$YM_PRG.pre.asx$523 Def0093
+S A$YM_PRG.pre.asx$433 Def002A
+S A$YM_PRG.pre.asx$406 Def0008
+S A$YM_PRG.pre.asx$704 Def015C
+S A$YM_PRG.pre.asx$650 Def010E
+S A$YM_PRG.pre.asx$641 Def0106
+S A$YM_PRG.pre.asx$623 Def00F8
+S A$YM_PRG.pre.asx$605 Def00E4
+S A$YM_PRG.pre.asx$551 Def00B5
+S A$YM_PRG.pre.asx$542 Def00A3
+S A$YM_PRG.pre.asx$524 Def0095
+S A$YM_PRG.pre.asx$461 Def0042
+S A$YM_PRG.pre.asx$425 Def0027
+S A$YM_PRG.pre.asx$416 Def0018
+S A$YM_PRG.pre.asx$407 Def000B
+S init_ym_sound Def0137
+S A$YM_PRG.pre.asx$705 Def015F
+S A$YM_PRG.pre.asx$642 Def0108
+S A$YM_PRG.pre.asx$606 Def00E6
+S A$YM_PRG.pre.asx$543 Def00A5
+S A$YM_PRG.pre.asx$516 Def008A
+S A$YM_PRG.pre.asx$507 Def007F
+S A$YM_PRG.pre.asx$471 Def0052
+S A$YM_PRG.pre.asx$462 Def0045
+S A$YM_PRG.pre.asx$453 Def003C
+S A$YM_PRG.pre.asx$435 Def002C
+S A$YM_PRG.pre.asx$408 Def000C
+S shifting_not_yet_done Def0117
+S no_phrase_d Def0097
+S A$YM_PRG.pre.asx$706 Def0161
+S A$YM_PRG.pre.asx$643 Def010A
+S A$YM_PRG.pre.asx$625 Def00FA
+S A$YM_PRG.pre.asx$580 Def00D1
+S A$YM_PRG.pre.asx$544 Def00A7
+S A$YM_PRG.pre.asx$517 Def008C
+S A$YM_PRG.pre.asx$508 Def0081
+S A$YM_PRG.pre.asx$472 Def0054
+S A$YM_PRG.pre.asx$436 Def002E
+S A$YM_PRG.pre.asx$418 Def001B
+S A$YM_PRG.pre.asx$409 Def000F
+S A$YM_PRG.pre.asx$707 Def0162
+S A$YM_PRG.pre.asx$680 Def0132
+S A$YM_PRG.pre.asx$662 Def0117
+S A$YM_PRG.pre.asx$653 Def0110
+S A$YM_PRG.pre.asx$644 Def010C
+S A$YM_PRG.pre.asx$608 Def00E8
+S A$YM_PRG.pre.asx$581 Def00D3
+S A$YM_PRG.pre.asx$572 Def00C4
+S A$YM_PRG.pre.asx$554 Def00B7
+S A$YM_PRG.pre.asx$545 Def00A9
+S A$YM_PRG.pre.asx$527 Def0097
+S A$YM_PRG.pre.asx$518 Def008E
+S A$YM_PRG.pre.asx$509 Def0083
+S A$YM_PRG.pre.asx$482 Def005E
+S A$YM_PRG.pre.asx$473 Def0056
+S A$YM_PRG.pre.asx$446 Def0038
+S A$YM_PRG.pre.asx$437 Def0030
+S A$YM_PRG.pre.asx$419 Def001D
+S more_bits Def00C4
+S A$YM_PRG.pre.asx$708 Def0164
+S A$YM_PRG.pre.asx$690 Def013D
+S A$YM_PRG.pre.asx$663 Def0118
+S A$YM_PRG.pre.asx$654 Def0112
+S A$YM_PRG.pre.asx$636 Def00FE
+S A$YM_PRG.pre.asx$609 Def00EA
+S A$YM_PRG.pre.asx$591 Def00D9
+S A$YM_PRG.pre.asx$582 Def00D5
+S A$YM_PRG.pre.asx$555 Def00BA
+S A$YM_PRG.pre.asx$546 Def00AB
+S A$YM_PRG.pre.asx$528 Def0099
+S A$YM_PRG.pre.asx$519 Def008F
+S A$YM_PRG.pre.asx$492 Def0067
+S A$YM_PRG.pre.asx$474 Def0058
+S A$YM_PRG.pre.asx$465 Def0048
+S A$YM_PRG.pre.asx$438 Def0032
+S A$YM_PRG.pre.asx$709 Def0167
+S A$YM_PRG.pre.asx$673 Def0122
+S A$YM_PRG.pre.asx$664 Def0119
+S A$YM_PRG.pre.asx$637 Def0100
+S A$YM_PRG.pre.asx$619 Def00F4
+S A$YM_PRG.pre.asx$574 Def00C7
+S A$YM_PRG.pre.asx$547 Def00AD
+S A$YM_PRG.pre.asx$538 Def009D
+S A$YM_PRG.pre.asx$529 Def009B
+S A$YM_PRG.pre.asx$475 Def005A
+S A$YM_PRG.pre.asx$466 Def004B
+S A$YM_PRG.pre.asx$439 Def0034
+S A$YM_PRG.pre.asx$692 Def0140
+S A$YM_PRG.pre.asx$674 Def0124
+S A$YM_PRG.pre.asx$665 Def011B
+S A$YM_PRG.pre.asx$656 Def0114
+S A$YM_PRG.pre.asx$593 Def00DB
+S A$YM_PRG.pre.asx$575 Def00C9
+S A$YM_PRG.pre.asx$548 Def00AF
+S A$YM_PRG.pre.asx$539 Def009F
+S A$YM_PRG.pre.asx$485 Def0060
+S A$YM_PRG.pre.asx$476 Def005C
+S A$YM_PRG.pre.asx$458 Def0040
+S A$YM_PRG.pre.asx$449 Def003A
+S A$YM_PRG.pre.asx$693 Def0143
+S A$YM_PRG.pre.asx$684 Def0134
+S A$YM_PRG.pre.asx$639 Def0102
+S A$YM_PRG.pre.asx$558 Def00BC
+S A$YM_PRG.pre.asx$549 Def00B1
+S A$YM_PRG.pre.asx$495 Def0069
+S A$YM_PRG.pre.asx$486 Def0062
+S A$YM_PRG.pre.asx$468 Def004E
+S A$YM_PRG.pre.asx$694 Def0145
+S A$YM_PRG.pre.asx$676 Def0126
+S A$YM_PRG.pre.asx$577 Def00CB
+S A$YM_PRG.pre.asx$568 Def00BF
+S A$YM_PRG.pre.asx$559 Def00BE
+S A$YM_PRG.pre.asx$496 Def006B
+S A$YM_PRG.pre.asx$487 Def0064
+S A$YM_PRG.pre.asx$469 Def0050
+S A$YM_PRG.pre.asx$695 Def0148
+S A$YM_PRG.pre.asx$677 Def0129
+S A$YM_PRG.pre.asx$668 Def011D
+S A$YM_PRG.pre.asx$659 Def0116
+S A$YM_PRG.pre.asx$578 Def00CD
+S A$YM_PRG.pre.asx$569 Def00C1
+S A$YM_PRG.pre.asx$497 Def006D
+S A$YM_PRG.pre.asx$696 Def014B
+S A$YM_PRG.pre.asx$678 Def012C
+S A$YM_PRG.pre.asx$669 Def0120
+S A$YM_PRG.pre.asx$597 Def00DD
+S A$YM_PRG.pre.asx$588 Def00D7
+S A$YM_PRG.pre.asx$579 Def00CF
+S A$YM_PRG.pre.asx$498 Def006F
+S A$YM_PRG.pre.asx$688 Def0137
+S A$YM_PRG.pre.asx$679 Def012F
+S A$YM_PRG.pre.asx$499 Def0072
+S end_here_3 Def00FC
+S A$YM_PRG.pre.asx$689 Def013A
+S end_here_4 Def0116
+S A$YM_PRG.pre.asx$699 Def014D
+S no_single_byte Def00BF
+S go_on Def00E4
+S search_again Def0069
+S single_byte Def0040
+S out Def009D
+S try_next_bit Def0048
+S counter_not_minus_one Def00BC
+S next_reg Def0012
+S no_carry Def011D
+S no_valid_byte Def0028
+S do_ym_sound Def0000
+S shifting_done Def0122
+S next_phrase Def008A
+S go_on_2 Def00FE
+S no_add Def0067
+S do_ym_sound_done Def0027
+S byte_ready Def005E
+S next_reg_init Def014D
+S get_current_byte Def009D
+S byte_ready_1 Def0038
+S byte_ready_2 Def00D7
+S byte_ready_3 Def00F4
+S dechifer Def0042
+S A$YM_PRG.pre.asx$500 Def0074
+S byte_ready_4 Def010E
+S A$YM_PRG.pre.asx$600 Def00DE
+S A$YM_PRG.pre.asx$501 Def0076
+S A$YM_PRG.pre.asx$420 Def0020
+S A$YM_PRG.pre.asx$700 Def0150
+S A$YM_PRG.pre.asx$610 Def00EC
+S A$YM_PRG.pre.asx$601 Def00E1
+S A$YM_PRG.pre.asx$511 Def0085
+S A$YM_PRG.pre.asx$502 Def0078
+S A$YM_PRG.pre.asx$421 Def0023
+S A$YM_PRG.pre.asx$412 Def0012
+S A$YM_PRG.pre.asx$403 Def0000
+S A$YM_PRG.pre.asx$701 Def0153
+S A$YM_PRG.pre.asx$611 Def00EE
+S A$YM_PRG.pre.asx$512 Def0087
+S A$YM_PRG.pre.asx$503 Def007B
+S A$YM_PRG.pre.asx$440 Def0036
+S A$YM_PRG.pre.asx$422 Def0025
+S A$YM_PRG.pre.asx$413 Def0015
+S A$YM_PRG.pre.asx$404 Def0003
+S phrase_found Def0091
+S A$YM_PRG.pre.asx$702 Def0156
+S A$YM_PRG.pre.asx$630 Def00FC
+S A$YM_PRG.pre.asx$612 Def00F0
+S A$YM_PRG.pre.asx$522 Def0091
+S A$YM_PRG.pre.asx$513 Def0088
+S A$YM_PRG.pre.asx$504 Def007D
+S A$YM_PRG.pre.asx$432 Def0028
+S A$YM_PRG.pre.asx$405 Def0005
+S no_phrase Def00B7
+A .text.hot size 0 flags 8C80 bank 2
+A .text.unlikely size 0 flags 8C80 bank 2
+A .data size 0 flags 8C80 bank 3
+A .bss size A6 flags 8D80 bank 3
+S ym_data_current Def0008
+S current_register Def0000
+S calc_bits Def0005
+S ym_name Def000A
+S temp2 Def0002
+S temp3 Def0003
+S ym_data_start Def000C
+S temp Def0001
+S ym_data_len Def0006
+S calc_coder Def0004
+T 00 00
+R 00 00 00 07
+T 00 00 00
+R 00 00 00 07
+T 00 01
+R 00 00 00 07
+T 00 01 00
+R 00 00 00 07
+T 00 02
+R 00 00 00 07
+T 00 02 00
+R 00 00 00 07
+T 00 03
+R 00 00 00 07
+T 00 03 00
+R 00 00 00 07
+T 00 04
+R 00 00 00 07
+T 00 04 00
+R 00 00 00 07
+T 00 05
+R 00 00 00 07
+T 00 05 00
+R 00 00 00 07
+T 00 06
+R 00 00 00 07
+T 00 06 00 00
+R 00 00 00 07
+T 00 08
+R 00 00 00 07
+T 00 08 00 00
+R 00 00 00 07
+T 00 0A
+R 00 00 00 07
+T 00 0A 00 00
+R 00 00 00 07
+T 00 0C
+R 00 00 00 07
+T 00 0C
+R 00 00 00 07
+T 00 00
+R 00 00 00 03
+T 00 00 FC 00 08 27 22 83 00 01 FD 00 08 4F B7
+R 00 00 00 03 01 03 00 07 01 0B 00 07
+T 00 0D 00 00 CE 00 0C
+R 00 00 00 03 01 02 00 07 01 05 00 07
+T 00 12
+R 00 00 00 03
+T 00 12 BD 00 9D B6 00 00 BD F2 56 33 4E 7C
+R 00 00 00 03 01 03 00 03 01 06 00 07
+T 00 1E 00 00 B6 00 00 81 0B 26 EB
+R 00 00 00 03 01 02 00 07 01 05 00 07
+T 00 27
+R 00 00 00 03
+T 00 27 39
+R 00 00 00 03
+T 00 28
+R 00 00 00 03
+T 00 28 E6 42 26 0C AE 40 E6 80 E7 43 AF 40 C6
+R 00 00 00 03
+T 00 35 80 E7 42
+R 00 00 00 03
+T 00 38
+R 00 00 00 03
+T 00 38 64 42 E4 43 10 26 00 7F
+R 00 00 00 03
+T 00 40
+R 00 00 00 03
+T 00 40 6C 46
+R 00 00 00 03
+T 00 42
+R 00 00 00 03
+T 00 42 7F 00 05 7F 00 04
+R 00 00 00 03 01 03 00 07 01 06 00 07
+T 00 48
+R 00 00 00 03
+T 00 48 78 00 04 7C 00 05 E6 42 26 0C AE 40 E6
+R 00 00 00 03 01 03 00 07 01 06 00 07
+T 00 55 80 E7 43 AF 40 C6 80 E7 42
+R 00 00 00 03
+T 00 5E
+R 00 00 00 03
+T 00 5E 64 42 E4 43 27 03 7C 00 04
+R 00 00 00 03 01 09 00 07
+T 00 67
+R 00 00 00 03
+T 00 67 AE 47
+R 00 00 00 03
+T 00 69
+R 00 00 00 03
+T 00 69 30 03 A6 84 84 7F B1 00 05 2E D4 26 F3
+R 00 00 00 03 01 09 00 07
+T 00 76 E6 01 F1 00 04 26 EC E6 02 A6 84 84 80
+R 00 00 00 03 01 05 00 07
+T 00 83 27 12 AE 4C 5D 27 07
+R 00 00 00 03
+T 00 8A
+R 00 00 00 03
+T 00 8A A6 80 30 86 5A 26 F9
+R 00 00 00 03
+T 00 91
+R 00 00 00 03
+T 00 91 AF 49 6F 4B 20 06
+R 00 00 00 03
+T 00 97
+R 00 00 00 03
+T 00 97 6F 49 6F 4A E7 44
+R 00 00 00 03
+T 00 9D
+R 00 00 00 03
+T 00 9D
+R 00 00 00 03
+T 00 9D EC 45 27 87 AE 49 27 12 A6 80 E6 4B E6
+R 00 00 00 03
+T 00 AA 85 E7 44 6C 4B A1 4B 26 09 6F 4B EC 45
+R 00 00 00 03
+T 00 B7
+R 00 00 00 03
+T 00 B7 83 00 01 ED 45
+R 00 00 00 03
+T 00 BC
+R 00 00 00 03
+T 00 BC E6 44 39
+R 00 00 00 03
+T 00 BF
+R 00 00 00 03
+T 00 BF 86 02 B7 00 01
+R 00 00 00 03 01 05 00 07
+T 00 C4
+R 00 00 00 03
+T 00 C4 7C 00 01 E6 42 26 0C AE 40 E6 80 E7 43
+R 00 00 00 03 01 03 00 07
+T 00 D1 AF 40 C6 80 E7 42
+R 00 00 00 03
+T 00 D7
+R 00 00 00 03
+T 00 D7 64 42 E4 43 26 E7 5C F7 00 02 F7 00 03
+R 00 00 00 03 01 0A 00 07 01 0D 00 07
+T 00 E4
+R 00 00 00 03
+T 00 E4 E6 42 26 0C AE 40 E6 80 E7 43 AF 40 C6
+R 00 00 00 03
+T 00 F1 80 E7 42
+R 00 00 00 03
+T 00 F4
+R 00 00 00 03
+T 00 F4 64 42 E4 43 27 02 C6 01
+R 00 00 00 03
+T 00 FC
+R 00 00 00 03
+T 00 FC E7 46
+R 00 00 00 03
+T 00 FE
+R 00 00 00 03
+T 00 FE E6 42 26 0C AE 40 E6 80 E7 43 AF 40 C6
+R 00 00 00 03
+T 01 0B 80 E7 42
+R 00 00 00 03
+T 01 0E
+R 00 00 00 03
+T 01 0E 64 42 E4 43 27 02 C6 01
+R 00 00 00 03
+T 01 16
+R 00 00 00 03
+T 01 16 4F
+R 00 00 00 03
+T 01 17
+R 00 00 00 03
+T 01 17 48 58 24 02 8A 01
+R 00 00 00 03
+T 01 1D
+R 00 00 00 03
+T 01 1D 7A 00 03 26 F5
+R 00 00 00 03 01 03 00 07
+T 01 22
+R 00 00 00 03
+T 01 22 E3 45 ED 45 7C 00 02 B6 00 02 B7
+R 00 00 00 03 01 07 00 07 01 0A 00 07
+T 01 2D 00 03 B1 00 01 26 CA 7E
+R 00 00 00 03 01 02 00 07 01 05 00 07
+T 01 35 00 42
+R 00 00 00 03 01 02 00 03
+T 01 37
+R 00 00 00 03
+T 01 37 8E 00 0C CC 00 9A BD F5 48 10 AE C1 EC
+R 00 00 00 03 01 03 00 07
+T 01 44 A4 FD 00 06 FD 00 08 C6 0B
+R 00 00 00 03 01 04 00 07 01 07 00 07
+T 01 4D
+R 00 00 00 03
+T 01 4D 10 AE C1 10 AF 07 10 AE C1 10 AF 0C 10
+R 00 00 00 03
+T 01 5A AE C1 10 AF 00 30 0E 5A 26 E9 FF 00 0A
+R 00 00 00 03 01 0D 00 07
+T 01 67 39
+R 00 00 00 03

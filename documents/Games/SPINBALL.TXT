@@ -18,17 +18,17 @@ SpinBall's action moves fast and furious. You'll need your sharpest reflexes to 
 
 Setting Up
 
-¥ Make sure the console power cord is plugged into a 120 volt AC 60 cycle electrical outlet.
+ï¿½ Make sure the console power cord is plugged into a 120 volt AC 60 cycle electrical outlet.
 
-¥ Check to be sure the plug for the built-in control panel is firmly seated in the control panel outlet on the right.
+ï¿½ Check to be sure the plug for the built-in control panel is firmly seated in the control panel outlet on the right.
 
-¥ MAKE SURE THE CONSOLE IS TURNED OFF BE FORE INSERTING THE CARTRIDGE. Insert the cartridge into the cartridge slot with the label side up. Be sure it is firmly inserted to the guideline marked on the cartridge.
+ï¿½ MAKE SURE THE CONSOLE IS TURNED OFF BE FORE INSERTING THE CARTRIDGE. Insert the cartridge into the cartridge slot with the label side up. Be sure it is firmly inserted to the guideline marked on the cartridge.
 
-¥ Insert the screen overlay behind the tabs at the top and bottom of the screen.
+ï¿½ Insert the screen overlay behind the tabs at the top and bottom of the screen.
 
-¥ Turn the OFF/ON/VOLUME CONTROL to the ON posi tion (clockwise). You will see the Vectrex title for a few seconds, then the name of the game.
+ï¿½ Turn the OFF/ON/VOLUME CONTROL to the ON posi tion (clockwise). You will see the Vectrex title for a few seconds, then the name of the game.
 
-¥ Adjust the volume control to the desired listening level.
+ï¿½ Adjust the volume control to the desired listening level.
 
 SpinBall Controls
 
@@ -47,7 +47,7 @@ Left Flippers - Controls flippers on left side
 How to Play
 
 Player Selection
-   SpinBall can be played as either a one or two-player game. When ÒPLAYER 1Ó appears on the screen, press Button 1 once to switch to a two-player game.  ÒPLAYER 2Ó will then show on the screen. When played as a two-player game, only the built-in control panel is used. Players take turns using this control panel. You can return to a one-player game by pressing Button 1 again before starting game play.
+   SpinBall can be played as either a one or two-player game. When ï¿½PLAYER 1ï¿½ appears on the screen, press Button 1 once to switch to a two-player game.  ï¿½PLAYER 2ï¿½ will then show on the screen. When played as a two-player game, only the built-in control panel is used. Players take turns using this control panel. You can return to a one-player game by pressing Button 1 again before starting game play.
 
 Starting Game Play
    Once you select the number of players, press Button 4 to automatically prepare the pinball table with your first of five balls.

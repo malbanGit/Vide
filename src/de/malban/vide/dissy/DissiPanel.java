@@ -3375,6 +3375,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     private void handleCodeScan()
     {
         if (currentDissi.vecxPanel==null) return;
+        if (!config.debugingCore) return;
         CodeScanMemory csmem = currentDissi.vecxPanel.getCodeScanMemory();
         
         if (csmem == null) return;

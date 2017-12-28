@@ -1680,12 +1680,16 @@ public class StoryboardPanel extends javax.swing.JPanel  implements Windowable, 
                 
         boolean allSamePattern = getCurrentAnimation().isAllSamePattern();
         boolean allContinuous = getCurrentAnimation().isCompleteRelative();
-        boolean allHighPattern = getCurrentAnimation().isAllPatternHigh();
+        boolean allHighPattern = getCurrentAnimation().isAllPatternHigh(false);
+        boolean allHighPattern0 = getCurrentAnimation().isAllPatternHigh(true);
 
 
         if (!allSamePattern)
         {
             Draw_VLc = false;
+        }
+        if (!allHighPattern0)
+        {
             Draw_VLp = false;
         }
         if (!allContinuous)
@@ -1696,10 +1700,6 @@ public class StoryboardPanel extends javax.swing.JPanel  implements Windowable, 
             Draw_VL_mode = false;
             AnimCodeGen = false;
         }
-        if (!allHighPattern)
-        {
-            Draw_VLp = false;
-        }           
 /* TODO todo add in vectrex code!
         if (Mov_Draw_VLc_a) types.add("Mov_Draw_VLc_a");
         if (Draw_VLc) types.add("Draw_VLc");

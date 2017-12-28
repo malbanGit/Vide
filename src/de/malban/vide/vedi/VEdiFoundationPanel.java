@@ -12,6 +12,8 @@ import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.util.syntax.entities.ASM6809FileMaster;
+import de.malban.util.syntax.entities.C6809FileMaster;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,7 +33,8 @@ import javax.swing.SwingUtilities;
  */
 public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         Windowable, Stateable{
-
+    private static int UID_BASE = 0;
+    public final int UID = (UID_BASE++);
     public JFrame getFrame()
     {
         return (CSAMainFrame)mParent;
@@ -138,6 +141,30 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
     }
     abstract public void deinit();
     abstract public void init();
+
+    ASM6809FileMaster asmInfo;
+    C6809FileMaster cInfo;
+    
+    public ASM6809FileMaster getAsmInfo()
+    {
+        return asmInfo;
+    }
+    public C6809FileMaster getCInfo()
+    {
+        return cInfo;
+    }
+    protected void initSyntax()
+    {
+        asmInfo = ASM6809FileMaster.getInstance(UID);
+        cInfo = C6809FileMaster.getInstance(UID);
+    }
+    protected void deinitSyntax()
+    {
+        ASM6809FileMaster.removeInstance(UID);
+        C6809FileMaster.removeInstance(UID);
+    }
+    
+
     public CustomOutputStream asmMessagesOut;
     public CustomOutputStream asmErrorOut;
     public CustomOutputStream asmListOut;
@@ -306,6 +333,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         if (!isLoadSettings()) return true;
         try
         {
+            settings.relativePaths();
             CSAMainFrame.serialize(settings, Global.mainPathPrefix+"serialize"+File.separator+getSettingsName());
         }
         catch (Throwable e)

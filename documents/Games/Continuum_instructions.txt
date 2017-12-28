@@ -1,0 +1,19 @@
+Story
+
+(from the instructions) Traverse time and space. Unravel the mysterious Vortex of Lost Souls. Solve the Leviathan Conundrum. Decipher the Enigma of Sorrow.
+Gameplay
+
+Continuum is mostly a puzzle game that requires the player to solve 10 puzzles by moving their ship over onscreen vortexes in a certain order to complete the puzzles and advance through the game.
+
+The player can only change a vortex marked with a square inside it (meaning that the vortex is open) and if the corresponding vortex that the player is transported to is not closed (marked with an ‘X’). If the player passes their ship over an open vortex, and the exit vortex that they are to be transported to is closed, the player’s ship will take one unit of damage to their shields, the ship will remain in place and the puzzle will remain unchanged. (Passing over a closed vortex will also not affect the puzzle.) If the player’s shields take five hits their ship will be destroyed and the game will end. If the player can solve a puzzle, whatever damage their shields took during a round will be restored back to full strength at the start of the next puzzle screen.
+
+Some puzzles also have additional entities included in them, such as sectoids, which instantly attach themselves to the player’s ship at the start of a new puzzle and fly around in close proximity to the ship. If the player does not shoot the sectoid quick enough the sectoid will start causing damage to the player’s shields (if not totally destroy the player’s ship if its shields take five hits of damage). The fifth puzzle also has a pair of Mourning Stars that will head straight for the middle vortex; if they collide with the player’s ship they will destroy it. Also, if they collide with each other and the player is too close to the ensuing explosion that will also destroy the player’s ship and end the game.
+
+If the player is stuck on a puzzle (i. e. all vortexes are closed and there is no way to complete the puzzle) and cannot solve it they can self-destruct their ship and end the game then.
+Controls
+
+    Start game–any button
+    Turn ship–joystick or D-pad (left and right)
+    Fire–button 4
+    Thrust–button 3
+    Self-destruct–button 1 

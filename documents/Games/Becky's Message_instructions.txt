@@ -1,0 +1,22 @@
+Background
+
+The arcade game of Donkey Kong was a huge hit, pitting the "jumpman" (later renamed to Mario) against big ape Donkey Kong for stealing his girlfriend. Players had to get the jumpman to complete a certain goal per screen (usually to make it to the top) in order to move onto the next level.
+
+The first screen required players to make it to the top via walking across platforms and climbing up ladders while avoiding, jumping over barrels that Donkey Kong would roll towards the bottom of the screen, or destroying the barrels with up to two onscreen hammers. If players could make it to the top, they would advance to the rivets screen, where they had to jump or walk over all onscreen rivets, causing them to disappear (as well as all platforms in the center of the screen) and Donkey Kong to fall; players had to contend with fireballs rather than barrels on this screen.
+
+The third screen required players to make it to the top by walking across a few platforms, but mostly they had to use several elevators to advance while avoiding rapidly moving springs at the top and two fireballs, and the conveyer belt screen (or the "pie factory", as many players called it) had fireballs and cement tubs to contend with, along with conveyer belts that moved at different speeds, usually working against players.
+
+Becky's Message is a clone of the first screen of Donkey Kong only.
+Gameplay/goal
+
+Although it looks pretty much like a vector rendition of the first screen of Donkey Kong, the goal is actually a bit different. Rather than acquiring a high score via jumping over or destroying as many barrels as possible (while getting to the top as quickly as possible for maximum bonus points that are ticking down in the meantime), the player has to jump over 15 barrels in order to unlock "Becky's message".
+
+The game allows the player unlimited lives, rather than the three on the arcade original. The player walks across platforms and accesses the higher areas by climbing ladders and must jump over or avoid barrels. If the player is hit by a barrel, what is assumed to be Donkey Kong shoots at the player, who is left with a broken heart and must start at the bottom of the screen again.
+End/"Becky's message"
+
+If the player is able to jump over all 15 barrels, Donkey Kong will then vanish and the figure of a woman will appear at the top of the screen. If the player is able to climb up to the very top and touch the woman, the message of "Dan loves Becky" will appear, showing a larger rendition of the male, female, and what is presumed to be Koko (pictures of a dog named Koko is shown on the official site) at the player's feet.
+Controls
+
+    Move player--joystick (up, down, left, right)
+    Jump--button 4
+    Start/continue--button 3 (used to start and continue games in between lives only) 

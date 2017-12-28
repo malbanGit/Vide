@@ -1,0 +1,1236 @@
+BANK 0
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 DP accessed
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 DP accessed
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 DP accessed
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 DP accessed
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 DP accessed
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 DP accessed
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 DP accessed
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 DP accessed
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A DP accessed
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B DP accessed
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C DP accessed
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D DP accessed
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 DP accessed
+LABEL $C801 AlexRCCounterLo
+COMMENT_LABEL $C801 DP accessed
+LABEL $C882 _C882
+COMMENT_LABEL $C882 DP accessed
+LABEL $C805 JoyStatePort0ThisSide
+COMMENT_LABEL $C805 DP accessed
+LABEL $C806 JoyStatePort0OtherSide
+COMMENT_LABEL $C806 DP accessed
+LABEL $C807 jumper1
+COMMENT_LABEL $C807 DP accessed
+LABEL $C809 jumper2
+COMMENT_LABEL $C809 DP accessed
+LABEL $C80C SyncData5
+COMMENT_LABEL $C80C DP accessed
+LABEL $C80D SyncData4
+COMMENT_LABEL $C80D DP accessed
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 DP accessed
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 DP accessed
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 DP accessed
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 DP accessed
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 DP accessed
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A DP accessed
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C DP accessed
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 DP accessed
+LABEL $C826 _C826
+COMMENT_LABEL $C826 DP accessed
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 DP accessed
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 DP accessed
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B DP accessed
+LABEL $C838 SyncData1
+COMMENT_LABEL $C838 DP accessed
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 DP accessed
+LABEL $C83A SyncData3
+COMMENT_LABEL $C83A DP accessed
+LABEL $C844 YM_MainStatus
+COMMENT_LABEL $C844 DP accessed
+LABEL $C848 _C848
+COMMENT_LABEL $C848 DP accessed
+LABEL $16BD some_table
+LABEL $2203 _2203
+LABEL $2604 _2604
+LABEL $26CF _26CF
+LABEL $2AD3 _2AD3
+LABEL $2B00 _2B00
+LABEL $2CAC _2CAC
+LABEL $2CD7 _2CD7
+LABEL $2DBB _2DBB
+LABEL $2E2B _2E2B
+LABEL $31BC _31BC
+LABEL $3C2C _3C2C
+LABEL $3C3C _3C3C
+LABEL $3ED2 _3ED2
+LABEL $3EF7 _3EF7
+LABEL $C800 AlexRCCounterHi
+LABEL $C802 _C802
+LABEL $C804 CounterVar
+LABEL $C80B _C80B
+LABEL $C810 _C810
+LABEL $C816 _C816
+LABEL $C818 _C818
+LABEL $C81A _C81A
+LABEL $C81C _C81C
+LABEL $C822 _C822
+LABEL $C82E _C82E
+LABEL $C831 _C831
+LABEL $C832 _C832
+LABEL $C834 _C834
+LABEL $C83B _C83B
+LABEL $C83D _C83D
+LABEL $C83E rowPos_YX
+LABEL $C840 textIntensity
+LABEL $C841 textXSize
+LABEL $C842 currentStringStartStruct
+LABEL $C845 YM_ListStatus
+LABEL $C846 YM_Pointer
+LABEL $C849 _C849
+LABEL $C84B _C84B
+LABEL $C84D _C84D
+LABEL $C84E _C84E
+LABEL $C84F _C84F
+LABEL $C850 _C850
+LABEL $C851 _C851
+LABEL $C886 _C886
+LABEL $C888 _C888
+LABEL $C88A _C88A
+LABEL $C88D _C88D
+LABEL $C88E _C88E
+LABEL $C88F _C88F
+LABEL $C890 _C890
+LABEL $C891 _C891
+LABEL $C892 _C892
+LABEL $C8EB _C8EB
+LABEL $C8F3 _C8F3
+LABEL $C8F5 _C8F5
+LABEL $CA58 _CA58
+LABEL $CA5A _CA5A
+LABEL $CA5C _CA5C
+LABEL $0019 ResetIntegrators
+LABEL $0029 AlexWaitRecal
+LABEL $006A waitRecal50HzReached
+EQU $3E timer2ReloadWait
+EQU $57 timer1WaitLoop
+LABEL $0064 T1Running
+LABEL $007D AlexMoveToD
+LABEL $008D AlexMoveToDT1Loop
+LABEL $00A5 _00A5
+LABEL $00AA AlexIntensity_A
+LABEL $00B7 init_C838_ff
+LABEL $00C3 _00C3
+LABEL $00D6 init_c83b_ff
+LABEL $00E2 _00E2
+LABEL $00F5 draw_vector
+LABEL $0109 _0109
+LABEL $0111 draw_vector_final
+LABEL $0125 _0125
+LABEL $012C move_vector
+LABEL $013B _013B
+LABEL $0165 _0165
+LABEL $0185 _0185
+LABEL $018C printString_isyx
+LABEL $01A6 printString
+LABEL $019E printString_yx
+LABEL $0210 FontRow1
+LABEL $01E6 printFontOneRow
+LABEL $027C FontRow2
+LABEL $02E8 FontRow3
+LABEL $0354 FontRow4
+LABEL $03C0 FontRow5
+LABEL $042C FontRow6
+LABEL $0498 FontRow7
+LABEL $0207 start_shiftout
+LABEL $0203 continue_shiftout
+LABEL $0504 printBerzerkArenaBitmap
+LABEL $0589 bitmapBerzerkArena
+LABEL $0567 bitMapIntensityCycle
+LABEL $052B _052B
+LABEL $0530 _0530
+LABEL $0551 _0551
+LABEL $0553 _0553
+LABEL $0769 _0769
+LABEL $0779 _0779
+LABEL $077A writeYMRegListToPSG
+LABEL $07B5 exit_ymWrite
+LABEL $0796 write_next_PSG
+LABEL $0C37 _0C37
+LABEL $0C7B _0C7B
+LABEL $0CC7 _0CC7
+LABEL $0CE2 _0CE2
+LABEL $0C9C _0C9C
+LABEL $1354 _1354
+LABEL $0CBD _0CBD
+LABEL $1256 _1256
+LABEL $13D4 _13D4
+LABEL $1190 _1190
+LABEL $0D23 _0D23
+LABEL $0D3E _0D3E
+LABEL $0CF9 _0CF9
+LABEL $1394 _1394
+LABEL $0D19 _0D19
+LABEL $12D5 _12D5
+LABEL $144B _144B
+LABEL $11F3 _11F3
+LABEL $0D53 _0D53
+LABEL $0D5C _0D5C
+LABEL $0D5F _0D5F
+LABEL $0D68 _0D68
+LABEL $0D6B _0D6B
+LABEL $14C2 _14C2
+LABEL $0D6E _0D6E
+LABEL $0D9A _0D9A
+LABEL $0D7F _0D7F
+LABEL $0D8E _0D8E
+LABEL $0DCD _0DCD
+LABEL $0E19 _0E19
+LABEL $0E34 _0E34
+LABEL $0DEE _0DEE
+LABEL $0E0F _0E0F
+LABEL $0E75 _0E75
+LABEL $0E90 _0E90
+LABEL $0E4B _0E4B
+LABEL $0E6B _0E6B
+LABEL $0EA3 _0EA3
+LABEL $0EAD _0EAD
+LABEL $0EB0 _0EB0
+LABEL $0EBA _0EBA
+LABEL $0EBD _0EBD
+LABEL $0EC0 _0EC0
+LABEL $0EED _0EED
+LABEL $0ED1 _0ED1
+LABEL $0EE1 _0EE1
+LABEL $0F1F _0F1F
+LABEL $0F6B _0F6B
+LABEL $0F86 _0F86
+LABEL $0F40 _0F40
+LABEL $0F61 _0F61
+LABEL $0FC7 _0FC7
+LABEL $0FE2 _0FE2
+LABEL $0F9D _0F9D
+LABEL $0FBD _0FBD
+LABEL $0FF7 _0FF7
+LABEL $1000 _1000
+LABEL $1003 _1003
+LABEL $100C _100C
+LABEL $100F _100F
+LABEL $1012 _1012
+LABEL $103E _103E
+LABEL $1023 _1023
+LABEL $1032 _1032
+LABEL $106F _106F
+LABEL $10BB _10BB
+LABEL $10D6 _10D6
+LABEL $1090 _1090
+LABEL $10B1 _10B1
+LABEL $1117 _1117
+LABEL $1132 _1132
+LABEL $10ED _10ED
+LABEL $110D _110D
+LABEL $1145 _1145
+LABEL $114F _114F
+LABEL $1152 _1152
+LABEL $115C _115C
+LABEL $115F _115F
+LABEL $1162 _1162
+LABEL $118F _118F
+LABEL $1173 _1173
+LABEL $1183 _1183
+LABEL $11AB _11AB
+LABEL $11BB _11BB
+LABEL $11DC _11DC
+LABEL $11EC _11EC
+LABEL $120E _120E
+LABEL $121E _121E
+LABEL $123F _123F
+LABEL $124F _124F
+LABEL $1271 _1271
+LABEL $128F _128F
+LABEL $12B0 _12B0
+LABEL $12CE _12CE
+LABEL $12F0 _12F0
+LABEL $130E _130E
+LABEL $132F _132F
+LABEL $134D _134D
+LABEL $1372 _1372
+LABEL $138D _138D
+LABEL $13B2 _13B2
+LABEL $13CD _13CD
+LABEL $13EF _13EF
+LABEL $1409 _1409
+LABEL $142A _142A
+LABEL $1444 _1444
+LABEL $1466 _1466
+LABEL $1480 _1480
+LABEL $14A1 _14A1
+LABEL $14BB _14BB
+LABEL $14DD _14DD
+LABEL $14F7 _14F7
+LABEL $1518 _1518
+LABEL $1532 _1532
+LABEL $1539 init_c8f8_to_ca58
+LABEL $1546 _1546
+LABEL $1557 _1557
+LABEL $1579 _1579
+LABEL $159A _159A
+LABEL $159C _159C
+LABEL $15B0 _15B0
+LABEL $15EA _15EA
+LABEL $15E1 _15E1
+LABEL $1625 _1625
+LABEL $1621 _1621
+LABEL $1601 _1601
+LABEL $1608 _1608
+LABEL $160E _160E
+LABEL $161B _161B
+LABEL $1617 _1617
+LABEL $1630 _1630
+LABEL $1656 _1656
+LABEL $1638 _1638
+LABEL $164F _164F
+LABEL $165C _165C
+LABEL $1674 _1674
+LABEL $224C serial_output_ff
+LABEL $227A serial_write_A
+LABEL $2295 writeNextDoubleBit
+LABEL $229D outputBitMaskToPSG_start
+LABEL $22A8 continueReadTry0
+LABEL $22BE bit0SendSuccess
+LABEL $2305 linkTimeout
+LABEL $22C8 outputBitMaskToPSG_cont
+LABEL $22D3 continueReadTryX
+LABEL $22E9 bitXSendSuccess
+LABEL $2317 serial_read_A_withTest
+LABEL $233F serial_read_A
+LABEL $235A readNextDoubleBit
+LABEL $235C tryReadingBitOne
+LABEL $2372 bitOneComAck
+LABEL $2390 tryReadingBitTwo
+LABEL $23A7 bitTwoComAck
+LABEL $23D2 _23D2
+LABEL $23F7 _23F7
+LABEL $23EB _23EB
+LABEL $23EE _23EE
+LABEL $419B _419B
+LABEL $2471 _2471
+LABEL $2432 _2432
+LABEL $2454 _2454
+LABEL $2470 _2470
+LABEL $248F _248F
+LABEL $24A4 _24A4
+LABEL $24C8 _24C8
+LABEL $24B0 _24B0
+LABEL $24BA _24BA
+LABEL $24C0 _24C0
+LABEL $24FB _24FB
+LABEL $250C _250C
+LABEL $24EF _24EF
+LABEL $24E8 _24E8
+LABEL $2515 _2515
+LABEL $2504 _2504
+LABEL $2556 _2556
+LABEL $2545 _2545
+LABEL $253A _253A
+LABEL $2533 _2533
+LABEL $255F _255F
+LABEL $254E _254E
+LABEL $2591 _2591
+LABEL $25A2 _25A2
+LABEL $2585 _2585
+LABEL $257E _257E
+LABEL $25AB _25AB
+LABEL $259A _259A
+LABEL $25EC _25EC
+LABEL $25DB _25DB
+LABEL $25D0 _25D0
+LABEL $25C9 _25C9
+LABEL $25F5 _25F5
+LABEL $25E4 _25E4
+LABEL $2613 _2613
+LABEL $2628 _2628
+LABEL $263D _263D
+LABEL $2652 _2652
+LABEL $26BC _26BC
+LABEL $2671 _2671
+LABEL $26A5 _26A5
+LABEL $2682 _2682
+LABEL $2693 _2693
+LABEL $26A4 _26A4
+LABEL $26B1 _26B1
+LABEL $447E init_c82b_ff
+LABEL $26F6 init_jumper_and_co
+LABEL $26D5 main_loop
+LABEL $43CF readJoyPort0
+LABEL $445D _445D
+LABEL $285C dummyJumper
+LABEL $271F jumper2_A
+LABEL $27E1 sync7ByteSerialRead
+LABEL $457B copyrightString_isyx
+LABEL $273B noReverseIntensity
+LABEL $275B linkGame
+LABEL $28A5 soloGame
+LABEL $2883 linkFailed_InitJumper
+LABEL $285D linkPort0ExchangePrimary
+LABEL $28D6 game_jumper2
+LABEL $28CA guessing_playerStartPos
+LABEL $2870 linkPort0ExchangeSecondary
+LABEL $2890 printNoLinkJumper
+LABEL $4699 linkFailedStringStruct
+LABEL $28CC _28CC
+LABEL $2939 _2939
+LABEL $29EA _29EA
+LABEL $28FA _28FA
+LABEL $28F2 _28F2
+LABEL $2910 _2910
+LABEL $2908 _2908
+LABEL $2924 _2924
+LABEL $2938 _2938
+LABEL $2941 _2941
+LABEL $2974 _2974
+LABEL $296E _296E
+LABEL $2A97 _2A97
+LABEL $4130 _4130
+LABEL $4491 _4491
+LABEL $34F4 _34F4
+LABEL $29A0 _29A0
+LABEL $29AD _29AD
+LABEL $2A01 _2A01
+LABEL $2A31 _2A31
+LABEL $2A46 _2A46
+LABEL $2A37 _2A37
+LABEL $2A48 _2A48
+LABEL $2A8D _2A8D
+LABEL $2A5A _2A5A
+LABEL $2A61 _2A61
+LABEL $2A6E _2A6E
+LABEL $2A8A _2A8A
+LABEL $2A93 _2A93
+LABEL $2AB4 _2AB4
+LABEL $2AAB _2AAB
+LABEL $2AB5 _2AB5
+LABEL $2AE2 _2AE2
+LABEL $2AEA _2AEA
+LABEL $2ADB _2ADB
+LABEL $2AE4 _2AE4
+LABEL $2B69 _2B69
+LABEL $2BD9 _2BD9
+LABEL $2B2E _2B2E
+LABEL $2B3F _2B3F
+LABEL $2B91 _2B91
+LABEL $2BA0 _2BA0
+LABEL $2BE9 _2BE9
+LABEL $2BF5 _2BF5
+LABEL $2C08 _2C08
+LABEL $2C16 _2C16
+LABEL $2C19 _2C19
+LABEL $2C29 _2C29
+LABEL $2C32 _2C32
+LABEL $2C40 _2C40
+LABEL $2C43 _2C43
+LABEL $2C54 _2C54
+LABEL $2C63 _2C63
+LABEL $2C62 _2C62
+LABEL $2C71 _2C71
+LABEL $2C67 _2C67
+LABEL $2C7A _2C7A
+LABEL $2C8F _2C8F
+LABEL $2CE5 _2CE5
+LABEL $2CED _2CED
+LABEL $2CF9 _2CF9
+LABEL $2D01 _2D01
+LABEL $2D0E _2D0E
+LABEL $2D16 _2D16
+LABEL $2D22 _2D22
+LABEL $2D2A _2D2A
+LABEL $2D37 _2D37
+LABEL $2D3F _2D3F
+LABEL $2D4B _2D4B
+LABEL $2D53 _2D53
+LABEL $2D60 _2D60
+LABEL $2D68 _2D68
+LABEL $2D74 _2D74
+LABEL $2D7C _2D7C
+LABEL $2D9B _2D9B
+LABEL $2D9D _2D9D
+LABEL $2DBC _2DBC
+LABEL $2DBE _2DBE
+LABEL $2DC7 _2DC7
+LABEL $2DF2 _2DF2
+LABEL $2E2D _2E2D
+LABEL $2E3C _2E3C
+LABEL $2E60 _2E60
+LABEL $2E9B _2E9B
+LABEL $2EAA _2EAA
+LABEL $2ECE _2ECE
+LABEL $2F09 _2F09
+LABEL $2F18 _2F18
+LABEL $2F3C _2F3C
+LABEL $2F77 _2F77
+LABEL $2F5E _2F5E
+LABEL $2F6A _2F6A
+LABEL $2F76 _2F76
+LABEL $2F86 _2F86
+LABEL $2F9E _2F9E
+LABEL $2F9A _2F9A
+LABEL $300C _300C
+LABEL $303F _303F
+LABEL $306C _306C
+LABEL $3098 _3098
+LABEL $30C5 _30C5
+LABEL $30F1 _30F1
+LABEL $311D _311D
+LABEL $3148 _3148
+LABEL $3151 _3151
+LABEL $315A _315A
+LABEL $31AD _31AD
+LABEL $31C6 _31C6
+LABEL $31FE _31FE
+LABEL $31D6 _31D6
+LABEL $31F1 _31F1
+LABEL $3207 _3207
+LABEL $320C _320C
+LABEL $3252 _3252
+LABEL $326B _326B
+LABEL $32A5 _32A5
+LABEL $327B _327B
+LABEL $3297 _3297
+LABEL $32B3 _32B3
+LABEL $32AE _32AE
+LABEL $32F9 _32F9
+LABEL $3315 _3315
+LABEL $3367 _3367
+LABEL $3383 _3383
+LABEL $33A9 _33A9
+LABEL $33C1 _33C1
+LABEL $33C0 _33C0
+LABEL $33FB _33FB
+LABEL $3400 _3400
+LABEL $342D _342D
+LABEL $3457 _3457
+LABEL $345F _345F
+LABEL $3465 _3465
+LABEL $34E1 _34E1
+LABEL $3485 _3485
+LABEL $348D _348D
+LABEL $3493 _3493
+LABEL $34B3 _34B3
+LABEL $34BB _34BB
+LABEL $34C1 _34C1
+LABEL $34E9 _34E9
+LABEL $34EF _34EF
+LABEL $353B _353B
+LABEL $3515 _3515
+LABEL $352B _352B
+LABEL $3536 _3536
+LABEL $3581 _3581
+LABEL $354B _354B
+LABEL $3598 _3598
+LABEL $35DB _35DB
+LABEL $35E4 _35E4
+LABEL $3616 _3616
+LABEL $35D4 _35D4
+LABEL $384C _384C
+LABEL $3607 _3607
+LABEL $3637 _3637
+LABEL $3645 _3645
+LABEL $3688 _3688
+LABEL $3691 _3691
+LABEL $36C3 _36C3
+LABEL $3681 _3681
+LABEL $36B4 _36B4
+LABEL $36E4 _36E4
+LABEL $36F2 _36F2
+LABEL $3735 _3735
+LABEL $373E _373E
+LABEL $3770 _3770
+LABEL $372E _372E
+LABEL $3761 _3761
+LABEL $3791 _3791
+LABEL $379F _379F
+LABEL $37E2 _37E2
+LABEL $37EB _37EB
+LABEL $381D _381D
+LABEL $37DB _37DB
+LABEL $380E _380E
+LABEL $383E _383E
+LABEL $3853 jumpTable
+LABEL $3898 _3898
+LABEL $3D9A _3D9A
+LABEL $39DA _39DA
+LABEL $3C03 _3C03
+LABEL $3C10 _3C10
+LABEL $3C13 _3C13
+LABEL $3DC7 _3DC7
+LABEL $3DF0 _3DF0
+LABEL $4019 _4019
+LABEL $3F11 _3F11
+LABEL $3FD0 _3FD0
+LABEL $3F1D _3F1D
+LABEL $3F49 _3F49
+LABEL $3F61 _3F61
+LABEL $3F6B _3F6B
+LABEL $3F71 _3F71
+LABEL $3FBF _3FBF
+LABEL $3FCF _3FCF
+LABEL $3FDF _3FDF
+LABEL $3FFF _3FFF
+LABEL $4017 _4017
+LABEL $401F _401F
+LABEL $4025 _4025
+LABEL $4051 somedata
+LABEL $415B _415B
+LABEL $4144 _4144
+LABEL $419A _419A
+LABEL $4174 _4174
+LABEL $4181 _4181
+LABEL $4188 _4188
+LABEL $41AE _41AE
+LABEL $43FD readVerticalPort0Loop
+LABEL $4437 JoyUp
+LABEL $4441 JoyDown
+LABEL $4415 testHorizontal
+LABEL $441E readHorizontalPort0Loop
+LABEL $4454 JoyRight
+LABEL $444B JoyLeft
+LABEL $449D _449D
+LABEL $44AD _44AD
+LABEL $44BB _44BB
+LABEL $44CD _44CD
+LABEL $44DA _44DA
+LABEL $44EB _44EB
+LABEL $4503 _4503
+LABEL $4513 _4513
+LABEL $4529 _4529
+LABEL $4536 _4536
+LABEL $4547 _4547
+COMMENT_LINE $0000 *                       $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 *                       $C83C   ;temp byte
+COMMENT_LINE $0000 *                       $C843   ;        register 9
+COMMENT_LINE $0000 *                       $C844   ;        register 8
+COMMENT_LINE $0000 *                       $C848   ;        register 4
+COMMENT_LINE $0000 *                       $C849   ;        register 3
+COMMENT_LINE $0000 *                       $C84A   ;        register 2
+COMMENT_LINE $0000 *                       $C84C   ;        register 0
+COMMENT_LINE $0000 *                       $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 *               $C868...$C876   ;Unused?
+COMMENT_LINE $0000 *                       $C878   ;Unused?
+COMMENT_LINE $0000 *    $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 *       0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 *       1 mux sel 0
+COMMENT_LINE $0000 *       2 mux sel 1
+COMMENT_LINE $0000 *       3 sound BC1
+COMMENT_LINE $0000 *       4 sound BDIR
+COMMENT_LINE $0000 *       5 comparator input
+COMMENT_LINE $0000 *       6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 *       7 /RAMP
+COMMENT_LINE $0000 *       0 PA latch enable
+COMMENT_LINE $0000 *       1 PB latch enable
+COMMENT_LINE $0000 *       2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 *       3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 *       4 /
+COMMENT_LINE $0000 *       5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 *       6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 *       7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 *       0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 *       1 \
+COMMENT_LINE $0000 *       2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 *       3 /
+COMMENT_LINE $0000 *       4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 *       5 \
+COMMENT_LINE $0000 *       6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 *       7 /
+COMMENT_LINE $0000 *               bit                             cleared by
+COMMENT_LINE $0000 *       0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 *       1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 *       2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 *       3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 *       4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 *       5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 *       6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 *       7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 *       0 CA2 interrupt enable
+COMMENT_LINE $0000 *       1 CA1 interrupt enable
+COMMENT_LINE $0000 *       2 shift register interrupt enable
+COMMENT_LINE $0000 *       3 CB2 interrupt enable
+COMMENT_LINE $0000 *       4 CB1 interrupt enable
+COMMENT_LINE $0000 *       5 timer 2 interrupt enable
+COMMENT_LINE $0000 *       6 timer 1 interrupt enable
+COMMENT_LINE $0000 *       7 IER set/clear control
+COMMENT_LINE $0000 GCS Copyright
+COMMENT_LINE $0000 GCS Copyright
+COMMENT $0000 *                       $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $000B Start music pointer
+COMMENT $000B Start music pointer
+COMMENT_LINE $000D end of header
+COMMENT $000D end of header
+COMMENT_LINE $000E start of cartridge code!
+COMMENT $000E start of cartridge code!
+COMMENT $0019 $cc means ZERO enabled, and BLANK enabled
+COMMENT $001B VIA control register
+COMMENT $0020 mux sel = integrator offsets, mux disabled
+COMMENT $0022 enable mux
+COMMENT $0024 delay
+COMMENT $0025 delay
+COMMENT $0026 disable mux
+COMMENT_LINE $0029 -)
+COMMENT $0029 Recal Counter... probably used for blinking
+COMMENT $0032 setup DP
+COMMENT $0036 load timer 2 bit mask
+COMMENT $0038 check if timeout happend
+COMMENT $003A if yes -> branch
+COMMENT $003C check for t2 to be "reset" (latched to $30 if timeout happened)
+COMMENT $003E was t2 reloaded?
+COMMENT $0040 no - than wait for it
+COMMENT_LINE $0044 A = 0; B = $40
+COMMENT $0044 Below is the "typical" back and forth of a recalibration diagonal+$40 and -$40 for a certain time...
+COMMENT $0047 dac = $40
+COMMENT_LINE $0049 x/y integrators = +$40
+COMMENT $0049 mux enabled, mux sel = 0
+COMMENT $004B B = $18 T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock, A = $ce means ZERO disabled, and BLANK enabled
+COMMENT $004E set T1 to no ramp control (ORB bit 7 is manually controlled)
+COMMENT $0050 zero off, blank on
+COMMENT $0052 T1 = $00BF (A= lowT1 BF, B = highT1 $00)
+COMMENT $0057 interrupt bit 6 = T1
+COMMENT $0059 check T1
+COMMENT $005B if not timed out -> jump
+COMMENT $005D dac = -$40
+COMMENT $005F T1 = $001F (A= lowT1 1F, B = highT1 $00)
+COMMENT $0064 interrupt bit 5 = T2
+COMMENT $0066 check T2
+COMMENT $0068 if also not set, check T1 again
+COMMENT $006A reload T2 with 50Hz value; (A=$30, B=$75 -> T2 = 7530 = 30000 cycles
+COMMENT $006D set T2
+COMMENT $006F T1 = $0002 (A= lowT1 02, B = highT1 $00)
+COMMENT $0072 set T1
+COMMENT $0074 A= 1; B = $98
+COMMENT $0077 mux off
+COMMENT $0079 T1 OneSHotMode WITH Ramp control, Shift out under System clock
+COMMENT $007B done recalibrating
+COMMENT $007D D filled with rowCounter, A = y, B = x, put Y value to DAC
+COMMENT $007F muxel sel = 00 (y) enable Mux
+COMMENT $0083 $ce means ZERO disabled, and BLANK enabled
+COMMENT $0087 A -> disable mux ($1), b to via port A = B (DAC filled with X delta)
+COMMENT $0089 start Timer T1
+COMMENT $008B flag for T1 interrupt
+COMMENT $008D testflag
+COMMENT $008F if not set, wait for it
+COMMENT $0091 back
+COMMENT $00AA put A to via porta
+COMMENT $00AC mux enabled, mux sel = 10 (intensity)
+COMMENT $00AE to port B
+COMMENT $00B0 delay
+COMMENT $00B2 mux disable
+COMMENT $00B4 to port B
+COMMENT $00B6 done
+COMMENT_LINE $00F5 the following draw/move routines are part of the vectorlists...
+COMMENT $018C U pointer to structure, intensity, scale, ypos,xpos
+COMMENT $0199 text endmarker = $ff
+COMMENT $019B end reached? no branch
+COMMENT $019D done
+COMMENT $01A6 setup DP
+COMMENT $01AA A= intensity, B = scale
+COMMENT $01AD double scale?
+COMMENT $01AE to counter 1
+COMMENT $01E6 Font Pointer in X, rowCounter -> pos
+COMMENT $01F0 DAC = 0
+COMMENT $01F2 mux sel = Y int, mux enabled
+COMMENT $01F8 disable mux, set via port A = b
+COMMENT $01FA T1 without ramp control
+COMMENT_LINE $01FD T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock
+COMMENT $01FD $18
+COMMENT $0203 use char as offset in font tab
+COMMENT $0205 and shift the current "row" of the font out
+COMMENT $0209 if positive, shift out next bitmap
+COMMENT $020B otherwise "reset T1 ramp control"
+COMMENT_LINE $020D T1 OneSHotMode WITH Ramp control, Shift out under System clock
+COMMENT $020D $98
+COMMENT $020F and out
+COMMENT $0210 ; font length = 108x7
+COMMENT $0504 setup DP
+COMMENT $0508 A= $48
+COMMENT $050A Set timer 1 to that
+COMMENT $050F Bitmap Rows
+COMMENT $052B bitmap Columns +1
+COMMENT $0784 setup DP
+COMMENT_LINE $0788 register, data
+COMMENT $0788 U pointer to YM structure, first byte is register, if register is negative, than all done
+COMMENT $0796 B to DAC
+COMMENT $0798 A= $19, B = 01
+COMMENT $079B mux disabled PSG latch
+COMMENT $079D mux disabled, PSG inactive
+COMMENT $079F A = data
+COMMENT $07A1 to Via port A -> to PSG reg
+COMMENT $07A3 A = $11
+COMMENT $07A5 mux disabled PSG write
+COMMENT $07A7 mux disabled, PSG inactive
+COMMENT $07B6 I think the following are YM, register change lists
+COMMENT $0A39 register and data
+COMMENT $0A47 end of ym-output
+COMMENT $0A48 next list status
+COMMENT $0A4D end of list
+COMMENT $224C write $FF to joystickport, enable output on joystick port
+COMMENT $224E setup DP
+COMMENT $2250 A= $E reg 14 of PSG,
+COMMENT $2252 Via Port A = 14
+COMMENT $2257 VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $2259 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $225B Write $FF to joystick port(s) / PSG Port A
+COMMENT_LINE $225D -)
+COMMENT $225D Fill via port A with $ff to be written to PSG port A to be written to Jostick buttons...
+COMMENT $2261 VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $2263 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $2267 prepare latch of Reg 7 to PSG
+COMMENT $226B VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $226D VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $226F Write $FF to Reg 7 of PSG -> enabled output via port A of PSG
+COMMENT_LINE $2271 -)
+COMMENT $2271 Fill via port A with $ff to be written to PSG port A to be written to Jostick buttons...
+COMMENT $2275 VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $2277 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $2279 done
+COMMENT_LINE $227A send value in A to joyport serial communication
+COMMENT $227A number of "double bits" to send (4*2 = 8 -> complete byte), starting with least significant bit
+COMMENT $227C remember current DP, "$4" and A (push DP first, than b than a, s is pointing to the pushed copy of A)
+COMMENT $227E setup DP
+COMMENT_LINE $2282 prepare output to joystic, latch 14 to psg...
+COMMENT $2282 A= $E (reg 14, port A of PSG), B = $99
+COMMENT $2285 Via Port A = 14
+COMMENT $2287 VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $2289 B = $81 mask for BDIR/BC inactive, A=$18 0001 1000 ->SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT $228C VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT_LINE $228E disable ramping, while we use T1 for timeout checking...
+COMMENT $228E SHIFT mode = 110 - SHIFT out under control of system clock, T1 does not control RAMP
+COMMENT_LINE $2290 -), for the complete communication
+COMMENT $2290 Realy long timer
+COMMENT $2293 to T1
+COMMENT $2295 1110 1111 port A default mask for bit set (bit 5), bit 4 = 0 indicates start of 2bit communication
+COMMENT $2297 test lowest bit of (pushed copy) of A
+COMMENT $2299 if the bit was set -> branch
+COMMENT $229B 1100 1111 port A default mask for bit clear (bit 5), bit 4 = 0 indicates start of 2bit communication
+COMMENT $229D output current mask to psg 14
+COMMENT $22A2 VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $22A4 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $22A6 set via port A to input
+COMMENT $22A8 A = $89, B = $81
+COMMENT $22AB VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $22AD delay
+COMMENT_LINE $22AE -)
+COMMENT $22AE get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $22B0 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $22B2 check if we received a bit (in bit 6)
+COMMENT $22B4 waiting to receive a 0 in bit 6 as acknowledgement of communication
+COMMENT $22B6 test for T1 timeout interrupt flag
+COMMENT $22B8 check
+COMMENT $22BE switch Via port A to output
+COMMENT $22C0 1111 1111 port A default mask for bit set (bit 5), bit 4 = 1 indicates continue of 2bit communication
+COMMENT $22C6 1101 1111 port A default mask for bit clear (bit 5), bit 4 = 1 indicates continue of 2bit communication
+COMMENT $22C8 output current mask to psg 14
+COMMENT $22CD VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $22CF VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $22D1 set via port A to input
+COMMENT $22D3 A = $89, B = $81
+COMMENT $22D6 VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $22D8 delay
+COMMENT_LINE $22D9 -)
+COMMENT $22D9 get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $22DB VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $22DD check if we received a bit (in bit 6)
+COMMENT $22DF waiting to receive a 0 in bit 6 as acknowledgement of communication
+COMMENT $22E1 test for T1 timeout interrupt flag
+COMMENT $22E3 check
+COMMENT $22E9 switch Via port A to output
+COMMENT $22EB counter (4) reached 0?
+COMMENT $22ED if not jump and do next
+COMMENT $22EF A = FF, 1111 1111
+COMMENT $22F1 send a "full" byte (bit 4,5,6 set) as end of communication
+COMMENT $22F6 VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $22F8 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $22FA A= 02, B = 0
+COMMENT $22FD store a mini T1 timer
+COMMENT $22FF restore T1, ramp on...1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT $2303 remove used values, reset dp and return to caller
+COMMENT $2305 A = FF, 1111 1111
+COMMENT $2308 Via port A to output
+COMMENT $230A send a "full" byte (bit 4,5,6 set) as end of communication
+COMMENT $230C VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $2311 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $2313 restore T1, ramp on...1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT $2315 remove used values, reset dp and return to caller
+COMMENT $2317 A= $E (reg 14 of PSG)
+COMMENT $2319 to VIA port A
+COMMENT $231C A= $99, B = $81
+COMMENT $231F VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $2322 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $2325 port A as input
+COMMENT $2328 A = $89, B = $81
+COMMENT $232B VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $232E delay
+COMMENT_LINE $232F -)
+COMMENT $232F get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $2332 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $2335 B = $FF
+COMMENT $2337 set via port A as output
+COMMENT $233A test bit 4 of received data
+COMMENT $233C if bit is 0 than a commnication request is issued from the other side
+COMMENT $233E if not - return
+COMMENT $233F load 4 double bits
+COMMENT $2341 remember current DP, "$4" and A (push DP first, than b than a, s is pointing to the pushed copy of A)
+COMMENT $2345 setup DP to d0
+COMMENT $2347 A= $E (reg 14 of PSG), B = $99
+COMMENT $234A A to via port A, prepare latch of PSG reg 14
+COMMENT $234C VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $234E A= $18 (for Aux), and $81 for psg inactive
+COMMENT $2351 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT_LINE $2353 disable ramping, while we use T1 for timeout checking...
+COMMENT $2353 SHIFT mode = 110 - SHIFT out under control of system clock, T1 does not control RAMP
+COMMENT $2355 set a huge timer for the complete commuication timeout
+COMMENT $2358 store to timer lo and hi timer 1
+COMMENT $235A set via port A as input (clear DDRA)
+COMMENT $235C A= 89, B 81
+COMMENT $235F VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $2361 delay
+COMMENT_LINE $2362 -)
+COMMENT $2362 get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $2364 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $2366 test bit 4, for two bit commication correctness - it must be 0, for the first of the 2 bit commucation
+COMMENT $2368 if that is so - branch
+COMMENT $236A test bit for T1
+COMMENT $236C otherwise test for T1 timeout
+COMMENT $236E if not timeout - read again... perhaps with more luck
+COMMENT $2370 otherwise - jump to timeout
+COMMENT $2372 A= 89, B =81
+COMMENT $2375 VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $2377 delay
+COMMENT_LINE $2378 -)
+COMMENT $2378 get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $237A VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $237C set port A as output (all $ff now)
+COMMENT $237E communication "data" bit is bit 5
+COMMENT $237F doing 3 asls puts the data bit to carry
+COMMENT $2381 and a ror pushes the bit into the hi bit of our return data, this will be done 8 times so in the end the first received bit will be in place of the least significant bit
+COMMENT $2383 A = $BF, 1011 1111, load a with our "acceptance" bit cleared (bit 6)
+COMMENT $2385 store it to Via port A which will send it to port A of PSG -> to joystick port to other veccy
+COMMENT $2387 A = $91, B = 81
+COMMENT $238A VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $238C VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $238E prepare next read, and set via port A to input again
+COMMENT $2390 A= 89, B =81
+COMMENT $2393 VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $2395 delay
+COMMENT_LINE $2396 -)
+COMMENT $2396 get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $2398 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $239A test bit 4, for two bit commication correctness - this time it must be 1 (second bit of 2 bit communication)
+COMMENT $239C if that is so - branch
+COMMENT $239E test bit for T1
+COMMENT $23A0 otherwise test for T1 timeout
+COMMENT $23A2 if not timeout - read again... perhaps with more luck
+COMMENT $23A4 otherwise - jump to timeout
+COMMENT $23A7 A= 89, B 81
+COMMENT $23AA VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $23AC delay
+COMMENT_LINE $23AD -)
+COMMENT $23AD get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $23AF VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $23B1 set port A as output (all $ff now)
+COMMENT $23B3 doing 3 asls puts the data bit to carry
+COMMENT $23B6 and a ror pushes the bit into the hi bit of our return data, and all other bits one to the right
+COMMENT $23B8 A = $FF, 1111 1111, load a with our "acceptance" bit set (bit 6)
+COMMENT $23BA store it to Via port A which will send it to port A of PSG -> to joystick port to other veccy
+COMMENT $23BC A = $91, B = 81
+COMMENT $23BF VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $23C1 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $23C3 do the above 4 times (2bits *2 = 8bit = 1 byte)
+COMMENT $23C5 if not done - read next to bits
+COMMENT $23C7 A= 02, B = 0
+COMMENT $23CA store a mini T1 timer
+COMMENT $23CE restore T1, ramp on...1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT $23D0 remove used values, reset dp and return to caller, result is "loaded" to reg A, B = 0!
+COMMENT_LINE $26B8 second line comment
+COMMENT $26B8 some comment
+COMMENT $26BA a=0, dp = $c8
+COMMENT $26BC b=3
+COMMENT_LINE $26BE Write second
+COMMENT_LINE $26BE Third line
+COMMENT $26BE Cartridge initialization is done in this method
+COMMENT $26FA 285c is a dummy jumper (only a RTS)
+COMMENT $26FF jumper2_A
+COMMENT $271F read one serial byte (with connection test)
+COMMENT $2722 if = $4d -> jump
+COMMENT $2736 do the intensity cycle for game selection type
+COMMENT $273F tex site of menu text
+COMMENT $2744 U is still setup from copyright
+COMMENT_LINE $2747 -)
+COMMENT $2747 U keeps going to be set up right
+COMMENT $274C setup DP
+COMMENT $275D dp = c8
+COMMENT $275F send 4d as a sign that we are "primary" than we send first! 0100 1101
+COMMENT $2761 write it to putput
+COMMENT $2764 only if 4 double byte counter is zero, there was a success
+COMMENT $2765 branch if not successfull
+COMMENT $2769 Wait for other side to ackowledge our priority
+COMMENT $276C A= $73 - 0111 0011 Jup, we areking of the hill (and B = 00)
+COMMENT $2776 Sync WR Timer Hi
+COMMENT $2780 Sync WR Timer Lo
+COMMENT $27E3 setup DP
+COMMENT $27E5 acknowledge we are secondary
+COMMENT $27E7 send that
+COMMENT $27F7 Sync WR Timer Hi
+COMMENT $2801 Sync WR Timer Lo
+COMMENT $38B6 vlist looking back
+COMMENT $38B8 vlist looking right
+COMMENT $38BA vlist looking straight
+COMMENT $38BC vlist looking left
+COMMENT $38BE vectorlist in form of a jump table, y,x, vectorDrawRoutine
+COMMENT $38DA vectorlist in form of a jump table, y,x, vectorDrawRoutine
+COMMENT $3906 vectorlist in form of a jump table, y,x, vectorDrawRoutine
+COMMENT $3936 vectorlist in form of a jump table, y,x, vectorDrawRoutine
+COMMENT $3990 vectorlist in form of a jump table, y,x, vectorDrawRoutine
+COMMENT $39E1 vectorlist in form of a jump table, y,x, vectorDrawRoutine
+COMMENT_LINE $3A64 following are 32 vectorlists just one vector "clock"
+COMMENT $3B97 y,x,wordPointer_draw
+COMMENT $3BC9 end of healthpack
+COMMENT $3C51 y,x,wordPointer_draw
+COMMENT $3C85 end of missile
+COMMENT_LINE $43CF RLDU
+COMMENT_LINE $43CF reads buttons and joystick, result in $c805, lower nibble contains buttons stae, upper nibble reads y and x +-+- values (if bit is set, than + or netaive, if not set, than 0
+COMMENT $43CF upper nibble (D=down, U = Up, L=Left, R = Right)
+COMMENT $43D1 setup DP
+COMMENT $43D3 A= $19, B = $0e
+COMMENT $43D6 va port A = 14 (PSG reg 14)
+COMMENT $43D8 VIA Port B = 19, mux disabled, RAMP enabled(no), BC1/BDIR = 11 (Latch address)
+COMMENT $43DA A=0, B=1
+COMMENT $43DD VIA Port B = 01, mux disabled, RAMP enabled(no), BC1/BDIR = 00 (PSG inactive)
+COMMENT $43DF Via port A = input
+COMMENT $43E1 A=09
+COMMENT $43E3 VIA Port B = 09, mux disabled, RAMP enabled(no), BC1/BDIR = 01 (Read from PSG)
+COMMENT $43E5 delay
+COMMENT $43E6 get value from via A <- PSG A <- Joystick port
+COMMENT $43E8 VIA Port B = 01, mux disabled, RAMP enabled(no), BC1/BDIR = 00 (PSG inactive)
+COMMENT $43EA B=ff
+COMMENT $43EC Via port A as output
+COMMENT $43EE whatever we got from A is inverted
+COMMENT $43EF and only the lower nibble used
+COMMENT $43F1 save the button state
+COMMENT $43F4 A= 03, B = 0
+COMMENT $43F7 mux sel = 01, port 0 vertical joystick
+COMMENT $43F9 enable mux
+COMMENT $43FB wait for pos to gather for 16 loops
+COMMENT $4400 disable mux
+COMMENT $4402 A=$40, B = $20
+COMMENT $4405 Store compare value $40 to DAC (test for Up)
+COMMENT $4407 delay
+COMMENT $4409 check compare bit
+COMMENT $440B value in DAC was smaller than pot _> compare bit is set, that means joystick was moved up ->
+COMMENT $440D A=-$40, test for down
+COMMENT $440F delay
+COMMENT $4411 check compare bit
+COMMENT $4413 value in DAC was greater than pot -> compare bit is not set, that means joystick was moved down ->
+COMMENT $4415 A= 01, B = 0
+COMMENT $4418 Via port B mux sel = 00, mux disabled, port 0 horizontal joystick, Via port A = 0
+COMMENT $441A enable mux
+COMMENT $441C wait for pos to gather for 16 loops
+COMMENT $4421 disable mux
+COMMENT $4423 A=$40, B = $20
+COMMENT $4426 Store compare value $40 to DAC (test for Right)
+COMMENT $4428 delay
+COMMENT $442A check compare bit
+COMMENT $442C value in DAC was greater than pot -> compare bit is not set, that means joystick was moved right ->
+COMMENT $442E A=-$40, test for left
+COMMENT $4430 delay
+COMMENT $4432 check compare bit
+COMMENT $4434 value in DAC was greater than pot -> compare bit is not set, that means joystick was moved left ->
+COMMENT $4436 done
+COMMENT $4453 done
+COMMENT $445C done
+COMMENT $457B intensity, scale, ypos, xpos
+COMMENT $457F $1f is copyright, $ is space
+COMMENT $478E Stack a,b, dp, x, y, s, pc
+COMMENT_LINE $4796 Thus, game start at $26B8
+RANGE $0000-$0019 DP $FF
+RANGE $0019-$00AC DP $D0
+RANGE $00AC-$00B7 DP $FF
+RANGE $00B7-$00D3 DP $C8
+RANGE $00D3-$00F5 DP $FF
+RANGE $00F5-$013F DP $D0
+RANGE $013F-$01A6 DP $FF
+RANGE $01A6-$0205 DP $D0
+RANGE $0205-$0504 DP $FF
+RANGE $0504-$0566 DP $D0
+RANGE $0566-$0769 DP $FF
+RANGE $0769-$076B DP $C8
+RANGE $076B-$0784 DP $FF
+RANGE $0784-$07A7 DP $D0
+RANGE $07A7-$1354 DP $FF
+RANGE $1354-$137D DP $D0
+RANGE $137D-$1394 DP $FF
+RANGE $1394-$1523 DP $D0
+RANGE $1523-$1539 DP $FF
+RANGE $1539-$1548 DP $C8
+RANGE $1548-$1557 DP $FF
+RANGE $1557-$15A0 DP $D0
+RANGE $15A0-$15B5 DP $FF
+RANGE $15B5-$1665 DP $C8
+RANGE $1665-$224C DP $FF
+RANGE $224C-$2308 DP $D0
+RANGE $2308-$233F DP $FF
+RANGE $233F-$23C3 DP $D0
+RANGE $23C3-$23E0 DP $FF
+RANGE $23E0-$245B DP $C8
+RANGE $245B-$26A5 DP $FF
+RANGE $26A5-$26BA DP $D0
+RANGE $26BA-$26C4 DP $C8
+RANGE $26C4-$26F6 DP $FF
+RANGE $26F6-$270F DP $C8
+RANGE $270F-$274E DP $FF
+RANGE $274E-$2752 DP $C8
+RANGE $2752-$275B DP $FF
+RANGE $275B-$2852 DP $C8
+RANGE $2852-$2896 DP $FF
+RANGE $2896-$28CF DP $C8
+RANGE $28CF-$3877 DP $FF
+RANGE $3877-$38A0 DP $D0
+RANGE $38A0-$3962 DP $FF
+RANGE $3962-$397A DP $D0
+RANGE $397A-$39AD DP $FF
+RANGE $39AD-$39CD DP $D0
+RANGE $39CD-$3A25 DP $FF
+RANGE $3A25-$3A40 DP $D0
+RANGE $3A40-$3B64 DP $FF
+RANGE $3B64-$3B81 DP $D0
+RANGE $3B81-$3C1E DP $FF
+RANGE $3C1E-$3C4F DP $D0
+RANGE $3C4F-$3D60 DP $FF
+RANGE $3D60-$3DF7 DP $D0
+RANGE $3DF7-$43CF DP $FF
+RANGE $43CF-$4421 DP $D0
+RANGE $4421-$445D DP $FF
+RANGE $445D-$4481 DP $C8
+RANGE $4481-$4799 DP $FF
+RANGE $0000-$000B DB_DATA
+RANGE $000B-$000D DW_DATA
+RANGE $000D-$000E DB_DATA
+RANGE $000E-$0210 CODE
+RANGE $0210-$0504 DB_DATA
+RANGE $0504-$0567 CODE
+RANGE $0567-$0769 DB_DATA
+RANGE $0769-$07B6 CODE
+RANGE $07B6-$0C37 DB_DATA
+RANGE $0C37-$0C48 CODE
+RANGE $0C48-$0C4A DB_DATA
+RANGE $0C4A-$167B CODE
+RANGE $167B-$224C DB_DATA
+RANGE $224C-$24C9 CODE
+RANGE $24C9-$24D1 DB_DATA
+RANGE $24D1-$25FF CODE
+RANGE $25FF-$2605 DB_DATA
+RANGE $2605-$265D CODE
+RANGE $265D-$2661 DB_DATA
+RANGE $2661-$2AC5 CODE
+RANGE $2AC5-$2AC6 DB_DATA
+RANGE $2AC6-$2AC8 CODE
+RANGE $2AC8-$2ACC DB_DATA
+RANGE $2ACC-$2AD0 CODE
+RANGE $2AD0-$2AD2 DB_DATA
+RANGE $2AD2-$2AF1 CODE
+RANGE $2AF1-$2AF3 DB_DATA
+RANGE $2AF3-$2AF5 CODE
+RANGE $2AF5-$2AF9 DB_DATA
+RANGE $2AF9-$2AFB CODE
+RANGE $2AFB-$2AFD DB_DATA
+RANGE $2AFD-$2AFF CODE
+RANGE $2AFF-$2B0F DB_DATA
+RANGE $2B0F-$2CD5 CODE
+RANGE $2CD5-$2CD9 DB_DATA
+RANGE $2CD9-$2DD4 CODE
+RANGE $2DD4-$2DDE DB_DATA
+RANGE $2DDE-$2FB0 CODE
+RANGE $2FB0-$2FB2 DB_DATA
+RANGE $2FB2-$3596 CODE
+RANGE $3596-$3598 DB_DATA
+RANGE $3598-$3853 CODE
+RANGE $3853-$3877 DW_DATA
+RANGE $3877-$38B6 CODE
+RANGE $38B6-$38BE DW_DATA
+RANGE $38BE-$3962 DB_DATA
+RANGE $3962-$3990 CODE
+RANGE $3990-$39A4 DB_DATA
+RANGE $39A4-$39E1 CODE
+RANGE $39E1-$3A25 DB_DATA
+RANGE $3A25-$3A54 CODE
+RANGE $3A54-$3B64 DB_DATA
+RANGE $3B64-$3B97 CODE
+RANGE $3B97-$3B99 DB_DATA
+RANGE $3B99-$3B9B DW_DATA
+RANGE $3B9B-$3B9D DB_DATA
+RANGE $3B9D-$3B9F DW_DATA
+RANGE $3B9F-$3BA1 DB_DATA
+RANGE $3BA1-$3BA3 DW_DATA
+RANGE $3BA3-$3BA5 DB_DATA
+RANGE $3BA5-$3BA7 DW_DATA
+RANGE $3BA7-$3BA9 DB_DATA
+RANGE $3BA9-$3BAB DW_DATA
+RANGE $3BAB-$3BAD DB_DATA
+RANGE $3BAD-$3BAF DW_DATA
+RANGE $3BAF-$3BB1 DB_DATA
+RANGE $3BB1-$3BB3 DW_DATA
+RANGE $3BB3-$3BB5 DB_DATA
+RANGE $3BB5-$3BB7 DW_DATA
+RANGE $3BB7-$3BB9 DB_DATA
+RANGE $3BB9-$3BBB DW_DATA
+RANGE $3BBB-$3BBD DB_DATA
+RANGE $3BBD-$3BBF DW_DATA
+RANGE $3BBF-$3BC1 DB_DATA
+RANGE $3BC1-$3BC3 DW_DATA
+RANGE $3BC3-$3BC5 DB_DATA
+RANGE $3BC5-$3BC7 DW_DATA
+RANGE $3BC7-$3BC9 DB_DATA
+RANGE $3BC9-$3BCB DW_DATA
+RANGE $3BCB-$3C00 CODE
+RANGE $3C00-$3C01 DB_DATA
+RANGE $3C01-$3C10 CODE
+RANGE $3C10-$3C11 DB_DATA
+RANGE $3C11-$3C1C CODE
+RANGE $3C1C-$3C1E DB_DATA
+RANGE $3C1E-$3C51 CODE
+RANGE $3C51-$3D60 DB_DATA
+RANGE $3D60-$3E0D CODE
+RANGE $3E0D-$3EF9 DB_DATA
+RANGE $3EF9-$4051 CODE
+RANGE $4051-$4130 DB_DATA
+RANGE $4130-$4149 CODE
+RANGE $4149-$4159 DB_DATA
+RANGE $4159-$41AF CODE
+RANGE $41AF-$43CF DB_DATA
+RANGE $43CF-$455F CODE
+RANGE $455F-$470C DB_DATA
+RANGE $470C-$478E CODE
+RANGE $478E-$4799 DB_DATA
+

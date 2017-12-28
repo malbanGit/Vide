@@ -1,5 +1,7 @@
 package de.malban.vide.vedi.project;
 
+import static de.malban.util.Utility.makeGlobalAbsolute;
+import java.io.File;
 import javax.swing.JOptionPane;
 import java.util.*;
 public class  FilePropertiesPool
@@ -39,14 +41,14 @@ public class  FilePropertiesPool
 	{
             java.io.File f;
             if (pathName==null)
-                f = new java.io.File(de.malban.Global.mainPathPrefix+mFileName);
+                f = new java.io.File(makeGlobalAbsolute(mFileName));
             else
-                f = new java.io.File(de.malban.Global.mainPathPrefix+pathName+mFileName);
+                f = new java.io.File(makeGlobalAbsolute(pathName)+File.separator+mFileName);
             if (!f.exists()) return false;
             if (pathName == null)
                 mFileProperties = FileProperties.getHashMapFromXML(mFileName);
             else
-                mFileProperties = FileProperties.getHashMapFromXML(mFileName, de.malban.Global.mainPathPrefix+pathName);
+                mFileProperties = FileProperties.getHashMapFromXML(mFileName, makeGlobalAbsolute(pathName));
             return true;
 	}
 	public void save()

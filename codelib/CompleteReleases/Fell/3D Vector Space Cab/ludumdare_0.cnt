@@ -1,0 +1,5054 @@
+BANK 0
+EQU $00 
+EQU $64 VOICE_LENGTH
+LABEL $C880 base
+LABEL $C880 scratch
+COMMENT_LABEL $C880 General purpose scratch
+LABEL $C881 scratch2
+COMMENT_LABEL $C881 General purpose scratch
+LABEL $C882 scratch16
+COMMENT_LABEL $C882 General purpose 16-bit scratch
+LABEL $C884 state_frame
+COMMENT_LABEL $C884 16 bit frame function for current state
+LABEL $C886 joy_b
+COMMENT_LABEL $C886 Controller button state
+LABEL $C887 joy_lr
+COMMENT_LABEL $C887 Joystick x state
+LABEL $C888 sfx_pointer
+COMMENT_LABEL $C888 16-bit pointer to SFX curr data byte
+LABEL $C88A sfx_status
+COMMENT_LABEL $C88A SFX play status
+LABEL $C88B textpos
+COMMENT_LABEL $C88B yx coords for text
+LABEL $C88D textscale
+LABEL $C88E textbright
+LABEL $C88F state_base
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_a
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode_a
+LABEL $F62B Rot_VL_Mode
+LABEL $F637 Rot_VL_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $0EAB silence
+EQU $26 main
+LABEL $0033 warm_start
+LABEL $C8A3 high_score
+COMMENT_LABEL $C8A3 16 bit!! Track the high score (SLIGHT HACK WARNING -- placed high so it doesn't get overwritten by other states)
+LABEL $29C1 taxisample_data_start
+LABEL $29BF taxisample_length
+LABEL $0251 init_digit_sound
+LABEL $C986 digit_looping
+COMMENT_LABEL $C986 1
+EQU $4F voice_hack
+LABEL $0283 wait_recal_digitj
+LABEL $043F intensity_a_digitj
+LABEL $0344 move_to_d_digitj
+LABEL $0EB3 ship
+LABEL $039F draw_vlc_digitj
+LABEL $2984 title_text
+LABEL $0457 Print_Str_digit
+LABEL $057D SplashInit
+LABEL $0591 SplashFrame
+LABEL $00A7 ChangeState
+LABEL $009E frame_loop
+COMMENT_LABEL $009E Frame start
+LABEL $00AE FixedRandom_3
+LABEL $00B7 LF51A
+LABEL $00B4 FixedRandom
+LABEL $00BA LF51D
+LABEL $00D0 sfx_init
+LABEL $00DA sfx_playsound_if_clear
+LABEL $00E7 sfx_already_playing
+LABEL $00E8 sfx_playsound
+LABEL $00F1 sfx_doframe
+LABEL $00F7 sfx_stuff_to_play
+LABEL $0106 sfx_checktonefreq
+LABEL $0173 sfx_endofeffect
+LABEL $011E sfx_checknoisefreq
+LABEL $012D sfx_checkvolume
+LABEL $0136 sfx_checktonedisable
+LABEL $0148 sfx_enabletone
+LABEL $013C sfx_disabletone
+LABEL $0152 sfx_checknoisedisable
+LABEL $0164 sfx_enablenoise
+LABEL $0158 sfx_disablenoise
+LABEL $016E sfx_nextframe
+EQU $20 UTILS_BIN2ASCII_SPACE
+LABEL $0184 bin2ascii
+LABEL $01CD tab
+LABEL $0192 mainbo
+LABEL $01AB skip_calc
+LABEL $019A addit
+LABEL $01A4 no_overflow
+LABEL $01B5 b2a_1
+LABEL $01C0 b2a_2
+LABEL $021D InitJoystick
+LABEL $022E GetJoystick
+LABEL $0250 x_done
+LABEL $024B left_move
+LABEL $1F40 SAMPLE_RATE
+LABEL $C980 user_ram
+COMMENT_LABEL $C980 well start of our ram space
+LABEL $C980 user_ram_start
+LABEL $C980 via_b_start
+COMMENT_LABEL $C980 1
+LABEL $C981 digit_sound_struct
+LABEL $C981 digit_is_playing
+COMMENT_LABEL $C981 1
+LABEL $C982 digit_start_pos
+COMMENT_LABEL $C982 1
+LABEL $C984 digit_length
+COMMENT_LABEL $C984 2
+LABEL $C987 digit_current_pos
+COMMENT_LABEL $C987 2
+LABEL $C989 digit_end_pos
+COMMENT_LABEL $C989 2
+LABEL $C98B digit_recal_counter
+COMMENT_LABEL $C98B 1
+LABEL $C98D digit_sound_struct_end
+LABEL $0096 CORRECTION
+EQU $2B CYCLES_AFTER_T2_EXPIRES
+COMMENT_LABEL $2B for the routines below, these values are correct!
+EQU $17 CYCLES_BEFOR_T2_IS_SET
+EQU $42 TIMER_T2_DELAY
+EQU $79 UPDATE_TIMER
+EQU $79 UPDATE_TIMER_LO
+EQU $00 UPDATE_TIMER_HI
+EQU $79 T2_TIMER_PEROID_REAL
+EQU $79 T2_TIMER_PEROID_LO
+EQU $00 T2_TIMER_PEROID_HI
+LABEL $7900 T2_TIMER_PEROID_ENDIAN_REVERSE
+EQU $6E RECAL_COUNTER_RESET
+EQU $32 SCALE_FACTOR_DIGIT
+LABEL $0283 wait_for_next_digit4
+LABEL $02B4 timer_restart_only5
+LABEL $028B wait_for_next_digit6
+LABEL $02A6 sound_not_done5
+LABEL $0298 sound_done5
+LABEL $02B1 sound_restart_timer5
+LABEL $02BA makro_rts5
+LABEL $02C6 recal_loop14
+LABEL $02DA recal_loop24
+LABEL $033D timer_restart_only10
+LABEL $0314 wait_for_next_digit11
+LABEL $032F sound_not_done10
+LABEL $0321 sound_done10
+LABEL $033A sound_restart_timer10
+LABEL $0343 makro_rts10
+LABEL $0377 timer_restart_only15
+LABEL $034E wait_for_next_digit16
+LABEL $0369 sound_not_done15
+LABEL $035B sound_done15
+LABEL $0374 sound_restart_timer15
+LABEL $037D makro_rts15
+LABEL $0399 wait_for_t114
+LABEL $03D0 timer_restart_only20
+LABEL $03A7 wait_for_next_digit21
+LABEL $03C2 sound_not_done20
+LABEL $03B4 sound_done20
+LABEL $03CD sound_restart_timer20
+LABEL $03D6 makro_rts20
+LABEL $03D8 DRAW_VLA_DIGIT19
+LABEL $03F8 wait_for_t124
+LABEL $0432 timer_restart_only25
+LABEL $0409 wait_for_next_digit26
+LABEL $0424 sound_not_done25
+LABEL $0416 sound_done25
+LABEL $042F sound_restart_timer25
+LABEL $0438 makro_rts25
+LABEL $F9D4 Char_Table
+LABEL $FBB4 Char_Table_End
+LABEL $048B timer_restart_only30
+LABEL $0462 wait_for_next_digit31
+LABEL $047D sound_not_done30
+LABEL $046F sound_done30
+LABEL $0488 sound_restart_timer30
+LABEL $0491 makro_rts30
+LABEL $049E LF4A5
+LABEL $04C4 LF4CB
+LABEL $04C0 LF4C7
+LABEL $053F LF50A
+LABEL $04E4 LF4EB
+LABEL $051D timer_restart_only34
+LABEL $04F4 wait_for_next_digit35
+LABEL $050F sound_not_done34
+LABEL $0501 sound_done34
+LABEL $051A sound_restart_timer34
+LABEL $0523 makro_rts34
+LABEL $0574 timer_restart_only38
+LABEL $054B wait_for_next_digit39
+LABEL $0566 sound_not_done38
+LABEL $0558 sound_done38
+LABEL $0571 sound_restart_timer38
+LABEL $057A makro_rts38
+EQU $03 SPLASH_ROT_DELAY
+COMMENT_LABEL $03 Planet rotates every this many frames
+EQU $14 LABEL_OFFSET
+COMMENT_LABEL $14 x offset for landmark labels
+LABEL $C88F planet_rot_splash
+COMMENT_LABEL $C88F Planet rotation val
+LABEL $C890 intens_splash
+COMMENT_LABEL $C890 Screen intensity
+LABEL $C891 rot_delay
+COMMENT_LABEL $C891 Track frames left till rotation
+LABEL $C892 framecount_splash
+COMMENT_LABEL $C892 16 bit frame counter
+LABEL $005F MAX_INTENSITY
+COMMENT_LABEL $005F Max screen intensity
+LABEL $059D dont_step_intensity_splash
+LABEL $0001 FADE_SPEED
+COMMENT_LABEL $0001 How fast do we fade in?
+LABEL $05C6 no_rot_step
+LABEL $05C3 dont_reset_rot_intro
+LABEL $002F NUM_FRAMES
+LABEL $10AF theplanet_index
+LABEL $05CF ap_next_contour_splash
+COMMENT_LABEL $05CF For each contour
+LABEL $05DA fm_wait43
+LABEL $060A ap_draw_it_splash
+LABEL $05F7 ap_next_point_splash
+LABEL $0611 ap_w_t1_splash
+LABEL $FF88 FRAME_DELIMITER
+LABEL $081F dont_change_state_splash
+LABEL $0654 fade_text_out
+LABEL $0661 fade_text_in
+LABEL $0662 now_set_intensity
+LABEL $07B3 do_title_text
+LABEL $008C LM_MOVE_SCALE
+COMMENT_LABEL $008C Scale value to get correct moves from landmark coord table
+LABEL $0F37 landmark1
+LABEL $FF81 INVISIBLE
+LABEL $06D6 skip_it_1
+LABEL $2998 lm1_name
+LABEL $06B9 fm_wait47
+LABEL $0F95 landmark2
+LABEL $071D skip_it_2
+LABEL $29A3 lm2_name
+LABEL $0700 fm_wait50
+LABEL $0FF3 landmark3
+LABEL $0762 skip_it_3
+LABEL $29AC lm3_name
+LABEL $0745 fm_wait53
+LABEL $1051 landmark4
+LABEL $07A7 skip_it_4
+LABEL $29B4 lm4_name
+LABEL $078A fm_wait56
+LABEL $080D do_input
+LABEL $2970 welcome_text
+LABEL $07D0 fm_wait59
+LABEL $0806 fm_wait62
+LABEL $0820 GameInit
+COMMENT_LABEL $0820 Gets called once when changing to this state
+LABEL $0870 GameFrame
+COMMENT_LABEL $0870 Gets called every frame
+EQU $5A SHIP_MAX_Y
+COMMENT_LABEL $5A Ship y pos bounds
+EQU -$50 SHIP_MIN_Y
+EQU $04 SHIP_MAX_YVEL
+COMMENT_LABEL $04 Ship y velo bound
+EQU -$02 SHIP_MIN_YVEL
+EQU $50 MAX_SCALE
+COMMENT_LABEL $50 Scale of the ship when at horizon
+LABEL $00FF MAX_FUEL
+COMMENT_LABEL $00FF Max fuel ship can carry
+EQU -$01 GRAVITY
+COMMENT_LABEL -$01 Gravity influence on y velo
+EQU $03 THRUST
+COMMENT_LABEL $03 Thruster influence on y velo
+LABEL $0190 DROPOFF_REWARD
+COMMENT_LABEL $0190 Amount of moolah for dropping someone off
+EQU $03 CLOSENESS
+COMMENT_LABEL $03 How close do they gotta be to hit the landmark?
+EQU $02 FUEL_BURN_THR
+COMMENT_LABEL $02 How fast fuel burns when thrusting
+EQU $01 FUEL_BURN_SPIN
+COMMENT_LABEL $01 How fast fuel burns when spinning
+LABEL $0384 COMBO_BUMP
+COMMENT_LABEL $0384 How much combo_bonus gets bumped by on dropoff
+LABEL $C88F cash
+COMMENT_LABEL $C88F 16-bit cash counter
+LABEL $C891 cash_ascii
+COMMENT_LABEL $C891 Ascii score (7 bytes -- 1 dollar sign, 5 digits, one string termie)
+LABEL $C898 shipy
+COMMENT_LABEL $C898 Ship y coordd
+LABEL $C899 fuel
+COMMENT_LABEL $C899 Ship fuel
+LABEL $C89A shipyvel
+COMMENT_LABEL $C89A Ship y velocity
+LABEL $C89B odd_frame
+COMMENT_LABEL $C89B Is it an odd frame?
+LABEL $C89C planet_rot
+COMMENT_LABEL $C89C Planet rotation val
+LABEL $C89D current_fuel_lm
+COMMENT_LABEL $C89D Which landmark's the fuel depot? (0-3)
+LABEL $C89E current_pass_lm
+COMMENT_LABEL $C89E Which landmark's the dropoff or pickup point? (0-3)
+LABEL $C89F taxi_mode
+COMMENT_LABEL $C89F -1=Pickup next; 1=Dropoff next
+LABEL $C8A0 intens
+COMMENT_LABEL $C8A0 Screen intensity
+LABEL $C8A1 combo_bonus
+COMMENT_LABEL $C8A1 16 bit!! Track the current combo bonus
+LABEL $C8A5 high_score_asc
+COMMENT_LABEL $C8A5 7 bytes for ASCII high score (1 dollar sign, 5 digits, one string termie)
+LABEL $C8AC combo_level
+COMMENT_LABEL $C8AC Track combo level (just for convenience... ideally we should calc combo_bonus from this but meh \o/)
+LABEL $C8AD GAME_RAM_TOP
+COMMENT_LABEL $C8AD End of our RAM (gameover state doesn't reuse the public state area cos it wants to access score)
+LABEL $0848 re_roll
+LABEL $0883 dont_step_intensity
+LABEL $08A2 dont_apply_gravity
+LABEL $08B6 thrust_input_done
+LABEL $08B3 fuel_level_ok
+LABEL $0CC1 game_over
+LABEL $08BC min_yvel_ok
+LABEL $08C2 max_yvel_ok
+LABEL $08CE ymax_ok
+LABEL $08E1 ymin_ok
+LABEL $08DE fuel_level_ok3
+LABEL $091C input_done
+LABEL $08F8 fuel_level_ok2
+LABEL $0901 go_left
+COMMENT_LABEL $0901 Rot left
+LABEL $0910 go_right
+COMMENT_LABEL $0910 Rot right
+LABEL $090B dont_reset_rot2
+LABEL $0919 dont_reset_rot
+LABEL $0925 ap_next_contour
+COMMENT_LABEL $0925 For each contour
+LABEL $092D fm_wait64
+LABEL $095D ap_draw_it
+LABEL $094A ap_next_point
+LABEL $0964 ap_w_t1
+LABEL $09AA fm_wait67
+LABEL $09DD fm_wait70
+LABEL $09FD fdld_wt171
+LABEL $0A37 fm_wait74
+LABEL $0A41 shipy_abs_ok
+LABEL $0A4E next_coord75
+LABEL $0A68 t1wait75
+LABEL $0F27 landmarks_index
+LABEL $0ACA no_fueldepot
+LABEL $0F1A fueldepot
+LABEL $0ABF fm_wait78
+LABEL $0B23 no_passenger_pt
+LABEL $0B13 show_dropoff
+LABEL $0EFB passenger
+LABEL $0B16 now_draw_pass
+LABEL $0EF1 dropoff
+LABEL $0B18 fm_wait81
+LABEL $0B66 nobody_onboard
+LABEL $0B5B fm_wait84
+LABEL $0BD7 no_combos_yo
+LABEL $0BA0 fm_wait87
+LABEL $0BA6 next_cl
+LABEL $0EE4 wee_flag
+LABEL $0BAB next_coord88
+LABEL $0BC5 t1wait88
+LABEL $0C4D no_fuel_hit
+LABEL $0BFB ship_below2
+LABEL $0CBD no_pass_hit
+LABEL $0C04 re_roll2
+COMMENT_LABEL $0C04 If we got here, we hit the fuel depot!
+LABEL $0C3C cash_ok
+LABEL $26F8 sfx_fuel
+LABEL $0C6F ship_below
+LABEL $0C76 re_roll3
+COMMENT_LABEL $0C76 If we got here, we hit the pickup/dropoff point
+LABEL $0CB7 was_pickup
+LABEL $26A7 sfx_dropoff
+LABEL $26DE sfx_pickup
+LABEL $0CCC GameOverInit
+LABEL $0D1A GameOverFrame
+LABEL $03E8 TIMEOUT
+COMMENT_LABEL $03E8 20 secs
+LABEL $C8AD framecount
+COMMENT_LABEL $C8AD 16 bit! How many frames have we been showing this screeen?
+LABEL $C8AF is_high_score
+COMMENT_LABEL $C8AF Did the player just get a high score?
+LABEL $0CD8 debug_me_bro
+LABEL $0CEE no_new_hs
+LABEL $2795 sfx_highscore
+LABEL $0CF1 now_play
+LABEL $2704 sfx_death
+LABEL $0D0E next_byte
+LABEL $0D19 mischief_managed
+LABEL $0D31 no_timeout
+LABEL $0D40 dont_step_intensity2
+LABEL $28B9 gameover_text
+LABEL $0D6F fm_wait91
+LABEL $0DA5 fm_wait94
+LABEL $0DE0 no_new_hs2
+LABEL $28E4 new_hs_label
+LABEL $0DE3 now_print
+LABEL $28D7 hs_label
+LABEL $0DE5 fm_wait97
+LABEL $0E1B fm_wait100
+LABEL $28F1 crashed_ufo_pic
+LABEL $0E51 fm_wait103
+LABEL $0EA7 dont_change_state
+LABEL $28C3 cta_text
+LABEL $0E8E fm_wait106
+LABEL $110D theplanet_frame_minus_1
+LABEL $117D theplanet_frame0
+LABEL $1237 theplanet_frame1
+LABEL $12A3 theplanet_frame2
+LABEL $1343 theplanet_frame3
+LABEL $13C5 theplanet_frame4
+LABEL $144E theplanet_frame5
+LABEL $14D7 theplanet_frame6
+LABEL $1545 theplanet_frame7
+LABEL $15C4 theplanet_frame8
+LABEL $1640 theplanet_frame9
+LABEL $16BA theplanet_frame10
+LABEL $1737 theplanet_frame11
+LABEL $17BE theplanet_frame12
+LABEL $182B theplanet_frame13
+LABEL $18C2 theplanet_frame14
+LABEL $1947 theplanet_frame15
+LABEL $19B6 theplanet_frame16
+LABEL $1A20 theplanet_frame17
+LABEL $1A83 theplanet_frame18
+LABEL $1AF5 theplanet_frame19
+LABEL $1B71 theplanet_frame20
+LABEL $1BE4 theplanet_frame21
+LABEL $1C46 theplanet_frame22
+LABEL $1CB1 theplanet_frame23
+LABEL $1D19 theplanet_frame24
+LABEL $1D69 theplanet_frame25
+LABEL $1DC4 theplanet_frame26
+LABEL $1E0F theplanet_frame27
+LABEL $1E69 theplanet_frame28
+LABEL $1EE4 theplanet_frame29
+LABEL $1F75 theplanet_frame30
+LABEL $1FD7 theplanet_frame31
+LABEL $2040 theplanet_frame32
+LABEL $209E theplanet_frame33
+LABEL $2103 theplanet_frame34
+LABEL $2166 theplanet_frame35
+LABEL $21CF theplanet_frame36
+LABEL $222E theplanet_frame37
+LABEL $2299 theplanet_frame38
+LABEL $22FD theplanet_frame39
+LABEL $238C theplanet_frame40
+LABEL $2406 theplanet_frame41
+LABEL $2494 theplanet_frame42
+LABEL $251B theplanet_frame43
+LABEL $259F theplanet_frame44
+LABEL $2631 theplanet_frame45
+LABEL $1F40 TAXISAMPLE_SAMPLERATE
+LABEL $29C1 taxisample_data
+LABEL $3E71 taxisample_data_end
+LABEL $3E71 text
+LABEL $3E79 *
+COMMENT_LINE $0000 ; hey dissi "watch $scrollBlinkAdd 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $phase_count 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $scrollIntensity 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $scrollBlink 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $speedx 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $speedy 1 0"
+COMMENT_LINE $0000 Main controller / game state manager
+COMMENT_LINE $0000 By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $0000 ****** CONSTANTS & DEFINES ******
+COMMENT $0000 Here be all ram location definitions
+COMMENT_LINE $0000 Ye olde memory map
+COMMENT_LINE $0000 By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $0000 State manager stuff
+COMMENT_LINE $0000 Controller interface stuff
+COMMENT_LINE $0000 SFX stuff
+COMMENT_LINE $0000 Textwriter stuff
+COMMENT_LINE $0000 Safe for gamestates to use
+COMMENT $0000 Sys defines (thanks Malban!)
+COMMENT_LINE $0000 this file is part of vectrex frogger, written by Christopher Salomon
+COMMENT_LINE $0000 in March-April 1998
+COMMENT_LINE $0000 all stuff contained here is public domain (?)
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Christopher Salomon ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 * $C839 ;Pointer to copyright string during startup
+COMMENT_LINE $0000 * $C83B ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 * $C83C ;temp byte
+COMMENT_LINE $0000 * $C843 ; register 9
+COMMENT_LINE $0000 * $C844 ; register 8
+COMMENT_LINE $0000 * $C848 ; register 4
+COMMENT_LINE $0000 * $C849 ; register 3
+COMMENT_LINE $0000 * $C84A ; register 2
+COMMENT_LINE $0000 * $C84C ; register 0
+COMMENT_LINE $0000 * $C85E ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 * $C868...$C876 ;Unused?
+COMMENT_LINE $0000 * $C878 ;Unused?
+COMMENT_LINE $0000 * $C880 - $CBEA is user RAM ;
+COMMENT_LINE $0000 * 0 sample/hold (0=enable mux 1=disable mux)
+COMMENT_LINE $0000 * 1 mux sel 0
+COMMENT_LINE $0000 * 2 mux sel 1
+COMMENT_LINE $0000 * 3 sound BC1
+COMMENT_LINE $0000 * 4 sound BDIR
+COMMENT_LINE $0000 * 5 comparator input
+COMMENT_LINE $0000 * 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 * 7 /RAMP
+COMMENT_LINE $0000 * 0 PA latch enable
+COMMENT_LINE $0000 * 1 PB latch enable
+COMMENT_LINE $0000 * 2 \ 110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 * 3 > shift register control (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 * 4 /
+COMMENT_LINE $0000 * 5 0=t2 one shot 1=t2 free running
+COMMENT_LINE $0000 * 6 0=t1 one shot 1=t1 free running
+COMMENT_LINE $0000 * 7 0=t1 disable PB7 output 1=t1 enable PB7 output
+COMMENT_LINE $0000 * 0 CA1 control CA1 -> SW7 0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 * 1 \
+COMMENT_LINE $0000 * 2 > CA2 control CA2 -> /ZERO 110=low 111=high
+COMMENT_LINE $0000 * 3 /
+COMMENT_LINE $0000 * 4 CB1 control CB1 -> NC 0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 * 5 \
+COMMENT_LINE $0000 * 6 > CB2 control CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 * 7 /
+COMMENT_LINE $0000 * bit cleared by
+COMMENT_LINE $0000 * 0 CA2 interrupt flag reading or writing port A I/O
+COMMENT_LINE $0000 * 1 CA1 interrupt flag reading or writing port A I/O
+COMMENT_LINE $0000 * 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 * 3 CB2 interrupt flag reading or writing port B I/O
+COMMENT_LINE $0000 * 4 CB1 interrupt flag reading or writing port A I/O
+COMMENT_LINE $0000 * 5 timer 2 interrupt flag read t2 low or write t2 high
+COMMENT_LINE $0000 * 6 timer 1 interrupt flag read t1 count low or write t1 high
+COMMENT_LINE $0000 * 7 IRQ status flag write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 * 0 CA2 interrupt enable
+COMMENT_LINE $0000 * 1 CA1 interrupt enable
+COMMENT_LINE $0000 * 2 shift register interrupt enable
+COMMENT_LINE $0000 * 3 CB2 interrupt enable
+COMMENT_LINE $0000 * 4 CB1 interrupt enable
+COMMENT_LINE $0000 * 5 timer 2 interrupt enable
+COMMENT_LINE $0000 * 6 timer 1 interrupt enable
+COMMENT_LINE $0000 * 7 IER set/clear control
+COMMENT_LINE $0000 endif
+COMMENT $0000 Drawing-related macros
+COMMENT_LINE $0000 Drawing Macros
+COMMENT_LINE $0000 By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $0000 Draw a dot by pinging the shiftreg
+COMMENT_LINE $0000 Draw a counted line list
+COMMENT_LINE $0000 Expects: x=list address
+COMMENT_LINE $0000 Draw a line rapidly
+COMMENT_LINE $0000 Expects:
+COMMENT_LINE $0000 (a,b) to be relative coords
+COMMENT_LINE $0000 Trashes:
+COMMENT_LINE $0000 d
+COMMENT $0000 Send Y to A/D
+COMMENT $0000 Enable mux
+COMMENT $0000 Wait a moment
+COMMENT $0000 Disable mux
+COMMENT $0000 Send X to A/D
+COMMENT $0000 Shift reg=$FF (solid line), T1H=0
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 Ping T1H
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out (aw what a shame, this wait is wasted...)
+COMMENT $0000 Wait a moment more
+COMMENT $0000 Clear shift register (blank output)
+COMMENT_LINE $0000 WAIT! Pro tip: Don't wait, calculate :P
+COMMENT_LINE $0000 Trashes b
+COMMENT $0000 Wait for timer 1
+COMMENT_LINE $0000 Hurry to a relative coord. DOES NOT WAIT!
+COMMENT_LINE $0000 Expects:
+COMMENT_LINE $0000 (a,b) = (y,x) coords
+COMMENT_LINE $0000 Trashes:
+COMMENT_LINE $0000 a
+COMMENT $0000 Fast MoveTo_d macro
+COMMENT $0000 Mark fm_wait label as local
+COMMENT $0000 Store Y in D/A register
+COMMENT $0000 Enable mux
+COMMENT $0000 Blank low, zero high
+COMMENT $0000 Clear shift register
+COMMENT $0000 Disable mux
+COMMENT $0000 Store X in D/A register
+COMMENT $0000 timer 1 count high
+COMMENT_LINE $0000 Set intensity
+COMMENT_LINE $0000 Trashes:
+COMMENT_LINE $0000 d
+COMMENT $0000 Store intensity in D/A
+COMMENT $0000 Save intensity in $C827
+COMMENT $0000 mux disabled channel 2
+COMMENT $0000 mux enabled channel 2
+COMMENT $0000 do it again just because
+COMMENT $0000 turn off mux
+COMMENT_LINE $0000 Get back to the origin sharpish
+COMMENT_LINE $0000 Trashes:
+COMMENT_LINE $0000 d
+COMMENT $0000 /BLANK low and /ZERO low
+COMMENT $0000 clear shift register
+COMMENT $0000 clear D/A register
+COMMENT $0000 mux=1, disable mux
+COMMENT $0000 mux=1, enable mux
+COMMENT $0000 do it again
+COMMENT $0000 disable mux
+COMMENT_LINE $0000 ****** CART HEADER ******
+COMMENT $0000 Force to address 0
+COMMENT $0000 1st 5 bytes = highly sensitive magic string!
+COMMENT $000B Boot music address
+COMMENT $000D height (neg bcos text), width, y, x
+COMMENT $0011 Cart title
+COMMENT $0025 End of header
+COMMENT_LINE $0026 ****** ENTRYPOINT ******
+COMMENT_LINE $0026 Init high score if cold boot, otherwise leave it be
+COMMENT $0026 Grab first char of Vec_High_Score
+FORCE_SYMBOL $0026 Vec_High_Score
+COMMENT $0029 Already got an Imperial Standard Triangular Currency Unit?
+FORCE_NO_SYMBOL $0029
+COMMENT $002B Then it's a warm start, leave the score alone!
+FORCE_NO_SYMBOL $002D
+FORCE_SYMBOL $0030 high_score
+COMMENT_LINE $0033 Just play the sample for the first VOICE_LENGTH frames
+FORCE_NO_SYMBOL $0033
+FORCE_SYMBOL $0036 scratch16
+COMMENT $0039 position of sample
+FORCE_SYMBOL $0039 taxisample_data_start
+COMMENT $003C length of sample
+FORCE_SYMBOL $003C taxisample_length
+COMMENT $003F init it!
+FORCE_SYMBOL $003F init_digit_sound
+FORCE_SYMBOL $0043 digit_looping
+FORCE_SYMBOL $0048 Vec_Text_Height
+COMMENT $004B Set scale for everything
+FORCE_NO_SYMBOL $004B
+FORCE_SYMBOL $004D VIA_t1_cnt_lo
+COMMENT $004F Wait for BIOS recal
+FORCE_SYMBOL $004F wait_recal_digitj
+COMMENT $0052 Set intensity
+FORCE_NO_SYMBOL $0052
+FORCE_SYMBOL $0054 intensity_a_digitj
+COMMENT $0057 Move...
+FORCE_NO_SYMBOL $0057
+FORCE_SYMBOL $005B move_to_d_digitj
+COMMENT $005E Draw the wee ship
+FORCE_SYMBOL $005E ship
+FORCE_SYMBOL $0061 draw_vlc_digitj
+COMMENT $0064 Back to origin
+FORCE_NO_SYMBOL $0064
+COMMENT $0067 /BLANK low and /ZERO low
+FORCE_SYMBOL $0067 VIA_cntl
+COMMENT $0069 clear shift register
+FORCE_SYMBOL $0069 VIA_shift_reg
+FORCE_NO_SYMBOL $006B
+COMMENT $006E clear D/A register
+FORCE_SYMBOL $006E VIA_port_a
+COMMENT $0070 mux=1, disable mux
+FORCE_SYMBOL $0070 VIA_port_b
+COMMENT $0072 mux=1, enable mux
+FORCE_SYMBOL $0072 VIA_port_b
+COMMENT $0074 do it again
+FORCE_SYMBOL $0074 VIA_port_b
+FORCE_NO_SYMBOL $0076
+COMMENT $0078 disable mux
+FORCE_SYMBOL $0078 VIA_port_b
+COMMENT $007D Move to draw text
+FORCE_SYMBOL $007D move_to_d_digitj
+FORCE_SYMBOL $0080 title_text
+COMMENT $0083 Draw it
+FORCE_SYMBOL $0083 Print_Str_digit
+COMMENT $0086 Tick the framecount and get outta here if it's time
+FORCE_SYMBOL $0086 scratch16
+FORCE_NO_SYMBOL $0089
+FORCE_SYMBOL $008C scratch16
+FORCE_SYMBOL $008F VOICE_LENGTH
+COMMENT_LINE $0095 Set default gamestate
+FORCE_SYMBOL $0095 SplashInit
+FORCE_SYMBOL $0098 SplashFrame
+COMMENT_LINE $009E Main frame loop
+COMMENT $009E Wait for BIOS recal
+COMMENT $00A1 Run the frame function for current state
+FORCE_SYMBOL $00A1 state_frame
+COMMENT $00A5 looop
+COMMENT_LINE $00A7 ****** STATE MANAGER ******
+COMMENT_LINE $00A7 Change state
+COMMENT_LINE $00A7 Expects: x=state init function, y=state frame function
+FORCE_SYMBOL $00A7 state_frame
+FORCE_NO_SYMBOL $00AB
+COMMENT_LINE $00AE ***** GLOBAL FUNCTIONS ******
+COMMENT $00AE Some bugfixed / macro-fied BIOS routines
+COMMENT_LINE $00AE Bugfixed BIOS routines
+COMMENT_LINE $00AE Erm.. from a forum somewhere! Sorry..
+COMMENT_LINE $00AE -----------------------------------------------------------------------;
+COMMENT_LINE $00AE F511    Random_3                                                ;
+COMMENT_LINE $00AE F517    Random                                                  ;
+COMMENT_LINE $00AE ;
+COMMENT_LINE $00AE This routine generates a random 1-byte number, and places it in the   ;
+COMMENT_LINE $00AE A register.  Random_3 runs through the random number generator        ;
+COMMENT_LINE $00AE algorithm three times.  The random number seed is stored in the       ;
+COMMENT_LINE $00AE three bytes pointed to by $C87B.                                      ;
+COMMENT_LINE $00AE ;
+COMMENT_LINE $00AE EXIT: A-reg contains the generated random number                      ;
+COMMENT_LINE $00AE ;
+COMMENT_LINE $00AE All other registers are preserved.                              ;
+COMMENT_LINE $00AE -----------------------------------------------------------------------;
+FORCE_NO_SYMBOL $00B0
+COMMENT $00B7 FIXED: Was ldx Vec_Seed_Ptr (see http://vectorgaming.proboards.com/thread/1329/random)
+FORCE_SYMBOL $00B7 Vec_Seed_Ptr
+FORCE_NO_SYMBOL $00BA
+FORCE_NO_SYMBOL $00C0
+FORCE_NO_SYMBOL $00C3
+FORCE_NO_SYMBOL $00C5
+FORCE_NO_SYMBOL $00C7
+FORCE_NO_SYMBOL $00CC
+COMMENT $00D0 AYFX player
+COMMENT_LINE $00D0 Player for effects from AY Sound FX Editor v0.4
+COMMENT_LINE $00D0 By vectrexrc, module'd up by Fell^DSS, 2016
+COMMENT_LINE $00D0 **** INIT ****
+COMMENT $00D0 init sfx vars
+FORCE_NO_SYMBOL $00D0
+FORCE_SYMBOL $00D3 sfx_pointer
+FORCE_SYMBOL $00D6 sfx_status
+COMMENT_LINE $00DA **** START AN EFFECT PLAYING IF NONE IS PLAYING! ****
+COMMENT_LINE $00DA Expects: SFX address in x
+FORCE_SYMBOL $00DA sfx_status
+FORCE_SYMBOL $00DF sfx_pointer
+FORCE_NO_SYMBOL $00E2
+FORCE_SYMBOL $00E4 sfx_status
+COMMENT_LINE $00E8 **** START AN EFFECT PLAYING ****
+COMMENT_LINE $00E8 Expects: SFX address in x
+FORCE_SYMBOL $00E8 sfx_pointer
+FORCE_NO_SYMBOL $00EB
+FORCE_SYMBOL $00ED sfx_status
+COMMENT_LINE $00F1 **** PLAY FOR THIS FRAME ****
+COMMENT $00F1 check if sfx to play
+FORCE_SYMBOL $00F1 sfx_status
+COMMENT $00F6 return if not
+COMMENT $00F7 get current frame pointer
+FORCE_SYMBOL $00F7 sfx_pointer
+FORCE_NO_SYMBOL $00FA
+COMMENT $00FC check first flag byte D0
+FORCE_NO_SYMBOL $00FC
+COMMENT $00FE no match - continue to process frame
+FORCE_NO_SYMBOL $0100
+COMMENT $0102 check second flag byte 20
+FORCE_NO_SYMBOL $0102
+COMMENT $0104 match - end of effect found so stop playing
+COMMENT $0106 init Y as pointer to next data or flag byte
+FORCE_NO_SYMBOL $0106
+COMMENT $0108 check if need to set tone freq
+FORCE_NO_SYMBOL $0108
+COMMENT $010A if bit 5 of B is set
+FORCE_NO_SYMBOL $010A
+COMMENT $010C skip as no tone freq data
+COMMENT $010E get next data byte and copy to tone freq reg4
+FORCE_NO_SYMBOL $010E
+FORCE_NO_SYMBOL $0110
+COMMENT $0112 set tone freq
+COMMENT $0115 get next data byte and copy to tone freq reg5
+FORCE_NO_SYMBOL $0115
+FORCE_NO_SYMBOL $0117
+COMMENT $0119 set tone freq
+COMMENT $011C increment pointer to next data/flag byte
+FORCE_NO_SYMBOL $011C
+COMMENT $011E check if need to set noise freq
+FORCE_NO_SYMBOL $011E
+COMMENT $0120 if bit 6 of B is only set
+FORCE_NO_SYMBOL $0120
+COMMENT $0122 skip as no noise freq data
+COMMENT $0124 get next data byte and copy to noise freq reg
+FORCE_NO_SYMBOL $0124
+FORCE_NO_SYMBOL $0126
+COMMENT $0128 set noise freq
+COMMENT $012B increment pointer to next flag byte
+FORCE_NO_SYMBOL $012B
+COMMENT $012D set volume on channel 3
+FORCE_NO_SYMBOL $012D
+COMMENT $012F get volume from bits 0-3
+FORCE_NO_SYMBOL $012F
+COMMENT $0131 set reg10
+FORCE_NO_SYMBOL $0131
+COMMENT $0133 Set volume
+COMMENT $0136 check disable tone channel 3
+FORCE_NO_SYMBOL $0136
+COMMENT $0138 if bit 4 of B is set disable the tone
+FORCE_NO_SYMBOL $0138
+COMMENT $013C set bit2 in reg7
+FORCE_NO_SYMBOL $013C
+FORCE_NO_SYMBOL $013F
+FORCE_NO_SYMBOL $0141
+COMMENT $0143 disable tone
+COMMENT $0148 clear bit2 in reg7
+FORCE_NO_SYMBOL $0148
+FORCE_NO_SYMBOL $014B
+FORCE_NO_SYMBOL $014D
+COMMENT $014F enable tone
+COMMENT $0152 check disable noise
+FORCE_NO_SYMBOL $0152
+COMMENT $0154 if bit7 of B is set disable noise
+FORCE_NO_SYMBOL $0154
+COMMENT $0158 set bit5 in reg7
+FORCE_NO_SYMBOL $0158
+FORCE_NO_SYMBOL $015B
+FORCE_NO_SYMBOL $015D
+COMMENT $015F disable noise
+COMMENT $0164 clear bit5 in reg 7
+FORCE_NO_SYMBOL $0164
+FORCE_NO_SYMBOL $0167
+FORCE_NO_SYMBOL $0169
+COMMENT $016B enable noise
+COMMENT $016E update frame pointer to next flag byte in Y
+FORCE_SYMBOL $016E sfx_pointer
+COMMENT $0173 set volume off channel 3
+FORCE_NO_SYMBOL $0173
+COMMENT $0175 set reg1sf0
+FORCE_NO_SYMBOL $0175
+COMMENT $0177 Set volume
+COMMENT $017A reset sfx
+FORCE_NO_SYMBOL $017A
+FORCE_SYMBOL $017D sfx_pointer
+FORCE_SYMBOL $0180 sfx_status
+COMMENT $0184 Misc utes
+COMMENT_LINE $0184 Misc useful shiznazz
+COMMENT_LINE $0184 By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $0184 *** SOMEONE ELSE'S BIN-TO-ASCII FUNCTION ***
+COMMENT_LINE $0184 in:
+COMMENT_LINE $0184 D = binary value
+COMMENT_LINE $0184 U = dest. number
+COMMENT_LINE $0184 out:
+COMMENT_LINE $0184 U = dest. number (kept)
+COMMENT_LINE $0184 A,B destroyed
+COMMENT_LINE $0184 X,Y kept
+COMMENT_LINE $0184 store regs
+COMMENT_LINE $0186 clear number
+FORCE_NO_SYMBOL $0186
+FORCE_NO_SYMBOL $0189
+FORCE_NO_SYMBOL $018B
+FORCE_NO_SYMBOL $018D
+COMMENT_LINE $018F convert
+FORCE_SYMBOL $018F tab
+FORCE_NO_SYMBOL $0198
+COMMENT_LINE $019A orcc c ; set carry - is set (see bcc above)
+FORCE_NO_SYMBOL $019E
+FORCE_NO_SYMBOL $01A2
+FORCE_NO_SYMBOL $01AB
+COMMENT_LINE $01AD cmpx # tab+16*5 -- run over all 16 bit
+COMMENT $01AD (same as cmpd # $0000 but a dbe shorter and faster) -- run until no bits are left. i.e. 1-16 runs depending on the input
+FORCE_NO_SYMBOL $01AD
+COMMENT_LINE $01B2 replace leading zeroes with space
+FORCE_SYMBOL $01B2 UTILS_BIN2ASCII_SPACE
+FORCE_NO_SYMBOL $01BC
+COMMENT_LINE $01C0 convert others to ascii
+FORCE_NO_SYMBOL $01C7
+COMMENT_LINE $01CB restore regs + do rts
+COMMENT $021D Stick funcs
+COMMENT_LINE $021D Joystick funcs
+COMMENT_LINE $021D DSS, 2017
+COMMENT_LINE $021D Init joystick-related bios vars
+FORCE_NO_SYMBOL $021D
+COMMENT $021F x axis only!
+FORCE_SYMBOL $021F Vec_Joy_Mux_1_X
+FORCE_NO_SYMBOL $0222
+FORCE_SYMBOL $0224 Vec_Joy_Mux_1_Y
+FORCE_SYMBOL $0227 Vec_Joy_Mux_2_X
+FORCE_SYMBOL $022A Vec_Joy_Mux_2_Y
+COMMENT_LINE $022E Read joystick
+FORCE_SYMBOL $022E joy_lr
+FORCE_SYMBOL $0231 Read_Btns
+FORCE_SYMBOL $0234 Vec_Btn_State
+FORCE_SYMBOL $0237 joy_b
+FORCE_SYMBOL $023A Joy_Digital
+FORCE_SYMBOL $023D Vec_Joy_1_X
+FORCE_NO_SYMBOL $0244
+FORCE_SYMBOL $0246 joy_lr
+FORCE_SYMBOL $024D joy_lr
+COMMENT $0251 Malban's sample player
+COMMENT_LINE $0251 Complicated digital sample player
+COMMENT_LINE $0251 By Malban
+COMMENT_LINE $0251 Hacked with by Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $0251 user variable definitions
+COMMENT_LINE $0251 the following value will differ with each program you use your samples in
+COMMENT_LINE $0251 the thing is samples are not ALLWAYS played in time, there are certain to be times
+COMMENT_LINE $0251 when the timing will "miss" a few
+COMMENT_LINE $0251 this is not really all that bad, you won't really hear it, untill you miss quite a lot
+COMMENT_LINE $0251 but it DOES matter concerning the 50Hz display limit of 30000 Cycles
+COMMENT_LINE $0251 therefor you should measure your routines using e.g. dissi and
+COMMENT_LINE $0251 alter this "correction" value till you are pretty near 30000 cycles
+COMMENT_LINE $0251 (use tracki addresses like in the example "NOP")
+COMMENT_LINE $0251 a) we wait in a delay loop till T2 expires, but after expiring and a value is actualy send to the dac,
+COMMENT_LINE $0251 there are quite a few cycles, this must be considered in calculating the Timer/sample rate
+COMMENT_LINE $0251 b) after the sample is put to dac, there also is a delay till the new t2 timer is set, this
+COMMENT_LINE $0251 also must be calculated into the sample rate timing!
+COMMENT_LINE $0251 these values are the cycles of the instructions between these "events" you have to
+COMMENT_LINE $0251 look at dissi to count those (count cycles of instructions)
+COMMENT_LINE $0251 SAMPLE_RATE == xxxx, that means we must play xxxx samples per second
+COMMENT_LINE $0251 vectrex CPU runs at 1/1500000s (1.5 Mhz)
+COMMENT_LINE $0251 every "UPDATE_TIMER" cycles we must output one sample! (to keep up with samplerate)
+COMMENT_LINE $0251 in order to be able to draw more vectors, the DRAW_VLC
+COMMENT_LINE $0251 function must be changed, so that more than just one vector is
+COMMENT_LINE $0251 drawn between two samples (can easily be done)
+COMMENT_LINE $0251 we must use a fixed scale value, since  somehow we must
+COMMENT_LINE $0251 calculate the wait_recal
+COMMENT_LINE $0251 (actually we MUST asure, that we stay not for more time in the
+COMMENT_LINE $0251 move_to_d or draw_vlc functions, this is sort of a delimiter)
+COMMENT_LINE $0251 it should be ok, to use smaller values,
+COMMENT_LINE $0251 this (50) value was ment for use with 8kHz samples,
+COMMENT_LINE $0251 for 4kHz samples it could probably be doubled...
+COMMENT_LINE $0251 (without changing anything else)
+COMMENT_LINE $0251 this sets the timer to our restart value
+COMMENT $0000 name of macro
+COMMENT $0000 load the timer 2 value we calculated
+COMMENT $0000 and set the timer
+COMMENT $0000 end of macro
+COMMENT_LINE $0000 this sets VIA B to our known sample state...
+COMMENT $0000 name of macro
+COMMENT $0000 load the calculated VIA B
+COMMENT $0000 write back to reg B in 6522
+COMMENT $0000 end of macro
+COMMENT_LINE $0000 this calculates our sample state for VIA B
+COMMENT $0000 name of macro
+COMMENT $0000 data reg B from 6522
+COMMENT $0000 save top 5 bits, mask off bottom 3
+COMMENT $0000 set S/H, SEL 0, SEL 1
+COMMENT $0000 and remember it
+COMMENT $0000 end of macro
+COMMENT_LINE $0000 this is a waiter, for our current sample-byte to finnish
+COMMENT $0000 name of macro
+COMMENT $0000 B-reg = T2 interrupt bit
+COMMENT $0000 Wait for T2 to time out
+COMMENT $0000 repeat
+COMMENT $0000 end of macro
+COMMENT_LINE $0000 well, not really a 'digit' function... but it does what it's called
+COMMENT $0000 Save intensity in $C827
+COMMENT $0000 Store intensity in D/A
+COMMENT $0000 mux disabled channel 2
+COMMENT $0000 mux enabled channel 2
+COMMENT $0000 do it again just because ?
+COMMENT $0000 turn off mux
+COMMENT_LINE $0000 Kills D
+COMMENT_LINE $0000 must ALLWAYS have Y, U, U contains the length of the sample, Y the position
+COMMENT_LINE $0000 must ALLWAYS have Timer 2
+COMMENT_LINE $0000 Kills and VIA port B and A
+COMMENT_LINE $0000 cycles left = 130 (8Khz)
+COMMENT_LINE $0000 cycles left = 300 (4Khz)
+COMMENT_LINE $0000 uses 27+30 cycles when completely done, without restart
+COMMENT_LINE $0000 uses 51+30 cycles when completely done, with restart
+COMMENT_LINE $0000 uses 32+30 cycles when one digitized sound byte was played.
+COMMENT_LINE $0000 + 9
+COMMENT_LINE $0000 => Interrupts are not worth it...
+COMMENT $0000 name of macro
+COMMENT_LINE $0000 load current digit byte and increment counter
+COMMENT $0000 decrement our counter, used for wait_recal
+COMMENT $0000 is there a digital sample to be played?
+COMMENT $0000 no, than jump out of here
+COMMENT $0000 otherwise we wait till the last played
+COMMENT_LINE $0000 sample-byte is finnished
+COMMENT $0000 if it is zero, than we are finnished
+COMMENT $0000 with this sample, otherwise we continue further below
+COMMENT_LINE $0000 if we are done, should we restart?
+COMMENT $0000 is this sample a looping one?
+COMMENT $0000 store it to is_playing
+COMMENT $0000 if none looping... we are done
+COMMENT_LINE $0000 but we still must use the timer
+COMMENT_LINE $0000 ok, for restart, we only change current position
+COMMENT $0000 load the start position
+COMMENT_LINE $0000 this is the end_position of the sample,
+COMMENT_LINE $0000 since we go backwards
+COMMENT $0000 and restart the timer, next byte
+COMMENT_LINE $0000 is played next round...
+COMMENT_LINE $0000 here our normal 'digit_byte_playing_section'
+COMMENT $0000 load the next sample_byte to A
+COMMENT_LINE $0000 and store it to the 6522 -> PSG
+COMMENT $0000 store in reg A in 6522 (DAC)
+COMMENT_LINE $0000 following must come after the above, or we
+COMMENT_LINE $0000 put noise to the psg,
+COMMENT_LINE $0000 likewise, before storing anything else to
+COMMENT_LINE $0000 port A, we will disable the connection to PSG
+COMMENT $0000 this sets the MUX of 6522 to PSG
+COMMENT $0000 and disable the mux, so no junk will
+COMMENT_LINE $0000 enter our PSG-DAC...
+COMMENT $0000 restart timer...
+COMMENT $0000 end of macro
+COMMENT_LINE $0000 uses for a scalefactor of 50
+COMMENT_LINE $0000 about 100+... cycles (could still be optimized further)
+COMMENT $0000 save the position
+COMMENT $0000 play one sample_byte
+COMMENT $0000 restore position
+COMMENT $0000 Store Y in D/A register
+COMMENT $0000 Blank low, zero high?
+COMMENT $0000 Enable mux
+COMMENT $0000 Clear shift regigster
+COMMENT $0000 Disable mux
+COMMENT_LINE $0000 PSHS D ; save the position
+COMMENT_LINE $0000 NEXT_DIGIT_BYTE_FASTER_NO_I ; play one sample_byte
+COMMENT_LINE $0000 PULS D ; restore position
+COMMENT $0000 Store X in D/A register
+COMMENT $0000 enable timer
+COMMENT $0000 t1 flag
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 uses for a scalefactor of 50
+COMMENT_LINE $0000 exactly 51 cycles (could still be optimized further)
+COMMENT $0000 Send Y to A/D
+COMMENT $0000 Enable mux switched
+COMMENT $0000 Point to next coordinate pair X=X+2
+COMMENT $0000 Wait a moment
+COMMENT $0000 Disable mux
+COMMENT $0000 Send X to A/D
+COMMENT $0000 Shift reg=$FF (solid line), T1H=0
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 Set T1H (scale factor), enabling t1
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Clear shift register (blank output)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 uses 8 cycles
+COMMENT_LINE $0000 (in relation to the last done digital output)
+COMMENT_LINE $0000 only one vector drawn for now...
+COMMENT_LINE $0000 could probably be doubled (2*51 < 130)
+COMMENT $0000 play one sample-byte
+COMMENT $0000 load # of lines in this list
+COMMENT $0000 helper RAM, here we store the # of lines
+COMMENT $0000 load y, x
+COMMENT $0000 draw the line
+COMMENT $0000 and play one sample-byte
+COMMENT $0000 load line count
+COMMENT $0000 decrement it
+COMMENT $0000 go back for more points if not below 0
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 uses 0 cycles
+COMMENT_LINE $0000 (in relation to the last done digital output)
+COMMENT_LINE $0000 a wait_recal routine for the sample... output
+COMMENT $0000 play one sample-byte
+COMMENT $0000 load # of time_outs
+COMMENT $0000 # should we recalibrate now?
+COMMENT $0000 if not yet... loop till the time is right
+COMMENT_LINE $0000 now we move out of bounds
+COMMENT_LINE $0000 five times the move should about be 255 (ff) scalefactor :-?
+COMMENT $0000 loop 5 times
+COMMENT $0000 store that
+COMMENT $0000 load the next pos, super long saturation
+COMMENT $0000 move to d -> must be achieved
+COMMENT $0000 done yet with out 5?
+COMMENT $0000 not yet? than loop
+COMMENT $0000 blank low and zero low
+COMMENT_LINE $0000 five times the move should about be 255 (ff) scalefactor :-?
+COMMENT $0000 loop 5 times
+COMMENT $0000 store that
+COMMENT $0000 load the next pos, super long saturation
+COMMENT $0000 move to d -> must be achieved
+COMMENT $0000 done yet with out 5?
+COMMENT $0000 not yet? than loop
+COMMENT $0000 /BLANK low and /ZERO low
+COMMENT $0000 mux=1, disable mux
+COMMENT $0000 clear D/A register
+COMMENT $0000 mux=1, enable mux
+COMMENT $0000 do it again
+COMMENT $0000 disable mux
+COMMENT $0000 load our calculated reset value
+COMMENT $0000 and store it to our timer counter...
+COMMENT $0000 rethink our VIAB value
+COMMENT $0000 and do one sample-byte
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 expects startposition in D
+COMMENT_LINE $0000 expects length in X
+COMMENT_LINE $0000 sets up Y register, should under no circumstances be destroyed
+COMMENT $0251 store new start position
+FORCE_SYMBOL $0251 digit_start_pos
+COMMENT $0254 store the length
+FORCE_SYMBOL $0254 digit_length
+COMMENT $0257 move X to D
+COMMENT $0259 calculate end position
+FORCE_SYMBOL $0259 digit_start_pos
+COMMENT $025C and store it
+FORCE_SYMBOL $025C digit_end_pos
+COMMENT $025F looping per default is OFF
+FORCE_NO_SYMBOL $025F
+COMMENT $0261 store it
+FORCE_SYMBOL $0261 digit_looping
+COMMENT $0264 sound is playing is ON
+FORCE_NO_SYMBOL $0264
+COMMENT $0266 sound is playing
+FORCE_SYMBOL $0266 digit_is_playing
+COMMENT $0269 calculate out first VIA B poke
+COMMENT $0269 data reg B from 6522
+FORCE_SYMBOL $0269 VIA_port_b
+COMMENT $026C save top 5 bits, mask off bottom 3
+FORCE_NO_SYMBOL $026C
+COMMENT $026E set S/H, SEL 0, SEL 1
+FORCE_NO_SYMBOL $026E
+COMMENT $0270 and remember it
+FORCE_SYMBOL $0270 via_b_start
+COMMENT $0273 initialize Y to position in sample data
+FORCE_SYMBOL $0273 digit_end_pos
+COMMENT $0277 set the fixed scale factor we will use...
+FORCE_SYMBOL $0277 SCALE_FACTOR_DIGIT
+COMMENT $0279 move to time 1 lo, this means scaling
+FORCE_SYMBOL $0279 VIA_t1_cnt_lo
+COMMENT $027C set our timer 2 for the first time...
+COMMENT $027C load the timer 2 value we calculated
+FORCE_SYMBOL $027C T2_TIMER_PEROID_ENDIAN_REVERSE
+COMMENT $027F and set the timer
+FORCE_SYMBOL $027F VIA_t2_lo
+COMMENT $0282 back
+COMMENT_LINE $0283 ***************************************************************************
+COMMENT_LINE $0283 now the makros from above as functions...
+COMMENT_LINE $0283 shortens the source...
+COMMENT_LINE $0283 ***************************************************************************
+COMMENT $0283 play one sample-byte
+COMMENT_LINE $0283 load current digit byte and increment counter
+COMMENT $0283 decrement our counter, used for wait_recal
+FORCE_SYMBOL $0283 digit_recal_counter
+COMMENT $0286 is there a digital sample to be played?
+FORCE_SYMBOL $0286 digit_is_playing
+COMMENT $0289 no, than jump out of here
+COMMENT $028B otherwise we wait till the last played
+COMMENT $028B B-reg = T2 interrupt bit
+FORCE_NO_SYMBOL $028B
+COMMENT $028D Wait for T2 to time out
+FORCE_SYMBOL $028D VIA_int_flags
+COMMENT $0290 repeat
+COMMENT_LINE $0292 sample-byte is finnished
+COMMENT $0292 if it is zero, than we are finnished
+FORCE_SYMBOL $0292 digit_start_pos
+COMMENT $0296 with this sample, otherwise we continue further below
+COMMENT_LINE $0298 if we are done, should we restart?
+COMMENT $0298 is this sample a looping one?
+FORCE_SYMBOL $0298 digit_looping
+COMMENT $029B store it to is_playing
+FORCE_SYMBOL $029B digit_is_playing
+COMMENT $029E if none looping... we are done
+COMMENT_LINE $02A0 but we still must use the timer
+COMMENT_LINE $02A0 ok, for restart, we only change current position
+COMMENT $02A0 load the start position
+FORCE_SYMBOL $02A0 digit_end_pos
+COMMENT_LINE $02A4 this is the end_position of the sample,
+COMMENT_LINE $02A4 since we go backwards
+COMMENT $02A4 and restart the timer, next byte
+COMMENT_LINE $02A6 is played next round...
+COMMENT_LINE $02A6 here our normal 'digit_byte_playing_section'
+COMMENT $02A6 load the next sample_byte to A
+COMMENT_LINE $02A8 and store it to the 6522 -> PSG
+COMMENT $02A8 store in reg A in 6522 (DAC)
+FORCE_SYMBOL $02A8 VIA_port_a
+COMMENT_LINE $02AB following must come after the above, or we
+COMMENT_LINE $02AB put noise to the psg,
+COMMENT_LINE $02AB likewise, before storing anything else to
+COMMENT_LINE $02AB port A, we will disable the connection to PSG
+COMMENT $02AB this sets the MUX of 6522 to PSG
+COMMENT $02AB load the calculated VIA B
+FORCE_SYMBOL $02AB via_b_start
+COMMENT $02AE write back to reg B in 6522
+FORCE_SYMBOL $02AE VIA_port_b
+COMMENT $02B1 and disable the mux, so no junk will
+FORCE_SYMBOL $02B1 VIA_port_b
+COMMENT_LINE $02B4 enter our PSG-DAC...
+COMMENT $02B4 restart timer...
+COMMENT $02B4 load the timer 2 value we calculated
+FORCE_SYMBOL $02B4 T2_TIMER_PEROID_ENDIAN_REVERSE
+COMMENT $02B7 and set the timer
+FORCE_SYMBOL $02B7 VIA_t2_lo
+COMMENT $02BA load # of time_outs
+FORCE_SYMBOL $02BA digit_recal_counter
+COMMENT $02BD # should we recalibrate now?
+FORCE_SYMBOL $02BD RECAL_COUNTER_RESET
+COMMENT $02BF if not yet... loop till the time is right
+COMMENT_LINE $02C1 now we move out of bounds
+COMMENT_LINE $02C1 five times the move should about be 255 (ff) scalefactor :-?
+COMMENT $02C1 loop 5 times
+FORCE_NO_SYMBOL $02C1
+COMMENT $02C3 store that
+FORCE_NO_SYMBOL $02C3
+COMMENT $02C6 load the next pos, super long saturation
+FORCE_NO_SYMBOL $02C6
+COMMENT $02C9 move to d -> must be achieved
+COMMENT $02CB done yet with out 5?
+FORCE_NO_SYMBOL $02CB
+COMMENT $02CE not yet? than loop
+FORCE_NO_SYMBOL $02D0
+COMMENT $02D2 blank low and zero low
+FORCE_SYMBOL $02D2 VIA_cntl
+COMMENT_LINE $02D5 five times the move should about be 255 (ff) scalefactor :-?
+COMMENT $02D5 loop 5 times
+FORCE_NO_SYMBOL $02D5
+COMMENT $02D7 store that
+FORCE_NO_SYMBOL $02D7
+COMMENT $02DA load the next pos, super long saturation
+FORCE_NO_SYMBOL $02DA
+COMMENT $02DD move to d -> must be achieved
+COMMENT $02DF done yet with out 5?
+FORCE_NO_SYMBOL $02DF
+COMMENT $02E2 not yet? than loop
+FORCE_NO_SYMBOL $02E4
+COMMENT $02E6 /BLANK low and /ZERO low
+FORCE_SYMBOL $02E6 VIA_cntl
+FORCE_NO_SYMBOL $02E9
+COMMENT $02EC mux=1, disable mux
+FORCE_SYMBOL $02EC VIA_port_b
+COMMENT $02EF clear D/A register
+FORCE_SYMBOL $02EF VIA_port_a
+COMMENT $02F2 mux=1, enable mux
+FORCE_SYMBOL $02F2 VIA_port_b
+COMMENT $02F5 do it again
+FORCE_SYMBOL $02F5 VIA_port_b
+FORCE_NO_SYMBOL $02F8
+COMMENT $02FA disable mux
+FORCE_SYMBOL $02FA VIA_port_b
+COMMENT $02FD load our calculated reset value
+FORCE_SYMBOL $02FD RECAL_COUNTER_RESET
+COMMENT $02FF and store it to our timer counter...
+FORCE_SYMBOL $02FF digit_recal_counter
+COMMENT $0302 rethink our VIAB value
+COMMENT $0302 data reg B from 6522
+FORCE_SYMBOL $0302 VIA_port_b
+COMMENT $0305 save top 5 bits, mask off bottom 3
+FORCE_NO_SYMBOL $0305
+COMMENT $0307 set S/H, SEL 0, SEL 1
+FORCE_NO_SYMBOL $0307
+COMMENT $0309 and remember it
+FORCE_SYMBOL $0309 via_b_start
+COMMENT $030C and do one sample-byte
+COMMENT_LINE $030C load current digit byte and increment counter
+COMMENT $030C decrement our counter, used for wait_recal
+FORCE_SYMBOL $030C digit_recal_counter
+COMMENT $030F is there a digital sample to be played?
+FORCE_SYMBOL $030F digit_is_playing
+COMMENT $0312 no, than jump out of here
+COMMENT $0314 otherwise we wait till the last played
+COMMENT $0314 B-reg = T2 interrupt bit
+FORCE_NO_SYMBOL $0314
+COMMENT $0316 Wait for T2 to time out
+FORCE_SYMBOL $0316 VIA_int_flags
+COMMENT $0319 repeat
+COMMENT_LINE $031B sample-byte is finnished
+COMMENT $031B if it is zero, than we are finnished
+FORCE_SYMBOL $031B digit_start_pos
+COMMENT $031F with this sample, otherwise we continue further below
+COMMENT_LINE $0321 if we are done, should we restart?
+COMMENT $0321 is this sample a looping one?
+FORCE_SYMBOL $0321 digit_looping
+COMMENT $0324 store it to is_playing
+FORCE_SYMBOL $0324 digit_is_playing
+COMMENT $0327 if none looping... we are done
+COMMENT_LINE $0329 but we still must use the timer
+COMMENT_LINE $0329 ok, for restart, we only change current position
+COMMENT $0329 load the start position
+FORCE_SYMBOL $0329 digit_end_pos
+COMMENT_LINE $032D this is the end_position of the sample,
+COMMENT_LINE $032D since we go backwards
+COMMENT $032D and restart the timer, next byte
+COMMENT_LINE $032F is played next round...
+COMMENT_LINE $032F here our normal 'digit_byte_playing_section'
+COMMENT $032F load the next sample_byte to A
+COMMENT_LINE $0331 and store it to the 6522 -> PSG
+COMMENT $0331 store in reg A in 6522 (DAC)
+FORCE_SYMBOL $0331 VIA_port_a
+COMMENT_LINE $0334 following must come after the above, or we
+COMMENT_LINE $0334 put noise to the psg,
+COMMENT_LINE $0334 likewise, before storing anything else to
+COMMENT_LINE $0334 port A, we will disable the connection to PSG
+COMMENT $0334 this sets the MUX of 6522 to PSG
+COMMENT $0334 load the calculated VIA B
+FORCE_SYMBOL $0334 via_b_start
+COMMENT $0337 write back to reg B in 6522
+FORCE_SYMBOL $0337 VIA_port_b
+COMMENT $033A and disable the mux, so no junk will
+FORCE_SYMBOL $033A VIA_port_b
+COMMENT_LINE $033D enter our PSG-DAC...
+COMMENT $033D restart timer...
+COMMENT $033D load the timer 2 value we calculated
+FORCE_SYMBOL $033D T2_TIMER_PEROID_ENDIAN_REVERSE
+COMMENT $0340 and set the timer
+FORCE_SYMBOL $0340 VIA_t2_lo
+COMMENT_LINE $0344 ***************************************************************************
+COMMENT_LINE $0344 position in D
+COMMENT $0344 save the position
+COMMENT $0346 play one sample_byte
+COMMENT_LINE $0346 load current digit byte and increment counter
+COMMENT $0346 decrement our counter, used for wait_recal
+FORCE_SYMBOL $0346 digit_recal_counter
+COMMENT $0349 is there a digital sample to be played?
+FORCE_SYMBOL $0349 digit_is_playing
+COMMENT $034C no, than jump out of here
+COMMENT $034E otherwise we wait till the last played
+COMMENT $034E B-reg = T2 interrupt bit
+FORCE_NO_SYMBOL $034E
+COMMENT $0350 Wait for T2 to time out
+FORCE_SYMBOL $0350 VIA_int_flags
+COMMENT $0353 repeat
+COMMENT_LINE $0355 sample-byte is finnished
+COMMENT $0355 if it is zero, than we are finnished
+FORCE_SYMBOL $0355 digit_start_pos
+COMMENT $0359 with this sample, otherwise we continue further below
+COMMENT_LINE $035B if we are done, should we restart?
+COMMENT $035B is this sample a looping one?
+FORCE_SYMBOL $035B digit_looping
+COMMENT $035E store it to is_playing
+FORCE_SYMBOL $035E digit_is_playing
+COMMENT $0361 if none looping... we are done
+COMMENT_LINE $0363 but we still must use the timer
+COMMENT_LINE $0363 ok, for restart, we only change current position
+COMMENT $0363 load the start position
+FORCE_SYMBOL $0363 digit_end_pos
+COMMENT_LINE $0367 this is the end_position of the sample,
+COMMENT_LINE $0367 since we go backwards
+COMMENT $0367 and restart the timer, next byte
+COMMENT_LINE $0369 is played next round...
+COMMENT_LINE $0369 here our normal 'digit_byte_playing_section'
+COMMENT $0369 load the next sample_byte to A
+COMMENT_LINE $036B and store it to the 6522 -> PSG
+COMMENT $036B store in reg A in 6522 (DAC)
+FORCE_SYMBOL $036B VIA_port_a
+COMMENT_LINE $036E following must come after the above, or we
+COMMENT_LINE $036E put noise to the psg,
+COMMENT_LINE $036E likewise, before storing anything else to
+COMMENT_LINE $036E port A, we will disable the connection to PSG
+COMMENT $036E this sets the MUX of 6522 to PSG
+COMMENT $036E load the calculated VIA B
+FORCE_SYMBOL $036E via_b_start
+COMMENT $0371 write back to reg B in 6522
+FORCE_SYMBOL $0371 VIA_port_b
+COMMENT $0374 and disable the mux, so no junk will
+FORCE_SYMBOL $0374 VIA_port_b
+COMMENT_LINE $0377 enter our PSG-DAC...
+COMMENT $0377 restart timer...
+COMMENT $0377 load the timer 2 value we calculated
+FORCE_SYMBOL $0377 T2_TIMER_PEROID_ENDIAN_REVERSE
+COMMENT $037A and set the timer
+FORCE_SYMBOL $037A VIA_t2_lo
+COMMENT $037D restore position
+COMMENT $037F Store Y in D/A register
+FORCE_SYMBOL $037F VIA_port_a
+COMMENT $0382 Blank low, zero high?
+FORCE_NO_SYMBOL $0382
+FORCE_SYMBOL $0384 VIA_cntl
+COMMENT $0388 Enable mux
+FORCE_SYMBOL $0388 VIA_port_b
+COMMENT $038B Clear shift regigster
+FORCE_SYMBOL $038B VIA_shift_reg
+COMMENT $038E Disable mux
+FORCE_SYMBOL $038E VIA_port_b
+COMMENT_LINE $0391 PSHS D ; save the position
+COMMENT_LINE $0391 NEXT_DIGIT_BYTE_FASTER_NO_I ; play one sample_byte
+COMMENT_LINE $0391 PULS D ; restore position
+COMMENT $0391 Store X in D/A register
+FORCE_SYMBOL $0391 VIA_port_a
+COMMENT $0394 enable timer
+FORCE_SYMBOL $0394 VIA_t1_cnt_hi
+COMMENT $0397 t1 flag
+FORCE_NO_SYMBOL $0397
+FORCE_SYMBOL $0399 VIA_int_flags
+COMMENT_LINE $039F ***************************************************************************
+COMMENT_LINE $039F vector list in X
+COMMENT $039F play one sample-byte
+COMMENT_LINE $039F load current digit byte and increment counter
+COMMENT $039F decrement our counter, used for wait_recal
+FORCE_SYMBOL $039F digit_recal_counter
+COMMENT $03A2 is there a digital sample to be played?
+FORCE_SYMBOL $03A2 digit_is_playing
+COMMENT $03A5 no, than jump out of here
+COMMENT $03A7 otherwise we wait till the last played
+COMMENT $03A7 B-reg = T2 interrupt bit
+FORCE_NO_SYMBOL $03A7
+COMMENT $03A9 Wait for T2 to time out
+FORCE_SYMBOL $03A9 VIA_int_flags
+COMMENT $03AC repeat
+COMMENT_LINE $03AE sample-byte is finnished
+COMMENT $03AE if it is zero, than we are finnished
+FORCE_SYMBOL $03AE digit_start_pos
+COMMENT $03B2 with this sample, otherwise we continue further below
+COMMENT_LINE $03B4 if we are done, should we restart?
+COMMENT $03B4 is this sample a looping one?
+FORCE_SYMBOL $03B4 digit_looping
+COMMENT $03B7 store it to is_playing
+FORCE_SYMBOL $03B7 digit_is_playing
+COMMENT $03BA if none looping... we are done
+COMMENT_LINE $03BC but we still must use the timer
+COMMENT_LINE $03BC ok, for restart, we only change current position
+COMMENT $03BC load the start position
+FORCE_SYMBOL $03BC digit_end_pos
+COMMENT_LINE $03C0 this is the end_position of the sample,
+COMMENT_LINE $03C0 since we go backwards
+COMMENT $03C0 and restart the timer, next byte
+COMMENT_LINE $03C2 is played next round...
+COMMENT_LINE $03C2 here our normal 'digit_byte_playing_section'
+COMMENT $03C2 load the next sample_byte to A
+COMMENT_LINE $03C4 and store it to the 6522 -> PSG
+COMMENT $03C4 store in reg A in 6522 (DAC)
+FORCE_SYMBOL $03C4 VIA_port_a
+COMMENT_LINE $03C7 following must come after the above, or we
+COMMENT_LINE $03C7 put noise to the psg,
+COMMENT_LINE $03C7 likewise, before storing anything else to
+COMMENT_LINE $03C7 port A, we will disable the connection to PSG
+COMMENT $03C7 this sets the MUX of 6522 to PSG
+COMMENT $03C7 load the calculated VIA B
+FORCE_SYMBOL $03C7 via_b_start
+COMMENT $03CA write back to reg B in 6522
+FORCE_SYMBOL $03CA VIA_port_b
+COMMENT $03CD and disable the mux, so no junk will
+FORCE_SYMBOL $03CD VIA_port_b
+COMMENT_LINE $03D0 enter our PSG-DAC...
+COMMENT $03D0 restart timer...
+COMMENT $03D0 load the timer 2 value we calculated
+FORCE_SYMBOL $03D0 T2_TIMER_PEROID_ENDIAN_REVERSE
+COMMENT $03D3 and set the timer
+FORCE_SYMBOL $03D3 VIA_t2_lo
+COMMENT $03D6 load # of lines in this list
+COMMENT $03D8 helper RAM, here we store the # of lines
+FORCE_NO_SYMBOL $03D8
+COMMENT $03DB load y, x
+FORCE_NO_SYMBOL $03DB
+COMMENT $03DD draw the line
+COMMENT $03DD Send Y to A/D
+FORCE_SYMBOL $03DD VIA_port_a
+COMMENT $03E0 Enable mux switched
+FORCE_SYMBOL $03E0 VIA_port_b
+COMMENT $03E3 Point to next coordinate pair X=X+2
+FORCE_NO_SYMBOL $03E3
+COMMENT $03E5 Wait a moment
+COMMENT $03E6 Disable mux
+FORCE_SYMBOL $03E6 VIA_port_b
+COMMENT $03E9 Send X to A/D
+FORCE_SYMBOL $03E9 VIA_port_a
+COMMENT $03EC Shift reg=$FF (solid line), T1H=0
+FORCE_NO_SYMBOL $03EC
+COMMENT $03EF Put pattern in shift register
+FORCE_SYMBOL $03EF VIA_shift_reg
+COMMENT $03F2 Set T1H (scale factor), enabling t1
+FORCE_SYMBOL $03F2 VIA_t1_cnt_hi
+COMMENT $03F5 B-reg = T1 interrupt bit
+FORCE_NO_SYMBOL $03F5
+FORCE_SYMBOL $03F8 VIA_int_flags
+COMMENT $03FE Clear shift register (blank output)
+FORCE_SYMBOL $03FE VIA_shift_reg
+COMMENT $0401 and play one sample-byte
+COMMENT_LINE $0401 load current digit byte and increment counter
+COMMENT $0401 decrement our counter, used for wait_recal
+FORCE_SYMBOL $0401 digit_recal_counter
+COMMENT $0404 is there a digital sample to be played?
+FORCE_SYMBOL $0404 digit_is_playing
+COMMENT $0407 no, than jump out of here
+COMMENT $0409 otherwise we wait till the last played
+COMMENT $0409 B-reg = T2 interrupt bit
+FORCE_NO_SYMBOL $0409
+COMMENT $040B Wait for T2 to time out
+FORCE_SYMBOL $040B VIA_int_flags
+COMMENT $040E repeat
+COMMENT_LINE $0410 sample-byte is finnished
+COMMENT $0410 if it is zero, than we are finnished
+FORCE_SYMBOL $0410 digit_start_pos
+COMMENT $0414 with this sample, otherwise we continue further below
+COMMENT_LINE $0416 if we are done, should we restart?
+COMMENT $0416 is this sample a looping one?
+FORCE_SYMBOL $0416 digit_looping
+COMMENT $0419 store it to is_playing
+FORCE_SYMBOL $0419 digit_is_playing
+COMMENT $041C if none looping... we are done
+COMMENT_LINE $041E but we still must use the timer
+COMMENT_LINE $041E ok, for restart, we only change current position
+COMMENT $041E load the start position
+FORCE_SYMBOL $041E digit_end_pos
+COMMENT_LINE $0422 this is the end_position of the sample,
+COMMENT_LINE $0422 since we go backwards
+COMMENT $0422 and restart the timer, next byte
+COMMENT_LINE $0424 is played next round...
+COMMENT_LINE $0424 here our normal 'digit_byte_playing_section'
+COMMENT $0424 load the next sample_byte to A
+COMMENT_LINE $0426 and store it to the 6522 -> PSG
+COMMENT $0426 store in reg A in 6522 (DAC)
+FORCE_SYMBOL $0426 VIA_port_a
+COMMENT_LINE $0429 following must come after the above, or we
+COMMENT_LINE $0429 put noise to the psg,
+COMMENT_LINE $0429 likewise, before storing anything else to
+COMMENT_LINE $0429 port A, we will disable the connection to PSG
+COMMENT $0429 this sets the MUX of 6522 to PSG
+COMMENT $0429 load the calculated VIA B
+FORCE_SYMBOL $0429 via_b_start
+COMMENT $042C write back to reg B in 6522
+FORCE_SYMBOL $042C VIA_port_b
+COMMENT $042F and disable the mux, so no junk will
+FORCE_SYMBOL $042F VIA_port_b
+COMMENT_LINE $0432 enter our PSG-DAC...
+COMMENT $0432 restart timer...
+COMMENT $0432 load the timer 2 value we calculated
+FORCE_SYMBOL $0432 T2_TIMER_PEROID_ENDIAN_REVERSE
+COMMENT $0435 and set the timer
+FORCE_SYMBOL $0435 VIA_t2_lo
+COMMENT $0438 load line count
+FORCE_NO_SYMBOL $0438
+COMMENT $043B decrement it
+COMMENT $043C go back for more points if not below 0
+COMMENT_LINE $043F ***************************************************************************
+COMMENT_LINE $043F intensity in A
+COMMENT $043F Save intensity in $C827
+FORCE_SYMBOL $043F Vec_Brightness
+COMMENT $0442 Store intensity in D/A
+FORCE_SYMBOL $0442 VIA_port_a
+COMMENT $0445 mux disabled channel 2
+FORCE_NO_SYMBOL $0445
+FORCE_SYMBOL $0448 VIA_port_b
+COMMENT $044B mux enabled channel 2
+FORCE_SYMBOL $044B VIA_port_b
+COMMENT $044E do it again just because ?
+FORCE_SYMBOL $044E VIA_port_b
+FORCE_NO_SYMBOL $0451
+COMMENT $0453 turn off mux
+FORCE_SYMBOL $0453 VIA_port_b
+COMMENT_LINE $0457 ***************************************************************************
+COMMENT_LINE $0457 String pointer in D
+COMMENT $0457 Save string pointer
+FORCE_SYMBOL $0457 Vec_Str_Ptr
+COMMENT_LINE $045A load current digit byte and increment counter
+COMMENT $045A decrement our counter, used for wait_recal
+FORCE_SYMBOL $045A digit_recal_counter
+COMMENT $045D is there a digital sample to be played?
+FORCE_SYMBOL $045D digit_is_playing
+COMMENT $0460 no, than jump out of here
+COMMENT $0462 otherwise we wait till the last played
+COMMENT $0462 B-reg = T2 interrupt bit
+FORCE_NO_SYMBOL $0462
+COMMENT $0464 Wait for T2 to time out
+FORCE_SYMBOL $0464 VIA_int_flags
+COMMENT $0467 repeat
+COMMENT_LINE $0469 sample-byte is finnished
+COMMENT $0469 if it is zero, than we are finnished
+FORCE_SYMBOL $0469 digit_start_pos
+COMMENT $046D with this sample, otherwise we continue further below
+COMMENT_LINE $046F if we are done, should we restart?
+COMMENT $046F is this sample a looping one?
+FORCE_SYMBOL $046F digit_looping
+COMMENT $0472 store it to is_playing
+FORCE_SYMBOL $0472 digit_is_playing
+COMMENT $0475 if none looping... we are done
+COMMENT_LINE $0477 but we still must use the timer
+COMMENT_LINE $0477 ok, for restart, we only change current position
+COMMENT $0477 load the start position
+FORCE_SYMBOL $0477 digit_end_pos
+COMMENT_LINE $047B this is the end_position of the sample,
+COMMENT_LINE $047B since we go backwards
+COMMENT $047B and restart the timer, next byte
+COMMENT_LINE $047D is played next round...
+COMMENT_LINE $047D here our normal 'digit_byte_playing_section'
+COMMENT $047D load the next sample_byte to A
+COMMENT_LINE $047F and store it to the 6522 -> PSG
+COMMENT $047F store in reg A in 6522 (DAC)
+FORCE_SYMBOL $047F VIA_port_a
+COMMENT_LINE $0482 following must come after the above, or we
+COMMENT_LINE $0482 put noise to the psg,
+COMMENT_LINE $0482 likewise, before storing anything else to
+COMMENT_LINE $0482 port A, we will disable the connection to PSG
+COMMENT $0482 this sets the MUX of 6522 to PSG
+COMMENT $0482 load the calculated VIA B
+FORCE_SYMBOL $0482 via_b_start
+COMMENT $0485 write back to reg B in 6522
+FORCE_SYMBOL $0485 VIA_port_b
+COMMENT $0488 and disable the mux, so no junk will
+FORCE_SYMBOL $0488 VIA_port_b
+COMMENT_LINE $048B enter our PSG-DAC...
+COMMENT $048B restart timer...
+COMMENT $048B load the timer 2 value we calculated
+FORCE_SYMBOL $048B T2_TIMER_PEROID_ENDIAN_REVERSE
+COMMENT $048E and set the timer
+FORCE_SYMBOL $048E VIA_t2_lo
+COMMENT $0491 Point to start of chargen bitmaps
+FORCE_SYMBOL $0491 Char_Table
+COMMENT $0494 a->AUX: b->ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)
+FORCE_NO_SYMBOL $0494
+COMMENT $0497 Clear D/A output
+FORCE_SYMBOL $0497 VIA_port_a
+COMMENT $0499 Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode
+FORCE_SYMBOL $0499 VIA_aux_cntl
+COMMENT $049B Point to start of chargen bitmaps
+FORCE_SYMBOL $049B Char_Table
+COMMENT_LINE $049E first entry here, ramp is disabled
+COMMENT_LINE $049E if there was a jump from below
+COMMENT_LINE $049E ramp will be enabled by next line
+COMMENT $049E ramp off/on = mux to channel 1
+FORCE_SYMBOL $049E VIA_port_b
+COMMENT $04A0 Enable mux
+FORCE_SYMBOL $04A0 VIA_port_b
+COMMENT $04A2 both to ORB, both disable ram, mux sel = 0 (y int), a:->enable mux: b:->disable mux
+FORCE_NO_SYMBOL $04A2
+COMMENT $04A5 Wait a moment
+COMMENT $04A6 Disable mux
+FORCE_SYMBOL $04A6 VIA_port_b
+COMMENT $04A8 Disable RAMP, set mux to channel 0, disable mux
+FORCE_SYMBOL $04A8 VIA_port_b
+COMMENT $04AA Enable mux
+FORCE_SYMBOL $04AA VIA_port_b
+COMMENT $04AC I think this is a delay only
+FORCE_NO_SYMBOL $04AC
+COMMENT $04AF disable mux
+FORCE_SYMBOL $04AF VIA_port_b
+COMMENT $04B1 Get text width
+FORCE_SYMBOL $04B1 Vec_Text_Width
+COMMENT $04B4 Send it to the D/A
+FORCE_SYMBOL $04B4 VIA_port_a
+COMMENT $04B6 both to ORB, both ENABLE RAMP, a:-> disable mux, b:-> enable mux
+FORCE_NO_SYMBOL $04B6
+COMMENT $04B9 Point to start of text string
+FORCE_SYMBOL $04B9 Vec_Str_Ptr
+COMMENT $04BC [4]enable RAMP, disable mux
+FORCE_SYMBOL $04BC VIA_port_b
+COMMENT $04BE [3]
+COMMENT_LINE $04C0 one letter is drawn (one row that is) in 18 cycles
+COMMENT_LINE $04C0 13 cycles overhead
+COMMENT_LINE $04C0 ramp is thus active for #ofLetters*18 + 13 cycles
+COMMENT $04C0 [+5]Get bitmap from chargen table
+COMMENT $04C2 [+4]rasterout of char bitmap "row" thru shift out in shift register
+FORCE_SYMBOL $04C2 VIA_shift_reg
+COMMENT $04C4 [+6]Get next character
+COMMENT $04C6 [+3]Go back if not terminator
+COMMENT $04C8 [2]disable mux, disable ramp
+FORCE_NO_SYMBOL $04C8
+COMMENT $04CA [4]disable RAMP, disable mux
+FORCE_SYMBOL $04CA VIA_port_b
+COMMENT $04CC Negate text width to D/A
+FORCE_SYMBOL $04CC VIA_port_a
+COMMENT $04CE enable ramp, disable mux
+FORCE_NO_SYMBOL $04CE
+COMMENT $04D0 enable RAMP, disable mux
+FORCE_SYMBOL $04D0 VIA_port_b
+COMMENT $04D2 [4]Check for last row
+FORCE_SYMBOL $04D2 Char_Table_End
+COMMENT $04D5 [3]Branch if last row
+COMMENT $04D7 [3]Point to next chargen row
+FORCE_NO_SYMBOL $04D7
+COMMENT $04DA [6]Get string length
+COMMENT $04DC [7]
+FORCE_SYMBOL $04DC Vec_Str_Ptr
+COMMENT $04DF [2] -  2
+FORCE_NO_SYMBOL $04DF
+COMMENT $04E1 [2] *  2 calculate return "way"
+COMMENT $04E2 [3]Delay a moment
+COMMENT $04E4 [2]disable RAMP, disable mux
+FORCE_NO_SYMBOL $04E4
+COMMENT $04E6 [2]
+COMMENT $04E7 [2]
+COMMENT $04E8 Delay some more in a loop
+COMMENT $04EA disable RAMP, disable mux
+FORCE_SYMBOL $04EA VIA_port_b
+COMMENT_LINE $04EC d can be destroyed here!
+COMMENT_LINE $04EC load current digit byte and increment counter
+COMMENT $04EC decrement our counter, used for wait_recal
+FORCE_SYMBOL $04EC digit_recal_counter
+COMMENT $04EF is there a digital sample to be played?
+FORCE_SYMBOL $04EF digit_is_playing
+COMMENT $04F2 no, than jump out of here
+COMMENT $04F4 otherwise we wait till the last played
+COMMENT $04F4 B-reg = T2 interrupt bit
+FORCE_NO_SYMBOL $04F4
+COMMENT $04F6 Wait for T2 to time out
+FORCE_SYMBOL $04F6 VIA_int_flags
+COMMENT $04F9 repeat
+COMMENT_LINE $04FB sample-byte is finnished
+COMMENT $04FB if it is zero, than we are finnished
+FORCE_SYMBOL $04FB digit_start_pos
+COMMENT $04FF with this sample, otherwise we continue further below
+COMMENT_LINE $0501 if we are done, should we restart?
+COMMENT $0501 is this sample a looping one?
+FORCE_SYMBOL $0501 digit_looping
+COMMENT $0504 store it to is_playing
+FORCE_SYMBOL $0504 digit_is_playing
+COMMENT $0507 if none looping... we are done
+COMMENT_LINE $0509 but we still must use the timer
+COMMENT_LINE $0509 ok, for restart, we only change current position
+COMMENT $0509 load the start position
+FORCE_SYMBOL $0509 digit_end_pos
+COMMENT_LINE $050D this is the end_position of the sample,
+COMMENT_LINE $050D since we go backwards
+COMMENT $050D and restart the timer, next byte
+COMMENT_LINE $050F is played next round...
+COMMENT_LINE $050F here our normal 'digit_byte_playing_section'
+COMMENT $050F load the next sample_byte to A
+COMMENT_LINE $0511 and store it to the 6522 -> PSG
+COMMENT $0511 store in reg A in 6522 (DAC)
+FORCE_SYMBOL $0511 VIA_port_a
+COMMENT_LINE $0514 following must come after the above, or we
+COMMENT_LINE $0514 put noise to the psg,
+COMMENT_LINE $0514 likewise, before storing anything else to
+COMMENT_LINE $0514 port A, we will disable the connection to PSG
+COMMENT $0514 this sets the MUX of 6522 to PSG
+COMMENT $0514 load the calculated VIA B
+FORCE_SYMBOL $0514 via_b_start
+COMMENT $0517 write back to reg B in 6522
+FORCE_SYMBOL $0517 VIA_port_b
+COMMENT $051A and disable the mux, so no junk will
+FORCE_SYMBOL $051A VIA_port_b
+COMMENT_LINE $051D enter our PSG-DAC...
+COMMENT $051D restart timer...
+COMMENT $051D load the timer 2 value we calculated
+FORCE_SYMBOL $051D T2_TIMER_PEROID_ENDIAN_REVERSE
+COMMENT $0520 and set the timer
+FORCE_SYMBOL $0520 VIA_t2_lo
+COMMENT $0523 [2]disable RAMP, disable mux
+FORCE_NO_SYMBOL $0523
+COMMENT $0525 disable RAMP, disable mux
+FORCE_SYMBOL $0525 VIA_port_b
+COMMENT $0527 Get text height
+FORCE_SYMBOL $0527 Vec_Text_Height
+COMMENT $052A Store text height in D/A [go down -> later]
+FORCE_SYMBOL $052A VIA_port_a
+COMMENT $052C Enable mux
+FORCE_SYMBOL $052C VIA_port_b
+FORCE_NO_SYMBOL $052E
+COMMENT $0531 Wait a moment
+COMMENT $0532 disable RAMP, disable mux
+FORCE_SYMBOL $0532 VIA_port_b
+COMMENT $0534 Clear D/A
+FORCE_SYMBOL $0534 VIA_port_a
+COMMENT $0536 enable RAMP, disable mux
+FORCE_SYMBOL $0536 VIA_port_b
+COMMENT $0538 disable RAMP, disable mux
+FORCE_SYMBOL $0538 VIA_port_b
+COMMENT $053A $0x = ENABLE RAMP?
+FORCE_NO_SYMBOL $053A
+COMMENT $053C Go back for next scan line
+FORCE_SYMBOL $053C LF4A5
+FORCE_NO_SYMBOL $053F
+COMMENT $0541 T1->PB7 enabled
+FORCE_SYMBOL $0541 VIA_aux_cntl
+COMMENT_LINE $0543 load current digit byte and increment counter
+COMMENT $0543 decrement our counter, used for wait_recal
+FORCE_SYMBOL $0543 digit_recal_counter
+COMMENT $0546 is there a digital sample to be played?
+FORCE_SYMBOL $0546 digit_is_playing
+COMMENT $0549 no, than jump out of here
+COMMENT $054B otherwise we wait till the last played
+COMMENT $054B B-reg = T2 interrupt bit
+FORCE_NO_SYMBOL $054B
+COMMENT $054D Wait for T2 to time out
+FORCE_SYMBOL $054D VIA_int_flags
+COMMENT $0550 repeat
+COMMENT_LINE $0552 sample-byte is finnished
+COMMENT $0552 if it is zero, than we are finnished
+FORCE_SYMBOL $0552 digit_start_pos
+COMMENT $0556 with this sample, otherwise we continue further below
+COMMENT_LINE $0558 if we are done, should we restart?
+COMMENT $0558 is this sample a looping one?
+FORCE_SYMBOL $0558 digit_looping
+COMMENT $055B store it to is_playing
+FORCE_SYMBOL $055B digit_is_playing
+COMMENT $055E if none looping... we are done
+COMMENT_LINE $0560 but we still must use the timer
+COMMENT_LINE $0560 ok, for restart, we only change current position
+COMMENT $0560 load the start position
+FORCE_SYMBOL $0560 digit_end_pos
+COMMENT_LINE $0564 this is the end_position of the sample,
+COMMENT_LINE $0564 since we go backwards
+COMMENT $0564 and restart the timer, next byte
+COMMENT_LINE $0566 is played next round...
+COMMENT_LINE $0566 here our normal 'digit_byte_playing_section'
+COMMENT $0566 load the next sample_byte to A
+COMMENT_LINE $0568 and store it to the 6522 -> PSG
+COMMENT $0568 store in reg A in 6522 (DAC)
+FORCE_SYMBOL $0568 VIA_port_a
+COMMENT_LINE $056B following must come after the above, or we
+COMMENT_LINE $056B put noise to the psg,
+COMMENT_LINE $056B likewise, before storing anything else to
+COMMENT_LINE $056B port A, we will disable the connection to PSG
+COMMENT $056B this sets the MUX of 6522 to PSG
+COMMENT $056B load the calculated VIA B
+FORCE_SYMBOL $056B via_b_start
+COMMENT $056E write back to reg B in 6522
+FORCE_SYMBOL $056E VIA_port_b
+COMMENT $0571 and disable the mux, so no junk will
+FORCE_SYMBOL $0571 VIA_port_b
+COMMENT_LINE $0574 enter our PSG-DAC...
+COMMENT $0574 restart timer...
+COMMENT $0574 load the timer 2 value we calculated
+FORCE_SYMBOL $0574 T2_TIMER_PEROID_ENDIAN_REVERSE
+COMMENT $0577 and set the timer
+FORCE_SYMBOL $0577 VIA_t2_lo
+COMMENT $057A Reset the zero reference
+FORCE_SYMBOL $057A Reset0Ref
+COMMENT_LINE $057D ***** GAME STATES ******
+COMMENT $057D Splash screen
+COMMENT_LINE $057D Splash screen state
+COMMENT_LINE $057D By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $057D ***** CONSTANTS *****
+COMMENT_LINE $057D ***** MEMORY MAP *****
+COMMENT_LINE $057D ***** INIT *****
+COMMENT $057D Reset stuff
+FORCE_SYMBOL $057E planet_rot_splash
+FORCE_SYMBOL $0581 intens_splash
+FORCE_SYMBOL $0584 rot_delay
+FORCE_SYMBOL $0588 framecount_splash
+FORCE_SYMBOL $058B SPLASH_ROT_DELAY
+FORCE_SYMBOL $058D rot_delay
+COMMENT_LINE $0591 ***** FRAME *****
+COMMENT_LINE $0591 Fade in
+FORCE_SYMBOL $0591 intens_splash
+FORCE_SYMBOL $0594 MAX_INTENSITY
+FORCE_SYMBOL $0598 FADE_SPEED
+FORCE_SYMBOL $059A intens_splash
+COMMENT $059D Store intensity in D/A
+FORCE_SYMBOL $059D VIA_port_a
+COMMENT $059F Save intensity in $C827
+FORCE_SYMBOL $059F Vec_Brightness
+COMMENT $05A2 mux disabled channel 2
+FORCE_NO_SYMBOL $05A2
+FORCE_SYMBOL $05A5 VIA_port_b
+COMMENT $05A7 mux enabled channel 2
+FORCE_SYMBOL $05A7 VIA_port_b
+COMMENT $05A9 do it again just because
+FORCE_SYMBOL $05A9 VIA_port_b
+FORCE_NO_SYMBOL $05AB
+COMMENT $05AD turn off mux
+FORCE_SYMBOL $05AD VIA_port_b
+COMMENT_LINE $05AF Tick rotation
+FORCE_SYMBOL $05AF rot_delay
+FORCE_SYMBOL $05B4 SPLASH_ROT_DELAY
+FORCE_SYMBOL $05B6 rot_delay
+FORCE_SYMBOL $05B9 planet_rot_splash
+COMMENT $05BD Loop if needed
+FORCE_SYMBOL $05C3 planet_rot_splash
+COMMENT_LINE $05C6 Draw planet
+COMMENT $05C6 Grab planet rot
+FORCE_SYMBOL $05C6 planet_rot_splash
+COMMENT $05C9 x2 to use as offset into frame index
+COMMENT $05CA x points to the index of frames
+FORCE_SYMBOL $05CA theplanet_index
+COMMENT $05CD x points to the actual contours :)
+COMMENT $05CF /BLANK low, /ZERO high
+FORCE_NO_SYMBOL $05CF
+FORCE_SYMBOL $05D1 VIA_cntl
+COMMENT $05D3 Set scale for the draw
+FORCE_SYMBOL $05D3 intens_splash
+COMMENT $05D8 Wait for move
+FORCE_NO_SYMBOL $05D8
+COMMENT $05DA Wait for timer 1
+FORCE_SYMBOL $05DA VIA_int_flags
+COMMENT $05DE Set scale
+FORCE_SYMBOL $05DE VIA_t1_cnt_lo
+COMMENT $05E0 Get num vectors in this contour
+COMMENT $05E2 Write to vec count
+FORCE_SYMBOL $05E2 Vec_Misc_Count
+COMMENT $05E5 Get next coordinate pair -- this is the absolute start pos so we can add the offset here
+FORCE_NO_SYMBOL $05E5
+COMMENT $05E7 Send Y to A/D
+FORCE_SYMBOL $05E7 VIA_port_a
+COMMENT $05E9 Enable mux
+FORCE_SYMBOL $05E9 VIA_port_b
+COMMENT $05EB Point to next coordinate pair
+FORCE_NO_SYMBOL $05EB
+COMMENT $05ED Wait a moment
+COMMENT $05EE Disable mux
+FORCE_SYMBOL $05EE VIA_port_b
+COMMENT $05F0 Send X to A/D
+FORCE_SYMBOL $05F0 VIA_port_a
+COMMENT $05F2 Shift reg=0 (no draw, move only), T1H=0
+FORCE_NO_SYMBOL $05F2
+COMMENT $05F5 A->D00A, B->D005 -- DO THE MOVE
+COMMENT $05F7 Update count
+FORCE_SYMBOL $05F7 Vec_Misc_Count
+COMMENT $05FA Grab the coord pair
+FORCE_NO_SYMBOL $05FA
+COMMENT $05FC Send Y to A/D
+FORCE_SYMBOL $05FC VIA_port_a
+COMMENT $05FE Enable mux
+FORCE_SYMBOL $05FE VIA_port_b
+COMMENT $0600 Point to next coordinate pair
+FORCE_NO_SYMBOL $0600
+COMMENT $0602 Wait a moment
+COMMENT $0603 Disable mux
+FORCE_SYMBOL $0603 VIA_port_b
+COMMENT $0605 Send X to A/D
+FORCE_SYMBOL $0605 VIA_port_a
+COMMENT $0607 Shift reg=$FF (solid line), T1H=0
+FORCE_NO_SYMBOL $0607
+COMMENT $060A Put pattern in shift register
+FORCE_SYMBOL $060A VIA_shift_reg
+COMMENT $060C Set T1H to start the ramp
+FORCE_SYMBOL $060C VIA_t1_cnt_hi
+COMMENT $060E B-reg = T1 interrupt bit
+FORCE_NO_SYMBOL $060E
+COMMENT $0611 Wait for T1 to time out
+FORCE_SYMBOL $0611 VIA_int_flags
+COMMENT $0615 Wait a moment more
+COMMENT $0616 Clear shift register (blank output)
+FORCE_SYMBOL $0616 VIA_shift_reg
+COMMENT $0618 Decrement line count
+FORCE_SYMBOL $0618 Vec_Misc_Count
+COMMENT $061C Go back for more points
+COMMENT $061E Return beam to origin
+FORCE_NO_SYMBOL $061E
+COMMENT $0621 /BLANK low and /ZERO low
+FORCE_SYMBOL $0621 VIA_cntl
+COMMENT $0623 clear shift register
+FORCE_SYMBOL $0623 VIA_shift_reg
+FORCE_NO_SYMBOL $0625
+COMMENT $0628 clear D/A register
+FORCE_SYMBOL $0628 VIA_port_a
+COMMENT $062A mux=1, disable mux
+FORCE_SYMBOL $062A VIA_port_b
+COMMENT $062C mux=1, enable mux
+FORCE_SYMBOL $062C VIA_port_b
+COMMENT $062E do it again
+FORCE_SYMBOL $062E VIA_port_b
+FORCE_NO_SYMBOL $0630
+COMMENT $0632 disable mux
+FORCE_SYMBOL $0632 VIA_port_b
+COMMENT $0634 Check if x now points to a zero (end of frame)
+FORCE_NO_SYMBOL $0634
+FORCE_SYMBOL $0636 FRAME_DELIMITER
+COMMENT $0638 Loop if not
+COMMENT_LINE $063A Skip input / call to action text if not faded in yet
+FORCE_SYMBOL $063A intens_splash
+FORCE_SYMBOL $063D MAX_INTENSITY
+COMMENT_LINE $0643 Set text intensity
+FORCE_SYMBOL $0643 framecount_splash
+FORCE_NO_SYMBOL $0648
+FORCE_NO_SYMBOL $064C
+FORCE_NO_SYMBOL $0650
+COMMENT_LINE $0654 sbca #192
+FORCE_NO_SYMBOL $0654
+FORCE_SYMBOL $0656 scratch
+FORCE_NO_SYMBOL $0659
+FORCE_SYMBOL $065B scratch
+COMMENT $0662 Store intensity in D/A
+FORCE_SYMBOL $0662 VIA_port_a
+COMMENT $0664 Save intensity in $C827
+FORCE_SYMBOL $0664 Vec_Brightness
+COMMENT $0667 mux disabled channel 2
+FORCE_NO_SYMBOL $0667
+FORCE_SYMBOL $066A VIA_port_b
+COMMENT $066C mux enabled channel 2
+FORCE_SYMBOL $066C VIA_port_b
+COMMENT $066E do it again just because
+FORCE_SYMBOL $066E VIA_port_b
+FORCE_NO_SYMBOL $0670
+COMMENT $0672 turn off mux
+FORCE_SYMBOL $0672 VIA_port_b
+COMMENT_LINE $0674 Choose whether to do landmarks or title/cta text
+FORCE_SYMBOL $0674 framecount_splash
+FORCE_NO_SYMBOL $0677
+FORCE_SYMBOL $067A framecount_splash
+FORCE_NO_SYMBOL $067D
+COMMENT_LINE $0683 Show landmark labels: UNROLL YOUR LOOPS FOR GREAT JUSTICE .......... and also laziness
+FORCE_SYMBOL $0683 LM_MOVE_SCALE
+COMMENT $0685 Set scale for the LM moves
+FORCE_SYMBOL $0685 VIA_t1_cnt_lo
+COMMENT $0687 Set text params for labels
+FORCE_SYMBOL $0689 Vec_Text_Height
+FORCE_NO_SYMBOL $068C
+FORCE_SYMBOL $068E Vec_Text_Width
+COMMENT_LINE $0691 Unroll: 1
+FORCE_SYMBOL $0691 landmark1
+COMMENT $0694 Grab curr rot
+FORCE_SYMBOL $0694 planet_rot_splash
+COMMENT $0697 x2 -- each coord pair's 2 bytes
+COMMENT $0698 Step forward by a
+FORCE_NO_SYMBOL $069A
+FORCE_SYMBOL $069C INVISIBLE
+FORCE_SYMBOL $06A2 LABEL_OFFSET
+COMMENT $06A4 Store Y in D/A register
+FORCE_SYMBOL $06A4 VIA_port_a
+COMMENT $06A6 Enable mux
+FORCE_SYMBOL $06A6 VIA_port_b
+COMMENT $06A8 Blank low, zero high
+FORCE_NO_SYMBOL $06A8
+FORCE_SYMBOL $06AA VIA_cntl
+COMMENT $06AC Clear shift register
+FORCE_SYMBOL $06AC VIA_shift_reg
+COMMENT $06AE Disable mux
+FORCE_SYMBOL $06AE VIA_port_b
+COMMENT $06B0 Store X in D/A register
+FORCE_SYMBOL $06B0 VIA_port_a
+COMMENT $06B2 timer 1 count high
+FORCE_SYMBOL $06B2 VIA_t1_cnt_hi
+FORCE_SYMBOL $06B4 lm1_name
+FORCE_NO_SYMBOL $06B7
+COMMENT $06B9 Wait for timer 1
+FORCE_SYMBOL $06B9 VIA_int_flags
+FORCE_NO_SYMBOL $06C0
+COMMENT $06C3 /BLANK low and /ZERO low
+FORCE_SYMBOL $06C3 VIA_cntl
+COMMENT $06C5 clear shift register
+FORCE_SYMBOL $06C5 VIA_shift_reg
+FORCE_NO_SYMBOL $06C7
+COMMENT $06CA clear D/A register
+FORCE_SYMBOL $06CA VIA_port_a
+COMMENT $06CC mux=1, disable mux
+FORCE_SYMBOL $06CC VIA_port_b
+COMMENT $06CE mux=1, enable mux
+FORCE_SYMBOL $06CE VIA_port_b
+COMMENT $06D0 do it again
+FORCE_SYMBOL $06D0 VIA_port_b
+FORCE_NO_SYMBOL $06D2
+COMMENT $06D4 disable mux
+FORCE_SYMBOL $06D4 VIA_port_b
+COMMENT_LINE $06D6 Unroll: 1
+FORCE_SYMBOL $06D6 landmark2
+COMMENT $06D9 Grab curr rot
+FORCE_SYMBOL $06D9 planet_rot_splash
+COMMENT $06DC x2 -- each coord pair's 2 bytes
+COMMENT $06DD Step forward by a
+FORCE_NO_SYMBOL $06DF
+FORCE_SYMBOL $06E1 INVISIBLE
+COMMENT $06E7 HACK: y axis hack for TRSiLand
+FORCE_NO_SYMBOL $06E7
+FORCE_SYMBOL $06E9 LABEL_OFFSET
+COMMENT $06EB Store Y in D/A register
+FORCE_SYMBOL $06EB VIA_port_a
+COMMENT $06ED Enable mux
+FORCE_SYMBOL $06ED VIA_port_b
+COMMENT $06EF Blank low, zero high
+FORCE_NO_SYMBOL $06EF
+FORCE_SYMBOL $06F1 VIA_cntl
+COMMENT $06F3 Clear shift register
+FORCE_SYMBOL $06F3 VIA_shift_reg
+COMMENT $06F5 Disable mux
+FORCE_SYMBOL $06F5 VIA_port_b
+COMMENT $06F7 Store X in D/A register
+FORCE_SYMBOL $06F7 VIA_port_a
+COMMENT $06F9 timer 1 count high
+FORCE_SYMBOL $06F9 VIA_t1_cnt_hi
+FORCE_SYMBOL $06FB lm2_name
+FORCE_NO_SYMBOL $06FE
+COMMENT $0700 Wait for timer 1
+FORCE_SYMBOL $0700 VIA_int_flags
+FORCE_NO_SYMBOL $0707
+COMMENT $070A /BLANK low and /ZERO low
+FORCE_SYMBOL $070A VIA_cntl
+COMMENT $070C clear shift register
+FORCE_SYMBOL $070C VIA_shift_reg
+FORCE_NO_SYMBOL $070E
+COMMENT $0711 clear D/A register
+FORCE_SYMBOL $0711 VIA_port_a
+COMMENT $0713 mux=1, disable mux
+FORCE_SYMBOL $0713 VIA_port_b
+COMMENT $0715 mux=1, enable mux
+FORCE_SYMBOL $0715 VIA_port_b
+COMMENT $0717 do it again
+FORCE_SYMBOL $0717 VIA_port_b
+FORCE_NO_SYMBOL $0719
+COMMENT $071B disable mux
+FORCE_SYMBOL $071B VIA_port_b
+COMMENT_LINE $071D Unroll: 3
+FORCE_SYMBOL $071D landmark3
+COMMENT $0720 Grab curr rot
+FORCE_SYMBOL $0720 planet_rot_splash
+COMMENT $0723 x2 -- each coord pair's 2 bytes
+COMMENT $0724 Step forward by a
+FORCE_NO_SYMBOL $0726
+FORCE_SYMBOL $0728 INVISIBLE
+FORCE_SYMBOL $072E LABEL_OFFSET
+COMMENT $0730 Store Y in D/A register
+FORCE_SYMBOL $0730 VIA_port_a
+COMMENT $0732 Enable mux
+FORCE_SYMBOL $0732 VIA_port_b
+COMMENT $0734 Blank low, zero high
+FORCE_NO_SYMBOL $0734
+FORCE_SYMBOL $0736 VIA_cntl
+COMMENT $0738 Clear shift register
+FORCE_SYMBOL $0738 VIA_shift_reg
+COMMENT $073A Disable mux
+FORCE_SYMBOL $073A VIA_port_b
+COMMENT $073C Store X in D/A register
+FORCE_SYMBOL $073C VIA_port_a
+COMMENT $073E timer 1 count high
+FORCE_SYMBOL $073E VIA_t1_cnt_hi
+FORCE_SYMBOL $0740 lm3_name
+FORCE_NO_SYMBOL $0743
+COMMENT $0745 Wait for timer 1
+FORCE_SYMBOL $0745 VIA_int_flags
+FORCE_NO_SYMBOL $074C
+COMMENT $074F /BLANK low and /ZERO low
+FORCE_SYMBOL $074F VIA_cntl
+COMMENT $0751 clear shift register
+FORCE_SYMBOL $0751 VIA_shift_reg
+FORCE_NO_SYMBOL $0753
+COMMENT $0756 clear D/A register
+FORCE_SYMBOL $0756 VIA_port_a
+COMMENT $0758 mux=1, disable mux
+FORCE_SYMBOL $0758 VIA_port_b
+COMMENT $075A mux=1, enable mux
+FORCE_SYMBOL $075A VIA_port_b
+COMMENT $075C do it again
+FORCE_SYMBOL $075C VIA_port_b
+FORCE_NO_SYMBOL $075E
+COMMENT $0760 disable mux
+FORCE_SYMBOL $0760 VIA_port_b
+COMMENT_LINE $0762 Unroll: 4
+FORCE_SYMBOL $0762 landmark4
+COMMENT $0765 Grab curr rot
+FORCE_SYMBOL $0765 planet_rot_splash
+COMMENT $0768 x2 -- each coord pair's 2 bytes
+COMMENT $0769 Step forward by a
+FORCE_NO_SYMBOL $076B
+FORCE_SYMBOL $076D INVISIBLE
+FORCE_SYMBOL $0773 LABEL_OFFSET
+COMMENT $0775 Store Y in D/A register
+FORCE_SYMBOL $0775 VIA_port_a
+COMMENT $0777 Enable mux
+FORCE_SYMBOL $0777 VIA_port_b
+COMMENT $0779 Blank low, zero high
+FORCE_NO_SYMBOL $0779
+FORCE_SYMBOL $077B VIA_cntl
+COMMENT $077D Clear shift register
+FORCE_SYMBOL $077D VIA_shift_reg
+COMMENT $077F Disable mux
+FORCE_SYMBOL $077F VIA_port_b
+COMMENT $0781 Store X in D/A register
+FORCE_SYMBOL $0781 VIA_port_a
+COMMENT $0783 timer 1 count high
+FORCE_SYMBOL $0783 VIA_t1_cnt_hi
+FORCE_SYMBOL $0785 lm4_name
+FORCE_NO_SYMBOL $0788
+COMMENT $078A Wait for timer 1
+FORCE_SYMBOL $078A VIA_int_flags
+FORCE_NO_SYMBOL $0791
+COMMENT $0794 /BLANK low and /ZERO low
+FORCE_SYMBOL $0794 VIA_cntl
+COMMENT $0796 clear shift register
+FORCE_SYMBOL $0796 VIA_shift_reg
+FORCE_NO_SYMBOL $0798
+COMMENT $079B clear D/A register
+FORCE_SYMBOL $079B VIA_port_a
+COMMENT $079D mux=1, disable mux
+FORCE_SYMBOL $079D VIA_port_b
+COMMENT $079F mux=1, enable mux
+FORCE_SYMBOL $079F VIA_port_b
+COMMENT $07A1 do it again
+FORCE_SYMBOL $07A1 VIA_port_b
+FORCE_NO_SYMBOL $07A3
+COMMENT $07A5 disable mux
+FORCE_SYMBOL $07A5 VIA_port_b
+COMMENT $07A7 Reset default text size
+FORCE_SYMBOL $07A9 Vec_Text_Height
+FORCE_NO_SYMBOL $07AC
+FORCE_SYMBOL $07AE Vec_Text_Width
+COMMENT $07B1 Skip the title/cta text
+COMMENT_LINE $07B3 Draw the CTA text
+FORCE_NO_SYMBOL $07B3
+COMMENT $07B5 Set scale for mooooove
+FORCE_SYMBOL $07B5 VIA_t1_cnt_lo
+COMMENT $07BB Store Y in D/A register
+FORCE_SYMBOL $07BB VIA_port_a
+COMMENT $07BD Enable mux
+FORCE_SYMBOL $07BD VIA_port_b
+COMMENT $07BF Blank low, zero high
+FORCE_NO_SYMBOL $07BF
+FORCE_SYMBOL $07C1 VIA_cntl
+COMMENT $07C3 Clear shift register
+FORCE_SYMBOL $07C3 VIA_shift_reg
+COMMENT $07C5 Disable mux
+FORCE_SYMBOL $07C5 VIA_port_b
+COMMENT $07C7 Store X in D/A register
+FORCE_SYMBOL $07C7 VIA_port_a
+COMMENT $07C9 timer 1 count high
+FORCE_SYMBOL $07C9 VIA_t1_cnt_hi
+FORCE_SYMBOL $07CB welcome_text
+COMMENT $07CE Wait for de beam
+FORCE_NO_SYMBOL $07CE
+COMMENT $07D0 Wait for timer 1
+FORCE_SYMBOL $07D0 VIA_int_flags
+COMMENT $07D4 Print it
+COMMENT_LINE $07D7 Draw title text
+FORCE_NO_SYMBOL $07D7
+COMMENT $07DA /BLANK low and /ZERO low
+FORCE_SYMBOL $07DA VIA_cntl
+COMMENT $07DC clear shift register
+FORCE_SYMBOL $07DC VIA_shift_reg
+FORCE_NO_SYMBOL $07DE
+COMMENT $07E1 clear D/A register
+FORCE_SYMBOL $07E1 VIA_port_a
+COMMENT $07E3 mux=1, disable mux
+FORCE_SYMBOL $07E3 VIA_port_b
+COMMENT $07E5 mux=1, enable mux
+FORCE_SYMBOL $07E5 VIA_port_b
+COMMENT $07E7 do it again
+FORCE_SYMBOL $07E7 VIA_port_b
+FORCE_NO_SYMBOL $07E9
+COMMENT $07EB disable mux
+FORCE_SYMBOL $07EB VIA_port_b
+FORCE_NO_SYMBOL $07ED
+COMMENT $07F1 Store Y in D/A register
+FORCE_SYMBOL $07F1 VIA_port_a
+COMMENT $07F3 Enable mux
+FORCE_SYMBOL $07F3 VIA_port_b
+COMMENT $07F5 Blank low, zero high
+FORCE_NO_SYMBOL $07F5
+FORCE_SYMBOL $07F7 VIA_cntl
+COMMENT $07F9 Clear shift register
+FORCE_SYMBOL $07F9 VIA_shift_reg
+COMMENT $07FB Disable mux
+FORCE_SYMBOL $07FB VIA_port_b
+COMMENT $07FD Store X in D/A register
+FORCE_SYMBOL $07FD VIA_port_a
+COMMENT $07FF timer 1 count high
+FORCE_SYMBOL $07FF VIA_t1_cnt_hi
+FORCE_SYMBOL $0801 title_text
+COMMENT $0804 Wait for de beam
+FORCE_NO_SYMBOL $0804
+COMMENT $0806 Wait for timer 1
+FORCE_SYMBOL $0806 VIA_int_flags
+COMMENT $080A Print it
+COMMENT_LINE $080D Change state if they hit a button
+COMMENT $080D Read the joystick
+FORCE_SYMBOL $080D GetJoystick
+COMMENT $0810 Check for a button press...
+FORCE_SYMBOL $0810 joy_b
+COMMENT $0815 ...and request state change if they hit button 1
+FORCE_SYMBOL $0815 GameInit
+FORCE_SYMBOL $0818 GameFrame
+COMMENT $0820 Main game state
+COMMENT_LINE $0820 Game state
+COMMENT_LINE $0820 By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $0820 ***** CONSTANTS *****
+COMMENT_LINE $0820 ***** MEMORY MAP *****
+COMMENT_LINE $0820 ***** INIT *****
+FORCE_NO_SYMBOL $0820
+COMMENT $0822 Write the string termie for the score
+COMMENT_LINE $0825 lda #116		; t - gives broken dollar symbol
+COMMENT $0825 h - gives arrow thing
+FORCE_NO_SYMBOL $0825
+COMMENT $0827 Write the dollar sign
+FORCE_SYMBOL $0827 cash_ascii
+COMMENT $082A Reset score
+FORCE_NO_SYMBOL $082A
+COMMENT $082D Reset cash
+FORCE_SYMBOL $082D cash
+COMMENT $0830 Reset c-c-combo bonus <3
+FORCE_SYMBOL $0830 combo_bonus
+COMMENT $0833 Reset combo level
+FORCE_SYMBOL $0833 combo_level
+COMMENT $0836 Reset ship velo
+FORCE_SYMBOL $0836 shipyvel
+COMMENT $0839 Reset planet rotation
+FORCE_SYMBOL $0839 planet_rot
+COMMENT $083C Reset pickup (Always Emma first)
+FORCE_SYMBOL $083C current_pass_lm
+COMMENT $083F Reset intensity
+FORCE_SYMBOL $083F intens
+COMMENT $0842 Convert initial zero score to ASCII
+COMMENT $0848 Roll a die
+COMMENT $084B Clamp 0-3
+FORCE_NO_SYMBOL $084B
+COMMENT $084D Reroll if we just picked the pickup point!
+FORCE_SYMBOL $084D current_pass_lm
+COMMENT $0852 Set initial fuel depot
+FORCE_SYMBOL $0852 current_fuel_lm
+COMMENT $0855 Reset fuel
+FORCE_SYMBOL $0855 MAX_FUEL
+FORCE_SYMBOL $0857 fuel
+FORCE_SYMBOL $085A SHIP_MAX_Y
+COMMENT $085C Reset ship pos
+FORCE_SYMBOL $085C shipy
+FORCE_NO_SYMBOL $085F
+FORCE_SYMBOL $0861 odd_frame
+COMMENT $0864 Reset taxi mode to pickup
+FORCE_SYMBOL $0866 taxi_mode
+COMMENT $0869 Init controller
+COMMENT $086C Init sfx sys
+COMMENT_LINE $0870 ***** FRAME *****
+COMMENT_LINE $0870 Tick stuff
+COMMENT $0870 Toggle the odd-frame flag
+FORCE_SYMBOL $0870 odd_frame
+FORCE_SYMBOL $0874 odd_frame
+COMMENT $0877 Fade in
+FORCE_SYMBOL $0877 intens
+FORCE_SYMBOL $087A MAX_INTENSITY
+FORCE_SYMBOL $087E FADE_SPEED
+FORCE_SYMBOL $0880 intens
+COMMENT $0883 Store intensity in D/A
+FORCE_SYMBOL $0883 VIA_port_a
+COMMENT $0885 Save intensity in $C827
+FORCE_SYMBOL $0885 Vec_Brightness
+COMMENT $0888 mux disabled channel 2
+FORCE_NO_SYMBOL $0888
+FORCE_SYMBOL $088B VIA_port_b
+COMMENT $088D mux enabled channel 2
+FORCE_SYMBOL $088D VIA_port_b
+COMMENT $088F do it again just because
+FORCE_SYMBOL $088F VIA_port_b
+FORCE_NO_SYMBOL $0891
+COMMENT $0893 turn off mux
+FORCE_SYMBOL $0893 VIA_port_b
+COMMENT_LINE $0895 Tick physics
+COMMENT $0895 Read the joystick
+COMMENT $0898 First update velocity...
+FORCE_SYMBOL $0898 shipyvel
+COMMENT $089B Skip gravity every other frame
+FORCE_SYMBOL $089B odd_frame
+COMMENT $08A0 Apply gravity
+FORCE_SYMBOL $08A0 GRAVITY
+COMMENT $08A2 Are they pressing thrust?
+FORCE_SYMBOL $08A2 joy_b
+COMMENT $08A7 Yeah, apply some thrust to velocity
+FORCE_SYMBOL $08A7 THRUST
+COMMENT $08A9 And dec fuel
+FORCE_SYMBOL $08A9 fuel
+FORCE_SYMBOL $08AC FUEL_BURN_THR
+COMMENT $08AE Check remaining fuel level
+COMMENT $08B0 Ees no goode! Keel them
+FORCE_SYMBOL $08B0 game_over
+FORCE_SYMBOL $08B3 fuel
+COMMENT $08B6 Clamp velo (note it's still in reg a)
+FORCE_SYMBOL $08B6 SHIP_MIN_YVEL
+FORCE_SYMBOL $08BA SHIP_MIN_YVEL
+FORCE_SYMBOL $08BC SHIP_MAX_YVEL
+FORCE_SYMBOL $08C0 SHIP_MAX_YVEL
+FORCE_SYMBOL $08C2 shipyvel
+COMMENT $08C5 ...now update position
+FORCE_SYMBOL $08C5 shipy
+COMMENT $08C8 Clamp pos
+FORCE_SYMBOL $08C8 SHIP_MAX_Y
+FORCE_SYMBOL $08CC SHIP_MAX_Y
+FORCE_SYMBOL $08CE SHIP_MIN_Y
+COMMENT $08D2 They're at screen min!! Let's cost them some fuel
+FORCE_SYMBOL $08D2 SHIP_MIN_Y
+FORCE_SYMBOL $08D4 fuel
+FORCE_SYMBOL $08D7 FUEL_BURN_THR
+COMMENT $08D9 Check remaining fuel level
+COMMENT $08DB Ees no goode! Keel them
+FORCE_SYMBOL $08DB game_over
+FORCE_SYMBOL $08DE fuel
+FORCE_SYMBOL $08E1 shipy
+COMMENT_LINE $08E4 Update planet rotation
+COMMENT $08E4 Skip spin input every other frame
+FORCE_SYMBOL $08E4 odd_frame
+COMMENT $08E9 Check for input
+FORCE_SYMBOL $08E9 joy_lr
+COMMENT $08EE OK, they're gonna spin one way or t'other, let's cost them some fuel
+FORCE_SYMBOL $08EE fuel
+FORCE_SYMBOL $08F1 FUEL_BURN_SPIN
+COMMENT $08F3 Check remaining fuel level
+COMMENT $08F5 Ees no goode! Keel them
+FORCE_SYMBOL $08F5 game_over
+FORCE_SYMBOL $08F8 fuel
+COMMENT $08FB (We killed the comp flags)
+FORCE_NO_SYMBOL $08FB
+FORCE_SYMBOL $0901 planet_rot
+COMMENT $0905 Loop if needed
+FORCE_SYMBOL $090B planet_rot
+FORCE_SYMBOL $0910 planet_rot
+COMMENT $0914 Loop if needed
+FORCE_SYMBOL $0914 NUM_FRAMES
+FORCE_SYMBOL $0919 planet_rot
+COMMENT_LINE $091C Draw planet
+COMMENT $091C Grab planet rot
+FORCE_SYMBOL $091C planet_rot
+COMMENT $091F x2 to use as offset into frame index
+COMMENT $0920 x points to the index of frames
+FORCE_SYMBOL $0920 theplanet_index
+COMMENT $0923 x points to the actual contours :)
+COMMENT $0925 /BLANK low, /ZERO high
+FORCE_NO_SYMBOL $0925
+FORCE_SYMBOL $0927 VIA_cntl
+COMMENT $0929 Set scale for the draw
+FORCE_NO_SYMBOL $0929
+COMMENT $092B Wait for move
+FORCE_NO_SYMBOL $092B
+COMMENT $092D Wait for timer 1
+FORCE_SYMBOL $092D VIA_int_flags
+COMMENT $0931 Set scale
+FORCE_SYMBOL $0931 VIA_t1_cnt_lo
+COMMENT $0933 Get num vectors in this contour
+COMMENT $0935 Write to vec count
+FORCE_SYMBOL $0935 Vec_Misc_Count
+COMMENT $0938 Get next coordinate pair -- this is the absolute start pos so we can add the offset here
+FORCE_NO_SYMBOL $0938
+COMMENT $093A Send Y to A/D
+FORCE_SYMBOL $093A VIA_port_a
+COMMENT $093C Enable mux
+FORCE_SYMBOL $093C VIA_port_b
+COMMENT $093E Point to next coordinate pair
+FORCE_NO_SYMBOL $093E
+COMMENT $0940 Wait a moment
+COMMENT $0941 Disable mux
+FORCE_SYMBOL $0941 VIA_port_b
+COMMENT $0943 Send X to A/D
+FORCE_SYMBOL $0943 VIA_port_a
+COMMENT $0945 Shift reg=0 (no draw, move only), T1H=0
+FORCE_NO_SYMBOL $0945
+COMMENT $0948 A->D00A, B->D005 -- DO THE MOVE
+COMMENT $094A Update count
+FORCE_SYMBOL $094A Vec_Misc_Count
+COMMENT $094D Grab the coord pair
+FORCE_NO_SYMBOL $094D
+COMMENT $094F Send Y to A/D
+FORCE_SYMBOL $094F VIA_port_a
+COMMENT $0951 Enable mux
+FORCE_SYMBOL $0951 VIA_port_b
+COMMENT $0953 Point to next coordinate pair
+FORCE_NO_SYMBOL $0953
+COMMENT $0955 Wait a moment
+COMMENT $0956 Disable mux
+FORCE_SYMBOL $0956 VIA_port_b
+COMMENT $0958 Send X to A/D
+FORCE_SYMBOL $0958 VIA_port_a
+COMMENT $095A Shift reg=$FF (solid line), T1H=0
+FORCE_NO_SYMBOL $095A
+COMMENT $095D Put pattern in shift register
+FORCE_SYMBOL $095D VIA_shift_reg
+COMMENT $095F Set T1H to start the ramp
+FORCE_SYMBOL $095F VIA_t1_cnt_hi
+COMMENT $0961 B-reg = T1 interrupt bit
+FORCE_NO_SYMBOL $0961
+COMMENT $0964 Wait for T1 to time out
+FORCE_SYMBOL $0964 VIA_int_flags
+COMMENT $0968 Wait a moment more
+COMMENT $0969 Clear shift register (blank output)
+FORCE_SYMBOL $0969 VIA_shift_reg
+COMMENT $096B Decrement line count
+FORCE_SYMBOL $096B Vec_Misc_Count
+COMMENT $096F Go back for more points
+COMMENT $0971 Return beam to origin
+FORCE_NO_SYMBOL $0971
+COMMENT $0974 /BLANK low and /ZERO low
+FORCE_SYMBOL $0974 VIA_cntl
+COMMENT $0976 clear shift register
+FORCE_SYMBOL $0976 VIA_shift_reg
+FORCE_NO_SYMBOL $0978
+COMMENT $097B clear D/A register
+FORCE_SYMBOL $097B VIA_port_a
+COMMENT $097D mux=1, disable mux
+FORCE_SYMBOL $097D VIA_port_b
+COMMENT $097F mux=1, enable mux
+FORCE_SYMBOL $097F VIA_port_b
+COMMENT $0981 do it again
+FORCE_SYMBOL $0981 VIA_port_b
+FORCE_NO_SYMBOL $0983
+COMMENT $0985 disable mux
+FORCE_SYMBOL $0985 VIA_port_b
+COMMENT $0987 Check if x now points to a zero (end of frame)
+FORCE_NO_SYMBOL $0987
+FORCE_SYMBOL $0989 FRAME_DELIMITER
+COMMENT $098B Loop if not
+COMMENT_LINE $098D Draw score (cash)
+COMMENT_LINE $098D FastZeroRef		; Back to origin
+FORCE_NO_SYMBOL $098D
+COMMENT $098F Set scale for mooooove
+FORCE_SYMBOL $098F VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $0991
+FORCE_NO_SYMBOL $0993
+COMMENT $0995 Store Y in D/A register
+FORCE_SYMBOL $0995 VIA_port_a
+COMMENT $0997 Enable mux
+FORCE_SYMBOL $0997 VIA_port_b
+COMMENT $0999 Blank low, zero high
+FORCE_NO_SYMBOL $0999
+FORCE_SYMBOL $099B VIA_cntl
+COMMENT $099D Clear shift register
+FORCE_SYMBOL $099D VIA_shift_reg
+COMMENT $099F Disable mux
+FORCE_SYMBOL $099F VIA_port_b
+COMMENT $09A1 Store X in D/A register
+FORCE_SYMBOL $09A1 VIA_port_a
+COMMENT $09A3 timer 1 count high
+FORCE_SYMBOL $09A3 VIA_t1_cnt_hi
+COMMENT $09A5 u=pointer to ASCII cash
+FORCE_SYMBOL $09A5 cash_ascii
+COMMENT $09A8 Wait for de beam
+FORCE_NO_SYMBOL $09A8
+COMMENT $09AA Wait for timer 1
+FORCE_SYMBOL $09AA VIA_int_flags
+COMMENT $09AE Print the cash score
+COMMENT_LINE $09B1 Fuel gauge
+COMMENT $09B1 Origin
+FORCE_NO_SYMBOL $09B1
+COMMENT $09B4 /BLANK low and /ZERO low
+FORCE_SYMBOL $09B4 VIA_cntl
+COMMENT $09B6 clear shift register
+FORCE_SYMBOL $09B6 VIA_shift_reg
+FORCE_NO_SYMBOL $09B8
+COMMENT $09BB clear D/A register
+FORCE_SYMBOL $09BB VIA_port_a
+COMMENT $09BD mux=1, disable mux
+FORCE_SYMBOL $09BD VIA_port_b
+COMMENT $09BF mux=1, enable mux
+FORCE_SYMBOL $09BF VIA_port_b
+COMMENT $09C1 do it again
+FORCE_SYMBOL $09C1 VIA_port_b
+FORCE_NO_SYMBOL $09C3
+COMMENT $09C5 disable mux
+FORCE_SYMBOL $09C5 VIA_port_b
+FORCE_NO_SYMBOL $09C7
+COMMENT $09CB Move to target pos
+COMMENT $09CB Store Y in D/A register
+FORCE_SYMBOL $09CB VIA_port_a
+COMMENT $09CD Enable mux
+FORCE_SYMBOL $09CD VIA_port_b
+COMMENT $09CF Blank low, zero high
+FORCE_NO_SYMBOL $09CF
+FORCE_SYMBOL $09D1 VIA_cntl
+COMMENT $09D3 Clear shift register
+FORCE_SYMBOL $09D3 VIA_shift_reg
+COMMENT $09D5 Disable mux
+FORCE_SYMBOL $09D5 VIA_port_b
+COMMENT $09D7 Store X in D/A register
+FORCE_SYMBOL $09D7 VIA_port_a
+COMMENT $09D9 timer 1 count high
+FORCE_SYMBOL $09D9 VIA_t1_cnt_hi
+COMMENT $09DB Wait (sigh)
+FORCE_NO_SYMBOL $09DB
+COMMENT $09DD Wait for timer 1
+FORCE_SYMBOL $09DD VIA_int_flags
+COMMENT $09E1 Use fuel val as scale
+FORCE_SYMBOL $09E1 fuel
+FORCE_SYMBOL $09E5 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $09E8
+COMMENT $09EA Draw line
+COMMENT $09EA Send Y to A/D
+FORCE_SYMBOL $09EA VIA_port_a
+COMMENT $09EC Enable mux
+FORCE_SYMBOL $09EC VIA_port_b
+COMMENT $09EE Wait a moment
+COMMENT $09EF Disable mux
+FORCE_SYMBOL $09EF VIA_port_b
+COMMENT $09F1 Send X to A/D
+FORCE_SYMBOL $09F1 VIA_port_a
+COMMENT $09F3 Shift reg=$FF (solid line), T1H=0
+FORCE_NO_SYMBOL $09F3
+COMMENT $09F6 Put pattern in shift register
+FORCE_SYMBOL $09F6 VIA_shift_reg
+COMMENT $09F8 Ping T1H
+FORCE_SYMBOL $09F8 VIA_t1_cnt_hi
+COMMENT $09FA B-reg = T1 interrupt bit
+FORCE_NO_SYMBOL $09FA
+COMMENT $09FD Wait for T1 to time out (aw what a shame, this wait is wasted...)
+FORCE_SYMBOL $09FD VIA_int_flags
+COMMENT $0A01 Wait a moment more
+COMMENT $0A02 Clear shift register (blank output)
+FORCE_SYMBOL $0A02 VIA_shift_reg
+COMMENT_LINE $0A04 Draw ship
+COMMENT $0A04 Back to origin
+FORCE_NO_SYMBOL $0A04
+COMMENT $0A07 /BLANK low and /ZERO low
+FORCE_SYMBOL $0A07 VIA_cntl
+COMMENT $0A09 clear shift register
+FORCE_SYMBOL $0A09 VIA_shift_reg
+FORCE_NO_SYMBOL $0A0B
+COMMENT $0A0E clear D/A register
+FORCE_SYMBOL $0A0E VIA_port_a
+COMMENT $0A10 mux=1, disable mux
+FORCE_SYMBOL $0A10 VIA_port_b
+COMMENT $0A12 mux=1, enable mux
+FORCE_SYMBOL $0A12 VIA_port_b
+COMMENT $0A14 do it again
+FORCE_SYMBOL $0A14 VIA_port_b
+FORCE_NO_SYMBOL $0A16
+COMMENT $0A18 disable mux
+FORCE_SYMBOL $0A18 VIA_port_b
+FORCE_NO_SYMBOL $0A1A
+COMMENT $0A1C Reset scale for mooooove
+FORCE_SYMBOL $0A1C VIA_t1_cnt_lo
+FORCE_SYMBOL $0A1E shipy
+COMMENT $0A22 Move to target pos
+COMMENT $0A22 Store Y in D/A register
+FORCE_SYMBOL $0A22 VIA_port_a
+COMMENT $0A24 Enable mux
+FORCE_SYMBOL $0A24 VIA_port_b
+COMMENT $0A26 Blank low, zero high
+FORCE_NO_SYMBOL $0A26
+FORCE_SYMBOL $0A28 VIA_cntl
+COMMENT $0A2A Clear shift register
+FORCE_SYMBOL $0A2A VIA_shift_reg
+COMMENT $0A2C Disable mux
+FORCE_SYMBOL $0A2C VIA_port_b
+COMMENT $0A2E Store X in D/A register
+FORCE_SYMBOL $0A2E VIA_port_a
+COMMENT $0A30 timer 1 count high
+FORCE_SYMBOL $0A30 VIA_t1_cnt_hi
+COMMENT $0A32 u=pointer to ASCII cash
+FORCE_SYMBOL $0A32 ship
+COMMENT $0A35 Wait for de beam
+FORCE_NO_SYMBOL $0A35
+COMMENT $0A37 Wait for timer 1
+FORCE_SYMBOL $0A37 VIA_int_flags
+COMMENT $0A3B Use y for scale!
+FORCE_SYMBOL $0A3B shipy
+COMMENT $0A3E y=abs(y)
+FORCE_SYMBOL $0A42 scratch
+COMMENT $0A45 scale=max-abs(y)
+FORCE_SYMBOL $0A45 MAX_SCALE
+FORCE_SYMBOL $0A47 scratch
+COMMENT $0A4A Set scale for draw
+FORCE_SYMBOL $0A4A VIA_t1_cnt_lo
+FORCE_SYMBOL $0A4E Vec_Misc_Count
+FORCE_NO_SYMBOL $0A51
+FORCE_SYMBOL $0A53 VIA_port_a
+FORCE_SYMBOL $0A55 VIA_port_b
+FORCE_NO_SYMBOL $0A57
+FORCE_SYMBOL $0A5A VIA_port_b
+FORCE_SYMBOL $0A5C VIA_port_a
+FORCE_NO_SYMBOL $0A5E
+FORCE_SYMBOL $0A61 VIA_shift_reg
+FORCE_SYMBOL $0A63 VIA_t1_cnt_hi
+FORCE_NO_SYMBOL $0A65
+FORCE_SYMBOL $0A68 VIA_int_flags
+FORCE_SYMBOL $0A6D VIA_shift_reg
+FORCE_SYMBOL $0A6F Vec_Misc_Count
+COMMENT_LINE $0A75 Draw the fuel depot
+COMMENT $0A75 Back to origin
+FORCE_NO_SYMBOL $0A75
+COMMENT $0A78 /BLANK low and /ZERO low
+FORCE_SYMBOL $0A78 VIA_cntl
+COMMENT $0A7A clear shift register
+FORCE_SYMBOL $0A7A VIA_shift_reg
+FORCE_NO_SYMBOL $0A7C
+COMMENT $0A7F clear D/A register
+FORCE_SYMBOL $0A7F VIA_port_a
+COMMENT $0A81 mux=1, disable mux
+FORCE_SYMBOL $0A81 VIA_port_b
+COMMENT $0A83 mux=1, enable mux
+FORCE_SYMBOL $0A83 VIA_port_b
+COMMENT $0A85 do it again
+FORCE_SYMBOL $0A85 VIA_port_b
+FORCE_NO_SYMBOL $0A87
+COMMENT $0A89 disable mux
+FORCE_SYMBOL $0A89 VIA_port_b
+FORCE_SYMBOL $0A8B LM_MOVE_SCALE
+COMMENT $0A8D Reset scale for mooooove
+FORCE_SYMBOL $0A8D VIA_t1_cnt_lo
+COMMENT $0A8F NOTE: y holds this for the rest of frame
+FORCE_SYMBOL $0A8F landmarks_index
+COMMENT $0A93 grab fuel depot's landmark id
+FORCE_SYMBOL $0A93 current_fuel_lm
+COMMENT $0A96 x4 (these records are 4 bytes)
+COMMENT $0A98 x points to the start of the actual landmark path
+COMMENT $0A9A Grab curr rot
+FORCE_SYMBOL $0A9A planet_rot
+COMMENT $0A9D x2 -- each coord pair's 2 bytes
+COMMENT $0A9E Step forward by a
+COMMENT $0AA0 Grab the coord pair
+FORCE_NO_SYMBOL $0AA0
+FORCE_SYMBOL $0AA2 INVISIBLE
+COMMENT $0AA6 Skip draw if invisible for this rot val
+COMMENT $0AA8 HACK: Draw the f icon slightly to the right of where its coords are
+FORCE_NO_SYMBOL $0AA8
+COMMENT $0AAA Otherwise move!
+COMMENT $0AAA Store Y in D/A register
+FORCE_SYMBOL $0AAA VIA_port_a
+COMMENT $0AAC Enable mux
+FORCE_SYMBOL $0AAC VIA_port_b
+COMMENT $0AAE Blank low, zero high
+FORCE_NO_SYMBOL $0AAE
+FORCE_SYMBOL $0AB0 VIA_cntl
+COMMENT $0AB2 Clear shift register
+FORCE_SYMBOL $0AB2 VIA_shift_reg
+COMMENT $0AB4 Disable mux
+FORCE_SYMBOL $0AB4 VIA_port_b
+COMMENT $0AB6 Store X in D/A register
+FORCE_SYMBOL $0AB6 VIA_port_a
+COMMENT $0AB8 timer 1 count high
+FORCE_SYMBOL $0AB8 VIA_t1_cnt_hi
+FORCE_SYMBOL $0ABA fueldepot
+FORCE_NO_SYMBOL $0ABD
+COMMENT $0ABF Wait for timer 1
+FORCE_SYMBOL $0ABF VIA_int_flags
+FORCE_NO_SYMBOL $0AC3
+COMMENT $0AC5 Reset scale for draw
+FORCE_SYMBOL $0AC5 VIA_t1_cnt_lo
+COMMENT $0AC7 And draw
+COMMENT_LINE $0ACA Draw the pickup / dropoff point
+COMMENT $0ACA Back to origin
+FORCE_NO_SYMBOL $0ACA
+COMMENT $0ACD /BLANK low and /ZERO low
+FORCE_SYMBOL $0ACD VIA_cntl
+COMMENT $0ACF clear shift register
+FORCE_SYMBOL $0ACF VIA_shift_reg
+FORCE_NO_SYMBOL $0AD1
+COMMENT $0AD4 clear D/A register
+FORCE_SYMBOL $0AD4 VIA_port_a
+COMMENT $0AD6 mux=1, disable mux
+FORCE_SYMBOL $0AD6 VIA_port_b
+COMMENT $0AD8 mux=1, enable mux
+FORCE_SYMBOL $0AD8 VIA_port_b
+COMMENT $0ADA do it again
+FORCE_SYMBOL $0ADA VIA_port_b
+FORCE_NO_SYMBOL $0ADC
+COMMENT $0ADE disable mux
+FORCE_SYMBOL $0ADE VIA_port_b
+FORCE_SYMBOL $0AE0 LM_MOVE_SCALE
+COMMENT $0AE2 Reset scale for mooooove
+FORCE_SYMBOL $0AE2 VIA_t1_cnt_lo
+COMMENT $0AE4 grab pickup or dropoff point's landmark id
+FORCE_SYMBOL $0AE4 current_pass_lm
+COMMENT $0AE7 x4 (these records are 4 bytes)
+COMMENT $0AE9 a points to the start of the actual landmark path
+COMMENT $0AEB Grab curr rot
+FORCE_SYMBOL $0AEB planet_rot
+COMMENT $0AEE x2 -- each coord pair's 2 bytes
+COMMENT $0AEF Step forward by a
+COMMENT $0AF1 Grab the coord pair
+FORCE_NO_SYMBOL $0AF1
+FORCE_SYMBOL $0AF3 INVISIBLE
+COMMENT $0AF7 Skip draw if invisible for this rot val
+COMMENT $0AF9 Otherwise move!
+COMMENT $0AF9 Store Y in D/A register
+FORCE_SYMBOL $0AF9 VIA_port_a
+COMMENT $0AFB Enable mux
+FORCE_SYMBOL $0AFB VIA_port_b
+COMMENT $0AFD Blank low, zero high
+FORCE_NO_SYMBOL $0AFD
+FORCE_SYMBOL $0AFF VIA_cntl
+COMMENT $0B01 Clear shift register
+FORCE_SYMBOL $0B01 VIA_shift_reg
+COMMENT $0B03 Disable mux
+FORCE_SYMBOL $0B03 VIA_port_b
+COMMENT $0B05 Store X in D/A register
+FORCE_SYMBOL $0B05 VIA_port_a
+COMMENT $0B07 timer 1 count high
+FORCE_SYMBOL $0B07 VIA_t1_cnt_hi
+COMMENT $0B09 Load x with either passenger or pickup icon depending on taxi_mode
+FORCE_SYMBOL $0B09 taxi_mode
+FORCE_SYMBOL $0B0E passenger
+FORCE_SYMBOL $0B13 dropoff
+COMMENT $0B16 Wait for that move we did aaaaaages ago! (NOTE: It's probably done and we can skip this...)
+FORCE_NO_SYMBOL $0B16
+COMMENT $0B18 Wait for timer 1
+FORCE_SYMBOL $0B18 VIA_int_flags
+FORCE_NO_SYMBOL $0B1C
+COMMENT $0B1E Reset scale for draw
+FORCE_SYMBOL $0B1E VIA_t1_cnt_lo
+COMMENT $0B20 And draw
+COMMENT_LINE $0B23 Draw passenger UI icon if we have someone onboard :)
+FORCE_SYMBOL $0B23 taxi_mode
+COMMENT $0B28 Back to origin
+FORCE_NO_SYMBOL $0B28
+COMMENT $0B2B /BLANK low and /ZERO low
+FORCE_SYMBOL $0B2B VIA_cntl
+COMMENT $0B2D clear shift register
+FORCE_SYMBOL $0B2D VIA_shift_reg
+FORCE_NO_SYMBOL $0B2F
+COMMENT $0B32 clear D/A register
+FORCE_SYMBOL $0B32 VIA_port_a
+COMMENT $0B34 mux=1, disable mux
+FORCE_SYMBOL $0B34 VIA_port_b
+COMMENT $0B36 mux=1, enable mux
+FORCE_SYMBOL $0B36 VIA_port_b
+COMMENT $0B38 do it again
+FORCE_SYMBOL $0B38 VIA_port_b
+FORCE_NO_SYMBOL $0B3A
+COMMENT $0B3C disable mux
+FORCE_SYMBOL $0B3C VIA_port_b
+FORCE_NO_SYMBOL $0B3E
+COMMENT $0B40 Reset scale for mooooove
+FORCE_SYMBOL $0B40 VIA_t1_cnt_lo
+COMMENT_LINE $0B42 lda #100
+COMMENT_LINE $0B42 ldb #-85
+FORCE_NO_SYMBOL $0B44
+COMMENT $0B46 Move!
+COMMENT $0B46 Store Y in D/A register
+FORCE_SYMBOL $0B46 VIA_port_a
+COMMENT $0B48 Enable mux
+FORCE_SYMBOL $0B48 VIA_port_b
+COMMENT $0B4A Blank low, zero high
+FORCE_NO_SYMBOL $0B4A
+FORCE_SYMBOL $0B4C VIA_cntl
+COMMENT $0B4E Clear shift register
+FORCE_SYMBOL $0B4E VIA_shift_reg
+COMMENT $0B50 Disable mux
+FORCE_SYMBOL $0B50 VIA_port_b
+COMMENT $0B52 Store X in D/A register
+FORCE_SYMBOL $0B52 VIA_port_a
+COMMENT $0B54 timer 1 count high
+FORCE_SYMBOL $0B54 VIA_t1_cnt_hi
+FORCE_SYMBOL $0B56 passenger
+COMMENT $0B59 Wait for that move
+FORCE_NO_SYMBOL $0B59
+COMMENT $0B5B Wait for timer 1
+FORCE_SYMBOL $0B5B VIA_int_flags
+FORCE_NO_SYMBOL $0B5F
+COMMENT $0B61 Reset scale for draw
+FORCE_SYMBOL $0B61 VIA_t1_cnt_lo
+COMMENT $0B63 And draw
+COMMENT_LINE $0B66 Draw combo level ticks
+FORCE_SYMBOL $0B66 combo_level
+FORCE_SYMBOL $0B6B scratch
+FORCE_NO_SYMBOL $0B6E
+COMMENT $0B71 /BLANK low and /ZERO low
+FORCE_SYMBOL $0B71 VIA_cntl
+COMMENT $0B73 clear shift register
+FORCE_SYMBOL $0B73 VIA_shift_reg
+FORCE_NO_SYMBOL $0B75
+COMMENT $0B78 clear D/A register
+FORCE_SYMBOL $0B78 VIA_port_a
+COMMENT $0B7A mux=1, disable mux
+FORCE_SYMBOL $0B7A VIA_port_b
+COMMENT $0B7C mux=1, enable mux
+FORCE_SYMBOL $0B7C VIA_port_b
+COMMENT $0B7E do it again
+FORCE_SYMBOL $0B7E VIA_port_b
+FORCE_NO_SYMBOL $0B80
+COMMENT $0B82 disable mux
+FORCE_SYMBOL $0B82 VIA_port_b
+FORCE_NO_SYMBOL $0B84
+COMMENT $0B86 Scale for move
+FORCE_SYMBOL $0B86 VIA_t1_cnt_lo
+COMMENT $0B8C Store Y in D/A register
+FORCE_SYMBOL $0B8C VIA_port_a
+COMMENT $0B8E Enable mux
+FORCE_SYMBOL $0B8E VIA_port_b
+COMMENT $0B90 Blank low, zero high
+FORCE_NO_SYMBOL $0B90
+FORCE_SYMBOL $0B92 VIA_cntl
+COMMENT $0B94 Clear shift register
+FORCE_SYMBOL $0B94 VIA_shift_reg
+COMMENT $0B96 Disable mux
+FORCE_SYMBOL $0B96 VIA_port_b
+COMMENT $0B98 Store X in D/A register
+FORCE_SYMBOL $0B98 VIA_port_a
+COMMENT $0B9A timer 1 count high
+FORCE_SYMBOL $0B9A VIA_t1_cnt_hi
+FORCE_NO_SYMBOL $0B9C
+FORCE_NO_SYMBOL $0B9E
+COMMENT $0BA0 Wait for timer 1
+FORCE_SYMBOL $0BA0 VIA_int_flags
+COMMENT $0BA4 Scale for draw
+FORCE_SYMBOL $0BA4 VIA_t1_cnt_lo
+FORCE_SYMBOL $0BA6 wee_flag
+FORCE_SYMBOL $0BAB Vec_Misc_Count
+FORCE_NO_SYMBOL $0BAE
+FORCE_SYMBOL $0BB0 VIA_port_a
+FORCE_SYMBOL $0BB2 VIA_port_b
+FORCE_NO_SYMBOL $0BB4
+FORCE_SYMBOL $0BB7 VIA_port_b
+FORCE_SYMBOL $0BB9 VIA_port_a
+FORCE_NO_SYMBOL $0BBB
+FORCE_SYMBOL $0BBE VIA_shift_reg
+FORCE_SYMBOL $0BC0 VIA_t1_cnt_hi
+FORCE_NO_SYMBOL $0BC2
+FORCE_SYMBOL $0BC5 VIA_int_flags
+FORCE_SYMBOL $0BCA VIA_shift_reg
+FORCE_SYMBOL $0BCC Vec_Misc_Count
+FORCE_SYMBOL $0BD2 scratch
+COMMENT_LINE $0BD7 Check if ship's over fuel depot
+COMMENT $0BD7 grab fuel depot's landmark id
+FORCE_SYMBOL $0BD7 current_fuel_lm
+COMMENT $0BDA x4 (these records are 4 bytes)
+COMMENT $0BDC Add another 2 to step over the coord pair!
+FORCE_NO_SYMBOL $0BDC
+COMMENT $0BDE step x
+COMMENT $0BE0 a=ideal planet rot (and step x to shipy)
+COMMENT $0BE2 Rot OK?
+FORCE_SYMBOL $0BE2 planet_rot
+COMMENT $0BE7 a=landmark y
+FORCE_NO_SYMBOL $0BE7
+COMMENT $0BE9 compare to ship y
+FORCE_SYMBOL $0BE9 shipy
+COMMENT $0BEC Check we're within #CLOSENESS of the actual landmark
+FORCE_SYMBOL $0BEE shipy
+FORCE_NO_SYMBOL $0BF1
+FORCE_SYMBOL $0BF3 CLOSENESS
+FORCE_SYMBOL $0BFB shipy
+FORCE_SYMBOL $0BFE CLOSENESS
+FORCE_NO_SYMBOL $0C04
+COMMENT $0C07 Kill combo bonus
+FORCE_SYMBOL $0C07 combo_bonus
+FORCE_SYMBOL $0C0A combo_level
+COMMENT $0C0D Pick a new depot! Roll a die
+COMMENT $0C10 Clamp 0-3
+FORCE_NO_SYMBOL $0C10
+COMMENT $0C12 Reroll if we just picked the pickup point!
+FORCE_SYMBOL $0C12 current_pass_lm
+COMMENT $0C17 Reroll if we just picked the point we're just over!
+FORCE_SYMBOL $0C17 current_fuel_lm
+COMMENT $0C1C Write it
+FORCE_SYMBOL $0C1C current_fuel_lm
+COMMENT $0C1F Backup old fuel amount for a sec
+FORCE_SYMBOL $0C1F fuel
+FORCE_SYMBOL $0C22 scratch
+COMMENT $0C25 Refuel them
+FORCE_SYMBOL $0C25 MAX_FUEL
+FORCE_SYMBOL $0C27 fuel
+COMMENT $0C2A Amount to charge them!
+FORCE_SYMBOL $0C2A scratch
+COMMENT $0C2D Set the high byte of D to zero
+FORCE_SYMBOL $0C2E scratch16
+COMMENT $0C31 Charge them for the fuel :)
+FORCE_SYMBOL $0C31 cash
+FORCE_SYMBOL $0C34 scratch16
+COMMENT $0C37 Clamp to zero
+FORCE_NO_SYMBOL $0C39
+FORCE_SYMBOL $0C3C cash
+COMMENT $0C3F Convert updated score to ASCII
+COMMENT $0C45 Play the sound effect
+FORCE_SYMBOL $0C45 sfx_fuel
+FORCE_SYMBOL $0C48 sfx_playsound
+COMMENT $0C4B If we just fuelled, we can safely skip the pickup check
+COMMENT_LINE $0C4D Check if ship's over pickup/dropoff point
+FORCE_SYMBOL $0C4D current_pass_lm
+FORCE_NO_SYMBOL $0C52
+COMMENT $0C58 Rot OK?
+FORCE_SYMBOL $0C58 planet_rot
+COMMENT $0C5D a=landmark y
+FORCE_NO_SYMBOL $0C5D
+COMMENT $0C5F compare to ship y
+FORCE_SYMBOL $0C5F shipy
+COMMENT $0C62 Check we're within #CLOSENESS of the actual landmark
+FORCE_SYMBOL $0C64 shipy
+FORCE_NO_SYMBOL $0C67
+FORCE_SYMBOL $0C69 CLOSENESS
+FORCE_SYMBOL $0C6F shipy
+FORCE_SYMBOL $0C72 CLOSENESS
+COMMENT $0C76 Roll a die
+COMMENT $0C79 Clamp 0-3
+FORCE_NO_SYMBOL $0C79
+COMMENT $0C7B Reroll if we just picked the pickup point!
+FORCE_SYMBOL $0C7B current_pass_lm
+COMMENT $0C80 Reroll if we just picked the fuel point
+FORCE_SYMBOL $0C80 current_fuel_lm
+COMMENT $0C85 Write it
+FORCE_SYMBOL $0C85 current_pass_lm
+COMMENT $0C88 Toggle pickup/dropoff mode
+FORCE_SYMBOL $0C88 taxi_mode
+FORCE_SYMBOL $0C8C taxi_mode
+COMMENT $0C8F No reward for pickups
+COMMENT $0C91 Play the dropoff sound effect
+FORCE_SYMBOL $0C91 sfx_dropoff
+FORCE_SYMBOL $0C94 sfx_playsound
+COMMENT $0C97 Pay them :)
+FORCE_SYMBOL $0C97 cash
+FORCE_SYMBOL $0C9A DROPOFF_REWARD
+FORCE_SYMBOL $0C9D combo_bonus
+FORCE_SYMBOL $0CA0 cash
+COMMENT $0CA3 Convert updated score to ASCII
+COMMENT $0CA9 Now bump the combo bonus
+FORCE_SYMBOL $0CA9 combo_bonus
+FORCE_SYMBOL $0CAC COMBO_BUMP
+FORCE_SYMBOL $0CAF combo_bonus
+COMMENT $0CB2 And the convenience var
+FORCE_SYMBOL $0CB2 combo_level
+COMMENT $0CB7 Play the pickup sound effect
+FORCE_SYMBOL $0CB7 sfx_pickup
+FORCE_SYMBOL $0CBA sfx_playsound
+COMMENT $0CBD Process sfx
+FORCE_SYMBOL $0CBD sfx_doframe
+COMMENT_LINE $0CC1 ***** Handle game over: Change state *****
+COMMENT $0CC1 Request state change
+FORCE_SYMBOL $0CC1 GameOverInit
+FORCE_SYMBOL $0CC4 GameOverFrame
+COMMENT $0CCC Game over state
+COMMENT_LINE $0CCC Game over state
+COMMENT_LINE $0CCC By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $0CCC ***** CONSTANTS *****
+COMMENT_LINE $0CCC ***** MEMORY MAP *****
+COMMENT_LINE $0CCC ***** INIT *****
+COMMENT $0CCC Note: reusing this var from gamestate! (also the score ofc)
+FORCE_SYMBOL $0CCC intens
+FORCE_SYMBOL $0CCF is_high_score
+COMMENT $0CD2 Reset framecount
+FORCE_NO_SYMBOL $0CD2
+FORCE_SYMBOL $0CD5 framecount
+COMMENT $0CD8 Check for a new high score
+FORCE_SYMBOL $0CD8 cash
+FORCE_SYMBOL $0CDB high_score
+FORCE_SYMBOL $0CE1 high_score
+FORCE_NO_SYMBOL $0CE4
+COMMENT $0CE6 Set this 'ere flag if so
+FORCE_SYMBOL $0CE6 is_high_score
+COMMENT $0CE9 Play the high score sound effect
+FORCE_SYMBOL $0CE9 sfx_highscore
+COMMENT $0CEE Play the normal death sound effect
+FORCE_SYMBOL $0CEE sfx_death
+COMMENT $0CF4 Convert high score to ASCII
+FORCE_SYMBOL $0CF4 high_score
+COMMENT $0CFD Currency sign...
+FORCE_NO_SYMBOL $0CFD
+FORCE_SYMBOL $0CFF high_score_asc
+COMMENT $0D02 ... and termie
+FORCE_NO_SYMBOL $0D02
+COMMENT $0D07 Copy our HS to machine HS
+FORCE_SYMBOL $0D07 Vec_High_Score
+FORCE_SYMBOL $0D0A high_score_asc
+FORCE_NO_SYMBOL $0D10
+COMMENT_LINE $0D1A ***** FRAME *****
+COMMENT $0D1A Tick framecount
+FORCE_SYMBOL $0D1A framecount
+FORCE_NO_SYMBOL $0D1D
+COMMENT $0D20 Reached timeout? Go to splash state if so
+FORCE_SYMBOL $0D20 TIMEOUT
+FORCE_SYMBOL $0D26 SplashInit
+FORCE_SYMBOL $0D29 SplashFrame
+FORCE_SYMBOL $0D31 framecount
+COMMENT $0D34 Set intensity
+FORCE_SYMBOL $0D34 intens
+FORCE_SYMBOL $0D37 MAX_INTENSITY
+FORCE_SYMBOL $0D3B FADE_SPEED
+FORCE_SYMBOL $0D3D intens
+COMMENT $0D40 Store intensity in D/A
+FORCE_SYMBOL $0D40 VIA_port_a
+COMMENT $0D42 Save intensity in $C827
+FORCE_SYMBOL $0D42 Vec_Brightness
+COMMENT $0D45 mux disabled channel 2
+FORCE_NO_SYMBOL $0D45
+FORCE_SYMBOL $0D48 VIA_port_b
+COMMENT $0D4A mux enabled channel 2
+FORCE_SYMBOL $0D4A VIA_port_b
+COMMENT $0D4C do it again just because
+FORCE_SYMBOL $0D4C VIA_port_b
+FORCE_NO_SYMBOL $0D4E
+COMMENT $0D50 turn off mux
+FORCE_SYMBOL $0D50 VIA_port_b
+COMMENT $0D52 Set scale
+FORCE_NO_SYMBOL $0D52
+FORCE_SYMBOL $0D54 VIA_t1_cnt_lo
+COMMENT $0D56 Draw Game Over text
+COMMENT $0D5A Store Y in D/A register
+FORCE_SYMBOL $0D5A VIA_port_a
+COMMENT $0D5C Enable mux
+FORCE_SYMBOL $0D5C VIA_port_b
+COMMENT $0D5E Blank low, zero high
+FORCE_NO_SYMBOL $0D5E
+FORCE_SYMBOL $0D60 VIA_cntl
+COMMENT $0D62 Clear shift register
+FORCE_SYMBOL $0D62 VIA_shift_reg
+COMMENT $0D64 Disable mux
+FORCE_SYMBOL $0D64 VIA_port_b
+COMMENT $0D66 Store X in D/A register
+FORCE_SYMBOL $0D66 VIA_port_a
+COMMENT $0D68 timer 1 count high
+FORCE_SYMBOL $0D68 VIA_t1_cnt_hi
+COMMENT $0D6A u=pointer to ASCII cash
+FORCE_SYMBOL $0D6A gameover_text
+COMMENT $0D6D Wait for de beam
+FORCE_NO_SYMBOL $0D6D
+COMMENT $0D6F Wait for timer 1
+FORCE_SYMBOL $0D6F VIA_int_flags
+COMMENT $0D73 Print the cash score
+COMMENT $0D76 Draw final score
+FORCE_NO_SYMBOL $0D76
+COMMENT $0D79 /BLANK low and /ZERO low
+FORCE_SYMBOL $0D79 VIA_cntl
+COMMENT $0D7B clear shift register
+FORCE_SYMBOL $0D7B VIA_shift_reg
+FORCE_NO_SYMBOL $0D7D
+COMMENT $0D80 clear D/A register
+FORCE_SYMBOL $0D80 VIA_port_a
+COMMENT $0D82 mux=1, disable mux
+FORCE_SYMBOL $0D82 VIA_port_b
+COMMENT $0D84 mux=1, enable mux
+FORCE_SYMBOL $0D84 VIA_port_b
+COMMENT $0D86 do it again
+FORCE_SYMBOL $0D86 VIA_port_b
+FORCE_NO_SYMBOL $0D88
+COMMENT $0D8A disable mux
+FORCE_SYMBOL $0D8A VIA_port_b
+COMMENT $0D90 Store Y in D/A register
+FORCE_SYMBOL $0D90 VIA_port_a
+COMMENT $0D92 Enable mux
+FORCE_SYMBOL $0D92 VIA_port_b
+COMMENT $0D94 Blank low, zero high
+FORCE_NO_SYMBOL $0D94
+FORCE_SYMBOL $0D96 VIA_cntl
+COMMENT $0D98 Clear shift register
+FORCE_SYMBOL $0D98 VIA_shift_reg
+COMMENT $0D9A Disable mux
+FORCE_SYMBOL $0D9A VIA_port_b
+COMMENT $0D9C Store X in D/A register
+FORCE_SYMBOL $0D9C VIA_port_a
+COMMENT $0D9E timer 1 count high
+FORCE_SYMBOL $0D9E VIA_t1_cnt_hi
+COMMENT $0DA0 u=pointer to ASCII cash
+FORCE_SYMBOL $0DA0 cash_ascii
+COMMENT $0DA3 Wait for de beam
+FORCE_NO_SYMBOL $0DA3
+COMMENT $0DA5 Wait for timer 1
+FORCE_SYMBOL $0DA5 VIA_int_flags
+COMMENT $0DA9 Print the cash score
+COMMENT $0DAC Draw high score line
+FORCE_NO_SYMBOL $0DAC
+COMMENT $0DAF /BLANK low and /ZERO low
+FORCE_SYMBOL $0DAF VIA_cntl
+COMMENT $0DB1 clear shift register
+FORCE_SYMBOL $0DB1 VIA_shift_reg
+FORCE_NO_SYMBOL $0DB3
+COMMENT $0DB6 clear D/A register
+FORCE_SYMBOL $0DB6 VIA_port_a
+COMMENT $0DB8 mux=1, disable mux
+FORCE_SYMBOL $0DB8 VIA_port_b
+COMMENT $0DBA mux=1, enable mux
+FORCE_SYMBOL $0DBA VIA_port_b
+COMMENT $0DBC do it again
+FORCE_SYMBOL $0DBC VIA_port_b
+FORCE_NO_SYMBOL $0DBE
+COMMENT $0DC0 disable mux
+FORCE_SYMBOL $0DC0 VIA_port_b
+COMMENT $0DC2 Print the label
+COMMENT $0DC6 Store Y in D/A register
+FORCE_SYMBOL $0DC6 VIA_port_a
+COMMENT $0DC8 Enable mux
+FORCE_SYMBOL $0DC8 VIA_port_b
+COMMENT $0DCA Blank low, zero high
+FORCE_NO_SYMBOL $0DCA
+FORCE_SYMBOL $0DCC VIA_cntl
+COMMENT $0DCE Clear shift register
+FORCE_SYMBOL $0DCE VIA_shift_reg
+COMMENT $0DD0 Disable mux
+FORCE_SYMBOL $0DD0 VIA_port_b
+COMMENT $0DD2 Store X in D/A register
+FORCE_SYMBOL $0DD2 VIA_port_a
+COMMENT $0DD4 timer 1 count high
+FORCE_SYMBOL $0DD4 VIA_t1_cnt_hi
+FORCE_SYMBOL $0DD6 is_high_score
+FORCE_SYMBOL $0DDB new_hs_label
+FORCE_SYMBOL $0DE0 hs_label
+FORCE_NO_SYMBOL $0DE3
+COMMENT $0DE5 Wait for timer 1
+FORCE_SYMBOL $0DE5 VIA_int_flags
+COMMENT $0DEC Print the high score
+FORCE_NO_SYMBOL $0DEC
+COMMENT $0DEF /BLANK low and /ZERO low
+FORCE_SYMBOL $0DEF VIA_cntl
+COMMENT $0DF1 clear shift register
+FORCE_SYMBOL $0DF1 VIA_shift_reg
+FORCE_NO_SYMBOL $0DF3
+COMMENT $0DF6 clear D/A register
+FORCE_SYMBOL $0DF6 VIA_port_a
+COMMENT $0DF8 mux=1, disable mux
+FORCE_SYMBOL $0DF8 VIA_port_b
+COMMENT $0DFA mux=1, enable mux
+FORCE_SYMBOL $0DFA VIA_port_b
+COMMENT $0DFC do it again
+FORCE_SYMBOL $0DFC VIA_port_b
+FORCE_NO_SYMBOL $0DFE
+COMMENT $0E00 disable mux
+FORCE_SYMBOL $0E00 VIA_port_b
+COMMENT $0E06 Store Y in D/A register
+FORCE_SYMBOL $0E06 VIA_port_a
+COMMENT $0E08 Enable mux
+FORCE_SYMBOL $0E08 VIA_port_b
+COMMENT $0E0A Blank low, zero high
+FORCE_NO_SYMBOL $0E0A
+FORCE_SYMBOL $0E0C VIA_cntl
+COMMENT $0E0E Clear shift register
+FORCE_SYMBOL $0E0E VIA_shift_reg
+COMMENT $0E10 Disable mux
+FORCE_SYMBOL $0E10 VIA_port_b
+COMMENT $0E12 Store X in D/A register
+FORCE_SYMBOL $0E12 VIA_port_a
+COMMENT $0E14 timer 1 count high
+FORCE_SYMBOL $0E14 VIA_t1_cnt_hi
+FORCE_SYMBOL $0E16 high_score_asc
+FORCE_NO_SYMBOL $0E19
+COMMENT $0E1B Wait for timer 1
+FORCE_SYMBOL $0E1B VIA_int_flags
+COMMENT $0E22 Draw the crashed UFO :)
+FORCE_NO_SYMBOL $0E22
+COMMENT $0E25 /BLANK low and /ZERO low
+FORCE_SYMBOL $0E25 VIA_cntl
+COMMENT $0E27 clear shift register
+FORCE_SYMBOL $0E27 VIA_shift_reg
+FORCE_NO_SYMBOL $0E29
+COMMENT $0E2C clear D/A register
+FORCE_SYMBOL $0E2C VIA_port_a
+COMMENT $0E2E mux=1, disable mux
+FORCE_SYMBOL $0E2E VIA_port_b
+COMMENT $0E30 mux=1, enable mux
+FORCE_SYMBOL $0E30 VIA_port_b
+COMMENT $0E32 do it again
+FORCE_SYMBOL $0E32 VIA_port_b
+FORCE_NO_SYMBOL $0E34
+COMMENT $0E36 disable mux
+FORCE_SYMBOL $0E36 VIA_port_b
+FORCE_NO_SYMBOL $0E38
+COMMENT $0E3C Store Y in D/A register
+FORCE_SYMBOL $0E3C VIA_port_a
+COMMENT $0E3E Enable mux
+FORCE_SYMBOL $0E3E VIA_port_b
+COMMENT $0E40 Blank low, zero high
+FORCE_NO_SYMBOL $0E40
+FORCE_SYMBOL $0E42 VIA_cntl
+COMMENT $0E44 Clear shift register
+FORCE_SYMBOL $0E44 VIA_shift_reg
+COMMENT $0E46 Disable mux
+FORCE_SYMBOL $0E46 VIA_port_b
+COMMENT $0E48 Store X in D/A register
+FORCE_SYMBOL $0E48 VIA_port_a
+COMMENT $0E4A timer 1 count high
+FORCE_SYMBOL $0E4A VIA_t1_cnt_hi
+FORCE_SYMBOL $0E4C crashed_ufo_pic
+FORCE_NO_SYMBOL $0E4F
+COMMENT $0E51 Wait for timer 1
+FORCE_SYMBOL $0E51 VIA_int_flags
+COMMENT $0E58 Skip input / call to action text if not faded in yet
+FORCE_SYMBOL $0E58 intens
+FORCE_SYMBOL $0E5B MAX_INTENSITY
+COMMENT $0E5F Draw "press any button"
+FORCE_NO_SYMBOL $0E5F
+COMMENT $0E62 /BLANK low and /ZERO low
+FORCE_SYMBOL $0E62 VIA_cntl
+COMMENT $0E64 clear shift register
+FORCE_SYMBOL $0E64 VIA_shift_reg
+FORCE_NO_SYMBOL $0E66
+COMMENT $0E69 clear D/A register
+FORCE_SYMBOL $0E69 VIA_port_a
+COMMENT $0E6B mux=1, disable mux
+FORCE_SYMBOL $0E6B VIA_port_b
+COMMENT $0E6D mux=1, enable mux
+FORCE_SYMBOL $0E6D VIA_port_b
+COMMENT $0E6F do it again
+FORCE_SYMBOL $0E6F VIA_port_b
+FORCE_NO_SYMBOL $0E71
+COMMENT $0E73 disable mux
+FORCE_SYMBOL $0E73 VIA_port_b
+COMMENT $0E79 Store Y in D/A register
+FORCE_SYMBOL $0E79 VIA_port_a
+COMMENT $0E7B Enable mux
+FORCE_SYMBOL $0E7B VIA_port_b
+COMMENT $0E7D Blank low, zero high
+FORCE_NO_SYMBOL $0E7D
+FORCE_SYMBOL $0E7F VIA_cntl
+COMMENT $0E81 Clear shift register
+FORCE_SYMBOL $0E81 VIA_shift_reg
+COMMENT $0E83 Disable mux
+FORCE_SYMBOL $0E83 VIA_port_b
+COMMENT $0E85 Store X in D/A register
+FORCE_SYMBOL $0E85 VIA_port_a
+COMMENT $0E87 timer 1 count high
+FORCE_SYMBOL $0E87 VIA_t1_cnt_hi
+COMMENT $0E89 u=pointer to ASCII cash
+FORCE_SYMBOL $0E89 cta_text
+COMMENT $0E8C Wait for de beam
+FORCE_NO_SYMBOL $0E8C
+COMMENT $0E8E Wait for timer 1
+FORCE_SYMBOL $0E8E VIA_int_flags
+COMMENT $0E92 Print the cash score
+COMMENT $0E95 Read the joystick
+FORCE_SYMBOL $0E95 GetJoystick
+COMMENT $0E98 Check for a button press...
+FORCE_SYMBOL $0E98 joy_b
+COMMENT $0E9D ...and request state change if they hit button 1
+FORCE_SYMBOL $0E9D GameInit
+FORCE_SYMBOL $0EA0 GameFrame
+COMMENT $0EA7 Process sfx
+FORCE_SYMBOL $0EA7 sfx_doframe
+COMMENT_LINE $0EAB ****** DATA ******
+COMMENT $0EAB Silent music
+COMMENT_LINE $0EAB Silence!
+COMMENT_LINE $0EAB An amazing composition by DSS, 2016
+COMMENT_LINE $0EAB Used here for Ludum Dare 38 \p/
+COMMENT_LINE $0EAB ***** SILENT MUSIC *****
+COMMENT $0EB3 Ship, landmark icons, the lovely planet <3
+COMMENT_LINE $0EB3 Game state data
+COMMENT_LINE $0EB3 By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $0EB3 ***** SHIP GRAPHIC *****
+COMMENT_LINE $0EE4 ***** WEE FLAG GRAPHIC *****
+COMMENT_LINE $0EF1 ***** LANDMARK ICONS *****
+COMMENT_LINE $0EF1 NOTE: These are all Draw_VL_mode format
+COMMENT_LINE $0F27 ***** LANDMARK PATHS *****
+COMMENT $0F27 *** Mount Emma (southern island) ***
+COMMENT $0F29 Ideal planet_rot for this landmark
+COMMENT $0F2A Ideal shipy for this landmark
+COMMENT $0F2B *** TRRRomaniaSi (R-shaped continent) ***
+COMMENT $0F2F *** MTRONIC ***
+COMMENT $0F33 *** MISTERBONE (India shaped continent) ***
+COMMENT_LINE $10AF ***** PLANET GRAPHIC *****
+COMMENT_LINE $110D ***** Frame0 (3 contours) *****
+COMMENT_LINE $110D Contour 0
+COMMENT_LINE $1122 Contour 1
+COMMENT_LINE $113B Contour 2
+COMMENT_LINE $117C ***** Frame1 (5 contours) *****
+COMMENT_LINE $117D Contour 0
+COMMENT_LINE $1186 Contour 1
+COMMENT_LINE $118B Contour 2
+COMMENT_LINE $11A0 Contour 3
+COMMENT_LINE $11B1 Contour 4
+COMMENT_LINE $1236 ***** Frame2 (3 contours) *****
+COMMENT_LINE $1237 Contour 0
+COMMENT_LINE $1254 Contour 1
+COMMENT_LINE $1269 Contour 2
+COMMENT_LINE $12A2 ***** Frame3 (1 contour) *****
+COMMENT_LINE $12A3 Contour 0
+COMMENT_LINE $1342 ***** Frame4 (3 contours) *****
+COMMENT_LINE $1343 Contour 0
+COMMENT_LINE $135C Contour 1
+COMMENT_LINE $1365 Contour 2
+COMMENT_LINE $13C4 ***** Frame5 (4 contours) *****
+COMMENT_LINE $13C5 Contour 0
+COMMENT_LINE $13CA Contour 1
+COMMENT_LINE $13DF Contour 2
+COMMENT_LINE $13E8 Contour 3
+COMMENT_LINE $144D ***** Frame6 (4 contours) *****
+COMMENT_LINE $144E Contour 0
+COMMENT_LINE $1453 Contour 1
+COMMENT_LINE $1468 Contour 2
+COMMENT_LINE $1471 Contour 3
+COMMENT_LINE $14D6 ***** Frame7 (5 contours) *****
+COMMENT_LINE $14D7 Contour 0
+COMMENT_LINE $14EC Contour 1
+COMMENT_LINE $14F9 Contour 2
+COMMENT_LINE $1506 Contour 3
+COMMENT_LINE $1529 Contour 4
+COMMENT_LINE $1544 ***** Frame8 (4 contours) *****
+COMMENT_LINE $1545 Contour 0
+COMMENT_LINE $155A Contour 1
+COMMENT_LINE $1567 Contour 2
+COMMENT_LINE $159E Contour 3
+COMMENT_LINE $15C3 ***** Frame9 (3 contours) *****
+COMMENT_LINE $15C4 Contour 0
+COMMENT_LINE $15D5 Contour 1
+COMMENT_LINE $15DE Contour 2
+COMMENT_LINE $163F ***** Frame10 (3 contours) *****
+COMMENT_LINE $1640 Contour 0
+COMMENT_LINE $1649 Contour 1
+COMMENT_LINE $169C Contour 2
+COMMENT_LINE $16B9 ***** Frame11 (2 contours) *****
+COMMENT_LINE $16BA Contour 0
+COMMENT_LINE $1715 Contour 1
+COMMENT_LINE $1736 ***** Frame12 (2 contours) *****
+COMMENT_LINE $1737 Contour 0
+COMMENT_LINE $1740 Contour 1
+COMMENT_LINE $17BD ***** Frame13 (2 contours) *****
+COMMENT_LINE $17BE Contour 0
+COMMENT_LINE $17CB Contour 1
+COMMENT_LINE $182A ***** Frame14 (2 contours) *****
+COMMENT_LINE $182B Contour 0
+COMMENT_LINE $187A Contour 1
+COMMENT_LINE $18C1 ***** Frame15 (2 contours) *****
+COMMENT_LINE $18C2 Contour 0
+COMMENT_LINE $1927 Contour 1
+COMMENT_LINE $1946 ***** Frame16 (2 contours) *****
+COMMENT_LINE $1947 Contour 0
+COMMENT_LINE $1992 Contour 1
+COMMENT_LINE $19B5 ***** Frame17 (3 contours) *****
+COMMENT_LINE $19B6 Contour 0
+COMMENT_LINE $19BF Contour 1
+COMMENT_LINE $19D8 Contour 2
+COMMENT_LINE $1A1F ***** Frame18 (4 contours) *****
+COMMENT_LINE $1A20 Contour 0
+COMMENT_LINE $1A29 Contour 1
+COMMENT_LINE $1A32 Contour 2
+COMMENT_LINE $1A47 Contour 3
+COMMENT_LINE $1A82 ***** Frame19 (3 contours) *****
+COMMENT_LINE $1A83 Contour 0
+COMMENT_LINE $1A88 Contour 1
+COMMENT_LINE $1A9D Contour 2
+COMMENT_LINE $1AF4 ***** Frame20 (3 contours) *****
+COMMENT_LINE $1AF5 Contour 0
+COMMENT_LINE $1B0A Contour 1
+COMMENT_LINE $1B1F Contour 2
+COMMENT_LINE $1B70 ***** Frame21 (2 contours) *****
+COMMENT_LINE $1B71 Contour 0
+COMMENT_LINE $1B8A Contour 1
+COMMENT_LINE $1BE3 ***** Frame22 (3 contours) *****
+COMMENT_LINE $1BE4 Contour 0
+COMMENT_LINE $1BED Contour 1
+COMMENT_LINE $1C0A Contour 2
+COMMENT_LINE $1C45 ***** Frame23 (2 contours) *****
+COMMENT_LINE $1C46 Contour 0
+COMMENT_LINE $1C6B Contour 1
+COMMENT_LINE $1CB0 ***** Frame24 (1 contour) *****
+COMMENT_LINE $1CB1 Contour 0
+COMMENT_LINE $1D18 ***** Frame25 (3 contours) *****
+COMMENT_LINE $1D19 Contour 0
+COMMENT_LINE $1D26 Contour 1
+COMMENT_LINE $1D3F Contour 2
+COMMENT_LINE $1D68 ***** Frame26 (2 contours) *****
+COMMENT_LINE $1D69 Contour 0
+COMMENT_LINE $1D84 Contour 1
+COMMENT_LINE $1DC3 ***** Frame27 (2 contours) *****
+COMMENT_LINE $1DC4 Contour 0
+COMMENT_LINE $1DDD Contour 1
+COMMENT_LINE $1E0E ***** Frame28 (3 contours) *****
+COMMENT_LINE $1E0F Contour 0
+COMMENT_LINE $1E34 Contour 1
+COMMENT_LINE $1E41 Contour 2
+COMMENT_LINE $1E68 ***** Frame29 (2 contours) *****
+COMMENT_LINE $1E69 Contour 0
+COMMENT_LINE $1E7E Contour 1
+COMMENT_LINE $1EE3 ***** Frame30 (4 contours) *****
+COMMENT_LINE $1EE4 Contour 0
+COMMENT_LINE $1EE9 Contour 1
+COMMENT_LINE $1F0A Contour 2
+COMMENT_LINE $1F1B Contour 3
+COMMENT_LINE $1F74 ***** Frame31 (3 contours) *****
+COMMENT_LINE $1F75 Contour 0
+COMMENT_LINE $1F8E Contour 1
+COMMENT_LINE $1F93 Contour 2
+COMMENT_LINE $1FD6 ***** Frame32 (4 contours) *****
+COMMENT_LINE $1FD7 Contour 0
+COMMENT_LINE $1FE0 Contour 1
+COMMENT_LINE $1FF3 Contour 2
+COMMENT_LINE $200C Contour 3
+COMMENT_LINE $203F ***** Frame33 (3 contours) *****
+COMMENT_LINE $2040 Contour 0
+COMMENT_LINE $2055 Contour 1
+COMMENT_LINE $205A Contour 2
+COMMENT_LINE $209D ***** Frame34 (2 contours) *****
+COMMENT_LINE $209E Contour 0
+COMMENT_LINE $20AF Contour 1
+COMMENT_LINE $2102 ***** Frame35 (4 contours) *****
+COMMENT_LINE $2103 Contour 0
+COMMENT_LINE $2108 Contour 1
+COMMENT_LINE $210D Contour 2
+COMMENT_LINE $2126 Contour 3
+COMMENT_LINE $2165 ***** Frame36 (4 contours) *****
+COMMENT_LINE $2166 Contour 0
+COMMENT_LINE $2173 Contour 1
+COMMENT_LINE $217C Contour 2
+COMMENT_LINE $21AF Contour 3
+COMMENT_LINE $21CE ***** Frame37 (2 contours) *****
+COMMENT_LINE $21CF Contour 0
+COMMENT_LINE $21DC Contour 1
+COMMENT_LINE $222D ***** Frame38 (4 contours) *****
+COMMENT_LINE $222E Contour 0
+COMMENT_LINE $223B Contour 1
+COMMENT_LINE $2248 Contour 2
+COMMENT_LINE $2255 Contour 3
+COMMENT_LINE $2298 ***** Frame39 (3 contours) *****
+COMMENT_LINE $2299 Contour 0
+COMMENT_LINE $22AE Contour 1
+COMMENT_LINE $22B7 Contour 2
+COMMENT_LINE $22FC ***** Frame40 (4 contours) *****
+COMMENT_LINE $22FD Contour 0
+COMMENT_LINE $2316 Contour 1
+COMMENT_LINE $231F Contour 2
+COMMENT_LINE $232C Contour 3
+COMMENT_LINE $238B ***** Frame41 (3 contours) *****
+COMMENT_LINE $238C Contour 0
+COMMENT_LINE $2399 Contour 1
+COMMENT_LINE $23A2 Contour 2
+COMMENT_LINE $2405 ***** Frame42 (5 contours) *****
+COMMENT_LINE $2406 Contour 0
+COMMENT_LINE $2417 Contour 1
+COMMENT_LINE $2420 Contour 2
+COMMENT_LINE $242D Contour 3
+COMMENT_LINE $246E Contour 4
+COMMENT_LINE $2493 ***** Frame43 (4 contours) *****
+COMMENT_LINE $2494 Contour 0
+COMMENT_LINE $24B5 Contour 1
+COMMENT_LINE $24BE Contour 2
+COMMENT_LINE $2501 Contour 3
+COMMENT_LINE $251A ***** Frame44 (3 contours) *****
+COMMENT_LINE $251B Contour 0
+COMMENT_LINE $2538 Contour 1
+COMMENT_LINE $2541 Contour 2
+COMMENT_LINE $259E ***** Frame45 (3 contours) *****
+COMMENT_LINE $259F Contour 0
+COMMENT_LINE $25C0 Contour 1
+COMMENT_LINE $25CD Contour 2
+COMMENT_LINE $2630 ***** Frame46 (3 contours) *****
+COMMENT_LINE $2631 Contour 0
+COMMENT_LINE $263A Contour 1
+COMMENT_LINE $264D Contour 2
+COMMENT $26A7 Sound effects
+COMMENT_LINE $26A7 Sound FX
+COMMENT_LINE $26A7 By Fell^DSS, Ludum Dare 38 \p/
+COMMENT $28B9 Game over state data
+COMMENT_LINE $28B9 Game over state data
+COMMENT_LINE $28B9 By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $28B9 ***** Game over text *****
+COMMENT_LINE $28F1 ***** Crashed UFO pic *****
+COMMENT $2970 Splash state data
+COMMENT_LINE $2970 Splash state data
+COMMENT_LINE $2970 By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $2970 ***** Call to action text *****
+COMMENT $29BF Taxi sample
+COMMENT_LINE $29BF "Taxi!" sample
+COMMENT_LINE $29BF By Fell^DSS, Ludum Dare 38 \p/
+COMMENT_LINE $29BF following is sample data saved by Vide
+COMMENT_LINE $29BF the data is in raw format: 8 bit, signed, 1 channel, samplerate: 8000
+COMMENT_LINE $29BF since a frame is only one byte, endianess is meaningless
+COMMENT_LINE $29BF one word with 'length', followed by length sample bytes
+COMMENT_LINE $29BF The sample data below is stored in REVERSE order!
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$0025 CHAR_DATA 20
+RANGE $0025-$0026 DB_DATA 1
+RANGE $0026-$01CD CODE
+RANGE $01CD-$01D2 DB_DATA 5
+RANGE $01D2-$01D7 DB_DATA 5
+RANGE $01D7-$01DC DB_DATA 5
+RANGE $01DC-$01E1 DB_DATA 5
+RANGE $01E1-$01E6 DB_DATA 5
+RANGE $01E6-$01EB DB_DATA 5
+RANGE $01EB-$01F0 DB_DATA 5
+RANGE $01F0-$01F5 DB_DATA 5
+RANGE $01F5-$01FA DB_DATA 5
+RANGE $01FA-$01FF DB_DATA 5
+RANGE $01FF-$0204 DB_DATA 5
+RANGE $0204-$0209 DB_DATA 5
+RANGE $0209-$020E DB_DATA 5
+RANGE $020E-$0213 DB_DATA 5
+RANGE $0213-$0218 DB_DATA 5
+RANGE $0218-$021D DB_DATA 5
+RANGE $021D-$0EAB CODE
+RANGE $0EAB-$0EAD DW_DATA 1
+RANGE $0EAD-$0EAF DW_DATA 1
+RANGE $0EAF-$0EB1 DB_DATA 2
+RANGE $0EB1-$0EB3 DB_DATA 2
+RANGE $0EB3-$0EB4 DB_DATA 1
+RANGE $0EB4-$0EB6 DB_DATA 2
+RANGE $0EB6-$0EB8 DB_DATA 2
+RANGE $0EB8-$0EBA DB_DATA 2
+RANGE $0EBA-$0EBC DB_DATA 2
+RANGE $0EBC-$0EBE DB_DATA 2
+RANGE $0EBE-$0EC0 DB_DATA 2
+RANGE $0EC0-$0EC2 DB_DATA 2
+RANGE $0EC2-$0EC4 DB_DATA 2
+RANGE $0EC4-$0EC6 DB_DATA 2
+RANGE $0EC6-$0EC8 DB_DATA 2
+RANGE $0EC8-$0ECA DB_DATA 2
+RANGE $0ECA-$0ECC DB_DATA 2
+RANGE $0ECC-$0ECE DB_DATA 2
+RANGE $0ECE-$0ED0 DB_DATA 2
+RANGE $0ED0-$0ED2 DB_DATA 2
+RANGE $0ED2-$0ED4 DB_DATA 2
+RANGE $0ED4-$0ED6 DB_DATA 2
+RANGE $0ED6-$0ED8 DB_DATA 2
+RANGE $0ED8-$0EDA DB_DATA 2
+RANGE $0EDA-$0EDC DB_DATA 2
+RANGE $0EDC-$0EDE DB_DATA 2
+RANGE $0EDE-$0EE0 DB_DATA 2
+RANGE $0EE0-$0EE2 DB_DATA 2
+RANGE $0EE2-$0EE4 DB_DATA 2
+RANGE $0EE4-$0EE5 DB_DATA 1
+RANGE $0EE5-$0EE7 DB_DATA 2
+RANGE $0EE7-$0EE9 DB_DATA 2
+RANGE $0EE9-$0EEB DB_DATA 2
+RANGE $0EEB-$0EED DB_DATA 2
+RANGE $0EED-$0EEF DB_DATA 2
+RANGE $0EEF-$0EF1 DB_DATA 2
+RANGE $0EF1-$0EF4 DB_DATA 3
+RANGE $0EF4-$0EF7 DB_DATA 3
+RANGE $0EF7-$0EFA DB_DATA 3
+RANGE $0EFA-$0EFB DB_DATA 1
+RANGE $0EFB-$0EFE DB_DATA 3
+RANGE $0EFE-$0F01 DB_DATA 3
+RANGE $0F01-$0F04 DB_DATA 3
+RANGE $0F04-$0F07 DB_DATA 3
+RANGE $0F07-$0F0A DB_DATA 3
+RANGE $0F0A-$0F0D DB_DATA 3
+RANGE $0F0D-$0F10 DB_DATA 3
+RANGE $0F10-$0F13 DB_DATA 3
+RANGE $0F13-$0F16 DB_DATA 3
+RANGE $0F16-$0F19 DB_DATA 3
+RANGE $0F19-$0F1A DB_DATA 1
+RANGE $0F1A-$0F1D DB_DATA 3
+RANGE $0F1D-$0F20 DB_DATA 3
+RANGE $0F20-$0F23 DB_DATA 3
+RANGE $0F23-$0F26 DB_DATA 3
+RANGE $0F26-$0F27 DB_DATA 1
+RANGE $0F27-$0F29 DW_DATA 1
+RANGE $0F29-$0F2A DB_DATA 1
+RANGE $0F2A-$0F2B DB_DATA 1
+RANGE $0F2B-$0F2D DW_DATA 1
+RANGE $0F2D-$0F2E DB_DATA 1
+RANGE $0F2E-$0F2F DB_DATA 1
+RANGE $0F2F-$0F31 DW_DATA 1
+RANGE $0F31-$0F32 DB_DATA 1
+RANGE $0F32-$0F33 DB_DATA 1
+RANGE $0F33-$0F35 DW_DATA 1
+RANGE $0F35-$0F36 DB_DATA 1
+RANGE $0F36-$0F37 DB_DATA 1
+RANGE $0F37-$0F39 DB_DATA 2
+RANGE $0F39-$0F3B DB_DATA 2
+RANGE $0F3B-$0F3D DB_DATA 2
+RANGE $0F3D-$0F3F DB_DATA 2
+RANGE $0F3F-$0F41 DB_DATA 2
+RANGE $0F41-$0F43 DB_DATA 2
+RANGE $0F43-$0F45 DB_DATA 2
+RANGE $0F45-$0F47 DB_DATA 2
+RANGE $0F47-$0F49 DB_DATA 2
+RANGE $0F49-$0F4B DB_DATA 2
+RANGE $0F4B-$0F4D DB_DATA 2
+RANGE $0F4D-$0F4F DW_DATA 1
+RANGE $0F4F-$0F51 DW_DATA 1
+RANGE $0F51-$0F53 DW_DATA 1
+RANGE $0F53-$0F55 DW_DATA 1
+RANGE $0F55-$0F57 DW_DATA 1
+RANGE $0F57-$0F59 DW_DATA 1
+RANGE $0F59-$0F5B DW_DATA 1
+RANGE $0F5B-$0F5D DW_DATA 1
+RANGE $0F5D-$0F5F DW_DATA 1
+RANGE $0F5F-$0F61 DW_DATA 1
+RANGE $0F61-$0F63 DW_DATA 1
+RANGE $0F63-$0F65 DW_DATA 1
+RANGE $0F65-$0F67 DW_DATA 1
+RANGE $0F67-$0F69 DW_DATA 1
+RANGE $0F69-$0F6B DW_DATA 1
+RANGE $0F6B-$0F6D DW_DATA 1
+RANGE $0F6D-$0F6F DW_DATA 1
+RANGE $0F6F-$0F71 DW_DATA 1
+RANGE $0F71-$0F73 DW_DATA 1
+RANGE $0F73-$0F75 DW_DATA 1
+RANGE $0F75-$0F77 DW_DATA 1
+RANGE $0F77-$0F79 DW_DATA 1
+RANGE $0F79-$0F7B DW_DATA 1
+RANGE $0F7B-$0F7D DW_DATA 1
+RANGE $0F7D-$0F7F DW_DATA 1
+RANGE $0F7F-$0F81 DW_DATA 1
+RANGE $0F81-$0F83 DW_DATA 1
+RANGE $0F83-$0F85 DW_DATA 1
+RANGE $0F85-$0F87 DW_DATA 1
+RANGE $0F87-$0F89 DW_DATA 1
+RANGE $0F89-$0F8B DB_DATA 2
+RANGE $0F8B-$0F8D DB_DATA 2
+RANGE $0F8D-$0F8F DB_DATA 2
+RANGE $0F8F-$0F91 DB_DATA 2
+RANGE $0F91-$0F93 DB_DATA 2
+RANGE $0F93-$0F95 DB_DATA 2
+RANGE $0F95-$0F97 DW_DATA 1
+RANGE $0F97-$0F99 DW_DATA 1
+RANGE $0F99-$0F9B DB_DATA 2
+RANGE $0F9B-$0F9D DB_DATA 2
+RANGE $0F9D-$0F9F DB_DATA 2
+RANGE $0F9F-$0FA1 DB_DATA 2
+RANGE $0FA1-$0FA3 DB_DATA 2
+RANGE $0FA3-$0FA5 DB_DATA 2
+RANGE $0FA5-$0FA7 DB_DATA 2
+RANGE $0FA7-$0FA9 DB_DATA 2
+RANGE $0FA9-$0FAB DB_DATA 2
+RANGE $0FAB-$0FAD DB_DATA 2
+RANGE $0FAD-$0FAF DB_DATA 2
+RANGE $0FAF-$0FB1 DB_DATA 2
+RANGE $0FB1-$0FB3 DB_DATA 2
+RANGE $0FB3-$0FB5 DB_DATA 2
+RANGE $0FB5-$0FB7 DW_DATA 1
+RANGE $0FB7-$0FB9 DW_DATA 1
+RANGE $0FB9-$0FBB DW_DATA 1
+RANGE $0FBB-$0FBD DW_DATA 1
+RANGE $0FBD-$0FBF DW_DATA 1
+RANGE $0FBF-$0FC1 DW_DATA 1
+RANGE $0FC1-$0FC3 DW_DATA 1
+RANGE $0FC3-$0FC5 DW_DATA 1
+RANGE $0FC5-$0FC7 DW_DATA 1
+RANGE $0FC7-$0FC9 DW_DATA 1
+RANGE $0FC9-$0FCB DW_DATA 1
+RANGE $0FCB-$0FCD DW_DATA 1
+RANGE $0FCD-$0FCF DW_DATA 1
+RANGE $0FCF-$0FD1 DW_DATA 1
+RANGE $0FD1-$0FD3 DW_DATA 1
+RANGE $0FD3-$0FD5 DW_DATA 1
+RANGE $0FD5-$0FD7 DW_DATA 1
+RANGE $0FD7-$0FD9 DW_DATA 1
+RANGE $0FD9-$0FDB DW_DATA 1
+RANGE $0FDB-$0FDD DW_DATA 1
+RANGE $0FDD-$0FDF DW_DATA 1
+RANGE $0FDF-$0FE1 DW_DATA 1
+RANGE $0FE1-$0FE3 DW_DATA 1
+RANGE $0FE3-$0FE5 DW_DATA 1
+RANGE $0FE5-$0FE7 DW_DATA 1
+RANGE $0FE7-$0FE9 DW_DATA 1
+RANGE $0FE9-$0FEB DW_DATA 1
+RANGE $0FEB-$0FED DW_DATA 1
+RANGE $0FED-$0FEF DW_DATA 1
+RANGE $0FEF-$0FF1 DW_DATA 1
+RANGE $0FF1-$0FF3 DW_DATA 1
+RANGE $0FF3-$0FF5 DW_DATA 1
+RANGE $0FF5-$0FF7 DW_DATA 1
+RANGE $0FF7-$0FF9 DW_DATA 1
+RANGE $0FF9-$0FFB DW_DATA 1
+RANGE $0FFB-$0FFD DW_DATA 1
+RANGE $0FFD-$0FFF DW_DATA 1
+RANGE $0FFF-$1001 DW_DATA 1
+RANGE $1001-$1003 DW_DATA 1
+RANGE $1003-$1005 DW_DATA 1
+RANGE $1005-$1007 DW_DATA 1
+RANGE $1007-$1009 DW_DATA 1
+RANGE $1009-$100B DW_DATA 1
+RANGE $100B-$100D DW_DATA 1
+RANGE $100D-$100F DW_DATA 1
+RANGE $100F-$1011 DW_DATA 1
+RANGE $1011-$1013 DW_DATA 1
+RANGE $1013-$1015 DB_DATA 2
+RANGE $1015-$1017 DB_DATA 2
+RANGE $1017-$1019 DB_DATA 2
+RANGE $1019-$101B DB_DATA 2
+RANGE $101B-$101D DB_DATA 2
+RANGE $101D-$101F DB_DATA 2
+RANGE $101F-$1021 DB_DATA 2
+RANGE $1021-$1023 DB_DATA 2
+RANGE $1023-$1025 DB_DATA 2
+RANGE $1025-$1027 DB_DATA 2
+RANGE $1027-$1029 DB_DATA 2
+RANGE $1029-$102B DB_DATA 2
+RANGE $102B-$102D DB_DATA 2
+RANGE $102D-$102F DB_DATA 2
+RANGE $102F-$1031 DB_DATA 2
+RANGE $1031-$1033 DW_DATA 1
+RANGE $1033-$1035 DW_DATA 1
+RANGE $1035-$1037 DW_DATA 1
+RANGE $1037-$1039 DW_DATA 1
+RANGE $1039-$103B DW_DATA 1
+RANGE $103B-$103D DW_DATA 1
+RANGE $103D-$103F DW_DATA 1
+RANGE $103F-$1041 DW_DATA 1
+RANGE $1041-$1043 DW_DATA 1
+RANGE $1043-$1045 DW_DATA 1
+RANGE $1045-$1047 DW_DATA 1
+RANGE $1047-$1049 DW_DATA 1
+RANGE $1049-$104B DW_DATA 1
+RANGE $104B-$104D DW_DATA 1
+RANGE $104D-$104F DW_DATA 1
+RANGE $104F-$1051 DW_DATA 1
+RANGE $1051-$1053 DB_DATA 2
+RANGE $1053-$1055 DB_DATA 2
+RANGE $1055-$1057 DB_DATA 2
+RANGE $1057-$1059 DB_DATA 2
+RANGE $1059-$105B DB_DATA 2
+RANGE $105B-$105D DW_DATA 1
+RANGE $105D-$105F DW_DATA 1
+RANGE $105F-$1061 DW_DATA 1
+RANGE $1061-$1063 DW_DATA 1
+RANGE $1063-$1065 DW_DATA 1
+RANGE $1065-$1067 DW_DATA 1
+RANGE $1067-$1069 DW_DATA 1
+RANGE $1069-$106B DW_DATA 1
+RANGE $106B-$106D DW_DATA 1
+RANGE $106D-$106F DW_DATA 1
+RANGE $106F-$1071 DW_DATA 1
+RANGE $1071-$1073 DW_DATA 1
+RANGE $1073-$1075 DW_DATA 1
+RANGE $1075-$1077 DW_DATA 1
+RANGE $1077-$1079 DW_DATA 1
+RANGE $1079-$107B DW_DATA 1
+RANGE $107B-$107D DW_DATA 1
+RANGE $107D-$107F DW_DATA 1
+RANGE $107F-$1081 DW_DATA 1
+RANGE $1081-$1083 DW_DATA 1
+RANGE $1083-$1085 DW_DATA 1
+RANGE $1085-$1087 DW_DATA 1
+RANGE $1087-$1089 DW_DATA 1
+RANGE $1089-$108B DW_DATA 1
+RANGE $108B-$108D DW_DATA 1
+RANGE $108D-$108F DW_DATA 1
+RANGE $108F-$1091 DW_DATA 1
+RANGE $1091-$1093 DB_DATA 2
+RANGE $1093-$1095 DB_DATA 2
+RANGE $1095-$1097 DB_DATA 2
+RANGE $1097-$1099 DB_DATA 2
+RANGE $1099-$109B DB_DATA 2
+RANGE $109B-$109D DB_DATA 2
+RANGE $109D-$109F DB_DATA 2
+RANGE $109F-$10A1 DB_DATA 2
+RANGE $10A1-$10A3 DB_DATA 2
+RANGE $10A3-$10A5 DB_DATA 2
+RANGE $10A5-$10A7 DB_DATA 2
+RANGE $10A7-$10A9 DB_DATA 2
+RANGE $10A9-$10AB DB_DATA 2
+RANGE $10AB-$10AD DB_DATA 2
+RANGE $10AD-$10AF DB_DATA 2
+RANGE $10AF-$10B1 DW_DATA 1
+RANGE $10B1-$10B3 DW_DATA 1
+RANGE $10B3-$10B5 DW_DATA 1
+RANGE $10B5-$10B7 DW_DATA 1
+RANGE $10B7-$10B9 DW_DATA 1
+RANGE $10B9-$10BB DW_DATA 1
+RANGE $10BB-$10BD DW_DATA 1
+RANGE $10BD-$10BF DW_DATA 1
+RANGE $10BF-$10C1 DW_DATA 1
+RANGE $10C1-$10C3 DW_DATA 1
+RANGE $10C3-$10C5 DW_DATA 1
+RANGE $10C5-$10C7 DW_DATA 1
+RANGE $10C7-$10C9 DW_DATA 1
+RANGE $10C9-$10CB DW_DATA 1
+RANGE $10CB-$10CD DW_DATA 1
+RANGE $10CD-$10CF DW_DATA 1
+RANGE $10CF-$10D1 DW_DATA 1
+RANGE $10D1-$10D3 DW_DATA 1
+RANGE $10D3-$10D5 DW_DATA 1
+RANGE $10D5-$10D7 DW_DATA 1
+RANGE $10D7-$10D9 DW_DATA 1
+RANGE $10D9-$10DB DW_DATA 1
+RANGE $10DB-$10DD DW_DATA 1
+RANGE $10DD-$10DF DW_DATA 1
+RANGE $10DF-$10E1 DW_DATA 1
+RANGE $10E1-$10E3 DW_DATA 1
+RANGE $10E3-$10E5 DW_DATA 1
+RANGE $10E5-$10E7 DW_DATA 1
+RANGE $10E7-$10E9 DW_DATA 1
+RANGE $10E9-$10EB DW_DATA 1
+RANGE $10EB-$10ED DW_DATA 1
+RANGE $10ED-$10EF DW_DATA 1
+RANGE $10EF-$10F1 DW_DATA 1
+RANGE $10F1-$10F3 DW_DATA 1
+RANGE $10F3-$10F5 DW_DATA 1
+RANGE $10F5-$10F7 DW_DATA 1
+RANGE $10F7-$10F9 DW_DATA 1
+RANGE $10F9-$10FB DW_DATA 1
+RANGE $10FB-$10FD DW_DATA 1
+RANGE $10FD-$10FF DW_DATA 1
+RANGE $10FF-$1101 DW_DATA 1
+RANGE $1101-$1103 DW_DATA 1
+RANGE $1103-$1105 DW_DATA 1
+RANGE $1105-$1107 DW_DATA 1
+RANGE $1107-$1109 DW_DATA 1
+RANGE $1109-$110B DW_DATA 1
+RANGE $110B-$110D DW_DATA 1
+RANGE $110D-$1122 DB_DATA 21
+RANGE $1122-$113B DB_DATA 25
+RANGE $113B-$115E DB_DATA 35
+RANGE $115E-$117C DB_DATA 30
+RANGE $117C-$117D DB_DATA 1
+RANGE $117D-$1186 DB_DATA 9
+RANGE $1186-$118B DB_DATA 5
+RANGE $118B-$11A0 DB_DATA 21
+RANGE $11A0-$11B1 DB_DATA 17
+RANGE $11B1-$11D4 DB_DATA 35
+RANGE $11D4-$11F4 DB_DATA 32
+RANGE $11F4-$1214 DB_DATA 32
+RANGE $1214-$1234 DB_DATA 32
+RANGE $1234-$1236 DB_DATA 2
+RANGE $1236-$1237 DB_DATA 1
+RANGE $1237-$1254 DB_DATA 29
+RANGE $1254-$1269 DB_DATA 21
+RANGE $1269-$128C DB_DATA 35
+RANGE $128C-$12A2 DB_DATA 22
+RANGE $12A2-$12A3 DB_DATA 1
+RANGE $12A3-$12C6 DB_DATA 35
+RANGE $12C6-$12E6 DB_DATA 32
+RANGE $12E6-$1306 DB_DATA 32
+RANGE $1306-$1326 DB_DATA 32
+RANGE $1326-$1342 DB_DATA 28
+RANGE $1342-$1343 DB_DATA 1
+RANGE $1343-$135C DB_DATA 25
+RANGE $135C-$1365 DB_DATA 9
+RANGE $1365-$1388 DB_DATA 35
+RANGE $1388-$13A8 DB_DATA 32
+RANGE $13A8-$13C4 DB_DATA 28
+RANGE $13C4-$13C5 DB_DATA 1
+RANGE $13C5-$13CA DB_DATA 5
+RANGE $13CA-$13DF DB_DATA 21
+RANGE $13DF-$13E8 DB_DATA 9
+RANGE $13E8-$140B DB_DATA 35
+RANGE $140B-$142B DB_DATA 32
+RANGE $142B-$144B DB_DATA 32
+RANGE $144B-$144D DB_DATA 2
+RANGE $144D-$144E DB_DATA 1
+RANGE $144E-$1453 DB_DATA 5
+RANGE $1453-$1468 DB_DATA 21
+RANGE $1468-$1471 DB_DATA 9
+RANGE $1471-$1494 DB_DATA 35
+RANGE $1494-$14B4 DB_DATA 32
+RANGE $14B4-$14D4 DB_DATA 32
+RANGE $14D4-$14D6 DB_DATA 2
+RANGE $14D6-$14D7 DB_DATA 1
+RANGE $14D7-$14EC DB_DATA 21
+RANGE $14EC-$14F9 DB_DATA 13
+RANGE $14F9-$1506 DB_DATA 13
+RANGE $1506-$1529 DB_DATA 35
+RANGE $1529-$1544 DB_DATA 27
+RANGE $1544-$1545 DB_DATA 1
+RANGE $1545-$155A DB_DATA 21
+RANGE $155A-$1567 DB_DATA 13
+RANGE $1567-$158A DB_DATA 35
+RANGE $158A-$159E DB_DATA 20
+RANGE $159E-$15C1 DB_DATA 35
+RANGE $15C1-$15C3 DB_DATA 2
+RANGE $15C3-$15C4 DB_DATA 1
+RANGE $15C4-$15D5 DB_DATA 17
+RANGE $15D5-$15DE DB_DATA 9
+RANGE $15DE-$1601 DB_DATA 35
+RANGE $1601-$1621 DB_DATA 32
+RANGE $1621-$163F DB_DATA 30
+RANGE $163F-$1640 DB_DATA 1
+RANGE $1640-$1649 DB_DATA 9
+RANGE $1649-$166C DB_DATA 35
+RANGE $166C-$168C DB_DATA 32
+RANGE $168C-$169C DB_DATA 16
+RANGE $169C-$16B9 DB_DATA 29
+RANGE $16B9-$16BA DB_DATA 1
+RANGE $16BA-$16DD DB_DATA 35
+RANGE $16DD-$16FD DB_DATA 32
+RANGE $16FD-$1715 DB_DATA 24
+RANGE $1715-$1736 DB_DATA 33
+RANGE $1736-$1737 DB_DATA 1
+RANGE $1737-$1740 DB_DATA 9
+RANGE $1740-$1763 DB_DATA 35
+RANGE $1763-$1783 DB_DATA 32
+RANGE $1783-$17A3 DB_DATA 32
+RANGE $17A3-$17BD DB_DATA 26
+RANGE $17BD-$17BE DB_DATA 1
+RANGE $17BE-$17CB DB_DATA 13
+RANGE $17CB-$17EE DB_DATA 35
+RANGE $17EE-$180E DB_DATA 32
+RANGE $180E-$182A DB_DATA 28
+RANGE $182A-$182B DB_DATA 1
+RANGE $182B-$184E DB_DATA 35
+RANGE $184E-$186E DB_DATA 32
+RANGE $186E-$187A DB_DATA 12
+RANGE $187A-$189D DB_DATA 35
+RANGE $189D-$18BD DB_DATA 32
+RANGE $18BD-$18C1 DB_DATA 4
+RANGE $18C1-$18C2 DB_DATA 1
+RANGE $18C2-$18E5 DB_DATA 35
+RANGE $18E5-$1905 DB_DATA 32
+RANGE $1905-$1925 DB_DATA 32
+RANGE $1925-$1927 DB_DATA 2
+RANGE $1927-$1946 DB_DATA 31
+RANGE $1946-$1947 DB_DATA 1
+RANGE $1947-$196A DB_DATA 35
+RANGE $196A-$198A DB_DATA 32
+RANGE $198A-$1992 DB_DATA 8
+RANGE $1992-$19B5 DB_DATA 35
+RANGE $19B5-$19B6 DB_DATA 1
+RANGE $19B6-$19BF DB_DATA 9
+RANGE $19BF-$19D8 DB_DATA 25
+RANGE $19D8-$19FB DB_DATA 35
+RANGE $19FB-$1A1B DB_DATA 32
+RANGE $1A1B-$1A1F DB_DATA 4
+RANGE $1A1F-$1A20 DB_DATA 1
+RANGE $1A20-$1A29 DB_DATA 9
+RANGE $1A29-$1A32 DB_DATA 9
+RANGE $1A32-$1A47 DB_DATA 21
+RANGE $1A47-$1A6A DB_DATA 35
+RANGE $1A6A-$1A82 DB_DATA 24
+RANGE $1A82-$1A83 DB_DATA 1
+RANGE $1A83-$1A88 DB_DATA 5
+RANGE $1A88-$1A9D DB_DATA 21
+RANGE $1A9D-$1AC0 DB_DATA 35
+RANGE $1AC0-$1AE0 DB_DATA 32
+RANGE $1AE0-$1AF4 DB_DATA 20
+RANGE $1AF4-$1AF5 DB_DATA 1
+RANGE $1AF5-$1B0A DB_DATA 21
+RANGE $1B0A-$1B1F DB_DATA 21
+RANGE $1B1F-$1B42 DB_DATA 35
+RANGE $1B42-$1B62 DB_DATA 32
+RANGE $1B62-$1B70 DB_DATA 14
+RANGE $1B70-$1B71 DB_DATA 1
+RANGE $1B71-$1B8A DB_DATA 25
+RANGE $1B8A-$1BAD DB_DATA 35
+RANGE $1BAD-$1BCD DB_DATA 32
+RANGE $1BCD-$1BE3 DB_DATA 22
+RANGE $1BE3-$1BE4 DB_DATA 1
+RANGE $1BE4-$1BED DB_DATA 9
+RANGE $1BED-$1C0A DB_DATA 29
+RANGE $1C0A-$1C2D DB_DATA 35
+RANGE $1C2D-$1C45 DB_DATA 24
+RANGE $1C45-$1C46 DB_DATA 1
+RANGE $1C46-$1C69 DB_DATA 35
+RANGE $1C69-$1C6B DB_DATA 2
+RANGE $1C6B-$1C8E DB_DATA 35
+RANGE $1C8E-$1CAE DB_DATA 32
+RANGE $1CAE-$1CB0 DB_DATA 2
+RANGE $1CB0-$1CB1 DB_DATA 1
+RANGE $1CB1-$1CD4 DB_DATA 35
+RANGE $1CD4-$1CF4 DB_DATA 32
+RANGE $1CF4-$1D14 DB_DATA 32
+RANGE $1D14-$1D18 DB_DATA 4
+RANGE $1D18-$1D19 DB_DATA 1
+RANGE $1D19-$1D26 DB_DATA 13
+RANGE $1D26-$1D3F DB_DATA 25
+RANGE $1D3F-$1D62 DB_DATA 35
+RANGE $1D62-$1D68 DB_DATA 6
+RANGE $1D68-$1D69 DB_DATA 1
+RANGE $1D69-$1D84 DB_DATA 27
+RANGE $1D84-$1DA7 DB_DATA 35
+RANGE $1DA7-$1DC3 DB_DATA 28
+RANGE $1DC3-$1DC4 DB_DATA 1
+RANGE $1DC4-$1DDD DB_DATA 25
+RANGE $1DDD-$1E00 DB_DATA 35
+RANGE $1E00-$1E0E DB_DATA 14
+RANGE $1E0E-$1E0F DB_DATA 1
+RANGE $1E0F-$1E32 DB_DATA 35
+RANGE $1E32-$1E34 DB_DATA 2
+RANGE $1E34-$1E41 DB_DATA 13
+RANGE $1E41-$1E64 DB_DATA 35
+RANGE $1E64-$1E68 DB_DATA 4
+RANGE $1E68-$1E69 DB_DATA 1
+RANGE $1E69-$1E7E DB_DATA 21
+RANGE $1E7E-$1EA1 DB_DATA 35
+RANGE $1EA1-$1EC1 DB_DATA 32
+RANGE $1EC1-$1EE1 DB_DATA 32
+RANGE $1EE1-$1EE3 DB_DATA 2
+RANGE $1EE3-$1EE4 DB_DATA 1
+RANGE $1EE4-$1EE9 DB_DATA 5
+RANGE $1EE9-$1F0A DB_DATA 33
+RANGE $1F0A-$1F1B DB_DATA 17
+RANGE $1F1B-$1F3E DB_DATA 35
+RANGE $1F3E-$1F5E DB_DATA 32
+RANGE $1F5E-$1F74 DB_DATA 22
+RANGE $1F74-$1F75 DB_DATA 1
+RANGE $1F75-$1F8E DB_DATA 25
+RANGE $1F8E-$1F93 DB_DATA 5
+RANGE $1F93-$1FB6 DB_DATA 35
+RANGE $1FB6-$1FD6 DB_DATA 32
+RANGE $1FD6-$1FD7 DB_DATA 1
+RANGE $1FD7-$1FE0 DB_DATA 9
+RANGE $1FE0-$1FF3 DB_DATA 19
+RANGE $1FF3-$200C DB_DATA 25
+RANGE $200C-$202F DB_DATA 35
+RANGE $202F-$203F DB_DATA 16
+RANGE $203F-$2040 DB_DATA 1
+RANGE $2040-$2055 DB_DATA 21
+RANGE $2055-$205A DB_DATA 5
+RANGE $205A-$207D DB_DATA 35
+RANGE $207D-$209D DB_DATA 32
+RANGE $209D-$209E DB_DATA 1
+RANGE $209E-$20AF DB_DATA 17
+RANGE $20AF-$20D2 DB_DATA 35
+RANGE $20D2-$20F2 DB_DATA 32
+RANGE $20F2-$2102 DB_DATA 16
+RANGE $2102-$2103 DB_DATA 1
+RANGE $2103-$2108 DB_DATA 5
+RANGE $2108-$210D DB_DATA 5
+RANGE $210D-$2126 DB_DATA 25
+RANGE $2126-$2149 DB_DATA 35
+RANGE $2149-$2165 DB_DATA 28
+RANGE $2165-$2166 DB_DATA 1
+RANGE $2166-$2173 DB_DATA 13
+RANGE $2173-$217C DB_DATA 9
+RANGE $217C-$219F DB_DATA 35
+RANGE $219F-$21AF DB_DATA 16
+RANGE $21AF-$21CE DB_DATA 31
+RANGE $21CE-$21CF DB_DATA 1
+RANGE $21CF-$21DC DB_DATA 13
+RANGE $21DC-$21FF DB_DATA 35
+RANGE $21FF-$221F DB_DATA 32
+RANGE $221F-$222D DB_DATA 14
+RANGE $222D-$222E DB_DATA 1
+RANGE $222E-$223B DB_DATA 13
+RANGE $223B-$2248 DB_DATA 13
+RANGE $2248-$2255 DB_DATA 13
+RANGE $2255-$2278 DB_DATA 35
+RANGE $2278-$2298 DB_DATA 32
+RANGE $2298-$2299 DB_DATA 1
+RANGE $2299-$22AE DB_DATA 21
+RANGE $22AE-$22B7 DB_DATA 9
+RANGE $22B7-$22DA DB_DATA 35
+RANGE $22DA-$22FA DB_DATA 32
+RANGE $22FA-$22FC DB_DATA 2
+RANGE $22FC-$22FD DB_DATA 1
+RANGE $22FD-$2316 DB_DATA 25
+RANGE $2316-$231F DB_DATA 9
+RANGE $231F-$232C DB_DATA 13
+RANGE $232C-$234F DB_DATA 35
+RANGE $234F-$236F DB_DATA 32
+RANGE $236F-$238B DB_DATA 28
+RANGE $238B-$238C DB_DATA 1
+RANGE $238C-$2399 DB_DATA 13
+RANGE $2399-$23A2 DB_DATA 9
+RANGE $23A2-$23C5 DB_DATA 35
+RANGE $23C5-$23E5 DB_DATA 32
+RANGE $23E5-$2405 DB_DATA 32
+RANGE $2405-$2406 DB_DATA 1
+RANGE $2406-$2417 DB_DATA 17
+RANGE $2417-$2420 DB_DATA 9
+RANGE $2420-$242D DB_DATA 13
+RANGE $242D-$2450 DB_DATA 35
+RANGE $2450-$246E DB_DATA 30
+RANGE $246E-$2491 DB_DATA 35
+RANGE $2491-$2493 DB_DATA 2
+RANGE $2493-$2494 DB_DATA 1
+RANGE $2494-$24B5 DB_DATA 33
+RANGE $24B5-$24BE DB_DATA 9
+RANGE $24BE-$24E1 DB_DATA 35
+RANGE $24E1-$2501 DB_DATA 32
+RANGE $2501-$251A DB_DATA 25
+RANGE $251A-$251B DB_DATA 1
+RANGE $251B-$2538 DB_DATA 29
+RANGE $2538-$2541 DB_DATA 9
+RANGE $2541-$2564 DB_DATA 35
+RANGE $2564-$2584 DB_DATA 32
+RANGE $2584-$259E DB_DATA 26
+RANGE $259E-$259F DB_DATA 1
+RANGE $259F-$25C0 DB_DATA 33
+RANGE $25C0-$25CD DB_DATA 13
+RANGE $25CD-$25F0 DB_DATA 35
+RANGE $25F0-$2610 DB_DATA 32
+RANGE $2610-$2630 DB_DATA 32
+RANGE $2630-$2631 DB_DATA 1
+RANGE $2631-$263A DB_DATA 9
+RANGE $263A-$264D DB_DATA 19
+RANGE $264D-$2670 DB_DATA 35
+RANGE $2670-$2690 DB_DATA 32
+RANGE $2690-$26A6 DB_DATA 22
+RANGE $26A6-$26A7 DB_DATA 1
+RANGE $26A7-$26B1 DB_DATA 10
+RANGE $26B1-$26BB DB_DATA 10
+RANGE $26BB-$26C5 DB_DATA 10
+RANGE $26C5-$26CF DB_DATA 10
+RANGE $26CF-$26D9 DB_DATA 10
+RANGE $26D9-$26DE DB_DATA 5
+RANGE $26DE-$26E8 DB_DATA 10
+RANGE $26E8-$26F2 DB_DATA 10
+RANGE $26F2-$26F8 DB_DATA 6
+RANGE $26F8-$2702 DB_DATA 10
+RANGE $2702-$2704 DB_DATA 2
+RANGE $2704-$270E DB_DATA 10
+RANGE $270E-$2718 DB_DATA 10
+RANGE $2718-$2722 DB_DATA 10
+RANGE $2722-$272C DB_DATA 10
+RANGE $272C-$2736 DB_DATA 10
+RANGE $2736-$2740 DB_DATA 10
+RANGE $2740-$274A DB_DATA 10
+RANGE $274A-$2754 DB_DATA 10
+RANGE $2754-$275E DB_DATA 10
+RANGE $275E-$2768 DB_DATA 10
+RANGE $2768-$2772 DB_DATA 10
+RANGE $2772-$277C DB_DATA 10
+RANGE $277C-$2786 DB_DATA 10
+RANGE $2786-$2790 DB_DATA 10
+RANGE $2790-$2795 DB_DATA 5
+RANGE $2795-$279F DB_DATA 10
+RANGE $279F-$27A9 DB_DATA 10
+RANGE $27A9-$27B3 DB_DATA 10
+RANGE $27B3-$27BD DB_DATA 10
+RANGE $27BD-$27C7 DB_DATA 10
+RANGE $27C7-$27D1 DB_DATA 10
+RANGE $27D1-$27DB DB_DATA 10
+RANGE $27DB-$27E5 DB_DATA 10
+RANGE $27E5-$27EF DB_DATA 10
+RANGE $27EF-$27F9 DB_DATA 10
+RANGE $27F9-$2803 DB_DATA 10
+RANGE $2803-$280D DB_DATA 10
+RANGE $280D-$2817 DB_DATA 10
+RANGE $2817-$2821 DB_DATA 10
+RANGE $2821-$282B DB_DATA 10
+RANGE $282B-$2835 DB_DATA 10
+RANGE $2835-$283F DB_DATA 10
+RANGE $283F-$2849 DB_DATA 10
+RANGE $2849-$2853 DB_DATA 10
+RANGE $2853-$285D DB_DATA 10
+RANGE $285D-$2867 DB_DATA 10
+RANGE $2867-$2871 DB_DATA 10
+RANGE $2871-$287B DB_DATA 10
+RANGE $287B-$2885 DB_DATA 10
+RANGE $2885-$288F DB_DATA 10
+RANGE $288F-$2899 DB_DATA 10
+RANGE $2899-$28A3 DB_DATA 10
+RANGE $28A3-$28AD DB_DATA 10
+RANGE $28AD-$28B7 DB_DATA 10
+RANGE $28B7-$28B9 DB_DATA 2
+RANGE $28B9-$28C3 DB_DATA 10
+RANGE $28C3-$28D7 DB_DATA 20
+RANGE $28D7-$28E4 DB_DATA 13
+RANGE $28E4-$28F1 DB_DATA 13
+RANGE $28F1-$28F4 DB_DATA 3
+RANGE $28F4-$28F7 DB_DATA 3
+RANGE $28F7-$28FA DB_DATA 3
+RANGE $28FA-$28FD DB_DATA 3
+RANGE $28FD-$2900 DB_DATA 3
+RANGE $2900-$2903 DB_DATA 3
+RANGE $2903-$2906 DB_DATA 3
+RANGE $2906-$2909 DB_DATA 3
+RANGE $2909-$290C DB_DATA 3
+RANGE $290C-$290F DB_DATA 3
+RANGE $290F-$2912 DB_DATA 3
+RANGE $2912-$2915 DB_DATA 3
+RANGE $2915-$2918 DB_DATA 3
+RANGE $2918-$291B DB_DATA 3
+RANGE $291B-$291E DB_DATA 3
+RANGE $291E-$2921 DB_DATA 3
+RANGE $2921-$2924 DB_DATA 3
+RANGE $2924-$2927 DB_DATA 3
+RANGE $2927-$292A DB_DATA 3
+RANGE $292A-$292D DB_DATA 3
+RANGE $292D-$2930 DB_DATA 3
+RANGE $2930-$2933 DB_DATA 3
+RANGE $2933-$2936 DB_DATA 3
+RANGE $2936-$2939 DB_DATA 3
+RANGE $2939-$293C DB_DATA 3
+RANGE $293C-$293F DB_DATA 3
+RANGE $293F-$2942 DB_DATA 3
+RANGE $2942-$2945 DB_DATA 3
+RANGE $2945-$2948 DB_DATA 3
+RANGE $2948-$294B DB_DATA 3
+RANGE $294B-$294E DB_DATA 3
+RANGE $294E-$2951 DB_DATA 3
+RANGE $2951-$2954 DB_DATA 3
+RANGE $2954-$2957 DB_DATA 3
+RANGE $2957-$295A DB_DATA 3
+RANGE $295A-$295D DB_DATA 3
+RANGE $295D-$2960 DB_DATA 3
+RANGE $2960-$2963 DB_DATA 3
+RANGE $2963-$2966 DB_DATA 3
+RANGE $2966-$2969 DB_DATA 3
+RANGE $2969-$296C DB_DATA 3
+RANGE $296C-$296F DB_DATA 3
+RANGE $296F-$2970 DB_DATA 1
+RANGE $2970-$2984 DB_DATA 20
+RANGE $2984-$2998 DB_DATA 20
+RANGE $2998-$29A3 DB_DATA 11
+RANGE $29A3-$29AC DB_DATA 9
+RANGE $29AC-$29B4 DB_DATA 8
+RANGE $29B4-$29BF DB_DATA 11
+RANGE $29BF-$29C1 DW_DATA 1
+RANGE $29C1-$29CB DB_DATA 10
+RANGE $29CB-$29D5 DB_DATA 10
+RANGE $29D5-$29DF DB_DATA 10
+RANGE $29DF-$29E9 DB_DATA 10
+RANGE $29E9-$29F3 DB_DATA 10
+RANGE $29F3-$29FD DB_DATA 10
+RANGE $29FD-$2A07 DB_DATA 10
+RANGE $2A07-$2A11 DB_DATA 10
+RANGE $2A11-$2A1B DB_DATA 10
+RANGE $2A1B-$2A25 DB_DATA 10
+RANGE $2A25-$2A2F DB_DATA 10
+RANGE $2A2F-$2A39 DB_DATA 10
+RANGE $2A39-$2A43 DB_DATA 10
+RANGE $2A43-$2A4D DB_DATA 10
+RANGE $2A4D-$2A57 DB_DATA 10
+RANGE $2A57-$2A61 DB_DATA 10
+RANGE $2A61-$2A6B DB_DATA 10
+RANGE $2A6B-$2A75 DB_DATA 10
+RANGE $2A75-$2A7F DB_DATA 10
+RANGE $2A7F-$2A89 DB_DATA 10
+RANGE $2A89-$2A93 DB_DATA 10
+RANGE $2A93-$2A9D DB_DATA 10
+RANGE $2A9D-$2AA7 DB_DATA 10
+RANGE $2AA7-$2AB1 DB_DATA 10
+RANGE $2AB1-$2ABB DB_DATA 10
+RANGE $2ABB-$2AC5 DB_DATA 10
+RANGE $2AC5-$2ACF DB_DATA 10
+RANGE $2ACF-$2AD9 DB_DATA 10
+RANGE $2AD9-$2AE3 DB_DATA 10
+RANGE $2AE3-$2AED DB_DATA 10
+RANGE $2AED-$2AF7 DB_DATA 10
+RANGE $2AF7-$2B01 DB_DATA 10
+RANGE $2B01-$2B0B DB_DATA 10
+RANGE $2B0B-$2B15 DB_DATA 10
+RANGE $2B15-$2B1F DB_DATA 10
+RANGE $2B1F-$2B29 DB_DATA 10
+RANGE $2B29-$2B33 DB_DATA 10
+RANGE $2B33-$2B3D DB_DATA 10
+RANGE $2B3D-$2B47 DB_DATA 10
+RANGE $2B47-$2B51 DB_DATA 10
+RANGE $2B51-$2B5B DB_DATA 10
+RANGE $2B5B-$2B65 DB_DATA 10
+RANGE $2B65-$2B6F DB_DATA 10
+RANGE $2B6F-$2B79 DB_DATA 10
+RANGE $2B79-$2B83 DB_DATA 10
+RANGE $2B83-$2B8D DB_DATA 10
+RANGE $2B8D-$2B97 DB_DATA 10
+RANGE $2B97-$2BA1 DB_DATA 10
+RANGE $2BA1-$2BAB DB_DATA 10
+RANGE $2BAB-$2BB5 DB_DATA 10
+RANGE $2BB5-$2BBF DB_DATA 10
+RANGE $2BBF-$2BC9 DB_DATA 10
+RANGE $2BC9-$2BD3 DB_DATA 10
+RANGE $2BD3-$2BDD DB_DATA 10
+RANGE $2BDD-$2BE7 DB_DATA 10
+RANGE $2BE7-$2BF1 DB_DATA 10
+RANGE $2BF1-$2BFB DB_DATA 10
+RANGE $2BFB-$2C05 DB_DATA 10
+RANGE $2C05-$2C0F DB_DATA 10
+RANGE $2C0F-$2C19 DB_DATA 10
+RANGE $2C19-$2C23 DB_DATA 10
+RANGE $2C23-$2C2D DB_DATA 10
+RANGE $2C2D-$2C37 DB_DATA 10
+RANGE $2C37-$2C41 DB_DATA 10
+RANGE $2C41-$2C4B DB_DATA 10
+RANGE $2C4B-$2C55 DB_DATA 10
+RANGE $2C55-$2C5F DB_DATA 10
+RANGE $2C5F-$2C69 DB_DATA 10
+RANGE $2C69-$2C73 DB_DATA 10
+RANGE $2C73-$2C7D DB_DATA 10
+RANGE $2C7D-$2C87 DB_DATA 10
+RANGE $2C87-$2C91 DB_DATA 10
+RANGE $2C91-$2C9B DB_DATA 10
+RANGE $2C9B-$2CA5 DB_DATA 10
+RANGE $2CA5-$2CAF DB_DATA 10
+RANGE $2CAF-$2CB9 DB_DATA 10
+RANGE $2CB9-$2CC3 DB_DATA 10
+RANGE $2CC3-$2CCD DB_DATA 10
+RANGE $2CCD-$2CD7 DB_DATA 10
+RANGE $2CD7-$2CE1 DB_DATA 10
+RANGE $2CE1-$2CEB DB_DATA 10
+RANGE $2CEB-$2CF5 DB_DATA 10
+RANGE $2CF5-$2CFF DB_DATA 10
+RANGE $2CFF-$2D09 DB_DATA 10
+RANGE $2D09-$2D13 DB_DATA 10
+RANGE $2D13-$2D1D DB_DATA 10
+RANGE $2D1D-$2D27 DB_DATA 10
+RANGE $2D27-$2D31 DB_DATA 10
+RANGE $2D31-$2D3B DB_DATA 10
+RANGE $2D3B-$2D45 DB_DATA 10
+RANGE $2D45-$2D4F DB_DATA 10
+RANGE $2D4F-$2D59 DB_DATA 10
+RANGE $2D59-$2D63 DB_DATA 10
+RANGE $2D63-$2D6D DB_DATA 10
+RANGE $2D6D-$2D77 DB_DATA 10
+RANGE $2D77-$2D81 DB_DATA 10
+RANGE $2D81-$2D8B DB_DATA 10
+RANGE $2D8B-$2D95 DB_DATA 10
+RANGE $2D95-$2D9F DB_DATA 10
+RANGE $2D9F-$2DA9 DB_DATA 10
+RANGE $2DA9-$2DB3 DB_DATA 10
+RANGE $2DB3-$2DBD DB_DATA 10
+RANGE $2DBD-$2DC7 DB_DATA 10
+RANGE $2DC7-$2DD1 DB_DATA 10
+RANGE $2DD1-$2DDB DB_DATA 10
+RANGE $2DDB-$2DE5 DB_DATA 10
+RANGE $2DE5-$2DEF DB_DATA 10
+RANGE $2DEF-$2DF9 DB_DATA 10
+RANGE $2DF9-$2E03 DB_DATA 10
+RANGE $2E03-$2E0D DB_DATA 10
+RANGE $2E0D-$2E17 DB_DATA 10
+RANGE $2E17-$2E21 DB_DATA 10
+RANGE $2E21-$2E2B DB_DATA 10
+RANGE $2E2B-$2E35 DB_DATA 10
+RANGE $2E35-$2E3F DB_DATA 10
+RANGE $2E3F-$2E49 DB_DATA 10
+RANGE $2E49-$2E53 DB_DATA 10
+RANGE $2E53-$2E5D DB_DATA 10
+RANGE $2E5D-$2E67 DB_DATA 10
+RANGE $2E67-$2E71 DB_DATA 10
+RANGE $2E71-$2E7B DB_DATA 10
+RANGE $2E7B-$2E85 DB_DATA 10
+RANGE $2E85-$2E8F DB_DATA 10
+RANGE $2E8F-$2E99 DB_DATA 10
+RANGE $2E99-$2EA3 DB_DATA 10
+RANGE $2EA3-$2EAD DB_DATA 10
+RANGE $2EAD-$2EB7 DB_DATA 10
+RANGE $2EB7-$2EC1 DB_DATA 10
+RANGE $2EC1-$2ECB DB_DATA 10
+RANGE $2ECB-$2ED5 DB_DATA 10
+RANGE $2ED5-$2EDF DB_DATA 10
+RANGE $2EDF-$2EE9 DB_DATA 10
+RANGE $2EE9-$2EF3 DB_DATA 10
+RANGE $2EF3-$2EFD DB_DATA 10
+RANGE $2EFD-$2F07 DB_DATA 10
+RANGE $2F07-$2F11 DB_DATA 10
+RANGE $2F11-$2F1B DB_DATA 10
+RANGE $2F1B-$2F25 DB_DATA 10
+RANGE $2F25-$2F2F DB_DATA 10
+RANGE $2F2F-$2F39 DB_DATA 10
+RANGE $2F39-$2F43 DB_DATA 10
+RANGE $2F43-$2F4D DB_DATA 10
+RANGE $2F4D-$2F57 DB_DATA 10
+RANGE $2F57-$2F61 DB_DATA 10
+RANGE $2F61-$2F6B DB_DATA 10
+RANGE $2F6B-$2F75 DB_DATA 10
+RANGE $2F75-$2F7F DB_DATA 10
+RANGE $2F7F-$2F89 DB_DATA 10
+RANGE $2F89-$2F93 DB_DATA 10
+RANGE $2F93-$2F9D DB_DATA 10
+RANGE $2F9D-$2FA7 DB_DATA 10
+RANGE $2FA7-$2FB1 DB_DATA 10
+RANGE $2FB1-$2FBB DB_DATA 10
+RANGE $2FBB-$2FC5 DB_DATA 10
+RANGE $2FC5-$2FCF DB_DATA 10
+RANGE $2FCF-$2FD9 DB_DATA 10
+RANGE $2FD9-$2FE3 DB_DATA 10
+RANGE $2FE3-$2FED DB_DATA 10
+RANGE $2FED-$2FF7 DB_DATA 10
+RANGE $2FF7-$3001 DB_DATA 10
+RANGE $3001-$300B DB_DATA 10
+RANGE $300B-$3015 DB_DATA 10
+RANGE $3015-$301F DB_DATA 10
+RANGE $301F-$3029 DB_DATA 10
+RANGE $3029-$3033 DB_DATA 10
+RANGE $3033-$303D DB_DATA 10
+RANGE $303D-$3047 DB_DATA 10
+RANGE $3047-$3051 DB_DATA 10
+RANGE $3051-$305B DB_DATA 10
+RANGE $305B-$3065 DB_DATA 10
+RANGE $3065-$306F DB_DATA 10
+RANGE $306F-$3079 DB_DATA 10
+RANGE $3079-$3083 DB_DATA 10
+RANGE $3083-$308D DB_DATA 10
+RANGE $308D-$3097 DB_DATA 10
+RANGE $3097-$30A1 DB_DATA 10
+RANGE $30A1-$30AB DB_DATA 10
+RANGE $30AB-$30B5 DB_DATA 10
+RANGE $30B5-$30BF DB_DATA 10
+RANGE $30BF-$30C9 DB_DATA 10
+RANGE $30C9-$30D3 DB_DATA 10
+RANGE $30D3-$30DD DB_DATA 10
+RANGE $30DD-$30E7 DB_DATA 10
+RANGE $30E7-$30F1 DB_DATA 10
+RANGE $30F1-$30FB DB_DATA 10
+RANGE $30FB-$3105 DB_DATA 10
+RANGE $3105-$310F DB_DATA 10
+RANGE $310F-$3119 DB_DATA 10
+RANGE $3119-$3123 DB_DATA 10
+RANGE $3123-$312D DB_DATA 10
+RANGE $312D-$3137 DB_DATA 10
+RANGE $3137-$3141 DB_DATA 10
+RANGE $3141-$314B DB_DATA 10
+RANGE $314B-$3155 DB_DATA 10
+RANGE $3155-$315F DB_DATA 10
+RANGE $315F-$3169 DB_DATA 10
+RANGE $3169-$3173 DB_DATA 10
+RANGE $3173-$317D DB_DATA 10
+RANGE $317D-$3187 DB_DATA 10
+RANGE $3187-$3191 DB_DATA 10
+RANGE $3191-$319B DB_DATA 10
+RANGE $319B-$31A5 DB_DATA 10
+RANGE $31A5-$31AF DB_DATA 10
+RANGE $31AF-$31B9 DB_DATA 10
+RANGE $31B9-$31C3 DB_DATA 10
+RANGE $31C3-$31CD DB_DATA 10
+RANGE $31CD-$31D7 DB_DATA 10
+RANGE $31D7-$31E1 DB_DATA 10
+RANGE $31E1-$31EB DB_DATA 10
+RANGE $31EB-$31F5 DB_DATA 10
+RANGE $31F5-$31FF DB_DATA 10
+RANGE $31FF-$3209 DB_DATA 10
+RANGE $3209-$3213 DB_DATA 10
+RANGE $3213-$321D DB_DATA 10
+RANGE $321D-$3227 DB_DATA 10
+RANGE $3227-$3231 DB_DATA 10
+RANGE $3231-$323B DB_DATA 10
+RANGE $323B-$3245 DB_DATA 10
+RANGE $3245-$324F DB_DATA 10
+RANGE $324F-$3259 DB_DATA 10
+RANGE $3259-$3263 DB_DATA 10
+RANGE $3263-$326D DB_DATA 10
+RANGE $326D-$3277 DB_DATA 10
+RANGE $3277-$3281 DB_DATA 10
+RANGE $3281-$328B DB_DATA 10
+RANGE $328B-$3295 DB_DATA 10
+RANGE $3295-$329F DB_DATA 10
+RANGE $329F-$32A9 DB_DATA 10
+RANGE $32A9-$32B3 DB_DATA 10
+RANGE $32B3-$32BD DB_DATA 10
+RANGE $32BD-$32C7 DB_DATA 10
+RANGE $32C7-$32D1 DB_DATA 10
+RANGE $32D1-$32DB DB_DATA 10
+RANGE $32DB-$32E5 DB_DATA 10
+RANGE $32E5-$32EF DB_DATA 10
+RANGE $32EF-$32F9 DB_DATA 10
+RANGE $32F9-$3303 DB_DATA 10
+RANGE $3303-$330D DB_DATA 10
+RANGE $330D-$3317 DB_DATA 10
+RANGE $3317-$3321 DB_DATA 10
+RANGE $3321-$332B DB_DATA 10
+RANGE $332B-$3335 DB_DATA 10
+RANGE $3335-$333F DB_DATA 10
+RANGE $333F-$3349 DB_DATA 10
+RANGE $3349-$3353 DB_DATA 10
+RANGE $3353-$335D DB_DATA 10
+RANGE $335D-$3367 DB_DATA 10
+RANGE $3367-$3371 DB_DATA 10
+RANGE $3371-$337B DB_DATA 10
+RANGE $337B-$3385 DB_DATA 10
+RANGE $3385-$338F DB_DATA 10
+RANGE $338F-$3399 DB_DATA 10
+RANGE $3399-$33A3 DB_DATA 10
+RANGE $33A3-$33AD DB_DATA 10
+RANGE $33AD-$33B7 DB_DATA 10
+RANGE $33B7-$33C1 DB_DATA 10
+RANGE $33C1-$33CB DB_DATA 10
+RANGE $33CB-$33D5 DB_DATA 10
+RANGE $33D5-$33DF DB_DATA 10
+RANGE $33DF-$33E9 DB_DATA 10
+RANGE $33E9-$33F3 DB_DATA 10
+RANGE $33F3-$33FD DB_DATA 10
+RANGE $33FD-$3407 DB_DATA 10
+RANGE $3407-$3411 DB_DATA 10
+RANGE $3411-$341B DB_DATA 10
+RANGE $341B-$3425 DB_DATA 10
+RANGE $3425-$342F DB_DATA 10
+RANGE $342F-$3439 DB_DATA 10
+RANGE $3439-$3443 DB_DATA 10
+RANGE $3443-$344D DB_DATA 10
+RANGE $344D-$3457 DB_DATA 10
+RANGE $3457-$3461 DB_DATA 10
+RANGE $3461-$346B DB_DATA 10
+RANGE $346B-$3475 DB_DATA 10
+RANGE $3475-$347F DB_DATA 10
+RANGE $347F-$3489 DB_DATA 10
+RANGE $3489-$3493 DB_DATA 10
+RANGE $3493-$349D DB_DATA 10
+RANGE $349D-$34A7 DB_DATA 10
+RANGE $34A7-$34B1 DB_DATA 10
+RANGE $34B1-$34BB DB_DATA 10
+RANGE $34BB-$34C5 DB_DATA 10
+RANGE $34C5-$34CF DB_DATA 10
+RANGE $34CF-$34D9 DB_DATA 10
+RANGE $34D9-$34E3 DB_DATA 10
+RANGE $34E3-$34ED DB_DATA 10
+RANGE $34ED-$34F7 DB_DATA 10
+RANGE $34F7-$3501 DB_DATA 10
+RANGE $3501-$350B DB_DATA 10
+RANGE $350B-$3515 DB_DATA 10
+RANGE $3515-$351F DB_DATA 10
+RANGE $351F-$3529 DB_DATA 10
+RANGE $3529-$3533 DB_DATA 10
+RANGE $3533-$353D DB_DATA 10
+RANGE $353D-$3547 DB_DATA 10
+RANGE $3547-$3551 DB_DATA 10
+RANGE $3551-$355B DB_DATA 10
+RANGE $355B-$3565 DB_DATA 10
+RANGE $3565-$356F DB_DATA 10
+RANGE $356F-$3579 DB_DATA 10
+RANGE $3579-$3583 DB_DATA 10
+RANGE $3583-$358D DB_DATA 10
+RANGE $358D-$3597 DB_DATA 10
+RANGE $3597-$35A1 DB_DATA 10
+RANGE $35A1-$35AB DB_DATA 10
+RANGE $35AB-$35B5 DB_DATA 10
+RANGE $35B5-$35BF DB_DATA 10
+RANGE $35BF-$35C9 DB_DATA 10
+RANGE $35C9-$35D3 DB_DATA 10
+RANGE $35D3-$35DD DB_DATA 10
+RANGE $35DD-$35E7 DB_DATA 10
+RANGE $35E7-$35F1 DB_DATA 10
+RANGE $35F1-$35FB DB_DATA 10
+RANGE $35FB-$3605 DB_DATA 10
+RANGE $3605-$360F DB_DATA 10
+RANGE $360F-$3619 DB_DATA 10
+RANGE $3619-$3623 DB_DATA 10
+RANGE $3623-$362D DB_DATA 10
+RANGE $362D-$3637 DB_DATA 10
+RANGE $3637-$3641 DB_DATA 10
+RANGE $3641-$364B DB_DATA 10
+RANGE $364B-$3655 DB_DATA 10
+RANGE $3655-$365F DB_DATA 10
+RANGE $365F-$3669 DB_DATA 10
+RANGE $3669-$3673 DB_DATA 10
+RANGE $3673-$367D DB_DATA 10
+RANGE $367D-$3687 DB_DATA 10
+RANGE $3687-$3691 DB_DATA 10
+RANGE $3691-$369B DB_DATA 10
+RANGE $369B-$36A5 DB_DATA 10
+RANGE $36A5-$36AF DB_DATA 10
+RANGE $36AF-$36B9 DB_DATA 10
+RANGE $36B9-$36C3 DB_DATA 10
+RANGE $36C3-$36CD DB_DATA 10
+RANGE $36CD-$36D7 DB_DATA 10
+RANGE $36D7-$36E1 DB_DATA 10
+RANGE $36E1-$36EB DB_DATA 10
+RANGE $36EB-$36F5 DB_DATA 10
+RANGE $36F5-$36FF DB_DATA 10
+RANGE $36FF-$3709 DB_DATA 10
+RANGE $3709-$3713 DB_DATA 10
+RANGE $3713-$371D DB_DATA 10
+RANGE $371D-$3727 DB_DATA 10
+RANGE $3727-$3731 DB_DATA 10
+RANGE $3731-$373B DB_DATA 10
+RANGE $373B-$3745 DB_DATA 10
+RANGE $3745-$374F DB_DATA 10
+RANGE $374F-$3759 DB_DATA 10
+RANGE $3759-$3763 DB_DATA 10
+RANGE $3763-$376D DB_DATA 10
+RANGE $376D-$3777 DB_DATA 10
+RANGE $3777-$3781 DB_DATA 10
+RANGE $3781-$378B DB_DATA 10
+RANGE $378B-$3795 DB_DATA 10
+RANGE $3795-$379F DB_DATA 10
+RANGE $379F-$37A9 DB_DATA 10
+RANGE $37A9-$37B3 DB_DATA 10
+RANGE $37B3-$37BD DB_DATA 10
+RANGE $37BD-$37C7 DB_DATA 10
+RANGE $37C7-$37D1 DB_DATA 10
+RANGE $37D1-$37DB DB_DATA 10
+RANGE $37DB-$37E5 DB_DATA 10
+RANGE $37E5-$37EF DB_DATA 10
+RANGE $37EF-$37F9 DB_DATA 10
+RANGE $37F9-$3803 DB_DATA 10
+RANGE $3803-$380D DB_DATA 10
+RANGE $380D-$3817 DB_DATA 10
+RANGE $3817-$3821 DB_DATA 10
+RANGE $3821-$382B DB_DATA 10
+RANGE $382B-$3835 DB_DATA 10
+RANGE $3835-$383F DB_DATA 10
+RANGE $383F-$3849 DB_DATA 10
+RANGE $3849-$3853 DB_DATA 10
+RANGE $3853-$385D DB_DATA 10
+RANGE $385D-$3867 DB_DATA 10
+RANGE $3867-$3871 DB_DATA 10
+RANGE $3871-$387B DB_DATA 10
+RANGE $387B-$3885 DB_DATA 10
+RANGE $3885-$388F DB_DATA 10
+RANGE $388F-$3899 DB_DATA 10
+RANGE $3899-$38A3 DB_DATA 10
+RANGE $38A3-$38AD DB_DATA 10
+RANGE $38AD-$38B7 DB_DATA 10
+RANGE $38B7-$38C1 DB_DATA 10
+RANGE $38C1-$38CB DB_DATA 10
+RANGE $38CB-$38D5 DB_DATA 10
+RANGE $38D5-$38DF DB_DATA 10
+RANGE $38DF-$38E9 DB_DATA 10
+RANGE $38E9-$38F3 DB_DATA 10
+RANGE $38F3-$38FD DB_DATA 10
+RANGE $38FD-$3907 DB_DATA 10
+RANGE $3907-$3911 DB_DATA 10
+RANGE $3911-$391B DB_DATA 10
+RANGE $391B-$3925 DB_DATA 10
+RANGE $3925-$392F DB_DATA 10
+RANGE $392F-$3939 DB_DATA 10
+RANGE $3939-$3943 DB_DATA 10
+RANGE $3943-$394D DB_DATA 10
+RANGE $394D-$3957 DB_DATA 10
+RANGE $3957-$3961 DB_DATA 10
+RANGE $3961-$396B DB_DATA 10
+RANGE $396B-$3975 DB_DATA 10
+RANGE $3975-$397F DB_DATA 10
+RANGE $397F-$3989 DB_DATA 10
+RANGE $3989-$3993 DB_DATA 10
+RANGE $3993-$399D DB_DATA 10
+RANGE $399D-$39A7 DB_DATA 10
+RANGE $39A7-$39B1 DB_DATA 10
+RANGE $39B1-$39BB DB_DATA 10
+RANGE $39BB-$39C5 DB_DATA 10
+RANGE $39C5-$39CF DB_DATA 10
+RANGE $39CF-$39D9 DB_DATA 10
+RANGE $39D9-$39E3 DB_DATA 10
+RANGE $39E3-$39ED DB_DATA 10
+RANGE $39ED-$39F7 DB_DATA 10
+RANGE $39F7-$3A01 DB_DATA 10
+RANGE $3A01-$3A0B DB_DATA 10
+RANGE $3A0B-$3A15 DB_DATA 10
+RANGE $3A15-$3A1F DB_DATA 10
+RANGE $3A1F-$3A29 DB_DATA 10
+RANGE $3A29-$3A33 DB_DATA 10
+RANGE $3A33-$3A3D DB_DATA 10
+RANGE $3A3D-$3A47 DB_DATA 10
+RANGE $3A47-$3A51 DB_DATA 10
+RANGE $3A51-$3A5B DB_DATA 10
+RANGE $3A5B-$3A65 DB_DATA 10
+RANGE $3A65-$3A6F DB_DATA 10
+RANGE $3A6F-$3A79 DB_DATA 10
+RANGE $3A79-$3A83 DB_DATA 10
+RANGE $3A83-$3A8D DB_DATA 10
+RANGE $3A8D-$3A97 DB_DATA 10
+RANGE $3A97-$3AA1 DB_DATA 10
+RANGE $3AA1-$3AAB DB_DATA 10
+RANGE $3AAB-$3AB5 DB_DATA 10
+RANGE $3AB5-$3ABF DB_DATA 10
+RANGE $3ABF-$3AC9 DB_DATA 10
+RANGE $3AC9-$3AD3 DB_DATA 10
+RANGE $3AD3-$3ADD DB_DATA 10
+RANGE $3ADD-$3AE7 DB_DATA 10
+RANGE $3AE7-$3AF1 DB_DATA 10
+RANGE $3AF1-$3AFB DB_DATA 10
+RANGE $3AFB-$3B05 DB_DATA 10
+RANGE $3B05-$3B0F DB_DATA 10
+RANGE $3B0F-$3B19 DB_DATA 10
+RANGE $3B19-$3B23 DB_DATA 10
+RANGE $3B23-$3B2D DB_DATA 10
+RANGE $3B2D-$3B37 DB_DATA 10
+RANGE $3B37-$3B41 DB_DATA 10
+RANGE $3B41-$3B4B DB_DATA 10
+RANGE $3B4B-$3B55 DB_DATA 10
+RANGE $3B55-$3B5F DB_DATA 10
+RANGE $3B5F-$3B69 DB_DATA 10
+RANGE $3B69-$3B73 DB_DATA 10
+RANGE $3B73-$3B7D DB_DATA 10
+RANGE $3B7D-$3B87 DB_DATA 10
+RANGE $3B87-$3B91 DB_DATA 10
+RANGE $3B91-$3B9B DB_DATA 10
+RANGE $3B9B-$3BA5 DB_DATA 10
+RANGE $3BA5-$3BAF DB_DATA 10
+RANGE $3BAF-$3BB9 DB_DATA 10
+RANGE $3BB9-$3BC3 DB_DATA 10
+RANGE $3BC3-$3BCD DB_DATA 10
+RANGE $3BCD-$3BD7 DB_DATA 10
+RANGE $3BD7-$3BE1 DB_DATA 10
+RANGE $3BE1-$3BEB DB_DATA 10
+RANGE $3BEB-$3BF5 DB_DATA 10
+RANGE $3BF5-$3BFF DB_DATA 10
+RANGE $3BFF-$3C09 DB_DATA 10
+RANGE $3C09-$3C13 DB_DATA 10
+RANGE $3C13-$3C1D DB_DATA 10
+RANGE $3C1D-$3C27 DB_DATA 10
+RANGE $3C27-$3C31 DB_DATA 10
+RANGE $3C31-$3C3B DB_DATA 10
+RANGE $3C3B-$3C45 DB_DATA 10
+RANGE $3C45-$3C4F DB_DATA 10
+RANGE $3C4F-$3C59 DB_DATA 10
+RANGE $3C59-$3C63 DB_DATA 10
+RANGE $3C63-$3C6D DB_DATA 10
+RANGE $3C6D-$3C77 DB_DATA 10
+RANGE $3C77-$3C81 DB_DATA 10
+RANGE $3C81-$3C8B DB_DATA 10
+RANGE $3C8B-$3C95 DB_DATA 10
+RANGE $3C95-$3C9F DB_DATA 10
+RANGE $3C9F-$3CA9 DB_DATA 10
+RANGE $3CA9-$3CB3 DB_DATA 10
+RANGE $3CB3-$3CBD DB_DATA 10
+RANGE $3CBD-$3CC7 DB_DATA 10
+RANGE $3CC7-$3CD1 DB_DATA 10
+RANGE $3CD1-$3CDB DB_DATA 10
+RANGE $3CDB-$3CE5 DB_DATA 10
+RANGE $3CE5-$3CEF DB_DATA 10
+RANGE $3CEF-$3CF9 DB_DATA 10
+RANGE $3CF9-$3D03 DB_DATA 10
+RANGE $3D03-$3D0D DB_DATA 10
+RANGE $3D0D-$3D17 DB_DATA 10
+RANGE $3D17-$3D21 DB_DATA 10
+RANGE $3D21-$3D2B DB_DATA 10
+RANGE $3D2B-$3D35 DB_DATA 10
+RANGE $3D35-$3D3F DB_DATA 10
+RANGE $3D3F-$3D49 DB_DATA 10
+RANGE $3D49-$3D53 DB_DATA 10
+RANGE $3D53-$3D5D DB_DATA 10
+RANGE $3D5D-$3D67 DB_DATA 10
+RANGE $3D67-$3D71 DB_DATA 10
+RANGE $3D71-$3D7B DB_DATA 10
+RANGE $3D7B-$3D85 DB_DATA 10
+RANGE $3D85-$3D8F DB_DATA 10
+RANGE $3D8F-$3D99 DB_DATA 10
+RANGE $3D99-$3DA3 DB_DATA 10
+RANGE $3DA3-$3DAD DB_DATA 10
+RANGE $3DAD-$3DB7 DB_DATA 10
+RANGE $3DB7-$3DC1 DB_DATA 10
+RANGE $3DC1-$3DCB DB_DATA 10
+RANGE $3DCB-$3DD5 DB_DATA 10
+RANGE $3DD5-$3DDF DB_DATA 10
+RANGE $3DDF-$3DE9 DB_DATA 10
+RANGE $3DE9-$3DF3 DB_DATA 10
+RANGE $3DF3-$3DFD DB_DATA 10
+RANGE $3DFD-$3E07 DB_DATA 10
+RANGE $3E07-$3E11 DB_DATA 10
+RANGE $3E11-$3E1B DB_DATA 10
+RANGE $3E1B-$3E25 DB_DATA 10
+RANGE $3E25-$3E2F DB_DATA 10
+RANGE $3E2F-$3E39 DB_DATA 10
+RANGE $3E39-$3E43 DB_DATA 10
+RANGE $3E43-$3E4D DB_DATA 10
+RANGE $3E4D-$3E57 DB_DATA 10
+RANGE $3E57-$3E61 DB_DATA 10
+RANGE $3E61-$3E6B DB_DATA 10
+RANGE $3E6B-$3E71 DB_DATA 6
+RANGE $3E71-$3E79 CHAR_DATA 8
+

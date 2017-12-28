@@ -1,0 +1,43 @@
+Introduction:
+
+Whilst Ville Krumlinde is quite new to the world of coding for the Vectrex his Thrust offering has all the workings of a classic Vectrex gravity shooter with grit and polish. Thrust is based on the Commodore 64 classic of the same name, which was released by Mastertronic back in 1985. But this time there’s no colour but still the capricious gameplay, which made the C64, game a sizzler.
+
+ 
+
+As the story goes, you have been incremented by the resistance to steal some important pods from the Empire’s accumulation. The Empire has captured a number of battle-grade starships and it is the job for the player to steal these pods from the Empire. When you start off on Thrust the introduction screen takes you straight into an ambient transient sci-fi world and sets the atmosphere for the first level as you take flight and wonder for the first instant what in the world is going on. But soon you realise that Krumlinde has manufactured something likeable and at first difficult to master.
+
+ 
+
+The Graphics:
+
+The graphics in Thrust are simple yet do the job something like Dondzila’s Gravitrex did the job for a gravitar style game. The vectors are sharp and crisp and there is only the slightest bit of overhang on some of the vectors such as the fuel stations and the Klystron pods. Stars appear in the night sky and if you hover your ship above the foreboding landscape down below you could imagine you are floating through space on a mission with a pod attached to you’re ship roaming and waiting to destroy the remaining ‘Limpet’ guns which fires shots at you’re ship. So to be sure the graphics are well defined and do the full trick.
+
+ 
+
+The Gameplay:
+
+The ship you are commanding has a very sensitive thrust mechanism and to refuel once you’re fuel supplies are running low is just a matter of activating the tractor beam and you’re fuel supplies will be replenished. To collect a Klystron pod the same method is used but the player must be aware that hovering around the planets night sky with a pod attached to you’re ship can send the rookie hurtling out of control in search for a final resting place for the pod. Klystron pods and the odd space station thrown in are also well-drawn withy only the aforementioned slight vector overhang. The non-volatile high score memory offers appeal and functionality to save high scores.
+
+ 
+
+Sound:
+
+No in game music to speak of but all the sound effects seem to accompany each movement of the ship and the warping sound which triggers when the ship is refuelling fits nicely into the vibe of the game. The lasers sound out a phaser blast as you’re ship takes fire at the limpet guns and with around 3 or 4 shots to take out one of the limpet gun there is no accompanying explosion sound but the gun vaporises and an onscreen score is displayed for reward.
+
+ 
+
+Conclusion:
+
+Thrust is a well designed if tricky game. Having had some experience with the old C64 classic it won’t take the retro enthusiast too long to be picking up pods and firing at the power plants. The main difficulty is when the Klystron pod is attached to you’re ship and getting the motion just right so you’re ship and the pod are not rotating and flying out of control with no prevailing means of in hindrance. The graphics and SFX are solid though it may have been nice to see graphic indications of you’re remaining fuel supply instead of just a numerical representation. Those who liked Dondzila’s Gravitrex should like Thrust and a quick trip over to Mark Shaker’s www.vectrexcarts.com will land you a copy of this quality gravitar clone for US$11.50 plus shipping. Great!
+
+ 
+
+GFX - 8.5 / PLAY - 8.5 / SFX - 9
+
+ 
+
+Score 8.5/10
+
+ 
+
+Review written by Daniel Foot

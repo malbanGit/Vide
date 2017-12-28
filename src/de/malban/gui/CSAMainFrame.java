@@ -817,7 +817,8 @@ jCheckBoxMenuItem1.setVisible(false);
         }
         else
         {
-            p = getVedi();
+            p = createVedi();
+//            p = getVedi();
         }
         
         CSAInternalFrame frame = getInternalFrame(p);

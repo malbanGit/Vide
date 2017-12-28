@@ -1,0 +1,4 @@
+This is a basic shooter taking inspiration from the mighty 'Geometry Wars - Retro Evolved.'
+
+This is a very striped down version of a 'Geometry Wars' type concept, with semi-intelligent enemy movement and basic levelling up of enemy types where different types of enemy are gradually introduced during the game until all types are constantly present on screen.Five distinct types of enemy are used in total, each with their own behavioural pattern.
+A laser is used to shoot, with a power bar limiting the amount of shooting you can do at any one time. When hit you are re-spawned to a random place on the screen, and all enemy movement is frozen for a limited amount of time in order for you to get out of any trouble you may be in. 

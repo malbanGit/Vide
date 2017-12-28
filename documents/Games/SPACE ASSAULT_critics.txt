@@ -1,0 +1,30 @@
+SPACE ASSAULT
+This game is another "shoot'em up". You can move across the whole screen and shoot (upwards) different weapons:
+a) a blaster (always, two shots needed)
+b) torpedos (always, 1 shot needed)
+c) BFG2k (can be collected for a certain time, for the "indestructable" enemies)
+You have lifeforce which gets reduced when hit in some way.
+
+There are "extras" you can catch as e.g. a shield (no damage) or extra health - or the BFG.
+
+What I find a bit strange is, that it seems to be pointless to kill the aliens -
+since obviously they die as soon as they hit the ground...
+
+The instruction gives some side punches to other games (Quake - Farmville).
+Also one of the aliens is called "Jäger" (German: hunter).
+
+Technically
+- there seems to be a bug in the game - since it tries to WRITE to a ROM location.
+If write access to ROM is enabled in an emulator (or one tries to run the game on a vecFever,
+which allows ROM access per default) the game crashes after some bad ROM writes.
+On a real vectrex (card) this won't be noticable - but I wonder where these "writes" would belong
+to in earnest!
+- the game was saved with "RAM", therefor the binary won't run on a
+vectrex (unless truncated)
+- sound is supported
+- the speed of the game is very good - most of the time 50Hz
+
+General vectrex game: 6/10 (good game actually!)
+For a first vectrex game: 9/10
+
+Read more: http://vectorgaming.proboards.com/thread/1685/vectrex-programming-german-university?page=6#ixzz4lIKYpUrU

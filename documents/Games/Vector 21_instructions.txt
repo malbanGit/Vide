@@ -1,0 +1,23 @@
+GameplayEdit
+
+Each game begins with a stack of cards at the bottom of the screen with a total of three minutes to complete the game (which the timer is at the top center of the screen). A card will be dealt, which it will appear at the bottom center of the screen until it is placed into a stack. The player must then decide which pile to place it in, from one through four. The object is to do this as many times as possible without busting in a stack to add to the player's score. If a stack equals 21 or contains five cards that either equals or has a value of less than 21, that stack will be removed from the game.
+
+Cards are worth their face value; i. e., the two card is worth two points, the three card is worth three, etc., onto the 10 card, which is worth 10. Kings, Queens and Jacks are also worth 10 each, and the Ace is worth either one or 11 (which its value is automatically determined by the game). Jokers do not exist in this version (see Trivia section below).
+
+If a player busts, that stack will be removed from the game, and although there is no penalty to the player, they will not score any points from the bust either.
+
+There are also several bonuses rather than just having a stack add up to 21 (which is a Blackjack) as well. Points are also awarded for a Five Card Fury (when five cards are placed in a stack that equals less than 21), as well as there being a time bonus awarded if the player is able to go through the entire deck of cards before time runs out with a minute or more remaining on the clock. 
+
+ScoringEdit
+
+    Value of 21 in a stack--100 points
+    Blackjack (21 points with an Ace + 10)--200 or 300 points (having a Jack in a stack is worth more)
+    Five Card Fury--300 points
+    Five Card Combo (five cards totaling 21)--400 points
+    Time Bonus--200 or 500 points 
+
+ControlsEdit
+
+Pressing the buttons on the controller will place a card in a corresponding pile; i. e. button one will place it in the first stack (at the left side of the screen), button two will place a card in stack two (which will be to the right of the first stack), etc.
+
+Note: there is no onscreen indication as to where the stacks are. 

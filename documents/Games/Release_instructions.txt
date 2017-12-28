@@ -1,0 +1,116 @@
+Release 
+... for Vectrex.
+
+The game is a port of a game originally developed for iOS and Android by 
+Gimogames. (http://www.gimogames.com/release/)
+
+The port to Vectrex was done by permission of the original authors. 
+Thank you for allowing me to port the game!
+Gameplay
+The game doesn't bother about a made up story of you defending some planet or 
+whatever, it is a game without story.
+
+The player can do only two things:
+- press a button 
+- release a button
+
+These are the only controls you have in the entire game. The rest is "timing" 
+the above "action".
+
+The player "base" is in the middle of the screen represented by a polygon.
+
+When you press the button the polygon grows (a shield) and also its covered area. 
+When you release the button the polygon (shield) vanishes and everything that was 
+covered by its area explodes.
+
+All the while different enemies approach from all sides closing in to the center. 
+Once they touch you (the small centered polygon) the game is over. 
+In the beginning very few enemies appear, but the game soon gets quite stressful.
+
+There are a couple of different enemy types:
+- Terrible X (visualized by a "+" sign)
+  The "basic" enemy that closes in on you - rather slowly
+- Hidden X (visualized by a "+" (fading) sign)
+  The X variant with a cloaking device. The closer this enemy is to the center,
+  the more clearly it is visible.
+- Hunter (visualized by a triangle)
+  This one tracks you down and closes in on you quite fast.
+- Bomber (visualized by an octagon)
+  This one never comes near you, but the longer it stays alive, the faster it 
+  fires its deadly shots at you
+- Dragon (visualized by a diamond shape)
+  The dragon spirals down on you. Two shots are needed to destroy this foe.
+  Beware the accompanying small ships. Once the mother vessel is destroyed they
+  will immediately rush in to destroy you.
+
+There are also some friendly objects (which nonetheless can be destroyed):
+- Stars (visualized by a star)
+  These may spawn near to your base. Every 1-2 seconds they spawn bonus points. 
+  The longer a star survives the higher the bonus points it spawns.
+- Mystery (visualized by a "?")
+  If the mystery reaches your base - your are awarded a special upgrade 
+ (for a short period of time). The upgrade may be one of:
+  - faster shield
+  - wider shield
+  - protection from death (base may be hit by one (ONE!) enemy - without 
+    destroying the base)
+  If the mystery is destroyed before touching the base, you are nonetheless 
+  awarded a bonus score (variable).
+Tips
+The clue to get high scores are the little stars. 
+At maximum three can be there at any time, they circle the player and are as 
+easily destroyed by your shield as any other object.
+Each second they provide you with bonus score, the longer they live the more 
+bonus score you get. 
+It starts with only 4 points per second, but if you play well can get up into 
+the hundreds (up to 999).
+Highscore
+Whenever your last score is within the 5 highest scores - you will be enabled
+to enter your initials and the scores will be saved.
+To look at the highscore table - press button "2" while in the title screen.
+Options
+Pressing button "3" while in the title screen opens the options menu.
+Here you can do (at least) three things:
+- reset
+  resets all options and the highscore (also on any used device)
+- sfx on/off/half
+  Whether you want sound effects enabled or disabled or the volume reduced.
+- music
+  Switch the music on or off.
+Some "Finer points"
+Difficulty
+Internally the difficulty is set using two different schemes.
+- automatically gets more difficult (spawn rate increases per time)
+- "phases" are set after a certain spawn count
+
+There are 33 "different" phases, which get increasingly more difficult. 
+Phases can also define behaviors. 
+Behaviors include:
+- speed/width of shield
+- spawn rate, and spawn rate increase speed/width
+- speed of enemies
+- forbid/allow certain enemy types (squads...)
+
+Each phase increase is indicated by a certain "jingle" sound.
+
+After phase 33 only the automatic difficulty increase is happening.
+Worth to mention:
+a) I think even I never reached phase 33
+b) The automatic increase is for the last phase configured quite slowly, 
+   but finally can get so "fast", that I think it is at some stage impossible.
+   
+Scoring
+Only one rule to get high scores: DO NOT DIE!
+
+Apart from that different "strategies" can be followed:
+a) Bonus Stars
+Try to keep the stars alive - if all three is to difficult, concentrate on 
+keeping one alive. Every 1-2 seconds a star rewards point. It starts with 
+4 points, but can go up to 999 points. The highest I ever had the stars was 3 
+stars at around 300-400 - once you can hold the stars a while at that 
+score - you get really high scores.
+
+When you chose this strategy use every bonus "?" you get to make live easier. 
+
+b) + c)
+Please figure them out yourself.

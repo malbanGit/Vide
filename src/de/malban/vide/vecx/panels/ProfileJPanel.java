@@ -295,8 +295,11 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
         }
         if (lastLength != profiler.routines.size()) model.fireTableDataChanged();
         lastLength = profiler.routines.size();
-        
+        try
+        {
         sorter.sort();
+        }
+        catch (Throwable e){}
         jTable1.repaint();
     }
     private boolean updateEnabled = false;

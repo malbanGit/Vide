@@ -1,0 +1,428 @@
+This file contains random thoughts that might be interesting for other
+vectrex programmers.
+And a <short> history of Vectrex Frogger making!
+----------------------------------------------------------------------------
+
+Programming Vectrex Frogger related notes...
+
+
+Vectrex frogger does allways refresh with 50Hz.
+All drawing is done in 30000 cycles or less. There are some notes below on
+optimization techniques used to accomplish that.
+Actually I'm quite proud of the speed I accomplished! It might be possible
+that the sprite functions are the fastest that exist in any vectrex game.
+(at least I would like to think so...)
+
+The sprites look a bit peculiar on a real vectrex, a bit dotted, but one
+can get used to that. They are 'dotted' because I used a fixed scale factor
+of 6 for every sprite. If I wanted to draw a long line, I had to use several
+small ones. And vectrex by nature doesn't allways turn the light off at
+exactly the right time (actually at least 2 - 3 cycles later),
+AND it allways turns the light on a few cycles befor starting to draw...
+This allways results in a bright spot (one could naturally write some new
+(non timer using) vector draw function, which would use some other form
+of calculating the time, and be thus more exact, but who would want to do
+a thing like that?).
+
+Vectrex frogger was partly intended to serve as a well documented vectrex
+programm to teach how to program the machine. I think I failed with that.
+Because of the huge amount of vectors that had to be drawn in a tiny
+timeframe, it was neccessary to optimize for every cycle I could lay my
+hands on to (in timecritical parts anyway). Because of that optimizing I guess
+the program is not well readable anymore. In the main program loop only
+one BIOS function is still used (ask for digital joystick position).
+Every other once used BIOS function was subsequently removed and replaced
+by optimized (for the required situation) makros or routines specifically for
+the thing I had to do.
+All this is highly confusing to get into, if you didn't program it in the
+first place.
+NOTE:
+One optimization technique used was:
+ preface:
+  Explaining how to place and draw a vector.
+  ...
+  Well anyway, to move the beam to a required position, you set the
+  speed and direction of the beam and the time for how long the speed
+  should be applied. Than you wait for the 'how long' to end.
+  The 'how long' is the scale factor you set. If you set a scale factor
+  of $90. This value gets written to the timer 1 and is waited for in an
+  highly iddle loop!
+  What I did was to un'iddle' that loop. Many calculations are done by
+  vectrex frogger in that normally 'iddle' time.
+  Note: I did that mainly with the 'move to' functionality. The nice thing is
+  even if I had done to much in that iddle time, it doesn't matter!
+  The only thing you have to watch out for is that you don't take less time
+  than the timer value. But that is easily accomplished by a time request loop
+  at the end of your own calculations.
+  Note:
+   You could use the same technique while drawing a vector. Drawing a vector
+   and positioning the beam are the same thing. The only difference is
+   the 'pattern' that is set in the SHIFT_REGISTER.
+   On positioning that is '0', on drawing that is '$ff' (if you wanted to
+   draw a solid line that is).
+   But with drawing you should make sure that you switch the beam off
+   in time (moving 0 to shift), otherwise you have a bright dot at the end
+   of your vector!
+
+
+Another optimization was (see below) to write a specific vector list draw
+function (makro). Any cycle saved there was gold.
+See, if I draw 30 sprites, and each sprite consists of, say 20 vectors.
+That makes about 600 vectors. If I can write an optimized vector list draw
+function, which saves about 10 cycles per vector, we have saved with one 'hit'
+about 6000 cycles!!!
+
+And another NEW one. Loop unrolling!
+Actually I use that techinque all the time with my Watcom C programs, I just
+didn't think about implementing it myself. Today I tried my luck unrolling
+the vector list draw function. Strike! I saved more than 10 cycles for EACH
+vector! That gives me another speed hit of nearly 3.000 cycles!
+I just unrolled one loop, the main one for sprite drawing.
+The other major sprite loop (for home sprites) remains as yet untouched,
+but if I was to optimize all loops that way, I could probably get another
+increase of 500 to 1.000 cycles. But a major drawback with this remains.
+It makes the programm considerably longer! Well, can't have it all, can you?
+
+Another one, not implemented, because there seems to be no need anymore.
+But implementing a new kind of vector list, that includes scale information
+might again save some cycles, since many long lines are drawn now doing
+small lines. One could save a major overhead, if one could include a second
+length variable in the vector list.
+
+
+Note:
+The assembler I used is VERY good. For optimization be sure to look at the
+*.lst file it produces. There are all cycle information and length of
+instructions listed, as well as the code... really very nice :-)
+
+
+Object definition (this is specific for the routines used in vectrex frogger)
+-----------------
+All displayed 'items' in the game are called now objects. These objects
+consist of two different entities, the vector list and the object definition
+structure. The vector list is the day to day vectrex vector list. First
+the number of vectors (minus 1), than relative vector coordinates (offsets).
+
+For easier collision detection these vector lists should all start at the
+leftmost point. In an earlier version of the sprite routine it was neccessary
+for them to be closed, that is not needed anymore.
+Following is an example of the object structure (taken from vectrex frogger,
+first otter object).
+
+otter1a_object:
+                DB 0                    ; speed + direction
+                DW otter1a_sprite       ; graphic definition
+                DB 0                    ; length in SCALE_FACTOR_GAME
+                DB 5                    ; anim delay value
+                DW otter1b_object       ; pointer to next anim object
+                DB -4                   ; offsets y in 'SCALE_IN_HOME', since this is a home object
+                DB 0                    ; offsets x in 'SCALE_IN_HOME', since this is a home object
+                DB $60                  ; brightness
+                DB 0                    ; special flag
+
+Note:
+The sprites are drawn with a fixed scale factor of 6 (that might change
+in future versions, I'm thinking about a new vector list, that includes
+scaling information...).
+Due to highly optimzed draw routines this cannot (and should not) be altered.
+In fact these routines are so optimized, they don't draw exactly anymore.
+There are two faults:
+- the last vector in the list is cut off 2-4 cycles to early
+- between objects in the object list (not yet explained...) we allways do
+  a zeroing of the vector beam.
+  This zeroing is not 100% correctly done (only 98% or so :-)).
+  In fact the routine is slightly to fast. The vector beam has not time
+  enough to reach zero (as a matter of fact I allready slowed the routine
+  down for about 4 or 5 cycles, but it was not enough...).
+  This results in an (bearly noticable) inaccuracy in the object positioning.
+
+Emulator notes:
+---------------
+Vectrex frogger works OK on the emulator.
+But note!!!:
+The optimizing was done using a real vectrex, the emulator can as yet not
+cope with many fiddlings that were neccessary to test the routines.
+They work ok as they are now. But if you do your own optimization be sure to
+have a vectrex handy, otherwise you will be very dissapointed if the real
+thing is completely different.
+Especially timing should be considered dangerous.
+The emulator does many things at once, where the real vectrex takes it's time.
+So for example beam zeroing, and accessing any VIA register...
+There are many interesting e-functions to watch on your vectrex screen :-)!
+(as the capcitors of the integrators load and unload...)
+
+
+History
+-------
+My history programming vectrex, and vectrex frogger in special.
+
+First, I was interested in vectrex since 1983, but I never had the money to
+buy the thing. 1996 I thought I might try my programming skills and write a
+vectrex emulator. But Keith Wilkins also thought that might be the way to go.
+He released his sourcecode at a point where I had only done preliminary
+stuff towards my emulator, so I dropped it, and looked at Keith's sources.
+Over the next 2 years I improved his emulator in some relations, and I guess
+I'm now sort of in charge of the thing.
+A few months ago I thought it would be fun to turn DVE into a development
+environmenmt for vectrex, 'cause I thought that emulation by now was good
+enough for that (though it is not, I know now, and possibly never will, unless
+Pentiums III 500Mhz are released soon, and at a reasonable price).
+I scanned the internet again for all references concerning programming the
+machine in order to find out what would be needed for a programmer.
+Little enough was found. Some disassambled game images, well documented
+though. Stuff from Clay and John, though both not all that well documented
+(especially yours, John). There was no 'real' programming information avail-
+able. So I thought I must figure stuff out by my own. I sat down one day and
+tried to write my first vectrex game, VPONG. That was written in about
+4-5 hours, and for a beginner it worked remarkable well, although it is by
+no means a noticable game achievment (single player and pretty hard).
+But all basic stuff was put into it - sound, vectors, text, joystick, buttons,
+scaling, fading and so on.
+The following week the idea of vectrex frogger made its way to my head, and
+a first prototype of a sprite engine evolved from that. That was the time I
+made the 'discovery' that scaling with high values is a really bad idea.
+
+At that time I thought about the speed of my program, and my goal was to
+do one update round in at least 70.000 cycles, otherwise I'd give the whole
+thing up. I figured doing the thing in 70.000 cycles would result in an
+update sequency of about greater 20 Hz per second, flickery, but still doable.
+At that time I allready had a vectrex, but it was not hooked up to my
+computers parallel port (thank god, had I made the connection at that point,
+I'd given up the whole idea pretty soon). I experimented with those
+scaling values and discovered, that a high scaling value resulted in
+update rounds above 100.000 cycles. Doing a bit of more testing revealed,
+that low scaling values would do the job nicely, and I was down to about
+50.000 cycles. (by the way, being the one in charge off the emulator really
+helps at some time, I wrote an emulator monitor function for cycle measurement
+at that point, and I only had to type 'rc' and it would throw out the cycles
+needed per update round :-)) (now it is pretty clear what the scaling really
+does, since it is a timer... but back than I knew that too, but I didn't
+really realize what it ment)
+Anyway, I had a working sprite engine on my hands and all kinds of strange
+vector plottings moved arround the screen in frogger manner. My sprite rou-
+tines allready supported animation at that point, but after doing two or three
+sprites I really grew bored with it. I drew out the sprites on a paper with
+a pencil and translated the coordinates to vectrex coordinates. Doing that
+for a large number of sprites is really !$"$"&!"$&=(!!!
+Luckily I found a friend in search for a new project to do and I persuaded
+him to make a small vector draw program, which would save the coordinates in
+a way I could handle them easily with my routines. James (my friend), made
+the vector drawing program, and I continued with the main program.
+Quickly a joystick and collision detection routine was put together.
+The first game of frogger (early stages) could be played after three
+days of programming, though you could not enter an home nor were any special
+features implemented.
+Again I grew a bit tired doing the frogger thing. I moved on to some
+routines I though about on a bus trip home from work. Routines which I
+generously call 'morphing' routines. I had the idea, that two sets of
+vector lists could be slowly changed from one set to the other, and that it
+would result in a neat effect. I pondered that idea a bit and discovered,
+that the 6809 had no DIV functions, and that the MUL is unsigned.
+I made these two functions and wrote the two still available morphing
+routines (setup and do_one_step). Ooops, they were really slow,
+doing divide and mul via selfcoded subroutines many many times per frame
+really takes its toll, let me tell you. I soon replaced the div function
+with an optimized versions, that would be assigned as needed.
+I still had a morphing function which could morph with any number (8 bit)
+of steps. That still was to slow for any use. After many optimizations
+I made the now implemented 16 step morph routine, for a fixed number of steps
+(16). This is the function which is used upon startup and in some intermission
+sequences.
+That finnished I looked at the sound, I allways wondered what notes were
+which, until I figured it out eventually. (vectrex BIOS related I mean)
+Note: I cannot read any notes, and
+I'm everything, but no musician. I searched the internet one day for notes
+for 'the yankee doodle', but naturally I couldn't find any. I ended up with
+a midi file. I searched again for a midi play/editor. I finally found one,
+that would output the songs notes in some readable way. After these notes
+and some heavy testing I 'wrote' the yankee doodle music for frogger.
+For me that was a great feat indead!!!
+First of, I wanted a drum giving the measure of the theme, but that somehow
+sounded pretty bad. The way the song is played now, it uses three voices,
+with an octave offset in each voice. Sounds ok with me, but I wouldn't
+recocgnize any errors anyway :-(.
+Now it was about time to make a couple of features. That was stuff I was
+pretty afraid of, since it ment fiddling with code allready done, and
+tweaking new features (bug filled, for sure) into it. These features were
+flies, crocodiles, snakes, girls, timer, otter, diving turtles...
+I closed my eyes and did program them all, but I didn't like a minute of it.
+Actually I hated it. But these were things I had to do in order for frogger
+to be frogger. These damn fiddlings with stupid timer variables, whether a
+fly appears, checking coordinates over and over again, if frog is near a
+snakes head, or if that turtle we just a sec befor were safely standing on
+turned into a poodle of water... I hated it.
+But I did it (as you can see). But it all took it's toll. Frogger was
+slow going, it was pretty close to those 70.000 cycles again.
+This was about the time I got the eprom card for my vectrex, and I checked
+some other games, and I discovered, that slow games flicker a lot :-(,
+and I really didn't like that. I still could not input my frogger to vectrex,
+since I was still missing the ordered EPROM EMULATOR, but I had some EPROMs
+and I watched them...
+I was pretty ancious to see frogger on a real vectrex at that point, but I
+couldn't, and I didn't find anyone with an EPROM burner either.
+But I figured frogger was way to slow as it was, so I went looking for
+optimizations and compromizations. First thing I did was remove the scoring,
+live and level indicators from the main screen. Would you believe that one
+call of that stupid 'print string' function took more than 10.000 cycles!
+Further I edited all sprites, cut them down from using over twenty vectors
+to using about 10-15 vectors, that resulted in another speed hit of about
+10.000 cycles. (I hated editing all sprites again!)
+(the turtle you see in the scroll text is a ancestor of the turtles you see
+in the game btw.)
+After that I was kind of confident that I could still reach my timing goal.
+My goal now was to be able to draw every frame within 50.000 cycles, since
+all measurement done with avaiable (once) commercial games suggested, that
+this value would prove to be still ok, as many games go even beyond that
+range.
+
+Still waiting for that EPROM EMULATOR thing.
+Having some time to spare, I thought that a scroll text would be a nice thing
+to implement. Having done a nearly complete frogger, with 10 lanes of moving
+sprites, I figured, that doing one lane of moving letters wouldn't be that
+difficult. And actually after drawing all the letters 3 or 4 times
+(the vector drawing program had a serious bug at that stage), and spending
+some nerves at that, I completed that pretty soon. But another problem arose
+at that stage. Vectrex has only so much RAM! And having the level and
+sprite information and much other needed variables in RAM, and wanting to
+do some morphing and still be able to provide a scroll text proved to be
+another challenge. I re-arranged my ram division, and occupied several ram
+locations double or triple times. That also was done, but I had second
+thoughts about the easyness of programming vectrex by then.
+
+Still waiting for that EPROM EMULATOR thing.
+So I just waited and time went by without doing any changes to the program.
+For a couple of weeks I didn't do anything, since final testing would have
+to be done on a real vectrex.
+...
+
+Finally it arrived, hooked it up and... it didn't work :-(
+Did some testing... Yep it worked all right, but the eprom cartridge I had
+only had address lines supporting eproms up to 8 KB, frogger by than was
+allready beyond that range, so I couldn't play my game :-(
+(though nearly all other vectrex games, for the first time).
+I cried loudly for help, 'cause I'm not a technical person, I wouldn't know
+how to alter the cartridge for it to work with 16KB (or 32KB) EPROMS.
+John heard my cries and sent me a couple of EPROM cartridges, which work
+just great (but another 2 weeks went by).
+Just beeing able to access 8KB was not so bad for a start, since I could split
+frogger up into a couple of sections and test them one after another, though
+I couldn't see the game with all features, it was enough for some testing.
+
+At that point I encountered a heavy WOBBLE effect, that the emulator can as
+yet not produce. I did some exploration and discovered that this was a time
+related thing. The wobbling for now, mainly was seen at the startup. And
+only when 'fixed' vectors were drawn, animated or moving vectors somehow were
+sort of imune to it. (strange?)
+Anyway, after some hairs turned gray, I realized, that if an update round
+took more than 30.000 cycles, fixed vectors tend to wobble (at least with
+my vectrex). It was not only my game that was effected by this, but nearly
+all games that have fixed vectors at some point and take more than 30.000
+cycles to complete an update round. Even minestorm, the inbuilt game,
+is effected. When the game starts up, than for a few seconds, when the first
+mines appear on the screen, the dots wobble (with my vectrex, which is the
+only one I can test everything on).
+Once you know how to look out for that effect, you discover it pretty often.
+Needless to say, that I as a perfectionist didn't like that at all.
+Other games can wobble like they want, but not my game, and certainly not at
+the startup screen, the first thing you will see when starting the game.
+(I still don't know what causes the effect, any technical information on
+that topic is appreciated. I thought the only thing that would happen if
+I took to long to complete my update round was a flickery effect. But even
+if I set the 'wait recalibration' timer to a higher value than the BIOS
+30000 cycles, fixed vectors DO WOBBLE! I think there is a second
+FIX point, somewhere in the 50.000 but the flicker at that stage is not very
+well tolerable)
+
+I changed my code, so that 'VECTREX FROGGER' text and the other stuff do not
+appear at the same time on the screen (that stupid text also takes about
+5.000-6.000 cycles to draw). The wobble (at startup) was history.
+Than I noticed another effect :-( (which still is seen on a real vectrex,
+since I couldn't fix it in any clever manor).
+My vectrex coordinates allways drift slowly to +,+ (upper, right).
+If you leave the vector beam alone for long enough it will go to the upper
+right. When drawing the large frog at the startup it takes quite a while
+to complete the large vector list, at the large scale factor used.
+It takes about 2000-3000 cycles to completly draw the huge frog. In that time
+the vector beam drifts for about half a centimeter. What should be done, is
+to recalibrate the beam between the drawings, that would fix the problem.
+But there is not enough time to spare :-( (the frog consists of 63 vectors,
+positioning 63 vectors with the given scale, in any non time critical way IS
+impossible!
+(63 * $90 = 9000 pure moving time, without overhead
+ 63 * $70 = 7000 pure drawing the vectors, without overhead
+ overhead = 1000 cycles that is about 17.000 just for the frog,
+ and I still want a scroll text, and the frog's morphing must be
+ calculated!)).
+Furthermore a fixed offset cannot be given, since this drift
+is not a constant. It depends on the mood of my vectrex (it is after all an
+old analog machine). So the frog looks ok on the emulator (if no drift is
+set), but on a real vectrex the frog has a lose end. It bothers me a bit,
+but cannot easily be fixed!
+
+Apart from that everything seemed to work out just fine. I did a couple of
+weeks not program any vectrex frogger (and didn't really miss it, after doing
+work for some time, I tend to be glad to have it off my back eventually).
+One fine day Johns cartridges finally arrived.
+Tried frogger... and it worked!!! (badly :-()
+Somehow it escaped me before, that in the game there are also fixed 'wobble'
+vectors. And they DID wobble :-(. At that point I was ready to drop the whole
+thing. I had been glad I achieved the 50.000 cycle goal after only wanting
+70.000. But that seemed by far not enough. In order to lose the wobble, there
+was no other way than to have go for 30.000 cycles.
+I experimented some time to get rid of the fixed vectors, invented 'moving'
+homes, and patterned lines for the middle stuff and the like. But it didn't
+really help. I WAS quite dissapointed. My girlfriend tried to cheer me up
+and said 'it isn't that bad' but in my view it was. I wanted to do a well
+done full vectrex frogger game, WITHOUT compromising wobble effects.
+
+I thought about changing all the sprites to again less vector usage, but that
+would have resulted in Atari 2600 like sprites, more guess work than any
+discernable objects. So I droped that notion. Than I had a first tentive go
+at using the DP register (which befor was allways set to D0). Introducing
+that more or less cleverly and some other optimization, saved me about
+1000 to 2000 bytes of code. That enabled me again to 'inline' some BIOS
+functions, and after optimizing the now inlined functions. I allready
+achieved another save of 10.000 cycles. I was at 40.000, but at a loss as how
+further optimization could be done. Going step by step through the code and
+looking at the *.lst file the assembler produced and looking for neck breaking
+cycle busters in critical positions... doing that for a day and a half...
+allways saving in little steps 10-20 sometimes even 100 cycles...
+I was down to about 37.000 cycles. Still a long way to go, and every further
+step would be more difficult. Having a break... playing a nice round of
+Diddy Kong on my N64 (yep, I have some other video consoles beside the
+vectrex), an idea formed in my head... why not use the wait loops of the
+positioning or drawing functions for something more usefull than just waiting
+for timer to expire? Said and done (after 2 days fiddling, nerve breaking
+draw backs and dissapointments implementing too fast functions, encountering
+e-functions on the vectrex screen, weird effects and and and...), I saved
+another 5.000 cycles! (this is pretty fast said here, but this was really
+a nerve breaking experience, for more information look at the top of this
+text file and/or at the source itself!)
+Anyway I was at about 32.000 (allways worse case, with all 4 houses occupied,
+girl, crocodile, otter and snakes displayed...).
+After that I couldn't think of any more optimizing stuff. I edited all
+levels, changed them and removed sprites, exchanged sprites, disabled
+features, ... and so on, the levels still have their character I gave them
+from start, but most are slightly changed (some were even OK).
+But after that, I finally made it!!!
+
+EVERY LEVEL REFRESHES IN BELOW 30.000 CYCLES!!!
+
+Actually I'm very proud of my achievment. And I consider Vectrex Frogger
+by now to be an outstanding vectrex program.
+
+Perhaps that is just vanity on my side, but I put much effort into Vectrex
+Frogger, and I hope people enjoy the game, and perhaps some people might
+even find the source code helpfull and/or informative.
+
+
+
+
+STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP
+
+Another optimization hits the scene! Today I unrolled a couple of loops, speed
+hit about 3.000 cycles! Hip Hip Hooray. I'll unchange all levels and they will
+still be under 30.000 cycles...
+By now I have even about 1.500 cycles to spare:-)
+
+END OF FILE (Finally)

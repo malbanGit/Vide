@@ -1,0 +1,23 @@
+TRAFFIC RACE
+This is presented as a racing game - although I would say its a "dodge" game.
+You drive on a road and must not get hit by other cars.
+
+The game has a very good presentation, there are mountains in the background and trees on
+both sides of the road which "scroll" (zoom) by.
+The overlay is great and fits the scenario.
+
+The game offers three different difficulty settings - which I find even on easy
+quite hard (the difference is only the count of lives).
+
+Funny:
+- The instruction mentions a "Star Castle Cartridge" - a little bit to much copy/paste :-)
+
+Technically:
+- the explosion is somewhat "strange" it takes huge amounts of cycles
+- after a death the "lives" are displayed a little bit to long for my taste
+- basic (explosion) sound
+- refresh rate is actually very good (except explosion) about 50Hz!
+
+General vectrex game: 6/10
+For a first vectrex game: 9/10
+

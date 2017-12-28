@@ -1,0 +1,3616 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_a
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode_a
+LABEL $F62B Rot_VL_Mode
+LABEL $F637 Rot_VL_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $C880 t_width
+COMMENT_LABEL $C880 Size for tile width //not used?
+LABEL $C881 s_speed
+COMMENT_LABEL $C881 Speed of scroll //not used?
+LABEL $C882 cur_tile
+COMMENT_LABEL $C882 Current Tile
+LABEL $C883 cur_offset
+COMMENT_LABEL $C883 distance between tiles
+LABEL $C884 scr_offset
+COMMENT_LABEL $C884 scroll offset, we scroll one tile amount then move the level array.
+LABEL $C885 level_shift
+COMMENT_LABEL $C885 shift the level position, so we can repeat a pattern
+LABEL $C886 b_pipe
+COMMENT_LABEL $C886 bottom pipe from level array
+LABEL $C887 t_pipe
+COMMENT_LABEL $C887 top pipe from level array
+LABEL $C888 flap_on
+COMMENT_LABEL $C888 0 = not flapping, 1 = flapping animation //not used yet
+LABEL $C889 bird_x
+COMMENT_LABEL $C889 bird x (probably always 0 so could of been a constant instead?)
+LABEL $C88A bird_y
+COMMENT_LABEL $C88A bird y position
+LABEL $C88B bird_vel
+COMMENT_LABEL $C88B velocity in the y of the bird
+LABEL $C88C bird_vel_count
+COMMENT_LABEL $C88C counter so we don't update velocity every frame
+LABEL $C88D flap_snd_count
+COMMENT_LABEL $C88D how long a sound is playing - might need more of these?
+LABEL $C88E point_snd_count
+COMMENT_LABEL $C88E how long a sound is playing - might need more of these?
+LABEL $C88F scr_byte1
+COMMENT_LABEL $C88F score digits 3byte, 1byte per digit (unpacked BDC)
+LABEL $C890 scr_byte2
+COMMENT_LABEL $C890 byte 1 is the lower digits
+LABEL $C891 scr_byte3
+COMMENT_LABEL $C891 byte3 is now not used as we only go to 50
+LABEL $C892 scr_txt
+COMMENT_LABEL $C892 4bytes for ascii version of score, 3 for text and 1 for terminator
+LABEL $C896 game_over_intensity
+LABEL $C897 game_over_text_scale
+LABEL $C898 dead_flag
+COMMENT_LABEL $C898 use this as bool for things like override pipes intensity 1=dead
+LABEL $C899 bird_attract_move_counter
+LABEL $C89A tap_intensity
+LABEL $C89B hiscr_byte1
+LABEL $C89C hiscr_byte2
+LABEL $C89D hiscr_byte3
+COMMENT_LABEL $C89D byte3 is now not used as we only go to 50
+LABEL $C89E hiscr_txt
+COMMENT_LABEL $C89E 4 bytes for score, 1 is terminator of string
+LABEL $C8A2 wing_anim_counter
+LABEL $C8A3 bird_rotation
+COMMENT_LABEL $C8A3 rotation value of bird
+LABEL $C8A4 r_beak
+COMMENT_LABEL $C8A4 storage for rotated bird vectors many bytes! 46
+LABEL $C8B8 r_eyeball
+LABEL $C8BC r_bottom
+LABEL $C8C4 r_wing
+LABEL $C8D0 r_wing_2
+LABEL $C8DC r_wing_3
+LABEL $C8E8 r_eye
+LABEL $C8F6 r_top
+LABEL $C900 credit_roll_counter_a
+COMMENT_LABEL $C900 how long before we show the credits needs to inc and reset
+LABEL $C901 credit_length
+LABEL $C902 credit_intensity
+LABEL $C903 tmp_1
+COMMENT_LABEL $C903 used for anything ?
+LABEL $C904 tmp_2
+COMMENT_LABEL $C904 used for anything
+LABEL $C905 particle_1_xy
+COMMENT_LABEL $C905 SOME NUMBER OF BYTES FOR PARTICLE XY (stored as 16bit)
+LABEL $C945 particle_1_vel_xy
+COMMENT_LABEL $C945 SOME NUMBER OF BYTES FOR PARTICLE VELOCITY XY (stored as 16bit)
+LABEL $C985 emitter_1_intensity
+COMMENT_LABEL $C985 1 byte intensity
+LABEL $C986 emitter_1_y
+COMMENT_LABEL $C986 2 bytes for subpixel
+LABEL $C988 emitter_1_x
+COMMENT_LABEL $C988 2 bytes for subpixel
+LABEL $C98A emitter_1_life
+COMMENT_LABEL $C98A 1 byte
+LABEL $C98B particle_2_xy
+COMMENT_LABEL $C98B SOME NUMBER OF BYTES FOR PARTICLE XY (stored as 16bit)
+LABEL $C9CB particle_2_vel_xy
+COMMENT_LABEL $C9CB SOME NUMBER OF BYTES FOR PARTICLE VELOCITY XY (stored as 16bit)
+LABEL $CA0B emitter_2_intensity
+COMMENT_LABEL $CA0B 1 byte intensity
+LABEL $CA0C emitter_2_y
+COMMENT_LABEL $CA0C 2 bytes for subpixel
+LABEL $CA0E emitter_2_x
+COMMENT_LABEL $CA0E 2 bytes for subpixel
+LABEL $CA10 emitter_2_life
+COMMENT_LABEL $CA10 1 byte
+LABEL $CA11 particle_3_xy
+COMMENT_LABEL $CA11 SOME NUMBER OF BYTES FOR PARTICLE XY (stored as 16bit)
+LABEL $CA51 particle_3_vel_xy
+COMMENT_LABEL $CA51 SOME NUMBER OF BYTES FOR PARTICLE VELOCITY XY (stored as 16bit)
+LABEL $CA91 emitter_3_intensity
+COMMENT_LABEL $CA91 1 byte intensity
+LABEL $CA92 emitter_3_y
+COMMENT_LABEL $CA92 2 bytes for subpixel
+LABEL $CA94 emitter_3_x
+COMMENT_LABEL $CA94 2 bytes for subpixel
+LABEL $CA96 emitter_3_life
+COMMENT_LABEL $CA96 1 byte
+LABEL $CA97 emitter_1_on
+COMMENT_LABEL $CA97 should be 1 why 4??
+LABEL $CA98 emitter_2_on
+LABEL $CA99 emitter_3_on
+LABEL $CA9A prev_part_yx
+COMMENT_LABEL $CA9A 2 bytes /temp previous 8bit particle xy pos in 1 word
+LABEL $CA9C emitter_1_pcount
+LABEL $CA9D emitter_2_pcount
+LABEL $CA9E emitter_3_pcount
+LABEL $CA9F emitter_current_pcount
+COMMENT_LABEL $CA9F copy of current pcount of the emitter being updated
+LABEL $CAA0 firework_counter
+COMMENT_LABEL $CAA0 1byte counter
+LABEL $CAA1 emitter_1_vel_y
+LABEL $CAA3 emitter_1_vel_x
+LABEL $CAA5 emitter_2_vel_y
+LABEL $CAA7 emitter_2_vel_x
+LABEL $CAA9 emitter_3_vel_y
+LABEL $CAAB emitter_3_vel_x
+LABEL $CAAD rocket_1_on
+LABEL $CAAE rocket_2_on
+LABEL $CAAF rocket_3_on
+LABEL $CAB0 sound_flag_1
+LABEL $CAB1 sound_flag_2
+LABEL $CAB2 sound_flag_3
+LABEL $CAB3 sound_explode_flag_1
+LABEL $CAB4 sound_explode_flag_2
+LABEL $CAB5 sound_explode_flag_3
+EQU $08 BIRDVCOUNT
+COMMENT_LABEL $08 how often we update bird velocity to increase the acceleration downward
+EQU $00 LOGOX
+COMMENT_LABEL $00 position of logo
+EQU $46 LOGOY
+COMMENT_LABEL $46 add # before like #LOGOY when using to get
+EQU $42 LOGOSCALE
+LABEL $160A musa
+COMMENT_LABEL $160A Start music that plays nothing
+EQU $1D boot_init
+LABEL $0044 byte1_is_valid
+LABEL $0055 byte2_is_valid
+LABEL $02FB update_hiscr
+COMMENT_LABEL $02FB copy    score to high score
+EQU $60 no_score_copy
+LABEL $0060 init
+LABEL $0103 startscreen
+LABEL $05EC bird_attract_mode
+COMMENT_LABEL $05EC move    bird up and down when in attract mode
+LABEL $09DD draw_bird
+COMMENT_LABEL $09DD {
+LABEL $0621 draw_titles
+LABEL $0761 draw_copyright
+LABEL $079B draw_tap
+LABEL $086D check_credit_roll
+LABEL $011F game_loop
+LABEL $0428 scroll
+COMMENT_LABEL $0428 we      scroll one tile distance and then shift the whole level by 1
+LABEL $08E0 check_flapsound
+COMMENT_LABEL $08E0 check   if the sound is still playing or not, if not clear it //messy branching??
+LABEL $0449 drawlevel
+LABEL $0550 move_bird
+LABEL $0327 check_score
+COMMENT_LABEL $0327 did     we pass through a pipe mid point if so score = +1
+LABEL $03A1 check_collision
+COMMENT_LABEL $03A1 {
+LABEL $0143 goto_init
+LABEL $0606 print_score
+LABEL $0146 bird_dead_mode
+COMMENT_LABEL $0146 things  we do once in this mode
+LABEL $02E7 check_if_hiscore
+COMMENT_LABEL $02E7 {
+LABEL $0923 play_deadsound
+LABEL $0156 bird_dead_mode_r
+COMMENT_LABEL $0156 things  we repeat
+LABEL $05C1 bird_dead_pos
+LABEL $0839 draw_game_over
+LABEL $07C7 draw_dead_score_text
+LABEL $0800 draw_dead_hiscore_text
+LABEL $077E draw_score_name
+LABEL $017F bird_dead_mode_allow_buttons
+LABEL $0187 get_score_name
+LABEL $01AC scr_0
+LABEL $021A scr_10
+LABEL $022F scr_20
+LABEL $0244 scr_30
+LABEL $0281 scr_40
+LABEL $02E6 scr_50
+LABEL $01B7 scr_1
+LABEL $125C scrname_0
+LABEL $01C2 scr_2
+LABEL $126A scrname_1
+LABEL $01CD scr_3
+LABEL $127C scrname_2
+LABEL $01D8 scr_4
+LABEL $1289 scrname_3
+LABEL $01E3 scr_5
+LABEL $1299 scrname_4
+LABEL $01EE scr_6
+LABEL $12A6 scrname_5
+LABEL $01F9 scr_7
+LABEL $12B1 scrname_6
+LABEL $0204 scr_8
+LABEL $12BF scrname_7
+LABEL $020F scr_9
+LABEL $12CB scrname_8
+LABEL $12D9 scrname_9
+LABEL $12E7 scrname_10
+COMMENT_LABEL $12E7 labels so all the same score
+LABEL $0224 scr_15
+LABEL $12F7 scrname_15
+LABEL $1305 scrname_20
+LABEL $0239 scr_25
+LABEL $1310 scrname_25
+LABEL $131E scrname_30
+LABEL $024E scr_35
+LABEL $0258 scr_36
+LABEL $132E scrname_35
+LABEL $0262 scr_37
+LABEL $133B scrname_36
+LABEL $026C scr_38
+LABEL $1349 scrname_37
+LABEL $0276 scr_39
+LABEL $135A scrname_38
+LABEL $136A scrname_39
+LABEL $1378 scrname_40
+LABEL $028B scr_41
+LABEL $0295 scr_42
+LABEL $1388 scrname_41
+LABEL $029F scr_43
+LABEL $1398 scrname_42
+LABEL $02A9 scr_44
+LABEL $13A6 scrname_43
+LABEL $02B3 scr_45
+LABEL $13B6 scrname_44
+LABEL $02BD scr_46
+LABEL $13C4 scrname_45
+LABEL $02C7 scr_47
+LABEL $13D0 scrname_46
+LABEL $02D1 scr_48
+LABEL $13E0 scrname_47
+LABEL $02DB scr_49
+LABEL $13ED scrname_48
+LABEL $02E6 scr_60
+COMMENT_LABEL $02E6 should not be possible to get to this
+LABEL $13FA scrname_49
+LABEL $02F2 check_byte_1
+LABEL $0326 update_hiscr_r
+LABEL $1099 level
+COMMENT_LABEL $1099 {
+LABEL $0337 tile_has_height
+LABEL $03A0 check_score_rt
+LABEL $0981 play_pointsound
+LABEL $0353 inc_digit2
+LABEL $0388 strip_score
+COMMENT_LABEL $0388 remove  leading 00s before returning from updating the score
+LABEL $036E scoremax
+LABEL $0AA5 win_screen
+LABEL $03B0 check_pipe_1
+LABEL $03C4 check_pipe_2
+LABEL $03D8 check_pipe_3
+LABEL $03EC check_pipe_4
+LABEL $0400 check_pipe_5
+LABEL $0414 check_pipe_6
+LABEL $0427 check_pipe_rt
+LABEL $0448 sc_rt
+COMMENT_LABEL $0448 to      return to main
+LABEL $0443 move_back
+LABEL $0456 tile
+LABEL $047E draw
+LABEL $0468 afterdraw
+LABEL $047D endx
+LABEL $051A setpipeintensity
+LABEL $04A7 draw_pipeup_1
+LABEL $04AC draw_pipeup_2
+LABEL $04B1 draw_pipeup_3
+LABEL $04B6 draw_pipeup_4
+LABEL $04BB draw_pipeup_5
+LABEL $04C0 draw_pipeup_6
+LABEL $1128 pipeup_1
+LABEL $04C5 draw_pipeup_fin
+LABEL $114C pipeup_2
+LABEL $1170 pipeup_3
+LABEL $1194 pipeup_4
+LABEL $11B8 pipeup_5
+LABEL $11DC pipeup_6
+LABEL $04CC drawdown
+LABEL $04F2 draw_pipedown_1
+LABEL $04F7 draw_pipedown_2
+LABEL $04FC draw_pipedown_3
+LABEL $0501 draw_pipedown_4
+LABEL $0506 draw_pipedown_5
+LABEL $050B draw_pipedown_6
+LABEL $113A pipedown_1
+LABEL $0510 draw_pipedown_fin
+LABEL $115E pipedown_2
+LABEL $1182 pipedown_3
+LABEL $11A6 pipedown_4
+LABEL $11CA pipedown_5
+LABEL $11EE pipedown_6
+LABEL $0528 setpipe_r
+COMMENT_LABEL $0528 set     pipes to different intensity depending where they are on the screen.
+LABEL $054F setpipeend
+LABEL $053A setrightfade
+LABEL $0547 setleftfade
+LABEL $0570 bird_buttons
+LABEL $056D update_bird_vel
+LABEL $0582 update_bird_pos
+LABEL $08FC play_flapsound
+LABEL $05A7 bird_hit_ground
+LABEL $059C bird_hit_top
+LABEL $05B0 dead_bird_hit_top
+COMMENT_LABEL $05B0 unlikely
+LABEL $05BB dead_bird_hit_ground
+COMMENT_LABEL $05BB when  dead bird hits ground
+LABEL $05C9 bird_dead_pos_update
+LABEL $05D5 bird_dead_pos_v
+LABEL $1117 bird_attract_move_anim
+LABEL $0600 bird_attract_move_reset
+LABEL $15A3 logo_v
+COMMENT_LABEL $15A3 Vector Count = 8
+LABEL $1505 logo_b1
+COMMENT_LABEL $1505 Vector Count = 2
+LABEL $1501 logo_b2
+COMMENT_LABEL $1501 Vector Count = 2
+LABEL $1509 logo_r1
+COMMENT_LABEL $1509 Vector Count = 2
+LABEL $150D logo_d1
+COMMENT_LABEL $150D Vector Count = 2
+LABEL $1511 logo_d
+COMMENT_LABEL $1511 Vector Count = 5
+LABEL $151B logo_r
+COMMENT_LABEL $151B Vector Count = 10
+LABEL $152F logo_i
+COMMENT_LABEL $152F Vector Count = 13
+LABEL $1549 logo_b
+COMMENT_LABEL $1549 Vector Count = 8
+LABEL $1559 logo_y
+COMMENT_LABEL $1559 Vector Count = 11
+LABEL $156F logo_c1
+COMMENT_LABEL $156F Vector Count = 7
+LABEL $157D logo_c
+COMMENT_LABEL $157D Vector Count = 7
+LABEL $158B logo_e1
+COMMENT_LABEL $158B Vector Count = 5
+LABEL $1595 logo_e
+COMMENT_LABEL $1595 Vector Count = 7
+LABEL $073F print_win
+LABEL $15B3 win_string
+LABEL $15EF copyright_string
+LABEL $07AA draw_tap_r
+LABEL $15D6 tap_string
+LABEL $15E4 score_text_string
+LABEL $15EA hiscore_text_string
+LABEL $0848 draw_game_over_r
+LABEL $0856 draw_game_over_t
+LABEL $15DA game_over_string
+LABEL $0893 credit_roll
+LABEL $087C check_credit_back
+LABEL $088B return_to_startscreen
+LABEL $089C draw_credits
+LABEL $08B0 draw_credits_t
+LABEL $08C3 draw_credits_2
+LABEL $140A Credit_0
+LABEL $1452 Credit_1
+LABEL $08DE draw_credits_r
+LABEL $08EC check_f
+LABEL $08F1 check_f_r
+LABEL $08FB check_f_r_2
+LABEL $09AF play_pointsound_2
+LABEL $1200 beak
+COMMENT_LABEL $1200 Vector Count = 10
+LABEL $09F3 dr_beak
+LABEL $0A09 dr_eyeball
+LABEL $0A1F dr_bottom
+LABEL $0A35 dr_wing
+LABEL $0A4B flapping
+LABEL $0A57 dr_wing_2
+LABEL $0A6E dr_wing_final
+LABEL $0A60 dr_wing_3
+LABEL $0A69 dr_wing_reset
+LABEL $0A78 dr_eye
+LABEL $0A8E dr_top
+EQU $10 FIREWORK_GRAVITY
+LABEL $0AB9 win_screen_2
+LABEL $0AC6 skip_print_win
+LABEL $0C9C up_rocket_sound
+LABEL $0D1B up_explode_sound
+LABEL $0AD7 rocket_fireworks
+LABEL $0E96 update_emitters
+LABEL $0BB2 update_rockets
+LABEL $0B2D fw_counter_dec
+LABEL $0B01 check_f_slot_2
+LABEL $0B31 fire_rocket_1
+COMMENT_LABEL $0B31 { reusing particle emitter
+LABEL $0B1C check_f_slot_3
+LABEL $0B5C fire_rocket_2
+COMMENT_LABEL $0B5C { reusing particle emitter
+LABEL $0B87 fire_rocket_3
+COMMENT_LABEL $0B87 { reusing particle emitter
+LABEL $0D9B play_rocketsound_1
+LABEL $0DB7 play_rocketsound_2
+LABEL $0DD3 play_rocketsound_3
+LABEL $0BDB check_rocket_2
+LABEL $0EC7 init_emitter_1
+COMMENT_LABEL $0EC7 { inits for each emitter
+LABEL $0DEF play_explodesound_1
+LABEL $0BFA check_rocket_3
+LABEL $0EEA init_emitter_2
+LABEL $0E12 play_explodesound_2
+LABEL $0C1A up_rock_1
+LABEL $0F0D init_emitter_3
+LABEL $0E35 play_explodesound_3
+LABEL $0C45 up_rock_2
+LABEL $0C70 up_rock_3
+LABEL $0C9B up_rock_rt
+LABEL $0C9C check_r_sound_1
+LABEL $0CA5 do_sound_1
+LABEL $0CC7 check_r_sound_2
+LABEL $0CBF fin_sound_1
+LABEL $0E58 r_soundfx
+LABEL $0CCF do_sound_2
+LABEL $0CE9 fin_sound_2
+LABEL $0CF1 check_r_sound_3
+LABEL $0CF9 do_sound_3
+LABEL $0D12 fin_sound_3
+LABEL $0D1B check_e_sound_1
+LABEL $0D24 do_e_sound_1
+LABEL $0D46 check_e_sound_2
+LABEL $0D3E fin_e_sound_1
+LABEL $0E72 r_explodefx
+LABEL $0D4F do_e_sound_2
+LABEL $0D71 check_e_sound_3
+LABEL $0D69 fin_e_sound_2
+LABEL $0D79 do_e_sound_3
+LABEL $0D92 fin_e_sound_3
+EQU $07 DRAG
+EQU $08 GRAVITY
+EQU $10 PCOUNT_1
+COMMENT_LABEL $10 count currently same for all 3 systems (32 was too high - ran out of ram!!!)
+LABEL $0EA6 u_em2
+LABEL $0F5E update_emitter_1
+COMMENT_LABEL $0F5E {
+LABEL $0EB6 u_em3
+LABEL $0F97 update_emitter_2
+COMMENT_LABEL $0F97 {
+LABEL $0EC6 u_em_rt
+LABEL $0FD0 update_emitter_3
+COMMENT_LABEL $0FD0 {
+LABEL $1059 firework_1_lookup
+COMMENT_LABEL $1059 { look up table to help with randomness
+LABEL $0F30 init_emitter
+COMMENT_LABEL $0F30 { init emitter using what is in u x y
+LABEL $0F36 particle_1_clear_xy
+LABEL $0F42 particle_1_random
+LABEL $0F68 emitter_draw_1
+LABEL $1009 particle_physics
+COMMENT_LABEL $1009 { physics loop A is highbyte B is lowbyte
+LABEL $0FA1 emitter_draw_2
+LABEL $0FDA emitter_draw_3
+LABEL $1012 y_is_neg
+LABEL $1015 y_was_pos
+LABEL $1029 x_is_neg
+LABEL $102C x_was_pos
+LABEL $103B particle_draw
+COMMENT_LABEL $103B { drawing the dots
+LABEL $1041 particle_draw_loop
+LABEL $1214 eyeball
+COMMENT_LABEL $1214 Vector Count = 2
+LABEL $1218 bottom
+COMMENT_LABEL $1218 Vector Count = 4
+LABEL $1220 wing_2
+COMMENT_LABEL $1220 Vector Count = 6
+LABEL $122C wing_3
+COMMENT_LABEL $122C Vector Count = 6
+LABEL $1238 wing
+COMMENT_LABEL $1238 Vector Count = 6
+LABEL $1244 eye
+COMMENT_LABEL $1244 Vector Count = 7
+LABEL $1252 top
+COMMENT_LABEL $1252 Vector Count = 5
+LABEL $15CB title_string
+LABEL $1612 *
+COMMENT_LINE $0000 ; hey dissi "watch $speedy 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $speedx 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $anay 1 0"
+COMMENT_LINE $0000 ; hey dissi "watch $anax 1 0"
+COMMENT_LINE $0000 *** Veccy Bird
+COMMENT_LINE $0000 To do
+COMMENT_LINE $0000 Music and or AYFX?	 - low priority - integrate the YM code - maybe one day
+COMMENT_LINE $0000 By Michael Simonds 2014
+COMMENT_LINE $0000 this file is part of vectrex frogger, written by Christopher Salomon
+COMMENT_LINE $0000 in March-April 1998
+COMMENT_LINE $0000 all stuff contained here is public domain (?)
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Christopher Salomon ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 * $C839 ;Pointer to copyright string during startup
+COMMENT_LINE $0000 * $C83B ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 * $C83C ;temp byte
+COMMENT_LINE $0000 * $C843 ; register 9
+COMMENT_LINE $0000 * $C844 ; register 8
+COMMENT_LINE $0000 * $C848 ; register 4
+COMMENT_LINE $0000 * $C849 ; register 3
+COMMENT_LINE $0000 * $C84A ; register 2
+COMMENT_LINE $0000 * $C84C ; register 0
+COMMENT_LINE $0000 * $C85E ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 * $C868...$C876 ;Unused?
+COMMENT_LINE $0000 * $C878 ;Unused?
+COMMENT_LINE $0000 * $C880 - $CBEA is user RAM ;
+COMMENT_LINE $0000 * 0 sample/hold (0=enable mux 1=disable mux)
+COMMENT_LINE $0000 * 1 mux sel 0
+COMMENT_LINE $0000 * 2 mux sel 1
+COMMENT_LINE $0000 * 3 sound BC1
+COMMENT_LINE $0000 * 4 sound BDIR
+COMMENT_LINE $0000 * 5 comparator input
+COMMENT_LINE $0000 * 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 * 7 /RAMP
+COMMENT_LINE $0000 * 0 PA latch enable
+COMMENT_LINE $0000 * 1 PB latch enable
+COMMENT_LINE $0000 * 2 \ 110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 * 3 > shift register control (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 * 4 /
+COMMENT_LINE $0000 * 5 0=t2 one shot 1=t2 free running
+COMMENT_LINE $0000 * 6 0=t1 one shot 1=t1 free running
+COMMENT_LINE $0000 * 7 0=t1 disable PB7 output 1=t1 enable PB7 output
+COMMENT_LINE $0000 * 0 CA1 control CA1 -> SW7 0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 * 1 \
+COMMENT_LINE $0000 * 2 > CA2 control CA2 -> /ZERO 110=low 111=high
+COMMENT_LINE $0000 * 3 /
+COMMENT_LINE $0000 * 4 CB1 control CB1 -> NC 0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 * 5 \
+COMMENT_LINE $0000 * 6 > CB2 control CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 * 7 /
+COMMENT_LINE $0000 * bit cleared by
+COMMENT_LINE $0000 * 0 CA2 interrupt flag reading or writing port A I/O
+COMMENT_LINE $0000 * 1 CA1 interrupt flag reading or writing port A I/O
+COMMENT_LINE $0000 * 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 * 3 CB2 interrupt flag reading or writing port B I/O
+COMMENT_LINE $0000 * 4 CB1 interrupt flag reading or writing port A I/O
+COMMENT_LINE $0000 * 5 timer 2 interrupt flag read t2 low or write t2 high
+COMMENT_LINE $0000 * 6 timer 1 interrupt flag read t1 count low or write t1 high
+COMMENT_LINE $0000 * 7 IRQ status flag write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 * 0 CA2 interrupt enable
+COMMENT_LINE $0000 * 1 CA1 interrupt enable
+COMMENT_LINE $0000 * 2 shift register interrupt enable
+COMMENT_LINE $0000 * 3 CB2 interrupt enable
+COMMENT_LINE $0000 * 4 CB1 interrupt enable
+COMMENT_LINE $0000 * 5 timer 2 interrupt enable
+COMMENT_LINE $0000 * 6 timer 1 interrupt enable
+COMMENT_LINE $0000 * 7 IER set/clear control
+COMMENT_LINE $0000 endif
+COMMENT_LINE $0000 Macros
+COMMENT_LINE $0000 next time use macros to save time!!!
+COMMENT_LINE $0000 *** Needed variables
+COMMENT_LINE $0000 does the assembler support DB DW etc? is so we could define these variables easier!? - might be lower case only
+COMMENT_LINE $0000 note $c800 to $c80e are the ram location the bios shadows the sound chip registers and other things, so this must not be used for variables!
+COMMENT_LINE $0000 this is why user ram must start at above $c880
+COMMENT_LINE $0000 All this below is just for the particle system used on the win screen!
+COMMENT_LINE $0000 emitter1
+COMMENT_LINE $0000 emitter2
+COMMENT_LINE $0000 emitter3
+COMMENT_LINE $0000 when I used 3x128bytes for particles I must of ran out of mem and got unexpected bytes = wrong
+COMMENT_LINE $0000 for the emitter, note there are only 874 bytes of safe ram available to the user!!
+COMMENT_LINE $0000 Constants in rom
+COMMENT_LINE $0000 *** Init block
+COMMENT_LINE $001D *** Start Code
+COMMENT_LINE $001D boot initialise, anything we need to do only when loading the game for the first time
+COMMENT_LINE $001D setup highscores
+COMMENT $001E ascii version of the high score
+FORCE_SYMBOL $001E hiscr_byte1
+FORCE_SYMBOL $0021 hiscr_byte2
+COMMENT_LINE $0024 sta		hiscr_byte3		;originally the max score was 999, now its only 50, so no need for a 3rd digit
+FORCE_NO_SYMBOL $0024
+COMMENT $0026 terminator
+COMMENT $0029 spaces ;reset ascii score
+FORCE_NO_SYMBOL $0029
+FORCE_SYMBOL $002B hiscr_txt
+COMMENT $0031 0s
+FORCE_NO_SYMBOL $0031
+COMMENT $0036 string terminator
+FORCE_NO_SYMBOL $0036
+COMMENT_LINE $003B copy highscore from memory if required
+COMMENT_LINE $003B lda     $C83B ;is highscore valid? will be 0 if cold boot?
+COMMENT_LINE $003B cmpa    #0
+COMMENT_LINE $003B beq     no_score_copy
+FORCE_NO_SYMBOL $003E
+COMMENT $0042 if a space (32) change it to 48 which is 0
+FORCE_NO_SYMBOL $0042
+FORCE_NO_SYMBOL $0044
+FORCE_SYMBOL $0046 scr_byte1
+FORCE_SYMBOL $0049 hiscr_byte1
+FORCE_NO_SYMBOL $004F
+COMMENT $0053 if a space (32) change it to 48 which is 0
+FORCE_NO_SYMBOL $0053
+COMMENT $0055 bring value back to decimal
+FORCE_NO_SYMBOL $0055
+FORCE_SYMBOL $0057 scr_byte2
+FORCE_SYMBOL $005A hiscr_byte2
+FORCE_SYMBOL $005D update_hiscr
+COMMENT_LINE $0060 initialise some variables call this after boot and when game ends
+FORCE_NO_SYMBOL $0060
+FORCE_SYMBOL $0062 scr_offset
+COMMENT_LINE $0065 //all   set to 0
+COMMENT $0065 Set a to 0 (good habit to clr as its faster)
+FORCE_SYMBOL $0066 level_shift
+COMMENT $0069 set counter for sound length to 0
+FORCE_SYMBOL $0069 flap_snd_count
+COMMENT $006C count to play two sounds for the points
+FORCE_SYMBOL $006C point_snd_count
+FORCE_SYMBOL $006F scr_byte1
+FORCE_SYMBOL $0072 scr_byte2
+COMMENT_LINE $0075 sta		scr_byte3
+FORCE_SYMBOL $0075 game_over_intensity
+FORCE_SYMBOL $0078 game_over_text_scale
+FORCE_SYMBOL $007B dead_flag
+FORCE_SYMBOL $007E bird_attract_move_counter
+FORCE_SYMBOL $0081 tap_intensity
+FORCE_SYMBOL $0084 wing_anim_counter
+FORCE_SYMBOL $0087 bird_rotation
+COMMENT $008A 0
+FORCE_SYMBOL $008A emitter_1_on
+COMMENT $008D 0
+FORCE_SYMBOL $008D emitter_2_on
+COMMENT $0090 0
+FORCE_SYMBOL $0090 emitter_3_on
+FORCE_SYMBOL $0093 rocket_1_on
+FORCE_SYMBOL $0096 rocket_2_on
+FORCE_SYMBOL $0099 rocket_3_on
+COMMENT $009C as used for fireworks
+FORCE_SYMBOL $009C sound_flag_1
+FORCE_SYMBOL $009F sound_flag_2
+FORCE_SYMBOL $00A2 sound_flag_3
+FORCE_SYMBOL $00A5 sound_explode_flag_1
+FORCE_SYMBOL $00A8 sound_explode_flag_2
+FORCE_SYMBOL $00AB sound_explode_flag_3
+COMMENT $00AE max of 16
+FORCE_NO_SYMBOL $00AE
+FORCE_SYMBOL $00B0 emitter_1_pcount
+FORCE_SYMBOL $00B3 emitter_2_pcount
+FORCE_SYMBOL $00B6 emitter_3_pcount
+FORCE_SYMBOL $00BD emitter_1_y
+FORCE_NO_SYMBOL $00C0
+FORCE_NO_SYMBOL $00C2
+FORCE_SYMBOL $00C4 emitter_2_y
+FORCE_NO_SYMBOL $00C7
+FORCE_SYMBOL $00CB emitter_3_y
+COMMENT_LINE $00CE jsr 	init_emitter_1 ;start emitter
+COMMENT_LINE $00CE jsr 	init_emitter_2 ;start emitter
+COMMENT_LINE $00CE jsr 	init_emitter_3 ;start emitter
+FORCE_NO_SYMBOL $00CE
+FORCE_SYMBOL $00D0 credit_roll_counter_a
+COMMENT_LINE $00D3 lda		#4				;debug score forced to start at 40
+COMMENT_LINE $00D3 sta		scr_byte2
+COMMENT_LINE $00D3 debug level position add in to jump to a certain point
+COMMENT_LINE $00D3 lda		#100
+COMMENT_LINE $00D3 sta		level_shift
+COMMENT $00D3 spaces ;reset ascii score
+FORCE_NO_SYMBOL $00D3
+FORCE_SYMBOL $00D5 scr_txt
+COMMENT $00DB 0s
+FORCE_NO_SYMBOL $00DB
+COMMENT $00E0 string terminator
+FORCE_NO_SYMBOL $00E0
+COMMENT $00E5 turn off any sounds
+FORCE_SYMBOL $00E5 Clear_Sound
+COMMENT $00E8 get the state of buttons for comparison to when we do want to check them
+FORCE_SYMBOL $00E8 Read_Btns
+FORCE_NO_SYMBOL $00EB
+COMMENT $00ED set flapping anim state on
+FORCE_SYMBOL $00ED flap_on
+FORCE_SYMBOL $00F2 bird_x
+COMMENT $00F6 set bird position to middle of screen
+FORCE_SYMBOL $00F6 bird_y
+FORCE_NO_SYMBOL $00F9
+COMMENT $00FB inital bird velocity
+FORCE_SYMBOL $00FB bird_vel
+FORCE_SYMBOL $00FE BIRDVCOUNT
+COMMENT $0100 counter for which frame we update velocity down
+FORCE_SYMBOL $0100 bird_vel_count
+COMMENT_LINE $0103 jsr		win_screen ;debug winscreen
+COMMENT_LINE $0103 jsr		calib
+COMMENT $0103 BIOS recalibration
+FORCE_SYMBOL $0103 Wait_Recal
+COMMENT $0106 moves bird up and down
+FORCE_SYMBOL $0106 bird_attract_mode
+COMMENT $0109 56078-27731 = 28347 cycles
+FORCE_SYMBOL $0109 draw_bird
+COMMENT $010C 56078-34377 = 21701 cycles total!?!! /without reset0ref =55405 (only saves 673)
+FORCE_SYMBOL $010C draw_titles
+COMMENT_LINE $010F drawtitles  56078-38433 = same as normal but final draw vector jsr removed (so 17645 cycles drawing)
+COMMENT $010F 56078 cycles with this text, 48464 without (7600 cycles-ish)
+FORCE_SYMBOL $010F draw_copyright
+COMMENT $0112 56078 cycles -48875 = 7204 cycles
+FORCE_SYMBOL $0112 draw_tap
+COMMENT $0115 if timer then roll credits
+FORCE_SYMBOL $0115 check_credit_roll
+FORCE_SYMBOL $0118 Read_Btns
+FORCE_NO_SYMBOL $011B
+COMMENT $011D no button pressed
+COMMENT_LINE $011F if      button pressed carry on-->
+COMMENT_LINE $011F jsr		calib
+COMMENT $011F BIOS recalibration
+FORCE_SYMBOL $011F Wait_Recal
+FORCE_SYMBOL $0122 scroll
+COMMENT $0125 check if sound has stopped playing or not
+FORCE_SYMBOL $0125 check_flapsound
+FORCE_SYMBOL $0128 drawlevel
+FORCE_SYMBOL $012B move_bird
+FORCE_SYMBOL $012E draw_bird
+FORCE_SYMBOL $0131 check_score
+COMMENT $0134 must be done after check score because score gets current pipe ;comment to turn off collision
+FORCE_SYMBOL $0134 check_collision
+FORCE_SYMBOL $0137 dead_flag
+FORCE_NO_SYMBOL $013A
+FORCE_SYMBOL $013E print_score
+FORCE_SYMBOL $0143 init
+COMMENT_LINE $0146 jsr		calib
+COMMENT $0146 BIOS recalibration
+FORCE_SYMBOL $0146 Wait_Recal
+COMMENT $014A set flapping animation flag, so no flapping
+FORCE_SYMBOL $014A flap_on
+FORCE_SYMBOL $014D check_if_hiscore
+FORCE_SYMBOL $0150 Clear_Sound
+FORCE_SYMBOL $0153 play_deadsound
+COMMENT_LINE $0156 jsr		calib	;we need to do this again because we loop back to this point
+COMMENT $0156 BIOS recalibration
+FORCE_SYMBOL $0156 Wait_Recal
+COMMENT $0159 this is now check general sound
+FORCE_SYMBOL $0159 check_flapsound
+FORCE_NO_SYMBOL $015C
+FORCE_SYMBOL $015E dead_flag
+FORCE_SYMBOL $0161 drawlevel
+COMMENT $0164 make the bird fall to the ground
+FORCE_SYMBOL $0164 bird_dead_pos
+FORCE_SYMBOL $0167 draw_bird
+FORCE_SYMBOL $016A draw_game_over
+FORCE_SYMBOL $016D draw_dead_score_text
+FORCE_SYMBOL $0170 draw_dead_hiscore_text
+FORCE_SYMBOL $0173 draw_score_name
+FORCE_SYMBOL $0176 game_over_intensity
+FORCE_NO_SYMBOL $0179
+COMMENT $017D loop back as buttons not allowed yet
+FORCE_SYMBOL $017F Read_Btns
+FORCE_NO_SYMBOL $0182
+COMMENT_LINE $0186 bra     win_screen;tempDEBUUUUUG to get to win_screen
+COMMENT_LINE $0186 bra     init ;reset to start screen ; does this fill up the stack???
+COMMENT_LINE $0187 calib:				;waste of cycles!!!! so now inlined
+COMMENT_LINE $0187 jsr Wait_Recal ; BIOS recalibration
+COMMENT_LINE $0187 rts
+COMMENT $0187 get_score_name
+COMMENT_LINE $0187 get the name
+COMMENT_LINE $0187 no need to check byte3 any more as removing it!
+COMMENT_LINE $0187 lda		scr_byte3
+COMMENT_LINE $0187 cmpa	#0
+COMMENT_LINE $0187 beq		gsn_2		;if byte3 is 0, check byte2
+COMMENT_LINE $0187 jmp		scr_100		;else check byte3 , we use jmp because its to far away to bra
+COMMENT_LINE $0187 gsn_2:
+FORCE_SYMBOL $0187 scr_byte2
+FORCE_NO_SYMBOL $018A
+COMMENT $018C if byte2 is 0, check byte1
+FORCE_NO_SYMBOL $018E
+COMMENT $0190 else check byte2
+FORCE_NO_SYMBOL $0194
+COMMENT $0196 lbeq long jump required
+FORCE_NO_SYMBOL $019A
+FORCE_NO_SYMBOL $01A0
+FORCE_NO_SYMBOL $01A6
+FORCE_SYMBOL $01AC scr_byte1
+FORCE_NO_SYMBOL $01AF
+FORCE_SYMBOL $01B3 scrname_0
+FORCE_SYMBOL $01B7 scr_byte1
+FORCE_NO_SYMBOL $01BA
+FORCE_SYMBOL $01BE scrname_1
+FORCE_SYMBOL $01C2 scr_byte1
+FORCE_NO_SYMBOL $01C5
+FORCE_SYMBOL $01C9 scrname_2
+FORCE_SYMBOL $01CD scr_byte1
+FORCE_NO_SYMBOL $01D0
+FORCE_SYMBOL $01D4 scrname_3
+FORCE_SYMBOL $01D8 scr_byte1
+FORCE_NO_SYMBOL $01DB
+FORCE_SYMBOL $01DF scrname_4
+FORCE_SYMBOL $01E3 scr_byte1
+FORCE_NO_SYMBOL $01E6
+FORCE_SYMBOL $01EA scrname_5
+FORCE_SYMBOL $01EE scr_byte1
+FORCE_NO_SYMBOL $01F1
+FORCE_SYMBOL $01F5 scrname_6
+FORCE_SYMBOL $01F9 scr_byte1
+FORCE_NO_SYMBOL $01FC
+FORCE_SYMBOL $0200 scrname_7
+FORCE_SYMBOL $0204 scr_byte1
+FORCE_NO_SYMBOL $0207
+FORCE_SYMBOL $020B scrname_8
+FORCE_SYMBOL $020F scr_byte1
+FORCE_NO_SYMBOL $0212
+FORCE_SYMBOL $0216 scrname_9
+FORCE_SYMBOL $021A scr_byte2
+FORCE_NO_SYMBOL $021D
+COMMENT $021F jump to 20 if byte 2 is not 1 - so try 20s
+FORCE_SYMBOL $0221 scrname_10
+COMMENT_LINE $0224 rts
+FORCE_SYMBOL $0224 scr_byte1
+FORCE_NO_SYMBOL $0227
+FORCE_SYMBOL $022B scrname_15
+FORCE_SYMBOL $022F scr_byte2
+FORCE_NO_SYMBOL $0232
+FORCE_SYMBOL $0236 scrname_20
+COMMENT_LINE $0239 rts
+FORCE_SYMBOL $0239 scr_byte1
+FORCE_NO_SYMBOL $023C
+FORCE_SYMBOL $0240 scrname_25
+FORCE_SYMBOL $0244 scr_byte2
+FORCE_NO_SYMBOL $0247
+FORCE_SYMBOL $024B scrname_30
+COMMENT_LINE $024E rts
+FORCE_SYMBOL $024E scr_byte1
+FORCE_NO_SYMBOL $0251
+FORCE_SYMBOL $0255 scrname_35
+COMMENT_LINE $0258 rts
+FORCE_SYMBOL $0258 scr_byte1
+FORCE_NO_SYMBOL $025B
+FORCE_SYMBOL $025F scrname_36
+COMMENT_LINE $0262 rts
+FORCE_SYMBOL $0262 scr_byte1
+FORCE_NO_SYMBOL $0265
+FORCE_SYMBOL $0269 scrname_37
+COMMENT_LINE $026C rts
+FORCE_SYMBOL $026C scr_byte1
+FORCE_NO_SYMBOL $026F
+FORCE_SYMBOL $0273 scrname_38
+COMMENT_LINE $0276 rts
+FORCE_SYMBOL $0276 scr_byte1
+FORCE_NO_SYMBOL $0279
+FORCE_SYMBOL $027D scrname_39
+FORCE_SYMBOL $0281 scr_byte2
+FORCE_NO_SYMBOL $0284
+FORCE_SYMBOL $0288 scrname_40
+COMMENT_LINE $028B rts
+FORCE_SYMBOL $028B scr_byte1
+FORCE_NO_SYMBOL $028E
+FORCE_SYMBOL $0292 scrname_41
+COMMENT_LINE $0295 rts
+FORCE_SYMBOL $0295 scr_byte1
+FORCE_NO_SYMBOL $0298
+FORCE_SYMBOL $029C scrname_42
+COMMENT_LINE $029F rts
+FORCE_SYMBOL $029F scr_byte1
+FORCE_NO_SYMBOL $02A2
+FORCE_SYMBOL $02A6 scrname_43
+COMMENT_LINE $02A9 rts
+FORCE_SYMBOL $02A9 scr_byte1
+FORCE_NO_SYMBOL $02AC
+FORCE_SYMBOL $02B0 scrname_44
+COMMENT_LINE $02B3 rts
+FORCE_SYMBOL $02B3 scr_byte1
+FORCE_NO_SYMBOL $02B6
+FORCE_SYMBOL $02BA scrname_45
+COMMENT_LINE $02BD rts
+FORCE_SYMBOL $02BD scr_byte1
+FORCE_NO_SYMBOL $02C0
+FORCE_SYMBOL $02C4 scrname_46
+COMMENT_LINE $02C7 rts
+FORCE_SYMBOL $02C7 scr_byte1
+FORCE_NO_SYMBOL $02CA
+FORCE_SYMBOL $02CE scrname_47
+COMMENT_LINE $02D1 rts
+FORCE_SYMBOL $02D1 scr_byte1
+FORCE_NO_SYMBOL $02D4
+FORCE_SYMBOL $02D8 scrname_48
+COMMENT_LINE $02DB rts
+FORCE_SYMBOL $02DB scr_byte1
+FORCE_NO_SYMBOL $02DE
+FORCE_SYMBOL $02E2 scrname_49
+COMMENT_LINE $02E6 lda 	scr_byte2
+COMMENT_LINE $02E6 cmpa	#5
+COMMENT_LINE $02E6 bne		scr_60
+COMMENT_LINE $02E6 ldu		#scrname_50
+COMMENT_LINE $02E6 rts
+COMMENT_LINE $02E7 lda		scr_byte3		;byte1 is the lower digit
+COMMENT_LINE $02E7 cmpa	hiscr_byte3		;check if the 100s are higher than current high score
+COMMENT_LINE $02E7 bgt		update_hiscr	;if score is greater than
+COMMENT $02E7 load 10s
+FORCE_SYMBOL $02E7 scr_byte2
+COMMENT $02EA compare
+FORCE_SYMBOL $02EA hiscr_byte2
+COMMENT $02ED if greater than update score
+COMMENT $02EF if equal to check second byte
+COMMENT $02F1 otherwise return
+COMMENT $02F2 load byte1
+FORCE_SYMBOL $02F2 scr_byte1
+COMMENT $02F5 compare
+FORCE_SYMBOL $02F5 hiscr_byte1
+COMMENT $02F8 if greater than update score
+COMMENT $02FA score was not higher
+FORCE_SYMBOL $02FB scr_byte1
+FORCE_SYMBOL $02FE hiscr_byte1
+FORCE_NO_SYMBOL $0301
+COMMENT $0306 highscore format is 7bytes"xxxxxx",$80
+FORCE_SYMBOL $0309 scr_byte2
+FORCE_SYMBOL $030C hiscr_byte2
+FORCE_NO_SYMBOL $030F
+COMMENT $0314 also copy to vectrex high score
+COMMENT_LINE $0317 lda		scr_byte3
+COMMENT_LINE $0317 sta		hiscr_byte3
+COMMENT_LINE $0317 adda	#48
+COMMENT_LINE $0317 sta		hiscr_txt
+COMMENT_LINE $0317 strip   high score ;remove leading 00s before returning from updating the score
+COMMENT_LINE $0317 lda		hiscr_txt
+COMMENT_LINE $0317 cmpa	#48
+COMMENT_LINE $0317 bne		update_hiscr_r
+COMMENT_LINE $0317 lda		#32
+COMMENT_LINE $0317 sta		hiscr_txt
+COMMENT $0317 strip highscore
+FORCE_NO_SYMBOL $031A
+FORCE_NO_SYMBOL $031E
+COMMENT $0323 also copy space to vectrex score if required
+COMMENT_LINE $0327 }
+COMMENT_LINE $0327 { Check if scored
+COMMENT $0327 check the pipe of the tile on screen (where the x of the bird is)
+FORCE_NO_SYMBOL $0327
+COMMENT $0329 the offset of the level
+FORCE_SYMBOL $0329 level_shift
+FORCE_SYMBOL $032C level
+FORCE_NO_SYMBOL $0331
+COMMENT $0333 if not 0 then find out out
+COMMENT $0335 return from check score because there is no pipe
+COMMENT $0337 load the scroll offset
+FORCE_SYMBOL $0337 scr_offset
+COMMENT $033A are we at this point in the scroll?
+FORCE_NO_SYMBOL $033A
+COMMENT $033C if not just return
+COMMENT $033E otherwise play sound for score
+FORCE_SYMBOL $033E play_pointsound
+COMMENT_LINE $0341 score routine goes here ------ simple 3byte not packed
+COMMENT $0341 load byte storing single figures
+FORCE_SYMBOL $0341 scr_byte1
+COMMENT $0344 increase score by 1
+COMMENT $0345 is it higher than 9
+FORCE_NO_SYMBOL $0345
+COMMENT $0347 if so jump to increase digit 2
+COMMENT $0349 or just store increased value
+FORCE_SYMBOL $0349 scr_byte1
+COMMENT $034C also add 48 for ascii version
+FORCE_NO_SYMBOL $034C
+COMMENT $034E save ascii
+COMMENT $0351 no need to increase next digit, so continue to strip digits
+COMMENT $0354 reset byte1
+FORCE_SYMBOL $0354 scr_byte1
+FORCE_NO_SYMBOL $0357
+COMMENT $0359 save ascii byte1 but reversed in memory else it would be 100 instead of 001
+FORCE_SYMBOL $035C scr_byte2
+FORCE_NO_SYMBOL $0360
+COMMENT_LINE $0362 beq		inc_digit3
+COMMENT $0362 over 5 (50) go to win screen
+FORCE_SYMBOL $0364 scr_byte2
+FORCE_NO_SYMBOL $0367
+COMMENT $0369 save ascii byte2
+COMMENT_LINE $036E inc_digit3					;no longer required
+COMMENT_LINE $036E clra
+COMMENT_LINE $036E sta		scr_byte2
+COMMENT_LINE $036E adda	#48
+COMMENT_LINE $036E sta		scr_txt+1
+COMMENT_LINE $036E lda		scr_byte3
+COMMENT_LINE $036E inca
+COMMENT_LINE $036E cmpa	#10
+COMMENT_LINE $036E beq		scoremax
+COMMENT_LINE $036E sta		scr_byte3
+COMMENT_LINE $036E adda	#48
+COMMENT_LINE $036E sta		scr_txt
+COMMENT_LINE $036E bra		strip_score
+COMMENT_LINE $036E if      we get here the score must of maxed out to 50
+COMMENT_LINE $036E put     in a win screen??
+COMMENT_LINE $036E set     final score to 50!
+FORCE_SYMBOL $036E scr_byte2
+FORCE_NO_SYMBOL $0371
+COMMENT $0373 save ascii byte2
+COMMENT $0377 reset byte1
+FORCE_SYMBOL $0377 scr_byte1
+FORCE_NO_SYMBOL $037A
+FORCE_SYMBOL $037F strip_score
+FORCE_SYMBOL $0382 update_hiscr
+FORCE_SYMBOL $0385 win_screen
+FORCE_SYMBOL $0388 scr_txt
+FORCE_NO_SYMBOL $038B
+FORCE_NO_SYMBOL $038F
+FORCE_SYMBOL $0391 scr_txt
+FORCE_NO_SYMBOL $0397
+FORCE_NO_SYMBOL $039B
+COMMENT_LINE $03A1 }
+COMMENT $03A1 check the pipe of the 3rd tile
+FORCE_NO_SYMBOL $03A1
+COMMENT $03A3 the offset of the level
+FORCE_SYMBOL $03A3 level_shift
+FORCE_SYMBOL $03A6 level
+FORCE_NO_SYMBOL $03AB
+COMMENT $03AD if not 0 check pipes
+COMMENT $03AF no pipe so don't check
+FORCE_NO_SYMBOL $03B0
+FORCE_SYMBOL $03B4 bird_y
+FORCE_NO_SYMBOL $03B7
+COMMENT $03B9 branch if greater then or equal
+FORCE_NO_SYMBOL $03BD
+COMMENT $03BF branch if less than or equal
+FORCE_NO_SYMBOL $03C4
+COMMENT $03C8 not sure why but b seems to get trashed so load it again
+FORCE_SYMBOL $03C8 bird_y
+FORCE_NO_SYMBOL $03CB
+COMMENT $03CD branch if greater then or equal
+FORCE_NO_SYMBOL $03D1
+COMMENT $03D3 branch if less than or equal
+FORCE_NO_SYMBOL $03D8
+COMMENT $03DC not sure why but b seems to get trashed so load it again
+FORCE_SYMBOL $03DC bird_y
+FORCE_NO_SYMBOL $03DF
+COMMENT $03E1 branch if greater then or equal
+COMMENT $03E7 branch if less than or equal
+FORCE_NO_SYMBOL $03EC
+COMMENT $03F0 not sure why but b seems to get trashed so load it again
+FORCE_SYMBOL $03F0 bird_y
+FORCE_NO_SYMBOL $03F3
+COMMENT $03F5 branch if greater then or equal
+COMMENT $03FB branch if less than or equal
+FORCE_NO_SYMBOL $0400
+COMMENT $0404 not sure why but b seems to get trashed so load it again
+FORCE_SYMBOL $0404 bird_y
+COMMENT $0409 branch if greater then or equal
+COMMENT $040F branch if less than or equal
+FORCE_NO_SYMBOL $0414
+COMMENT $0416 We should never get here anyway- if we do something is wrong!! it should of been 0 to 6
+COMMENT $0418 not sure why but b seems to get trashed so load it again
+FORCE_SYMBOL $0418 bird_y
+COMMENT $041D branch if greater then or equal
+COMMENT $0423 branch if less than or equal
+COMMENT_LINE $0428 }
+FORCE_SYMBOL $0428 scr_offset
+COMMENT $042B reduce offset by 1
+FORCE_SYMBOL $042C scr_offset
+COMMENT $042F if not 0 return else if 0...
+COMMENT $0431 reset the scroll
+FORCE_NO_SYMBOL $0431
+COMMENT $0433 store offset
+FORCE_SYMBOL $0433 scr_offset
+COMMENT $0436 load the where we start drawing the level offset in memory
+FORCE_SYMBOL $0436 level_shift
+COMMENT $0439 increase offset
+COMMENT $043A store shift
+FORCE_SYMBOL $043A level_shift
+COMMENT $043D check if we want to jump the level back to a certain point
+FORCE_NO_SYMBOL $043D
+COMMENT $043F go to reset the shift
+COMMENT $0443 This is the position in the level index we are resetting to
+FORCE_NO_SYMBOL $0443
+COMMENT $0445 reset the shift
+FORCE_SYMBOL $0445 level_shift
+COMMENT_LINE $0448 continue
+COMMENT $0449 left side of the screen
+COMMENT $044B add scroll offset
+FORCE_SYMBOL $044B scr_offset
+FORCE_SYMBOL $044E cur_offset
+COMMENT $0451 number of tiles
+FORCE_NO_SYMBOL $0451
+FORCE_SYMBOL $0453 cur_tile
+FORCE_SYMBOL $0456 cur_tile
+FORCE_SYMBOL $0459 level_shift
+FORCE_SYMBOL $045C level
+COMMENT $0461 save the level data for drawing the correct height
+FORCE_SYMBOL $0461 b_pipe
+COMMENT $0464 best way to do this?
+FORCE_NO_SYMBOL $0464
+COMMENT $0466 if the tile is not 0, go draw something
+FORCE_SYMBOL $0468 cur_tile
+COMMENT $046B load the next tile to draw on screen
+COMMENT $046C number of tiles to draw on screen
+FORCE_NO_SYMBOL $046C
+COMMENT $046E if we got to the end of the screen stop drawing tiles
+COMMENT $0470 or save the next tile to draw
+FORCE_SYMBOL $0470 cur_tile
+COMMENT $0473 the screen offset of where to draw the tile
+FORCE_SYMBOL $0473 cur_offset
+COMMENT $0476 next tile starts 32 along the x
+FORCE_NO_SYMBOL $0476
+COMMENT $0478 save the offset
+FORCE_SYMBOL $0478 cur_offset
+COMMENT $047B draw the next tile
+FORCE_SYMBOL $047E Reset0Ref
+COMMENT $0481 Y position
+COMMENT $0483 X position
+FORCE_SYMBOL $0483 cur_offset
+FORCE_SYMBOL $0486 Moveto_d_7F
+FORCE_SYMBOL $0489 setpipeintensity
+COMMENT_LINE $048C check   which pipe we are drawing
+FORCE_SYMBOL $048C b_pipe
+FORCE_NO_SYMBOL $048F
+FORCE_NO_SYMBOL $0493
+FORCE_NO_SYMBOL $0497
+FORCE_NO_SYMBOL $049B
+FORCE_NO_SYMBOL $049F
+FORCE_NO_SYMBOL $04A3
+COMMENT_LINE $04A7 we      should never get to here...if we do
+COMMENT_LINE $04A7 b_pipe  contained something other than we expect (we expect 0 to 6)
+COMMENT $04A7 vectors
+FORCE_SYMBOL $04A7 pipeup_1
+COMMENT $04AC vectors
+FORCE_SYMBOL $04AC pipeup_2
+COMMENT $04B1 vectors
+FORCE_SYMBOL $04B1 pipeup_3
+COMMENT $04B6 vectors
+FORCE_SYMBOL $04B6 pipeup_4
+COMMENT $04BB vectors
+FORCE_SYMBOL $04BB pipeup_5
+COMMENT $04C0 vectors
+FORCE_SYMBOL $04C0 pipeup_6
+COMMENT $04C5 number of vectors in pipe
+FORCE_NO_SYMBOL $04C5
+COMMENT $04C7 Scaling
+FORCE_NO_SYMBOL $04C7
+COMMENT $04C9 Draw
+FORCE_SYMBOL $04C9 Draw_VL_ab
+FORCE_SYMBOL $04CC Reset0Ref
+FORCE_NO_SYMBOL $04CF
+FORCE_SYMBOL $04D1 cur_offset
+FORCE_SYMBOL $04D4 Moveto_d_7F
+COMMENT_LINE $04D7 check   which pipe we are drawing down
+FORCE_SYMBOL $04D7 b_pipe
+FORCE_NO_SYMBOL $04DA
+FORCE_NO_SYMBOL $04DE
+FORCE_NO_SYMBOL $04E2
+FORCE_NO_SYMBOL $04E6
+FORCE_NO_SYMBOL $04EA
+FORCE_NO_SYMBOL $04EE
+COMMENT_LINE $04F2 we      should never get to here...if we do
+COMMENT_LINE $04F2 b_pipe  contained something other than we expect
+COMMENT $04F2 vectors
+FORCE_SYMBOL $04F2 pipedown_1
+COMMENT $04F7 vectors
+FORCE_SYMBOL $04F7 pipedown_2
+COMMENT $04FC vectors
+FORCE_SYMBOL $04FC pipedown_3
+COMMENT $0501 vectors
+FORCE_SYMBOL $0501 pipedown_4
+COMMENT $0506 vectors
+FORCE_SYMBOL $0506 pipedown_5
+COMMENT $050B vectors
+FORCE_SYMBOL $050B pipedown_6
+COMMENT $0510 number of vectors in pipe
+FORCE_NO_SYMBOL $0510
+COMMENT $0512 Scaling
+FORCE_NO_SYMBOL $0512
+COMMENT $0514 Draw
+FORCE_SYMBOL $0514 Draw_VL_ab
+FORCE_SYMBOL $0517 afterdraw
+COMMENT_LINE $051A pipe intensity
+COMMENT $051A check if dead, if so set all the pipes to a low intensity
+FORCE_SYMBOL $051A dead_flag
+COMMENT $051D #1 is dead
+FORCE_NO_SYMBOL $051D
+FORCE_NO_SYMBOL $0521
+FORCE_SYMBOL $0523 Intensity_a
+FORCE_SYMBOL $0528 cur_offset
+FORCE_NO_SYMBOL $052B
+COMMENT $052D branch if equal or higher
+COMMENT $0531 branch if equal or lower
+COMMENT $0533 if normal set intensity standard level
+FORCE_NO_SYMBOL $0533
+FORCE_SYMBOL $0535 Intensity_a
+COMMENT $0538 normal so go to end
+FORCE_SYMBOL $053A cur_offset
+FORCE_NO_SYMBOL $053D
+FORCE_NO_SYMBOL $0540
+FORCE_SYMBOL $0542 Intensity_a
+FORCE_SYMBOL $0547 cur_offset
+FORCE_NO_SYMBOL $054A
+FORCE_SYMBOL $054C Intensity_a
+COMMENT_LINE $054F will    carry on to setpipeend
+COMMENT_LINE $0550 end of pipe intensity
+FORCE_SYMBOL $0550 bird_vel_count
+FORCE_SYMBOL $0554 bird_vel_count
+FORCE_NO_SYMBOL $0557
+COMMENT $0559 if its not time to update velocity skip it
+COMMENT $055B reset counter to this CONSTANT VALUE
+FORCE_SYMBOL $055B BIRDVCOUNT
+COMMENT $055D this counter decides how quickly we update the velocity
+FORCE_SYMBOL $055D bird_vel_count
+FORCE_SYMBOL $0560 bird_vel
+COMMENT $0564 are we at max?
+FORCE_NO_SYMBOL $0564
+COMMENT $0566 branch if less or equal
+COMMENT $0568 else set velocity to max
+FORCE_NO_SYMBOL $0568
+FORCE_SYMBOL $056A bird_vel
+COMMENT $056D save new bird velocity
+FORCE_SYMBOL $056D bird_vel
+FORCE_SYMBOL $0570 Read_Btns
+FORCE_NO_SYMBOL $0573
+COMMENT $0575 no button pressed go to update
+COMMENT $0577 button pressed so put up velocity
+FORCE_SYMBOL $0577 bird_vel
+FORCE_SYMBOL $057C bird_vel
+FORCE_SYMBOL $057F play_flapsound
+FORCE_SYMBOL $0582 bird_vel
+FORCE_SYMBOL $0587 bird_rotation
+FORCE_SYMBOL $058A bird_y
+FORCE_SYMBOL $058D bird_vel
+FORCE_SYMBOL $0590 bird_y
+COMMENT $0593 check if bird hit bottom of screen
+COMMENT $0595 less than or equal
+FORCE_NO_SYMBOL $0597
+COMMENT $0599 greater than or equal to
+COMMENT $059B return to game loop
+FORCE_NO_SYMBOL $059C
+COMMENT $059E set y to top of screen
+FORCE_SYMBOL $059E bird_y
+FORCE_NO_SYMBOL $05A1
+COMMENT $05A3 set velocity to 0 to stop bird flying out the top of the screen
+FORCE_SYMBOL $05A3 bird_vel
+FORCE_SYMBOL $05A9 bird_y
+COMMENT $05AC HIT ground - dead!
+FORCE_SYMBOL $05AC bird_dead_mode
+FORCE_NO_SYMBOL $05B0
+COMMENT $05B2 set y to top of screen
+FORCE_SYMBOL $05B2 bird_y
+FORCE_NO_SYMBOL $05B5
+COMMENT $05B7 set velocity to 0 to stop bird flying out the top of the screen
+FORCE_SYMBOL $05B7 bird_vel
+COMMENT $05BB we are already in bird_dead_mode so don't want to call it again
+COMMENT $05BD this is why we have another version of this routine
+FORCE_SYMBOL $05BD bird_y
+FORCE_SYMBOL $05C1 bird_y
+FORCE_SYMBOL $05C9 bird_vel
+FORCE_NO_SYMBOL $05CC
+FORCE_NO_SYMBOL $05D0
+FORCE_SYMBOL $05D2 bird_vel
+FORCE_SYMBOL $05D7 bird_rotation
+FORCE_SYMBOL $05DA bird_y
+FORCE_SYMBOL $05DD bird_vel
+FORCE_SYMBOL $05E0 bird_y
+COMMENT $05E3 check if bird hit bottom of screen
+COMMENT $05E5 less than or equal
+FORCE_NO_SYMBOL $05E7
+COMMENT $05E9 greater than or equal to
+COMMENT $05EB return to game loop
+FORCE_SYMBOL $05EC bird_attract_move_counter
+FORCE_SYMBOL $05EF bird_attract_move_anim
+FORCE_SYMBOL $05F4 bird_y
+FORCE_NO_SYMBOL $05F8
+FORCE_SYMBOL $05FC bird_attract_move_counter
+FORCE_NO_SYMBOL $0600
+FORCE_SYMBOL $0602 bird_attract_move_counter
+COMMENT_LINE $0606 ///////////////PRINTING TEXT/// should macro this???
+COMMENT_LINE $0606 {
+FORCE_SYMBOL $0606 Reset0Ref
+COMMENT $0609 Sets the intensity of the
+FORCE_SYMBOL $0609 Intensity_5F
+FORCE_NO_SYMBOL $060E
+FORCE_SYMBOL $0610 Vec_Text_Height
+FORCE_SYMBOL $0613 Vec_Text_Width
+COMMENT $0616 address of string
+FORCE_SYMBOL $0616 scr_txt
+COMMENT $0619 Text position relative Y
+FORCE_NO_SYMBOL $0619
+COMMENT $061B Text position relative X
+COMMENT $061D Vectrex BIOS print routine
+FORCE_SYMBOL $061D Print_Str_d
+COMMENT $0621 contains draw_titles
+COMMENT $0000 defines 'LF3F4' as a local variable
+COMMENT $0000 Send Y to A/D
+COMMENT $0000 Enable mux
+COMMENT_LINE $0000 the followin two instructions might be optimized
+COMMENT_LINE $0000 but there is something about 18 cycles :-)
+COMMENT $0000 Point to next coordinate pair
+COMMENT $0000 Wait a moment
+COMMENT $0000 Disable mux
+COMMENT $0000 Send X to A/D
+COMMENT $0000 Shift reg=$FF (solid line), T1H=0
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 Set T1H (scale factor?)
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Wait a moment more
+COMMENT $0000 Clear shift register (blank output)
+FORCE_NO_SYMBOL $0621
+FORCE_SYMBOL $0623 Intensity_a
+FORCE_SYMBOL $0626 Reset0Ref
+FORCE_SYMBOL $0629 LOGOY
+FORCE_SYMBOL $062B LOGOX
+FORCE_SYMBOL $062D Moveto_d_7F
+COMMENT $0630 vectors
+FORCE_SYMBOL $0630 logo_v
+COMMENT $0633 number of vectors n-1
+FORCE_NO_SYMBOL $0633
+COMMENT $0635 Scaling
+FORCE_SYMBOL $0635 LOGOSCALE
+COMMENT $0637 Draw
+FORCE_SYMBOL $0637 Mov_Draw_VL_ab
+COMMENT_LINE $063A original V 51085 cost 1426
+COMMENT_LINE $063A both Vs 52437	cost 2778
+COMMENT_LINE $063A larger scale with more vectors 51032 (scaled down) cost 1373 (saving 53 cycles?)
+COMMENT_LINE $063A no V at all 49659
+COMMENT_LINE $063A larger v
+COMMENT_LINE $063A jsr 	Reset0Ref
+COMMENT_LINE $063A lda    #LOGOY-1
+COMMENT_LINE $063A ldb    #LOGOX-45
+COMMENT_LINE $063A jsr    Moveto_d_7F
+COMMENT_LINE $063A ldx    #logo_v2        ; vectors
+COMMENT_LINE $063A lda    #9      ; number of vectors n-1
+COMMENT_LINE $063A ldb    #LOGOSCALE/2-1         ; Scaling
+COMMENT_LINE $063A jsr    Mov_Draw_VL_ab         ; Draw
+COMMENT $063A drawing this single line is 51032-50439=539 cycles!!!
+FORCE_SYMBOL $063A Reset0Ref
+FORCE_SYMBOL $063D LOGOY
+FORCE_SYMBOL $063F LOGOX
+FORCE_SYMBOL $0641 Moveto_d_7F
+COMMENT $0644 vectors
+FORCE_SYMBOL $0644 logo_b1
+COMMENT $0647 number of vectors n-1
+FORCE_NO_SYMBOL $0647
+COMMENT $0649 Scaling
+FORCE_SYMBOL $0649 LOGOSCALE
+COMMENT $064B Draw
+FORCE_SYMBOL $064B Mov_Draw_VL_ab
+FORCE_SYMBOL $064E Reset0Ref
+FORCE_SYMBOL $0651 LOGOY
+FORCE_SYMBOL $0653 LOGOX
+FORCE_SYMBOL $0655 Moveto_d_7F
+COMMENT $0658 vectors
+FORCE_SYMBOL $0658 logo_b2
+COMMENT $065B number of vectors n-1
+FORCE_NO_SYMBOL $065B
+COMMENT $065D Scaling
+FORCE_SYMBOL $065D LOGOSCALE
+COMMENT $065F Draw
+FORCE_SYMBOL $065F Mov_Draw_VL_ab
+FORCE_SYMBOL $0662 Reset0Ref
+FORCE_SYMBOL $0665 LOGOY
+FORCE_SYMBOL $0667 LOGOX
+FORCE_SYMBOL $0669 Moveto_d_7F
+COMMENT $066C vectors
+FORCE_SYMBOL $066C logo_r1
+COMMENT $066F number of vectors n-1
+FORCE_NO_SYMBOL $066F
+COMMENT $0671 Scaling
+FORCE_SYMBOL $0671 LOGOSCALE
+COMMENT $0673 Draw
+FORCE_SYMBOL $0673 Mov_Draw_VL_ab
+FORCE_SYMBOL $0676 Reset0Ref
+FORCE_SYMBOL $0679 LOGOY
+FORCE_SYMBOL $067B LOGOX
+FORCE_SYMBOL $067D Moveto_d_7F
+COMMENT $0680 vectors
+FORCE_SYMBOL $0680 logo_d1
+COMMENT $0683 number of vectors n-1
+FORCE_NO_SYMBOL $0683
+COMMENT $0685 Scaling
+FORCE_SYMBOL $0685 LOGOSCALE
+COMMENT $0687 Draw
+FORCE_SYMBOL $0687 Mov_Draw_VL_ab
+FORCE_SYMBOL $068A Reset0Ref
+FORCE_SYMBOL $068D LOGOY
+FORCE_SYMBOL $068F LOGOX
+FORCE_SYMBOL $0691 Moveto_d_7F
+COMMENT $0694 vectors
+FORCE_SYMBOL $0694 logo_d
+COMMENT $0697 number of vectors n-1
+FORCE_NO_SYMBOL $0697
+COMMENT $0699 Scaling
+FORCE_SYMBOL $0699 LOGOSCALE
+COMMENT $069B Draw
+FORCE_SYMBOL $069B Mov_Draw_VL_ab
+FORCE_SYMBOL $069E Reset0Ref
+FORCE_SYMBOL $06A1 LOGOY
+FORCE_SYMBOL $06A3 LOGOX
+FORCE_SYMBOL $06A5 Moveto_d_7F
+COMMENT $06A8 vectors
+FORCE_SYMBOL $06A8 logo_r
+COMMENT $06AB number of vectors n-1
+FORCE_NO_SYMBOL $06AB
+COMMENT $06AD Scaling
+FORCE_SYMBOL $06AD LOGOSCALE
+COMMENT $06AF Draw
+FORCE_SYMBOL $06AF Mov_Draw_VL_ab
+FORCE_SYMBOL $06B2 Reset0Ref
+FORCE_SYMBOL $06B5 LOGOY
+FORCE_SYMBOL $06B7 LOGOX
+FORCE_SYMBOL $06B9 Moveto_d_7F
+COMMENT $06BC vectors
+FORCE_SYMBOL $06BC logo_i
+COMMENT $06BF number of vectors n-1
+FORCE_NO_SYMBOL $06BF
+COMMENT $06C1 Scaling
+FORCE_SYMBOL $06C1 LOGOSCALE
+COMMENT $06C3 Draw
+FORCE_SYMBOL $06C3 Mov_Draw_VL_ab
+FORCE_SYMBOL $06C6 Reset0Ref
+FORCE_SYMBOL $06C9 LOGOY
+FORCE_SYMBOL $06CB LOGOX
+FORCE_SYMBOL $06CD Moveto_d_7F
+COMMENT $06D0 vectors
+FORCE_SYMBOL $06D0 logo_b
+COMMENT $06D3 number of vectors n-1
+FORCE_NO_SYMBOL $06D3
+COMMENT $06D5 Scaling
+FORCE_SYMBOL $06D5 LOGOSCALE
+COMMENT $06D7 Draw
+FORCE_SYMBOL $06D7 Mov_Draw_VL_ab
+FORCE_SYMBOL $06DA Reset0Ref
+FORCE_SYMBOL $06DD LOGOY
+FORCE_SYMBOL $06DF LOGOX
+FORCE_SYMBOL $06E1 Moveto_d_7F
+COMMENT $06E4 vectors
+FORCE_SYMBOL $06E4 logo_y
+COMMENT $06E7 number of vectors n-1
+FORCE_NO_SYMBOL $06E7
+COMMENT $06E9 Scaling
+FORCE_SYMBOL $06E9 LOGOSCALE
+COMMENT $06EB Draw
+FORCE_SYMBOL $06EB Mov_Draw_VL_ab
+FORCE_SYMBOL $06EE Reset0Ref
+FORCE_SYMBOL $06F1 LOGOY
+FORCE_SYMBOL $06F3 LOGOX
+FORCE_SYMBOL $06F5 Moveto_d_7F
+COMMENT $06F8 vectors
+FORCE_SYMBOL $06F8 logo_c1
+COMMENT $06FB number of vectors n-1
+FORCE_NO_SYMBOL $06FB
+COMMENT $06FD Scaling
+FORCE_SYMBOL $06FD LOGOSCALE
+COMMENT $06FF Draw
+FORCE_SYMBOL $06FF Mov_Draw_VL_ab
+FORCE_SYMBOL $0702 Reset0Ref
+FORCE_SYMBOL $0705 LOGOY
+FORCE_SYMBOL $0707 LOGOX
+FORCE_SYMBOL $0709 Moveto_d_7F
+COMMENT $070C vectors
+FORCE_SYMBOL $070C logo_c
+COMMENT $070F number of vectors n-1
+FORCE_NO_SYMBOL $070F
+COMMENT $0711 Scaling
+FORCE_SYMBOL $0711 LOGOSCALE
+COMMENT $0713 Draw
+FORCE_SYMBOL $0713 Mov_Draw_VL_ab
+FORCE_SYMBOL $0716 Reset0Ref
+FORCE_SYMBOL $0719 LOGOY
+FORCE_SYMBOL $071B LOGOX
+FORCE_SYMBOL $071D Moveto_d_7F
+COMMENT $0720 vectors
+FORCE_SYMBOL $0720 logo_e1
+COMMENT $0723 number of vectors n-1
+FORCE_NO_SYMBOL $0723
+COMMENT $0725 Scaling
+FORCE_SYMBOL $0725 LOGOSCALE
+COMMENT $0727 Draw
+FORCE_SYMBOL $0727 Mov_Draw_VL_ab
+FORCE_SYMBOL $072A Reset0Ref
+FORCE_SYMBOL $072D LOGOY
+FORCE_SYMBOL $072F LOGOX
+FORCE_SYMBOL $0731 Moveto_d_7F
+COMMENT $0734 vectors
+FORCE_SYMBOL $0734 logo_e
+COMMENT $0737 number of vectors n-1
+FORCE_NO_SYMBOL $0737
+COMMENT $0739 Scaling
+FORCE_SYMBOL $0739 LOGOSCALE
+COMMENT $073B Draw
+FORCE_SYMBOL $073B Mov_Draw_VL_ab
+FORCE_SYMBOL $073F Reset0Ref
+FORCE_SYMBOL $0742 credit_intensity
+FORCE_SYMBOL $0746 credit_intensity
+COMMENT $0749 Sets the intensity of the
+FORCE_SYMBOL $0749 Intensity_a
+FORCE_NO_SYMBOL $074E
+FORCE_SYMBOL $0750 Vec_Text_Height
+FORCE_SYMBOL $0753 Vec_Text_Width
+COMMENT $0756 address of string
+FORCE_SYMBOL $0756 win_string
+COMMENT $0759 Text position relative Y
+FORCE_NO_SYMBOL $0759
+COMMENT $075B Text position relative X
+COMMENT $075D Vectrex BIOS print routine
+FORCE_SYMBOL $075D Print_Str_d
+FORCE_SYMBOL $0761 Reset0Ref
+FORCE_NO_SYMBOL $0764
+COMMENT $0766 Sets the intensity of the
+FORCE_SYMBOL $0766 Intensity_a
+FORCE_NO_SYMBOL $076B
+FORCE_SYMBOL $076D Vec_Text_Height
+FORCE_SYMBOL $0770 Vec_Text_Width
+COMMENT $0773 address of string
+FORCE_SYMBOL $0773 copyright_string
+COMMENT $0776 Text position relative Y
+COMMENT $0778 Text position relative X
+COMMENT $077A Vectrex BIOS print routine
+FORCE_SYMBOL $077A Print_Str_d
+FORCE_SYMBOL $077E Reset0Ref
+FORCE_NO_SYMBOL $0781
+COMMENT $0783 Sets the intensity of the
+FORCE_SYMBOL $0783 Intensity_a
+FORCE_NO_SYMBOL $0788
+FORCE_SYMBOL $078A Vec_Text_Height
+FORCE_SYMBOL $078D Vec_Text_Width
+COMMENT $0790 load scorename into u
+FORCE_SYMBOL $0790 get_score_name
+COMMENT $0793 Text position relative Y
+FORCE_NO_SYMBOL $0793
+COMMENT $0795 Text position relative X
+COMMENT $0797 Vectrex BIOS print routine
+FORCE_SYMBOL $0797 Print_Str_d
+FORCE_SYMBOL $079B Reset0Ref
+FORCE_SYMBOL $079E tap_intensity
+FORCE_NO_SYMBOL $07A1
+FORCE_NO_SYMBOL $07A5
+FORCE_SYMBOL $07A7 tap_intensity
+FORCE_SYMBOL $07AC tap_intensity
+COMMENT $07AF Sets the intensity of the
+FORCE_SYMBOL $07AF Intensity_a
+FORCE_NO_SYMBOL $07B4
+FORCE_SYMBOL $07B6 Vec_Text_Height
+FORCE_SYMBOL $07B9 Vec_Text_Width
+COMMENT $07BC address of string
+FORCE_SYMBOL $07BC tap_string
+COMMENT $07BF Text position relative Y
+COMMENT $07C1 Text position relative X
+COMMENT $07C3 Vectrex BIOS print routine
+FORCE_SYMBOL $07C3 Print_Str_d
+FORCE_SYMBOL $07C7 Reset0Ref
+FORCE_NO_SYMBOL $07CA
+COMMENT $07CC Sets the intensity of the
+FORCE_SYMBOL $07CC Intensity_a
+FORCE_NO_SYMBOL $07D1
+FORCE_SYMBOL $07D3 Vec_Text_Height
+FORCE_SYMBOL $07D6 Vec_Text_Width
+COMMENT $07D9 address of string
+FORCE_SYMBOL $07D9 score_text_string
+COMMENT $07DC Text position relative Y
+COMMENT $07DE Text position relative X
+COMMENT $07E0 Vectrex BIOS print routine
+FORCE_SYMBOL $07E0 Print_Str_d
+COMMENT_LINE $07E3 continue  to draw score ascii
+FORCE_SYMBOL $07E3 Reset0Ref
+FORCE_NO_SYMBOL $07E6
+COMMENT $07E8 Sets the intensity of the
+FORCE_SYMBOL $07E8 Intensity_a
+FORCE_NO_SYMBOL $07ED
+FORCE_SYMBOL $07EF Vec_Text_Height
+FORCE_SYMBOL $07F2 Vec_Text_Width
+COMMENT $07F5 address of string
+FORCE_SYMBOL $07F5 scr_txt
+COMMENT $07F8 Text position relative Y
+COMMENT $07FA Text position relative X
+FORCE_NO_SYMBOL $07FA
+COMMENT $07FC Vectrex BIOS print routine
+FORCE_SYMBOL $07FC Print_Str_d
+FORCE_SYMBOL $0800 Reset0Ref
+FORCE_NO_SYMBOL $0803
+COMMENT $0805 Sets the intensity of the
+FORCE_SYMBOL $0805 Intensity_a
+FORCE_NO_SYMBOL $080A
+FORCE_SYMBOL $080C Vec_Text_Height
+FORCE_SYMBOL $080F Vec_Text_Width
+COMMENT $0812 address of string
+FORCE_SYMBOL $0812 hiscore_text_string
+COMMENT $0815 Text position relative Y
+COMMENT $0817 Text position relative X
+COMMENT $0819 Vectrex BIOS print routine
+FORCE_SYMBOL $0819 Print_Str_d
+COMMENT_LINE $081C continue  to draw hiscore ascii
+FORCE_SYMBOL $081C Reset0Ref
+FORCE_NO_SYMBOL $081F
+COMMENT $0821 Sets the intensity of the
+FORCE_SYMBOL $0821 Intensity_a
+FORCE_NO_SYMBOL $0826
+FORCE_SYMBOL $0828 Vec_Text_Height
+FORCE_SYMBOL $082B Vec_Text_Width
+COMMENT $082E address of string
+FORCE_SYMBOL $082E hiscr_txt
+COMMENT $0831 Text position relative Y
+COMMENT $0833 Text position relative X
+FORCE_NO_SYMBOL $0833
+COMMENT $0835 Vectrex BIOS print routine
+FORCE_SYMBOL $0835 Print_Str_d
+FORCE_SYMBOL $0839 Reset0Ref
+COMMENT $083C fade up
+FORCE_SYMBOL $083C game_over_intensity
+FORCE_NO_SYMBOL $083F
+COMMENT $0841 greater or equal
+COMMENT $0843 increase intensity if required
+FORCE_NO_SYMBOL $0843
+FORCE_SYMBOL $0845 game_over_intensity
+COMMENT $0848 Sets the intensity of the gameover
+FORCE_SYMBOL $0848 Intensity_a
+COMMENT $084B scale 2
+FORCE_SYMBOL $084B game_over_text_scale
+COMMENT $084E is it at the value we want
+COMMENT $0850 if less carry on else decrease
+FORCE_SYMBOL $0853 game_over_text_scale
+FORCE_NO_SYMBOL $0856
+FORCE_SYMBOL $0858 Vec_Text_Height
+FORCE_SYMBOL $085B Vec_Text_Width
+COMMENT $085E address of string
+FORCE_SYMBOL $085E game_over_string
+COMMENT $0861 use the text scale to offset the text a bit
+FORCE_SYMBOL $0861 game_over_text_scale
+COMMENT $0864 make it positive
+COMMENT $0865 add y pos of text
+FORCE_NO_SYMBOL $0865
+COMMENT $0867 Text position relative X
+COMMENT $0869 Vectrex BIOS print routine
+FORCE_SYMBOL $0869 Print_Str_d
+COMMENT $086D lets roll the credits - credit_roll
+COMMENT_LINE $086D code for rolling credits contained in credits.i
+FORCE_SYMBOL $086D credit_roll_counter_a
+COMMENT $0872 check if a is 0....if so dec b, otherwise return
+FORCE_SYMBOL $0874 credit_roll_counter_a
+FORCE_SYMBOL $0878 credit_roll_counter_a
+FORCE_SYMBOL $087C credit_roll_counter_a
+COMMENT $0881 check if a is 0....if so dec b, otherwise return
+FORCE_SYMBOL $0883 credit_roll_counter_a
+FORCE_SYMBOL $0887 credit_roll_counter_a
+FORCE_NO_SYMBOL $088B
+FORCE_SYMBOL $088D credit_roll_counter_a
+COMMENT $0890 ATTENTION - FIX THIS! is this dodgy do we need to retun? is this growing the stack?
+FORCE_SYMBOL $0890 startscreen
+FORCE_NO_SYMBOL $0893
+COMMENT $0895 reset the credit roll counter that lets us go to the credit roll after a time
+FORCE_SYMBOL $0895 credit_roll_counter_a
+FORCE_SYMBOL $0899 credit_intensity
+COMMENT_LINE $089C lda		#2
+COMMENT_LINE $089C sta		tmp_1	;try alternating the text every frame to stop flicker?
+COMMENT_LINE $089C jsr		calib					;calibrates
+COMMENT $089C BIOS recalibration
+FORCE_SYMBOL $089C Wait_Recal
+FORCE_SYMBOL $089F check_credit_back
+FORCE_SYMBOL $08A2 Reset0Ref
+FORCE_SYMBOL $08A5 credit_intensity
+FORCE_NO_SYMBOL $08A9
+FORCE_SYMBOL $08AD credit_intensity
+COMMENT $08B0 Sets the intensity of the
+FORCE_SYMBOL $08B0 Intensity_a
+COMMENT_LINE $08B3 lda		tmp_1;
+COMMENT_LINE $08B3 deca;
+COMMENT_LINE $08B3 cmpa	#1;
+FORCE_SYMBOL $08B5 Moveto_d
+FORCE_SYMBOL $08B8 Credit_0
+COMMENT $08BB Vectrex BIOS print rout
+FORCE_SYMBOL $08BB Print_List_hw
+FORCE_NO_SYMBOL $08BE
+FORCE_SYMBOL $08C0 tmp_1
+COMMENT_LINE $08C3 rts;
+FORCE_SYMBOL $08C3 credit_intensity
+FORCE_NO_SYMBOL $08C6
+FORCE_SYMBOL $08C8 Intensity_a
+FORCE_SYMBOL $08CB Credit_1
+FORCE_SYMBOL $08CE Print_List_hw
+FORCE_SYMBOL $08D1 Read_Btns
+FORCE_NO_SYMBOL $08D4
+COMMENT $08D6 if button not pressed keep drawing credits
+COMMENT $08D8 reset counter and return to main screen
+FORCE_NO_SYMBOL $08D8
+COMMENT $08DA reset counter so we dont get jumped back to the credits screen
+FORCE_SYMBOL $08DA credit_roll_counter_a
+COMMENT_LINE $08E0 }
+COMMENT_LINE $08E0 ////////////////////SOUND EFFECTS////////////////////////
+COMMENT_LINE $08E0 A bit of a mess but it works don't consider this a good example!!
+COMMENT_LINE $08E0 {
+FORCE_SYMBOL $08E0 flap_snd_count
+FORCE_NO_SYMBOL $08E3
+FORCE_SYMBOL $08E7 Clear_Sound
+FORCE_SYMBOL $08EC flap_snd_count
+COMMENT $08EF dont bother checking for point sound 2
+COMMENT $08F1 check if old first point sound finished
+FORCE_SYMBOL $08F1 point_snd_count
+COMMENT $08F4 if a sound has finished playing check if we want to play point sound
+FORCE_NO_SYMBOL $08F4
+COMMENT $08F8 if = 1 then play the second sound
+FORCE_SYMBOL $08F8 play_pointsound_2
+COMMENT $08FC Modify Register 1
+FORCE_NO_SYMBOL $08FC
+COMMENT_LINE $08FE ldb     $fc93                   ; Tone Frequency = #$0XX
+COMMENT $08FE Tone Frequency = #$0XX
+COMMENT $0900 Set register
+FORCE_SYMBOL $0900 Sound_Byte
+COMMENT $0903 Modify Register 0
+FORCE_NO_SYMBOL $0903
+COMMENT_LINE $0905 ldb     $fc92                   ; Tone Frequency = #$Xff
+COMMENT $0905 Tone Frequency = #$Xff
+FORCE_NO_SYMBOL $0905
+COMMENT $0907 Set register
+FORCE_SYMBOL $0907 Sound_Byte
+COMMENT $090A Modify Register 8
+FORCE_NO_SYMBOL $090A
+COMMENT $090C Volume=15
+FORCE_NO_SYMBOL $090C
+COMMENT $090E Set register
+FORCE_SYMBOL $090E Sound_Byte
+COMMENT $0911 Modify Register 7
+FORCE_NO_SYMBOL $0911
+COMMENT $0913 Get previous value for reg 7
+FORCE_NO_SYMBOL $0913
+COMMENT $0916 Turn on-or off? Tone on Voice 1
+FORCE_NO_SYMBOL $0916
+COMMENT $0918 Turn on Noise on Voice 1
+FORCE_NO_SYMBOL $0918
+COMMENT $091A Set register
+FORCE_SYMBOL $091A Sound_Byte
+COMMENT $091D Set soundflag to 10
+FORCE_NO_SYMBOL $091D
+FORCE_SYMBOL $091F flap_snd_count
+COMMENT $0922 And return to main program
+COMMENT $0923 Modify Register 1
+FORCE_NO_SYMBOL $0923
+COMMENT $0925 Tone Frequency = #$0XX
+FORCE_NO_SYMBOL $0925
+COMMENT $0928 Set register
+FORCE_SYMBOL $0928 Sound_Byte
+COMMENT $092B Modify Register 0
+FORCE_NO_SYMBOL $092B
+COMMENT $092D Tone Frequency = #$Xff
+FORCE_NO_SYMBOL $092D
+COMMENT $0930 Set register
+FORCE_SYMBOL $0930 Sound_Byte
+COMMENT $0933 Modify Register 3
+FORCE_NO_SYMBOL $0933
+COMMENT $0935 Tone Frequency = #$Xff
+FORCE_NO_SYMBOL $0935
+COMMENT $0938 Set register
+FORCE_SYMBOL $0938 Sound_Byte
+COMMENT $093B Modify Register 6
+FORCE_NO_SYMBOL $093B
+COMMENT $093D noise
+FORCE_NO_SYMBOL $093D
+COMMENT $0940 Set register
+FORCE_SYMBOL $0940 Sound_Byte
+COMMENT $0943 Modify Register 8
+FORCE_NO_SYMBOL $0943
+COMMENT $0945 Volume=15
+FORCE_NO_SYMBOL $0945
+COMMENT $0947 Set register
+FORCE_SYMBOL $0947 Sound_Byte
+COMMENT $094A Modify Register 9
+FORCE_NO_SYMBOL $094A
+COMMENT $094C Volume=1
+FORCE_NO_SYMBOL $094C
+COMMENT $094E Set register
+FORCE_SYMBOL $094E Sound_Byte
+COMMENT $0951 Modify Register 10
+FORCE_NO_SYMBOL $0951
+COMMENT $0953 Volume=1
+FORCE_NO_SYMBOL $0953
+COMMENT $0955 Set register
+FORCE_SYMBOL $0955 Sound_Byte
+COMMENT $0958 Modify Register 7
+FORCE_NO_SYMBOL $0958
+FORCE_NO_SYMBOL $095A
+COMMENT_LINE $095C ldb     $c807 ; Get previous value for reg 7
+COMMENT_LINE $095C andb    #$fe ; Turn on-or off? Tone on Voice 1
+COMMENT_LINE $095C andb    #$08 ; Turn on Noise on Voice 1
+COMMENT $095C Set register
+FORCE_SYMBOL $095C Sound_Byte
+COMMENT $095F envelope register/on/off - not sure if this is working
+FORCE_NO_SYMBOL $095F
+FORCE_NO_SYMBOL $0961
+FORCE_SYMBOL $0963 Sound_Byte
+COMMENT $0966 envelope register period- not sure if this is working fine
+FORCE_NO_SYMBOL $0966
+FORCE_NO_SYMBOL $0968
+FORCE_SYMBOL $096A Sound_Byte
+COMMENT $096D envelope register period- not sure if this is working corse
+FORCE_NO_SYMBOL $096D
+FORCE_NO_SYMBOL $096F
+FORCE_SYMBOL $0971 Sound_Byte
+COMMENT $0974 envelope register - not sure if this is working
+FORCE_NO_SYMBOL $0974
+FORCE_NO_SYMBOL $0976
+FORCE_SYMBOL $0978 Sound_Byte
+COMMENT $097B Set soundflag to 10
+FORCE_NO_SYMBOL $097B
+FORCE_SYMBOL $097D flap_snd_count
+COMMENT $0980 And return to main program
+COMMENT_LINE $0981 Point sound/////
+COMMENT $0981 Modify Register 1
+FORCE_NO_SYMBOL $0981
+COMMENT $0983 Tone Frequency = #$0XX
+FORCE_NO_SYMBOL $0983
+COMMENT $0986 Set register
+FORCE_SYMBOL $0986 Sound_Byte
+COMMENT $0989 Modify Register 0
+FORCE_NO_SYMBOL $0989
+COMMENT $098B Tone Frequency = #$Xff
+FORCE_NO_SYMBOL $098B
+COMMENT $098E Set register
+FORCE_SYMBOL $098E Sound_Byte
+COMMENT $0991 Modify Register 8
+FORCE_NO_SYMBOL $0991
+COMMENT $0993 Volume=15
+FORCE_NO_SYMBOL $0993
+COMMENT $0995 Set register
+FORCE_SYMBOL $0995 Sound_Byte
+COMMENT $0998 Modify Register 7
+FORCE_NO_SYMBOL $0998
+COMMENT $099A Get previous value for reg 7
+FORCE_NO_SYMBOL $099A
+COMMENT $099D Turn on Tone on Voice 1
+FORCE_NO_SYMBOL $099D
+COMMENT $099F Turn on Noise on Voice 1
+FORCE_NO_SYMBOL $099F
+COMMENT $09A1 Set register
+FORCE_SYMBOL $09A1 Sound_Byte
+COMMENT_LINE $09A4 lda     #$13 ;envelope register - not sure if this is working
+COMMENT_LINE $09A4 ldb     #12
+COMMENT_LINE $09A4 jsr     Sound_Byte
+COMMENT $09A4 Set soundflag to 10
+FORCE_NO_SYMBOL $09A4
+FORCE_SYMBOL $09A6 flap_snd_count
+FORCE_NO_SYMBOL $09A9
+COMMENT $09AB once is is 0 we will play another higher note
+FORCE_SYMBOL $09AB point_snd_count
+COMMENT $09AE And return to main program
+COMMENT $09AF Modify Register 1
+FORCE_NO_SYMBOL $09AF
+COMMENT $09B1 Tone Frequency = #$0XX
+FORCE_NO_SYMBOL $09B1
+COMMENT $09B4 Set register
+FORCE_SYMBOL $09B4 Sound_Byte
+COMMENT $09B7 Modify Register 0
+FORCE_NO_SYMBOL $09B7
+COMMENT $09B9 Tone Frequency = #$Xff
+FORCE_NO_SYMBOL $09B9
+COMMENT $09BC Set register
+FORCE_SYMBOL $09BC Sound_Byte
+COMMENT $09BF Modify Register 8
+FORCE_NO_SYMBOL $09BF
+COMMENT $09C1 Volume=15
+FORCE_NO_SYMBOL $09C1
+COMMENT $09C3 Set register
+FORCE_SYMBOL $09C3 Sound_Byte
+COMMENT $09C6 Modify Register 7
+FORCE_NO_SYMBOL $09C6
+COMMENT $09C8 Get previous value for reg 7
+FORCE_NO_SYMBOL $09C8
+COMMENT $09CB Turn on Tone on Voice 1
+FORCE_NO_SYMBOL $09CB
+COMMENT $09CD Turn on Noise on Voice 1
+FORCE_NO_SYMBOL $09CD
+COMMENT $09CF Set register
+FORCE_SYMBOL $09CF Sound_Byte
+COMMENT_LINE $09D2 lda		#$13				;envelope register - not sure if this is working
+COMMENT_LINE $09D2 ldb		#100
+COMMENT_LINE $09D2 jsr		Sound_Byte
+COMMENT $09D2 Set soundflag to 10
+FORCE_NO_SYMBOL $09D2
+FORCE_SYMBOL $09D4 flap_snd_count
+FORCE_NO_SYMBOL $09D7
+COMMENT $09D9 reset this bool flag its not really a count
+FORCE_SYMBOL $09D9 point_snd_count
+COMMENT $09DC And return to main program
+COMMENT_LINE $09DD }
+COMMENT_LINE $09DD ////////////////Print Debug Commented out when not req//////////////////////////
+COMMENT_LINE $09DD print_debug:
+COMMENT_LINE $09DD jsr		Reset0Ref
+COMMENT_LINE $09DD jsr     Intensity_5F            ;Sets the intensity of the
+COMMENT_LINE $09DD ldu     #debug_string     		;address of string
+COMMENT_LINE $09DD lda     #$10                    ; Text position relative Y
+COMMENT_LINE $09DD ldb     #-$50                   ; Text position relative X
+COMMENT_LINE $09DD jsr    Print_Str_d				; Vectrex BIOS print routine
+COMMENT_LINE $09DD rts
+COMMENT_LINE $09DD DRAW THE BIRD
+COMMENT_LINE $09DD rotate  bird vectors
+COMMENT $09DD Load the vector list
+FORCE_SYMBOL $09DD beak
+COMMENT $09E0 Number of vectors for the WHOLE BIRD AND WING ANIMS!! add up all the vectors n-1
+FORCE_NO_SYMBOL $09E0
+COMMENT $09E2 Rotation angle
+FORCE_SYMBOL $09E2 bird_rotation
+COMMENT $09E5 Save to ram location
+FORCE_SYMBOL $09E5 r_beak
+COMMENT $09E8 Rotates the coordinates using Bios routine
+FORCE_SYMBOL $09E8 Rot_VL_ab
+FORCE_NO_SYMBOL $09EB
+FORCE_SYMBOL $09ED Intensity_a
+FORCE_SYMBOL $09F0 dr_beak
+FORCE_SYMBOL $09F3 Reset0Ref
+FORCE_SYMBOL $09F6 bird_y
+FORCE_SYMBOL $09F9 bird_x
+FORCE_SYMBOL $09FC Moveto_d_7F
+COMMENT $09FF vectors
+FORCE_SYMBOL $09FF r_beak
+COMMENT $0A02 number of vectors
+FORCE_NO_SYMBOL $0A02
+COMMENT $0A04 Scaling
+FORCE_NO_SYMBOL $0A04
+COMMENT $0A06 Draw
+FORCE_SYMBOL $0A06 Mov_Draw_VL_ab
+FORCE_SYMBOL $0A09 Reset0Ref
+FORCE_SYMBOL $0A0C bird_y
+FORCE_SYMBOL $0A0F bird_x
+FORCE_SYMBOL $0A12 Moveto_d_7F
+COMMENT $0A15 vectors
+FORCE_SYMBOL $0A15 r_eyeball
+COMMENT $0A18 number of vectors
+FORCE_NO_SYMBOL $0A18
+COMMENT $0A1A Scaling
+FORCE_NO_SYMBOL $0A1A
+COMMENT $0A1C Draw
+FORCE_SYMBOL $0A1C Mov_Draw_VL_ab
+FORCE_SYMBOL $0A1F Reset0Ref
+FORCE_SYMBOL $0A22 bird_y
+FORCE_SYMBOL $0A25 bird_x
+FORCE_SYMBOL $0A28 Moveto_d_7F
+COMMENT $0A2B vectors
+FORCE_SYMBOL $0A2B r_bottom
+COMMENT $0A2E number of vectors
+FORCE_NO_SYMBOL $0A2E
+COMMENT $0A30 Scaling
+FORCE_NO_SYMBOL $0A30
+COMMENT $0A32 Draw
+FORCE_SYMBOL $0A32 Mov_Draw_VL_ab
+FORCE_SYMBOL $0A35 Reset0Ref
+FORCE_SYMBOL $0A38 bird_y
+FORCE_SYMBOL $0A3B bird_x
+FORCE_SYMBOL $0A3E Moveto_d_7F
+COMMENT_LINE $0A41 which   wing to draw using wing_anim_counter, count to say 12 compare every 4 or something - depending on speed required
+COMMENT $0A41 check if flap is on
+FORCE_SYMBOL $0A41 flap_on
+COMMENT $0A44 if its not 0
+FORCE_NO_SYMBOL $0A44
+COMMENT $0A46 carry on flapping
+COMMENT $0A48 else it is 0, so force the 0 value in the wing anim counter so it doesnt move
+FORCE_SYMBOL $0A48 wing_anim_counter
+FORCE_SYMBOL $0A4B wing_anim_counter
+COMMENT $0A4E at this value change wing animation
+FORCE_NO_SYMBOL $0A4E
+COMMENT $0A52 vectors
+FORCE_SYMBOL $0A52 r_wing
+COMMENT $0A57 at this value change wing animation
+FORCE_NO_SYMBOL $0A57
+FORCE_SYMBOL $0A5B r_wing_2
+COMMENT $0A60 at this value change wing animation
+FORCE_NO_SYMBOL $0A60
+FORCE_SYMBOL $0A64 r_wing_3
+FORCE_NO_SYMBOL $0A69
+FORCE_SYMBOL $0A6B wing_anim_counter
+FORCE_SYMBOL $0A6E wing_anim_counter
+COMMENT $0A71 number of vectors
+FORCE_NO_SYMBOL $0A71
+COMMENT $0A73 Scaling
+FORCE_NO_SYMBOL $0A73
+COMMENT $0A75 Draw
+FORCE_SYMBOL $0A75 Mov_Draw_VL_ab
+FORCE_SYMBOL $0A78 Reset0Ref
+FORCE_SYMBOL $0A7B bird_y
+FORCE_SYMBOL $0A7E bird_x
+FORCE_SYMBOL $0A81 Moveto_d_7F
+COMMENT $0A84 vectors
+FORCE_SYMBOL $0A84 r_eye
+COMMENT $0A87 number of vectors
+FORCE_NO_SYMBOL $0A87
+COMMENT $0A89 Scaling
+FORCE_NO_SYMBOL $0A89
+COMMENT $0A8B Draw
+FORCE_SYMBOL $0A8B Mov_Draw_VL_ab
+FORCE_SYMBOL $0A8E Reset0Ref
+FORCE_SYMBOL $0A91 bird_y
+FORCE_SYMBOL $0A94 bird_x
+FORCE_SYMBOL $0A97 Moveto_d_7F
+COMMENT $0A9A vectors
+FORCE_SYMBOL $0A9A r_top
+COMMENT $0A9D number of vectors
+FORCE_NO_SYMBOL $0A9D
+COMMENT $0A9F Scaling
+FORCE_NO_SYMBOL $0A9F
+COMMENT $0AA1 Draw
+FORCE_SYMBOL $0AA1 Mov_Draw_VL_ab
+COMMENT $0AA4 Final return from drawing bird
+COMMENT_LINE $0AA5 Final   return from drawing bird
+COMMENT_LINE $0AA5 }
+COMMENT $0AA5 all code for winscreen
+FORCE_SYMBOL $0AA5 Clear_Sound
+COMMENT $0AA8 Modify Register 7 mixer
+FORCE_NO_SYMBOL $0AA8
+COMMENT $0AAA set mixer to all channels off
+FORCE_NO_SYMBOL $0AAA
+COMMENT $0AAC Set register
+FORCE_SYMBOL $0AAC Sound_Byte
+FORCE_NO_SYMBOL $0AAF
+FORCE_SYMBOL $0AB1 firework_counter
+FORCE_NO_SYMBOL $0AB4
+FORCE_SYMBOL $0AB6 credit_intensity
+COMMENT_LINE $0AB9 jsr		calib
+COMMENT $0AB9 BIOS recalibration
+FORCE_SYMBOL $0AB9 Wait_Recal
+FORCE_SYMBOL $0ABC credit_intensity
+FORCE_NO_SYMBOL $0ABF
+FORCE_SYMBOL $0AC3 print_win
+COMMENT_LINE $0AC6 clra
+COMMENT_LINE $0AC6 sta		bird_x
+COMMENT_LINE $0AC6 sta		bird_y
+COMMENT_LINE $0AC6 lda		#1
+COMMENT_LINE $0AC6 sta		flap_on
+COMMENT_LINE $0AC6 inc		bird_rotation
+COMMENT_LINE $0AC6 jsr		draw_bird
+COMMENT_LINE $0AC6 jsr		Do_Sound
+FORCE_SYMBOL $0AC6 up_rocket_sound
+FORCE_SYMBOL $0AC9 up_explode_sound
+FORCE_SYMBOL $0ACC rocket_fireworks
+FORCE_SYMBOL $0ACF update_emitters
+FORCE_SYMBOL $0AD2 update_rockets
+COMMENT $0AD5 loop forever
+FORCE_SYMBOL $0AD7 firework_counter
+FORCE_NO_SYMBOL $0ADA
+FORCE_SYMBOL $0ADE Random
+COMMENT $0AE1 use mask to get lower number
+FORCE_NO_SYMBOL $0AE1
+COMMENT_LINE $0AE3 lda		#6
+COMMENT $0AE3 reset counter to random value
+FORCE_SYMBOL $0AE3 firework_counter
+COMMENT_LINE $0AE6 check f slot - use a emitter/rocket not being used
+FORCE_SYMBOL $0AE6 rocket_1_on
+FORCE_NO_SYMBOL $0AE9
+FORCE_SYMBOL $0AED emitter_1_on
+FORCE_NO_SYMBOL $0AF0
+FORCE_SYMBOL $0AF4 fire_rocket_1
+COMMENT $0AF7 adds a slight delay
+FORCE_SYMBOL $0AF7 firework_counter
+COMMENT $0AFA by adding 5 if a rocket has been fired
+FORCE_NO_SYMBOL $0AFA
+COMMENT $0AFC ok?
+FORCE_SYMBOL $0AFC firework_counter
+FORCE_SYMBOL $0B01 rocket_2_on
+FORCE_NO_SYMBOL $0B04
+FORCE_SYMBOL $0B08 emitter_2_on
+FORCE_NO_SYMBOL $0B0B
+FORCE_SYMBOL $0B0F fire_rocket_2
+COMMENT $0B12 adds a slight delay
+FORCE_SYMBOL $0B12 firework_counter
+COMMENT $0B15 by adding 5 if a rocket has been fired
+FORCE_NO_SYMBOL $0B15
+COMMENT $0B17 ok?
+FORCE_SYMBOL $0B17 firework_counter
+FORCE_SYMBOL $0B1C rocket_3_on
+FORCE_NO_SYMBOL $0B1F
+FORCE_SYMBOL $0B23 emitter_3_on
+FORCE_NO_SYMBOL $0B26
+FORCE_SYMBOL $0B2A fire_rocket_3
+COMMENT_LINE $0B2D rts
+COMMENT $0B2D decrease counter
+FORCE_SYMBOL $0B2D firework_counter
+FORCE_NO_SYMBOL $0B31
+FORCE_SYMBOL $0B33 rocket_1_on
+COMMENT $0B36 start pos 16bit
+FORCE_NO_SYMBOL $0B38
+FORCE_SYMBOL $0B3A emitter_1_y
+FORCE_NO_SYMBOL $0B3D
+FORCE_NO_SYMBOL $0B3F
+FORCE_SYMBOL $0B41 emitter_1_x
+COMMENT $0B44 start vel 16bit * 2
+FORCE_NO_SYMBOL $0B44
+FORCE_NO_SYMBOL $0B46
+FORCE_SYMBOL $0B48 emitter_1_vel_y
+FORCE_SYMBOL $0B4B Random
+COMMENT $0B4E use mask to get lower number
+FORCE_NO_SYMBOL $0B4E
+COMMENT $0B50 subtract to get some neg values
+FORCE_NO_SYMBOL $0B50
+FORCE_NO_SYMBOL $0B53
+FORCE_SYMBOL $0B55 emitter_1_vel_x
+FORCE_SYMBOL $0B58 play_rocketsound_1
+COMMENT_LINE $0B5C }
+FORCE_NO_SYMBOL $0B5C
+FORCE_SYMBOL $0B5E rocket_2_on
+COMMENT $0B61 start pos 16bit
+FORCE_NO_SYMBOL $0B63
+FORCE_SYMBOL $0B65 emitter_2_y
+FORCE_NO_SYMBOL $0B68
+FORCE_NO_SYMBOL $0B6A
+FORCE_SYMBOL $0B6C emitter_2_x
+COMMENT $0B6F start vel 16bit * 2
+FORCE_NO_SYMBOL $0B6F
+FORCE_NO_SYMBOL $0B71
+FORCE_SYMBOL $0B73 emitter_2_vel_y
+FORCE_SYMBOL $0B76 Random
+COMMENT $0B79 use mask to get lower number
+FORCE_NO_SYMBOL $0B79
+COMMENT $0B7B subtract to get some neg values
+FORCE_NO_SYMBOL $0B7B
+FORCE_NO_SYMBOL $0B7E
+FORCE_SYMBOL $0B80 emitter_2_vel_x
+FORCE_SYMBOL $0B83 play_rocketsound_2
+COMMENT_LINE $0B87 }
+FORCE_NO_SYMBOL $0B87
+FORCE_SYMBOL $0B89 rocket_3_on
+COMMENT $0B8C start pos 16bit
+FORCE_NO_SYMBOL $0B8E
+FORCE_SYMBOL $0B90 emitter_3_y
+FORCE_NO_SYMBOL $0B93
+FORCE_NO_SYMBOL $0B95
+FORCE_SYMBOL $0B97 emitter_3_x
+COMMENT $0B9A start vel 16bit * 2
+FORCE_NO_SYMBOL $0B9A
+FORCE_NO_SYMBOL $0B9C
+FORCE_SYMBOL $0B9E emitter_3_vel_y
+FORCE_SYMBOL $0BA1 Random
+COMMENT $0BA4 use mask to get lower number
+FORCE_NO_SYMBOL $0BA4
+COMMENT $0BA6 subtract to get some neg values
+FORCE_NO_SYMBOL $0BA6
+FORCE_NO_SYMBOL $0BA9
+FORCE_SYMBOL $0BAB emitter_3_vel_x
+FORCE_SYMBOL $0BAE play_rocketsound_3
+COMMENT_LINE $0BB2 }
+COMMENT $0BB2 move this to the move d? dot draw?
+FORCE_NO_SYMBOL $0BB2
+FORCE_SYMBOL $0BB4 Intensity_a
+FORCE_NO_SYMBOL $0BB7
+COMMENT $0BB9 store scale factor
+FORCE_SYMBOL $0BB9 VIA_t1_cnt_lo
+COMMENT_LINE $0BBC check rocket 1
+COMMENT $0BBC check if high bit is 0 if so blowup
+FORCE_SYMBOL $0BBC emitter_1_vel_y
+FORCE_NO_SYMBOL $0BBF
+COMMENT $0BC1 if not 0 update rocket
+COMMENT $0BC3 explode firework
+FORCE_NO_SYMBOL $0BC3
+COMMENT $0BC5 turn rocket off
+FORCE_SYMBOL $0BC5 rocket_1_on
+FORCE_NO_SYMBOL $0BC8
+FORCE_SYMBOL $0BCA emitter_1_on
+COMMENT $0BCD set this high so it doesnt try explode again
+FORCE_SYMBOL $0BCD emitter_1_vel_y
+COMMENT $0BD0 max of 16
+FORCE_NO_SYMBOL $0BD0
+FORCE_SYMBOL $0BD2 emitter_1_pcount
+COMMENT $0BD5 start emitter
+FORCE_SYMBOL $0BD5 init_emitter_1
+FORCE_SYMBOL $0BD8 play_explodesound_1
+COMMENT_LINE $0BDB ldu		#explode_sound
+COMMENT_LINE $0BDB jsr		Explosion_Snd
+COMMENT $0BDB check if high bit is 0 if so blowup
+FORCE_SYMBOL $0BDB emitter_2_vel_y
+FORCE_NO_SYMBOL $0BDE
+COMMENT $0BE0 if not 0 update rocket
+COMMENT $0BE2 explode firework
+FORCE_NO_SYMBOL $0BE2
+COMMENT $0BE4 turn rocket off
+FORCE_SYMBOL $0BE4 rocket_2_on
+FORCE_NO_SYMBOL $0BE7
+FORCE_SYMBOL $0BE9 emitter_2_on
+COMMENT $0BEC set this high so it doesnt try explode again
+FORCE_SYMBOL $0BEC emitter_2_vel_y
+COMMENT $0BEF max of 16
+FORCE_NO_SYMBOL $0BEF
+FORCE_SYMBOL $0BF1 emitter_2_pcount
+COMMENT $0BF4 start emitter
+FORCE_SYMBOL $0BF4 init_emitter_2
+FORCE_SYMBOL $0BF7 play_explodesound_2
+COMMENT $0BFA check if high bit is 0 if so blowup
+FORCE_SYMBOL $0BFA emitter_3_vel_y
+FORCE_NO_SYMBOL $0BFD
+COMMENT $0BFF if not 0 update rocket
+COMMENT $0C01 explode firework
+FORCE_NO_SYMBOL $0C01
+COMMENT $0C03 turn rocket off
+FORCE_SYMBOL $0C03 rocket_3_on
+FORCE_NO_SYMBOL $0C06
+FORCE_SYMBOL $0C08 emitter_3_on
+COMMENT $0C0B set this high so it doesnt try explode again
+FORCE_SYMBOL $0C0B emitter_3_vel_y
+COMMENT $0C0E max of 16
+FORCE_NO_SYMBOL $0C0E
+FORCE_SYMBOL $0C10 emitter_3_pcount
+COMMENT $0C13 start emitter
+FORCE_SYMBOL $0C13 init_emitter_3
+FORCE_SYMBOL $0C16 play_explodesound_3
+COMMENT $0C19 return?
+FORCE_SYMBOL $0C1A rocket_1_on
+FORCE_NO_SYMBOL $0C1D
+COMMENT $0C1F if off skip
+FORCE_SYMBOL $0C21 emitter_1_vel_y
+COMMENT $0C24 gravity
+FORCE_SYMBOL $0C24 FIREWORK_GRAVITY
+FORCE_SYMBOL $0C27 emitter_1_vel_y
+FORCE_SYMBOL $0C2A emitter_1_y
+FORCE_SYMBOL $0C2D emitter_1_y
+FORCE_SYMBOL $0C30 emitter_1_vel_x
+FORCE_SYMBOL $0C33 emitter_1_x
+FORCE_SYMBOL $0C36 emitter_1_x
+FORCE_SYMBOL $0C39 Reset0Ref
+COMMENT $0C3C highbyte y
+FORCE_SYMBOL $0C3C emitter_1_y
+COMMENT $0C3F highbyte x
+FORCE_SYMBOL $0C3F emitter_1_x
+FORCE_SYMBOL $0C42 Dot_d
+FORCE_SYMBOL $0C45 rocket_2_on
+FORCE_NO_SYMBOL $0C48
+COMMENT $0C4A if off skip
+FORCE_SYMBOL $0C4C emitter_2_vel_y
+COMMENT $0C4F gravity
+FORCE_SYMBOL $0C4F FIREWORK_GRAVITY
+FORCE_SYMBOL $0C52 emitter_2_vel_y
+FORCE_SYMBOL $0C55 emitter_2_y
+FORCE_SYMBOL $0C58 emitter_2_y
+FORCE_SYMBOL $0C5B emitter_2_vel_x
+FORCE_SYMBOL $0C5E emitter_2_x
+FORCE_SYMBOL $0C61 emitter_2_x
+FORCE_SYMBOL $0C64 Reset0Ref
+COMMENT $0C67 highbyte y
+FORCE_SYMBOL $0C67 emitter_2_y
+COMMENT $0C6A highbyte x
+FORCE_SYMBOL $0C6A emitter_2_x
+FORCE_SYMBOL $0C6D Dot_d
+FORCE_SYMBOL $0C70 rocket_3_on
+FORCE_NO_SYMBOL $0C73
+COMMENT $0C75 if off skip
+FORCE_SYMBOL $0C77 emitter_3_vel_y
+COMMENT $0C7A gravity
+FORCE_SYMBOL $0C7A FIREWORK_GRAVITY
+FORCE_SYMBOL $0C7D emitter_3_vel_y
+FORCE_SYMBOL $0C80 emitter_3_y
+FORCE_SYMBOL $0C83 emitter_3_y
+FORCE_SYMBOL $0C86 emitter_3_vel_x
+FORCE_SYMBOL $0C89 emitter_3_x
+FORCE_SYMBOL $0C8C emitter_3_x
+FORCE_SYMBOL $0C8F Reset0Ref
+COMMENT $0C92 highbyte y
+FORCE_SYMBOL $0C92 emitter_3_y
+COMMENT $0C95 highbyte x
+FORCE_SYMBOL $0C95 emitter_3_x
+FORCE_SYMBOL $0C98 Dot_d
+FORCE_SYMBOL $0C9C sound_flag_1
+FORCE_NO_SYMBOL $0C9F
+FORCE_SYMBOL $0CA5 Vec_ADSR_Timers
+FORCE_NO_SYMBOL $0CA9
+FORCE_SYMBOL $0CAD Vec_ADSR_Timers
+FORCE_SYMBOL $0CB0 r_soundfx
+COMMENT $0CB3 Modify Register 9 (vol)
+FORCE_NO_SYMBOL $0CB3
+FORCE_SYMBOL $0CB5 Vec_ADSR_Timers
+FORCE_SYMBOL $0CBA Sound_Byte
+FORCE_NO_SYMBOL $0CBF
+FORCE_SYMBOL $0CC1 Vec_ADSR_Timers
+FORCE_SYMBOL $0CC4 sound_flag_1
+FORCE_SYMBOL $0CC7 sound_flag_2
+FORCE_NO_SYMBOL $0CCA
+FORCE_NO_SYMBOL $0CD3
+FORCE_SYMBOL $0CDA r_soundfx
+COMMENT $0CDD Modify Register 9 (vol)
+FORCE_NO_SYMBOL $0CDD
+FORCE_SYMBOL $0CE4 Sound_Byte
+FORCE_NO_SYMBOL $0CE9
+FORCE_SYMBOL $0CEE sound_flag_2
+FORCE_SYMBOL $0CF1 sound_flag_3
+FORCE_NO_SYMBOL $0CF4
+FORCE_NO_SYMBOL $0CFD
+FORCE_SYMBOL $0D04 r_soundfx
+COMMENT $0D07 Modify Register 9 (vol)
+FORCE_NO_SYMBOL $0D07
+FORCE_SYMBOL $0D0E Sound_Byte
+COMMENT $0D11 return
+FORCE_NO_SYMBOL $0D12
+FORCE_SYMBOL $0D17 sound_flag_3
+COMMENT $0D1A return
+COMMENT_LINE $0D1B check explode sound
+FORCE_SYMBOL $0D1B sound_explode_flag_1
+FORCE_NO_SYMBOL $0D1E
+FORCE_SYMBOL $0D24 Vec_ADSR_Timers
+FORCE_NO_SYMBOL $0D28
+FORCE_SYMBOL $0D2C Vec_ADSR_Timers
+FORCE_SYMBOL $0D2F r_explodefx
+COMMENT $0D32 Modify Register 9 (vol)
+FORCE_NO_SYMBOL $0D32
+FORCE_SYMBOL $0D34 Vec_ADSR_Timers
+FORCE_SYMBOL $0D39 Sound_Byte
+FORCE_NO_SYMBOL $0D3E
+FORCE_SYMBOL $0D40 Vec_ADSR_Timers
+FORCE_SYMBOL $0D43 sound_explode_flag_1
+FORCE_SYMBOL $0D46 sound_explode_flag_2
+FORCE_NO_SYMBOL $0D49
+FORCE_NO_SYMBOL $0D53
+FORCE_SYMBOL $0D5A r_explodefx
+COMMENT $0D5D Modify Register 9 (vol)
+FORCE_NO_SYMBOL $0D5D
+FORCE_SYMBOL $0D64 Sound_Byte
+FORCE_NO_SYMBOL $0D69
+FORCE_SYMBOL $0D6E sound_explode_flag_2
+FORCE_SYMBOL $0D71 sound_explode_flag_3
+FORCE_NO_SYMBOL $0D74
+COMMENT_LINE $0D78 bra		check_e_sound_4
+FORCE_NO_SYMBOL $0D7D
+FORCE_SYMBOL $0D84 r_explodefx
+COMMENT $0D87 Modify Register 9 (vol)
+FORCE_NO_SYMBOL $0D87
+FORCE_SYMBOL $0D8E Sound_Byte
+COMMENT_LINE $0D91 jsr		print_win
+COMMENT_LINE $0D91 bra		check_e_sound_4
+FORCE_NO_SYMBOL $0D92
+FORCE_SYMBOL $0D97 sound_explode_flag_3
+COMMENT $0D9B Modify Register 8
+FORCE_NO_SYMBOL $0D9B
+COMMENT $0D9D Volume=10
+FORCE_NO_SYMBOL $0D9D
+COMMENT $0D9F Set register
+FORCE_SYMBOL $0D9F Sound_Byte
+COMMENT $0DA2 Modify Register 7 mixer
+FORCE_NO_SYMBOL $0DA2
+COMMENT $0DA4 Get previous value for register 7
+FORCE_NO_SYMBOL $0DA4
+FORCE_NO_SYMBOL $0DA7
+COMMENT_LINE $0DA9 orb		#%00001000
+COMMENT $0DA9 Set register
+FORCE_SYMBOL $0DA9 Sound_Byte
+COMMENT $0DAC Set sound count to 10
+FORCE_NO_SYMBOL $0DAC
+COMMENT $0DAE first byte of 3 normally used for bios - we borrow it user +1 +2 for the other bytes!
+FORCE_SYMBOL $0DAE Vec_ADSR_Timers
+FORCE_NO_SYMBOL $0DB1
+COMMENT $0DB3 set sound to on
+FORCE_SYMBOL $0DB3 sound_flag_1
+COMMENT $0DB7 Modify Register 8
+FORCE_NO_SYMBOL $0DB7
+COMMENT $0DB9 Volume=10
+FORCE_NO_SYMBOL $0DB9
+COMMENT $0DBB Set register
+FORCE_SYMBOL $0DBB Sound_Byte
+COMMENT $0DBE Modify Register 7 mixer
+FORCE_NO_SYMBOL $0DBE
+COMMENT $0DC0 Get previous value for register 7
+FORCE_NO_SYMBOL $0DC0
+FORCE_NO_SYMBOL $0DC3
+COMMENT_LINE $0DC5 orb		#%00001000
+COMMENT $0DC5 Set register
+FORCE_SYMBOL $0DC5 Sound_Byte
+COMMENT $0DC8 Set sound count to 10
+FORCE_NO_SYMBOL $0DC8
+COMMENT $0DCA first byte of 3 normally used for bios - we borrow it user +1 +2 for the other bytes!
+FORCE_NO_SYMBOL $0DCD
+COMMENT $0DCF set sound to on
+FORCE_SYMBOL $0DCF sound_flag_2
+COMMENT $0DD3 Modify Register 8
+FORCE_NO_SYMBOL $0DD3
+COMMENT $0DD5 Volume=10
+FORCE_NO_SYMBOL $0DD5
+COMMENT $0DD7 Set register
+FORCE_SYMBOL $0DD7 Sound_Byte
+COMMENT $0DDA Modify Register 7 mixer
+FORCE_NO_SYMBOL $0DDA
+COMMENT $0DDC Get previous value for register 7
+FORCE_NO_SYMBOL $0DDC
+FORCE_NO_SYMBOL $0DDF
+COMMENT_LINE $0DE1 orb		#%00001000
+COMMENT $0DE1 Set register
+FORCE_SYMBOL $0DE1 Sound_Byte
+COMMENT $0DE4 Set sound count to 10
+FORCE_NO_SYMBOL $0DE4
+COMMENT $0DE6 first byte of 3 normally used for bios - we borrow it user +1 +2 for the other bytes!
+FORCE_NO_SYMBOL $0DE9
+COMMENT $0DEB set sound to on
+FORCE_SYMBOL $0DEB sound_flag_3
+COMMENT $0DEF Modify Register 6 noise frew
+FORCE_NO_SYMBOL $0DEF
+COMMENT $0DF1 noise period
+FORCE_NO_SYMBOL $0DF1
+COMMENT $0DF3 Set register
+FORCE_SYMBOL $0DF3 Sound_Byte
+COMMENT $0DF6 Modify Register 8
+FORCE_NO_SYMBOL $0DF6
+COMMENT $0DF8 Volume=10
+FORCE_NO_SYMBOL $0DF8
+COMMENT $0DFA Set register
+FORCE_SYMBOL $0DFA Sound_Byte
+COMMENT $0DFD Modify Register 7 mixer
+FORCE_NO_SYMBOL $0DFD
+COMMENT $0DFF Get previous value for register 7
+FORCE_NO_SYMBOL $0DFF
+FORCE_NO_SYMBOL $0E02
+COMMENT_LINE $0E04 orb		#%00001000
+COMMENT $0E04 Set register
+FORCE_SYMBOL $0E04 Sound_Byte
+COMMENT $0E07 Set sound count to 10
+FORCE_NO_SYMBOL $0E07
+COMMENT $0E09 first byte of 3 normally used for bios - we borrow it user +1 +2 for the other bytes!
+FORCE_SYMBOL $0E09 Vec_ADSR_Timers
+FORCE_NO_SYMBOL $0E0C
+COMMENT $0E0E set sound to on
+FORCE_SYMBOL $0E0E sound_explode_flag_1
+COMMENT $0E12 Modify Register 6 noise frew
+FORCE_NO_SYMBOL $0E12
+COMMENT $0E14 noise period
+FORCE_NO_SYMBOL $0E14
+COMMENT $0E16 Set register
+FORCE_SYMBOL $0E16 Sound_Byte
+COMMENT $0E19 Modify Register 8
+FORCE_NO_SYMBOL $0E19
+COMMENT $0E1B Volume=10
+FORCE_NO_SYMBOL $0E1B
+COMMENT $0E1D Set register
+FORCE_SYMBOL $0E1D Sound_Byte
+COMMENT $0E20 Modify Register 7 mixer
+FORCE_NO_SYMBOL $0E20
+COMMENT $0E22 Get previous value for register 7
+FORCE_NO_SYMBOL $0E22
+FORCE_NO_SYMBOL $0E25
+COMMENT_LINE $0E27 orb		#%00001000
+COMMENT $0E27 Set register
+FORCE_SYMBOL $0E27 Sound_Byte
+COMMENT $0E2A Set sound count to 10
+FORCE_NO_SYMBOL $0E2A
+COMMENT $0E2C first byte of 3 normally used for bios - we borrow it user +1 +2 for the other bytes!
+FORCE_NO_SYMBOL $0E2F
+COMMENT $0E31 set sound to on
+FORCE_SYMBOL $0E31 sound_explode_flag_2
+COMMENT $0E35 Modify Register 6 noise frew
+FORCE_NO_SYMBOL $0E35
+COMMENT $0E37 noise period
+FORCE_NO_SYMBOL $0E37
+COMMENT $0E39 Set register
+FORCE_SYMBOL $0E39 Sound_Byte
+COMMENT $0E3C Modify Register 10
+FORCE_NO_SYMBOL $0E3C
+COMMENT $0E3E Volume=10
+FORCE_NO_SYMBOL $0E3E
+COMMENT $0E40 Set register
+FORCE_SYMBOL $0E40 Sound_Byte
+COMMENT $0E43 Modify Register 7 mixer
+FORCE_NO_SYMBOL $0E43
+COMMENT $0E45 Get previous value for register 7
+FORCE_NO_SYMBOL $0E45
+FORCE_NO_SYMBOL $0E48
+COMMENT_LINE $0E4A orb		#%00001000
+COMMENT_LINE $0E4A ldb		#%00000000
+COMMENT $0E4A Set register
+FORCE_SYMBOL $0E4A Sound_Byte
+COMMENT $0E4D Set sound count to 10
+FORCE_NO_SYMBOL $0E4D
+COMMENT $0E4F first byte of 3 normally used for bios - we borrow it user +1 +2 for the other bytes!
+FORCE_NO_SYMBOL $0E52
+COMMENT $0E54 set sound to on
+FORCE_SYMBOL $0E54 sound_explode_flag_3
+COMMENT_LINE $0E58 dont set volume above 15, as 16 turns on hardware envelopes !
+COMMENT $0E96 contains particle code
+COMMENT_LINE $0E96 attempt at writing 16bit x,x particles -
+COMMENT_LINE $0E96 we need 64bytes for 16 particles xy
+COMMENT_LINE $0E96 and 64bytes for 16 particles xy velocity
+COMMENT_LINE $0E96 constants
+FORCE_SYMBOL $0E96 emitter_1_on
+FORCE_NO_SYMBOL $0E99
+COMMENT $0E9D copy pcount
+FORCE_SYMBOL $0E9D emitter_1_pcount
+COMMENT $0EA0 to current pcount
+FORCE_SYMBOL $0EA0 emitter_current_pcount
+FORCE_SYMBOL $0EA3 update_emitter_1
+FORCE_SYMBOL $0EA6 emitter_2_on
+FORCE_NO_SYMBOL $0EA9
+COMMENT $0EAD copy pcount
+FORCE_SYMBOL $0EAD emitter_2_pcount
+COMMENT $0EB0 to current pcount
+FORCE_SYMBOL $0EB0 emitter_current_pcount
+FORCE_SYMBOL $0EB3 update_emitter_2
+FORCE_SYMBOL $0EB6 emitter_3_on
+FORCE_NO_SYMBOL $0EB9
+COMMENT $0EBD copy pcount
+FORCE_SYMBOL $0EBD emitter_3_pcount
+COMMENT $0EC0 to current pcount
+FORCE_SYMBOL $0EC0 emitter_current_pcount
+FORCE_SYMBOL $0EC3 update_emitter_3
+COMMENT $0EC7 copy pcount
+FORCE_SYMBOL $0EC7 emitter_1_pcount
+COMMENT $0ECA to current pcount
+FORCE_SYMBOL $0ECA emitter_current_pcount
+FORCE_NO_SYMBOL $0ECD
+FORCE_SYMBOL $0ECF emitter_1_on
+FORCE_NO_SYMBOL $0ED2
+COMMENT $0ED4 set emitter intensity
+FORCE_SYMBOL $0ED4 emitter_1_intensity
+FORCE_NO_SYMBOL $0ED7
+COMMENT $0ED9 set emitter life
+FORCE_SYMBOL $0ED9 emitter_1_life
+FORCE_SYMBOL $0EDC particle_1_xy
+FORCE_SYMBOL $0EDF particle_1_vel_xy
+FORCE_SYMBOL $0EE2 firework_1_lookup
+FORCE_SYMBOL $0EE6 init_emitter
+COMMENT $0EEA copy pcount
+FORCE_SYMBOL $0EEA emitter_2_pcount
+COMMENT $0EED to current pcount
+FORCE_SYMBOL $0EED emitter_current_pcount
+FORCE_NO_SYMBOL $0EF0
+FORCE_SYMBOL $0EF2 emitter_2_on
+FORCE_NO_SYMBOL $0EF5
+COMMENT $0EF7 set emitter intensity
+FORCE_SYMBOL $0EF7 emitter_2_intensity
+FORCE_NO_SYMBOL $0EFA
+COMMENT $0EFC set emitter life
+FORCE_SYMBOL $0EFC emitter_2_life
+FORCE_SYMBOL $0EFF particle_2_xy
+FORCE_SYMBOL $0F02 particle_2_vel_xy
+FORCE_SYMBOL $0F05 firework_1_lookup
+FORCE_SYMBOL $0F09 init_emitter
+COMMENT $0F0D copy pcount
+FORCE_SYMBOL $0F0D emitter_3_pcount
+COMMENT $0F10 to current pcount
+FORCE_SYMBOL $0F10 emitter_current_pcount
+FORCE_NO_SYMBOL $0F13
+FORCE_SYMBOL $0F15 emitter_3_on
+FORCE_NO_SYMBOL $0F18
+COMMENT $0F1A set emitter intensity
+FORCE_SYMBOL $0F1A emitter_3_intensity
+FORCE_NO_SYMBOL $0F1D
+COMMENT $0F1F set emitter life
+FORCE_SYMBOL $0F1F emitter_3_life
+FORCE_SYMBOL $0F22 particle_3_xy
+FORCE_SYMBOL $0F25 particle_3_vel_xy
+FORCE_SYMBOL $0F28 firework_1_lookup
+FORCE_SYMBOL $0F2C init_emitter
+COMMENT_LINE $0F30 }
+COMMENT_LINE $0F31 ldb			#PCOUNT_1*4
+COMMENT_LINE $0F31 set a to 0
+COMMENT $0F31 load particle count * 4 (x(2bytes)+y(2bytes)*particles eg 2+2*32=128bytes)
+FORCE_SYMBOL $0F31 emitter_current_pcount
+COMMENT $0F34 *2
+COMMENT $0F35 *2
+COMMENT $0F39 loop or continue if 0
+COMMENT_LINE $0F3B set up random	vel
+FORCE_SYMBOL $0F3B emitter_current_pcount
+COMMENT $0F3E *2
+COMMENT_LINE $0F3F ldb		#PCOUNT_1*2
+FORCE_SYMBOL $0F3F tmp_1
+COMMENT_LINE $0F42 high bit
+FORCE_SYMBOL $0F42 Random
+COMMENT $0F45 use mask to get lower number
+FORCE_NO_SYMBOL $0F45
+COMMENT $0F47 subtract to get some neg values
+FORCE_NO_SYMBOL $0F47
+COMMENT_LINE $0F4B low bit
+COMMENT $0F4B doesnt need negative values because high bit holds that flag (I think)
+FORCE_SYMBOL $0F4B Random
+COMMENT $0F4E load lut that gives better distribution instead of just random
+COMMENT $0F50 save to mem lut value
+FORCE_SYMBOL $0F50 tmp_2
+COMMENT $0F53 add lut value  to random value to get some more variation
+FORCE_SYMBOL $0F53 tmp_2
+COMMENT_LINE $0F58 loop or return
+FORCE_SYMBOL $0F58 tmp_1
+COMMENT_LINE $0F5E }
+COMMENT $0F5E decrease emitter life
+FORCE_SYMBOL $0F5E emitter_1_life
+COMMENT $0F61 if not 0 draw
+COMMENT $0F64 turn off emitter
+FORCE_SYMBOL $0F64 emitter_1_on
+COMMENT $0F68 ram pos x,y
+FORCE_SYMBOL $0F68 particle_1_xy
+COMMENT $0F6B ram pos x,y , also in u we use later... maybe we could set x back somehow or use jsr instead
+FORCE_SYMBOL $0F6B particle_1_xy
+COMMENT $0F6E ram intial velocity
+FORCE_SYMBOL $0F6E particle_1_vel_xy
+FORCE_SYMBOL $0F72 emitter_1_intensity
+FORCE_SYMBOL $0F76 emitter_1_intensity
+FORCE_SYMBOL $0F79 Intensity_a
+FORCE_NO_SYMBOL $0F7C
+COMMENT $0F7E store scale factor
+FORCE_SYMBOL $0F7E VIA_t1_cnt_lo
+FORCE_SYMBOL $0F81 Reset0Ref
+COMMENT $0F84 hibyte
+FORCE_SYMBOL $0F84 emitter_1_y
+COMMENT $0F87 hibyte
+FORCE_SYMBOL $0F87 emitter_1_x
+FORCE_SYMBOL $0F8A Moveto_d
+COMMENT_LINE $0F8D ldb		#PCOUNT_1
+FORCE_SYMBOL $0F8D emitter_1_pcount
+COMMENT $0F90 store to temp counter
+FORCE_SYMBOL $0F90 tmp_1
+FORCE_SYMBOL $0F93 particle_physics
+COMMENT_LINE $0F97 }
+COMMENT $0F97 decrease emitter life
+FORCE_SYMBOL $0F97 emitter_2_life
+COMMENT $0F9A if not 0 draw
+COMMENT $0F9D turn off emitter
+FORCE_SYMBOL $0F9D emitter_2_on
+COMMENT $0FA1 ram pos x,y
+FORCE_SYMBOL $0FA1 particle_2_xy
+COMMENT $0FA4 ram pos x,y , also in u we use later... maybe we could set x back somehow or use jsr instead
+FORCE_SYMBOL $0FA4 particle_2_xy
+COMMENT $0FA7 ram intial velocity
+FORCE_SYMBOL $0FA7 particle_2_vel_xy
+FORCE_SYMBOL $0FAB emitter_2_intensity
+FORCE_SYMBOL $0FAF emitter_2_intensity
+FORCE_SYMBOL $0FB2 Intensity_a
+FORCE_NO_SYMBOL $0FB5
+COMMENT $0FB7 store scale factor
+FORCE_SYMBOL $0FB7 VIA_t1_cnt_lo
+FORCE_SYMBOL $0FBA Reset0Ref
+FORCE_SYMBOL $0FBD emitter_2_y
+FORCE_SYMBOL $0FC0 emitter_2_x
+FORCE_SYMBOL $0FC3 Moveto_d
+COMMENT_LINE $0FC6 ldb		#PCOUNT_1
+FORCE_SYMBOL $0FC6 emitter_2_pcount
+COMMENT $0FC9 store to temp counter
+FORCE_SYMBOL $0FC9 tmp_1
+FORCE_SYMBOL $0FCC particle_physics
+COMMENT_LINE $0FD0 }
+COMMENT $0FD0 decrease emitter life
+FORCE_SYMBOL $0FD0 emitter_3_life
+COMMENT $0FD3 if not 0 draw
+COMMENT $0FD6 turn off emitter
+FORCE_SYMBOL $0FD6 emitter_3_on
+COMMENT $0FDA ram pos x,y
+FORCE_SYMBOL $0FDA particle_3_xy
+COMMENT $0FDD ram pos x,y , also in u we use later... maybe we could set x back somehow or use jsr instead
+FORCE_SYMBOL $0FDD particle_3_xy
+COMMENT $0FE0 ram intial velocity
+FORCE_SYMBOL $0FE0 particle_3_vel_xy
+FORCE_SYMBOL $0FE4 emitter_3_intensity
+FORCE_SYMBOL $0FE8 emitter_3_intensity
+FORCE_SYMBOL $0FEB Intensity_a
+FORCE_NO_SYMBOL $0FEE
+COMMENT $0FF0 store scale factor
+FORCE_SYMBOL $0FF0 VIA_t1_cnt_lo
+FORCE_SYMBOL $0FF3 Reset0Ref
+FORCE_SYMBOL $0FF6 emitter_3_y
+FORCE_SYMBOL $0FF9 emitter_3_x
+FORCE_SYMBOL $0FFC Moveto_d
+COMMENT_LINE $0FFF ldb		#PCOUNT_1
+FORCE_SYMBOL $0FFF emitter_3_pcount
+COMMENT $1002 store to temp counter
+FORCE_SYMBOL $1002 tmp_1
+FORCE_SYMBOL $1005 particle_physics
+COMMENT_LINE $1009 }
+COMMENT_LINE $1009 ALL geneirc code below expects X,Y,U registers to be ready for physics and drawing!
+COMMENT_LINE $1009 do xy coord
+COMMENT_LINE $1009 drag constant
+COMMENT_LINE $1009 do Y
+COMMENT $1009 load velocity
+FORCE_NO_SYMBOL $1009
+COMMENT $100D do drag
+FORCE_SYMBOL $100D DRAG
+FORCE_SYMBOL $1012 DRAG
+COMMENT $1015 do gravity
+FORCE_SYMBOL $1015 GRAVITY
+FORCE_NO_SYMBOL $1018
+COMMENT $101A load 16bit position
+FORCE_NO_SYMBOL $101A
+COMMENT $101C add velocity
+COMMENT $101E store new pos and inc x
+COMMENT_LINE $1020 do X
+COMMENT $1020 load velocity
+FORCE_NO_SYMBOL $1020
+COMMENT $1024 do drag
+FORCE_SYMBOL $1024 DRAG
+FORCE_SYMBOL $1029 DRAG
+FORCE_NO_SYMBOL $102C
+COMMENT $102E load 16bit position
+FORCE_NO_SYMBOL $102E
+COMMENT $1030 add velocity
+COMMENT $1032 store new pos and inc x
+COMMENT_LINE $1034 finish or loop
+COMMENT $1034 dec number particles
+FORCE_SYMBOL $1034 tmp_1
+COMMENT_LINE $103B }
+COMMENT_LINE $103B must reset for the first time
+FORCE_SYMBOL $103B emitter_current_pcount
+FORCE_SYMBOL $103E tmp_1
+COMMENT_LINE $1041 jsr					Reset0Ref ;is slower than a move???
+COMMENT $1041 load only one of the bytes high
+COMMENT $1043 load other high byte
+COMMENT $1045 saves to prev_1_y and prev_1_x in one go
+FORCE_SYMBOL $1045 prev_part_yx
+COMMENT $1048 draw dot
+FORCE_SYMBOL $1048 Dot_d
+COMMENT $104B d was trashed, so reload d with yx
+FORCE_SYMBOL $104B prev_part_yx
+COMMENT $104E negate yx values
+COMMENT $1050 use the pen to 0.... should be faster than Reset0Ref - in theory???
+FORCE_SYMBOL $1050 Moveto_d
+FORCE_SYMBOL $1053 tmp_1
+COMMENT_LINE $1059 }
+COMMENT_LINE $1059 right top
+COMMENT_LINE $1061 left top
+COMMENT_LINE $1069 left bottom
+COMMENT_LINE $1071 right bot
+COMMENT_LINE $1079 dupe of other lut
+COMMENT_LINE $1079 right top
+COMMENT_LINE $1081 left top
+COMMENT_LINE $1089 left bottom
+COMMENT_LINE $1091 right bot
+COMMENT_LINE $1099 }
+COMMENT_LINE $1099 Level   Data 6 tiles per screen, note 2nd and last fcb statement are the same to allow looping forever if required
+COMMENT_LINE $1099 0       means no pipe any other number 1 to 6 is different height of pipe
+COMMENT $109F 7jumpback to here using 7
+COMMENT $10A5 13
+COMMENT $10AB 19
+COMMENT $10B1 25
+COMMENT $10B7 31
+COMMENT $10BD 37
+COMMENT $10C3 43
+COMMENT $10C9 49
+COMMENT $10CF 55
+COMMENT $10D5 61
+COMMENT $10DB 67
+COMMENT $10E1 73
+COMMENT $10E7 79
+COMMENT $10ED 85
+COMMENT $10F3 91
+COMMENT $10F9 97
+COMMENT $10FF 103
+COMMENT $1105 109
+COMMENT $110B 115
+COMMENT $1111 121 (121 is the max... as its the starting digit of the line... so 121+7=127)
+COMMENT_LINE $1117 }
+COMMENT_LINE $1128 pipe vectors
+COMMENT_LINE $1128 pipe vectors
+COMMENT $1128 hight1
+COMMENT $112A height2
+COMMENT $1136 height2
+COMMENT $1138 height1
+COMMENT $113A height1
+COMMENT $113C height2
+COMMENT $1148 height2
+COMMENT $114A height1
+COMMENT $114C hight1
+COMMENT $114E height2
+COMMENT $115A height2
+COMMENT $115C height1
+COMMENT $115E height1
+COMMENT $1160 height2
+COMMENT $116C height2
+COMMENT $116E height1
+COMMENT $1170 hight1
+COMMENT $1172 height2
+COMMENT $117E height2
+COMMENT $1180 height1
+COMMENT $1182 height1
+COMMENT $1184 height2
+COMMENT $1190 height2
+COMMENT $1192 height1
+COMMENT $1194 hight1
+COMMENT $1196 height2
+COMMENT $11A2 height2
+COMMENT $11A4 height1
+COMMENT $11A6 height1
+COMMENT $11A8 height2
+COMMENT $11B4 height2
+COMMENT $11B6 height1
+COMMENT $11B8 hight1
+COMMENT $11BA height2
+COMMENT $11C6 height2
+COMMENT $11C8 height1
+COMMENT $11CA height1
+COMMENT $11CC height2
+COMMENT $11D8 height2
+COMMENT $11DA height1
+COMMENT $11DC hight1
+COMMENT $11DE height2
+COMMENT $11EA height2
+COMMENT $11EC height1
+COMMENT $11EE height1
+COMMENT $11F0 height2
+COMMENT $11FC height2
+COMMENT $11FE height1
+COMMENT_LINE $1200 bird graphics
+COMMENT_LINE $125C scrname
+COMMENT_LINE $125C ratings based on score
+COMMENT_LINE $127C OOOOOOOOOOOOOOOOO
+COMMENT_LINE $12D9 OOOOOOOOOOOOOOOOO
+COMMENT_LINE $132E OOOOOOOOOOOOOOOOO
+COMMENT_LINE $13B6 OOOOOOOOOOOOOOOOO
+COMMENT_LINE $13ED OOOOOOOOOOOOOOOOO
+COMMENT_LINE $140A scrname_50
+COMMENT_LINE $140A db   "  DUCK DODGERS"
+COMMENT_LINE $140A db   $80
+COMMENT_LINE $140A Credits
+COMMENT_LINE $140A print hardware list format
+COMMENT_LINE $140A height, width, rel y, rel x, string, 0x80,                        ;
+COMMENT_LINE $140A height, width, rel y, rel x, string, 0x80,                        ;
+COMMENT_LINE $140A 0x00
+COMMENT $1451 list terminator
+COMMENT_LINE $1500 fcb	-4,35,-110,-58
+COMMENT_LINE $1500 db   "VECTREX REGENERATION"
+COMMENT_LINE $1500 db	$80
+COMMENT $1500 list terminator
+COMMENT_LINE $1501 veccy logo data
+COMMENT_LINE $15B3 logo_v2		;Vector Count = 10 larger version to test speed
+COMMENT_LINE $15B3 fcb	127,-78
+COMMENT_LINE $15B3 fcb	-126,26
+COMMENT_LINE $15B3 fcb	-127,27
+COMMENT_LINE $15B3 fcb	0,53
+COMMENT_LINE $15B3 fcb	126,22
+COMMENT_LINE $15B3 fcb	127,23
+COMMENT_LINE $15B3 fcb	0,-61
+COMMENT_LINE $15B3 fcb	-84,-15
+COMMENT_LINE $15B3 fcb	84,-15
+COMMENT_LINE $15B3 fcb	0,-61
+COMMENT_LINE $15B3 debug_string:
+COMMENT_LINE $15B3 db   "DEBUG"              ; only capital letters
+COMMENT_LINE $15B3 db   $80                      ; $80 is end of string
+COMMENT $15B3 only capital letters
+COMMENT $15CA $80 is end of string
+COMMENT $15CB only capital letters
+COMMENT $15D5 $80 is end of string
+COMMENT $15D6 only capital letters
+COMMENT $15D9 $80 is end of string
+COMMENT $15DA only capital letters
+COMMENT $15E3 $80 is end of string
+COMMENT $15E4 only capital letters
+COMMENT $15E9 $80 is end of string
+COMMENT $15EA only capital letters
+COMMENT $15EE $80 is end of string
+COMMENT $15F0 only capital letters
+COMMENT $1609 $80 is end of string
+RANGE $0000-$0002 DB_DATA 2
+RANGE $0002-$000A CHAR_DATA 8
+RANGE $000A-$000B DB_DATA 1
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$000F DW_DATA 1
+RANGE $000F-$0011 DW_DATA 1
+RANGE $0011-$001B CHAR_DATA 10
+RANGE $001B-$001D DB_DATA 2
+RANGE $001D-$0E58 CODE
+RANGE $0E58-$0E72 DB_DATA 26
+RANGE $0E72-$0E96 DB_DATA 36
+RANGE $0E96-$1059 CODE
+RANGE $1059-$105B DB_DATA 2
+RANGE $105B-$105D DB_DATA 2
+RANGE $105D-$105F DB_DATA 2
+RANGE $105F-$1061 DB_DATA 2
+RANGE $1061-$1063 DB_DATA 2
+RANGE $1063-$1065 DB_DATA 2
+RANGE $1065-$1067 DB_DATA 2
+RANGE $1067-$1069 DB_DATA 2
+RANGE $1069-$106B DB_DATA 2
+RANGE $106B-$106D DB_DATA 2
+RANGE $106D-$106F DB_DATA 2
+RANGE $106F-$1071 DB_DATA 2
+RANGE $1071-$1073 DB_DATA 2
+RANGE $1073-$1075 DB_DATA 2
+RANGE $1075-$1077 DB_DATA 2
+RANGE $1077-$1079 DB_DATA 2
+RANGE $1079-$107B DB_DATA 2
+RANGE $107B-$107D DB_DATA 2
+RANGE $107D-$107F DB_DATA 2
+RANGE $107F-$1081 DB_DATA 2
+RANGE $1081-$1083 DB_DATA 2
+RANGE $1083-$1085 DB_DATA 2
+RANGE $1085-$1087 DB_DATA 2
+RANGE $1087-$1089 DB_DATA 2
+RANGE $1089-$108B DB_DATA 2
+RANGE $108B-$108D DB_DATA 2
+RANGE $108D-$108F DB_DATA 2
+RANGE $108F-$1091 DB_DATA 2
+RANGE $1091-$1093 DB_DATA 2
+RANGE $1093-$1095 DB_DATA 2
+RANGE $1095-$1097 DB_DATA 2
+RANGE $1097-$1099 DB_DATA 2
+RANGE $1099-$109F DB_DATA 6
+RANGE $109F-$10A5 DB_DATA 6
+RANGE $10A5-$10AB DB_DATA 6
+RANGE $10AB-$10B1 DB_DATA 6
+RANGE $10B1-$10B7 DB_DATA 6
+RANGE $10B7-$10BD DB_DATA 6
+RANGE $10BD-$10C3 DB_DATA 6
+RANGE $10C3-$10C9 DB_DATA 6
+RANGE $10C9-$10CF DB_DATA 6
+RANGE $10CF-$10D5 DB_DATA 6
+RANGE $10D5-$10DB DB_DATA 6
+RANGE $10DB-$10E1 DB_DATA 6
+RANGE $10E1-$10E7 DB_DATA 6
+RANGE $10E7-$10ED DB_DATA 6
+RANGE $10ED-$10F3 DB_DATA 6
+RANGE $10F3-$10F9 DB_DATA 6
+RANGE $10F9-$10FF DB_DATA 6
+RANGE $10FF-$1105 DB_DATA 6
+RANGE $1105-$110B DB_DATA 6
+RANGE $110B-$1111 DB_DATA 6
+RANGE $1111-$1117 DB_DATA 6
+RANGE $1117-$1128 DB_DATA 17
+RANGE $1128-$112A DB_DATA 2
+RANGE $112A-$112C DB_DATA 2
+RANGE $112C-$112E DB_DATA 2
+RANGE $112E-$1130 DB_DATA 2
+RANGE $1130-$1132 DB_DATA 2
+RANGE $1132-$1134 DB_DATA 2
+RANGE $1134-$1136 DB_DATA 2
+RANGE $1136-$1138 DB_DATA 2
+RANGE $1138-$113A DB_DATA 2
+RANGE $113A-$113C DB_DATA 2
+RANGE $113C-$113E DB_DATA 2
+RANGE $113E-$1140 DB_DATA 2
+RANGE $1140-$1142 DB_DATA 2
+RANGE $1142-$1144 DB_DATA 2
+RANGE $1144-$1146 DB_DATA 2
+RANGE $1146-$1148 DB_DATA 2
+RANGE $1148-$114A DB_DATA 2
+RANGE $114A-$114C DB_DATA 2
+RANGE $114C-$114E DB_DATA 2
+RANGE $114E-$1150 DB_DATA 2
+RANGE $1150-$1152 DB_DATA 2
+RANGE $1152-$1154 DB_DATA 2
+RANGE $1154-$1156 DB_DATA 2
+RANGE $1156-$1158 DB_DATA 2
+RANGE $1158-$115A DB_DATA 2
+RANGE $115A-$115C DB_DATA 2
+RANGE $115C-$115E DB_DATA 2
+RANGE $115E-$1160 DB_DATA 2
+RANGE $1160-$1162 DB_DATA 2
+RANGE $1162-$1164 DB_DATA 2
+RANGE $1164-$1166 DB_DATA 2
+RANGE $1166-$1168 DB_DATA 2
+RANGE $1168-$116A DB_DATA 2
+RANGE $116A-$116C DB_DATA 2
+RANGE $116C-$116E DB_DATA 2
+RANGE $116E-$1170 DB_DATA 2
+RANGE $1170-$1172 DB_DATA 2
+RANGE $1172-$1174 DB_DATA 2
+RANGE $1174-$1176 DB_DATA 2
+RANGE $1176-$1178 DB_DATA 2
+RANGE $1178-$117A DB_DATA 2
+RANGE $117A-$117C DB_DATA 2
+RANGE $117C-$117E DB_DATA 2
+RANGE $117E-$1180 DB_DATA 2
+RANGE $1180-$1182 DB_DATA 2
+RANGE $1182-$1184 DB_DATA 2
+RANGE $1184-$1186 DB_DATA 2
+RANGE $1186-$1188 DB_DATA 2
+RANGE $1188-$118A DB_DATA 2
+RANGE $118A-$118C DB_DATA 2
+RANGE $118C-$118E DB_DATA 2
+RANGE $118E-$1190 DB_DATA 2
+RANGE $1190-$1192 DB_DATA 2
+RANGE $1192-$1194 DB_DATA 2
+RANGE $1194-$1196 DB_DATA 2
+RANGE $1196-$1198 DB_DATA 2
+RANGE $1198-$119A DB_DATA 2
+RANGE $119A-$119C DB_DATA 2
+RANGE $119C-$119E DB_DATA 2
+RANGE $119E-$11A0 DB_DATA 2
+RANGE $11A0-$11A2 DB_DATA 2
+RANGE $11A2-$11A4 DB_DATA 2
+RANGE $11A4-$11A6 DB_DATA 2
+RANGE $11A6-$11A8 DB_DATA 2
+RANGE $11A8-$11AA DB_DATA 2
+RANGE $11AA-$11AC DB_DATA 2
+RANGE $11AC-$11AE DB_DATA 2
+RANGE $11AE-$11B0 DB_DATA 2
+RANGE $11B0-$11B2 DB_DATA 2
+RANGE $11B2-$11B4 DB_DATA 2
+RANGE $11B4-$11B6 DB_DATA 2
+RANGE $11B6-$11B8 DB_DATA 2
+RANGE $11B8-$11BA DB_DATA 2
+RANGE $11BA-$11BC DB_DATA 2
+RANGE $11BC-$11BE DB_DATA 2
+RANGE $11BE-$11C0 DB_DATA 2
+RANGE $11C0-$11C2 DB_DATA 2
+RANGE $11C2-$11C4 DB_DATA 2
+RANGE $11C4-$11C6 DB_DATA 2
+RANGE $11C6-$11C8 DB_DATA 2
+RANGE $11C8-$11CA DB_DATA 2
+RANGE $11CA-$11CC DB_DATA 2
+RANGE $11CC-$11CE DB_DATA 2
+RANGE $11CE-$11D0 DB_DATA 2
+RANGE $11D0-$11D2 DB_DATA 2
+RANGE $11D2-$11D4 DB_DATA 2
+RANGE $11D4-$11D6 DB_DATA 2
+RANGE $11D6-$11D8 DB_DATA 2
+RANGE $11D8-$11DA DB_DATA 2
+RANGE $11DA-$11DC DB_DATA 2
+RANGE $11DC-$11DE DB_DATA 2
+RANGE $11DE-$11E0 DB_DATA 2
+RANGE $11E0-$11E2 DB_DATA 2
+RANGE $11E2-$11E4 DB_DATA 2
+RANGE $11E4-$11E6 DB_DATA 2
+RANGE $11E6-$11E8 DB_DATA 2
+RANGE $11E8-$11EA DB_DATA 2
+RANGE $11EA-$11EC DB_DATA 2
+RANGE $11EC-$11EE DB_DATA 2
+RANGE $11EE-$11F0 DB_DATA 2
+RANGE $11F0-$11F2 DB_DATA 2
+RANGE $11F2-$11F4 DB_DATA 2
+RANGE $11F4-$11F6 DB_DATA 2
+RANGE $11F6-$11F8 DB_DATA 2
+RANGE $11F8-$11FA DB_DATA 2
+RANGE $11FA-$11FC DB_DATA 2
+RANGE $11FC-$11FE DB_DATA 2
+RANGE $11FE-$1200 DB_DATA 2
+RANGE $1200-$1202 DB_DATA 2
+RANGE $1202-$1204 DB_DATA 2
+RANGE $1204-$1206 DB_DATA 2
+RANGE $1206-$1208 DB_DATA 2
+RANGE $1208-$120A DB_DATA 2
+RANGE $120A-$120C DB_DATA 2
+RANGE $120C-$120E DB_DATA 2
+RANGE $120E-$1210 DB_DATA 2
+RANGE $1210-$1212 DB_DATA 2
+RANGE $1212-$1214 DB_DATA 2
+RANGE $1214-$1216 DB_DATA 2
+RANGE $1216-$1218 DB_DATA 2
+RANGE $1218-$121A DB_DATA 2
+RANGE $121A-$121C DB_DATA 2
+RANGE $121C-$121E DB_DATA 2
+RANGE $121E-$1220 DB_DATA 2
+RANGE $1220-$1222 DB_DATA 2
+RANGE $1222-$1224 DB_DATA 2
+RANGE $1224-$1226 DB_DATA 2
+RANGE $1226-$1228 DB_DATA 2
+RANGE $1228-$122A DB_DATA 2
+RANGE $122A-$122C DB_DATA 2
+RANGE $122C-$122E DB_DATA 2
+RANGE $122E-$1230 DB_DATA 2
+RANGE $1230-$1232 DB_DATA 2
+RANGE $1232-$1234 DB_DATA 2
+RANGE $1234-$1236 DB_DATA 2
+RANGE $1236-$1238 DB_DATA 2
+RANGE $1238-$123A DB_DATA 2
+RANGE $123A-$123C DB_DATA 2
+RANGE $123C-$123E DB_DATA 2
+RANGE $123E-$1240 DB_DATA 2
+RANGE $1240-$1242 DB_DATA 2
+RANGE $1242-$1244 DB_DATA 2
+RANGE $1244-$1246 DB_DATA 2
+RANGE $1246-$1248 DB_DATA 2
+RANGE $1248-$124A DB_DATA 2
+RANGE $124A-$124C DB_DATA 2
+RANGE $124C-$124E DB_DATA 2
+RANGE $124E-$1250 DB_DATA 2
+RANGE $1250-$1252 DB_DATA 2
+RANGE $1252-$1254 DB_DATA 2
+RANGE $1254-$1256 DB_DATA 2
+RANGE $1256-$1258 DB_DATA 2
+RANGE $1258-$125A DB_DATA 2
+RANGE $125A-$125C DB_DATA 2
+RANGE $125C-$1269 CHAR_DATA 13
+RANGE $1269-$126A DB_DATA 1
+RANGE $126A-$127B CHAR_DATA 17
+RANGE $127B-$127C DB_DATA 1
+RANGE $127C-$1288 CHAR_DATA 12
+RANGE $1288-$1289 DB_DATA 1
+RANGE $1289-$1298 CHAR_DATA 15
+RANGE $1298-$1299 DB_DATA 1
+RANGE $1299-$12A5 CHAR_DATA 12
+RANGE $12A5-$12A6 DB_DATA 1
+RANGE $12A6-$12B0 CHAR_DATA 10
+RANGE $12B0-$12B1 DB_DATA 1
+RANGE $12B1-$12BE CHAR_DATA 13
+RANGE $12BE-$12BF DB_DATA 1
+RANGE $12BF-$12CA CHAR_DATA 11
+RANGE $12CA-$12CB DB_DATA 1
+RANGE $12CB-$12D8 CHAR_DATA 13
+RANGE $12D8-$12D9 DB_DATA 1
+RANGE $12D9-$12E6 CHAR_DATA 13
+RANGE $12E6-$12E7 DB_DATA 1
+RANGE $12E7-$12F6 CHAR_DATA 15
+RANGE $12F6-$12F7 DB_DATA 1
+RANGE $12F7-$1304 CHAR_DATA 13
+RANGE $1304-$1305 DB_DATA 1
+RANGE $1305-$130F CHAR_DATA 10
+RANGE $130F-$1310 DB_DATA 1
+RANGE $1310-$131D CHAR_DATA 13
+RANGE $131D-$131E DB_DATA 1
+RANGE $131E-$132D CHAR_DATA 15
+RANGE $132D-$132E DB_DATA 1
+RANGE $132E-$133A CHAR_DATA 12
+RANGE $133A-$133B DB_DATA 1
+RANGE $133B-$1348 CHAR_DATA 13
+RANGE $1348-$1349 DB_DATA 1
+RANGE $1349-$1359 CHAR_DATA 16
+RANGE $1359-$135A DB_DATA 1
+RANGE $135A-$1369 CHAR_DATA 15
+RANGE $1369-$136A DB_DATA 1
+RANGE $136A-$1377 CHAR_DATA 13
+RANGE $1377-$1378 DB_DATA 1
+RANGE $1378-$1387 CHAR_DATA 15
+RANGE $1387-$1388 DB_DATA 1
+RANGE $1388-$1397 CHAR_DATA 15
+RANGE $1397-$1398 DB_DATA 1
+RANGE $1398-$13A5 CHAR_DATA 13
+RANGE $13A5-$13A6 DB_DATA 1
+RANGE $13A6-$13B5 CHAR_DATA 15
+RANGE $13B5-$13B6 DB_DATA 1
+RANGE $13B6-$13C3 CHAR_DATA 13
+RANGE $13C3-$13C4 DB_DATA 1
+RANGE $13C4-$13CF CHAR_DATA 11
+RANGE $13CF-$13D0 DB_DATA 1
+RANGE $13D0-$13DF CHAR_DATA 15
+RANGE $13DF-$13E0 DB_DATA 1
+RANGE $13E0-$13EC CHAR_DATA 12
+RANGE $13EC-$13ED DB_DATA 1
+RANGE $13ED-$13F9 CHAR_DATA 12
+RANGE $13F9-$13FA DB_DATA 1
+RANGE $13FA-$1409 CHAR_DATA 15
+RANGE $1409-$140A DB_DATA 1
+RANGE $140A-$140E DB_DATA 4
+RANGE $140E-$1423 CHAR_DATA 21
+RANGE $1423-$1424 DB_DATA 1
+RANGE $1424-$1428 DB_DATA 4
+RANGE $1428-$143A CHAR_DATA 18
+RANGE $143A-$143B DB_DATA 1
+RANGE $143B-$143F DB_DATA 4
+RANGE $143F-$1450 CHAR_DATA 17
+RANGE $1450-$1451 DB_DATA 1
+RANGE $1451-$1452 DB_DATA 1
+RANGE $1452-$1456 DB_DATA 4
+RANGE $1456-$1465 CHAR_DATA 15
+RANGE $1465-$1466 DB_DATA 1
+RANGE $1466-$146A DB_DATA 4
+RANGE $146A-$1475 CHAR_DATA 11
+RANGE $1475-$1476 DB_DATA 1
+RANGE $1476-$147A DB_DATA 4
+RANGE $147A-$148E CHAR_DATA 20
+RANGE $148E-$148F DB_DATA 1
+RANGE $148F-$1493 DB_DATA 4
+RANGE $1493-$149F CHAR_DATA 12
+RANGE $149F-$14A0 DB_DATA 1
+RANGE $14A0-$14A4 DB_DATA 4
+RANGE $14A4-$14B8 CHAR_DATA 20
+RANGE $14B8-$14B9 DB_DATA 1
+RANGE $14B9-$14BD DB_DATA 4
+RANGE $14BD-$14DB CHAR_DATA 30
+RANGE $14DB-$14DC DB_DATA 1
+RANGE $14DC-$14E0 DB_DATA 4
+RANGE $14E0-$14E9 CHAR_DATA 9
+RANGE $14E9-$14EA DB_DATA 1
+RANGE $14EA-$14EE DB_DATA 4
+RANGE $14EE-$14FF CHAR_DATA 17
+RANGE $14FF-$1500 DB_DATA 1
+RANGE $1500-$1501 DB_DATA 1
+RANGE $1501-$1503 DB_DATA 2
+RANGE $1503-$1505 DB_DATA 2
+RANGE $1505-$1507 DB_DATA 2
+RANGE $1507-$1509 DB_DATA 2
+RANGE $1509-$150B DB_DATA 2
+RANGE $150B-$150D DB_DATA 2
+RANGE $150D-$150F DB_DATA 2
+RANGE $150F-$1511 DB_DATA 2
+RANGE $1511-$1513 DB_DATA 2
+RANGE $1513-$1515 DB_DATA 2
+RANGE $1515-$1517 DB_DATA 2
+RANGE $1517-$1519 DB_DATA 2
+RANGE $1519-$151B DB_DATA 2
+RANGE $151B-$151D DB_DATA 2
+RANGE $151D-$151F DB_DATA 2
+RANGE $151F-$1521 DB_DATA 2
+RANGE $1521-$1523 DB_DATA 2
+RANGE $1523-$1525 DB_DATA 2
+RANGE $1525-$1527 DB_DATA 2
+RANGE $1527-$1529 DB_DATA 2
+RANGE $1529-$152B DB_DATA 2
+RANGE $152B-$152D DB_DATA 2
+RANGE $152D-$152F DB_DATA 2
+RANGE $152F-$1531 DB_DATA 2
+RANGE $1531-$1533 DB_DATA 2
+RANGE $1533-$1535 DB_DATA 2
+RANGE $1535-$1537 DB_DATA 2
+RANGE $1537-$1539 DB_DATA 2
+RANGE $1539-$153B DB_DATA 2
+RANGE $153B-$153D DB_DATA 2
+RANGE $153D-$153F DB_DATA 2
+RANGE $153F-$1541 DB_DATA 2
+RANGE $1541-$1543 DB_DATA 2
+RANGE $1543-$1545 DB_DATA 2
+RANGE $1545-$1547 DB_DATA 2
+RANGE $1547-$1549 DB_DATA 2
+RANGE $1549-$154B DB_DATA 2
+RANGE $154B-$154D DB_DATA 2
+RANGE $154D-$154F DB_DATA 2
+RANGE $154F-$1551 DB_DATA 2
+RANGE $1551-$1553 DB_DATA 2
+RANGE $1553-$1555 DB_DATA 2
+RANGE $1555-$1557 DB_DATA 2
+RANGE $1557-$1559 DB_DATA 2
+RANGE $1559-$155B DB_DATA 2
+RANGE $155B-$155D DB_DATA 2
+RANGE $155D-$155F DB_DATA 2
+RANGE $155F-$1561 DB_DATA 2
+RANGE $1561-$1563 DB_DATA 2
+RANGE $1563-$1565 DB_DATA 2
+RANGE $1565-$1567 DB_DATA 2
+RANGE $1567-$1569 DB_DATA 2
+RANGE $1569-$156B DB_DATA 2
+RANGE $156B-$156D DB_DATA 2
+RANGE $156D-$156F DB_DATA 2
+RANGE $156F-$1571 DB_DATA 2
+RANGE $1571-$1573 DB_DATA 2
+RANGE $1573-$1575 DB_DATA 2
+RANGE $1575-$1577 DB_DATA 2
+RANGE $1577-$1579 DB_DATA 2
+RANGE $1579-$157B DB_DATA 2
+RANGE $157B-$157D DB_DATA 2
+RANGE $157D-$157F DB_DATA 2
+RANGE $157F-$1581 DB_DATA 2
+RANGE $1581-$1583 DB_DATA 2
+RANGE $1583-$1585 DB_DATA 2
+RANGE $1585-$1587 DB_DATA 2
+RANGE $1587-$1589 DB_DATA 2
+RANGE $1589-$158B DB_DATA 2
+RANGE $158B-$158D DB_DATA 2
+RANGE $158D-$158F DB_DATA 2
+RANGE $158F-$1591 DB_DATA 2
+RANGE $1591-$1593 DB_DATA 2
+RANGE $1593-$1595 DB_DATA 2
+RANGE $1595-$1597 DB_DATA 2
+RANGE $1597-$1599 DB_DATA 2
+RANGE $1599-$159B DB_DATA 2
+RANGE $159B-$159D DB_DATA 2
+RANGE $159D-$159F DB_DATA 2
+RANGE $159F-$15A1 DB_DATA 2
+RANGE $15A1-$15A3 DB_DATA 2
+RANGE $15A3-$15A5 DB_DATA 2
+RANGE $15A5-$15A7 DB_DATA 2
+RANGE $15A7-$15A9 DB_DATA 2
+RANGE $15A9-$15AB DB_DATA 2
+RANGE $15AB-$15AD DB_DATA 2
+RANGE $15AD-$15AF DB_DATA 2
+RANGE $15AF-$15B1 DB_DATA 2
+RANGE $15B1-$15B3 DB_DATA 2
+RANGE $15B3-$15CA CHAR_DATA 23
+RANGE $15CA-$15CB DB_DATA 1
+RANGE $15CB-$15D5 CHAR_DATA 10
+RANGE $15D5-$15D6 DB_DATA 1
+RANGE $15D6-$15D9 CHAR_DATA 3
+RANGE $15D9-$15DA DB_DATA 1
+RANGE $15DA-$15E3 CHAR_DATA 9
+RANGE $15E3-$15E4 DB_DATA 1
+RANGE $15E4-$15E9 CHAR_DATA 5
+RANGE $15E9-$15EA DB_DATA 1
+RANGE $15EA-$15EE CHAR_DATA 4
+RANGE $15EE-$15EF DB_DATA 1
+RANGE $15EF-$15F0 DB_DATA 1
+RANGE $15F0-$1609 CHAR_DATA 25
+RANGE $1609-$160A DB_DATA 1
+RANGE $160A-$160C DW_DATA 1
+RANGE $160C-$160E DW_DATA 1
+RANGE $160E-$1610 DB_DATA 2
+RANGE $1610-$1612 DB_DATA 2
+

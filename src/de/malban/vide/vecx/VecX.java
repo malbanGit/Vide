@@ -213,6 +213,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     transient int displayedNow = 1;
     transient int[] vector_hash = new int[VECTOR_HASH];
     transient long fcycles;
+    transient long trackyCount = 0;
+    transient long trackyAbove = 0;
 
     ArrayList<TimerItem> timerHeap = new ArrayList<TimerItem>();
 /*
@@ -1004,7 +1006,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     }
     public void initDissi()
     {
-        if (config.doProfile)
+        
+        if ((config.doProfile) && (config.debugingCore))
         {
             String name = "main";
             if (cart != null) name = cart.cartName;
@@ -3174,9 +3177,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             if (wrStatus == WR_FIRST_FOUND)
             {
-                waitRecalBuffer[waitRecalBufferNext] =  (int)(ticksRunning - lastTestTicks);
+                int cycles = (int)(ticksRunning - lastTestTicks);
+                waitRecalBuffer[waitRecalBufferNext] =  cycles;
                 waitRecalBufferNext = (waitRecalBufferNext+1) %WAIT_RECAL_BUFFER_SIZE;
                 wrStatus = WR_UNKOWN;
+                trackyCount++;
+                if (cycles>30000)trackyAbove++;
+
                 
                 if (config.doProfile)
                 {
@@ -3484,7 +3491,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public void checkBankswitchBreakpoint()
     {
         currentBank = cart.getCurrentBank();
-        dissiMem.setCurrentBank(currentBank);
+        if (config.debugingCore)
+            dissiMem.setCurrentBank(currentBank);
 
         if (!config.breakpointsActive) return;
         synchronized (breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])

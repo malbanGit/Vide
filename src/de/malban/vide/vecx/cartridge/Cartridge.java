@@ -13,6 +13,7 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.VERBOSE;
 import de.malban.util.DownloaderPanel;
+import static de.malban.util.Utility.makeGlobalAbsolute;
 import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.DisplayerInterface;
 import de.malban.vide.vecx.VecX;
@@ -510,7 +511,7 @@ public class Cartridge implements Serializable
         {
             // checking file 0 is enough
             // if files are not loaded, than we have a problem!
-            boolean ok = DownloaderPanel.ensureLocalFile("Cartridge", cartProp.mBinaryLink, Global.mainPathPrefix+cartProp.mFullFilename.elementAt(0));
+            boolean ok = DownloaderPanel.ensureLocalFile("Cartridge", cartProp.mBinaryLink, makeGlobalAbsolute(de.malban.util.UtilityFiles.convertSeperator(cartProp.mFullFilename.elementAt(0))));
             if (!ok)
             {
                 log.addLog("Cart: Downloadable files not found...", WARN);
@@ -525,7 +526,7 @@ public class Cartridge implements Serializable
             // this enables us to load
             // multibanks with one file only
             // if number of roms is > 1, than each file must not be greater than 32768!
-            if (!load(Global.mainPathPrefix+convertSeperator(cartProp.mFullFilename.elementAt(0)))) 
+            if (!load(makeGlobalAbsolute(cartProp.mFullFilename.elementAt(0)))) 
             {
                 log.addLog("Cart: init() single bank not loaded: "+cartProp.mFullFilename, WARN);
                 return false;
@@ -540,7 +541,7 @@ public class Cartridge implements Serializable
             for (int bank=0; bank< bankMax; bank++)
             {
                 bankFileNames[bank] = "";
-                String romName = Global.mainPathPrefix+convertSeperator(cartProp.mFullFilename.elementAt(bank));
+                String romName = makeGlobalAbsolute(cartProp.mFullFilename.elementAt(bank));
                 bankFileNames[bank] = "";
                 // only load available files
                 // skipping unavailable might seems strange,
@@ -644,7 +645,7 @@ public class Cartridge implements Serializable
             // this enables us to load
             // multibanks with one file only
             // if number of roms is > 1, than each file must not be greater than 32768!
-            if (!load(Global.mainPathPrefix+convertSeperator(cartProp.mFullFilename.elementAt(0)))) 
+            if (!load(makeGlobalAbsolute(cartProp.mFullFilename.elementAt(0)))) 
             {
                 log.addLog("Cart: init() single bank not loaded: "+cartProp.mFullFilename, WARN);
                 return false;
@@ -659,7 +660,7 @@ public class Cartridge implements Serializable
             for (int bank=0; bank< bankMax; bank++)
             {
                 bankFileNames[bank] = "";
-                String romName = Global.mainPathPrefix+convertSeperator(cartProp.mFullFilename.elementAt(bank));
+                String romName = makeGlobalAbsolute(cartProp.mFullFilename.elementAt(bank));
                 bankFileNames[bank] = "";
                 // only load available files
                 // skipping unavailable might seems strange,

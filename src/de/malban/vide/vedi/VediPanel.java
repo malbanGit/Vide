@@ -12,7 +12,6 @@ import de.malban.vide.vedi.panels.ImagePanel;
 import de.malban.gui.HotKey;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
-import static de.malban.graphics.GFXVectorList.hex;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.TimingTriggerer;
 import de.malban.gui.TriggerCallback;
@@ -26,20 +25,17 @@ import de.malban.util.UtilityFiles;
 import static de.malban.util.UtilityFiles.executeOSCommand;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
-import de.malban.util.syntax.entities.ASM6809FileInfo;
-import de.malban.util.syntax.entities.C6809FileInfo;
+import de.malban.util.syntax.entities.ASM6809FileMaster;
+import de.malban.util.syntax.entities.C6809FileMaster;
 import de.malban.util.syntax.entities.EntityDefinition;
-import de.malban.util.syntax.entities.FunctionSink;
-import de.malban.util.syntax.entities.LabelSink;
-import de.malban.util.syntax.entities.MacroSink;
 import de.malban.util.syntax.entities.SyntaxDebugJPanel;
 import de.malban.vide.VideConfig;
 import de.malban.vide.assy.Asmj;
 import de.malban.vide.assy.Comment;
 import de.malban.vide.dissy.DASM6809;
+import de.malban.vide.script.*;
 import static de.malban.vide.dissy.DissiPanel.eval;
 import static de.malban.vide.script.ExecutionDescriptor.*;
-import de.malban.vide.script.*;
 import static de.malban.vide.vecx.VecX.START_TYPE_DEBUG;
 import static de.malban.vide.vecx.VecX.START_TYPE_INJECT;
 import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
@@ -53,7 +49,6 @@ import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_LIST;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_MESSAGE_ERROR;
 import de.malban.vide.vedi.panels.GetIDValuePanel;
 import de.malban.vide.vedi.panels.LabelVisibilityConfigPanel;
-import de.malban.vide.vedi.peeper.ASMLine;
 import de.malban.vide.vedi.peeper.FilePeeper;
 import de.malban.vide.vedi.project.FileProperties;
 import de.malban.vide.vedi.project.FilePropertiesPanel;
@@ -93,7 +88,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
@@ -126,6 +120,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import static de.malban.util.Utility.makeGlobalAbsolute;
+import java.util.Vector;
 
 
 /**
@@ -886,10 +882,12 @@ class TransferableTreeNode implements Transferable {
         init = false;
         VediPanel.removeVedi(this);
         removeUIListerner();
+        deinitSyntax();
     }    
 
     public void init()
     {
+        initSyntax();
         String lastLoadedFile =null;
         if (loadSettings())
         {
@@ -908,7 +906,7 @@ class TransferableTreeNode implements Transferable {
                 ArrayList<EditorFileSettings> toRemove = new ArrayList<EditorFileSettings>();
                 for (EditorFileSettings fn: settings.currentOpenFiles)
                 {
-                    EditorPanel edi = addEditor(Global.mainPathPrefix+convertSeperator(fn.filename), false);
+                    EditorPanel edi = addEditor(makeGlobalAbsolute(fn.filename), false);
                     if (edi == null)
                     {
                         // error while loading, remove file from current
@@ -1123,12 +1121,7 @@ class TransferableTreeNode implements Transferable {
         EditorFileSettings oldSettings = null;
         int pos = 0;
         String settingsRel = de.malban.util.Utility.makeRelative(fullPathname);
-        String settingsAbs = de.malban.util.Utility.makeAbsolut(fullPathname);
-        
-        if (!convertSeperator(fullPathname).toLowerCase().contains(Global.mainPathPrefix.toLowerCase()))
-        {
-            settingsAbs = de.malban.util.Utility.makeAbsolut(Global.mainPathPrefix+fullPathname);
-        }
+        String settingsAbs = settingsAbs = makeGlobalAbsolute(fullPathname);
         
         if (addToSettings)
         {
@@ -1178,7 +1171,7 @@ class TransferableTreeNode implements Transferable {
         }
         
         
-        EditorPanel edi = new EditorPanel(fullPathname, this);
+        EditorPanel edi = new EditorPanel(fullPathname, this, UID);
         edi.setMinimumSize(new Dimension(5,5));
         edi.setAddToSettings(addToSettings);
         if (edi.isInitError()) return null;
@@ -2654,6 +2647,8 @@ class TransferableTreeNode implements Transferable {
         
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        if (fc == null) return;
+        if (fc.getSelectedFile() == null) return;
         lastPath = fc.getSelectedFile().getAbsolutePath();
         
         if (inProject)
@@ -2741,37 +2736,38 @@ class TransferableTreeNode implements Transferable {
     {
         if (asmOk)
         {
+            String fname = getSelectedEditor().getFilename();
+
+            if (fname.toLowerCase().endsWith(".c"))
+            {
+                Path p = Paths.get(fname);
+                String pathOnly = p.getParent().toString();
+                if (pathOnly.length()>0)
+                    pathOnly+= File.separator;
+
+
+                fname= baseOnly(filename);
+
+            }
+
+            if ( fname.toLowerCase().endsWith(".asm") ) {
+                // drop the ".asm" extension
+                fname = fname .substring( 0, fname.length()-4 );
+            }
+            else
+            {
+                int li = fname.lastIndexOf(".");
+                if (li>=0) 
+                    fname = fname.substring(0,li);
+            }
+            fname = fname + ".bin";
+            boolean started = false;
             if ((config.invokeEmulatorAfterAssembly)&&(startTypeRun != START_TYPE_STOP))
             {
                 VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
                 ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
                     
-                String fname = getSelectedEditor().getFilename();
-                
-                if (fname.toLowerCase().endsWith(".c"))
-                {
-                    Path p = Paths.get(fname);
-                    String pathOnly = p.getParent().toString();
-                    if (pathOnly.length()>0)
-                        pathOnly+= File.separator;
-        
-        
-                    fname= baseOnly(filename);
-   
-                }
-
-                if ( fname.toLowerCase().endsWith(".asm") ) {
-                    // drop the ".asm" extension
-                    fname = fname .substring( 0, fname.length()-4 );
-                }
-                else
-                {
-                    int li = fname.lastIndexOf(".");
-                    if (li>=0) 
-                        fname = fname.substring(0,li);
-                }
-                fname = fname + ".bin";
 
                 
                 boolean ask = false;
@@ -2783,6 +2779,7 @@ class TransferableTreeNode implements Transferable {
                 }
         
                 checkVec4EverFile(fname);
+                started = true;
                 boolean doit = true;
                 if (ask)
                 {
@@ -2801,8 +2798,9 @@ class TransferableTreeNode implements Transferable {
                     printMessage("Assembly successfull, starting emulation...");
                 }
             }
-            else
+            if (!started)
             {
+                checkVec4EverFile(fname);
                 printMessage("Assembly successfull...");
             }
             
@@ -2978,8 +2976,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 //            project.mAuthor = "";
 //            project.mDescription = "";
 //            project.mDirectoryName = "";
-            project.setPath(path);
-
+            project.setOldPath(path);
+            project.projectPrefix = path+File.separator+projectName;
             project.setProjectName(projectName);
             project.setMainFile(nameFull);
             
@@ -3003,7 +3001,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             project.setExtras(0);
             doNewProject(project, false);
             fileView = false;
-            fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(currentProject.getPath()), currentProject.getProjectName()));
+            fillTree(Paths.get(currentProject.projectPrefix));
         }
     }//GEN-LAST:event_jButtonNewActionPerformed
 
@@ -3307,18 +3305,18 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             {
                 if (currentProject.getIsPeerCProject())
                 {
-                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-                    if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
-                    String baseProjectPath = path+currentProject.getProjectName();
-
-                    peerClean(baseProjectPath);
+                    peerClean(currentProject.projectPrefix);
                     refreshTree();
                 }
             }
-            ASM6809FileInfo.resetDefinitions();
+            cInfo.resetDefinitions();
+            asmInfo.resetDefinitions();
             initInventory();
+            reDisplayAll();
             return;
         }
+        
+
         
         if (getSelectedEditor()==null) return;
 
@@ -3661,12 +3659,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     {
         String sourceInc =  Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vide"+File.separator+"include";
         String source =  Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vide"+File.separator+"lib";
-        String dest =  Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        String destInc =  Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        if (dest.length() >0 ) dest += File.separator;
-        dest = dest+currentProject.getProjectName()+File.separator+"lib";
-        if (destInc.length() >0 ) destInc += File.separator;
-        destInc = destInc+currentProject.getProjectName()+File.separator+"include";
+        String dest =  currentProject.projectPrefix;
+        String destInc =  currentProject.projectPrefix;
+        
+        dest = dest+File.separator+"lib"+File.separator;
+        destInc = destInc+File.separator+"include";
 
         javax.swing.JMenuItem item = (javax.swing.JMenuItem) evt.getSource();
         String baseName = item.getText();
@@ -3825,7 +3822,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             for (File f : files)
                 addFileToProject(f);
         }        
-        fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(currentProject.getPath()), currentProject.getProjectName()));
+        fillTree(Paths.get(currentProject.projectPrefix));
     }//GEN-LAST:event_jMenuItemAddToProjectActionPerformed
 
     private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
@@ -3833,7 +3830,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         fillTree();
         closeAllEditors();
         
-        ASM6809FileInfo.clearDefinitions();
+        asmInfo.clearDefinitions();
+        cInfo.clearDefinitions();
         
         settings.currentProject = null;
         currentProject = null;
@@ -3844,7 +3842,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         inProject = false;
         fillTree();
         closeAllEditors();
-        ASM6809FileInfo.clearDefinitions();
+        asmInfo.clearDefinitions();
+        cInfo.clearDefinitions();
         settings.currentProject = null;
         currentProject = null;
     }
@@ -3859,8 +3858,15 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             if ((settings.currentProject != null) && (settings.currentProject.mName.trim().length()!=0))
             {
                 closeAllEditors();
-                ASM6809FileInfo.clearDefinitions();
-                loadProject(settings.currentProject.mClass, settings.currentProject.mName, settings.currentProject.mPath);
+                asmInfo.clearDefinitions();
+                cInfo.clearDefinitions();
+                String path = settings.currentProject.mPath;
+                if (!settings.currentProject.mPath.endsWith(settings.currentProject.mName))
+                {
+                    path = path + File.separator +settings.currentProject.mName;
+                }
+                
+                loadProject(settings.currentProject.mClass, settings.currentProject.mName, path);
             }
             // switch tab
             jTabbedPane2.setSelectedIndex(0);
@@ -3876,7 +3882,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             if (index == -1) return;
      
             EditorFileSettings fn = settings.recentOpenFiles.get(index);
-            EditorPanel edi = addEditor(Global.mainPathPrefix+convertSeperator(fn.filename), true);
+            EditorPanel edi = addEditor(makeGlobalAbsolute(fn.filename), true);
             if (edi != null)
             {
                 edi.setPosition(fn.position);
@@ -3890,7 +3896,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             if (!inProject)
             {
                 if (edi != null)
-                    fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(fn.filename)).getParent());
+                    fillTree(Paths.get(makeGlobalAbsolute(fn.filename)).getParent());
                 else
                     fillTree();
             }
@@ -3937,7 +3943,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
             String scriptClass = fileProperties.getActionScriptClass();
             String scriptName = fileProperties.getActionScriptName();
-            ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, currentProject.getProjectName(), fileNameOnly, "VediPanel", Global.mainPathPrefix+pathOnly );
+            ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, currentProject.getProjectName(), fileNameOnly, "VediPanel", makeGlobalAbsolute(pathOnly) );
             if (!ScriptDataPanel.executeScript(scriptClass, scriptName, VediPanel.this, ed))
             {
                 printWarning("Script for "+fileNameOnly+" returned with error!");
@@ -4026,9 +4032,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         {
             if (currentProject != null)
             {
-                path = currentProject.getPath();
-                if (path.length()!=0)path+=File.separator;
-                path += currentProject.getProjectName()+File.separator;
+                path = currentProject.projectPrefix+File.separator;
             }
         }
         VecSpeechPanel.showVecSpeechPanelNoModal(this, path);
@@ -4135,7 +4139,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     }//GEN-LAST:event_jMenuItemRemoveBPActionPerformed
 
     private void jButtonDebugSyntaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDebugSyntaxActionPerformed
-    SyntaxDebugJPanel.showSyntaxDebugPanelNoModal();
+        SyntaxDebugJPanel.showSyntaxDebugPanelNoModal(UID);
 
     }//GEN-LAST:event_jButtonDebugSyntaxActionPerformed
 
@@ -4299,9 +4303,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         if (currentProject==null) return;
         if (!currentProject.getIsPeerCProject()) return;
         
-        String baseProjectPath = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        if ((baseProjectPath.length() >0 ) && (!baseProjectPath.endsWith(File.separator))) baseProjectPath += File.separator;
-        baseProjectPath = baseProjectPath+currentProject.getProjectName()+File.separator+"source"+File.separator;
+        String baseProjectPath = currentProject.projectPrefix+File.separator+"source"+File.separator;
 
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         fc.setCurrentDirectory(new java.io.File(baseProjectPath));
@@ -4869,10 +4871,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 {
                     if (currentProject.getIsPeerCProject())
                     {
-                        if (hasFramePointer)
+//                        if (hasFramePointer)
                             nameToLoad = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"include"+File.separator+filename;
-                        else
-                            nameToLoad = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"include.nf"+File.separator+filename;
+//                        else
+//                            nameToLoad = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"include.nf"+File.separator+filename;
                     }
                 }
                 f = new File(nameToLoad);
@@ -4882,10 +4884,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     {
                         if (currentProject.getIsPeerCProject())
                         {
-                            path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-                            if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
-                            String baseProjectPath = path+currentProject.getProjectName();
-                            nameToLoad = baseProjectPath+ File.separator+"include"+File.separator+filename;;
+                            path = currentProject.projectPrefix;
+                            nameToLoad = path+ File.separator+"include"+File.separator+filename;;
                         }
                     }
                     f = new File(nameToLoad);
@@ -5333,7 +5333,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             String oldFileName = leaf.pathAndName.toString();
             String newFileName = de.malban.util.UtilityString.replace(leaf.pathAndName.toString(), oldName, newFilename);
             leaf.pathAndName = Paths.get(newFileName);
-            ASM6809FileInfo.replaceFileName(oldFileName, newFileName);
+            asmInfo.replaceFileName(oldFileName, newFileName);
+            cInfo.replaceFileName(oldFileName, newFileName);
             if (found != -1)
             {
                 jTabbedPane1.setTitleAt(found, newFilename);
@@ -5440,11 +5441,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     }
     private void loadProject(String mClass, String mName, String mPath)
     {
-        String xmlFilename = mName;
-        String ppath = mPath;
-        if (ppath.length() >0) ppath += File.separator;
+        String xmlFilename = de.malban.util.UtilityFiles.convertSeperator(mName);
+        String ppath = de.malban.util.UtilityFiles.convertSeperator(mPath);
+        if (ppath.endsWith(File.separator)) ppath = ppath.substring(0, ppath.length()-1);
         
-        ProjectPropertiesPool pool = new ProjectPropertiesPool(ppath+mName+File.separator, mName+"ProjectProperty.xml");
+        ProjectPropertiesPool pool = new ProjectPropertiesPool(ppath/*+mName+File.separator*/, mName+"ProjectProperty.xml");
         ProjectProperties project =  pool.get(mName);
 
         if (project == null) 
@@ -5452,30 +5453,30 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             log.addLog("Project file not found: "+mName, WARN);
             return;
         }
+        project.projectPrefix = ppath/*+mName*/;
         // set Tree to location
         inProject = true;
         currentProject = project;
-        fillTree(Paths.get(Global.mainPathPrefix+ convertSeperator(project.getPath()) , project.getProjectName()));
+        fillTree(Paths.get(project.projectPrefix));
         
-        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
-        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
+        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.projectPrefix);
+        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.projectPrefix);
                 
         // scan projects for vars
-        String path = convertSeperator(currentProject.getPath());
-        if (path.length() >0 ) path += File.separator;
+        String path = project.projectPrefix+File.separator;
                     
         for (int b = 0; b<currentProject.getNumberOfBanks(); b++)
         {
             String filenameASM = currentProject.getBankMainFiles().elementAt(b);
             if (filenameASM.length() == 0) continue;
-            filenameASM = path+currentProject.getProjectName()+File.separator+filenameASM;
-            File test = new File(Global.mainPathPrefix+filenameASM);
+            filenameASM = path+filenameASM;
+            File test = new File(filenameASM);
             if (!test.exists())
             {
                 continue; // allow empty names!
             }                
 
-            ASM6809FileInfo.handleFile(filenameASM, null);
+            asmInfo.handleFile(filenameASM, null);
         }
         if (currentProject.getIsPeerCProject())
         {
@@ -5498,10 +5499,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         if (project == null) return; // cancel or error
         
         // try to create dir and save project properties
-        String p1 = project.getPath();
+        String p1 = project.getOldPath();
         String p2 = project.getProjectName();
         Path p = Paths.get(Global.mainPathPrefix+p1,p2);
-        
+        project.projectPrefix = p.toString();
+        if (project.projectPrefix.endsWith(File.separator)) project.projectPrefix = project.projectPrefix.substring(0, project.projectPrefix.length()-1);
         
         if (((p.toAbsolutePath().toFile().exists()) ) && (askForDirDouble))
         {
@@ -5535,7 +5537,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         // dir created!
         // now save ProjectProperties!
-        p = Paths.get(project.getPath(), project.getProjectName());
+        p = Paths.get(project.getOldPath(), project.getProjectName());
         File xmlFile = new File(Global.mainPathPrefix+p.toString()+File.separator+ project.getProjectName()+".xml");
         if (xmlFile.exists())
         {
@@ -5561,7 +5563,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         {
             if ((project.getBankswitching().equals("none")) || (!project.getcreateBankswitchCode()))
             {
-                File asmFile = new File(Global.mainPathPrefix+p.toString()+File.separator+ project.getMainFile());
+                File asmFile = new File(makeGlobalAbsolute(p.toString()+File.separator+ project.getMainFile()));
                 if (asmFile.exists())
                 {
                     JOptionPane pane = new JOptionPane("The file:\""+project.getMainFile()+"\" already exists, do you really want\nto create a new file?\n\nAll previous data will be lost!", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
@@ -5678,24 +5680,25 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
         // set Tree to location
         inProject = true;
-        fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName()));
+        fillTree(Paths.get(currentProject.projectPrefix));
         
         // TODO all additional project stuff
         currentProject = project;
         if (shouldSave)
             saveProject(); // since files 
-        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
-        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
+        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getOldPath());
+        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getOldPath());
 
         updateList();
 
-        p = Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName());
+        p = Paths.get(currentProject.projectPrefix);
         File asmFile = new File(p.toString()+File.separator+ project.getMainFile());
-        ASM6809FileInfo.resetToProject(asmFile);
+        asmInfo.resetToProject(asmFile);
     }
     @Override
     public void processWord(String word)
     {
+        if (currentProject != null)
         if (!currentProject.getIsPeerCProject())
         {
             if (checkBIOSFile(word))
@@ -5703,14 +5706,21 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 return;
             }
         }
-        EntityDefinition entity = LabelSink.knownGlobalVariables.get(word);
-        if (entity == null)
+        EntityDefinition entity = null;
+        if (currentProject.getIsPeerCProject())
         {
-            entity = MacroSink.knownGlobalMacros.get(word);        
+            if (entity == null)
+            {
+                entity = cInfo.knownGlobalFunctions.get(word);
+            }
         }
         if (entity == null)
         {
-            entity = FunctionSink.knownGlobalFunctions.get(word);
+            entity = asmInfo.knownGlobalVariables.get(word);
+        }
+        if (entity == null)
+        {
+            entity = asmInfo.knownGlobalMacros.get(word);        
         }
         
         
@@ -5761,9 +5771,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     {
         Path p = Paths.get(f.getAbsolutePath());
         String filename = p.getFileName().toString();
-        String ppath = currentProject.getPath();
-        if (ppath.length()>0) ppath += File.separator;
-        de.malban.util.UtilityFiles.copyOneFile(f.getAbsolutePath(), ppath+currentProject.mName+File.separator+filename);
+        de.malban.util.UtilityFiles.copyOneFile(f.getAbsolutePath(), currentProject.projectPrefix+File.separator+filename);
     }
     
     public void reDisplayAll()
@@ -5826,7 +5834,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         if (!inProject) return false;
         if (currentProject == null) return false;
         // try to create dir and save project properties
-        Path p = Paths.get(currentProject.getPath(), currentProject.getProjectName());
+        Path p = Paths.get(currentProject.projectPrefix);
         ProjectPropertiesPool pool = new ProjectPropertiesPool(p.toString()+File.separator, currentProject.getProjectName()+"ProjectProperty.xml");
         pool.put(currentProject);
         pool.save();
@@ -5885,9 +5893,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         String preClass = currentProject.getProjectPreScriptClass();
         String preName = currentProject.getProjectPreScriptName();
         
-        String p = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        if (p.length()!=0) p += File.separator;
-        p+= currentProject.getProjectName()+File.separator;
+        String p = currentProject.projectPrefix+ File.separator;
         
         ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
         boolean ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
@@ -5990,11 +5996,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 boolean asmOk = true;
                 try
                 {
-                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-                    if (path.length() >0 ) path += File.separator;
+                    String path = currentProject.projectPrefix;
                     
                     // get all the files from a directory
-                    final String failure = executeFileScripts("Pre", path+currentProject.getProjectName());
+                    final String failure = executeFileScripts("Pre", path);
                     if (failure!=null) 
                     {
                         if (!asmOk)
@@ -6021,7 +6026,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     {
                         String filenameASM = currentProject.getBankMainFiles().elementAt(b);
                         if (filenameASM.length() == 0) continue;
-                        filenameASM = path+currentProject.getProjectName()+File.separator+filenameASM;
+                        filenameASM = path+File.separator+filenameASM;
                         
                         
                         File test = new File(filenameASM);
@@ -6032,7 +6037,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                         if (skipInternalProcessing(filenameASM))
                         {
                             String filename = currentProject.getBankMainFiles().elementAt(b);
-                            filename = path+currentProject.getProjectName()+File.separator+filename;
+                            filename = path+File.separator+filename;
                             int li = filename.lastIndexOf(".");
                             if (li>=0) 
                                 filename = filename.substring(0,li);
@@ -6058,7 +6063,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
                         
                         String filename = currentProject.getBankMainFiles().elementAt(b);
-                        filename = path+currentProject.getProjectName()+File.separator+filename;
+                        filename = path+File.separator+filename;
                         int li = filename.lastIndexOf(".");
                         if (li>=0) 
                             filename = filename.substring(0,li);
@@ -6097,7 +6102,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     }
                     
                     // get all the files from a directory
-                    final String failure2 = executeFileScripts("Post", path+currentProject.getProjectName());
+                    final String failure2 = executeFileScripts("Post", path);
                     if (failure2!=null) 
                     {
                         if (!asmOk)
@@ -6154,10 +6159,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 String postClass = currentProject.getProjectPostScriptClass();
                 String postName = currentProject.getProjectPostScriptName();
                 
-                String pp = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-                if (pp.length() >0 ) pp += File.separator;
-                pp += currentProject.getProjectName();
-
+                String pp = currentProject.projectPrefix;
                 
                 ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, currentProject.getProjectName(), "", "VediPanel", pp);
                 boolean ok =  ScriptDataPanel.executeScript(postClass, postName, VediPanel.this, ed);
@@ -6186,15 +6188,15 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         refreshTree();
         if (buildOk)
         {
+            
+            CartridgeProperties cartProp = buildCart(currentProject, true);
+            
+            checkVec4EverProject(cartProp);
             if (config.invokeEmulatorAfterAssembly)
             {
                 VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
                 ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
-                CartridgeProperties cartProp = buildCart(currentProject, true);
-                checkVec4EverProject(cartProp);
-                
-                
                 boolean ask = false;
                 if (startTypeRun == START_TYPE_INJECT)
                 {
@@ -6238,11 +6240,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         refreshTree();
     }  
+        
+    // expects relative file name
+    // but under windows can be absolute nonetheless (other drive)
     boolean isProject(String filename)
     {
-        
         if (!filename.toLowerCase().endsWith("projectproperty.xml")) return false;
-        String file = de.malban.util.UtilityString.readTextFileToOneString(new File (Global.mainPathPrefix+filename));
+        String file = de.malban.util.UtilityString.readTextFileToOneString(new File (makeGlobalAbsolute(filename) ));
         if (!file.contains("<AllProjectProperties>")) return false;
         
         // remove all file from editor
@@ -6254,42 +6258,55 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         // is project - load it!
         ProjectPropertiesPool pool = new ProjectPropertiesPool(Paths.get(filename).getParent().toString()+File.separator, Paths.get(filename).getFileName().toString());
         ProjectProperties project =  pool.get(name);
+        currentProject = project;
  
         // set Tree to location
         inProject = true;
+        File projectFile = new File (makeGlobalAbsolute(filename ));
+        currentProject.projectPrefix = projectFile.getAbsolutePath();
+        currentProject.projectPrefix = de.malban.util.UtilityString.replace(currentProject.projectPrefix, projectFile.getName(), "");
+        if (currentProject.projectPrefix.endsWith(File.separator)) currentProject.projectPrefix = currentProject.projectPrefix.substring(0, currentProject.projectPrefix.length()-1);
         
-        fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName()));
+//        fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName()));
+        fillTree(Paths.get(currentProject.projectPrefix));
         
-        currentProject = project;
-        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
-        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
+//        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
+//        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
+        settings.addProject(currentProject.getName(), currentProject.getCClass(), currentProject.projectPrefix);
+        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), currentProject.projectPrefix);
         updateList();
 
-        Path p = Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName());
+        Path p = Paths.get(currentProject.projectPrefix);
         File asmFile = new File(p.toString()+File.separator+ project.getMainFile());
 
-        ASM6809FileInfo.resetToProject(asmFile);
+        asmInfo.resetToProject(asmFile);
+        cInfo.resetToProject(asmFile);
         
         return true;
     }
     CartridgeProperties buildCart(ProjectProperties project, boolean banked)
     {
         CartridgeProperties cart = new CartridgeProperties();
-        String path = convertSeperator(project.getPath());
-        if (path.length() >0 ) path += File.separator;
+        
+//        String path = convertSeperator(project.getPath());
+        String path = currentProject.projectPrefix;
 
+        // vecxi expects relative
+        path = de.malban.util.Utility.makeRelative(path);
+        
+        
         if (banked)
         {
             for (int b = 0; b<project.getNumberOfBanks(); b++)
             {
                 String filename = project.getBankMainFiles().elementAt(b);
-                filename = path+project.getProjectName()+File.separator+filename;
+                filename = path+File.separator+filename;
                 int li = filename.lastIndexOf(".");
                 if (li>=0) 
                     filename = filename.substring(0,li);
                 filename = filename+"_"+(b) + ".bin";
 
-                File test = new File(Global.mainPathPrefix+filename);
+                File test = new File(filename);
                 if (!test.exists())
                 {
                     cart.getFullFilename().add("");
@@ -6305,11 +6322,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             
             if (project.getIsPeerCProject())
             {
-                filename = path+project.getProjectName()+File.separator+"bin"+File.separator+project.getProjectName();
+                filename = path+File.separator+"bin"+File.separator+project.getProjectName();
             }
             else
             {
-                filename = path+project.getProjectName()+File.separator+project.getProjectName();
+                filename = path+File.separator+project.getProjectName();
             }
             
 //            int li = filename.lastIndexOf(".");
@@ -6485,10 +6502,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             {
                 if (currentProject != null)
                 {
-                    String path = currentProject.getPath();
-                    if (path.length()!=0)path+=File.separator;
-                    path += currentProject.getProjectName()+File.separator;
-                    p = Paths.get(path);
+                    p = Paths.get(currentProject.projectPrefix);
                 }
             }
         }
@@ -6737,10 +6751,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     public String getProjectBase()
     {
         if (currentProject==null) return "";
-        String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
-        String baseProjectPath = path+currentProject.getProjectName();
-        return baseProjectPath;
+        return currentProject.projectPrefix;
     }
     boolean saveAYFX(String inFilename, String outFilename)
     {
@@ -7293,9 +7304,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             // concatinate the two
             if (cart.getFullFilename().size() == 2)
             {
-                String newFilename = Global.mainPathPrefix+cart.getFullFilename().elementAt(0).substring(0,cart.getFullFilename().elementAt(0).length()-1-4);
-                String n1 = Global.mainPathPrefix+cart.getFullFilename().elementAt(0);
-                String n2 = Global.mainPathPrefix+cart.getFullFilename().elementAt(1);
+                String newFilename = makeGlobalAbsolute(cart.getFullFilename().elementAt(0).substring(0,cart.getFullFilename().elementAt(0).length()-1-4));
+                String n1 = makeGlobalAbsolute(cart.getFullFilename().elementAt(0));
+                String n2 = makeGlobalAbsolute(cart.getFullFilename().elementAt(1));
                 de.malban.util.UtilityFiles.padFile(n1, (byte)0, 32768);
                 de.malban.util.UtilityFiles.padFile(n2, (byte)0, 32768);
                 n1 += ".fil";
@@ -7305,7 +7316,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             else
             {
-                String filename = Global.mainPathPrefix+cart.getFullFilename().elementAt(0);
+                String filename = makeGlobalAbsolute(cart.getFullFilename().elementAt(0));
                 checkVec4EverFile(filename);
             }
             
@@ -7459,12 +7470,18 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         if (edi != null)
         {
             String filename = edi.getFilename();
+            
+            
+            if (filename.contains(Global.mainPathPrefix))
+                filename = de .malban.util.UtilityString.replace(filename, Global.mainPathPrefix, "");
+
+            
             if (edi.assume6809C)
             {
                 Set entries;
-                synchronized (FunctionSink.knownGlobalFunctions)
+                synchronized (cInfo.knownGlobalFunctions)
                 {
-                    HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) FunctionSink.knownGlobalFunctions.clone();
+                    HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) cInfo.knownGlobalFunctions.clone();
                     entries = clonnie.entrySet();
                 }
                 Iterator it = entries.iterator();
@@ -7499,9 +7516,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             else if (edi.assume6809Asm)
             {
                 Set entries;
-                synchronized (LabelSink.knownGlobalVariables)
+                synchronized (asmInfo.knownGlobalVariables)
                 {
-                    HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) LabelSink.knownGlobalVariables.clone();
+                    HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) asmInfo.knownGlobalVariables.clone();
                     entries = clonnie.entrySet();
                 }
                 Iterator it = entries.iterator();
@@ -7538,9 +7555,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 HashMap<String, String> savety = new HashMap<String, String>();
                 if (settings.showMacroDefinition)
                 {
-                    synchronized (MacroSink.knownGlobalMacros)
+                    synchronized (asmInfo.knownGlobalMacros)
                     {
-                        HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) MacroSink.knownGlobalMacros.clone();
+                        HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) asmInfo.knownGlobalMacros.clone();
                         entries = clonnie.entrySet();
                     }
                     it = entries.iterator();
@@ -7765,7 +7782,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                                     {
                                         if ((config.deepSyntaxCheckThresholdActive) && (edi.getText().length()>config.deepSyntaxCheckThreshold))
                                             continue;
-                                        ASM6809FileInfo.resetDefinitions(Global.mainPathPrefix+convertSeperator(edi.getFilename()), edi.getText());
+                                        asmInfo.resetDefinitions(makeGlobalAbsolute(edi.getFilename()), edi.getText());
                                         edi.hasChanged1 = false;
                                     }
                                 }
@@ -7775,7 +7792,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                                     {
                                         if ((config.deepSyntaxCheckThresholdActive) && (edi.getText().length()>config.deepSyntaxCheckThreshold))
                                             continue;
-                                        C6809FileInfo.resetDefinitions(Global.mainPathPrefix+convertSeperator(edi.getFilename()), edi.getText());
+                                        cInfo.resetDefinitions(makeGlobalAbsolute(edi.getFilename()), edi.getText());
                                         edi.hasChanged1 = false;
                                     }
                                 }
@@ -7832,8 +7849,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         String compiler = Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"gcc6809"+File.separator+"bin"+File.separator+"cc1";
         String CFLAGS1a = "-dumpbase";
         String CFLAGS1b = baseOnly(file);
-        String CFLAGS2a = "-O3";
-        String CFLAGS2b = "-g";
+        String CFLAGS2a = "-O3";//-O3";
+        String CFLAGS2b = "-O3";//"-g";
         String CFLAGS3 = "-mint8";
         String CFLAGS4 = "-msoft-reg-count=0";
         String CFLAGS5a = "-auxbase";
@@ -7865,19 +7882,26 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         CompileResult compiled = doCCompiler( cmd);
         if (peepAtASM)
         {
-            if (currentProject.getIsCPeephole())
-                FilePeeper.peepCorrectASM(output2);
+            if (currentProject!=null)
+            {
+                if (currentProject.getIsCPeephole())
+                    FilePeeper.peepCorrectASM(output2);
+            }
+            else
+                    FilePeeper.peepCorrectASM(output2);
         }
         
         
-        if (compiled != null)
-        {
-            ArrayList<CompileResult> crs = new ArrayList<CompileResult>();
-            crs.add(compiled);
-            buildFinalAssiResult(crs, false);
-        }
+//        if (compiled != null)
+//        {
+//            ArrayList<CompileResult> crs = new ArrayList<CompileResult>();
+//            crs.add(compiled);
+//            buildFinalAssiResult(crs, false);
+//        }
     }
-    
+    /*
+
+    */
     public CompileResult doCCompiler(String[] flags)
     {
         if (isMac)
@@ -8003,9 +8027,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         String assiFile = changeTypeTo(compiles.get(0).inputFile, "asm");//.�pathOnly+"assiFile.asm";
         if (currentProject != null)
         {
-            String path = convertSeperator(currentProject.getPath());
-            if (path.length() >0 ) path += File.separator;
-            assiFile = path+currentProject.getProjectName()+File.separator+currentProject.getProjectName()+".asm";
+            assiFile = currentProject.projectPrefix+File.separator+currentProject.getProjectName()+".asm";
         }
 
         de.malban.util.UtilityFiles.createTextFile(assiFile, n);
@@ -8238,9 +8260,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         String preClass = currentProject.getProjectPreScriptClass();
         String preName = currentProject.getProjectPreScriptName();
         
-        String p = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        if (p.length()!=0) p += File.separator;
-        p+= currentProject.getProjectName()+File.separator;
+        String p = currentProject.projectPrefix+File.separator;
         
         ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
         boolean ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
@@ -8293,9 +8313,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 boolean asmOk = true;
                 try
                 {
-                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-                    if (path.length() >0 ) path += File.separator;
-                    path = path+currentProject.getProjectName();
+                    String path = currentProject.projectPrefix;
 
                     // get all the files from a directory
                     final String failure = executeFileScripts("Pre", path);
@@ -8422,10 +8440,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 String postClass = currentProject.getProjectPostScriptClass();
                 String postName = currentProject.getProjectPostScriptName();
                 
-                String pp = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-                if (pp.length() >0 ) pp += File.separator;
-                pp += currentProject.getProjectName();
-
+                String pp = currentProject.projectPrefix;
                 
                 ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, currentProject.getProjectName(), "", "VediPanel", pp);
                 boolean ok =  ScriptDataPanel.executeScript(postClass, postName, VediPanel.this, ed);
@@ -8453,9 +8468,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     {
 //                        String assiFile = changetypeTo(crs.get(0).inputFile, "asm");//pathOnly+"assiFile.asm";
 
-                        String path = convertSeperator(currentProject.getPath());
-                        if (path.length() >0 ) path += File.separator;
-                        String assiFile = path+currentProject.getProjectName()+File.separator+currentProject.getProjectName()+".asm";
+                        String assiFile = currentProject.projectPrefix+File.separator+currentProject.getProjectName()+".asm";
                         
                         
                         printMessage("Assembling: "+assiFile);
@@ -8751,11 +8764,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     }
     void doCreatePeerCProject(ProjectProperties project)
     {
-        String p1 = project.getPath();
-        String p2 = project.getProjectName();
-        String projectDirPath = Global.mainPathPrefix+p1+File.separator+p2;
-        if (!projectDirPath.endsWith(File.separator)) projectDirPath= projectDirPath + File.separator;
-        Path p = Paths.get(Global.mainPathPrefix+p1,p2);
+        String projectDirPath = currentProject.projectPrefix+ File.separator;
         
         
         de.malban.util.UtilityFiles.copyDirectoryAllFiles(Global.mainPathPrefix+"template"+File.separator+"PeerC", projectDirPath);
@@ -8770,11 +8779,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         // set Tree to location
         inProject = true;
         currentProject = project;
-        fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName()));
+        fillTree(Paths.get(currentProject.projectPrefix));
         
         saveProject(); // since files 
-        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
-        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
+        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getOldPath());
+        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getOldPath());
 
         updateList();
     }
@@ -8797,9 +8806,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         String preClass = currentProject.getProjectPreScriptClass();
         String preName = currentProject.getProjectPreScriptName();
         
-        String p = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        if (p.length()!=0) p += File.separator;
-        p+= currentProject.getProjectName()+File.separator+"source"+File.separator;
+        String p = currentProject.projectPrefix+File.separator+"source"+File.separator;
         
         ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
         
@@ -8829,12 +8836,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 boolean asmOk = true;
                 try
                 {
-                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-                    if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
-                    String baseProjectPath = path+currentProject.getProjectName();
+                    String baseProjectPath = currentProject.projectPrefix;
 
                     peerClean(baseProjectPath);
-                    path = baseProjectPath+ File.separator+"source";
+                    String path = baseProjectPath+ File.separator+"source";
                     String libPath = baseProjectPath+ File.separator+"build"+ File.separator+"lib"+ File.separator;
 
                     // copy all "s" files to build lib, so they get automatically included
@@ -9013,9 +9018,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 String postClass = currentProject.getProjectPostScriptClass();
                 String postName = currentProject.getProjectPostScriptName();
                 
-                String pp = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-                if (pp.length() >0 ) pp += File.separator;
-                pp += currentProject.getProjectName();
+                String pp = currentProject.projectPrefix;
 
                 
                 ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, currentProject.getProjectName(), "", "VediPanel", pp);
@@ -9063,14 +9066,14 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         if (buildOk)
         {
             buildPeerCCNT();
+
+            CartridgeProperties cartProp = buildCart(currentProject, false);
+            checkVec4EverProject(cartProp);
             if (config.invokeEmulatorAfterAssembly)
             {
+                
                 VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
                 ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
-
-                CartridgeProperties cartProp = buildCart(currentProject, false);
-                checkVec4EverProject(cartProp);
-                
                 boolean ask = false;
                 if (startTypeRun == START_TYPE_INJECT)
                 {
@@ -9128,10 +9131,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         boolean hasFramePointer = true;
         if (flags.contains("-fomit-frame-pointer"))
             hasFramePointer = false;
-        flags = de.malban.util.UtilityString.replace(flags, "include.nf", "include");
-
-        if (!hasFramePointer)
-            flags = de.malban.util.UtilityString.replace(flags, "include", "include.nf");
+//        flags = de.malban.util.UtilityString.replace(flags, "include.nf", "include");
+//
+//        if (!hasFramePointer)
+//            flags = de.malban.util.UtilityString.replace(flags, "include", "include.nf");
         
         String[] splitsFile = additionalFileFlags.split(" ");
         splitsFile = removeEmpty(splitsFile);
@@ -9154,14 +9157,14 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
 
         // if locally a include directory exists - add it to the include Path
-        String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
-        String baseProjectPath = path+currentProject.getProjectName();
-        File directory = new File(baseProjectPath+ File.separator+"include");
+        String path =  currentProject.projectPrefix+ File.separator;
+
+        File directory = new File(currentProject.projectPrefix+ File.separator+"include");
         String additionalInclude ="";
         int additionalFlags= 4;
         
         if (!hasFramePointer) additionalFlags++;
+        else additionalFlags++;
                 
         if (directory.exists())
         {
@@ -9181,11 +9184,15 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             cflags[cflags.length-4] = additionalInclude;
             if (!hasFramePointer)
                 cflags[cflags.length-5] = "-DOMMIT_FRAMEPOINTER=1";
+            else
+                cflags[cflags.length-5] = "-DFRAME_POINTER=1";
         }
         else
         {
             if (!hasFramePointer)
                 cflags[cflags.length-4] = "-DOMMIT_FRAMEPOINTER=1";
+            else
+                cflags[cflags.length-4] = "-DFRAME_POINTER=1";
         }
 
         
@@ -9901,13 +9908,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 boolean asmOk = true;
                 try
                 {
-                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-                    if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
-                    String baseProjectPath = path+currentProject.getProjectName();
+                    String baseProjectPath = currentProject.projectPrefix;
 
                     peerClean(baseProjectPath);
                  
-                    path = baseProjectPath+ File.separator+"source";
+                    String path = baseProjectPath+ File.separator+"source";
                     File[] fList = new File[1];
                     fList[0] = new File(fname);
                     ArrayList<String> res = peerPreprocess(fList, baseProjectPath);
@@ -10007,20 +10012,16 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     {
         // do map file        
         CartridgeProperties cart = new CartridgeProperties();
-        String path = convertSeperator(currentProject.getPath());
-        if (path.length() >0 ) path += File.separator;
-        String  cntFilename = path+currentProject.getProjectName()+File.separator+"bin"+File.separator+currentProject.getProjectName() +".cnt";
+        String  cntFilename = currentProject.projectPrefix+File.separator+"bin"+File.separator+currentProject.getProjectName() +".cnt";
 
-        path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
-        String baseProjectPath = path+currentProject.getProjectName();
+        String baseProjectPath = currentProject.projectPrefix;
 
         String pathSource = baseProjectPath+ File.separator+"source";
         String pathBuild = baseProjectPath+ File.separator+"build";
         String pathBuildLib = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
         String pathUsrLib = baseProjectPath+ File.separator+"lib";
 
-        File directory = new File(path);
+        File directory = new File(currentProject.projectPrefix);
         File[] fList = directory.listFiles();
         ASMap asmap = parseMap(pathBuild+File.separator+currentProject.getProjectName()+".map");
 
@@ -10074,23 +10075,46 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         {
             if (info.label.length() != 0)
             {
-                buf.append("LABEL ").append(String.format("$%04X", (info.address&0xffff))).append(" ").append(info.label).append("\n");
+                String label = info.label;
+                if (((info.address&0xffff)<=0xff) && (label.contains("_dp_")))
+                {
+                    // blend out all peer "dp things that lie in the zero page"
+                    label = removeDP_LABELs(label);
+                    
+                }
+                buf.append("LABEL ").append(String.format("$%04X", (info.address&0xffff))).append(" ").append(label).append("\n");
             }
         }
 
         for (MemInfo info :rst.m)
         {
+            
             if (info.comment.length() != 0)
             {
                 String c = info.comment;
+                c = de.malban.util.UtilityString.replace(c, "rum:", "");
+                c = de.malban.util.UtilityString.replace(c, "rum", "");
+                c = de.malban.util.UtilityString.replace(c, "cold reset:", "");
+                c = de.malban.util.UtilityString.replace(c, "cold reset", "");
+                c = de.malban.util.UtilityString.replace(c, "cmpqi:(R):", "");
+                c = de.malban.util.UtilityString.replace(c, "cmpqi:(R)", "");
+                c = de.malban.util.UtilityString.replace(c, "cmpqi", "");
+                
+                
+                if (c.trim().length()==0) continue;
                 /*
                 c = c.trim();
                 c = de.malban.util.UtilityString.replace(c, "::",":").trim();
                 if (c.startsWith(":")) c = c.substring(1);
                 if (c.endsWith(":")) c = c.substring(0, c.length()-1);
                 */
+                if (((info.address&0xffff)<=0xff) && (info.label.contains("_dp_")))
+                {
+                    // blend out all peer "dp things that lie in the zero page"
+                }
+                else
+                    buf.append("COMMENT "+String.format("$%04X", (info.address&0xffff))+" "+c+"\n");
                 
-                buf.append("COMMENT "+String.format("$%04X", (info.address&0xffff))+" "+c+"\n");
            }
         }
         for (MemInfo info :rst.m)
@@ -10136,6 +10160,22 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 
         return true;
     }
+    
+    String removeDP_LABELs(String in)
+    {
+        String out="";
+        String[] parts = in.split(":");
+        parts = removeEmpty(parts);
+        for (String l:parts)
+        {
+            if (l.contains("_dp_")) continue;
+            if (out.length()>0) out+=":";
+            out+=l.trim();
+        }
+        return out;
+    }
+
+    
     int addConsecutiveType(int start, RSTInfo rst, StringBuilder buf)
     {
         if (start > 0x7fff) return Integer.MAX_VALUE;
@@ -10439,6 +10479,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             if (m[a].cInfo!=null)
             {
                 m[a].cInfo.lineString+=c.lineString;
+                m[a].cInfo.hasBreakpoint = m[a].cInfo.hasBreakpoint || c.hasBreakpoint;
             }
             else
             {
@@ -10593,8 +10634,18 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         RSTInfo rst = new RSTInfo();
         for (String f: files)
         {
+            if (f.contains("vec_rom")) continue;
+            if (f.contains("vec_ram")) continue;
             ArrayList<DebugComment> commentList = new ArrayList<DebugComment>();
-            String debugCommentFilename = de.malban.util.UtilityString.replace(f, "enr.rst", "c");
+            String debugCommentFilename = "";
+            
+            if (f.contains("enr.rst"))
+                debugCommentFilename = de.malban.util.UtilityString.replace(f, "enr.rst", "c");
+            else
+                debugCommentFilename = de.malban.util.UtilityString.replace(f, ".rst", ".c");
+            
+            
+            
             debugCommentFilename = de.malban.util.UtilityString.replace(debugCommentFilename, "build"+File.separator+"lib","source");
 // QUICK hack, 
 // TODO
@@ -10701,40 +10752,46 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                             if (cInfo == null)
                                 cInfo = new CInfoBlock();
 
-                            
-                            if (line1.indexOf("\"")==-1)
+                            if (!cInfo.hasBreakpoint)
                             {
-                                cInfo.file ="";
-                            }
-                            else
-                            {
-                                cInfo.file =line1.substring(line1.indexOf("\"")+1, line1.lastIndexOf("\""));
-                            }
 
-                            
-                            cInfo.file = de.malban.util.UtilityString.replace(cInfo.file, ".enr.c", ".c").trim();
-
-                            String lineNo = line2.substring(line2.indexOf("[")+1, line2.indexOf("]"));
-                            cInfo.lineNo = de.malban.util.UtilityString.Int0(lineNo);
-                            
-                            if (cInfo.lineString.length() == 0)
-                                cInfo.lineString = line2.substring(line2.indexOf("]")+1);
-                            else
-                                cInfo.lineString += ", "+line2.substring(line2.indexOf("]")+1);
-
-                            String address = line4.substring(3, 3+4);
-                            if (de.malban.util.UtilityString.isHexNumber(address)) 
-                            {
-                                cInfo.address = DASM6809.toNumber("$"+address);
-                            }                  
-                            
-                            for (DebugComment dbc: commentList)
-                            {
-                                if (dbc.beforLineNo == cInfo.lineNo)
+                                if (line1.indexOf("\"")==-1)
                                 {
-                                    cInfo.hasBreakpoint = true;
-                                    dbc.breakpointCommitted = true;
+                                    cInfo.file ="";
                                 }
+                                else
+                                {
+                                    cInfo.file =line1.substring(line1.indexOf("\"")+1, line1.lastIndexOf("\""));
+                                }
+
+
+                                cInfo.file = de.malban.util.UtilityString.replace(cInfo.file, ".enr.c", ".c").trim();
+
+                                String lineNo = line2.substring(line2.indexOf("[")+1, line2.indexOf("]"));
+                                cInfo.lineNo = de.malban.util.UtilityString.Int0(lineNo);
+
+                                if (cInfo.lineString.length() == 0)
+                                    cInfo.lineString = line2.substring(line2.indexOf("]")+1);
+                                else
+                                    cInfo.lineString += ", "+line2.substring(line2.indexOf("]")+1);
+
+                                String address = line4.substring(3, 3+4);
+                                if (de.malban.util.UtilityString.isHexNumber(address)) 
+                                {
+                                    cInfo.address = DASM6809.toNumber("$"+address);
+                                }   
+                                
+
+
+                                for (DebugComment dbc: commentList)
+                                {
+                                    if (dbc.beforLineNo == cInfo.lineNo)
+                                    {
+                                        cInfo.hasBreakpoint = true;
+                                        dbc.breakpointCommitted = true;
+                                    }
+                                }
+                                
                             }
                             
                             
@@ -10904,13 +10961,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     String truncateFilename(String file)
     {
         String path= Global.mainPathPrefix;
-        if (currentProject != null)
-            path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
-        if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
-    
         String baseProjectPath = path;
         if (currentProject != null)
-            baseProjectPath = path+currentProject.getProjectName()+File.separator;
+            baseProjectPath = currentProject.projectPrefix+File.separator;
 
         String path2 = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"lib"+File.separator;
         
@@ -11737,6 +11790,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         boolean inLargeLine=false;
         boolean inComment = false;
         boolean inStart = false;
+        boolean inStruct = false;
         boolean inStartRoundSeen = false;
         boolean inVar = false;
         boolean inFunc = false;
@@ -11799,7 +11853,6 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             countReadyLine = removeComments(countReadyLine).trim();
 ///// COMMENTS
-            
             
             
             
@@ -11968,6 +12021,17 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             
             countCurly += UtilityString.countChars(countReadyLine, "{");
             countCurly -= UtilityString.countChars(countReadyLine, "}");
+            
+            
+            if (countCurly == 0)
+            {
+                if (countReadyLine.contains("struct ")) inStruct = true;
+            }
+            if ((countCurly == 0) && (curlyStart!=0) && (inStruct)) inStruct= false;
+
+            
+            
+            
             int countRoundStart = UtilityString.countChars(countReadyLine, "(");
             countRound += UtilityString.countChars(countReadyLine, "(");
             countRound -= UtilityString.countChars(countReadyLine, ")");
@@ -12098,7 +12162,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             
             
             if (!inFunc) preLineAllowed = false;
-            
+            if (inStruct) preLineAllowed = false;
             
             
             preLine = "{asm(\"; #ENR#["+i+"]"+escape(orgLine)+"\");}";
@@ -12170,10 +12234,34 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     
     public void resetCScan(boolean hasFramePointer)
     {
-        if (C6809FileInfo.hasFramePointer == hasFramePointer) return;
-        C6809FileInfo.hasFramePointer = hasFramePointer;
-        C6809FileInfo.resetDefinitions();
+        if (cInfo.hasFramePointer == hasFramePointer) return;
+        cInfo.hasFramePointer = hasFramePointer;
+        cInfo.resetDefinitions();
         updateDefinitions();
+    }
+    
+    public static VediPanel getVedi(Component o)
+    {
+        do
+        {
+            if (o instanceof VediPanel) return (VediPanel)o;
+            o = o.getParent();
+            
+        } while (o != null);
+        
+        return null;
+    }
+    public static C6809FileMaster getCInfo(Component o)
+    {
+        VediPanel vedi = getVedi(o);
+        if (vedi == null) return null;
+        return vedi.cInfo;
+    }
+    public static ASM6809FileMaster getAsmInfo(Component o)
+    {
+        VediPanel vedi = getVedi(o);
+        if (vedi == null) return null;
+        return vedi.asmInfo;
     }
 
 }

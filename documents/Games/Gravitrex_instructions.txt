@@ -1,0 +1,86 @@
+Background                              
+
+Gravitar was a vector graphic arcade game that took some of the elements of Asteroids (the controls and free flight abilities of the player's['] ship[s]) but made them more restrictive by placing players inside a series of planets. Players had to skim surfaces of the planets and destroy all the bunkers therein, as well as beam up fuel cells to maintain their fuel level(s) and avoiding or destroying saucers that would also appear. The game did not do very well commercially and would only be ported to the Atari 2600 a few years later (although it has reappeared on some modern day compilations since).
+
+Gravitrex is a clone of Gravitar, although with many differences, such as the addition of humans dotting the planetary landscapes that have to be rescued, and the Gravitrex Plus cart also includes two bonus games and other features as well. All games are for one player only.
+Gameplay                              
+Screen shot of universe
+
+Solar system screenshot.
+The player controls a fighter ship that begins each game in a solar system. There is a sun in the middle and several planets to choose from to enter so the player can start their mission. If the player takes too long with choosing a planet, a pair of space saucers will emerge from the reactor planet and will engage the player in a dogfight if they get close enough (although the player can just elude them by entering a planet). If the player’s ship gets destroyed or the player shoots both saucers then the player will return to the main solar system screen.
+
+Once the player enters a planet by thrusting into it, they must destroy every enemy bunker on the surface and dispose of every fuel tank and human. Humans and fuel tanks can be shot (although the player will not receive any points for doing so), but a bonus is given if all humans are rescued on a level (see Scoring and Extras sections), plus fuel tanks are needed to keep up the player’s fuel level (which is indicated by a line right next to the score at the top left of the screen). Humans and fuel tanks can be teleported into the player’s ship by maneuvering their ship close and activating the teleporter/shields function. Once all bunkers have been destroyed and all humans and fuel tanks have been disposed of, a sound effect will signal that the mission is complete, and upon leaving the planet, it will self-destruct and the player will be given a bonus for that planet.
+
+The exception to this rule is the lone reactor planet on each level, which has only one target – a reactor – deep inside it. This planet is different than all the others, as the player is given 99 time units to make their way through a brief maze, shoot the reactor, and get out before time runs out or else the player’s ship will be destroyed and the reactor will remain intact. If the player does not destroy this planet last in a level then it clears out the space saucers for the remainder of the level, since this is the planet that they emerge from.
+
+Dangers include the player’s ship crashing if it runs out of fuel, plus the ship will be destroyed if shot by a bunker, space saucer or alien air interceptor (which are similar to space saucers but they appear inside a planet), if they crash into a wall, the sun, space saucer or alien air interceptor, or do not leave the reactor planet before their time runs out. If the player runs out of reserve ships then the game will end. The player’s fuel, however, is replenished mostly from a fuel tank and is fully replaced upon destroying a planet, finishing a level, or with each new ship. The player’s teleporter function also doubles as a shield to protect them from enemy fire. Also, if the player defeats all planets in a level, then that level’s sun will go nova, various bonuses are then awarded (see Extras section), and if the player defeats the third level the game will end, giving a congratulations message as well as sharing some trivia about Gravitrex from the game’s programmer John Dondzila on the screen.
+Controls                              
+
+    Pause–button 1
+    Teleporter/shields–button 2
+    Thrust–button 3
+    Fire–button 4
+    Turn ship (left/right)–joystick or D-pad 
+
+(Note: these are the default controls, which can be changed on the options menu screen.)
+Scoring                              
+
+    Space saucer/alien air interceptor–50 points
+    Bunker–75
+    Fuel tank recovered–150
+    Human rescued–400
+    Destroying alien planet–2,000, 3,000, 4,000, 5,000, or 9,000 depending on planet
+    Rescuing all humans on level 3–25,000
+    Rescuing all 65 humans in game–100,000
+    Bonus ship awarded–every 10,000 
+
+Extras                              
+
+During a game of Gravitrex, there are several other ways of earning extra ships aside from earning a score of every 10,000 points, which includes earning a ship for every reactor destroyed times the level number, three extra ships are earned for completing a level, five are earned for rescuing every human on level one, and 10 are awarded for rescuing all humans on level two. (Note: a level has to be cleared before any of these bonuses are awarded.)
+
+The options menu screen allows the player to remap the controls and enter passwords, which are awarded for completing levels one and two, giving the player the ability to restart a game at the beginning of those levels that they left off at. The cartridge also includes an "arcade" version of Gravitrex (which is identical to the standard game except the player’s ship’s thrust is more powerful) and the two bonus games of Patriots III (which also has an option for using the original Vectrex controller analog setting) and Paratroopers.
+Patriots III Ballistic Busters (background)                              
+
+Missile Command was an arcade game where players had to defend six cities with three missile bases from enemy missile, plane and satellite attacks. If all six cities were destroyed with no remaining cities in reserve then the game would end.
+
+Patriots III is a clone of Missile Command, although with some minor differences in game play.
+Gameplay                              
+Patriots32
+
+Patriots III screenshot.
+Missiles come raining down from the top of the screen, which the player must place their target cursor in appropriate places below the missiles and fire from one of their three Patriot launchers in hopes of stopping the missiles. Enemy saucers and bombers will also appear and drop their own missiles, as well as Smart Bombs (starting with the third wave) making direct beelines for bases or launchers, which evade the player’s fire. The player has unlimited firepower, although after firing several shots from the same launcher in a row, the launcher will have to reload (as noted by an onscreen exclamation point over the launcher) and the player will not be able to fire from that launcher again for a few seconds.
+
+Six bases have to be protected along with the three missile launchers; when an enemy missile or Smart Bomb hits one of these, it is destroyed. However, with every 10,000 points, a base will brought back. The game ends when there are no remaining bases in reserve after they are all destroyed.
+Controls                              
+
+    Position cursor–joystick or D-pad
+    Fire from left base–button 1
+    Fire from center base–button 2
+    Fire from right base–button 3
+    Pause–button 4
+    Change modes–after pausing the game, pressing button 1 will change the cursor speed, button 2 will change from using a digital to the original analog mode 
+
+Scoring                              
+
+    Enemy missile destroyed–10 points
+    Saucers/bombers–50
+    Smart Bombs–80
+    Saved bases–100
+    Surviving launchers–200
+    Extra base–every 10,000 
+
+(Note: all items are the base scores times the bonus multiplier per wave [except for gaining an extra base, which runs a flat 10,000 or a multiple thereof]).
+Paratroopers                              
+
+This is the hidden game on Gravitrex Plus, being a clone of the Apple II game Sabotage, where the player controls a gun turret at the bottom center of the screen. Helicopters would fly overhead, dropping parachutists; if too many landed (four on either side of the player’s turret), the game would end. Later jet planes would drop bombs. The player earned points for everything they shot down but they would be penalized one point for every shot they fired as well.
+
+Paratroopers is a simplified clone of Sabotage, having only planes that drop parachutists. If a parachutist makes it to the ground, it will start moving towards the player’s gun and destroy the gun once they reach it. The player would not be penalized for shots fired, however, along with only being able to shoot straight missiles (as Sabotage also gave the player the option of having steerable missiles if they chose to), plus the troopers don’t explode into pieces when shot and occasionally take out other troopers like on the original. There is also just one constant wave until the player is eventually overrun and the game ends, unlike how there is an obvious change with Sabotage when the deadlier aircraft appears that drops bombs.
+Controls                              
+
+    Turn turret (left and right)–buttons 1 and 2 or D-pad or joystick
+    Fire–button 4 
+
+Scoring                              
+
+    Paratrooper–1 point
+    Plane–10 

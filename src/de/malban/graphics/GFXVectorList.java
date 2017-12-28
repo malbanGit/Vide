@@ -1594,13 +1594,16 @@ public class GFXVectorList {
                 return false;
         return true;
     }
-    public boolean isAllPatternHigh()
+    public boolean isAllPatternHigh(boolean zeroOk)
     {
         if (list.isEmpty()) return true;
         int pa = list.get(0).pattern & 0xff;
         for (GFXVector v: list)
             if (v.pattern < 128) 
-                return false;
+            {
+                if (!((zeroOk) && (v.pattern==0)))
+                    return false;
+            }
         return true;
     }
     
@@ -2496,7 +2499,7 @@ public class GFXVectorList {
             log.addLog("isDraw_VLp failed, not continuous!", WARN);
             return false;
         }
-        if (!isAllPatternHigh())
+        if (!isAllPatternHigh(true))
         {
             log.addLog("isDraw_VLp failed, low patterns found!", WARN);
             return false;
@@ -2838,8 +2841,11 @@ public class GFXVectorList {
             int pattern = v.pattern&0xff;
             if (pattern < 128)
             {
-                warn = true;
-                pattern +=128; // high bit is forcible set!
+                if (pattern!=0)
+                {
+                    warn = true;
+                    pattern +=128; // high bit is forcible set!
+                }
             }
             s.append("\t(signed char) ").append(hexU(pattern)).append(", ");
             s.append(getRelativeCoordString(v, factor)).append(", ");
@@ -2871,8 +2877,11 @@ public class GFXVectorList {
             int pattern = v.pattern&0xff;
             if (pattern < 128)
             {
-                warn = true;
-                pattern +=128; // high bit is forcible set!
+                if (pattern!=0)
+                {
+                    warn = true;
+                    pattern +=128; // high bit is forcible set!
+                }
             }
             s.append(" "+GFXVectorList.getDB()+" ").append(hexU(pattern)).append(", ");
             s.append(getRelativeCoordString(v, factor));

@@ -11,7 +11,8 @@ package de.malban.util.syntax.Syntax.Lexer;
 
 import java.io.*;
 import java.util.HashMap;
-import de.malban.vide.vedi.VediPanel;
+import de.malban.vide.VideConfig;
+import de.malban.util.syntax.entities.ASM6809FileMaster;
 
 /** 
  * M6809Lexer is a M6809 lexer.  Created with JFlex.  An example of how it is used:
@@ -48,6 +49,12 @@ After the operand field all additional chars are just scanned as if they were ad
     HashMap<String, String> definedMacroVars = new HashMap<String, String>();
     HashMap<String, String> knownFileLabels = new HashMap<String, String>();
     HashMap<String, String> knownFileMacros = new HashMap<String, String>();
+    int vediId = -1;
+    public void setVediId(int id)
+    {
+		vediId = id;
+    }
+
     int parenthesisCount=0;
     int parenthesisCloseCount = 0;
     void initLine()
@@ -228,7 +235,7 @@ keywords6809_Stack=("pshs"|"pshu"|"puls"|"pulu")
 keywordASM_IF=("IF"|"ELSEIF"|"IFDEF"|"IFEQ"|"IFNEQ"|"IFNDEF")
 keywordASM=(
 "ELSE"|"END"|"ENDIF"|"FCC"|"FDB"|"DATA"|"BSS"|"CODE"|"OPT"|"NOOPT"
-|"INCLUDE"|"ORG"|"RMB"|"ENDM"|"EQU"|"ERROR"|"EXITM"|"FCB"|"LOCAL"|"DIRECT"|"DB"|"DS"|"DW"
+|"INCLUDE"|"ORG"|"RMB"|"ENDM"|"EQU"|"ERROR"|"EXITM"|"FCB"|"FCW"|"LOCAL"|"DIRECT"|"DB"|"DS"|"DW"
 |"TITLE"|"ALIGN"|"LIST"|"NOLIST"|"PAGE"|"STRUCT"|"BANK"|"CMAP"|"SET"|"END STRUCT")
 
 TrueFalse=("FALSE"|"TRUE")
@@ -701,7 +708,7 @@ MacroLabel=({AS09MacroLabel}|{ASMJMacroLabel})
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
-    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
+    else if (ASM6809FileMaster.getInfo(vediId).knownGlobalMacros.get(text) != null)
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
@@ -822,12 +829,12 @@ MacroLabel=({AS09MacroLabel}|{ASMJMacroLabel})
     }
     else
     {
-        if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
+        if (ASM6809FileMaster.getInfo(vediId).knownGlobalMacros.get(text) != null)
         {
             lastToken = M6809Token.RESERVED_ASMWORD;
         }
     }
-    if (!VediPanel.scanMacros)
+    if (!VideConfig.getConfig().scanMacros)
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }
@@ -886,11 +893,11 @@ MacroLabel=({AS09MacroLabel}|{ASMJMacroLabel})
     else if (text.toLowerCase().equals("dp")) lastToken = M6809Token.RESERVED_REGISTER;
     else if (text.toLowerCase().equals("cc")) lastToken = M6809Token.RESERVED_REGISTER;
 
-    if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text) != null)
+    if (ASM6809FileMaster.getInfo(vediId).knownGlobalVariables.get(text) != null)
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }
-    if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
+    if (ASM6809FileMaster.getInfo(vediId).knownGlobalMacros.get(text) != null)
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
@@ -1129,7 +1136,7 @@ We look if we have "enough" opens, and than cast to be a good closer!
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
-    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
+    else if (ASM6809FileMaster.getInfo(vediId).knownGlobalMacros.get(text) != null)
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
@@ -1138,13 +1145,13 @@ We look if we have "enough" opens, and than cast to be a good closer!
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }
-    else if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text) != null)
+    else if (ASM6809FileMaster.getInfo(vediId).knownGlobalVariables.get(text) != null)
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }
     else
     {
-        if (!VediPanel.scanVars)
+        if (!VideConfig.getConfig().scanVars)
         {
             lastToken = M6809Token.LITERAL_VARIABLE;
         }

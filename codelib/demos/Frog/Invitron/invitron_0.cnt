@@ -1,0 +1,5003 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_a
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $F9F4 Char_Table
+LABEL $FBD4 Char_Table_End
+LABEL $C931 chunk_n
+LABEL $C932 textline_i
+COMMENT_LABEL $C932 current addr inside fadetbl DW
+LABEL $C934 textline_pos
+COMMENT_LABEL $C934 current addr inside texttbl DW
+LABEL $C936 textline_pos_tmp
+COMMENT_LABEL $C936 current addr inside texttbl temp DW
+LABEL $C938 dot_jump_flag
+LABEL $C940 blocks_xcnts
+COMMENT_LABEL $C940 X pos counters
+LABEL $C954 blocks_ints
+COMMENT_LABEL $C954 corresponding intensity counters
+LABEL $7512 start
+EQU $00 INFO_START
+EQU $00 BYTE_POSITION
+EQU $02 BIT_POSITION
+EQU $03 CURRENT_BYTE
+EQU $04 CURRENT_UNPACKED_BYTE
+EQU $05 CURRENT_RLE_COUNTER
+EQU $07 CURRENT_RLE_MAPPER
+EQU $09 CURRENT_IS_PHRASE
+EQU $0B CURRENT_PHRASE_BYTE
+EQU $0C CURRENT_PHRASE_START
+EQU $0E INFO_END
+EQU $0E STRUCTURE_LENGTH
+LABEL $C880 current_register
+LABEL $C881 temp
+LABEL $C882 temp2
+LABEL $C883 temp3
+LABEL $C884 calc_coder
+LABEL $C885 calc_bits
+LABEL $C886 ym_data_len
+LABEL $C888 ym_data_current
+LABEL $C88A ym_name
+LABEL $C88C ym_data_start
+LABEL $0026 do_ym_sound
+LABEL $004D do_ym_sound_done
+EQU $38 next_reg
+LABEL $00C3 get_current_byte
+EQU $4E no_valid_byte
+LABEL $005E byte_ready_1
+LABEL $00E5 no_single_byte
+EQU $66 single_byte
+LABEL $0068 dechifer
+EQU $6E try_next_bit
+LABEL $0084 byte_ready
+LABEL $008D no_add
+LABEL $008F search_again
+LABEL $00BD no_phrase_d
+LABEL $00B7 phrase_found
+LABEL $00B0 next_phrase
+LABEL $00C3 out
+LABEL $00DD no_phrase
+LABEL $00E2 counter_not_minus_one
+LABEL $00EA more_bits
+LABEL $00FD byte_ready_2
+LABEL $010A go_on
+LABEL $011A byte_ready_3
+LABEL $0122 end_here_3
+LABEL $0124 go_on_2
+LABEL $0134 byte_ready_4
+LABEL $013C end_here_4
+LABEL $013D shifting_not_yet_done
+LABEL $0143 no_carry
+LABEL $0148 shifting_done
+LABEL $015D init_ym_sound
+LABEL $0173 next_reg_init
+LABEL $018E cp_start
+LABEL $0190 cp_reg_0
+LABEL $01FF cp_pd_0
+LABEL $028F cp_reg_0_data
+LABEL $048A cp_reg_1
+LABEL $04A5 cp_pd_1
+LABEL $04EF cp_reg_1_data
+LABEL $05D7 cp_reg_2
+LABEL $06AC cp_pd_2
+LABEL $0751 cp_reg_2_data
+LABEL $0B57 cp_reg_3
+LABEL $0BAB cp_pd_3
+LABEL $0C68 cp_reg_3_data
+LABEL $0EFD cp_reg_4
+LABEL $0FB1 cp_pd_4
+LABEL $108B cp_reg_4_data
+LABEL $128D cp_reg_5
+LABEL $12BA cp_pd_5
+LABEL $132E cp_reg_5_data
+LABEL $14BA cp_reg_6
+LABEL $14EA cp_pd_6
+LABEL $1532 cp_reg_6_data
+LABEL $161B cp_reg_7
+LABEL $165A cp_pd_7
+LABEL $169B cp_reg_7_data
+LABEL $1922 cp_reg_8
+LABEL $1967 cp_pd_8
+LABEL $19C4 cp_reg_8_data
+LABEL $1C82 cp_reg_9
+LABEL $1CD6 cp_pd_9
+LABEL $1D59 cp_reg_9_data
+LABEL $1F44 cp_reg_10
+LABEL $1F8C cp_pd_10
+LABEL $2001 cp_reg_10_data
+LABEL $20E9 cp_data
+LABEL $20E9 SONG_DATA
+LABEL $212D cp_name
+LABEL $2138 sample
+LABEL $71A6 texttbl
+LABEL $7512 texttbl_end
+LABEL $78B0 fadetbl2
+LABEL $7518 loop_title
+LABEL $79F3 titletext0
+LABEL $7A3B Print_Str2
+LABEL $7A17 titletext2a
+LABEL $7A25 titletext2b
+LABEL $79FE titletext1
+LABEL $79F3 fadetbl_end2
+LABEL $757E next
+LABEL $7593 done
+LABEL $758C delay
+LABEL $7597 start_tron
+LABEL $7805 fadetbl
+LABEL $761F main_loop
+LABEL $779F blocks
+LABEL $7650 nextchunk
+LABEL $767E LF3F4a
+LABEL $7689 dh1
+LABEL $76AA dh2
+LABEL $7712 LF3F4c
+LABEL $77F9 dots
+LABEL $771D nextdot
+LABEL $773D skip_add
+LABEL $7750 LF3F4b
+LABEL $775B dix1
+LABEL $7776 keep_playing
+LABEL $78B0 fadetbl_end
+LABEL $779C stillfade
+LABEL $7A4E next_scan_line
+COMMENT_LABEL $7A4E LF4A5
+LABEL $7A74 skip_this
+COMMENT_LABEL $7A74 LF4CB
+LABEL $7A70 not_terminator
+LABEL $7AB1 last_row
+COMMENT_LABEL $7AB1 LF50A
+LABEL $7A92 some_delay
+LABEL $7ABD *
+COMMENT_LINE $0000 INVITRON intro for Vectrex by Frog
+COMMENT_LINE $0000 Invitation intro for Chaos Constructions'2015
+COMMENT_LINE $0000 http://frog.enlight.ru
+COMMENT_LINE $0000 e-mail: frog@enlight.ru
+COMMENT_LINE $0000 July 2015
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 RAM till $c926 (inc. $c926) used by music player!
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B music from the rom (no music)
+COMMENT $000D height, width, rel y, rel x (from 0,0)
+COMMENT $0022 end of header
+FORCE_SYMBOL $0023 start
+COMMENT $0026 music player
+COMMENT_LINE $0026 MUSIC PLAYER (should be included in main program)
+COMMENT_LINE $0026 !!! used till $c926 !!! (including)
+COMMENT_LINE $0026 ***************************************************************************
+FORCE_SYMBOL $0026 ym_data_current
+FORCE_NO_SYMBOL $002B
+FORCE_SYMBOL $002E ym_data_current
+FORCE_SYMBOL $0032 current_register
+FORCE_SYMBOL $0035 ym_data_start
+FORCE_SYMBOL $0038 get_current_byte
+FORCE_SYMBOL $003B current_register
+COMMENT_LINE $003E A PSG reg
+COMMENT_LINE $003E B data
+FORCE_SYMBOL $003E Sound_Byte
+FORCE_SYMBOL $0041 STRUCTURE_LENGTH
+FORCE_SYMBOL $0043 current_register
+FORCE_SYMBOL $0046 current_register
+FORCE_NO_SYMBOL $0049
+COMMENT_LINE $004E no we must look at the bits
+COMMENT_LINE $004E a will be our bit register
+COMMENT_LINE $004E ;;;;;;;;;;;;;;;;;; GET_BIT START
+FORCE_SYMBOL $004E BIT_POSITION
+COMMENT_LINE $0052 load a new byte
+FORCE_SYMBOL $0052 BYTE_POSITION
+FORCE_SYMBOL $0056 CURRENT_BYTE
+FORCE_SYMBOL $0058 BYTE_POSITION
+FORCE_NO_SYMBOL $005A
+FORCE_SYMBOL $005C BIT_POSITION
+COMMENT_LINE $005E bit position correct here
+COMMENT_LINE $005E remember we use one bit now!
+FORCE_SYMBOL $005E BIT_POSITION
+COMMENT_LINE $0060 is the bit at the current position set?
+FORCE_SYMBOL $0060 CURRENT_BYTE
+COMMENT_LINE $0062 ;;;;;;;;;;;;;;;;;; GET_BIT END
+COMMENT_LINE $0062 zero flag show bit
+COMMENT_LINE $0062 A is 1 or zero
+COMMENT_LINE $0066 must be zero
+COMMENT_LINE $0066 1 is allways only 8 bit...
+FORCE_SYMBOL $0068 calc_bits
+FORCE_SYMBOL $006B calc_coder
+FORCE_SYMBOL $006E calc_coder
+COMMENT $0071 increase used bits
+FORCE_SYMBOL $0071 calc_bits
+COMMENT_LINE $0074 ;;;;;;;;;;; GET_BIT_START
+FORCE_SYMBOL $0074 BIT_POSITION
+COMMENT_LINE $0078 load a new byte
+FORCE_SYMBOL $0078 BYTE_POSITION
+FORCE_SYMBOL $007C CURRENT_BYTE
+FORCE_SYMBOL $007E BYTE_POSITION
+FORCE_NO_SYMBOL $0080
+FORCE_SYMBOL $0082 BIT_POSITION
+COMMENT_LINE $0084 bit position correct here
+COMMENT_LINE $0084 remember we use one bit now!
+FORCE_SYMBOL $0084 BIT_POSITION
+COMMENT_LINE $0086 is the bit at the current position set?
+FORCE_SYMBOL $0086 CURRENT_BYTE
+COMMENT $0088 and if non zero
+FORCE_SYMBOL $008A calc_coder
+COMMENT_LINE $008D ;;;;;;;;;;; GET_BIT_END
+COMMENT_LINE $008D we load one complete = of mapper index, bits, coder, map-value
+FORCE_SYMBOL $008D CURRENT_RLE_MAPPER
+FORCE_NO_SYMBOL $008F
+COMMENT $0091 load bits from map
+FORCE_NO_SYMBOL $0091
+COMMENT $0093 map out phrases
+FORCE_NO_SYMBOL $0093
+COMMENT $0095 neu
+FORCE_SYMBOL $0095 calc_bits
+COMMENT $0098 neu
+COMMENT $009C load coder-byte
+FORCE_NO_SYMBOL $009C
+FORCE_SYMBOL $009E calc_coder
+COMMENT $00A3 load current mapped byte!
+FORCE_NO_SYMBOL $00A3
+COMMENT_LINE $00A5 in b is the byte value we sought
+COMMENT_LINE $00A5 test for phrase
+COMMENT $00A5 load bits from map
+FORCE_NO_SYMBOL $00A5
+COMMENT $00A7 map in phrases only
+FORCE_NO_SYMBOL $00A7
+COMMENT_LINE $00AB if phrase, than in b the count of the phrase used
+FORCE_SYMBOL $00AB CURRENT_PHRASE_START
+FORCE_SYMBOL $00B7 CURRENT_IS_PHRASE
+FORCE_SYMBOL $00B9 CURRENT_PHRASE_BYTE
+FORCE_SYMBOL $00BD CURRENT_IS_PHRASE
+FORCE_SYMBOL $00C1 CURRENT_UNPACKED_BYTE
+COMMENT_LINE $00C3 U pointer to data structure
+COMMENT_LINE $00C3 A number of register
+COMMENT_LINE $00C3 do we have a byte that is valid?
+FORCE_SYMBOL $00C3 CURRENT_RLE_COUNTER
+COMMENT_LINE $00C7 yep... use current byte
+FORCE_SYMBOL $00C7 CURRENT_IS_PHRASE
+COMMENT $00CB length of phrase
+FORCE_SYMBOL $00CD CURRENT_PHRASE_BYTE
+COMMENT $00CF this is the current byte
+FORCE_SYMBOL $00D1 CURRENT_UNPACKED_BYTE
+FORCE_SYMBOL $00D3 CURRENT_PHRASE_BYTE
+FORCE_SYMBOL $00D5 CURRENT_PHRASE_BYTE
+FORCE_SYMBOL $00D9 CURRENT_PHRASE_BYTE
+FORCE_SYMBOL $00DB CURRENT_RLE_COUNTER
+FORCE_NO_SYMBOL $00DD
+FORCE_SYMBOL $00E0 CURRENT_RLE_COUNTER
+FORCE_SYMBOL $00E2 CURRENT_UNPACKED_BYTE
+COMMENT_LINE $00E5 non single byte here... must decode
+COMMENT_LINE $00E5 first we look for how many bits the RLE counter spreads
+COMMENT_LINE $00E5 we already encountered a 1
+COMMENT_LINE $00E5 and we allways use + 2
+FORCE_NO_SYMBOL $00E5
+FORCE_SYMBOL $00E7 temp
+FORCE_SYMBOL $00EA temp
+COMMENT_LINE $00ED ;;;;;;;;;;;;;;;;;; GET_BIT START
+FORCE_SYMBOL $00ED BIT_POSITION
+COMMENT_LINE $00F1 load a new byte
+FORCE_SYMBOL $00F1 BYTE_POSITION
+FORCE_SYMBOL $00F5 CURRENT_BYTE
+FORCE_SYMBOL $00F7 BYTE_POSITION
+FORCE_NO_SYMBOL $00F9
+FORCE_SYMBOL $00FB BIT_POSITION
+COMMENT_LINE $00FD bit position correct here
+COMMENT_LINE $00FD remember we use one bit now!
+FORCE_SYMBOL $00FD BIT_POSITION
+COMMENT_LINE $00FF is the bit at the current position set?
+FORCE_SYMBOL $00FF CURRENT_BYTE
+COMMENT_LINE $0101 ;;;;;;;;;;;;;;;;;; GET_BIT END
+COMMENT_LINE $0103 in temp is the # of bits for the counter
+COMMENT_LINE $0103 the following '#temp' bits represent the RLE count
+COMMENT_LINE $0103 lsb first
+COMMENT $0103 we start at 1, since zero is an
+COMMENT_LINE $0104 'own' 'subroutine',
+COMMENT_LINE $0104 which doesn't manipulate the temps
+COMMENT $0104 bit counter for shifting
+FORCE_SYMBOL $0104 temp2
+COMMENT $0107 bit counter for shifting
+FORCE_SYMBOL $0107 temp3
+COMMENT_LINE $010A ;;;;;;;;;;;;;;;;;; GET_BIT START
+FORCE_SYMBOL $010A BIT_POSITION
+COMMENT_LINE $010E load a new byte
+FORCE_SYMBOL $010E BYTE_POSITION
+FORCE_SYMBOL $0112 CURRENT_BYTE
+FORCE_SYMBOL $0114 BYTE_POSITION
+FORCE_NO_SYMBOL $0116
+FORCE_SYMBOL $0118 BIT_POSITION
+COMMENT_LINE $011A bit position correct here
+COMMENT_LINE $011A remember we use one bit now!
+FORCE_SYMBOL $011A BIT_POSITION
+COMMENT_LINE $011C is the bit at the current position set?
+FORCE_SYMBOL $011C CURRENT_BYTE
+COMMENT_LINE $0120 return 1
+FORCE_NO_SYMBOL $0120
+COMMENT_LINE $0122 ;;;;;;;;;;;;;;;;;; GET_BIT END
+COMMENT_LINE $0122 in D now one bit at the right position for the RLE counter
+COMMENT_LINE $0124 the first 3 (here only the first one) rounds
+COMMENT_LINE $0124 we need not check for temp, since it is at least 3...
+COMMENT_LINE $0124 ;;;;;;;;;;;;;;;;;; GET_BIT START
+FORCE_SYMBOL $0124 BIT_POSITION
+COMMENT_LINE $0128 load a new byte
+FORCE_SYMBOL $0128 BYTE_POSITION
+FORCE_SYMBOL $012C CURRENT_BYTE
+FORCE_SYMBOL $012E BYTE_POSITION
+FORCE_NO_SYMBOL $0130
+FORCE_SYMBOL $0132 BIT_POSITION
+COMMENT_LINE $0134 bit position correct here
+COMMENT_LINE $0134 remember we use one bit now!
+FORCE_SYMBOL $0134 BIT_POSITION
+COMMENT_LINE $0136 is the bit at the current position set?
+FORCE_SYMBOL $0136 CURRENT_BYTE
+COMMENT_LINE $013A return 1
+FORCE_NO_SYMBOL $013A
+COMMENT $013D LSR A
+COMMENT $013E LSR B
+COMMENT $013F if no carry, than exit
+COMMENT $0141 otherwise underflow from A to 7bit of B
+FORCE_NO_SYMBOL $0141
+FORCE_SYMBOL $0143 temp3
+COMMENT_LINE $0148 in D now one bit at the right position for the RLE counter
+FORCE_SYMBOL $0148 CURRENT_RLE_COUNTER
+FORCE_SYMBOL $014A CURRENT_RLE_COUNTER
+FORCE_SYMBOL $014C temp2
+FORCE_SYMBOL $014F temp2
+FORCE_SYMBOL $0152 temp3
+FORCE_SYMBOL $0155 temp
+COMMENT_LINE $015A now the current counter should be set
+COMMENT_LINE $015A we still need to dechifer the following byte...
+FORCE_SYMBOL $015A dechifer
+FORCE_SYMBOL $015D ym_data_start
+FORCE_SYMBOL $0163 Clear_x_d
+FORCE_NO_SYMBOL $0169
+FORCE_SYMBOL $016B ym_data_len
+FORCE_SYMBOL $016E ym_data_current
+FORCE_NO_SYMBOL $0171
+FORCE_SYMBOL $0176 CURRENT_RLE_MAPPER
+FORCE_SYMBOL $017C CURRENT_PHRASE_START
+FORCE_SYMBOL $0182 BYTE_POSITION
+FORCE_SYMBOL $0185 STRUCTURE_LENGTH
+FORCE_SYMBOL $018A ym_name
+COMMENT_LINE $018E ***************************************************************************
+COMMENT $018E music data (encoded with ym_vpack w/o parameters)
+COMMENT_LINE $018E by c-jeff
+COMMENT $018E vbl_len
+COMMENT_LINE $0190 translation data
+COMMENT_LINE $0190 db $25; bytes follow
+COMMENT_LINE $0190 bits used, code, real 'byte'
+COMMENT $0190 432
+COMMENT $0193 732
+COMMENT $0196 896
+COMMENT $0199 915
+COMMENT $019C 930
+COMMENT $019F 414
+COMMENT $01A2 528
+COMMENT $01A5 642
+COMMENT $01A8 112
+COMMENT $01AB 114
+COMMENT $01AE 43
+COMMENT $01B1 60
+COMMENT $01B4 105
+COMMENT $01B7 108
+COMMENT $01BA 22
+COMMENT $01BD 34
+COMMENT $01C0 36
+COMMENT $01C3 39
+COMMENT $01C6 7
+COMMENT $01C9 13
+COMMENT $01CC 18
+COMMENT $01CF 5
+COMMENT $01D2 5
+COMMENT $01D5 6
+COMMENT $01D8 8
+COMMENT $01DB 13
+COMMENT $01DE 2
+COMMENT $01E1 2
+COMMENT $01E4 3
+COMMENT $01E7 3
+COMMENT $01EA 4
+COMMENT $01ED 4
+COMMENT $01F0 6
+COMMENT $01F3 6
+COMMENT $01F6 2
+COMMENT $01F9 2
+COMMENT $01FC 2
+COMMENT_LINE $01FF phrases follow
+COMMENT $01FF 896
+COMMENT $020E 930
+COMMENT $021E 915
+COMMENT $022E 732
+COMMENT $0235 642
+COMMENT $023C 528
+COMMENT $0245 432
+COMMENT $024F 414
+COMMENT $0259 112
+COMMENT $0262 114
+COMMENT $0269 108
+COMMENT $0270 60
+COMMENT $0280 36
+COMMENT $0287 39
+COMMENT $028B 18
+COMMENT_LINE $028F data follows
+COMMENT $0483 flushed
+COMMENT_LINE $048A translation data
+COMMENT_LINE $048A db $09; bytes follow
+COMMENT_LINE $048A bits used, code, real 'byte'
+COMMENT $048A 1740
+COMMENT $048D 2688
+COMMENT $0490 480
+COMMENT $0493 882
+COMMENT $0496 63
+COMMENT $0499 140
+COMMENT $049C 160
+COMMENT $049F 47
+COMMENT $04A2 12
+COMMENT_LINE $04A5 phrases follow
+COMMENT $04A5 2688
+COMMENT $04B4 882
+COMMENT $04C3 1740
+COMMENT $04CE 480
+COMMENT $04D9 160
+COMMENT $04E4 140
+COMMENT_LINE $04EF data follows
+COMMENT $05D5 flushed
+COMMENT_LINE $05D7 translation data
+COMMENT_LINE $05D7 db $47; bytes follow
+COMMENT_LINE $05D7 bits used, code, real 'byte'
+COMMENT $05D7 396
+COMMENT $05DA 288
+COMMENT $05DD 294
+COMMENT $05E0 336
+COMMENT $05E3 384
+COMMENT $05E6 672
+COMMENT $05E9 876
+COMMENT $05EC 132
+COMMENT $05EF 144
+COMMENT $05F2 165
+COMMENT $05F5 192
+COMMENT $05F8 192
+COMMENT $05FB 192
+COMMENT $05FE 256
+COMMENT $0601 276
+COMMENT $0604 48
+COMMENT $0607 60
+COMMENT $060A 72
+COMMENT $060D 75
+COMMENT $0610 88
+COMMENT $0613 93
+COMMENT $0616 96
+COMMENT $0619 120
+COMMENT $061C 120
+COMMENT $061F 124
+COMMENT $0622 30
+COMMENT $0625 33
+COMMENT $0628 36
+COMMENT $062B 54
+COMMENT $062E 60
+COMMENT $0631 65
+COMMENT $0634 72
+COMMENT $0637 10
+COMMENT $063A 11
+COMMENT $063D 29
+COMMENT $0640 30
+COMMENT $0643 37
+COMMENT $0646 48
+COMMENT $0649 2
+COMMENT $064C 4
+COMMENT $064F 5
+COMMENT $0652 5
+COMMENT $0655 5
+COMMENT $0658 6
+COMMENT $065B 8
+COMMENT $065E 2
+COMMENT $0661 2
+COMMENT $0664 2
+COMMENT $0667 2
+COMMENT $066A 2
+COMMENT $066D 2
+COMMENT $0670 2
+COMMENT $0673 2
+COMMENT $0676 2
+COMMENT $0679 2
+COMMENT $067C 3
+COMMENT $067F 3
+COMMENT $0682 1
+COMMENT $0685 1
+COMMENT $0688 1
+COMMENT $068B 1
+COMMENT $068E 2
+COMMENT $0691 2
+COMMENT $0694 2
+COMMENT $0697 2
+COMMENT $069A 2
+COMMENT $069D 2
+COMMENT $06A0 1
+COMMENT $06A3 1
+COMMENT $06A6 1
+COMMENT $06A9 1
+COMMENT_LINE $06AC phrases follow
+COMMENT $06AC 672
+COMMENT $06BB 876
+COMMENT $06C2 384
+COMMENT $06C7 256
+COMMENT $06CC 294
+COMMENT $06D3 276
+COMMENT $06DA 192
+COMMENT $06E1 396
+COMMENT $06EB 336
+COMMENT $06FA 192
+COMMENT $06FF 124
+COMMENT $0704 120
+COMMENT $0709 120
+COMMENT $070E 288
+COMMENT $071B 96
+COMMENT $071E 72
+COMMENT $0725 72
+COMMENT $072C 192
+COMMENT $0735 60
+COMMENT $073C 60
+COMMENT $0743 54
+COMMENT $074A 48
+COMMENT_LINE $0751 data follows
+COMMENT_LINE $0B57 flushed
+COMMENT_LINE $0B57 translation data
+COMMENT_LINE $0B57 db $1C; bytes follow
+COMMENT_LINE $0B57 bits used, code, real 'byte'
+COMMENT $0B57 374
+COMMENT $0B5A 476
+COMMENT $0B5D 260
+COMMENT $0B60 286
+COMMENT $0B63 433
+COMMENT $0B66 436
+COMMENT $0B69 720
+COMMENT $0B6C 840
+COMMENT $0B6F 120
+COMMENT $0B72 148
+COMMENT $0B75 252
+COMMENT $0B78 264
+COMMENT $0B7B 264
+COMMENT $0B7E 312
+COMMENT $0B81 312
+COMMENT $0B84 48
+COMMENT $0B87 58
+COMMENT $0B8A 66
+COMMENT $0B8D 98
+COMMENT $0B90 100
+COMMENT $0B93 120
+COMMENT $0B96 144
+COMMENT $0B99 12
+COMMENT $0B9C 21
+COMMENT $0B9F 30
+COMMENT $0BA2 54
+COMMENT $0BA5 57
+COMMENT $0BA8 11
+COMMENT_LINE $0BAB phrases follow
+COMMENT $0BAB 840
+COMMENT $0BBA 436
+COMMENT $0BBF 476
+COMMENT $0BCE 720
+COMMENT $0BD9 312
+COMMENT $0BE7 312
+COMMENT $0BF5 264
+COMMENT $0C02 252
+COMMENT $0C0F 260
+COMMENT $0C15 120
+COMMENT $0C22 264
+COMMENT $0C2E 286
+COMMENT $0C3C 120
+COMMENT $0C47 98
+COMMENT $0C4F 100
+COMMENT $0C5A 54
+COMMENT $0C61 48
+COMMENT_LINE $0C68 data follows
+COMMENT $0EFC flushed
+COMMENT_LINE $0EFD translation data
+COMMENT_LINE $0EFD db $3C; bytes follow
+COMMENT_LINE $0EFD bits used, code, real 'byte'
+COMMENT $0EFD 408
+COMMENT $0F00 600
+COMMENT $0F03 234
+COMMENT $0F06 306
+COMMENT $0F09 312
+COMMENT $0F0C 492
+COMMENT $0F0F 510
+COMMENT $0F12 675
+COMMENT $0F15 690
+COMMENT $0F18 84
+COMMENT $0F1B 150
+COMMENT $0F1E 324
+COMMENT $0F21 384
+COMMENT $0F24 44
+COMMENT $0F27 90
+COMMENT $0F2A 120
+COMMENT $0F2D 168
+COMMENT $0F30 168
+COMMENT $0F33 24
+COMMENT $0F36 27
+COMMENT $0F39 36
+COMMENT $0F3C 36
+COMMENT $0F3F 80
+COMMENT $0F42 84
+COMMENT $0F45 12
+COMMENT $0F48 15
+COMMENT $0F4B 16
+COMMENT $0F4E 17
+COMMENT $0F51 17
+COMMENT $0F54 18
+COMMENT $0F57 19
+COMMENT $0F5A 21
+COMMENT $0F5D 23
+COMMENT $0F60 5
+COMMENT $0F63 7
+COMMENT $0F66 9
+COMMENT $0F69 10
+COMMENT $0F6C 10
+COMMENT $0F6F 11
+COMMENT $0F72 13
+COMMENT $0F75 14
+COMMENT $0F78 3
+COMMENT $0F7B 3
+COMMENT $0F7E 4
+COMMENT $0F81 4
+COMMENT $0F84 5
+COMMENT $0F87 5
+COMMENT $0F8A 7
+COMMENT $0F8D 8
+COMMENT $0F90 1
+COMMENT $0F93 1
+COMMENT $0F96 2
+COMMENT $0F99 3
+COMMENT $0F9C 3
+COMMENT $0F9F 1
+COMMENT $0FA2 1
+COMMENT $0FA5 1
+COMMENT $0FA8 1
+COMMENT $0FAB 1
+COMMENT $0FAE 1
+COMMENT_LINE $0FB1 phrases follow
+COMMENT $0FB1 690
+COMMENT $0FC1 675
+COMMENT $0FD1 600
+COMMENT $0FD8 510
+COMMENT $0FE8 492
+COMMENT $0FEF 408
+COMMENT $0FF6 312
+COMMENT $1003 324
+COMMENT $100D 384
+COMMENT $1014 306
+COMMENT $101E 234
+COMMENT $1028 168
+COMMENT $1037 168
+COMMENT $103E 150
+COMMENT $1045 120
+COMMENT $104C 90
+COMMENT $1053 80
+COMMENT $105C 84
+COMMENT $1063 84
+COMMENT $106A 44
+COMMENT $1076 36
+COMMENT $107D 36
+COMMENT $1084 27
+COMMENT $1088 16
+COMMENT_LINE $108B data follows
+COMMENT $1289 flushed
+COMMENT_LINE $128D translation data
+COMMENT_LINE $128D db $0F; bytes follow
+COMMENT_LINE $128D bits used, code, real 'byte'
+COMMENT $128D 980
+COMMENT $1290 364
+COMMENT $1293 1430
+COMMENT $1296 1584
+COMMENT $1299 204
+COMMENT $129C 288
+COMMENT $129F 420
+COMMENT $12A2 504
+COMMENT $12A5 115
+COMMENT $12A8 169
+COMMENT $12AB 33
+COMMENT $12AE 65
+COMMENT $12B1 70
+COMMENT $12B4 12
+COMMENT $12B7 12
+COMMENT_LINE $12BA phrases follow
+COMMENT $12BA 1584
+COMMENT $12C6 1430
+COMMENT $12D4 980
+COMMENT $12DF 504
+COMMENT $12E6 420
+COMMENT $12F5 364
+COMMENT $1304 288
+COMMENT $130B 169
+COMMENT $1319 115
+COMMENT $131F 70
+COMMENT_LINE $132E data follows
+COMMENT $14B4 flushed
+COMMENT_LINE $14BA translation data
+COMMENT_LINE $14BA db $10; bytes follow
+COMMENT_LINE $14BA bits used, code, real 'byte'
+COMMENT $14BA 1673
+COMMENT $14BD 2496
+COMMENT $14C0 528
+COMMENT $14C3 912
+COMMENT $14C6 96
+COMMENT $14C9 96
+COMMENT $14CC 120
+COMMENT $14CF 26
+COMMENT $14D2 27
+COMMENT $14D5 29
+COMMENT $14D8 42
+COMMENT $14DB 42
+COMMENT $14DE 44
+COMMENT $14E1 54
+COMMENT $14E4 24
+COMMENT $14E7 1
+COMMENT_LINE $14EA phrases follow
+COMMENT $14EA 2496
+COMMENT $14F7 912
+COMMENT $1504 528
+COMMENT $1511 120
+COMMENT $151E 96
+COMMENT $1525 96
+COMMENT_LINE $1532 data follows
+COMMENT $1618 flushed
+COMMENT_LINE $161B translation data
+COMMENT_LINE $161B db $15; bytes follow
+COMMENT_LINE $161B bits used, code, real 'byte'
+COMMENT $161B 3186
+COMMENT $161E 390
+COMMENT $1621 323
+COMMENT $1624 624
+COMMENT $1627 840
+COMMENT $162A 88
+COMMENT $162D 132
+COMMENT $1630 192
+COMMENT $1633 34
+COMMENT $1636 88
+COMMENT $1639 120
+COMMENT $163C 16
+COMMENT $163F 24
+COMMENT $1642 48
+COMMENT $1645 59
+COMMENT $1648 7
+COMMENT $164B 8
+COMMENT $164E 14
+COMMENT $1651 3
+COMMENT $1654 2
+COMMENT $1657 2
+COMMENT_LINE $165A phrases follow
+COMMENT $165A 3186
+COMMENT $1661 840
+COMMENT $1668 390
+COMMENT $166C 624
+COMMENT $1673 132
+COMMENT $1677 192
+COMMENT $167E 120
+COMMENT $168B 88
+COMMENT $1697 24
+COMMENT_LINE $169B data follows
+COMMENT $191B flushed
+COMMENT_LINE $1922 translation data
+COMMENT_LINE $1922 db $17; bytes follow
+COMMENT_LINE $1922 bits used, code, real 'byte'
+COMMENT $1922 3840
+COMMENT $1925 376
+COMMENT $1928 428
+COMMENT $192B 504
+COMMENT $192E 72
+COMMENT $1931 85
+COMMENT $1934 39
+COMMENT $1937 56
+COMMENT $193A 63
+COMMENT $193D 64
+COMMENT $1940 72
+COMMENT $1943 80
+COMMENT $1946 81
+COMMENT $1949 108
+COMMENT $194C 144
+COMMENT $194F 26
+COMMENT $1952 33
+COMMENT $1955 50
+COMMENT $1958 54
+COMMENT $195B 12
+COMMENT $195E 12
+COMMENT $1961 22
+COMMENT $1964 6
+COMMENT_LINE $1967 phrases follow
+COMMENT $1967 3840
+COMMENT $1972 504
+COMMENT $1981 376
+COMMENT $1984 108
+COMMENT $198B 81
+COMMENT $1995 72
+COMMENT $199C 72
+COMMENT $19A6 144
+COMMENT $19B3 63
+COMMENT $19BD 54
+COMMENT_LINE $19C4 data follows
+COMMENT $1C80 flushed
+COMMENT_LINE $1C82 translation data
+COMMENT_LINE $1C82 db $1C; bytes follow
+COMMENT_LINE $1C82 bits used, code, real 'byte'
+COMMENT $1C82 368
+COMMENT $1C85 644
+COMMENT $1C88 690
+COMMENT $1C8B 804
+COMMENT $1C8E 1440
+COMMENT $1C91 554
+COMMENT $1C94 644
+COMMENT $1C97 59
+COMMENT $1C9A 144
+COMMENT $1C9D 220
+COMMENT $1CA0 43
+COMMENT $1CA3 48
+COMMENT $1CA6 50
+COMMENT $1CA9 54
+COMMENT $1CAC 60
+COMMENT $1CAF 114
+COMMENT $1CB2 41
+COMMENT $1CB5 42
+COMMENT $1CB8 48
+COMMENT $1CBB 48
+COMMENT $1CBE 54
+COMMENT $1CC1 55
+COMMENT $1CC4 9
+COMMENT $1CC7 13
+COMMENT $1CCA 4
+COMMENT $1CCD 5
+COMMENT $1CD0 5
+COMMENT $1CD3 2
+COMMENT_LINE $1CD6 phrases follow
+COMMENT $1CD6 1440
+COMMENT $1CE6 804
+COMMENT $1CF3 644
+COMMENT $1CFB 690
+COMMENT $1D0B 644
+COMMENT $1D1A 220
+COMMENT $1D20 368
+COMMENT $1D29 144
+COMMENT $1D36 114
+COMMENT $1D3D 48
+COMMENT $1D44 48
+COMMENT $1D4B 48
+COMMENT $1D52 42
+COMMENT_LINE $1D59 data follows
+COMMENT $1F43 flushed
+COMMENT_LINE $1F44 translation data
+COMMENT_LINE $1F44 db $18; bytes follow
+COMMENT_LINE $1F44 bits used, code, real 'byte'
+COMMENT $1F44 1512
+COMMENT $1F47 3036
+COMMENT $1F4A 120
+COMMENT $1F4D 213
+COMMENT $1F50 288
+COMMENT $1F53 92
+COMMENT $1F56 96
+COMMENT $1F59 114
+COMMENT $1F5C 120
+COMMENT $1F5F 144
+COMMENT $1F62 180
+COMMENT $1F65 20
+COMMENT $1F68 36
+COMMENT $1F6B 39
+COMMENT $1F6E 60
+COMMENT $1F71 60
+COMMENT $1F74 12
+COMMENT $1F77 18
+COMMENT $1F7A 28
+COMMENT $1F7D 36
+COMMENT $1F80 3
+COMMENT $1F83 9
+COMMENT $1F86 10
+COMMENT $1F89 3
+COMMENT_LINE $1F8C phrases follow
+COMMENT $1F8C 3036
+COMMENT $1F99 1512
+COMMENT $1FA6 288
+COMMENT $1FB3 144
+COMMENT $1FC0 120
+COMMENT $1FCD 180
+COMMENT $1FD7 120
+COMMENT $1FDE 114
+COMMENT $1FE5 96
+COMMENT $1FEC 60
+COMMENT $1FF3 60
+COMMENT $1FFA 36
+COMMENT_LINE $2001 data follows
+COMMENT $20E7 flushed
+COMMENT_LINE $20E9 This data does not appear in binary output!
+COMMENT $2138 digitized sample data (signed, 8 bit)
+COMMENT_LINE $7512 ============= SHOW TITLE TEXT
+FORCE_SYMBOL $7512 fadetbl2
+FORCE_SYMBOL $7515 textline_i
+FORCE_SYMBOL $7518 Wait_Recal
+FORCE_SYMBOL $751B textline_i
+FORCE_SYMBOL $751F Intensity_a
+FORCE_NO_SYMBOL $7522
+FORCE_SYMBOL $7525 Vec_Text_Height
+FORCE_SYMBOL $7528 Vec_Text_Width
+COMMENT $752B WELCOME TO
+FORCE_SYMBOL $752B titletext0
+COMMENT $752E y
+FORCE_NO_SYMBOL $752E
+COMMENT $7530 x
+FORCE_SYMBOL $7532 Print_Str2
+FORCE_NO_SYMBOL $7535
+FORCE_SYMBOL $7538 Vec_Text_Height
+FORCE_SYMBOL $753B Vec_Text_Width
+COMMENT $753E AUGUST 29-30.
+FORCE_SYMBOL $753E titletext2a
+COMMENT $7541 y
+COMMENT $7543 x
+FORCE_SYMBOL $7545 Print_Str2
+COMMENT $7548 ST.PETERSBURG,RUSSIA
+FORCE_SYMBOL $7548 titletext2b
+COMMENT $754B y
+COMMENT $754D x
+FORCE_SYMBOL $754F Print_Str2
+FORCE_NO_SYMBOL $7552
+FORCE_SYMBOL $7555 Vec_Text_Height
+FORCE_SYMBOL $7558 Vec_Text_Width
+COMMENT $755B CHAOS CONSTRUCTIONS'2015
+FORCE_SYMBOL $755B titletext1
+COMMENT $755E y
+FORCE_NO_SYMBOL $755E
+COMMENT $7560 x
+FORCE_SYMBOL $7562 Print_Str2
+FORCE_SYMBOL $7565 textline_i
+FORCE_NO_SYMBOL $7568
+FORCE_SYMBOL $756A textline_i
+FORCE_SYMBOL $756D fadetbl_end2
+COMMENT_LINE $7573 ============== PLAY DIGITIZED SAMPLE
+COMMENT $7573 enable mux, set mux to sound channel (%11)
+FORCE_NO_SYMBOL $7573
+COMMENT $7575 write back to reg B in 6522
+FORCE_SYMBOL $7575 VIA_port_b
+COMMENT $7577 sample address
+FORCE_SYMBOL $7577 sample
+COMMENT $757A sample length (bytes)
+FORCE_NO_SYMBOL $757A
+COMMENT $7580 get sound byte
+COMMENT $7582 output byte to DAC
+FORCE_SYMBOL $7582 VIA_port_a
+FORCE_NO_SYMBOL $7584
+COMMENT $758A delay. $1e for 7KHz
+FORCE_NO_SYMBOL $758A
+FORCE_NO_SYMBOL $758D
+COMMENT $7593 disable mux
+FORCE_NO_SYMBOL $7593
+FORCE_SYMBOL $7595 VIA_port_b
+COMMENT_LINE $7597 ============== TRON STYLE PART (MAIN)
+FORCE_SYMBOL $7597 texttbl
+FORCE_SYMBOL $759A textline_pos
+FORCE_NO_SYMBOL $759D
+FORCE_SYMBOL $759F dot_jump_flag
+FORCE_NO_SYMBOL $75A2
+FORCE_SYMBOL $75A5 Vec_Text_Height
+FORCE_SYMBOL $75A8 Vec_Text_Width
+COMMENT $75AB init music player
+FORCE_SYMBOL $75AB SONG_DATA
+FORCE_SYMBOL $75AE init_ym_sound
+FORCE_NO_SYMBOL $75B1
+FORCE_SYMBOL $75B3 blocks_xcnts
+FORCE_NO_SYMBOL $75B6
+FORCE_NO_SYMBOL $75BB
+FORCE_NO_SYMBOL $75C0
+FORCE_NO_SYMBOL $75C5
+FORCE_NO_SYMBOL $75CA
+FORCE_NO_SYMBOL $75CF
+FORCE_NO_SYMBOL $75D4
+COMMENT_LINE $75D9 opposite direction
+FORCE_NO_SYMBOL $75D9
+FORCE_NO_SYMBOL $75DE
+COMMENT_LINE $75E3 initial intensity
+FORCE_NO_SYMBOL $75E3
+FORCE_SYMBOL $75E5 blocks_ints
+FORCE_NO_SYMBOL $75E8
+FORCE_NO_SYMBOL $75ED
+FORCE_NO_SYMBOL $75F2
+FORCE_NO_SYMBOL $75F7
+FORCE_NO_SYMBOL $75FC
+FORCE_NO_SYMBOL $7601
+FORCE_NO_SYMBOL $7606
+COMMENT_LINE $760B opposite direction
+FORCE_NO_SYMBOL $760B
+FORCE_NO_SYMBOL $7610
+COMMENT $7615 scale factor
+FORCE_NO_SYMBOL $7615
+COMMENT $7617 move to time 1 lo, this means scaling
+FORCE_SYMBOL $7617 VIA_t1_cnt_lo
+FORCE_SYMBOL $7619 fadetbl
+FORCE_SYMBOL $761C textline_i
+FORCE_SYMBOL $761F Wait_Recal
+FORCE_SYMBOL $7622 textline_i
+COMMENT_LINE $7626 Intensity_a_M begin
+COMMENT $7626 Store intensity in D/A
+FORCE_SYMBOL $7626 VIA_port_a
+COMMENT $7628 mux disabled channel 2
+FORCE_NO_SYMBOL $7628
+FORCE_SYMBOL $762B VIA_port_b
+COMMENT $762D mux enabled channel 2
+FORCE_SYMBOL $762D VIA_port_b
+COMMENT $762F do it again just because
+FORCE_SYMBOL $762F VIA_port_b
+FORCE_NO_SYMBOL $7631
+COMMENT $7633 turn off mux
+FORCE_SYMBOL $7633 VIA_port_b
+COMMENT_LINE $7635 Intensity_a_M end
+FORCE_SYMBOL $7635 textline_pos
+COMMENT $7638 y 10
+FORCE_NO_SYMBOL $7638
+COMMENT $763A x -105
+FORCE_SYMBOL $763C Print_Str2
+FORCE_SYMBOL $763F textline_pos_tmp
+COMMENT $7642 scale factor
+FORCE_NO_SYMBOL $7642
+COMMENT $7644 move to time 1 lo, this means scaling
+FORCE_SYMBOL $7644 VIA_t1_cnt_lo
+COMMENT $7646 pointer to blocks structure (in ROM)
+FORCE_SYMBOL $7646 blocks
+COMMENT $7649 pointer to Y counters for blocks (in RAM)
+FORCE_SYMBOL $7649 blocks_xcnts
+COMMENT $764D init blocks counter
+FORCE_NO_SYMBOL $764D
+COMMENT_LINE $7650 Center_Beam_M begin
+COMMENT $7650 /BLANK low and /ZERO low
+FORCE_NO_SYMBOL $7650
+COMMENT $7652 enable beam, enable zeroing
+FORCE_SYMBOL $7652 VIA_cntl
+FORCE_NO_SYMBOL $7654
+COMMENT $7657 clear D/A register
+FORCE_SYMBOL $7657 VIA_port_a
+COMMENT $7659 mux=1, disable mux
+FORCE_SYMBOL $7659 VIA_port_b
+COMMENT $765B mux=1, enable mux
+FORCE_SYMBOL $765B VIA_port_b
+COMMENT $765D do it again
+FORCE_SYMBOL $765D VIA_port_b
+FORCE_NO_SYMBOL $765F
+COMMENT $7661 disable mux
+FORCE_SYMBOL $7661 VIA_port_b
+COMMENT $7663 /Blank low, /ZERO high
+FORCE_NO_SYMBOL $7663
+COMMENT $7665 enable beam, disable zeroing
+FORCE_SYMBOL $7665 VIA_cntl
+COMMENT_LINE $7667 Center_Beam_M end
+COMMENT $7667 pointer to blocks structure
+COMMENT $7669 Y counters
+COMMENT_LINE $766B Moveto_d begin
+COMMENT $766B Send Y to A/D
+FORCE_SYMBOL $766B VIA_port_a
+COMMENT $766D Enable mux
+FORCE_SYMBOL $766D VIA_port_b
+COMMENT $766F Wait a moment
+COMMENT $7670 Disable mux
+FORCE_SYMBOL $7670 VIA_port_b
+COMMENT $7672 Send X to A/D
+FORCE_SYMBOL $7672 VIA_port_a
+COMMENT $7674 Shift reg=$FF (solid line), T1H=0
+FORCE_NO_SYMBOL $7674
+COMMENT $7677 Put pattern in shift register
+FORCE_SYMBOL $7677 VIA_shift_reg
+COMMENT $7679 Set T1H (scale factor?)
+FORCE_SYMBOL $7679 VIA_t1_cnt_hi
+COMMENT $767B B-reg = T1 interrupt bit
+FORCE_NO_SYMBOL $767B
+COMMENT $767E Wait for T1 to time out
+FORCE_SYMBOL $767E VIA_int_flags
+COMMENT $7682 Wait a moment more
+COMMENT_LINE $7683 Moveto_d end
+COMMENT_LINE $7683 Dot_here begin
+COMMENT $7683 Set pattern to all 1's
+FORCE_NO_SYMBOL $7683
+COMMENT $7685 Store in VIA shift register
+FORCE_SYMBOL $7685 VIA_shift_reg
+COMMENT $7687 Vec_Dot_Dwell Get dot dwell (brightness)
+FORCE_NO_SYMBOL $7687
+COMMENT $7689 Delay leaving beam in place
+COMMENT $768C Blank beam in VIA shift register
+FORCE_SYMBOL $768C VIA_shift_reg
+COMMENT_LINE $768E Dot_here end
+FORCE_SYMBOL $768E blocks_ints
+COMMENT_LINE $7692 Intensity_a_M begin
+COMMENT $7692 Store intensity in D/A
+FORCE_SYMBOL $7692 VIA_port_a
+COMMENT $7694 mux disabled channel 2
+FORCE_NO_SYMBOL $7694
+FORCE_SYMBOL $7697 VIA_port_b
+COMMENT $7699 mux enabled channel 2
+FORCE_SYMBOL $7699 VIA_port_b
+COMMENT $769B do it again just because
+FORCE_SYMBOL $769B VIA_port_b
+FORCE_NO_SYMBOL $769D
+COMMENT $769F turn off mux
+FORCE_SYMBOL $769F VIA_port_b
+COMMENT_LINE $76A1 Intensity_a_M end
+FORCE_SYMBOL $76A1 Draw_VLc
+COMMENT_LINE $76A4 Dot_here begin
+COMMENT $76A4 Set pattern to all 1's
+FORCE_NO_SYMBOL $76A4
+COMMENT $76A6 Store in VIA shift register
+FORCE_SYMBOL $76A6 VIA_shift_reg
+COMMENT $76A8 Vec_Dot_Dwell Get dot dwell (brightness)
+FORCE_NO_SYMBOL $76A8
+COMMENT $76AA Delay leaving beam in place
+COMMENT $76AD Blank beam in VIA shift register
+FORCE_SYMBOL $76AD VIA_shift_reg
+COMMENT_LINE $76AF Dot_here end
+COMMENT $76AF inc U
+FORCE_NO_SYMBOL $76AF
+COMMENT $76B1 total number of blocks (top + bottom)
+FORCE_NO_SYMBOL $76B1
+COMMENT_LINE $76B7 move blocks with different speed
+FORCE_SYMBOL $76B7 blocks_xcnts
+COMMENT_LINE $76DE flashing
+COMMENT_LINE $76E4 draw dots
+COMMENT_LINE $76E4 Center_Beam_M begin
+COMMENT $76E4 /BLANK low and /ZERO low
+FORCE_NO_SYMBOL $76E4
+COMMENT $76E6 enable beam, enable zeroing
+FORCE_SYMBOL $76E6 VIA_cntl
+FORCE_NO_SYMBOL $76E8
+COMMENT $76EB clear D/A register
+FORCE_SYMBOL $76EB VIA_port_a
+COMMENT $76ED mux=1, disable mux
+FORCE_SYMBOL $76ED VIA_port_b
+COMMENT $76EF mux=1, enable mux
+FORCE_SYMBOL $76EF VIA_port_b
+COMMENT $76F1 do it again
+FORCE_SYMBOL $76F1 VIA_port_b
+FORCE_NO_SYMBOL $76F3
+COMMENT $76F5 disable mux
+FORCE_SYMBOL $76F5 VIA_port_b
+COMMENT $76F7 /Blank low, /ZERO high
+FORCE_NO_SYMBOL $76F7
+COMMENT $76F9 enable beam, disable zeroing
+FORCE_SYMBOL $76F9 VIA_cntl
+COMMENT_LINE $76FB Center_Beam_M end
+FORCE_SYMBOL $76FC blocks_xcnts
+COMMENT_LINE $76FF Moveto_d begin
+COMMENT $76FF Send Y to A/D
+FORCE_SYMBOL $76FF VIA_port_a
+COMMENT $7701 Enable mux
+FORCE_SYMBOL $7701 VIA_port_b
+COMMENT $7703 Wait a moment
+COMMENT $7704 Disable mux
+FORCE_SYMBOL $7704 VIA_port_b
+COMMENT $7706 Send X to A/D
+FORCE_SYMBOL $7706 VIA_port_a
+COMMENT $7708 Shift reg=$FF (solid line), T1H=0
+FORCE_NO_SYMBOL $7708
+COMMENT $770B Put pattern in shift register
+FORCE_SYMBOL $770B VIA_shift_reg
+COMMENT $770D Set T1H (scale factor?)
+FORCE_SYMBOL $770D VIA_t1_cnt_hi
+COMMENT $770F B-reg = T1 interrupt bit
+FORCE_NO_SYMBOL $770F
+COMMENT $7712 Wait for T1 to time out
+FORCE_SYMBOL $7712 VIA_int_flags
+COMMENT $7716 Wait a moment more
+COMMENT_LINE $7717 Moveto_d end
+COMMENT $7717 init dots counter
+FORCE_NO_SYMBOL $7717
+FORCE_SYMBOL $771A dots
+COMMENT $771D to make dots flash sometimes
+FORCE_NO_SYMBOL $7720
+COMMENT_LINE $7723 Intensity_a_M begin
+COMMENT $7723 Store intensity in D/A
+FORCE_SYMBOL $7723 VIA_port_a
+COMMENT $7725 mux disabled channel 2
+FORCE_NO_SYMBOL $7725
+FORCE_SYMBOL $7728 VIA_port_b
+COMMENT $772A mux enabled channel 2
+FORCE_SYMBOL $772A VIA_port_b
+COMMENT $772C do it again just because
+FORCE_SYMBOL $772C VIA_port_b
+FORCE_NO_SYMBOL $772E
+COMMENT $7730 turn off mux
+FORCE_SYMBOL $7730 VIA_port_b
+COMMENT_LINE $7732 Intensity_a_M end
+COMMENT_LINE $7732 Dot_ix begin
+COMMENT_LINE $7734 jump dot up and down
+FORCE_SYMBOL $7734 dot_jump_flag
+FORCE_SYMBOL $7737 dot_jump_flag
+COMMENT_LINE $773D Moveto_d begin
+COMMENT $773D Send Y to A/D
+FORCE_SYMBOL $773D VIA_port_a
+COMMENT $773F Enable mux
+FORCE_SYMBOL $773F VIA_port_b
+COMMENT $7741 Wait a moment
+COMMENT $7742 Disable mux
+FORCE_SYMBOL $7742 VIA_port_b
+COMMENT $7744 Send X to A/D
+FORCE_SYMBOL $7744 VIA_port_a
+COMMENT $7746 Shift reg=$FF (solid line), T1H=0
+FORCE_NO_SYMBOL $7746
+COMMENT $7749 Put pattern in shift register
+FORCE_SYMBOL $7749 VIA_shift_reg
+COMMENT $774B Set T1H (scale factor?)
+FORCE_SYMBOL $774B VIA_t1_cnt_hi
+COMMENT $774D B-reg = T1 interrupt bit
+FORCE_NO_SYMBOL $774D
+COMMENT $7750 Wait for T1 to time out
+FORCE_SYMBOL $7750 VIA_int_flags
+COMMENT $7754 Wait a moment more
+COMMENT_LINE $7755 Moveto_d end
+COMMENT $7755 Set pattern to all 1's
+FORCE_NO_SYMBOL $7755
+COMMENT $7757 Store in VIA shift register
+FORCE_SYMBOL $7757 VIA_shift_reg
+COMMENT $7759 Get dot dwell (brightness)
+FORCE_NO_SYMBOL $7759
+COMMENT $775B Delay leaving beam in place
+COMMENT $775E Blank beam in VIA shift register
+FORCE_SYMBOL $775E VIA_shift_reg
+COMMENT_LINE $7760 Dot_ix end
+COMMENT $7760 inc U
+FORCE_NO_SYMBOL $7760
+COMMENT $7762 total number of dots 6
+FORCE_NO_SYMBOL $7762
+COMMENT $7766 Go back until finished
+COMMENT_LINE $7768 play music
+FORCE_SYMBOL $7768 do_ym_sound
+FORCE_SYMBOL $776B ym_data_current
+COMMENT $776E loop default
+COMMENT $7770 repeat song
+FORCE_SYMBOL $7770 SONG_DATA
+FORCE_SYMBOL $7773 init_ym_sound
+FORCE_SYMBOL $7776 textline_i
+FORCE_NO_SYMBOL $7779
+FORCE_SYMBOL $777B textline_i
+FORCE_SYMBOL $777E fadetbl_end
+COMMENT $7782 continue fading
+COMMENT $7784 go next part of text and restart fading
+FORCE_SYMBOL $7784 fadetbl
+FORCE_SYMBOL $7787 textline_i
+FORCE_SYMBOL $778A textline_pos_tmp
+FORCE_SYMBOL $778D textline_pos
+FORCE_SYMBOL $7796 texttbl
+FORCE_SYMBOL $7799 textline_pos
+FORCE_SYMBOL $779C main_loop
+COMMENT_LINE $779F -----------------------------------
+COMMENT_LINE $779F Y start, count-1, y,x , y,x, y,x, ...
+COMMENT_LINE $779F top blocks
+COMMENT_LINE $77BF bottom blocks
+COMMENT_LINE $77E9 opposite direction lines
+COMMENT_LINE $77F9 bottom and top several dots
+FORCE_SYMBOL $7A3B Moveto_d_7F
+COMMENT $7A3E Save string pointer
+FORCE_SYMBOL $7A3E Vec_Str_Ptr
+COMMENT $7A41 Point to start of chargen bitmaps $F9D4 ?
+COMMENT $7A44 $8x = enable RAMP? YES! (bit 7)
+FORCE_NO_SYMBOL $7A44
+COMMENT $7A47 Clear D/A output
+FORCE_SYMBOL $7A47 VIA_port_a
+COMMENT $7A49 Shift reg mode = 110, T1 PB7 (RAMP) enabled
+FORCE_SYMBOL $7A49 VIA_aux_cntl
+COMMENT $7A4B Point to start of chargen bitmaps $F9D4 ?
+COMMENT $7A4E $83 Update RAMP, set mux to channel 1 ; START ZEREF UPDATE
+FORCE_SYMBOL $7A4E VIA_port_b
+COMMENT $7A50 Enable mux
+FORCE_SYMBOL $7A50 VIA_port_b
+FORCE_NO_SYMBOL $7A52
+COMMENT $7A55 Wait a moment ; TIMING
+COMMENT $7A56 Disable mux
+FORCE_SYMBOL $7A56 VIA_port_b
+COMMENT $7A58 Enable RAMP, set mux to channel 0
+FORCE_SYMBOL $7A58 VIA_port_b
+COMMENT $7A5A Enable mux ; START Y=0 SAMPLE
+FORCE_SYMBOL $7A5A VIA_port_b
+COMMENT $7A5C f57d
+FORCE_SYMBOL $7A5C Delay_RTS
+COMMENT $7A5F Enable RAMP, disable mux ; Y S/H FINISHED
+FORCE_SYMBOL $7A5F VIA_port_b
+COMMENT $7A61 Get text width
+FORCE_SYMBOL $7A61 Vec_Text_Width
+COMMENT $7A64 Send it to the D/A ; FOR HORIZ SPEED
+FORCE_SYMBOL $7A64 VIA_port_a
+FORCE_NO_SYMBOL $7A66
+COMMENT $7A69 Point to start of text string
+FORCE_SYMBOL $7A69 Vec_Str_Ptr
+COMMENT $7A6C Disable RAMP, disable mux ; START RAMP
+FORCE_SYMBOL $7A6C VIA_port_b
+COMMENT $7A6E LF4CB
+COMMENT $7A70 Get bitmap from chargen table  ; 5- CYCLE COUNT  LF4C7
+COMMENT $7A72 Save in shift register
+FORCE_SYMBOL $7A72 VIA_shift_reg
+COMMENT $7A74 Get next character
+COMMENT $7A76 Go back if not terminator ; TOTAL 18 FOR LOOP ; LF4C7
+FORCE_NO_SYMBOL $7A78
+COMMENT $7A7A Enable RAMP, disable mux ; STOP RAMP, TIME=18 CYCLES+18 PER CHAR
+FORCE_SYMBOL $7A7A VIA_port_b
+COMMENT $7A7C Negate text width to D/A
+FORCE_SYMBOL $7A7C VIA_port_a
+FORCE_NO_SYMBOL $7A7E
+COMMENT $7A80 Disable RAMP, disable mux
+FORCE_SYMBOL $7A80 VIA_port_b
+COMMENT $7A82 Check for last row
+COMMENT $7A85 Branch if last row  ; LF50A
+COMMENT $7A87 Point to next chargen row
+FORCE_NO_SYMBOL $7A87
+COMMENT $7A8A Get string length ; 6 CYCLES - CALCULATE #CHARS SHOWN
+FORCE_SYMBOL $7A8C Vec_Str_Ptr
+COMMENT $7A8F -  2
+FORCE_NO_SYMBOL $7A8F
+COMMENT $7A91 *  2
+COMMENT_LINE $7A92 brn     some_delay      ;Delay a moment  LF4EB Removed to compensate left skew  !!!
+COMMENT $7A92 LF4EB
+FORCE_NO_SYMBOL $7A92
+COMMENT_LINE $7A96 subb #$01
+COMMENT $7A96 Delay some more in a loop ; LF4EB
+COMMENT $7A98 $81->VIA_port_b. Enable RAMP, disable mux. stop integrate ; WHOLE RETRACE 45+ 9 PER B DELAY LOOP. 39-12 for FWD OVERHEAD#27. EQUIV OF 3 CHARS
+FORCE_SYMBOL $7A98 VIA_port_b
+COMMENT $7A9A Get text height
+FORCE_SYMBOL $7A9A Vec_Text_Height
+COMMENT $7A9E height * 4
+COMMENT $7A9F height * 4 -> DAC
+FORCE_SYMBOL $7A9F VIA_port_a
+COMMENT $7AA1 $80 -> VIA_port_b. enable MUX, disable ~RAMP (bit7=1), MUX to channel Y
+FORCE_SYMBOL $7AA1 VIA_port_b
+FORCE_NO_SYMBOL $7AA3
+COMMENT $7AA5 $81 -> VIA_port_b. ramp off, MUX off. Stop Integrate, MUX to channel Y
+FORCE_SYMBOL $7AA5 VIA_port_b
+COMMENT $7AA7 clear DAC
+FORCE_SYMBOL $7AA7 VIA_port_a
+COMMENT $7AA9 1 -> VIA_port_b.  ; MUX disable, ~RAMP enable . Start integrate
+FORCE_SYMBOL $7AA9 VIA_port_b
+FORCE_NO_SYMBOL $7AAB
+COMMENT $7AAD $81 -> VIA_port_b. ramp off, MUX off. Stop Integrate, MUX to channel Y
+FORCE_SYMBOL $7AAD VIA_port_b
+COMMENT $7AAF Go back for next scan line   LF4A5
+FORCE_NO_SYMBOL $7AB1
+COMMENT $7AB3 T1->PB7 enabled
+FORCE_SYMBOL $7AB3 VIA_aux_cntl
+FORCE_NO_SYMBOL $7AB5
+COMMENT $7AB8 /BLANK low and /ZERO low
+FORCE_SYMBOL $7AB8 VIA_cntl
+COMMENT $7ABA clear shift register
+FORCE_SYMBOL $7ABA VIA_shift_reg
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$0022 CHAR_DATA 17
+RANGE $0022-$0023 DB_DATA 1
+RANGE $0023-$018E CODE
+RANGE $018E-$0190 DW_DATA 1
+RANGE $0190-$0193 DB_DATA 3
+RANGE $0193-$0196 DB_DATA 3
+RANGE $0196-$0199 DB_DATA 3
+RANGE $0199-$019C DB_DATA 3
+RANGE $019C-$019F DB_DATA 3
+RANGE $019F-$01A2 DB_DATA 3
+RANGE $01A2-$01A5 DB_DATA 3
+RANGE $01A5-$01A8 DB_DATA 3
+RANGE $01A8-$01AB DB_DATA 3
+RANGE $01AB-$01AE DB_DATA 3
+RANGE $01AE-$01B1 DB_DATA 3
+RANGE $01B1-$01B4 DB_DATA 3
+RANGE $01B4-$01B7 DB_DATA 3
+RANGE $01B7-$01BA DB_DATA 3
+RANGE $01BA-$01BD DB_DATA 3
+RANGE $01BD-$01C0 DB_DATA 3
+RANGE $01C0-$01C3 DB_DATA 3
+RANGE $01C3-$01C6 DB_DATA 3
+RANGE $01C6-$01C9 DB_DATA 3
+RANGE $01C9-$01CC DB_DATA 3
+RANGE $01CC-$01CF DB_DATA 3
+RANGE $01CF-$01D2 DB_DATA 3
+RANGE $01D2-$01D5 DB_DATA 3
+RANGE $01D5-$01D8 DB_DATA 3
+RANGE $01D8-$01DB DB_DATA 3
+RANGE $01DB-$01DE DB_DATA 3
+RANGE $01DE-$01E1 DB_DATA 3
+RANGE $01E1-$01E4 DB_DATA 3
+RANGE $01E4-$01E7 DB_DATA 3
+RANGE $01E7-$01EA DB_DATA 3
+RANGE $01EA-$01ED DB_DATA 3
+RANGE $01ED-$01F0 DB_DATA 3
+RANGE $01F0-$01F3 DB_DATA 3
+RANGE $01F3-$01F6 DB_DATA 3
+RANGE $01F6-$01F9 DB_DATA 3
+RANGE $01F9-$01FC DB_DATA 3
+RANGE $01FC-$01FF DB_DATA 3
+RANGE $01FF-$020E DB_DATA 15
+RANGE $020E-$021E DB_DATA 16
+RANGE $021E-$022E DB_DATA 16
+RANGE $022E-$0235 DB_DATA 7
+RANGE $0235-$023C DB_DATA 7
+RANGE $023C-$0245 DB_DATA 9
+RANGE $0245-$024F DB_DATA 10
+RANGE $024F-$0259 DB_DATA 10
+RANGE $0259-$0262 DB_DATA 9
+RANGE $0262-$0269 DB_DATA 7
+RANGE $0269-$0270 DB_DATA 7
+RANGE $0270-$0280 DB_DATA 16
+RANGE $0280-$0287 DB_DATA 7
+RANGE $0287-$028B DB_DATA 4
+RANGE $028B-$028F DB_DATA 4
+RANGE $028F-$0299 DB_DATA 10
+RANGE $0299-$02A3 DB_DATA 10
+RANGE $02A3-$02AD DB_DATA 10
+RANGE $02AD-$02B7 DB_DATA 10
+RANGE $02B7-$02C1 DB_DATA 10
+RANGE $02C1-$02CB DB_DATA 10
+RANGE $02CB-$02D5 DB_DATA 10
+RANGE $02D5-$02DF DB_DATA 10
+RANGE $02DF-$02E9 DB_DATA 10
+RANGE $02E9-$02F3 DB_DATA 10
+RANGE $02F3-$02FD DB_DATA 10
+RANGE $02FD-$0307 DB_DATA 10
+RANGE $0307-$0311 DB_DATA 10
+RANGE $0311-$031B DB_DATA 10
+RANGE $031B-$0325 DB_DATA 10
+RANGE $0325-$032F DB_DATA 10
+RANGE $032F-$0339 DB_DATA 10
+RANGE $0339-$0343 DB_DATA 10
+RANGE $0343-$034D DB_DATA 10
+RANGE $034D-$0357 DB_DATA 10
+RANGE $0357-$0361 DB_DATA 10
+RANGE $0361-$036B DB_DATA 10
+RANGE $036B-$0375 DB_DATA 10
+RANGE $0375-$037F DB_DATA 10
+RANGE $037F-$0389 DB_DATA 10
+RANGE $0389-$0393 DB_DATA 10
+RANGE $0393-$039D DB_DATA 10
+RANGE $039D-$03A7 DB_DATA 10
+RANGE $03A7-$03B1 DB_DATA 10
+RANGE $03B1-$03BB DB_DATA 10
+RANGE $03BB-$03C5 DB_DATA 10
+RANGE $03C5-$03CF DB_DATA 10
+RANGE $03CF-$03D9 DB_DATA 10
+RANGE $03D9-$03E3 DB_DATA 10
+RANGE $03E3-$03ED DB_DATA 10
+RANGE $03ED-$03F7 DB_DATA 10
+RANGE $03F7-$0401 DB_DATA 10
+RANGE $0401-$040B DB_DATA 10
+RANGE $040B-$0415 DB_DATA 10
+RANGE $0415-$041F DB_DATA 10
+RANGE $041F-$0429 DB_DATA 10
+RANGE $0429-$0433 DB_DATA 10
+RANGE $0433-$043D DB_DATA 10
+RANGE $043D-$0447 DB_DATA 10
+RANGE $0447-$0451 DB_DATA 10
+RANGE $0451-$045B DB_DATA 10
+RANGE $045B-$0465 DB_DATA 10
+RANGE $0465-$046F DB_DATA 10
+RANGE $046F-$0479 DB_DATA 10
+RANGE $0479-$0483 DB_DATA 10
+RANGE $0483-$048A DB_DATA 7
+RANGE $048A-$048D DB_DATA 3
+RANGE $048D-$0490 DB_DATA 3
+RANGE $0490-$0493 DB_DATA 3
+RANGE $0493-$0496 DB_DATA 3
+RANGE $0496-$0499 DB_DATA 3
+RANGE $0499-$049C DB_DATA 3
+RANGE $049C-$049F DB_DATA 3
+RANGE $049F-$04A2 DB_DATA 3
+RANGE $04A2-$04A5 DB_DATA 3
+RANGE $04A5-$04B4 DB_DATA 15
+RANGE $04B4-$04C3 DB_DATA 15
+RANGE $04C3-$04CE DB_DATA 11
+RANGE $04CE-$04D9 DB_DATA 11
+RANGE $04D9-$04E4 DB_DATA 11
+RANGE $04E4-$04EF DB_DATA 11
+RANGE $04EF-$04F9 DB_DATA 10
+RANGE $04F9-$0503 DB_DATA 10
+RANGE $0503-$050D DB_DATA 10
+RANGE $050D-$0517 DB_DATA 10
+RANGE $0517-$0521 DB_DATA 10
+RANGE $0521-$052B DB_DATA 10
+RANGE $052B-$0535 DB_DATA 10
+RANGE $0535-$053F DB_DATA 10
+RANGE $053F-$0549 DB_DATA 10
+RANGE $0549-$0553 DB_DATA 10
+RANGE $0553-$055D DB_DATA 10
+RANGE $055D-$0567 DB_DATA 10
+RANGE $0567-$0571 DB_DATA 10
+RANGE $0571-$057B DB_DATA 10
+RANGE $057B-$0585 DB_DATA 10
+RANGE $0585-$058F DB_DATA 10
+RANGE $058F-$0599 DB_DATA 10
+RANGE $0599-$05A3 DB_DATA 10
+RANGE $05A3-$05AD DB_DATA 10
+RANGE $05AD-$05B7 DB_DATA 10
+RANGE $05B7-$05C1 DB_DATA 10
+RANGE $05C1-$05CB DB_DATA 10
+RANGE $05CB-$05D5 DB_DATA 10
+RANGE $05D5-$05D7 DB_DATA 2
+RANGE $05D7-$05DA DB_DATA 3
+RANGE $05DA-$05DD DB_DATA 3
+RANGE $05DD-$05E0 DB_DATA 3
+RANGE $05E0-$05E3 DB_DATA 3
+RANGE $05E3-$05E6 DB_DATA 3
+RANGE $05E6-$05E9 DB_DATA 3
+RANGE $05E9-$05EC DB_DATA 3
+RANGE $05EC-$05EF DB_DATA 3
+RANGE $05EF-$05F2 DB_DATA 3
+RANGE $05F2-$05F5 DB_DATA 3
+RANGE $05F5-$05F8 DB_DATA 3
+RANGE $05F8-$05FB DB_DATA 3
+RANGE $05FB-$05FE DB_DATA 3
+RANGE $05FE-$0601 DB_DATA 3
+RANGE $0601-$0604 DB_DATA 3
+RANGE $0604-$0607 DB_DATA 3
+RANGE $0607-$060A DB_DATA 3
+RANGE $060A-$060D DB_DATA 3
+RANGE $060D-$0610 DB_DATA 3
+RANGE $0610-$0613 DB_DATA 3
+RANGE $0613-$0616 DB_DATA 3
+RANGE $0616-$0619 DB_DATA 3
+RANGE $0619-$061C DB_DATA 3
+RANGE $061C-$061F DB_DATA 3
+RANGE $061F-$0622 DB_DATA 3
+RANGE $0622-$0625 DB_DATA 3
+RANGE $0625-$0628 DB_DATA 3
+RANGE $0628-$062B DB_DATA 3
+RANGE $062B-$062E DB_DATA 3
+RANGE $062E-$0631 DB_DATA 3
+RANGE $0631-$0634 DB_DATA 3
+RANGE $0634-$0637 DB_DATA 3
+RANGE $0637-$063A DB_DATA 3
+RANGE $063A-$063D DB_DATA 3
+RANGE $063D-$0640 DB_DATA 3
+RANGE $0640-$0643 DB_DATA 3
+RANGE $0643-$0646 DB_DATA 3
+RANGE $0646-$0649 DB_DATA 3
+RANGE $0649-$064C DB_DATA 3
+RANGE $064C-$064F DB_DATA 3
+RANGE $064F-$0652 DB_DATA 3
+RANGE $0652-$0655 DB_DATA 3
+RANGE $0655-$0658 DB_DATA 3
+RANGE $0658-$065B DB_DATA 3
+RANGE $065B-$065E DB_DATA 3
+RANGE $065E-$0661 DB_DATA 3
+RANGE $0661-$0664 DB_DATA 3
+RANGE $0664-$0667 DB_DATA 3
+RANGE $0667-$066A DB_DATA 3
+RANGE $066A-$066D DB_DATA 3
+RANGE $066D-$0670 DB_DATA 3
+RANGE $0670-$0673 DB_DATA 3
+RANGE $0673-$0676 DB_DATA 3
+RANGE $0676-$0679 DB_DATA 3
+RANGE $0679-$067C DB_DATA 3
+RANGE $067C-$067F DB_DATA 3
+RANGE $067F-$0682 DB_DATA 3
+RANGE $0682-$0685 DB_DATA 3
+RANGE $0685-$0688 DB_DATA 3
+RANGE $0688-$068B DB_DATA 3
+RANGE $068B-$068E DB_DATA 3
+RANGE $068E-$0691 DB_DATA 3
+RANGE $0691-$0694 DB_DATA 3
+RANGE $0694-$0697 DB_DATA 3
+RANGE $0697-$069A DB_DATA 3
+RANGE $069A-$069D DB_DATA 3
+RANGE $069D-$06A0 DB_DATA 3
+RANGE $06A0-$06A3 DB_DATA 3
+RANGE $06A3-$06A6 DB_DATA 3
+RANGE $06A6-$06A9 DB_DATA 3
+RANGE $06A9-$06AC DB_DATA 3
+RANGE $06AC-$06BB DB_DATA 15
+RANGE $06BB-$06C2 DB_DATA 7
+RANGE $06C2-$06C7 DB_DATA 5
+RANGE $06C7-$06CC DB_DATA 5
+RANGE $06CC-$06D3 DB_DATA 7
+RANGE $06D3-$06DA DB_DATA 7
+RANGE $06DA-$06E1 DB_DATA 7
+RANGE $06E1-$06EB DB_DATA 10
+RANGE $06EB-$06FA DB_DATA 15
+RANGE $06FA-$06FF DB_DATA 5
+RANGE $06FF-$0704 DB_DATA 5
+RANGE $0704-$0709 DB_DATA 5
+RANGE $0709-$070E DB_DATA 5
+RANGE $070E-$071B DB_DATA 13
+RANGE $071B-$071E DB_DATA 3
+RANGE $071E-$0725 DB_DATA 7
+RANGE $0725-$072C DB_DATA 7
+RANGE $072C-$0735 DB_DATA 9
+RANGE $0735-$073C DB_DATA 7
+RANGE $073C-$0743 DB_DATA 7
+RANGE $0743-$074A DB_DATA 7
+RANGE $074A-$0751 DB_DATA 7
+RANGE $0751-$075B DB_DATA 10
+RANGE $075B-$0765 DB_DATA 10
+RANGE $0765-$076F DB_DATA 10
+RANGE $076F-$0779 DB_DATA 10
+RANGE $0779-$0783 DB_DATA 10
+RANGE $0783-$078D DB_DATA 10
+RANGE $078D-$0797 DB_DATA 10
+RANGE $0797-$07A1 DB_DATA 10
+RANGE $07A1-$07AB DB_DATA 10
+RANGE $07AB-$07B5 DB_DATA 10
+RANGE $07B5-$07BF DB_DATA 10
+RANGE $07BF-$07C9 DB_DATA 10
+RANGE $07C9-$07D3 DB_DATA 10
+RANGE $07D3-$07DD DB_DATA 10
+RANGE $07DD-$07E7 DB_DATA 10
+RANGE $07E7-$07F1 DB_DATA 10
+RANGE $07F1-$07FB DB_DATA 10
+RANGE $07FB-$0805 DB_DATA 10
+RANGE $0805-$080F DB_DATA 10
+RANGE $080F-$0819 DB_DATA 10
+RANGE $0819-$0823 DB_DATA 10
+RANGE $0823-$082D DB_DATA 10
+RANGE $082D-$0837 DB_DATA 10
+RANGE $0837-$0841 DB_DATA 10
+RANGE $0841-$084B DB_DATA 10
+RANGE $084B-$0855 DB_DATA 10
+RANGE $0855-$085F DB_DATA 10
+RANGE $085F-$0869 DB_DATA 10
+RANGE $0869-$0873 DB_DATA 10
+RANGE $0873-$087D DB_DATA 10
+RANGE $087D-$0887 DB_DATA 10
+RANGE $0887-$0891 DB_DATA 10
+RANGE $0891-$089B DB_DATA 10
+RANGE $089B-$08A5 DB_DATA 10
+RANGE $08A5-$08AF DB_DATA 10
+RANGE $08AF-$08B9 DB_DATA 10
+RANGE $08B9-$08C3 DB_DATA 10
+RANGE $08C3-$08CD DB_DATA 10
+RANGE $08CD-$08D7 DB_DATA 10
+RANGE $08D7-$08E1 DB_DATA 10
+RANGE $08E1-$08EB DB_DATA 10
+RANGE $08EB-$08F5 DB_DATA 10
+RANGE $08F5-$08FF DB_DATA 10
+RANGE $08FF-$0909 DB_DATA 10
+RANGE $0909-$0913 DB_DATA 10
+RANGE $0913-$091D DB_DATA 10
+RANGE $091D-$0927 DB_DATA 10
+RANGE $0927-$0931 DB_DATA 10
+RANGE $0931-$093B DB_DATA 10
+RANGE $093B-$0945 DB_DATA 10
+RANGE $0945-$094F DB_DATA 10
+RANGE $094F-$0959 DB_DATA 10
+RANGE $0959-$0963 DB_DATA 10
+RANGE $0963-$096D DB_DATA 10
+RANGE $096D-$0977 DB_DATA 10
+RANGE $0977-$0981 DB_DATA 10
+RANGE $0981-$098B DB_DATA 10
+RANGE $098B-$0995 DB_DATA 10
+RANGE $0995-$099F DB_DATA 10
+RANGE $099F-$09A9 DB_DATA 10
+RANGE $09A9-$09B3 DB_DATA 10
+RANGE $09B3-$09BD DB_DATA 10
+RANGE $09BD-$09C7 DB_DATA 10
+RANGE $09C7-$09D1 DB_DATA 10
+RANGE $09D1-$09DB DB_DATA 10
+RANGE $09DB-$09E5 DB_DATA 10
+RANGE $09E5-$09EF DB_DATA 10
+RANGE $09EF-$09F9 DB_DATA 10
+RANGE $09F9-$0A03 DB_DATA 10
+RANGE $0A03-$0A0D DB_DATA 10
+RANGE $0A0D-$0A17 DB_DATA 10
+RANGE $0A17-$0A21 DB_DATA 10
+RANGE $0A21-$0A2B DB_DATA 10
+RANGE $0A2B-$0A35 DB_DATA 10
+RANGE $0A35-$0A3F DB_DATA 10
+RANGE $0A3F-$0A49 DB_DATA 10
+RANGE $0A49-$0A53 DB_DATA 10
+RANGE $0A53-$0A5D DB_DATA 10
+RANGE $0A5D-$0A67 DB_DATA 10
+RANGE $0A67-$0A71 DB_DATA 10
+RANGE $0A71-$0A7B DB_DATA 10
+RANGE $0A7B-$0A85 DB_DATA 10
+RANGE $0A85-$0A8F DB_DATA 10
+RANGE $0A8F-$0A99 DB_DATA 10
+RANGE $0A99-$0AA3 DB_DATA 10
+RANGE $0AA3-$0AAD DB_DATA 10
+RANGE $0AAD-$0AB7 DB_DATA 10
+RANGE $0AB7-$0AC1 DB_DATA 10
+RANGE $0AC1-$0ACB DB_DATA 10
+RANGE $0ACB-$0AD5 DB_DATA 10
+RANGE $0AD5-$0ADF DB_DATA 10
+RANGE $0ADF-$0AE9 DB_DATA 10
+RANGE $0AE9-$0AF3 DB_DATA 10
+RANGE $0AF3-$0AFD DB_DATA 10
+RANGE $0AFD-$0B07 DB_DATA 10
+RANGE $0B07-$0B11 DB_DATA 10
+RANGE $0B11-$0B1B DB_DATA 10
+RANGE $0B1B-$0B25 DB_DATA 10
+RANGE $0B25-$0B2F DB_DATA 10
+RANGE $0B2F-$0B39 DB_DATA 10
+RANGE $0B39-$0B43 DB_DATA 10
+RANGE $0B43-$0B4D DB_DATA 10
+RANGE $0B4D-$0B57 DB_DATA 10
+RANGE $0B57-$0B5A DB_DATA 3
+RANGE $0B5A-$0B5D DB_DATA 3
+RANGE $0B5D-$0B60 DB_DATA 3
+RANGE $0B60-$0B63 DB_DATA 3
+RANGE $0B63-$0B66 DB_DATA 3
+RANGE $0B66-$0B69 DB_DATA 3
+RANGE $0B69-$0B6C DB_DATA 3
+RANGE $0B6C-$0B6F DB_DATA 3
+RANGE $0B6F-$0B72 DB_DATA 3
+RANGE $0B72-$0B75 DB_DATA 3
+RANGE $0B75-$0B78 DB_DATA 3
+RANGE $0B78-$0B7B DB_DATA 3
+RANGE $0B7B-$0B7E DB_DATA 3
+RANGE $0B7E-$0B81 DB_DATA 3
+RANGE $0B81-$0B84 DB_DATA 3
+RANGE $0B84-$0B87 DB_DATA 3
+RANGE $0B87-$0B8A DB_DATA 3
+RANGE $0B8A-$0B8D DB_DATA 3
+RANGE $0B8D-$0B90 DB_DATA 3
+RANGE $0B90-$0B93 DB_DATA 3
+RANGE $0B93-$0B96 DB_DATA 3
+RANGE $0B96-$0B99 DB_DATA 3
+RANGE $0B99-$0B9C DB_DATA 3
+RANGE $0B9C-$0B9F DB_DATA 3
+RANGE $0B9F-$0BA2 DB_DATA 3
+RANGE $0BA2-$0BA5 DB_DATA 3
+RANGE $0BA5-$0BA8 DB_DATA 3
+RANGE $0BA8-$0BAB DB_DATA 3
+RANGE $0BAB-$0BBA DB_DATA 15
+RANGE $0BBA-$0BBF DB_DATA 5
+RANGE $0BBF-$0BCE DB_DATA 15
+RANGE $0BCE-$0BD9 DB_DATA 11
+RANGE $0BD9-$0BE7 DB_DATA 14
+RANGE $0BE7-$0BF5 DB_DATA 14
+RANGE $0BF5-$0C02 DB_DATA 13
+RANGE $0C02-$0C0F DB_DATA 13
+RANGE $0C0F-$0C15 DB_DATA 6
+RANGE $0C15-$0C22 DB_DATA 13
+RANGE $0C22-$0C2E DB_DATA 12
+RANGE $0C2E-$0C3C DB_DATA 14
+RANGE $0C3C-$0C47 DB_DATA 11
+RANGE $0C47-$0C4F DB_DATA 8
+RANGE $0C4F-$0C5A DB_DATA 11
+RANGE $0C5A-$0C61 DB_DATA 7
+RANGE $0C61-$0C68 DB_DATA 7
+RANGE $0C68-$0C72 DB_DATA 10
+RANGE $0C72-$0C7C DB_DATA 10
+RANGE $0C7C-$0C86 DB_DATA 10
+RANGE $0C86-$0C90 DB_DATA 10
+RANGE $0C90-$0C9A DB_DATA 10
+RANGE $0C9A-$0CA4 DB_DATA 10
+RANGE $0CA4-$0CAE DB_DATA 10
+RANGE $0CAE-$0CB8 DB_DATA 10
+RANGE $0CB8-$0CC2 DB_DATA 10
+RANGE $0CC2-$0CCC DB_DATA 10
+RANGE $0CCC-$0CD6 DB_DATA 10
+RANGE $0CD6-$0CE0 DB_DATA 10
+RANGE $0CE0-$0CEA DB_DATA 10
+RANGE $0CEA-$0CF4 DB_DATA 10
+RANGE $0CF4-$0CFE DB_DATA 10
+RANGE $0CFE-$0D08 DB_DATA 10
+RANGE $0D08-$0D12 DB_DATA 10
+RANGE $0D12-$0D1C DB_DATA 10
+RANGE $0D1C-$0D26 DB_DATA 10
+RANGE $0D26-$0D30 DB_DATA 10
+RANGE $0D30-$0D3A DB_DATA 10
+RANGE $0D3A-$0D44 DB_DATA 10
+RANGE $0D44-$0D4E DB_DATA 10
+RANGE $0D4E-$0D58 DB_DATA 10
+RANGE $0D58-$0D62 DB_DATA 10
+RANGE $0D62-$0D6C DB_DATA 10
+RANGE $0D6C-$0D76 DB_DATA 10
+RANGE $0D76-$0D80 DB_DATA 10
+RANGE $0D80-$0D8A DB_DATA 10
+RANGE $0D8A-$0D94 DB_DATA 10
+RANGE $0D94-$0D9E DB_DATA 10
+RANGE $0D9E-$0DA8 DB_DATA 10
+RANGE $0DA8-$0DB2 DB_DATA 10
+RANGE $0DB2-$0DBC DB_DATA 10
+RANGE $0DBC-$0DC6 DB_DATA 10
+RANGE $0DC6-$0DD0 DB_DATA 10
+RANGE $0DD0-$0DDA DB_DATA 10
+RANGE $0DDA-$0DE4 DB_DATA 10
+RANGE $0DE4-$0DEE DB_DATA 10
+RANGE $0DEE-$0DF8 DB_DATA 10
+RANGE $0DF8-$0E02 DB_DATA 10
+RANGE $0E02-$0E0C DB_DATA 10
+RANGE $0E0C-$0E16 DB_DATA 10
+RANGE $0E16-$0E20 DB_DATA 10
+RANGE $0E20-$0E2A DB_DATA 10
+RANGE $0E2A-$0E34 DB_DATA 10
+RANGE $0E34-$0E3E DB_DATA 10
+RANGE $0E3E-$0E48 DB_DATA 10
+RANGE $0E48-$0E52 DB_DATA 10
+RANGE $0E52-$0E5C DB_DATA 10
+RANGE $0E5C-$0E66 DB_DATA 10
+RANGE $0E66-$0E70 DB_DATA 10
+RANGE $0E70-$0E7A DB_DATA 10
+RANGE $0E7A-$0E84 DB_DATA 10
+RANGE $0E84-$0E8E DB_DATA 10
+RANGE $0E8E-$0E98 DB_DATA 10
+RANGE $0E98-$0EA2 DB_DATA 10
+RANGE $0EA2-$0EAC DB_DATA 10
+RANGE $0EAC-$0EB6 DB_DATA 10
+RANGE $0EB6-$0EC0 DB_DATA 10
+RANGE $0EC0-$0ECA DB_DATA 10
+RANGE $0ECA-$0ED4 DB_DATA 10
+RANGE $0ED4-$0EDE DB_DATA 10
+RANGE $0EDE-$0EE8 DB_DATA 10
+RANGE $0EE8-$0EF2 DB_DATA 10
+RANGE $0EF2-$0EFC DB_DATA 10
+RANGE $0EFC-$0EFD DB_DATA 1
+RANGE $0EFD-$0F00 DB_DATA 3
+RANGE $0F00-$0F03 DB_DATA 3
+RANGE $0F03-$0F06 DB_DATA 3
+RANGE $0F06-$0F09 DB_DATA 3
+RANGE $0F09-$0F0C DB_DATA 3
+RANGE $0F0C-$0F0F DB_DATA 3
+RANGE $0F0F-$0F12 DB_DATA 3
+RANGE $0F12-$0F15 DB_DATA 3
+RANGE $0F15-$0F18 DB_DATA 3
+RANGE $0F18-$0F1B DB_DATA 3
+RANGE $0F1B-$0F1E DB_DATA 3
+RANGE $0F1E-$0F21 DB_DATA 3
+RANGE $0F21-$0F24 DB_DATA 3
+RANGE $0F24-$0F27 DB_DATA 3
+RANGE $0F27-$0F2A DB_DATA 3
+RANGE $0F2A-$0F2D DB_DATA 3
+RANGE $0F2D-$0F30 DB_DATA 3
+RANGE $0F30-$0F33 DB_DATA 3
+RANGE $0F33-$0F36 DB_DATA 3
+RANGE $0F36-$0F39 DB_DATA 3
+RANGE $0F39-$0F3C DB_DATA 3
+RANGE $0F3C-$0F3F DB_DATA 3
+RANGE $0F3F-$0F42 DB_DATA 3
+RANGE $0F42-$0F45 DB_DATA 3
+RANGE $0F45-$0F48 DB_DATA 3
+RANGE $0F48-$0F4B DB_DATA 3
+RANGE $0F4B-$0F4E DB_DATA 3
+RANGE $0F4E-$0F51 DB_DATA 3
+RANGE $0F51-$0F54 DB_DATA 3
+RANGE $0F54-$0F57 DB_DATA 3
+RANGE $0F57-$0F5A DB_DATA 3
+RANGE $0F5A-$0F5D DB_DATA 3
+RANGE $0F5D-$0F60 DB_DATA 3
+RANGE $0F60-$0F63 DB_DATA 3
+RANGE $0F63-$0F66 DB_DATA 3
+RANGE $0F66-$0F69 DB_DATA 3
+RANGE $0F69-$0F6C DB_DATA 3
+RANGE $0F6C-$0F6F DB_DATA 3
+RANGE $0F6F-$0F72 DB_DATA 3
+RANGE $0F72-$0F75 DB_DATA 3
+RANGE $0F75-$0F78 DB_DATA 3
+RANGE $0F78-$0F7B DB_DATA 3
+RANGE $0F7B-$0F7E DB_DATA 3
+RANGE $0F7E-$0F81 DB_DATA 3
+RANGE $0F81-$0F84 DB_DATA 3
+RANGE $0F84-$0F87 DB_DATA 3
+RANGE $0F87-$0F8A DB_DATA 3
+RANGE $0F8A-$0F8D DB_DATA 3
+RANGE $0F8D-$0F90 DB_DATA 3
+RANGE $0F90-$0F93 DB_DATA 3
+RANGE $0F93-$0F96 DB_DATA 3
+RANGE $0F96-$0F99 DB_DATA 3
+RANGE $0F99-$0F9C DB_DATA 3
+RANGE $0F9C-$0F9F DB_DATA 3
+RANGE $0F9F-$0FA2 DB_DATA 3
+RANGE $0FA2-$0FA5 DB_DATA 3
+RANGE $0FA5-$0FA8 DB_DATA 3
+RANGE $0FA8-$0FAB DB_DATA 3
+RANGE $0FAB-$0FAE DB_DATA 3
+RANGE $0FAE-$0FB1 DB_DATA 3
+RANGE $0FB1-$0FC1 DB_DATA 16
+RANGE $0FC1-$0FD1 DB_DATA 16
+RANGE $0FD1-$0FD8 DB_DATA 7
+RANGE $0FD8-$0FE8 DB_DATA 16
+RANGE $0FE8-$0FEF DB_DATA 7
+RANGE $0FEF-$0FF6 DB_DATA 7
+RANGE $0FF6-$1003 DB_DATA 13
+RANGE $1003-$100D DB_DATA 10
+RANGE $100D-$1014 DB_DATA 7
+RANGE $1014-$101E DB_DATA 10
+RANGE $101E-$1028 DB_DATA 10
+RANGE $1028-$1037 DB_DATA 15
+RANGE $1037-$103E DB_DATA 7
+RANGE $103E-$1045 DB_DATA 7
+RANGE $1045-$104C DB_DATA 7
+RANGE $104C-$1053 DB_DATA 7
+RANGE $1053-$105C DB_DATA 9
+RANGE $105C-$1063 DB_DATA 7
+RANGE $1063-$106A DB_DATA 7
+RANGE $106A-$1076 DB_DATA 12
+RANGE $1076-$107D DB_DATA 7
+RANGE $107D-$1084 DB_DATA 7
+RANGE $1084-$1088 DB_DATA 4
+RANGE $1088-$108B DB_DATA 3
+RANGE $108B-$1095 DB_DATA 10
+RANGE $1095-$109F DB_DATA 10
+RANGE $109F-$10A9 DB_DATA 10
+RANGE $10A9-$10B3 DB_DATA 10
+RANGE $10B3-$10BD DB_DATA 10
+RANGE $10BD-$10C7 DB_DATA 10
+RANGE $10C7-$10D1 DB_DATA 10
+RANGE $10D1-$10DB DB_DATA 10
+RANGE $10DB-$10E5 DB_DATA 10
+RANGE $10E5-$10EF DB_DATA 10
+RANGE $10EF-$10F9 DB_DATA 10
+RANGE $10F9-$1103 DB_DATA 10
+RANGE $1103-$110D DB_DATA 10
+RANGE $110D-$1117 DB_DATA 10
+RANGE $1117-$1121 DB_DATA 10
+RANGE $1121-$112B DB_DATA 10
+RANGE $112B-$1135 DB_DATA 10
+RANGE $1135-$113F DB_DATA 10
+RANGE $113F-$1149 DB_DATA 10
+RANGE $1149-$1153 DB_DATA 10
+RANGE $1153-$115D DB_DATA 10
+RANGE $115D-$1167 DB_DATA 10
+RANGE $1167-$1171 DB_DATA 10
+RANGE $1171-$117B DB_DATA 10
+RANGE $117B-$1185 DB_DATA 10
+RANGE $1185-$118F DB_DATA 10
+RANGE $118F-$1199 DB_DATA 10
+RANGE $1199-$11A3 DB_DATA 10
+RANGE $11A3-$11AD DB_DATA 10
+RANGE $11AD-$11B7 DB_DATA 10
+RANGE $11B7-$11C1 DB_DATA 10
+RANGE $11C1-$11CB DB_DATA 10
+RANGE $11CB-$11D5 DB_DATA 10
+RANGE $11D5-$11DF DB_DATA 10
+RANGE $11DF-$11E9 DB_DATA 10
+RANGE $11E9-$11F3 DB_DATA 10
+RANGE $11F3-$11FD DB_DATA 10
+RANGE $11FD-$1207 DB_DATA 10
+RANGE $1207-$1211 DB_DATA 10
+RANGE $1211-$121B DB_DATA 10
+RANGE $121B-$1225 DB_DATA 10
+RANGE $1225-$122F DB_DATA 10
+RANGE $122F-$1239 DB_DATA 10
+RANGE $1239-$1243 DB_DATA 10
+RANGE $1243-$124D DB_DATA 10
+RANGE $124D-$1257 DB_DATA 10
+RANGE $1257-$1261 DB_DATA 10
+RANGE $1261-$126B DB_DATA 10
+RANGE $126B-$1275 DB_DATA 10
+RANGE $1275-$127F DB_DATA 10
+RANGE $127F-$1289 DB_DATA 10
+RANGE $1289-$128D DB_DATA 4
+RANGE $128D-$1290 DB_DATA 3
+RANGE $1290-$1293 DB_DATA 3
+RANGE $1293-$1296 DB_DATA 3
+RANGE $1296-$1299 DB_DATA 3
+RANGE $1299-$129C DB_DATA 3
+RANGE $129C-$129F DB_DATA 3
+RANGE $129F-$12A2 DB_DATA 3
+RANGE $12A2-$12A5 DB_DATA 3
+RANGE $12A5-$12A8 DB_DATA 3
+RANGE $12A8-$12AB DB_DATA 3
+RANGE $12AB-$12AE DB_DATA 3
+RANGE $12AE-$12B1 DB_DATA 3
+RANGE $12B1-$12B4 DB_DATA 3
+RANGE $12B4-$12B7 DB_DATA 3
+RANGE $12B7-$12BA DB_DATA 3
+RANGE $12BA-$12C6 DB_DATA 12
+RANGE $12C6-$12D4 DB_DATA 14
+RANGE $12D4-$12DF DB_DATA 11
+RANGE $12DF-$12E6 DB_DATA 7
+RANGE $12E6-$12F5 DB_DATA 15
+RANGE $12F5-$1304 DB_DATA 15
+RANGE $1304-$130B DB_DATA 7
+RANGE $130B-$1319 DB_DATA 14
+RANGE $1319-$131F DB_DATA 6
+RANGE $131F-$132E DB_DATA 15
+RANGE $132E-$1338 DB_DATA 10
+RANGE $1338-$1342 DB_DATA 10
+RANGE $1342-$134C DB_DATA 10
+RANGE $134C-$1356 DB_DATA 10
+RANGE $1356-$1360 DB_DATA 10
+RANGE $1360-$136A DB_DATA 10
+RANGE $136A-$1374 DB_DATA 10
+RANGE $1374-$137E DB_DATA 10
+RANGE $137E-$1388 DB_DATA 10
+RANGE $1388-$1392 DB_DATA 10
+RANGE $1392-$139C DB_DATA 10
+RANGE $139C-$13A6 DB_DATA 10
+RANGE $13A6-$13B0 DB_DATA 10
+RANGE $13B0-$13BA DB_DATA 10
+RANGE $13BA-$13C4 DB_DATA 10
+RANGE $13C4-$13CE DB_DATA 10
+RANGE $13CE-$13D8 DB_DATA 10
+RANGE $13D8-$13E2 DB_DATA 10
+RANGE $13E2-$13EC DB_DATA 10
+RANGE $13EC-$13F6 DB_DATA 10
+RANGE $13F6-$1400 DB_DATA 10
+RANGE $1400-$140A DB_DATA 10
+RANGE $140A-$1414 DB_DATA 10
+RANGE $1414-$141E DB_DATA 10
+RANGE $141E-$1428 DB_DATA 10
+RANGE $1428-$1432 DB_DATA 10
+RANGE $1432-$143C DB_DATA 10
+RANGE $143C-$1446 DB_DATA 10
+RANGE $1446-$1450 DB_DATA 10
+RANGE $1450-$145A DB_DATA 10
+RANGE $145A-$1464 DB_DATA 10
+RANGE $1464-$146E DB_DATA 10
+RANGE $146E-$1478 DB_DATA 10
+RANGE $1478-$1482 DB_DATA 10
+RANGE $1482-$148C DB_DATA 10
+RANGE $148C-$1496 DB_DATA 10
+RANGE $1496-$14A0 DB_DATA 10
+RANGE $14A0-$14AA DB_DATA 10
+RANGE $14AA-$14B4 DB_DATA 10
+RANGE $14B4-$14BA DB_DATA 6
+RANGE $14BA-$14BD DB_DATA 3
+RANGE $14BD-$14C0 DB_DATA 3
+RANGE $14C0-$14C3 DB_DATA 3
+RANGE $14C3-$14C6 DB_DATA 3
+RANGE $14C6-$14C9 DB_DATA 3
+RANGE $14C9-$14CC DB_DATA 3
+RANGE $14CC-$14CF DB_DATA 3
+RANGE $14CF-$14D2 DB_DATA 3
+RANGE $14D2-$14D5 DB_DATA 3
+RANGE $14D5-$14D8 DB_DATA 3
+RANGE $14D8-$14DB DB_DATA 3
+RANGE $14DB-$14DE DB_DATA 3
+RANGE $14DE-$14E1 DB_DATA 3
+RANGE $14E1-$14E4 DB_DATA 3
+RANGE $14E4-$14E7 DB_DATA 3
+RANGE $14E7-$14EA DB_DATA 3
+RANGE $14EA-$14F7 DB_DATA 13
+RANGE $14F7-$1504 DB_DATA 13
+RANGE $1504-$1511 DB_DATA 13
+RANGE $1511-$151E DB_DATA 13
+RANGE $151E-$1525 DB_DATA 7
+RANGE $1525-$1532 DB_DATA 13
+RANGE $1532-$153C DB_DATA 10
+RANGE $153C-$1546 DB_DATA 10
+RANGE $1546-$1550 DB_DATA 10
+RANGE $1550-$155A DB_DATA 10
+RANGE $155A-$1564 DB_DATA 10
+RANGE $1564-$156E DB_DATA 10
+RANGE $156E-$1578 DB_DATA 10
+RANGE $1578-$1582 DB_DATA 10
+RANGE $1582-$158C DB_DATA 10
+RANGE $158C-$1596 DB_DATA 10
+RANGE $1596-$15A0 DB_DATA 10
+RANGE $15A0-$15AA DB_DATA 10
+RANGE $15AA-$15B4 DB_DATA 10
+RANGE $15B4-$15BE DB_DATA 10
+RANGE $15BE-$15C8 DB_DATA 10
+RANGE $15C8-$15D2 DB_DATA 10
+RANGE $15D2-$15DC DB_DATA 10
+RANGE $15DC-$15E6 DB_DATA 10
+RANGE $15E6-$15F0 DB_DATA 10
+RANGE $15F0-$15FA DB_DATA 10
+RANGE $15FA-$1604 DB_DATA 10
+RANGE $1604-$160E DB_DATA 10
+RANGE $160E-$1618 DB_DATA 10
+RANGE $1618-$161B DB_DATA 3
+RANGE $161B-$161E DB_DATA 3
+RANGE $161E-$1621 DB_DATA 3
+RANGE $1621-$1624 DB_DATA 3
+RANGE $1624-$1627 DB_DATA 3
+RANGE $1627-$162A DB_DATA 3
+RANGE $162A-$162D DB_DATA 3
+RANGE $162D-$1630 DB_DATA 3
+RANGE $1630-$1633 DB_DATA 3
+RANGE $1633-$1636 DB_DATA 3
+RANGE $1636-$1639 DB_DATA 3
+RANGE $1639-$163C DB_DATA 3
+RANGE $163C-$163F DB_DATA 3
+RANGE $163F-$1642 DB_DATA 3
+RANGE $1642-$1645 DB_DATA 3
+RANGE $1645-$1648 DB_DATA 3
+RANGE $1648-$164B DB_DATA 3
+RANGE $164B-$164E DB_DATA 3
+RANGE $164E-$1651 DB_DATA 3
+RANGE $1651-$1654 DB_DATA 3
+RANGE $1654-$1657 DB_DATA 3
+RANGE $1657-$165A DB_DATA 3
+RANGE $165A-$1661 DB_DATA 7
+RANGE $1661-$1668 DB_DATA 7
+RANGE $1668-$166C DB_DATA 4
+RANGE $166C-$1673 DB_DATA 7
+RANGE $1673-$1677 DB_DATA 4
+RANGE $1677-$167E DB_DATA 7
+RANGE $167E-$168B DB_DATA 13
+RANGE $168B-$1697 DB_DATA 12
+RANGE $1697-$169B DB_DATA 4
+RANGE $169B-$16A5 DB_DATA 10
+RANGE $16A5-$16AF DB_DATA 10
+RANGE $16AF-$16B9 DB_DATA 10
+RANGE $16B9-$16C3 DB_DATA 10
+RANGE $16C3-$16CD DB_DATA 10
+RANGE $16CD-$16D7 DB_DATA 10
+RANGE $16D7-$16E1 DB_DATA 10
+RANGE $16E1-$16EB DB_DATA 10
+RANGE $16EB-$16F5 DB_DATA 10
+RANGE $16F5-$16FF DB_DATA 10
+RANGE $16FF-$1709 DB_DATA 10
+RANGE $1709-$1713 DB_DATA 10
+RANGE $1713-$171D DB_DATA 10
+RANGE $171D-$1727 DB_DATA 10
+RANGE $1727-$1731 DB_DATA 10
+RANGE $1731-$173B DB_DATA 10
+RANGE $173B-$1745 DB_DATA 10
+RANGE $1745-$174F DB_DATA 10
+RANGE $174F-$1759 DB_DATA 10
+RANGE $1759-$1763 DB_DATA 10
+RANGE $1763-$176D DB_DATA 10
+RANGE $176D-$1777 DB_DATA 10
+RANGE $1777-$1781 DB_DATA 10
+RANGE $1781-$178B DB_DATA 10
+RANGE $178B-$1795 DB_DATA 10
+RANGE $1795-$179F DB_DATA 10
+RANGE $179F-$17A9 DB_DATA 10
+RANGE $17A9-$17B3 DB_DATA 10
+RANGE $17B3-$17BD DB_DATA 10
+RANGE $17BD-$17C7 DB_DATA 10
+RANGE $17C7-$17D1 DB_DATA 10
+RANGE $17D1-$17DB DB_DATA 10
+RANGE $17DB-$17E5 DB_DATA 10
+RANGE $17E5-$17EF DB_DATA 10
+RANGE $17EF-$17F9 DB_DATA 10
+RANGE $17F9-$1803 DB_DATA 10
+RANGE $1803-$180D DB_DATA 10
+RANGE $180D-$1817 DB_DATA 10
+RANGE $1817-$1821 DB_DATA 10
+RANGE $1821-$182B DB_DATA 10
+RANGE $182B-$1835 DB_DATA 10
+RANGE $1835-$183F DB_DATA 10
+RANGE $183F-$1849 DB_DATA 10
+RANGE $1849-$1853 DB_DATA 10
+RANGE $1853-$185D DB_DATA 10
+RANGE $185D-$1867 DB_DATA 10
+RANGE $1867-$1871 DB_DATA 10
+RANGE $1871-$187B DB_DATA 10
+RANGE $187B-$1885 DB_DATA 10
+RANGE $1885-$188F DB_DATA 10
+RANGE $188F-$1899 DB_DATA 10
+RANGE $1899-$18A3 DB_DATA 10
+RANGE $18A3-$18AD DB_DATA 10
+RANGE $18AD-$18B7 DB_DATA 10
+RANGE $18B7-$18C1 DB_DATA 10
+RANGE $18C1-$18CB DB_DATA 10
+RANGE $18CB-$18D5 DB_DATA 10
+RANGE $18D5-$18DF DB_DATA 10
+RANGE $18DF-$18E9 DB_DATA 10
+RANGE $18E9-$18F3 DB_DATA 10
+RANGE $18F3-$18FD DB_DATA 10
+RANGE $18FD-$1907 DB_DATA 10
+RANGE $1907-$1911 DB_DATA 10
+RANGE $1911-$191B DB_DATA 10
+RANGE $191B-$1922 DB_DATA 7
+RANGE $1922-$1925 DB_DATA 3
+RANGE $1925-$1928 DB_DATA 3
+RANGE $1928-$192B DB_DATA 3
+RANGE $192B-$192E DB_DATA 3
+RANGE $192E-$1931 DB_DATA 3
+RANGE $1931-$1934 DB_DATA 3
+RANGE $1934-$1937 DB_DATA 3
+RANGE $1937-$193A DB_DATA 3
+RANGE $193A-$193D DB_DATA 3
+RANGE $193D-$1940 DB_DATA 3
+RANGE $1940-$1943 DB_DATA 3
+RANGE $1943-$1946 DB_DATA 3
+RANGE $1946-$1949 DB_DATA 3
+RANGE $1949-$194C DB_DATA 3
+RANGE $194C-$194F DB_DATA 3
+RANGE $194F-$1952 DB_DATA 3
+RANGE $1952-$1955 DB_DATA 3
+RANGE $1955-$1958 DB_DATA 3
+RANGE $1958-$195B DB_DATA 3
+RANGE $195B-$195E DB_DATA 3
+RANGE $195E-$1961 DB_DATA 3
+RANGE $1961-$1964 DB_DATA 3
+RANGE $1964-$1967 DB_DATA 3
+RANGE $1967-$1972 DB_DATA 11
+RANGE $1972-$1981 DB_DATA 15
+RANGE $1981-$1984 DB_DATA 3
+RANGE $1984-$198B DB_DATA 7
+RANGE $198B-$1995 DB_DATA 10
+RANGE $1995-$199C DB_DATA 7
+RANGE $199C-$19A6 DB_DATA 10
+RANGE $19A6-$19B3 DB_DATA 13
+RANGE $19B3-$19BD DB_DATA 10
+RANGE $19BD-$19C4 DB_DATA 7
+RANGE $19C4-$19CE DB_DATA 10
+RANGE $19CE-$19D8 DB_DATA 10
+RANGE $19D8-$19E2 DB_DATA 10
+RANGE $19E2-$19EC DB_DATA 10
+RANGE $19EC-$19F6 DB_DATA 10
+RANGE $19F6-$1A00 DB_DATA 10
+RANGE $1A00-$1A0A DB_DATA 10
+RANGE $1A0A-$1A14 DB_DATA 10
+RANGE $1A14-$1A1E DB_DATA 10
+RANGE $1A1E-$1A28 DB_DATA 10
+RANGE $1A28-$1A32 DB_DATA 10
+RANGE $1A32-$1A3C DB_DATA 10
+RANGE $1A3C-$1A46 DB_DATA 10
+RANGE $1A46-$1A50 DB_DATA 10
+RANGE $1A50-$1A5A DB_DATA 10
+RANGE $1A5A-$1A64 DB_DATA 10
+RANGE $1A64-$1A6E DB_DATA 10
+RANGE $1A6E-$1A78 DB_DATA 10
+RANGE $1A78-$1A82 DB_DATA 10
+RANGE $1A82-$1A8C DB_DATA 10
+RANGE $1A8C-$1A96 DB_DATA 10
+RANGE $1A96-$1AA0 DB_DATA 10
+RANGE $1AA0-$1AAA DB_DATA 10
+RANGE $1AAA-$1AB4 DB_DATA 10
+RANGE $1AB4-$1ABE DB_DATA 10
+RANGE $1ABE-$1AC8 DB_DATA 10
+RANGE $1AC8-$1AD2 DB_DATA 10
+RANGE $1AD2-$1ADC DB_DATA 10
+RANGE $1ADC-$1AE6 DB_DATA 10
+RANGE $1AE6-$1AF0 DB_DATA 10
+RANGE $1AF0-$1AFA DB_DATA 10
+RANGE $1AFA-$1B04 DB_DATA 10
+RANGE $1B04-$1B0E DB_DATA 10
+RANGE $1B0E-$1B18 DB_DATA 10
+RANGE $1B18-$1B22 DB_DATA 10
+RANGE $1B22-$1B2C DB_DATA 10
+RANGE $1B2C-$1B36 DB_DATA 10
+RANGE $1B36-$1B40 DB_DATA 10
+RANGE $1B40-$1B4A DB_DATA 10
+RANGE $1B4A-$1B54 DB_DATA 10
+RANGE $1B54-$1B5E DB_DATA 10
+RANGE $1B5E-$1B68 DB_DATA 10
+RANGE $1B68-$1B72 DB_DATA 10
+RANGE $1B72-$1B7C DB_DATA 10
+RANGE $1B7C-$1B86 DB_DATA 10
+RANGE $1B86-$1B90 DB_DATA 10
+RANGE $1B90-$1B9A DB_DATA 10
+RANGE $1B9A-$1BA4 DB_DATA 10
+RANGE $1BA4-$1BAE DB_DATA 10
+RANGE $1BAE-$1BB8 DB_DATA 10
+RANGE $1BB8-$1BC2 DB_DATA 10
+RANGE $1BC2-$1BCC DB_DATA 10
+RANGE $1BCC-$1BD6 DB_DATA 10
+RANGE $1BD6-$1BE0 DB_DATA 10
+RANGE $1BE0-$1BEA DB_DATA 10
+RANGE $1BEA-$1BF4 DB_DATA 10
+RANGE $1BF4-$1BFE DB_DATA 10
+RANGE $1BFE-$1C08 DB_DATA 10
+RANGE $1C08-$1C12 DB_DATA 10
+RANGE $1C12-$1C1C DB_DATA 10
+RANGE $1C1C-$1C26 DB_DATA 10
+RANGE $1C26-$1C30 DB_DATA 10
+RANGE $1C30-$1C3A DB_DATA 10
+RANGE $1C3A-$1C44 DB_DATA 10
+RANGE $1C44-$1C4E DB_DATA 10
+RANGE $1C4E-$1C58 DB_DATA 10
+RANGE $1C58-$1C62 DB_DATA 10
+RANGE $1C62-$1C6C DB_DATA 10
+RANGE $1C6C-$1C76 DB_DATA 10
+RANGE $1C76-$1C80 DB_DATA 10
+RANGE $1C80-$1C82 DB_DATA 2
+RANGE $1C82-$1C85 DB_DATA 3
+RANGE $1C85-$1C88 DB_DATA 3
+RANGE $1C88-$1C8B DB_DATA 3
+RANGE $1C8B-$1C8E DB_DATA 3
+RANGE $1C8E-$1C91 DB_DATA 3
+RANGE $1C91-$1C94 DB_DATA 3
+RANGE $1C94-$1C97 DB_DATA 3
+RANGE $1C97-$1C9A DB_DATA 3
+RANGE $1C9A-$1C9D DB_DATA 3
+RANGE $1C9D-$1CA0 DB_DATA 3
+RANGE $1CA0-$1CA3 DB_DATA 3
+RANGE $1CA3-$1CA6 DB_DATA 3
+RANGE $1CA6-$1CA9 DB_DATA 3
+RANGE $1CA9-$1CAC DB_DATA 3
+RANGE $1CAC-$1CAF DB_DATA 3
+RANGE $1CAF-$1CB2 DB_DATA 3
+RANGE $1CB2-$1CB5 DB_DATA 3
+RANGE $1CB5-$1CB8 DB_DATA 3
+RANGE $1CB8-$1CBB DB_DATA 3
+RANGE $1CBB-$1CBE DB_DATA 3
+RANGE $1CBE-$1CC1 DB_DATA 3
+RANGE $1CC1-$1CC4 DB_DATA 3
+RANGE $1CC4-$1CC7 DB_DATA 3
+RANGE $1CC7-$1CCA DB_DATA 3
+RANGE $1CCA-$1CCD DB_DATA 3
+RANGE $1CCD-$1CD0 DB_DATA 3
+RANGE $1CD0-$1CD3 DB_DATA 3
+RANGE $1CD3-$1CD6 DB_DATA 3
+RANGE $1CD6-$1CE6 DB_DATA 16
+RANGE $1CE6-$1CF3 DB_DATA 13
+RANGE $1CF3-$1CFB DB_DATA 8
+RANGE $1CFB-$1D0B DB_DATA 16
+RANGE $1D0B-$1D1A DB_DATA 15
+RANGE $1D1A-$1D20 DB_DATA 6
+RANGE $1D20-$1D29 DB_DATA 9
+RANGE $1D29-$1D36 DB_DATA 13
+RANGE $1D36-$1D3D DB_DATA 7
+RANGE $1D3D-$1D44 DB_DATA 7
+RANGE $1D44-$1D4B DB_DATA 7
+RANGE $1D4B-$1D52 DB_DATA 7
+RANGE $1D52-$1D59 DB_DATA 7
+RANGE $1D59-$1D63 DB_DATA 10
+RANGE $1D63-$1D6D DB_DATA 10
+RANGE $1D6D-$1D77 DB_DATA 10
+RANGE $1D77-$1D81 DB_DATA 10
+RANGE $1D81-$1D8B DB_DATA 10
+RANGE $1D8B-$1D95 DB_DATA 10
+RANGE $1D95-$1D9F DB_DATA 10
+RANGE $1D9F-$1DA9 DB_DATA 10
+RANGE $1DA9-$1DB3 DB_DATA 10
+RANGE $1DB3-$1DBD DB_DATA 10
+RANGE $1DBD-$1DC7 DB_DATA 10
+RANGE $1DC7-$1DD1 DB_DATA 10
+RANGE $1DD1-$1DDB DB_DATA 10
+RANGE $1DDB-$1DE5 DB_DATA 10
+RANGE $1DE5-$1DEF DB_DATA 10
+RANGE $1DEF-$1DF9 DB_DATA 10
+RANGE $1DF9-$1E03 DB_DATA 10
+RANGE $1E03-$1E0D DB_DATA 10
+RANGE $1E0D-$1E17 DB_DATA 10
+RANGE $1E17-$1E21 DB_DATA 10
+RANGE $1E21-$1E2B DB_DATA 10
+RANGE $1E2B-$1E35 DB_DATA 10
+RANGE $1E35-$1E3F DB_DATA 10
+RANGE $1E3F-$1E49 DB_DATA 10
+RANGE $1E49-$1E53 DB_DATA 10
+RANGE $1E53-$1E5D DB_DATA 10
+RANGE $1E5D-$1E67 DB_DATA 10
+RANGE $1E67-$1E71 DB_DATA 10
+RANGE $1E71-$1E7B DB_DATA 10
+RANGE $1E7B-$1E85 DB_DATA 10
+RANGE $1E85-$1E8F DB_DATA 10
+RANGE $1E8F-$1E99 DB_DATA 10
+RANGE $1E99-$1EA3 DB_DATA 10
+RANGE $1EA3-$1EAD DB_DATA 10
+RANGE $1EAD-$1EB7 DB_DATA 10
+RANGE $1EB7-$1EC1 DB_DATA 10
+RANGE $1EC1-$1ECB DB_DATA 10
+RANGE $1ECB-$1ED5 DB_DATA 10
+RANGE $1ED5-$1EDF DB_DATA 10
+RANGE $1EDF-$1EE9 DB_DATA 10
+RANGE $1EE9-$1EF3 DB_DATA 10
+RANGE $1EF3-$1EFD DB_DATA 10
+RANGE $1EFD-$1F07 DB_DATA 10
+RANGE $1F07-$1F11 DB_DATA 10
+RANGE $1F11-$1F1B DB_DATA 10
+RANGE $1F1B-$1F25 DB_DATA 10
+RANGE $1F25-$1F2F DB_DATA 10
+RANGE $1F2F-$1F39 DB_DATA 10
+RANGE $1F39-$1F43 DB_DATA 10
+RANGE $1F43-$1F44 DB_DATA 1
+RANGE $1F44-$1F47 DB_DATA 3
+RANGE $1F47-$1F4A DB_DATA 3
+RANGE $1F4A-$1F4D DB_DATA 3
+RANGE $1F4D-$1F50 DB_DATA 3
+RANGE $1F50-$1F53 DB_DATA 3
+RANGE $1F53-$1F56 DB_DATA 3
+RANGE $1F56-$1F59 DB_DATA 3
+RANGE $1F59-$1F5C DB_DATA 3
+RANGE $1F5C-$1F5F DB_DATA 3
+RANGE $1F5F-$1F62 DB_DATA 3
+RANGE $1F62-$1F65 DB_DATA 3
+RANGE $1F65-$1F68 DB_DATA 3
+RANGE $1F68-$1F6B DB_DATA 3
+RANGE $1F6B-$1F6E DB_DATA 3
+RANGE $1F6E-$1F71 DB_DATA 3
+RANGE $1F71-$1F74 DB_DATA 3
+RANGE $1F74-$1F77 DB_DATA 3
+RANGE $1F77-$1F7A DB_DATA 3
+RANGE $1F7A-$1F7D DB_DATA 3
+RANGE $1F7D-$1F80 DB_DATA 3
+RANGE $1F80-$1F83 DB_DATA 3
+RANGE $1F83-$1F86 DB_DATA 3
+RANGE $1F86-$1F89 DB_DATA 3
+RANGE $1F89-$1F8C DB_DATA 3
+RANGE $1F8C-$1F99 DB_DATA 13
+RANGE $1F99-$1FA6 DB_DATA 13
+RANGE $1FA6-$1FB3 DB_DATA 13
+RANGE $1FB3-$1FC0 DB_DATA 13
+RANGE $1FC0-$1FCD DB_DATA 13
+RANGE $1FCD-$1FD7 DB_DATA 10
+RANGE $1FD7-$1FDE DB_DATA 7
+RANGE $1FDE-$1FE5 DB_DATA 7
+RANGE $1FE5-$1FEC DB_DATA 7
+RANGE $1FEC-$1FF3 DB_DATA 7
+RANGE $1FF3-$1FFA DB_DATA 7
+RANGE $1FFA-$2001 DB_DATA 7
+RANGE $2001-$200B DB_DATA 10
+RANGE $200B-$2015 DB_DATA 10
+RANGE $2015-$201F DB_DATA 10
+RANGE $201F-$2029 DB_DATA 10
+RANGE $2029-$2033 DB_DATA 10
+RANGE $2033-$203D DB_DATA 10
+RANGE $203D-$2047 DB_DATA 10
+RANGE $2047-$2051 DB_DATA 10
+RANGE $2051-$205B DB_DATA 10
+RANGE $205B-$2065 DB_DATA 10
+RANGE $2065-$206F DB_DATA 10
+RANGE $206F-$2079 DB_DATA 10
+RANGE $2079-$2083 DB_DATA 10
+RANGE $2083-$208D DB_DATA 10
+RANGE $208D-$2097 DB_DATA 10
+RANGE $2097-$20A1 DB_DATA 10
+RANGE $20A1-$20AB DB_DATA 10
+RANGE $20AB-$20B5 DB_DATA 10
+RANGE $20B5-$20BF DB_DATA 10
+RANGE $20BF-$20C9 DB_DATA 10
+RANGE $20C9-$20D3 DB_DATA 10
+RANGE $20D3-$20DD DB_DATA 10
+RANGE $20DD-$20E7 DB_DATA 10
+RANGE $20E7-$20E9 DB_DATA 2
+RANGE $20E9-$20EB DW_DATA 1
+RANGE $20EB-$20F1 DW_DATA 3
+RANGE $20F1-$20F7 DW_DATA 3
+RANGE $20F7-$20FD DW_DATA 3
+RANGE $20FD-$2103 DW_DATA 3
+RANGE $2103-$2109 DW_DATA 3
+RANGE $2109-$210F DW_DATA 3
+RANGE $210F-$2115 DW_DATA 3
+RANGE $2115-$211B DW_DATA 3
+RANGE $211B-$2121 DW_DATA 3
+RANGE $2121-$2127 DW_DATA 3
+RANGE $2127-$212D DW_DATA 3
+RANGE $212D-$2138 DB_DATA 11
+RANGE $2138-$213B DB_DATA 3
+RANGE $213B-$2145 DB_DATA 10
+RANGE $2145-$214F DB_DATA 10
+RANGE $214F-$2159 DB_DATA 10
+RANGE $2159-$2163 DB_DATA 10
+RANGE $2163-$216D DB_DATA 10
+RANGE $216D-$2177 DB_DATA 10
+RANGE $2177-$2181 DB_DATA 10
+RANGE $2181-$218B DB_DATA 10
+RANGE $218B-$2195 DB_DATA 10
+RANGE $2195-$219F DB_DATA 10
+RANGE $219F-$21A9 DB_DATA 10
+RANGE $21A9-$21B3 DB_DATA 10
+RANGE $21B3-$21BD DB_DATA 10
+RANGE $21BD-$21C7 DB_DATA 10
+RANGE $21C7-$21D1 DB_DATA 10
+RANGE $21D1-$21DB DB_DATA 10
+RANGE $21DB-$21E5 DB_DATA 10
+RANGE $21E5-$21EF DB_DATA 10
+RANGE $21EF-$21F9 DB_DATA 10
+RANGE $21F9-$2203 DB_DATA 10
+RANGE $2203-$220D DB_DATA 10
+RANGE $220D-$2217 DB_DATA 10
+RANGE $2217-$2221 DB_DATA 10
+RANGE $2221-$222B DB_DATA 10
+RANGE $222B-$2235 DB_DATA 10
+RANGE $2235-$223F DB_DATA 10
+RANGE $223F-$2249 DB_DATA 10
+RANGE $2249-$2253 DB_DATA 10
+RANGE $2253-$225D DB_DATA 10
+RANGE $225D-$2267 DB_DATA 10
+RANGE $2267-$2271 DB_DATA 10
+RANGE $2271-$227B DB_DATA 10
+RANGE $227B-$2285 DB_DATA 10
+RANGE $2285-$228F DB_DATA 10
+RANGE $228F-$2299 DB_DATA 10
+RANGE $2299-$22A3 DB_DATA 10
+RANGE $22A3-$22AD DB_DATA 10
+RANGE $22AD-$22B7 DB_DATA 10
+RANGE $22B7-$22C1 DB_DATA 10
+RANGE $22C1-$22CB DB_DATA 10
+RANGE $22CB-$22D5 DB_DATA 10
+RANGE $22D5-$22DF DB_DATA 10
+RANGE $22DF-$22E9 DB_DATA 10
+RANGE $22E9-$22F3 DB_DATA 10
+RANGE $22F3-$22FD DB_DATA 10
+RANGE $22FD-$2307 DB_DATA 10
+RANGE $2307-$2311 DB_DATA 10
+RANGE $2311-$231B DB_DATA 10
+RANGE $231B-$2325 DB_DATA 10
+RANGE $2325-$232F DB_DATA 10
+RANGE $232F-$2339 DB_DATA 10
+RANGE $2339-$2343 DB_DATA 10
+RANGE $2343-$234D DB_DATA 10
+RANGE $234D-$2357 DB_DATA 10
+RANGE $2357-$2361 DB_DATA 10
+RANGE $2361-$236B DB_DATA 10
+RANGE $236B-$2375 DB_DATA 10
+RANGE $2375-$237F DB_DATA 10
+RANGE $237F-$2389 DB_DATA 10
+RANGE $2389-$2393 DB_DATA 10
+RANGE $2393-$239D DB_DATA 10
+RANGE $239D-$23A7 DB_DATA 10
+RANGE $23A7-$23B1 DB_DATA 10
+RANGE $23B1-$23BB DB_DATA 10
+RANGE $23BB-$23C5 DB_DATA 10
+RANGE $23C5-$23CF DB_DATA 10
+RANGE $23CF-$23D9 DB_DATA 10
+RANGE $23D9-$23E3 DB_DATA 10
+RANGE $23E3-$23ED DB_DATA 10
+RANGE $23ED-$23F7 DB_DATA 10
+RANGE $23F7-$2401 DB_DATA 10
+RANGE $2401-$240B DB_DATA 10
+RANGE $240B-$2415 DB_DATA 10
+RANGE $2415-$241F DB_DATA 10
+RANGE $241F-$2429 DB_DATA 10
+RANGE $2429-$2433 DB_DATA 10
+RANGE $2433-$243D DB_DATA 10
+RANGE $243D-$2447 DB_DATA 10
+RANGE $2447-$2451 DB_DATA 10
+RANGE $2451-$245B DB_DATA 10
+RANGE $245B-$2465 DB_DATA 10
+RANGE $2465-$246F DB_DATA 10
+RANGE $246F-$2479 DB_DATA 10
+RANGE $2479-$2483 DB_DATA 10
+RANGE $2483-$248D DB_DATA 10
+RANGE $248D-$2497 DB_DATA 10
+RANGE $2497-$24A1 DB_DATA 10
+RANGE $24A1-$24AB DB_DATA 10
+RANGE $24AB-$24B5 DB_DATA 10
+RANGE $24B5-$24BF DB_DATA 10
+RANGE $24BF-$24C9 DB_DATA 10
+RANGE $24C9-$24D3 DB_DATA 10
+RANGE $24D3-$24DD DB_DATA 10
+RANGE $24DD-$24E7 DB_DATA 10
+RANGE $24E7-$24F1 DB_DATA 10
+RANGE $24F1-$24FB DB_DATA 10
+RANGE $24FB-$2505 DB_DATA 10
+RANGE $2505-$250F DB_DATA 10
+RANGE $250F-$2519 DB_DATA 10
+RANGE $2519-$2523 DB_DATA 10
+RANGE $2523-$252D DB_DATA 10
+RANGE $252D-$2537 DB_DATA 10
+RANGE $2537-$2541 DB_DATA 10
+RANGE $2541-$254B DB_DATA 10
+RANGE $254B-$2555 DB_DATA 10
+RANGE $2555-$255F DB_DATA 10
+RANGE $255F-$2569 DB_DATA 10
+RANGE $2569-$2573 DB_DATA 10
+RANGE $2573-$257D DB_DATA 10
+RANGE $257D-$2587 DB_DATA 10
+RANGE $2587-$2591 DB_DATA 10
+RANGE $2591-$259B DB_DATA 10
+RANGE $259B-$25A5 DB_DATA 10
+RANGE $25A5-$25AF DB_DATA 10
+RANGE $25AF-$25B9 DB_DATA 10
+RANGE $25B9-$25C3 DB_DATA 10
+RANGE $25C3-$25CD DB_DATA 10
+RANGE $25CD-$25D7 DB_DATA 10
+RANGE $25D7-$25E1 DB_DATA 10
+RANGE $25E1-$25EB DB_DATA 10
+RANGE $25EB-$25F5 DB_DATA 10
+RANGE $25F5-$25FF DB_DATA 10
+RANGE $25FF-$2609 DB_DATA 10
+RANGE $2609-$2613 DB_DATA 10
+RANGE $2613-$261D DB_DATA 10
+RANGE $261D-$2627 DB_DATA 10
+RANGE $2627-$2631 DB_DATA 10
+RANGE $2631-$263B DB_DATA 10
+RANGE $263B-$2645 DB_DATA 10
+RANGE $2645-$264F DB_DATA 10
+RANGE $264F-$2659 DB_DATA 10
+RANGE $2659-$2663 DB_DATA 10
+RANGE $2663-$266D DB_DATA 10
+RANGE $266D-$2677 DB_DATA 10
+RANGE $2677-$2681 DB_DATA 10
+RANGE $2681-$268B DB_DATA 10
+RANGE $268B-$2695 DB_DATA 10
+RANGE $2695-$269F DB_DATA 10
+RANGE $269F-$26A9 DB_DATA 10
+RANGE $26A9-$26B3 DB_DATA 10
+RANGE $26B3-$26BD DB_DATA 10
+RANGE $26BD-$26C7 DB_DATA 10
+RANGE $26C7-$26D1 DB_DATA 10
+RANGE $26D1-$26DB DB_DATA 10
+RANGE $26DB-$26E5 DB_DATA 10
+RANGE $26E5-$26EF DB_DATA 10
+RANGE $26EF-$26F9 DB_DATA 10
+RANGE $26F9-$2703 DB_DATA 10
+RANGE $2703-$270D DB_DATA 10
+RANGE $270D-$2717 DB_DATA 10
+RANGE $2717-$2721 DB_DATA 10
+RANGE $2721-$272B DB_DATA 10
+RANGE $272B-$2735 DB_DATA 10
+RANGE $2735-$273F DB_DATA 10
+RANGE $273F-$2749 DB_DATA 10
+RANGE $2749-$2753 DB_DATA 10
+RANGE $2753-$275D DB_DATA 10
+RANGE $275D-$2767 DB_DATA 10
+RANGE $2767-$2771 DB_DATA 10
+RANGE $2771-$277B DB_DATA 10
+RANGE $277B-$2785 DB_DATA 10
+RANGE $2785-$278F DB_DATA 10
+RANGE $278F-$2799 DB_DATA 10
+RANGE $2799-$27A3 DB_DATA 10
+RANGE $27A3-$27AD DB_DATA 10
+RANGE $27AD-$27B7 DB_DATA 10
+RANGE $27B7-$27C1 DB_DATA 10
+RANGE $27C1-$27CB DB_DATA 10
+RANGE $27CB-$27D5 DB_DATA 10
+RANGE $27D5-$27DF DB_DATA 10
+RANGE $27DF-$27E9 DB_DATA 10
+RANGE $27E9-$27F3 DB_DATA 10
+RANGE $27F3-$27FD DB_DATA 10
+RANGE $27FD-$2807 DB_DATA 10
+RANGE $2807-$2811 DB_DATA 10
+RANGE $2811-$281B DB_DATA 10
+RANGE $281B-$2825 DB_DATA 10
+RANGE $2825-$282F DB_DATA 10
+RANGE $282F-$2839 DB_DATA 10
+RANGE $2839-$2843 DB_DATA 10
+RANGE $2843-$284D DB_DATA 10
+RANGE $284D-$2857 DB_DATA 10
+RANGE $2857-$2861 DB_DATA 10
+RANGE $2861-$286B DB_DATA 10
+RANGE $286B-$2875 DB_DATA 10
+RANGE $2875-$287F DB_DATA 10
+RANGE $287F-$2889 DB_DATA 10
+RANGE $2889-$2893 DB_DATA 10
+RANGE $2893-$289D DB_DATA 10
+RANGE $289D-$28A7 DB_DATA 10
+RANGE $28A7-$28B1 DB_DATA 10
+RANGE $28B1-$28BB DB_DATA 10
+RANGE $28BB-$28C5 DB_DATA 10
+RANGE $28C5-$28CF DB_DATA 10
+RANGE $28CF-$28D9 DB_DATA 10
+RANGE $28D9-$28E3 DB_DATA 10
+RANGE $28E3-$28ED DB_DATA 10
+RANGE $28ED-$28F7 DB_DATA 10
+RANGE $28F7-$2901 DB_DATA 10
+RANGE $2901-$290B DB_DATA 10
+RANGE $290B-$2915 DB_DATA 10
+RANGE $2915-$291F DB_DATA 10
+RANGE $291F-$2929 DB_DATA 10
+RANGE $2929-$2933 DB_DATA 10
+RANGE $2933-$293D DB_DATA 10
+RANGE $293D-$2947 DB_DATA 10
+RANGE $2947-$2951 DB_DATA 10
+RANGE $2951-$295B DB_DATA 10
+RANGE $295B-$2965 DB_DATA 10
+RANGE $2965-$296F DB_DATA 10
+RANGE $296F-$2979 DB_DATA 10
+RANGE $2979-$2983 DB_DATA 10
+RANGE $2983-$298D DB_DATA 10
+RANGE $298D-$2997 DB_DATA 10
+RANGE $2997-$29A1 DB_DATA 10
+RANGE $29A1-$29AB DB_DATA 10
+RANGE $29AB-$29B5 DB_DATA 10
+RANGE $29B5-$29BF DB_DATA 10
+RANGE $29BF-$29C9 DB_DATA 10
+RANGE $29C9-$29D3 DB_DATA 10
+RANGE $29D3-$29DD DB_DATA 10
+RANGE $29DD-$29E7 DB_DATA 10
+RANGE $29E7-$29F1 DB_DATA 10
+RANGE $29F1-$29FB DB_DATA 10
+RANGE $29FB-$2A05 DB_DATA 10
+RANGE $2A05-$2A0F DB_DATA 10
+RANGE $2A0F-$2A19 DB_DATA 10
+RANGE $2A19-$2A23 DB_DATA 10
+RANGE $2A23-$2A2D DB_DATA 10
+RANGE $2A2D-$2A37 DB_DATA 10
+RANGE $2A37-$2A41 DB_DATA 10
+RANGE $2A41-$2A4B DB_DATA 10
+RANGE $2A4B-$2A55 DB_DATA 10
+RANGE $2A55-$2A5F DB_DATA 10
+RANGE $2A5F-$2A69 DB_DATA 10
+RANGE $2A69-$2A73 DB_DATA 10
+RANGE $2A73-$2A7D DB_DATA 10
+RANGE $2A7D-$2A87 DB_DATA 10
+RANGE $2A87-$2A91 DB_DATA 10
+RANGE $2A91-$2A9B DB_DATA 10
+RANGE $2A9B-$2AA5 DB_DATA 10
+RANGE $2AA5-$2AAF DB_DATA 10
+RANGE $2AAF-$2AB9 DB_DATA 10
+RANGE $2AB9-$2AC3 DB_DATA 10
+RANGE $2AC3-$2ACD DB_DATA 10
+RANGE $2ACD-$2AD7 DB_DATA 10
+RANGE $2AD7-$2AE1 DB_DATA 10
+RANGE $2AE1-$2AEB DB_DATA 10
+RANGE $2AEB-$2AF5 DB_DATA 10
+RANGE $2AF5-$2AFF DB_DATA 10
+RANGE $2AFF-$2B09 DB_DATA 10
+RANGE $2B09-$2B13 DB_DATA 10
+RANGE $2B13-$2B1D DB_DATA 10
+RANGE $2B1D-$2B27 DB_DATA 10
+RANGE $2B27-$2B31 DB_DATA 10
+RANGE $2B31-$2B3B DB_DATA 10
+RANGE $2B3B-$2B45 DB_DATA 10
+RANGE $2B45-$2B4F DB_DATA 10
+RANGE $2B4F-$2B59 DB_DATA 10
+RANGE $2B59-$2B63 DB_DATA 10
+RANGE $2B63-$2B6D DB_DATA 10
+RANGE $2B6D-$2B77 DB_DATA 10
+RANGE $2B77-$2B81 DB_DATA 10
+RANGE $2B81-$2B8B DB_DATA 10
+RANGE $2B8B-$2B95 DB_DATA 10
+RANGE $2B95-$2B9F DB_DATA 10
+RANGE $2B9F-$2BA9 DB_DATA 10
+RANGE $2BA9-$2BB3 DB_DATA 10
+RANGE $2BB3-$2BBD DB_DATA 10
+RANGE $2BBD-$2BC7 DB_DATA 10
+RANGE $2BC7-$2BD1 DB_DATA 10
+RANGE $2BD1-$2BDB DB_DATA 10
+RANGE $2BDB-$2BE5 DB_DATA 10
+RANGE $2BE5-$2BEF DB_DATA 10
+RANGE $2BEF-$2BF9 DB_DATA 10
+RANGE $2BF9-$2C03 DB_DATA 10
+RANGE $2C03-$2C0D DB_DATA 10
+RANGE $2C0D-$2C17 DB_DATA 10
+RANGE $2C17-$2C21 DB_DATA 10
+RANGE $2C21-$2C2B DB_DATA 10
+RANGE $2C2B-$2C35 DB_DATA 10
+RANGE $2C35-$2C3F DB_DATA 10
+RANGE $2C3F-$2C49 DB_DATA 10
+RANGE $2C49-$2C53 DB_DATA 10
+RANGE $2C53-$2C5D DB_DATA 10
+RANGE $2C5D-$2C67 DB_DATA 10
+RANGE $2C67-$2C71 DB_DATA 10
+RANGE $2C71-$2C7B DB_DATA 10
+RANGE $2C7B-$2C85 DB_DATA 10
+RANGE $2C85-$2C8F DB_DATA 10
+RANGE $2C8F-$2C99 DB_DATA 10
+RANGE $2C99-$2CA3 DB_DATA 10
+RANGE $2CA3-$2CAD DB_DATA 10
+RANGE $2CAD-$2CB7 DB_DATA 10
+RANGE $2CB7-$2CC1 DB_DATA 10
+RANGE $2CC1-$2CCB DB_DATA 10
+RANGE $2CCB-$2CD5 DB_DATA 10
+RANGE $2CD5-$2CDF DB_DATA 10
+RANGE $2CDF-$2CE9 DB_DATA 10
+RANGE $2CE9-$2CF3 DB_DATA 10
+RANGE $2CF3-$2CFD DB_DATA 10
+RANGE $2CFD-$2D07 DB_DATA 10
+RANGE $2D07-$2D11 DB_DATA 10
+RANGE $2D11-$2D1B DB_DATA 10
+RANGE $2D1B-$2D25 DB_DATA 10
+RANGE $2D25-$2D2F DB_DATA 10
+RANGE $2D2F-$2D39 DB_DATA 10
+RANGE $2D39-$2D43 DB_DATA 10
+RANGE $2D43-$2D4D DB_DATA 10
+RANGE $2D4D-$2D57 DB_DATA 10
+RANGE $2D57-$2D61 DB_DATA 10
+RANGE $2D61-$2D6B DB_DATA 10
+RANGE $2D6B-$2D75 DB_DATA 10
+RANGE $2D75-$2D7F DB_DATA 10
+RANGE $2D7F-$2D89 DB_DATA 10
+RANGE $2D89-$2D93 DB_DATA 10
+RANGE $2D93-$2D9D DB_DATA 10
+RANGE $2D9D-$2DA7 DB_DATA 10
+RANGE $2DA7-$2DB1 DB_DATA 10
+RANGE $2DB1-$2DBB DB_DATA 10
+RANGE $2DBB-$2DC5 DB_DATA 10
+RANGE $2DC5-$2DCF DB_DATA 10
+RANGE $2DCF-$2DD9 DB_DATA 10
+RANGE $2DD9-$2DE3 DB_DATA 10
+RANGE $2DE3-$2DED DB_DATA 10
+RANGE $2DED-$2DF7 DB_DATA 10
+RANGE $2DF7-$2E01 DB_DATA 10
+RANGE $2E01-$2E0B DB_DATA 10
+RANGE $2E0B-$2E15 DB_DATA 10
+RANGE $2E15-$2E1F DB_DATA 10
+RANGE $2E1F-$2E29 DB_DATA 10
+RANGE $2E29-$2E33 DB_DATA 10
+RANGE $2E33-$2E3D DB_DATA 10
+RANGE $2E3D-$2E47 DB_DATA 10
+RANGE $2E47-$2E51 DB_DATA 10
+RANGE $2E51-$2E5B DB_DATA 10
+RANGE $2E5B-$2E65 DB_DATA 10
+RANGE $2E65-$2E6F DB_DATA 10
+RANGE $2E6F-$2E79 DB_DATA 10
+RANGE $2E79-$2E83 DB_DATA 10
+RANGE $2E83-$2E8D DB_DATA 10
+RANGE $2E8D-$2E97 DB_DATA 10
+RANGE $2E97-$2EA1 DB_DATA 10
+RANGE $2EA1-$2EAB DB_DATA 10
+RANGE $2EAB-$2EB5 DB_DATA 10
+RANGE $2EB5-$2EBF DB_DATA 10
+RANGE $2EBF-$2EC9 DB_DATA 10
+RANGE $2EC9-$2ED3 DB_DATA 10
+RANGE $2ED3-$2EDD DB_DATA 10
+RANGE $2EDD-$2EE7 DB_DATA 10
+RANGE $2EE7-$2EF1 DB_DATA 10
+RANGE $2EF1-$2EFB DB_DATA 10
+RANGE $2EFB-$2F05 DB_DATA 10
+RANGE $2F05-$2F0F DB_DATA 10
+RANGE $2F0F-$2F19 DB_DATA 10
+RANGE $2F19-$2F23 DB_DATA 10
+RANGE $2F23-$2F2D DB_DATA 10
+RANGE $2F2D-$2F37 DB_DATA 10
+RANGE $2F37-$2F41 DB_DATA 10
+RANGE $2F41-$2F4B DB_DATA 10
+RANGE $2F4B-$2F55 DB_DATA 10
+RANGE $2F55-$2F5F DB_DATA 10
+RANGE $2F5F-$2F69 DB_DATA 10
+RANGE $2F69-$2F73 DB_DATA 10
+RANGE $2F73-$2F7D DB_DATA 10
+RANGE $2F7D-$2F87 DB_DATA 10
+RANGE $2F87-$2F91 DB_DATA 10
+RANGE $2F91-$2F9B DB_DATA 10
+RANGE $2F9B-$2FA5 DB_DATA 10
+RANGE $2FA5-$2FAF DB_DATA 10
+RANGE $2FAF-$2FB9 DB_DATA 10
+RANGE $2FB9-$2FC3 DB_DATA 10
+RANGE $2FC3-$2FCD DB_DATA 10
+RANGE $2FCD-$2FD7 DB_DATA 10
+RANGE $2FD7-$2FE1 DB_DATA 10
+RANGE $2FE1-$2FEB DB_DATA 10
+RANGE $2FEB-$2FF5 DB_DATA 10
+RANGE $2FF5-$2FFF DB_DATA 10
+RANGE $2FFF-$3009 DB_DATA 10
+RANGE $3009-$3013 DB_DATA 10
+RANGE $3013-$301D DB_DATA 10
+RANGE $301D-$3027 DB_DATA 10
+RANGE $3027-$3031 DB_DATA 10
+RANGE $3031-$303B DB_DATA 10
+RANGE $303B-$3045 DB_DATA 10
+RANGE $3045-$304F DB_DATA 10
+RANGE $304F-$3059 DB_DATA 10
+RANGE $3059-$3063 DB_DATA 10
+RANGE $3063-$306D DB_DATA 10
+RANGE $306D-$3077 DB_DATA 10
+RANGE $3077-$3081 DB_DATA 10
+RANGE $3081-$308B DB_DATA 10
+RANGE $308B-$3095 DB_DATA 10
+RANGE $3095-$309F DB_DATA 10
+RANGE $309F-$30A9 DB_DATA 10
+RANGE $30A9-$30B3 DB_DATA 10
+RANGE $30B3-$30BD DB_DATA 10
+RANGE $30BD-$30C7 DB_DATA 10
+RANGE $30C7-$30D1 DB_DATA 10
+RANGE $30D1-$30DB DB_DATA 10
+RANGE $30DB-$30E5 DB_DATA 10
+RANGE $30E5-$30EF DB_DATA 10
+RANGE $30EF-$30F9 DB_DATA 10
+RANGE $30F9-$3103 DB_DATA 10
+RANGE $3103-$310D DB_DATA 10
+RANGE $310D-$3117 DB_DATA 10
+RANGE $3117-$3121 DB_DATA 10
+RANGE $3121-$312B DB_DATA 10
+RANGE $312B-$3135 DB_DATA 10
+RANGE $3135-$313F DB_DATA 10
+RANGE $313F-$3149 DB_DATA 10
+RANGE $3149-$3153 DB_DATA 10
+RANGE $3153-$315D DB_DATA 10
+RANGE $315D-$3167 DB_DATA 10
+RANGE $3167-$3171 DB_DATA 10
+RANGE $3171-$317B DB_DATA 10
+RANGE $317B-$3185 DB_DATA 10
+RANGE $3185-$318F DB_DATA 10
+RANGE $318F-$3199 DB_DATA 10
+RANGE $3199-$31A3 DB_DATA 10
+RANGE $31A3-$31AD DB_DATA 10
+RANGE $31AD-$31B7 DB_DATA 10
+RANGE $31B7-$31C1 DB_DATA 10
+RANGE $31C1-$31CB DB_DATA 10
+RANGE $31CB-$31D5 DB_DATA 10
+RANGE $31D5-$31DF DB_DATA 10
+RANGE $31DF-$31E9 DB_DATA 10
+RANGE $31E9-$31F3 DB_DATA 10
+RANGE $31F3-$31FD DB_DATA 10
+RANGE $31FD-$3207 DB_DATA 10
+RANGE $3207-$3211 DB_DATA 10
+RANGE $3211-$321B DB_DATA 10
+RANGE $321B-$3225 DB_DATA 10
+RANGE $3225-$322F DB_DATA 10
+RANGE $322F-$3239 DB_DATA 10
+RANGE $3239-$3243 DB_DATA 10
+RANGE $3243-$324D DB_DATA 10
+RANGE $324D-$3257 DB_DATA 10
+RANGE $3257-$3261 DB_DATA 10
+RANGE $3261-$326B DB_DATA 10
+RANGE $326B-$3275 DB_DATA 10
+RANGE $3275-$327F DB_DATA 10
+RANGE $327F-$3289 DB_DATA 10
+RANGE $3289-$3293 DB_DATA 10
+RANGE $3293-$329D DB_DATA 10
+RANGE $329D-$32A7 DB_DATA 10
+RANGE $32A7-$32B1 DB_DATA 10
+RANGE $32B1-$32BB DB_DATA 10
+RANGE $32BB-$32C5 DB_DATA 10
+RANGE $32C5-$32CF DB_DATA 10
+RANGE $32CF-$32D9 DB_DATA 10
+RANGE $32D9-$32E3 DB_DATA 10
+RANGE $32E3-$32ED DB_DATA 10
+RANGE $32ED-$32F7 DB_DATA 10
+RANGE $32F7-$3301 DB_DATA 10
+RANGE $3301-$330B DB_DATA 10
+RANGE $330B-$3315 DB_DATA 10
+RANGE $3315-$331F DB_DATA 10
+RANGE $331F-$3329 DB_DATA 10
+RANGE $3329-$3333 DB_DATA 10
+RANGE $3333-$333D DB_DATA 10
+RANGE $333D-$3347 DB_DATA 10
+RANGE $3347-$3351 DB_DATA 10
+RANGE $3351-$335B DB_DATA 10
+RANGE $335B-$3365 DB_DATA 10
+RANGE $3365-$336F DB_DATA 10
+RANGE $336F-$3379 DB_DATA 10
+RANGE $3379-$3383 DB_DATA 10
+RANGE $3383-$338D DB_DATA 10
+RANGE $338D-$3397 DB_DATA 10
+RANGE $3397-$33A1 DB_DATA 10
+RANGE $33A1-$33AB DB_DATA 10
+RANGE $33AB-$33B5 DB_DATA 10
+RANGE $33B5-$33BF DB_DATA 10
+RANGE $33BF-$33C9 DB_DATA 10
+RANGE $33C9-$33D3 DB_DATA 10
+RANGE $33D3-$33DD DB_DATA 10
+RANGE $33DD-$33E7 DB_DATA 10
+RANGE $33E7-$33F1 DB_DATA 10
+RANGE $33F1-$33FB DB_DATA 10
+RANGE $33FB-$3405 DB_DATA 10
+RANGE $3405-$340F DB_DATA 10
+RANGE $340F-$3419 DB_DATA 10
+RANGE $3419-$3423 DB_DATA 10
+RANGE $3423-$342D DB_DATA 10
+RANGE $342D-$3437 DB_DATA 10
+RANGE $3437-$3441 DB_DATA 10
+RANGE $3441-$344B DB_DATA 10
+RANGE $344B-$3455 DB_DATA 10
+RANGE $3455-$345F DB_DATA 10
+RANGE $345F-$3469 DB_DATA 10
+RANGE $3469-$3473 DB_DATA 10
+RANGE $3473-$347D DB_DATA 10
+RANGE $347D-$3487 DB_DATA 10
+RANGE $3487-$3491 DB_DATA 10
+RANGE $3491-$349B DB_DATA 10
+RANGE $349B-$34A5 DB_DATA 10
+RANGE $34A5-$34AF DB_DATA 10
+RANGE $34AF-$34B9 DB_DATA 10
+RANGE $34B9-$34C3 DB_DATA 10
+RANGE $34C3-$34CD DB_DATA 10
+RANGE $34CD-$34D7 DB_DATA 10
+RANGE $34D7-$34E1 DB_DATA 10
+RANGE $34E1-$34EB DB_DATA 10
+RANGE $34EB-$34F5 DB_DATA 10
+RANGE $34F5-$34FF DB_DATA 10
+RANGE $34FF-$3509 DB_DATA 10
+RANGE $3509-$3513 DB_DATA 10
+RANGE $3513-$351D DB_DATA 10
+RANGE $351D-$3527 DB_DATA 10
+RANGE $3527-$3531 DB_DATA 10
+RANGE $3531-$353B DB_DATA 10
+RANGE $353B-$3545 DB_DATA 10
+RANGE $3545-$354F DB_DATA 10
+RANGE $354F-$3559 DB_DATA 10
+RANGE $3559-$3563 DB_DATA 10
+RANGE $3563-$356D DB_DATA 10
+RANGE $356D-$3577 DB_DATA 10
+RANGE $3577-$3581 DB_DATA 10
+RANGE $3581-$358B DB_DATA 10
+RANGE $358B-$3595 DB_DATA 10
+RANGE $3595-$359F DB_DATA 10
+RANGE $359F-$35A9 DB_DATA 10
+RANGE $35A9-$35B3 DB_DATA 10
+RANGE $35B3-$35BD DB_DATA 10
+RANGE $35BD-$35C7 DB_DATA 10
+RANGE $35C7-$35D1 DB_DATA 10
+RANGE $35D1-$35DB DB_DATA 10
+RANGE $35DB-$35E5 DB_DATA 10
+RANGE $35E5-$35EF DB_DATA 10
+RANGE $35EF-$35F9 DB_DATA 10
+RANGE $35F9-$3603 DB_DATA 10
+RANGE $3603-$360D DB_DATA 10
+RANGE $360D-$3617 DB_DATA 10
+RANGE $3617-$3621 DB_DATA 10
+RANGE $3621-$362B DB_DATA 10
+RANGE $362B-$3635 DB_DATA 10
+RANGE $3635-$363F DB_DATA 10
+RANGE $363F-$3649 DB_DATA 10
+RANGE $3649-$3653 DB_DATA 10
+RANGE $3653-$365D DB_DATA 10
+RANGE $365D-$3667 DB_DATA 10
+RANGE $3667-$3671 DB_DATA 10
+RANGE $3671-$367B DB_DATA 10
+RANGE $367B-$3685 DB_DATA 10
+RANGE $3685-$368F DB_DATA 10
+RANGE $368F-$3699 DB_DATA 10
+RANGE $3699-$36A3 DB_DATA 10
+RANGE $36A3-$36AD DB_DATA 10
+RANGE $36AD-$36B7 DB_DATA 10
+RANGE $36B7-$36C1 DB_DATA 10
+RANGE $36C1-$36CB DB_DATA 10
+RANGE $36CB-$36D5 DB_DATA 10
+RANGE $36D5-$36DF DB_DATA 10
+RANGE $36DF-$36E9 DB_DATA 10
+RANGE $36E9-$36F3 DB_DATA 10
+RANGE $36F3-$36FD DB_DATA 10
+RANGE $36FD-$3707 DB_DATA 10
+RANGE $3707-$3711 DB_DATA 10
+RANGE $3711-$371B DB_DATA 10
+RANGE $371B-$3725 DB_DATA 10
+RANGE $3725-$372F DB_DATA 10
+RANGE $372F-$3739 DB_DATA 10
+RANGE $3739-$3743 DB_DATA 10
+RANGE $3743-$374D DB_DATA 10
+RANGE $374D-$3757 DB_DATA 10
+RANGE $3757-$3761 DB_DATA 10
+RANGE $3761-$376B DB_DATA 10
+RANGE $376B-$3775 DB_DATA 10
+RANGE $3775-$377F DB_DATA 10
+RANGE $377F-$3789 DB_DATA 10
+RANGE $3789-$3793 DB_DATA 10
+RANGE $3793-$379D DB_DATA 10
+RANGE $379D-$37A7 DB_DATA 10
+RANGE $37A7-$37B1 DB_DATA 10
+RANGE $37B1-$37BB DB_DATA 10
+RANGE $37BB-$37C5 DB_DATA 10
+RANGE $37C5-$37CF DB_DATA 10
+RANGE $37CF-$37D9 DB_DATA 10
+RANGE $37D9-$37E3 DB_DATA 10
+RANGE $37E3-$37ED DB_DATA 10
+RANGE $37ED-$37F7 DB_DATA 10
+RANGE $37F7-$3801 DB_DATA 10
+RANGE $3801-$380B DB_DATA 10
+RANGE $380B-$3815 DB_DATA 10
+RANGE $3815-$381F DB_DATA 10
+RANGE $381F-$3829 DB_DATA 10
+RANGE $3829-$3833 DB_DATA 10
+RANGE $3833-$383D DB_DATA 10
+RANGE $383D-$3847 DB_DATA 10
+RANGE $3847-$3851 DB_DATA 10
+RANGE $3851-$385B DB_DATA 10
+RANGE $385B-$3865 DB_DATA 10
+RANGE $3865-$386F DB_DATA 10
+RANGE $386F-$3879 DB_DATA 10
+RANGE $3879-$3883 DB_DATA 10
+RANGE $3883-$388D DB_DATA 10
+RANGE $388D-$3897 DB_DATA 10
+RANGE $3897-$38A1 DB_DATA 10
+RANGE $38A1-$38AB DB_DATA 10
+RANGE $38AB-$38B5 DB_DATA 10
+RANGE $38B5-$38BF DB_DATA 10
+RANGE $38BF-$38C9 DB_DATA 10
+RANGE $38C9-$38D3 DB_DATA 10
+RANGE $38D3-$38DD DB_DATA 10
+RANGE $38DD-$38E7 DB_DATA 10
+RANGE $38E7-$38F1 DB_DATA 10
+RANGE $38F1-$38FB DB_DATA 10
+RANGE $38FB-$3905 DB_DATA 10
+RANGE $3905-$390F DB_DATA 10
+RANGE $390F-$3919 DB_DATA 10
+RANGE $3919-$3923 DB_DATA 10
+RANGE $3923-$392D DB_DATA 10
+RANGE $392D-$3937 DB_DATA 10
+RANGE $3937-$3941 DB_DATA 10
+RANGE $3941-$394B DB_DATA 10
+RANGE $394B-$3955 DB_DATA 10
+RANGE $3955-$395F DB_DATA 10
+RANGE $395F-$3969 DB_DATA 10
+RANGE $3969-$3973 DB_DATA 10
+RANGE $3973-$397D DB_DATA 10
+RANGE $397D-$3987 DB_DATA 10
+RANGE $3987-$3991 DB_DATA 10
+RANGE $3991-$399B DB_DATA 10
+RANGE $399B-$39A5 DB_DATA 10
+RANGE $39A5-$39AF DB_DATA 10
+RANGE $39AF-$39B9 DB_DATA 10
+RANGE $39B9-$39C3 DB_DATA 10
+RANGE $39C3-$39CD DB_DATA 10
+RANGE $39CD-$39D7 DB_DATA 10
+RANGE $39D7-$39E1 DB_DATA 10
+RANGE $39E1-$39EB DB_DATA 10
+RANGE $39EB-$39F5 DB_DATA 10
+RANGE $39F5-$39FF DB_DATA 10
+RANGE $39FF-$3A09 DB_DATA 10
+RANGE $3A09-$3A13 DB_DATA 10
+RANGE $3A13-$3A1D DB_DATA 10
+RANGE $3A1D-$3A27 DB_DATA 10
+RANGE $3A27-$3A31 DB_DATA 10
+RANGE $3A31-$3A3B DB_DATA 10
+RANGE $3A3B-$3A45 DB_DATA 10
+RANGE $3A45-$3A4F DB_DATA 10
+RANGE $3A4F-$3A59 DB_DATA 10
+RANGE $3A59-$3A63 DB_DATA 10
+RANGE $3A63-$3A6D DB_DATA 10
+RANGE $3A6D-$3A77 DB_DATA 10
+RANGE $3A77-$3A81 DB_DATA 10
+RANGE $3A81-$3A8B DB_DATA 10
+RANGE $3A8B-$3A95 DB_DATA 10
+RANGE $3A95-$3A9F DB_DATA 10
+RANGE $3A9F-$3AA9 DB_DATA 10
+RANGE $3AA9-$3AB3 DB_DATA 10
+RANGE $3AB3-$3ABD DB_DATA 10
+RANGE $3ABD-$3AC7 DB_DATA 10
+RANGE $3AC7-$3AD1 DB_DATA 10
+RANGE $3AD1-$3ADB DB_DATA 10
+RANGE $3ADB-$3AE5 DB_DATA 10
+RANGE $3AE5-$3AEF DB_DATA 10
+RANGE $3AEF-$3AF9 DB_DATA 10
+RANGE $3AF9-$3B03 DB_DATA 10
+RANGE $3B03-$3B0D DB_DATA 10
+RANGE $3B0D-$3B17 DB_DATA 10
+RANGE $3B17-$3B21 DB_DATA 10
+RANGE $3B21-$3B2B DB_DATA 10
+RANGE $3B2B-$3B35 DB_DATA 10
+RANGE $3B35-$3B3F DB_DATA 10
+RANGE $3B3F-$3B49 DB_DATA 10
+RANGE $3B49-$3B53 DB_DATA 10
+RANGE $3B53-$3B5D DB_DATA 10
+RANGE $3B5D-$3B67 DB_DATA 10
+RANGE $3B67-$3B71 DB_DATA 10
+RANGE $3B71-$3B7B DB_DATA 10
+RANGE $3B7B-$3B85 DB_DATA 10
+RANGE $3B85-$3B8F DB_DATA 10
+RANGE $3B8F-$3B99 DB_DATA 10
+RANGE $3B99-$3BA3 DB_DATA 10
+RANGE $3BA3-$3BAD DB_DATA 10
+RANGE $3BAD-$3BB7 DB_DATA 10
+RANGE $3BB7-$3BC1 DB_DATA 10
+RANGE $3BC1-$3BCB DB_DATA 10
+RANGE $3BCB-$3BD5 DB_DATA 10
+RANGE $3BD5-$3BDF DB_DATA 10
+RANGE $3BDF-$3BE9 DB_DATA 10
+RANGE $3BE9-$3BF3 DB_DATA 10
+RANGE $3BF3-$3BFD DB_DATA 10
+RANGE $3BFD-$3C07 DB_DATA 10
+RANGE $3C07-$3C11 DB_DATA 10
+RANGE $3C11-$3C1B DB_DATA 10
+RANGE $3C1B-$3C25 DB_DATA 10
+RANGE $3C25-$3C2F DB_DATA 10
+RANGE $3C2F-$3C39 DB_DATA 10
+RANGE $3C39-$3C43 DB_DATA 10
+RANGE $3C43-$3C4D DB_DATA 10
+RANGE $3C4D-$3C57 DB_DATA 10
+RANGE $3C57-$3C61 DB_DATA 10
+RANGE $3C61-$3C6B DB_DATA 10
+RANGE $3C6B-$3C75 DB_DATA 10
+RANGE $3C75-$3C7F DB_DATA 10
+RANGE $3C7F-$3C89 DB_DATA 10
+RANGE $3C89-$3C93 DB_DATA 10
+RANGE $3C93-$3C9D DB_DATA 10
+RANGE $3C9D-$3CA7 DB_DATA 10
+RANGE $3CA7-$3CB1 DB_DATA 10
+RANGE $3CB1-$3CBB DB_DATA 10
+RANGE $3CBB-$3CC5 DB_DATA 10
+RANGE $3CC5-$3CCF DB_DATA 10
+RANGE $3CCF-$3CD9 DB_DATA 10
+RANGE $3CD9-$3CE3 DB_DATA 10
+RANGE $3CE3-$3CED DB_DATA 10
+RANGE $3CED-$3CF7 DB_DATA 10
+RANGE $3CF7-$3D01 DB_DATA 10
+RANGE $3D01-$3D0B DB_DATA 10
+RANGE $3D0B-$3D15 DB_DATA 10
+RANGE $3D15-$3D1F DB_DATA 10
+RANGE $3D1F-$3D29 DB_DATA 10
+RANGE $3D29-$3D33 DB_DATA 10
+RANGE $3D33-$3D3D DB_DATA 10
+RANGE $3D3D-$3D47 DB_DATA 10
+RANGE $3D47-$3D51 DB_DATA 10
+RANGE $3D51-$3D5B DB_DATA 10
+RANGE $3D5B-$3D65 DB_DATA 10
+RANGE $3D65-$3D6F DB_DATA 10
+RANGE $3D6F-$3D79 DB_DATA 10
+RANGE $3D79-$3D83 DB_DATA 10
+RANGE $3D83-$3D8D DB_DATA 10
+RANGE $3D8D-$3D97 DB_DATA 10
+RANGE $3D97-$3DA1 DB_DATA 10
+RANGE $3DA1-$3DAB DB_DATA 10
+RANGE $3DAB-$3DB5 DB_DATA 10
+RANGE $3DB5-$3DBF DB_DATA 10
+RANGE $3DBF-$3DC9 DB_DATA 10
+RANGE $3DC9-$3DD3 DB_DATA 10
+RANGE $3DD3-$3DDD DB_DATA 10
+RANGE $3DDD-$3DE7 DB_DATA 10
+RANGE $3DE7-$3DF1 DB_DATA 10
+RANGE $3DF1-$3DFB DB_DATA 10
+RANGE $3DFB-$3E05 DB_DATA 10
+RANGE $3E05-$3E0F DB_DATA 10
+RANGE $3E0F-$3E19 DB_DATA 10
+RANGE $3E19-$3E23 DB_DATA 10
+RANGE $3E23-$3E2D DB_DATA 10
+RANGE $3E2D-$3E37 DB_DATA 10
+RANGE $3E37-$3E41 DB_DATA 10
+RANGE $3E41-$3E4B DB_DATA 10
+RANGE $3E4B-$3E55 DB_DATA 10
+RANGE $3E55-$3E5F DB_DATA 10
+RANGE $3E5F-$3E69 DB_DATA 10
+RANGE $3E69-$3E73 DB_DATA 10
+RANGE $3E73-$3E7D DB_DATA 10
+RANGE $3E7D-$3E87 DB_DATA 10
+RANGE $3E87-$3E91 DB_DATA 10
+RANGE $3E91-$3E9B DB_DATA 10
+RANGE $3E9B-$3EA5 DB_DATA 10
+RANGE $3EA5-$3EAF DB_DATA 10
+RANGE $3EAF-$3EB9 DB_DATA 10
+RANGE $3EB9-$3EC3 DB_DATA 10
+RANGE $3EC3-$3ECD DB_DATA 10
+RANGE $3ECD-$3ED7 DB_DATA 10
+RANGE $3ED7-$3EE1 DB_DATA 10
+RANGE $3EE1-$3EEB DB_DATA 10
+RANGE $3EEB-$3EF5 DB_DATA 10
+RANGE $3EF5-$3EFF DB_DATA 10
+RANGE $3EFF-$3F09 DB_DATA 10
+RANGE $3F09-$3F13 DB_DATA 10
+RANGE $3F13-$3F1D DB_DATA 10
+RANGE $3F1D-$3F27 DB_DATA 10
+RANGE $3F27-$3F31 DB_DATA 10
+RANGE $3F31-$3F3B DB_DATA 10
+RANGE $3F3B-$3F45 DB_DATA 10
+RANGE $3F45-$3F4F DB_DATA 10
+RANGE $3F4F-$3F59 DB_DATA 10
+RANGE $3F59-$3F63 DB_DATA 10
+RANGE $3F63-$3F6D DB_DATA 10
+RANGE $3F6D-$3F77 DB_DATA 10
+RANGE $3F77-$3F81 DB_DATA 10
+RANGE $3F81-$3F8B DB_DATA 10
+RANGE $3F8B-$3F95 DB_DATA 10
+RANGE $3F95-$3F9F DB_DATA 10
+RANGE $3F9F-$3FA9 DB_DATA 10
+RANGE $3FA9-$3FB3 DB_DATA 10
+RANGE $3FB3-$3FBD DB_DATA 10
+RANGE $3FBD-$3FC7 DB_DATA 10
+RANGE $3FC7-$3FD1 DB_DATA 10
+RANGE $3FD1-$3FDB DB_DATA 10
+RANGE $3FDB-$3FE5 DB_DATA 10
+RANGE $3FE5-$3FEF DB_DATA 10
+RANGE $3FEF-$3FF9 DB_DATA 10
+RANGE $3FF9-$4003 DB_DATA 10
+RANGE $4003-$400D DB_DATA 10
+RANGE $400D-$4017 DB_DATA 10
+RANGE $4017-$4021 DB_DATA 10
+RANGE $4021-$402B DB_DATA 10
+RANGE $402B-$4035 DB_DATA 10
+RANGE $4035-$403F DB_DATA 10
+RANGE $403F-$4049 DB_DATA 10
+RANGE $4049-$4053 DB_DATA 10
+RANGE $4053-$405D DB_DATA 10
+RANGE $405D-$4067 DB_DATA 10
+RANGE $4067-$4071 DB_DATA 10
+RANGE $4071-$407B DB_DATA 10
+RANGE $407B-$4085 DB_DATA 10
+RANGE $4085-$408F DB_DATA 10
+RANGE $408F-$4099 DB_DATA 10
+RANGE $4099-$40A3 DB_DATA 10
+RANGE $40A3-$40AD DB_DATA 10
+RANGE $40AD-$40B7 DB_DATA 10
+RANGE $40B7-$40C1 DB_DATA 10
+RANGE $40C1-$40CB DB_DATA 10
+RANGE $40CB-$40D5 DB_DATA 10
+RANGE $40D5-$40DF DB_DATA 10
+RANGE $40DF-$40E9 DB_DATA 10
+RANGE $40E9-$40F3 DB_DATA 10
+RANGE $40F3-$40FD DB_DATA 10
+RANGE $40FD-$4107 DB_DATA 10
+RANGE $4107-$4111 DB_DATA 10
+RANGE $4111-$411B DB_DATA 10
+RANGE $411B-$4125 DB_DATA 10
+RANGE $4125-$412F DB_DATA 10
+RANGE $412F-$4139 DB_DATA 10
+RANGE $4139-$4143 DB_DATA 10
+RANGE $4143-$414D DB_DATA 10
+RANGE $414D-$4157 DB_DATA 10
+RANGE $4157-$4161 DB_DATA 10
+RANGE $4161-$416B DB_DATA 10
+RANGE $416B-$4175 DB_DATA 10
+RANGE $4175-$417F DB_DATA 10
+RANGE $417F-$4189 DB_DATA 10
+RANGE $4189-$4193 DB_DATA 10
+RANGE $4193-$419D DB_DATA 10
+RANGE $419D-$41A7 DB_DATA 10
+RANGE $41A7-$41B1 DB_DATA 10
+RANGE $41B1-$41BB DB_DATA 10
+RANGE $41BB-$41C5 DB_DATA 10
+RANGE $41C5-$41CF DB_DATA 10
+RANGE $41CF-$41D9 DB_DATA 10
+RANGE $41D9-$41E3 DB_DATA 10
+RANGE $41E3-$41ED DB_DATA 10
+RANGE $41ED-$41F7 DB_DATA 10
+RANGE $41F7-$4201 DB_DATA 10
+RANGE $4201-$420B DB_DATA 10
+RANGE $420B-$4215 DB_DATA 10
+RANGE $4215-$421F DB_DATA 10
+RANGE $421F-$4229 DB_DATA 10
+RANGE $4229-$4233 DB_DATA 10
+RANGE $4233-$423D DB_DATA 10
+RANGE $423D-$4247 DB_DATA 10
+RANGE $4247-$4251 DB_DATA 10
+RANGE $4251-$425B DB_DATA 10
+RANGE $425B-$4265 DB_DATA 10
+RANGE $4265-$426F DB_DATA 10
+RANGE $426F-$4279 DB_DATA 10
+RANGE $4279-$4283 DB_DATA 10
+RANGE $4283-$428D DB_DATA 10
+RANGE $428D-$4297 DB_DATA 10
+RANGE $4297-$42A1 DB_DATA 10
+RANGE $42A1-$42AB DB_DATA 10
+RANGE $42AB-$42B5 DB_DATA 10
+RANGE $42B5-$42BF DB_DATA 10
+RANGE $42BF-$42C9 DB_DATA 10
+RANGE $42C9-$42D3 DB_DATA 10
+RANGE $42D3-$42DD DB_DATA 10
+RANGE $42DD-$42E7 DB_DATA 10
+RANGE $42E7-$42F1 DB_DATA 10
+RANGE $42F1-$42FB DB_DATA 10
+RANGE $42FB-$4305 DB_DATA 10
+RANGE $4305-$430F DB_DATA 10
+RANGE $430F-$4319 DB_DATA 10
+RANGE $4319-$4323 DB_DATA 10
+RANGE $4323-$432D DB_DATA 10
+RANGE $432D-$4337 DB_DATA 10
+RANGE $4337-$4341 DB_DATA 10
+RANGE $4341-$434B DB_DATA 10
+RANGE $434B-$4355 DB_DATA 10
+RANGE $4355-$435F DB_DATA 10
+RANGE $435F-$4369 DB_DATA 10
+RANGE $4369-$4373 DB_DATA 10
+RANGE $4373-$437D DB_DATA 10
+RANGE $437D-$4387 DB_DATA 10
+RANGE $4387-$4391 DB_DATA 10
+RANGE $4391-$439B DB_DATA 10
+RANGE $439B-$43A5 DB_DATA 10
+RANGE $43A5-$43AF DB_DATA 10
+RANGE $43AF-$43B9 DB_DATA 10
+RANGE $43B9-$43C3 DB_DATA 10
+RANGE $43C3-$43CD DB_DATA 10
+RANGE $43CD-$43D7 DB_DATA 10
+RANGE $43D7-$43E1 DB_DATA 10
+RANGE $43E1-$43EB DB_DATA 10
+RANGE $43EB-$43F5 DB_DATA 10
+RANGE $43F5-$43FF DB_DATA 10
+RANGE $43FF-$4409 DB_DATA 10
+RANGE $4409-$4413 DB_DATA 10
+RANGE $4413-$441D DB_DATA 10
+RANGE $441D-$4427 DB_DATA 10
+RANGE $4427-$4431 DB_DATA 10
+RANGE $4431-$443B DB_DATA 10
+RANGE $443B-$4445 DB_DATA 10
+RANGE $4445-$444F DB_DATA 10
+RANGE $444F-$4459 DB_DATA 10
+RANGE $4459-$4463 DB_DATA 10
+RANGE $4463-$446D DB_DATA 10
+RANGE $446D-$4477 DB_DATA 10
+RANGE $4477-$4481 DB_DATA 10
+RANGE $4481-$448B DB_DATA 10
+RANGE $448B-$4495 DB_DATA 10
+RANGE $4495-$449F DB_DATA 10
+RANGE $449F-$44A9 DB_DATA 10
+RANGE $44A9-$44B3 DB_DATA 10
+RANGE $44B3-$44BD DB_DATA 10
+RANGE $44BD-$44C7 DB_DATA 10
+RANGE $44C7-$44D1 DB_DATA 10
+RANGE $44D1-$44DB DB_DATA 10
+RANGE $44DB-$44E5 DB_DATA 10
+RANGE $44E5-$44EF DB_DATA 10
+RANGE $44EF-$44F9 DB_DATA 10
+RANGE $44F9-$4503 DB_DATA 10
+RANGE $4503-$450D DB_DATA 10
+RANGE $450D-$4517 DB_DATA 10
+RANGE $4517-$4521 DB_DATA 10
+RANGE $4521-$452B DB_DATA 10
+RANGE $452B-$4535 DB_DATA 10
+RANGE $4535-$453F DB_DATA 10
+RANGE $453F-$4549 DB_DATA 10
+RANGE $4549-$4553 DB_DATA 10
+RANGE $4553-$455D DB_DATA 10
+RANGE $455D-$4567 DB_DATA 10
+RANGE $4567-$4571 DB_DATA 10
+RANGE $4571-$457B DB_DATA 10
+RANGE $457B-$4585 DB_DATA 10
+RANGE $4585-$458F DB_DATA 10
+RANGE $458F-$4599 DB_DATA 10
+RANGE $4599-$45A3 DB_DATA 10
+RANGE $45A3-$45AD DB_DATA 10
+RANGE $45AD-$45B7 DB_DATA 10
+RANGE $45B7-$45C1 DB_DATA 10
+RANGE $45C1-$45CB DB_DATA 10
+RANGE $45CB-$45D5 DB_DATA 10
+RANGE $45D5-$45DF DB_DATA 10
+RANGE $45DF-$45E9 DB_DATA 10
+RANGE $45E9-$45F3 DB_DATA 10
+RANGE $45F3-$45FD DB_DATA 10
+RANGE $45FD-$4607 DB_DATA 10
+RANGE $4607-$4611 DB_DATA 10
+RANGE $4611-$461B DB_DATA 10
+RANGE $461B-$4625 DB_DATA 10
+RANGE $4625-$462F DB_DATA 10
+RANGE $462F-$4639 DB_DATA 10
+RANGE $4639-$4643 DB_DATA 10
+RANGE $4643-$464D DB_DATA 10
+RANGE $464D-$4657 DB_DATA 10
+RANGE $4657-$4661 DB_DATA 10
+RANGE $4661-$466B DB_DATA 10
+RANGE $466B-$4675 DB_DATA 10
+RANGE $4675-$467F DB_DATA 10
+RANGE $467F-$4689 DB_DATA 10
+RANGE $4689-$4693 DB_DATA 10
+RANGE $4693-$469D DB_DATA 10
+RANGE $469D-$46A7 DB_DATA 10
+RANGE $46A7-$46B1 DB_DATA 10
+RANGE $46B1-$46BB DB_DATA 10
+RANGE $46BB-$46C5 DB_DATA 10
+RANGE $46C5-$46CF DB_DATA 10
+RANGE $46CF-$46D9 DB_DATA 10
+RANGE $46D9-$46E3 DB_DATA 10
+RANGE $46E3-$46ED DB_DATA 10
+RANGE $46ED-$46F7 DB_DATA 10
+RANGE $46F7-$4701 DB_DATA 10
+RANGE $4701-$470B DB_DATA 10
+RANGE $470B-$4715 DB_DATA 10
+RANGE $4715-$471F DB_DATA 10
+RANGE $471F-$4729 DB_DATA 10
+RANGE $4729-$4733 DB_DATA 10
+RANGE $4733-$473D DB_DATA 10
+RANGE $473D-$4747 DB_DATA 10
+RANGE $4747-$4751 DB_DATA 10
+RANGE $4751-$475B DB_DATA 10
+RANGE $475B-$4765 DB_DATA 10
+RANGE $4765-$476F DB_DATA 10
+RANGE $476F-$4779 DB_DATA 10
+RANGE $4779-$4783 DB_DATA 10
+RANGE $4783-$478D DB_DATA 10
+RANGE $478D-$4797 DB_DATA 10
+RANGE $4797-$47A1 DB_DATA 10
+RANGE $47A1-$47AB DB_DATA 10
+RANGE $47AB-$47B5 DB_DATA 10
+RANGE $47B5-$47BF DB_DATA 10
+RANGE $47BF-$47C9 DB_DATA 10
+RANGE $47C9-$47D3 DB_DATA 10
+RANGE $47D3-$47DD DB_DATA 10
+RANGE $47DD-$47E7 DB_DATA 10
+RANGE $47E7-$47F1 DB_DATA 10
+RANGE $47F1-$47FB DB_DATA 10
+RANGE $47FB-$4805 DB_DATA 10
+RANGE $4805-$480F DB_DATA 10
+RANGE $480F-$4819 DB_DATA 10
+RANGE $4819-$4823 DB_DATA 10
+RANGE $4823-$482D DB_DATA 10
+RANGE $482D-$4837 DB_DATA 10
+RANGE $4837-$4841 DB_DATA 10
+RANGE $4841-$484B DB_DATA 10
+RANGE $484B-$4855 DB_DATA 10
+RANGE $4855-$485F DB_DATA 10
+RANGE $485F-$4869 DB_DATA 10
+RANGE $4869-$4873 DB_DATA 10
+RANGE $4873-$487D DB_DATA 10
+RANGE $487D-$4887 DB_DATA 10
+RANGE $4887-$4891 DB_DATA 10
+RANGE $4891-$489B DB_DATA 10
+RANGE $489B-$48A5 DB_DATA 10
+RANGE $48A5-$48AF DB_DATA 10
+RANGE $48AF-$48B9 DB_DATA 10
+RANGE $48B9-$48C3 DB_DATA 10
+RANGE $48C3-$48CD DB_DATA 10
+RANGE $48CD-$48D7 DB_DATA 10
+RANGE $48D7-$48E1 DB_DATA 10
+RANGE $48E1-$48EB DB_DATA 10
+RANGE $48EB-$48F5 DB_DATA 10
+RANGE $48F5-$48FF DB_DATA 10
+RANGE $48FF-$4909 DB_DATA 10
+RANGE $4909-$4913 DB_DATA 10
+RANGE $4913-$491D DB_DATA 10
+RANGE $491D-$4927 DB_DATA 10
+RANGE $4927-$4931 DB_DATA 10
+RANGE $4931-$493B DB_DATA 10
+RANGE $493B-$4945 DB_DATA 10
+RANGE $4945-$494F DB_DATA 10
+RANGE $494F-$4959 DB_DATA 10
+RANGE $4959-$4963 DB_DATA 10
+RANGE $4963-$496D DB_DATA 10
+RANGE $496D-$4977 DB_DATA 10
+RANGE $4977-$4981 DB_DATA 10
+RANGE $4981-$498B DB_DATA 10
+RANGE $498B-$4995 DB_DATA 10
+RANGE $4995-$499F DB_DATA 10
+RANGE $499F-$49A9 DB_DATA 10
+RANGE $49A9-$49B3 DB_DATA 10
+RANGE $49B3-$49BD DB_DATA 10
+RANGE $49BD-$49C7 DB_DATA 10
+RANGE $49C7-$49D1 DB_DATA 10
+RANGE $49D1-$49DB DB_DATA 10
+RANGE $49DB-$49E5 DB_DATA 10
+RANGE $49E5-$49EF DB_DATA 10
+RANGE $49EF-$49F9 DB_DATA 10
+RANGE $49F9-$4A03 DB_DATA 10
+RANGE $4A03-$4A0D DB_DATA 10
+RANGE $4A0D-$4A17 DB_DATA 10
+RANGE $4A17-$4A21 DB_DATA 10
+RANGE $4A21-$4A2B DB_DATA 10
+RANGE $4A2B-$4A35 DB_DATA 10
+RANGE $4A35-$4A3F DB_DATA 10
+RANGE $4A3F-$4A49 DB_DATA 10
+RANGE $4A49-$4A53 DB_DATA 10
+RANGE $4A53-$4A5D DB_DATA 10
+RANGE $4A5D-$4A67 DB_DATA 10
+RANGE $4A67-$4A71 DB_DATA 10
+RANGE $4A71-$4A7B DB_DATA 10
+RANGE $4A7B-$4A85 DB_DATA 10
+RANGE $4A85-$4A8F DB_DATA 10
+RANGE $4A8F-$4A99 DB_DATA 10
+RANGE $4A99-$4AA3 DB_DATA 10
+RANGE $4AA3-$4AAD DB_DATA 10
+RANGE $4AAD-$4AB7 DB_DATA 10
+RANGE $4AB7-$4AC1 DB_DATA 10
+RANGE $4AC1-$4ACB DB_DATA 10
+RANGE $4ACB-$4AD5 DB_DATA 10
+RANGE $4AD5-$4ADF DB_DATA 10
+RANGE $4ADF-$4AE9 DB_DATA 10
+RANGE $4AE9-$4AF3 DB_DATA 10
+RANGE $4AF3-$4AFD DB_DATA 10
+RANGE $4AFD-$4B07 DB_DATA 10
+RANGE $4B07-$4B11 DB_DATA 10
+RANGE $4B11-$4B1B DB_DATA 10
+RANGE $4B1B-$4B25 DB_DATA 10
+RANGE $4B25-$4B2F DB_DATA 10
+RANGE $4B2F-$4B39 DB_DATA 10
+RANGE $4B39-$4B43 DB_DATA 10
+RANGE $4B43-$4B4D DB_DATA 10
+RANGE $4B4D-$4B57 DB_DATA 10
+RANGE $4B57-$4B61 DB_DATA 10
+RANGE $4B61-$4B6B DB_DATA 10
+RANGE $4B6B-$4B75 DB_DATA 10
+RANGE $4B75-$4B7F DB_DATA 10
+RANGE $4B7F-$4B89 DB_DATA 10
+RANGE $4B89-$4B93 DB_DATA 10
+RANGE $4B93-$4B9D DB_DATA 10
+RANGE $4B9D-$4BA7 DB_DATA 10
+RANGE $4BA7-$4BB1 DB_DATA 10
+RANGE $4BB1-$4BBB DB_DATA 10
+RANGE $4BBB-$4BC5 DB_DATA 10
+RANGE $4BC5-$4BCF DB_DATA 10
+RANGE $4BCF-$4BD9 DB_DATA 10
+RANGE $4BD9-$4BE3 DB_DATA 10
+RANGE $4BE3-$4BED DB_DATA 10
+RANGE $4BED-$4BF7 DB_DATA 10
+RANGE $4BF7-$4C01 DB_DATA 10
+RANGE $4C01-$4C0B DB_DATA 10
+RANGE $4C0B-$4C15 DB_DATA 10
+RANGE $4C15-$4C1F DB_DATA 10
+RANGE $4C1F-$4C29 DB_DATA 10
+RANGE $4C29-$4C33 DB_DATA 10
+RANGE $4C33-$4C3D DB_DATA 10
+RANGE $4C3D-$4C47 DB_DATA 10
+RANGE $4C47-$4C51 DB_DATA 10
+RANGE $4C51-$4C5B DB_DATA 10
+RANGE $4C5B-$4C65 DB_DATA 10
+RANGE $4C65-$4C6F DB_DATA 10
+RANGE $4C6F-$4C79 DB_DATA 10
+RANGE $4C79-$4C83 DB_DATA 10
+RANGE $4C83-$4C8D DB_DATA 10
+RANGE $4C8D-$4C97 DB_DATA 10
+RANGE $4C97-$4CA1 DB_DATA 10
+RANGE $4CA1-$4CAB DB_DATA 10
+RANGE $4CAB-$4CB5 DB_DATA 10
+RANGE $4CB5-$4CBF DB_DATA 10
+RANGE $4CBF-$4CC9 DB_DATA 10
+RANGE $4CC9-$4CD3 DB_DATA 10
+RANGE $4CD3-$4CDD DB_DATA 10
+RANGE $4CDD-$4CE7 DB_DATA 10
+RANGE $4CE7-$4CF1 DB_DATA 10
+RANGE $4CF1-$4CFB DB_DATA 10
+RANGE $4CFB-$4D05 DB_DATA 10
+RANGE $4D05-$4D0F DB_DATA 10
+RANGE $4D0F-$4D19 DB_DATA 10
+RANGE $4D19-$4D23 DB_DATA 10
+RANGE $4D23-$4D2D DB_DATA 10
+RANGE $4D2D-$4D37 DB_DATA 10
+RANGE $4D37-$4D41 DB_DATA 10
+RANGE $4D41-$4D4B DB_DATA 10
+RANGE $4D4B-$4D55 DB_DATA 10
+RANGE $4D55-$4D5F DB_DATA 10
+RANGE $4D5F-$4D69 DB_DATA 10
+RANGE $4D69-$4D73 DB_DATA 10
+RANGE $4D73-$4D7D DB_DATA 10
+RANGE $4D7D-$4D87 DB_DATA 10
+RANGE $4D87-$4D91 DB_DATA 10
+RANGE $4D91-$4D9B DB_DATA 10
+RANGE $4D9B-$4DA5 DB_DATA 10
+RANGE $4DA5-$4DAF DB_DATA 10
+RANGE $4DAF-$4DB9 DB_DATA 10
+RANGE $4DB9-$4DC3 DB_DATA 10
+RANGE $4DC3-$4DCD DB_DATA 10
+RANGE $4DCD-$4DD7 DB_DATA 10
+RANGE $4DD7-$4DE1 DB_DATA 10
+RANGE $4DE1-$4DEB DB_DATA 10
+RANGE $4DEB-$4DF5 DB_DATA 10
+RANGE $4DF5-$4DFF DB_DATA 10
+RANGE $4DFF-$4E09 DB_DATA 10
+RANGE $4E09-$4E13 DB_DATA 10
+RANGE $4E13-$4E1D DB_DATA 10
+RANGE $4E1D-$4E27 DB_DATA 10
+RANGE $4E27-$4E31 DB_DATA 10
+RANGE $4E31-$4E3B DB_DATA 10
+RANGE $4E3B-$4E45 DB_DATA 10
+RANGE $4E45-$4E4F DB_DATA 10
+RANGE $4E4F-$4E59 DB_DATA 10
+RANGE $4E59-$4E63 DB_DATA 10
+RANGE $4E63-$4E6D DB_DATA 10
+RANGE $4E6D-$4E77 DB_DATA 10
+RANGE $4E77-$4E81 DB_DATA 10
+RANGE $4E81-$4E8B DB_DATA 10
+RANGE $4E8B-$4E95 DB_DATA 10
+RANGE $4E95-$4E9F DB_DATA 10
+RANGE $4E9F-$4EA9 DB_DATA 10
+RANGE $4EA9-$4EB3 DB_DATA 10
+RANGE $4EB3-$4EBD DB_DATA 10
+RANGE $4EBD-$4EC7 DB_DATA 10
+RANGE $4EC7-$4ED1 DB_DATA 10
+RANGE $4ED1-$4EDB DB_DATA 10
+RANGE $4EDB-$4EE5 DB_DATA 10
+RANGE $4EE5-$4EEF DB_DATA 10
+RANGE $4EEF-$4EF9 DB_DATA 10
+RANGE $4EF9-$4F03 DB_DATA 10
+RANGE $4F03-$4F0D DB_DATA 10
+RANGE $4F0D-$4F17 DB_DATA 10
+RANGE $4F17-$4F21 DB_DATA 10
+RANGE $4F21-$4F2B DB_DATA 10
+RANGE $4F2B-$4F35 DB_DATA 10
+RANGE $4F35-$4F3F DB_DATA 10
+RANGE $4F3F-$4F49 DB_DATA 10
+RANGE $4F49-$4F53 DB_DATA 10
+RANGE $4F53-$4F5D DB_DATA 10
+RANGE $4F5D-$4F67 DB_DATA 10
+RANGE $4F67-$4F71 DB_DATA 10
+RANGE $4F71-$4F7B DB_DATA 10
+RANGE $4F7B-$4F85 DB_DATA 10
+RANGE $4F85-$4F8F DB_DATA 10
+RANGE $4F8F-$4F99 DB_DATA 10
+RANGE $4F99-$4FA3 DB_DATA 10
+RANGE $4FA3-$4FAD DB_DATA 10
+RANGE $4FAD-$4FB7 DB_DATA 10
+RANGE $4FB7-$4FC1 DB_DATA 10
+RANGE $4FC1-$4FCB DB_DATA 10
+RANGE $4FCB-$4FD5 DB_DATA 10
+RANGE $4FD5-$4FDF DB_DATA 10
+RANGE $4FDF-$4FE9 DB_DATA 10
+RANGE $4FE9-$4FF3 DB_DATA 10
+RANGE $4FF3-$4FFD DB_DATA 10
+RANGE $4FFD-$5007 DB_DATA 10
+RANGE $5007-$5011 DB_DATA 10
+RANGE $5011-$501B DB_DATA 10
+RANGE $501B-$5025 DB_DATA 10
+RANGE $5025-$502F DB_DATA 10
+RANGE $502F-$5039 DB_DATA 10
+RANGE $5039-$5043 DB_DATA 10
+RANGE $5043-$504D DB_DATA 10
+RANGE $504D-$5057 DB_DATA 10
+RANGE $5057-$5061 DB_DATA 10
+RANGE $5061-$506B DB_DATA 10
+RANGE $506B-$5075 DB_DATA 10
+RANGE $5075-$507F DB_DATA 10
+RANGE $507F-$5089 DB_DATA 10
+RANGE $5089-$5093 DB_DATA 10
+RANGE $5093-$509D DB_DATA 10
+RANGE $509D-$50A7 DB_DATA 10
+RANGE $50A7-$50B1 DB_DATA 10
+RANGE $50B1-$50BB DB_DATA 10
+RANGE $50BB-$50C5 DB_DATA 10
+RANGE $50C5-$50CF DB_DATA 10
+RANGE $50CF-$50D9 DB_DATA 10
+RANGE $50D9-$50E3 DB_DATA 10
+RANGE $50E3-$50ED DB_DATA 10
+RANGE $50ED-$50F7 DB_DATA 10
+RANGE $50F7-$5101 DB_DATA 10
+RANGE $5101-$510B DB_DATA 10
+RANGE $510B-$5115 DB_DATA 10
+RANGE $5115-$511F DB_DATA 10
+RANGE $511F-$5129 DB_DATA 10
+RANGE $5129-$5133 DB_DATA 10
+RANGE $5133-$513D DB_DATA 10
+RANGE $513D-$5147 DB_DATA 10
+RANGE $5147-$5151 DB_DATA 10
+RANGE $5151-$515B DB_DATA 10
+RANGE $515B-$5165 DB_DATA 10
+RANGE $5165-$516F DB_DATA 10
+RANGE $516F-$5179 DB_DATA 10
+RANGE $5179-$5183 DB_DATA 10
+RANGE $5183-$518D DB_DATA 10
+RANGE $518D-$5197 DB_DATA 10
+RANGE $5197-$51A1 DB_DATA 10
+RANGE $51A1-$51AB DB_DATA 10
+RANGE $51AB-$51B5 DB_DATA 10
+RANGE $51B5-$51BF DB_DATA 10
+RANGE $51BF-$51C9 DB_DATA 10
+RANGE $51C9-$51D3 DB_DATA 10
+RANGE $51D3-$51DD DB_DATA 10
+RANGE $51DD-$51E7 DB_DATA 10
+RANGE $51E7-$51F1 DB_DATA 10
+RANGE $51F1-$51FB DB_DATA 10
+RANGE $51FB-$5205 DB_DATA 10
+RANGE $5205-$520F DB_DATA 10
+RANGE $520F-$5219 DB_DATA 10
+RANGE $5219-$5223 DB_DATA 10
+RANGE $5223-$522D DB_DATA 10
+RANGE $522D-$5237 DB_DATA 10
+RANGE $5237-$5241 DB_DATA 10
+RANGE $5241-$524B DB_DATA 10
+RANGE $524B-$5255 DB_DATA 10
+RANGE $5255-$525F DB_DATA 10
+RANGE $525F-$5269 DB_DATA 10
+RANGE $5269-$5273 DB_DATA 10
+RANGE $5273-$527D DB_DATA 10
+RANGE $527D-$5287 DB_DATA 10
+RANGE $5287-$5291 DB_DATA 10
+RANGE $5291-$529B DB_DATA 10
+RANGE $529B-$52A5 DB_DATA 10
+RANGE $52A5-$52AF DB_DATA 10
+RANGE $52AF-$52B9 DB_DATA 10
+RANGE $52B9-$52C3 DB_DATA 10
+RANGE $52C3-$52CD DB_DATA 10
+RANGE $52CD-$52D7 DB_DATA 10
+RANGE $52D7-$52E1 DB_DATA 10
+RANGE $52E1-$52EB DB_DATA 10
+RANGE $52EB-$52F5 DB_DATA 10
+RANGE $52F5-$52FF DB_DATA 10
+RANGE $52FF-$5309 DB_DATA 10
+RANGE $5309-$5313 DB_DATA 10
+RANGE $5313-$531D DB_DATA 10
+RANGE $531D-$5327 DB_DATA 10
+RANGE $5327-$5331 DB_DATA 10
+RANGE $5331-$533B DB_DATA 10
+RANGE $533B-$5345 DB_DATA 10
+RANGE $5345-$534F DB_DATA 10
+RANGE $534F-$5359 DB_DATA 10
+RANGE $5359-$5363 DB_DATA 10
+RANGE $5363-$536D DB_DATA 10
+RANGE $536D-$5377 DB_DATA 10
+RANGE $5377-$5381 DB_DATA 10
+RANGE $5381-$538B DB_DATA 10
+RANGE $538B-$5395 DB_DATA 10
+RANGE $5395-$539F DB_DATA 10
+RANGE $539F-$53A9 DB_DATA 10
+RANGE $53A9-$53B3 DB_DATA 10
+RANGE $53B3-$53BD DB_DATA 10
+RANGE $53BD-$53C7 DB_DATA 10
+RANGE $53C7-$53D1 DB_DATA 10
+RANGE $53D1-$53DB DB_DATA 10
+RANGE $53DB-$53E5 DB_DATA 10
+RANGE $53E5-$53EF DB_DATA 10
+RANGE $53EF-$53F9 DB_DATA 10
+RANGE $53F9-$5403 DB_DATA 10
+RANGE $5403-$540D DB_DATA 10
+RANGE $540D-$5417 DB_DATA 10
+RANGE $5417-$5421 DB_DATA 10
+RANGE $5421-$542B DB_DATA 10
+RANGE $542B-$5435 DB_DATA 10
+RANGE $5435-$543F DB_DATA 10
+RANGE $543F-$5449 DB_DATA 10
+RANGE $5449-$5453 DB_DATA 10
+RANGE $5453-$545D DB_DATA 10
+RANGE $545D-$5467 DB_DATA 10
+RANGE $5467-$5471 DB_DATA 10
+RANGE $5471-$547B DB_DATA 10
+RANGE $547B-$5485 DB_DATA 10
+RANGE $5485-$548F DB_DATA 10
+RANGE $548F-$5499 DB_DATA 10
+RANGE $5499-$54A3 DB_DATA 10
+RANGE $54A3-$54AD DB_DATA 10
+RANGE $54AD-$54B7 DB_DATA 10
+RANGE $54B7-$54C1 DB_DATA 10
+RANGE $54C1-$54CB DB_DATA 10
+RANGE $54CB-$54D5 DB_DATA 10
+RANGE $54D5-$54DF DB_DATA 10
+RANGE $54DF-$54E9 DB_DATA 10
+RANGE $54E9-$54F3 DB_DATA 10
+RANGE $54F3-$54FD DB_DATA 10
+RANGE $54FD-$5507 DB_DATA 10
+RANGE $5507-$5511 DB_DATA 10
+RANGE $5511-$551B DB_DATA 10
+RANGE $551B-$5525 DB_DATA 10
+RANGE $5525-$552F DB_DATA 10
+RANGE $552F-$5539 DB_DATA 10
+RANGE $5539-$5543 DB_DATA 10
+RANGE $5543-$554D DB_DATA 10
+RANGE $554D-$5557 DB_DATA 10
+RANGE $5557-$5561 DB_DATA 10
+RANGE $5561-$556B DB_DATA 10
+RANGE $556B-$5575 DB_DATA 10
+RANGE $5575-$557F DB_DATA 10
+RANGE $557F-$5589 DB_DATA 10
+RANGE $5589-$5593 DB_DATA 10
+RANGE $5593-$559D DB_DATA 10
+RANGE $559D-$55A7 DB_DATA 10
+RANGE $55A7-$55B1 DB_DATA 10
+RANGE $55B1-$55BB DB_DATA 10
+RANGE $55BB-$55C5 DB_DATA 10
+RANGE $55C5-$55CF DB_DATA 10
+RANGE $55CF-$55D9 DB_DATA 10
+RANGE $55D9-$55E3 DB_DATA 10
+RANGE $55E3-$55ED DB_DATA 10
+RANGE $55ED-$55F7 DB_DATA 10
+RANGE $55F7-$5601 DB_DATA 10
+RANGE $5601-$560B DB_DATA 10
+RANGE $560B-$5615 DB_DATA 10
+RANGE $5615-$561F DB_DATA 10
+RANGE $561F-$5629 DB_DATA 10
+RANGE $5629-$5633 DB_DATA 10
+RANGE $5633-$563D DB_DATA 10
+RANGE $563D-$5647 DB_DATA 10
+RANGE $5647-$5651 DB_DATA 10
+RANGE $5651-$565B DB_DATA 10
+RANGE $565B-$5665 DB_DATA 10
+RANGE $5665-$566F DB_DATA 10
+RANGE $566F-$5679 DB_DATA 10
+RANGE $5679-$5683 DB_DATA 10
+RANGE $5683-$568D DB_DATA 10
+RANGE $568D-$5697 DB_DATA 10
+RANGE $5697-$56A1 DB_DATA 10
+RANGE $56A1-$56AB DB_DATA 10
+RANGE $56AB-$56B5 DB_DATA 10
+RANGE $56B5-$56BF DB_DATA 10
+RANGE $56BF-$56C9 DB_DATA 10
+RANGE $56C9-$56D3 DB_DATA 10
+RANGE $56D3-$56DD DB_DATA 10
+RANGE $56DD-$56E7 DB_DATA 10
+RANGE $56E7-$56F1 DB_DATA 10
+RANGE $56F1-$56FB DB_DATA 10
+RANGE $56FB-$5705 DB_DATA 10
+RANGE $5705-$570F DB_DATA 10
+RANGE $570F-$5719 DB_DATA 10
+RANGE $5719-$5723 DB_DATA 10
+RANGE $5723-$572D DB_DATA 10
+RANGE $572D-$5737 DB_DATA 10
+RANGE $5737-$5741 DB_DATA 10
+RANGE $5741-$574B DB_DATA 10
+RANGE $574B-$5755 DB_DATA 10
+RANGE $5755-$575F DB_DATA 10
+RANGE $575F-$5769 DB_DATA 10
+RANGE $5769-$5773 DB_DATA 10
+RANGE $5773-$577D DB_DATA 10
+RANGE $577D-$5787 DB_DATA 10
+RANGE $5787-$5791 DB_DATA 10
+RANGE $5791-$579B DB_DATA 10
+RANGE $579B-$57A5 DB_DATA 10
+RANGE $57A5-$57AF DB_DATA 10
+RANGE $57AF-$57B9 DB_DATA 10
+RANGE $57B9-$57C3 DB_DATA 10
+RANGE $57C3-$57CD DB_DATA 10
+RANGE $57CD-$57D7 DB_DATA 10
+RANGE $57D7-$57E1 DB_DATA 10
+RANGE $57E1-$57EB DB_DATA 10
+RANGE $57EB-$57F5 DB_DATA 10
+RANGE $57F5-$57FF DB_DATA 10
+RANGE $57FF-$5809 DB_DATA 10
+RANGE $5809-$5813 DB_DATA 10
+RANGE $5813-$581D DB_DATA 10
+RANGE $581D-$5827 DB_DATA 10
+RANGE $5827-$5831 DB_DATA 10
+RANGE $5831-$583B DB_DATA 10
+RANGE $583B-$5845 DB_DATA 10
+RANGE $5845-$584F DB_DATA 10
+RANGE $584F-$5859 DB_DATA 10
+RANGE $5859-$5863 DB_DATA 10
+RANGE $5863-$586D DB_DATA 10
+RANGE $586D-$5877 DB_DATA 10
+RANGE $5877-$5881 DB_DATA 10
+RANGE $5881-$588B DB_DATA 10
+RANGE $588B-$5895 DB_DATA 10
+RANGE $5895-$589F DB_DATA 10
+RANGE $589F-$58A9 DB_DATA 10
+RANGE $58A9-$58B3 DB_DATA 10
+RANGE $58B3-$58BD DB_DATA 10
+RANGE $58BD-$58C7 DB_DATA 10
+RANGE $58C7-$58D1 DB_DATA 10
+RANGE $58D1-$58DB DB_DATA 10
+RANGE $58DB-$58E5 DB_DATA 10
+RANGE $58E5-$58EF DB_DATA 10
+RANGE $58EF-$58F9 DB_DATA 10
+RANGE $58F9-$5903 DB_DATA 10
+RANGE $5903-$590D DB_DATA 10
+RANGE $590D-$5917 DB_DATA 10
+RANGE $5917-$5921 DB_DATA 10
+RANGE $5921-$592B DB_DATA 10
+RANGE $592B-$5935 DB_DATA 10
+RANGE $5935-$593F DB_DATA 10
+RANGE $593F-$5949 DB_DATA 10
+RANGE $5949-$5953 DB_DATA 10
+RANGE $5953-$595D DB_DATA 10
+RANGE $595D-$5967 DB_DATA 10
+RANGE $5967-$5971 DB_DATA 10
+RANGE $5971-$597B DB_DATA 10
+RANGE $597B-$5985 DB_DATA 10
+RANGE $5985-$598F DB_DATA 10
+RANGE $598F-$5999 DB_DATA 10
+RANGE $5999-$59A3 DB_DATA 10
+RANGE $59A3-$59AD DB_DATA 10
+RANGE $59AD-$59B7 DB_DATA 10
+RANGE $59B7-$59C1 DB_DATA 10
+RANGE $59C1-$59CB DB_DATA 10
+RANGE $59CB-$59D5 DB_DATA 10
+RANGE $59D5-$59DF DB_DATA 10
+RANGE $59DF-$59E9 DB_DATA 10
+RANGE $59E9-$59F3 DB_DATA 10
+RANGE $59F3-$59FD DB_DATA 10
+RANGE $59FD-$5A07 DB_DATA 10
+RANGE $5A07-$5A11 DB_DATA 10
+RANGE $5A11-$5A1B DB_DATA 10
+RANGE $5A1B-$5A25 DB_DATA 10
+RANGE $5A25-$5A2F DB_DATA 10
+RANGE $5A2F-$5A39 DB_DATA 10
+RANGE $5A39-$5A43 DB_DATA 10
+RANGE $5A43-$5A4D DB_DATA 10
+RANGE $5A4D-$5A57 DB_DATA 10
+RANGE $5A57-$5A61 DB_DATA 10
+RANGE $5A61-$5A6B DB_DATA 10
+RANGE $5A6B-$5A75 DB_DATA 10
+RANGE $5A75-$5A7F DB_DATA 10
+RANGE $5A7F-$5A89 DB_DATA 10
+RANGE $5A89-$5A93 DB_DATA 10
+RANGE $5A93-$5A9D DB_DATA 10
+RANGE $5A9D-$5AA7 DB_DATA 10
+RANGE $5AA7-$5AB1 DB_DATA 10
+RANGE $5AB1-$5ABB DB_DATA 10
+RANGE $5ABB-$5AC5 DB_DATA 10
+RANGE $5AC5-$5ACF DB_DATA 10
+RANGE $5ACF-$5AD9 DB_DATA 10
+RANGE $5AD9-$5AE3 DB_DATA 10
+RANGE $5AE3-$5AED DB_DATA 10
+RANGE $5AED-$5AF7 DB_DATA 10
+RANGE $5AF7-$5B01 DB_DATA 10
+RANGE $5B01-$5B0B DB_DATA 10
+RANGE $5B0B-$5B15 DB_DATA 10
+RANGE $5B15-$5B1F DB_DATA 10
+RANGE $5B1F-$5B29 DB_DATA 10
+RANGE $5B29-$5B33 DB_DATA 10
+RANGE $5B33-$5B3D DB_DATA 10
+RANGE $5B3D-$5B47 DB_DATA 10
+RANGE $5B47-$5B51 DB_DATA 10
+RANGE $5B51-$5B5B DB_DATA 10
+RANGE $5B5B-$5B65 DB_DATA 10
+RANGE $5B65-$5B6F DB_DATA 10
+RANGE $5B6F-$5B79 DB_DATA 10
+RANGE $5B79-$5B83 DB_DATA 10
+RANGE $5B83-$5B8D DB_DATA 10
+RANGE $5B8D-$5B97 DB_DATA 10
+RANGE $5B97-$5BA1 DB_DATA 10
+RANGE $5BA1-$5BAB DB_DATA 10
+RANGE $5BAB-$5BB5 DB_DATA 10
+RANGE $5BB5-$5BBF DB_DATA 10
+RANGE $5BBF-$5BC9 DB_DATA 10
+RANGE $5BC9-$5BD3 DB_DATA 10
+RANGE $5BD3-$5BDD DB_DATA 10
+RANGE $5BDD-$5BE7 DB_DATA 10
+RANGE $5BE7-$5BF1 DB_DATA 10
+RANGE $5BF1-$5BFB DB_DATA 10
+RANGE $5BFB-$5C05 DB_DATA 10
+RANGE $5C05-$5C0F DB_DATA 10
+RANGE $5C0F-$5C19 DB_DATA 10
+RANGE $5C19-$5C23 DB_DATA 10
+RANGE $5C23-$5C2D DB_DATA 10
+RANGE $5C2D-$5C37 DB_DATA 10
+RANGE $5C37-$5C41 DB_DATA 10
+RANGE $5C41-$5C4B DB_DATA 10
+RANGE $5C4B-$5C55 DB_DATA 10
+RANGE $5C55-$5C5F DB_DATA 10
+RANGE $5C5F-$5C69 DB_DATA 10
+RANGE $5C69-$5C73 DB_DATA 10
+RANGE $5C73-$5C7D DB_DATA 10
+RANGE $5C7D-$5C87 DB_DATA 10
+RANGE $5C87-$5C91 DB_DATA 10
+RANGE $5C91-$5C9B DB_DATA 10
+RANGE $5C9B-$5CA5 DB_DATA 10
+RANGE $5CA5-$5CAF DB_DATA 10
+RANGE $5CAF-$5CB9 DB_DATA 10
+RANGE $5CB9-$5CC3 DB_DATA 10
+RANGE $5CC3-$5CCD DB_DATA 10
+RANGE $5CCD-$5CD7 DB_DATA 10
+RANGE $5CD7-$5CE1 DB_DATA 10
+RANGE $5CE1-$5CEB DB_DATA 10
+RANGE $5CEB-$5CF5 DB_DATA 10
+RANGE $5CF5-$5CFF DB_DATA 10
+RANGE $5CFF-$5D09 DB_DATA 10
+RANGE $5D09-$5D13 DB_DATA 10
+RANGE $5D13-$5D1D DB_DATA 10
+RANGE $5D1D-$5D27 DB_DATA 10
+RANGE $5D27-$5D31 DB_DATA 10
+RANGE $5D31-$5D3B DB_DATA 10
+RANGE $5D3B-$5D45 DB_DATA 10
+RANGE $5D45-$5D4F DB_DATA 10
+RANGE $5D4F-$5D59 DB_DATA 10
+RANGE $5D59-$5D63 DB_DATA 10
+RANGE $5D63-$5D6D DB_DATA 10
+RANGE $5D6D-$5D77 DB_DATA 10
+RANGE $5D77-$5D81 DB_DATA 10
+RANGE $5D81-$5D8B DB_DATA 10
+RANGE $5D8B-$5D95 DB_DATA 10
+RANGE $5D95-$5D9F DB_DATA 10
+RANGE $5D9F-$5DA9 DB_DATA 10
+RANGE $5DA9-$5DB3 DB_DATA 10
+RANGE $5DB3-$5DBD DB_DATA 10
+RANGE $5DBD-$5DC7 DB_DATA 10
+RANGE $5DC7-$5DD1 DB_DATA 10
+RANGE $5DD1-$5DDB DB_DATA 10
+RANGE $5DDB-$5DE5 DB_DATA 10
+RANGE $5DE5-$5DEF DB_DATA 10
+RANGE $5DEF-$5DF9 DB_DATA 10
+RANGE $5DF9-$5E03 DB_DATA 10
+RANGE $5E03-$5E0D DB_DATA 10
+RANGE $5E0D-$5E17 DB_DATA 10
+RANGE $5E17-$5E21 DB_DATA 10
+RANGE $5E21-$5E2B DB_DATA 10
+RANGE $5E2B-$5E35 DB_DATA 10
+RANGE $5E35-$5E3F DB_DATA 10
+RANGE $5E3F-$5E49 DB_DATA 10
+RANGE $5E49-$5E53 DB_DATA 10
+RANGE $5E53-$5E5D DB_DATA 10
+RANGE $5E5D-$5E67 DB_DATA 10
+RANGE $5E67-$5E71 DB_DATA 10
+RANGE $5E71-$5E7B DB_DATA 10
+RANGE $5E7B-$5E85 DB_DATA 10
+RANGE $5E85-$5E8F DB_DATA 10
+RANGE $5E8F-$5E99 DB_DATA 10
+RANGE $5E99-$5EA3 DB_DATA 10
+RANGE $5EA3-$5EAD DB_DATA 10
+RANGE $5EAD-$5EB7 DB_DATA 10
+RANGE $5EB7-$5EC1 DB_DATA 10
+RANGE $5EC1-$5ECB DB_DATA 10
+RANGE $5ECB-$5ED5 DB_DATA 10
+RANGE $5ED5-$5EDF DB_DATA 10
+RANGE $5EDF-$5EE9 DB_DATA 10
+RANGE $5EE9-$5EF3 DB_DATA 10
+RANGE $5EF3-$5EFD DB_DATA 10
+RANGE $5EFD-$5F07 DB_DATA 10
+RANGE $5F07-$5F11 DB_DATA 10
+RANGE $5F11-$5F1B DB_DATA 10
+RANGE $5F1B-$5F25 DB_DATA 10
+RANGE $5F25-$5F2F DB_DATA 10
+RANGE $5F2F-$5F39 DB_DATA 10
+RANGE $5F39-$5F43 DB_DATA 10
+RANGE $5F43-$5F4D DB_DATA 10
+RANGE $5F4D-$5F57 DB_DATA 10
+RANGE $5F57-$5F61 DB_DATA 10
+RANGE $5F61-$5F6B DB_DATA 10
+RANGE $5F6B-$5F75 DB_DATA 10
+RANGE $5F75-$5F7F DB_DATA 10
+RANGE $5F7F-$5F89 DB_DATA 10
+RANGE $5F89-$5F93 DB_DATA 10
+RANGE $5F93-$5F9D DB_DATA 10
+RANGE $5F9D-$5FA7 DB_DATA 10
+RANGE $5FA7-$5FB1 DB_DATA 10
+RANGE $5FB1-$5FBB DB_DATA 10
+RANGE $5FBB-$5FC5 DB_DATA 10
+RANGE $5FC5-$5FCF DB_DATA 10
+RANGE $5FCF-$5FD9 DB_DATA 10
+RANGE $5FD9-$5FE3 DB_DATA 10
+RANGE $5FE3-$5FED DB_DATA 10
+RANGE $5FED-$5FF7 DB_DATA 10
+RANGE $5FF7-$6001 DB_DATA 10
+RANGE $6001-$600B DB_DATA 10
+RANGE $600B-$6015 DB_DATA 10
+RANGE $6015-$601F DB_DATA 10
+RANGE $601F-$6029 DB_DATA 10
+RANGE $6029-$6033 DB_DATA 10
+RANGE $6033-$603D DB_DATA 10
+RANGE $603D-$6047 DB_DATA 10
+RANGE $6047-$6051 DB_DATA 10
+RANGE $6051-$605B DB_DATA 10
+RANGE $605B-$6065 DB_DATA 10
+RANGE $6065-$606F DB_DATA 10
+RANGE $606F-$6079 DB_DATA 10
+RANGE $6079-$6083 DB_DATA 10
+RANGE $6083-$608D DB_DATA 10
+RANGE $608D-$6097 DB_DATA 10
+RANGE $6097-$60A1 DB_DATA 10
+RANGE $60A1-$60AB DB_DATA 10
+RANGE $60AB-$60B5 DB_DATA 10
+RANGE $60B5-$60BF DB_DATA 10
+RANGE $60BF-$60C9 DB_DATA 10
+RANGE $60C9-$60D3 DB_DATA 10
+RANGE $60D3-$60DD DB_DATA 10
+RANGE $60DD-$60E7 DB_DATA 10
+RANGE $60E7-$60F1 DB_DATA 10
+RANGE $60F1-$60FB DB_DATA 10
+RANGE $60FB-$6105 DB_DATA 10
+RANGE $6105-$610F DB_DATA 10
+RANGE $610F-$6119 DB_DATA 10
+RANGE $6119-$6123 DB_DATA 10
+RANGE $6123-$612D DB_DATA 10
+RANGE $612D-$6137 DB_DATA 10
+RANGE $6137-$6141 DB_DATA 10
+RANGE $6141-$614B DB_DATA 10
+RANGE $614B-$6155 DB_DATA 10
+RANGE $6155-$615F DB_DATA 10
+RANGE $615F-$6169 DB_DATA 10
+RANGE $6169-$6173 DB_DATA 10
+RANGE $6173-$617D DB_DATA 10
+RANGE $617D-$6187 DB_DATA 10
+RANGE $6187-$6191 DB_DATA 10
+RANGE $6191-$619B DB_DATA 10
+RANGE $619B-$61A5 DB_DATA 10
+RANGE $61A5-$61AF DB_DATA 10
+RANGE $61AF-$61B9 DB_DATA 10
+RANGE $61B9-$61C3 DB_DATA 10
+RANGE $61C3-$61CD DB_DATA 10
+RANGE $61CD-$61D7 DB_DATA 10
+RANGE $61D7-$61E1 DB_DATA 10
+RANGE $61E1-$61EB DB_DATA 10
+RANGE $61EB-$61F5 DB_DATA 10
+RANGE $61F5-$61FF DB_DATA 10
+RANGE $61FF-$6209 DB_DATA 10
+RANGE $6209-$6213 DB_DATA 10
+RANGE $6213-$621D DB_DATA 10
+RANGE $621D-$6227 DB_DATA 10
+RANGE $6227-$6231 DB_DATA 10
+RANGE $6231-$623B DB_DATA 10
+RANGE $623B-$6245 DB_DATA 10
+RANGE $6245-$624F DB_DATA 10
+RANGE $624F-$6259 DB_DATA 10
+RANGE $6259-$6263 DB_DATA 10
+RANGE $6263-$626D DB_DATA 10
+RANGE $626D-$6277 DB_DATA 10
+RANGE $6277-$6281 DB_DATA 10
+RANGE $6281-$628B DB_DATA 10
+RANGE $628B-$6295 DB_DATA 10
+RANGE $6295-$629F DB_DATA 10
+RANGE $629F-$62A9 DB_DATA 10
+RANGE $62A9-$62B3 DB_DATA 10
+RANGE $62B3-$62BD DB_DATA 10
+RANGE $62BD-$62C7 DB_DATA 10
+RANGE $62C7-$62D1 DB_DATA 10
+RANGE $62D1-$62DB DB_DATA 10
+RANGE $62DB-$62E5 DB_DATA 10
+RANGE $62E5-$62EF DB_DATA 10
+RANGE $62EF-$62F9 DB_DATA 10
+RANGE $62F9-$6303 DB_DATA 10
+RANGE $6303-$630D DB_DATA 10
+RANGE $630D-$6317 DB_DATA 10
+RANGE $6317-$6321 DB_DATA 10
+RANGE $6321-$632B DB_DATA 10
+RANGE $632B-$6335 DB_DATA 10
+RANGE $6335-$633F DB_DATA 10
+RANGE $633F-$6349 DB_DATA 10
+RANGE $6349-$6353 DB_DATA 10
+RANGE $6353-$635D DB_DATA 10
+RANGE $635D-$6367 DB_DATA 10
+RANGE $6367-$6371 DB_DATA 10
+RANGE $6371-$637B DB_DATA 10
+RANGE $637B-$6385 DB_DATA 10
+RANGE $6385-$638F DB_DATA 10
+RANGE $638F-$6399 DB_DATA 10
+RANGE $6399-$63A3 DB_DATA 10
+RANGE $63A3-$63AD DB_DATA 10
+RANGE $63AD-$63B7 DB_DATA 10
+RANGE $63B7-$63C1 DB_DATA 10
+RANGE $63C1-$63CB DB_DATA 10
+RANGE $63CB-$63D5 DB_DATA 10
+RANGE $63D5-$63DF DB_DATA 10
+RANGE $63DF-$63E9 DB_DATA 10
+RANGE $63E9-$63F3 DB_DATA 10
+RANGE $63F3-$63FD DB_DATA 10
+RANGE $63FD-$6407 DB_DATA 10
+RANGE $6407-$6411 DB_DATA 10
+RANGE $6411-$641B DB_DATA 10
+RANGE $641B-$6425 DB_DATA 10
+RANGE $6425-$642F DB_DATA 10
+RANGE $642F-$6439 DB_DATA 10
+RANGE $6439-$6443 DB_DATA 10
+RANGE $6443-$644D DB_DATA 10
+RANGE $644D-$6457 DB_DATA 10
+RANGE $6457-$6461 DB_DATA 10
+RANGE $6461-$646B DB_DATA 10
+RANGE $646B-$6475 DB_DATA 10
+RANGE $6475-$647F DB_DATA 10
+RANGE $647F-$6489 DB_DATA 10
+RANGE $6489-$6493 DB_DATA 10
+RANGE $6493-$649D DB_DATA 10
+RANGE $649D-$64A7 DB_DATA 10
+RANGE $64A7-$64B1 DB_DATA 10
+RANGE $64B1-$64BB DB_DATA 10
+RANGE $64BB-$64C5 DB_DATA 10
+RANGE $64C5-$64CF DB_DATA 10
+RANGE $64CF-$64D9 DB_DATA 10
+RANGE $64D9-$64E3 DB_DATA 10
+RANGE $64E3-$64ED DB_DATA 10
+RANGE $64ED-$64F7 DB_DATA 10
+RANGE $64F7-$6501 DB_DATA 10
+RANGE $6501-$650B DB_DATA 10
+RANGE $650B-$6515 DB_DATA 10
+RANGE $6515-$651F DB_DATA 10
+RANGE $651F-$6529 DB_DATA 10
+RANGE $6529-$6533 DB_DATA 10
+RANGE $6533-$653D DB_DATA 10
+RANGE $653D-$6547 DB_DATA 10
+RANGE $6547-$6551 DB_DATA 10
+RANGE $6551-$655B DB_DATA 10
+RANGE $655B-$6565 DB_DATA 10
+RANGE $6565-$656F DB_DATA 10
+RANGE $656F-$6579 DB_DATA 10
+RANGE $6579-$6583 DB_DATA 10
+RANGE $6583-$658D DB_DATA 10
+RANGE $658D-$6597 DB_DATA 10
+RANGE $6597-$65A1 DB_DATA 10
+RANGE $65A1-$65AB DB_DATA 10
+RANGE $65AB-$65B5 DB_DATA 10
+RANGE $65B5-$65BF DB_DATA 10
+RANGE $65BF-$65C9 DB_DATA 10
+RANGE $65C9-$65D3 DB_DATA 10
+RANGE $65D3-$65DD DB_DATA 10
+RANGE $65DD-$65E7 DB_DATA 10
+RANGE $65E7-$65F1 DB_DATA 10
+RANGE $65F1-$65FB DB_DATA 10
+RANGE $65FB-$6605 DB_DATA 10
+RANGE $6605-$660F DB_DATA 10
+RANGE $660F-$6619 DB_DATA 10
+RANGE $6619-$6623 DB_DATA 10
+RANGE $6623-$662D DB_DATA 10
+RANGE $662D-$6637 DB_DATA 10
+RANGE $6637-$6641 DB_DATA 10
+RANGE $6641-$664B DB_DATA 10
+RANGE $664B-$6655 DB_DATA 10
+RANGE $6655-$665F DB_DATA 10
+RANGE $665F-$6669 DB_DATA 10
+RANGE $6669-$6673 DB_DATA 10
+RANGE $6673-$667D DB_DATA 10
+RANGE $667D-$6687 DB_DATA 10
+RANGE $6687-$6691 DB_DATA 10
+RANGE $6691-$669B DB_DATA 10
+RANGE $669B-$66A5 DB_DATA 10
+RANGE $66A5-$66AF DB_DATA 10
+RANGE $66AF-$66B9 DB_DATA 10
+RANGE $66B9-$66C3 DB_DATA 10
+RANGE $66C3-$66CD DB_DATA 10
+RANGE $66CD-$66D7 DB_DATA 10
+RANGE $66D7-$66E1 DB_DATA 10
+RANGE $66E1-$66EB DB_DATA 10
+RANGE $66EB-$66F5 DB_DATA 10
+RANGE $66F5-$66FF DB_DATA 10
+RANGE $66FF-$6709 DB_DATA 10
+RANGE $6709-$6713 DB_DATA 10
+RANGE $6713-$671D DB_DATA 10
+RANGE $671D-$6727 DB_DATA 10
+RANGE $6727-$6731 DB_DATA 10
+RANGE $6731-$673B DB_DATA 10
+RANGE $673B-$6745 DB_DATA 10
+RANGE $6745-$674F DB_DATA 10
+RANGE $674F-$6759 DB_DATA 10
+RANGE $6759-$6763 DB_DATA 10
+RANGE $6763-$676D DB_DATA 10
+RANGE $676D-$6777 DB_DATA 10
+RANGE $6777-$6781 DB_DATA 10
+RANGE $6781-$678B DB_DATA 10
+RANGE $678B-$6795 DB_DATA 10
+RANGE $6795-$679F DB_DATA 10
+RANGE $679F-$67A9 DB_DATA 10
+RANGE $67A9-$67B3 DB_DATA 10
+RANGE $67B3-$67BD DB_DATA 10
+RANGE $67BD-$67C7 DB_DATA 10
+RANGE $67C7-$67D1 DB_DATA 10
+RANGE $67D1-$67DB DB_DATA 10
+RANGE $67DB-$67E5 DB_DATA 10
+RANGE $67E5-$67EF DB_DATA 10
+RANGE $67EF-$67F9 DB_DATA 10
+RANGE $67F9-$6803 DB_DATA 10
+RANGE $6803-$680D DB_DATA 10
+RANGE $680D-$6817 DB_DATA 10
+RANGE $6817-$6821 DB_DATA 10
+RANGE $6821-$682B DB_DATA 10
+RANGE $682B-$6835 DB_DATA 10
+RANGE $6835-$683F DB_DATA 10
+RANGE $683F-$6849 DB_DATA 10
+RANGE $6849-$6853 DB_DATA 10
+RANGE $6853-$685D DB_DATA 10
+RANGE $685D-$6867 DB_DATA 10
+RANGE $6867-$6871 DB_DATA 10
+RANGE $6871-$687B DB_DATA 10
+RANGE $687B-$6885 DB_DATA 10
+RANGE $6885-$688F DB_DATA 10
+RANGE $688F-$6899 DB_DATA 10
+RANGE $6899-$68A3 DB_DATA 10
+RANGE $68A3-$68AD DB_DATA 10
+RANGE $68AD-$68B7 DB_DATA 10
+RANGE $68B7-$68C1 DB_DATA 10
+RANGE $68C1-$68CB DB_DATA 10
+RANGE $68CB-$68D5 DB_DATA 10
+RANGE $68D5-$68DF DB_DATA 10
+RANGE $68DF-$68E9 DB_DATA 10
+RANGE $68E9-$68F3 DB_DATA 10
+RANGE $68F3-$68FD DB_DATA 10
+RANGE $68FD-$6907 DB_DATA 10
+RANGE $6907-$6911 DB_DATA 10
+RANGE $6911-$691B DB_DATA 10
+RANGE $691B-$6925 DB_DATA 10
+RANGE $6925-$692F DB_DATA 10
+RANGE $692F-$6939 DB_DATA 10
+RANGE $6939-$6943 DB_DATA 10
+RANGE $6943-$694D DB_DATA 10
+RANGE $694D-$6957 DB_DATA 10
+RANGE $6957-$6961 DB_DATA 10
+RANGE $6961-$696B DB_DATA 10
+RANGE $696B-$6975 DB_DATA 10
+RANGE $6975-$697F DB_DATA 10
+RANGE $697F-$6989 DB_DATA 10
+RANGE $6989-$6993 DB_DATA 10
+RANGE $6993-$699D DB_DATA 10
+RANGE $699D-$69A7 DB_DATA 10
+RANGE $69A7-$69B1 DB_DATA 10
+RANGE $69B1-$69BB DB_DATA 10
+RANGE $69BB-$69C5 DB_DATA 10
+RANGE $69C5-$69CF DB_DATA 10
+RANGE $69CF-$69D9 DB_DATA 10
+RANGE $69D9-$69E3 DB_DATA 10
+RANGE $69E3-$69ED DB_DATA 10
+RANGE $69ED-$69F7 DB_DATA 10
+RANGE $69F7-$6A01 DB_DATA 10
+RANGE $6A01-$6A0B DB_DATA 10
+RANGE $6A0B-$6A15 DB_DATA 10
+RANGE $6A15-$6A1F DB_DATA 10
+RANGE $6A1F-$6A29 DB_DATA 10
+RANGE $6A29-$6A33 DB_DATA 10
+RANGE $6A33-$6A3D DB_DATA 10
+RANGE $6A3D-$6A47 DB_DATA 10
+RANGE $6A47-$6A51 DB_DATA 10
+RANGE $6A51-$6A5B DB_DATA 10
+RANGE $6A5B-$6A65 DB_DATA 10
+RANGE $6A65-$6A6F DB_DATA 10
+RANGE $6A6F-$6A79 DB_DATA 10
+RANGE $6A79-$6A83 DB_DATA 10
+RANGE $6A83-$6A8D DB_DATA 10
+RANGE $6A8D-$6A97 DB_DATA 10
+RANGE $6A97-$6AA1 DB_DATA 10
+RANGE $6AA1-$6AAB DB_DATA 10
+RANGE $6AAB-$6AB5 DB_DATA 10
+RANGE $6AB5-$6ABF DB_DATA 10
+RANGE $6ABF-$6AC9 DB_DATA 10
+RANGE $6AC9-$6AD3 DB_DATA 10
+RANGE $6AD3-$6ADD DB_DATA 10
+RANGE $6ADD-$6AE7 DB_DATA 10
+RANGE $6AE7-$6AF1 DB_DATA 10
+RANGE $6AF1-$6AFB DB_DATA 10
+RANGE $6AFB-$6B05 DB_DATA 10
+RANGE $6B05-$6B0F DB_DATA 10
+RANGE $6B0F-$6B19 DB_DATA 10
+RANGE $6B19-$6B23 DB_DATA 10
+RANGE $6B23-$6B2D DB_DATA 10
+RANGE $6B2D-$6B37 DB_DATA 10
+RANGE $6B37-$6B41 DB_DATA 10
+RANGE $6B41-$6B4B DB_DATA 10
+RANGE $6B4B-$6B55 DB_DATA 10
+RANGE $6B55-$6B5F DB_DATA 10
+RANGE $6B5F-$6B69 DB_DATA 10
+RANGE $6B69-$6B73 DB_DATA 10
+RANGE $6B73-$6B7D DB_DATA 10
+RANGE $6B7D-$6B87 DB_DATA 10
+RANGE $6B87-$6B91 DB_DATA 10
+RANGE $6B91-$6B9B DB_DATA 10
+RANGE $6B9B-$6BA5 DB_DATA 10
+RANGE $6BA5-$6BAF DB_DATA 10
+RANGE $6BAF-$6BB9 DB_DATA 10
+RANGE $6BB9-$6BC3 DB_DATA 10
+RANGE $6BC3-$6BCD DB_DATA 10
+RANGE $6BCD-$6BD7 DB_DATA 10
+RANGE $6BD7-$6BE1 DB_DATA 10
+RANGE $6BE1-$6BEB DB_DATA 10
+RANGE $6BEB-$6BF5 DB_DATA 10
+RANGE $6BF5-$6BFF DB_DATA 10
+RANGE $6BFF-$6C09 DB_DATA 10
+RANGE $6C09-$6C13 DB_DATA 10
+RANGE $6C13-$6C1D DB_DATA 10
+RANGE $6C1D-$6C27 DB_DATA 10
+RANGE $6C27-$6C31 DB_DATA 10
+RANGE $6C31-$6C3B DB_DATA 10
+RANGE $6C3B-$6C45 DB_DATA 10
+RANGE $6C45-$6C4F DB_DATA 10
+RANGE $6C4F-$6C59 DB_DATA 10
+RANGE $6C59-$6C63 DB_DATA 10
+RANGE $6C63-$6C6D DB_DATA 10
+RANGE $6C6D-$6C77 DB_DATA 10
+RANGE $6C77-$6C81 DB_DATA 10
+RANGE $6C81-$6C8B DB_DATA 10
+RANGE $6C8B-$6C95 DB_DATA 10
+RANGE $6C95-$6C9F DB_DATA 10
+RANGE $6C9F-$6CA9 DB_DATA 10
+RANGE $6CA9-$6CB3 DB_DATA 10
+RANGE $6CB3-$6CBD DB_DATA 10
+RANGE $6CBD-$6CC7 DB_DATA 10
+RANGE $6CC7-$6CD1 DB_DATA 10
+RANGE $6CD1-$6CDB DB_DATA 10
+RANGE $6CDB-$6CE5 DB_DATA 10
+RANGE $6CE5-$6CEF DB_DATA 10
+RANGE $6CEF-$6CF9 DB_DATA 10
+RANGE $6CF9-$6D03 DB_DATA 10
+RANGE $6D03-$6D0D DB_DATA 10
+RANGE $6D0D-$6D17 DB_DATA 10
+RANGE $6D17-$6D21 DB_DATA 10
+RANGE $6D21-$6D2B DB_DATA 10
+RANGE $6D2B-$6D35 DB_DATA 10
+RANGE $6D35-$6D3F DB_DATA 10
+RANGE $6D3F-$6D49 DB_DATA 10
+RANGE $6D49-$6D53 DB_DATA 10
+RANGE $6D53-$6D5D DB_DATA 10
+RANGE $6D5D-$6D67 DB_DATA 10
+RANGE $6D67-$6D71 DB_DATA 10
+RANGE $6D71-$6D7B DB_DATA 10
+RANGE $6D7B-$6D85 DB_DATA 10
+RANGE $6D85-$6D8F DB_DATA 10
+RANGE $6D8F-$6D99 DB_DATA 10
+RANGE $6D99-$6DA3 DB_DATA 10
+RANGE $6DA3-$6DAD DB_DATA 10
+RANGE $6DAD-$6DB7 DB_DATA 10
+RANGE $6DB7-$6DC1 DB_DATA 10
+RANGE $6DC1-$6DCB DB_DATA 10
+RANGE $6DCB-$6DD5 DB_DATA 10
+RANGE $6DD5-$6DDF DB_DATA 10
+RANGE $6DDF-$6DE9 DB_DATA 10
+RANGE $6DE9-$6DF3 DB_DATA 10
+RANGE $6DF3-$6DFD DB_DATA 10
+RANGE $6DFD-$6E07 DB_DATA 10
+RANGE $6E07-$6E11 DB_DATA 10
+RANGE $6E11-$6E1B DB_DATA 10
+RANGE $6E1B-$6E25 DB_DATA 10
+RANGE $6E25-$6E2F DB_DATA 10
+RANGE $6E2F-$6E39 DB_DATA 10
+RANGE $6E39-$6E43 DB_DATA 10
+RANGE $6E43-$6E4D DB_DATA 10
+RANGE $6E4D-$6E57 DB_DATA 10
+RANGE $6E57-$6E61 DB_DATA 10
+RANGE $6E61-$6E6B DB_DATA 10
+RANGE $6E6B-$6E75 DB_DATA 10
+RANGE $6E75-$6E7F DB_DATA 10
+RANGE $6E7F-$6E89 DB_DATA 10
+RANGE $6E89-$6E93 DB_DATA 10
+RANGE $6E93-$6E9D DB_DATA 10
+RANGE $6E9D-$6EA7 DB_DATA 10
+RANGE $6EA7-$6EB1 DB_DATA 10
+RANGE $6EB1-$6EBB DB_DATA 10
+RANGE $6EBB-$6EC5 DB_DATA 10
+RANGE $6EC5-$6ECF DB_DATA 10
+RANGE $6ECF-$6ED9 DB_DATA 10
+RANGE $6ED9-$6EE3 DB_DATA 10
+RANGE $6EE3-$6EED DB_DATA 10
+RANGE $6EED-$6EF7 DB_DATA 10
+RANGE $6EF7-$6F01 DB_DATA 10
+RANGE $6F01-$6F0B DB_DATA 10
+RANGE $6F0B-$6F15 DB_DATA 10
+RANGE $6F15-$6F1F DB_DATA 10
+RANGE $6F1F-$6F29 DB_DATA 10
+RANGE $6F29-$6F33 DB_DATA 10
+RANGE $6F33-$6F3D DB_DATA 10
+RANGE $6F3D-$6F47 DB_DATA 10
+RANGE $6F47-$6F51 DB_DATA 10
+RANGE $6F51-$6F5B DB_DATA 10
+RANGE $6F5B-$6F65 DB_DATA 10
+RANGE $6F65-$6F6F DB_DATA 10
+RANGE $6F6F-$6F79 DB_DATA 10
+RANGE $6F79-$6F83 DB_DATA 10
+RANGE $6F83-$6F8D DB_DATA 10
+RANGE $6F8D-$6F97 DB_DATA 10
+RANGE $6F97-$6FA1 DB_DATA 10
+RANGE $6FA1-$6FAB DB_DATA 10
+RANGE $6FAB-$6FB5 DB_DATA 10
+RANGE $6FB5-$6FBF DB_DATA 10
+RANGE $6FBF-$6FC9 DB_DATA 10
+RANGE $6FC9-$6FD3 DB_DATA 10
+RANGE $6FD3-$6FDD DB_DATA 10
+RANGE $6FDD-$6FE7 DB_DATA 10
+RANGE $6FE7-$6FF1 DB_DATA 10
+RANGE $6FF1-$6FFB DB_DATA 10
+RANGE $6FFB-$7005 DB_DATA 10
+RANGE $7005-$700F DB_DATA 10
+RANGE $700F-$7019 DB_DATA 10
+RANGE $7019-$7023 DB_DATA 10
+RANGE $7023-$702D DB_DATA 10
+RANGE $702D-$7037 DB_DATA 10
+RANGE $7037-$7041 DB_DATA 10
+RANGE $7041-$704B DB_DATA 10
+RANGE $704B-$7055 DB_DATA 10
+RANGE $7055-$705F DB_DATA 10
+RANGE $705F-$7069 DB_DATA 10
+RANGE $7069-$7073 DB_DATA 10
+RANGE $7073-$707D DB_DATA 10
+RANGE $707D-$7087 DB_DATA 10
+RANGE $7087-$7091 DB_DATA 10
+RANGE $7091-$709B DB_DATA 10
+RANGE $709B-$70A5 DB_DATA 10
+RANGE $70A5-$70AF DB_DATA 10
+RANGE $70AF-$70B9 DB_DATA 10
+RANGE $70B9-$70C3 DB_DATA 10
+RANGE $70C3-$70CD DB_DATA 10
+RANGE $70CD-$70D7 DB_DATA 10
+RANGE $70D7-$70E1 DB_DATA 10
+RANGE $70E1-$70EB DB_DATA 10
+RANGE $70EB-$70F5 DB_DATA 10
+RANGE $70F5-$70FF DB_DATA 10
+RANGE $70FF-$7109 DB_DATA 10
+RANGE $7109-$7113 DB_DATA 10
+RANGE $7113-$711D DB_DATA 10
+RANGE $711D-$7127 DB_DATA 10
+RANGE $7127-$7131 DB_DATA 10
+RANGE $7131-$713B DB_DATA 10
+RANGE $713B-$7145 DB_DATA 10
+RANGE $7145-$714F DB_DATA 10
+RANGE $714F-$7159 DB_DATA 10
+RANGE $7159-$7163 DB_DATA 10
+RANGE $7163-$716D DB_DATA 10
+RANGE $716D-$7177 DB_DATA 10
+RANGE $7177-$7181 DB_DATA 10
+RANGE $7181-$718B DB_DATA 10
+RANGE $718B-$7195 DB_DATA 10
+RANGE $7195-$719F DB_DATA 10
+RANGE $719F-$71A6 DB_DATA 7
+RANGE $71A6-$71BF CHAR_DATA 25
+RANGE $71BF-$71D8 CHAR_DATA 25
+RANGE $71D8-$71F1 CHAR_DATA 25
+RANGE $71F1-$720A CHAR_DATA 25
+RANGE $720A-$7223 CHAR_DATA 25
+RANGE $7223-$723C CHAR_DATA 25
+RANGE $723C-$7256 CHAR_DATA 26
+RANGE $7256-$726F CHAR_DATA 25
+RANGE $726F-$7288 CHAR_DATA 25
+RANGE $7288-$72A1 CHAR_DATA 25
+RANGE $72A1-$72BA CHAR_DATA 25
+RANGE $72BA-$72D3 CHAR_DATA 25
+RANGE $72D3-$72EC CHAR_DATA 25
+RANGE $72EC-$7305 CHAR_DATA 25
+RANGE $7305-$731E CHAR_DATA 25
+RANGE $731E-$7337 CHAR_DATA 25
+RANGE $7337-$7350 CHAR_DATA 25
+RANGE $7350-$7369 CHAR_DATA 25
+RANGE $7369-$7382 CHAR_DATA 25
+RANGE $7382-$739B CHAR_DATA 25
+RANGE $739B-$73B4 CHAR_DATA 25
+RANGE $73B4-$73CD CHAR_DATA 25
+RANGE $73CD-$73E6 CHAR_DATA 25
+RANGE $73E6-$73FF CHAR_DATA 25
+RANGE $73FF-$7418 CHAR_DATA 25
+RANGE $7418-$7431 CHAR_DATA 25
+RANGE $7431-$744A CHAR_DATA 25
+RANGE $744A-$7463 CHAR_DATA 25
+RANGE $7463-$747C CHAR_DATA 25
+RANGE $747C-$7495 CHAR_DATA 25
+RANGE $7495-$74AE CHAR_DATA 25
+RANGE $74AE-$74C7 CHAR_DATA 25
+RANGE $74C7-$74E0 CHAR_DATA 25
+RANGE $74E0-$74F9 CHAR_DATA 25
+RANGE $74F9-$7512 CHAR_DATA 25
+RANGE $7512-$779F CODE
+RANGE $779F-$77A3 DB_DATA 4
+RANGE $77A3-$77AB DB_DATA 8
+RANGE $77AB-$77B5 DB_DATA 10
+RANGE $77B5-$77BF DB_DATA 10
+RANGE $77BF-$77C7 DB_DATA 8
+RANGE $77C7-$77CB DB_DATA 4
+RANGE $77CB-$77DD DB_DATA 18
+RANGE $77DD-$77E9 DB_DATA 12
+RANGE $77E9-$77F1 DB_DATA 8
+RANGE $77F1-$77F9 DB_DATA 8
+RANGE $77F9-$77FF DB_DATA 6
+RANGE $77FF-$7805 DB_DATA 6
+RANGE $7805-$7812 DB_DATA 13
+RANGE $7812-$781D DB_DATA 11
+RANGE $781D-$7829 DB_DATA 12
+RANGE $7829-$7834 DB_DATA 11
+RANGE $7834-$7843 DB_DATA 15
+RANGE $7843-$7851 DB_DATA 14
+RANGE $7851-$7863 DB_DATA 18
+RANGE $7863-$7872 DB_DATA 15
+RANGE $7872-$7881 DB_DATA 15
+RANGE $7881-$788D DB_DATA 12
+RANGE $788D-$7899 DB_DATA 12
+RANGE $7899-$78A4 DB_DATA 11
+RANGE $78A4-$78B0 DB_DATA 12
+RANGE $78B0-$78C9 DB_DATA 25
+RANGE $78C9-$78E0 DB_DATA 23
+RANGE $78E0-$78F7 DB_DATA 23
+RANGE $78F7-$790E DB_DATA 23
+RANGE $790E-$7921 DB_DATA 19
+RANGE $7921-$792F DB_DATA 14
+RANGE $792F-$7941 DB_DATA 18
+RANGE $7941-$7953 DB_DATA 18
+RANGE $7953-$7965 DB_DATA 18
+RANGE $7965-$7975 DB_DATA 16
+RANGE $7975-$7989 DB_DATA 20
+RANGE $7989-$79A0 DB_DATA 23
+RANGE $79A0-$79B7 DB_DATA 23
+RANGE $79B7-$79CE DB_DATA 23
+RANGE $79CE-$79F3 DB_DATA 37
+RANGE $79F3-$79FE CHAR_DATA 11
+RANGE $79FE-$7A17 CHAR_DATA 25
+RANGE $7A17-$7A25 CHAR_DATA 14
+RANGE $7A25-$7A3B CHAR_DATA 22
+RANGE $7A3B-$7ABD CODE
+

@@ -1,0 +1,24 @@
+LAST BATTLE
+Another shoot em up. Enemies must be shot by a player moving at the bottom. The enemies approach in Galaga like fashion.
+The player can not be harmed. A Level lasts till
+a) either all enemies are destroyed (some require more than one shot)
+b) the player is out of bullets (35)
+
+Without overlay (and correctly placing it) the bullet meter can not easily be discerned (its just a dash at the top of the screen).
+Why the author chose that a player must SELECT a level every single game instead of just going on to the next - is beyond me.
+
+The game features nice large sprites and also rudimentary sound (shot/explosion).
+
+Funny - there is misspelling in the instruction, where the enemy ships are called "sheeps" :-)
+
+Technical:
+- refresh is most of the time good - if you play a high level and have many bullets in the air - it drops
+- fluid movement of ships, good control, good collision detection
+- sound
+- cool "animated" score at level over!
+- overlay assumes all vectrex are alike (which is not the case), the small "bullet" section will certainly not
+fit all vectrex equally
+
+General vectrex game: 5/10
+For a first vectrex game: 9/10
+

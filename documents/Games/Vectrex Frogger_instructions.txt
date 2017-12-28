@@ -1,0 +1,36 @@
+Origins                              
+
+The arcade game Frogger involved players guiding their frogs across a busy, several lane street, then maneuvering through a water area in the second area of the game, jumping on logs and the backs of turtles and crocodiles in order to reach and fill up the five frog home bays at the top of the screen. Various obstacles and enemies would kill the players' frogs upon contact, as well as if they were to run out of time before making it to a frog bay, hit a top wall, drown in water, or pass too far to the left or right edges of the screen.
+
+V-Frogger is a clone of the arcade original with some graphical changes and enhancements.
+Gameplay                              
+
+In the first area of the game, the player moves their frogs across a five lane road; colliding with a vehicle will cost them a life and the game will end if the player runs out of reserve frogs.
+
+Once the player is able to cross the road, the second area of the screen is a swamp that they must guide their frog across by jumping on turtles, logs, and later crocodiles. Once the player is able to jump into an empty frog home at the very top, it becomes filled and the player’s frog starts at the bottom of the screen again after bonus points are awarded for time remaining and if the player captures any additional bonuses along the way in the later levels (such as allowing a female frog to jump on them and they make it to a frog home with the female, or if the player eats a fly that randomly appears in one of the empty frog home bays). Frogs will be lost if they are bitten by snakes, drown, hit the left, right, or top screen edges, try to jump into an occupied frog home or are eaten by an otter or crocodile.
+
+If the player is able to fill up all frog bays, they earn an end level bonus and move onto the next level, which its difficulty increases with more and/or faster moving traffic, turtles start diving into the swamp (which the frog will drown if it is on a turtle), snakes and otters start appearing, as well as crocodiles that can eat the frog if the player does not jump on them in the correct spot if they are riding on them or if the majority of a crocodile is in an unoccupied frog home. Crocodiles will also start speeding up their appearances in the home bay areas and the time limit will dissipate quicker as well.
+
+The game has 16 levels total.
+Differences from original                              
+
+Of course, there are changes in display, as the original arcade game wasn’t in vector. Proportionally the player’s frog is larger and the frog bays smaller, along with the traffic being viewed from the side and including bicycles and mopeds this time around. Once snakes start appearing in the middle screen strip that separates the street from the swamp areas, originally they would appear from the left side of the screen and move to the right, but on this version they start from the right and move to the left. Various sounds and animations were also changed as well (the player’s frog’s legs do not move as it jumps, for instance), along with some levels.
+
+The game also has several brief cinematics as well that the original did not, such as whenever the frog makes it to a home bay, dies or advances to another level, the frog will morph into a gravestone and the reason for the player’s death is stated onscreen for the latter. There are also messages displayed for when certain bonuses are earned, such as when the player earns an extra life, they catch a fly or safely transport a female frog home.
+
+V-Frogger also has continuances, which the original arcade game did not, but the game is for one player only, rather than up to two players alternating like on the original. There is also no in-game music, due to the Vectrex only having a single microprocessor, but in between lives, levels, and with each time the player gets a frog home, a few bars of “Yankee Doodle Dandy” will play.
+Controls                              
+
+    Start game/skip cutscene–any button
+    Move frogger–joystick or D-pad
+    Pause–button 4
+    Resume game (/cancel pause)–buttons 1-3 
+
+Scoring                              
+
+    Forward hop–10 points (first time only)
+    Time bonus–10 points x remaining tics
+    Catch fly–200 points
+    Save girl frog–200 points
+    Complete level–500 points
+    Extra frog–10,000 and every multiple of thereafter if the player gets the current frog home (see below section) 

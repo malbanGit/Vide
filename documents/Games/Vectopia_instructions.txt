@@ -1,0 +1,129 @@
+Vectopia
+                              
+Comments
+Share
+Vectopia
+
+Vectopia
+Developer 	John Dondzila
+Publishers 	Classic Game Creations
+Freeware
+Packrat Video Games, LLC
+Release Dates 	2001
+2015 (re-release)
+Genre 	Compilation
+Modes 	Single player
+1-4 players simultaneous
+Media 	Cartridge
+ROM file
+
+Unlike the previous Vecmania, which comprised seven full games and two demos, the majority of Vectopia is composed of unfinished demos and only three full games.
+
+In order to cycle through the games, once the menu screen appears after power-up, the player must press button one on the Vectrex controller, then to play a game they must press button four.
+Contents[show]
+Complete games                              
+Spike's Water Balloons                              
+
+Aside from this being for the original Vectrex analog controller (the modern day digital converted controllers won't work with it) and there not being a way to speed up Spike, this is the exact same Spike's Water Balloons from the previous All Good Things cartridge.
+
+Being a clone of Kaboom!, a game that was ported to many gaming platforms during the early 1980s, this time around instead of using buckets to catch bombs dropped by the "Mad Bomber" at the top of the screen, the player uses Spike, the unofficial Vectrex mascot, to pop balloons with the top of his head that are dropped from his enemy Spud. Spike's head is a bit smaller than the original buckets, but this time around he can also kick a missed balloon back up towards Spud, somewhat reminiscent of the arcade game Kick Man. Missing a balloon counts against the player, and once three balloons hit the ground the game is over.
+Controls                              
+
+Menu
+
+    Start game: button one
+    Return to Vectopia: button two 
+
+In-game
+
+    Play game: button one
+    Move Spike: joystick or D-pad
+    Kick balloons: button four 
+
+Trakkers                              
+
+This is a clone of the arcade game Targ, where the player controls a ship that moves through a series of grids while shooting other ships (called Trakkers). Occasionally an HKT (Hunter Killer Trakker) will materialize and aggressively chase the player until either it or the player's ship is destroyed. After several levels the regular Trakkers will begin shooting at the player. The player's ship cannot reverse while traveling throughout the grid (except for when it hits the edge of it). An extra ship is awarded at 10,000, 20,000, and 30,000 points and there is a bonus granted to the player for every level they complete.
+
+Colliding with or being shot by a Trakker will result in the player losing a reserve ship and the game ends when there are no remaining player ships.
+Controls                              
+
+Menu
+
+    Play game: up on D-pad or joystick
+    Return to Vectopia main screen: down on D-pad or joystick 
+
+In-game
+
+    Move ship: joystick or D-pad
+    Turbo (speed up ship): button two
+    Fire: button one
+    Pause: button four 
+
+Wormhole                              
+
+This is a clone of the arcade game Gyruss, where the player controls a ship that can spin around the screen in a circle and fire at ships that rapidly emerge from the center area of the screen. After the first level is cleared they will start firing at the player's ship, and there are also two ships that appear later in the game that creates a force field in between them (which shooting one or both ships will disable the field), along with an indestructible asteroid that emerges from the wormhole.
+
+There is also a trio of Sentry ships that will appear from time to time that are worth either bonus points and certain ships that appears with them will grant power-ups. The Sentry ships that look like level one from Bedlam are just worth big points, but the ships that look like a Spiker from Tempest will destroy everything onscreen, the small ship will grant the player double shots, and the ship that looks like a sideways eight (or the infinity sign) slows the action down for several seconds. All of these ships that grant power-ups will appear in the middle, flanked by a Sentry ship on each side.
+
+Once the player loses all of their ships the game is over. Enemy ships can pass through the player's ship unharmed though (except for the ones that generate the force field). Also, bonus ships are awarded at 20,000 and 40,000, with a Super Bonus granted at 60,000 and 160,000, which will raise the player's number of reserve ships to nine. 1000 points are also awarded for destroying a formation of ships before they make it back into the wormhole.
+Controls                              
+
+Menu
+
+    Start game: press up on the joystick or D-pad at Wormhole title screen
+    Exit back to Vectopia: press down on the joystick or D-pad at Wormhole title screen 
+
+In-game
+
+    Move ship: move joystick or D-pad
+    Fire: button four
+    Pause: button one
+    Show score during game: hold button three 
+
+Demos                              
+Control Test                              
+
+As the title says, this will test a player's controllers. A representation of two Vectrex controllers are onscreen; manipulating a control will result in a reaction from the onscreen controller, whether the player moves the joystick on their controller and the joystick on the screen will move, or when the player presses a button, then that corresponding button on the screen will depress as well, indicating the controller functions are working.
+
+The player will have to press reset on their Vectrex in order to exit out of this demo or just turn their machine off.
+Mad Planetoid Test Wk                              
+
+This is a demo of what could have been a clone of the Mad Planets arcade game if completed.
+
+Amidst a swirling star backdrop are two planetoids, the player's ship, and what appears to be planetoid moons (that are needed to be shot in the arcade game in order to destroy the full-sized planetoids) that flicker and rapidly appear and disappear on the screen. All the player can do is move their ship by the joystick or D-pad, turn it left and right by using buttons two and three, and firing with button four, and that's it, as there's no way to die or destroy anything and there's no sound.
+
+The demo can be exited by pressing reset or just by shutting off the Vectrex.
+Star Fire Early Work                              
+
+This is what would become the second area (the surface run on Dark Planet) of Star Fire Spirits from the previously released Vecmania cartridge.
+
+In this demo, the player can move their crosshairs with the joystick or D-pad, rotate the screen around (which would later be left out of the finished game) by pressing buttons three and four (although just moving the target site will also cause the screen to roll a bit too), and firing by pressing button one. However, this will not blow off the tops of the laser towers, which do not fire at the player, and the bunkers are missing, along with sound.
+
+To exit out of this demo, the reset button must be pressed or the Vectrex just can be turned off.
+Star Fire Early Work II                              
+
+This is what would become the first area (in free space before skimming Dark Planet's surface) of Star Fire Spirits from the previously released Vecmania cartridge.
+
+In this demo, the player can move their crosshairs with the joystick or D-pad and fire at the T. I. E. Fighter-like ships with button one. Several of the ships will tumble around the screen, unlike how they just came straight for the player in the finished game, as well as several of them staying in the background, never getting any closer. The fighters' shots this time around look like snowflakes and are easier to spot than the way they would end up looking on the finished product. The player has six shields to begin with, which, with every hit by enemy fire, they will go down by one, and the demo ends when the player is hit when no more shields are remaining. There is also a zero onscreen right by the shields, which is assumed that would be for the score, but it never increases.
+
+The demo can only be exited by pressing reset or just by shutting the Vectrex off.
+Star Fury Test Work                              
+
+Possibly an early test for the later Space Frenzy game, here the player controls a small ship by pressing buttons one and two to turn it, button three for thrust, and button four to fire as several dots on the screen join together, then they disappear, being replaced by some kind of a plus sign that follows the player around from there.
+
+And that's it for the entire demo; there's no sound, the player can only fly around and shoot, although there doesn't seem to be any way to destroy the plus sign or do anything else.
+
+Pressing reset will exit back to the Vectopia menu or the Vectrex can be turned off to end the demo.
+Vectropolis 500                              
+
+This is an unfinished racing demo for up to four players (no computer A. I. was implemented) with nine tracks. Players race around a track, and whoever comes in first place three times will win and their time will be displayed onscreen; however, sometimes a glitch will occur and some other player will "win", even though they weren't in first place. Each time a player completes a lap their score's tally (in the center screen) will go up by one (which each player starts off a race with one point each as it is).
+
+Knocking into other cars will cause them to spin around for a few seconds and delay their advancement around the track. The starting gate also changes constantly, as it's usually at the bottom, but sometimes it's at the top of the screen as well. The game has no sound.
+
+The game will keep on cycling through all nine tracks until the Vectrex is reset or turned off. An online tutorial can also be accessed from the Vectropolis 500 title screen by pressing button one, button two will start the game, and three will exit back to the Vectopia menu.
+In-game controls                              
+
+    Player one: move car left and right with the joystick or D-pad on the first controller, then gas is used by pressing button one
+    Player three: move car left and right with buttons two and three on the same controller, and gas is used by pressing button four
+    Player two: move car left and right with the joystick or D-pad on the second controller, then gas is used by pressing button one
+    Player four: move car left and right with buttons two and three on the same controller, and gas is used by pressing button four 

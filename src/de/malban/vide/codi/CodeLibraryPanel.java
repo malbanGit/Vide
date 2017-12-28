@@ -1049,14 +1049,11 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 
                 try
                 {
-                    String path = Global.mainPathPrefix + convertSeperator(project.getPath());
-                    if (path.length() >0 ) path += File.separator;
-                    
                     for (int b = 0; b<project.getNumberOfBanks(); b++)
                     {
                         String filenameASM = project.getBankMainFiles().elementAt(b);
                         if (filenameASM.length() == 0) continue;
-                        filenameASM = path+project.getProjectName()+File.separator+filenameASM;
+                        filenameASM = project.projectPrefix+File.separator+filenameASM;
                         
                         File test = new File(filenameASM);
                         if (!test.exists())
@@ -1074,7 +1071,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                         
                         
                         String filename = project.getBankMainFiles().elementAt(b);
-                        filename = path+project.getProjectName()+File.separator+filename;
+                        filename = project.projectPrefix+File.separator+filename;
                         int li = filename.lastIndexOf(".");
                         if (li>=0) 
                             filename = filename.substring(0,li);
@@ -1128,9 +1125,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 String postClass = project.getProjectPostScriptClass();
                 String postName = project.getProjectPostScriptName();
                 
-                String pp = Global.mainPathPrefix + convertSeperator(project.getPath());
-                if (pp.length() >0 ) pp += File.separator;
-                pp += project.getProjectName();
+                String pp = project.projectPrefix;
                 
                 ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, project.getProjectName(), "", "CodeLibraryPanel", pp);
                 boolean ok =  ScriptDataPanel.executeScript(postClass, postName, CodeLibraryPanel.this, ed);
@@ -1179,13 +1174,11 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     CartridgeProperties buildCart(ProjectProperties project)
     {
         CartridgeProperties cart = new CartridgeProperties();
-        String path = convertSeperator(project.getPath());
-        if (path.length() >0 ) path += File.separator;
 
         for (int b = 0; b<project.getNumberOfBanks(); b++)
         {
             String filename = project.getBankMainFiles().elementAt(b);
-            filename = path+project.getProjectName()+File.separator+filename;
+            filename = project.projectPrefix+File.separator+filename;
             int li = filename.lastIndexOf(".");
             if (li>=0) 
                 filename = filename.substring(0,li);

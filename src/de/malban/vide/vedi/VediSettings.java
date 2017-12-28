@@ -10,6 +10,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -60,7 +63,8 @@ public class VediSettings implements Serializable
         }
         public boolean equals(P other)
         {
-            return other.mClass.equals(mClass) && other.mName.equals(mName) && other.mPath.equals(mPath);
+            return other.mName.equals(mName);
+//            return other.mClass.equals(mClass) && other.mName.equals(mName) && other.mPath.equals(mPath);
         }
     }
     ArrayList<EditorFileSettings> currentOpenFiles = new ArrayList<EditorFileSettings>();
@@ -175,6 +179,36 @@ addRecent(fn, pos);
     public void setCurrentProject(String n, String c, String p)
     {
         currentProject = new P(n,c, p);
+    }
+    public void relativePaths()
+    {
+        if (currentProject != null)
+        {
+            currentProject.mPath = de.malban.util.Utility.ensureRelative(currentProject.mPath);
+        }
+        for (P p: recentProject)
+        {
+            p.mPath = de.malban.util.Utility.ensureRelative(p.mPath);
+        }
+        for (EditorFileSettings set: currentOpenFiles)
+        {
+            set.filename = de.malban.util.Utility.ensureRelative(set.filename);
+        }
+        for (EditorFileSettings set: recentOpenFiles)
+        {
+            set.filename = de.malban.util.Utility.ensureRelative(set.filename);
+        }
+        
+        Set entries = bookmarks.entrySet();
+        Iterator it = entries.iterator();
+        while (it.hasNext())
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            Bookmark value = (Bookmark) entry.getValue();
+            value.fullFilename = de.malban.util.Utility.ensureRelative(value.fullFilename);
+        }
+    
+    
     }
     
 }

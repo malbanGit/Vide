@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>Revenge of Yar</Name>
+		<ProjectName>Revenge of Yar</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>codelib/CompleteReleases/Dan Siewers</Path>
+		<MainFile>YR_05-08-04.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author>Dan Siewers</Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>false</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>YR_05-08-04.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+		<WheelName></WheelName>
+	</ProjectProperties>
+</AllProjectProperties>

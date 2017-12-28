@@ -1,0 +1,24 @@
+Storm storm storms storming stormingly!
+
+In 2017, humanity learned nature's true wrath. It was no longer just storms. No, this was in a completely different dimension. A storm that throws storms - a Storm Storm.
+
+You're our last hope. You must use the anti-storm-storm-storm-device to destroy all the storm storm storms, or everything you love will die.
+
+Can you storm up to the task?
+
+A brand new arcade-style game storming its way to the Vectrex in 2017!
+
+(Storm Storm is one of my silly smaller games, so please don't go in expecting something grand, ok?)
+
+
+Controls for Vectrex:
+
+    Confirm - Button 1
+    Jump with paddle - Button 1
+    Move paddle left and right - Directional controls
+
+Additional notes:
+
+    Original release date: 10/31/2017
+    Source code is on github: http://github.com/CaptainDreamcast/StormStorm/
+    You can follow me on twitter, if you're into that: http://twitter.com/CaptDreamcast

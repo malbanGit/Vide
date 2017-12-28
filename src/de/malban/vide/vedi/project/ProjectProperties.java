@@ -9,11 +9,13 @@ import javax.xml.parsers.SAXParser;
 
 public class  ProjectProperties
 {
+    // ends without a file seperator
+    public String projectPrefix = "";
 	protected String mClass="";
 	public String mName="";
 	protected String mProjectName="";
 	protected String mDirectoryName="";
-	protected String mPath="";
+	protected String mOldPath="";
 	protected String mMainFile="";
 	protected String mDescription="";
 	protected String mVersion="";
@@ -24,6 +26,7 @@ public class  ProjectProperties
 	protected int mNumberOfBanks=0;
 	protected Vector<String> mBankMainFiles=new Vector<String>();
 	protected int mExtras=0;
+	protected int mFileVersion=0;
 	protected String mProjectPreScriptClass="";
 	protected String mProjectPreScriptName="";
 	protected String mProjectPostScriptClass="";
@@ -68,13 +71,13 @@ public class  ProjectProperties
 	{
 		mDirectoryName=DirectoryName;
 	}
-	public String getPath()
+	public String getOldPath()
 	{
-		return mPath;
+		return mOldPath;
 	}
-	public void setPath(String Path)
+	public void setOldPath(String Path)
 	{
-		mPath=Path;
+		mOldPath=Path;
 	}
 	public String getMainFile()
 	{
@@ -140,7 +143,19 @@ public class  ProjectProperties
 	{
 		mNumberOfBanks=NumberOfBanks;
 	}
-	public Vector<String> getBankMainFiles()
+
+	public int getFileVersion()
+	{
+		return mFileVersion;
+	}
+	public void setFileVersion(int fv)
+	{
+		mFileVersion=fv;
+	}
+        
+        
+        
+        public Vector<String> getBankMainFiles()
 	{
 		return mBankMainFiles;
 	}
@@ -256,13 +271,15 @@ public class  ProjectProperties
 	}
 	private String exportXML()
 	{
+            mFileVersion = 2;
 		StringBuffer s = new StringBuffer();
 		s.append( "\t<ProjectProperties>\n");
 		s.append( "\t\t<Class>"+UtilityString.toXML(mClass)+"</Class>\n");
 		s.append( "\t\t<Name>"+UtilityString.toXML(mName)+"</Name>\n");
-		s.append( "\t\t<ProjectName>"+UtilityString.toXML(mProjectName)+"</ProjectName>\n");
+		s.append( "\t\t<FileVersion>"+mFileVersion+"</FileVersion>\n");
+                s.append( "\t\t<ProjectName>"+UtilityString.toXML(mProjectName)+"</ProjectName>\n");
 		s.append( "\t\t<DirectoryName>"+UtilityString.toXML(mDirectoryName)+"</DirectoryName>\n");
-		s.append( "\t\t<Path>"+UtilityString.toXML(mPath)+"</Path>\n");
+		s.append( "\t\t<Path>"+UtilityString.toXML(mOldPath)+"</Path>\n");
 		s.append( "\t\t<MainFile>"+UtilityString.toXML(mMainFile)+"</MainFile>\n");
 		s.append( "\t\t<Description>"+UtilityString.toXML(mDescription)+"</Description>\n");
 		s.append( "\t\t<Version>"+UtilityString.toXML(mVersion)+"</Version>\n");
@@ -313,6 +330,7 @@ public class  ProjectProperties
 	}
 	public static boolean saveCollectionAsXML(String pathName, String filename, Collection<ProjectProperties> col)
 	{
+                if (!pathName.endsWith(File.separator)) pathName = pathName + File.separator;
 		try
 		{
 			PrintWriter pw = new PrintWriter(pathName+filename, "UTF-8");
@@ -340,6 +358,7 @@ public class  ProjectProperties
 	}
 	public static HashMap<String, ProjectProperties> getHashMapFromXML(String filename, String path)
 	{
+                if (!path.endsWith(File.separator)) path = path + File.separator;
 		HashMap<String, ProjectProperties> filters = new HashMap<String, ProjectProperties>();
 		try
 		{

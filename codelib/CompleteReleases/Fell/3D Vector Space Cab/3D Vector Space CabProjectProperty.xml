@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>3D Vector Space Cab</Name>
+		<ProjectName>3D Vector Space Cab</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>codelib/CompleteReleases/Fell</Path>
+		<MainFile>ludumdare.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author></Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>false</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>ludumdare.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+		<WheelName></WheelName>
+		<IsCProject>false</IsCProject>
+		<IsPeerCProject>false</IsPeerCProject>
+		<CFLAGS>-O3 -mint8 -msoft-reg-count=0 -quiet -IC/include</CFLAGS>
+	</ProjectProperties>
+</AllProjectProperties>

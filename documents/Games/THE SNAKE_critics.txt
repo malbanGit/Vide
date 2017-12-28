@@ -1,0 +1,29 @@
+THE SNAKE
+The game is an adapation of the "snake" theme.
+As in other snake games you are not allowed to touch the walls - you die as soon as this happens.
+
+I find the "menu system" annoying.
+The game starts right away when the cartridge is loaded - ok (no menu - I can live with that).
+But after you die (which will inevitably be just as you start the game) - RIGHT away the next game starts.
+But within the play area the GAME OVER letters are written (and also the score - which by the way is buggy -
+since always ZERO).
+
+While the text is displayed (and the screen updates are down to one half) the snake already moves again and you have
+to steer it - otherwise you jump from one game over to the next.
+
+As if that is not bad enough - ingame, after you reach a certain length you enter the next "level"
+(snake shortened - speed goes up) - here the same!
+Some cycle eating text is displayed - you start at full speed with a new snake. And after the text disappears
+(since screen updates now are really fast (no text + short snake) - you almost certainly crash against a wall.
+(for me - 3 out of 4 times) which makes it nearly unplayable.
+
+Technically:
+- displaying game over and level increase IN Game is a terrible idea - the speed difference
+  between only small snake (50Hz) and the +text version (25Hz) is half!
+- in addition to that the screen refresh can get really hurtfull with a long snake
+- the above mentioned "intensity" (bug)
+- basic sound
+
+General vectrex game: 3.5/10 (although I like the graphics better than from THE HUNGRY PYTHON)
+For a first vectrex game: 6.5/10
+

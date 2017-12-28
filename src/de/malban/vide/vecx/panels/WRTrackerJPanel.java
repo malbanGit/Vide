@@ -235,6 +235,13 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
             if (avg == 0) skip = false;
             if (height<=0) skip = true;
             if (height > 1000000) skip = true;
+ 
+            String tt = "Samples: "+vecxPanel.getTrackiCount()+", >30000: "+vecxPanel.getTrackiAbove();
+jTextField2.setToolTipText(tt);
+jTextFieldCurrent.setToolTipText(tt);
+jTextField1.setToolTipText(tt);
+jTextField6.setToolTipText(tt);
+            
             
             if (!skip)
             {
@@ -429,6 +436,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
         jLabel2.setText("max");
 
         jTextField6.setText("00000");
+        jTextField6.setToolTipText("");
         jTextField6.setMinimumSize(new java.awt.Dimension(70, 19));
 
         jTextField1.setText("00000");

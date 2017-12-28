@@ -1,0 +1,52 @@
+BATMAN VS SUPERMAN - LASERWARS
+Basically a Bomberman clone.
+
+I am very arbitrary about this game.
+The game idea, the presentation and the details of implementation are great.
+For me (the games I have looked at until now) this is the best of the lot.
+
+If this game was implemented with a little bit more technical finesse it would
+be a great game indeed.
+
+Not only is bomberman a great game, particular a two player game - this implementation
+actually sports:
+
+POSITIVE
+a) 1 player against a computer (vectrex that is)
+b) 2 player against each other (using two controllers)
+c) collectible extras (after bombing a star) like
+- "place more bombs"
+- "move faster"
+- "extended laser range"
+d) different types of labyrinths (star setup)
+e) game variant lets you play with all bonus set to max - THAT is fun, the speed
+    is great, there are no stars to cause flickering etc...
+f) good scoring concept, scores visible!
+g) you can "kick" the bombs away!
+h) game over screen - with a nice vectorlist of the winner!
+
+But also:
+NEGATIVE
+- sometimes there is a graphical bug, that corrupts the vectorlists (player one and title screen)
+- The actual screen refresh rate makes my eyes hurt
+- the "beginning" speed of your players is for my taste to slow
+- you NEED an overlay, otherwise you get "stuck" since you can't see the labyrinth
+- since all vectrex are different there should be a callibration for that overlay
+
+Strange:
+If you stand on your own bomb (exactly) it does not harm you - is that intentionally?
+
+Funny:
+The instruction says for the joystick: "Move you ship around"
+
+Technically:
+- screen refresh can go lower than 20Hz - ouch
+- there is a bug, that can corrupt the vectorlist - not game breaking, but irritating
+  This actualle seems to be a bug, that ROM area is written to by the game - on a real cartridge this does not matter.
+  (although bad style)
+- basic sound
+- I don't like the bugs (see above)
+
+General vectrex game: 6.5/10 (give me a bug free, better refreshing version and I would rate that game 8 or 9!)
+For a first vectrex game: 9.5/10
+

@@ -1,10 +1,8 @@
-; This file is part of 'Spike goes Skiing'
-; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; this file contains includes for vectrex BIOS functions and variables      ;
-; it was written by Bruce Tomlin, slighte changed by Malban;
+; it was written by Bruce Tomlin, slighte changed by Malban                 ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-        ifndef INCLUDE_I
+        ifndef INCLUDE_I 
 
 INCLUDE_I equ 1
 
@@ -207,7 +205,7 @@ Moveto_x_7F     EQU     $F2F2   ;
 Moveto_d_7F     EQU     $F2FC   ;
 Moveto_ix_FF    EQU     $F308   ;
 Moveto_ix_7F    EQU     $F30C   ;
-Moveto_ix_a     EQU     $F30E   ;
+Moveto_ix_b     EQU     $F30E   ;
 Moveto_ix       EQU     $F310   ;
 Moveto_d        EQU     $F312   ;
 Reset0Ref_D0    EQU     $F34A   ;
@@ -275,11 +273,20 @@ Get_Rise_Run    EQU     $F5EF   ;
 Rise_Run_X      EQU     $F5FF   ;
 Rise_Run_Y      EQU     $F601   ;
 Rise_Run_Len    EQU     $F603   ;
+
 Rot_VL_ab       EQU     $F610   ;
 Rot_VL          EQU     $F616   ;
-Rot_VL_Mode_a   EQU     $F61F   ;
-Rot_VL_Mode     EQU     $F62B   ;
-Rot_VL_dft      EQU     $F637   ;
+Rot_VL_Mode   EQU     $F61F   ;
+Rot_VL_M_dft     EQU     $F62B   ;
+;Rot_VL_dft      EQU     $F637   ;
+
+
+;Rot_VL_ab       EQU     $F610   ;
+;Rot_VL          EQU     $F616   ;
+;Rot_VL_Mode_a   EQU     $F61F   ;
+;Rot_VL_Mode     EQU     $F62B   ;
+;Rot_VL_dft      EQU     $F637   ;
+
 Xform_Run_a     EQU     $F65B   ;
 Xform_Run       EQU     $F65D   ;
 Xform_Rise_a    EQU     $F661   ;
@@ -315,5 +322,7 @@ musica  EQU $FF44               ;
 musicb  EQU $FF62               ;
 musicc  EQU $FF7A               ;
 musicd  EQU $FF8F               ;
+Char_Table EQU $F9F4
+Char_Table_End EQU $FBD4
 
         endif

@@ -1,0 +1,14 @@
+ABSORBTEX
+You move your ship around the screen and try to collect more fuel than the enemy in a given time frame.
+The game allows you to chose the level you play (4 levels)
+
+The ship can be moved with the joystick and rotated with the button
+
+Technical:
+- refresh can go REALLY low (below 15 Hz in higher levels)
+- the enemy ships just move diagonal
+- cool to see a rotation of the playership
+
+General vectrex game: 3/10
+For a first vectrex game: 7/10
+

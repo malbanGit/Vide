@@ -7,10 +7,11 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 {
 	private HashMap<String, ProjectProperties> mProjectProperties;
 	private ProjectProperties mCurrentData = null;
-	private String mCurrentElement = null;
+        private String mFileVersion = "";
+        private String mCurrentElement = null;
 	private String mProjectName = "";
 	private String mDirectoryName = "";
-	private String mPath = "";
+	private String mOldPath = "";
 	private String mMainFile = "";
 	private String mDescription = "";
 	private String mVersion = "";
@@ -56,9 +57,10 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 		if (qName.equalsIgnoreCase("ProjectProperties"))
 		{
 			mCurrentData = new ProjectProperties();
+                        mFileVersion = "";
 			mProjectName = "";
 			mDirectoryName = "";
-			mPath = "";
+			mOldPath = "";
 			mMainFile = "";
 			mDescription = "";
 			mVersion = "";
@@ -89,11 +91,13 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 	{
 		String s = new String( ch, start, length );
 		if (mCurrentElement == null) return;
-		if (mCurrentElement.equalsIgnoreCase("Class")) mCurrentData.mClass += s;
+                
+                if (mCurrentElement.equalsIgnoreCase("Class")) mCurrentData.mClass += s;
 		if (mCurrentElement.equalsIgnoreCase("Name")) mCurrentData.mName += s;
-		if (mCurrentElement.equalsIgnoreCase("ProjectName")) mProjectName += s;
+		if (mCurrentElement.equalsIgnoreCase("FileVersion")) mFileVersion += s;
+                if (mCurrentElement.equalsIgnoreCase("ProjectName")) mProjectName += s;
 		if (mCurrentElement.equalsIgnoreCase("DirectoryName")) mDirectoryName += s;
-		if (mCurrentElement.equalsIgnoreCase("Path")) mPath += s;
+		if (mCurrentElement.equalsIgnoreCase("Path")) mOldPath += s;
 		if (mCurrentElement.equalsIgnoreCase("MainFile")) mMainFile += s;
 		if (mCurrentElement.equalsIgnoreCase("Description")) mDescription += s;
 		if (mCurrentElement.equalsIgnoreCase("Version")) mVersion += s;
@@ -141,8 +145,8 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 				mProjectName = "";
 				mCurrentData.mDirectoryName = mDirectoryName;
 				mDirectoryName = "";
-				mCurrentData.mPath = mPath;
-				mPath = "";
+				mCurrentData.mOldPath = mOldPath;
+				mOldPath = "";
 				mCurrentData.mMainFile = mMainFile;
 				mMainFile = "";
 				mCurrentData.mDescription = mDescription;
@@ -164,7 +168,15 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 				try{
 				mCurrentData.mNumberOfBanks = Integer.parseInt(mNumberOfBanks);
 				}catch (Throwable e){}
-				mNumberOfBanks = "";
+
+				try{
+				mCurrentData.mFileVersion = Integer.parseInt(mFileVersion);
+				}catch (Throwable e){}
+                                
+                                
+                                
+                                
+                                mNumberOfBanks = "";
 				mBankMainFiles = "";
 				mCurrentData.mBankMainFiles = mBankMainFiless;
 				try{
@@ -204,7 +216,7 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
                                 
 				mIsPeerCProject = "";
 				mIsCProject = "";
-				mCurrentData.mCFLAGS = mCFLAGS;
+				mCurrentData.mCFLAGS = de.malban.util.UtilityString.fromXML(mCFLAGS);
 				mCFLAGS = "";
 				mProjectProperties.put(mCurrentData.mName, mCurrentData);
 				mCurrentData = null;

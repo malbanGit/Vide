@@ -20,6 +20,7 @@ import de.malban.sound.tinysound.TinySound;
 import de.malban.sound.tinysound.internal.MemSound;
 import de.malban.vide.vecx.VecX;
 import static de.malban.vide.vecx.VecXPanel.DEVICE_VECVOICE;
+import static de.malban.vide.vecx.VecXPanel.DEVICE_VECVOX;
 import de.malban.vide.vedi.sound.SampleJPanel;
 import static de.malban.vide.vedi.sound.ibxm.IBXM.IBXM_MAXBUFFER;
 import java.io.ByteArrayInputStream;
@@ -62,7 +63,9 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
 {
     public int getDeviceID()
     {
-        return DEVICE_VECVOICE;
+        if (SPO256AL2)
+            return DEVICE_VECVOICE;
+        return DEVICE_VECVOX;
     }
     // debuggy stuff
     public static boolean DEBUG_WAV_OUT = false;

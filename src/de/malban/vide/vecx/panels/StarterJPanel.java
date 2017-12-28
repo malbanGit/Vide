@@ -1140,7 +1140,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
             }
         }
         
-        
+     
         vecxy.startCartridge(sel, VecX.START_TYPE_RUN);
     }
     public static String convertSeperator(String filename)

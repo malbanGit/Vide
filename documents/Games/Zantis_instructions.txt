@@ -1,0 +1,35 @@
+Background                              
+
+Spiders was an arcade game where players controlled a gun at the bottom of the screen, which they had to shoot spiders and various projectiles that emerged from any part of the onscreen web and made their way to the bottom of the screen towards the player’s gun. In between waves a fast-moving, high scoring White Spider boss would appear for the player to attempt to gun down.
+
+Zantis is "very loosely based" on Spiders, being simplified in game play and having many different characteristics than the arcade game.
+Gameplay                              
+
+The player controls a ship that is confined to the bottom area of the screen. Six cells – three on each side of the screen – will appear at the beginning of every wave, connected by a central core (the latter of which can never be destroyed). Zantis creatures start emerging from cells (two appearing at most, one on each side of the screen), which will quickly make their way to the bottom of the screen. If they do not make contact with the player’s ship or get destroyed by the player shooting them, then they will re-emerge from a cell. Shooting a cell will result in it being removed from the screen, and when all cells on one side of the screen have been shot, then only one Zantis will emerge from cells from the other side of the screen. Once all cells have been disposed of during a round, a large Zantis leader will appear from the central core and make its way to the bottom of the screen. If the player does not destroy it before it reaches the bottom, the next round will begin, as the player will not get another chance at the leader.
+
+In later rounds, the Zantis will drop down faster and faster and the leaders will also have two Zantis’ guarding them, which must be shot away in order for the player to try to destroy the leader.
+
+If the player’s ship makes contact with a Zantis or a leader, it will be destroyed and the game will end when there are no bonus ships left in reserve.
+Difficulty levels                              
+
+The difficulty level of the game will increase and/or decrease depending on several factors.
+
+After scoring 1000 points, Zantis’ drop speeds will increase by one and a half times. With every additional 1000 points scored, based on the player’s remaining ship count, the speed could increase up to two times the original speed or decrease back down. Factors include if the player has four or more ships, then the speed will increase to two times, but if the player has three ships or less, the speed will drop down to one and a half. The player must have at least four ships before the speed will increase by two times before the next thousand point tier is reached. The earliest this can happen is at 2000 points.
+Differences between games                              
+
+Even though Zantis was never meant to be a port, nor a remake of Spiders, there are many differences between the two games.
+
+Spiders was in raster, rather than vector. Players could only move their gun from side to side, rather than in any direction (like with Centipede or Vectrepede). There is much less going on during a wave with Zantis, as not only did Spiders have a constantly growing web, but there were also many more targets and certain mannerisms of each element (such as Growable Cocoons, Spider Eggs and Super Webs). The theme was also changed, as although it is not fully explained what a Zantis is, they were not referred to as spiders, as they rely on electricity rather than webs. The boss in between waves did not have any bodyguards in the original, there is no "Space Mona Lisa"[3] appearing to wink at the player, and Zantis is for one player only, rather than two maximum alternating turns. Score tables also do not increase as on the original, and the boss in between waves is not worth a formulated amount (depending on base score, type, and number of ships remaining).
+
+The player is also not penalized if a Zantis were to make it to the bottom of the screen, as on Spiders, since, if 16 spiders were to make it past the player’s gun, they would lose that gun and have to start the wave over, among other differences between the two games.
+Scoring                              
+
+    Cells–10 points each
+    Zantis leader–10 points, + 10, 20, or 30 points (for boss 1, 2, or 3) + 10 points for each ship player has remaining
+    Bonus ship–every 1000 points 
+
+Controls                              
+
+    Start game–any button (on title screen)
+    Move ship–joystick or D-pad
+    Fire–button 4 

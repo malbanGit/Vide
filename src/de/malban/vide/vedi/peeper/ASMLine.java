@@ -6,6 +6,7 @@
 package de.malban.vide.vedi.peeper;
 
 import de.malban.vide.assy.Comment;
+import de.malban.vide.dissy.DASM6809;
 import static de.malban.vide.vedi.VediPanel.removeEmpty;
 
 /**
@@ -22,19 +23,25 @@ public class ASMLine
     public String mnenomic="";
     public String first="";
     public String second="";
+    public String firstOrg="";
+    public String secondOrg="";
     public String firstReg="";
+    public String operandAllOrg="";
+    public String operandAll="";
     public String secondReg="";
     public String label="";
     public String rest ="";
-    public String operandAll="";
     public String comment = ""; // with ";"
 
     public boolean isStore = false;
     public boolean isLoad = false;
     public boolean isLea = false;
     public boolean isImmediate = false;
-    public boolean branch = false;
-    public boolean regSave = false;
+    public boolean isBranch = false;
+    public boolean isRegSave = false;
+    public boolean isIndexChange = false;
+    public boolean isExtended = false;
+    public int page = -1;
     public String storeLoadReg = ""+uid;
 
     public ASMLine(String s)
@@ -47,6 +54,7 @@ public class ASMLine
         String tmp = de.malban.util.UtilityString.replaceWhiteSpaces(clean, " ");
         tmp = de.malban.util.UtilityString.replace(tmp, "  ", "");
         String[] split = tmp.split(" ");
+        String[] splitOrg;
         if (split.length == 0) return;
         if (split[0].trim().length()!=0) label = split[0].trim();
         label = de.malban.util.UtilityString.replace(label, ":", "");
@@ -56,25 +64,25 @@ public class ASMLine
         if (split.length == 0) return;
         mnenomic = split[0].toLowerCase();
 
-        if (mnenomic.startsWith("lb")) branch = true;
-        if (mnenomic.startsWith("b")) branch = true;
-        if (mnenomic.startsWith("j")) branch = true;
-        if (mnenomic.startsWith("rt")) branch = true;
-        if (mnenomic.startsWith("sw")) branch = true;
-        if (mnenomic.startsWith("sy")) branch = true;
+        if (mnenomic.startsWith("lb")) isBranch = true;
+        if (mnenomic.startsWith("b")) isBranch = true;
+        if (mnenomic.startsWith("j")) isBranch = true;
+        if (mnenomic.startsWith("rt")) isBranch = true;
+        if (mnenomic.startsWith("sw")) isBranch = true;
+        if (mnenomic.startsWith("sy")) isBranch = true;
 
-        if (mnenomic.equals("dec")) regSave = true;
-        if (mnenomic.equals("inc")) regSave = true;
-        if (mnenomic.equals("clr")) regSave = true;
-        if (mnenomic.equals("asl")) regSave = true;
-        if (mnenomic.equals("lsl")) regSave = true;
-        if (mnenomic.equals("rol")) regSave = true;
-        if (mnenomic.equals("ror")) regSave = true;
-        if (mnenomic.equals("asr")) regSave = true;
-        if (mnenomic.equals("com")) regSave = true;
-        if (mnenomic.equals("lsr")) regSave = true;
-        if (mnenomic.equals("neg")) regSave = true;
-        if (mnenomic.equals("nop")) regSave = true;
+        if (mnenomic.equals("dec")) isRegSave = true;
+        if (mnenomic.equals("inc")) isRegSave = true;
+        if (mnenomic.equals("clr")) isRegSave = true;
+        if (mnenomic.equals("asl")) isRegSave = true;
+        if (mnenomic.equals("lsl")) isRegSave = true;
+        if (mnenomic.equals("rol")) isRegSave = true;
+        if (mnenomic.equals("ror")) isRegSave = true;
+        if (mnenomic.equals("asr")) isRegSave = true;
+        if (mnenomic.equals("com")) isRegSave = true;
+        if (mnenomic.equals("lsr")) isRegSave = true;
+        if (mnenomic.equals("neg")) isRegSave = true;
+        if (mnenomic.equals("nop")) isRegSave = true;
 
 
         if (mnenomic.startsWith("st"))
@@ -104,13 +112,24 @@ public class ASMLine
             operand = operand +ss+"";
         }
         operand.trim();
+        operandAllOrg = operand;
         operandAll = operand.toLowerCase();
+        boolean isNumber = de.malban.util.UtilityString.isDecNumber(operandAll) || de.malban.util.UtilityString.isHexNumber(operandAll);
+        isExtended = isNumber && (!operandAll.contains(","))&& (!operandAll.contains("["));
+        if (isExtended)
+        {
+            int number = DASM6809.toNumber(operandAll)&0xffff;
+            page = number/256;
+        }
+        
+        
 
         if (operandAll.startsWith("#")) isImmediate = true;
 
         split = operand.split(",");
         split = removeEmpty(split);
         if (split.length == 0) return;
+        firstOrg = split[0];
         first = split[0].toLowerCase();
 
         if (first.contains("a")) firstReg = "abd";
@@ -122,12 +141,16 @@ public class ASMLine
         if (first.contains("s")) firstReg = "s";
         if (first.contains("pc")) firstReg = "pc";
 
-
         split[0] = null;
         split = removeEmpty(split);
-        if (split.length == 0) return;
-
+        if (split.length == 0) 
+        {
+            return;
+        }
+        secondOrg = split[0];
         second = split[0].toLowerCase();
+        second = de.malban.util.UtilityString.replace(second, " ", "");
+
         if (second.contains("a")) secondReg = "abd";
         if (second.contains("b")) secondReg = "abd";
         if (second.contains("d")) secondReg = "abd";
@@ -136,6 +159,13 @@ public class ASMLine
         if (second.contains("u")) secondReg = "u";
         if (second.contains("s")) secondReg = "s";
         if (second.contains("pc")) secondReg = "pc";
+        
+        
+        if ((secondReg.equals("x")) || (secondReg.equals("s")) ||(secondReg.equals("u")) ||(secondReg.equals("y")) )
+        {
+            if (second.contains("+") || second.contains("-")) isIndexChange = true;
+        }
+        
         split[0] = null;
         split = removeEmpty(split);
         if (split.length == 0) return;

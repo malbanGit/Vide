@@ -4882,7 +4882,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     }
     public static void showYMPanelNoModal(String fileName, TinyLogInterface tl, boolean sa)
     {
-        
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         YMJPanel panel = new YMJPanel(fileName, tl);
         panel.standalone = sa;

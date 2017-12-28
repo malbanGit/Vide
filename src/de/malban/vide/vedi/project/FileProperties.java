@@ -211,6 +211,7 @@ public class  FileProperties
 	}
 	public static boolean saveCollectionAsXML(String pathName, String filename, Collection<FileProperties> col)
 	{
+                if (!pathName.endsWith(File.separator)) pathName = pathName + File.separator;
 		try
 		{
 			PrintWriter pw = new PrintWriter(pathName+filename, "UTF-8");
@@ -238,6 +239,7 @@ public class  FileProperties
 	}
 	public static HashMap<String, FileProperties> getHashMapFromXML(String filename, String path)
 	{
+                if (!path.endsWith(File.separator)) path = path + File.separator;
 		HashMap<String, FileProperties> filters = new HashMap<String, FileProperties>();
 		try
 		{

@@ -1,0 +1,53 @@
+ Background                               
+
+Patriots is the second game in what creator John Donzila called his "1996 Vectrex Returns" series. The game itself is inspired by the arcade and Atari 2600 game Missile Command.
+
+Throughout the years when Dondzila operated Classic Game Creations, he released three versions of Patriots. The first version was a standalone cartridge released in 1996. The second version was entitled Patriots Remix and was available on the 1999 release Vecmania. The third and final version was entitled Patriots III Ballistics Busters and was available on the 2002 release Gravitrex Plus.
+Gameplay                               
+
+The player controls a series of ground-level cannons and must use them to protect six bases which have no defenses. Waves of missiles will descend on a course to take out both the player's cannons and bases. The farther along the waves get, the more missiles will attack simultaneously in addition to descending at a faster rate. To create even more difficulty, later in each wave, there will both be ships that fly over and release more missiles and smart bombs will fall from the sky. The ships' missiles acts just as the common missiles; however, the smart bombs will pick a target and avoid the player's cannon fire. These smart bombs will stop and even rise to avoid the player's fire. If an enemy successfully destroys a cannon, the player will lose the ability to fire from that cannon for the remainder of that wave. If all bases are destroyed, the game will be over.
+Controls                               
+Main Menu                               
+
+    Move to game select screen/select site speed-button 1
+    Select site speed-button 2
+    Begin game-button 4 
+
+In-game                               
+
+    Move sites (cross hairs)-joystick or D-pad
+    Change site speed-button 1
+    Pause-button 2
+    Fire left cannon-button 3
+    Fire right cannon-button 4 
+
+Scoring                               
+
+    Destroy enemy missile-10 points
+    Destroy enemy spaceship or bomber-25 points
+    Destroy enemy smart missile-50 points
+    5 points are awarded for each missile remaining at the end of a level
+    50 points are awarded for each base remaining at the end of a level
+    Each level up to level 6 is a score multiplier. The player will receive the above points times the multiplier.
+    A bonus base is awarded for every 10,000 points with a maximum of 6 bonuses per game. 
+
+Differences between Patriots, Patriots Remix and Patriots III                               
+
+While the 1996 version of Patriots is considered the original, Patriots Remix has identical gameplay but differs in use of multi-channel sound effects and optimized graphics.
+
+Patriots III Ballistics Busters is a completely rewritten version of the original game with three cannons and unlimited ammo. In this version, the player's cannons will require time to reload but never run out of missiles like in the previous versions. In addition, this version also has an option to control the player sites or cross hairs through analog controls, rather that with only digital controls. These controls more closely resemble the controls used in the arcade version which were that of a trackball.
+Bonus Game                               
+
+A bonus game version of Breakout can be found by pausing the game with a score of 150 points.
+Gameplay                               
+
+The player controls a paddle and must bounce a ball off the paddle to hit the above blocks. The blocks are arranged in a four by ten grid. In the first level, when a block is hit, it will disappear and leave the block above it vulnerable. Once all blocks have been cleared, a new four by ten grid of blocks will be created. This time it will take more than just a single hit to clear each block. The player is supplied with three balls. If the player fails to bounce the ball off the paddle three times, it will be game over.
+Controls                               
+
+    Move paddle left or right-left or right on the joystick or D-pad
+    Launch ball-button 1
+    Change paddle speed-button 2 
+
+Scoring                               
+
+1 point is awarded per hit on a block. 

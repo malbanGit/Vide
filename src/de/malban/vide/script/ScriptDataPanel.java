@@ -15,10 +15,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
+import javax.swing.SwingUtilities;
 
 public class ScriptDataPanel extends javax.swing.JPanel {
     
-    private HighlightedDocument document = new HighlightedDocument();
+    private HighlightedDocument document = new HighlightedDocument(-1);
     
     private ExportData mExportData = new ExportData();
     private ExportDataPool mExportDataPool;
@@ -128,13 +129,14 @@ document.start();
     {
         mClassSetting++;
         mExportData = new ExportData();
-        setAllFromCurrent();
         mClassSetting--;
+        setAllFromCurrent();
     }
 
     
     private void setAllFromCurrent() /* allneeded*/
     {
+        if (mClassSetting>0) return;
         mClassSetting++;
 
         jComboBoxName.setSelectedItem(mExportData.mName);
@@ -143,7 +145,17 @@ document.start();
         jTextAreaComment.setText(mExportData.mComment);
         jTextPaneScript.setText(mExportData.mScript);
         jTextAreaOutput.setText("");
-        
+
+        document.startColoring();
+        /*
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                document.colorAll();
+            }
+        });
+          */      
         mClassSetting--;
     }
 
@@ -478,8 +490,8 @@ document.start();
         jTextFieldKlasse.setText(jComboBoxKlasse.getSelectedItem().toString());
         String key = jComboBoxName.getSelectedItem().toString();
         mExportData = mExportDataPool.get(key);
-        setAllFromCurrent();
         mClassSetting--;
+        setAllFromCurrent();
     }//GEN-LAST:event_jComboBoxKlasseActionPerformed
 
     private void jComboBoxNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxNameActionPerformed
