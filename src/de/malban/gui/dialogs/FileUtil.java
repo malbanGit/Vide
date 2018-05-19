@@ -15,6 +15,7 @@ import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.util.UtilityString;
+import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,8 +23,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 import javax.swing.JButton;
+import javax.swing.table.AbstractTableModel;
 
 
 /**
@@ -40,6 +46,9 @@ public class FileUtil extends javax.swing.JPanel {
         jLabel13.setVisible(false);
         jLabel16.setVisible(false);
         jLabel18.setVisible(false);
+ 
+        HeuristicTableModel model = new HeuristicTableModel();
+        jTable1.setModel(model);
     }
 
     /** This method is called from within the constructor to
@@ -52,6 +61,8 @@ public class FileUtil extends javax.swing.JPanel {
     private void initComponents() {
 
         jToggleButton1 = new javax.swing.JToggleButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -77,7 +88,6 @@ public class FileUtil extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         jTextFieldstart2 = new javax.swing.JTextField();
         jButtonFileSelect3 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jTextFieldstart3 = new javax.swing.JTextField();
@@ -104,9 +114,38 @@ public class FileUtil extends javax.swing.JPanel {
         jButton7 = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jTextFieldstart6 = new javax.swing.JTextField();
+        jButtonFileSelect7 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jButtonFileSelect8 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel28 = new javax.swing.JLabel();
+        jTextFieldstart7 = new javax.swing.JTextField();
+        jButtonFileSelect9 = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jButton12 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
         jToggleButton1.setName("jToggleButton1"); // NOI18N
+
+        jTabbedPane1.setName("jTabbedPane1"); // NOI18N
+
+        jPanel6.setName("jPanel6"); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("FileUtil");
@@ -190,7 +229,7 @@ public class FileUtil extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addGap(47, 47, 47)
                         .addComponent(jLabel6)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -202,7 +241,7 @@ public class FileUtil extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel21)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                         .addComponent(jButton8))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(106, 106, 106)
@@ -333,14 +372,6 @@ public class FileUtil extends javax.swing.JPanel {
                         .addComponent(jTextFieldstart2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
-
-        jButton3.setText("done");
-        jButton3.setName("jButton3"); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("data to db"));
         jPanel3.setMinimumSize(new java.awt.Dimension(619, 85));
@@ -564,51 +595,341 @@ public class FileUtil extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 694, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton6)
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2))
+                            .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap()))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 585, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel2)
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        jTabbedPane1.addTab("1", jPanel6);
+
+        jPanel7.setName("jPanel7"); // NOI18N
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("64K revers 32k blocks"));
+        jPanel8.setMinimumSize(new java.awt.Dimension(619, 85));
+        jPanel8.setName("jPanel8"); // NOI18N
+        jPanel8.setPreferredSize(new java.awt.Dimension(503, 80));
+
+        jLabel22.setText("file ");
+        jLabel22.setName("jLabel22"); // NOI18N
+
+        jTextFieldstart6.setName("jTextFieldstart6"); // NOI18N
+
+        jButtonFileSelect7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect7.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect7.setName("jButtonFileSelect7"); // NOI18N
+        jButtonFileSelect7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect7ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("invert");
+        jButton9.setName("jButton9"); // NOI18N
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jLabel23.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel23.setText("output file -> + \".r64.bin\"");
+        jLabel23.setName("jLabel23"); // NOI18N
+
+        jLabel24.setText("Ok");
+        jLabel24.setName("jLabel24"); // NOI18N
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addComponent(jLabel22)
+                .addGap(24, 24, 24)
+                .addComponent(jTextFieldstart6, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonFileSelect7)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                .addComponent(jLabel24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton9))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonFileSelect7)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldstart6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("heuristic binary"));
+        jPanel9.setMinimumSize(new java.awt.Dimension(619, 85));
+        jPanel9.setName("jPanel9"); // NOI18N
+        jPanel9.setPreferredSize(new java.awt.Dimension(503, 80));
+
+        jLabel25.setText("files ");
+        jLabel25.setName("jLabel25"); // NOI18N
+
+        jButtonFileSelect8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect8.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect8.setName("jButtonFileSelect8"); // NOI18N
+        jButtonFileSelect8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect8ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("build");
+        jButton10.setName("jButton10"); // NOI18N
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jLabel26.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel26.setText("output file -> + first file+\".h.bin\"");
+        jLabel26.setName("jLabel26"); // NOI18N
+
+        jLabel27.setText("Ok");
+        jLabel27.setName("jLabel27"); // NOI18N
+
+        jScrollPane3.setName("jScrollPane3"); // NOI18N
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.setName("jTable1"); // NOI18N
+        jScrollPane3.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonFileSelect8)
+                .addGap(227, 227, 227)
+                .addComponent(jLabel26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
+                .addComponent(jLabel27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton10))
+            .addComponent(jScrollPane3)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonFileSelect8)
+                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("2", jPanel7);
+
+        jPanel10.setName("jPanel10"); // NOI18N
+
+        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder("z80 - 6809"));
+        jPanel11.setName("jPanel11"); // NOI18N
+        jPanel11.setPreferredSize(new java.awt.Dimension(515, 80));
+
+        jLabel28.setText("file");
+        jLabel28.setName("jLabel28"); // NOI18N
+
+        jTextFieldstart7.setName("jTextFieldstart7"); // NOI18N
+
+        jButtonFileSelect9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect9.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect9.setName("jButtonFileSelect9"); // NOI18N
+        jButtonFileSelect9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect9ActionPerformed(evt);
+            }
+        });
+
+        jLabel32.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel32.setText("output file -> + \".6809\"");
+        jLabel32.setName("jLabel32"); // NOI18N
+
+        jLabel33.setText("Ok");
+        jLabel33.setName("jLabel33"); // NOI18N
+
+        jButton12.setText("transcode");
+        jButton12.setName("jButton12"); // NOI18N
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jLabel28)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jTextFieldstart7, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonFileSelect9))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabel32)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 333, Short.MAX_VALUE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel33)
+                        .addGap(63, 63, 63))
+                    .addComponent(jButton12)))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonFileSelect9)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldstart7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9))
+        );
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 505, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("3", jPanel10);
+
+        jButton3.setText("done");
+        jButton3.setName("jButton3"); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3))
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -949,6 +1270,105 @@ public class FileUtil extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jButtonFileSelect7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect7ActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String name = fc.getSelectedFile().getAbsolutePath();
+        jTextFieldstart6.setText(name);
+        
+    }//GEN-LAST:event_jButtonFileSelect7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        String filename = jTextFieldstart6.getText();
+        
+        
+        File file = new File(filename);
+        long len = file.length();
+        if (len!=65536)
+        {
+            jLabel24.setText("wrong size");
+            jLabel24.setVisible(true);
+            jLabel24.setForeground(Color.red);
+            return;
+        }
+
+        try
+        {
+            Path path = Paths.get(filename);
+            byte[] data = Files.readAllBytes(path);            
+            FileOutputStream output = new FileOutputStream(filename+".r64.bin", true);
+            try 
+            {
+               output.write(data,32768,32768);
+               output.write(data,0,32768);
+            } 
+            finally 
+            {
+               output.close();
+            }        
+        }
+        catch (Throwable e)
+        {
+            jLabel24.setText("error");
+            jLabel24.setVisible(true);
+            jLabel24.setForeground(Color.red);
+            return;
+        }
+        
+        jLabel24.setText("Ok");
+        jLabel24.setVisible(true);
+        jLabel24.setForeground(Color.green);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButtonFileSelect8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect8ActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        fc.setMultiSelectionEnabled(true);
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        File[] files = fc.getSelectedFiles();
+        doHeuristicPreparation(files);
+        jTable1.tableChanged(null);
+    }//GEN-LAST:event_jButtonFileSelect8ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        buildHeuristic();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButtonFileSelect9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect9ActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String name = fc.getSelectedFile().getAbsolutePath();
+        jTextFieldstart7.setText(name);
+    }//GEN-LAST:event_jButtonFileSelect9ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        error = false;
+        if (error) 
+        {
+            jLabel33.setText("error");
+            jLabel33.setVisible(true);
+            jLabel33.setForeground(Color.red);
+        }
+        error = !de.malban.util.TranscodeZ80To6809.doTranscode(jTextFieldstart7.getText(), jTextFieldstart7.getText()+".6809");
+        if (error) 
+        {
+            jLabel33.setText("error");
+            jLabel33.setVisible(true);
+            jLabel33.setForeground(Color.red);
+        }
+        else
+        {
+            jLabel33.setText("Ok");
+            jLabel33.setVisible(true);
+            jLabel33.setForeground(Color.green);
+        }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     String spacesUpTo(String to, int fillPos, String p1)
     {
         to = to +p1;
@@ -1008,6 +1428,8 @@ public class FileUtil extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1015,12 +1437,16 @@ public class FileUtil extends javax.swing.JPanel {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonFileSelect1;
     private javax.swing.JButton jButtonFileSelect2;
     private javax.swing.JButton jButtonFileSelect3;
     private javax.swing.JButton jButtonFileSelect4;
     private javax.swing.JButton jButtonFileSelect5;
     private javax.swing.JButton jButtonFileSelect6;
+    private javax.swing.JButton jButtonFileSelect7;
+    private javax.swing.JButton jButtonFileSelect8;
+    private javax.swing.JButton jButtonFileSelect9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1035,7 +1461,16 @@ public class FileUtil extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1043,12 +1478,21 @@ public class FileUtil extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
@@ -1059,6 +1503,8 @@ public class FileUtil extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldstart3;
     private javax.swing.JTextField jTextFieldstart4;
     private javax.swing.JTextField jTextFieldstart5;
+    private javax.swing.JTextField jTextFieldstart6;
+    private javax.swing.JTextField jTextFieldstart7;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 
@@ -1195,4 +1641,156 @@ public class FileUtil extends javax.swing.JPanel {
 
         return bytes;
     }    
+    class HeuristicFile
+    {
+        String name;
+        long length;
+        byte[] data;
+    }
+    ArrayList<HeuristicFile> hFiles =new ArrayList<HeuristicFile>();
+    void doHeuristicPreparation(File[] files)
+    {
+        for (File f : files)
+        {
+            HeuristicFile hf = new HeuristicFile();
+            hFiles.add(hf);
+            hf.name = f.getAbsolutePath();
+            hf.length = f.length();
+            try
+            {
+                hf.data = Files.readAllBytes(Paths.get(hf.name));            
+            }
+            catch (Throwable e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    public class HeuristicTableModel extends AbstractTableModel
+    {
+        public int getRowCount()
+        {
+            return hFiles.size();
+        }
+        public int getColumnCount()
+        {
+            return 3;
+        }
+        public Object getValueAt(int row, int col)
+        {
+            if (col == 0)
+                return hFiles.get(row).name;
+            if (col == 1)
+                return hFiles.get(row).length;
+            return "";
+        }
+
+        public String getColumnName(int column) {
+            if (column == 0) return "Name";
+            if (column == 1) return "Size";
+            return "";
+        }
+        public Class<?> getColumnClass(int columnIndex) {
+            if (columnIndex == 1) return Long.class;
+            return String.class;
+        }
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+        public int getColWidth(int col)
+        {
+            if (col == 0) return 200;
+            if (col == 1) return 50;
+            return 20;
+        }
+    }
+    void buildHeuristic()
+    {
+        if (hFiles.size()<3)
+        {
+            jLabel27.setText("at least 3");
+            jLabel27.setVisible(true);
+            jLabel27.setForeground(Color.red);
+            return;
+        }
+        HashMap[] memoryValues = new HashMap[65536];
+        for (int i=0; i< 65536; i++)
+        {
+            memoryValues[i] = new HashMap<Byte, Integer>();
+        }
+        // collect data
+        for (HeuristicFile hf : hFiles)
+        {
+            for (int i=0; i< 65536; i++)
+            {
+                if (hf.length<=i) break;
+                byte b = hf.data[i];
+                HashMap<Byte, Integer> m = memoryValues[i];
+                
+                Integer count = m.get(b);
+                if (count == null) count = 0;
+                count++;
+                m.put(b, count);
+            }
+        }
+        byte[] result = new byte[65536];
+        int ambiguousCount = 0;
+        for (int i=0; i< 65536; i++)
+        {
+            boolean ambiguos = false;
+            byte mostLikely=0;
+            int max = 0;
+
+            HashMap<Byte, Integer> m = memoryValues[i];
+            Set entries = m.entrySet();
+            Iterator it = entries.iterator();
+            while (it.hasNext())
+            {
+                Map.Entry entry = (Map.Entry) it.next();
+                Byte mByte = (Byte)entry.getKey();
+                Integer mCount = (Integer)entry.getValue();
+
+                if (mCount==max)
+                {
+                    ambiguos = true;
+                }
+                if (mCount>max)
+                {
+                    ambiguos = false;
+                    mostLikely = mByte;
+                    max = mCount;
+                }
+            }
+            if (ambiguos) ambiguousCount++;
+            result[i] = mostLikely;
+        }
+        System.out.println("Ambiguous = "+ambiguousCount);
+        
+
+        try
+        {
+            FileOutputStream output = new FileOutputStream(hFiles.get(0).name+".h.bin", true);
+            try 
+            {
+               output.write(result,0,65536);
+            } 
+            finally 
+            {
+               output.close();
+            }        
+        }
+        catch (Throwable e)
+        {
+            jLabel24.setText("error");
+            jLabel24.setVisible(true);
+            jLabel24.setForeground(Color.red);
+            return;
+        }        
+        
+        jLabel24.setText("Ok");
+        jLabel24.setVisible(true);
+        jLabel24.setForeground(Color.green);
+    }
+
 }
+

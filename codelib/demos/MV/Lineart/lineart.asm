@@ -17,7 +17,7 @@
         fcc     "VOZ 2011"
         fcb     $80
         fcb		$0
-		jmp demo_start
+		bra demo_start
 
 
 music:
@@ -70,7 +70,7 @@ plr_cnt:
 		beq plr_cnt2
 		std cartnum
 		dec plr_pattern			; flip one pattern back (as switching the rom jumps to loadmusic again)
-		jmp switchROM
+		bra switchROM
 plr_cnt2: ldy ,x
 		sty plr_part
 		ldd 2,x
@@ -86,7 +86,7 @@ mainloop:
         jsr   Init_Music_chk          ; and init new notes
         jsr waitrecal          ; Resets the BIOS
         jsr   Do_Sound			; do actual sound loading to AY
-        jsr checkButtons
+        bsr checkButtons
 		lda     #$7F
 		sta VIA_t1_cnt_lo
 		jsr Reset0Ref_D0
@@ -94,7 +94,7 @@ mainloop:
 		if DEBUG
 		jsr debugmode
 		endif
-		jmp mainloop
+		bra mainloop
 
 checkButtons:
         jsr  Read_Btns			; check buttons to skip parts
@@ -248,7 +248,7 @@ calcline:
 		lda ,x+
 		ldb gfx_dxsubcnt
 		ldb b,u
-		bsr smul
+		jsr smul
 		sta ,y+
 		dec logo_temp
 		bne calcline
@@ -489,7 +489,8 @@ curve3
 		fcb -1
 	else
 	
-ph_twisterlogo fcc "TWISTER" 
+ph_twisterlogo fcc "TWISTER "
+ fcb ("4"+BANK) 
 			fcb $80
 parttwister:
 parttwister3:
@@ -547,7 +548,8 @@ part_marchshow:
 		jsr playvidonce
 		rts
 	else
-ph_marchlogo fcc "MARCH" 
+ph_marchlogo fcc "MARCH " 
+ fcb ("4"+BANK) 
 			fcb $80
 part_march:
 		lda #-30
@@ -602,7 +604,7 @@ part_bnccheck:
 		ldx #bncoutroframetab
 		lda #bncoutroframecount
 		jsr loadvid
-		jmp part_bncoutro
+		bra part_bncoutro
 part_bncshow:
 		clra
 		clrb
@@ -613,7 +615,8 @@ part_bncoutro:
 		jsr playvidonce
 		rts
 	else
-ph_bouncelogo fcc "BOUNCE" 
+ph_bouncelogo fcc "BOUNCE " 
+ fcb ("4"+BANK) 
 			fcb $80
 part_bnc:
 		lda #-30
@@ -652,7 +655,8 @@ part_titleb:
 		sta VIA_t1_cnt_lo
         jmp drawgfx
 	else
-ph_titlelogo fcc "NUANCE" 
+ph_titlelogo fcc "NUANCE " 
+ fcb ("4"+BANK) 
 			fcb $80
 part_title:
 		lda #-30
@@ -686,7 +690,8 @@ part_hauptdemob:
 		ldx #lineartframe0
         jmp drawgfx
 	else
-ph_hauptdemologo fcc "HAUPTDEMO" 
+ph_hauptdemologo fcc "HAUPTDEMO " 
+ fcb ("4"+BANK) 
 			fcb $80
 parthauptdemologo:
 		lda #-30
@@ -709,7 +714,8 @@ partdiscostulogo:
 		jsr playvid
 		rts
 	else
-ph_discostulogo fcc "DISCOSTU" 
+ph_discostulogo fcc "DISCOSTU " 
+ fcb ("4"+BANK) 
 			fcb $80
 partdiscostulogo:
 		lda #-30
@@ -733,7 +739,8 @@ partteapotlogo:
 		jsr playvidonce
 		rts
 	else
-ph_teapotlogo fcc "TEAPOT" 
+ph_teapotlogo fcc "TEAPOT " 
+ fcb ("4"+BANK) 
 			fcb $80
 partteapotlogo:
 		lda #-30
@@ -756,7 +763,8 @@ partteapotBlogo:
 		jsr playvidonce
 		rts
 	else
-ph_teapotBlogo fcc "TEAPOTB" 
+ph_teapotBlogo fcc "TEAPOTB " 
+ fcb ("4"+BANK) 
 			fcb $80
 partteapotBlogo:
 		lda #-30
@@ -780,7 +788,8 @@ partekglogo:
 		jsr playvid
 		rts
 	else
-ph_ekglogo fcc "EKG" 
+ph_ekglogo fcc "EKG " 
+ fcb ("4"+BANK) 
 			fcb $80
 partekglogo:
 		lda #-30
@@ -805,7 +814,8 @@ partweltkugellogo:
 		jsr playvid
 		rts
 	else
-ph_weltkugellogo fcc "WELT" 
+ph_weltkugellogo fcc "WELT " 
+ fcb ("4"+BANK) 
 			fcb $80
 partweltkugellogo:
 		lda #-30
@@ -827,7 +837,8 @@ partbattle:
 		jsr playvid
 		rts
 	else
-ph_battle fcc "BATTLEZONE" 
+ph_battle fcc "BATTLEZONE " 
+ fcb ("4"+BANK) 
 			fcb $80
 partbattle:
 		lda #-30
@@ -849,7 +860,8 @@ partbrucelogo:
 		jsr playvidonce
 		rts
 	else
-ph_brucelogo fcc "BRUCE" 
+ph_brucelogo fcc "BRUCE " 
+ fcb ("4"+BANK) 
 			fcb $80
 partbrucelogo:
 		lda #-30
@@ -870,7 +882,8 @@ partdudel:
 		jsr playvid
 		rts
 	else
-ph_dudel fcc "DUDELHAEDER" 
+ph_dudel fcc "DUDELHAEDER " 
+ fcb ("4"+BANK) 
 			fcb $80
 partdudel:
 		lda #-30
@@ -891,7 +904,8 @@ partaugelogo:
 		jsr playvid
 		rts
 	else
-ph_augelogo fcc "AUGE" 
+ph_augelogo fcc "AUGE " 
+ fcb ("4"+BANK) 
 			fcb $80
 partaugelogo:
 		lda #-30
@@ -913,7 +927,8 @@ partvozlogo:
 		jsr playvidonce
 		rts
 	else	
-ph_vozlogo fcc "VOZLOGO" 
+ph_vozlogo fcc "VOZLOGO " 
+ fcb ("4"+BANK) 
 			fcb $80
 partvozlogo:
 		lda #-30
@@ -1129,7 +1144,9 @@ partgreetset2 jsr intensitytoA
 		jsr pixelgfxbidi
 		rts
 	else
-ph_greetingslogo fcc "GREETINGS" 
+ph_greetingslogo fcc "GREETINGS " 
+ fcb ("4"+BANK) 
+
 			fcb $80
 init_partgreetingslogo:
 		
@@ -1156,7 +1173,8 @@ partpresentslogo:
 		jsr playvidonce
 		rts
 		else
-ph_presentslogo fcc "PRESENTS" 
+ph_presentslogo fcc "PRESENTS " 
+ fcb ("4"+BANK) 
 			fcb $80
 init_partpresentslogo:
 		
@@ -1255,7 +1273,8 @@ partcredits_print:
 		bpl partcredits_print
 		rts
 		else
-ph_creditslogo fcc "CREDITS" 
+ph_creditslogo fcc "CREDITS " 
+ fcb ("4"+BANK) 
 			fcb $80
 init_partcreditslogo:
 		
@@ -1304,7 +1323,8 @@ partrunner:
 		jsr pixelgfxbidi
 		rts
 		else
-ph_runner fcc "ROADRUNNER" 
+ph_runner fcc "ROADRUNNER " 
+ fcb ("4"+BANK) 
 			fcb $80
 init_partrunner:
 		rts
@@ -1332,7 +1352,8 @@ partrunner2:
 		ldx #thatsallframe0
         jmp drawgfx
 	else
-ph_runner2 fcc "ROADRUNNER2" 
+ph_runner2 fcc "ROADRUNNER2 " 
+ fcb ("4"+BANK) 
 			fcb $80
 partrunner2:
 		lda #-30

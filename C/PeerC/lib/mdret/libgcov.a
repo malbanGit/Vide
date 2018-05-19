@@ -1,0 +1,299 @@
+Lib libgcov.a
+L0 _gcov.o
+XH2
+H 3 areas 3 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 2 flags D00
+S ___gcov_flush Def0001
+S ___gcov_init Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 39
+R 00 00 00 02
+T 00 01
+R 00 00 00 02
+T 00 01
+R 00 00 00 02
+T 00 01
+R 00 00 00 02
+T 00 01 39
+R 00 00 00 02
+T 00 02
+R 00 00 00 02
+L1 _gcov.o
+L0 _gcov_merge_add.o
+XH2
+H 3 areas 2 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 1 flags D00
+S ___gcov_merge_add Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 39
+R 00 00 00 02
+T 00 01
+R 00 00 00 02
+L1 _gcov_merge_add.o
+L0 _gcov_merge_single.o
+XH2
+H 3 areas 2 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 1 flags D00
+S ___gcov_merge_single Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 39
+R 00 00 00 02
+T 00 01
+R 00 00 00 02
+L1 _gcov_merge_single.o
+L0 _gcov_merge_delta.o
+XH2
+H 3 areas 2 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 1 flags D00
+S ___gcov_merge_delta Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 39
+R 00 00 00 02
+T 00 01
+R 00 00 00 02
+L1 _gcov_merge_delta.o
+L0 _gcov_fork.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_fork.o
+L0 _gcov_execl.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_execl.o
+L0 _gcov_execlp.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_execlp.o
+L0 _gcov_execle.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_execle.o
+L0 _gcov_execv.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_execv.o
+L0 _gcov_execvp.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_execvp.o
+L0 _gcov_execve.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_execve.o
+L0 _gcov_interval_profiler.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_interval_profiler.o
+L0 _gcov_pow2_profiler.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_pow2_profiler.o
+L0 _gcov_one_value_profiler.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_one_value_profiler.o
+L0 _gcov_indirect_call_profiler.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_indirect_call_profiler.o
+L0 _gcov_average_profiler.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_average_profiler.o
+L0 _gcov_ior_profiler.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_ior_profiler.o
+L0 _gcov_merge_ior.o
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M libgcov.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02
+L1 _gcov_merge_ior.o
+End libgcov.a

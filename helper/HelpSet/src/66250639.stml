@@ -1,4 +1,4 @@
-:title Draw_VLc - Optimizations
+:title Draw - Optimizations
 :h2 Motivation
 In this section I would like to demonstrate possible steps to optimize vectorlist drawing.
 
@@ -19,7 +19,7 @@ Below given cycle measurement may be different to you measurements. To have exac
 
 
 
-:h2 Version 1 - 3164 cycles - basis
+:h2 Version 1 - 3170 (2284) cycles - basis
 Basis:
 
 :div code
@@ -90,7 +90,7 @@ __________DB -$07, +$06 _______________; draw to y, x~~
 :/div
 
 
-:h2 Version 2 - 1637 cycles - scale factor!
+:h2 Version 2 - 1693 (807) cycles - scale factor!
 In the above version (for demonstration purposes) I used a large scale factor and small vector strengths. Using a small scale factor and large vector strength results in huge optimization effects.
 
 The scale factor and strength changes are not 1:1 - you have to experiment to get the same "sizes" of the resulting lists.
@@ -151,7 +151,7 @@ __________BRA_____main_________________; and repeat forever ~~
 ; DATA SECTION~~
 ;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
 ~~
-BLOW_UP = 18~~
+BLOW\_UP = 18~~
 vData = VectorList~~
 VectorList:~~
 __________DB +$07 _____________________; number of lines to draw~~
@@ -166,7 +166,7 @@ __________DB -$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
 ::~~
 :/div
 
-:h2 Version 3 - 1630 cycles - macro!
+:h2 Version 3 - 1686 (800) cycles - macro!
 This version is a step "in between". Nothing really changed, only 
 the call of "::JSR_____Draw_VLc::" was replaced with a macro call of exactly the
 same routine.
@@ -183,7 +183,7 @@ __________INCLUDE  "VECTREX.I"__________; vectrex function includes~~
 DRAW\_VLC            macro    ~~
 __________direct__$d0__________________; following code uses d0 ~~
 __________LDA_____,X+ ~~
-Draw\_VL\_a\_macro\? ~~
+Draw\_VL\_a\_macro\\? ~~
 __________STA_____$C823 ~~
 __________LDD_____,X ~~
 __________STA_____<VIA\_port\_a__________;Send Y to A/D ~~
@@ -195,7 +195,7 @@ __________STB_____<VIA\_port\_a__________;Send X to A/D ~~
 __________LDD_____#$FF00_______________;Shift reg=$FF (solid line), T1H=0 ~~
 LF3ED\\?: ~~
 __________STA_____<VIA\_shift\_reg_______;Put pattern in shift register ~~
-__________STB_____<VIA\_t1_cnt\_hi_______;Set T1H (scale factor?) ~~
+__________STB_____<VIA\_t1\_cnt\_hi_______;Set T1H (scale factor?) ~~
 __________LDD_____#$0040_______________;B-reg = T1 interrupt bit ~~
 LF3F4\\?: ~~
 __________BITB____<VIA\_int\_flags_______;Wait for T1 to time out ~~
@@ -253,7 +253,7 @@ __________BRA_____main_________________; and repeat forever ~~
 ; DATA SECTION~~
 ;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
 ~~
-BLOW_UP = 18~~
+BLOW\_UP = 18~~
 vData = VectorList~~
 VectorList:~~
 __________DB +$07 _____________________; number of lines to draw~~
@@ -269,7 +269,7 @@ __________DB -$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
 :/div
 
 
-:h2 Version 4 - 1531 cycles - optimized macro!
+:h2 Version 4 - 1531 (645) cycles - optimized macro!
 The above introduced macro was changed to a manualy optimized version.
 
 
@@ -296,14 +296,14 @@ __________STA_____VIA\_t1\_cnt\_hi_______;enable timer 1~~
 ~~
 __________LDB_____,X+_________________; 6~~
 __________DEC_____$C823_______________; 7~~
-__________BEQ______DRAW\_END\\?_________; 3 Go back for more points~~
+__________BEQ_____\_DRAW\_END\\?_________; 3 Go back for more points~~
 __________LDA_____#$40________________;B-reg = T1 interrupt bit~~
 LF\_1\\?:~~
 __________BITA____VIA\_int\_flags_______;Wait for T1 to time out~~
 __________BEQ_____LF\_1\\?______________;~~
 __________CLRA________________________;Wait a moment more~~
 __________STA_____VIA\_shift\_reg_______;Clear shift register (blank output)~~
-__________BRA______DRAW\_VLA\\?_________; 3~~
+__________BRA_____\_DRAW\_VLA\\?_________; 3~~
 \_DRAW\_END\\?:~~
 __________LDA_____#$40________________;B-reg = T1 interrupt bit~~
 LF\_2\\?:~~
@@ -320,7 +320,7 @@ __________DEC_____VIA\_shift\_reg_______;Put pattern in shift register~~
 __________STA_____VIA\_t1\_cnt\_hi_______;enable timer 1~~
 ~~
 __________LDA_____#$40________________;B-reg = T1 interrupt bit~~
-LF\_3\?:~~
+LF\_3\\?:~~
 __________BITA____VIA\_int\_flags_______;Wait for T1 to time out~~
 __________BEQ_____LF\_3\\?~~
 __________CLR_____VIA\_shift\_reg_______;Clear shift register (blank output)~~
@@ -387,7 +387,7 @@ __________DB -$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
 :/div
 
 
-:h2 Version 5 - 1416 cycles - loop unrolling and cycle specific!
+:h2 Version 5 - 1416 (529) cycles - loop unrolling and cycle specific!
 The loop in the vector drawing was unrolled, and the actual drawing routine does not have 
 a wait loop anymore, since we //now// that the length of the loop (= scalefactor) is 6.
 We can use the information, that we only draw for 6 cycles, to NOT wait for these 6 cycles to finish - we know how many cycles our instructions take.
@@ -463,6 +463,7 @@ __________endm~~
 ; user RAM starts at $c880 ~~
 __________BSS_____~~
 __________ORG_____$c880________________; start of our ram space ~~
+i_jump_ds_2~~
 ~~
 ;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
 ; HEADER SECTION~~
@@ -507,10 +508,10 @@ __________BRA_____main_________________; and repeat forever ~~
 ; DATA SECTION~~
 ;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
 ~~
-BLOW_UP = 18~~
+BLOW\_UP = 18~~
 vData = VectorList~~
 VectorList:~~
-__________DW (MAX_LINE_NUM-(7+1\))*ONE_LINE_LENGTH~~
+__________DW (MAX\_LINE\_NUM-(7+1\))*ONE\_LINE\_LENGTH~~
 __________DB +$00*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
 __________DB +$07*BLOW\_UP, +$00*BLOW\_UP; draw to y, x~~
 __________DB +$05*BLOW\_UP, -$03*BLOW\_UP; draw to y, x~~
@@ -522,5 +523,264 @@ __________DB -$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
 ::~~
 :/div
 
-:h2 Version 6 - 1376 cycles - tricking VIA!
-\- unfinished - 
+:h2 Version 6 - 1225 (335) cycles - optimized compiled lines!
+
+:div code
+::
+DRAW\_SCALE__=_______6____________________~~
+MOVE\_SCALE__=_______DRAW\_SCALE___________~~
+_________________________________________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________DEFINE__SECTION______________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________load____vectrex_bios_routine_definitions__~~
+____________INCLUDE_"VECTREX.I"_________;_vectrex_function_includes_~~
+_________________________________________~~
+MY\_SIMPLE\_MOVE\_TO\_D\_START_macro__________~~
+____________STA_____<VIA\_port\_a_________;Store_Y_in_D/A_register_~~
+____________LDA_____#$CE________________;Blank_low,_zero_high?_~~
+____________STA_____<VIA\_cntl___________;_~~
+____________CLRA_________________________~~
+____________STA_____<VIA\_port\_b_________;Enable_mux_;_hey_dis_si_"break_integratorzero_440"_~~
+____________INC_____<VIA\_port\_b_________;Disable_mux_~~
+____________STB_____<VIA\_port\_a_________;Store_X_in_D/A_register_~~
+____________STA_____<VIA\_t1\_cnt\_hi______;enable_timer_~~
+____________endm_________________________~~
+_________________________________________~~
+MY\_MOVE\_TO\_B\_END_macro___________________~~
+____________local___LF33D________________~~
+____________LDB_____#$40________________;_~~
+LF33D:______BITB____<VIA\_int\_flags______;_~~
+____________BEQ_____LF33D_______________;_~~
+____________endm_________________________~~
+_________________________________________~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+;___________use_____registers_D,_U,_X_(S)_!__~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+;___________initialize_draw_and_do_first_line__~~
+INIT\_DRAW\_6\_MOVE\_END_macro_pos___________~~
+;___________this____can_be_put_into_moveto__~~
+;___________ldb_____#DRAW\_SCALE__________~~
+;___________stb_____VIA\_t1\_cnt\_lo_________________also_stores_scale__to_timer_t1_(lo)__~~
+_________________________________________~~
+____________ldx_____#256+lo(pos)________;_x\_hi_=_1_(mux_disabled),_x\_lo_=_x_~~
+____________ldu_____#hi(pos)____________;_s\_hi_=_0_(mux_enabled),_s\_lo_=_y_~~
+;___________MY\_MOVE\_TO\_B\_END_end_of_movement,_above_values_could_be_set_befor,_end_destroys_"b"__~~
+____________stu_____<VIA\_port\_b_________;_mux_enabled,_set_dac_to_y_value_~~
+____________ldd_____#$ee________________;_a_=_zero,_b_=_blank_disbaled,_zero_disabled_~~
+____________stx_____<VIA\_port\_b_________;_mux_disabled,_set_dac_to_x_value_~~
+____________STA_____<VIA\_t1\_cnt\_hi______;_enable_timer_1_(write_0_to_it)_~~
+____________stb_____<VIA\_cntl___________;_ZERO_disabled,_and_BLANK_disabled_(we_are_drawing!)_~~
+____________endm_________________________~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+;___________any_____line_after_the_first_of_our_drawing__~~
+LINE\_DRAW\_6\_x_macro_pos__________________~~
+;___________loading_Setup_registers______~~
+;___________directly_is_even_faster_than_4_puls_from_stack_(12_vs_13_cycles)__~~
+________________________________________;_pre_load_all_values,_since_we_must_wait_before_we_finish_the_current_drawing_~~
+____________ldu_____#hi(pos)____________;_s\_hi_=_0_(mux_enabled),_s\_lo_=_y_~~
+____________ldx_____#$80ce______________;_eighty_is_already_set_to_aux,_but_we_need_a_register,_~~
+________________________________________;_and_x_is_available,_so_we_reset_aux_in_order_to_set_cntl_~~
+____________ldd_____#$ee________________;_light_ON,_ZERO_OFF_~~
+____________stu_____<VIA\_port\_b_________;_mux_enabled,_set_dac_to_y_value_(strangly_and_luckily,_timing_~~
+________________________________________;_allows_this_to_be_set_BEFORE_we_switch_the_light_off)_~~
+_________________________________________~~
+____________ldu_____#256+lo(pos)________;_u\_hi_=_1_(mux_disabled),_u\_lo_=_x_~~
+_________________________________________~~
+____________stx_____VIA\_aux\_cntl________;_ZERO_disabled,_and_BLANK_enabled_(we_are_NOT_drawing!)_~~
+____________stu_____<VIA\_port\_b_________;_mux_disabled,_set_dac_to_x_value_~~
+____________STA_____<VIA\_t1\_cnt\_hi______;_enable_timer_1_(write_0_to_it)_~~
+____________stb_____<VIA\_cntl___________;_ZERO_disabled,_and_BLANK_disabled_(we_are_drawing!)_~~
+____________endm_________________________~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+;___________finish__last_line_and_deinit_our_drawing__~~
+DEINIT\_DRAW\_6_macro______________________~~
+____________nop_____4___________________;_here_we_have_to_wait_for_8_cycles,_~~
+________________________________________;_otherwise_the_last_vector_is_not_finished_correctly_~~
+____________ldd_____#MOVE\_SCALE*256+($cc)_;_preload_scale_andcntl_value_~~
+____________sta_____<VIA\_t1\_cnt\_lo______;_set_the_scale_for_the_next_move_~~
+____________STB_____<VIA\_cntl___________;_BLANK_enabled,_zero_enabled_(=_not_drawing_and_going_back_to_zero)_~~
+____________endm_________________________~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+_________________________________________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________Variable_/_RAM_SECTION_______~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________insert__your_variables_(RAM_usage)_in_the_BSS_section__~~
+;___________user____RAM_starts_at_$c880__~~
+____________BSS__________________________~~
+____________ORG_____$c880_______________;_start_of_our_ram_space_~~
+i\_jump______ds______2____________________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________HEADER__SECTION______________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________The_____cartridge_ROM_starts_at_address_0__~~
+____________CODE_________________________~~
+____________ORG_____0____________________~~
+;___________the_____first_few_bytes_are_mandatory,_orwise__BIOS_will_not_load__~~
+;___________the_____ROM_file,_and_will_start_MineStorm_instead__~~
+____________DB______"g_GCE_1998",_$80___;_"g'_is_copyright_sign_~~
+____________DW______music1______________;_music_from_the_rom_~~
+____________DB______$F8,_$50,_$20,_-$80_;_hight,_width,_rel_y,_rel_x_(from_0,0)_~~
+____________DB______"DRAW_LINES_V6",_$80_;_some_game_information,_ending_with_$80_~~
+____________DB______0___________________;_end_of_game_header_~~
+_________________________________________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________CODE____SECTION______________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________here____the_cartridge_program_starts_off__~~
+main:____________________________________~~
+____________JSR_____Wait\_Recal__________;_Vectrex_BIOS_recalibration_~~
+____________JSR_____Intensity\_5F________;_Sets_the_intensity_of_the_~~
+________________________________________;_vector_beam_to_$5f_~~
+_________________________________________~~
+_________________________________________~~
+____________LDA_____#$06________________;_scalefactor_~~
+____________STA_____VIA\_t1\_cnt\_lo________~~
+____________LDD_____#0________________________~~
+____________MY\_SIMPLE\_MOVE\_TO\_D\_START____~~
+_________________________________________~~
+_________________________________________~~
+_________________________________________~~
+BLOWUP\_SMPLT_=______18___________________~~
+____________INIT\_DRAW\_6\_MOVE\_END_(_(_0_*_BLOWUP\_SMPLT_)*256_+_(6*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(7_*_BLOWUP\_SMPLT_)*256_+_(0*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(5_*_BLOWUP\_SMPLT_)*256_+_(-3*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(-5_*_BLOWUP\_SMPLT_)*256_+_(-3*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(-7_*_BLOWUP\_SMPLT_)*256_+_(0*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(7_*_BLOWUP\_SMPLT_)*256_+_(6*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(0_*_BLOWUP\_SMPLT_)*256_+_(-6*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(-7_*_BLOWUP\_SMPLT_)*256_+_(6*BLOWUP\_SMPLT)_)__~~
+____________DEINIT\_DRAW\_6________________~~
+_________________________________________~~
+_________________________________________~~
+____________BRA_____main________________;_and_repeat_forever_~~
+_________________________________________~~
+_________________________________________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+
+::
+:/div
+
+
+
+:h2 Version 7 - 1103 (204) cycles - reality distortion (doesn't look like a house anymore)!
+
+:div code
+::
+DRAW\_SCALE__=_______6____________________~~
+MOVE\_SCALE__=_______DRAW\_SCALE___________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________DEFINE__SECTION______________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________load____vectrex_bios_routine_definitions__~~
+____________INCLUDE_"VECTREX.I"_________;_vectrex_function_includes_~~
+MY\_SIMPLE\_MOVE\_TO\_D\_START_macro__________~~
+____________STA_____<VIA\_port\_a_________;Store_Y_in_D/A_register_~~
+____________LDA_____#$CE________________;Blank_low,_zero_high?_~~
+____________STA_____<VIA\_cntl___________;_~~
+____________CLRA_________________________~~
+____________STA_____<VIA\_port\_b_________;Enable_mux_;_hey_dis_si_"break_integratorzero_440"_~~
+____________INC_____<VIA\_port\_b_________;Disable_mux_~~
+____________STB_____<VIA\_port\_a_________;Store_X_in_D/A_register_~~
+____________STA_____<VIA\_t1\_cnt\_hi______;enable_timer_~~
+____________endm_________________________~~
+MY\_MOVE\_TO\_B\_END_macro___________________~~
+____________local___LF33D________________~~
+____________LDB_____#$40________________;_~~
+LF33D:______BITB____<VIA\_int\_flags______;_~~
+____________BEQ_____LF33D_______________;_~~
+____________endm_________________________~~
+MY\_SIMPLE\_MOVE\_TO\_D\_START_macro__________~~
+____________STA_____<VIA\_port\_a_________;Store_Y_in_D/A_register_~~
+____________LDA_____#$CE________________;Blank_low,_zero_high?_~~
+____________STA_____<VIA\_cntl___________;_~~
+____________CLRA_________________________~~
+____________STA_____<VIA\_port\_b_________;Enable_mux_;_hey_dis_si_"break_integratorzero_440"_~~
+____________INC_____<VIA\_port\_b_________;Disable_mux_~~
+____________STB_____<VIA\_port\_a_________;Store_X_in_D/A_register_~~
+____________STA_____<VIA\_t1\_cnt\_hi______;enable_timer_~~
+____________endm_________________________~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+;___________use_____registers_D,_U,_X_(S)_!__~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+;___________initialize_draw_and_do_first_line__~~
+INIT\_DRAW\_6\_MOVE\_END_macro_pos___________~~
+;___________this____can_be_put_into_moveto__~~
+____________ldx_____#256*1+lo(pos)______;_x\_hi_=_0000_0001_(ramp_enabled,_mux_disabled),_x\_lo_=_x_~~
+____________ldu_____#256*128+hi(pos)____;_u\_hi_=_1000_0000_(ramp_disabled,_mux_enabled),_u\_lo_=_y_~~
+____________MY\_MOVE\_TO\_B\_END____________;_end_of_movement,_above_values_could_be_set_befor,_end_destroys_"b"_~~
+____________stu_____<VIA\_port\_b_________;_mux_enabled,_set_dac_to_y_value_~~
+____________ldd_____#$ee________________;_a_=_zero,_b_=_blank_disbaled,_zero_disabled_~~
+____________stx_____<VIA\_port\_b_________;_mux_disabled,_set_dac_to_x_value_~~
+____________std_____<VIA\_aux\_cntl_______;_Shift_reg_mode_=_000_free_disable,_T1_PB7_disabled_~~
+____________endm_________________________~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+;___________any_____line_after_the_first_of_our_drawing__~~
+LINE\_DRAW\_6\_x_macro_pos__________________~~
+;___________loading_Setup_registers______~~
+;___________directly_is_even_faster_than_4_puls_from_stack_(12_vs_13_cycles)__~~
+________________________________________;_pre_load_all_values,_since_we_must_wait_before_we_finish_the_current_drawing_~~
+____________ldu_____#256*128+hi(pos)____;_u\_hi_=_1000_0000_(ramp_disabled,_mux_enabled),_u\_lo_=_y_~~
+____________ldx_____#256*1+lo(pos)______;_u\_hi_=_0000_0001_(ramp_enabled,_mux_disabled),_u\_lo_=_x_~~
+____________stu_____<VIA\_port\_b_________;_mux_enabled,_set_dac_to_y_value_(strangly_and_luckily,_timing_~~
+____________stx_____<VIA\_port\_b_________;_mux_disabled,_set_dac_to_x_value_~~
+____________endm_________________________~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+;___________finish__last_line_and_deinit_our_drawing__~~
+DEINIT\_DRAW\_6_macro______________________~~
+____________nop_____6___________________;_here_we_have_to_wait_for_8_cycles,_~~
+________________________________________;_otherwise_the_last_vector_is_not_finished_correctly_~~
+____________ldd_____#128*256+($cc)______;_preload_scale_andcntl_value_~~
+____________STD_____<VIA\_aux\_cntl_______;_Shift_reg_mode_=_000_free_disable,_T1_PB7_enabled_~~
+____________nop_____6___________________;_may_be_add_one_NOP_for_zeroing!_~~
+____________endm_________________________~~
+;___________\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**___~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________Variable_/_RAM_SECTION_______~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________insert__your_variables_(RAM_usage)_in_the_BSS_section__~~
+;___________user____RAM_starts_at_$c880__~~
+____________BSS__________________________~~
+____________ORG_____$c880_______________;_start_of_our_ram_space_~~
+i\_jump______ds______2____________________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________HEADER__SECTION______________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________The_____cartridge_ROM_starts_at_address_0__~~
+____________CODE_________________________~~
+____________ORG_____0____________________~~
+;___________the_____first_few_bytes_are_mandatory,_orwise__BIOS_will_not_load__~~
+;___________the_____ROM_file,_and_will_start_MineStorm_instead__~~
+____________DB______"g_GCE_1998",_$80___;_"g'_is_copyright_sign_~~
+____________DW______music1______________;_music_from_the_rom_~~
+____________DB______$F8,_$50,_$20,_-$80_;_hight,_width,_rel_y,_rel_x_(from_0,0)_~~
+____________DB______"DRAW_LINES_V7",_$80_;_some_game_information,_ending_with_$80_~~
+____________DB______0___________________;_end_of_game_header_~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________CODE____SECTION______________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________here____the_cartridge_program_starts_off__~~
+main:____________________________________~~
+____________JSR_____Wait\_Recal__________;_Vectrex_BIOS_recalibration_~~
+____________JSR_____Intensity\_5F________;_Sets_the_intensity_of_the_~~
+________________________________________;_vector_beam_to_$5f_~~
+____________LDA_____#$06________________;_scalefactor_~~
+____________STA_____VIA\_t1\_cnt\_lo________~~
+____________LDD_____#0___________________~~
+____________MY\_SIMPLE\_MOVE\_TO\_D\_START____~~
+BLOWUP\_SMPLT_=______18___________________~~
+____________INIT\_DRAW\_6\_MOVE\_END_(_(_0_*_BLOWUP\_SMPLT_)*256_+_(6*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(7_*_BLOWUP\_SMPLT_)*256_+_(0*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(5_*_BLOWUP\_SMPLT_)*256_+_(-3*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(-5_*_BLOWUP\_SMPLT_)*256_+_(-3*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(-7_*_BLOWUP\_SMPLT_)*256_+_(0*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(7_*_BLOWUP\_SMPLT_)*256_+_(6*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(0_*_BLOWUP\_SMPLT_)*256_+_(-6*BLOWUP\_SMPLT)_)__~~
+____________LINE\_DRAW\_6\_x_(_(-7_*_BLOWUP\_SMPLT_)*256_+_(6*BLOWUP\_SMPLT)_)__~~
+____________DEINIT\_DRAW\_6________________~~
+____________BRA_____main________________;_and_repeat_forever_~~
+_________________________________________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+::
+:/div

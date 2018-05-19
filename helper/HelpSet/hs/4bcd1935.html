@@ -1,0 +1,74 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Miscellaneous-Settings</title>
+</head>
+<body class="doc">
+<h1>Miscellaneous-Settings</h1>
+<h1>Miscellaneous</h1>
+<br><p align="center">
+<img src="pics/MiscConfig.png" width="631" height="753"><br>
+<em>Miscellaneous config</em></p><br>
+
+<p><b>invoke Emulator after successfull assembly</b><br>
+Well this is realy self explaining - isn't it?</p>
+
+<p><b>scan for defined</b><br>
+If checked, vedi scans files for the entities, this allows displaying / coloring of defined and undefined variables/macros and allows the "right/doubleclick" on such an entity to jump to its definition.</p>
+
+<p><b>scan for vectorlists</b><br>
+If checked, vecxi scans while running, whether BIOS vectrex routines draw a vectorlist, if so - vecxi saves the list in XML format, under the cartridge name.</p>
+
+<p><b>load images in starter</b><br>
+If checked the starter table also displays the images for the vectrex binaries that are available. While this looks nice - upon starting all images will be loaded into memory which:
+<ol><li>
+<p>takes quite a few seconds</p>
+</li><li>
+<p>uses much memory</p>
+</li></ol>
+</p>
+
+<p>Default option is: off</p>
+
+<p><b>MOTD active</b><br>
+Message of the day - active or not...</p>
+
+<p><b>automatically eject attached VecFever on compile success</b><br>
+If you have a VecFever connected to the vectrex and your computer you have Vide eject the RAM disc of VecFever automatically after a build. The VecFever than starts the program called "cart.bin" that was saved to the RAM disk.</p>
+
+<p>This feature as of now only works with Windows and Mac OS. I have at the moment not a running linux system and thus could not positively code an "eject" for linux.</p>
+
+<p><b>V4E</b><br>
+Here you can enter the path to the attached vecfever device. If the path is entered correctly you can transfer any started vectrex program to the vecfever by simply doing a command line "tf" from dissi (if vecfever is in RAMD-disk mode).</p>
+
+<p>Note: <br>
+As of now Vedi uses its own V4E definition... this is an open issue</p>
+
+<p><b>start up with</b><br>
+A vectrex "bin" file, that should be loaded upon start of Vide.</p>
+
+<p><b> Sound settings</b><br>
+</p>
+
+<p><b>PSG Sound</b><br>
+Switch whether PSG emulation is producing any sound (might switch off if you prefer to listen to <i>sampled</i> sound or <i>VecVoice/VecVox</i>).</p>
+
+<p><b>Volume setting</b><br>
+With this you set the sound volume.
+<ul><li>
+<p>Master, the "overall" volume</p>
+</li><li>
+<p>PSG, value of th PSG soundchip (other sounds come from emulated samples/voice modules)</p>
+</li></ul>
+</p>
+
+<p><b>PSG Emulation</b><br>
+Chose between two different emulation implementations. If LibAYEmu is chosen, you can also chose between different PSG chip emulation variations.</p>
+
+<p><b>Colors for vecci</b><br>
+</p>
+<br><p align="center">
+<img src="pics/VecciColorSettings.png" width="222" height="647"><br>
+<em>vecci color settings</em></p><br>
+</body>
+</html>

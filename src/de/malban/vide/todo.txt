@@ -1,155 +1,364 @@
 
+Tricky things in Vectorblade
 
-Menschenjagd_alt:
- db PITCH, 60, SPEED, 100, MM, EH, SLOW, NO, SH, FAST
- db EH, FAST, NE, JH, UX, SLOW, EG, DO, EOP, EOP
+- only test 2 (player) shots per "round" 
+- bonus rotation of "outer" shell is a seperate piece of "rotation"
+- like in release all objects are held in linked lists and called via pulu d,pc (variables + behaviour)
+- smartdraw is used as by Kristof Tuts, also called via stack "processing"
+- > during object handling no subroutines are possible -> no stack left!
+- at one /two locations I simulate a stack behaviour by "putting" a return address in an addition index register and "return" via a jmp ,y
+- RAM locations are (depending on state of the game) used 2-3 times with different "roles"
+- "events" within the object routines set flags that are handled outside the object routines (no jsr...)
+- only one event of each type can happen per round (player was hit, enemy was hit, bonus collected, enemy spawn, etc) but that is still 50 times per second
+- todo: poll joystick only "x" rounds and do "y" only each other round -> all in all saving of time
+- also do animation stuff in object only every second round - so do something else only every second round
+  (things that can alternate
+   - animaiton
+   - test to shoot
+   - pattern update, destination check)
+
+
+
+
+Nur am Rande: Wäre es schwierig bzw. aufwändig in Vide eine Warnung auszugeben, falls nicht das selektierte File, sondern etwas vorkonfiguriertes genommen wird?
 
  
-I got the pistol Alt:
- db VOLUME, 125, SPEED, 120, PITCH, 88, OHIH, PAUSE5, SLOW, VOLUME
- db 96, PITCH, 80, GO, SLOW, OH, TT, PITCH, 88, PAUSE6
- db SLOW, DH, EH, PAUSE6, VOLUME, 110, PO, VOLUME, 96, IH
- db SE, TT, PITCH, 85, SLOW, OW, SLOW, LO, EOP, EOP
+todo ASM
+I also like idea b) as it is simple and elegant. It also should be rather easy to be achieved. Remember? We already did something very similar when we were working on the C setup: map several C variables/functions to distinct and/or the same memory locations by creating appropriate linker mapping files. Idea b) can easily be realized for C source code files, and thus it should also be easy for assembly language code, most likely even more easily than for C code. Cheers, Peer
 
-executed alt
- db VOLUME, 110, SPEED, 100, PITCH, 70, FAST, EH, SPEED, 114
- db FAST, KE, FAST, ZH, VOLUME, 80, SPEED, 120, PITCH, 65
- db AX, VOLUME, 80, KE, SPEED, 120, FAST, IYUW, PAUSE0, TT
- db TT, PAUSE5, PITCH, 60, SPEED, 100, VOLUME, 120, EY, ED
- db EOP
 
-- Bug importing more than one draw_vlp is buggy
- storyboard with animtions of 2 is not animating!
 
-- done: add "peek" counter in Tracky
-- done: "globale" Varialen/Funktionen/Makros pro VEDI nicht pro Vide instanz
-- done: correct curly indenting!
-- done: edit peepholes
-- done: BUG: load vecVox switches to vec Voice
-- done: BUG: fcw is red as syntax
-- done: add "C-Demos" credits in help
-- done: change project definitions, so that can be loaded from the directory they reside in REGARDLESS of path
 
-- figure out how to add "include files" to debgging!
 
-- VecFever header support in "C" (and/or ASM)
+Game ideas
+1) space shooter with extras (Warblade)
+2) Twin Stick shooter with extras
+3) Jump and run (Jumper)
+   Different video game levels (Atsri VCS Gameboy NEs etc)
+4) River raid (using random level generation)
+https://www.sbprojects.net/sbasm/6809.php
+
+copySoundRegs
+bug 
+- profiler does not work with 2nd bank correctly
+- save serialized eeporm data in dir of bin
+- 2 bank card,breakpoint set on start -> does not show correct bank (in dissi)
+- importing more than one draw_vlp is buggy
+  storyboard with animtions of 2 is not animating!
+- CHECK: Habe einen Typo in meinem C-Setup gefunden: 
+   In "vec_rum_fct_pjc.c" wird in der Funktion "_Print_Ships()" ein jmp in die falsche BIOS-Routine vorgenommen 
+   (ist bei mir in Zeile 852). Es muss "___Print_Ships" anstatt "___Print_Ships_x" heißen. 
+    Habe kein neues Download-Setup erstellt, da es wirklich nur ein delete-one-character Bugfix ist ;-)
 - investigate BASH starting from post project build, reports say it slows vide down after a while (Martin White)
 - investigate: bug with different main files
 - mouse coorindates wrong in rotation (vinfi...)
-
-
-
-
-
-Info:
-Vectrex EXEC ROM BIOS Checksums 
-
-Checksum 7931 : 
-First Release. 
-GCE ROM. 
-Title screen “GCE - ENTERTAINING NEW IDEAS”. 
-Vectrex with this ROM will have a buzz (unless manually de-buzzed). 
-
-Checksum B796 : 
-Second Release Release. 
-MB ROM. 
-Title screen "VECTREX”. 
-Vectrex with this ROM will have a buzz (unless manually de-buzzed). +
-
-
-Checksum 7ADB : 
-MB ROM. 
-Title screen "VECTREX”. 
-European Vectrex release. 
-Fixed version of the built in game Mine Storm. 
-No Buzz Vectrex. 
-Different Printed Circuit Board (PCB) as compared to other Vectrex. 
-Serial Number series 311xxxx.
-
-
-
-done:
-Am 12.11.2017 um 10:48 schrieb Frank Buss <fb@frank-buss.de>:
-    Eine weitere Ungereimtheit: Die Adresse für den Befehl ab $0042 wird geändert, wenn das Programm abläuft. Ich bin so vorgegangen: Das demo bin-File geöffnet, es wird dann dissi angezeigt, mit dem falschen Befehl "ldy #$53ff". Klicke ich dann auf Pause, schließe das dissi-Fenster, klicke auf den Associate Button im vecxi-Fenster, dann steht dort der richtige Befehl "ldy #$589d". Habe es nicht genauer debuggt, vielleicht wird da von irgendwo im Programm was geschrieben. Wäre wahrscheinlich besser, wenn das ROM nie geändert werden kann, es sei denn mit einer Option, für die Leute die SRAM-Cartridges testen wollen.
-
-    Habe das gerade versucht.
-    - bein „richtigen“ (ersten) starten ist dissi im der richtigen korrekt BANK (1) und zeigt dort den korrekten Wert an
-    - Wenn Du dissi „zerstörst“ und neu auf machst, startet dissi im „default“ Zustand (BANK 0) - und dort steht tatsächlich ein anderer Wert.
-
-    Das könnte man als Fehler von dissi bezeichnen, das er in der falschen BANK „neu startet“ - werde ich korrigieren.
-    Aber im Grunde sind beide Werte richtig - der eine steht in BANK 0, der andere in BANK 1.
-    Du kannst dissi auch manuell zwischen den Banks schalten lassen mit dem CLI:
-
-
-Debugging RAM
---------------
-a) in dissi switch "nu" (no unkown) to not selected (GUI checkbox)
-b) better switch of "following" of dissi "df" (don't follow) (CLI command)
-c) switch on disassemble ram with "dr" disasm RAM (CLI command)
-
-Now RAM will be viewable in dissi.
-But usually all RAM is configured as Data - so no code will be displayed.
-While dissi is not tracking (camera is OFF) - best done also in pause mode,
-mark a RAM memory region and via popup menu cast to code.
-Perhaps you habe to "shift" memory regions, with "cast to byte" and "ungroup" also, to
-access the addresses that need to be cast to code.
-
-Disassembling RAM takes many resources, since the DISASM is done for each RAM - poke.
-If you do not need to disasm RAM, you better leave it switched off.
-
-Also note - disasm RAM might be usefull for bankswitch disasm.
-The cast to disasm is only done for the current active bank in dissi.
-Upon a bankswitch the casts have to be redone for the other bank!
-
-
-
-
-https://gcc.gnu.org/onlinedocs/gcc/Using-Assembly-Language-with-C.html#Using-Assembly-Language-with-C
-https://gcc.gnu.org/onlinedocs/gcc/Constraints.html
-
-
-
-
-done: DEBUG RAM
-done:to peer #define Vec_Loop_Count        RAM(0xC825, unsigned long int) // Loop counter word (incremented in Wait_Recal)
-done: double click on mcro def in "No Frame" search the include path of "with frame" 
-done: enable direct addressing in vide
-
-
-        
-
-
-done:
-   if without curly
-    else
-    for next without curly
-            while without curly
-            
-
-
-####
-
 - stepping one instruction with only one byte -> does two instructions
-- Hey dissi in c
+
+todo:
+- do video/audo capturing
+- fraps?
+- Smartlist continue;
+- load and save dissi state (breakpoints)
+- komplete var/macro reset after changing project parameters (at least in "C")
+- Do Arkos Tracker 2
+- see 14 points below
+- no zero retain
+    - OFTEN not
+    a) there is no zero retain, it is all loading unloading the int dac holders.
+    zeroing them befor each move corrects everyting
+     clra
+     sta <VIA_port_a
+     sta <VIA_port_b
+     inc <VIA_port_b
+    It is a Integrator retain! or sample / hold retain!
+- figure out how to add "include files" to debugging!
+- hey dissi in c
 - zentralpunkt perspektive in veccy
-- done: document song and explosion edit
 -YM player speed opti - only without USE_ENVELOPES
 - BUG Switch on mac from full to windowed
   a native window title appears in addition to the tiny laf
-Bug?
 - Unter windows können in anderen Laufwerken keine Projekte angelegt werden,
  da es unmöglich ist einen relativen Pfad zu finden. -> Excepiotn
+- Regarding the "player 2 rotates with player 1" issue in "Spaceball": 
+  We observed this behavior on the real machine (a "buzz" Vectrex) if there is no 
+  controller plugged into port 2. If two controllers are attached, then everything behaves 
+  and works as expected. The code itself looks fine. Could this be some analog Vectrex hardware phenomenon?
+
+-       Gibt es übrigens eine Art Oszilloskop-Funktion? Ich kenne das von MPLAB-X. 
+        Man kann dort eine Adresse eintragen und es wird dann ein Graph angezeigt, 
+        mit Taktzyklen auf der x-Achse und Wert der Adresse auf der Y-Achse.
+
+-       "Value change dump (VCD) ist ein ASCII-basiertes Format für sogenannte Dumpfiles"
+        In dem Zusammenhang wäre es auch sehr gut, wenn ich externe Signale z.B. auf PB6 
+        simulieren könnte, was ich z.B. im VCD-Format angeben könnte. 
+        Bin zur Zeit die Kommunikation mit einem PIC über PB6 am programmieren und das ist 
+        ohne Simulation schon umständlich.
+
+-       Oder könnte man vielleicht eine Java-Plugin Schnittstelle einbauen, was einfach pro 
+        Takt eine Methode von einem Java-Programm von mir aufruft, die dann die Register vom 
+        VIA zum lesen/schreiben zur Verfügung stellt? Das wäre wahrscheinlich die flexibelste 
+        Lösung und dann kann ich mir das alles selbst programmieren, da Oszilloskop und 
+        Signalinjektion ja doch schon recht speziell ist und wohl sehr wenig User brauchen würden. 
+        Falls du den Sourcecode irgendwo hast, kann ich das Plugin-Interface auch schnell 
+        einbauen, was wohl schon mehr User brauchen könnten.
+
+- VecMulti:
+    private boolean isVecmultiWriteEnabled()
+    {
+        try
+        {
+            return readU8(6) == 83 && readU8(7) == 82 && readU8(8) == 65 && readU8(9) == 77;
+        }
+        catch(Exception _ex)
+        {
+            return false;
+        }
+    }
+- incorrect emulation:
+        Allow me the question, why do you use the function „Read_Btns_Mask“ instead of „Read_Btns“?
+
+        The mask version expects a „mask“ passed in register A. Which you don’t set - A is set to whatever value the print routines set (I think it is 03).
+        I haven’t gotten a clue why it works on the emulators - which is interesting and I should check at some time - but why not just do:
+
+
+        COLLIDES with info from Berzerk Arena 
+        Must check so that both are emulated ok
+
+        Chris-
+
+        I figured it out. Clearing the sound chip was the culprit.  Kind of weird!  I hope your holiday trip was good!
+
+        Scott - huggings
+- While it might be possible to „translate“ ym files if the original psg frequency is known - I have as yet not done any conversion in Vide -
+Bug:
+Garbage game over message of SPIKES (uni-homebrew) is not emulated correctly (not terminated String)
+
+BUG in assi:
+ MACRO constant ZAHLEN = 18
+-> leax ZAHLEN,x  -> leax >$0012,x
+-> leax 18,x  -> leax <$12,x
+
+BUG BW images in Vectorize
+ - editor messages to big!
+
+VecKey - PS/2 Keyboard
+DRIFT - see DRIFT pic
+- faq copied "vectors" does not work with paste -> mode must be vectors!
+
+- hiddenline to history
+- figure -> delete faces
+- todo insert vectorlist -> insert faces
+ what happens to non face vectors?
+- delete non selected - faces not correct anymore
+
+- library load
+- Explosion?
+- doc prebuilt/postbuild scripts
+- vecci 3d vectors "real" (with z disortion) and option to remove "back" vectors
+- vecci with DOT-Lists
+- vecxi all kins of breakpoints
+  add in tab
+  add on popum menu on panels (e.g. vari/viai) 
+- dissi many times debug on/off -> reset
+
+- see video split where needed -> no saveable automatically
+
+
+- assi macro /variables must be set befor they are called -> circumvent that?
+- assi bug: dec b -> gives exception
+- assi difference in assi to macro
+       ld\1 #(lo (hival))<<8 | (lo (loval))
+       brackets are needed if macro parameter hival/loval consists of an expression
+
+- vecxi assumption wheel spinning to slow is not emulated correctly!
+        I don't know how wide the reaction time of the index is!
+- vecxi VecMulti
+- vecxi examin, if stalling is really only triggered by a "read" of via (at the moment by a read from clr)
+- vecxi do pb6 as correct line emulation, not all special cases...
+
+- codi eEprom Tuts example code
+- codi add example programs just for "programming"
+       (String, Scroll, Clip, ... codi)
+- vide do a veccy comment like
+       vide-veccy mode 1: 2: %y %x %m 3:
+       and upon finding that string do a tooltip of the vectorlist!
+
+
+- libi order documents
+
+
+- dissi do a stack frame window (for U, S X Y) with definable vars (byte word, named)
+        which can be saved to cnt
+- dissi correct pb6 breakpoints fo in and out
+
+zeroing effect, see Vectrex32 site
+
+- vecvox - no emulation of: Microchip 24LC256 (see i.rtf)
 
 
 
-incorrect
-  todo add tp all locations where memory is written or read
-  vecx.vectrexNonCPUStep(3+1); ldx, ldy sty, add cmp etc
+doc?
+Chris Romero If you have never removed the Vectrex's black Reset button it is fairly simple. The button is removed by unscrewing it in a counter-clockwise direction.
 
-- doc
+IF this is the FIRST time you have ever unscrewed the Vectrex reset button on a particular Vectrex some tips.
+• Some Vectrex reset buttons are attached at the factory using a bit of thread lock on the reset button screw. These will be very tightly attached to the Vectrex reset switch.
+• Take your time in unscrewing the reset button the first time. The slower the better. Otherwise the reset button head may become detached from the screw.
+• Use something soft to grip and turn the reset button during removal. Fingers are best. But if this is not possible. then household adjustable pliers could be used AFTER wrapping the jaws in a couple of layers of the rubber or vinyl electrical tape. The tape will provide better grip and greatly decrease the possibility of marring / scratching / gouging of the button's plastic surface.
+
+I have seen the result of where Vectrex have been subjected to people trying to pull off the reset button. In some cases the switch survived the assault. What was left was the switch's plastic actuator stem with a broken piece of the metal screw thread left inside the stem. That result shows how strong the stem is and how weak the original metal in the factory reset button screw can be. In other cases I can seen the switch stem body cracked. I would estimate those are units that had little to no thread lock material acting as a support for switch stem.
+
+
+
+
+- vecspeech:
+ add new variables to cloning
+  link new pdf files to library
+- test java version upon start!
+- multi ram
+- hot key save /edit config
+- clip in DRAW clipped
+- vari list of vars are coma seperated - should be :
+- LEX:                     _SCALE   (SCALE_FACTOR_GAME)          ; everything we do with "positioning" is scale SCALE_FACTOR_GAME
+  second bracket os red!
+- vecci save dialog shows buttons
+- " end struct " struct is read for more than one space
+- vecxi every end of vector in frogger is still a DOT
+- vedi cycle display in vedi
+- vecxi when exiting a windows (vecx be sure to shut everything down!)
+- viai in via if a signal is active color it "orange"?
+- command line paramters for assi and vecxi alone!
+- vecxi drift allways toward zero? (nope, but still needs more testing)
+- to test: is drift ramp / ref depenended?
+- vedi on delete of files, also delete files in vedi settings
+- vedi generated project files (raster), do not know their variables!! (scan for vars/macros not working!)
+- assi Option to save LST files from ASSI
+- dissi new command -> wipe vec window
+- vedi right mouse click on data statements -> convert to vector / call vecci
+- vecxi try own handwritten graphics primitives for glow on byte array of buffer
+- vecxi try ray gun with handwritten graphic rouines, perhaps on a 255x255 grid, which might be scaled...
+- assi ASM do || and && for IF
+- vedi auto saves in vedi
+- vedi enable apple keys
+- vecxi proboard, mentiones that drift is stronger -y and -x than +y and +x
+  (see curved lines stuff stared by christopher: http://vectorgaming.proboards.com/thread/1234/drawing-6522s-shift-register-timer?page=3)
+- assi Special opt.... first use ALLWAYS short branches instead of longs
+  these can be automatically unpotimzed vie versa - not...
+- dissi build automatic comments for VIA access
+- bug?  copyDirectoryAllFiles(String from, String to) for subdirs!
+  bug? works under windows...
+- ASM: lda   #$-8                      ;Get y ($2FBE)
+- vecxi alg_rsh not emulated at all!
+- vecxi save breakpoints
+- vecxi breakpoint upon analog/VIA/REG changes
+- vecxi vecram
+- vecxi look at bug mentioned in mame vectrex RND Minestorm
+- vecxi look at bugs mentions by para
+- vedi output to real vectrex from here
+- vedi "C"
+- lex Thrust.asm
+  mClearFlag (InactiveFlag | RefuelFlag | ShieldFlag | PullFlag)
+  macro call parameters should be 1memops additionally comma seperated!
+- lex bra TileW TileW TileW TileW TileW 
+
+
+
+
+
+
+add info to doc:
+    Getting close...
+    I found my very last Sega controller waiting to be butchered, took the cable out and soldered up the three leads that are n
+    eeded for the 3d glasses. Three because we are not taking the 5V from the Vectrex, so only pins 3, 4 and 8 are needed.
+    8 is ground, 3 is the signal from the Vectrex, and pin 4 is the signal going to the Vectrex.
+    Please note! 
+    That if you look at the Zack Ethridge document, he did not number the pins the same way the Vectrex schematics numbers 
+    them, so he will be talking about pin 2 for the signal out instead of pin 4.
+    One concern I had was to see if we need to add an extra resistor to the Arduino out pin but checked the Vectrex schematics 
+    and there are 680 Ohm resistors on all the buttons so we are safe.
+    See here from the parts list:
+    Read more: http://vectorgaming.proboards.com/thread/1591/diy-vectrex-3d-imager#ixzz59AvmDOVM
+
+add to doc
+    DIS_TYPE_DATA_WORD_POINTER
+
+Add to FAQ:
+    I’m working on Windows 10 64-bit and VIDE 2.0 RC17. Monitor size is 27″, 2560 x1440, scaling 125%.
+
+    The VIDE text and toolbar buttons have always been too small to be comfortable for me, the text sizes are 
+    now changeable via LaF settings, but not the toolbar buttons. One problem seems to be that Java doesn’t recognise 
+    the 125% scaling on what is quite a high DPI monitor, it sticks to 100%, whilst everything else is working at 125%.
+
+    However, I discovered that you can tweak the high DPI settings to force Windows to adjust it to 125% from the 
+    Windows Task Manager. Make sure VIDE is running and then press Ctrl+Shift+Esc to bring up Task Manager, 
+    locate the “Java(TM) Platform SE Binary” application, right click on it and choose “Properties”, then on the 
+    “Compatibility” tab, check the box labelled “Override high DPI scaling behaviour. Scaling performed 
+    by:” and to get the 125% scaling, I choose “System” in the combobox. (The other two give me 100% scaling.) 
+    Then, restart VIDE to run with the new settings.
+
+    For me, choosing “System” gives 125% scaling. It’s a little blurry after that, but still quite usable and 
+    easier to read for me.
+
+
+Add:
+    document of pb6 and bankswitch
+
+doc as optimizition 
+    - moveTo_end_early_XX
+    - smartlists like Kristofs with pulu
+    - completete macro based (like my 70)
+
+add in doc:
+        Info:
+        Vectrex EXEC ROM BIOS Checksums 
+
+        Checksum 7931 : 
+        First Release. 
+        GCE ROM. 
+        Title screen “GCE - ENTERTAINING NEW IDEAS”. 
+        Vectrex with this ROM will have a buzz (unless manually de-buzzed). 
+
+        Checksum B796 : 
+        Second Release Release. 
+        MB ROM. 
+        Title screen "VECTREX”. 
+        Vectrex with this ROM will have a buzz (unless manually de-buzzed). +
+
+
+        Checksum 7ADB : 
+        MB ROM. 
+        Title screen "VECTREX”. 
+        European Vectrex release. 
+        Fixed version of the built in game Mine Storm. 
+        No Buzz Vectrex. 
+        Different Printed Circuit Board (PCB) as compared to other Vectrex. 
+        Serial Number series 311xxxx.
+
+add doc (if not done):
+        Debugging RAM
+        --------------
+        a) in dissi switch "nu" (no unkown) to not selected (GUI checkbox)
+        b) better switch of "following" of dissi "df" (don't follow) (CLI command)
+        c) switch on disassemble ram with "dr" disasm RAM (CLI command)
+
+        Now RAM will be viewable in dissi.
+        But usually all RAM is configured as Data - so no code will be displayed.
+        While dissi is not tracking (camera is OFF) - best done also in pause mode,
+        mark a RAM memory region and via popup menu cast to code.
+        Perhaps you habe to "shift" memory regions, with "cast to byte" and "ungroup" also, to
+        access the addresses that need to be cast to code.
+
+        Disassembling RAM takes many resources, since the DISASM is done for each RAM - poke.
+        If you do not need to disasm RAM, you better leave it switched off.
+
+        Also note - disasm RAM might be usefull for bankswitch disasm.
+        The cast to disasm is only done for the current active bank in dissi.
+        Upon a bankswitch the casts have to be redone for the other bank!
+
+doc:
   saved states do not reload config, and do not load cartridge info configs
 
-- MAC problem wih keyboard
+doc:
+ MAC problem wih keyboard
   Setting defaults write -g ApplePressAndHoldEnabled -bool false makes it go away for me. Looks very like an OS related bug. – teppic Jan 9 at 6:33 
   see:
   https://stackoverflow.com/questions/41393525/java-swing-keybindings-stop-working-only-on-mac
@@ -159,181 +368,63 @@ incorrect
   REVERTING BACK: Just,simply add true in place of false to the previous command like this:
   defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
 
+
+done: RAM comments -> to all banks!          
+done: Dokumentieren - Parameterübergabe
+done: ?ASlink-Warning-Undefined Global _picTranfer2 referenced by module bloxorz.enr.c
+done:
+  Als weitere Verbesserungidee könnte man noch verhindern, dass im Falle von RUM_INLINE die „vec_rum_fct_pjc.rel“ Bibliothek zum 
+  finalen Binary hinzugelinkt wird. Die wird bei der inline Version ja nicht benutzt und vergrößert unnötig das Binary.
+done: add "peek" counter in Tracky
+done: "globale" Varialen/Funktionen/Makros pro VEDI nicht pro Vide instanz
+done: correct curly indenting!
+done: edit peepholes
+done: BUG: load vecVox switches to vec Voice
+done: BUG: fcw is red as syntax
+done: add "C-Demos" credits in help
+done: change project definitions, so that can be loaded from the directory they reside in REGARDLESS of path
+done: DEBUG RAM
+done:to peer #define Vec_Loop_Count        RAM(0xC825, unsigned long int) // Loop counter word (incremented in Wait_Recal)
+done: double click on mcro def in "No Frame" search the include path of "with frame" 
+done: enable direct addressing in vide
+done:
+   if without curly
+    else
+    for next without curly
+            while without curly
+done: document song and explosion edit
 done: rotated in "normal" mode overlay wrong!
-
-
-
-
 done: ASCII bild - andere Farben
 done: bug in disabled debug -> draw arrows!
 done: single step in c before a cline goes in marking one line to far
 done: watches in Vari
 done: doc command line
-
 done: in Instrument
-Wenn ich das richtig sehe, kann man dort ADRS und TWANG einstellen und dann einzelne Noten anspielen und anhören. 
-Gibt es dort auch die Möglichkeit, eine komplette Melodie „im Original-BIOS-Format“ einfach abzuspielen?
-Ich nutze momentan die BIOS Soundroutinen, und ich bin musikalisch absolut unbegabt. Also trial & error. 
-Die Turnaround-Zeiten für das Ausprobieren kleiner Jingles erfordern immer ein C-Coding + Compile & Run und 
-sind somit relativ lange. Daher wäre so ein Feature sehr nützlich.
-
-done 
-Ebenso nutze ich die BIOS Exlposion Routine. Ich bin damals auf keinerlei Doku hierzu gestoßen und habe dann 
-per reverse engineering den Code von Star Castle studiert, um die Funktionsweise herausgefunden. 
-Das war hart, aber durchaus spaßig. Auch hier wäre ein Ausprobier-Tool sehr hilfreich. 
-Ist aber nicht dringendes, nur so eine Idee.
-
-Done:
-Bzgl. der Tabs ist mir Folgendes aufgefallen: Beim Editieren in Vedi liefert die Tab-Taste 
-„Sprünge“ von 4 Spaces, genauso wie in Geany. Nach dem Einlesen meiner (Geany) C-Files in 
-Vedi haben alle Tabs jedoch 8 Spaces. Der Code wird so recht „breit“ und läuft bei Mehrfachverschachtelung 
-schnell rechts raus und wird unlesbar. Wenn ich dann in Vedi weiter editiere und neuen Code hinzufüge, 
-werden (weiterhin) 4 Space Tabs generiert. Werden hier beim Einlesen/Unwandeln evtl. zu breite Tabs generiert?
- 
-done (but bad)
-Und wo wir schon dabei sind, hat der Editor evtl. auch einen auto-indent nach Zeilenumbruch 
-gemäß der Schachtelungstiefe der geschweiften {} Klammern (kennst Du sicherlich von anderen Editoren)?
-
-done
-Mention, that when two or more cexis are available and one is swotched to full or panel - the
-others lose there opengl surface
-
-
+    Wenn ich das richtig sehe, kann man dort ADRS und TWANG einstellen und dann einzelne Noten anspielen und anhören. 
+    Gibt es dort auch die Möglichkeit, eine komplette Melodie „im Original-BIOS-Format“ einfach abzuspielen?
+    Ich nutze momentan die BIOS Soundroutinen, und ich bin musikalisch absolut unbegabt. Also trial & error. 
+    Die Turnaround-Zeiten für das Ausprobieren kleiner Jingles erfordern immer ein C-Coding + Compile & Run und 
+    sind somit relativ lange. Daher wäre so ein Feature sehr nützlich.
 done:
-ConfigPanel - reload config values e.g. when debugging starts!
-
-
-
-
-
-
-
-
-
-
-
-
-
-http://forum.jogamp.org/JOGL-Overlay-drawing-problem-td4036075.html
- 
-Am 04.07.2017 13:08 schrieb chrissalo@posteo.de:
-
-Do you use a GLEventListener? Please avoid making the OpenGL context current on several threads, 
-call your JOGL code directly or indirectly in GLEventListener.display() or use GLAutoDrawable.invoke().
-
-http://forum.jogamp.org/How-to-Draw-a-Smooth-Curve-through-a-Set-of-2D-Points-td4037677.html
-
-Vertex buffer
-https://wadeawalker.wordpress.com/2010/10/17/tutorial-faster-rendering-with-vertex-buffer-objects/
-
-Shader
-http://copypastaresearch.tumblr.com/post/1033237190/ported-another-glsl-routine-to-jogl2-this-time-a
-http://bentonian.com/teaching/AdvGraph1314/6.%20OpenGL%20and%20shaders%201.pdf
-http://www.coding-daddy.xyz/node/16
-http://jogamp.org/git/?p=jogl-demos.git;a=blob;f=src/demos/es2/RawGL2ES2demo.java;hb=HEAD
-http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/util/glsl/package-summary.html
-forum jogl
-http://forum.jogamp.org/jogl-f782158.html
-
------
-- Regarding the "player 2 rotates with player 1" issue in "Spaceball": 
-  We observed this behavior on the real machine (a "buzz" Vectrex) if there is no 
-  controller plugged into port 2. If two controllers are attached, then everything behaves 
-and works as expected. The code itself looks fine. Could this be some analog Vectrex hardware phenomenon?
------
-dissi- bug
-Smallesst dissi step is 2 byte instruction
-- this is also true for profiling
------
-incorrect emulation:
-Allow me the question, why do you use the function „Read_Btns_Mask“ instead of „Read_Btns“?
-
-The mask version expects a „mask“ passed in register A. Which you don’t set - A is set to whatever value the print routines set (I think it is 03).
-I haven’t gotten a clue why it works on the emulators - which is interesting and I should check at some time - but why not just do:
-
-
-COLLIDES with info from Berzerk Arena 
-Must check so that both are emulated ok
-
-Chris-
-
-I figured it out. Clearing the sound chip was the culprit.  Kind of weird!  I hope your holiday trip was good!
-
-Scott - huggings
------
-
-
-
-----
+    Ebenso nutze ich die BIOS Exlposion Routine. Ich bin damals auf keinerlei Doku hierzu gestoßen und habe dann 
+    per reverse engineering den Code von Star Castle studiert, um die Funktionsweise herausgefunden. 
+    Das war hart, aber durchaus spaßig. Auch hier wäre ein Ausprobier-Tool sehr hilfreich. 
+    Ist aber nicht dringendes, nur so eine Idee.
+Done:
+    Bzgl. der Tabs ist mir Folgendes aufgefallen: Beim Editieren in Vedi liefert die Tab-Taste 
+    „Sprünge“ von 4 Spaces, genauso wie in Geany. Nach dem Einlesen meiner (Geany) C-Files in 
+    Vedi haben alle Tabs jedoch 8 Spaces. Der Code wird so recht „breit“ und läuft bei Mehrfachverschachtelung 
+    schnell rechts raus und wird unlesbar. Wenn ich dann in Vedi weiter editiere und neuen Code hinzufüge, 
+    werden (weiterhin) 4 Space Tabs generiert. Werden hier beim Einlesen/Unwandeln evtl. zu breite Tabs generiert?
+done (but bad)
+    Und wo wir schon dabei sind, hat der Editor evtl. auch einen auto-indent nach Zeilenumbruch 
+    gemäß der Schachtelungstiefe der geschweiften {} Klammern (kennst Du sicherlich von anderen Editoren)?
+done
+    Mention, that when two or more cexis are available and one is swotched to full or panel - the
+    others lose there opengl surface
+done:
+    ConfigPanel - reload config values e.g. when debugging starts!
 done: BUG pythagorean theorem - Buffer overflow of VecVoice?
-----
-Just googling - no - potrace can't. It seems a program called "autotrace" can -> 
-http://autotrace.sourceforge.net/
-
-You need a feature called "centerline tracing"...
-
-https://graphicdesign.stackexchange.com/questions/60107/convert-a-line-drawing-from-raster-to-vector-lines
-
-autotrace -centerline -color-count 2 -output-file output.svg -output-format SVG input.png
-    -line-threshold [real]:
-    If a spline does not deviate from the straight line defined by its endpoints by more than the specified number of pixels, then treat it as a straight line (default: 1).
-
-    - line-reversion-threshold [real]:
-    If a spline is closer to a straight line than this, weighted by the square of the curve length, keep it a straight line even if it is a list with curves; default is .01.
-
-
-The conversion is done using a programm called potrace.
-Perhaps there are options in potrace that would work - never looked at it. Maybe you can tell potrace "treat bitmap as vector" - if I have spare time I might do some research on that...
-http://autotrace.sourceforge.net/index.html#intro
-
-
-
-
-
-Don't use the original bios random routine ! It has a bug that might crash your game (it occured during my vector pilot development).
-
-Here is a patched version of the routine (bios labels are based on fred taft's disassembly):
-
-get_random_bugfixed:
-;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-;+This function is a bugfixed version of the original bios get_random_a function.
-;+
-;+Inside the get_random_a and get_random_a2 routines of the vectrex BIOS.
-;+A terrible bug is located: the X-pointer that needs to be pointing to
-;+the random-seed in RAM is not loaded directly with the random-seed
-;+address. Instead, it is loaded with the contents of the random-seed.
-;+In some cases, this causes that new random-seed is written at random-places
-;+in the memory map. Sometimes in a RAM-space, sometimes in a VIA-register.
-;+This causes the program to crash !
-;+
-;+At entry: none
-;+At exit : A = random-number.
-;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-pshs b,x ;backup b,x
-clrb ;seed of 0
-get_random_bugfixed_B_rounds:
-ldx #Random_Seed ;BUGFIX : set X-pointer to the ADDRESS-value of the random-seed !
-jmp ran_loop ;continue with remaining ROM-routine (see exec-rom)
-
-Read more: http://vectorgaming.proboards.com/thread/1329/random#ixzz4fOYFbmQg
-
-
-
-Via stalling
-Changes in Vecx und Statics Pre 24.4. is old stall
-With changes explosion in Protector is "of"?
-
-None of the "configured Delay variants is compatible with moonlander!
-
-
-bug step back - not correct anymore after usage? after new load? after one time big step?
-
-While it might be possible to „translate“ ym files if the original psg frequency is known - I have as yet not done any conversion in Vide -
-
-add profiling
-
-TODO 
-
 - done: vari option in variables "remove BIOS"
 - done: vecci bug vecci big editor, scale of 5 not visible if position is < 0
 - done: vecci shift right mouse button transposes the vectorlist window
@@ -347,37 +438,8 @@ TODO
     You should either end it with \? or declare it as local after the header of the macro.
     If you use THAT macro several times, the label "bstart" gets redefined every time the macro is used. Which might lead to erratic behaviour.
     Nonetheless - I check if something is wrong. I am not sure if the keyword local correctly identifies macro labels - now that you mention it.
-
-
-bug vedi
 done: in file 3d/3d_makro.i the includes  INCLUDE "3d/000.I" can not be doubl clicked!
 done: -> bei fehler auch zu viele threads???
-
-
-NOT done (wont do):
-  - LEX Macro syntax where a assembler instruction is concatinated from macros, like:
-        ;Set the hi/lo part of a 16-bit register individually
-        mCombine macro reg,hival,loval
-        ld\1 #(lo hival)<<8 | (lo loval)
-    endm
-  - LEX same line, wont change lo hi, hi lo, which might be correct but shows as error
-        these operators identify as variable, and two variables in a row are an error
-        if syntax was not as flexible to allow lo Variable in stead of lo(variable) everything would
-        be ok, but I rather be a little lax about the syntax!
-  - LEX parenthesis: 
-        lda (((2)+(1)) is no error, because at no stage arent enough closing brackets available...
-  - ASM Might some day, not a priority- STRUCT Jup! :-( DEF.ASM (is that franks asm outpu???)
-        Struct not done
-  - LEX in OMEGA.as9  sprite_2           EQU sprite_1+#15       ;Start of structure for Sprite #2
-        in the middle of nowhere a '#' should be wrong
-        assembler accepts it, but IMHO that is not good, wont change!
-  - DIS not done  - won't do ? or? if we are at it, also in between comments!
-        (comments for lines which are grouped (in group) are not generated!)
-- nope: import from inkscape - SVG
-- nope: (or... yes done for potrace, but not user accessable) import from JSON
-
-Done:
-
 - done: VECX todo _> support samples (Moonlander)
 - done: VECX spike not drawn correctly!
 - done: DIS allways on switchable
@@ -884,169 +946,146 @@ done? bug vedi:
 
 
 
-- no: Karl Quappe Pause with FIRQ, I wont programm an interrupt handler, no other w<s to ask if firq occured...
-- Level in Original Frogger are band 3+4 same direction!
-
-- Message press button now if you use a flash?
-- home sprites "off"?
-- jerk at plus to minus? WRONG, jerk was when last sprite moved from plus to minus since zeroing was to fast
-- done: music off - all music off?
-- done: button four on vec multi - go back
 
 
-should emulate? (houses frogger)
-Integration overlaps (X -> Y)
+https://gcc.gnu.org/onlinedocs/gcc/Using-Assembly-Language-with-C.html#Using-Assembly-Language-with-C
+https://gcc.gnu.org/onlinedocs/gcc/Constraints.html
+
+http://forum.jogamp.org/JOGL-Overlay-drawing-problem-td4036075.html
+ 
+Am 04.07.2017 13:08 schrieb chrissalo@posteo.de:
+
+Do you use a GLEventListener? Please avoid making the OpenGL context current on several threads, 
+call your JOGL code directly or indirectly in GLEventListener.display() or use GLAutoDrawable.invoke().
+
+http://forum.jogamp.org/How-to-Draw-a-Smooth-Curve-through-a-Set-of-2D-Points-td4037677.html
+
+Vertex buffer
+https://wadeawalker.wordpress.com/2010/10/17/tutorial-faster-rendering-with-vertex-buffer-objects/
+
+Shader
+http://copypastaresearch.tumblr.com/post/1033237190/ported-another-glsl-routine-to-jogl2-this-time-a
+http://bentonian.com/teaching/AdvGraph1314/6.%20OpenGL%20and%20shaders%201.pdf
+http://www.coding-daddy.xyz/node/16
+http://jogamp.org/git/?p=jogl-demos.git;a=blob;f=src/demos/es2/RawGL2ES2demo.java;hb=HEAD
+http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/util/glsl/package-summary.html
+forum jogl
+http://forum.jogamp.org/jogl-f782158.html
+
+----
+Just googling - no - potrace can't. It seems a program called "autotrace" can -> 
+http://autotrace.sourceforge.net/
+You need a feature called "centerline tracing"...
+
+https://graphicdesign.stackexchange.com/questions/60107/convert-a-line-drawing-from-raster-to-vector-lines
+
+autotrace -centerline -color-count 2 -output-file output.svg -output-format SVG input.png
+    -line-threshold [real]:
+    If a spline does not deviate from the straight line defined by its endpoints by more than the specified number of pixels, then treat it as a straight line (default: 1).
+
+    - line-reversion-threshold [real]:
+    If a spline is closer to a straight line than this, weighted by the square of the curve length, keep it a straight line even if it is a list with curves; default is .01.
 
 
-Bug:
-Karl Quappe swithc "Suppress double draw" off - and see - that is WRONG
+The conversion is done using a programm called potrace.
+Perhaps there are options in potrace that would work - never looked at it. Maybe you can tell potrace "treat bitmap as vector" - if I have spare time I might do some research on that...
+http://autotrace.sourceforge.net/index.html#intro
 
 
 
 
-Mario clone 1 way scroller, turrican?
+WRONG:
+    Don't use the original bios random routine ! It has a bug that might crash your game (it occured during my vector pilot development).
 
-BUG?
-Delay of shiftreg according to thomas test? Seems "inverse"
+    Here is a patched version of the routine (bios labels are based on fred taft's disassembly):
 
+    get_random_bugfixed:
+    ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    ;+This function is a bugfixed version of the original bios get_random_a function.
+    ;+
+    ;+Inside the get_random_a and get_random_a2 routines of the vectrex BIOS.
+    ;+A terrible bug is located: the X-pointer that needs to be pointing to
+    ;+the random-seed in RAM is not loaded directly with the random-seed
+    ;+address. Instead, it is loaded with the contents of the random-seed.
+    ;+In some cases, this causes that new random-seed is written at random-places
+    ;+in the memory map. Sometimes in a RAM-space, sometimes in a VIA-register.
+    ;+This causes the program to crash !
+    ;+
+    ;+At entry: none
+    ;+At exit : A = random-number.
+    ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    pshs b,x ;backup b,x
+    clrb ;seed of 0
+    get_random_bugfixed_B_rounds:
+    ldx #Random_Seed ;BUGFIX : set X-pointer to the ADDRESS-value of the random-seed !
+    jmp ran_loop ;continue with remaining ROM-routine (see exec-rom)
 
-Bug:
-Garbage game over message of SPIKES (uni-homebrew) is not emulated correctly (not terminated String)
-
-BUG in assi:
- MACRO constant ZAHLEN = 18
--> leax ZAHLEN,x  -> leax >$0012,x
--> leax 18,x  -> leax <$12,x
-
-
-
-
-BUG BW images in Vectorize
- - editor messages to big!
-
-
-
-VecKey - PS/2 Keyboard
-DRIFT - see DRIFT pic
-- faq copied "vectors" does not work with paste -> mode must be vectors!
-
-- hiddenline to history
-- figure -> delete faces
-- todo insert vectorlist -> insert faces
- what happens to non face vectors?
-- delete non selected - faces not correct anymore
-
-- library load
-- Explosion?
-- doc prebuilt/postbuild scripts
-- vecci 3d vectors "real" (with z disortion) and option to remove "back" vectors
-- vecci with DOT-Lists
-- vecxi all kins of breakpoints
-  add in tab
-  add on popum menu on panels (e.g. vari/viai) 
-- dissi many times debug on/off -> reset
-
-- see video split where needed -> no saveable automatically
-
-
-- assi macro /variables must be set befor they are called -> circumvent that?
-- assi bug: dec b -> gives exception
-- assi difference in assi to macro
-       ld\1 #(lo (hival))<<8 | (lo (loval))
-       brackets are needed if macro parameter hival/loval consists of an expression
-
-- vecxi assumption wheel spinning to slow is not emulated correctly!
-        I don't know how wide the reaction time of the index is!
-- vecxi VecMulti
-- vecxi examin, if stalling is really only triggered by a "read" of via (at the moment by a read from clr)
-- vecxi do pb6 as correct line emulation, not all special cases...
-
-- codi eEprom Tuts example code
-- codi add example programs just for "programming"
-       (String, Scroll, Clip, ... codi)
-- vide do a veccy comment like
-       vide-veccy mode 1: 2: %y %x %m 3:
-       and upon finding that string do a tooltip of the vectorlist!
-
-
-- libi order documents
-
-
-- dissi do a stack frame window (for U, S X Y) with definable vars (byte word, named)
-        which can be saved to cnt
-- dissi correct pb6 breakpoints fo in and out
+    Read more: http://vectorgaming.proboards.com/thread/1329/random#ixzz4fOYFbmQg
 
 
 
 
 
-possible future games:
-- labyrinth game
-- pitfall
-- Warblade
-- release
-            new files
-            vecci user conversion
+NOT done (wont do):
+  - LEX Macro syntax where a assembler instruction is concatinated from macros, like:
+        ;Set the hi/lo part of a 16-bit register individually
+        mCombine macro reg,hival,loval
+        ld\1 #(lo hival)<<8 | (lo loval)
+    endm
+  - LEX same line, wont change lo hi, hi lo, which might be correct but shows as error
+        these operators identify as variable, and two variables in a row are an error
+        if syntax was not as flexible to allow lo Variable in stead of lo(variable) everything would
+        be ok, but I rather be a little lax about the syntax!
+  - LEX parenthesis: 
+        lda (((2)+(1)) is no error, because at no stage arent enough closing brackets available...
+  - ASM Might some day, not a priority- STRUCT Jup! :-( DEF.ASM (is that franks asm outpu???)
+        Struct not done
+  - LEX in OMEGA.as9  sprite_2           EQU sprite_1+#15       ;Start of structure for Sprite #2
+        in the middle of nowhere a '#' should be wrong
+        assembler accepts it, but IMHO that is not good, wont change!
+  - DIS not done  - won't do ? or? if we are at it, also in between comments!
+        (comments for lines which are grouped (in group) are not generated!)
+- nope: import from inkscape - SVG
+- nope: (or... yes done for potrace, but not user accessable) import from JSON
 
-zeroing effect, see Vectrex32 site
 
-- vecvox - no emulation of: Microchip 24LC256 (see i.rtf)
 
-- vecspeech:
- add new variables to cloning
-  link new pdf files to library
-- test java version upon start!
-- multi ram
-- hot key save /edit config
-- clip in DRAW clipped
-- vari list of vars are coma seperated - should be :
-- LEX:                     _SCALE   (SCALE_FACTOR_GAME)          ; everything we do with "positioning" is scale SCALE_FACTOR_GAME
-  second bracket os red!
-- vecci save dialog shows buttons
-- " end struct " struct is read for more than one space
-- vecxi every end of vector in frogger is still a DOT
-- vedi cycle display in vedi
-- vecxi when exiting a windows (vecx be sure to shut everything down!)
-- viai in via if a signal is active color it "orange"?
-- command line paramters for assi and vecxi alone!
-- vecxi drift allways toward zero? (nope, but still needs more testing)
-- to test: is drift ramp / ref depenended?
-- vedi on delete of files, also delete files in vedi settings
-- vedi generated project files (raster), do not know their variables!! (scan for vars/macros not working!)
-- assi Option to save LST files from ASSI
-- dissi new command -> wipe vec window
-- vedi right mouse click on data statements -> convert to vector / call vecci
-- vecxi try own handwritten graphics primitives for glow on byte array of buffer
-- vecxi try ray gun with handwritten graphic rouines, perhaps on a 255x255 grid, which might be scaled...
-- assi ASM do || and && for IF
-- vedi auto saves in vedi
-- vedi enable apple keys
-- vecxi proboard, mentiones that drift is stronger -y and -x than +y and +x
-  (see curved lines stuff stared by christopher: http://vectorgaming.proboards.com/thread/1234/drawing-6522s-shift-register-timer?page=3)
-- assi Special opt.... first use ALLWAYS short branches instead of longs
-  these can be automatically unpotimzed vie versa - not...
-- dissi build automatic comments for VIA access
-- bug?  copyDirectoryAllFiles(String from, String to) for subdirs!
-  bug? works under windows...
-- ASM: lda   #$-8                      ;Get y ($2FBE)
-- vecxi alg_rsh not emulated at all!
-- vecxi save breakpoints
-- vecxi breakpoint upon analog/VIA/REG changes
-- vecxi vecram
-- vecxi look at bug mentioned in mame vectrex RND Minestorm
-- vecxi look at bugs mentions by para
-- vedi output to real vectrex from here
-- vedi "C"
-- lex Thrust.asm
-  mClearFlag (InactiveFlag | RefuelFlag | ShieldFlag | PullFlag)
-  macro call parameters should be 1memops additionally comma seperated!
-- lex bra TileW TileW TileW TileW TileW 
 
 http://atariage.com/forums/topic/14837-atari-2600-vectrex-video-game-release-party-in-ottawa/
 
-veclink 0 hw
-serial usb to vectrex
+http://mustcalculate.com/electronics/capacitorchargeanddischarge.php
 
-Controller:
-Vectrosis
+VOLTAGES / capacitor
 
+The general equation for the voltage across the capacitor is
+
+    V=V0+1C∫idt
+
+In the special case where I
+
+is constant this translates to
+
+    V=V0+I×tC
+
+We want to find t
+
+, so rearranging gives us
+
+    t=C(V−V0)I=1F(3V−5V)−10mA=200s
+
+    = 3 minutes and 20 seconds.
+
+The more general solution is where I
+is a function of time. I'll assume that the 10mA is the initial current, at V0 = 5V. Then the discharge resistor R=5V10mA=500Ω. The time constant RC
+
+is then 500s. Then
+
+    V=V0×e(−tRC)
+
+or
+
+    t=−RC×ln(VV0)=−500s×ln(3V5V)=255s
+
+    = 4 minutes and 15 seconds.
+
+This makes sense. Following an exponential discharge will get us at 3V later than with the linear discharge.

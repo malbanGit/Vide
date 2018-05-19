@@ -125,7 +125,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Registers");
+        mParentMenuItem.setText("Configuration");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -222,8 +222,10 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jSliderMuxY.setValue(config.delays[TIMER_MUX_Y_CHANGE]);
         jSliderMuxZ.setValue(config.delays[TIMER_MUX_Z_CHANGE]);
         jSliderMuxS.setValue(config.delays[TIMER_MUX_S_CHANGE]);
-        jSliderBlank.setValue(config.delays[TIMER_BLANK_CHANGE]);
-        jSliderZero.setValue((int)(config.blankOnDelay*10));
+        jSliderBlankOn.setValue(config.delays[TIMER_BLANK_ON_CHANGE]);
+        jSliderBlankOnTenth.setValue((int)(config.blankOnDelay*10));
+        jSliderBlankOff.setValue(config.delays[TIMER_BLANK_OFF_CHANGE]);
+        jSliderBlankOffTenth.setValue((int)(config.blankOffDelay*10));
         jSliderMuxSel.setValue(config.delays[TIMER_MUX_SEL_CHANGE]);
         jSliderRealZero.setValue(config.delays[TIMER_ZERO]);
 
@@ -277,14 +279,13 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jCheckBox61.setSelected(config.JOGLUseLinearSampling);
         
         jTextFieldPath.setText(""+config.v4eVolumeName);
-        jSliderZeroRetainX.setValue((int)(config.zeroRetainX*10000.0));
-        jSliderZeroRetainY.setValue((int)(config.zeroRetainY*10000.0));
-                
         jSliderPSGVolume.setValue(config.psgVolume);
 
         
          jComboBox9.setSelectedIndex(config.JOGLMIP_RESOLUTION);
         
+        jSliderZeroRetainX.setValue((int)(config.zeroRetainX*10000.0));
+        jSliderZeroRetainY.setValue((int)(config.zeroRetainY*10000.0));
         
         mClassSetting++;
         if (config.rotate == 0)
@@ -408,11 +409,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jSliderXDrift.setValue((int)(config.drift_x*100));
         jSliderYDrift.setValue((int)(config.drift_y*100));        
         jSliderSplineMaxSize.setValue((int)(config.maxSplineSize));        
-        
-
-        jTextField4.setText(""+(int) (config.warmup*100));
-        jTextField5.setText(""+(int) (config.cooldown*100));
-        
+                
         jRadioButton2.setSelected(!config.lstFirst);
         jRadioButton1.setSelected(config.lstFirst);
         
@@ -585,10 +582,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jTextField2 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox();
         jPanel25 = new javax.swing.JPanel();
@@ -604,28 +597,30 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jSliderMuxSel = new javax.swing.JSlider();
         jPanel5 = new javax.swing.JPanel();
         jSliderMuxR = new javax.swing.JSlider();
+        jPanel36 = new javax.swing.JPanel();
+        jSliderT1 = new javax.swing.JSlider();
         jPanel28 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jSliderRealZero = new javax.swing.JSlider();
         jPanel3 = new javax.swing.JPanel();
-        jSliderBlank = new javax.swing.JSlider();
+        jSliderBlankOn = new javax.swing.JSlider();
+        jSliderBlankOff = new javax.swing.JSlider();
         jPanel4 = new javax.swing.JPanel();
-        jSliderZero = new javax.swing.JSlider();
+        jSliderBlankOnTenth = new javax.swing.JSlider();
+        jSliderBlankOffTenth = new javax.swing.JSlider();
         jPanel29 = new javax.swing.JPanel();
         jSliderShift = new javax.swing.JSlider();
-        jPanel36 = new javax.swing.JPanel();
-        jSliderT1 = new javax.swing.JSlider();
         jPanel2 = new javax.swing.JPanel();
         jSliderRamp = new javax.swing.JSlider();
         jCheckBoxVia = new javax.swing.JCheckBox();
+        jPanel39 = new javax.swing.JPanel();
+        jSliderZeroDivider = new javax.swing.JSlider();
+        jLabel35 = new javax.swing.JLabel();
+        jComboBox6 = new javax.swing.JComboBox<>();
         jPanel37 = new javax.swing.JPanel();
         jSliderZeroRetainX = new javax.swing.JSlider();
         jPanel38 = new javax.swing.JPanel();
         jSliderZeroRetainY = new javax.swing.JSlider();
-        jPanel39 = new javax.swing.JPanel();
-        jSliderZeroDivider = new javax.swing.JSlider();
-        jLabel35 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<String>();
         jPanel63 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         jSliderMuxY3 = new javax.swing.JSlider();
@@ -668,7 +663,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jTextField28 = new javax.swing.JTextField();
         jCheckBoxMSAA = new javax.swing.JCheckBox();
         jLabel72 = new javax.swing.JLabel();
-        jComboBox8 = new javax.swing.JComboBox<String>();
+        jComboBox8 = new javax.swing.JComboBox<>();
         jLabel85 = new javax.swing.JLabel();
         jTextField29 = new javax.swing.JTextField();
         jPanel67 = new javax.swing.JPanel();
@@ -1454,56 +1449,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jTextField3.setEnabled(false);
         jTextField3.setPreferredSize(new java.awt.Dimension(50, 21));
 
-        jLabel6.setText("Integrator Cool down");
-
-        jLabel7.setText("Integrator Warmup");
-
-        jTextField4.setText("80");
-        jTextField4.setPreferredSize(new java.awt.Dimension(50, 21));
-        jTextField4.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField4FocusLost(evt);
-            }
-        });
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-        jTextField4.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jTextField4PropertyChange(evt);
-            }
-        });
-        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField4KeyTyped(evt);
-            }
-        });
-
-        jTextField5.setText("80");
-        jTextField5.setPreferredSize(new java.awt.Dimension(50, 21));
-        jTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField5FocusLost(evt);
-            }
-        });
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
-        jTextField5.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jTextField5PropertyChange(evt);
-            }
-        });
-        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField5KeyTyped(evt);
-            }
-        });
-
         jLabel8.setText("vectrex generation");
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Off", "1", "2", "3" }));
@@ -1534,7 +1479,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderMuxS, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+            .addComponent(jSliderMuxS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1560,7 +1505,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderMuxY, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+            .addComponent(jSliderMuxY, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1586,7 +1531,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderMuxZ, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+            .addComponent(jSliderMuxZ, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1638,7 +1583,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderMuxSel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+            .addComponent(jSliderMuxSel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1664,148 +1609,11 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderMuxR, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+            .addComponent(jSliderMuxR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSliderMuxR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
-        jPanel25.setLayout(jPanel25Layout);
-        jPanel25Layout.setHorizontalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
-        jPanel25Layout.setVerticalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(jPanel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Zero"));
-
-        jSliderRealZero.setMajorTickSpacing(10);
-        jSliderRealZero.setMaximum(40);
-        jSliderRealZero.setMinorTickSpacing(1);
-        jSliderRealZero.setOrientation(javax.swing.JSlider.VERTICAL);
-        jSliderRealZero.setPaintLabels(true);
-        jSliderRealZero.setPaintTicks(true);
-        jSliderRealZero.setValue(0);
-        jSliderRealZero.setPreferredSize(new java.awt.Dimension(63, 222));
-        jSliderRealZero.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderRealZeroStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderRealZero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addComponent(jSliderRealZero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Blank"));
-
-        jSliderBlank.setMajorTickSpacing(10);
-        jSliderBlank.setMinorTickSpacing(1);
-        jSliderBlank.setOrientation(javax.swing.JSlider.VERTICAL);
-        jSliderBlank.setPaintLabels(true);
-        jSliderBlank.setPaintTicks(true);
-        jSliderBlank.setValue(0);
-        jSliderBlank.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderBlankStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderBlank, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderBlank, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Blank On/10"));
-
-        jSliderZero.setMajorTickSpacing(10);
-        jSliderZero.setMaximum(40);
-        jSliderZero.setMinorTickSpacing(1);
-        jSliderZero.setOrientation(javax.swing.JSlider.VERTICAL);
-        jSliderZero.setPaintLabels(true);
-        jSliderZero.setPaintTicks(true);
-        jSliderZero.setValue(0);
-        jSliderZero.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderZeroStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderZero, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderZero, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel29.setBorder(javax.swing.BorderFactory.createTitledBorder("SHIFT"));
-
-        jSliderShift.setMajorTickSpacing(5);
-        jSliderShift.setMaximum(20);
-        jSliderShift.setMinorTickSpacing(1);
-        jSliderShift.setOrientation(javax.swing.JSlider.VERTICAL);
-        jSliderShift.setPaintLabels(true);
-        jSliderShift.setPaintTicks(true);
-        jSliderShift.setValue(0);
-        jSliderShift.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderShiftStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
-        jPanel29.setLayout(jPanel29Layout);
-        jPanel29Layout.setHorizontalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel29Layout.createSequentialGroup()
-                .addComponent(jSliderShift, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-        );
-        jPanel29Layout.setVerticalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderShift, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel36.setBorder(javax.swing.BorderFactory.createTitledBorder("T1"));
@@ -1828,11 +1636,193 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel36.setLayout(jPanel36Layout);
         jPanel36Layout.setHorizontalGroup(
             jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jSliderT1, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
         jPanel36Layout.setVerticalGroup(
             jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderT1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel36Layout.createSequentialGroup()
+                .addComponent(jSliderT1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
+        jPanel25.setLayout(jPanel25Layout);
+        jPanel25Layout.setHorizontalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel25Layout.setVerticalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Zero"));
+
+        jSliderRealZero.setMajorTickSpacing(10);
+        jSliderRealZero.setMaximum(40);
+        jSliderRealZero.setMinorTickSpacing(1);
+        jSliderRealZero.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSliderRealZero.setPaintLabels(true);
+        jSliderRealZero.setPaintTicks(true);
+        jSliderRealZero.setValue(0);
+        jSliderRealZero.setPreferredSize(new java.awt.Dimension(63, 222));
+        jSliderRealZero.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderRealZeroStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSliderRealZero, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(jSliderRealZero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Blank on/off"));
+
+        jSliderBlankOn.setMajorTickSpacing(10);
+        jSliderBlankOn.setMinorTickSpacing(1);
+        jSliderBlankOn.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSliderBlankOn.setPaintLabels(true);
+        jSliderBlankOn.setPaintTicks(true);
+        jSliderBlankOn.setValue(0);
+        jSliderBlankOn.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderBlankOnStateChanged(evt);
+            }
+        });
+
+        jSliderBlankOff.setMajorTickSpacing(10);
+        jSliderBlankOff.setMinorTickSpacing(1);
+        jSliderBlankOff.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSliderBlankOff.setPaintLabels(true);
+        jSliderBlankOff.setPaintTicks(true);
+        jSliderBlankOff.setValue(0);
+        jSliderBlankOff.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderBlankOffStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jSliderBlankOn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jSliderBlankOff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jSliderBlankOn, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jSliderBlankOff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Blank on/off /10"));
+
+        jSliderBlankOnTenth.setMajorTickSpacing(10);
+        jSliderBlankOnTenth.setMaximum(40);
+        jSliderBlankOnTenth.setMinimum(-40);
+        jSliderBlankOnTenth.setMinorTickSpacing(1);
+        jSliderBlankOnTenth.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSliderBlankOnTenth.setPaintLabels(true);
+        jSliderBlankOnTenth.setPaintTicks(true);
+        jSliderBlankOnTenth.setValue(0);
+        jSliderBlankOnTenth.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderBlankOnTenthStateChanged(evt);
+            }
+        });
+
+        jSliderBlankOffTenth.setMajorTickSpacing(10);
+        jSliderBlankOffTenth.setMaximum(40);
+        jSliderBlankOffTenth.setMinimum(-40);
+        jSliderBlankOffTenth.setMinorTickSpacing(1);
+        jSliderBlankOffTenth.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSliderBlankOffTenth.setPaintLabels(true);
+        jSliderBlankOffTenth.setPaintTicks(true);
+        jSliderBlankOffTenth.setValue(0);
+        jSliderBlankOffTenth.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderBlankOffTenthStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jSliderBlankOnTenth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jSliderBlankOffTenth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSliderBlankOnTenth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jSliderBlankOffTenth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel29.setBorder(javax.swing.BorderFactory.createTitledBorder("SHIFT"));
+
+        jSliderShift.setMajorTickSpacing(5);
+        jSliderShift.setMaximum(20);
+        jSliderShift.setMinorTickSpacing(1);
+        jSliderShift.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSliderShift.setPaintLabels(true);
+        jSliderShift.setPaintTicks(true);
+        jSliderShift.setValue(0);
+        jSliderShift.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderShiftStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
+        jPanel29.setLayout(jPanel29Layout);
+        jPanel29Layout.setHorizontalGroup(
+            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSliderShift, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel29Layout.setVerticalGroup(
+            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSliderShift, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
@@ -1840,15 +1830,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel28Layout.setHorizontalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel28Layout.createSequentialGroup()
-                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(107, Short.MAX_VALUE))
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1857,8 +1846,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0))
         );
 
@@ -1892,6 +1880,40 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jCheckBoxVia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxViaActionPerformed(evt);
+            }
+        });
+
+        jPanel39.setBorder(javax.swing.BorderFactory.createTitledBorder("zero divider"));
+
+        jSliderZeroDivider.setMajorTickSpacing(100);
+        jSliderZeroDivider.setMaximum(2000);
+        jSliderZeroDivider.setMinimum(100);
+        jSliderZeroDivider.setMinorTickSpacing(10);
+        jSliderZeroDivider.setPaintTicks(true);
+        jSliderZeroDivider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderZeroDividerStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel39Layout = new javax.swing.GroupLayout(jPanel39);
+        jPanel39.setLayout(jPanel39Layout);
+        jPanel39Layout.setHorizontalGroup(
+            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSliderZeroDivider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel39Layout.setVerticalGroup(
+            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSliderZeroDivider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jLabel35.setText("delay variants");
+
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "delay 0", "delay 1", "delay 2", "delay 3" }));
+        jComboBox6.setToolTipText("on selection this sets preconfigured values");
+        jComboBox6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox6ActionPerformed(evt);
             }
         });
 
@@ -1943,53 +1965,17 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             .addComponent(jSliderZeroRetainY, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jPanel39.setBorder(javax.swing.BorderFactory.createTitledBorder("zero divider"));
-
-        jSliderZeroDivider.setMajorTickSpacing(100);
-        jSliderZeroDivider.setMaximum(2000);
-        jSliderZeroDivider.setMinimum(100);
-        jSliderZeroDivider.setMinorTickSpacing(10);
-        jSliderZeroDivider.setPaintTicks(true);
-        jSliderZeroDivider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderZeroDividerStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel39Layout = new javax.swing.GroupLayout(jPanel39);
-        jPanel39.setLayout(jPanel39Layout);
-        jPanel39Layout.setHorizontalGroup(
-            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderZeroDivider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel39Layout.setVerticalGroup(
-            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderZeroDivider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
-        jLabel35.setText("delay variants");
-
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "delay 0", "delay 1", "delay 2", "delay 3" }));
-        jComboBox6.setToolTipText("on selection this sets preconfigured values");
-        jComboBox6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox6ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2005,25 +1991,17 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jCheckBoxVia))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(206, 206, 206)
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel19Layout.createSequentialGroup()
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8))
-                            .addGroup(jPanel19Layout.createSequentialGroup()
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel35)))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel35))
                         .addGap(47, 47, 47)
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jComboBox6, 0, 105, Short.MAX_VALUE)
                             .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 75, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
+            .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2047,25 +2025,21 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)
                             .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(8, 8, 8)
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel35)
                             .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jCheckBoxVia)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
+                .addGap(86, 86, 86))
         );
 
         jTabbedPane1.addTab("Delays", jPanel19);
@@ -2116,7 +2090,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         );
         jPanel27Layout.setVerticalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderMuxY4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, Short.MAX_VALUE)
+            .addComponent(jSliderMuxY4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)
         );
 
         jCheckBox26.setText("use splines for curved vectors");
@@ -2445,7 +2419,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
 
         jLabel72.setText("samples");
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "2", "4", "8", "16" }));
+        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "2", "4", "8", "16" }));
         jComboBox8.setSelectedIndex(3);
         jComboBox8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2669,7 +2643,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                 .addComponent(jComboBoxScreenModes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox64)
-                .addGap(0, 35, Short.MAX_VALUE))
+                .addGap(0, 87, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel64Layout = new javax.swing.GroupLayout(jPanel64);
@@ -2700,21 +2674,13 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                                     .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(61, 61, 61))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel64Layout.createSequentialGroup()
-                                .addGap(0, 0, 0)
-                                .addGroup(jPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel64Layout.createSequentialGroup()
-                                        .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(36, 36, 36))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel64Layout.createSequentialGroup()
-                                        .addComponent(jPanel65, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, 0)))))
-                        .addGroup(jPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jPanel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel69, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel64Layout.createSequentialGroup()
-                                .addGap(0, 0, 0)
-                                .addComponent(jPanel67, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(36, 36, 36))
+                            .addComponent(jPanel65, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel67, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel69, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel64Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(jPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2723,19 +2689,19 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel64Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jCheckBoxMSAA1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel64Layout.setVerticalGroup(
             jPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel64Layout.createSequentialGroup()
                 .addGroup(jPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel64Layout.createSequentialGroup()
-                        .addComponent(jPanel67, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel67, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(1, 1, 1)
                         .addComponent(jPanel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel65, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel48, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel64Layout.createSequentialGroup()
                         .addGroup(jPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2760,9 +2726,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxMSAA1)
                         .addContainerGap(30, Short.MAX_VALUE))
-                    .addGroup(jPanel64Layout.createSequentialGroup()
-                        .addComponent(jPanel69, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jPanel69, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jPanel66.setBorder(javax.swing.BorderFactory.createTitledBorder("non JOGL config only"));
@@ -2864,7 +2828,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel63Layout.setHorizontalGroup(
             jPanel63Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+            .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
             .addComponent(jPanel64, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel66, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel63Layout.createSequentialGroup()
@@ -6098,7 +6062,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -6127,13 +6091,13 @@ public class ConfigJPanel extends javax.swing.JPanel implements
 
     }//GEN-LAST:event_jSliderRampStateChanged
 
-    private void jSliderBlankStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderBlankStateChanged
-        config.delays[TIMER_BLANK_CHANGE] = jSliderBlank.getValue();
-    }//GEN-LAST:event_jSliderBlankStateChanged
+    private void jSliderBlankOnStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderBlankOnStateChanged
+        config.delays[TIMER_BLANK_ON_CHANGE] = jSliderBlankOn.getValue();
+    }//GEN-LAST:event_jSliderBlankOnStateChanged
 
-    private void jSliderZeroStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderZeroStateChanged
-        config.blankOnDelay = ((double )jSliderZero.getValue())/10;
-    }//GEN-LAST:event_jSliderZeroStateChanged
+    private void jSliderBlankOnTenthStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderBlankOnTenthStateChanged
+        config.blankOnDelay = ((double )jSliderBlankOnTenth.getValue())/10;
+    }//GEN-LAST:event_jSliderBlankOnTenthStateChanged
 
     private void jSliderMuxRStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderMuxRStateChanged
         config.delays[TIMER_MUX_R_CHANGE] = jSliderMuxR.getValue();
@@ -6260,46 +6224,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private void jSliderXDriftStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderXDriftStateChanged
         config.drift_x = (double)(((double)jSliderXDrift.getValue())/100);
     }//GEN-LAST:event_jSliderXDriftStateChanged
-
-    private void jTextField4FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField4FocusLost
-        if (mClassSetting!=0) return;
-        mClassSetting++;
-        double i= de.malban.util.UtilityString.IntX(jTextField4.getText(), 0);
-        config.warmup = i/100;
-        mClassSetting--;
-    }//GEN-LAST:event_jTextField4FocusLost
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        jTextField4FocusLost(null);
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void jTextField4PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField4PropertyChange
-        jTextField4FocusLost(null);
-    }//GEN-LAST:event_jTextField4PropertyChange
-
-    private void jTextField4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyTyped
-        jTextField4FocusLost(null);
-    }//GEN-LAST:event_jTextField4KeyTyped
-
-    private void jTextField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusLost
-        if (mClassSetting!=0) return;
-        mClassSetting++;
-        double i= de.malban.util.UtilityString.IntX(jTextField5.getText(), 0);
-        config.cooldown = i/100;
-        mClassSetting--;
-    }//GEN-LAST:event_jTextField5FocusLost
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        jTextField5FocusLost(null);
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField5PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField5PropertyChange
-        jTextField5FocusLost(null);
-    }//GEN-LAST:event_jTextField5PropertyChange
-
-    private void jTextField5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyTyped
-        jTextField5FocusLost(null);
-    }//GEN-LAST:event_jTextField5KeyTyped
 
     private void jCheckBox32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox32ActionPerformed
         setColumnCheckBox((JCheckBox)evt.getSource());
@@ -6833,14 +6757,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         config.warnOnDoubleDefine = jCheckBox48.isSelected();
     }//GEN-LAST:event_jCheckBox48ActionPerformed
 
-    private void jSliderZeroRetainXStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderZeroRetainXStateChanged
-        config.zeroRetainX = ((double)jSliderZeroRetainX.getValue())/10000.0;
-    }//GEN-LAST:event_jSliderZeroRetainXStateChanged
-
-    private void jSliderZeroRetainYStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderZeroRetainYStateChanged
-        config.zeroRetainY = ((double)jSliderZeroRetainY.getValue())/10000.0;
-    }//GEN-LAST:event_jSliderZeroRetainYStateChanged
-
     private void jSliderZeroDividerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderZeroDividerStateChanged
         config.zero_divider = ((double)jSliderZeroDivider.getValue())/100.0;
     }//GEN-LAST:event_jSliderZeroDividerStateChanged
@@ -6852,15 +6768,17 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jComboBox5ActionPerformed
 
     private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
-        config.delays[TIMER_MUX_SEL_CHANGE] = 2;
-        config.delays[TIMER_MUX_Y_CHANGE] = 11;
+        config.delays[TIMER_MUX_SEL_CHANGE] = 1;
+        config.delays[TIMER_MUX_Y_CHANGE] = 13;
         config.delays[TIMER_MUX_Z_CHANGE] = 0;
         config.delays[TIMER_MUX_S_CHANGE] = 0;
         config.delays[TIMER_MUX_R_CHANGE] = 0;
-        config.delays[TIMER_XSH_CHANGE] = 11;
+        config.delays[TIMER_XSH_CHANGE] = 13;
         config.delays[TIMER_ZERO] = 5;
-        config.delays[TIMER_BLANK_CHANGE] = 0;
+        config.delays[TIMER_BLANK_ON_CHANGE] = 0;
         config.blankOnDelay = 1.0;
+        config.delays[TIMER_BLANK_OFF_CHANGE] = 0;
+        config.blankOffDelay = 1.0;
         config.delays[TIMER_SHIFT] = 1+1;
         config.delays[TIMER_T1] = 0+1;
         config.cycleExactEmulation = true;
@@ -6910,8 +6828,10 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jSliderMuxR.setValue(config.delays[TIMER_MUX_R_CHANGE]);
         jSliderXSH.setValue(config.delays[TIMER_XSH_CHANGE]);
         jSliderRealZero.setValue(config.delays[TIMER_ZERO]);
-        jSliderBlank.setValue(config.delays[TIMER_BLANK_CHANGE]);
-        jSliderZero.setValue((int)(config.blankOnDelay*10));
+        jSliderBlankOn.setValue(config.delays[TIMER_BLANK_ON_CHANGE]);
+        jSliderBlankOnTenth.setValue((int)(config.blankOnDelay*10));
+        jSliderBlankOff.setValue(config.delays[TIMER_BLANK_OFF_CHANGE]);
+        jSliderBlankOffTenth.setValue((int)(config.blankOffDelay*10));
         jSliderShift.setValue(config.delays[TIMER_SHIFT]-1);
         jSliderT1.setValue(config.delays[TIMER_T1]-1);
         jCheckBox12.setSelected(config.cycleExactEmulation);
@@ -7630,6 +7550,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         HTMLEditorKit kit = new HTMLEditorKit();
         StyleSheet styleSheet = kit.getStyleSheet();
         styleSheet.addRule("a {color:#"+Global.getHTMLColor(config.linkColor)+";}");        
+        Global.linkColor = config.linkColor;
     }//GEN-LAST:event_jButtonHTMLLinkActionPerformed
 
     private void jButtonVecciBackground10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVecciBackground10ActionPerformed
@@ -7654,6 +7575,8 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         HTMLEditorKit kit = new HTMLEditorKit();
         StyleSheet styleSheet = kit.getStyleSheet();
         styleSheet.addRule("body {color:#"+Global.getHTMLColor(config.htmltext)+";}");
+        Global.textColor = config.htmltext;
+        
     }//GEN-LAST:event_jButtonHTMLTextActionPerformed
 
     private void jButtontableIOInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtontableIOInputActionPerformed
@@ -7694,6 +7617,22 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private void jButtonPre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPre1ActionPerformed
          showEditPeepProperties();
     }//GEN-LAST:event_jButtonPre1ActionPerformed
+
+    private void jSliderBlankOffStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderBlankOffStateChanged
+        config.delays[TIMER_BLANK_OFF_CHANGE] = jSliderBlankOff.getValue();
+    }//GEN-LAST:event_jSliderBlankOffStateChanged
+
+    private void jSliderBlankOffTenthStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderBlankOffTenthStateChanged
+        config.blankOffDelay = ((double )jSliderBlankOffTenth.getValue())/10;
+    }//GEN-LAST:event_jSliderBlankOffTenthStateChanged
+
+    private void jSliderZeroRetainXStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderZeroRetainXStateChanged
+        config.zeroRetainX = ((double)jSliderZeroRetainX.getValue())/10000.0;
+    }//GEN-LAST:event_jSliderZeroRetainXStateChanged
+
+    private void jSliderZeroRetainYStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderZeroRetainYStateChanged
+        config.zeroRetainY = ((double)jSliderZeroRetainY.getValue())/10000.0;
+    }//GEN-LAST:event_jSliderZeroRetainYStateChanged
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -7905,7 +7844,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
@@ -7916,7 +7854,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel69;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
@@ -8041,7 +7978,10 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSlider jSliderBlank;
+    private javax.swing.JSlider jSliderBlankOff;
+    private javax.swing.JSlider jSliderBlankOffTenth;
+    private javax.swing.JSlider jSliderBlankOn;
+    private javax.swing.JSlider jSliderBlankOnTenth;
     private javax.swing.JSlider jSliderBrightness;
     private javax.swing.JSlider jSliderEfficiency;
     private javax.swing.JSlider jSliderMasterVolume;
@@ -8069,7 +8009,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JSlider jSliderXDrift;
     private javax.swing.JSlider jSliderXSH;
     private javax.swing.JSlider jSliderYDrift;
-    private javax.swing.JSlider jSliderZero;
     private javax.swing.JSlider jSliderZeroDivider;
     private javax.swing.JSlider jSliderZeroRetainX;
     private javax.swing.JSlider jSliderZeroRetainY;
@@ -8102,8 +8041,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField32;
     private javax.swing.JTextField jTextField33;
     private javax.swing.JTextField jTextField34;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;

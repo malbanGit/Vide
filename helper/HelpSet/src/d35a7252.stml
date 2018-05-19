@@ -1,0 +1,57 @@
+:title Preconditions
+
+**Note**:~~
+I am not sure whether the executable flags of the binaries (linux/mac) will be kept intact. I use a Windows "ZIP" program and am being a bit dubious about it. Please check the respective directories (see below) that the binaries are executable!
+~~ ~~
+:hr
+
+
+Vide comes with "all" binaries needed to use "C".
+The "all" is in quotes because it //might// not true for all platforms. Installed and tested are below systems.
+
+To execute gcc several libraries are needed. I only supply the libraries for windows - since they can easily be distributed (and found by gcc). If they are in the same directory as the executable - gcc finds them.
+
+Following libraries are needed:
+- libGMP
+- libMPFR
+- libICONV
+
+
+
+:h2 Windows (32)
+The binaries for the windows executables are located at:
+"Vide/C/Win32/bin/"
+
+The binaries were compiled using MingW. All needed libraries are in the above directory.
+No Win64 binaries are provided - the 32 binaries also work under Win64 systems.
+
+The above executables were built (not gcc) and tested using: WinXP (32bit), Win7 (64bit), Win8 (64bit), Win10 (64bit) (virtual machines)
+
+:h2 Mac OS X
+The binaries for the Mac executables are located at:
+"Vide/C/Mac/bin/"
+
+For some more information see also the readme file in the directory "Vide/C/Mac/lib"
+
+For the Mac version I was (finally also) able to compile gcc using static linked versions of the above mentioned libraries. These should work just fine.
+
+The Mac version was built and tested on an iMac mid 2011 running Mac OS X Sierra.
+
+:h2 Linux 64
+The binaries for the Linux64 executables are located at:
+"Vide/C/Linux64/bin/"
+
+For the linux 64 version I was able to compile gcc using static linked versions of the above mentioned libraries. These should work out just fine.
+It is a little bit hard to test if the compiler works "standalone", since every linux system I used had said libraries installed out of the box (Debian/Ubuntu).
+
+The linux 64 was built and tested running Linux Ubuntu installed from "ubuntu-16.04.3-desktop-amd64.iso" (on a virtual machine).
+
+:h2 Linux 32
+The binaries for the Linux32 executables are located at:
+"Vide/C/Linux32/bin/"
+
+For the linux 32 version I was able to compile gcc using static linked versions of the above mentioned libraries. These should work out just fine.
+It is a little bit hard to test if the compiler works "standalone", since every linux system I used had said libraries installed out of the box (Debian/Ubuntu).
+
+The linux 32 was built and tested running Linux Ubuntu installed from "ubuntu-16.04.3-desktop-i386.iso" (on a virtual machine).
+

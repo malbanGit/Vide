@@ -12,7 +12,7 @@
 <img src="pics/VeccyExport.png" width="1508" height="421"><br>
 <em>text export</em></p><br>
 
-<p>Text export is the "main" export vecci offers, all other exports (at the moment) must be user defined - but with user definitions you can probably export to any imaginable format (if you do know a little bit about java).</p>
+<p>Text export is the "main" export vecci offers, some other exports are supported (see below) plus there can be user defined exports, with user definitions you can probably export to any imaginable format (if you do know a little bit about java).</p>
 
 <p>Anyway...<br>
 </p>
@@ -37,6 +37,12 @@
 <p>if a runnable source is generated, the button <img src="pics/control_play_blue.png" alt="control_play_blue.png"> is enabled, and by pressing it you start your generated vectrex binary in the emulator.</p>
 </li><li>
 <p>you can also change the source in the editor an run it afterwards. If "nothing" happened you entered a syntax error (check the log). If that is so, better copy and paste the text into vedi, there you can access error messages of assi directly</p>
+</li><li>
+<p>you can chose whether to add a "factor". The factor is realized as a constant within each data statement. The default value for the constant is "1", but you can easily edit that value in the generated sources.</p>
+</li><li>
+<p>you can chose whether to use a "db" or "fcb" assembler statement (checkbox)</p>
+</li><li>
+<p>you can chose whether to use a hex or decimal output values (checkbox)</p>
 </li></ul>
 
 <p>Following types of exports are supported (if possible):<br>
@@ -199,6 +205,8 @@ The vectorlists build in vecci automatically resync at points in the list which 
 
 <p>In order to be able to save an animation in one format, <b>ALL</b> vectorlists of that animation must be saveable in that format!</p>
 
+<p>For animations you can also save in synced "extended" vector format. That format also included the intensity of the vectors as set in vecci.</p>
+
 <p>If you use rotation, be sure to either have a correct startpoint, or use one of the Mov_Draw... or Mode... formats, otherwise it might happen, that you are "rotating" around the wrong point!</p>
 <h3>Scenario</h3>
 
@@ -259,5 +267,34 @@ Following templates are used:
 <h2>User export</h2>
 
 <p>Here a user can configure (meaning program) his own export routines. A simple example is given, as of now I will not elaborate these settings.</p>
+<h2>Other</h2>
+
+<p><b>SVG</b><br>
+</p>
+
+<p>The SVG export is at the moment very basic, since it only makes use of the "line" command. If you want to reuse the export you are probaby better of if you edit the result in some svg supporting tool (Inkscape?).</p>
+
+<p>The resulting SVG file is always placed in the default vectorlist directory under:<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vide/xml/vectorlist/</tt><br>
+</p>
+
+<p><b>Wavefront OBJ</b><br>
+The OBJ export is at the moment very basic, only the entities:
+<ul><li>
+<p>v (vertex)</p>
+</li><li>
+<p>p (point)</p>
+</li><li>
+<p>l (line)</p>
+</li><li>
+<p>f (face) are used.</p>
+</li></ul>
+</p>
+
+<p>If you want to reuse the export you can do that for examples with "Blender".</p>
+
+<p>The resulting OBJ file is always placed in the default vectorlist directory under:<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vide/xml/vectorlist/</tt><br>
+</p>
 </body>
 </html>

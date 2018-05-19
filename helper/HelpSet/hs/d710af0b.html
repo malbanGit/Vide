@@ -1,0 +1,176 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Drawing vectors - differently</title>
+</head>
+<body class="doc">
+<h1>Drawing vectors - differently</h1>
+
+<p>Simply put vector drawing goes like this:
+<ul><li>
+<p>place the beam on the screen</p>
+</li><li>
+<p>switch the light on</p>
+</li><li>
+<p>move the beam with light switched on</p>
+</li><li>
+<p>switch the light off</p>
+</li></ul>
+</p>
+
+<p>Less simple:<br>
+The way BIOS (and most other implementations) draw vectors is:<br>
+(drawing characters or raster data is slightly different)
+<ul><li>
+<p>place the beam somewhere (MoveTo)</p>
+</li><li>
+<p>set the scale factor (Timer1 Lo)</p>
+</li><li>
+<p>set y strength (integrator Y)</p>
+</li><li>
+<p>set x strength (integrator X)</p>
+</li><li>
+<p>write $ff to shift register (the light is switched on)</p>
+</li><li>
+<p>start timer 1 (which, starts the ~RAMP (vector beam is moving))</p>
+</li><li>
+<p>wait for timer 1 to expire (~RAMP is switched off)</p>
+</li><li>
+<p>write $00 to shift register (switch the light off)</p>
+</li></ul>
+</p>
+
+<p>A short via side explanation (for more in depth see "Vectrex internals -&gt; Analog").</p>
+
+<p><b>~RAMP<br>
+</b> Moving the beam internally is realized using integrator circuits which are connected to the deflection coils. Whether the integrators are integrating or not is controlled by a single "flag" (one BIT), which is called ~RAMP. </p>
+
+<p>~RAMP is a zero active flag, meaning the integrators are WORKING when the ~RAMP flag equals zero, this is indicated by the "~" in front of the flag.</p>
+
+<p><b>~BLANK<br>
+</b> Switching the light on and off is internally nearly the same thing, the brightness of the light is set equally to the strength of the vectors [NOT using the blank flag], and the circuit telling the CRT to actually send a "strong" electron beam (which illuminates the phosphor coated tube) is not really that much different than the deflection coil circuits. <br>
+What the "~RAMP" signal is for moving - that is the "~BLANK" signal for light on off.<br>
+The ~BLANK is also a single (zero active) flag, which tells vectrex to switch the light off ~BLANK equals zero, or to switch the light on (~BLANK non zero).</p>
+
+<p><b>VIA<br>
+</b> To communicate the state of the flags (set/unset) VIA 6522 is used.</p>
+
+<p>~RAMP flag is connected the seventh bit of VIA port B (in the following the short form of PB7 is used (<b>P</b>ort <b>B</b> bit <b>7</b>).</p>
+
+<p>~BLANK flag is connected to the VIA Control line Port B 2 (in the following the short form CB2 is used (<b>C</b>ontroll line Port <b>B 2</b>))</p>
+
+<p><b>Versatile<br>
+</b> As the name VIA (Versatile Interface Adapter) implies - there are more than one way to handle things. Via has a couple of control registers, that influence the way it behaves. In relation to the above two "flags" (PB7 = ~RAMP and CB2 = ~BLANK) following information is "interesting":<br>
+</p>
+
+<p>Default BIOS settings:<br>
+VIA register $b (auxiliary control register) is set to $98, which in bits is %10 0 110 00. (See also Vide documentaion: Vectrex internals-&gt; VIA)<br>
+
+<ul><li>
+<p>Bit 7 and 6 ["10"]: sets the behaviour of Timer T1, in short "10" means:<br>
+<i>count down to zero and than stop, also while counting down set PB7 to zero, when countdown is finished, set PB7 to one</i></p>
+</li><li>
+<p>Bit 4, 3 and 2 ["110"]: sets the bevaviour of the SHIFT Register of VIA, the "combined" behaviour setting result is:<br>
+<i>every two processor cycle shift out the MSB (most significant bit) to CB2, at the same time shift the MSB back to the LSB (least significant bit). Keep on shifting till I tell you something else [the actual shifting starts once the Shiftreg is read or written to]</i>.</p>
+</li></ul>
+</p>
+
+<p>What this boils down to is the above described "less simple" way of drawing a vector.<br>
+</p>
+
+<p>Starting the timer 1 "automatically" starts moving the vector. Programatically writing "$ff" to the shift register switches the light on for every shift cycle following (~BLANK = 1 means the light is on).</p>
+
+<p>When the timer t1 reaches zero, the vector automatically stops moving. Than one programatically has to switch the light of by writing 0 to the shift register.<br>
+(Note: it is better to do a <tt><br>
+&nbsp;&nbsp;clra<br>
+&nbsp;&nbsp;sta via_shiftreg</tt><br>
+than to do a<br>
+<tt>&nbsp;&nbsp;clr via_shiftreg</tt>, <br>
+the speed (processor cycles) is the same, but doing a "<tt>clr via_shiftreg</tt>"  also READS the shiftreg, which inherently starts shifting and does output at least one other shift cycle to CB2). <br>
+<br>
+As you might notice, the switch light off using the above method always switches the light off after the moving stops - actually the light is switched off (due to instructions being not immediate) after some additional cycles (at least 4). Meaning the light is kept on for that number of cycles for to long!</p>
+
+<p>You can see that on your vectrex, each vector has a brighter spot at its end, this is because the light is switched of a few cycles to late.</p>
+<h2>Differently</h2>
+
+<p>As you might have guessed with the above mentioning of "versatile" - you can also access the above flags differently.</p>
+
+<p>One other ways to access both bits is to set them "manually".</p>
+
+<p>Below given example (in X register given a Draw_VLc compatible vectorlist) draws vectors "manually" - meaning without using a timer and without using the shift register.</p>
+
+<p>Following settings were used:<br>
+VIA register $b (auxiliary control register) is set to $00, which in bits is %00 0 000 00. (See also Vide documentaion: Vectrex internals-&gt; VIA)<br>
+
+<ul><li>
+<p>Bit 7 and 6 ["00"]: sets the behaviour of Timer T1, in short "00" means:<br>
+<i>Do not influence PB7 by timer 1.</i></p>
+</li><li>
+<p>Bit 4, 3 and 2 ["110"]: sets the bevaviour of the SHIFT Register of VIA, the "combined" behaviour setting result is:<br>
+<i>Disable Shift register activity</i>.</p>
+</li></ul>
+</p>
+
+<p>By setting the via auxiliary control register to above values, both flags can be set manually. 
+<ul><li>
+<p>PB7 <br>
+can manually be set by writing appropriate values to  "VIA_port_b" (Bit 7).</p>
+</li><li>
+<p>CB2<br>
+ can manually be set by setting appropriate values to "VIA_cntl" (Bit 5, 6 and 7 are responsible for CB2 bevaviour)</p>
+</li></ul>
+</p>
+
+<div class="code">
+<p><tt> fixDraw: <br>
+; setup fixdraw<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;,x+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; load the count of vectors to draw <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;tmp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; and remember them somewhere <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;#$81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; mux disabled, ramp disables <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&lt;VIA_aux_cntl&nbsp;&nbsp;; Shift reg mode = 000 free disable, T1 PB7 disabled<br>
+  noEnd:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;#$ce <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&lt;VIA_cntl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ZERO disabled, and BLANK enabled <br>
+nextv:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldd&nbsp;&nbsp;&nbsp;,x++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; a = y, b = x <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;; Y -&gt; Send it to the D/A <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;#$80 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; ramp disabled, mux enabled -&gt; to Y <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inca&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; ramp disabled, mux disabled -&gt; to Y <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;; X -&gt; Send it to the D/A <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldd&nbsp;&nbsp;&nbsp;#$8101 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; below are x cycles RAMP switched on!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;#$ee <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb&nbsp;&nbsp;&nbsp;&lt;VIA_cntl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ZERO disabled, and BLANK disabled <br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nop&nbsp;&nbsp;&nbsp;10 ; DELAY<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; disable ramp ; should again be $81 <br>
+; and x +y cycles light switched on<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nop&nbsp;&nbsp;&nbsp;2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;tmp <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bpl&nbsp;&nbsp;&nbsp;noEnd <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;#$ce <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb&nbsp;&nbsp;&nbsp;&lt;VIA_cntl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ZERO disabled, and BLANK enabled <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;#$98 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&lt;VIA_aux_cntl <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rts&nbsp;&nbsp;&nbsp;<br>
+</tt><br>
+</p>
+</div>
+
+<p>The line with "<tt>nop&nbsp;&nbsp;&nbsp;10&nbsp;; DELAY</tt>" is resonsible for the size of the resulting image (much like the scale factor).</p>
+<br>
+
+<p><b>Note:</b><br>
+Although the code above suggests otherwise  in consideration of VIA internal timings - the above vector drawing done is (at least using my vectri) cycle exact. ~RAMP and ~BLANK are set and unset at the correct times, and there are no bright spots on either side of the drawn vectors. (~BLANK is switched off for 20 cycles <i>longer</i> than ~RAMP - I have no clue what VIA is doing in those 20 cycles!)<br>
+</p>
+<br>
+
+<p><b>Note:</b><br>
+The timings given in above example have been experimentally gotten by trial an error using real life vectrex systems. While Vide is able to display the result correctly, emulation of VIA internal timing is not good enough to trust the emulator on timing experiments.</p>
+</body>
+</html>

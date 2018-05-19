@@ -1897,6 +1897,18 @@
 		<DestinationDirAll>download/cartridges/reactor.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>Whee</Name>
+		<URL>https://zak.fi/images/7/7c/Wheevec.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download/cartridges/Wheevec.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>Sound</Class>
 		<Name>YM DOWNLOAD ZIP</Name>
 		<URL>http://pacidemo.planet-d.net/aldn/ym/ST%20synth%20musics.ym.zip</URL>

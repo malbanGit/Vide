@@ -108,7 +108,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
         if (vecxPanel==null) return;
         Color output = jTextFieldoutput.getBackground();
         Color input = jTextFieldiput.getBackground();
-        VecXState.deepCopy(vecxPanel.getVecXState(), currentDisplayed, false, false);
+        VecXState.shallowCopy(vecxPanel.getVecXState(), currentDisplayed, false, false);
         
         jLabel11.setText("$"+String.format("%02X", currentDisplayed.via_orb));
         
@@ -338,9 +338,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField131.setText(""+((currentDisplayed.via_ca1 !=0 )?"1":"0"));
         jTextField132.setText(""+((currentDisplayed.via_ca2 !=0 )?"1":"0"));
         jTextField133.setText(""+((currentDisplayed.sig_blank.intValue !=0 )?"1":"0"));
-        jTextField135.setText(""+(((currentDisplayed.via_ifr&0x80) !=0 )?"1":"0"));
-                
-        
+        jTextField135.setText(""+(((currentDisplayed.via_ifr&0x80) !=0 )?"0":"1"));
      }
 
     /**
@@ -2366,7 +2364,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jPanel21.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel77.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
-        jLabel77.setText("IRQ");
+        jLabel77.setText("~IRQ");
 
         jTextField135.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField135.setText("?");

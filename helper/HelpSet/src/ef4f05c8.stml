@@ -1,0 +1,69 @@
+:title Using Vide Tools from "C"
+
+Following tools support C in "some" way:
+
+:h3 Vedi
+The editor, look at above chapters.
+
+:h3 Vecci
+Vecci can export in C style. There are two export options:
+a) **"C"**~~If you check the check checkbox "C" (in text export)
+all exports (single list and animation/scenario) are done in a non specific "C" style. The non specific C style
+generates list of "::const signed char::" data. example for Draw\_Vlc style:
+::
+const signed char SomeList[]=~~
+{____+0x09,~~
+_____+0x04, +0x04, \// draw to y, x~~
+_____-0x04, +0x02, \// draw to y, x~~
+_____-0x04, -0x02, \// draw to y, x~~
+_____+0x02, -0x04, \// draw to y, x~~
+_____+0x04, -0x02, \// draw to y, x~~
+_____+0x04, +0x02, \// draw to y, x~~
+_____+0x02, +0x04, \// draw to y, x~~
+_____-0x02, +0x04, \// draw to y, x~~
+};~~
+::
+
+b) **"PC"**~~If you check **additionally** the check checkbox "PC" (in text export)
+ exports for Mov\_Draw\_Vlc, Draw\_Vlc and Draw\_Vl\_mode are done Peer "C" style (see example provided by Peer). Example for Draw\_Vlc:~~
+::
+const struct vector\_t vectors\_SomeList[] =~~
+{~~
+	_____{+0x04, +0x04}, \// draw to y, x~~
+	_____{-0x04, +0x02}, \// draw to y, x~~
+	_____{-0x04, -0x02}, \// draw to y, x~~
+	_____{-0x02, -0x04}, \// draw to y, x~~
+	_____{+0x02, -0x04}, \// draw to y, x~~
+	_____{+0x04, -0x02}, \// draw to y, x~~
+	_____{+0x04, +0x02}, \// draw to y, x~~
+	_____{+0x02, +0x04}, \// draw to y, x~~
+	_____{-0x02, +0x04}, \// draw to y, x~~
+};~~
+const struct vector\_list\_t SomeList =~~
+{~~
+	_____.type = DIFFY,~~
+	_____.size = +0x08,~~
+	_____.vectors = &vectors\_SomeList~~
+};~~
+~~
+::
+
+Generating of "runnable" C-files is not supported.
+
+Accessing the "lib" dir in Vedi, you can add a printSyncList function to you project, that enables you to use synced lists from you C projects.
+
+:h2 YM Sound
+Using vedi you can include and use YM files (unpacked and optimal speed only).
+
+Use the "source" configuration on the YM-Panel and chose "C".
+
+:h2 Arkos Tracker music pieces
+Using vedi you can include and use Arkos Tracker files (output determined by project type).
+
+:h2 AYFX
+Using vedi you can include and use AYFX files (output determined by project type).
+
+:h2 Vector images
+Since this tool outputs to vecci - and vecci can be used... you can also use vector images.
+
+

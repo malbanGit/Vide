@@ -130,6 +130,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     }    
     public void init()
     {
+        initSyntax();
         loadSettings();
         fillTree();
         init = true;
@@ -1053,7 +1054,17 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                     {
                         String filenameASM = project.getBankMainFiles().elementAt(b);
                         if (filenameASM.length() == 0) continue;
-                        filenameASM = project.projectPrefix+File.separator+filenameASM;
+                        
+                        
+                        if (project.projectPrefix.length()==0)
+                        {
+                            filenameASM = project.getOldPath()+File.separator+project.mName+File.separator+filenameASM;
+                        }
+                        else
+                        {
+                            filenameASM = project.projectPrefix+File.separator+filenameASM;
+                        }
+                        
                         
                         File test = new File(filenameASM);
                         if (!test.exists())
@@ -1178,7 +1189,17 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         for (int b = 0; b<project.getNumberOfBanks(); b++)
         {
             String filename = project.getBankMainFiles().elementAt(b);
-            filename = project.projectPrefix+File.separator+filename;
+            
+            if (project.projectPrefix.length()==0)
+            {
+                filename = project.getOldPath()+File.separator+project.mName+File.separator+filename;
+            }
+            else
+            {
+                filename = project.projectPrefix+File.separator+filename;
+            }
+            
+            
             int li = filename.lastIndexOf(".");
             if (li>=0) 
                 filename = filename.substring(0,li);

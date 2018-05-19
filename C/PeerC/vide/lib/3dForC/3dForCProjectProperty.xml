@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>3dForC</Name>
+		<ProjectName>3dForC</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>projects</Path>
+		<MainFile>3dForC_.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author></Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>true</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>3dForC_.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+		<WheelName></WheelName>
+		<IsCProject>false</IsCProject>
+		<IsPeerCProject>false</IsPeerCProject>
+		<CFLAGS>-O3 -mint8 -msoft-reg-count=0 -quiet -IC/include</CFLAGS>
+	</ProjectProperties>
+</AllProjectProperties>

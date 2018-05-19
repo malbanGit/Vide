@@ -1,0 +1,51 @@
+:title Libraries / routines, that come with vide
+For practice and fun I translated some of my old routines to be accessable from C.
+
+:h2 General - how to use
+I am assuming you have a "PeerC"-project open. If so, right click in the file tree on the directory entry "lib". A list of all availble "user libraries" pops up.
+
+This popup is generated automatically by examining the directory:~~ ::"...Vide/C/PeerC/vide/lib"::~~
+Select the "entry" you would like to use and the corresponding "*.lst" and "*.rel" files are copied to your "lib" directory. When compiling your C program these libraries are automatically linked to your C program.
+
+If include files for the library are available (under: ::"...Vide/C/PeerC/vide/include"::) these are copied automatically to your local "include" directory and thus are available in your standard include path (::#include <...>::).
+
+See the include file for an example on how to use.
+
+:h3 Building data
+For some of the libraries "data" of some sort must be available.
+- YM songs
+- Arkos Tracker songs
+- AYFX data files
+
+In general use the "add file" menu (while over the root entry of the project directory) and add an appropriate file to the project. The file will than be placed in the "main" directory of the project.
+Right click - and corresponding to the file type (*.ym, *.bin, *.afx) the popup menuitem will be enabled. When executing vide generates compatible assembler data files (*.s) within your "source" directory (where they will automatically included in the build process).
+
+Also an include file with usually only one data structure pointer is listed, that must be handed over to the "player" routines.
+
+
+ 
+
+:h2 Libraries available
+
+:h3 YM player
+This comes in two flavours:
+a) unpacked
+b) optimized for speed
+
+:h3 3d for C
+Custom 3d routines I did 20 years ago - they still work :-).
+
+:h3 AYFX player
+For all three channels.
+
+**Notice**~~ 
+AYFX data is generated as "C" data. You can still use the assembler library if you wish. But there is also a player for AYFX data available in "pure C".
+
+
+:h3 SCROLL
+The scroller I did for Vectrex Frogger - the bugs I did back than are still in the code, I did not correct them. For a better scroller look at "Release".
+
+:h3 Arkos Player
+The player for arkos tracker "bin" files.
+
+

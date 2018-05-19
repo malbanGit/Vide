@@ -38,6 +38,7 @@ import de.malban.vide.vecx.VecXState.vector_t;
 import static de.malban.vide.vecx.VecXStatics.EMU_EXIT_BREAKPOINT_BREAK;
 import static de.malban.vide.vecx.VecXStatics.EMU_TIMER;
 import static de.malban.vide.vecx.VecXStatics.VECTREX_MHZ;
+import de.malban.vide.vecx.cartridge.AT24C02;
 import static de.malban.vide.vecx.cartridge.Cartridge.convertSeperator;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import de.malban.vide.vecx.cartridge.DS2430A;
@@ -226,7 +227,8 @@ public class VecXPanel extends javax.swing.JPanel
     }
     public void deinit()
     {
-        
+        if (displayPanel != null)
+            displayPanel.deinit();
         jButtonStopActionPerformed(null);                                            
         resetMe();
         AbstractDevice.exitSync = true;
@@ -567,7 +569,7 @@ public class VecXPanel extends javax.swing.JPanel
         
         if (startTypeRun != START_TYPE_INJECT)
         {
-            boolean ok = vecx.init(jTextFieldstart.getText(), cartProp);
+            boolean ok = vecx.init(jTextFieldstart.getText(), cartProp, true);
             if (!ok)
                 return;
             if (dissi != null)
@@ -736,6 +738,7 @@ public class VecXPanel extends javax.swing.JPanel
     }
     public void debugAction()
     {
+        vecx.directDrawActive = true; // once -> so an update occurs defineitly!
         updatefinished = true;
         // start running in debug mode
         // or go to pause and debug
@@ -1504,12 +1507,14 @@ waitAMoment = false;
                         setLightPen();
 
                         if (waitAMoment) cyclesToRun =1;
-                        
+
+                        boolean bs = config.breakpointsActive;
                         config.breakpointsActive = config.debugingCore;
                         if (config.debugingCore)
                             exitReason = vecx.vecx_emu(cyclesToRun); 
                         else
                             exitReason = vecx.vecx_emu_plain(cyclesToRun);    
+                        config.breakpointsActive = bs;
                         
                         measureCycles += vecx.cyclesDone;
                         vecx.directDrawActive = false;
@@ -2852,6 +2857,8 @@ waitAMoment = false;
     {
         dissi = d;
         dissi.newEnvironment(this);
+        
+
         myDissi = dissi.getData();
         AbstractDevice.exitSync = false;
         DualVec.exitSync = false;
@@ -3095,19 +3102,32 @@ waitAMoment = false;
         
         return stopEmulation;
     }
+    public AT24C02 getAtmel()
+    {
+        if (vecx == null) return null;
+        if (vecx.cart == null) return null;
+        if (vecx.cart.isAtmel == false) return null;
+        return vecx.cart.atmel;
+    }
     public Microchip11AA010 getMicrochip()
     {
-        if (vecx.microchipEnabled == false) return null;
+        if (vecx == null) return null;
+        if (vecx.cart == null) return null;
+        if (vecx.cart.isMicrochip == false) return null;
         return vecx.cart.microchip;
     }
     public DS2430A getDS2430A()
     {
-        if (vecx.ds2430Enabled == false) return null;
+        if (vecx == null) return null;
+        if (vecx.cart == null) return null;
+        if (vecx.cart.is2430a == false) return null;
         return vecx.cart.ds2430;
     }
     public DS2431 getDS2431()
     {
-        if (vecx.ds2431Enabled == false) return null;
+        if (vecx == null) return null;
+        if (vecx.cart == null) return null;
+        if (vecx.cart.isDS2431 == false) return null;
         return vecx.cart.ds2431;
     }
     public VectrexJoyport[] getJoyportDevices()

@@ -1,12 +1,12 @@
 :title In general!
 The application "state" VIDE is in, is more or less persistent (if development keeps up).
 
-As of now, VIDE remembers its open windows their size and their positions.
+VIDE remembers its open windows their size and their positions.
 
 There are a few "main" windows and quite a few "child windows". Once any window is open - the gui makes no difference between main and child.
 
 "My" difference between main- and child- windows is the place where they can be opened. Main Windows can be opened from the Menubar, there from the menu: "Tools":
-:image menubar.png|menubar
+:image Tools.png|menubar
 
 All other (child) windows are opened from the "main" windows.
 

@@ -1,0 +1,21 @@
+:title Starting a "C"-Project
+
+To program vectrex using "C" you have to start a new project. To do this, following steps must be taken:
+
+:h3 Open Vedi
+:image StertVedi.png|open vedi
+
+:h3 Start new project
+:image NewProjectSmall.png|start new project
+
+:h3 Check the checkbox "PeerC - Project" - and press "create"
+(and also fill in some of the other stuff - never mind the "main asm file")
+:image NewCProject.png|PeerC
+
+From the templates a "C"-Frame will be copied to the project directory, which is already a runnable "C" program.
+
+Vedi now looks somewhat like:
+:image CMain.png|C-Main
+
+
+

@@ -18,7 +18,7 @@ import java.io.Serializable;
  *
  * @author malban
  */
-public class VSID implements Serializable{
+public class VSID implements Serializable, CartridgeInternalInterface{
   static transient Stream line=null;
   public static final int MOS6581=0;
   public static final int MOS8580=1;
@@ -93,18 +93,29 @@ public class VSID implements Serializable{
             line = TinySound.getOutStream();
             line.start();
         }
-    //SAMPLE_FAST
-    //SAMPLE_RESAMPLE_INTERPOLATE
+        //SAMPLE_FAST
+        //SAMPLE_RESAMPLE_INTERPOLATE
         sid.set_sampling_parameters(SIDFRQ, sampling_method.SAMPLE_RESAMPLE_INTERPOLATE, SAMPLE_RATE, -1, 0.97);
 
         clocksPerSampleRest = (int) ((VECFREQ * 1000L) / SAMPLE_RATE);
         clocksPerSampleRest -= clocksPerSample * 1000;
-    //    System.out.println("ClocksPer Sample: " + clocksPerSample + "." + clocksPerSampleRest);
-    reset();
+        //    System.out.println("ClocksPer Sample: " + clocksPerSample + "." + clocksPerSampleRest);
+        reset();
         if (cart.vecx==null) return;
         lastCycles = cart.vecx.getCycles();
         nextSample = cart.vecx.getCycles()+5;
         
+    }
+    // receiving line information from the emulator (VIA)
+    public void linePB6In(boolean l)
+    {}
+
+    // sending line information to the emulator (VIA)
+    public void linePB6Out(boolean l)
+    {}
+    public void deinit()
+    {
+        stop();
     }
     public VSID clone()
     {
@@ -212,7 +223,8 @@ public class VSID implements Serializable{
     sid.write(address - SID_ADDRESS, data);
   }
 
-  public void reset() {
+  public void reset() 
+  {
       if (cart==null) return;
       if (cart.vecx==null) return;
     nextSample = cart.vecx.getCycles() + 10;
@@ -244,5 +256,10 @@ public class VSID implements Serializable{
     else
       sid.set_chip_model(ISIDDefs.chip_model.MOS8580);
   }
+    public boolean usesPB6() {return false;}
+    public void lineIRQIn(boolean i)
+    {
+    }
+    public boolean isActive() {return false;}
 }
 

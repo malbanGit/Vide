@@ -94,6 +94,17 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
             return true;
         }
     }     
+    public static VEdiFoundationPanel getVedi(Component o)
+    {
+        do
+        {
+            if (o instanceof VEdiFoundationPanel) return (VEdiFoundationPanel)o;
+            o = o.getParent();
+            
+        } while (o != null);
+        
+        return null;
+    }
     public Serializable getAdditionalStateinfo(){return null;}
     public void setAdditionalStateinfo(Serializable ser){}
     @Override

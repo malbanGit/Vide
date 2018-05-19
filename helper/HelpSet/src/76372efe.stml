@@ -4,6 +4,8 @@
 
 :h2 Editor
 
+:h3 !To learn about "C" support in Vedi look at the chapter "Programming in C"!
+ 
 :h3 some "highlights":
 - double click on a  "include" tries to load the denoted file in an editor tab
 - search and replace works

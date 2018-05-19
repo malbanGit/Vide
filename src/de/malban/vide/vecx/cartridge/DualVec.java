@@ -50,12 +50,11 @@ import java.io.Serializable;
  * 
  * @author malban
  */
-public class DualVec implements Serializable
+public class DualVec implements Serializable, CartridgeInternalInterface
 {
     private static DualVec[] dualVec = null;
     int side = 0;
     int otherSide = 1;
-    boolean inputFromExternalEnabled = false;
     Cartridge cart = null;
     boolean lineOut = true; // only output value from our OWN vectrex
     
@@ -79,14 +78,10 @@ public class DualVec implements Serializable
             dualVec[side].setCartridge(c);
         return dualVec[side];
     }
+    // there is no clone!
     public DualVec clone()
     {
         DualVec c = getDualVec(side, null);
-        c.inputFromExternalEnabled = inputFromExternalEnabled;
-        c.side = side;
-        c.otherSide = otherSide;
-        c.lineOut = lineOut;
-        
         return c;
     }
     public void setCartridge(Cartridge c)
@@ -97,10 +92,17 @@ public class DualVec implements Serializable
     private DualVec()
     {
     }
-    
-    public void setPB6InputEnabledFromExternal(boolean b)
+    public void init()
     {
-        inputFromExternalEnabled = b;
+    }
+    public void deinit()
+    {
+    }
+    public void reset()
+    {
+    }
+    public void linePB6Out(boolean b)
+    {
     }
     public String toString()
     {
@@ -144,7 +146,7 @@ public class DualVec implements Serializable
             synchronized (dualVec)
             {
                 if (oldLine != lineOut)
-                    dualVec[otherSide].cart.setPB6FromCarrtridge(lineOut);
+                    dualVec[otherSide].cart.setPB6FromCartridge(lineOut);
                 oldLine = lineOut;
             }
         
@@ -174,9 +176,14 @@ public class DualVec implements Serializable
     }
     boolean oldLine = true;
     // only set from our OWN vectrex
-    public void setLine(boolean b)
+    public void linePB6In(boolean b)
     {
         lineOut = b;
+    }
+    public boolean usesPB6() {return true;}
+    public boolean isActive() {return true;}
+    public void lineIRQIn(boolean i)
+    {
     }
 }
 

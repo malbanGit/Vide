@@ -1,0 +1,66 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Assembler Settings</title>
+</head>
+<body class="doc">
+<h1>Assembler Settings</h1>
+<h1>Assembler</h1>
+<br><p align="center">
+<img src="pics/AssiConfig.png" width="627" height="513"><br>
+<em>assembler config</em></p><br>
+
+<p><b>automatically expand short branches to long if needed</b><br>
+Well - what the option says.<br>
+<b>Note</b>:<br>
+As of yet assi is a two pass assembler, and I have not changed its architecture all that much (yet). Because of that it is not possible to expand branches (to that point) to unkown locations. Expanding short to long branches therefor only works with branches "backward" not forward. If an expansion forward is necessary assi quits with an error and tells you where the branch should be expanded!</p>
+
+<p><b>opt</b><br>
+Tells assi to use optimization (what little is implemented). <br>
+<b>Note</b>:<br>
+The "opt" pseudo opcode not only overwrites this setting it also SETS this very setting in the config. If you use "opt" in your sources, than the last use of "opt" (or noopt) is the new "config-setting" as well!</p>
+
+<p><b>LST output</b><br>
+List output takes (in relation to actually doing the assembly) a little bit of time. Therefor you can switch the generation off.</p>
+
+<p><b>treat undefined in if clause as 0 value</b><br>
+This is actually a compatabilty option to AS09.</p>
+
+<p><b>includes relative to parent</b><br>
+Whether the search path to includes is relative to the project file, or relative to the parent (including) file.</p>
+
+<p><b>create cnt for unused symbols</b><br>
+Whether assi should create label information even for labels which are not explicitly used within the source code.</p>
+
+<p><b>warn on define same symbol twice</b><br>
+Whether assi should issue a warning if two labels are defined twice. Even if switched on assi will only warn if the definitions are different. If switched on - and you need it temporarily switched of, you can comment the line defining a label with "; #noDoubleWarn" than the warning will only be switched of for that line.</p>
+
+<p><b>Pretty print tabs (vedi)</b><br>
+</p>
+<br><p align="center">
+<img src="pics/PrettyPrintSetting.png" width="324" height="280"><br>
+<em>pretty print settings</em></p><br>
+
+<p><b>Editor deep syntax check</b><br>
+These bundle of options actually is more related to the editor (Vedi).  But these configurations only take effect, when editing assembler sources - so...</p>
+
+<p>Vedi usually scans all known (or reachable) sources for variable, macro and function definitions.  Editing large files (100KB IS large for an assemblersource for vectrex!) - this may slow things down. These configurations help to keep the impact of scanning to a minimum.</p>
+
+<p>If you happen to frequently edit large fiels:
+<ul><li>
+<p>in general allow deep syntax check</p>
+</li><li>
+<p>deep syntax check intervall timer<br>
+This is the time in millisecods that Vedi waits to do the above mentioned syntax check</p>
+</li><li>
+<p>threshold active<br>
+If enabled, vedi does no deep syntax for files larger than a given size...</p>
+</li><li>
+<p>deep syntax check threshold<br>
+Even if above threshold is enabled, Vedi does no syntax check for files larger than the given bytecount. </p>
+</li></ul>
+</p>
+
+<p>This option also relates to the option described under Miscellaneous "scan for defined...".</p>
+</body>
+</html>

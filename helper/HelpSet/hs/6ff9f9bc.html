@@ -1,0 +1,79 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Known GCC bugs/deficiencies</title>
+</head>
+<body class="doc">
+<h1>Known GCC bugs/deficiencies</h1>
+
+<p>For corresponding project and test setup look at:<br>
+<tt>".../Vide/projects/GCC 6809 Bugs"</tt><br>
+for the project.</p>
+
+<p>Notice:<br>
+Changing to different optimization CFLAGS can have a "soothing" effect on these "Bugs".<br>
+</p>
+
+<p>As of now two "bugs" with the gcc compiler setup or known:</p>
+<h2>1 gcc6809 bug: division and shift operators with non constant 2nd operand</h2>
+
+<p>gcc6809 cannot handle shifts if the right operand is a non-constant int or char gcc6809 cannot handle division if the divisor is a non-constant int or char</p>
+
+<p>all other types, unsigned oned and longs, seem to work</p>
+
+<p>gcc crashes with an error message like:<br>
+ <br>
+<tt> sourcemain.c: In function "main':<br>
+sourcemain.c:68: error: unable to find a register to spill in class "Q&nbsp;REGS'<br>
+sourcemain.c:68: error: this is the insn:<br>
+&nbsp;&nbsp;(insn 20 19 21 3 sourcemain.c:59 (set (mem/c/i:QI (plus:HI (reg/f:HI 12 soft&nbsp;fp)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(const&nbsp;int -3 [0xfffffffd])) [0 c+0 S1 A8])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ashift:QI (const&nbsp;int 123 [0x7b])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reg:QI 35))) 60 {ashlqi3&nbsp;reg} (expr&nbsp;list:REG&nbsp;DEAD (reg:QI 35)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil)))<br>
+ sourcemain.c:68: confused by earlier errors, bailing out<br>
+</tt></p>
+
+<p> or an error message like:</p>
+
+<p><tt>sourcemain.c: In function "main':&nbsp;&nbsp;<br>
+sourcemain.c:68: error: insn does not satisfy its constraints:&nbsp;&nbsp;<br>
+(insn 66 28 30 sourcemain.c:59 (set (reg:QI 6 d [44])&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reg:QI 1 x)) 16 {movqi} (nil))&nbsp;&nbsp;<br>
+sourcemain.c:68: internal compiler error: in extract&nbsp;constrain&nbsp;insn&nbsp;cached, at recog.c:1918&nbsp;&nbsp;<br>
+Please submit a full bug report,&nbsp;&nbsp;<br>
+with preprocessed source if appropriate.&nbsp;&nbsp;<br>
+See &lt;URL:http:<i>www.oddchange.com/gcc6809&gt; for instructions.&nbsp;&nbsp;<br>
+<tt></tt></i></tt></p>
+
+<p>unfortunately, gcc6809 is not maintained anymore workaround solution: cast operands to (unsigned [long] int) <br>
+<br>
+</p>
+<h3>Work around</h3>
+
+<p>Usually, it is not difficult to work around this. In general, it should  be considered if a division or shift (with non constant operand) is really  needed, as these operations are rather slow on the mc6809 (i.e. the code  which is generated). If division can be restricted to powers of two, use  shifts instead. If shifts by a non constant bit number are needed, write  a loop which repeatedly shifts by 1 bit (the mc6809 does not have an n-bit  shift instruction anyway, so this is always done in some kind of loop).</p>
+<h2>2 gcc6809 bug: expressions</h2>
+
+<p>sometimes gcc6809 crashes if an expression is too complex in a sense that too many intermediate values must be kept in memory</p>
+
+<p>error messages look like this:</p>
+
+<p><tt><br>
+In file included from sourcemain.c:14:<br>
+source/bug&nbsp;expr.h: In function "bug&nbsp;expr':<br>
+source/bug&nbsp;expr.h:38: error: unable to find a register to spill in class "Q&nbsp;REGS'<br>
+source/bug&nbsp;expr.h:38: error: this is the insn:<br>
+&nbsp;(insn 9 8 10 2 source/bug&nbsp;expr.h:28 (set (reg:QI 31 [ D.1782 ])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(minus:QI (reg:QI 33 [ D.1780 ])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reg:QI 6 d [orig:32 D.1781 ] [32]))) 32 {subqi3} (expr&nbsp;list:REG&nbsp;DEAD (reg:QI 33 [ D.1780 ])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(expr&nbsp;list:REG&nbsp;DEAD (reg:QI 6 d [orig:32 D.1781 ] [32])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil))))<br>
+ source/bug&nbsp;expr.h:38: confused by earlier errors, bailing out<br>
+</tt></p>
+
+<p>unfortunately, gcc6809 is not maintained anymore workaround solution: use temporary variables to store intermediate results</p>
+<h3>Work around</h3>
+
+<p> Usually, it is not difficult to work around this. In general, expressions that get too complex are also very hard to read and to understand, so it  might be a good idea to rewrite them anyway. Moreover, performance is   usually not affected by this, as the compiler has to store intermediate   results in some form anyway.</p>
+</body>
+</html>

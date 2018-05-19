@@ -1,0 +1,20 @@
+XH2
+H 3 areas 4 global symbols 2 banks 1 modes
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S _seuclid Ref0000
+S .__.ABS. Def0000
+S _abort Ref0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size E flags D00
+S _divhi3 Def0000
+T 00 00
+R 00 00 00 02
+T 00 00 EC 62 26 03 7E 00 00
+R 00 00 00 02 81 07 00 02
+T 00 07
+R 00 00 00 02
+T 00 07 34 10 BD 00 00 35 90
+R 00 00 00 02 81 05 00 00

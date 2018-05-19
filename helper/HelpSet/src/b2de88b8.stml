@@ -257,7 +257,7 @@ The pin (how could it be otherwise) is again part of Via - it can be found in Vi
 
 With that information, a digital request in pseudo code can be done like:
 
-Question: is Joystick port B moved to right?~~
+Question: is Joystick port 0 moved to right?~~
 ~~
 - disable mux~~
 - dac = 0~~

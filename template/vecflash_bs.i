@@ -7,7 +7,7 @@
                     cmpa     #BANK_MAX                    ; compare to max bank 
                     bne      noMax                        ; if not max - go on 
                     clr      bankToSwitchTo               ; otherwise reset bank counter 
-                    inc      bankToSwitchTo               ; start with ONE 
+                    inc      bankToSwitchTo               ; start with Reset 
 noMax: 
 ; following routine sets the bank to the bankNo in "bankToSwitchTo"
                     lda      #switchRoutineROMEnd - switchRoutineROMStart ; length of routine ($15) 
@@ -19,6 +19,7 @@ copyram:            ldb      ,x+                          ; load rom value
                     deca                                  ; till finished 
                     bne      copyram 
                     lda      bankToSwitchTo               ; load next bank value 
+ clr <VIA_port_b
                     jmp      switchRoutineRAMStart        ; and jump to ram routine 
 
 

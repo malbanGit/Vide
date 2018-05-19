@@ -72,6 +72,17 @@ public class SourceLine {
             fileName = fname;
             lineNumber = lineNum;
 
+            if (line.toLowerCase().contains("#genvarlist#"))
+            {
+                Asmj.doReplacements = true;
+                
+                String t = line;
+                String[] splits = t.split("#");
+                String replaceListname=splits[2].trim();
+                Asmj.rList.replacementFileName =replaceListname;
+            }
+            
+            
             label = op = rest = null;
             errorMessages = null;
             instr = null;

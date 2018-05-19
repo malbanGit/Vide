@@ -9,10 +9,28 @@
 <p>Vecci is one of the few entities in VIDE which is not based on software of other programmers, so if you are not content with what you find here - all blame belongs to Malban alone!</p>
 
 <p>Anyway... vecci is is the part of VIDE that concerns itself with vector drawing, vector lists and other display stuff. There are many functions hidden under the complicated seeming gui. But I promise you, once you programmed vecci, you know it by heart and can do wonderfull things with it!</p>
+
+<p><b>Contents</b><br>
+<a href="5f12c2eb.html#basic">Basic usage</a><br>
+<a href="5f12c2eb.html#wentities">Window entities in short</a><br>
+<a href="5f12c2eb.html#dvectors">Drawing vectors</a><br>
+<a href="5f12c2eb.html#anavigatiom">Additional navigation</a><br>
+<a href="5f12c2eb.html#banimation">Build animation</a><br>
+<a href="5f12c2eb.html#shortcuts">Shortcuts</a><br>
+<a href="5f12c2eb.html#animationScenario">Animations / Scenario</a><br>
+<a href="5f12c2eb.html#vecciFormat">Vecci format (Save/Load)</a><br>
+<a href="5f12c2eb.html#other">Other stuff</a><br>
+</p>
+
+<p><a href="6aacd4ec.html">Import</a><br>
+<a href="aa9962d6.html">Export</a><br>
+<a href="2794015a.html">Storyboard</a><br>
+<a href="985b70df.html">Storyboard 2</a><br>
+</p>
 <br><p align="center">
 <img src="pics/veccy.png" width="1184" height="946"><br>
 <em>vecci window</em></p><br>
-<h2>Basic</h2>
+<h2><a name="basic">Basic</h2>
 <h3>Colors</h3>
 
 <p>Using vecci you will notice different colorings in the vector display areas:
@@ -101,7 +119,7 @@ the grid (if enabled) is always dark gray</p>
 
 <p><b>Note!</b><br>
 The DISPLAY panel can be switched from "vectorlist" display to "animation/scenario" display using the "play" button!</p>
-<h2>Window entities in short</h2>
+<h2><a name="wentities">Window entities in short</h2>
 
 <ul><li>
 <p>the "black" panels are vector displays or editors</p>
@@ -231,7 +249,7 @@ are all vectors (except start and end) connected? (determined by different metho
 </li></ul>
 </p>
 <h2>Drawing vectors</h2>
-<h3>Mode</h3>
+<h3><a name="dvectors">Mode</h3>
 
 <p>There are as of yet three different modes, vecci can be set to. Depending on the mode settings you can do different things.   The modes can be changed by a setting nearly in the middle of the window. In a tabbed pane with the heading "Mode/Select": </p>
 <br><p align="center">
@@ -292,6 +310,9 @@ This option allows you to set points, vectors with a length of 0, don't know if 
 <p>To "unselect" a single vector, keep shift pressed and click the vector you want to remove with the middle mouse button.</p>
 
 <p>Right click on a vector gives you (depending on current circumstances) more options, a popup menu will be displayed.</p>
+
+<p><b>Note:</b><br>
+The copy and paste functions do only work with vectors. That also means, that these functions only work, if the mode is set to "select vector"</p>
 <h3>Popup / Point selection</h3>
 
 <p><tt>Always</tt><br>
@@ -344,11 +365,28 @@ x Points selected<br>
 </p>
 <h3>Popup / Vector selection</h3>
 
-<p>Here you only have two selections:
+<p>Here you only have selections:
 <ul><li>
-<p>delete selected </p>
+<p>delete selected <br>
+  delete the current selected vector(s)</p>
 </li><li>
-<p>delete not selected</p>
+<p>delete not selected<br>
+  delete all currently not selected vectors</p>
+</li><li>
+<p>insert point<br>
+  in the current selected insert a point in the middle (splits the vector in 2 halfs)</p>
+</li><li>
+<p>switch orientation<br>
+  changes the "direction" of a vector -&gt; swaps start and end vertex</p>
+<br><p align="center">
+<img src="pics/Orientation.png" width="804" height="241"><br>
+<em>switch orientation example</em></p><br>
+</li><li>
+<p>remove middle point<br>
+  only if you have two directly connected vectors selected - removes the middle point (opposite to "insert point")</p>
+<br><p align="center">
+<img src="pics/RemovePoint2.png" width="703" height="178"><br>
+<em>remove point example</em></p><br>
 </li></ul>
 </p>
 <h3>Visual</h3>
@@ -365,7 +403,40 @@ Draw a number on each vector which shows the ordering position in the vectorlist
 If checked move vectors (pattern = 0) are displayed using a dark blue color.</p>
 </li></ul>
 </p>
-<h2>build animation</h2>
+<h2><a name="anavigatiom">Additional navigation</h2>
+
+<p>In the main view there is a button "pad" with which you can "scroll" the viewport in all directions (scrollstep width is the width of the current used grid) [double click the center -&gt; centers the viewport]</p>
+
+<p>You can also "drag" the viewport by using the mouse. While keeping the CTRL key pressed you can drag the viewport location.</p>
+
+<p>The button <img src="pics/application_get.png" alt="application_get.png"> below the mentioned button "pad" opens a large (resizable) editor window (the window is completely synchronized with vecci).</p>
+
+<p>The button <img src="pics/application_view_gallery.png" alt="application_view_gallery.png"> below the mentioned button "pad" opens a large (resizable) 3d-editor window. <br>
+Here you can:
+<ul><li>
+<p><b>not</b> add vectors, only move and work with vectors</p>
+</li><li>
+<p>CTRL mouse moves the viewport</p>
+</li><li>
+<p>scaling is possible</p>
+</li><li>
+<p>sliders for all 3 axis (independend of other views)</p>
+</li><li>
+<p>checkboxes for "grid" for each axis </p>
+</li><li>
+<p>checkbox for "move allowed" for each axis </p>
+</li><li>
+<p>axis can be shown or hidden (independend of other views)</p>
+</li><li>
+<p>byte "cube" (frame) can be shown/hidden</p>
+</li></ul>
+</p>
+
+<p>The advantage of this window is that you can chose a "perspective" view of a 3d-vectorlist and edit directly. The window is completely synchronized with vecci and any other editing "instance".</p>
+<br><p align="center">
+<img src="pics/vecci3d.png" width="801" height="810"><br>
+<em>3d editor</em></p><br>
+<h2><a name="banimation">Build animation</h2>
 
 <p>Under this tab there are a few functions to build animations or scenarios from the current vectorlist.</p>
 <h3>Rotation</h3>
@@ -396,14 +467,18 @@ If checked move vectors (pattern = 0) are displayed using a dark blue color.</p>
 </li><li>
 <p>are all steps in between</p>
 </li></ol>
+
+<p>If you check the "+/-" checkbox behind the angle the rotation will be clockwise, if you leave it unchecked, the rotation will be anti-clockwise.</p>
 <br><p align="center">
-<img src="pics/test.gif"><br>
+<img src="pics/test.gif" width="161" height="159"><br>
 <em>Rotation example</em></p><br>
 <h3>Morphing</h3>
 
 <p>You can also "morph" from one vectorlist to another. The two first vectorlists in the current animation (see below) are used as input. You can chose the number of steps you wish to use.</p>
+
+<p>In order for the morphing to work correctly the vectorlists have to "good".  </p>
 <br><p align="center">
-<img src="pics/ChrisFrog.gif"><br>
+<img src="pics/ChrisFrog.gif" width="158" height="156"><br>
 <em>Morph example</em></p><br>
 <h3>Scenario</h3>
 
@@ -412,7 +487,7 @@ seperate paths as scenario entries:<br>
 Using this button you can split the current vectorlist in seperate vectorlists. For each "connected path" in the vectorlist one scenario entry is generated. The opposite function is the "join" function in the animation/scenario section. <br>
 Example:<br>
 <img src="pics/splitExample1.png" alt="splitExample1.png"> &lt;-&gt; <img src="pics/splitExample2.png" alt="splitExample2.png"></p>
-<h2>Shortcuts</h2>
+<h2><a name="shortcuts">Shortcuts</h2>
 <br><p align="center">
 <img src="pics/shortcuts.png" width="290" height="254"><br>
 <em>shortcuts</em></p><br>
@@ -448,7 +523,8 @@ This ensures all points are connected (but no circular connection is formed, mea
 <img src="pics/noFilled.png" alt="noFilled.png"> &lt;-&gt; <img src="pics/gapsFilled.png" alt="gapsFilled.png"></p>
 </li><li>
 <p>remove dots<br>
-</p>
+Removes "vectors" where the start vertex and the end vertex denote the same coordinates.<br>
+You can also chose to do that only in respect to x/y axis.</p>
 </li><li>
 <p>fit byte<br>
 enlarges/shrinks the current vectorlists to optimally fit into the byte range<br>
@@ -463,7 +539,65 @@ There are "strange" cases of vectorlists, when above implemented shortcuts may n
 
 <p>Here you see a start vector going off in one direction and the start location is JOINED with two other vectors (a three-way join) which forms a closed polygon.<br>
 This and similar constructs are not easy to analyse and handle correctly. I have not even tried very hard - if you have vectorlists like that, please optimize them by hand!</p>
-<h2>Animations / Scenario</h2>
+<h2>Shortcuts 2</h2>
+
+<p>The second tab of shortcuts was introduced to automatically improve "large" vectorlists - mainly used for animation and storyboard purposes. </p>
+
+<p>For "small" animations used as "sprites" in a game, these routines are "overkill" and might even be totally inappropriate, since the "structure" of the list will most likely be changed.</p>
+
+<p>Due to the nature of the routines and depending on the available computing power/RAM. The routines may take some time to finish.<br>
+ <br>
+Please save the current work beforehand, the only way to "break" the current computation is to shutdown Vide.</p>
+
+<p>The routines work best when combined. A good result can usually be achieved by pressing "Isidro All". That button executes the single functions:
+<ul><li>
+<p>disconnect all</p>
+</li><li>
+<p>remove move vectors</p>
+</li><li>
+<p>remove idouble vectors</p>
+</li><li>
+<p>remove dots</p>
+</li><li>
+<p>connect longest paths ++ (without respect zero)</p>
+</li></ul>
+</p>
+
+<p>But - possibly this is not the best result to achieve. Each vectorlist needs to be optimized (!) in different ways.</p>
+
+<ul><li>
+<p>disconnect all<br>
+Removes all relations between vectors. Each vector is a single "instance" and does not (vecci internally) share any vertice with another vector.<br>
+ <br>
+For the other routines on this tab to work as expected and to leave all automated optimization possibilities open - this is always the first step (most of the following buttons inherently call a disconnect all inherenly).</p>
+</li><li>
+<p>remove move vectors<br>
+All invisible (move vectors) [vectors with pattern = 0] are removed.</p>
+</li><li>
+<p>remove double vectors<br>
+All vectors with the same start and end point are removed.</p>
+</li><li>
+<p>remove idouble vectors<br>
+All vectors with the same start and end point are removed.<br>
+Also all vectors which are "inverse" are removed, "start = end" and "end = start".</p>
+</li><li>
+<p>optimize size<br>
+The relation of vector scale and vector strength is optimized. While in theory this sounds good - and often is - sometimes this is a pessimization.<br>
+The reason is, that in large vector drawings using the synced vector draw format the "syncing" also uses vectors (move vectors to be precise) to "return" to the sync point. <br>
+Optimized large vectorlists can often have sync points "far away" from point zero, so the sync return might be realized using quite a few move vectors. You have to test each vectorlist - if this optimization is realy suitable! <br>
+All these sync move vectors can not be taken into account within this calculation, since the optimization does not know in what format the final drawing on a vectrex will be done. Those move vectors can totally be counter productive and result in an overall worse result!  </p>
+</li><li>
+<p>connect longest paths<br>
+This routines rekursively searches the complete vectorlist for the longest possible path vectors can be drawn in one go - and connects those vectors. <br>
+The result is a vectorlist with several relative vector paths. <br>
+[The result still might not be the optimal connection, since the longest path that is found first, might hinder possibly several shorter paths which in turn would result in an over all better connection count]</p>
+</li><li>
+<p>connect longest paths ++<br>
+This is the same as "connect longest paths", in addition the found paths are connected (with move vectors) (in the shortes possible way). The result is a vectorlist which can be drawn in one go (with move vectors in between).<br>
+ <br>
+Here you also can switch on the option "respect zero". If that option is switched on - it is checked whether the needed move vector between to paths is larger than the move needed from the zero location. If the move is larger - NO move vector is generated (and thus a "sync" point is forced). In this case the resulting vectorlist can not be drawn in one go.</p>
+</li></ul>
+<h2><a name="animationScenario">Animations / Scenario</h2>
 
 <p>(for a picture look at "Rotation")<br>
 Animations/Scenarios are both a collection of different vectorlists. I differ the two entities because one displays all vectorslists at the same time (scenario) the other plays each vectorlist after another (with a delay) to create the illusion of an animation. <br>
@@ -504,7 +638,7 @@ SHIFT clicking the buttons MOVES one animation frame in the corresponding direct
  This joins all vectorlist entries in the current animation/scenario into one single vectorlist</p>
 </li></ul>
 </p>
-<h2>Vecci format (Save/Load)</h2>
+<h2><a name="vecciFormat">Vecci format (Save/Load)</h2>
 
 <p>The vecci save format is a straight forward XML-File with all data in appropriate sub structures.</p>
 
@@ -521,7 +655,7 @@ SHIFT clicking the buttons MOVES one animation frame in the corresponding direct
 </li></ul>
 
 <p>If need should arise I can also provide a "JSON" format.</p>
-<h2>Other stuff</h2>
+<h2><a name="other">Other stuff</h2>
 <h3>Line</h3>
 <br><p align="center">
 <img src="pics/line.png" width="306" height="258"><br>
@@ -555,5 +689,43 @@ Select (multi select is supported) the vectors you want to apply the new setting
 <h3>Figure</h3>
 
 <p>Ignore these for now...</p>
+<h3>Faces- Hidden line removal</h3>
+<br><p align="center">
+<img src="pics/faces.png" width="1491" height="870"><br>
+<em>Faces</em></p><br>
+
+<p>Vecci is capable of doing a HLR (Hidden line removal) from the display of 3d-"figures". In order to do HLR following steps have to be considered:
+<ul><li>
+<p>the result of a HLR is a two dimensional vector list, which usually is unordered, not a polygon and not continous, so the export possibilities are somewhat restrained</p>
+</li><li>
+<p>a HLR only makes sense on a 3d "object"</p>
+</li><li>
+<p>to hide anything, there must be something where it can be hidden BEHIND, behind a line or a linesegment nothing can be hidden. Therefor the "objects" must have "faces" which represents a surface, plane, region, zone or whatever you want to call it</p>
+</li><li>
+<p>under the tab "faces" you can define, delete and see all faces that are currently defined</p>
+</li><li>
+<p>the only way to define a face (apart from loading a file) is to select "points" in your vectorlist and press "add selected as face"</p>
+</li><li>
+<p>the selected points must all lie within one plane (coplanar), otherwise they will not be accepted as a face</p>
+</li><li>
+<p>the selected points must be sufficient to <i>define</i> a plane (at least three points which are not colinear), otherwise they will not be accepted as a face</p>
+</li><li>
+<p>in order to define faces you must be in mode "POINT" (otherwise you can not select points)</p>
+</li><li>
+<p>you can select points either in the vector editing "grids" or in the table. Clicking in the table on one of the columns that displays a point - selects that point</p>
+</li><li>
+<p>multiple selection (as always) is possible holding SHIFT (also in table)</p>
+</li><li>
+<p>deselecting a point is also possible using the middle mouse button (on multi selection remember to keep shift pressed) (also in table)</p>
+</li><li>
+<p>Note: The table (due to using shift and the resulting multi selects in the table) does not display the selection corretly. Look at the editor grids to see which points are actually currently selected</p>
+</li></ul>
+</p>
+
+<p>Moving points of a face can "destroy" the face. A face gets deleted automatically from the face list, when its points are no longer coplanar.</p>
+
+<p>The HLR is executed with the 3d-settings which result in the DISPLAY image (that enables the user to chose the point of view to on the figure - see tab 3d-settings).</p>
+
+<p>The result of the HLR is added to the animation/scenario list.</p>
 </body>
 </html>

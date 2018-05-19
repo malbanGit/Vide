@@ -99,3 +99,22 @@ Play with it! The column "Operand" is taken as a string, if (case independend) t
 
 :h2 In dissi is a "Label" panel, what can I use that for?
 As the name suggests, this is a listing of all known labels. The advantage of the list is, that you can use it as a "table of contents" and quickly move to locations, double click on any entry jumps dissi to the given address, shift double click moves dumpi to the given address.
+
+:h2 Can I debug code that is lying in RAM?
+a) in dissi switch "nu" (no unkown) to not selected (GUI checkbox)
+b) better switch of "following" of dissi "df" (don't follow) (CLI command)
+c) switch on disassemble ram with "dr" disasm RAM (CLI command)
+
+Now RAM will be viewable in dissi.
+But usually all RAM is configured as Data - so no code will be displayed.
+While dissi is not tracking (camera is OFF) - best done also in pause mode,
+mark a RAM memory region and via popup menu cast to code.
+Perhaps you habe to "shift" memory regions, with "cast to byte" and "ungroup" also, to
+access the addresses that need to be cast to code.
+
+Disassembling RAM takes many resources, since the DISASM is done for each RAM - poke.
+If you do not need to disasm RAM, you better leave it switched off.
+
+Also note - disasm RAM might be usefull for bankswitch disasm.
+The cast to disasm is only done for the current active bank in dissi.
+Upon a bankswitch the casts have to be redone for the other bank!

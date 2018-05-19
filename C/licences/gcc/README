@@ -1,0 +1,13 @@
+
+This is gcc6809, a port of the GNU Compiler Collection to the Motorola
+6809 processor.  These sources are currently maintained outside of the
+normal GCC development.  Please do not contact the FSF or any of the GCC
+developers directly about this code!
+
+Like the rest of GCC, gcc6809 is released under the GNU General Public 
+License, Version 2 or later.
+
+See the documentation in the 'doc' subdirectory for more information.
+
+Contact <gcc6809@oddchange.com> if you have any questions.
+

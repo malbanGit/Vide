@@ -1,0 +1,36 @@
+                              1 
+                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
+                              3 ;;; 4.3.6 (gcc6809)
+                              4 ;;; ABI version 1
+                              5 ;;; -mint8
+                              6 	.module	vec_rum_0xe9.c
+                              7 ;----- asm -----
+                              8 	.bank page_e9 (BASE=0xe98a,SIZE=0x0076)
+                              9 	.area .0xe9 (OVR,BANK=page_e9)
+                             10 	
+                             11 ;--- end asm ---
+                             12 	.globl ___Ranpos
+                             13 	.area	.0xe9
+   0000                      14 ___Ranpos:
+   0000 00 00                15 	.word	0	;skip space 2
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 ___Ranpos          0000 GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+[page_e9]
+   2 .0xe9            size    2   flags 8584
+

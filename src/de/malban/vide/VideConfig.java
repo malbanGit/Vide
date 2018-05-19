@@ -62,9 +62,9 @@ class ConfigStatic1 implements Serializable
    public String startFile = "";
 
   // public int[] delays = {0,5,0,11,4,0,0,0,11,0,13, 2, 3, 1}; // full delays, ramp on and off have partials!
-   public int[] delays = {0,5,0,11,11,0,0,0,11,0,14, 2, 2, 1}; // full delays, ramp on and off have partials!
+   public int[] delays = {0,5,0,0,11,11,0,0,0,11,0,14, 2, 0, 1}; // full delays, ramp on and off have partials!
    public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
-   public String[] delaysDisplay = {"-", "ZERO", "BLANK", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
+   public String[] delaysDisplay = {"-", "ZERO", "BLANK_ON", "BLANK_OFF", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
 
    public double zeroRetainX = 50.0/10000.0;
    public double zeroRetainY = 50.0/10000.0;
@@ -73,6 +73,7 @@ class ConfigStatic1 implements Serializable
    public double rampOffFractionValue = 0.9; // only implemented "partial" delay for ramp off
    public double rampOnFractionValue = 0.8; // only implemented "partial" delay for ramp off
    public double blankOnDelay = 1.0; // look at an M or a W, that would not be possible!
+   public double blankOffDelay = 1.0; // look at an M or a W, that would not be possible!
    public double reverseBlankLeak = 0.0; // not used anymorew ! look at an M or a W, that would not be possible!
    public boolean drawBlanks = false; // not implemented
    public boolean cycleExactEmulation = true;
@@ -304,17 +305,18 @@ public class VideConfig  implements Serializable{
     public String startFile = "";
     
    // public int[] delays = {0,5,0,11,4,0,0,0,11,0,13, 2, 3, 1}; // full delays, ramp on and off have partials!
-    public int[] delays = {0,5,0,11,11,0,0,0,11,0,14, 2, 2, 1}; // full delays, ramp on and off have partials!
-    public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
-    public String[] delaysDisplay = {"-", "ZERO", "BLANK", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
+   public int[] delays = {0,5,0,0,11,11,0,0,0,11,0,14, 2, 2, 1}; // full delays, ramp on and off have partials!
+   public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
+   public String[] delaysDisplay = {"-", "ZERO", "BLANK_ON", "BLANK_OFF", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
     
-    public double zeroRetainX = 50.0/10000.0;
-    public double zeroRetainY = 50.0/10000.0;
+   public double zeroRetainX = 50.0/10000.0;
+   public double zeroRetainY = 50.0/10000.0;
     public double zero_divider = 6.80;
     
     public double rampOffFractionValue = 0.9; // only implemented "partial" delay for ramp off
     public double rampOnFractionValue = 0.8; // only implemented "partial" delay for ramp off
     public double blankOnDelay = 1.0; // look at an M or a W, that would not be possible!
+    public double blankOffDelay = 1.0; // look at an M or a W, that would not be possible!
     public double reverseBlankLeak = 0.0; // not used anymorew ! look at an M or a W, that would not be possible!
     public boolean drawBlanks = false; // not implemented
     public boolean cycleExactEmulation = true;
@@ -322,8 +324,7 @@ public class VideConfig  implements Serializable{
     public boolean enableBankswitch = true;
     public boolean codeScanActive = false;
     public boolean ringbufferActive = false;
-    public double warmup = 0; // resolution 0.01
-    public double cooldown = 0; // resolution 0.01
+
     public String usedSystemRom="system"+File.separator+"FASTBOOT.IMG";
     public double drift_x = .09; // resolution 0.01
     public double drift_y = -.04; // resolution 0.01
@@ -703,8 +704,7 @@ public class VideConfig  implements Serializable{
                 copyFromStaticToConfig(loadStatic2, this);
             }
             
-            
-
+         
             
             
             this.resetCLIOnly();
@@ -750,7 +750,7 @@ public class VideConfig  implements Serializable{
             VectorColors.VECCI_Y_AXIS_COLOR = this.VECCI_Y_AXIS_COLOR;
             VectorColors.VECCI_Z_AXIS_COLOR = this.VECCI_Z_AXIS_COLOR;
             
-            
+            boolean didThemeInit = false;
             if (themeFile!=null)
             {
                 if (themeFile.length()!=0)
@@ -758,18 +758,26 @@ public class VideConfig  implements Serializable{
                     File file = new File(de.malban.util.UtilityFiles.convertSeperator(themeFile));
                     if (file.exists())
                     {
+                        Global.linkColor = linkColor;
+                        Global.textColor = htmltext;
                         // get rid of the stupd ever the same message that initializing was done successfully!
                         System.setOut(Global.devNull);
                         Theme.loadTheme(file);
                         System.setOut(Global.devOut);                    
                         Global.initLAF();
+                        didThemeInit = true;
                     }
                 }
             }
-            HTMLEditorKit kit = new HTMLEditorKit();
-            StyleSheet styleSheet = kit.getStyleSheet();
-            styleSheet.addRule("a {color:#"+Global.getHTMLColor(linkColor)+";}");
-            styleSheet.addRule("body {color:#"+Global.getHTMLColor(htmltext)+";}");
+            if(!didThemeInit)
+            {   
+                Global.linkColor = linkColor;
+                Global.textColor = htmltext;
+                HTMLEditorKit kit = new HTMLEditorKit();
+                StyleSheet styleSheet = kit.getStyleSheet();
+                styleSheet.addRule("a {color:#"+Global.getHTMLColor(linkColor)+";}");
+                styleSheet.addRule("body {color:#"+Global.getHTMLColor(htmltext)+";}");
+            }
             
         }
         catch (Throwable e)
@@ -800,6 +808,7 @@ public class VideConfig  implements Serializable{
         to.rampOffFractionValue = from.rampOffFractionValue; // only implemented "partial" delay for ramp off
         to.rampOnFractionValue = from.rampOnFractionValue; // only implemented "partial" delay for ramp off
         to.blankOnDelay = from.blankOnDelay; // look at an M or a W, that would not be possible!
+        to.blankOffDelay = from.blankOffDelay; // look at an M or a W, that would not be possible!
         to.reverseBlankLeak = from.reverseBlankLeak; // not used anymorew ! look at an M or a W, that would not be possible!
         to.drawBlanks = from.drawBlanks; // not implemented
         to.cycleExactEmulation = from.cycleExactEmulation;
@@ -807,8 +816,6 @@ public class VideConfig  implements Serializable{
         to.enableBankswitch = from.enableBankswitch;
         to.codeScanActive = from.codeScanActive;
         to.ringbufferActive = from.ringbufferActive;
-        to.warmup = from.warmup; // resolution 0.01
-        to.cooldown = from.cooldown; // resolution 0.01
         to.usedSystemRom=from.usedSystemRom;
         to.zeroRetainX=from.zeroRetainX;
         to.zeroRetainY=from.zeroRetainY;
@@ -1009,6 +1016,7 @@ public class VideConfig  implements Serializable{
         to.rampOffFractionValue = from.rampOffFractionValue; // only implemented "partial" delay for ramp off
         to.rampOnFractionValue = from.rampOnFractionValue; // only implemented "partial" delay for ramp off
         to.blankOnDelay = from.blankOnDelay; // look at an M or a W, that would not be possible!
+        to.blankOffDelay = from.blankOffDelay; // look at an M or a W, that would not be possible!
         to.reverseBlankLeak = from.reverseBlankLeak; // not used anymorew ! look at an M or a W, that would not be possible!
         to.drawBlanks = from.drawBlanks; // not implemented
         to.cycleExactEmulation = from.cycleExactEmulation;
@@ -1016,12 +1024,10 @@ public class VideConfig  implements Serializable{
         to.enableBankswitch = from.enableBankswitch;
         to.codeScanActive = from.codeScanActive;
         to.ringbufferActive = from.ringbufferActive;
-        to.warmup = from.warmup; // resolution 0.01
-        to.cooldown = from.cooldown; // resolution 0.01
         to.usedSystemRom=from.usedSystemRom;
+        to.zero_divider=from.zero_divider;
         to.zeroRetainX=from.zeroRetainX;
         to.zeroRetainY=from.zeroRetainY;
-        to.zero_divider=from.zero_divider;
         to.rotate=from.rotate;
         to.ramAccessAllowed=from.ramAccessAllowed;
         to.singestepBuffer=from.singestepBuffer;

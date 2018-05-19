@@ -75,7 +75,7 @@ DS1W_SEARCHROM  equ     $f0
 
 */
 
-public class DS2431 implements Serializable
+public class DS2431 implements Serializable, CartridgeInternalInterface
 {
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public static final int LL_UNKOWN = 0;
@@ -292,6 +292,9 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         if (log == null)
             log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     }
+    public void deinit()
+    {
+    }
 
     public String get2431CommandName()
     {
@@ -437,15 +440,14 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     public DS2431(Cartridge c)
     {
         cart = c;
-        
+        // robot arena
         SERIAL_NUMBER[0] = 0x3b;
         SERIAL_NUMBER[1] = 0x50;
         SERIAL_NUMBER[2] = 0x43;
         SERIAL_NUMBER[3] = 0x14;
         SERIAL_NUMBER[4] = 0x00;
         SERIAL_NUMBER[5] = 0x00;
-        
-        
+
         // Serial Asteroids from Thomas #2
         SERIAL_NUMBER[0] = 0x60;
         SERIAL_NUMBER[1] =(byte) 0x9e;
@@ -453,9 +455,7 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         SERIAL_NUMBER[3] = 0x15;
         SERIAL_NUMBER[4] = 0x00;
         SERIAL_NUMBER[5] = 0x00;
-        
-        
-        
+
     }
     public DS2431 clone()
     {
@@ -488,18 +488,18 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     }
     
     // receiving line information from the emulator (VIA)
-    public void lineIn(boolean l)
+    public void linePB6In(boolean l)
     {
         line = l;
         lineIn = l;
     }
 
     // sending line information to the emulator (VIA)
-    public void lineOut(boolean l)
+    public void linePB6Out(boolean l)
     {
         line = l;
         lineOut = l;
-        cart.setPB6FromCarrtridge(line);
+        cart.setPB6FromCartridge(line);
     }
 
     // low level step
@@ -547,7 +547,7 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     // LSB first
                     boolean bit = (currentByteOutput & 0x01) == 0x01;
                     currentByteOutput = currentByteOutput>>1;
-                    lineOut(bit);
+                    linePB6Out(bit);
                     bitsOutputDone++;
                 }
                 break;
@@ -556,7 +556,7 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
             {
                 if (dif >= BIT_TIMESLOT)
                 {
-                    lineOut(true);
+                    linePB6Out(true);
                     if (old_line)
                     {
                         log.addLog("DS2431 Write bit timeslot done (1)!", LogPanel.INFO);
@@ -637,7 +637,7 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 if (dif > WAIT_TO_GO_LOW_AFTER_RESET_CYCLES)
                 {
                     lowLevelState = LL_PULSE_GENERATION;
-                    lineOut(false);
+                    linePB6Out(false);
                     log.addLog("DS2431 Reset sequence 3) - pulse start!", LogPanel.INFO);
                 }
                 break;
@@ -649,7 +649,7 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     lowLevelState = LL_READY_FOR_BITREAD;
                     currentByteRead = 0;
                     bitsLoaded = 0;
-                    lineOut(true);
+                    linePB6Out(true);
                     log.addLog("DS2431 Reset sequence 4) - pulse end!", LogPanel.INFO);
                 }
                 break;
@@ -1101,6 +1101,10 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     public boolean isActive()
     {
         return highLevelState != HL_WAIT_FOR_1W_COMMAND;
+    }
+    public boolean usesPB6() {return true;}
+    public void lineIRQIn(boolean i)
+    {
     }
 
 }

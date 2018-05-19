@@ -83,7 +83,7 @@ public class AboutPanel extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel2.setText("Vide");
 
-        jLabel8.setText("Written 2016-2017 by Malban.");
+        jLabel8.setText("Written 2016-2018 by Malban.");
 
         jLabel9.setText("Released under GPL 2.0.");
 
@@ -94,7 +94,7 @@ public class AboutPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("2.0 RC15");
+        jLabel1.setText("2.0");
 
         jLabel3.setText("Homepage: ");
 
@@ -119,7 +119,7 @@ public class AboutPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5))
                     .addGroup(layout.createSequentialGroup()

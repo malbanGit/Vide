@@ -5,76 +5,82 @@
 // quick reference - do not use this file as header file
 // use #include <vectrex.h> instead
 // ***************************************************************************
-// This file was developed by Prof. Dr. Peer Johannsen as part of the 
-// "Retro-Programming" and "Advanced C Programming" class at
+//
+// Disclaimer:
+//
+// This file is part of the Vectrex C programming setup developed by 
+// Prof. Dr. rer. nat. Peer Johannsen. The setup is used as tool and as
+// teaching material in the "Retro-Programming" and the "Advanced
+// hardware-oriented C and Assembly Language Programming" classes at
 // Pforzheim University, Germany.
 // 
-// It can freely be used, but at one's own risk and for non-commercial
-// purposes only. Please respect the copyright and credit the origin of
-// this file.
+// Writing their own games for a vintage arcade game console in a programming
+// course and seeing them run on a real Vectrex device has proved to greatly
+// contribute to the motivation of the students.
 //
-// Feedback, suggestions and bug-reports are welcome and can be sent to:
+// The C programming setup can freely be used by everyone for writing 
+// Vectrex games and Vectrex programs in C, but at one's own risk. Please
+// respect the copyright and credit the origin of these files.
+//
+// It would be truly fantastic if those who use this setup and/or these files
+// to develop and produce their own Vectrex game cartridges, would support the
+// educational approach and aim of these programming classes by donating a
+// complimentary cartridge which will then be used as additional motivational
+// content.
+//
+// Many thanks to all those out there who have already supported this course
+// in various ways!
+//
+// Feedback, suggestions and bug-reports are always welcome and can be sent
+// to the following contact address:
+//
 // peer.johannsen@pforzheim-university.de
+//
 // ***************************************************************************
-
-#define ROM(addr, type) *((const type* const) addr)
-
-// ***************************************************************************
-// 0xF000 - 0xFFFF (4KB)	reserved for RUM (read only) 
-// ***************************************************************************
-
-// Cold_Start: Jump here to restart the Vectrex and re-initialize the OS.
-// If the cold start flag is correct (it should be unless you just turned the
-// Vectrex on), the cold start code is skipped. On cold start, the high score
-// is cleared, and the power-on screen is displayed with the power-on music.
-#define Cold_Start	0xF000
-
-// Warm_Start: Jump here to restart the Vectrex without re-initializing the OS.
-#define Warm_Start	0xF06C 
 
 // ---------------------------------------------------------------------------
 // Frequency Table
 
-#define Vec_Note_Table		ROM(0xFC8D, long int) // frequency table
-#define Vec_Sine_Table		ROM(0xFC8D - 32, int) // frequency table
-#define Vec_Cosine_Table	ROM(0xFC8D - 16, int) // frequency table
+extern const int Vec_Sine_Table	   // 0xFC6D, sine table
+extern const int Vec_Cosine_Table  // 0xFC7D, cosine table
+extern const int Vec_Note_Table	   // 0xFC8D, frequency table
 
 // ---------------------------------------------------------------------------
 // Built in Melodies
 
-#define Vec_Music_1			ROM(0xFD0D, unsigned int) // vectrex opening tune
-#define Vec_Music_2			ROM(0xFD1D, unsigned int) // berzerk
-#define Vec_Music_3			ROM(0xFD81, unsigned int) // armor attack
-#define Vec_Music_4			ROM(0xFDD3, unsigned int) // scramble
-#define Vec_Music_5			ROM(0xFE38, unsigned int) // solar quest
-#define Vec_Music_6			ROM(0xFE76, unsigned int) // clean sweep
-#define Vec_Music_7			ROM(0xFEC6, unsigned int) // star trek
-#define Vec_Music_8			ROM(0xFEF8, unsigned int) // fanfare 1
-#define Vec_Music_9			ROM(0xFF26, unsigned int) // fanfare 2
-#define Vec_Music_a			ROM(0xFF44, unsigned int) // fanfare 3 (berzerk)
-#define Vec_Music_b			ROM(0xFF62, unsigned int) // fanfare 3a
-#define Vec_Music_c			ROM(0xFF7A, unsigned int) // fanfare 4
-#define Vec_Music_d			ROM(0xFF8F, unsigned int) // fanfare 5
-#define Vec_Music_e			ROM(0xED77, unsigned int) // minestorm
+extern const unsigned int Vec_Music_0 // 0xED77, melody, minestorm
+extern const unsigned int Vec_Music_1 // 0xFD0D, melody, vectrex opening tune
+extern const unsigned int Vec_Music_2 // 0xFD1D, melody, berzerk
+extern const unsigned int Vec_Music_3 // 0xFD81, melody, armor attack
+extern const unsigned int Vec_Music_4 // 0xFDD3, melody, scramble
+extern const unsigned int Vec_Music_5 // 0xFE38, melody, solar quest
+extern const unsigned int Vec_Music_6 // 0xFE76, melody, clean sweep
+extern const unsigned int Vec_Music_7 // 0xFEC6, melody, star trek
+extern const unsigned int Vec_Music_8 // 0xFEF8, melody, fanfare 1
+extern const unsigned int Vec_Music_9 // 0xFF26, melody, fanfare 2
+extern const unsigned int Vec_Music_a // 0xFF44, melody, fanfare 3 (berzerk)
+extern const unsigned int Vec_Music_b // 0xFF62, melody, fanfare 3a
+extern const unsigned int Vec_Music_c // 0xFF7A, melody, fanfare 4
+extern const unsigned int Vec_Music_d // 0xFF8F, melody, fanfare 5
 
 // ---------------------------------------------------------------------------
 // Adsr Tables
 
-#define Vec_ADSR_FADE0 		ROM(0xFD69, unsigned int) //
-#define Vec_ADSR_FADE1 		ROM(0xFE28, unsigned int) //
-#define Vec_ADSR_FADE2 		ROM(0xFE66, unsigned int) //
-#define Vec_ADSR_FADE3 		ROM(0xFEB2, unsigned int) //
-#define Vec_ADSR_FADE4 		ROM(0xFEE8, unsigned int) //
-#define Vec_ADSR_FADE8 		ROM(0xFF16, unsigned int) //
-#define Vec_ADSR_FADE12		ROM(0xFDC3, unsigned int) //
-#define Vec_ADSR_FADE66		ROM(0xED8F, unsigned int) // minestorm
+extern const unsigned int Vec_ADSR_FADE66 // 0xED8F, adsr table, minestorm
+extern const unsigned int Vec_ADSR_FADE0  // 0xFD69, adsr table
+extern const unsigned int Vec_ADSR_FADE1  // 0xFE28, adsr table
+extern const unsigned int Vec_ADSR_FADE2  // 0xFE66, adsr table
+extern const unsigned int Vec_ADSR_FADE3  // 0xFEB2, adsr table
+extern const unsigned int Vec_ADSR_FADE4  // 0xFEE8, adsr table
+extern const unsigned int Vec_ADSR_FADE8  // 0xFF16, adsr table
+extern const unsigned int Vec_ADSR_FADE12 // 0xFDC3, adsr table
 
 // ---------------------------------------------------------------------------
 // Twang Tables
 
-#define Vec_TWANG_VIBE0		ROM(0xFD79, unsigned int) //
-#define Vec_TWANG_VIBENL	ROM(0xFEB6, unsigned int) // minestorm
-#define Vec_TWANG_VIBEHL	ROM(0xFEB6, unsigned int) //
+extern const unsigned int Vec_TWANG_VIBE0  // 0xFD79, twang table
+extern const unsigned int Vec_TWANG_VIBEHL // 0xFEB6, twang table, minestorm
+extern const unsigned int Vec_TWANG_VIBENL // 0xFEB6, twang table, minestorm
 
 // ***************************************************************************
 // end of file

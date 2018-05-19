@@ -1,0 +1,221 @@
+                              1 
+                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
+                              3 ;;; 4.3.6 (gcc6809)
+                              4 ;;; ABI version 1
+                              5 ;;; -mint8
+                              6 	.module	vec_rum_0xf5.c
+                              7 ;----- asm -----
+                              8 	.bank page_f5 (BASE=0xf511,SIZE=0x00ef)
+                              9 	.area .0xf5 (OVR,BANK=page_f5)
+                             10 	
+                             11 ;--- end asm ---
+                             12 	.globl ___Random_3
+                             13 	.area	.0xf5
+   0000                      14 ___Random_3:
+   0000 00 00                15 	.word	0	;skip space 6
+   0002 00 00                16 	.word	0	;skip space 4
+   0004 00 00                17 	.word	0	;skip space 2
+                             18 	.globl ___Random
+   0006                      19 ___Random:
+   0006 00 00                20 	.word	0	;skip space 28
+   0008 00 00                21 	.word	0	;skip space 26
+   000A 00 00                22 	.word	0	;skip space 24
+   000C 00 00                23 	.word	0	;skip space 22
+   000E 00 00                24 	.word	0	;skip space 20
+   0010 00 00                25 	.word	0	;skip space 18
+   0012 00 00                26 	.word	0	;skip space 16
+   0014 00 00                27 	.word	0	;skip space 14
+   0016 00 00                28 	.word	0	;skip space 12
+   0018 00 00                29 	.word	0	;skip space 10
+   001A 00 00                30 	.word	0	;skip space 8
+   001C 00 00                31 	.word	0	;skip space 6
+   001E 00 00                32 	.word	0	;skip space 4
+   0020 00 00                33 	.word	0	;skip space 2
+                             34 	.globl ___Init_Music_Buf
+   0022                      35 ___Init_Music_Buf:
+   0022 00 00                36 	.word	0	;skip space 12
+   0024 00 00                37 	.word	0	;skip space 10
+   0026 00 00                38 	.word	0	;skip space 8
+   0028 00 00                39 	.word	0	;skip space 6
+   002A 00 00                40 	.word	0	;skip space 4
+   002C 00 00                41 	.word	0	;skip space 2
+                             42 	.globl ___Clear_x_b
+   002E                      43 ___Clear_x_b:
+   002E 00 00                44 	.word	0	;skip space 3
+   0030 00                   45 	.byte	0	;skip space
+                             46 	.globl ___Clear_C8_RAM
+   0031                      47 ___Clear_C8_RAM:
+   0031 00 00                48 	.word	0	;skip space 3
+   0033 00                   49 	.byte	0	;skip space
+                             50 	.globl ___Clear_x_256
+   0034                      51 ___Clear_x_256:
+   0034 00 00                52 	.word	0	;skip space 3
+   0036 00                   53 	.byte	0	;skip space
+                             54 	.globl ___Clear_x_d
+   0037                      55 ___Clear_x_d:
+   0037 00 00                56 	.word	0	;skip space 8
+   0039 00 00                57 	.word	0	;skip space 6
+   003B 00 00                58 	.word	0	;skip space 4
+   003D 00 00                59 	.word	0	;skip space 2
+                             60 	.globl ___Clear_x_b_80
+   003F                      61 ___Clear_x_b_80:
+   003F 00 00                62 	.word	0	;skip space 2
+                             63 	.globl ___Clear_x_b_a
+   0041                      64 ___Clear_x_b_a:
+   0041 00 00                65 	.word	0	;skip space 8
+   0043 00 00                66 	.word	0	;skip space 6
+   0045 00 00                67 	.word	0	;skip space 4
+   0047 00 00                68 	.word	0	;skip space 2
+                             69 	.globl ___Dec_3_Counters
+   0049                      70 ___Dec_3_Counters:
+   0049 00 00                71 	.word	0	;skip space 4
+   004B 00 00                72 	.word	0	;skip space 2
+                             73 	.globl ___Dec_6_Counters
+   004D                      74 ___Dec_6_Counters:
+   004D 00 00                75 	.word	0	;skip space 5
+   004F 00 00                76 	.word	0	;skip space 3
+   0051 00                   77 	.byte	0	;skip space
+                             78 	.globl ___Dec_Counters
+   0052                      79 ___Dec_Counters:
+   0052 00 00                80 	.word	0	;skip space 10
+   0054 00 00                81 	.word	0	;skip space 8
+   0056 00 00                82 	.word	0	;skip space 6
+   0058 00 00                83 	.word	0	;skip space 4
+   005A 00 00                84 	.word	0	;skip space 2
+                             85 	.globl ___Delay_3
+   005C                      86 ___Delay_3:
+   005C 00 00                87 	.word	0	;skip space 4
+   005E 00 00                88 	.word	0	;skip space 2
+                             89 	.globl ___Delay_2
+   0060                      90 ___Delay_2:
+   0060 00 00                91 	.word	0	;skip space 4
+   0062 00 00                92 	.word	0	;skip space 2
+                             93 	.globl ___Delay_1
+   0064                      94 ___Delay_1:
+   0064 00 00                95 	.word	0	;skip space 4
+   0066 00 00                96 	.word	0	;skip space 2
+                             97 	.globl ___Delay_0
+   0068                      98 ___Delay_0:
+   0068 00                   99 	.byte	0	;skip space
+                            100 	.globl ___Delay_b
+   0069                     101 ___Delay_b:
+   0069 00 00               102 	.word	0	;skip space 3
+   006B 00                  103 	.byte	0	;skip space
+                            104 	.globl ___Delay_RTS
+   006C                     105 ___Delay_RTS:
+   006C 00                  106 	.byte	0	;skip space
+                            107 	.globl ___Bitmask_a
+   006D                     108 ___Bitmask_a:
+   006D 00 00               109 	.word	0	;skip space 6
+   006F 00 00               110 	.word	0	;skip space 4
+   0071 00 00               111 	.word	0	;skip space 2
+                            112 	.globl ___Abs_a_b
+   0073                     113 ___Abs_a_b:
+   0073 00 00               114 	.word	0	;skip space 7
+   0075 00 00               115 	.word	0	;skip space 5
+   0077 00 00               116 	.word	0	;skip space 3
+   0079 00                  117 	.byte	0	;skip space
+                            118 	.globl ___Abs_b
+   007A                     119 ___Abs_b:
+   007A 00 00               120 	.word	0	;skip space 8
+   007C 00 00               121 	.word	0	;skip space 6
+   007E 00 00               122 	.word	0	;skip space 4
+   0080 00 00               123 	.word	0	;skip space 2
+                            124 	.globl ___Rise_Run_Angle
+   0082                     125 ___Rise_Run_Angle:
+   0082 00 00               126 	.word	0	;skip space 70
+   0084 00 00               127 	.word	0	;skip space 68
+   0086 00 00               128 	.word	0	;skip space 66
+   0088 00 00               129 	.word	0	;skip space 64
+   008A 00 00               130 	.word	0	;skip space 62
+   008C 00 00               131 	.word	0	;skip space 60
+   008E 00 00               132 	.word	0	;skip space 58
+   0090 00 00               133 	.word	0	;skip space 56
+   0092 00 00               134 	.word	0	;skip space 54
+   0094 00 00               135 	.word	0	;skip space 52
+   0096 00 00               136 	.word	0	;skip space 50
+   0098 00 00               137 	.word	0	;skip space 48
+   009A 00 00               138 	.word	0	;skip space 46
+   009C 00 00               139 	.word	0	;skip space 44
+   009E 00 00               140 	.word	0	;skip space 42
+   00A0 00 00               141 	.word	0	;skip space 40
+   00A2 00 00               142 	.word	0	;skip space 38
+   00A4 00 00               143 	.word	0	;skip space 36
+   00A6 00 00               144 	.word	0	;skip space 34
+   00A8 00 00               145 	.word	0	;skip space 32
+   00AA 00 00               146 	.word	0	;skip space 30
+   00AC 00 00               147 	.word	0	;skip space 28
+   00AE 00 00               148 	.word	0	;skip space 26
+   00B0 00 00               149 	.word	0	;skip space 24
+   00B2 00 00               150 	.word	0	;skip space 22
+   00B4 00 00               151 	.word	0	;skip space 20
+   00B6 00 00               152 	.word	0	;skip space 18
+   00B8 00 00               153 	.word	0	;skip space 16
+   00BA 00 00               154 	.word	0	;skip space 14
+   00BC 00 00               155 	.word	0	;skip space 12
+   00BE 00 00               156 	.word	0	;skip space 10
+   00C0 00 00               157 	.word	0	;skip space 8
+   00C2 00 00               158 	.word	0	;skip space 6
+   00C4 00 00               159 	.word	0	;skip space 4
+   00C6 00 00               160 	.word	0	;skip space 2
+                            161 	.globl ___Get_Rise_Idx
+   00C8                     162 ___Get_Rise_Idx:
+   00C8 00 00               163 	.word	0	;skip space 2
+                            164 	.globl ___Xform_Sin
+   00CA                     165 ___Xform_Sin:
+   00CA 00 00               166 	.word	0	;skip space 20
+   00CC 00 00               167 	.word	0	;skip space 18
+   00CE 00 00               168 	.word	0	;skip space 16
+   00D0 00 00               169 	.word	0	;skip space 14
+   00D2 00 00               170 	.word	0	;skip space 12
+   00D4 00 00               171 	.word	0	;skip space 10
+   00D6 00 00               172 	.word	0	;skip space 8
+   00D8 00 00               173 	.word	0	;skip space 6
+   00DA 00 00               174 	.word	0	;skip space 4
+   00DC 00 00               175 	.word	0	;skip space 2
+                            176 	.globl ___Get_Rise_Run
+   00DE                     177 ___Get_Rise_Run:
+   00DE 00 00               178 	.word	0	;skip space 16
+   00E0 00 00               179 	.word	0	;skip space 14
+   00E2 00 00               180 	.word	0	;skip space 12
+   00E4 00 00               181 	.word	0	;skip space 10
+   00E6 00 00               182 	.word	0	;skip space 8
+   00E8 00 00               183 	.word	0	;skip space 6
+   00EA 00 00               184 	.word	0	;skip space 4
+   00EC 00 00               185 	.word	0	;skip space 2
+                            186 	.globl ___Rise_Run_X
+   00EE                     187 ___Rise_Run_X:
+   00EE 00                  188 	.byte	0	;skip space
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 ___Abs_a_b         0073 GR  |   2 ___Abs_b           007A GR
+  2 ___Bitmask_a       006D GR  |   2 ___Clear_C8_RA     0031 GR
+  2 ___Clear_x_256     0034 GR  |   2 ___Clear_x_b       002E GR
+  2 ___Clear_x_b_8     003F GR  |   2 ___Clear_x_b_a     0041 GR
+  2 ___Clear_x_d       0037 GR  |   2 ___Dec_3_Count     0049 GR
+  2 ___Dec_6_Count     004D GR  |   2 ___Dec_Counter     0052 GR
+  2 ___Delay_0         0068 GR  |   2 ___Delay_1         0064 GR
+  2 ___Delay_2         0060 GR  |   2 ___Delay_3         005C GR
+  2 ___Delay_RTS       006C GR  |   2 ___Delay_b         0069 GR
+  2 ___Get_Rise_Id     00C8 GR  |   2 ___Get_Rise_Ru     00DE GR
+  2 ___Init_Music_     0022 GR  |   2 ___Random          0006 GR
+  2 ___Random_3        0000 GR  |   2 ___Rise_Run_An     0082 GR
+  2 ___Rise_Run_X      00EE GR  |   2 ___Xform_Sin       00CA GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+[page_f5]
+   2 .0xf5            size   EF   flags 8584
+

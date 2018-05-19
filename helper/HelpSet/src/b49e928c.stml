@@ -1,0 +1,15 @@
+:label configDisassembler
+:title Disassembler-Settings
+
+:h1 Disassembler
+:image config3.png|disassembler config
+**Assume vectrex files**~~
+This option might surprise you in Vide, but fact is - the stand alone version of dissi could probably disasssemble other programs as well... Therefor this option sort of makes sense (nah - it doesn't...).~~
+Anyway if enabled dissi scans it's files for a typical vectrex heading, like the GCE entry and the following string list.
+
+**build generic labels**~~
+If disassembling unkown sources, dissi generates lables (in the form of "\_XXXX" - where "XXXX" is the actual address) instead of using the address directly.
+
+
+**column setup**~~
+Straight forward - configuration which columns should be displayed in the dissi main table. Changes are applied at once!

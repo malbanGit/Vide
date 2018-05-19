@@ -1,0 +1,88 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Compiling</title>
+</head>
+<body class="doc">
+<h1>Compiling</h1>
+
+<p>The gcc 6809 compiler is (at the time of writing) called with the options:
+<ul><li>
+<p>-quiet </p>
+</li><li>
+<p>-fno-gcse</p>
+</li><li>
+<p>-fno-toplevel-reorder</p>
+</li><li>
+<p>-fverbose-asm </p>
+</li><li>
+<p>-W </p>
+</li><li>
+<p>-Wall </p>
+</li><li>
+<p>-Wextra </p>
+</li><li>
+<p>-Wconversion </p>
+</li><li>
+<p>-Werror </p>
+</li><li>
+<p>-fomit-frame-pointer </p>
+</li><li>
+<p>-mint8 </p>
+</li><li>
+<p>-msoft-reg-count=0 </p>
+</li><li>
+<p>-std=gnu99 </p>
+</li><li>
+<p>-fno-time-report </p>
+</li><li>
+<p>-IC/PeerC/vectrex/include</p>
+</li></ul>
+</p>
+
+<p>Which in general means - use CLEAN good C, since everything, even the tiniest thing will be regarded as an error (-Wall / - Werror).</p>
+
+<p>Two notable options:</p>
+
+<p><b>-mint8</b><br>
+Tells the compiler that "int" is 8 bit, which means more verbose, the compiler knows following data types:</p>
+
+<ul><li>
+<p>int</p>
+</li><li>
+<p>unsigned int</p>
+</li><li>
+<p>signed int</p>
+</li><li>
+<p>char</p>
+</li><li>
+<p>unsigned char</p>
+</li><li>
+<p>signed char</p>
+</li><li>
+<p>long</p>
+</li><li>
+<p>signed long</p>
+</li><li>
+<p>unsigned long</p>
+</li></ul>
+
+<p>int is 8 bit<br>
+char is 8 bit<br>
+long is 16 bit<br>
+</p>
+
+<p>but int != char type wise</p>
+
+<p><b>-fomit-frame-pointer</b><br>
+Ensures that gcc does not generate an additional framepointer for each function. If an additional framepointer is generated, it makes the generated code quite "bloated" and not extremely performant.</p>
+
+<p><b>CFLAGS</b><br>
+The above mentioned flags can be configured in the "project" panel of the "C" project. You can do much mischieve in changing them - be carefull!</p>
+
+<p>Switching the checkbox "PeerC" off and on - restores the default settings!</p>
+
+<p><b>Note</b>:<br>
+If you set the option to "-fomit-frame-pointer" Vide automatically generates upon compile time a "#define OMMIT_FRAMEPOINTER=1" - so that you can check that with your sources.</p>
+</body>
+</html>

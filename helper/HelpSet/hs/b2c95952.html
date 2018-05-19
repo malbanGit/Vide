@@ -1,0 +1,110 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>TL;DN</title>
+</head>
+<body class="doc">
+<h1>TL;DN</h1>
+
+<p>If you are not into reading all about "C" on the following pages... and want to start right aways programming - please read at least Peers short summary ... </p>
+<h2>A short documentation of the Vectrex PeerC Setup as featured in Vide 2.0 </h2>
+<h3>Some general remarks</h3>
+
+<p> The philosophy behind the C setup is to provide a true and clean way to program the Vectrex console in C. As a programmer, one can completely concentrate on writing C code without having to care about the internal details of interfacing with the Vectrex BIOS routines.</p>
+
+<p> The setup offers predefined (global) C variables for all official system RAM and ROM addresses mentioned in the GCE Programmer's Manual Part 1, as well as predefined C function prototypes for all Vectrex BIOS routines mentioned in the GCE Programmer's Manual Part 2. The names of those variables and functions are the same as used in Vide or as described in the Vectrex programming toc at:<br>
+  <a target="_blank" href="http://www.playvectrex.com/designit/chrissalo/toc.htm">http://www.playvectrex.com/designit/chrissalo/toc.htm</a><br>
+(Bruce Tomlins BIOS disassembly style)</p>
+
+<p> These variables are true C variables and the linker will map them to the respective system addresses:<br>
+// system RAM variables as listed in the system API:<br>
+<tt> extern int Vec_Text_Width; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 0xC82B, Default text width<br>
+extern unsigned int Vec_Max_Players; &nbsp;&nbsp;&nbsp;// 0xC84F, Maximum number of players for Select&nbsp;Game </tt> </p>
+
+<p>// sample usage:<br>
+<tt> Vec_Text_Width = 0x0F; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// stores value 0x0F in address 0xC82b<br>
+unsigned int num_players = Vec_Max_Players; &nbsp;&nbsp;// reads content of 0xC84F and stores it in variable num_players<br>
+</tt></p>
+
+<p>The interfacing functions are true C functions (not preprocessor macros):<br>
+// function prototypes as listed in the system API:<br>
+<tt> unsigned int Random(void); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 0xF517<br>
+void Draw_VLp_b(const unsigned int b, void* const x); // 0xF40E<br>
+</tt><br>
+// sample usage:<br>
+<tt> unsigned int number = Random(); &nbsp;&nbsp;&nbsp;// call BIOS routine at 0xF517 and store result in number<br>
+Draw_VLp_b(scale, &amp;vectors); &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// call BIOS routine at 0xF40E and pass content of variable<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// scale to b register and address of vectors to x register<br>
+</tt></p>
+
+<p>When writing C programs for the Vectrex, one can simply use these variables and functions to access the Vectrex system addresses or to call the Vectrex BIOS routines. There is no need for any additional inlined assembly code (gcc's asm statement), and one does not have to care for any register save &amp; restore. All this is handled inside the system interface. One simply passes argument values to C function calls, and (with some functions) gets return values, just like with any other regular C function. All system variables, functions and function parameters are typed, so one gets type checking for free.</p>
+
+<p>The order of the function parameters is always in sequence of a,b,x,y,u and the parameters names correspond to the respective MC6809 register names.</p>
+<h3>Direct page addressing:</h3>
+
+<p>It is possible to trigger (quick and fast) direct page addressing mode for accessing the system variables by adding the prefix "dp&nbsp;" to the variable name. This is especially useful when programming the VIA directly:<br>
+</p>
+
+<p>// system api:<br>
+<tt> extern unsigned int VIA_t1_cnt_lo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 0xD004, VIA timer 1 count register lo (scale factor)<br>
+extern unsigned int dp_VIA_t1_cnt&nbsp;lo;&nbsp;&nbsp;// 0x0004, VIA timer 1 count register lo (scale factor), direct page access<br>
+</tt><br>
+  // usage:<br>
+<tt> VIA_t1_cnt_lo = 10; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// write value 10 to address 0xD004 using regular extended addressing<br>
+dp_VIA_t1_cnt_lo = 10; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// write value 10 to address 0xD004 using direct page addressing<br>
+</tt></p>
+
+<p>It is the responsibility of the programmer to ensure that the DP register is set to the correct value before!  </p>
+<h3>Global (and local) variables:</h3>
+
+<p> Local variables are always allocated on the stack. Global constant variables (which must be initialized) are mapped to constants in cartridge ROM space. Non constant global variables are mapped to Vectrex RAM space, starting at 0xC880. Initializations are correctly handled (pre runtime).</p>
+
+<p><tt>  const int my_vector[2] = { -10, 20 };&nbsp;&nbsp;// ends up in cartridge ROM<br>
+unsigned int player = 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ends up in Vectrex RAM and is initialized to 1 before program starts<br>
+unsigned int score;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ends up in Vectrex RAM, no initialization, do not rely on how some emulator might handle this<br>
+</tt>  <br>
+Caveat:<br>
+</p>
+
+<p><tt>  const int* table_a[2] = { &amp;Vec_Music_1, &amp;Vec_Music_2 };&nbsp;&nbsp;// array of pointers which point to constant integers, ends up in RAM<br>
+int* const table_b[2] = { &amp; Vec_Music_1, &amp;Vec_Music_2 };&nbsp;// array of constant pointers which point to integers, ends up in ROM<br>
+</tt><br>
+ </p>
+<h3>Inlined system calls vs. library functions calls</h3>
+
+<p>There is a true choice between an "inlined" version and a "function" version of the Vectrex BIOS interface. The desired version can be selected by means of the "RUM_INLINE" switch which is passed to the gcc6809 compiler as âD option.   The "inlined" version will generate inlined code for each BIOS call. The "function" version will generate a true C function call to a precompiled C system library which then calls the Vectrex BIOS routines. Depending on your C program, either version might give you the faster code or/and the smaller binary (this is the same tradeoff as with any inlined or non-inlined function call in C). In my current C project "The Count" (which is quite large and uses quite a lot of the BIOS functions) it turned out that the "function" version is faster and also produces the smaller binary. But that might very well be different for other programs.</p>
+
+<p>  </p>
+<h3>Some comments regarding the preset gcc6809 compiler options:</h3>
+
+<p> -msoft-reg-count=0<br>
+  Do not change this. Using soft-regs for Vectrex C programming simply does not work for reasons which go beyond the scope of this text.</p>
+
+<p> -int8<br>
+</p>
+
+<p> This will cause integer types to be 8 bits wide, and long integer types to be 16 bits wide. I have chosen this to be the default for several (good) reasons. With gcc6809, arithmetic is much more efficient on 8 bit data types. The MC6809 is an 8 bit CPU with an 8 bit data path and a 16 bit address path. Yes, there are elements towards a 16 bit architecture, and there is the d registers, but its usage (by gcc6809) is in some way limited (e.g. shifts and rotates are always done on 8 bit registers). Moreover, most of the Vectrex BIOS routines are built around 8 bit data (vectors, coordinates, scale factors, â¦).I have examined the int16 option and my experiments ended up with significantly less efficient code. Some might argue that there is char in C which is guaranteed to be 8 bits wide and could also be used for 8 bit arithmetic. However, when I write C code, I am using char for â well â characters. And if I want integer arithmetic, I am using integer types. To make it short, you have to use this default if you want to use my API, as all the system stuff is built around this. But, in a way, 8 bit ints and 16 bit longs truly reflect the 6809 internals and offer very good control of which registers are used for which C level computations. So, as a C programmer, one can very cleverly make use of this.</p>
+
+<p> -fomit-frame-pointer<br>
+</p>
+
+<p> This is required when compiling the system libraries. Usually you don't have to do this (and you shouldn't, as any changes might break things you are possibly not aware of). I cannot prove it right now, but I am almost sure that this option is also required when you compile your own project when using my system API. There are some BIOS calls using the u register for which using my API shouldn't work with frame-pointer enabled. So better leave this option as it is. In all my experiments, performance was far better anyway without frame pointer.</p>
+
+<p> -fno-top-level-reorder<br>
+  This will cause global variables to be mapped to memory in exactly the same sequence and order as specified in the C files. This can come in very handy and allows for some (dirty) programming tricks.</p>
+
+<p> -Werror<br>
+</p>
+
+<p> This causes all compiler warnings to be treated as errors. Compilation will abort with an error message as soon as any warning is detected. If you don't like this, this can (safely?) be disabled. But then again, usually gcc has its reasons for issuing a warning. In my programming classes I use this option to teach the students to thoroughly think about what they write and to aim for really clean C code.</p>
+
+<p> </p>
+<h3>Using all this stuff in Vide:</h3>
+
+<p> Create a new C project and check the "PeerC" box. A complete project directory will be created, including several subfolders and some templates. Put all your C code in the "source" subfolder, and you are ready to go. You will also find a file here called "cartridge.c" which provides a data structure to generate the game title header. This file can easily be edited according to your likes. In the "overlay" and "manual" folders, there are also some (poor) PowerPoint templates for creating your own game overlay and game manual.</p>
+
+<p> The interface API is described in the files of the "doc" subfolder. Do not use these files as header files, they are meant as API documentation only. In C, just write "<tt>#include &lt;vectrex.h&gt;</tt>" and everything will be available.</p>
+
+<p> </p>
+</body>
+</html>

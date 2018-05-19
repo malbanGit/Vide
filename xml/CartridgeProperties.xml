@@ -369,8 +369,8 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
 		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -424,6 +424,49 @@ On the game select screen, hold down button two and press four repeatedly until 
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Whee Vec&amp;#x20;</Name>
+		<CartName>Whee Vec</CartName>
+		<Author>Manu P&#228;rssinen</Author>
+		<Year>2003</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Wheevec.bin</FullFilename>
+		</FullFilenames>
+		<Information>Manu P&#228;rssinen</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://zak.fi/Manu_P%C3%A4rssinen</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Whee</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -4169,6 +4212,52 @@ The cover of the first release, sometimes referred to as Patriots Limited Editio
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Lineart3</Name>
+		<CartName>Lineart3</CartName>
+		<Author>Nuance &amp; Metalvotze</Author>
+		<Year>2011</Year>
+		<CRC>0</CRC>
+		<TypeFlags>2</TypeFlags>
+		<FullFilenames>
+			<FullFilename>lineart01.bin</FullFilename>
+			<FullFilename>lineart02.bin</FullFilename>
+			<FullFilename>lineart03.bin</FullFilename>
+			<FullFilename>lineart04.bin</FullFilename>
+		</FullFilenames>
+		<Information>Nuance &amp; Metalvotze</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://metalvotze.de/files/vecsrc/</Homepage>
+		<InstructionFile>documents/games/Lineart_instructions.txt</InstructionFile>
+		<FrontImage>./cartridges/images/Lineart-7881467895127104613.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Lineart-6312384250983452480.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>true</ConfigOverwrite>
+		<CF_AutoSync>true</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Philly Classic 3</Name>
 		<CartName>Philly Classic 3</CartName>
 		<Author></Author>
@@ -4368,6 +4457,52 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Lineart3</Name>
+		<CartName>Lineart3</CartName>
+		<Author>Nuance &amp; Metalvotze</Author>
+		<Year>2011</Year>
+		<CRC>0</CRC>
+		<TypeFlags>2</TypeFlags>
+		<FullFilenames>
+			<FullFilename>lineart01.bin</FullFilename>
+			<FullFilename>lineart02.bin</FullFilename>
+			<FullFilename>lineart03.bin</FullFilename>
+			<FullFilename>lineart04.bin</FullFilename>
+		</FullFilenames>
+		<Information>Nuance &amp; Metalvotze</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://metalvotze.de/files/vecsrc/</Homepage>
+		<InstructionFile>documents/games/Lineart_instructions.txt</InstructionFile>
+		<FrontImage>./cartridges/images/Lineart-7881467895127104613.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Lineart-6312384250983452480.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>true</ConfigOverwrite>
+		<CF_AutoSync>true</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -5136,6 +5271,49 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>VPatrol</Name>
+		<CartName>VPatrol</CartName>
+		<Author>Kristof Tuts</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>2097153</TypeFlags>
+		<FullFilenames>
+			<FullFilename>PATROL64K_SERNUM_107_CHRIS_SALOMON.bin</FullFilename>
+		</FullFilenames>
+		<Information>Kristof Tuts</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://kristofsnewvectrexgames.comli.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -6411,9 +6589,9 @@ You may give the Vecfu.bin file to your friends, but only together with this rea
 		<Author>Malban</Author>
 		<Year>2017</Year>
 		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
+		<TypeFlags>65536</TypeFlags>
 		<FullFilenames>
-			<FullFilename>projects/KarlQuappe/KarlQuappe_green.bin</FullFilename>
+			<FullFilename>projects/KarlQuappe/Karl_Quappe.bin</FullFilename>
 		</FullFilenames>
 		<Information>Malban</Information>
 		<Cheats></Cheats>
@@ -6432,10 +6610,10 @@ You may give the Vecfu.bin file to your friends, but only together with this rea
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
 		<CartridgeImage></CartridgeImage>
-		<Homebrew>false</Homebrew>
+		<Homebrew>true</Homebrew>
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
-		<CompleteGame>false</CompleteGame>
+		<CompleteGame>true</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 		<ConfigOverwrite>false</ConfigOverwrite>

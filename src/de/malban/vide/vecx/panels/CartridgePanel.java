@@ -14,6 +14,7 @@ import de.malban.gui.components.CSAView;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.Updatable;
+import de.malban.vide.vecx.cartridge.AT24C02;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.cartridge.DS2430A;
 import de.malban.vide.vecx.cartridge.DS2431;
@@ -119,11 +120,15 @@ public class CartridgePanel extends javax.swing.JPanel implements
         MemoryDumpTableModelMC modelMC = new MemoryDumpTableModelMC();
         MemoryDumpTableModelDS modelDS = new MemoryDumpTableModelDS();
         MemoryDumpTableModelDS1 modelDS1 = new MemoryDumpTableModelDS1();
+        MemoryDumpTableModelAtmel modelAtmel = new MemoryDumpTableModelAtmel();
         MemoryDumpTableModelRAM modelRAM = new MemoryDumpTableModelRAM();
         jTable1.setModel(modelMC);
         jTable2.setModel(modelDS);
         jTable3.setModel(modelRAM);
         jTable4.setModel(modelDS1);
+        jTable5.setModel(modelAtmel);
+
+
         jPanel4.setVisible(false);
         
         UIManager.addPropertyChangeListener(pListener);
@@ -133,6 +138,7 @@ public class CartridgePanel extends javax.swing.JPanel implements
         correctTableMC();
         correctTableDS();
         correctTableDS1();
+        correctTableAtmel();
         correctTableRAM();
     }
     public void correctTableMC()
@@ -168,6 +174,17 @@ public class CartridgePanel extends javax.swing.JPanel implements
             jTable4.getColumnModel().getColumn(i).setPreferredWidth(model.getColWidth(i));                
         }
     }
+    public void correctTableAtmel()
+    {
+        jTable5.tableChanged(null);
+        
+        MemoryDumpTableModelAtmel model = (MemoryDumpTableModelAtmel)jTable5.getModel();
+        
+        for (int i=0; i< model.getColumnCount(); i++)
+        {
+            jTable5.getColumnModel().getColumn(i).setPreferredWidth(model.getColWidth(i));                
+        }
+    }
     public void correctTableRAM()
     {
         jTable3.tableChanged(null);
@@ -184,14 +201,23 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private void update()
     {        
         if (vecxPanel==null) return;
+        currentCart = vecxPanel.getCartridge();
+        if (currentCart == null) return;
+
+        jTextField42.setText(""+(currentCart.currentPB6?1:0));
+        jTextField43.setText(""+(currentCart.currentIRQ?1:0));
+
         updateMicrochip();
         updateDS2430A();
         updateDS2431();
+        updateAtmel();
         updateRamExtension();
         updateSid();
 //        updateBankswitch();
 
     }
+    AT24C02 oldAtmel = null;
+    AT24C02 currentAtmel = null;
     DS2431 oldDS1 = null;
     DS2431 currentDS1 = null;
     DS2430A oldDS = null;
@@ -644,6 +670,37 @@ public class CartridgePanel extends javax.swing.JPanel implements
         jLabel140 = new javax.swing.JLabel();
         jLabel141 = new javax.swing.JLabel();
         jLabel142 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable5 = new javax.swing.JTable();
+        jLabel73 = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        jTextField44 = new javax.swing.JTextField();
+        jTextField45 = new javax.swing.JTextField();
+        jRadioButton7 = new javax.swing.JRadioButton();
+        jRadioButton8 = new javax.swing.JRadioButton();
+        jLabel102 = new javax.swing.JLabel();
+        jTextField48 = new javax.swing.JTextField();
+        jLabel132 = new javax.swing.JLabel();
+        jLabel137 = new javax.swing.JLabel();
+        jLabel138 = new javax.swing.JLabel();
+        jTextField49 = new javax.swing.JTextField();
+        jTextField50 = new javax.swing.JTextField();
+        jTextFieldOutVal2 = new javax.swing.JTextField();
+        jLabel143 = new javax.swing.JLabel();
+        jTextField53 = new javax.swing.JTextField();
+        jLabel144 = new javax.swing.JLabel();
+        jTextField54 = new javax.swing.JTextField();
+        jLabel145 = new javax.swing.JLabel();
+        jTextField55 = new javax.swing.JTextField();
+        jLabel146 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel147 = new javax.swing.JLabel();
+        jTextFieldOutVal3 = new javax.swing.JTextField();
+        jLabel45 = new javax.swing.JLabel();
+        jTextField42 = new javax.swing.JTextField();
+        jTextField43 = new javax.swing.JTextField();
+        jLabel68 = new javax.swing.JLabel();
 
         setName("regi"); // NOI18N
 
@@ -2186,7 +2243,7 @@ public class CartridgePanel extends javax.swing.JPanel implements
                                     .addComponent(jLabel131)
                                     .addComponent(jLabel130)
                                     .addComponent(jLabel129))))))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2369,19 +2426,258 @@ public class CartridgePanel extends javax.swing.JPanel implements
 
         jTabbedPane1.addTab("SID", jPanel6);
 
+        jTable5.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(jTable5);
+
+        jLabel73.setText("low level state");
+
+        jLabel74.setText("high level state");
+
+        jTextField44.setPreferredSize(new java.awt.Dimension(220, 20));
+
+        jTextField45.setPreferredSize(new java.awt.Dimension(220, 20));
+
+        buttonGroup3.add(jRadioButton7);
+        jRadioButton7.setText("input to Atmel");
+
+        buttonGroup3.add(jRadioButton8);
+        jRadioButton8.setText("output from Atmel");
+        jRadioButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton8ActionPerformed(evt);
+            }
+        });
+
+        jLabel102.setText("mode");
+
+        jTextField48.setToolTipText("in from vectrex");
+        jTextField48.setPreferredSize(new java.awt.Dimension(40, 20));
+
+        jLabel132.setText("sda/scl");
+
+        jLabel137.setText("bit counter");
+
+        jLabel138.setText("current bit");
+
+        jTextField49.setToolTipText("in from vectrex");
+        jTextField49.setPreferredSize(new java.awt.Dimension(40, 20));
+
+        jTextField50.setToolTipText("in from vectrex");
+        jTextField50.setPreferredSize(new java.awt.Dimension(40, 20));
+        jTextField50.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField50ActionPerformed(evt);
+            }
+        });
+
+        jTextFieldOutVal2.setText("$00");
+        jTextFieldOutVal2.setToolTipText("");
+        jTextFieldOutVal2.setPreferredSize(new java.awt.Dimension(40, 20));
+        jTextFieldOutVal2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldOutVal2FocusLost(evt);
+            }
+        });
+        jTextFieldOutVal2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldOutVal2ActionPerformed(evt);
+            }
+        });
+
+        jLabel143.setText("current/last out value");
+
+        jTextField53.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        jLabel144.setText("sync cycles");
+
+        jTextField54.setToolTipText("out from DS");
+        jTextField54.setPreferredSize(new java.awt.Dimension(40, 20));
+
+        jLabel145.setText("write cycle counter");
+
+        jTextField55.setToolTipText("in from vectrex");
+        jTextField55.setPreferredSize(new java.awt.Dimension(40, 20));
+        jTextField55.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField55ActionPerformed(evt);
+            }
+        });
+
+        jLabel146.setText("is writing");
+
+        jLabel147.setText("address pointer");
+
+        jTextFieldOutVal3.setText("$00");
+        jTextFieldOutVal3.setToolTipText("");
+        jTextFieldOutVal3.setPreferredSize(new java.awt.Dimension(40, 20));
+        jTextFieldOutVal3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldOutVal3FocusLost(evt);
+            }
+        });
+        jTextFieldOutVal3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldOutVal3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel74)
+                                    .addComponent(jLabel73))
+                                .addGap(23, 23, 23)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addGap(287, 287, 287)
+                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jTextField48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jTextField50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jTextField49, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jTextField54, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jTextField53, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTextField45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jRadioButton7)
+                                            .addComponent(jTextField44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jRadioButton8)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                                .addComponent(jLabel147)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jTextFieldOutVal3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel143)
+                                            .addComponent(jLabel145)
+                                            .addComponent(jLabel146)
+                                            .addComponent(jLabel138)
+                                            .addComponent(jLabel137)
+                                            .addComponent(jLabel132)
+                                            .addComponent(jLabel144))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jCheckBox1)
+                                            .addComponent(jTextField55, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextFieldOutVal2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabel102)))
+                        .addGap(0, 42, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5))
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel73)
+                            .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel74))
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jRadioButton7)
+                            .addComponent(jLabel102)
+                            .addComponent(jLabel146)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel144)
+                            .addComponent(jTextField53, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel132)
+                            .addComponent(jTextField48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField54, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel137)
+                            .addComponent(jTextField50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel138)
+                            .addComponent(jTextField49, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(jCheckBox1)))
+                .addGap(0, 0, 0)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton8)
+                    .addComponent(jLabel145)
+                    .addComponent(jTextField55, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldOutVal2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel143)
+                    .addComponent(jTextFieldOutVal3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel147))
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("AT24C02", jPanel7);
+
+        jLabel45.setText("PB6:");
+
+        jTextField42.setText("0");
+
+        jTextField43.setText("0");
+
+        jLabel68.setText("~IRQ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(84, 84, 84)
+                .addComponent(jLabel45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel68)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField43, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField43, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1)
                 .addGap(0, 0, 0))
@@ -2404,14 +2700,14 @@ public class CartridgePanel extends javax.swing.JPanel implements
         if (vecxPanel==null) return;
         currentCart = vecxPanel.getCartridge();
         if (currentCart == null) return;
-        currentCart.setPB6FromCarrtridge(true);
+        currentCart.setPB6FromCartridge(true);
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jButton1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseReleased
         if (vecxPanel==null) return;
         currentCart = vecxPanel.getCartridge();
         if (currentCart == null) return;
-        currentCart.setPB6FromCarrtridge(false);
+        currentCart.setPB6FromCartridge(false);
     }//GEN-LAST:event_jButton1MouseReleased
 
     private void jTextFieldReg7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldReg7ActionPerformed
@@ -2572,14 +2868,44 @@ public class CartridgePanel extends javax.swing.JPanel implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton6ActionPerformed
 
+    private void jRadioButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton8ActionPerformed
+
+    private void jTextField50ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField50ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField50ActionPerformed
+
+    private void jTextFieldOutVal2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldOutVal2FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldOutVal2FocusLost
+
+    private void jTextFieldOutVal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldOutVal2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldOutVal2ActionPerformed
+
+    private void jTextField55ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField55ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField55ActionPerformed
+
+    private void jTextFieldOutVal3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldOutVal3FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldOutVal3FocusLost
+
+    private void jTextFieldOutVal3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldOutVal3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldOutVal3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel101;
+    private javax.swing.JLabel jLabel102;
     private javax.swing.JLabel jLabel105;
     private javax.swing.JLabel jLabel106;
     private javax.swing.JLabel jLabel107;
@@ -2610,15 +2936,23 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel130;
     private javax.swing.JLabel jLabel131;
+    private javax.swing.JLabel jLabel132;
     private javax.swing.JLabel jLabel133;
     private javax.swing.JLabel jLabel134;
     private javax.swing.JLabel jLabel135;
     private javax.swing.JLabel jLabel136;
+    private javax.swing.JLabel jLabel137;
+    private javax.swing.JLabel jLabel138;
     private javax.swing.JLabel jLabel139;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel140;
     private javax.swing.JLabel jLabel141;
     private javax.swing.JLabel jLabel142;
+    private javax.swing.JLabel jLabel143;
+    private javax.swing.JLabel jLabel144;
+    private javax.swing.JLabel jLabel145;
+    private javax.swing.JLabel jLabel146;
+    private javax.swing.JLabel jLabel147;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -2652,6 +2986,7 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
@@ -2676,11 +3011,14 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
@@ -2714,12 +3052,15 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JRadioButton jRadioButton7;
+    private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JRadioButton jRadioButtonJ01;
     private javax.swing.JRadioButton jRadioButtonJ02;
     private javax.swing.JRadioButton jRadioButtonJ03;
@@ -2732,11 +3073,13 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -2773,7 +3116,17 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField40;
     private javax.swing.JTextField jTextField41;
+    private javax.swing.JTextField jTextField42;
+    private javax.swing.JTextField jTextField43;
+    private javax.swing.JTextField jTextField44;
+    private javax.swing.JTextField jTextField45;
+    private javax.swing.JTextField jTextField48;
+    private javax.swing.JTextField jTextField49;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField50;
+    private javax.swing.JTextField jTextField53;
+    private javax.swing.JTextField jTextField54;
+    private javax.swing.JTextField jTextField55;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
@@ -2781,6 +3134,8 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextFieldES;
     private javax.swing.JTextField jTextFieldOutVal;
     private javax.swing.JTextField jTextFieldOutVal1;
+    private javax.swing.JTextField jTextFieldOutVal2;
+    private javax.swing.JTextField jTextFieldOutVal3;
     private javax.swing.JTextField jTextFieldReg0;
     private javax.swing.JTextField jTextFieldReg1;
     private javax.swing.JTextField jTextFieldReg2;
@@ -2849,6 +3204,21 @@ public class CartridgePanel extends javax.swing.JPanel implements
         for (int i=0;i<16; i++)
         {
             int v = currentDS.getData()[ row*16+i] &0xff;
+            if (v<0x20) dump+=".";
+            else if (v>0x6F) dump+=".";
+            else if (v<0x5F) dump+=(char)v;
+            else dump += "~";
+        }
+        return dump;
+    }
+    
+    String asciiDumpAtmel(int row)
+    {
+        if (vecxPanel==null) return "";
+        String dump = "";
+        for (int i=0;i<16-8; i++)
+        {
+            int v = currentAtmel.getData()[ row*(16-8)+i] &0xff;
             if (v<0x20) dump+=".";
             else if (v>0x6F) dump+=".";
             else if (v<0x5F) dump+=(char)v;
@@ -2925,6 +3295,64 @@ public class CartridgePanel extends javax.swing.JPanel implements
         }
         
     }
+    
+    // pages of 8 byte
+    public class MemoryDumpTableModelAtmel extends AbstractTableModel
+    {
+        public int getRowCount()
+        {
+            return 256/8;
+        }
+        public int getColumnCount()
+        {
+            return 18-8;
+        }
+        public Object getValueAt(int row, int col)
+        {
+            if (currentAtmel == null) return "";
+            if (col == 0)
+                return"$"+String.format("%02X",getAddress( row,  col)+1) ;
+            if (col == 17-8)
+                return asciiDumpAtmel(row);
+            return "$"+String.format("%02X", currentAtmel.getData()[getAddress( row,  col)]);
+        }
+
+        public int getIntegerValueAt(int row, int col)
+        {
+            if (col == 0) return -1;
+            if (col == 17-8) return -1;
+            
+            return currentAtmel.getData()[getAddress( row,  col)];
+        }
+        public int getAddress(int row, int col)
+        {
+            return row *(16-8) + (col-1);
+        }
+        public String getColumnName(int column) {
+            if (column == 0) return "Address";
+            if (column == 17-8) return "Chars";
+            return "$"+String.format("%02X",(column&0xff)-1);
+        }
+        public Class<?> getColumnClass(int columnIndex) {
+            return String.class;
+        }
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+        public int getColWidth(int col)
+        {
+            if (col == 0) return 40;
+            if (col == 17-8) return 120;
+            return 20;
+        }
+        public Color getBackground(int col)
+        {
+            if (col == 0) return new Color(200,255,200,255);
+            return null; // default
+        }
+        
+    }
+    
     public class MemoryDumpTableModelDS extends AbstractTableModel
     {
         public int getRowCount()
@@ -3121,4 +3549,33 @@ public class CartridgePanel extends javax.swing.JPanel implements
         jTable4.setRowHeight(rowHeight);
     }
     public void deIconified() { }
+    private void updateAtmel()
+    {        
+        if (vecxPanel==null) return;
+
+        currentAtmel = vecxPanel.getAtmel();
+        if (currentAtmel == null) return;
+        
+        jTextField44.setText(""+currentAtmel.getLowLevelName());
+        jTextField45.setText(""+currentAtmel.getHighLevelName());
+
+        if (currentAtmel.isInputToAtmel())
+            jRadioButton7.setSelected(true);
+        else
+            jRadioButton8.setSelected(true);
+        
+        jTextField48.setText(""+currentAtmel.getSDA());
+        jTextField54.setText(""+currentAtmel.getSCL());
+        
+        jTextField50.setText(""+currentAtmel.getBitCounter());
+        jTextField49.setText(""+currentAtmel.getLastTransportedBit());
+        jCheckBox1.setSelected(currentAtmel.isWriting());
+        jTextField55.setText(""+currentAtmel.getWriteCyclesLeft());
+        jTextFieldOutVal2.setText("$" + String.format("%02X",(currentAtmel.getTransportByte())));
+        
+        jTextFieldOutVal3.setText("$" + String.format("%02X",(currentAtmel.getInternalAddress())));
+        jTable5.tableChanged(null);
+        correctTableAtmel();
+        oldAtmel = currentAtmel.clone();
+    }    
 }

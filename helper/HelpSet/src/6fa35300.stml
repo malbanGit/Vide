@@ -48,7 +48,7 @@ John placed the sources in the public domain, although his original website is g
  
 ~~
 **Code by Manu Paerssinen**~~
-----------------------~~
+-----------------------~~
 The assembler sources in directories under:~~
 \\codelib\\...\\Manu
 ~~ ~~
@@ -121,7 +121,7 @@ The assembler sources in directories under:~~
  were done by Frog
  
 ~~ 
-I have not found any copyright notice or licence file, but the source files are freely available
+I have not found any copyright notice or licence file, but the source files are freely available.
  
 ~~ ~~
 Frog has a website:~~
@@ -130,7 +130,7 @@ Frog has a website:~~
  ~~
 ~~
 **Code by Jeff Woolsay**~~
-----------------------~~
+--------------------~~
 The assembler sources in directories under:~~
 \\codelib\\...\\Jeff Woolsay
 ~~ ~~
@@ -160,7 +160,7 @@ The sources used to be at:~~
  
 ~~
 **Code by Bruce Tomlin**~~
-----------------------~~
+--------------------~~
 The assembler sources in directories under:~~
 \\codelib\\...\\Bruce Tomlin
 ~~ ~~
@@ -341,3 +341,112 @@ His homepage can be found at:~~
 [[http://www.la1n.ch/vecz/]]~~
 
 ~~
+~~
+::**Code by Dan Siewers**~~
+-------------------~~
+The assembler sources in directories under:~~
+\\codelib\\...\\Dan Siewers
+~~ ~~
+ were done by Dan Siewers ~~
+ ~~ ~~
+The author gave permission to include the sourcecode.
+ 
+~~ ~~ 
+His homepage can be found at: unkown~~
+
+~~
+
+
+~~
+::**Code by Fell^DSS**~~
+-----------------~~
+The assembler sources in directories under:~~
+\\codelib\\...\\Fell
+~~ ~~
+ were done by "Fell^DSS" ~~
+ ~~ ~~
+The author gave permission to include the sourcecode.
+ 
+~~ ~~ 
+His homepage can be found at: unkown~~
+
+~~
+
+
+~~
+::**Garry Grierson**~~
+-----------------~~
+The assembler sources in directories under:~~
+\\codelib\\...\\Garry Grierson
+~~ ~~
+ were done by "Garry Grierson" ~~
+ ~~ ~~
+The author gave permission to include the sourcecode.
+ 
+~~ ~~ 
+His homepage can be found at: [[http://garrysgamingblog.blogspot.de/p/programming-projects.html]]~~
+
+~~
+
+::**Prof. Dr. rer. nat. Peer Johannsen**~~
+----------------------------------~~
+All stuff in directories under:~~
+\\C\\PeerC
+~~ ~~
+ were done by Prof. Dr. rer. nat. Peer Johannsen ~~
+ ~~ 
+The author gave permission to include the files.
+~~ 
+ 
+His homepage(s) can be found at:~~
+
+[[http://eiti.fh-pforzheim.de/personen/johannsen/johannsen.htm]]~~
+[[http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_project.htm]]~~
+[[http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2017/vectrex_project.htm]]~~
+
+~~
+
+
+
+~~
+::** Frank Buss**~~
+----------~~
+The sources in directories under:~~
+\\projects\\bloxorx\\source
+~~ ~~
+ were done by "Frank Buss" ~~
+ ~~ ~~
+The author gave permission to include the sourcecode.
+ 
+~~ ~~ 
+His homepage can be found at: [[http://www.frank-buss.de/vectrex/]]~~
+
+
+
+~~
+::**Sebastian Mihai**~~
+---------------~~
+The sources in directories under:~~
+\\projects\\Scalar Ownage\\source
+~~ ~~
+ were done by "Sebastian Mihai" ~~
+ ~~ ~~
+The author gave permission to include the sourcecode.
+ 
+~~ ~~ 
+His homepage can be found at: http:/\/sebastianmihai.com/main.php?t=57&n=Vectrex-development-Scalar-Ownage~~
+
+
+~~
+::**Phillip Riscombe-Burton**~~
+-----------------------~~
+The sources in directories under:~~
+\\projects\\VecPong\\source
+~~ ~~
+ were done by "SPhillip Riscombe-Burton" (Nes4Life) ~~
+ ~~ ~~
+The author gave permission to include the sourcecode.
+ 
+~~ ~~ 
+His homepage can be found at: [[https://github.com/Phillrb]]~~
+

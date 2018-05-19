@@ -1,0 +1,5 @@
+:title "Known Features"
+- when running in Open GL mode and you have more than one vecxi instance open. If you full-panel or full-screen once of the vecxi, all other instances will lose their opengl reference. There is no crash - but the display is not working as long as the reference is not "reset". A simple window resize will do the trick...
+- Vedi and Dissi seperately have a configuration for a vecFever device - this is stupid - and should be corrected
+- Projects in Vedi under windows must not be located on a seperate mount point/disk - because all paths are stored internally "relative" - a different HD can not be accessed relative and will produce errors
+- in rotated mode mouse interaction with emulator is handled wrong 

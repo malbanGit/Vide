@@ -31,7 +31,7 @@
 </li><li>
 <p>"assuming code therafter" in <i>general</i> is kind of difficult, because if data is encountered dissy tries to interprete data as code and that looks most of the time pretty silly - so please help dissi!</p>
 </li><li>
-<p>dissi allways tries to disassemble the file so that assi can compile the generated source code to be 100% the same binary as was given in the first place</p>
+<p>dissi always tries to disassemble the file so that assi can compile the generated source code to be 100% the same binary as was given in the first place</p>
 </li><li>
 <p>for that at all to be possible (see bulletpoint 2) dissi even without help <i>must</i> generate data, because there are data bytes that have no representation as an assembler mnemonic, or a postbyte is illegal for a correct mnemonic</p>
 </li><li>
@@ -78,10 +78,28 @@ Breakpoints are ALWAYS active, even when not in debug mode!</p>
 </p>
 </li><li>
 <p><img src="pics/arrow_turn_left.png" alt="arrow_turn_left.png">&nbsp;&nbsp;<b>undo</b><br>
- undo the last emulated instruction. Currently the undo-buffer is set to "2000", after that no undo is possible. This will be configurable at a later point.</p>
+ undo the last emulated instruction. The size of the undo-buffer can be  configured (up to 50000 steps). </p>
 </li><li>
 <p><img src="pics/arrow_turn_right.png" alt="arrow_turn_right.png">&nbsp;&nbsp;<b>redo</b><br>
  the next "state" in the ringbuffer of undoable state is set. If I did everything correct, this should be exactly the same as performing a single step. Although, performing a "real" single step "resets" the redo "pointer". <br>
+  <i>Note: For both above undo/redo:<br>
+
+<ul><li>
+<p>holding SHIFT does 10 steps </p>
+</li><li>
+<p>holding CTRL does 100 steps </p>
+</li><li>
+<p>holding SHIFT and CTRL does 1000 steps </p>
+</li><li>
+<p>holding ALT does 10000 steps  <i></i></p>
+</li></ul>
+</i></p>
+</li><li>
+<p><img src="pics/arrow_undo.png" alt="arrow_undo.png">&nbsp;&nbsp;<b>undo 30000</b><br>
+ step back 30000 steps (not cycles!). Independend of the above mentioned single step back one can configure a secondary step back buffer (up to 5000). Each step takes back the last 30000 assembler instructions. Each of these "big" steps erases the single step buffer.</p>
+</li><li>
+<p><img src="pics/arrow_redo.png" alt="arrow_redo.png">&nbsp;&nbsp;<b>redo 30000</b><br>
+ The opposite of the just described "large" step back. <br>
  <br>
 </p>
 </li><li>
@@ -107,13 +125,17 @@ Breakpoints are ALWAYS active, even when not in debug mode!</p>
 </li><li>
 <p><img src="pics/application_lightning.png" alt="application_lightning.png">&nbsp;&nbsp;<b>breaki</b><br>
  opens a breaki window <br>
+ </p>
+</li><li>
+<p><img src="pics/layout_content.png" alt="layout_content.png">&nbsp;&nbsp;<b>profi</b><br>
+ opens a profi (profiling) window <br>
  <br>
 </p>
 </li><li>
 <p><img src="pics/mouse_error.png" alt="mouse_error.png">&nbsp;&nbsp;<b>vinfi</b><br>
  this will enable a mouse pointer in the emulation window. You can select any displayed vector and get information about it. Upon selecting a vector a "vinfi" window opens. <br>
  <br>
-</p>
+ </p>
 </li><li>
 <p><img src="pics/page_save.png" alt="page_save.png">&nbsp;&nbsp;<b> write file</b><br>
  This writes a source file of the current dissi contents to your hard drive. The file generated will save to the location the current bin file was loaded from and has a file extenstion of *.dasm.asm". <br>
@@ -176,7 +198,7 @@ A Mnemonic representation of the underlying manchine language instruction - or a
 </li><li>
 <p><b>Column 5 - Operand</b><br>
 Underlying operand of the machine language instruction or a representation of data. <br>
-If the operand represents a BIOS (Bruce Tomlin style) routine, you can double click the operand, and a small help (stay on top window) will be displayed.</p>
+If the operand represents a BIOS (Bruce Tomlin style) routine, you can double click the operand, and a small help (stay on top window) will be displayed. If the operand denotes a RAM location (variable name), than vari pops up with the denoted variable selected.</p>
 </li><li>
 <p><b>Column 6 - Page</b><br>
 one of four possible states:<br>
@@ -226,7 +248,9 @@ Length of the instruction in bytes - or the length of the grouped data in bytes.
 All comments belonging to the address. Seperate lines are seperated by ":". All comments are displayed by the tooltip! Comments can be edited - as labels only for <i>exactly</i> the address of the current row. </p>
 </li><li>
 <p><b>Column 13 - DP</b><br>
-Guessed or set direct page register dissi thinks appropriate for that address. <i>This is not allways correct</i></p>
+Guessed or set direct page register dissi thinks appropriate for that address. <i>This is not always correct! </i></p>
+</li><li>
+<p>additionally some columns can be displayed while profiling</p>
 </li></ul>
 </p>
 <h3>Popup-Menu</h3>
@@ -245,6 +269,9 @@ Guessed or set direct page register dissi thinks appropriate for that address. <
 </li><li>
 <p><b>cast to word</b><br>
  casts the selected rows to be "enforced" to word data</p>
+</li><li>
+<p><b>cast to wordpointer </b><br>
+ casts the selected rows to be "enforced" to word pointer data</p>
 </li><li>
 <p><b>cast to char</b><br>
  casts the selected rows to be "enforced" to char data</p>
@@ -313,7 +340,7 @@ and an assembler directive like:<br>
 </li><li>
 <p>print (memory location)</p>
 </li><li>
-<p>breakpoint address, upon bankswitch, or any bit of VIA ORB</p>
+<p>breakpoint address, upon bankswitch, or any bit of VIA/&nbsp;ORB, or ROM, PC, NZ</p>
 </li><li>
 <p>label reset (all automatically build lables)</p>
 </li><li>
@@ -340,6 +367,12 @@ and an assembler directive like:<br>
 <p>bankswitch debug</p>
 </li><li>
 <p>set xx yy</p>
+</li><li>
+<p>watches</p>
+</li><li>
+<p>rd</p>
+</li><li>
+<p>quiet</p>
 </li></ul>
 </p>
 </li></ul>
@@ -347,6 +380,23 @@ and an assembler directive like:<br>
 <p>(as you see, these were commands that I at some stage needed while hacking VIDE together :-))</p>
 
 <p>You can enter simple "expression" and use the cli as a small calculator. Conversion between decimal, binary and hex is also supported.</p>
+
+<p>Note:<br>
+Using the CLI you are able to set breakpoint otherwise not accessable.
+<ul><li>
+<p>ROM<br>
+ triggers a breakpoint when the cartridge tries to write to ROM area</p>
+</li><li>
+<p>PC<br>
+ triggers a breakpoint when the PC is pointing to a location not usually used for execution (area outside current ROM + BIOS)</p>
+</li><li>
+<p>NZ<br>
+ triggers a breakpoint at the defined location if the integrators are not in a close range to the zero point</p>
+</li><li>
+<p>VIA&nbsp;ORG <br>
+ can trigger a breakpoint upon the specific state of one bit of VIA&nbsp;ORB</p>
+</li></ul>
+</p>
 <h3>Searching</h3>
 
 <p>On the bottom of dissi is a search field. Searches covers all kinds of labels and commentary</p>
@@ -359,19 +409,22 @@ and an assembler directive like:<br>
 
 <p>In short, you can tell your source code to output information to the dissi message board. Everything works in form of comments. How comments are entered - see below (CNT, LST or ASSI, which of these is of no importance, as long as dissy knows the comments, when a vectrex program is executed).</p>
 
-<p>As of now there are only two commands implemented, but if needs arise I can improvise and supply more :-).</p>
+<p>As of now there are only a couple of commands implemented, but if needs arise I can improvise and supply more :-).</p>
 
 <p>The comment syntax is quite easy, dissi parses all comments and if it finds the keywords:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>hey dissi</b><br>
 It knows that you are talking to it. Dissi than takes the string it finds after "hey dissi" which is expected to be in quotes and tries to interprete it as commands.<br>
-Dissi as of now only knows two commands:<br>
+Dissi as of now only knows the following commands:<br>
 
 <ul><li>
 <p><b>print</b><br>
 print some information</p>
 </li><li>
 <p><b>break</b> <br>
-insert a breakpoint here</p>
+insert a breakpoint here (option parameters: "once", "integratorzero" - see NZ)</p>
+</li><li>
+<p><b>watch</b> <br>
+add a watch</p>
 </li></ul>
 </p>
 
@@ -428,6 +481,21 @@ Whenever this line is passed in emulation. The emulation is <b>not</b> stopped, 
 </li></ul>
 </p>
 
+<p><b>Note:</b><br>
+The parameters must be seperated by whitespaces from each other. E.g. a "print Joystick=$Vec&nbsp;Joy&nbsp;1&nbsp;X" does at the moment not work, there must be spaces befor/after the variable.</p>
+
+<p><b>Note:</b><br>
+As of yet you can not ouput 16 bit values, if you want to do so you must output 2 eight bit values and use your brain.</p>
+
+<p>Registers<br>
+You can also print registers, to do so, write a "#" befor the register. <br>
+Example:</p>
+
+<div class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<p>; hey dissi "print #a #b #x" <br>
+</p>
+</div>
+
 <p>Example 4:</p>
 
 <div class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -436,7 +504,36 @@ Whenever this line is passed in emulation. The emulation is <b>not</b> stopped, 
 </div>
 <br>
 
-<p>Will simply add a breakpoint to that line. Program execution will be halted.</p>
+<p>Will simply add a breakpoint to that line. Program execution will be halted. </p>
+
+<p>One can also add an additional parameter "once" - to configure dissi to only use the breakpoint once.</p>
+
+<p>Example 5:</p>
+
+<div class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<p>; hey dissi "watch RecalCounter" <br>
+</p>
+</div>
+
+<p>Adds a watch to a variable called "RecalCounter", per default the locations watched are watched as "bytes".</p>
+
+<p>An additional type parameter can be given after the variable (or memory address):
+<ul><li>
+<p>0 - displays watch as binary</p>
+</li><li>
+<p>1 - diaplays watch as byte value</p>
+</li><li>
+<p>2 - displays watch as word value (16 bit)</p>
+</li><li>
+<p>3 - displays watch as string (till a byte &lt;= 0 is found)</p>
+</li><li>
+<p>4 - display two consecutive memory locations as seperate byte values</p>
+</li><li>
+<p>5 - displays a sequence as byte values, sequence length is determined by another additional parameter</p>
+</li></ul>
+</p>
+
+<p>The watch parameter can be places <i>ANYWHERE</i> in the source code.</p>
 <h2>Supply dissi with information</h2>
 
 <p>There are three (plus one) ways to supply dissy with information.
@@ -446,7 +543,7 @@ You can use the "LST" files that this assembler generates. If the "LST" file is 
 </li><li>
 <p>Compile your source file with assi in VIDE.</p>
 </li><li>
-<p>edit dissi (not implemented yet, and this is actually the "plus one")</p>
+<p>edit dissi (and save the edited entries)</p>
 </li><li>
 <p>Supply a "CNT" file, if the "CNT" file is in the same directory as the rom, it will be loaded automatically.</p>
 </li></ol>
@@ -515,6 +612,22 @@ Example:</p>
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIRECT_LABEL&nbsp;&nbsp;&nbsp;&nbsp;$C9&nbsp;&nbsp;&nbsp;&nbsp;$00&nbsp;&nbsp;&nbsp;&nbsp;Ship_counter<br>
  <br>
 </p>
+</div>
+
+<p><b>FORCE_SYMBOL</b><br>
+At the given line dissi should use the following symbol in disassembly. (only makes sense if there are different labels with the same definition to chose from) (if there is no fitting symbol (value related) this is ignored).  Example:</p>
+
+<div class="code">
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FORCE_SYMBOL&nbsp;&nbsp;&nbsp;&nbsp;$2622&nbsp;&nbsp;&nbsp;&nbsp;ship&nbsp;counter<br>
+ </p>
+</div>
+
+<p><b>FORCE_NO_SYMBOL</b><br>
+At the given line dissi should not use any symbol (but a number instead). Example:</p>
+
+<div class="code">
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FORCE_NO_SYMBOL&nbsp;&nbsp;&nbsp;&nbsp;$2625&nbsp;&nbsp;&nbsp;&nbsp;<br>
+ </p>
 </div>
 
 <p><b>COMMENT_LINE</b><br>
@@ -604,14 +717,14 @@ Example:</p>
  <br>
 </p>
 </div>
-<h2>Not yet done:<br>
-</h2>
+<h2>Watches</h2>
+<br><p align="center">
+<img src="pics/WatchInDissi.png" width="956" height="705"><br>
+<em>Watches</em></p><br>
 
-<ul><li>
-<p>edit and save data to local "derby" database</p>
-</li><li>
-<p>(done!) make assi and dissi completely compatible</p>
-</li></ul>
+<p>Watches are "quick" views right inside the dissi window of certain memory locations. Watches can be defined via command line (see help there), as "hey dissi" commands (see there) or via a popup menu. The value of the "operand" is determined (if possible) and used as the watch memory location.</p>
+
+<p>Clicking on the watch itself displays another popup with which the watch can be removed.</p>
 <h1>cdissi</h1>
 
 <p>In order to test the assembler, I wrote a special version of dissi, -&gt; cdissi (compare dissi).</p>

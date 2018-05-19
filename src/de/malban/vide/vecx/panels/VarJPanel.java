@@ -478,7 +478,7 @@ public class VarJPanel extends javax.swing.JPanel implements
     private void jMenuItemBreakpointReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBreakpointReadActionPerformed
         Breakpoint bp = new Breakpoint();
         bp.targetAddress = popUpAddress;
-        bp.targetBank = vecxPanel.getCurrentBank();
+        bp.targetBank = -1; // allways no bank in RAM vecxPanel.getCurrentBank();
         bp.targetType = Breakpoint.BP_TARGET_MEMORY;
         bp.name = popUpName;
         bp.targetSubType = 0;
@@ -491,7 +491,7 @@ public class VarJPanel extends javax.swing.JPanel implements
     private void jMenuItemBreakpointWriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBreakpointWriteActionPerformed
         Breakpoint bp = new Breakpoint();
         bp.targetAddress = popUpAddress;
-        bp.targetBank = vecxPanel.getCurrentBank();
+        bp.targetBank = -1; // allways no bank in RAM vecxPanel.getCurrentBank();
         bp.targetType = Breakpoint.BP_TARGET_MEMORY;
         bp.targetSubType = 0;
         bp.name = popUpName;
@@ -505,7 +505,7 @@ public class VarJPanel extends javax.swing.JPanel implements
         int value =GetValuePanel.showEnterValueDialog() & 0xff;
         Breakpoint bp = new Breakpoint();
         bp.targetAddress = popUpAddress;
-        bp.targetBank = vecxPanel.getCurrentBank();
+        bp.targetBank = -1; // allways no bank in RAM vecxPanel.getCurrentBank();
         bp.targetType = Breakpoint.BP_TARGET_MEMORY;
         bp.targetSubType = 0;
         bp.compareValue = value;
@@ -518,30 +518,35 @@ public class VarJPanel extends javax.swing.JPanel implements
 
     private void jButtonAddVariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddVariableActionPerformed
         int adress =AddVariablePanel.showEnterValueDialog() & 0xffff;
-        
-        Memory myMemory = dissi.getMemory();
-        
-        MemoryInformation info = myMemory.get(adress, dissi.getCurrentBank());
-        if (info == null)
+
+        // done: allBanks
+        for (int bank = 0; bank<dissi.getMemory().getMaxBank(); bank++)
         {
-            info = myMemory.buildMemInfo(adress);
-        }
-        info.labels.add(("_"+String.format("%04X",adress)).toUpperCase());
+            MemoryInformation info = dissi.getMemoryInformation(adress, bank);
+            if (info == null)
+            {
+                info = dissi.getMemory().buildMemInfo(adress, bank);
+            }
+            info.labels.add(("_"+String.format("%04X",adress)).toUpperCase());
+        }        
+        
         initVariables();        
         dissi.completeUpdate();
         
     }//GEN-LAST:event_jButtonAddVariableActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Memory myMemory = dissi.getMemory();
-        
-        MemoryInformation info = myMemory.get(popUpAddress, dissi.getCurrentBank());
-
-        info.immediateLabels.clear();
-        for (String l: info.labels)
+        // done: allBanks
+        for (int bank = 0; bank<dissi.getMemory().getMaxBank(); bank++)
         {
-            info.immediateLabels.add(l);
-        }
+            MemoryInformation info = dissi.getMemoryInformation(popUpAddress, bank);
+            info.immediateLabels.clear();
+            for (String l: info.labels)
+            {
+                info.immediateLabels.add(l);
+            }
+        }        
+        
         initVariables();        
         dissi.completeUpdate();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -827,7 +832,8 @@ public class VarJPanel extends javax.swing.JPanel implements
                 String v = aValue.toString();
                 int iv = DASM6809.toNumber(v) & 0xff;
                 if (dissi != null)
-                    dissi.doThePoke(memInfo.address, (byte)iv);
+                    dissi.doThePoke(memInfo.address, (byte)iv, true);
+                
             }
             if (col == 3) // 16 bit edit
             {
@@ -839,59 +845,84 @@ public class VarJPanel extends javax.swing.JPanel implements
                 {
                     int msb = (iv/256)&0xff;
                     int lsb = (iv)&0xff;
-                    dissi.doThePoke(memInfo.address, (byte)msb);
-                    dissi.doThePoke(memInfo.address+1, (byte)lsb);
+                    dissi.doThePoke(memInfo.address, (byte)msb, true);
+                    dissi.doThePoke(memInfo.address+1, (byte)lsb, true);
                 }
 
             }
             if (col == 1)
             {
-                MemoryInformation memInfo = variables.get(row);
-                ArrayList<String> oldLabels = (ArrayList<String>)memInfo.labels.clone();   
-                memInfo.labels.clear();
-                String label = aValue.toString();
-                String[] labels = label.split(":");
-                for (String l: labels)
+                // done: allBanks
+                MemoryInformation memInfoOrg = variables.get(row);
+                int address = memInfoOrg.address;
+                
+                boolean changeRelevant = false;
+                for (int bank = 0; bank<dissi.getMemory().getMaxBank(); bank++)
                 {
-                    if (l.trim().length()>0)
-                        memInfo.labels.add(l);
-                }
-                if (dissi == null) return;
-                Memory orgData = dissi.getMemory();
-                boolean changeRelevant = true;
-                if (orgData != null)
-                {
-                    changeRelevant = orgData.labelsChanged(memInfo, oldLabels);
-                }
-                // check if var was a dp also!
-                int adr = memInfo.address;
-                int dp = adr/256;
-                HashMap<Integer, String> dmap = orgData.directLabels.get(dp);
-                if (dmap != null)
-                {
-                    if (dmap.get(adr&0xff) != null)
+                    MemoryInformation memInfo = dissi.getMemoryInformation(address, bank);
+                    ArrayList<String> oldLabels = (ArrayList<String>)memInfo.labels.clone();   
+                    memInfo.labels.clear();
+                    String label = aValue.toString();
+                    String[] labels = label.split(":");
+                    for (String l: labels)
                     {
-                        if (labels.length>0)
-                            dmap.put((adr&0xff), labels[0]);
+                        if (l.trim().length()>0)
+                            memInfo.labels.add(l);
                     }
 
-                } 
+                    if (dissi == null) return;
+                    Memory orgData = dissi.getMemory();
+                    boolean changeRelevantThis = true;
+                    if (orgData != null)
+                    {
+                        changeRelevantThis = orgData.labelsChanged(memInfo, oldLabels);
+                    }
+                    // check if var was a dp also!
+                    int adr = memInfo.address;
+                    int dp = adr/256;
+                    HashMap<Integer, String> dmap = orgData.directLabels.get(dp);
+                    if (dmap != null)
+                    {
+                        if (dmap.get(adr&0xff) != null)
+                        {
+                            if (labels.length>0)
+                                dmap.put((adr&0xff), labels[0]);
+                        }
+
+                    } 
+                    changeRelevant = changeRelevant || changeRelevantThis;
+                
+                }
+                
+                
+                // NOT overall banks!
                 if (changeRelevant)
                     dissi.varUpdate();
+                
+                
+                
+                
+                
                 fireTableCellUpdated(row, col);
             }
             if (col == 4)
             {
-                // todo 
-                MemoryInformation memInfo = variables.get(row);
-
-                memInfo.comments.clear();
-                String comment = aValue.toString();
-                String[] comments = comment.split(":");
-                for (String c: comments)
-                memInfo.comments.add(c);
+                // done: allBanks
+                MemoryInformation memInfoOrg = variables.get(row);
+                int address = memInfoOrg.address;
+                
+                
+                for (int bank = 0; bank<dissi.getMemory().getMaxBank(); bank++)
+                {
+                    MemoryInformation memInfo = dissi.getMemoryInformation(address, bank);
+                    memInfo.comments.clear();
+                    String comment = aValue.toString();
+                    String[] comments = comment.split(":");
+                    for (String c: comments)
+                    memInfo.comments.add(c);
+                }
+                
                 fireTableCellUpdated(row, col);
-
             }
         }        
     }

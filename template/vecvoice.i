@@ -13,7 +13,7 @@
 ; Include the serial driver
 ;
 
-        include "SER_JI.I"
+        include "ser_ji.i"
 
 
 

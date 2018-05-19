@@ -950,129 +950,116 @@ public class FilePeeper
     }
     static public void peepCorrectASM(String sfile)
     {
-        Vector<String> sLines =  de.malban.util.UtilityString.readTextFileToString(new File(sfile));
-        sLines = removeEmpty(sLines);
-        
-        ArrayList<String> outLines = new ArrayList<String>();
-        ArrayList<ASMLine> testLines = new ArrayList<ASMLine>();
-
-        for (int i=0; i<sLines.size(); i++)
+        boolean didPeep;
+        do
         {
-            testLines.clear();
-            
-            boolean dotest = true;
-            String orgLine0 = sLines.elementAt(i);
-            String orgLine1 = "";
-            String orgLine2 = "";
-            String orgLine3 = "";
-            String orgLine4 = "";
-            String orgLine5 = "";
-            String orgLine6 = "";
-            String orgLine7 = "";
-            String orgLine8 = "";
-            String orgLine9 = "";
-            String orgLinea = "";
-            String orgLineb = "";
-            String orgLinec = "";
-            String orgLined = "";
-            String orgLinee = "";
-            String orgLinef = "";
-            String orgLineg = "";
-            String orgLineh = "";
-            String orgLinei = "";
-            String orgLinej = "";
+            Vector<String> sLines =  de.malban.util.UtilityString.readTextFileToString(new File(sfile));
+            sLines = removeEmpty(sLines);
 
-            if (i+1<sLines.size()) orgLine1 = sLines.elementAt(i+1);
-            if (i+2<sLines.size()) orgLine2 = sLines.elementAt(i+2);
-            if (i+3<sLines.size()) orgLine3 = sLines.elementAt(i+3);
-            if (i+4<sLines.size()) orgLine4 = sLines.elementAt(i+4);
-            if (i+5<sLines.size()) orgLine5 = sLines.elementAt(i+5);
-            if (i+6<sLines.size()) orgLine6 = sLines.elementAt(i+6);
-            if (i+7<sLines.size()) orgLine7 = sLines.elementAt(i+7);
-            if (i+8<sLines.size()) orgLine8 = sLines.elementAt(i+8);
-            if (i+9<sLines.size()) orgLine9 = sLines.elementAt(i+9);
-            if (i+10<sLines.size()) orgLinea = sLines.elementAt(i+10);
-            if (i+11<sLines.size()) orgLineb = sLines.elementAt(i+11);
-            if (i+12<sLines.size()) orgLinec = sLines.elementAt(i+12);
-            if (i+13<sLines.size()) orgLined = sLines.elementAt(i+13);
-            if (i+14<sLines.size()) orgLinee = sLines.elementAt(i+14);
-            if (i+15<sLines.size()) orgLinef = sLines.elementAt(i+15);
-            if (i+16<sLines.size()) orgLineg = sLines.elementAt(i+16);
-            if (i+17<sLines.size()) orgLineh = sLines.elementAt(i+17);
-            if (i+18<sLines.size()) orgLinei = sLines.elementAt(i+18);
-            if (i+19<sLines.size()) orgLinej = sLines.elementAt(i+19);
-            
-            
-            if (orgLine0.length()>0) testLines.add(new ASMLine(orgLine0));
-            if (orgLine1.length()>0) testLines.add(new ASMLine(orgLine1));
-            if (orgLine2.length()>0) testLines.add(new ASMLine(orgLine2));
-            if (orgLine3.length()>0) testLines.add(new ASMLine(orgLine3));
-            if (orgLine4.length()>0) testLines.add(new ASMLine(orgLine4));
-            if (orgLine5.length()>0) testLines.add(new ASMLine(orgLine5));
-            if (orgLine6.length()>0) testLines.add(new ASMLine(orgLine6));
-            if (orgLine7.length()>0) testLines.add(new ASMLine(orgLine7));
-            if (orgLine8.length()>0) testLines.add(new ASMLine(orgLine8));
-            if (orgLine9.length()>0) testLines.add(new ASMLine(orgLine9));
-            if (orgLinea.length()>0) testLines.add(new ASMLine(orgLinea));
-            if (orgLineb.length()>0) testLines.add(new ASMLine(orgLineb));
-            if (orgLinec.length()>0) testLines.add(new ASMLine(orgLinec));
-            if (orgLined.length()>0) testLines.add(new ASMLine(orgLined));
-            if (orgLinee.length()>0) testLines.add(new ASMLine(orgLinee));
-            if (orgLinef.length()>0) testLines.add(new ASMLine(orgLinef));
-            if (orgLineg.length()>0) testLines.add(new ASMLine(orgLineg));
-            if (orgLineh.length()>0) testLines.add(new ASMLine(orgLineh));
-            if (orgLinei.length()>0) testLines.add(new ASMLine(orgLinei));
-            if (orgLinej.length()>0) testLines.add(new ASMLine(orgLinej));
-
-if (orgLine0.contains("test.791"))            
-    System.out.println("");
-if (orgLine1.contains("test.791"))            
-    System.out.println("");
-if (orgLine2.contains("test.791"))            
-    System.out.println("");
-if (orgLine3.contains("test.791"))            
-    System.out.println("");
-if (orgLine4.contains("test.791"))            
-    System.out.println("");
-if (orgLine5.contains("test.791"))            
-    System.out.println("");
-            
-//if (i==266)
-//    System.out.println("");
-//if (orgLine0.startsWith("_VIA_"))
-//    System.out.println("");
-            //////////
-            boolean peepDone = false;
-            for (PeepRule rule: peepers)
+            ArrayList<String> outLines = new ArrayList<String>();
+            ArrayList<ASMLine> testLines = new ArrayList<ASMLine>();
+            didPeep =false;
+            for (int i=0; i<sLines.size(); i++)
             {
-                if (rule.active)
+                testLines.clear();
+
+                boolean dotest = true;
+                String orgLine0 = sLines.elementAt(i);
+                String orgLine1 = "";
+                String orgLine2 = "";
+                String orgLine3 = "";
+                String orgLine4 = "";
+                String orgLine5 = "";
+                String orgLine6 = "";
+                String orgLine7 = "";
+                String orgLine8 = "";
+                String orgLine9 = "";
+                String orgLinea = "";
+                String orgLineb = "";
+                String orgLinec = "";
+                String orgLined = "";
+                String orgLinee = "";
+                String orgLinef = "";
+                String orgLineg = "";
+                String orgLineh = "";
+                String orgLinei = "";
+                String orgLinej = "";
+
+                if (i+1<sLines.size()) orgLine1 = sLines.elementAt(i+1);
+                if (i+2<sLines.size()) orgLine2 = sLines.elementAt(i+2);
+                if (i+3<sLines.size()) orgLine3 = sLines.elementAt(i+3);
+                if (i+4<sLines.size()) orgLine4 = sLines.elementAt(i+4);
+                if (i+5<sLines.size()) orgLine5 = sLines.elementAt(i+5);
+                if (i+6<sLines.size()) orgLine6 = sLines.elementAt(i+6);
+                if (i+7<sLines.size()) orgLine7 = sLines.elementAt(i+7);
+                if (i+8<sLines.size()) orgLine8 = sLines.elementAt(i+8);
+                if (i+9<sLines.size()) orgLine9 = sLines.elementAt(i+9);
+                if (i+10<sLines.size()) orgLinea = sLines.elementAt(i+10);
+                if (i+11<sLines.size()) orgLineb = sLines.elementAt(i+11);
+                if (i+12<sLines.size()) orgLinec = sLines.elementAt(i+12);
+                if (i+13<sLines.size()) orgLined = sLines.elementAt(i+13);
+                if (i+14<sLines.size()) orgLinee = sLines.elementAt(i+14);
+                if (i+15<sLines.size()) orgLinef = sLines.elementAt(i+15);
+                if (i+16<sLines.size()) orgLineg = sLines.elementAt(i+16);
+                if (i+17<sLines.size()) orgLineh = sLines.elementAt(i+17);
+                if (i+18<sLines.size()) orgLinei = sLines.elementAt(i+18);
+                if (i+19<sLines.size()) orgLinej = sLines.elementAt(i+19);
+
+
+                if (orgLine0.length()>0) testLines.add(new ASMLine(orgLine0));
+                if (orgLine1.length()>0) testLines.add(new ASMLine(orgLine1));
+                if (orgLine2.length()>0) testLines.add(new ASMLine(orgLine2));
+                if (orgLine3.length()>0) testLines.add(new ASMLine(orgLine3));
+                if (orgLine4.length()>0) testLines.add(new ASMLine(orgLine4));
+                if (orgLine5.length()>0) testLines.add(new ASMLine(orgLine5));
+                if (orgLine6.length()>0) testLines.add(new ASMLine(orgLine6));
+                if (orgLine7.length()>0) testLines.add(new ASMLine(orgLine7));
+                if (orgLine8.length()>0) testLines.add(new ASMLine(orgLine8));
+                if (orgLine9.length()>0) testLines.add(new ASMLine(orgLine9));
+                if (orgLinea.length()>0) testLines.add(new ASMLine(orgLinea));
+                if (orgLineb.length()>0) testLines.add(new ASMLine(orgLineb));
+                if (orgLinec.length()>0) testLines.add(new ASMLine(orgLinec));
+                if (orgLined.length()>0) testLines.add(new ASMLine(orgLined));
+                if (orgLinee.length()>0) testLines.add(new ASMLine(orgLinee));
+                if (orgLinef.length()>0) testLines.add(new ASMLine(orgLinef));
+                if (orgLineg.length()>0) testLines.add(new ASMLine(orgLineg));
+                if (orgLineh.length()>0) testLines.add(new ASMLine(orgLineh));
+                if (orgLinei.length()>0) testLines.add(new ASMLine(orgLinei));
+                if (orgLinej.length()>0) testLines.add(new ASMLine(orgLinej));
+
+                
+
+                //////////
+                boolean peepDone = false;
+                for (PeepRule rule: peepers)
                 {
-                    rule.setLines(testLines);
-                    
-                    if (rule.isRuleValid())
+                    if (rule.active)
                     {
-                        rule.addResult(outLines);
-                        i+=rule.getFinalAdd();
-                        peepsFound++;
-                        peepDone = true;
-                        break;
+                        rule.setLines(testLines);
+
+                        if (rule.isRuleValid())
+                        {
+                            rule.addResult(outLines);
+                            i+=rule.getFinalAdd();
+                            peepsFound++;
+                            peepDone = true;
+                            didPeep = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (!peepDone)
-            {
-                outLines.add(orgLine0);
+                if (!peepDone)
+                {
+                    outLines.add(orgLine0);
+                }
+
             }
-            
+            StringBuilder outString = new StringBuilder();
+            for (String s: outLines) outString.append(s).append("\n");
+            de.malban.util.UtilityString.writeToTextFile(outString.toString(), new File(sfile));
         }
-        StringBuilder outString = new StringBuilder();
-        for (String s: outLines) outString.append(s).append("\n");
-        
-    //    sfile = de.malban.util.UtilityString.replace(sfile, ".s", "NEW.s");
-        
-        de.malban.util.UtilityString.writeToTextFile(outString.toString(), new File(sfile));
-        
+        while (didPeep);
     }
     
     // saves the all rules to a XML buffer

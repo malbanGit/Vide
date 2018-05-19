@@ -1728,8 +1728,16 @@ getFrame().setUndecorated(false);
         //statusPanel.setVisible(true);
         //set the display mode back to the what it was when
         //the program was launched.
-        device.setDisplayMode(dispModeOld);
-
+        try
+        {
+            device.setDisplayMode(dispModeOld);
+        }
+        // under windows an exceptiuon is thrown
+        // under mac not
+        catch (Throwable e)
+        {
+        }
+            
         
         
         //needed to unset this window as the fullscreen window.

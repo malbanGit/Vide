@@ -18,22 +18,21 @@ public abstract interface VecXStatics
     
     public static final int TIMER_ACTION_NONE = 0;
     public static final int TIMER_ZERO = 1;
-    public static final int TIMER_BLANK_CHANGE = 2;
-    public static final int TIMER_RAMP_CHANGE = 3;
-    public static final int TIMER_MUX_Y_CHANGE = 4;
-    public static final int TIMER_MUX_S_CHANGE = 5;
-    public static final int TIMER_MUX_Z_CHANGE = 6;
-    public static final int TIMER_MUX_R_CHANGE = 7;
-    public static final int TIMER_XSH_CHANGE = 8;
-    public static final int TIMER_LIGHTPEN = 9;
-    public static final int TIMER_RAMP_OFF_CHANGE = 10;
-    public static final int TIMER_MUX_SEL_CHANGE = 11;
-    public static final int TIMER_SHIFT = 12;
-    public static final int TIMER_T1 = 13;
+    public static final int TIMER_BLANK_ON_CHANGE = 2;
+    public static final int TIMER_BLANK_OFF_CHANGE = 3;
+    public static final int TIMER_RAMP_CHANGE = 4;
+    public static final int TIMER_MUX_Y_CHANGE = 5;
+    public static final int TIMER_MUX_S_CHANGE = 6;
+    public static final int TIMER_MUX_Z_CHANGE = 7;
+    public static final int TIMER_MUX_R_CHANGE = 8;
+    public static final int TIMER_XSH_CHANGE = 9;
+    public static final int TIMER_LIGHTPEN = 10;
+    public static final int TIMER_RAMP_OFF_CHANGE = 11;
+    public static final int TIMER_MUX_SEL_CHANGE = 12;
+    public static final int TIMER_SHIFT = 13;
+    public static final int TIMER_T1 = 14;
     
-    
-    public static final int TIMER_DAC_CHANGE = 14;
-    
+       
     public static final int TIMER_SHIFT_WRITE = TIMER_SHIFT+1024;
     public static final int TIMER_SHIFT_READ = TIMER_SHIFT+2048;
     
@@ -56,6 +55,5 @@ public abstract interface VecXStatics
              */
     public static final int VECTOR_CNT		= VECTREX_MHZ / VECTREX_PDECAY;
     public static final int VECTOR_HASH         = 65521;
-
 
 }

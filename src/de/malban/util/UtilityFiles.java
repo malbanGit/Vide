@@ -315,6 +315,44 @@ public class UtilityFiles
         
         return true;
     }
+    public static boolean writeBinFile(String filename, byte[] data)
+    {
+        return writeBinFile(filename, data, true);
+    }
+    public static boolean writeBinFile(String filename, byte[] data, boolean append)
+    {
+        try
+        {
+            if (!append) new File (filename).delete();
+            
+            FileOutputStream output = new FileOutputStream(filename, true);
+            try 
+            {
+               output.write(data);
+            } 
+            finally 
+            {
+               output.close();
+            }        
+        }
+        catch (Throwable e)
+        {
+            return false;
+        }
+        return true;
+    }    
+    public static boolean writeBinFile(String filename, int[] data)
+    {
+        byte dataB[] = new byte[data.length];
+        for (int d = 0; d<data.length; d++)
+        {
+            dataB[d] = (byte) (data[d] & 0xff);
+        }
+        
+        return writeBinFile(filename, dataB);
+    }        
+    
+    
     public static boolean padFile(String filename, byte fillerByte, int upTo)
     {
         File file = new File(filename);

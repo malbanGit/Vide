@@ -1,0 +1,156 @@
+XH2
+H 3 areas 1C global symbols 3 banks 1 modes
+M vec_ram_dpc8_1.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+B page_00 base 0 size 100 map 0 flags 3
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A direct size 7E flags 8D8C bank 2
+S _dp_Vec_Counter_2 Def002F
+S _dp_Vec_Max_Games Def0050
+S _dp_Vec_Counter_3 Def0030
+S _dp_Vec_Loop_Count_hi Def0025
+S _dp_Vec_Expl_ChanA Def0053
+S _dp_Vec_Counter_4 Def0031
+S _dp_Vec_Counter_5 Def0032
+S _dp_Vec_Rfrsh_hi Def003E
+S _dp_Vec_Counter_6 Def0033
+S _dp_Vec_Loop_Count_lo Def0026
+S _dp_Vec_ADSR_Timers Def005E
+S _dp_Vec_Rfrsh_lo Def003D
+S _dp_Vec_Random_Seed Def007D
+S _dp_Vec_Text_Width Def002B
+S _dp_Vec_XXX_00 Def0039
+S _dp_Vec_XXX_01 Def003B
+S _dp_Vec_Joy_Mux_1_X Def001F
+S _dp_Vec_Joy_Mux_2_X Def0021
+S _dp_Vec_Joy_Mux_1_Y Def0020
+S _dp_Vec_Joy_Mux_2_Y Def0022
+S _dp_Vec_Text_Height Def002A
+S _dp_Vec_Music_Twang Def0058
+S _dp_Vec_Expl_Chans Def0054
+S _dp_Vec_Max_Players Def004F
+S _dp_Vec_Snd_Shadow Def0000
+S _dp_Vec_Music_Freq Def0061
+S _dp_Vec_Counter_1 Def002E
+T 00 00
+R 00 00 00 02
+T 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 0C 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 18 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 1F
+R 00 00 00 02
+T 00 1F 00
+R 00 00 00 02
+T 00 20
+R 00 00 00 02
+T 00 20 00
+R 00 00 00 02
+T 00 21
+R 00 00 00 02
+T 00 21 00
+R 00 00 00 02
+T 00 22
+R 00 00 00 02
+T 00 22 00 00 00
+R 00 00 00 02
+T 00 25
+R 00 00 00 02
+T 00 25 00
+R 00 00 00 02
+T 00 26
+R 00 00 00 02
+T 00 26 00 00 00 00
+R 00 00 00 02
+T 00 2A
+R 00 00 00 02
+T 00 2A 00
+R 00 00 00 02
+T 00 2B
+R 00 00 00 02
+T 00 2B 00 00 00
+R 00 00 00 02
+T 00 2E
+R 00 00 00 02
+T 00 2E 00
+R 00 00 00 02
+T 00 2F
+R 00 00 00 02
+T 00 2F 00
+R 00 00 00 02
+T 00 30
+R 00 00 00 02
+T 00 30 00
+R 00 00 00 02
+T 00 31
+R 00 00 00 02
+T 00 31 00
+R 00 00 00 02
+T 00 32
+R 00 00 00 02
+T 00 32 00
+R 00 00 00 02
+T 00 33
+R 00 00 00 02
+T 00 33 00 00 00 00 00 00
+R 00 00 00 02
+T 00 39
+R 00 00 00 02
+T 00 39 00 00
+R 00 00 00 02
+T 00 3B
+R 00 00 00 02
+T 00 3B 00 00
+R 00 00 00 02
+T 00 3D
+R 00 00 00 02
+T 00 3D 00
+R 00 00 00 02
+T 00 3E
+R 00 00 00 02
+T 00 3E 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 4A 00 00 00 00 00
+R 00 00 00 02
+T 00 4F
+R 00 00 00 02
+T 00 4F 00
+R 00 00 00 02
+T 00 50
+R 00 00 00 02
+T 00 50 00 00 00
+R 00 00 00 02
+T 00 53
+R 00 00 00 02
+T 00 53 00
+R 00 00 00 02
+T 00 54
+R 00 00 00 02
+T 00 54 00 00 00 00
+R 00 00 00 02
+T 00 58
+R 00 00 00 02
+T 00 58 00 00 00 00 00 00
+R 00 00 00 02
+T 00 5E
+R 00 00 00 02
+T 00 5E 00 00 00
+R 00 00 00 02
+T 00 61
+R 00 00 00 02
+T 00 61 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 6D 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 79 00 00 00 00
+R 00 00 00 02
+T 00 7D
+R 00 00 00 02
+T 00 7D 00
+R 00 00 00 02

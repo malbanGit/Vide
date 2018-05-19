@@ -1,0 +1,14 @@
+:title Examples
+Within the "projects" directory there are a couple of example projects that you might want to look at.
+
+The examples include code for:
+- YM usage
+- AYFX usage
+- Vectorlist / Animation usage
+- Arkos Player usage
+- Usage of "S" sources from within C
+- usage of the old "3d" routines of mine
+- usage of BIOS functions
+- how to "replace" BIOS functions with "pure" C functions ~~(this is not possible for cycle exact timing like e.g.PrintStr though)
+
+And probably many other things.

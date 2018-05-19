@@ -29,7 +29,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel24" alignment="0" max="32767" attributes="0"/>
-          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jScrollPane1" alignment="0" pref="690" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -669,15 +669,13 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel37" max="32767" attributes="0"/>
-                      <Component id="jPanel38" alignment="0" max="32767" attributes="0"/>
                       <Component id="jPanel39" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jPanel25" min="-2" max="-2" attributes="0"/>
                                       <Component id="jPanel28" max="32767" attributes="0"/>
-                                      <Component id="jPanel25" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
@@ -699,23 +697,10 @@
                                       </Group>
                                       <Component id="jCheckBoxVia" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="206" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jTextField4" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jTextField5" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel35" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -724,8 +709,10 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace min="0" pref="75" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jPanel37" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jPanel38" alignment="0" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -755,15 +742,11 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jComboBox3" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField5" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel35" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jComboBox6" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -771,13 +754,13 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jCheckBoxVia" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel39" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel37" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel38" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel39" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -851,44 +834,6 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel6">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Integrator Cool down"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel7">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Integrator Warmup"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextField4">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="80"/>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[50, 21]"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextField4FocusLost"/>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField4ActionPerformed"/>
-                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jTextField4PropertyChange"/>
-                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField4KeyTyped"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextField5">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="80"/>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[50, 21]"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextField5FocusLost"/>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField5ActionPerformed"/>
-                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jTextField5PropertyChange"/>
-                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField5KeyTyped"/>
-                  </Events>
-                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel8">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="vectrex generation"/>
@@ -921,29 +866,38 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel17" max="32767" attributes="0"/>
+                              <Component id="jPanel17" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel16" max="32767" attributes="0"/>
+                              <Component id="jPanel16" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel18" max="32767" attributes="0"/>
+                              <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel5" max="32767" attributes="0"/>
+                              <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Component id="jPanel36" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jPanel16" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jPanel17" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jPanel11" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jPanel18" max="32767" attributes="0"/>
-                              <Component id="jPanel5" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="jPanel16" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jPanel17" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jPanel11" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jPanel18" max="32767" attributes="0"/>
+                                          <Component id="jPanel5" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Component id="jPanel36" alignment="0" min="-2" pref="213" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jPanel1" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -960,7 +914,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderMuxS" alignment="0" pref="57" max="32767" attributes="0"/>
+                              <Component id="jSliderMuxS" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -998,7 +952,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderMuxY" alignment="0" pref="57" max="32767" attributes="0"/>
+                              <Component id="jSliderMuxY" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -1036,7 +990,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderMuxZ" alignment="0" pref="57" max="32767" attributes="0"/>
+                              <Component id="jSliderMuxZ" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -1112,7 +1066,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderMuxSel" alignment="1" pref="68" max="32767" attributes="0"/>
+                              <Component id="jSliderMuxSel" alignment="1" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -1150,7 +1104,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderMuxR" alignment="0" pref="59" max="32767" attributes="0"/>
+                              <Component id="jSliderMuxR" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -1176,6 +1130,48 @@
                         </Component>
                       </SubComponents>
                     </Container>
+                    <Container class="javax.swing.JPanel" name="jPanel36">
+                      <Properties>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                            <TitledBorder title="T1"/>
+                          </Border>
+                        </Property>
+                      </Properties>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jSliderT1" alignment="0" pref="60" max="32767" attributes="0"/>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jSliderT1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JSlider" name="jSliderT1">
+                          <Properties>
+                            <Property name="majorTickSpacing" type="int" value="5"/>
+                            <Property name="maximum" type="int" value="10"/>
+                            <Property name="minorTickSpacing" type="int" value="1"/>
+                            <Property name="orientation" type="int" value="1"/>
+                            <Property name="paintLabels" type="boolean" value="true"/>
+                            <Property name="paintTicks" type="boolean" value="true"/>
+                            <Property name="value" type="int" value="0"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderT1StateChanged"/>
+                          </Events>
+                        </Component>
+                      </SubComponents>
+                    </Container>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanel28">
@@ -1184,15 +1180,14 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jPanel12" max="32767" attributes="0"/>
+                              <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel3" max="32767" attributes="0"/>
+                              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel29" max="32767" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jPanel36" max="32767" attributes="0"/>
+                              <Component id="jPanel29" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1204,7 +1199,6 @@
                                   <Component id="jPanel3" max="32767" attributes="0"/>
                                   <Component id="jPanel4" max="32767" attributes="0"/>
                                   <Component id="jPanel29" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jPanel36" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           </Group>
@@ -1224,7 +1218,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderRealZero" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jSliderRealZero" alignment="0" pref="53" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -1260,7 +1254,7 @@
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                            <TitledBorder title="Blank"/>
+                            <TitledBorder title="Blank on/off"/>
                           </Border>
                         </Property>
                       </Properties>
@@ -1268,17 +1262,26 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderBlank" alignment="1" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jSliderBlankOn" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                  <Component id="jSliderBlankOff" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderBlank" alignment="1" max="32767" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jSliderBlankOn" min="-2" pref="224" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jSliderBlankOff" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JSlider" name="jSliderBlank">
+                        <Component class="javax.swing.JSlider" name="jSliderBlankOn">
                           <Properties>
                             <Property name="majorTickSpacing" type="int" value="10"/>
                             <Property name="minorTickSpacing" type="int" value="1"/>
@@ -1288,7 +1291,20 @@
                             <Property name="value" type="int" value="0"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderBlankStateChanged"/>
+                            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderBlankOnStateChanged"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JSlider" name="jSliderBlankOff">
+                          <Properties>
+                            <Property name="majorTickSpacing" type="int" value="10"/>
+                            <Property name="minorTickSpacing" type="int" value="1"/>
+                            <Property name="orientation" type="int" value="1"/>
+                            <Property name="paintLabels" type="boolean" value="true"/>
+                            <Property name="paintTicks" type="boolean" value="true"/>
+                            <Property name="value" type="int" value="0"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderBlankOffStateChanged"/>
                           </Events>
                         </Component>
                       </SubComponents>
@@ -1297,7 +1313,7 @@
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                            <TitledBorder title="Blank On/10"/>
+                            <TitledBorder title="Blank on/off /10"/>
                           </Border>
                         </Property>
                       </Properties>
@@ -1305,20 +1321,27 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderZero" alignment="0" pref="91" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jSliderBlankOnTenth" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                  <Component id="jSliderBlankOffTenth" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderZero" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jSliderBlankOnTenth" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jSliderBlankOffTenth" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JSlider" name="jSliderZero">
+                        <Component class="javax.swing.JSlider" name="jSliderBlankOnTenth">
                           <Properties>
                             <Property name="majorTickSpacing" type="int" value="10"/>
                             <Property name="maximum" type="int" value="40"/>
+                            <Property name="minimum" type="int" value="-40"/>
                             <Property name="minorTickSpacing" type="int" value="1"/>
                             <Property name="orientation" type="int" value="1"/>
                             <Property name="paintLabels" type="boolean" value="true"/>
@@ -1326,7 +1349,22 @@
                             <Property name="value" type="int" value="0"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderZeroStateChanged"/>
+                            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderBlankOnTenthStateChanged"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JSlider" name="jSliderBlankOffTenth">
+                          <Properties>
+                            <Property name="majorTickSpacing" type="int" value="10"/>
+                            <Property name="maximum" type="int" value="40"/>
+                            <Property name="minimum" type="int" value="-40"/>
+                            <Property name="minorTickSpacing" type="int" value="1"/>
+                            <Property name="orientation" type="int" value="1"/>
+                            <Property name="paintLabels" type="boolean" value="true"/>
+                            <Property name="paintTicks" type="boolean" value="true"/>
+                            <Property name="value" type="int" value="0"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderBlankOffTenthStateChanged"/>
                           </Events>
                         </Component>
                       </SubComponents>
@@ -1343,10 +1381,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jSliderShift" max="32767" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jSliderShift" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -1368,45 +1403,6 @@
                           </Properties>
                           <Events>
                             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderShiftStateChanged"/>
-                          </Events>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel36">
-                      <Properties>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                            <TitledBorder title="T1"/>
-                          </Border>
-                        </Property>
-                      </Properties>
-
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderT1" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderT1" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                        </DimensionLayout>
-                      </Layout>
-                      <SubComponents>
-                        <Component class="javax.swing.JSlider" name="jSliderT1">
-                          <Properties>
-                            <Property name="majorTickSpacing" type="int" value="5"/>
-                            <Property name="maximum" type="int" value="10"/>
-                            <Property name="minorTickSpacing" type="int" value="1"/>
-                            <Property name="orientation" type="int" value="1"/>
-                            <Property name="paintLabels" type="boolean" value="true"/>
-                            <Property name="paintTicks" type="boolean" value="true"/>
-                            <Property name="value" type="int" value="0"/>
-                            <Property name="enabled" type="boolean" value="false"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderT1StateChanged"/>
                           </Events>
                         </Component>
                       </SubComponents>
@@ -1458,6 +1454,66 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxViaActionPerformed"/>
                   </Events>
+                </Component>
+                <Container class="javax.swing.JPanel" name="jPanel39">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                        <TitledBorder title="zero divider"/>
+                      </Border>
+                    </Property>
+                  </Properties>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jSliderZeroDivider" alignment="1" max="32767" attributes="0"/>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jSliderZeroDivider" alignment="0" max="-2" attributes="0"/>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JSlider" name="jSliderZeroDivider">
+                      <Properties>
+                        <Property name="majorTickSpacing" type="int" value="100"/>
+                        <Property name="maximum" type="int" value="2000"/>
+                        <Property name="minimum" type="int" value="100"/>
+                        <Property name="minorTickSpacing" type="int" value="10"/>
+                        <Property name="paintTicks" type="boolean" value="true"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderZeroDividerStateChanged"/>
+                      </Events>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JLabel" name="jLabel35">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="delay variants"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="jComboBox6">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="4">
+                        <StringItem index="0" value="delay 0"/>
+                        <StringItem index="1" value="delay 1"/>
+                        <StringItem index="2" value="delay 2"/>
+                        <StringItem index="3" value="delay 3"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="on selection this sets preconfigured values"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox6ActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanel37">
                   <Properties>
@@ -1531,66 +1587,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="jPanel39">
-                  <Properties>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="zero divider"/>
-                      </Border>
-                    </Property>
-                  </Properties>
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSliderZeroDivider" alignment="1" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSliderZeroDivider" alignment="0" max="-2" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JSlider" name="jSliderZeroDivider">
-                      <Properties>
-                        <Property name="majorTickSpacing" type="int" value="100"/>
-                        <Property name="maximum" type="int" value="2000"/>
-                        <Property name="minimum" type="int" value="100"/>
-                        <Property name="minorTickSpacing" type="int" value="10"/>
-                        <Property name="paintTicks" type="boolean" value="true"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderZeroDividerStateChanged"/>
-                      </Events>
-                    </Component>
-                  </SubComponents>
-                </Container>
-                <Component class="javax.swing.JLabel" name="jLabel35">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="delay variants"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox6">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="delay 0"/>
-                        <StringItem index="1" value="delay 1"/>
-                        <StringItem index="2" value="delay 2"/>
-                        <StringItem index="3" value="delay 3"/>
-                      </StringArray>
-                    </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="on selection this sets preconfigured values"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox6ActionPerformed"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel63">
@@ -1606,7 +1602,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jPanel26" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jPanel27" alignment="0" pref="637" max="32767" attributes="0"/>
+                      <Component id="jPanel27" alignment="0" pref="675" max="32767" attributes="0"/>
                       <Component id="jPanel64" alignment="1" max="32767" attributes="0"/>
                       <Component id="jPanel66" alignment="1" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
@@ -1742,7 +1738,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSliderMuxY4" pref="27" max="32767" attributes="0"/>
+                          <Component id="jSliderMuxY4" pref="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -1847,28 +1843,15 @@
                                               <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" alignment="1" attributes="0">
-                                                      <Component id="jTextField31" min="-2" pref="93" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" alignment="1" attributes="0">
-                                                      <Component id="jPanel65" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
+                                              <Component id="jTextField31" min="-2" pref="93" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                                           </Group>
+                                          <Component id="jPanel65" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jPanel68" max="32767" attributes="0"/>
-                                              <Component id="jPanel69" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                              <Component id="jPanel67" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jPanel67" max="32767" attributes="0"/>
+                                          <Component id="jPanel68" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jPanel69" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -1883,7 +1866,7 @@
                                       <Component id="jCheckBoxMSAA1" min="-2" pref="146" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="15" max="32767" attributes="0"/>
+                              <EmptySpace pref="54" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1892,14 +1875,14 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jPanel67" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jPanel67" max="32767" attributes="0"/>
                                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                                       <Component id="jPanel68" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jPanel65" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jPanel48" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -1930,10 +1913,7 @@
                                       <Component id="jCheckBoxMSAA1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace pref="30" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jPanel69" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="jPanel69" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -2635,7 +2615,7 @@
                                   <Component id="jComboBoxScreenModes" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jCheckBox64" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="87" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>

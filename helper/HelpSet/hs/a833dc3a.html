@@ -1,0 +1,50 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>profi</title>
+</head>
+<body class="doc">
+<h1>profi</h1>
+<br><p align="center">
+<img src="pics/Profiler.png" width="400" height="432"><br>
+<em>profi window</em></p><br>
+
+<p><b>Note!</b><br>
+In order to use the profiler you have to enable it <i>before</i> the emulation starts (vecxi window opens). You can configure profiling in <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<tt>configuration-&gt;Disassembler: enable profiler</tt><br>
+</p>
+
+<p>The profiling as of now is limited to two things:
+<ul><li>
+<p>count accesses to an instruction</p>
+</li><li>
+<p>count cycles executed</p>
+</li></ul>
+</p>
+<h3>Profi-Window</h3>
+
+<p><b>Access</b><br>
+are counted and displayed in the profi window.</p>
+
+<p><b>Cycles</b><br>
+Are counted for each subroutine and displayed as "sum till return" and displayed. Cycles are also displayed as percent of total execution time.</p>
+
+<p>Note:<br>
+Since tracking of a subroutine is done via watching the stack (changes) - it might be possible to get "false" results in the profiler if you do heavy stack manipulations within your program.</p>
+
+<p><b>Modes</b><br>
+The profiler can run in two modes:
+<ul><li>
+<p>non tracker mode<br>
+Here the complete runtime of the current vectrex program is counted and displayed</p>
+</li><li>
+<p>tracker mode<br>
+This mode is only available if a tracki window is actively open. In this mode the program locations that lie in between the given tracking addresses are watched (usually one vectrex round) and displayed.<br>
+The display in profi always shows the last complete "track" round.</p>
+</li></ul>
+</p>
+<h3>Dissi-Window</h3>
+
+<p>If profiling is enabled (and the columns in the dissi table are also enabled: "PR access" and "PR cycles") you can also watch the cycles/accesses in dissi - for <i>each</i> instruction!</p>
+</body>
+</html>

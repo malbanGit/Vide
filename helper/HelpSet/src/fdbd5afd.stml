@@ -12,9 +12,17 @@ will occur if your java version is to old.
 Apparently this has to do with the correct/incorrect java version. I myself do not have a windows 10 system available. But "Manu" discovered, that under under windows 10 [Quote]:~~::~~
 "The solution is here: [[https://java.com/en/download/manual.jsp]] - you need to download (also) the 64-bit version of Java, and it's not the >normal< download that they offer on the front page."::
 
+:h2 Mac OSX keyboard input seems to stop working after a few inputs?
+This is a feature of the MacOS called "press and hold" - which java can not well cope with.
+You can switch that off with a command line:
+~~::defaults write -g ApplePressAndHoldEnabled -bool false::~~
+See also:~~
+
+[[https://stackoverflow.com/questions/41393525/java-swing-keybindings-stop-working-only-on-mac]]
+~~(especially answer 4)
 
 :h2 How do I enter new cartridges to the Starter?
-- Open the cartridge panel (menu: File->Extra->EditCartridgeInfo)
+- Open the cartridge panel (menu: Tools->Utilities->Cartridge Information)
 - press new
 - enter at least a "name", a "cart name" and either a "bin" file or a Binary Link, all other fields are more or less optional.
 
@@ -34,16 +42,10 @@ Nothing, the file was deleted.
 Because I programmed it that way, you should know what you do!
 
 :h2 I just want to play some games, why is dissi always starting?
-Because the program is called vide and not gami!~~
-Update: Starting a game starts dissi iconified now!
+You can configure the popup of dissi in the configuration!~~
 
 :h2 Is there a fullscreen mode, with just vecxi?
-Nope, this is only 10 lines of code, but the program is called vide, not gami!
-
-:h2 Why don't you use OpenGL and some shaders, the results would be much prettier, look at paraJVE?
-Because Vide is an developement environment, not a game center!~~
-Also...  Vide is (was :-( ) pure java.~~
-Actually I started a openGL version using LWJGL, but using that library send shivers down my spine. I aborted it after 1 day. I //might// at some stage start another try with JOGL, but don't wait for it.
+Fullscreen mode is available if your display supported openGL. While running a game press SHIFT 'F'.
 
 :h2 There are more vectrex programs available, why aren't they in the starter listing?
 Most homebrewlers are pretty strict with their creations. No homebrew program is bundled with vide (apart from the sources in the codi area).

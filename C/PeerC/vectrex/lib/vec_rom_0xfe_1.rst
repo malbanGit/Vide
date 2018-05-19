@@ -1,0 +1,109 @@
+                              1 
+                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
+                              3 ;;; 4.3.6 (gcc6809)
+                              4 ;;; ABI version 1
+                              5 ;;; -mint8
+                              6 	.module	vec_rom_0xfe_1.c
+                              7 ;----- asm -----
+                              8 	.bank page_fe (BASE=0xfe28,SIZE=0x0100)
+                              9 	.area .dpfe (OVR,BANK=page_fe)
+                             10 	
+                             11 ;--- end asm ---
+                             12 	.globl _Vec_ADSR_FADE1
+                             13 	.area	.dpfe
+   FE28                      14 _Vec_ADSR_FADE1:
+   FE28 00 00                15 	.word	0	;skip space 142
+   FE2A 00 00                16 	.word	0	;skip space 140
+   FE2C 00 00                17 	.word	0	;skip space 138
+   FE2E 00 00                18 	.word	0	;skip space 136
+   FE30 00 00                19 	.word	0	;skip space 134
+   FE32 00 00                20 	.word	0	;skip space 132
+   FE34 00 00                21 	.word	0	;skip space 130
+   FE36 00 00                22 	.word	0	;skip space 128
+   FE38 00 00                23 	.word	0	;skip space 126
+   FE3A 00 00                24 	.word	0	;skip space 124
+   FE3C 00 00                25 	.word	0	;skip space 122
+   FE3E 00 00                26 	.word	0	;skip space 120
+   FE40 00 00                27 	.word	0	;skip space 118
+   FE42 00 00                28 	.word	0	;skip space 116
+   FE44 00 00                29 	.word	0	;skip space 114
+   FE46 00 00                30 	.word	0	;skip space 112
+   FE48 00 00                31 	.word	0	;skip space 110
+   FE4A 00 00                32 	.word	0	;skip space 108
+   FE4C 00 00                33 	.word	0	;skip space 106
+   FE4E 00 00                34 	.word	0	;skip space 104
+   FE50 00 00                35 	.word	0	;skip space 102
+   FE52 00 00                36 	.word	0	;skip space 100
+   FE54 00 00                37 	.word	0	;skip space 98
+   FE56 00 00                38 	.word	0	;skip space 96
+   FE58 00 00                39 	.word	0	;skip space 94
+   FE5A 00 00                40 	.word	0	;skip space 92
+   FE5C 00 00                41 	.word	0	;skip space 90
+   FE5E 00 00                42 	.word	0	;skip space 88
+   FE60 00 00                43 	.word	0	;skip space 86
+   FE62 00 00                44 	.word	0	;skip space 84
+   FE64 00 00                45 	.word	0	;skip space 82
+   FE66 00 00                46 	.word	0	;skip space 80
+   FE68 00 00                47 	.word	0	;skip space 78
+   FE6A 00 00                48 	.word	0	;skip space 76
+   FE6C 00 00                49 	.word	0	;skip space 74
+   FE6E 00 00                50 	.word	0	;skip space 72
+   FE70 00 00                51 	.word	0	;skip space 70
+   FE72 00 00                52 	.word	0	;skip space 68
+   FE74 00 00                53 	.word	0	;skip space 66
+   FE76 00 00                54 	.word	0	;skip space 64
+   FE78 00 00                55 	.word	0	;skip space 62
+   FE7A 00 00                56 	.word	0	;skip space 60
+   FE7C 00 00                57 	.word	0	;skip space 58
+   FE7E 00 00                58 	.word	0	;skip space 56
+   FE80 00 00                59 	.word	0	;skip space 54
+   FE82 00 00                60 	.word	0	;skip space 52
+   FE84 00 00                61 	.word	0	;skip space 50
+   FE86 00 00                62 	.word	0	;skip space 48
+   FE88 00 00                63 	.word	0	;skip space 46
+   FE8A 00 00                64 	.word	0	;skip space 44
+   FE8C 00 00                65 	.word	0	;skip space 42
+   FE8E 00 00                66 	.word	0	;skip space 40
+   FE90 00 00                67 	.word	0	;skip space 38
+   FE92 00 00                68 	.word	0	;skip space 36
+   FE94 00 00                69 	.word	0	;skip space 34
+   FE96 00 00                70 	.word	0	;skip space 32
+   FE98 00 00                71 	.word	0	;skip space 30
+   FE9A 00 00                72 	.word	0	;skip space 28
+   FE9C 00 00                73 	.word	0	;skip space 26
+   FE9E 00 00                74 	.word	0	;skip space 24
+   FEA0 00 00                75 	.word	0	;skip space 22
+   FEA2 00 00                76 	.word	0	;skip space 20
+   FEA4 00 00                77 	.word	0	;skip space 18
+   FEA6 00 00                78 	.word	0	;skip space 16
+   FEA8 00 00                79 	.word	0	;skip space 14
+   FEAA 00 00                80 	.word	0	;skip space 12
+   FEAC 00 00                81 	.word	0	;skip space 10
+   FEAE 00 00                82 	.word	0	;skip space 8
+   FEB0 00 00                83 	.word	0	;skip space 6
+   FEB2 00 00                84 	.word	0	;skip space 4
+   FEB4 00 00                85 	.word	0	;skip space 2
+                             86 	.globl _Vec_TWANG_VIBENL
+   FEB6                      87 _Vec_TWANG_VIBENL:
+   FEB6 00                   88 	.byte	0	;skip space
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 _Vec_ADSR_FADE     0000 GR  |   2 _Vec_TWANG_VIB     008E GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+[page_fe]
+   2 .dpfe            size   8F   flags 8584
+

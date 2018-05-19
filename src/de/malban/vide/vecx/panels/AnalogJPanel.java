@@ -192,11 +192,11 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         s_sh = state.alg_ssh.intValue;
         jLabel18.setToolTipText("decimal: "+s_sh);
         
-        jLabel19.setText("$"+String.format("%02X", state.alg_rsh.intValue&0x0ff));
-        if (state.alg_rsh.intValue != r_sh) jLabel19.setForeground(config.getValueChangedColor());
+        jLabel19.setText("$"+String.format("%02X", state.c_alg_rsh.getDigitalIntValue()&0x0ff));
+        if (state.c_alg_rsh.getDigitalIntValue() != r_sh) jLabel19.setForeground(config.getValueChangedColor());
         else jLabel19.setForeground(config.getValueNotChangedColor());
-        r_sh = state.alg_rsh.intValue;
-        jLabel19.setToolTipText("decimal: "+r_sh);
+        r_sh = state.c_alg_rsh.getDigitalIntValue();
+        jLabel19.setToolTipText("decimal: "+r_sh+"(d: "+state.c_alg_rsh.getDigitalValue()+")");
         
         if (state instanceof VecX)
         {

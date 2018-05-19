@@ -1,0 +1,18 @@
+:title BIOS functions
+
+All BIOS functions are supported by the current C-setup. The naming convention is that of Bruce Tomlin.
+To use BIOS functions (and/or variables) include <vectrex.h> to your C-programs.
+
+The standard include path defines its location at:
+~~::"...Vide/C/PeerC/vectrex/include/vectrex.h"::~~
+
+Looking at the above file (and its following include hierarchy) you will see how Peer implemented all BIOS calls with inlined "C" functions.
+
+Also when you generate a new "C" project, the **doc** directory as a quick access also lists the most important includes in a very well himan readable form.
+
+Also all RAM/VIA locations are defined in a ways that makes them easily accessable.
+
+Examples:
+
+**TODO**
+

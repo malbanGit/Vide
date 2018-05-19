@@ -105,7 +105,7 @@ to be performed.
 * 
 * 
 */
-public class Microchip11AA010  implements Serializable{
+public class Microchip11AA010  implements Serializable, CartridgeInternalInterface{
     
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public static final int MAX_DATA_LEN = 128; // 1K of bits;
@@ -126,6 +126,9 @@ public class Microchip11AA010  implements Serializable{
     {
         if (log == null)
             log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+    }
+    public void deinit()
+    {
     }
     
     // low level states
@@ -567,16 +570,16 @@ public class Microchip11AA010  implements Serializable{
         return "none";
     }    
     // receiving line information from the emulator (VIA)
-    public void lineIn(boolean l)
+    public void linePB6In(boolean l)
     {
         lineIn = l;
     }
 
     // sending line information to the emulator (VIA)
-    public void lineOut(boolean l)
+    public void linePB6Out(boolean l)
     {
         lineOut = l;
-        cart.setPB6FromCarrtridge(lineOut);
+        cart.setPB6FromCartridge(lineOut);
     }    
     public static EpromData loadData(String serialname)
     {
@@ -770,12 +773,12 @@ public class Microchip11AA010  implements Serializable{
                     if (lowLevelSwitch == MANCHESTER_SWITCH_TRUE)
                     {
                         // low to high
-                        lineOut(false);
+                        linePB6Out(false);
                     }
                     else if (lowLevelSwitch == MANCHESTER_SWITCH_FALSE)
                     {
                         // high to low
-                        lineOut(true);
+                        linePB6Out(true);
                     }
                     else if (lowLevelSwitch == MANCHESTER_SWITCH_NONE)
                     {
@@ -798,12 +801,12 @@ public class Microchip11AA010  implements Serializable{
                     if (lowLevelSwitch == MANCHESTER_SWITCH_TRUE)
                     {
                         // low to high
-                        lineOut(true);
+                        linePB6Out(true);
                     }
                     else if (lowLevelSwitch == MANCHESTER_SWITCH_FALSE)
                     {
                         // high to low
-                        lineOut(false);
+                        linePB6Out(false);
                     }
                     else if (lowLevelSwitch == MANCHESTER_SWITCH_NONE)
                     {
@@ -1616,6 +1619,10 @@ public class Microchip11AA010  implements Serializable{
     public boolean isActive()
     {
         return highLevelState != HL_NONE;
+    }
+    public boolean usesPB6() {return true;}
+    public void lineIRQIn(boolean i)
+    {
     }
 }
 

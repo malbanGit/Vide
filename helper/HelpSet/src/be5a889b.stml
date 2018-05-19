@@ -48,6 +48,7 @@ Beware! That "sensible" coordinates range from -128 to +127!
 
 :h2 It seems you only allow anti clockwise rotation, darn!
 Well, just you hit the "reverse" button of your animation and have it your way!
+Or tick the checkboxes next to the angle value to rotate the other direction.
 
 :h2 Reverse is a nice feature for the animation list, but what if I want to reorder the animation manually?
 There are the two "arrow" buttons.

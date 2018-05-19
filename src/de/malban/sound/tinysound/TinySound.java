@@ -59,6 +59,7 @@ import de.malban.sound.tinysound.internal.StreamStreamMod;
 import de.malban.sound.tinysound.internal.StreamStreamWav1Channel;
 import de.malban.sound.tinysound.internal.StreamStreamWav2Channel;
 import de.malban.sound.tinysound.internal.UpdateRunner;
+import de.malban.vide.VideConfig;
 
 /**
  * TinySound is the main class of the TinySound system.  In order to use the
@@ -120,6 +121,11 @@ public class TinySound {
 		//start the line and finish initialization
 		TinySound.outLine.start();
 		TinySound.finishInit();
+                
+                
+                double v =  ((double) VideConfig.getConfig().masterVolume)/(double)255.0;
+                TinySound.setGlobalVolume(v);
+                
 	}
 	
 	/**

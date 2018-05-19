@@ -1,0 +1,91 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Storyboard 2</title>
+</head>
+<body class="doc">
+<h1>Storyboard 2</h1>
+
+<p>The storyboard can be accessed by pressing the button "<img src="pics/user_green.png" alt="user_green.png"> Storyboard 2" in vecci (located at the lower right - in the animation section).</p>
+
+<p>With the storyboard you can generate vectrex source code and binary that displays a set of animations.<br>
+</p>
+
+<p>Each such animation can be placed, sized, moved, removed and illuminated in user defined sequences.</p>
+
+<p>With some "energy" one might tell "stories" consisting of different animation (sequences).</p>
+<br><p align="center">
+<img src="pics/Storyboard2.png" width="407" height="399"><br>
+<em>The storyboard</em></p><br>
+
+<p>(for a general description look at the help for storyboard 1) Although the storyboard 2 looks quite similar two the first - the general handling is a bit different.</p>
+
+<p>For the storyboard 2 the "thought" behind each animation sequence are:
+<ul><li>
+<p>each sequence plays for a certain amount of time</p>
+</li><li>
+<p>changes are always done from "start settings" to "end settings"</p>
+</li></ul>
+</p>
+
+<p><b>Time</b><br>
+Each sequence plays for a fixed amount of time. The time can be given by the user in the field "length". (Which - now that I write it sounds stupid)</p>
+
+<p>The "Length" field contains the number of display rounds (technical speaking) the animation sequence is played.  The length of such a "display round" should be 1/50 of a second. (if you draw to much in the screen - the display round might be longer)</p>
+
+<p>Following values as a "guide":
+<ul><li>
+<p>1 length: 1/50 of a second</p>
+</li><li>
+<p>5 length: 1/10 of a second</p>
+</li><li>
+<p>50 length: 1 second</p>
+</li><li>
+<p>500 length: 10 seconds ...</p>
+</li></ul>
+</p>
+
+<p>The length (time) of one lane is always the some of all animation sequences within the lane.</p>
+
+<p>The length the selected lane is shown in the field "length in rounds" - thus you can easily compare the length of the complete lanes.</p>
+
+<p>If you want to run all lanes "synchronized" (repeat with same start positions) - the length (time) of all lanes must be the same.</p>
+
+<p><b>Changes</b><br>
+Following sequence settings are possible:
+<ul><li>
+<p>animation (no start end settings here, this is the animation done by vecci)</p>
+</li><li>
+<p>scale (of the vectorlist), FROM scale value - TO scale value</p>
+</li><li>
+<p>intensity (of the vectorlist), FROM intensity value - TO intensity value</p>
+</li><li>
+<p>x position (of the vectorlist), FROM x value - TO x value</p>
+</li><li>
+<p>y position (of the vectorlist), FROM y value - TO y value</p>
+</li></ul>
+</p>
+
+<p>The actual changes within the timerange are calculated by the storyboard.</p>
+
+<p>There are three special checkboxes:
+<ul><li>
+<p>"loop" (next to the animation)<br>
+if checked the animation will loop during the complete display time of the sequence. If not checked, the animation will play once and than stay at the last animation image</p>
+</li><li>
+<p>"is pause"<br>
+if checked, the complete sequence does nothing but wait for the time to expire, even if an animation is set</p>
+</li><li>
+<p>"disable"<br>
+disables the animation sequence (is if it were deleted), great for experimenting with different sequences</p>
+</li></ul>
+</p>
+
+<p>All other settings that you did not find explained here are exactly the same as in storyboard 1.</p>
+
+<p><b>NOTE!</b><br>
+Storyboard data for version 1 and version 2 are not compatible. You can not load one storyboard data into the other. </p>
+
+<p>Both data files are saved to the same "storyboard" directory within the "xml" directory nonetheless. You have to keep track what files contain what data.</p>
+</body>
+</html>

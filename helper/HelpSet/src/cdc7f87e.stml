@@ -1,0 +1,81 @@
+:title Building own libraries 
+As libraries I define here, routines that are written in assembler and can be used as subroutines in C.
+
+Through the course of bringing "C" to Vide, I translated/transformed a couple routines, to be usable from C (see above chapter).
+
+Here I will describe what I did to have them in the right "format".
+
+The following procedure works if the files you would like to process meet conditions:
+
+- the file you want to "convert" is self sufficient~~
+With that I mean, that it should be able to compile "standalone". You can include macros and includes, but other external dependencies are not allowed.
+- All RAM access should either be regarding the "never changing" BIOS locations or be using "relative" defined RAM locations (see below).
+
+**Relative RAM locations**~~
+Since all "library" routines must be (with the current setup) relocatable, all variables (RAM) used with in the routines must be so too.
+That means all variables should be defined using the "ds" or ".blk" instructions.
+
+**GOOD:**~~
+::
+____________________bss~~
+___VarByte1_________ds 1~~
+___VarWord2_________ds 2~~
+___VarMemoryBlock___ds 20~~
+::
+
+**BAD:**~~
+::
+____________________bss~~
+____________________org $c880~~
+___VarByte1_________db 1~~
+___VarWord2_________dw 2~~
+___VarMemoryBlock___ds 20~~
+::~~
+**BAD2:**~~
+::
+___VarByte1_________= $c880~~
+___VarWord2_________= $c881~~
+___VarMemoryBlock___= VarWord2 + 2~~
+::
+
+:h2 Translation
+(I assume the assembler files you would like to use as a library are in "traditional" vide - assembler format (similar to Kingswood assembler) ).
+
+The translation process includes several steps:
+1) Make sure the source is like expected (see above)
+2) In Vedi switch the bottom right tab to "Assi->C"
+3) Open the file you want to convert in the editor (the following steps all apply to the current edited file)
+4) press the button "preProcess only".~~
+Background: the preprocessing that "assi" and "asxxxx" do is in parts //very// different. The if clauses are different, but especially the macro handling can not be translated 1:1 - therefor we generate a completely preprocessed version of the assi source. All includes are read, all if/then/else clauses respected and all macros expanded.
+5) The resulting (new) file has the extension "*.pre.s"
+6) If not already open, open this file in the editor
+7) press the button "to as6809", this does the actual conversion, the resulting (new) file has the extension "*.pre.asx.s"
+6) That file is the "result" of the conversion. To check if it assembleable, if not already open, open this file in the editor and press the button "start as6809" which assembles the generated file with the correct building flags and might show errors.
+
+All labels/functions/RAM addresses will be "global"ly available. 
+
+:h2 Using the results
+Depending on your "interest" there are two possible options.
+a) Either place the above created final file (you might want to rename it) into your "source" directory (*.s files are automatically included in the build process)
+b) place the resuling file of your "as6809" run (*.lst and *.rel) file in the directory ::"...Vide/C/PeerC/vide/lib"::. If you follow this path, you should also build an appropriate "include" file (*.h) and place it in the corresponding include directory ::"...Vide/C/PeerC/vide/include"::.
+
+
+:h2 Not handled / not handled correctly
+// Binary numbers // ~~
+Binary numbers are only "translated" if they represent full 8 bit.
+So ::"%01010101":: is translated to ::"0b01010101"::. ~~
+Fraction binary numbers are not translated and will produce errors (like ::"%0101":: ).
+
+//more exotic pseudo ops//~~
+"cmap" or the like are not translated.
+
+
+
+:h2 Errors you might encounter
+
+**Branch out of bounds **~~
+The following cryptic message tells you that a small branch is out of bounds:~~
+::
+?ASxxxx-Error-<a> in line 341 of arkosPlayer.pre.asx.s
+              <a> machine specific addressing or addressing mode error
+::

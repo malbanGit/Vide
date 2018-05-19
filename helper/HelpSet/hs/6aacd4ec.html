@@ -165,5 +165,33 @@ the break criteria always refers to the first byte of the next "line x"</p>
 <br><p align="center">
 <img src="pics/SpudsterExample.png" width="1227" height="381"><br>
 <em>Spudster example</em></p><br>
+<h2>Wavefront Object format</h2>
+<br><p align="center">
+<img src="pics/Violine.png" width="926" height="310"><br>
+<em>Wavefront file</em></p><br>
+
+<div class="code">
+<p>OBJ (or .OBJ) is a geometry definition file format first developed by Wavefront Technologies for its Advanced Visualizer animation package. The file format is open and has been adopted by other 3D graphics application vendors. For the most part it is a universally accepted format.</p>
+
+<p>The OBJ file format is a simple data-format that represents 3D geometry alone - namely, the position of each vertex, the UV position of each texture coordinate vertex, vertex normals, and the faces that make each polygon defined as a list of vertices, and texture vertices. Vertices are stored in a counter-clockwise order by default, making explicit declaration of face normals unnecessary. OBJ coordinates have no units, but OBJ files can contain scale information in a human readable comment line.</p>
+</div>
+
+<p>(Taken from Wikipedia)</p>
+
+<p>Vecci is able to load WaveFront object files, only supported entities:</p>
+
+<ul><li>
+<p>vertex ("v")</p>
+</li><li>
+<p>faces ("f")</p>
+</li><li>
+<p>points ("p")</p>
+</li><li>
+<p>lines ("l")</p>
+</li></ul>
+
+<p>All other entities are ignored. Faces are imported to vecci faces so HLR is working out of the box with these files.</p>
+
+<p>Beware! Many OBJ-files that can be found have hundreds and thousands of vectors, the above seen violine case can be loaded and edited in vecci - but displaying it on a vectrex uses about 500000 cycles! (0.3 seconds for one frame)</p>
 </body>
 </html>

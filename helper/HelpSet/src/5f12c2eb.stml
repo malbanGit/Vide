@@ -18,6 +18,7 @@ Anyway... vecci is is the part of VIDE that concerns itself with vector drawing,
 <<vecciImport|Import>>~~
 <<vecciExport|Export>>~~
 <<vecciStoryboard|Storyboard>>~~
+<<vecciStoryboard2|Storyboard 2>>~~
 
 :image veccy.png|vecci window
 

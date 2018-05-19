@@ -36,7 +36,8 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 	private String mCKeepEnriched = "";
 	private String mIsCProject = "";
 	private String mCFLAGS = "";
-        
+	private String mCRumInlined = "";
+
         
         
 	public HashMap<String, ProjectProperties> getLastHashMap()
@@ -85,6 +86,9 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 			mIsPeerCProject = "";
 			mIsCProject = "";
 			mCFLAGS = "";
+                        mCRumInlined = "";
+                        
+
 		}
 	}
 	@Override public void characters(char[] ch, int start, int length)
@@ -120,6 +124,7 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 		if (mCurrentElement.equalsIgnoreCase("IsCDebugging")) mCDebugging += s;
 		if (mCurrentElement.equalsIgnoreCase("IsCPeephole")) mCPeephole += s;
 		if (mCurrentElement.equalsIgnoreCase("IsCKeepEnriched")) mCKeepEnriched += s;
+		if (mCurrentElement.equalsIgnoreCase("IsCRumInlined")) mCRumInlined += s;
                 
                 
 
@@ -198,6 +203,10 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 				try{
 				mCurrentData.mIsCProject = Boolean.parseBoolean(mIsCProject);
 				}catch (Throwable e){}
+                                
+				try{
+				mCurrentData.mCRumInlined = Boolean.parseBoolean(mCRumInlined);
+				}catch (Throwable e){}
 				try{
 				mCurrentData.mIsPeerCProject = Boolean.parseBoolean(mIsPeerCProject);
 				}catch (Throwable e){}
@@ -212,6 +221,7 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 				try{
 				mCurrentData.mCKeepEnriched = Boolean.parseBoolean(mCKeepEnriched);
 				}catch (Throwable e){}
+                                
                                 
                                 
 				mIsPeerCProject = "";

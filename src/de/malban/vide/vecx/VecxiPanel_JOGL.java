@@ -154,13 +154,14 @@ import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.gl2.GLUT;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
+
 import de.malban.Global;
 import de.malban.config.Configuration;
+//import de.malban.graphics.ScreenGrabber;
 import de.malban.graphics.SingleVectorPanel;
 import de.malban.gui.Scaler;
 import de.malban.gui.panels.LogPanel;
 import de.malban.jogl.JOGLSupport;
-import de.malban.util.extractor.Extractor;
 import de.malban.vide.VideConfig;
 import static de.malban.vide.vecx.VecX.OVERFLOW_BORDER_RAYWIDTH;
 import static de.malban.vide.vecx.VecX.OVERFLOW_SAMPLE_MAX;
@@ -169,22 +170,36 @@ import static de.malban.vide.vecx.VecXPanel.DEVICE_IMAGER;
 import static de.malban.vide.vecx.VecXPanel.DEVICE_LIGHTPEN;
 import de.malban.vide.vecx.VecXState.vector_t;
 import de.malban.vide.vecx.spline.CardinalSpline;
-import de.malban.vide.vecx.spline.ParrabolicAproximation;
 import de.malban.vide.vecx.spline.Pt;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+/*
+import org.jcodec.common.Codec;
+import org.jcodec.common.MuxerTrack;
+import org.jcodec.common.TrackType;
+import org.jcodec.common.io.FileChannelWrapper;
+import org.jcodec.common.io.NIOUtils;
+import org.jcodec.common.model.Packet;
+import org.jcodec.common.model.Size;
+import org.jcodec.containers.mp4.Brand;
+import org.jcodec.containers.mp4.muxer.MP4Muxer;
+*/
 
 /**
  *
@@ -625,6 +640,12 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
     
     public void deinit()
     {
+
+        if (capturing)
+        {
+//            ScreenGrabber.deinit();
+        }
+
         if (animator != null)
             animator.stop();
         animator = null;
@@ -2336,7 +2357,38 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
             gl2.glBindTexture( GL2.GL_TEXTURE_2D, 0 );
             gl2.glPopMatrix();
         }
-        
+/*
+        if (capturing)
+        {
+            try
+            {
+                ScreenGrabber.init(width, height);
+
+
+                ByteBuffer screenImageBuffer = ByteBuffer.allocate((gl2Width+1)*(gl2Height+1)*3);
+                gl2.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1); 
+                gl2.glReadPixels(0, 0, gl2Width, gl2Height, GL2.GL_RGB, GL2.GL_BYTE, screenImageBuffer);
+
+                BufferedImage screenshot = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                Graphics graphics = screenshot.getGraphics();            
+
+                for (int h = 0; h < height; h++) {
+                    for (int w = 0; w < width; w++) {
+                        // The color are the three consecutive bytes, it's like referencing
+                        // to the next consecutive array elements, so we got red, green, blue..
+                        // red, green, blue, and so on..
+                        graphics.setColor(new Color( screenImageBuffer.get()*2, screenImageBuffer.get()*2, screenImageBuffer.get()*2 ));
+                        graphics.drawRect(w,height - h, 1, 1); // height - h is for flipping the image
+                    }
+                }
+                ScreenGrabber.addFrame(screenshot);
+            }
+            catch (Throwable x)
+            {
+                x.printStackTrace();
+            }
+        }
+*/            
         
 //        gl2.glFlush();
 //        glautodrawable.swapBuffers();
@@ -2346,6 +2398,7 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 initLineStrips(MAX_LINE_STRIPS, gl2);        
         }
     }
+    boolean capturing = false;
     
     // sets an active drawing context
     // either the "normal" FBO

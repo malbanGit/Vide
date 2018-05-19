@@ -1,9 +1,8 @@
 :title vecxi
-:image vecxi.png|vecxi emulation window
+:image Sweep2.png|vecxi emulation window
 
 Emulation wise this is the heart of VIDE.  In the above example you can see  Cleansweep running in the emulator.
 
-The shown window is a preliminary version, I am sure the final output will be different!
 
 In short: ~~
 - ##folder_go.png## **__load**~~ a new vectrex file (doesn't start the emulation)
@@ -17,13 +16,20 @@ Emulation and debugging wise, vecxi is the center of VIDE. Once you load a rom a
 
 From dissi you can access all other debugging utilities VIDE has to offer. . .
 
-
 There are following "hot keys" available for vecxi:
 - "P" - toggle pause
-- "L" - toggle overlay
+- "O" - toggle overlay
 - "B" - toggle ringbuffer
 - "1" - quicksave
 - "2" - quickload
+- if running with OpenGL than additionally:
++ SHIFT P: full pannel
++ SHIFT F: full screen
+
+**Ports**~~
+These are the Joy(stick) ports of the vectrex. Usually in port 0 the joystick is plugged in. Some cartridges need/want an additional device (mostly in port 1). 
+These can be selected in the combo boxes. Default joystick configuration is mapped to keyboard 0 (ASDF and cursor). ~~
+In configuration->Input you can define different keyboard layouts and/or different input devices. The devices you configured there will appear in these comboboxes and will be selectable
 
 Some features:
 - If in debug mode, vecxi will display the "current" drawn vector in yellow, rather than white.

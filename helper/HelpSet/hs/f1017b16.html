@@ -1,0 +1,51 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Debug-Settings</title>
+</head>
+<body class="doc">
+<h1>Debug-Settings</h1>
+<h1>Debug</h1>
+<br><p align="center">
+<img src="pics/DebugConfig.png" width="633" height="405"><br>
+<em>debug config</em></p><br>
+
+<p><b>Enable config debug core</b><br>
+Most of the below described options only work when this is activated. Internally a slightly different emulation is used, that does not test for all the debugging features. Slightly faster.</p>
+
+<p><b>draw Vectors as arrows</b><br>
+Just one of those not really useful, but cool options. Lets you see in what direction vectors are drawn.</p>
+
+<p><b>draw movement vectors</b><br>
+Not implemented yet - to get a glimps of what this could look like, play with the "blank delay" option. </p>
+
+<p><b>paint integrator position</b><br>
+This started as an unneccessary "cool" option - but actually I use it pretty often. With this enabled, vecxi draws a little red circle at the current vector beam postion, this is a great option to help "visualize" debugging (obviously there is a speed impact). </p>
+
+<p><b>ROM and PC breakpoints switch on by default</b><br>
+Chose whether these breakpoints are set per default on each emulation start (which if you are developing - makes sense).</p>
+
+<p><b>codescan in Vecxi</b><br>
+If enabled, vecxi while executing marks addresses as "read", "write", "executed" and gives these information to dissi for use. That way dissi has a better chance to discern data from code. <br>
+If everthing else is finished in vide, this might be expanded to a more in depth automatic code analyses.</p>
+
+<p><b>enable profiler</b><br>
+If activated, while emulating vecxi collect additional information, that can be used for profiling. This feature can not be actived on the fly, vecxi must be restarted to use this feature"</p>
+
+<p><b> Vector information collection active </b><br>
+If use intend to use Vinfi to show specific vector information (e.g. address where a vector came to live), thus must be switched on. Minimal performance gain if switched off.</p>
+
+<p><b> Ringbuffer active</b><br>
+You only need that for debugging purposes, this basically saves the state of vecx every CPU instruction and thus enables you to take emulation steps back. This option defenitly is one of the speed eaters. If Vide is to slow and you don't intend to debug - switch this off!  <br>
+There are two different step back buffers. 
+<ul><li>
+<p>One single step buffer, which can be configured up to 50000 steps (you have the watch the memory usage yourself!)</p>
+</li><li>
+<p>One buffer for "large" step backs (30000 instructions per step), this can be configured up to 5000 (see  dissi for more information)</p>
+</li></ul>
+</p>
+
+<p><b>MultiStep delay</b><br>
+The delay in milliseconds dissi waits between multi step - steps.</p>
+</body>
+</html>

@@ -3,6 +3,7 @@
 	<ProjectProperties>
 		<Class>Project</Class>
 		<Name>Lineart</Name>
+		<FileVersion>2</FileVersion>
 		<ProjectName>Lineart</ProjectName>
 		<DirectoryName></DirectoryName>
 		<Path>codelib/demos/MV</Path>
@@ -10,7 +11,7 @@
 		<Description></Description>
 		<Version>1.0</Version>
 		<Author>Metalvotze / Nuance</Author>
-		<Bankswitching>VecFlash (up to 64 banks)</Bankswitching>
+		<Bankswitching>VecFlash (up to 32 banks)</Bankswitching>
 		<createBankswitchCode>false</createBankswitchCode>
 		<createGameLoopCode>false</createGameLoopCode>
 		<NumberOfBanks>9</NumberOfBanks>
@@ -41,5 +42,13 @@
 			<BankDefines>BANK=3</BankDefines>
 			<BankDefines>BANK=4</BankDefines>
 		</BankDefiness>
+		<WheelName></WheelName>
+		<IsCDebugging>false</IsCDebugging>
+		<IsCPeephole>false</IsCPeephole>
+		<IsCKeepEnriched>false</IsCKeepEnriched>
+		<IsCProject>false</IsCProject>
+		<IsPeerCProject>false</IsPeerCProject>
+		<CFLAGS></CFLAGS>
+		<IsCRumInlined>false</IsCRumInlined>
 	</ProjectProperties>
 </AllProjectProperties>

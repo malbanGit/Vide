@@ -1,0 +1,14 @@
+:title Assembling
+
+For now the vectrex C setup uses the complete toolchain Peer build. This means after the compile stage the assembler AS6809 is called (instead of assi, which is the internal assembler of Vide).
+
+AS6809 is called with following options:
+* -x Hex listing (default)
+* -p Disable automatic listing pagination
+* -l Create list file/outfile[.lst]
+* -o Create object file/outfile[.rel]
+* -y Enable SDCC  Debug Symbols
+* -g Undefined symbols made global
+
+These options can not be altered.
+

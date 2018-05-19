@@ -1,0 +1,41 @@
+:title Programming in C
+
+With Vide version 2.0 the language "C" starts to be supported with Vide.
+Not all features described within this documentation work seemlessly with C (yet).
+
+For some time I intended to write my own C-Compiler - but I never came arround actually doing it.
+
+For now the "C" support in Vide is based on external binaries, namely:
+- gcc (Compiler) - homepage at: [[https://github.com/bcd/gcc]]
+- as6809 (Assembler) - homepage at: [[http://shop-pdp.net/ashtml/asxxxx.php]]
+- aslink (Linker) - homepage at: [[http://shop-pdp.net/ashtml/asxxxx.php]]
+- srec2bin ("builder") - homepage at: [[http://www.s-record.com/]]
+
+All of which are "free" utilities which are offered in source code form (but are partly available in binary form also). With Vide I distribute self built binary versions for Mac OS X, Windows and Linux. The binary files are provided in the spirit that Vide should run (more or less) out of the box.
+Licence files accompany the binary distribution (directory "::licence::") - all three products are GPL 3.
+
+The sources I used for building the binaries will be downloadable in a seperate package to the Vide distribution, since (especially gcc) is a rather large package. The whole source for the above tools is well over 350MB.
+
+Very slight changes to some of the sources were applied - see further in the "Inner workings" section.
+~~
+~~
+:hr
+
+My first intention was - to only use gcc as compiler and do the rest internally. That approach has many merrits:
+- "controll" over the assembler sources
+- enabling of "easy" debugging, because of compatibilty 
+- easier error handling
+- no additional external binaries
+- and many others...
+
+Sooner or later I might implement a more internal approach - but for now the external approach is the one I/we are using.
+
+The intention however is, whatever the "future" of vectrex C brings us, that it should stay compatible. Even if in the future I switch to another handling of things - projects created using "C" in Vide should always stay compatible (that is my intent).
+
+:h2 Current C-Support
+The current in Vide supported C-structure is nearly 100% based on the work of "Prof. Dr. rer. nat. Peer Johannsen", who also has (current date September 2017) offered two university courses to program the vectrex:~~
+[[http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_project.htm]]~~
+[[http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2017/vectrex_project.htm]]
+~~
+
+

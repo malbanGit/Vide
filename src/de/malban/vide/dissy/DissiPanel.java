@@ -1134,7 +1134,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jLabel3.setForeground(new java.awt.Color(255, 51, 51));
         jLabel3.setText("not found");
 
-        jTextFieldSearch1.setToolTipText("searches in labels and in comments (case independent)");
+        jTextFieldSearch1.setToolTipText("text to be highlighted in \"operator\" field");
         jTextFieldSearch1.setPreferredSize(new java.awt.Dimension(120, 20));
         jTextFieldSearch1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1143,7 +1143,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         });
 
         jButtonSearchNext2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/lightbulb.png"))); // NOI18N
-        jButtonSearchNext2.setToolTipText("search forward");
+        jButtonSearchNext2.setToolTipText("Highlite text given in \"operator\" field");
         jButtonSearchNext2.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonSearchNext2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1493,7 +1493,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -1551,7 +1551,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                                     .addComponent(jLabel22)
                                     .addComponent(jLabel23)
                                     .addComponent(jLabel24))))
-                        .addContainerGap(18, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addContainerGap())))
@@ -1564,19 +1564,19 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
-                    .addComponent(jTextFieldCommand))
-                .addGap(392, 392, 392))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldCommand, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 759, Short.MAX_VALUE))
+                .addGap(430, 430, 430))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 802, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 766, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
                 .addGap(2, 2, 2)
                 .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1))
@@ -4610,7 +4610,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             MemoryInformationTableModel.columnWidthSmall[i]= sl.columnWidthSmall[i];
         correctModel();
     }
-    
+    public static boolean specialDebugMode = false;
     // receives the contents of the textfield after a return
     public void executeCommand(String command)
     {
@@ -4623,6 +4623,15 @@ public class DissiPanel extends javax.swing.JPanel  implements
         Command com = Command.getCommand(parts[0]);
         if (com == null)
         {
+            if (parts[0].equals("debug"))
+            {
+                specialDebugMode = !specialDebugMode;
+                if (specialDebugMode)
+                    printMessage("Vide: special debug mode enabled!", MESSAGE_INFO);
+                else
+                    printMessage("Vide: special debug mode disabled!", MESSAGE_INFO);
+                return;
+            }
             if (!doCalculator(command))
             {
                 if (!VediPanel.displayHelp(command))
@@ -5229,7 +5238,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     printMessage("Vedi not found.", MESSAGE_WARN);
                     return;
                 }
-*/                
+*/              
                 String dump = currentDissi.vecxPanel.dumpCurrentROM();
                 if (dump == null)
                 {
@@ -5321,23 +5330,51 @@ public class DissiPanel extends javax.swing.JPanel  implements
     
     public void doThePoke(int address, byte value)
     {
-        int bank = currentDissi.vecxPanel.getCurrentBank();
-        MemoryInformation memInfo = getMemoryInformation(address, bank);
-        memInfo.content = (byte)value;
-
-        int len = memInfo.length;
-        for (int a=memInfo.address-5; a<memInfo.address+5; a++)
+        doThePoke(address, value, false);
+    }
+    public void doThePoke(int address, byte value, boolean doAllBanks)
+    {
+        if (!doAllBanks)
         {
-            if (a<0) continue;
-            if (a<=65536) continue;
-            currentDissi.dasm.myMemory.memMap.get(a).reset();
+            for (int bank = 0; bank<currentDissi.dasm.myMemory.getMaxBank(); bank++)
+            {
+                MemoryInformation memInfo = getMemoryInformation(address, bank);
+                memInfo.content = (byte)value;
+                
+                int len = memInfo.length;
+                for (int a=memInfo.address-5; a<memInfo.address+5; a++)
+                {
+                    if (a<0) continue;
+                    if (a<=65536) continue;
+                    MemoryInformation memInfo2 = getMemoryInformation(a, bank);
+                    memInfo2.reset();
+                }
+                currentDissi.dasm.reDisassemble(memInfo.address>0xdff5);
+            }
         }
-        currentDissi.dasm.reDisassemble(memInfo.address>0xdff5);
+        else
+        {
+            int bank = currentDissi.vecxPanel.getCurrentBank();
+            MemoryInformation memInfo = getMemoryInformation(address, bank);
+            memInfo.content = (byte)value;
+
+            int len = memInfo.length;
+            for (int a=memInfo.address-5; a<memInfo.address+5; a++)
+            {
+                if (a<0) continue;
+                if (a<=65536) continue;
+                currentDissi.dasm.myMemory.memMap.get(a).reset();
+            }
+            currentDissi.dasm.reDisassemble(memInfo.address>0xdff5);
+        }
+
         updateTable();        
         currentDissi.vecxPanel.poke(address, (byte)value);
         currentDissi.vecxPanel.updateAvailableWindows(false, false, true);
     }
     
+    // called byRAM update,
+    // only for current banks fpr now!
     public void varUpdate()
     {
         // labels
@@ -5492,7 +5529,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 }
                 else if ((type == MemoryInformation.DIS_TYPE_DATA_WORD_POINTER))
                 {
-                    s.append("RANGE ").append(String.format("$%04X", (m&0xffff))).append("-").append(String.format("$%04X", ((m+len)&0xffff))).append(" DW_POINTER"+" ").append(count +"\n");
+                    s.append("RANGE ").append(String.format("$%04X", (m&0xffff))).append("-").append(String.format("$%04X", ((m+len)&0xffff))).append(" DWP_DATA"+" ").append(count +"\n");
                 }
                 else if ((type == MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_GENERAL))
                 {
@@ -5570,15 +5607,19 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 currentDissi.dasm.myMemory.setBank(e.newBank);
                 if (currentDissi.bankswitchInfo)
                     printMessage("Bank was switched from: "+e.oldBank+" to "+e.newBank, MESSAGE_INFO);
-//                updateTableOnly(); // if only this is used, multi banks accross multi files are not updated correctly in table (disassambled operand!
-                correctModel();
-                
-                
                 if (currentDissi.vecxPanel == null) return;
-                currentDissi.vecxPanel.updateLabi();
-                currentDissi.vecxPanel.updateVari();
+//                updateTableOnly(); // if only this is used, multi banks accross multi files are not updated correctly in table (disassambled operand!
+
+                // otherwise emulation slows to a hold on multiple switchings
+                if ((currentDissi.vecxPanel.debuging) || (currentDissi.vecxPanel.stepping))
+                {
+                    correctModel();
+                    currentDissi.vecxPanel.updateLabi();
+                    currentDissi.vecxPanel.updateVari();
+                }
                 // ensure jump is done in gui also
-                goAddress(reg_pc, true, true,true );            
+                if (!doNotFollow)
+                    goAddress(reg_pc, true, true,true );            
             }
         });                    
 
@@ -6336,6 +6377,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
             return false;
         }
     }
+    
+    static final int NEGATIVE_OFFSET_MAX = 20;
     public class RealStackTableModel extends AbstractTableModel
     {
         public int getRowCount()
@@ -6344,7 +6387,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             if (currentDissi.vecxPanel==null) return 0;
 
             
-            return 0xcbea-currentDissi.vecxPanel.getSReg();
+            return 0xcbea-currentDissi.vecxPanel.getSReg()+NEGATIVE_OFFSET_MAX;
         }
         public int getColumnCount()
         {
@@ -6354,11 +6397,22 @@ public class DissiPanel extends javax.swing.JPanel  implements
         {
             if (currentDissi==null) return "";
             if (currentDissi.vecxPanel==null) return "";
-            int count =  0xcbea-currentDissi.vecxPanel.getSReg();
-            int address = currentDissi.vecxPanel.getSReg()+row;
+          //  int count =  0xcbea-currentDissi.vecxPanel.getSReg();
+            
+            
+            int stackRow = row-NEGATIVE_OFFSET_MAX;
+            int address = currentDissi.vecxPanel.getSReg()+stackRow;
+            
             try
             {
-                if (col == 0) return "+"+row;
+                if (col == 0) 
+                {
+                    if (stackRow<0)
+                        return ""+stackRow;
+                    if (stackRow==0)
+                        return ""+stackRow;
+                    return "+"+stackRow;
+                }
                 if (col == 1) return "$"+String.format("%02X", (currentDissi.vecxPanel.getVecXMem8(address)&0xff));
             }
             catch (Throwable e)

@@ -1,0 +1,54 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Emulation: eEprom DS2431</title>
+</head>
+<body class="doc">
+<h1>Emulation: eEprom DS2431</h1>
+
+<p>Based on the description and vectrex source code from Alex Herbert and Thomas Sontowski. Emulation is only done in so far, that known cartridges are supported,  this is no FULL emulation of a DS2431! <br>
+(not emulated e.g. are: overdrive, bank protection)</p>
+
+<p>Known cartridges which use this hardware:
+<ul><li>
+<p>Robot Arena</p>
+</li><li>
+<p>The Core</p>
+</li><li>
+<p>Karl Quappe</p>
+</li><li>
+<p>Release</p>
+</li></ul>
+</p>
+
+<p>Statefiles for the eEprom are always saved in the same directory and named as the original cartridge (bin) file, with the additional extension of: ".ds2431.ser". <br>
+(the save-format is java serialization)</p>
+<h3>Technical</h3>
+
+<p>In general the emulation are two state machines, 
+<ul><li>
+<p>one lowlevel "machine" which regulates bit manipulations and waits for timings slots and such.</p>
+</li><li>
+<p>and one highlevel machine which emulates the commands</p>
+</li></ul>
+</p>
+
+<p>The highlevel uses the lowlevel machine and is "called" back from it when it is finished.</p>
+
+<p>Input/output is basically done via the lineIn and lineOut functions. Both functions in itself do not trigger any further actions.</p>
+
+<p>All steps of emulation are "triggered" from the "step" function. The step function should be called EVERY emulated cycle.</p>
+
+<p>The step function is basically the lowLevel statemachine, which on occassion triggers the highlevel.</p>
+
+<p>You can view current emulation status by opening a "cartridge" window (in dissi type "carti").</p>
+<br><p align="center">
+<img src="pics/DS2431.png" width="658" height="516"><br>
+<em>emulation view</em></p><br>
+
+<p>The datasheet of the chip can be found in the subdirectory: <br>
+</p>
+
+<p>documents/hardware/eEprom/DS2431.pdf</p>
+</body>
+</html>

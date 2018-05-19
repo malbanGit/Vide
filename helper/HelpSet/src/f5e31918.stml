@@ -1,0 +1,11 @@
+:title Emulation: SID
+
+I received a request to emulate the SID chip within Vide. While at first it sounds "strange" to emulate the Commodore C64 soundchip - the idea behind it is a special cartridge design with a SID chip on it.~~
+
+The prototype of the card already exists and seems to work quite well.
+The chips registers are located at "forbidden" vectrex locations (addresses $8000 - $8020). Actually the emulation of that could be implemented in a couple of hours - since there are quite a few open source java C64 emulators available. The used SID emulation is a java version of "reSid" and works (for a few hours of work) remarkably well.
+
+Also the SID registers are viewable using the dissi->carti window.
+ 
+:image sid.png|emulation view
+

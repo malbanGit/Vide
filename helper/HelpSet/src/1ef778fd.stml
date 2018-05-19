@@ -1,0 +1,187 @@
+:title Optimizing C
+
+
+
+
+The default setting Vide is compiling "C" programs are described above (see->compiling).
+
+The C flags that are passed to the compiler can be altered by the user via project settings.
+The default settings almost always generate executable code (exceptions: see-> known GCC bug/deficiencies).
+
+Bei altering the compiler flags you can change the way GCC compiles the code.
+Personally I prefer to almost always use an addition "::-O3::".
+
+Often times "C" programs work out of the box with these settings, especially "easy" programs. Problem is the gcc 6809 package is old and sometimes fragile. With the above settings it is possible that gcc introduces strange behaviours to your program.
+
+**::-O3 ::~~**
+Is an optimization option, that allows gcc in general terms to: produce inline code, loop unroling and code restructuring.~~
+(exact definition look at: [[https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-O3]])
+
+In general, code is much faster (I have seen up to 30% speed increase) much longer (I have also seen about 30% size increase).
+
+**Bad things that can happen 1.**
+
+The bad thing that can happen is some "code restructuring". This in general means, gcc can decide that it might change the order of your code if it things it would procude the same result but be much faster.
+It happened to me a couple of times - that this restructuring actually changed semantics of my code - and it did not work the way I intended it should. For the non experienced - or perhaps not so debugging versed coders this will present a problem. Since the actual code you did is not WRONG per se, but it is made wrong by the compiler. I think, when I found this problem, that nearly always a variable I declared was internally not kept intact for the later code parts. This problem could always be fixed by inserting a "//volatile//" with the definition of a variable.
+
+"Volatile" forces gcc to always read the contents of a variable and not keep it in some register (that may be falsly overwritten).
+
+**Bad things that can happen 2.**
+
+Debugging. In order to be able to show the "C" lines in dissi I insert generated comment lines into the code prior to compiling the "C" file. The lines are comments only - and should not influence gcc in any way.
+With "-O3" I have watched (on one occasion) that comments influence code generation. With debugging switched on gcc quit with a "spill" error (see known gcc bugs): "unable to find a register to spill in class "...".
+Switching debugging off resolved that problem.
+
+For that particular problem I invented two special compiler comments in C.
+If a comment like "\// EnrichmentOff" is found, the generation of debug comments is switched of untill a comment: "\// EnrichmentOn" ist found. That way it was possible to "wrap" problematic functions (only one function found so far) in a protective shell and to not produce debug information for that part of the source only.
+
+Also:
+Since gcc can "jumble" code around with "-O3" settings it might be arguable if enhancing it with debugging information is really such a good idea. Since it can happen, that the generated information (line based) - might not fit exactly to the generated code.
+
+~~**Optimize using Tracki~~**
+To optimize your own vectrex programs in C (I mean - cycle based...) you have to experiment (using tracki).
+
+Some things appear not really logical to me (from a "C" point of view) - but the optimization used by -O3 takes strange ways sometimes.
+
+Example: (for the full source look at "printSync.c")::~~
+
+--- Faster:~~::
+____...~~
+____else if (*u == 0) \// moveTo~~
+____{~~
+________if \((*(u+1)!=0) || (*(u+2)!=0\))~~
+________{~~
+____________\// internal moveTo~~
+____________VIA_port_a = *(1+u);________\// y pos to dac~~
+____________VIA_cntl = (int)0xce;_______\// disable zero, disable all blank~~
+____________VIA_port_b = 0;_____________\// mux enable, dac to -> integrator y (and x)~~
+____________VIA_port_b =1 ;_____________\// mux disable, dac only to x~~
+____________VIA_port_a = *(2+u);________\// dac -> x~~
+____________VIA_t1_cnt_hi=0;____________\// start timer~~
+____________while \((VIA_int_flags & 0x40) == 0); \// wait till timer finishes~~
+________}~~
+____}~~
+____else~~
+____{~~
+________break;~~
+____}~~
+DIFFERENCE    u+=3;~~
+____...~~
+~~
+---Slower:~~
+____...~~
+____else if (*u == 0) \// moveTo~~
+____{~~
+________if \((*(u+1)!=0) || (*(u+2)!=0\))~~
+________{~~
+____________\// internal moveTo~~
+____________VIA_port_a = *(1+u);________\// y pos to dac~~
+____________VIA_cntl = (int)0xce;_______\// disable zero, disable all blank~~
+____________VIA_port_b = 0;_____________\// mux enable, dac to -> integrator y (and x)~~
+____________VIA_port_b =1 ;_____________\// mux disable, dac only to x~~
+____________VIA_port_a = *(2+u);________\// dac -> x~~
+____________VIA_t1_cnt_hi=0;____________\// start timer~~
+DIFFERENCE____u+=3;~~
+____________while \((VIA_int_flags & 0x40) == 0); \// wait till timer finishes~~
+________}~~
+____}~~
+____else~~
+____{~~
+________break;~~
+____}~~
+____...~~
+---
+
+I moved the +3 from a "MoveTo" wait loop to a place outside of the if clause.
+That is faster because the whole if clause is encapsulated in a loop - and the last address "u+=3" on an assembler level is reused in the next loop round.
+
+If you seek out the last "cycles" in your C-code, try different variants of your code - and watch what gcc realy builds - and perhaps use tracki to see the differences speed wise.
+
+:h2 Vide Peepholing
+(See also Vide Specials)~~
+I have seen on occasion that gcc generated plain WRONG code (using -O3).
+
+Scenario:
+
+::~~
+void drawTitleFace()~~
+{~~
+____draw_synced_list_c\(( signed char*)FaceStraight[0],(int)yPos,0,MOVE_SCALE,DRAW_SCALE);~~
+}~~
+void calcTitleMovement()~~
+{~~
+____... some additional stuff~~
+____yPos += (long)ySpeed;~~
+}~~
+void doTitle()~~
+{~~
+____... start of main loop~~
+____calcTitleMovement();~~
+____~~
+____drawTitleFace();~~
+____... continue main loop~~
+}~~
+::
+
+Using "-O3" all functions get inlined (in the above example). The last line of~~ calcTitleMovement():~~::
+____yPos += (long)ySpeed;~~ ~~ ::
+comes thus directly in from of:~~::
+____draw_synced_list_c(...);~~::
+    
+gcc now is smart enough to recognize - "yPos" can be reused - cool, than I will remember that (in register X).
+
+~~
+Following asm code is being generated:~~::
+____ldb____ySpeed___________; , ySpeed~~
+____stb____5,s______________; , ySpeed.398~~
+____sex_____________________;extendqihi2: R:b -> R:d    ; ,~~
+____std____,s_______________; ,~~
+____tfr____d,x______________; , yPos.106~~
+____exg____d,x______________; , yPos.106~~
+____addd___yPos_____________; , yPos~~
+\!!__exg____d,x______________; , yPos.106~~
+____std____yPos_____________;  yPos.106, yPos~~ ~~::
+    
+The second "::exg::" should be a "::tfr::"! The above generated code causes, that while the X register is set correctly, that value is never written to "::_yPos::".  
+~~(This can also be resolved by declaring yPos //volatile//!)~~
+
+I have no clue how often such bad code is generated in real live. I even went so far as to take a look at the gcc source code - but I haven't got the time or will to explore the gcc engine to its fullest and something obvious I could not find.
+Still I found it important to correct things - because of that I introduced some peepholing into vide after the assembler code generation is done by gcc.
+Vide can now investigate the assembler code and search for different recognizable code segments and CHANGE the generated assembler code.
+As of yet this is not freely configurable but is hardcoded into Vide.
+
+The above scenario is now corrected by Vide.
+
+I found one other **FALSELY** generated code (also using -O3 - but I think this might also happen when not using -O3)
+
+At on occasion the compiler generated code like:~~
+::
+____ldx_____u___;  waveptr.175~~
+::
+Which does not make any sense at all - what it should have generated is:~~ ~~
+::
+____leax____,u__;  waveptr.175~~
+::
+(same can happen for "ldx y").
+
+That error is easy recognizable - since the linker produces a warning: ~~„::undefined symbol y and/or u::".~~ ~~
+This can also be fixed using the above Vide feature.
+
+The "Peephole" feature can be switched on/off within the project settings dialog.
+If switched on, the "endmessage" of a project compile will show how many "peephole changes" were done by Vide:~~
+"::Header size: 26, Rom size: 18078, iRam size: 36, uRam size: 503, PF: 87::"~~
+
+The PF: value tells you how many changes were done to the sources.
+If you want to know exactly what Vide did - you can look at the generated assembler sources.~~
+____"::PROJECTDIRECTORY/build/lib/SOME_SOURCE.s::"~~
+~~
+Each change is marked with "::; Peep #::" where "#" is the number of the peephole that was found (8 different at the time of writing).
+The code that is inserted follows, which again is followed by the commented code that it replaces. 
+e.g.:~~
+::
+;_Peep 2~~
+____stb____,u____; , D.2148~~
+;____stb____,u____; , D.2148~~
+;____ldb____,u____; , D.2148~~
+~~::
+(Which was a simple optimizing "peep", since the ldb is redundant)

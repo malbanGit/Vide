@@ -270,8 +270,8 @@ public class Global {
     private static Color splitLight;
     private static Color splitDark;
     
-    private static Color linkColor = Color.blue;
-    private static Color textColor = Color.black;
+    public static Color linkColor = Color.blue;
+    public static Color textColor = Color.black;
     
     
     

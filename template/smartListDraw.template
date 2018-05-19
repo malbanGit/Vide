@@ -1,0 +1,398 @@
+SPRITE_SCALE        =        50
+;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
+
+;***************************************************************************
+; DEFINE SECTION
+;***************************************************************************
+Vec_Pattern         EQU      $C829                        ;Dot pattern (bits) 
+music1              EQU      $FD0D 
+VIA_port_b          EQU      $D000                        ;VIA port B data I/O register 
+VIA_port_a          EQU      $D001                        ;VIA port A data I/O register (handshaking) 
+VIA_t1_cnt_lo       EQU      $D004                        ;VIA timer 1 count register lo (scale factor) 
+VIA_t1_cnt_hi       EQU      $D005                        ;VIA timer 1 count register hi 
+VIA_shift_reg       EQU      $D00A                        ;VIA shift register 
+VIA_cntl            EQU      $D00C                        ;VIA control register 
+VIA_int_flags       EQU      $D00D                        ;VIA interrupt flags register 
+Intensity_5F        EQU      $F2A5                        ; 
+Wait_Recal          EQU      $F192                        ; 
+Moveto_d            EQU      $F312                        ; 
+Vec_Joy_1_X         EQU      $C81B                        ;Joystick 1 left/right 
+Joy_Digital         EQU      $F1F8 
+;***************************************************************************
+; Variable / RAM SECTION
+;***************************************************************************
+; insert your variables (RAM usage) in the BSS section
+; user RAM starts at $c880 
+                    BSS      
+                    ORG      $c880                        ; start of our ram space 
+calibrationValue    ds       1 
+gameScale           ds       1 
+;***************************************************************************
+; HEADER SECTION
+;***************************************************************************
+; The cartridge ROM starts at address 0
+                    CODE     
+                    ORG      0 
+; the first few bytes are mandatory, otherwise the BIOS will not load
+; the ROM file, and will start MineStorm instead
+                    DB       "g GCE 2018", $80 ; 'g' is copyright sign
+                    DW       music1                       ; music from the rom 
+                    DB       $F8, $50, $20, -$80          ; hight, width, rel y, rel x (from 0,0) 
+                    DB       "SMARTLIST DRAW", $80        ; some game information, ending with $80
+                    DB       0                            ; end of game header 
+;***************************************************************************
+; CODE SECTION
+;***************************************************************************
+;***************************************************************************
+; CODE SECTION
+;***************************************************************************
+; here the cartridge program starts off
+                    clr      calibrationValue 
+                    lda      #$80 
+                    sta      gameScale 
+main: 
+                    JSR      Joy_Digital 
+                    LDA      Vec_Joy_1_X 
+                    BEQ      joyDone 
+                    BMI      left_move 
+right_move: 
+                    inc      calibrationValue 
+                    bra      joyDone 
+
+left_move 
+                    dec      calibrationValue 
+joyDone 
+                    JSR      Wait_Recal                   ; Vectrex BIOS recalibration 
+                    jsr      Intensity_5F 
+                    jsr      calibrationZero 
+                    ldd      #0 
+                    jsr      Moveto_d 
+                    ldu      #_SM_VectorList_
+                    lda      #SPRITE_SCALE 
+                    sta      VIA_t1_cnt_lo 
+                    bsr      drawSmart 
+                    BRA      main                         ; and repeat forever 
+
+;***************************************************************************
+; ROUTINE SECTION
+;***************************************************************************
+                    direct   $d0 
+;***************************************************************************
+ADD_NOPS            macro    
+                    if       SPRITE_SCALE>9 
+                    nop      (SPRITE_SCALE-9)/2 
+                    endif    
+                    endm     
+ADD_NOPS_NOU        macro    
+                    if       SPRITE_SCALE>(9-5) 
+                    nop      (SPRITE_SCALE-(9-5))/2 
+                    endif    
+                    endm     
+drawSmart                                                 ;#isfunction  
+                    pulu     d,pc 
+;***************************************************************************
+SM_setScale:                                              ;#isfunction  
+                    stb      <VIA_t1_cnt_lo 
+                    pulu     a,b,pc 
+SM_setIntensityScale:                                     ;#isfunction  
+                    stb      <VIA_t1_cnt_lo 
+SM_setIntensity:                                          ;#isfunction  
+                    sta      <VIA_port_a 
+                    ldd      #$0401 
+                    sta      <VIA_port_b 
+                    stb      <VIA_port_b 
+                    pulu     a,b,pc 
+; continue uses same shift  
+SM_continue_d                                             ;#isfunction  
+                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
+                    clra                                  ; special case entry. new y = old X, saves 4 cycles! 
+; y is inherently known to be == old_x, y was set to 0 by generator
+SM_continue_newY_eq_oldX:                                 ;#isfunction  
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    clra     
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+SM_continue_d_x0                                          ;#isfunction  
+                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
+                    stb      <VIA_port_b 
+                    lda      #1 
+                    std      <VIA_port_b 
+                    stb      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+SM_continue_d_y0                                          ;#isfunction  
+                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    clra     
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+; continue uses same shift
+; y is inherently known to be == x, y was set to 0 by generator
+SM_continue_yEqx                                          ;#isfunction  
+                    std      <VIA_port_b                  ; shift not changed, move might also be a draw 
+                    inc      <VIA_port_b 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+SM_continue_d_double                                      ;#isfunction  
+                    sta      <VIA_port_a 
+                    clra     
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    clra     
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    bra      SM_repeat_same 
+
+SM_continue_d_double_x0                                   ;#isfunction  
+                    sta      <VIA_port_a 
+                    stb      <VIA_port_b 
+                    lda      #1 
+                    std      <VIA_port_b 
+                    stb      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    bra      SM_repeat_same 
+
+SM_continue_d_double_y0                                   ;#isfunction  
+                    sta      <VIA_port_a 
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    clra     
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    bra      SM_repeat_same 
+
+SM_repeat_same                                            ;#isfunction  
+                    pulu     a,b 
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     pc 
+SM_startMove_d:                                           ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light off 
+                    clra     
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    clra     
+                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+SM_startMove_d_sj:                                        ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light off 
+                    clra     
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    clra     
+                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     a,b,pc 
+SM_continue_d_x0_sj                                       ;#isfunction  
+                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
+                    stb      <VIA_port_b 
+                    lda      #1 
+                    std      <VIA_port_b 
+                    stb      <VIA_t1_cnt_hi 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     a,b,pc 
+SM_startMove_d_double:                                    ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light off 
+                    clra     
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    clra     
+                    sta      <VIA_shift_reg 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    bra      SM_continue 
+
+SM_startMove_d_x0_sj:                                     ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light off 
+                    stb      <VIA_port_b 
+                    lda      #$01 
+                    std      <VIA_port_b 
+                    stb      <VIA_shift_reg 
+                    stb      <VIA_t1_cnt_hi 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     a,b,pc 
+SM_startMove_d_x0:                                        ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light off 
+                    stb      <VIA_port_b 
+                    lda      #$01 
+                    std      <VIA_port_b 
+                    stb      <VIA_shift_reg 
+                    stb      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+SM_continue                                               ;#isfunction  
+                    pulu     a,b 
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     pc 
+SM_startMove_d_y0_sj:                                     ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light off 
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    clra     
+                    sta      <VIA_shift_reg 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     a,b,pc 
+SM_startMove_d_y0:                                        ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light off 
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    clra     
+                    sta      <VIA_shift_reg 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+SM_startDraw_d:                                           ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light on 
+                    clra     
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    ldd      #$00FF 
+                    stb      <VIA_shift_reg 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+SM_continue_double                                        ;#isfunction  
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+SM_startDraw_d_double:                                    ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light on 
+                    clra     
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    ldd      #$00FF 
+                    stb      <VIA_shift_reg 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    bra      SM_continue 
+
+SM_startDraw_d_x0:                                        ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light on 
+                    stb      <VIA_port_b 
+                    lda      #$01 
+                    std      <VIA_port_b 
+                    lda      #$FF 
+                    sta      <VIA_shift_reg 
+                    stb      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+SM_startDraw_d_y0:                                        ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift light on 
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    ldd      #$00FF 
+                    stb      <VIA_shift_reg 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+SM_lastDraw_rts                                           ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift to e0, dies slowly 
+                    clra     
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    ldd      #$40E0 
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+SM_FlagWait:                                              ;#isfunction  
+                    bita     <VIA_int_flags 
+                    beq      SM_FlagWait 
+                    stb      <VIA_shift_reg 
+SM_rts:                                                   ;#isfunction  
+                    ldb      gameScale 
+                    LDA      #$CC 
+                    STA      VIA_cntl                     ;/BLANK low and /ZERO low 
+                    stB      VIA_t1_cnt_lo 
+; and ensures integrators are clean (good positioning!)
+                    ldd      #0 
+                    std      <VIA_port_b 
+                    rts      
+
+SM_lastDraw_rts_stay                                      ;#isfunction  
+                    sta      <VIA_port_a                  ; leaves with shift to e0, dies slowly 
+                    clra     
+                    sta      <VIA_port_b 
+                    inca     
+                    std      <VIA_port_b 
+                    ldd      #$40E0 
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+SM_FlagWait3:                                             ;#isfunction  
+                    bita     <VIA_int_flags 
+                    beq      SM_FlagWait3 
+                    stb      <VIA_shift_reg 
+                    rts      
+
+SM_lastDraw_rts2                                          ;#isfunction  
+                    ldb      gameScale 
+                    lda      #$f0 
+                    stB      VIA_t1_cnt_lo 
+                    sta      <VIA_shift_reg 
+SM_rts2:                                                  ;#isfunction  
+                    LDa      #$CC 
+                    STA      VIA_cntl                     ;/BLANK low and /ZERO low 
+; and ensures integrators are clean (good positioning!)
+                    ldd      #0 
+                    std      <VIA_port_b 
+                    puls     d,pc                         ; (D = y,x, pc = next object) 
+SM_draw_only_XChanges_double:                             ;#isfunction  
+                    stb      <VIA_port_a 
+                    ldd      #$00FF 
+                    stb      <VIA_shift_reg 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    brn      0 
+                    pulu     a,b 
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     pc 
+; y is inherently known to be == old_y, y was set to 0 by generator
+SM_draw_only_XChanges:                                    ;#isfunction  
+                    stb      <VIA_port_a 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     a,b,pc 
+calibrationZero                                           ;#isfunction  
+                    ldb      #$CC 
+                    stb      <VIA_cntl 
+                    ldd      #$8100 
+                    std      <VIA_port_b 
+                    dec      <VIA_port_b 
+                    ldb      >calibrationValue 
+                    lda      #$82 
+                    std      <VIA_port_b 
+                    ldd      #$83FF 
+                    stb      <VIA_port_a 
+                    sta      <VIA_port_b 
+                    rts      
+;***************************************************************************
+; DATA SECTION
+;***************************************************************************
+
+
+_SM_VectorList_ = SM_VectorList

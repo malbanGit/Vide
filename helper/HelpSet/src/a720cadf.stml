@@ -42,3 +42,47 @@ JD~~
 Emulator:
 - if a bin file is 32k < Size <= 64K, Vide assumes this bankswitch scheme
 
+Some additional info - from my Vide blog:
+
+
+
+
+Something at least a little bit Vide related:
+
+**Bankswitching some things to consider**
+
+It seemed there was a bug in Vide which I corrected (from next version on) regarding bankswitching,
+
+The "classic" bankswitching (as first done by John Dondzila) uses the cartridge line 35, which is directly connected to the VIA. More exactly to VIA port B bit 6 (hence PB6 line).
+
+The state of PB6 is "calculated" quite easy as:
+
+– if pb6 is in input mode (corresponding bit 6 of ddrb is 0) – than pb6 is always 1
+(well – if someone on the cartridge side “writes a 0” than not – but usually the cartridges do NOT write to pb6)
+
+– if pb6 is in output mode – pb6 is always that which is written to pb6
+
+Knowing the above and also knowing that the BIOS never writes anything other than "0" (zero) zo PB6 – bankswitching is done very easily by just switching pb6 from input mode to output mode or vice versa to change the state of the line (and thus do bankswitching).
+(also remember – the BIOS quite often writes to port B, so if you do NOT use the input/output method, you better make sure, that bit 6 is always correct!)
+
+VIA is "clever" enough to remember the last value that was set to PB6. So if you set PB6 to 0, switch to bank one (by switching to input mode) PB6 READS 1 (but still remembers 0 as last WRITTEN value). If you switch back to bank 0 (by switching to output mode), PB6 will READ 0 (zero) again – clever.
+
+Now the trap.
+
+Anyway – since I often do my own output routines I ran into following trap:
+::~~
+_____clr <VIA_port_b~~
+_____inc <VIA_port_b~~~~
+::
+That instruction sequence is not really uncommon. The first line enables the mux and sets the mux to y-integrators.
+The second line disables the mux (and usually after that you set a value to portA and than have set xy coordinates of some sort).
+
+The thing is – if you do above sequence while in bank 0 (pb6 = 0) the value in port B is (binary): % 0000 0001
+– pretty much what you suspect.
+
+If you do the same sequence while in bank 1 (pb6 in input mode – always reads 1) the value in port B is (binary): % 0100 0001
+
+The "inc" instruction does a READ from pb6. And that read is always 1. The inc instruction internally READS the value, increases the value by one and WRITES the value back. And thus VIA does not remember the last zero we set anymore – since the last value that was set was a ONE (by the inc instruction).
+
+If you try to switch back to bank 0 using the above input/output method you will NOT switch, since PB6 is not set to zero anymore.
+

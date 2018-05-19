@@ -1,0 +1,227 @@
+:title Accessing own assembler routines
+If you write programs in C you might at some stage nonetheless need to access assembler code. You can do that quite seamlessly in Vide.
+
+There are still a couple of things to know about accessing assembler code.
+
+:h3 6809 "dialect"
+Usually when programming in assembler vide assembles all sources using its internal assembler "assi". The syntax used in assi is very similar to the kingswood assembler - for exact syntax and pseudo opcodes see -> assi!
+
+The "C" variant supported in Vide uses due to a couple of different reasons (not explained here) a different assembler, namely //as6809// (assembler package programmed by Alan R. Baldwin). The syntax is a bit different from assi - for exact definitions and pseudo opcodes, please look at the the documentation of that assembler ([[http://shop-pdp.net/ashtml/asxxxx.php]]).
+
+~~Note:~~
+Using the process described in "Building own libraries" you can ask Vide to automatically translate sources written for assi to assembler sources compatible with as6809.
+
+:h3 "*.s" Sources
+All "*.s" sources within the directory tree under "source" will automatically be assembled upon a build of your project and linked to it.
+
+:h4 direct page access
+If you use direct page accesses in your assembler sources, the linker will give a warning message, since it suspects something is wrong:
+~~_______::?ASlink-Warning-PageN relocation error::
+
+You can circumvent that warning by telling the assembler (and thus the linker) that you have everything under control. An example for a "controlled" direct page access of via would be an assembler line like (before you do the dp access):
+~~_______::.setdp 0xd000,\_DATA::
+
+:h3 Relative
+Due to the way the "C" setup in Vide works - all sources must be relative in nature. Meaning you should not use in any way fixed memory addresses (neither ROM nor RAM, again see: "Building own libraries"). 
+
+:h3 Accessing functions
+In order to access your assembler code, it must be known to "C". 
+
+On the "C" side you probably do an include of some sort - but at least you have to declare a function (or variables) as "extern".
+
+On the assembler side you have to declare your function (or variable) as global, pseudo opcode ".globl".
+
+~~Note:~~
+If you declare functions/variables as global, the name on the "assembler side" must start with an underscore "\_". On the "C" side you use the variables without the underscore.
+
+:h3 Parameters
+
+- the first 8bit parameter is always put into register b
+- the first 16bit parameter is always put into register x
+- each additional parameter is put onto the stack, the last parameter in the list of additional parameters is put first unto the stack, all other parameters follow in the order from last to first. This means to access the last parameter you have to use a greater offset on the stack.
+
+Examples:~~
+::"C": extern void function(int b); ~~::
+::...~~::
+::_______function(1); ~~::
+->~~
+::"asm":__ldb #$01 ~~::
+::________jsr  \_function ~~::
+~~
+~~
+::"C": extern void function(int b, long x); ~~::
+::...~~::
+::_______function(1,2); ~~::
+->~~
+::"asm":__ldx #$02 ~~::
+::________ldb #$01 ~~::
+::________jsr  \_function ~~::
+~~
+~~
+::"C": extern void function(long x, int b); ~~::
+::...~~::
+::_______function(1,2); ~~::
+->~~
+::"asm":__ldb #$02 ~~::
+::________ldx #$01 ~~::
+::________jsr  \_function ~~::
+~~
+~~
+::"C": extern void function(int b, int z, long x); ~~::
+::...~~::
+::_______function(1,2,3); ~~::
+->~~
+::"asm":__ldb #$02 ~~::
+::________stb ,-s ~~::
+::________ldx #$03 ~~::
+::________ldb #$01 ~~::
+::________jsr  \_function ~~::
+~~
+~~
+::"C": extern void function(int b, int z, long x, long y); ~~::
+::...~~::
+::_______function(1,2,3,4); ~~::
+->~~
+::"asm":__ldx #$04 ~~::
+::________pshs x ~~::
+::________ldb #$02 ~~::
+::________stb ,-s ~~::
+::________ldx #$03 ~~::
+::________ldb #$01 ~~::
+::________jsr  \_function ~~::
+~~
+~~
+::"C": extern void function(int b, int z, long x, long y, int e); ~~::
+::...~~::
+::_______function(1,2,3,4,5); ~~::
+->~~
+::"asm":__ldb #$05 ~~::
+::________stb ,-s ~~::
+::________ldx #$04 ~~::
+::________pshs x ~~::
+::________ldb #$02 ~~::
+::________stb ,-s ~~::
+::________ldx #$03 ~~::
+::________ldb #$01 ~~::
+::________jsr  \_function ~~::
+
+:h3 Return values
+- 8 bit return values are always expected in register b
+- 16 bit return values are always expected in register x
+
+Examples:~~
+::"C": extern int function(); ~~::
+::...~~::
+::_______a = function(); ~~::
+->~~
+::"asm":__jsr  \_function ~~::
+::________stb >\_a~~::
+~~
+~~
+::"C": extern long function(); ~~::
+::...~~::
+::_______a = function(); ~~::
+->~~
+::"asm":__jsr  \_function ~~::
+::________stx >\_a~~::
+~~
+~~
+
+:h3 Complete example
+:h4 "C" File
+:div code
+::
+#include_<vectrex.h>__________________~~
+_________________________________________~~
+extern_void_printNumberPair(unsigned_x,_unsigned_y,_long_twoNumbers);~~
+~~
+int_main(void)~~
+{~~
+____while(1)~~
+____{~~
+________Wait\_Recal();~~
+________printNumberPair(0xd0,_0x20,_0x0102);~~
+____}~~
+____return_0;_~~
+}~~
+::
+:/div
+:h4 "asm" File
+
+:div code
+::
+____________.module_printnumber.s________~~
+____________.area___.text________________~~
+VIA\_cntl____=_______0xD00C______________;VIA_control_register_~~
+Moveto\_d____=_______0xF312_______________~~
+Print\_Str___=_______0xF495_______________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________Variable_/_RAM_SECTION_______~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+____________.area___.bss_________________~~
+\_tmp\_debug:_.blkb___6____________________~~
+____________.area___.text________________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________CODE____SECTION______________~~
+;\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\*\**____~~
+;___________number__in_x_________________~~
+;___________location_in_d________________~~
+____________.globl__\_printNumberPair_____~~
+\_printNumberPair:________________________~~
+____________lda_____,s__________________;_complete_the_location_in_d_~~
+____________pshs____x___________________;_save_the_numbers_~~
+____________jsr_____Moveto\_d_____________~~
+____________lda_____,s___________________~~
+____________lsra_________________________~~
+____________lsra_________________________~~
+____________lsra_________________________~~
+____________lsra_________________________~~
+____________adda____#_'0'________________~~
+____________cmpa____#_'9'________________~~
+____________ble_____ok11_________________~~
+____________adda____#(_'A'-'0'-10)_______~~
+ok11:____________________________________~~
+____________sta_____\_tmp\_debug___________~~
+____________lda_____,s___________________~~
+____________anda____#0xf_________________~~
+____________adda____#_'0'________________~~
+____________cmpa____#_'9'________________~~
+____________ble_____ok21_________________~~
+____________adda____#(_'A'-'0'-10)_______~~
+ok21:____________________________________~~
+____________sta_____\_tmp\_debug+1_________~~
+____________lda_____#_','________________~~
+____________sta_____\_tmp\_debug+2_________~~
+____________lda_____1,s__________________~~
+____________lsra_________________________~~
+____________lsra_________________________~~
+____________lsra_________________________~~
+____________lsra_________________________~~
+____________adda____#_'0'________________~~
+____________cmpa____#_'9'________________~~
+____________ble_____ok31_________________~~
+____________adda____#(_'A'-'0'-10)_______~~
+ok31:____________________________________~~
+____________sta_____\_tmp\_debug+3_________~~
+____________lda_____1,s__________________~~
+____________anda____#0xf_________________~~
+____________adda____#_'0'________________~~
+____________cmpa____#_'9'________________~~
+____________ble_____ok41_________________~~
+____________adda____#(_'A'-'0'-10)_______~~
+ok41:____________________________________~~
+____________sta_____\_tmp\_debug+4_________~~
+____________lda_____#0x80________________~~
+____________sta_____\_tmp\_debug+5_________~~
+____________ldu_____#\_tmp\_debug__________~~
+____________jsr_____Print\_Str____________~~
+____________LDB_____#0xCC________________~~
+____________STB_____VIA\_cntl_____________~~
+____________puls____d____________________~~
+____________rts__________________________~~
+::
+:/div
+
+:h4 Result
+:image paramTest.png|test result
+

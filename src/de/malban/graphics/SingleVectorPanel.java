@@ -316,9 +316,9 @@ public class SingleVectorPanel extends javax.swing.JPanel
             if (col == 17) vars.foregroundVectors.get(row).r= (Integer)aValue;
             if (col == 18) vars.foregroundVectors.get(row).g= (Integer)aValue;
             if (col == 19) vars.foregroundVectors.get(row).b= (Integer)aValue;
-            fireVectorPostChange();
             fixRelatives();
             sharedRepaint();
+            fireVectorPostChange();
         }
         
         public String getColumnName(int col) 

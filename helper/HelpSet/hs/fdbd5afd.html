@@ -9,14 +9,28 @@
 
 <p>I do all development with the - at the time - newest java version. I was told, that you need at least Java 1.8.<br>
  An exception:<br>
-<i>Exception in thread "main" java.lang.UnsupportedClassVersionError: de/malban/VideMain : Unsupported major.minor version 52.0<br>
+<i>Exception in thread "main" java.lang.UnsupportedClassVersionError: de/malban/VideMain: Unsupported major.minor version 52.0<br>
 at java.lang.ClassLoader.defineClass1(Native Method)<br>
 ...<br>
 </i> will occur if your java version is to old.</p>
+<h2>I (try) to run Vide under Win 10 and it is REALLY slow!</h2>
+
+<p>Apparently this has to do with the correct/incorrect java version. I myself do not have a windows 10 system available. But "Manu" discovered, that under under windows 10 [Quote]:<br>
+<tt><br>
+"The solution is here: <a target="_blank" href="https://java.com/en/download/manual.jsp">https://java.com/en/download/manual.jsp</a> - you need to download (also) the 64-bit version of Java, and it's not the &gt;normal&lt; download that they offer on the front page."</tt></p>
+<h2>Mac OSX keyboard input seems to stop working after a few inputs?</h2>
+
+<p>This is a feature of the MacOS called "press and hold" - which java can not well cope with. You can switch that off with a command line: <br>
+<tt>defaults write -g ApplePressAndHoldEnabled -bool false</tt><br>
+See also:<br>
+</p>
+
+<p><a target="_blank" href="https://stackoverflow.com/questions/41393525/java-swing-keybindings-stop-working-only-on-mac">https://stackoverflow.com/questions/41393525/java-swing-keybindings-stop-working-only-on-mac</a> <br>
+(especially answer 4)</p>
 <h2>How do I enter new cartridges to the Starter?</h2>
 
 <ul><li>
-<p>Open the cartridge panel (menu: File-&gt;Extra-&gt;EditCartridgeInfo)</p>
+<p>Open the cartridge panel (menu: Tools-&gt;Utilities-&gt;Cartridge Information)</p>
 </li><li>
 <p>press new</p>
 </li><li>
@@ -43,16 +57,11 @@ you can set the debug level (3, pretty high) is as of now default.</p>
 <p>Because I programmed it that way, you should know what you do!</p>
 <h2>I just want to play some games, why is dissi always starting?</h2>
 
-<p>Because the program is called vide and not gami!<br>
-Update: Starting a game starts dissi iconified now!</p>
+<p>You can configure the popup of dissi in the configuration!<br>
+</p>
 <h2>Is there a fullscreen mode, with just vecxi?</h2>
 
-<p>Nope, this is only 10 lines of code, but the program is called vide, not gami!</p>
-<h2>Why don't you use OpenGL and some shaders, the results would be much prettier, look at paraJVE?</h2>
-
-<p>Because Vide is an developement environment, not a game center!<br>
-Also...  Vide is (was :-( ) pure java.<br>
-Actually I started a openGL version using LWJGL, but using that library send shivers down my spine. I aborted it after 1 day. I <i>might</i> at some stage start another try with JOGL, but don't wait for it.</p>
+<p>Fullscreen mode is available if your display supported openGL. While running a game press SHIFT "F'.</p>
 <h2>There are more vectrex programs available, why aren't they in the starter listing?</h2>
 
 <p>Most homebrewlers are pretty strict with their creations. No homebrew program is bundled with vide (apart from the sources in the codi area). If vide is able to download the programs, than I have added them. If they are behind some internet walls, they are not included.</p>

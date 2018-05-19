@@ -1,0 +1,74 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Using Vide Tools from "C"</title>
+</head>
+<body class="doc">
+<h1>Using Vide Tools from "C"</h1>
+
+<p>Following tools support C in "some" way:</p>
+<h3>Vedi</h3>
+
+<p>The editor, look at above chapters.</p>
+<h3>Vecci</h3>
+
+<p>Vecci can export in C style. There are two export options:
+<ol><li>
+<p><b>"C"</b><br>
+If you check the check checkbox "C" (in text export) all exports (single list and animation/scenario) are done in a non specific "C" style. The non specific C style generates list of "<tt>const signed char</tt>" data. example for Draw_Vlc style: <tt> const signed char SomeList[]=<br>
+{&nbsp;&nbsp;&nbsp;&nbsp;+0x09,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+0x04, +0x04, // draw to y, x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-0x04, +0x02, // draw to y, x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-0x04, -0x02, // draw to y, x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+0x02, -0x04, // draw to y, x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+0x04, -0x02, // draw to y, x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+0x04, +0x02, // draw to y, x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+0x02, +0x04, // draw to y, x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-0x02, +0x04, // draw to y, x<br>
+};<br>
+</tt></p>
+</li><li>
+<p><b>"PC"</b><br>
+If you check <b>additionally</b> the check checkbox "PC" (in text export)  exports for Mov_Draw_Vlc, Draw_Vlc and Draw_Vl_mode are done Peer "C" style (see example provided by Peer). Example for Draw_Vlc:<br>
+<tt> const struct vector_t vectors_SomeList[] =<br>
+{<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{+0x04, +0x04}, // draw to y, x<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{-0x04, +0x02}, // draw to y, x<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{-0x04, -0x02}, // draw to y, x<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{-0x02, -0x04}, // draw to y, x<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{+0x02, -0x04}, // draw to y, x<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{+0x04, -0x02}, // draw to y, x<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{+0x04, +0x02}, // draw to y, x<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{+0x02, +0x04}, // draw to y, x<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{-0x02, +0x04}, // draw to y, x<br>
+};<br>
+const struct vector_list_t SomeList =<br>
+{<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.type = DIFFY,<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.size = +0x08,<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.vectors = &amp;vectors_SomeList<br>
+};<br>
+<br>
+</tt></p>
+</li></ol>
+</p>
+
+<p>Generating of "runnable" C-files is not supported.</p>
+
+<p>Accessing the "lib" dir in Vedi, you can add a printSyncList function to you project, that enables you to use synced lists from you C projects.</p>
+<h2>YM Sound</h2>
+
+<p>Using vedi you can include and use YM files (unpacked and optimal speed only).</p>
+
+<p>Use the "source" configuration on the YM-Panel and chose "C".</p>
+<h2>Arkos Tracker music pieces</h2>
+
+<p>Using vedi you can include and use Arkos Tracker files (output determined by project type).</p>
+<h2>AYFX</h2>
+
+<p>Using vedi you can include and use AYFX files (output determined by project type).</p>
+<h2>Vector images</h2>
+
+<p>Since this tool outputs to vecci - and vecci can be used... you can also use vector images.</p>
+</body>
+</html>

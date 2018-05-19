@@ -5,7 +5,7 @@
  */
 
 package de.malban.vide.vedi; 
- 
+   
 import de.malban.Global;
 import de.malban.vide.vedi.panels.BinaryPanel;
 import de.malban.vide.vedi.panels.ImagePanel;
@@ -1237,7 +1237,7 @@ class TransferableTreeNode implements Transferable {
         edi.setParent(this);
         return edi;
     }   
-    BinaryPanel addBinaryDisplay(String fullPathname, boolean addToSettings)
+    public BinaryPanel addBinaryDisplay(String fullPathname, boolean addToSettings)
     {
         String name = "imi";
         Path path = Paths.get(fullPathname);
@@ -3817,10 +3817,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         else // add multiple images
         {
-            String fullPath = files[0].getAbsolutePath();
-            lastPath = fullPath;
-            for (File f : files)
-                addFileToProject(f);
+            if (files.length>0)
+            {
+                String fullPath = files[0].getAbsolutePath();
+                lastPath = fullPath;
+                for (File f : files)
+                    addFileToProject(f);
+            }
         }        
         fillTree(Paths.get(currentProject.projectPrefix));
     }//GEN-LAST:event_jMenuItemAddToProjectActionPerformed
@@ -3955,6 +3958,30 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     }//GEN-LAST:event_jMenuItemActionActionPerformed
 
     private void jButtonClearMessagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearMessagesActionPerformed
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
+        {
+            String to = Global.mainPathPrefix+"tmp"+File.separator+"BIOS.ASM";
+            File biosFile = new File(to);
+            if (!biosFile.exists())
+            {
+                String from = Global.mainPathPrefix+"codelib"+File.separator+"Originals"+File.separator+"BIOS - Bruce Tomlin"+File.separator+"BIOS.ASM";
+                de.malban.util.UtilityFiles.copyOneFile(from, to);
+            }
+            try
+            {
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    public void run()
+                    {
+                        jumpToEdit(to, 0);
+                    }
+                });                    
+            }
+            catch (Throwable e)
+            {
+
+            }        
+        }
         jEditorPaneASMListing.setText("");
         jEditorASMMessages.setText("");
         jEditorLog.setText("");
@@ -4040,7 +4067,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
     private void jButtonInjectBinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInjectBinActionPerformed
         VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
-        
+
         if (vec == null) return;
         if ((!vec.isRunning()) && (!vec.isDebuging())) 
         {
@@ -5315,6 +5342,16 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         if (newFilename.trim().length() == 0) return;
         String fullName = leaf.pathAndName.toString();
         
+        
+        Path base = Paths.get(Global.mainPathPrefix);
+        Path fromPath = base.resolve(Paths.get(leaf.pathAndName.toString()));
+        File ff = fromPath.toFile();
+        if (ff.isDirectory())
+        {
+            log.addLog("Renaming of directories not allowed!", INFO);
+            return;
+        }
+        
         if (de.malban.util.UtilityFiles.rename(leaf.pathAndName.toString(), newFilename))
         {
             String oldName = leaf.name;
@@ -5680,7 +5717,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
         // set Tree to location
         inProject = true;
-        fillTree(Paths.get(currentProject.projectPrefix));
+        fillTree(Paths.get(project.projectPrefix));
         
         // TODO all additional project stuff
         currentProject = project;
@@ -5698,20 +5735,22 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     @Override
     public void processWord(String word)
     {
-        if (currentProject != null)
-        if (!currentProject.getIsPeerCProject())
-        {
-            if (checkBIOSFile(word))
-            {
-                return;
-            }
-        }
         EntityDefinition entity = null;
-        if (currentProject.getIsPeerCProject())
+        if (currentProject != null)
         {
-            if (entity == null)
+            if (!currentProject.getIsPeerCProject())
             {
-                entity = cInfo.knownGlobalFunctions.get(word);
+                if (checkBIOSFile(word))
+                {
+                    return;
+                }
+            }
+            if (currentProject.getIsPeerCProject())
+            {
+                if (entity == null)
+                {
+                    entity = cInfo.knownGlobalFunctions.get(word);
+                }
             }
         }
         if (entity == null)
@@ -5895,6 +5934,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         
         String p = currentProject.projectPrefix+ File.separator;
         
+        
+        
+        
         ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
         boolean ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
         if (!ok) return;
@@ -5997,7 +6039,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 try
                 {
                     String path = currentProject.projectPrefix;
-                    
+            Asmj.resetReplacements();
                     // get all the files from a directory
                     final String failure = executeFileScripts("Pre", path);
                     if (failure!=null) 
@@ -6046,7 +6088,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                             File orgName = new File(org);
                             if (orgName.exists())
                             {
-                                de.malban.util.UtilityFiles.copyOneFile(org, banked);
+                                de.malban.util.UtilityFiles.move(org, banked);
                             }
                             continue;
                         }
@@ -6070,6 +6112,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                         String org = filename + ".bin";
                         String banked = filename+"_"+(b) + ".bin";
                         de.malban.util.UtilityFiles.move(org, banked);
+                        Asmj.binFileRename(org, banked);
                         
                         org = filename + ".cnt";
                         banked = filename+"_"+(b) + ".cnt";
@@ -6164,6 +6207,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, currentProject.getProjectName(), "", "VediPanel", pp);
                 boolean ok =  ScriptDataPanel.executeScript(postClass, postName, VediPanel.this, ed);
                 final boolean asmOk2 = asmOk; // effectivly final!
+            Asmj.doReplacements();
                 SwingUtilities.invokeLater(new Runnable()
                 {
                     public void run()
@@ -6195,7 +6239,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             if (config.invokeEmulatorAfterAssembly)
             {
                 VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
-                ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
+                // can be null if vec is fullscreen
+                if (((CSAMainFrame)mParent).getInternalFrame(vec) != null)
+                    ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
                 boolean ask = false;
                 if (startTypeRun == START_TYPE_INJECT)
@@ -7251,18 +7297,22 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             // get all the files from a directory
             File[] fList = directory.listFiles();
             // sanitiy check for "README.TXT" on top level
-            for (File file : fList) 
+            if (fList != null)
             {
-                if (file.getName().contains("README.TXT"))
+                for (File file : fList) 
                 {
-                    String readmetxt = de.malban.util.UtilityString.readTextFileToOneString(file);
-                    if (readmetxt.contains("Sontowski"))
+                    if (file.getName().contains("README.TXT"))
                     {
-                        jLabel10.setForeground(Color.green);
-                        if (verbose)
-                            printMessage("V4E: RAM DISK volume found.");
-                        return true; 
+                        String readmetxt = de.malban.util.UtilityString.readTextFileToOneString(file);
+                        if (readmetxt.contains("Sontowski"))
+                        {
+                            jLabel10.setForeground(Color.green);
+                            if (verbose)
+                                printMessage("V4E: RAM DISK volume found.");
+                            return true; 
+                        }
                     }
+
                 }
             }
             
@@ -8764,7 +8814,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     }
     void doCreatePeerCProject(ProjectProperties project)
     {
-        String projectDirPath = currentProject.projectPrefix+ File.separator;
+        String projectDirPath = project.projectPrefix+ File.separator;
         
         
         de.malban.util.UtilityFiles.copyDirectoryAllFiles(Global.mainPathPrefix+"template"+File.separator+"PeerC", projectDirPath);
@@ -9131,10 +9181,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         boolean hasFramePointer = true;
         if (flags.contains("-fomit-frame-pointer"))
             hasFramePointer = false;
-//        flags = de.malban.util.UtilityString.replace(flags, "include.nf", "include");
-//
-//        if (!hasFramePointer)
-//            flags = de.malban.util.UtilityString.replace(flags, "include", "include.nf");
+        if (flags.contains("-fno-omit-frame-pointer"))
+            hasFramePointer = true;
         
         String[] splitsFile = additionalFileFlags.split(" ");
         splitsFile = removeEmpty(splitsFile);
@@ -9161,10 +9209,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
         File directory = new File(currentProject.projectPrefix+ File.separator+"include");
         String additionalInclude ="";
-        int additionalFlags= 4;
-        
-        if (!hasFramePointer) additionalFlags++;
-        else additionalFlags++;
+        int additionalFlags= 5;
+        additionalFlags++;
                 
         if (directory.exists())
         {
@@ -9186,6 +9232,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 cflags[cflags.length-5] = "-DOMMIT_FRAMEPOINTER=1";
             else
                 cflags[cflags.length-5] = "-DFRAME_POINTER=1";
+
+            if (currentProject.getIsCRumInlined())
+                cflags[cflags.length-6] = "-D__RUM_INLINE=1";
+            else
+                cflags[cflags.length-6] = "-D__RUM_FUNCTION=1";
         }
         else
         {
@@ -9193,6 +9244,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 cflags[cflags.length-4] = "-DOMMIT_FRAMEPOINTER=1";
             else
                 cflags[cflags.length-4] = "-DFRAME_POINTER=1";
+            
+            if (currentProject.getIsCRumInlined())
+                cflags[cflags.length-5] = "-D__RUM_INLINE=1";
+            else
+                cflags[cflags.length-5] = "-D__RUM_FUNCTION=1";
         }
 
         
@@ -9547,7 +9603,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             boolean ok=  executeOSCommand(flags);
             
             String tt= UtilityFiles.lastError;
-            ok = ok && (!(UtilityFiles.lastError.contains("error:")));
+            ok = ok && (!(UtilityFiles.lastError.toLowerCase().contains("error")));
             
             if (ok)
             {
@@ -9605,6 +9661,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             String fileNameOnly = file.getName();
             if (fileNameOnly.contains("crt0")) continue;
             if (!fileNameOnly.toLowerCase().endsWith(".rel")) continue;
+            
+            // function library not needed, when inlining is active!
+            if (currentProject.getIsCRumInlined())
+            {
+                if (fileNameOnly.contains("vec_rum_fct_pjc.rel")) continue;
+            }
+            
             additional2.add(file.getAbsolutePath());
         }        
         String libPath = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"lib"+File.separator;
@@ -9735,9 +9798,12 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             boolean ok=  executeOSCommand(flags);
             int explain = 0;
             String errorMessage = UtilityFiles.lastError;
+            if (errorMessage.contains("?ASlink-Warning-Undefined Global"))
+                ok = false;
+
             if (errorMessage.contains("?ASlink-Warning-PageN relocation error"))
                 explain = 1;
-            
+          
             errorMessage = de.malban.util.UtilityString.replace(errorMessage, "?ASlink-Warning-PageN relocation error", "?ASlink-Warning-PageN relocation WARNING!");
             
             
@@ -9797,19 +9863,27 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         boolean ok = true;
         ok = ok && doPeerBuild(SRECFLAGS, "SREC2BIN: "+msg);
 
-
         String fromS19ram = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_ram.s19";
         String toBinram = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_ram.bin";
-        msg ="build"+File.separator+currentProject.getProjectName()+"_ram.s19";
-        msg+="->";
-        msg+="build"+File.separator+currentProject.getProjectName()+"_ram.bin";
-        SRECFLAGS = buildPeerSREC("-q -o -0xc880");
-        SRECFLAGS[SRECFLAGS.length-2] = fromS19ram;
-        SRECFLAGS[SRECFLAGS.length-1] = toBinram;
-        ok = ok && doPeerBuild(SRECFLAGS, "SREC2BIN: "+msg);
+        boolean ramExists = new File(fromS19ram).exists();
+        if (ramExists)
+        {
+            msg ="build"+File.separator+currentProject.getProjectName()+"_ram.s19";
+            msg+="->";
+            msg+="build"+File.separator+currentProject.getProjectName()+"_ram.bin";
+            SRECFLAGS = buildPeerSREC("-q -o -0xc880");
+            SRECFLAGS[SRECFLAGS.length-2] = fromS19ram;
+            SRECFLAGS[SRECFLAGS.length-1] = toBinram;
+            ok = ok && doPeerBuild(SRECFLAGS, "SREC2BIN: "+msg);
 
-        printMessage("Concatinate: "+"build"+File.separator+currentProject.getProjectName()+"_rom.bin"+" + "+"build"+File.separator+currentProject.getProjectName()+"_ram.bin"+" to "+"bin"+File.separator+currentProject.getProjectName()+".bin");
-        ok = ok && de.malban.util.UtilityFiles.concatFiles(toBin, toBinram, baseProjectPath+File.separator+"bin"+File.separator+currentProject.getProjectName()+".bin");
+            printMessage("Concatinate: "+"build"+File.separator+currentProject.getProjectName()+"_rom.bin"+" + "+"build"+File.separator+currentProject.getProjectName()+"_ram.bin"+" to "+"bin"+File.separator+currentProject.getProjectName()+".bin");
+            ok = ok && de.malban.util.UtilityFiles.concatFiles(toBin, toBinram, baseProjectPath+File.separator+"bin"+File.separator+currentProject.getProjectName()+".bin");
+        }
+        else
+        {
+            printMessage("copy: "+"build"+File.separator+currentProject.getProjectName()+"_rom.bin"+" to "+"bin"+File.separator+currentProject.getProjectName()+".bin");
+            ok = ok && de.malban.util.UtilityFiles.copyOneFile(toBin, baseProjectPath+File.separator+"bin"+File.separator+currentProject.getProjectName()+".bin");
+        }
 
         
         if (!ok)
@@ -10848,7 +10922,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     }
                 }
             }
+            
+            
+            
             areaCount = 0;
+            int lastCertainAddress = 0;
             for (int i=0; i< lines.size(); i++)
             {
                 String line = lines.elementAt(i);
@@ -10863,6 +10941,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 
                 if (!de.malban.util.UtilityString.isHexNumber(address)) continue;
                 int iaddress = DASM6809.toNumber("$"+address);
+                boolean isCertainAddress = false;
+//                if () // line contains data
+                if ((line.contains("[")) && (line.contains("]"))) 
+                {
+                    isCertainAddress = true;
+                    lastCertainAddress = iaddress;
+                }
                 
                 // test DATA
                 if (line.contains(".byte")) 
@@ -10897,6 +10982,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 if (label.trim().split(" ").length>1) label ="";
                 if (label.length() != 0)
                 {
+                    if (!isCertainAddress)
+                    {
+                        if (iaddress<lastCertainAddress)
+                            iaddress +=lastCertainAddress;
+                        
+                    }
+                    
                     rst.setLabel(iaddress, label);
                 }
             }
@@ -11085,6 +11177,39 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         return contains;
     }
+    // replaces 'A' with 'A
+    static String removeAS6809QuotePairs(String sLine)
+    {
+        if (!sLine.contains("'")) return sLine;
+        String[] split = sLine.split("'");
+        split = removeEmpty(split);
+        if (split.length < 2) return sLine;
+        String result = "";
+        int pos1 = 0;
+        int pos2 = 0;
+        String work = sLine;
+        
+        pos1 = work.indexOf("'");
+        result = work.substring(0, pos1+1);
+        work = work.substring(pos1+1);
+
+        pos2 = work.indexOf("'");
+        if (pos2 != 1)
+        {
+            // next ' is to far away
+            result += work.substring(0, pos2+1);
+            work = work.substring(pos2+1);
+        }
+        else
+        {
+            result += work.substring(0, 1);
+            work = work.substring(2);
+        }
+        result = result + removeAS6809QuotePairs(work);
+        return result;
+    }
+    
+    
     
     static CompileResult toAs6809(Vector<String> sLines, String module)
     {
@@ -11178,6 +11303,41 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             sLine = Comment.removeEndOfLineComment(sLine);
 
+            // handle strings
+            sLine = removeAS6809QuotePairs(sLine);
+            orgLine = removeAS6809QuotePairs(orgLine);
+
+            String wLine = de.malban.util.UtilityString.replaceWhiteSpaces(sLine, " ");
+            
+            if ((wLine.toLowerCase().contains(" db ")) || ((wLine.toLowerCase().contains(" fcb ")))
+                    || ((wLine.toLowerCase().contains(" fcc ")))
+                    ) 
+            {
+                if ((wLine.contains("\"")) && (wLine.contains(",")))
+                {
+                    // split asciii and data
+                    // for now assuming style: 
+                    // db "TEXT", $80
+                    int cPos = orgLine.lastIndexOf("\"");
+                    String newLine1 = orgLine.substring(0,cPos+1);
+                    newLine1 = de.malban.util.UtilityString.replace(newLine1, " DB ", " .ascii ");
+                    newLine1 = de.malban.util.UtilityString.replace(newLine1, " FCB ", " .ascii ");
+                    newLine1 = de.malban.util.UtilityString.replace(newLine1, " FCC ", " .ascii ");
+                    newLine1 = de.malban.util.UtilityString.replace(newLine1, " db ", ". ascii ");
+                    newLine1 = de.malban.util.UtilityString.replace(newLine1, " fcb ", " .ascii ");
+                    newLine1 = de.malban.util.UtilityString.replace(newLine1, " fcc ", " .ascii ");
+                    
+                    
+                    String newLine2 = orgLine.substring(cPos+1).trim();
+                    newLine2 = newLine2.substring(1).trim(); // remove comma
+                    newLine2 = " .byte "+newLine2;
+                    codeSource.append(newLine1+"\n");
+                    codeSource.append(newLine2+"\n");
+                    continue;
+                }
+            }
+            
+            
             // handle // bin
             if (sLine.contains("%"))
             {
@@ -12240,26 +12400,15 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         updateDefinitions();
     }
     
-    public static VediPanel getVedi(Component o)
-    {
-        do
-        {
-            if (o instanceof VediPanel) return (VediPanel)o;
-            o = o.getParent();
-            
-        } while (o != null);
-        
-        return null;
-    }
     public static C6809FileMaster getCInfo(Component o)
     {
-        VediPanel vedi = getVedi(o);
+        VEdiFoundationPanel vedi = getVedi(o);
         if (vedi == null) return null;
         return vedi.cInfo;
     }
     public static ASM6809FileMaster getAsmInfo(Component o)
     {
-        VediPanel vedi = getVedi(o);
+        VEdiFoundationPanel vedi = getVedi(o);
         if (vedi == null) return null;
         return vedi.asmInfo;
     }

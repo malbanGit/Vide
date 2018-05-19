@@ -38,7 +38,8 @@ public class  ProjectProperties
 	protected String mCFLAGS="-O3 -g -fverbose-asm -mint8 -msoft-reg-count=0 -quiet -IC/include";
 	protected boolean mCDebugging=true;
 	protected boolean mCPeephole=true;
-	protected boolean mCKeepEnriched=true;
+	protected boolean mCKeepEnriched=false;
+	protected boolean mCRumInlined=false;
 	public String getName()
 	{
 		return mName;
@@ -235,6 +236,18 @@ public class  ProjectProperties
 	{
 		mIsCProject=IsCProject;
 	}
+	public boolean getIsCRumInlined()
+	{
+		return mCRumInlined;
+	}
+	public void setIsCRumInlined(boolean CRumInlined)
+	{
+		mCRumInlined=CRumInlined;
+	}
+        
+        
+        
+        
         
 	public boolean getIsCDebugging()
 	{
@@ -312,6 +325,9 @@ public class  ProjectProperties
                 s.append( "\t\t<IsCProject>"+mIsCProject+"</IsCProject>\n");
 		s.append( "\t\t<IsPeerCProject>"+mIsPeerCProject+"</IsPeerCProject>\n");
 		s.append( "\t\t<CFLAGS>"+UtilityString.toXML(mCFLAGS)+"</CFLAGS>\n");
+		s.append( "\t\t<IsCRumInlined>"+mCRumInlined+"</IsCRumInlined>\n");
+                
+                
 		s.append( "\t</ProjectProperties>\n");
 		return s.toString();
 	}

@@ -1,0 +1,863 @@
+;!FILE /Users/chrissalo/NetBeansProjects/Vide/projects/ayfx/ymPlayerOptimSpeed.pre.asx.s
+XH2
+H 4 areas 1D8 global symbols 2 banks 1 modes
+M ymplayeroptimspeed.pre.s
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 321 flags D00
+S init_ym_sound Def02E6
+S testNextPhrase Def01D8
+S reg4Bits Def0282
+S reg5Bits Def026A
+S moreBits Def0011
+S reg6Bits Def0252
+S read16bitContinue Def010A
+S reg8Bits Def0222
+S directByte Def01FF
+S rle16bitdone Def0130
+S bit_is_ready10 Def0124
+S rleCounterBit0NotSet Def0044
+S bit_is_ready20 Def02C2
+S bit_is_ready11 Def018D
+S rleCounterBit1NotSet Def005C
+S bit_is_ready21 Def02DA
+S bit_is_ready12 Def01A7
+S doNotWriteReg13 Def0174
+S rleCounterBit2NotSet Def0074
+S bit_is_ready13 Def01CF
+S rleCounterBit3NotSet Def0092
+S bit_is_ready14 Def0232
+S rleCounterBit4NotSet Def00B0
+S bit_is_ready15 Def024A
+S rleCounterBit5NotSet Def00CC
+S bit_is_ready16 Def0262
+S getCurrentRegByte Def014A
+S rleCounterBit6NotSet Def00E8
+S A$ymPlayerOptimSpeed.pre.asx$100 Def0018
+S bit_is_ready17 Def027A
+S rleCounterBit7NotSet Def0104
+S A$ymPlayerOptimSpeed.pre.asx$110 Def0022
+S A$ymPlayerOptimSpeed.pre.asx$101 Def001A
+S bit_is_ready18 Def0292
+S increaseCodeBits Def01DE
+S A$ymPlayerOptimSpeed.pre.asx$300 Def00E5
+S A$ymPlayerOptimSpeed.pre.asx$201 Def007B
+S A$ymPlayerOptimSpeed.pre.asx$102 Def001C
+S regInitDone Def031D
+S bit_is_ready19 Def02AA
+S A$ymPlayerOptimSpeed.pre.asx$310 Def00EF
+S A$ymPlayerOptimSpeed.pre.asx$301 Def00E7
+S A$ymPlayerOptimSpeed.pre.asx$220 Def0091
+S A$ymPlayerOptimSpeed.pre.asx$202 Def007D
+S A$ymPlayerOptimSpeed.pre.asx$130 Def0037
+S A$ymPlayerOptimSpeed.pre.asx$121 Def002C
+S A$ymPlayerOptimSpeed.pre.asx$112 Def0024
+S A$ymPlayerOptimSpeed.pre.asx$103 Def001E
+S A$ymPlayerOptimSpeed.pre.asx$500 Def019B
+S A$ymPlayerOptimSpeed.pre.asx$410 Def0150
+S A$ymPlayerOptimSpeed.pre.asx$140 Def003F
+S A$ymPlayerOptimSpeed.pre.asx$131 Def0039
+S A$ymPlayerOptimSpeed.pre.asx$104 Def0020
+S bitLenFound Def01E6
+S A$ymPlayerOptimSpeed.pre.asx$600 Def0216
+S A$ymPlayerOptimSpeed.pre.asx$501 Def019D
+S A$ymPlayerOptimSpeed.pre.asx$420 Def0160
+S A$ymPlayerOptimSpeed.pre.asx$411 Def0152
+S A$ymPlayerOptimSpeed.pre.asx$312 Def00F1
+S A$ymPlayerOptimSpeed.pre.asx$231 Def009D
+S A$ymPlayerOptimSpeed.pre.asx$204 Def007F
+S A$ymPlayerOptimSpeed.pre.asx$150 Def0047
+S A$ymPlayerOptimSpeed.pre.asx$132 Def003B
+S A$ymPlayerOptimSpeed.pre.asx$114 Def0026
+S A$ymPlayerOptimSpeed.pre.asx$610 Def0222
+S A$ymPlayerOptimSpeed.pre.asx$601 Def0218
+S A$ymPlayerOptimSpeed.pre.asx$520 Def01B8
+S A$ymPlayerOptimSpeed.pre.asx$511 Def01A7
+S A$ymPlayerOptimSpeed.pre.asx$502 Def019F
+S A$ymPlayerOptimSpeed.pre.asx$421 Def0162
+S A$ymPlayerOptimSpeed.pre.asx$412 Def0154
+S A$ymPlayerOptimSpeed.pre.asx$340 Def010D
+S A$ymPlayerOptimSpeed.pre.asx$331 Def0104
+S A$ymPlayerOptimSpeed.pre.asx$313 Def00F3
+S A$ymPlayerOptimSpeed.pre.asx$304 Def00E8
+S A$ymPlayerOptimSpeed.pre.asx$250 Def00B0
+S A$ymPlayerOptimSpeed.pre.asx$232 Def009F
+S A$ymPlayerOptimSpeed.pre.asx$223 Def0092
+S A$ymPlayerOptimSpeed.pre.asx$205 Def0081
+S A$ymPlayerOptimSpeed.pre.asx$142 Def0041
+S A$ymPlayerOptimSpeed.pre.asx$124 Def002D
+S A$ymPlayerOptimSpeed.pre.asx$115 Def0028
+S next_reg Def014A
+S A$ymPlayerOptimSpeed.pre.asx$611 Def0224
+S A$ymPlayerOptimSpeed.pre.asx$602 Def021A
+S A$ymPlayerOptimSpeed.pre.asx$530 Def01C3
+S A$ymPlayerOptimSpeed.pre.asx$503 Def01A1
+S A$ymPlayerOptimSpeed.pre.asx$431 Def0169
+S A$ymPlayerOptimSpeed.pre.asx$350 Def0116
+S A$ymPlayerOptimSpeed.pre.asx$341 Def010E
+S A$ymPlayerOptimSpeed.pre.asx$332 Def0106
+S A$ymPlayerOptimSpeed.pre.asx$323 Def00FD
+S A$ymPlayerOptimSpeed.pre.asx$314 Def00F5
+S A$ymPlayerOptimSpeed.pre.asx$305 Def00EA
+S A$ymPlayerOptimSpeed.pre.asx$260 Def00BD
+S A$ymPlayerOptimSpeed.pre.asx$251 Def00B2
+S A$ymPlayerOptimSpeed.pre.asx$242 Def00A9
+S A$ymPlayerOptimSpeed.pre.asx$233 Def00A1
+S A$ymPlayerOptimSpeed.pre.asx$224 Def0094
+S A$ymPlayerOptimSpeed.pre.asx$215 Def008B
+S A$ymPlayerOptimSpeed.pre.asx$206 Def0083
+S A$ymPlayerOptimSpeed.pre.asx$152 Def0049
+S A$ymPlayerOptimSpeed.pre.asx$143 Def0043
+S A$ymPlayerOptimSpeed.pre.asx$125 Def002F
+S A$ymPlayerOptimSpeed.pre.asx$116 Def002A
+S no_carry Def0112
+S A$ymPlayerOptimSpeed.pre.asx$810 Def02E0
+S A$ymPlayerOptimSpeed.pre.asx$720 Def0288
+S A$ymPlayerOptimSpeed.pre.asx$711 Def0281
+S A$ymPlayerOptimSpeed.pre.asx$603 Def021C
+S A$ymPlayerOptimSpeed.pre.asx$531 Def01C5
+S A$ymPlayerOptimSpeed.pre.asx$513 Def01A9
+S A$ymPlayerOptimSpeed.pre.asx$504 Def01A3
+S A$ymPlayerOptimSpeed.pre.asx$432 Def016B
+S A$ymPlayerOptimSpeed.pre.asx$342 Def0110
+S A$ymPlayerOptimSpeed.pre.asx$315 Def00F7
+S A$ymPlayerOptimSpeed.pre.asx$306 Def00EC
+S A$ymPlayerOptimSpeed.pre.asx$261 Def00BF
+S A$ymPlayerOptimSpeed.pre.asx$252 Def00B4
+S A$ymPlayerOptimSpeed.pre.asx$234 Def00A3
+S A$ymPlayerOptimSpeed.pre.asx$225 Def0098
+S A$ymPlayerOptimSpeed.pre.asx$207 Def0085
+S A$ymPlayerOptimSpeed.pre.asx$180 Def0067
+S A$ymPlayerOptimSpeed.pre.asx$171 Def005C
+S A$ymPlayerOptimSpeed.pre.asx$153 Def004B
+S A$ymPlayerOptimSpeed.pre.asx$820 Def02E9
+S A$ymPlayerOptimSpeed.pre.asx$730 Def0292
+S A$ymPlayerOptimSpeed.pre.asx$721 Def028A
+S A$ymPlayerOptimSpeed.pre.asx$703 Def027A
+S A$ymPlayerOptimSpeed.pre.asx$640 Def0242
+S A$ymPlayerOptimSpeed.pre.asx$613 Def0226
+S A$ymPlayerOptimSpeed.pre.asx$604 Def021E
+S A$ymPlayerOptimSpeed.pre.asx$541 Def01CF
+S A$ymPlayerOptimSpeed.pre.asx$532 Def01C7
+S A$ymPlayerOptimSpeed.pre.asx$523 Def01BB
+S A$ymPlayerOptimSpeed.pre.asx$505 Def01A5
+S A$ymPlayerOptimSpeed.pre.asx$451 Def0174
+S A$ymPlayerOptimSpeed.pre.asx$424 Def0164
+S A$ymPlayerOptimSpeed.pre.asx$415 Def0156
+S A$ymPlayerOptimSpeed.pre.asx$406 Def014A
+S A$ymPlayerOptimSpeed.pre.asx$352 Def0118
+S A$ymPlayerOptimSpeed.pre.asx$334 Def0108
+S A$ymPlayerOptimSpeed.pre.asx$325 Def00FF
+S A$ymPlayerOptimSpeed.pre.asx$316 Def00F9
+S A$ymPlayerOptimSpeed.pre.asx$271 Def00C7
+S A$ymPlayerOptimSpeed.pre.asx$262 Def00C1
+S A$ymPlayerOptimSpeed.pre.asx$244 Def00AB
+S A$ymPlayerOptimSpeed.pre.asx$235 Def00A5
+S A$ymPlayerOptimSpeed.pre.asx$217 Def008D
+S A$ymPlayerOptimSpeed.pre.asx$208 Def0087
+S A$ymPlayerOptimSpeed.pre.asx$190 Def006F
+S A$ymPlayerOptimSpeed.pre.asx$181 Def0069
+S A$ymPlayerOptimSpeed.pre.asx$163 Def0055
+S A$ymPlayerOptimSpeed.pre.asx$154 Def004D
+S A$ymPlayerOptimSpeed.pre.asx$127 Def0031
+S bit_is_ready1 Def0022
+S A$ymPlayerOptimSpeed.pre.asx$830 Def02FF
+S A$ymPlayerOptimSpeed.pre.asx$821 Def02EC
+S A$ymPlayerOptimSpeed.pre.asx$722 Def028C
+S A$ymPlayerOptimSpeed.pre.asx$641 Def0244
+S A$ymPlayerOptimSpeed.pre.asx$632 Def0239
+S A$ymPlayerOptimSpeed.pre.asx$614 Def0228
+S A$ymPlayerOptimSpeed.pre.asx$605 Def0220
+S A$ymPlayerOptimSpeed.pre.asx$560 Def01E4
+S A$ymPlayerOptimSpeed.pre.asx$551 Def01D8
+S A$ymPlayerOptimSpeed.pre.asx$533 Def01C9
+S A$ymPlayerOptimSpeed.pre.asx$524 Def01BE
+S A$ymPlayerOptimSpeed.pre.asx$515 Def01AB
+S A$ymPlayerOptimSpeed.pre.asx$470 Def0183
+S A$ymPlayerOptimSpeed.pre.asx$452 Def0177
+S A$ymPlayerOptimSpeed.pre.asx$425 Def0167
+S A$ymPlayerOptimSpeed.pre.asx$416 Def0158
+S A$ymPlayerOptimSpeed.pre.asx$407 Def014C
+S A$ymPlayerOptimSpeed.pre.asx$371 Def012C
+S A$ymPlayerOptimSpeed.pre.asx$353 Def011A
+S A$ymPlayerOptimSpeed.pre.asx$317 Def00FB
+S A$ymPlayerOptimSpeed.pre.asx$290 Def00DF
+S A$ymPlayerOptimSpeed.pre.asx$263 Def00C3
+S A$ymPlayerOptimSpeed.pre.asx$236 Def00A7
+S A$ymPlayerOptimSpeed.pre.asx$209 Def0089
+S A$ymPlayerOptimSpeed.pre.asx$182 Def006B
+S A$ymPlayerOptimSpeed.pre.asx$155 Def004F
+S A$ymPlayerOptimSpeed.pre.asx$146 Def0044
+S A$ymPlayerOptimSpeed.pre.asx$128 Def0033
+S do_ym_sound Def0136
+S rle8bitdone Def0132
+S bit_is_ready2 Def003D
+S A$ymPlayerOptimSpeed.pre.asx$840 Def031B
+S A$ymPlayerOptimSpeed.pre.asx$831 Def0302
+S A$ymPlayerOptimSpeed.pre.asx$822 Def02EF
+S A$ymPlayerOptimSpeed.pre.asx$813 Def02E1
+S A$ymPlayerOptimSpeed.pre.asx$741 Def029A
+S A$ymPlayerOptimSpeed.pre.asx$732 Def0294
+S A$ymPlayerOptimSpeed.pre.asx$723 Def028E
+S A$ymPlayerOptimSpeed.pre.asx$705 Def027C
+S A$ymPlayerOptimSpeed.pre.asx$651 Def024C
+S A$ymPlayerOptimSpeed.pre.asx$642 Def0246
+S A$ymPlayerOptimSpeed.pre.asx$624 Def0232
+S A$ymPlayerOptimSpeed.pre.asx$615 Def022A
+S A$ymPlayerOptimSpeed.pre.asx$570 Def01EB
+S A$ymPlayerOptimSpeed.pre.asx$552 Def01DA
+S A$ymPlayerOptimSpeed.pre.asx$543 Def01D1
+S A$ymPlayerOptimSpeed.pre.asx$534 Def01CB
+S A$ymPlayerOptimSpeed.pre.asx$516 Def01AD
+S A$ymPlayerOptimSpeed.pre.asx$480 Def018D
+S A$ymPlayerOptimSpeed.pre.asx$471 Def0185
+S A$ymPlayerOptimSpeed.pre.asx$453 Def017A
+S A$ymPlayerOptimSpeed.pre.asx$417 Def015A
+S A$ymPlayerOptimSpeed.pre.asx$390 Def0136
+S A$ymPlayerOptimSpeed.pre.asx$381 Def0132
+S A$ymPlayerOptimSpeed.pre.asx$372 Def012E
+S A$ymPlayerOptimSpeed.pre.asx$363 Def0124
+S A$ymPlayerOptimSpeed.pre.asx$354 Def011C
+S A$ymPlayerOptimSpeed.pre.asx$327 Def0101
+S A$ymPlayerOptimSpeed.pre.asx$309 Def00ED
+S A$ymPlayerOptimSpeed.pre.asx$282 Def00D1
+S A$ymPlayerOptimSpeed.pre.asx$273 Def00C9
+S A$ymPlayerOptimSpeed.pre.asx$255 Def00B5
+S A$ymPlayerOptimSpeed.pre.asx$246 Def00AD
+S A$ymPlayerOptimSpeed.pre.asx$228 Def0099
+S A$ymPlayerOptimSpeed.pre.asx$219 Def008F
+S A$ymPlayerOptimSpeed.pre.asx$192 Def0071
+S A$ymPlayerOptimSpeed.pre.asx$174 Def005D
+S A$ymPlayerOptimSpeed.pre.asx$165 Def0057
+S A$ymPlayerOptimSpeed.pre.asx$156 Def0051
+S A$ymPlayerOptimSpeed.pre.asx$138 Def003D
+S A$ymPlayerOptimSpeed.pre.asx$129 Def0035
+S noValidByte Def017D
+S bit_is_ready3 Def0055
+S A$ymPlayerOptimSpeed.pre.asx$832 Def0304
+S A$ymPlayerOptimSpeed.pre.asx$823 Def02F2
+S A$ymPlayerOptimSpeed.pre.asx$814 Def02E3
+S A$ymPlayerOptimSpeed.pre.asx$805 Def02DA
+S A$ymPlayerOptimSpeed.pre.asx$760 Def02B0
+S A$ymPlayerOptimSpeed.pre.asx$742 Def029C
+S A$ymPlayerOptimSpeed.pre.asx$724 Def0290
+S A$ymPlayerOptimSpeed.pre.asx$670 Def0260
+S A$ymPlayerOptimSpeed.pre.asx$643 Def0248
+S A$ymPlayerOptimSpeed.pre.asx$616 Def022C
+S A$ymPlayerOptimSpeed.pre.asx$571 Def01ED
+S A$ymPlayerOptimSpeed.pre.asx$553 Def01DC
+S A$ymPlayerOptimSpeed.pre.asx$535 Def01CD
+S A$ymPlayerOptimSpeed.pre.asx$517 Def01B1
+S A$ymPlayerOptimSpeed.pre.asx$472 Def0187
+S A$ymPlayerOptimSpeed.pre.asx$418 Def015C
+S A$ymPlayerOptimSpeed.pre.asx$409 Def014E
+S A$ymPlayerOptimSpeed.pre.asx$391 Def0139
+S A$ymPlayerOptimSpeed.pre.asx$355 Def011E
+S A$ymPlayerOptimSpeed.pre.asx$346 Def0112
+S A$ymPlayerOptimSpeed.pre.asx$337 Def010A
+S A$ymPlayerOptimSpeed.pre.asx$328 Def0103
+S A$ymPlayerOptimSpeed.pre.asx$283 Def00D3
+S A$ymPlayerOptimSpeed.pre.asx$274 Def00CB
+S A$ymPlayerOptimSpeed.pre.asx$256 Def00B7
+S A$ymPlayerOptimSpeed.pre.asx$247 Def00AF
+S A$ymPlayerOptimSpeed.pre.asx$229 Def009B
+S A$ymPlayerOptimSpeed.pre.asx$193 Def0073
+S A$ymPlayerOptimSpeed.pre.asx$175 Def005F
+S A$ymPlayerOptimSpeed.pre.asx$157 Def0053
+S bit_is_ready4 Def006D
+S A$ymPlayerOptimSpeed.pre.asx$833 Def0307
+S A$ymPlayerOptimSpeed.pre.asx$824 Def02F5
+S A$ymPlayerOptimSpeed.pre.asx$770 Def02B8
+S A$ymPlayerOptimSpeed.pre.asx$734 Def0296
+S A$ymPlayerOptimSpeed.pre.asx$716 Def0282
+S A$ymPlayerOptimSpeed.pre.asx$707 Def027E
+S A$ymPlayerOptimSpeed.pre.asx$680 Def0266
+S A$ymPlayerOptimSpeed.pre.asx$662 Def0252
+S A$ymPlayerOptimSpeed.pre.asx$653 Def024E
+S A$ymPlayerOptimSpeed.pre.asx$635 Def023A
+S A$ymPlayerOptimSpeed.pre.asx$626 Def0234
+S A$ymPlayerOptimSpeed.pre.asx$617 Def022E
+S A$ymPlayerOptimSpeed.pre.asx$572 Def01EF
+S A$ymPlayerOptimSpeed.pre.asx$545 Def01D3
+S A$ymPlayerOptimSpeed.pre.asx$527 Def01BF
+S A$ymPlayerOptimSpeed.pre.asx$518 Def01B4
+S A$ymPlayerOptimSpeed.pre.asx$482 Def018F
+S A$ymPlayerOptimSpeed.pre.asx$473 Def0189
+S A$ymPlayerOptimSpeed.pre.asx$437 Def016D
+S A$ymPlayerOptimSpeed.pre.asx$419 Def015E
+S A$ymPlayerOptimSpeed.pre.asx$392 Def013B
+S A$ymPlayerOptimSpeed.pre.asx$365 Def0126
+S A$ymPlayerOptimSpeed.pre.asx$356 Def0120
+S A$ymPlayerOptimSpeed.pre.asx$167 Def0059
+S A$ymPlayerOptimSpeed.pre.asx$149 Def0045
+S bit_is_ready5 Def008B
+S A$ymPlayerOptimSpeed.pre.asx$843 Def031D
+S A$ymPlayerOptimSpeed.pre.asx$834 Def030A
+S A$ymPlayerOptimSpeed.pre.asx$825 Def02F7
+S A$ymPlayerOptimSpeed.pre.asx$807 Def02DC
+S A$ymPlayerOptimSpeed.pre.asx$780 Def02C2
+S A$ymPlayerOptimSpeed.pre.asx$771 Def02BA
+S A$ymPlayerOptimSpeed.pre.asx$744 Def029E
+S A$ymPlayerOptimSpeed.pre.asx$735 Def0298
+S A$ymPlayerOptimSpeed.pre.asx$717 Def0284
+S A$ymPlayerOptimSpeed.pre.asx$708 Def0280
+S A$ymPlayerOptimSpeed.pre.asx$690 Def026C
+S A$ymPlayerOptimSpeed.pre.asx$681 Def0268
+S A$ymPlayerOptimSpeed.pre.asx$663 Def0254
+S A$ymPlayerOptimSpeed.pre.asx$654 Def0250
+S A$ymPlayerOptimSpeed.pre.asx$636 Def023C
+S A$ymPlayerOptimSpeed.pre.asx$618 Def0230
+S A$ymPlayerOptimSpeed.pre.asx$573 Def01F1
+S A$ymPlayerOptimSpeed.pre.asx$546 Def01D5
+S A$ymPlayerOptimSpeed.pre.asx$528 Def01C1
+S A$ymPlayerOptimSpeed.pre.asx$519 Def01B7
+S A$ymPlayerOptimSpeed.pre.asx$474 Def018B
+S A$ymPlayerOptimSpeed.pre.asx$456 Def017C
+S A$ymPlayerOptimSpeed.pre.asx$438 Def0171
+S A$ymPlayerOptimSpeed.pre.asx$393 Def013E
+S A$ymPlayerOptimSpeed.pre.asx$384 Def0134
+S A$ymPlayerOptimSpeed.pre.asx$357 Def0122
+S A$ymPlayerOptimSpeed.pre.asx$339 Def010C
+S A$ymPlayerOptimSpeed.pre.asx$285 Def00D5
+S A$ymPlayerOptimSpeed.pre.asx$258 Def00B9
+S A$ymPlayerOptimSpeed.pre.asx$177 Def0061
+S A$ymPlayerOptimSpeed.pre.asx$168 Def005B
+S bit_is_ready6 Def00A9
+S A$ymPlayerOptimSpeed.pre.asx$844 Def0320
+S A$ymPlayerOptimSpeed.pre.asx$835 Def030D
+S A$ymPlayerOptimSpeed.pre.asx$826 Def02FA
+S A$ymPlayerOptimSpeed.pre.asx$772 Def02BC
+S A$ymPlayerOptimSpeed.pre.asx$763 Def02B1
+S A$ymPlayerOptimSpeed.pre.asx$745 Def02A0
+S A$ymPlayerOptimSpeed.pre.asx$628 Def0236
+S A$ymPlayerOptimSpeed.pre.asx$574 Def01F5
+S A$ymPlayerOptimSpeed.pre.asx$466 Def017D
+S A$ymPlayerOptimSpeed.pre.asx$439 Def0172
+S A$ymPlayerOptimSpeed.pre.asx$394 Def0141
+S A$ymPlayerOptimSpeed.pre.asx$367 Def0128
+S A$ymPlayerOptimSpeed.pre.asx$349 Def0114
+S A$ymPlayerOptimSpeed.pre.asx$286 Def00D7
+S A$ymPlayerOptimSpeed.pre.asx$277 Def00CC
+S A$ymPlayerOptimSpeed.pre.asx$259 Def00BB
+S A$ymPlayerOptimSpeed.pre.asx$196 Def0074
+S A$ymPlayerOptimSpeed.pre.asx$178 Def0063
+S bit_is_ready7 Def00C5
+S A$ymPlayerOptimSpeed.pre.asx$836 Def0310
+S A$ymPlayerOptimSpeed.pre.asx$827 Def02FD
+S A$ymPlayerOptimSpeed.pre.asx$809 Def02DE
+S A$ymPlayerOptimSpeed.pre.asx$791 Def02CA
+S A$ymPlayerOptimSpeed.pre.asx$782 Def02C4
+S A$ymPlayerOptimSpeed.pre.asx$773 Def02BE
+S A$ymPlayerOptimSpeed.pre.asx$755 Def02AA
+S A$ymPlayerOptimSpeed.pre.asx$746 Def02A2
+S A$ymPlayerOptimSpeed.pre.asx$719 Def0286
+S A$ymPlayerOptimSpeed.pre.asx$692 Def026E
+S A$ymPlayerOptimSpeed.pre.asx$665 Def0256
+S A$ymPlayerOptimSpeed.pre.asx$638 Def023E
+S A$ymPlayerOptimSpeed.pre.asx$629 Def0238
+S A$ymPlayerOptimSpeed.pre.asx$584 Def01FF
+S A$ymPlayerOptimSpeed.pre.asx$575 Def01F7
+S A$ymPlayerOptimSpeed.pre.asx$557 Def01DE
+S A$ymPlayerOptimSpeed.pre.asx$467 Def017F
+S A$ymPlayerOptimSpeed.pre.asx$395 Def0144
+S A$ymPlayerOptimSpeed.pre.asx$377 Def0130
+S A$ymPlayerOptimSpeed.pre.asx$368 Def012A
+S A$ymPlayerOptimSpeed.pre.asx$296 Def00E1
+S A$ymPlayerOptimSpeed.pre.asx$287 Def00D9
+S A$ymPlayerOptimSpeed.pre.asx$278 Def00CE
+S A$ymPlayerOptimSpeed.pre.asx$269 Def00C5
+S A$ymPlayerOptimSpeed.pre.asx$197 Def0076
+S A$ymPlayerOptimSpeed.pre.asx$188 Def006D
+S A$ymPlayerOptimSpeed.pre.asx$179 Def0065
+S done Def0169
+S bit_is_ready8 Def00E1
+S A$ymPlayerOptimSpeed.pre.asx$837 Def0313
+S A$ymPlayerOptimSpeed.pre.asx$819 Def02E6
+S A$ymPlayerOptimSpeed.pre.asx$792 Def02CC
+S A$ymPlayerOptimSpeed.pre.asx$774 Def02C0
+S A$ymPlayerOptimSpeed.pre.asx$747 Def02A4
+S A$ymPlayerOptimSpeed.pre.asx$738 Def0299
+S A$ymPlayerOptimSpeed.pre.asx$693 Def0270
+S A$ymPlayerOptimSpeed.pre.asx$684 Def0269
+S A$ymPlayerOptimSpeed.pre.asx$666 Def0258
+S A$ymPlayerOptimSpeed.pre.asx$657 Def0251
+S A$ymPlayerOptimSpeed.pre.asx$639 Def0240
+S A$ymPlayerOptimSpeed.pre.asx$585 Def0201
+S A$ymPlayerOptimSpeed.pre.asx$576 Def01F8
+S A$ymPlayerOptimSpeed.pre.asx$558 Def01E0
+S A$ymPlayerOptimSpeed.pre.asx$486 Def0191
+S A$ymPlayerOptimSpeed.pre.asx$396 Def0147
+S A$ymPlayerOptimSpeed.pre.asx$288 Def00DB
+S A$ymPlayerOptimSpeed.pre.asx$279 Def00D0
+S A$ymPlayerOptimSpeed.pre.asx$198 Def007A
+S bit_is_ready9 Def00FD
+S A$ymPlayerOptimSpeed.pre.asx$838 Def0316
+S A$ymPlayerOptimSpeed.pre.asx$784 Def02C6
+S A$ymPlayerOptimSpeed.pre.asx$766 Def02B2
+S A$ymPlayerOptimSpeed.pre.asx$757 Def02AC
+S A$ymPlayerOptimSpeed.pre.asx$748 Def02A6
+S A$ymPlayerOptimSpeed.pre.asx$694 Def0272
+S A$ymPlayerOptimSpeed.pre.asx$676 Def0262
+S A$ymPlayerOptimSpeed.pre.asx$667 Def025A
+S A$ymPlayerOptimSpeed.pre.asx$649 Def024A
+S A$ymPlayerOptimSpeed.pre.asx$595 Def020B
+S A$ymPlayerOptimSpeed.pre.asx$586 Def0204
+S A$ymPlayerOptimSpeed.pre.asx$577 Def01FA
+S A$ymPlayerOptimSpeed.pre.asx$568 Def01E6
+S A$ymPlayerOptimSpeed.pre.asx$559 Def01E2
+S A$ymPlayerOptimSpeed.pre.asx$469 Def0181
+S A$ymPlayerOptimSpeed.pre.asx$298 Def00E3
+S A$ymPlayerOptimSpeed.pre.asx$289 Def00DD
+S A$ymPlayerOptimSpeed.pre.asx$839 Def0319
+S A$ymPlayerOptimSpeed.pre.asx$794 Def02CE
+S A$ymPlayerOptimSpeed.pre.asx$785 Def02C8
+S A$ymPlayerOptimSpeed.pre.asx$767 Def02B4
+S A$ymPlayerOptimSpeed.pre.asx$749 Def02A8
+S A$ymPlayerOptimSpeed.pre.asx$695 Def0274
+S A$ymPlayerOptimSpeed.pre.asx$668 Def025C
+S A$ymPlayerOptimSpeed.pre.asx$596 Def020E
+S A$ymPlayerOptimSpeed.pre.asx$587 Def0206
+S A$ymPlayerOptimSpeed.pre.asx$578 Def01FC
+S A$ymPlayerOptimSpeed.pre.asx$569 Def01E8
+S A$ymPlayerOptimSpeed.pre.asx$497 Def0197
+S not_in_phrase Def0164
+S A$ymPlayerOptimSpeed.pre.asx$795 Def02D0
+S A$ymPlayerOptimSpeed.pre.asx$759 Def02AE
+S A$ymPlayerOptimSpeed.pre.asx$696 Def0276
+S A$ymPlayerOptimSpeed.pre.asx$678 Def0264
+S A$ymPlayerOptimSpeed.pre.asx$669 Def025E
+S A$ymPlayerOptimSpeed.pre.asx$597 Def0210
+S A$ymPlayerOptimSpeed.pre.asx$588 Def0207
+S A$ymPlayerOptimSpeed.pre.asx$498 Def0199
+S A$ymPlayerOptimSpeed.pre.asx$489 Def0195
+S A$ymPlayerOptimSpeed.pre.asx$796 Def02D2
+S A$ymPlayerOptimSpeed.pre.asx$769 Def02B6
+S A$ymPlayerOptimSpeed.pre.asx$697 Def0278
+S A$ymPlayerOptimSpeed.pre.asx$598 Def0212
+S A$ymPlayerOptimSpeed.pre.asx$589 Def0209
+S A$ymPlayerOptimSpeed.pre.asx$797 Def02D4
+S A$ymPlayerOptimSpeed.pre.asx$788 Def02C9
+S A$ymPlayerOptimSpeed.pre.asx$689 Def026A
+S A$ymPlayerOptimSpeed.pre.asx$599 Def0214
+S A$ymPlayerOptimSpeed.pre.asx$798 Def02D6
+S noBit1 Def0239
+S A$ymPlayerOptimSpeed.pre.asx$799 Def02D8
+S A$ymPlayerOptimSpeed.pre.asx$90 Def0010
+S noBit2 Def0251
+S ymsodone Def017C
+S noBit3 Def0269
+S rleEncodedData Def0010
+S noBit4 Def0281
+S A$ymPlayerOptimSpeed.pre.asx$93 Def0011
+S noBit5 Def0299
+S noBit6 Def02B1
+S inPhraseOut Def0156
+S noBit7 Def02C9
+S A$ymPlayerOptimSpeed.pre.asx$96 Def0012
+S noBit8 Def02E1
+S A$ymPlayerOptimSpeed.pre.asx$97 Def0014
+S code_bit_notset Def01D8
+S A$ymPlayerOptimSpeed.pre.asx$99 Def0016
+S currentPharseNotEnded Def0169
+S rleCounterBitXNotSet Def012C
+S getNextCodeBit Def01BB
+S dechifer Def0197
+S _reg_max_data Def0000
+S nreg_init Def02FF
+A .bss size BE flags C00
+S _calc_bits Def0005
+S _ym_name Def000A
+S _temp2 Def0002
+S _temp3 Def0003
+S _ym_data_start Def000E
+S _temp Def0001
+S _ym_regs_count Def000D
+S _calc_coder Def0004
+S _ym_data_current Def0008
+S _ym_len Def0006
+S _ym_regs_used Def000C
+S _cregister Def0000
+T 00 00
+R 00 00 00 03
+T 00 00
+R 00 00 00 03
+T 00 01
+R 00 00 00 03
+T 00 01
+R 00 00 00 03
+T 00 02
+R 00 00 00 03
+T 00 02
+R 00 00 00 03
+T 00 03
+R 00 00 00 03
+T 00 03
+R 00 00 00 03
+T 00 04
+R 00 00 00 03
+T 00 04
+R 00 00 00 03
+T 00 05
+R 00 00 00 03
+T 00 05
+R 00 00 00 03
+T 00 06
+R 00 00 00 03
+T 00 06
+R 00 00 00 03
+T 00 08
+R 00 00 00 03
+T 00 08
+R 00 00 00 03
+T 00 0A
+R 00 00 00 03
+T 00 0A
+R 00 00 00 03
+T 00 0C
+R 00 00 00 03
+T 00 0D
+R 00 00 00 03
+T 00 0E
+R 00 00 00 03
+T 00 0E
+R 00 00 00 03
+T 00 00
+R 00 00 00 02
+T 00 00 08 04 08 04 08 04 05 06 04 04 04 08 08
+R 00 00 00 02
+T 00 0D 05 08 08
+R 00 00 00 02
+T 00 10
+R 00 00 00 02
+T 00 10 4F
+R 00 00 00 02
+T 00 11
+R 00 00 00 02
+T 00 11 4C E6 42 26 0C AE 40 E6 80 E7 43 AF 40
+R 00 00 00 02
+T 00 1E C6 80 E7 42
+R 00 00 00 02
+T 00 22
+R 00 00 00 02
+T 00 22 64 42 E4 43 26 E9 1E 89 1F 02 4F E6 42
+R 00 00 00 02
+T 00 2F 26 0C AE 40 E6 80 E7 43 AF 40 C6 80 E7
+R 00 00 00 02
+T 00 3C 42
+R 00 00 00 02
+T 00 3D
+R 00 00 00 02
+T 00 3D 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 00 44
+R 00 00 00 02
+T 00 44 48 E6 42 26 0C AE 40 E6 80 E7 43 AF 40
+R 00 00 00 02
+T 00 51 C6 80 E7 42
+R 00 00 00 02
+T 00 55
+R 00 00 00 02
+T 00 55 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 00 5C
+R 00 00 00 02
+T 00 5C 48 E6 42 26 0C AE 40 E6 80 E7 43 AF 40
+R 00 00 00 02
+T 00 69 C6 80 E7 42
+R 00 00 00 02
+T 00 6D
+R 00 00 00 02
+T 00 6D 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 00 74
+R 00 00 00 02
+T 00 74 31 3F 10 27 00 B8 48 E6 42 26 0C AE 40
+R 00 00 00 02
+T 00 81 E6 80 E7 43 AF 40 C6 80 E7 42
+R 00 00 00 02
+T 00 8B
+R 00 00 00 02
+T 00 8B 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 00 92
+R 00 00 00 02
+T 00 92 31 3F 10 27 00 9A 48 E6 42 26 0C AE 40
+R 00 00 00 02
+T 00 9F E6 80 E7 43 AF 40 C6 80 E7 42
+R 00 00 00 02
+T 00 A9
+R 00 00 00 02
+T 00 A9 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 00 B0
+R 00 00 00 02
+T 00 B0 31 3F 27 7E 48 E6 42 26 0C AE 40 E6 80
+R 00 00 00 02
+T 00 BD E7 43 AF 40 C6 80 E7 42
+R 00 00 00 02
+T 00 C5
+R 00 00 00 02
+T 00 C5 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 00 CC
+R 00 00 00 02
+T 00 CC 31 3F 27 62 48 E6 42 26 0C AE 40 E6 80
+R 00 00 00 02
+T 00 D9 E7 43 AF 40 C6 80 E7 42
+R 00 00 00 02
+T 00 E1
+R 00 00 00 02
+T 00 E1 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 00 E8
+R 00 00 00 02
+T 00 E8 31 3F 27 46 48 E6 42 26 0C AE 40 E6 80
+R 00 00 00 02
+T 00 F5 E7 43 AF 40 C6 80 E7 42
+R 00 00 00 02
+T 00 FD
+R 00 00 00 02
+T 00 FD 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 01 04
+R 00 00 00 02
+T 01 04 31 3F 27 2A A7 46
+R 00 00 00 02
+T 01 0A
+R 00 00 00 02
+T 01 0A EC 45 48 58 24 02 8A 01
+R 00 00 00 02
+T 01 12
+R 00 00 00 02
+T 01 12 ED 45 E6 42 26 0C AE 40 E6 80 E7 43 AF
+R 00 00 00 02
+T 01 1F 40 C6 80 E7 42
+R 00 00 00 02
+T 01 24
+R 00 00 00 02
+T 01 24 64 42 E4 43 27 02 6C 46
+R 00 00 00 02
+T 01 2C
+R 00 00 00 02
+T 01 2C 31 3F 26 DA
+R 00 00 00 02
+T 01 30
+R 00 00 00 02
+T 01 30 20 65
+R 00 00 00 02
+T 01 32
+R 00 00 00 02
+T 01 32 A7 46 20 61
+R 00 00 00 02
+T 01 36
+R 00 00 00 02
+T 01 36 FC 00 08 27 41 83 00 01 FD 00 08 B6
+R 00 00 00 02 01 03 00 03 01 0B 00 03
+T 01 42 00 0C B7 00 0D CE
+R 00 00 00 02 01 02 00 03 01 05 00 03
+T 01 48 00 0E
+R 00 00 00 02 01 02 00 03
+T 01 4A
+R 00 00 00 02
+T 01 4A
+R 00 00 00 02
+T 01 4A EC 45 27 2F AE 49 27 12 E6 4B A6 4F
+R 00 00 00 02
+T 01 56
+R 00 00 00 02
+T 01 56 E6 85 E7 44 6C 4B A1 4B 26 09 6F 4B EC
+R 00 00 00 02
+T 01 63 45
+R 00 00 00 02
+T 01 64
+R 00 00 00 02
+T 01 64 83 00 01 ED 45
+R 00 00 00 02
+T 01 69
+R 00 00 00 02
+T 01 69
+R 00 00 00 02
+T 01 69 E6 44 A6 4E 10 8E C8 4C 40 E7 A6
+R 00 00 00 02
+T 01 74
+R 00 00 00 02
+T 01 74 33 C8 10 7A 00 0D 26 CE
+R 00 00 00 02 01 06 00 03
+T 01 7C
+R 00 00 00 02
+T 01 7C 39
+R 00 00 00 02
+T 01 7D
+R 00 00 00 02
+T 01 7D E6 42 26 0C AE 40 E6 80 E7 43 AF 40 C6
+R 00 00 00 02
+T 01 8A 80 E7 42
+R 00 00 00 02
+T 01 8D
+R 00 00 00 02
+T 01 8D 64 42 E4 43 10 26 FE 7B 6C 46
+R 00 00 00 02
+T 01 97
+R 00 00 00 02
+T 01 97 E6 42 26 0C AE 40 E6 80 E7 43 AF 40 C6
+R 00 00 00 02
+T 01 A4 80 E7 42
+R 00 00 00 02
+T 01 A7
+R 00 00 00 02
+T 01 A7 64 42 E4 43 27 52 10 FF 00 01 10 EE 47
+R 00 00 00 02 01 0A 00 03
+T 01 B4 10 AE 4C 4F B7 00 04
+R 00 00 00 02 01 07 00 03
+T 01 BB
+R 00 00 00 02
+T 01 BB 78 00 04 4C E6 42 26 0C AE 40 E6 80 E7
+R 00 00 00 02 01 03 00 03
+T 01 C8 43 AF 40 C6 80 E7 42
+R 00 00 00 02
+T 01 CF
+R 00 00 00 02
+T 01 CF 64 42 E4 43 27 03 7C 00 04
+R 00 00 00 02 01 09 00 03
+T 01 D8
+R 00 00 00 02
+T 01 D8
+R 00 00 00 02
+T 01 D8 A1 E4 2D DF 27 08
+R 00 00 00 02
+T 01 DE
+R 00 00 00 02
+T 01 DE E6 62 31 A5 32 63 20 F2
+R 00 00 00 02
+T 01 E6
+R 00 00 00 02
+T 01 E6 E6 61 F1 00 04 26 F1 A6 62 A7 4F 10 FE
+R 00 00 00 02 01 05 00 03
+T 01 F3 00 01 1F 21 5F AF 49 E7 4B 7E 01 56
+R 00 00 00 02 01 02 00 03 01 0C 00 02
+T 01 FF
+R 00 00 00 02
+T 01 FF EC 45 83 00 01 ED 45 4F A7 49 A7 4A 8E
+R 00 00 00 02
+T 02 0C 00 00 E6 4E E6 85 C1 08 27 0C C1 06 27
+R 00 00 00 02 01 02 00 02
+T 02 19 38 C1 05 27 4C C1 04 27 60
+R 00 00 00 02
+T 02 22
+R 00 00 00 02
+T 02 22 E6 42 26 0C AE 40 E6 80 E7 43 AF 40 C6
+R 00 00 00 02
+T 02 2F 80 E7 42
+R 00 00 00 02
+T 02 32
+R 00 00 00 02
+T 02 32 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 02 39
+R 00 00 00 02
+T 02 39 48 E6 42 26 0C AE 40 E6 80 E7 43 AF 40
+R 00 00 00 02
+T 02 46 C6 80 E7 42
+R 00 00 00 02
+T 02 4A
+R 00 00 00 02
+T 02 4A 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 02 51
+R 00 00 00 02
+T 02 51 48
+R 00 00 00 02
+T 02 52
+R 00 00 00 02
+T 02 52 E6 42 26 0C AE 40 E6 80 E7 43 AF 40 C6
+R 00 00 00 02
+T 02 5F 80 E7 42
+R 00 00 00 02
+T 02 62
+R 00 00 00 02
+T 02 62 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 02 69
+R 00 00 00 02
+T 02 69 48
+R 00 00 00 02
+T 02 6A
+R 00 00 00 02
+T 02 6A E6 42 26 0C AE 40 E6 80 E7 43 AF 40 C6
+R 00 00 00 02
+T 02 77 80 E7 42
+R 00 00 00 02
+T 02 7A
+R 00 00 00 02
+T 02 7A 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 02 81
+R 00 00 00 02
+T 02 81 48
+R 00 00 00 02
+T 02 82
+R 00 00 00 02
+T 02 82 E6 42 26 0C AE 40 E6 80 E7 43 AF 40 C6
+R 00 00 00 02
+T 02 8F 80 E7 42
+R 00 00 00 02
+T 02 92
+R 00 00 00 02
+T 02 92 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 02 99
+R 00 00 00 02
+T 02 99 48 E6 42 26 0C AE 40 E6 80 E7 43 AF 40
+R 00 00 00 02
+T 02 A6 C6 80 E7 42
+R 00 00 00 02
+T 02 AA
+R 00 00 00 02
+T 02 AA 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 02 B1
+R 00 00 00 02
+T 02 B1 48 E6 42 26 0C AE 40 E6 80 E7 43 AF 40
+R 00 00 00 02
+T 02 BE C6 80 E7 42
+R 00 00 00 02
+T 02 C2
+R 00 00 00 02
+T 02 C2 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 02 C9
+R 00 00 00 02
+T 02 C9 48 E6 42 26 0C AE 40 E6 80 E7 43 AF 40
+R 00 00 00 02
+T 02 D6 C6 80 E7 42
+R 00 00 00 02
+T 02 DA
+R 00 00 00 02
+T 02 DA 64 42 E4 43 27 01 4C
+R 00 00 00 02
+T 02 E1
+R 00 00 00 02
+T 02 E1 A7 44 7E 01 69
+R 00 00 00 02 01 05 00 02
+T 02 E6
+R 00 00 00 02
+T 02 E6 8E 00 0E CC 00 B0 BD F5 48 7F 00 0C 10
+R 00 00 00 02 01 03 00 03 01 0C 00 03
+T 02 F3 AE C1 EC A4 FD 00 06 FD 00 08 E6 C0
+R 00 00 00 02 01 07 00 03 01 0A 00 03
+T 02 FF
+R 00 00 00 02
+T 02 FF 7C 00 0C E7 0E 10 AE C1 10 AF 07 10 AE
+R 00 00 00 02 01 03 00 03
+T 03 0C C1 10 AF 0C 10 AE C1 10 AF 00 30 88 10
+R 00 00 00 02
+T 03 19 E6 C0 2A E2
+R 00 00 00 02
+T 03 1D
+R 00 00 00 02
+T 03 1D FF 00 0A 39
+R 00 00 00 02 01 03 00 03

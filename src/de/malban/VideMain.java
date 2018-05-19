@@ -10,6 +10,7 @@ import de.malban.jogl.JOGLSupport;
 import de.malban.config.Configuration;
 import de.malban.event.EventSupport;
 import de.malban.gui.CSAMainFrame;
+import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.input.SystemController;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.CLI;
@@ -28,8 +29,21 @@ public class VideMain {
 
     public static void main(String[] args) {
 
-        
         Configuration.getConfiguration().getDebugEntity();
+        String javaVersion2 = System.getProperty("java.vm.name") + " (build " +
+                     System.getProperty("java.vm.version") + ", " +
+                     System.getProperty("java.vm.info") + ")";
+        String javaVersion1 = System.getProperty("java.version") + " " +
+                     System.getProperty("java.vendor");
+        String javaDir = "Home: "+System.getProperty("java.home");
+         
+        
+        
+        Configuration.getConfiguration().getDebugEntity().addLog("Running on: "+javaVersion1, INFO);
+        Configuration.getConfiguration().getDebugEntity().addLog(""+javaVersion2, INFO);
+        Configuration.getConfiguration().getDebugEntity().addLog(""+javaDir, INFO);
+
+        
         Global g = new Global();
                 
         Toolkit.getDefaultToolkit().setDynamicLayout(true);
@@ -45,6 +59,10 @@ public class VideMain {
         // if help was invoked - exit
         if (doExit) return;
         cli.injectCLIConfig();
+        
+        
+        
+        
         
         SystemController.isJInputSupported();
         JOGLSupport.isJOGLSupported();

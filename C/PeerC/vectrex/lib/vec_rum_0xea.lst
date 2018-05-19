@@ -1,0 +1,147 @@
+                              1 
+                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
+                              3 ;;; 4.3.6 (gcc6809)
+                              4 ;;; ABI version 1
+                              5 ;;; -mint8
+                              6 	.module	vec_rum_0xea.c
+                              7 ;----- asm -----
+                              8 	.bank page_ea (BASE=0xea3e,SIZE=0x00c2)
+                              9 	.area .0xea (OVR,BANK=page_ea)
+                             10 	
+                             11 ;--- end asm ---
+                             12 	.globl ___Rnd_Cone
+                             13 	.area	.0xea
+   0000                      14 ___Rnd_Cone:
+   0000 00 00                15 	.word	0	;skip space 31
+   0002 00 00                16 	.word	0	;skip space 29
+   0004 00 00                17 	.word	0	;skip space 27
+   0006 00 00                18 	.word	0	;skip space 25
+   0008 00 00                19 	.word	0	;skip space 23
+   000A 00 00                20 	.word	0	;skip space 21
+   000C 00 00                21 	.word	0	;skip space 19
+   000E 00 00                22 	.word	0	;skip space 17
+   0010 00 00                23 	.word	0	;skip space 15
+   0012 00 00                24 	.word	0	;skip space 13
+   0014 00 00                25 	.word	0	;skip space 11
+   0016 00 00                26 	.word	0	;skip space 9
+   0018 00 00                27 	.word	0	;skip space 7
+   001A 00 00                28 	.word	0	;skip space 5
+   001C 00 00                29 	.word	0	;skip space 3
+   001E 00                   30 	.byte	0	;skip space
+                             31 	.globl ___Dot_y
+   001F                      32 ___Dot_y:
+   001F 00 00                33 	.word	0	;skip space 16
+   0021 00 00                34 	.word	0	;skip space 14
+   0023 00 00                35 	.word	0	;skip space 12
+   0025 00 00                36 	.word	0	;skip space 10
+   0027 00 00                37 	.word	0	;skip space 8
+   0029 00 00                38 	.word	0	;skip space 6
+   002B 00 00                39 	.word	0	;skip space 4
+   002D 00 00                40 	.word	0	;skip space 2
+                             41 	.globl ___Dot_py
+   002F                      42 ___Dot_py:
+   002F 00 00                43 	.word	0	;skip space 18
+   0031 00 00                44 	.word	0	;skip space 16
+   0033 00 00                45 	.word	0	;skip space 14
+   0035 00 00                46 	.word	0	;skip space 12
+   0037 00 00                47 	.word	0	;skip space 10
+   0039 00 00                48 	.word	0	;skip space 8
+   003B 00 00                49 	.word	0	;skip space 6
+   003D 00 00                50 	.word	0	;skip space 4
+   003F 00 00                51 	.word	0	;skip space 2
+                             52 	.globl ___Draw_Pack
+   0041                      53 ___Draw_Pack:
+   0041 00 00                54 	.word	0	;skip space 14
+   0043 00 00                55 	.word	0	;skip space 12
+   0045 00 00                56 	.word	0	;skip space 10
+   0047 00 00                57 	.word	0	;skip space 8
+   0049 00 00                58 	.word	0	;skip space 6
+   004B 00 00                59 	.word	0	;skip space 4
+   004D 00 00                60 	.word	0	;skip space 2
+                             61 	.globl ___Draw_Pack_py
+   004F                      62 ___Draw_Pack_py:
+   004F 00 00                63 	.word	0	;skip space 27
+   0051 00 00                64 	.word	0	;skip space 25
+   0053 00 00                65 	.word	0	;skip space 23
+   0055 00 00                66 	.word	0	;skip space 21
+   0057 00 00                67 	.word	0	;skip space 19
+   0059 00 00                68 	.word	0	;skip space 17
+   005B 00 00                69 	.word	0	;skip space 15
+   005D 00 00                70 	.word	0	;skip space 13
+   005F 00 00                71 	.word	0	;skip space 11
+   0061 00 00                72 	.word	0	;skip space 9
+   0063 00 00                73 	.word	0	;skip space 7
+   0065 00 00                74 	.word	0	;skip space 5
+   0067 00 00                75 	.word	0	;skip space 3
+   0069 00                   76 	.byte	0	;skip space
+                             77 	.globl ___Print_Msg
+   006A                      78 ___Print_Msg:
+   006A 00 00                79 	.word	0	;skip space 12
+   006C 00 00                80 	.word	0	;skip space 10
+   006E 00 00                81 	.word	0	;skip space 8
+   0070 00 00                82 	.word	0	;skip space 6
+   0072 00 00                83 	.word	0	;skip space 4
+   0074 00 00                84 	.word	0	;skip space 2
+                             85 	.globl ___Draw_Score
+   0076                      86 ___Draw_Score:
+   0076 00 00                87 	.word	0	;skip space 27
+   0078 00 00                88 	.word	0	;skip space 25
+   007A 00 00                89 	.word	0	;skip space 23
+   007C 00 00                90 	.word	0	;skip space 21
+   007E 00 00                91 	.word	0	;skip space 19
+   0080 00 00                92 	.word	0	;skip space 17
+   0082 00 00                93 	.word	0	;skip space 15
+   0084 00 00                94 	.word	0	;skip space 13
+   0086 00 00                95 	.word	0	;skip space 11
+   0088 00 00                96 	.word	0	;skip space 9
+   008A 00 00                97 	.word	0	;skip space 7
+   008C 00 00                98 	.word	0	;skip space 5
+   008E 00 00                99 	.word	0	;skip space 3
+   0090 00                  100 	.byte	0	;skip space
+                            101 	.globl ___Draw_Scores
+   0091                     102 ___Draw_Scores:
+   0091 00 00               103 	.word	0	;skip space 33
+   0093 00 00               104 	.word	0	;skip space 31
+   0095 00 00               105 	.word	0	;skip space 29
+   0097 00 00               106 	.word	0	;skip space 27
+   0099 00 00               107 	.word	0	;skip space 25
+   009B 00 00               108 	.word	0	;skip space 23
+   009D 00 00               109 	.word	0	;skip space 21
+   009F 00 00               110 	.word	0	;skip space 19
+   00A1 00 00               111 	.word	0	;skip space 17
+   00A3 00 00               112 	.word	0	;skip space 15
+   00A5 00 00               113 	.word	0	;skip space 13
+   00A7 00 00               114 	.word	0	;skip space 11
+   00A9 00 00               115 	.word	0	;skip space 9
+   00AB 00 00               116 	.word	0	;skip space 7
+   00AD 00 00               117 	.word	0	;skip space 5
+   00AF 00 00               118 	.word	0	;skip space 3
+   00B1 00                  119 	.byte	0	;skip space
+                            120 	.globl ___Wait_Bound
+   00B2                     121 ___Wait_Bound:
+   00B2 00                  122 	.byte	0	;skip space
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 ___Dot_py          002F GR  |   2 ___Dot_y           001F GR
+  2 ___Draw_Pack       0041 GR  |   2 ___Draw_Pack_p     004F GR
+  2 ___Draw_Score      0076 GR  |   2 ___Draw_Scores     0091 GR
+  2 ___Print_Msg       006A GR  |   2 ___Rnd_Cone        0000 GR
+  2 ___Wait_Bound      00B2 GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+[page_ea]
+   2 .0xea            size   B3   flags 8584
+

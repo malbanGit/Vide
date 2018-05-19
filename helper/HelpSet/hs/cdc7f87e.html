@@ -1,0 +1,95 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Building own libraries </title>
+</head>
+<body class="doc">
+<h1>Building own libraries </h1>
+
+<p>As libraries I define here, routines that are written in assembler and can be used as subroutines in C.</p>
+
+<p>Through the course of bringing "C" to Vide, I translated/transformed a couple routines, to be usable from C (see above chapter).</p>
+
+<p>Here I will describe what I did to have them in the right "format".</p>
+
+<p>The following procedure works if the files you would like to process meet conditions:</p>
+
+<ul><li>
+<p>the file you want to "convert" is self sufficient<br>
+With that I mean, that it should be able to compile "standalone". You can include macros and includes, but other external dependencies are not allowed.</p>
+</li><li>
+<p>All RAM access should either be regarding the "never changing" BIOS locations or be using "relative" defined RAM locations (see below).</p>
+</li></ul>
+
+<p><b>Relative RAM locations</b><br>
+Since all "library" routines must be (with the current setup) relocatable, all variables (RAM) used with in the routines must be so too. That means all variables should be defined using the "ds" or ".blk" instructions.</p>
+
+<p><b>GOOD:</b><br>
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bss<br>
+&nbsp;&nbsp;&nbsp;VarByte1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds 1<br>
+&nbsp;&nbsp;&nbsp;VarWord2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ds 2<br>
+&nbsp;&nbsp;&nbsp;VarMemoryBlock&nbsp;&nbsp;&nbsp;ds 20<br>
+</tt></p>
+
+<p><b>BAD:</b><br>
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bss<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;org $c880<br>
+&nbsp;&nbsp;&nbsp;VarByte1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db 1<br>
+&nbsp;&nbsp;&nbsp;VarWord2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dw 2<br>
+&nbsp;&nbsp;&nbsp;VarMemoryBlock&nbsp;&nbsp;&nbsp;ds 20<br>
+</tt><br>
+<b>BAD2:</b><br>
+<tt> &nbsp;&nbsp;&nbsp;VarByte1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $c880<br>
+&nbsp;&nbsp;&nbsp;VarWord2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $c881<br>
+&nbsp;&nbsp;&nbsp;VarMemoryBlock&nbsp;&nbsp;&nbsp;= VarWord2 + 2<br>
+</tt></p>
+<h2>Translation</h2>
+
+<p>(I assume the assembler files you would like to use as a library are in "traditional" vide - assembler format (similar to Kingswood assembler) ).</p>
+
+<p>The translation process includes several steps:
+<ol><li>
+<p>Make sure the source is like expected (see above)</p>
+</li><li>
+<p>In Vedi switch the bottom right tab to "Assi-&gt;C"</p>
+</li><li>
+<p>Open the file you want to convert in the editor (the following steps all apply to the current edited file)</p>
+</li><li>
+<p>press the button "preProcess only".<br>
+Background: the preprocessing that "assi" and "asxxxx" do is in parts <i>very</i> different. The if clauses are different, but especially the macro handling can not be translated 1:1 - therefor we generate a completely preprocessed version of the assi source. All includes are read, all if/then/else clauses respected and all macros expanded.</p>
+</li><li>
+<p>The resulting (new) file has the extension "*.pre.s"</p>
+</li><li>
+<p>If not already open, open this file in the editor</p>
+</li><li>
+<p>press the button "to as6809", this does the actual conversion, the resulting (new) file has the extension "*.pre.asx.s"</p>
+</li><li>
+<p>That file is the "result" of the conversion. To check if it assembleable, if not already open, open this file in the editor and press the button "start as6809" which assembles the generated file with the correct building flags and might show errors.</p>
+</li></ol>
+</p>
+
+<p>All labels/functions/RAM addresses will be "global"ly available. </p>
+<h2>Using the results</h2>
+
+<p>Depending on your "interest" there are two possible options.
+<ol><li>
+<p>Either place the above created final file (you might want to rename it) into your "source" directory (*.s files are automatically included in the build process)</p>
+</li><li>
+<p>place the resuling file of your "as6809" run (*.lst and *.rel) file in the directory <tt>"...Vide/C/PeerC/vide/lib"</tt>. If you follow this path, you should also build an appropriate "include" file (*.h) and place it in the corresponding include directory <tt>"...Vide/C/PeerC/vide/include"</tt>.</p>
+</li></ol>
+</p>
+<h2>Not handled / not handled correctly</h2>
+
+<p><i> Binary numbers </i> <br>
+Binary numbers are only "translated" if they represent full 8 bit. So <tt>"%01010101"</tt> is translated to <tt>"0b01010101"</tt>. <br>
+Fraction binary numbers are not translated and will produce errors (like <tt>"%0101"</tt> ).</p>
+
+<p><i>more exotic pseudo ops</i><br>
+"cmap" or the like are not translated.</p>
+<h2>Errors you might encounter</h2>
+
+<p><b>Branch out of bounds </b><br>
+The following cryptic message tells you that a small branch is out of bounds:<br>
+<tt> ?ASxxxx-Error-&lt;a&gt; in line 341 of arkosPlayer.pre.asx.s               &lt;a&gt; machine specific addressing or addressing mode error </tt></p>
+</body>
+</html>

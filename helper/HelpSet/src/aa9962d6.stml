@@ -240,3 +240,45 @@ If you want to reuse the export you can do that for examples with "Blender".
 
 The resulting OBJ file is always placed in the default vectorlist directory under:~~
 ::______Vide/xml/vectorlist/::~~
+
+:h2 SmartLists
+:image SmartList.png|Smartlist example
+Some credits for the implementation of smart lists go to Kristof Tuts. I had similar ideas beforehand - but only after examinig his Vector Patrol code I actually came arround implementing them in this way.
+
+For further explanation please see the blog entry for vide at: [[http://vide.malban.de/6th-of-february-2018-vpatrol-ingenuity-part-iii]]
+
+Smart lists can be created and exported as simple lists - or as animations, including code generation. 
+The code generation uses the smartlist.template files in the template directory. In order to use these vector lists you also have to use the accompanying function assortment - otherwise the generated data is useless.
+
+The default size (scale) of the generated list is "9". The size (scale) can not be increased "in game". 
+
+At the top of the generated "runnable" executables you find will find a define:~~
+**__________SPRITE_SCALE        =        9**
+
+This is the scale the set of routines use. You can change the scale - but in order to use two different scales in the "compiled" version you have to "double" the set of functions (and rename them).
+
+A smaller scale (than 9) CAN be used with the same functions!
+
+The drawing functions use no "wait" loop anywhere. If a higher scale than 9 is used, the drawing "parts" will overlap and the vectorlists will look more than odd. In order to use higher scales the routines must include "wait" statements (which of course make the routines slower - wait->slower!).
+The routines as they are, are prepared to generate wait statements for the scale set with SPRITE_SCALE.
+
+Ah - well - just look at the routines you will figure out what I mean. 
+
+The UI in vecci includes some stuff I prepared for (but have not implemented yet), following things can be done:
+- default intensity (not implemented)
+- default scale (not implemented)
+- default factor - can be set to a number if the checkbox is set
+- name is the base name for the generated data
+- build list, generates a smart list output to the textarea of a single vector list
+- build anim list, generates a smart list output to the textarea of all animation vectorlists
+- jump on last move~~
+  if the last vector in a list is a move, than this option enables the "jump" to another smart list, the name given in the textfield below gives the destination name.~~
+Where this might be usefull:~~
+In vectorblade all bonus items have a frame (circular/rectangle etc), with this "jump" I can draw the inner bonus icon and than jump to the "circle" list. This way the circle data needs to be memorized only once and not for all single bonus items.
+- no positioning move, if not checked the first item in the generated data will be a move to the starting position of the vectorlist
+
+The other items (runnable, run, edit) are the same as for the other generators
+
+  
+
+

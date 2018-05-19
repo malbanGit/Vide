@@ -1,0 +1,75 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Example Joystick Quicky</title>
+</head>
+<body class="doc">
+<h1>Example Joystick Quicky</h1>
+
+<div class="code">
+<p><tt> QUERY_JOYSTICK&nbsp;macro&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;joystick&nbsp;pot&nbsp;readings&nbsp;are&nbsp;also&nbsp;switched&nbsp;by&nbsp;the&nbsp;(de)muliplexer&nbsp;(analog&nbsp;section)&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;&nbsp;&nbsp;&nbsp;joystick&nbsp;pots&nbsp;the&nbsp;switching&nbsp;is&nbsp;not&nbsp;done&nbsp;in&nbsp;regard&nbsp;of&nbsp;the&nbsp;output&nbsp;(in&nbsp;opposite&nbsp;to&nbsp;"input"&nbsp;switching&nbsp;of&nbsp;integrator&nbsp;logic)&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;but&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;regard&nbsp;to&nbsp;input&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thus,&nbsp;&nbsp;&nbsp;the&nbsp;SEL&nbsp;part&nbsp;of&nbsp;the&nbsp;mux&nbsp;now&nbsp;selects&nbsp;which&nbsp;joystick&nbsp;pot&nbsp;is&nbsp;selected&nbsp;and&nbsp;send&nbsp;to&nbsp;the&nbsp;compare&nbsp;logic.&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mux&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sel:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;x00x:&nbsp;port&nbsp;0&nbsp;horizontal&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;x01x:&nbsp;port&nbsp;0&nbsp;vertical&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;x10x:&nbsp;port&nbsp;1&nbsp;horizontal&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;x11x:&nbsp;port&nbsp;1&nbsp;vertical&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;of&nbsp;&nbsp;pot&nbsp;reading&nbsp;is&nbsp;compared&nbsp;to&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;&nbsp;&nbsp;present&nbsp;in&nbsp;the&nbsp;dac&nbsp;and&nbsp;according&nbsp;to&nbsp;the&nbsp;comparisson&nbsp;the&nbsp;compare&nbsp;flag&nbsp;of&nbsp;VIA&nbsp;(bit&nbsp;5&nbsp;of&nbsp;port&nbsp;b)&nbsp;is&nbsp;set.&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(compare&nbsp;bit&nbsp;is&nbsp;set&nbsp;if&nbsp;contents&nbsp;of&nbsp;dac&nbsp;was&nbsp;"smaller"&nbsp;(signed)&nbsp;than&nbsp;the&nbsp;"pot"&nbsp;read)&nbsp;&nbsp;<br>
+DIGITAL_JOYTICK_LOOP_MIN&nbsp;EQU&nbsp;$08&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;mux&nbsp;disabled,&nbsp;mux&nbsp;sel&nbsp;=&nbsp;01&nbsp;(vertical&nbsp;pot&nbsp;port&nbsp;0)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;dac&nbsp;=&nbsp;0&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;mux&nbsp;enabled,&nbsp;mux&nbsp;sel&nbsp;=&nbsp;01&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#DIGITAL_JOYTICK_LOOP_MIN&nbsp;;&nbsp;a&nbsp;wait&nbsp;loop&nbsp;32&nbsp;times&nbsp;a&nbsp;loop&nbsp;(waiting&nbsp;for&nbsp;the&nbsp;pots&nbsp;to&nbsp;"read"&nbsp;values,&nbsp;and&nbsp;feed&nbsp;to&nbsp;compare&nbsp;logic)&nbsp;<br>
+waitLoopV?:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;...&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;waitLoopV?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;wait...&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;disable&nbsp;mux&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;load&nbsp;b&nbsp;with&nbsp;comparator&nbsp;bit&nbsp;(0010&nbsp;0000)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;load&nbsp;a&nbsp;with&nbsp;test&nbsp;value&nbsp;(positive&nbsp;y)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;test&nbsp;value&nbsp;to&nbsp;DAC&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;default&nbsp;result&nbsp;value&nbsp;y&nbsp;was&nbsp;pushed&nbsp;UP&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bitb&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;test&nbsp;comparator&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yReadDone?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;if&nbsp;comparator&nbsp;cleared&nbsp;-&nbsp;joystick&nbsp;was&nbsp;moved&nbsp;up&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;neg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;"load"&nbsp;with&nbsp;ative&nbsp;value&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nega&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;also&nbsp;switch&nbsp;the&nbsp;possible&nbsp;result&nbsp;in&nbsp;A&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bitb&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;test&nbsp;comparator&nbsp;again&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beq&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yReadDone?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;if&nbsp;cleared&nbsp;the&nbsp;joystick&nbsp;was&nbsp;moved&nbsp;down&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;if&nbsp;still&nbsp;not&nbsp;cleared,&nbsp;we&nbsp;clear&nbsp;a&nbsp;as&nbsp;the&nbsp;final&nbsp;vertical&nbsp;test&nbsp;result&nbsp;(no&nbsp;move&nbsp;at&nbsp;all)&nbsp;<br>
+yReadDone?:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;Vec_Joy_1_Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;remember&nbsp;the&nbsp;result&nbsp;in&nbsp;"our"&nbsp;joystick&nbsp;data&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;same&nbsp;for&nbsp;horizontal&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;mux&nbsp;disabled,&nbsp;mux&nbsp;sel&nbsp;=&nbsp;00&nbsp;(horizontal&nbsp;pot&nbsp;port&nbsp;0)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;dac&nbsp;=&nbsp;0&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;mux&nbsp;enabled,&nbsp;mux&nbsp;sel&nbsp;=&nbsp;01&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#DIGITAL_JOYTICK_LOOP_MIN&nbsp;;&nbsp;a&nbsp;wait&nbsp;loop&nbsp;32&nbsp;times&nbsp;a&nbsp;loop&nbsp;(waiting&nbsp;for&nbsp;the&nbsp;pots&nbsp;to&nbsp;"read"&nbsp;values,&nbsp;and&nbsp;feed&nbsp;to&nbsp;compare&nbsp;logic)&nbsp;<br>
+waitLoopH?:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;...&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;waitLoopH?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;wait...&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;disable&nbsp;mux&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;load&nbsp;b&nbsp;with&nbsp;comparator&nbsp;bit&nbsp;(0010&nbsp;0000)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;load&nbsp;a&nbsp;with&nbsp;test&nbsp;value&nbsp;(positive&nbsp;x)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;test&nbsp;value&nbsp;to&nbsp;DAC&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;default&nbsp;result&nbsp;value&nbsp;x&nbsp;was&nbsp;pushed&nbsp;right&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bitb&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;test&nbsp;comparator&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xReadDone?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;if&nbsp;comparator&nbsp;cleared&nbsp;-&nbsp;joystick&nbsp;was&nbsp;moved&nbsp;right&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;neg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;"load"&nbsp;with&nbsp;ative&nbsp;value&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nega&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;also&nbsp;switch&nbsp;the&nbsp;possible&nbsp;result&nbsp;in&nbsp;A&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bitb&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;test&nbsp;comparator&nbsp;again&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beq&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xReadDone?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;if&nbsp;cleared&nbsp;the&nbsp;joystick&nbsp;was&nbsp;moved&nbsp;left&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;if&nbsp;still&nbsp;not&nbsp;cleared,&nbsp;we&nbsp;clear&nbsp;a&nbsp;as&nbsp;the&nbsp;final&nbsp;vertical&nbsp;test&nbsp;result&nbsp;(no&nbsp;move&nbsp;at&nbsp;all)&nbsp;<br>
+xReadDone?:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;Vec_Joy_1_X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;remember&nbsp;the&nbsp;result&nbsp;in&nbsp;"our"&nbsp;joystick&nbsp;data&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</tt></p>
+</div>
+</body>
+</html>

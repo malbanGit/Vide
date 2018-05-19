@@ -1,5 +1,65 @@
--------------
-Version 2.00
+
+18th of May 2018
+----------------
+new:
+- integrator offset can be fractions, which are as of yet dumbly calculated - but works (more or less) for vector Patrol
+  todo -> RC/laws, setting of integrator offsets to fractions of "digital 1"  thru the use of RC laws
+  to compensate vector drift is fascinating, and bloody ingenious!
+- Integrator zero ofset realized with capacitor charge calculation. (at one point I have to also do that for 
+  s/h of integrators, integrators themselves and for zeroing)
+- RAM comments go to all banks
+- RAM breakpoints do not have banks
+- dissi table updates could be out of whack when to many Bankswitches occured (stuck)
+- internal t1 Ramp signal is also switched off, when interrupt does not occur, corrected
+  Vector Patrol Print String all but the first line were "off" a bit due to that (also background mountains)
+- T1 reset upon timer t1 LoLatch read IFlags must be reset
+- added emulation of AT24C02
+- added loading of non encrypted V4E files (File format invented by Thomas Sontaowski for VecFever)
+- with this also added 32k + 16K Bankswitch 
+- added smartlist vectorlist and animlist generation, also added output and runnables to Vecci
+- added warning dialog when a binary file is selected for load in vecxi and a cartridge definition is found for that name
+- some documentation updates
+
+BugFix:
+- typo in C lib fixed (thanks to Peer)
+- code library could throw exceptions while syntax highlighting
+- bank switch code must consider output bit of pb6 - not only state of ddrb
+- corrected vecflash bankswitching code (also template)
+- (saved) Master sound volume is now recognized on startup (without having to open config once)
+- Ramp Off fraction corrected - could be initialized to early and display would be slightly off
+- corrected some cycle values of machine code instructions, also some more cycle exact emulation
+- corrected some tooltips
+- switching from fullscreen to windowed mode in Windows could throw an exception which led to no
+  vide screen at all -> fixed
+- finishing a compile while vecxi was in fullscreen could lead to an exception -> fixed
+- configuration window now properly named configuration (before: Registers)
+
+January 9th 2018
+----------------
+new:
+Version 2.0_RC17
+- vedi: added a new peep
+- vecxi: added Blank Off timer
+- doc: documentation added on handling assembler calls from "C"
+
+BugFix:
+- laf: html color settings for LAFs werenot correctly handled -> fixed
+- compile: error messages of ASLINK and AS6809 were not always correctly handled -> fixed
+- sources: some soucres had wrong upper/lower cases in filenames, only noticable under linux
+- vedi: new projects resulted in null pointer exception
+
+December 29th 2017
+------------------
+new:
+Version 2.0_RC16
+- added "no framepointer needed" version of Peer's system headers
+
+BugFix:
+
+December 29th 2017
+------------------
+new:
+Version 2.0_RC15
 - vedi: added an additional configuration for deep syntax check (in conficguration).
       with large files (larger than e.g. 100000 bytes, some syntax check need more time, since the
       complete document is scanned. If handling large files makes the editor chunky 
@@ -97,6 +157,7 @@ Version 2.00
 - vedi: projects are now "independened" of their "home" directory, meaning - projects take the directory they  are loaded 
         from as their home, no need to place them in exactly the same "vide - relative" position anymore.
         Thus - projects can be much more easily be "transported" to other locations (computers) 
+- tracky: add "peek" counter in Tracky
 
 BugFix:
 - vecx: vector (drawings) get better updates when debugging
@@ -110,7 +171,8 @@ BugFix:
 - vecci: should export Draw_VLP with 0 pattern -> fixed
 - vedi: should start on vecFever, even if emulation is not started -> fixed
 - vedi: somewhere along the way breakpoints in enriched files were broken... corrected
-
+- vecx: BUG: load vecVox switches to vec Voice
+- vedi: BUG: fcw is red as syntax
 
 
 July 1st 2017

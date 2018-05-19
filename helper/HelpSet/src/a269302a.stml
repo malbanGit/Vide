@@ -1,0 +1,28 @@
+:title Linking
+
+For now the vectrex C setup uses the complete toolchain Peer build. This means after the assemble stage the linker ASLINK is called.
+
+ASLINK is called with following options:
+* -n No echo of commands to stdout
+* -m Map output generated as (out)file[.map]
+* -u Update listing file(s) with link data as file(s)[.rst]
+* -w Wide listing format for map file
+* -s Motorola S Record as (out)file[.s--]
+* -k Library path specification, one per -k
+
+-k is called with library path set to:~~
+~~::".../Vide/C/PeerC/lib/"::~~
+
+After these standard options, following libraries are passed:
+- -l libgcov.a
+- -l as-libgcc.a
+- -l libgcc.a~~ ~~
+- "output" filename: "Projectname".s19~~ ~~
+- all "*.rel" from the directory "::.../Vide/C/PeerC/vectrex/lib/::" starting with "::crt0.rel::"
+- all "*.rel" from the directory "::YOUR\_PROJECT/build/lib/::"
+- all "*.rel" from the directory "::YOUR\_PROJECT/lib/::"
+
+These options can not be altered.
+
+
+     

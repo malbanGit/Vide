@@ -1,0 +1,91 @@
+;!FILE /Users/chrissalo/NetBeansProjects/Vide/projects/ayfx/ymPlayerUnpacked.pre.asx.s
+XH2
+H 4 areas 26 global symbols 2 banks 1 modes
+M ymplayerunpacked.pre.s
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 3E flags D00
+S init_ym_sound Def002C
+S no13 Def001C
+S A$ymPlayerUnpacked.pre.asx$30 Def0008
+S A$ymPlayerUnpacked.pre.asx$40 Def001A
+S A$ymPlayerUnpacked.pre.asx$32 Def000B
+S seek_reg_end Def0036
+S A$ymPlayerUnpacked.pre.asx$33 Def000E
+S next_reg Def0014
+S A$ymPlayerUnpacked.pre.asx$70 Def0038
+S A$ymPlayerUnpacked.pre.asx$52 Def0024
+S A$ymPlayerUnpacked.pre.asx$43 Def001C
+S A$ymPlayerUnpacked.pre.asx$34 Def0012
+S A$ymPlayerUnpacked.pre.asx$71 Def003A
+S A$ymPlayerUnpacked.pre.asx$53 Def0026
+S A$ymPlayerUnpacked.pre.asx$72 Def003D
+S A$ymPlayerUnpacked.pre.asx$63 Def002C
+S A$ymPlayerUnpacked.pre.asx$27 Def0000
+S A$ymPlayerUnpacked.pre.asx$64 Def002E
+S A$ymPlayerUnpacked.pre.asx$46 Def001E
+S A$ymPlayerUnpacked.pre.asx$37 Def0014
+S A$ymPlayerUnpacked.pre.asx$28 Def0003
+S do_ym_sound Def0000
+S A$ymPlayerUnpacked.pre.asx$65 Def0031
+S A$ymPlayerUnpacked.pre.asx$56 Def0028
+S A$ymPlayerUnpacked.pre.asx$47 Def0021
+S A$ymPlayerUnpacked.pre.asx$38 Def0016
+S A$ymPlayerUnpacked.pre.asx$29 Def0005
+S A$ymPlayerUnpacked.pre.asx$66 Def0034
+S A$ymPlayerUnpacked.pre.asx$57 Def002B
+S A$ymPlayerUnpacked.pre.asx$48 Def0022
+S A$ymPlayerUnpacked.pre.asx$39 Def0018
+S A$ymPlayerUnpacked.pre.asx$69 Def0036
+S noOutput Def0024
+S ymsodone Def0028
+A .bss size 6 flags C00
+S _ym_reg_base Def0002
+S _ym_len Def0000
+S _ym_data_pos Def0004
+T 00 00
+R 00 00 00 03
+T 00 00
+R 00 00 00 03
+T 00 02
+R 00 00 00 03
+T 00 02
+R 00 00 00 03
+T 00 04
+R 00 00 00 03
+T 00 04
+R 00 00 00 03
+T 00 00
+R 00 00 00 02
+T 00 00 FC 00 00 27 23 83 00 01 FD 00 00 FE
+R 00 00 00 02 01 03 00 03 01 0B 00 03
+T 00 0C 00 04 10 BE 00 02 A6 A0
+R 00 00 00 02 01 02 00 03 01 06 00 03
+T 00 14
+R 00 00 00 02
+T 00 14 81 0D 26 04 C1 FF 27 08
+R 00 00 00 02
+T 00 1C
+R 00 00 00 02
+T 00 1C E6 C0 8E C8 4C 40 E7 86
+R 00 00 00 02
+T 00 24
+R 00 00 00 02
+T 00 24 A6 A0 2A EC
+R 00 00 00 02
+T 00 28
+R 00 00 00 02
+T 00 28 FF 00 04 39
+R 00 00 00 02 01 03 00 03
+T 00 2C
+R 00 00 00 02
+T 00 2C EC C1 FD 00 00 FF 00 02 EC C1
+R 00 00 00 02 01 05 00 03 01 08 00 03
+T 00 36
+R 00 00 00 02
+T 00 36 A6 C0 2A FC FF 00 04 39
+R 00 00 00 02 01 07 00 03

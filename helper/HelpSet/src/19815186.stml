@@ -1,4 +1,5 @@
-:title LAF, themes and such
+:label configGUI
+:title GUI-Settings
 
 There are a couple of options available to change the appearance of Vide.
 The main instrument is thru java - LAFs (Look And Feel).
@@ -8,6 +9,9 @@ Vide uses the "tinylaf" package of Hans Bickel. The original thought was, to hav
 But the package can also be used to build, change or enhance LAFs.
 
 The following image contains nearly all features:
+
+As a seperate lonely feature - the TAB size that is used within Vedi, is als configured here.
+
 
 :image LAFBuild.png|build a laf
 

@@ -1,0 +1,1431 @@
+                              1  .module arkosplayernocopy.pre.s
+                              2  .area .text
+                              3 
+                     F548     4 Clear_x_d = 0xF548
+                              5 
+                              6 ;
+                              7 ;
+                              8 ;
+                              9 ; 
+                             10 ; start of some RAM Vars
+                             11 ;
+                             12                     .area .bss      
+                             13 ; Warning - org line found, my be countering relocatable code!
+                             14 ;                    org      0xc900 
+                             15 ; below RAM usuage is 74 byte (without psh shadow/work registers, which are = to
+                             16 ; vectrex default RAM locations)
+                             17  .globl _arkosPlayerMemStart
+   0000                      18 _arkosPlayerMemStart:  .blkb      0 
+                             19  .globl _tmp_track_param
+   0000                      20 _tmp_track_param:     .blkb       1 
+                             21  .globl _tmp_track_instrument
+   0001                      22 _tmp_track_instrument:  .blkb     1                            ; 
+                             23  .globl _tmp_instrument_second_byte
+   0002                      24 _tmp_instrument_second_byte:  .blkb  1 
+                             25 ; following are player vars which are channel independend
+                             26  .globl _PLY_HEIGHT
+   0003                      27 _PLY_HEIGHT:          .blkb       1                            ; height of pattern 
+                             28  .globl _PLY_SPEED
+   0004                      29 _PLY_SPEED:           .blkb       1                            ; speed of pattern 
+                             30  .globl _PLY_SPEEDCPT
+   0005                      31 _PLY_SPEEDCPT:        .blkb       1                            ; current speed position (count down to 0) 
+                             32  .globl _PLY_HEIGHTCPT
+   0006                      33 _PLY_HEIGHTCPT:       .blkb       1                            ; current height position (count down to 0) 
+                             34  .globl _PLY_TRACK_INSTRUMENTSTABLEPT
+   0007                      35 _PLY_TRACK_INSTRUMENTSTABLEPT:  .blkb  2                       ; address of instrument table 
+                             36  .globl _PLY_LINKER_PT
+   0009                      37 _PLY_LINKER_PT:       .blkb       2                            ; current linker position 
+                             38  .globl _PLY_PSGREG13_RETRIG
+   000B                      39 _PLY_PSGREG13_RETRIG:  .blkb      1                            ; retrigger "flag" - if same as _PLY_PSGREG13, than not retriggered, otherewise - yes 
+                             40  .globl _PLY_SAVESPECIALTRACK
+   000C                      41 _PLY_SAVESPECIALTRACK:  .blkb     2                            ; start position of current special track 
+                             42  .globl _PLY_SPECIALTRACK_PT
+   000E                      43 _PLY_SPECIALTRACK_PT:  .blkb      2                            ; current position in special track 
+                             44  .globl _PLY_SPECIALTRACK_WAITCOUNTER
+   0010                      45 _PLY_SPECIALTRACK_WAITCOUNTER:  .blkb  1                       ; wait counter for special track (count down to 0) 
+                             46 ;
+                             47 ; in general in belo player, y reg points to the start of
+                             48 ; following structure (one for each channel)
+                     0000    49 PLY_TRANSPOSITION = 0 
+                     0001    50 PLY_TRACK_SAVEPTINSTRUMENT = 1 
+                     0003    51 PLY_TRACK_INSTRUMENT = 3 
+                     0005    52 PLY_TRACK_INSTRUMENTSPEED = 5 
+                     0006    53 PLY_TRACK_INSTRUMENTSPEEDCPT = 6 
+                     0007    54 PLY_TRACK_PT = 7 
+                     0009    55 PLY_TRACK_WAITCOUNTER = 9 
+                     000A    56 PLY_TRACK_NOTE = 10 
+                     000B    57 PLY_TRACK_VOLUME = 11 
+                     000C    58 PLY_TRACK_PITCH = 12 
+                     000E    59 PLY_TRACK_PITCHADD = 14 
+                     0010    60 PLY_TRACK_REG_7 = 16 
+                     0011    61 ArkosChannel = 17 
+                             62 ;
+                             63  .globl _Channel1Data
+   0011                      64 _Channel1Data:        .blkb       ArkosChannel 
+                             65  .globl _Channel2Data
+   0022                      66 _Channel2Data:        .blkb       ArkosChannel 
+                             67  .globl _Channel3Data
+   0033                      68 _Channel3Data:        .blkb       ArkosChannel 
+                             69  .globl _ChannelDataEnd
+   0044                      70 _ChannelDataEnd:      .blkb       0 
+                             71 ;
+                             72  .globl _PLY_PSGREG13
+   0044                      73 _PLY_PSGREG13:        .blkb       1                            ; special - this is used for retrigger activities 
+                             74  .globl _PLY_VOL_REG
+   0045                      75 _PLY_VOL_REG:         .blkb       2                            ; these two are used to stay "channel" independend 
+                             76  .globl _PLY_FREQ_REG
+   0047                      77 _PLY_FREQ_REG:        .blkb       2                            ; they are loaded befor the "work" routines with the corresponding regs of the current channel 
+                             78 
+                             79 ;                    org      Vec_Music_Work 
+                             80 ; simple redefines for source compatability 
+                     C800    81 Vec_Snd_Shadow  =     0xC800
+                     C83F    82 Vec_Music_Work = 0xC83F
+                     C84C    83 Vec_Music_Work_End = 0xC84C
+                             84  .globl _CVec_Music_Work
+   0049                      85 _CVec_Music_Work:     .blkb 0 
+                             86  .globl _PLY_PSGREGISTERSARRAY
+   0049                      87 _PLY_PSGREGISTERSARRAY: .blkb 0
+                             88  .globl _PLY_PSGREG0
+   0049                      89 _PLY_PSGREG0:         .blkb    1 
+                             90  .globl _PLY_PSGREG1
+   004A                      91 _PLY_PSGREG1:         .blkb      1 
+                             92  .globl _PLY_PSGREG2
+   004B                      93 _PLY_PSGREG2:         .blkb      1 
+                             94  .globl _PLY_PSGREG3
+   004C                      95 _PLY_PSGREG3:         .blkb       1 
+                             96  .globl _PLY_PSGREG4
+   004D                      97 _PLY_PSGREG4:        .blkb       1 
+                             98  .globl _PLY_PSGREG5
+   004E                      99 _PLY_PSGREG5:        .blkb      1 
+                            100  .globl _PLY_PSGREG6
+   004F                     101 _PLY_PSGREG6:        .blkb      2 
+                            102  .globl _PLY_PSGREG8
+   0051                     103 _PLY_PSGREG8:        .blkb       1 
+                            104  .globl _PLY_PSGREG9
+   0052                     105 _PLY_PSGREG9:        .blkb      1 
+                            106  .globl _PLY_PSGREG10
+   0053                     107 _PLY_PSGREG10:       .blkb      1 
+                            108  .globl _PLY_PSGREG11
+   0054                     109 _PLY_PSGREG11:       .blkb       1 
+                            110  .globl _PLY_PSGREG12
+   0055                     111 _PLY_PSGREG12:       .blkb       2 
+                            112  .globl _PLY_PSGREGISTERSARRAY_END
+   0057                     113 _PLY_PSGREGISTERSARRAY_END:  .blkb 0
+                            114 
+                            115  .globl _arkosPlayerMemEnd
+   0057                     116 _arkosPlayerMemEnd:   .blkb       0 
+                            117 
+                            118                     .area .text     
+                     00FE   119 PLY_RETRIGVALUE     =      #0xFE                         ; some value greater than 0x0f 
+                            120  .globl PLAYER
+   0000                     121 PLAYER: 
+                            122  .globl PLY_PLAY
+   0000                     123 PLY_PLAY: 
+                            124 ;Manage Speed. If Speed counter is over, we have to read the Pattern further.
+   0000 7A 00 05      [ 7]  125                     dec      _PLY_SPEEDCPT 
+   0003 10 26 01 29   [ 6]  126                     lbne     PLY_SPEEDEND 
+                            127 ;Moving forward in the Pattern. Test if it is not over.
+   0007 7A 00 06      [ 7]  128                     dec      _PLY_HEIGHTCPT 
+   000A 26 61         [ 3]  129                     BNE      PLY_HEIGHTEND 
+                            130 ;Pattern Over. We have to read the Linker.
+                            131 ;Get the Transpositions, if they have changed, or detect the Song Ending !
+   000C BE 00 09      [ 6]  132                     LDX      _PLY_LINKER_PT 
+   000F A6 80         [ 6]  133                     LDA      ,X+ 
+                            134 ; A = 
+                            135 ;{DB PatternState :
+                            136 ;
+                            137 ;	b5 = New Special Track ?
+                            138 ;	b4 = New Height ?
+                            139 ;	b3 = New Transposition 3 ?
+                            140 ;	b2 = New Transposition 2 ?
+                            141 ;	b1 = New Transposition 1 ?
+                            142 ;	b0 = Song over ? 1 = song over - no new bytes following -> loop possible...
+   0011 46            [ 2]  143                     RORA     
+   0012 24 05         [ 3]  144                     BCC      PLY_SONGNOTOVER 
+                            145 ;Song over ! We read the address of the Loop point.
+                            146 ;
+                            147 ; if b0 == 1
+                            148 ; dw Pointeur on Linker to loop. Restart reading.
+                            149 ;
+   0014 AE 84         [ 5]  150                     ldx      ,x 
+                            151 ;We know the Song won't restart now, so we can skip the first bit.                                                                                      ;WE KNOW THE SONG WON'T RESTART NOW, SO WE CAN SKIP THE FIRST BIT.
+   0016 A6 80         [ 6]  152                     LDA      ,X+ 
+                            153 ; now it looks like we just started a new pattern!
+   0018 46            [ 2]  154                     RORA                                  ; skip the song over, when we just start a new pattern - cant be over yet, can it? 
+                            155  .globl PLY_SONGNOTOVER
+   0019                     156 PLY_SONGNOTOVER: 
+                            157 ;if b0 = 0 :
+                            158 ;
+                            159 ;DB Transposition 1 if Transposition1?
+                            160 ;DB Transposition 2 if Transposition2?
+                            161 ;DB Transposition 3 if Transposition3?
+                            162 ;DW Track1
+                            163 ;DW Track2
+                            164 ;DW Track3
+                            165 ;DB Height if New Height?.
+                            166 ;DW Special Track if New Special Track?
+                            167 ;
+                            168 ;} * Length + 1		(+1 because the Loop item has to be added to the list).
+   0019 46            [ 2]  169                     RORA                                  ; if b1 = 1 
+   001A 24 05         [ 3]  170                     BCC      PLY_NONEWTRANSPOSITION1 
+   001C E6 80         [ 6]  171                     LDB      ,X+ 
+   001E F7 00 11      [ 5]  172                     STB      _Channel1Data + PLY_TRANSPOSITION 
+                            173  .globl PLY_NONEWTRANSPOSITION1
+   0021                     174 PLY_NONEWTRANSPOSITION1: 
+   0021 46            [ 2]  175                     RORA                                  ; if b2 = 1 
+   0022 24 05         [ 3]  176                     BCC      PLY_NONEWTRANSPOSITION2 
+   0024 E6 80         [ 6]  177                     LDB      ,X+ 
+   0026 F7 00 22      [ 5]  178                     STB      _Channel2Data + PLY_TRANSPOSITION 
+                            179  .globl PLY_NONEWTRANSPOSITION2
+   0029                     180 PLY_NONEWTRANSPOSITION2: 
+   0029 46            [ 2]  181                     RORA                                  ; if b3 = 1 
+   002A 24 05         [ 3]  182                     BCC      PLY_NONEWTRANSPOSITION3 
+   002C E6 80         [ 6]  183                     LDB      ,X+ 
+   002E F7 00 33      [ 5]  184                     STB      _Channel3Data + PLY_TRANSPOSITION 
+                            185  .globl PLY_NONEWTRANSPOSITION3
+   0031                     186 PLY_NONEWTRANSPOSITION3: 
+   0031 EE 81         [ 8]  187                     LDu      ,X++ 
+   0033 FF 00 18      [ 6]  188                     STu      _Channel1Data + PLY_TRACK_PT 
+   0036 EE 81         [ 8]  189                     LDu      ,X++ 
+   0038 FF 00 29      [ 6]  190                     STu      _Channel2Data + PLY_TRACK_PT 
+   003B EE 81         [ 8]  191                     LDu      ,X++ 
+   003D FF 00 3A      [ 6]  192                     STu      _Channel3Data + PLY_TRACK_PT 
+   0040 46            [ 2]  193                     RORA                                  ; if b4 = 1 
+   0041 24 05         [ 3]  194                     BCC      PLY_NONEWHEIGHT 
+   0043 E6 80         [ 6]  195                     LDB      ,X+ 
+   0045 F7 00 03      [ 5]  196                     STB      _PLY_HEIGHT 
+                            197  .globl PLY_NONEWHEIGHT
+   0048                     198 PLY_NONEWHEIGHT: 
+   0048 46            [ 2]  199                     RORA                                  ; if b5 = 1 
+   0049 24 05         [ 3]  200                     BCC      PLY_NONEWSPECIALTRACK 
+                            201  .globl PLY_NEWSPECIALTRACK
+   004B                     202 PLY_NEWSPECIALTRACK: 
+   004B EE 81         [ 8]  203                     ldu      , x++ 
+   004D FF 00 0C      [ 6]  204                     STu      _PLY_SAVESPECIALTRACK 
+                            205  .globl PLY_NONEWSPECIALTRACK
+   0050                     206 PLY_NONEWSPECIALTRACK: 
+   0050 BF 00 09      [ 6]  207                     STX      _PLY_LINKER_PT                ; this pattern was read, whenever the tracks are playered - the next pattern will start here 
+                            208 ; a new pattern allways resets the special track - whether an old one - or a just gotten one
+   0053 BE 00 0C      [ 6]  209                     LDX      _PLY_SAVESPECIALTRACK 
+   0056 BF 00 0E      [ 6]  210                     STX      _PLY_SPECIALTRACK_PT 
+                            211 ;Reset the SpecialTrack/Tracks line counter.
+                            212 ;We can't rely on the song data, because the Pattern Height is not related to the Tracks Height.
+                            213 ; countdowns allways test for dec->beq - so placing a one is a garantied "reset"
+   0059 86 01         [ 2]  214                     LDA      #0x1 
+   005B B7 00 10      [ 5]  215                     sta      _PLY_SPECIALTRACK_WAITCOUNTER 
+   005E B7 00 1A      [ 5]  216                     sta      _Channel1Data + PLY_TRACK_WAITCOUNTER 
+   0061 B7 00 2B      [ 5]  217                     sta      _Channel2Data + PLY_TRACK_WAITCOUNTER 
+   0064 B7 00 3C      [ 5]  218                     sta      _Channel3Data + PLY_TRACK_WAITCOUNTER 
+   0067 B6 00 03      [ 5]  219                     LDA      _PLY_HEIGHT 
+   006A B7 00 06      [ 5]  220                     STA      _PLY_HEIGHTCPT 
+                            221  .globl PLY_HEIGHTEND
+   006D                     222 PLY_HEIGHTEND: 
+                            223 ;Read the Special Track/Tracks.
+                            224 ;------------------------------
+                            225 ;
+                            226 ; note:
+                            227 ; vectrex player does not support digidrums!
+                            228 ;SpecialTracks
+                            229 ;-------------
+                            230 ;
+                            231 ;DB Data
+                            232 ;b0 = Data (1) or Wait (0)
+                            233 ;If Wait :
+                            234 ;b7-b1 = Wait b7-b1 lines. (1=1 line, 0=128 lines)
+                            235 ;If Data :
+                            236 ;b1 = Speed (0) or Digidrum (1) ?
+                            237 ;b7-b2 = Value. If value = 0, escape code : read next byte to know value.
+                            238 ;
+                            239 ;If Escape Code :
+                            240 ;{
+                            241 ; DB Value
+                            242 ;}
+                            243  .globl _read_special_track
+   006D                     244 _read_special_track: 
+                            245 ;Read the Special Track.
+   006D 7A 00 10      [ 7]  246                     dec      _PLY_SPECIALTRACK_WAITCOUNTER 
+   0070 26 1A         [ 3]  247                     BNE      PLY_SPECIALTRACK_DONE 
+   0072 BE 00 0E      [ 6]  248                     LDX      _PLY_SPECIALTRACK_PT 
+   0075 A6 80         [ 6]  249                     LDA      ,X+ 
+   0077 44            [ 2]  250                     LSRA                                  ; if b0=0 -> carry will be clear -> jump to WAIT 
+   0078 24 0C         [ 3]  251                     BCC      PLY_SPECIALTRACK_NEWWAIT 
+   007A 44            [ 2]  252                     LSRA                                  ; regardless if speed or digidrum -> if a right shift results in 0 A, than we have an escape situation, if not -> jump 
+   007B 26 02         [ 3]  253                     BNE      PLY_SPECIALTRACK_NOESCAPECODE 
+   007D A6 80         [ 6]  254                     LDA      ,X+                          ; load the escaped (additional) value 
+                            255  .globl PLY_SPECIALTRACK_NOESCAPECODE
+   007F                     256 PLY_SPECIALTRACK_NOESCAPECODE: 
+                            257 ; if carry was = by the last right shift, the special track
+                            258 ; denotes a digidrum, since it is not supported
+                            259 ; we just ignore it and jump to the end
+   007F 25 03         [ 3]  260                     bcs      PLY_PT_SPECIALTRACK_ENDDATA 
+                            261  .globl PLY_SPECIALTRACK_SPEED
+   0081                     262 PLY_SPECIALTRACK_SPEED: 
+   0081 B7 00 04      [ 5]  263                     STA      _PLY_SPEED                    ; the data we got was the speed - store it 
+                            264  .globl PLY_PT_SPECIALTRACK_ENDDATA
+   0084                     265 PLY_PT_SPECIALTRACK_ENDDATA: 
+   0084 86 01         [ 2]  266                     LDA      #0x1                          ; reset wait counter, next round might be more waiting :-) 
+                            267  .globl PLY_SPECIALTRACK_NEWWAIT
+   0086                     268 PLY_SPECIALTRACK_NEWWAIT: 
+   0086 BF 00 0E      [ 6]  269                     STX      _PLY_SPECIALTRACK_PT          ; is this used anywhere? 
+   0089 B7 00 10      [ 5]  270                     STA      _PLY_SPECIALTRACK_WAITCOUNTER 
+                            271  .globl PLY_SPECIALTRACK_DONE
+   008C                     272 PLY_SPECIALTRACK_DONE: 
+   008C 10 8E 00 11   [ 4]  273                     ldy      #_Channel1Data 
+                            274  .globl readnextchannel
+   0090                     275 readnextchannel: 
+                            276  .globl _read_track
+   0090                     277 _read_track: 
+                            278 ;Read the Track 1.
+                            279 ;-----------------
+                            280 ;Store the parameters, because the player below is called every frame, but the Read Track isn't.
+   0090 6A 29         [ 7]  281                     dec      PLY_TRACK_WAITCOUNTER,y 
+   0092 10 26 00 89   [ 6]  282                     lBNE     PLY_TRACK_NEWINSTRUMENT_WAIT_CONT 
+   0096 AE 27         [ 6]  283                     LDX      PLY_TRACK_PT, y 
+                            284  .globl PLY_READTRACK
+   0098                     285 PLY_READTRACK: 
+   0098 E6 80         [ 6]  286                     LDb      ,X+ 
+   009A 54            [ 2]  287                     LSRb                                  ;Full Optimisation ? If yes = Note only, no Pitch, no Volume, Same Instrument. 
+   009B 25 2A         [ 3]  288                     BCS      PLY_READTRACK_FULLOPTIMISATION 
+   009D C0 20         [ 2]  289                     SUBb     #32                          ;0-31 = Wait. 
+   009F 25 31         [ 3]  290                     BCS      PLY_READTRACK_WAIT 
+   00A1 27 20         [ 3]  291                     BEQ      PLY_READTRACK_NOOPTIMISATION_ESCAPECODE 
+   00A3 5A            [ 2]  292                     DECb                                  ;0 (32-32) = Escape Code for more Notes (parameters will be read) 
+                            293 ;Note. Parameters are present. But the note is only present if Note? flag is 1.
+                            294 ;Read Parameters
+                            295  .globl PLY_READTRACK_READPARAMETERS
+   00A4                     296 PLY_READTRACK_READPARAMETERS: 
+   00A4 A6 80         [ 6]  297                     LDA      ,X+ 
+   00A6 B7 00 00      [ 5]  298                     sta      _tmp_track_param              ;Save Parameters. 
+   00A9 85 80         [ 2]  299                     bita     #0x80                         ; is pitch following? -> load it 
+   00AB 27 04         [ 3]  300                     beq      PLY_READTRACK_PITCH_END 
+   00AD EE 81         [ 8]  301                     ldu      ,x++ 
+   00AF EF 2E         [ 6]  302                     stu      PLY_TRACK_PITCHADD,y 
+                            303  .globl PLY_READTRACK_PITCH_END
+   00B1                     304 PLY_READTRACK_PITCH_END: 
+   00B1 85 20         [ 2]  305                     bita     #0x20                         ; is instrument following? -> load it 
+   00B3 27 25         [ 3]  306                     beq      do_continue_p_vol 
+                            307 ; in a original parameter
+                            308 ; use it to correct volume, if any
+                            309 ; befor "destroying" a with instrument data
+   00B5 46            [ 2]  310                     RORA                                  ;Volume ? If bit 4(0?) was 1, then volume exists on b3-b0 - inverted volume 
+   00B6 24 04         [ 3]  311                     BCC      PLY_TRACK_SAMEVOLUME_2 
+   00B8 84 0F         [ 2]  312                     ANDA     #0b00001111 
+   00BA A7 2B         [ 5]  313                     STA      PLY_TRACK_VOLUME , y 
+                            314  .globl PLY_TRACK_SAMEVOLUME_2
+   00BC                     315 PLY_TRACK_SAMEVOLUME_2: 
+   00BC A6 80         [ 6]  316                     LDA      ,X+ 
+   00BE B7 00 01      [ 5]  317                     sta      _tmp_track_instrument 
+   00C1 20 1E         [ 3]  318                     bra      do_continue_p_vol_done 
+                            319 
+                            320  .globl PLY_READTRACK_NOOPTIMISATION_ESCAPECODE
+   00C3                     321 PLY_READTRACK_NOOPTIMISATION_ESCAPECODE: 
+   00C3 E6 80         [ 6]  322                     LDb      ,X+                          ; load note to B 
+   00C5 20 DD         [ 3]  323                     BRA      PLY_READTRACK_READPARAMETERS 
+                            324 
+                            325 ;---------  
+                            326  .globl PLY_READTRACK_FULLOPTIMISATION
+   00C7                     327 PLY_READTRACK_FULLOPTIMISATION: 
+   00C7 AF 27         [ 6]  328                     STX      PLY_TRACK_PT, y 
+   00C9 4F            [ 2]  329                     clra                                  ; is param now, no need to save - accessed directly in full opt 
+   00CA C0 01         [ 2]  330                     SUBb     #0x1 
+   00CC 24 1C         [ 3]  331                     BCC      full_opt_note_given 
+   00CE E6 80         [ 6]  332                     LDb      ,X+ 
+                            333 ;cc_out_save_note
+                            334                                                           ; no pitch 
+                            335                                                           ; no vol 
+                            336                                                           ; but certainly note 
+   00D0 20 18         [ 3]  337                     bra      full_opt_note_given 
+                            338 
+                            339 ;---------  
+                            340  .globl PLY_READTRACK_WAIT
+   00D2                     341 PLY_READTRACK_WAIT: 
+   00D2 CB 20         [ 2]  342                     ADDb     #32 
+                            343 ; macro call ->                     SET_CARRY  
+   00D4 1A 01         [ 3]  344                     ORCC     #0x01 
+   00D6 AF 27         [ 6]  345                     STX      PLY_TRACK_PT, y 
+   00D8 20 43         [ 3]  346                     bra      PLY_TRACK_NEWINSTRUMENT_SETWAIT 
+                            347 
+                            348  .globl do_continue_p_vol
+   00DA                     349 do_continue_p_vol: 
+                            350 ; in b now note - if any
+                            351 ; in a original parameter
+   00DA 46            [ 2]  352                     RORA                                  ;Volume ? If bit 4(0?) was 1, then volume exists on b3-b0 - inverted volume 
+   00DB 24 04         [ 3]  353                     BCC      PLY_TRACK_SAMEVOLUME_1 
+   00DD 84 0F         [ 2]  354                     ANDA     #0b00001111 
+   00DF A7 2B         [ 5]  355                     STA      PLY_TRACK_VOLUME , y 
+                            356  .globl PLY_TRACK_SAMEVOLUME_1
+   00E1                     357 PLY_TRACK_SAMEVOLUME_1: 
+                            358  .globl do_continue_p_vol_done
+   00E1                     359 do_continue_p_vol_done: 
+                            360 ; in b current note
+                            361 ; in tmp_b_instrument the current instrument number
+                            362 ; in tmp_d_param, the parameters of the last read track info
+                            363 ;76543210
+                            364 ;pnivvvvo
+                            365 ;
+                            366 ;DB Parameters
+                            367 ;p = New Pitch ?
+                            368 ;n = Note ?
+                            369 ;i = New Instrument ? Only tested if Note? = 1.
+                            370 ;v = Inverted Volume if Volume?=1. %0000 if Volume? is off.
+                            371 ;o = Volume ?
+                            372 ;No Wait command. Can be a Note and/or Effects.
+   00E1 B6 00 00      [ 5]  373                     lda      _tmp_track_param 
+   00E4 AF 27         [ 6]  374                     STX      PLY_TRACK_PT, y 
+   00E6 85 40         [ 2]  375                     bita     #0x40                         ;Note ? If no Note, we don't have to test if a new Instrument is here. 
+   00E8 27 31         [ 3]  376                     beq      PLY_TRACK_NONOTEGIVEN 
+                            377  .globl full_opt_note_given
+   00EA                     378 full_opt_note_given: 
+   00EA EB 20         [ 5]  379                     ADDb     PLY_TRANSPOSITION, y         ;Transpose Note according to the Transposition in the Linker. 
+   00EC E7 2A         [ 5]  380                     STb      PLY_TRACK_NOTE, y 
+   00EE 8E 00 00      [ 3]  381                     LDX      #0x0                          ;Reset the TrackPitch. 
+   00F1 AF 2C         [ 6]  382                     STX      PLY_TRACK_PITCH , y 
+   00F3 85 20         [ 2]  383                     bita     #0x20                         ;New Instrument ?; 
+   00F5 26 08         [ 3]  384                     bne      PLY_TRACK_NEWINSTRUMENT 
+   00F7 AE 21         [ 6]  385                     LDX      PLY_TRACK_SAVEPTINSTRUMENT, y ;Same Instrument. We recover its address to restart it. 
+   00F9 A6 25         [ 5]  386                     LDA      PLY_TRACK_INSTRUMENTSPEED, y ;Reset the Instrument Speed Counter. Never seemed useful... 
+   00FB A7 26         [ 5]  387                     STA      PLY_TRACK_INSTRUMENTSPEEDCPT , y 
+   00FD 20 13         [ 3]  388                     BRA      PLY_TRACK_INSTRUMENTRESETPT 
+                            389 
+                            390  .globl PLY_TRACK_NEWINSTRUMENT
+   00FF                     391 PLY_TRACK_NEWINSTRUMENT:                                   ;New  Instrument. We have to get its new address, and Speed. 
+   00FF 4F            [ 2]  392                     clra     
+   0100 F6 00 01      [ 5]  393                     ldb      _tmp_track_instrument 
+                            394 ; macro call ->                     MY_LSL_D  
+   0103 58            [ 2]  395                     LSLB     
+   0104 49            [ 2]  396                     ROLA     
+   0105 BE 00 07      [ 6]  397                     LDX      _PLY_TRACK_INSTRUMENTSTABLEPT 
+   0108 AE 8B         [ 9]  398                     ldx      d,x 
+   010A A6 80         [ 6]  399                     lda      ,x+ 
+   010C A7 25         [ 5]  400                     STA      PLY_TRACK_INSTRUMENTSPEED , y 
+   010E A7 26         [ 5]  401                     STA      PLY_TRACK_INSTRUMENTSPEEDCPT , y 
+   0110 AF 21         [ 6]  402                     STX      PLY_TRACK_SAVEPTINSTRUMENT, y ;When using the Instrument again, no need to give the Speed, it is skipped. ;WHEN USING THE INSTRUMENT AGAIN, NO NEED TO GIVE THE SPEED, IT IS SKIPPED. 
+                            403  .globl PLY_TRACK_INSTRUMENTRESETPT
+   0112                     404 PLY_TRACK_INSTRUMENTRESETPT: 
+   0112 A6 80         [ 6]  405                     LDA      ,X+ 
+   0114 27 03         [ 3]  406                     BEQ      noIntrumentRetrigger 
+   0116 B7 00 0B      [ 5]  407                     STA      _PLY_PSGREG13_RETRIG 
+                            408  .globl noIntrumentRetrigger
+   0119                     409 noIntrumentRetrigger: 
+   0119 AF 23         [ 6]  410                     STX      PLY_TRACK_INSTRUMENT, y 
+                            411  .globl PLY_TRACK_NONOTEGIVEN
+   011B                     412 PLY_TRACK_NONOTEGIVEN: 
+   011B C6 01         [ 2]  413                     LDb      #0x1             
+                            414  .globl PLY_TRACK_NEWINSTRUMENT_SETWAIT
+   011D                     415 PLY_TRACK_NEWINSTRUMENT_SETWAIT: 
+   011D E7 29         [ 5]  416                     STb      PLY_TRACK_WAITCOUNTER , y   
+                            417  .globl PLY_TRACK_NEWINSTRUMENT_WAIT_CONT
+   011F                     418 PLY_TRACK_NEWINSTRUMENT_WAIT_CONT: 
+   011F 31 A8 11      [ 5]  419                     leay     ArkosChannel, y 
+   0122 10 8C 00 44   [ 5]  420                     cmpy     #_ChannelDataEnd 
+   0126 10 26 FF 66   [ 6]  421                     lbne     readnextchannel 
+   012A B6 00 04      [ 5]  422                     LDA      _PLY_SPEED 
+   012D B7 00 05      [ 5]  423                     STA      _PLY_SPEEDCPT 
+                            424 
+                            425 
+                            426 
+                            427 
+                            428  .globl PLY_SPEEDEND
+   0130                     429 PLY_SPEEDEND: 
+   0130 CC 00 4D      [ 3]  430                     LDD      #_PLY_PSGREGISTERSARRAY + 4 
+   0133 FD 00 47      [ 6]  431                     std      _PLY_FREQ_REG 
+   0136 CC 00 53      [ 3]  432                     ldd      #_PLY_PSGREGISTERSARRAY + 10 
+   0139 FD 00 45      [ 6]  433                     std      _PLY_VOL_REG 
+   013C 10 8E 00 33   [ 4]  434                     LDY      #_Channel3Data 
+                            435  .globl playnextchannel
+   0140                     436 playnextchannel: 
+                            437  .globl _play_sound_track
+   0140                     438 _play_sound_track:
+                            439 ;Play the Sound on Track 
+                            440 ;-------------------------
+                            441 ;Plays the sound on each frame, but only save the forwarded Instrument pointer when Instrument Speed is reached.
+                            442 ;This is needed because TrackPitch is involved in the Software Frequency/Hardware Frequency calculation, and is calculated every frame.
+   0140 EC 2C         [ 6]  443                     LDD      PLY_TRACK_PITCH, y 
+   0142 E3 2E         [ 7]  444                     ADDD     PLY_TRACK_PITCHADD , y 
+   0144 ED 2C         [ 6]  445                     STD      PLY_TRACK_PITCH , y 
+                            446 ; arithmetic shift right D (halfing and preserving sign)
+                            447 ; slow down pitch by quartering the current pitch
+                            448 ; (after the add)
+   0146 47            [ 2]  449                     ASRA     
+   0147 56            [ 2]  450                     RORB     
+   0148 47            [ 2]  451                     ASRA     
+   0149 56            [ 2]  452                     RORB     
+   014A 1F 03         [ 6]  453                     TFR      D,U                          ; U = (PLY_TRACK_PITCH/4) 
+   014C AE 23         [ 6]  454                     LDX      PLY_TRACK_INSTRUMENT, y 
+                            455 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            456 ; PLAY SOUND
+                            457 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            458 ;Plays a sound stream.
+                            459 ;X Pointer to Instrument Data
+                            460 ;Y Pointer to track data
+                            461 ; U current track pitch
+                            462 ;RET = 
+                            463 ;X =New Instrument pointer.
+                            464 ; data in track record is set
+                            465  .globl PLY_PLAYSOUND
+   014E                     466 PLY_PLAYSOUND: 
+                            467 ;instrument 
+                            468 ;DB FirstByte
+                            469 ;if b0=0, NON-HARD sound. If b0=1, HARD Sound.
+   014E E6 80         [ 6]  470                     LDB      ,X+ 
+   0150 56            [ 2]  471                     RORB     
+   0151 25 65         [ 3]  472                     BCS      PLY_PS_HARD 
+                            473 ;************       
+                            474 ;SOFTWARE SOUND, b0 = 0       
+                            475 ;************    
+                            476 ;76543210
+                            477 ;pavvvvn0
+                            478 ;
+                            479 ;p = Pitch?
+                            480 ;a = Arpeggio?
+                            481 ;v = Volume
+                            482 ;n = Second Byte needed? Needed when Noise, or Manual frequency, or noise with no sound.
+   0153 56            [ 2]  483                     RORB                                  ; is b1 (n) set 
+   0154 25 2B         [ 3]  484                     BCS      PLY_PS_S_SECONDBYTENEEDED    ; if yes jump to read second byte 
+   0156 1F 98         [ 6]  485                     TFR      B,A                          ; for volume check copy the first byte to a 
+   0158 84 0F         [ 2]  486                     ANDA     #0b00001111                       ; 
+   015A 26 0C         [ 3]  487                     BNE      PLY_PS_S_SOUNDON             ; if is 0 than no sound at all 
+                            488                                                           ;Null Volume. It means no Sound. We stop the Sound, the Noise, and it's over. 
+   015C A7 9F 00 45   [ 9]  489                     STA      [_PLY_VOL_REG]                ;We have to make the volume to 0, because if a bass Hard was activated before, we have to stop it. 
+   0160 86 09         [ 2]  490                     lda      #0b00001001                       ; these are the register mask bits for this sound (or this no sound) 
+   0162 A7 A8 10      [ 5]  491                     sta      PLY_TRACK_REG_7,y 
+   0165 7E 02 CA      [ 4]  492                     jmp      out_sound 
+                            493 
+                            494 ; A = volume
+                            495  .globl PLY_PS_S_SOUNDON
+   0168                     496 PLY_PS_S_SOUNDON: 
+                            497 ; Volume is here, no Second Byte needed. It means we have a simple Software sound (Sound = On, Noise = Off)
+                            498 ; We have to test Arpeggio and Pitch, however.
+   0168 A0 2B         [ 5]  499                     SUBA     PLY_TRACK_VOLUME,y           ; tmp_volumeN ;Code Volume. volume of instrument minus inverted volume 
+   016A 24 01         [ 3]  500                     BCC      vol_not_null_1 
+   016C 4F            [ 2]  501                     CLRA     
+                            502  .globl vol_not_null_1
+   016D                     503 vol_not_null_1: 
+   016D A7 9F 00 45   [ 9]  504                     STA      [_PLY_VOL_REG] 
+   0171 86 08         [ 2]  505                     LDA      #0b00001000 
+   0173 A7 A8 10      [ 5]  506                     sta      PLY_TRACK_REG_7,y 
+   0176 56            [ 2]  507                     RORB                                  ;Needed for the subroutine to get the good flags. 
+   0177 17 01 A5      [ 9]  508                     LBSR     PLY_PS_CALCULATEFREQUENCY 
+                            509 ; in u frequency + pitch, in little endian order, ready to be written to psg
+   017A EF 9F 00 47   [10]  510                     stu      [_PLY_FREQ_REG] 
+   017E 7E 02 CA      [ 4]  511                     jmp      out_sound 
+                            512 
+                            513  .globl PLY_PS_S_SECONDBYTENEEDED
+   0181                     514 PLY_PS_S_SECONDBYTENEEDED: 
+   0181 86 08         [ 2]  515                     LDA      #0b00001000 
+   0183 A7 A8 10      [ 5]  516                     sta      PLY_TRACK_REG_7,y 
+                            517 ; A second byte of instrument data
+   0186 A6 80         [ 6]  518                     LDA      ,X+ 
+   0188 84 1F         [ 2]  519                     ANDA     #0b00011111 
+   018A 27 06         [ 3]  520                     BEQ      PLY_PS_S_SBN_NONOISE 
+   018C B7 00 4F      [ 5]  521                     STA      _PLY_PSGREG6 
+   018F 6F A8 10      [ 7]  522                     clr      PLY_TRACK_REG_7,y 
+                            523  .globl PLY_PS_S_SBN_NONOISE
+   0192                     524 PLY_PS_S_SBN_NONOISE: 
+   0192 1F 98         [ 6]  525                     TFR      B,A 
+   0194 84 0F         [ 2]  526                     ANDA     #0b00001111 
+   0196 A0 2B         [ 5]  527                     SUBA     PLY_TRACK_VOLUME,y 
+                            528                                                           ;CODE VOLUME. 
+   0198 24 01         [ 3]  529                     BCC      no_vol_underflow_1 
+   019A 4F            [ 2]  530                     CLRA     
+                            531  .globl no_vol_underflow_1
+   019B                     532 no_vol_underflow_1: 
+   019B A7 9F 00 45   [ 9]  533                     STA      [_PLY_VOL_REG] 
+   019F A6 1F         [ 5]  534                     lda      -1,x 
+   01A1 85 20         [ 2]  535                     bita     #0b00100000 
+   01A3 26 06         [ 3]  536                     BNE      PLY_PS_S_SBN_SOUND 
+   01A5 6C A8 10      [ 7]  537                     inc      PLY_TRACK_REG_7,y 
+   01A8 7E 02 CA      [ 4]  538                     jmp      out_sound 
+                            539 
+                            540  .globl PLY_PS_S_SBN_SOUND
+   01AB                     541 PLY_PS_S_SBN_SOUND: 
+   01AB 56            [ 2]  542                     RORB                                  ;Needed for the subroutine to get the good flags. 
+   01AC 85 40         [ 2]  543                     bita     #0b01000000 
+   01AE 17 01 63      [ 9]  544                     LBSR     PLY_PS_CALCULATEFREQUENCY_TESTMANUALFREQUENCY 
+   01B1 EF 9F 00 47   [10]  545                     stu      [_PLY_FREQ_REG]               ; set frequency - u gotton from above jsr 
+   01B5 7E 02 CA      [ 4]  546                     jmp      out_sound 
+                            547 
+                            548 ; u current track pitch
+                            549 ; X is pointer to instrument
+                            550 ; B = first byte of instrument + one ror
+                            551 ;**********          
+                            552 ;HARD SOUND          
+                            553 ;**********          
+                            554  .globl PLY_PS_HARD
+   01B8                     555 PLY_PS_HARD: 
+                            556                                                           ;We don't set the Volume to 16 now because we may have reached the end of the sound ! 
+   01B8 56            [ 2]  557                     RORB                                  ;Test Retrig here, it is common to every Hard sounds. 
+   01B9 24 0D         [ 3]  558                     BCC      PLY_PS_HARD_NORETRIG 
+                            559 ;Retrig only if it is the first step in this line of Instrument !
+   01BB B6 00 16      [ 5]  560                     LDA      _Channel1Data + PLY_TRACK_INSTRUMENTSPEED ; forced first channel pointer 
+   01BE B1 00 17      [ 5]  561                     CMPA     _Channel1Data + PLY_TRACK_INSTRUMENTSPEEDCPT ; forced first channel pointer 
+   01C1 26 05         [ 3]  562                     BNE      PLY_PS_HARD_NORETRIG 
+   01C3 86 FE         [ 2]  563                     lda      #PLY_RETRIGVALUE 
+   01C5 B7 00 0B      [ 5]  564                     STA      _PLY_PSGREG13_RETRIG 
+                            565  .globl PLY_PS_HARD_NORETRIG
+   01C8                     566 PLY_PS_HARD_NORETRIG: 
+                            567                                                           ; Test bit 1 of B Use BITB 
+   01C8 C5 02         [ 2]  568                     bitb     #0b00000010                   ;WE DON'T SHIFT THE BITS, SO THAT WE CAN USE THE SAME CODE (FREQUENCY CALCULATION) SEVERAL TIMES. 
+   01CA 10 26 00 A2   [ 6]  569                     LBNE     PLY_PS_HARD_LOOPORINDEPENDENT 
+   01CE 86 10         [ 2]  570                     lda      #0x10 
+   01D0 A7 9F 00 45   [ 9]  571                     STA      [_PLY_VOL_REG] 
+   01D4 86 08         [ 2]  572                     lda      #0b00001000 
+   01D6 A7 A8 10      [ 5]  573                     sta      PLY_TRACK_REG_7,y 
+   01D9 A6 80         [ 6]  574                     lda      ,x+ 
+                            575 ;Second Byte :
+                            576 ;76543210
+                            577 ;nssscccc;
+                            578 ;
+                            579 ;n = Noise ?
+                            580 ;s = Inverted Shift (7 - Editor Shift)
+                            581 ;c = Hardware Enveloppe
+   01DB B7 00 02      [ 5]  582                     sta      _tmp_instrument_second_byte   ;Get the Hardware Envelope waveform. 
+   01DE 84 0F         [ 2]  583                     ANDA     #0b00001111 
+   01E0 B7 00 44      [ 5]  584                     STA      _PLY_PSGREG13 
+                            585                                                           ; Test bit 0 of B Use BITA or BITB 
+   01E3 C5 01         [ 2]  586                     bitb     #0b00000001 
+   01E5 27 4F         [ 3]  587                     BEQ      PLY_PS_HARDWAREDEPENDENT 
+                            588 ;upon entry in  
+                            589 ; x instrumentpointer after second byte of current data
+                            590 ; a = second byte (also in _tmp_instrument_second_byte)
+                            591 ; b = first byte ror *2
+                            592 ; y = pointer to current frequency register of channel 
+                            593 ; u = current track pitch
+                            594 ;************        
+                            595 ;SOFTWARE DEP        
+                            596 ;************        
+                            597                                                           ;MANUAL FREQUENCY ? -2 BECAUSE THE BYTE HAS BEEN SHIFTED PREVIOUSLY. 
+   01E7 C5 04         [ 2]  598                     bitb     #0b00000100 
+   01E9 BD 03 14      [ 8]  599                     JSR      PLY_PS_CALCULATEFREQUENCY_TESTMANUALFREQUENCY 
+                            600                                                           ; in u current frequency in little endian format, ready to be written to PSG 
+   01EC EF 9F 00 47   [10]  601                     stu      [_PLY_FREQ_REG] 
+                            602                                                           ; check for HW pitch and remember 
+   01F0 C5 20         [ 2]  603                     BITB     #0b00100000                  
+   01F2 34 01         [ 6]  604                     pshs     cc 
+   01F4 F6 00 02      [ 5]  605                     LDb      _tmp_instrument_second_byte   ;0 reload second byte of current instrument data 
+                            606 ; encoded in bit 4 - 6 shift 3 times -> *2
+                            607 ; shift is stored in inverse, 7 - shift
+   01F7 54            [ 2]  608                     LSRb     
+   01F8 54            [ 2]  609                     LSRb     
+   01F9 54            [ 2]  610                     LSRb     
+   01FA C4 0E         [ 2]  611                     ANDb     #0b00001110                      ; blend out all other data 
+   01FC 4F            [ 2]  612                     clra     
+   01FD C3 02 06      [ 4]  613                     addd     #PLY_PS_SD_SHIFT_ADREESS 
+   0200 1E 30         [ 8]  614                     exg      u,d                          ; shifts only possible with u->D 
+   0202 1E 89         [ 8]  615                     exg      a,b                          ; to big endian 
+   0204 6E C4         [ 3]  616                     jmp      ,u 
+                            617 
+                            618  .globl PLY_PS_SD_SHIFT_ADREESS
+   0206                     619 PLY_PS_SD_SHIFT_ADREESS: 
+   0206 44            [ 2]  620                     LSRA     
+   0207 56            [ 2]  621                     RORB     
+   0208 44            [ 2]  622                     LSRA     
+   0209 56            [ 2]  623                     RORB     
+   020A 44            [ 2]  624                     LSRA     
+   020B 56            [ 2]  625                     RORB     
+   020C 44            [ 2]  626                     LSRA     
+   020D 56            [ 2]  627                     RORB     
+   020E 44            [ 2]  628                     LSRA     
+   020F 56            [ 2]  629                     RORB     
+   0210 44            [ 2]  630                     LSRA     
+   0211 56            [ 2]  631                     RORB     
+   0212 44            [ 2]  632                     LSRA     
+   0213 56            [ 2]  633                     RORB     
+   0214 24 03         [ 3]  634                     BCC      no_shift_carry_sd 
+   0216 C3 00 01      [ 4]  635                     addd     #1 
+                            636  .globl no_shift_carry_sd
+   0219                     637 no_shift_carry_sd: 
+                            638 ; in d now frequency software, shifted X times, in big endian order
+                            639 ;Hardware Pitch ?
+   0219 35 01         [ 6]  640                     puls     cc 
+   021B 27 02         [ 3]  641                     BEQ      PLY_PS_SD_NOHARDWAREPITCH 
+                            642 ;Get Pitch and add it to the just calculated Hardware Frequency.
+   021D E3 81         [ 9]  643                     addd     ,x++ 
+                            644  .globl PLY_PS_SD_NOHARDWAREPITCH
+   021F                     645 PLY_PS_SD_NOHARDWAREPITCH: 
+   021F 1E 89         [ 8]  646                     exg      a,b                          ; correct endianness of calculated frequency to little endian for PSG poke 
+   0221 FD 00 54      [ 6]  647                     STD      _PLY_PSGREG11 
+                            648  .globl PLY_PS_SD_NOISE
+   0224                     649 PLY_PS_SD_NOISE: 
+   0224 B6 00 02      [ 5]  650                     lda      _tmp_instrument_second_byte   ; second byte of instrument reloaded 
+   0227 85 80         [ 2]  651                     BITA     #0b10000000                   ; any noise? 
+   0229 27 08         [ 3]  652                     BEQ      ret_nla_here 
+   022B A6 80         [ 6]  653                     LDA      ,X+ 
+   022D B7 00 4F      [ 5]  654                     STA      _PLY_PSGREG6 
+   0230 6F A8 10      [ 7]  655                     clr      PLY_TRACK_REG_7,y 
+                            656  .globl ret_nla_here
+   0233                     657 ret_nla_here: 
+                            658 ; NOTE:
+                            659 ; y is not = to point to psg registers anymore - 
+                            660 ; but at this point is not needed anymore
+                            661 ;        RTS    
+   0233 7E 02 CA      [ 4]  662                     jmp      out_sound 
+                            663 
+                            664 ;upon entry in  
+                            665 ; x instrumentpointer after second byte of current data
+                            666 ; a = second byte (also in _tmp_instrument_second_byte)
+                            667 ; b = first byte ror *2
+                            668 ; y = pointer to current frequency register of channel 
+                            669 ; u = current track pitch
+                            670 ;************       
+                            671 ;HARDWARE DEP       
+                            672 ;************       
+                            673  .globl PLY_PS_HARDWAREDEPENDENT
+   0236                     674 PLY_PS_HARDWAREDEPENDENT: 
+                            675                                                           ;MANUAL HARDWARE FREQUENCY ? -2 BECAUSE THE BYTE HAS BEEN SHIFTED PREVIOUSLY. 
+   0236 C5 04         [ 2]  676                     bitb     #0b00000100 
+   0238 BD 03 14      [ 8]  677                     jsr      PLY_PS_CALCULATEFREQUENCY_TESTMANUALFREQUENCY 
+                            678                                                           ; in u current frequency in little endian format, ready to be written to PSG 
+   023B FF 00 54      [ 6]  679                     STU      _PLY_PSGREG11                 ;CODE HARDWARE FREQUENCY. 
+                            680 ; test for softwarepitch and remember result (we lose b below, an save a reload - save? puls push???)
+   023E C5 20         [ 2]  681                     BITB     #0b00100000 
+   0240 34 01         [ 6]  682                     pshs     cc 
+   0242 F6 00 02      [ 5]  683                     ldb      _tmp_instrument_second_byte   ;0 reload second byte of current instrument data 
+                            684 ;Second Byte :
+                            685 ;76543210
+                            686 ;nssscccc
+                            687 ;
+                            688 ;n = Noise ?
+                            689 ;s = Inverted Shift (7 - Editor Shift)
+                            690 ;c = Hardware Enveloppe
+                            691 ; encoded in bit 4 - 6 shift 3 times -> *2
+                            692 ; shift is stored in inverse, 7 - shift
+   0245 54            [ 2]  693                     LSRb     
+   0246 54            [ 2]  694                     LSRb     
+   0247 54            [ 2]  695                     LSRb     
+   0248 C4 0E         [ 2]  696                     ANDb     #0b00001110 
+   024A 4F            [ 2]  697                     clra     
+   024B C3 02 54      [ 4]  698                     addd     #PLY_PS_HD_SHIFT_ADREESS 
+   024E 1E 30         [ 8]  699                     exg      u,d                          ; shifts only possible with u->D 
+   0250 1E 89         [ 8]  700                     exg      a,b                          ; to big endian 
+   0252 6E C4         [ 3]  701                     jmp      ,u 
+                            702 
+                            703  .globl PLY_PS_HD_SHIFT_ADREESS
+   0254                     704 PLY_PS_HD_SHIFT_ADREESS: 
+   0254 58            [ 2]  705                     ASLB     
+   0255 49            [ 2]  706                     ROLA     
+   0256 58            [ 2]  707                     ASLB     
+   0257 49            [ 2]  708                     ROLA     
+   0258 58            [ 2]  709                     ASLB     
+   0259 49            [ 2]  710                     ROLA     
+   025A 58            [ 2]  711                     ASLB     
+   025B 49            [ 2]  712                     ROLA     
+   025C 58            [ 2]  713                     ASLB     
+   025D 49            [ 2]  714                     ROLA     
+   025E 58            [ 2]  715                     ASLB     
+   025F 49            [ 2]  716                     ROLA     
+   0260 58            [ 2]  717                     ASLB     
+   0261 49            [ 2]  718                     ROLA     
+                            719 ; in d the shifted frequency in big endian format
+                            720 ; software pitch configured?
+   0262 35 01         [ 6]  721                     puls     cc 
+   0264 27 02         [ 3]  722                     BEQ      PLY_PS_HD_NOSOFTWAREPITCH 
+                            723 ;Get Pitch and add it to the just calculated Hardware Frequency.
+   0266 E3 81         [ 9]  724                     addd     ,x++ 
+                            725  .globl PLY_PS_HD_NOSOFTWAREPITCH
+   0268                     726 PLY_PS_HD_NOSOFTWAREPITCH: 
+   0268 1E 89         [ 8]  727                     exg      a,b                          ; correct endianness of calculated frequency to little endian for PSG poke 
+   026A ED 9F 00 47   [10]  728                     std      [_PLY_FREQ_REG] 
+   026E 20 B4         [ 3]  729                     bra      PLY_PS_SD_NOISE 
+                            730 
+                            731  .globl PLY_PS_HARD_LOOPORINDEPENDENT
+   0270                     732 PLY_PS_HARD_LOOPORINDEPENDENT: 
+                            733                                                           ;Test bit 0 of B Use BITA or BITB 
+   0270 C5 01         [ 2]  734                     BITB     #0b00000001 
+   0272 27 05         [ 3]  735                     BEQ      PLY_PS_INDEPENDENT 
+   0274 AE 84         [ 5]  736                     ldx      ,x 
+   0276 7E 01 4E      [ 4]  737                     jmp      PLY_PLAYSOUND 
+                            738 
+                            739 ; u current track pitch
+                            740 ; X is pointer to instrument
+                            741 ; B = first byte of instrument + 2 ror
+                            742 ;***********        
+                            743 ;INDEPENDENT        
+                            744 ;***********        
+                            745 ; in b shifted twice:
+                            746 ;------------------
+                            747 ;76543210
+                            748 ;spam10r1
+                            749 ;
+                            750 ;After shifting (done twice):
+                            751 ;76543210
+                            752 ;--spam10		(spam, ahah).
+                            753 ;
+                            754 ;
+                            755 ;s = Sound ? If Sound? = 0, no need to take care of Software Manual Frequency, Pitch and Arpeggio.
+                            756 ;m = Manual Frequency? (if 1, Arpeggio and Pitch not read). Manual Frequency can only be present if Sound? = 1.
+                            757 ;a = Arpeggio?
+                            758 ;p = Pitch?
+                            759 ;r = Retrig?
+                            760  .globl PLY_PS_INDEPENDENT
+   0279                     761 PLY_PS_INDEPENDENT: 
+   0279 86 10         [ 2]  762                     lda      #0x10 
+   027B A7 9F 00 45   [ 9]  763                     STA      [_PLY_VOL_REG] 
+                            764 ;        Test bit 7-2 of B  
+   027F C5 20         [ 2]  765                     BITB     #0b00100000 
+   0281 26 07         [ 3]  766                     BNE      PLY_PS_I_SOUNDON 
+   0283 86 09         [ 2]  767                     lda      #0b00001001 
+   0285 A7 A8 10      [ 5]  768                     sta      PLY_TRACK_REG_7,y 
+   0288 20 16         [ 3]  769                     BRA      PLY_PS_I_SKIPSOFTWAREFREQUENCYCALCULATION 
+                            770 
+                            771  .globl PLY_PS_I_SOUNDON
+   028A                     772 PLY_PS_I_SOUNDON: 
+   028A 86 08         [ 2]  773                     lda      #0b00001000 
+   028C A7 A8 10      [ 5]  774                     sta      PLY_TRACK_REG_7,y 
+                            775 ; hardare calculation expects one frequency calculation already being done -> u than is little endian!
+   028F 1E 03         [ 8]  776                     exg      d,u 
+   0291 1E 89         [ 8]  777                     exg      a,b 
+   0293 1E 03         [ 8]  778                     exg      d,u 
+   0295 A6 2A         [ 5]  779                     LDA      PLY_TRACK_NOTE,y 
+                            780 ;        Test bit 4-2 of B Use BITA or BITB   
+   0297 C5 04         [ 2]  781                     BITB     #0b00000100 
+   0299 BD 03 14      [ 8]  782                     jsr      PLY_PS_CALCULATEFREQUENCY_TESTMANUALFREQUENCY 
+                            783                                                           ; in u current frequency in little endian format, ready to be written to PSG 
+   029C EF 9F 00 47   [10]  784                     stu      [_PLY_FREQ_REG]               ; write software note with its frequency to PSG 
+                            785  .globl PLY_PS_I_SKIPSOFTWAREFREQUENCYCALCULATION
+   02A0                     786 PLY_PS_I_SKIPSOFTWAREFREQUENCYCALCULATION: 
+                            787 ; load second byte of independend instrument data
+                            788 ; B after load = :
+                            789 ;76543210
+                            790 ;npamcccc
+                            791 ;
+                            792 ;n = Noise ?
+                            793 ;p = Hardware Pitch?
+                            794 ;a = Hardware Arpeggio?
+                            795 ;m = Manual Hardware Frequency? (if 1, Arpeggio and Pitch not read).
+                            796 ;c = Hardware Enveloppe
+   02A0 E6 80         [ 6]  797                     LDB      ,X+ 
+   02A2 1F 98         [ 6]  798                     TFR      B,A 
+   02A4 84 0F         [ 2]  799                     ANDA     #0b00001111 
+   02A6 B7 00 44      [ 5]  800                     STA      _PLY_PSGREG13 
+   02A9 56            [ 2]  801                     RORB     
+   02AA 56            [ 2]  802                     RORB     
+   02AB 1E 03         [ 8]  803                     exg      d,u 
+   02AD 1E 89         [ 8]  804                     exg      a,b 
+   02AF 1E 03         [ 8]  805                     exg      d,u 
+                            806                                                           ;MANUAL HARDWARE FREQUENCY ? -2 BECAUSE THE BYTE HAS BEEN SHIFTED PREVIOUSLY. 
+   02B1 C5 04         [ 2]  807                     BITB     #0b00000100 
+   02B3 BD 03 14      [ 8]  808                     jsr      PLY_PS_CALCULATEFREQUENCY_TESTMANUALFREQUENCY 
+                            809                                                           ; b stays the same during frequency test 
+                            810                                                           ; in u current frequency in little endian format, ready to be written to PSG 
+   02B6 FF 00 54      [ 6]  811                     STu      _PLY_PSGREG11                 ;CODE HARDWARE FREQUENCY. 
+   02B9 C5 20         [ 2]  812                     BITB     #0b00100000 
+   02BB 27 0D         [ 3]  813                     BEQ      outahere_1 
+   02BD A6 80         [ 6]  814                     LDA      ,X+ 
+   02BF B7 00 4F      [ 5]  815                     STA      _PLY_PSGREG6 
+   02C2 A6 A8 10      [ 5]  816                     lda      PLY_TRACK_REG_7,y 
+   02C5 84 F7         [ 2]  817                     anda     #0b11110111 
+   02C7 A7 A8 10      [ 5]  818                     sta      PLY_TRACK_REG_7,y 
+                            819  .globl outahere_1
+   02CA                     820 outahere_1: 
+                            821  .globl out_sound
+   02CA                     822 out_sound: 
+                            823 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   02CA 6A 26         [ 7]  824                     dec      PLY_TRACK_INSTRUMENTSPEEDCPT , y 
+   02CC 26 06         [ 3]  825                     BNE      PLY_TRACK_PLAYNOFORWARD 
+   02CE AF 23         [ 6]  826                     STX      PLY_TRACK_INSTRUMENT , y 
+   02D0 A6 25         [ 5]  827                     LDA      PLY_TRACK_INSTRUMENTSPEED , y 
+   02D2 A7 26         [ 5]  828                     STA      PLY_TRACK_INSTRUMENTSPEEDCPT , y 
+                            829  .globl PLY_TRACK_PLAYNOFORWARD
+   02D4                     830 PLY_TRACK_PLAYNOFORWARD: 
+   02D4 31 A8 EF      [ 5]  831                     leay     -ArkosChannel, y 
+   02D7 10 8C 00 00   [ 5]  832                     cmpy     #_Channel1Data-ArkosChannel 
+   02DB 27 15         [ 3]  833                     beq      doneplaying 
+   02DD FC 00 47      [ 6]  834                     ldd      _PLY_FREQ_REG 
+   02E0 83 00 02      [ 4]  835                     subd     #2 
+   02E3 FD 00 47      [ 6]  836                     std      _PLY_FREQ_REG 
+   02E6 FC 00 45      [ 6]  837                     ldd      _PLY_VOL_REG 
+   02E9 83 00 01      [ 4]  838                     subd     #1 
+   02EC FD 00 45      [ 6]  839                     std      _PLY_VOL_REG 
+   02EF 7E 01 40      [ 4]  840                     jmp      playnextchannel 
+                            841 
+                            842  .globl doneplaying
+   02F2                     843 doneplaying: 
+   02F2 B6 00 43      [ 5]  844                     lda      PLY_TRACK_REG_7 +_Channel3Data 
+   02F5 48            [ 2]  845                     ASLA     
+   02F6 BA 00 32      [ 5]  846                     ORA      PLY_TRACK_REG_7 +_Channel2Data 
+   02F9 49            [ 2]  847                     ROLA     
+   02FA BA 00 21      [ 5]  848                     ORA      PLY_TRACK_REG_7 +_Channel1Data 
+                            849 ;SEND THE REGISTERS TO PSG.
+                            850  .globl PLY_SENDREGISTERS
+   02FD                     851 PLY_SENDREGISTERS: 
+                            852 ;A = REGISTER 7       
+                            853 ; macro call ->                     STORE_PSG  7 
+   02FD B7 00 50      [ 5]  854                     sta      (_CVec_Music_Work + 7) 
+   0300 B6 00 44      [ 5]  855                     lda      _PLY_PSGREG13 
+   0303 B1 00 0B      [ 5]  856                     CMPA     _PLY_PSGREG13_RETRIG          ;IF ISRETRIG?, FORCE THE R13 TO BE TRIGGERED. 
+   0306 27 0B         [ 3]  857                     BEQ      backFromPlayer 
+   0308 B7 00 0B      [ 5]  858                     STA      _PLY_PSGREG13_RETRIG 
+                            859 ; macro call ->                     STORE_PSG  13 
+   030B B7 00 56      [ 5]  860                     sta      (_CVec_Music_Work + 13) 
+                            861 ; destroy shadow - otherwise 13 on same is not retriggered
+   030E 86 FF         [ 2]  862                     lda      #0xff 
+   0310 B7 C8 0D      [ 5]  863                     sta      Vec_Snd_Shadow+13 
+                            864  .globl backFromPlayer
+   0313                     865 backFromPlayer: 
+                            866 
+                            867 ; now this is NOT
+                            868 ; efficient, copy all data from _CVec_Music_Work to Vec_Music_Work
+                            869 ; this is inverse order!
+                            870 ; ldu #Vec_Music_Work_End+1; +2 since it is "--" first
+                            871 ; ldx #_CVec_Music_Work
+                            872 ; lda ,x+
+                            873 ; sta ,-u
+                            874 ; lda ,x+
+                            875 ; sta ,-u
+                            876 ; lda ,x+
+                            877 ; sta ,-u
+                            878 ; lda ,x+
+                            879 ; sta ,-u
+                            880 ; lda ,x+
+                            881 ; sta ,-u
+                            882 ; lda ,x+
+                            883 ; sta ,-u
+                            884 ; lda ,x+
+                            885 ; sta ,-u
+                            886 ; lda ,x+
+                            887 ; sta ,-u
+                            888 ; lda ,x+
+                            889 ; sta ,-u
+                            890 ; lda ,x+
+                            891 ; sta ,-u
+                            892 ; lda ,x+
+                            893 ; sta ,-u
+                            894 ; lda ,x+
+                            895 ; sta ,-u
+                            896 ; lda ,x+
+                            897 ; sta ,-u
+                            898 
+   0313 39            [ 5]  899                     RTS      
+                            900 
+                            901 ;Subroutine that =
+                            902 ;If Manual Frequency? (Flag Z off), read frequency (Word) and adds the TrackPitch.
+                            903 ;Else, Auto Frequency.
+                            904 ;	if Arpeggio? = 1 (bit 3 from B), read it (Byte).
+                            905 ;	if Pitch? = 1 (bit 4 from B), read it (Word).
+                            906 ;	Calculate the frequency according to the Note + Arpeggio + TrackPitch.
+                            907 ; U track pitch
+                            908 ; X pointer to instrument data
+                            909 ;
+                            910 ;RET = 
+                            911 ;X = Instrument pointer.
+                            912 ;u current frequency in little endian order, ready to be written to psg
+                            913 ; y,b stays same
+                            914  .globl PLY_PS_CALCULATEFREQUENCY_TESTMANUALFREQUENCY
+   0314                     915 PLY_PS_CALCULATEFREQUENCY_TESTMANUALFREQUENCY: 
+   0314 27 09         [ 3]  916                     BEQ      PLY_PS_CALCULATEFREQUENCY 
+                            917 ;Manual Frequency. We read it, no need to read Pitch and Arpeggio.
+                            918 ;However, we add TrackPitch to the read Frequency, and that's all.
+   0316 1E 30         [ 8]  919                     exg      u,d 
+   0318 E3 81         [ 9]  920                     addd     ,X++ 
+   031A 1E 89         [ 8]  921                     exg      a,b                          ; switching endian anyway because PSG regs are sortof little endian 
+   031C 1E 30         [ 8]  922                     exg      u,d 
+   031E 39            [ 5]  923                     RTS      
+                            924 
+                            925 ; in tmp_de all pitches together
+                            926 ; pitch is a frequency modifier
+                            927 ; arepgio is also a frequency modifier but indirect thru a note change
+                            928 ;X Pointer to Instrument Data
+                            929 ;U current track pitch
+                            930 ;B = first byte of instrument data (ROR *3) (when from SOFTWARE SOUND)
+                            931 ;Note (tmp_noteVolumne)
+                            932 ;Inverted Volume (tmp_noteVolumne)
+                            933 ;RET = 
+                            934 ;X = Instrument pointer.
+                            935 ;u current frequency in little endian order, ready to be written to psg
+                            936 ; y,b stays same
+                            937  .globl PLY_PS_CALCULATEFREQUENCY
+   031F                     938 PLY_PS_CALCULATEFREQUENCY: 
+                            939 ; test for arpegio for later use
+   031F C5 08         [ 2]  940                     bitb     #0b00001000 
+   0321 34 05         [ 7]  941                     pshs     cc, b 
+                            942 ; Pitch ?
+                            943 ; Test bit 5-1 of B Use BITA or BITB  
+   0323 C5 10         [ 2]  944                     bitb     #0b00010000 
+   0325 27 04         [ 3]  945                     BEQ      PLY_PS_S_SOUNDON_NOPITCH 
+   0327 EC 81         [ 8]  946                     LDD      ,X++ 
+   0329 33 CB         [ 8]  947                     leau     d,u 
+                            948  .globl PLY_PS_S_SOUNDON_NOPITCH
+   032B                     949 PLY_PS_S_SOUNDON_NOPITCH: 
+                            950 ;Arpeggio ?
+   032B E6 2A         [ 5]  951                     LDb      PLY_TRACK_NOTE,y 
+   032D 35 01         [ 6]  952                     puls     cc                           ; reuse arpegio test from above 
+   032F 27 08         [ 3]  953                     BEQ      PLY_PS_S_SOUNDON_ARPEGGIOEND 
+   0331 EB 80         [ 6]  954                     ADDb     ,X+                          ;ADD ARPEGGIO TO NOTE. 
+   0333 C1 90         [ 2]  955                     CMPb     #144                         ; was max note reached? 
+   0335 25 02         [ 3]  956                     BCS      no_max_appegio 
+   0337 C6 8F         [ 2]  957                     LDb      #143                         ; if so set max note 
+                            958  .globl no_max_appegio
+   0339                     959 no_max_appegio: 
+                            960  .globl PLY_PS_S_SOUNDON_ARPEGGIOEND
+   0339                     961 PLY_PS_S_SOUNDON_ARPEGGIOEND: 
+   0339 4F            [ 2]  962                     clra     
+                            963                                                           ; in d now the note inclusive the arpegio 
+                            964 ; macro call ->                     MY_LSL_D                              ; for pointer in table double it 
+   033A 58            [ 2]  965                     LSLB     
+   033B 49            [ 2]  966                     ROLA     
+   033C C3 03 4A      [ 4]  967                     addd     #PLY_FREQUENCYTABLE 
+   033F 1E 30         [ 8]  968                     exg      u,d 
+   0341 E3 C4         [ 6]  969                     addd     ,u 
+   0343 1E 89         [ 8]  970                     exg      a,b                          ; switching en dian anyway because PSG regs are sortof little endian 
+   0345 1F 03         [ 6]  971                     tfr      d,u 
+   0347 35 84         [ 7]  972                     puls     b, pc 
+   0349 39            [ 5]  973                     RTS      
+                            974 
+                            975  .globl PLY_FREQUENCYTABLE
+   034A                     976 PLY_FREQUENCYTABLE: 
+                            977 ; Vectrex
+                            978 ; generated by using a PSG divider 16 and 1500000 Hz
+   034A 0F FF 0F FF 0F FF   979                     .word       4095 ,4095 ,4095,4095,4095,4095,4054,3827,3612,3409,3218 ,3037 
+        0F FF 0F FF 0F FF
+        0F D6 0E F3 0E 1C
+        0D 51 0C 92 0B DD
+   0362 0B 33 0A 92 09 FA   980                     .word       2867 ,2706,2554,2411,2275,2148,2027,1913,1806,1705,1609,1519 
+        09 6B 08 E3 08 64
+        07 EB 07 79 07 0E
+        06 A9 06 49 05 EF
+   037A 05 99 05 49 04 FD   981                     .word       1433,1353,1277,1205,1138,1074,1014,957,903,852,804,759 
+        04 B5 04 72 04 32
+        03 F6 03 BD 03 87
+        03 54 03 24 02 F7
+   0392 02 CD 02 A4 02 7E   982                     .word       717,676,638,603,569,537,507,478,451,426,402,380 
+        02 5B 02 39 02 19
+        01 FB 01 DE 01 C3
+        01 AA 01 92 01 7C
+   03AA 01 66 01 52 01 3F   983                     .word       358,338,319,301,284,268,253,239,226,213,201,190 
+        01 2D 01 1C 01 0C
+        00 FD 00 EF 00 E2
+        00 D5 00 C9 00 BE
+   03C2 00 B3 00 A9 00 A0   984                     .word       179,169,160,151,142,134,127,120,113,107,101,95 
+        00 97 00 8E 00 86
+        00 7F 00 78 00 71
+        00 6B 00 65 00 5F
+   03DA 00 5A 00 55 00 50   985                     .word       90,85,80,75,71,67,63,60,56,53,50,47 
+        00 4B 00 47 00 43
+        00 3F 00 3C 00 38
+        00 35 00 32 00 2F
+   03F2 00 2D 00 2A 00 28   986                     .word       45,42,40,38,36,34,32,30,28,27,25,24 
+        00 26 00 24 00 22
+        00 20 00 1E 00 1C
+        00 1B 00 19 00 18
+   040A 00 16 00 15 00 14   987                     .word       22,21,20,19,18,17,16,15,14,13,13,12 
+        00 13 00 12 00 11
+        00 10 00 0F 00 0E
+        00 0D 00 0D 00 0C
+   0422 00 0B 00 0B 00 0A   988                     .word       11,11,10,9,9,8,8,7,7,7,6,6 
+        00 09 00 09 00 08
+        00 08 00 07 00 07
+        00 07 00 06 00 06
+   043A 00 06 00 06 00 06   989                     .word       6,6,6,5,5,5,4,4,4,4,4,3 
+        00 05 00 05 00 05
+        00 04 00 04 00 04
+        00 04 00 04 00 03
+   0452 00 04 00 03 00 03   990                     .word       4,3,3,3,3,3,2,2,2,2,2,2 
+        00 03 00 03 00 03
+        00 02 00 02 00 02
+        00 02 00 02 00 02
+                            991 ; use this to compare generated YM files with tracker
+                            992 ; CPC
+                            993 ;                    dw       3822,3608,3405,3214,3034,2863,2703,2551,2408,2273,2145,2025 
+                            994 ;                    dw       1911,1804,1703,1607,1517,1432,1351,1276,1204,1136,1073,1012 
+                            995 ;                    dw       956,902,851,804,758,716,676,638,602,568,536,506 
+                            996 ;                    dw       478,451,426,402,379,358,338,319,301,284,268,253 
+                            997 ;                    dw       239,225,213,201,190,179,169,159,150,142,134,127 
+                            998 ;                    dw       119,113,106,100,95,89,84,80,75,71,67,63 
+                            999 ;                    dw       60,56,53,50,47,45,42,40,38,36,34,32 
+                           1000 ;                    dw       30,28,27,25,24,22,21,20,19,18,17,16 
+                           1001 ;                    dw       15,14,13,13,12,11,11,10,9,9,8,8 
+                           1002 ;                    dw       7,7,7,6,6,6,5,5,5,4,4,4 
+                           1003 ;                    dw       4,4,3,3,3,3,3,2,2,2,2,2 
+                           1004 ;                    dw       2,2,2,2,1,1,1,1,1,1,1,1 
+                           1005 ;******************
+                           1006 ; in u address of song 
+                           1007  .globl PLY_INIT
+   046A                    1008 PLY_INIT: 
+                           1009 ;Header
+                           1010 ;------
+                           1011 ;DB "AT10"
+                           1012 ;DB SampleChannel (1,2,3)
+                           1013 ;DB*3 YM Clock (little endian. 1000000=CPC, 1750000=Pentagon 128K, 1773400=ZX Spectrum/MSX, 2000000=Atari ST, or any other in case of custom frequency).
+                           1014 ;DB ReplayFrequency(0=13hz,1=25hz,2=50hz,3=100hz,4=150hz,5=300hz)
+                           1015 ;DB Speed (>=1)
+                           1016 ;dw Instruments Chunk Size (not including this Word)
+                           1017 ;
+                           1018 ;{
+                           1019 ;    dw Pointers on Instruments
+                           1020 ;} * nbInstruments
+                           1021 ;
+                           1022 ;{
+                           1023 ;    ds InstrumentData (see the Instrument structure below)
+                           1024 ;} * nbInstruments
+                           1025 ; Linker...
+                           1026 ; vectrex conversion skips the 9 "header" bytes and we start of directly at SPEED
+                           1027  .globl initCodeModifications
+   046A                    1028 initCodeModifications: 
+                           1029 ; these inits are by the original player "inherent"
+                           1030 ; since it uses selfmodifying code and the
+                           1031 ; init values are present in the code itself
+   046A 8E 00 00      [ 3] 1032                     ldx      #_arkosPlayerMemStart 
+   046D CC 00 58      [ 3] 1033                     ldd      #(_arkosPlayerMemEnd-_arkosPlayerMemStart+1) 
+   0470 BD F5 48      [ 8] 1034                     jsr      Clear_x_d 
+   0473 CC 01 01      [ 3] 1035                     ldd      #0x0101 
+   0476 FD 00 05      [ 6] 1036                     std      _PLY_SPEEDCPT 
+   0479 FD 00 03      [ 6] 1037                     std      _PLY_HEIGHT 
+   047C B7 00 17      [ 5] 1038                     sta      _Channel1Data+PLY_TRACK_INSTRUMENTSPEEDCPT 
+   047F B7 00 28      [ 5] 1039                     sta      _Channel2Data+PLY_TRACK_INSTRUMENTSPEEDCPT 
+   0482 B7 00 39      [ 5] 1040                     sta      _Channel3Data+PLY_TRACK_INSTRUMENTSPEEDCPT 
+   0485 86 06         [ 2] 1041                     lda      #6 
+   0487 B7 00 16      [ 5] 1042                     sta      _Channel1Data+PLY_TRACK_INSTRUMENTSPEED 
+   048A B7 00 27      [ 5] 1043                     sta      _Channel2Data+PLY_TRACK_INSTRUMENTSPEED 
+   048D B7 00 38      [ 5] 1044                     sta      _Channel3Data+PLY_TRACK_INSTRUMENTSPEED 
+   0490 86 FE         [ 2] 1045                     lda      #PLY_RETRIGVALUE 
+   0492 B7 00 0B      [ 5] 1046                     sta      _PLY_PSGREG13_RETRIG 
+                           1047 ; no the player init
+   0495 A6 C0         [ 6] 1048                     lda      ,u+ 
+   0497 B7 00 04      [ 5] 1049                     sta      _PLY_SPEED                    ;Copy Speed. 
+   049A EC C1         [ 8] 1050                     ldd      ,u++                         ;Get Instruments chunk size. 
+   049C FF 00 07      [ 6] 1051                     stu      _PLY_TRACK_INSTRUMENTSTABLEPT 
+   049F 33 CB         [ 8] 1052                     leau     d,u                          ;Skip Instruments to go to the Linker address. 
+                           1053                                                           ;Get the pre-Linker information of the first pattern. 
+                           1054 ;Pre-Linker
+                           1055 ;----------
+                           1056 ;First comes a unique bloc, just before the real Linker, and only used at the initialisation of the song. It is used to optimise the Looping of the song.
+                           1057 ;
+                           1058 ;DB First Height
+                           1059 ;DB Transposition1
+                           1060 ;DB Transposition2
+                           1061 ;DB Transposition3
+                           1062 ;DW Special Track
+                           1063 ;after that the first pattern starts...
+   04A1 EC C1         [ 8] 1064                     ldd     ,u++
+   04A3 B7 00 03      [ 5] 1065                     sta      _PLY_HEIGHT 
+   04A6 F7 00 11      [ 5] 1066                     stb      _Channel1Data + PLY_TRANSPOSITION 
+   04A9 EC C1         [ 8] 1067                     ldd      ,u++
+   04AB B7 00 22      [ 5] 1068                     sta      _Channel2Data + PLY_TRANSPOSITION 
+   04AE F7 00 33      [ 5] 1069                     stb      _Channel3Data + PLY_TRANSPOSITION 
+   04B1 EC C1         [ 8] 1070                     ldd      ,u++ 
+   04B3 FD 00 0C      [ 6] 1071                     std      _PLY_SAVESPECIALTRACK 
+                           1072 ;Store the Linker address.
+   04B6 FF 00 09      [ 6] 1073                     STu      _PLY_LINKER_PT 
+   04B9 86 FF         [ 2] 1074                     lda      #0xff                         ; make sure the hardware envelope is in an "unkown" state 
+   04BB B7 00 44      [ 5] 1075                     STA      _PLY_PSGREG13 
+                           1076 ;Set the Instruments pointers to Instrument 0 data (Header has to be skipped).
+   04BE BE 00 07      [ 6] 1077                     LDX      _PLY_TRACK_INSTRUMENTSTABLEPT 
+   04C1 AE 84         [ 5] 1078                     ldx      ,x 
+                           1079                                                           ;Skip Instrument 0 Header. 
+   04C3 30 02         [ 5] 1080                     leax     2,x 
+   04C5 BF 00 14      [ 6] 1081                     STX      _Channel1Data + PLY_TRACK_INSTRUMENT 
+   04C8 BF 00 25      [ 6] 1082                     STX      _Channel2Data + PLY_TRACK_INSTRUMENT 
+   04CB BF 00 36      [ 6] 1083                     STX      _Channel3Data + PLY_TRACK_INSTRUMENT 
+   04CE 39            [ 5] 1084                     RTS      
+                           1085 
+                           1086  .globl PLY_STOP
+   04CF                    1087 PLY_STOP: 
+   04CF CC 00 00      [ 3] 1088                     ldd      #00 
+   04D2 FD 00 51      [ 6] 1089                     std      _PLY_PSGREG8 
+   04D5 FD 00 52      [ 6] 1090                     std      _PLY_PSGREG9 
+   04D8 FD 00 53      [ 6] 1091                     std      _PLY_PSGREG10 
+   04DB 86 3F         [ 2] 1092                     lda      #0b00111111 
+   04DD 7E 02 FD      [ 4] 1093                     jmp      PLY_SENDREGISTERS 
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 A$arkosPlayerN     046A GR  |   2 A$arkosPlayerN     046D GR
+  2 A$arkosPlayerN     0470 GR  |   2 A$arkosPlayerN     0473 GR
+  2 A$arkosPlayerN     0476 GR  |   2 A$arkosPlayerN     0479 GR
+  2 A$arkosPlayerN     047C GR  |   2 A$arkosPlayerN     047F GR
+  2 A$arkosPlayerN     0482 GR  |   2 A$arkosPlayerN     0485 GR
+  2 A$arkosPlayerN     0487 GR  |   2 A$arkosPlayerN     048A GR
+  2 A$arkosPlayerN     048D GR  |   2 A$arkosPlayerN     0490 GR
+  2 A$arkosPlayerN     0492 GR  |   2 A$arkosPlayerN     0495 GR
+  2 A$arkosPlayerN     0497 GR  |   2 A$arkosPlayerN     049A GR
+  2 A$arkosPlayerN     049C GR  |   2 A$arkosPlayerN     049F GR
+  2 A$arkosPlayerN     04A1 GR  |   2 A$arkosPlayerN     04A3 GR
+  2 A$arkosPlayerN     04A6 GR  |   2 A$arkosPlayerN     04A9 GR
+  2 A$arkosPlayerN     04AB GR  |   2 A$arkosPlayerN     04AE GR
+  2 A$arkosPlayerN     04B1 GR  |   2 A$arkosPlayerN     04B3 GR
+  2 A$arkosPlayerN     04B6 GR  |   2 A$arkosPlayerN     04B9 GR
+  2 A$arkosPlayerN     04BB GR  |   2 A$arkosPlayerN     04BE GR
+  2 A$arkosPlayerN     04C1 GR  |   2 A$arkosPlayerN     04C3 GR
+  2 A$arkosPlayerN     04C5 GR  |   2 A$arkosPlayerN     04C8 GR
+  2 A$arkosPlayerN     04CB GR  |   2 A$arkosPlayerN     04CE GR
+  2 A$arkosPlayerN     04CF GR  |   2 A$arkosPlayerN     04D2 GR
+  2 A$arkosPlayerN     04D5 GR  |   2 A$arkosPlayerN     04D8 GR
+  2 A$arkosPlayerN     04DB GR  |   2 A$arkosPlayerN     04DD GR
+  2 A$arkosPlayerN     0000 GR  |   2 A$arkosPlayerN     0003 GR
+  2 A$arkosPlayerN     0007 GR  |   2 A$arkosPlayerN     000A GR
+  2 A$arkosPlayerN     000C GR  |   2 A$arkosPlayerN     000F GR
+  2 A$arkosPlayerN     0011 GR  |   2 A$arkosPlayerN     0012 GR
+  2 A$arkosPlayerN     0014 GR  |   2 A$arkosPlayerN     0016 GR
+  2 A$arkosPlayerN     0018 GR  |   2 A$arkosPlayerN     0019 GR
+  2 A$arkosPlayerN     001A GR  |   2 A$arkosPlayerN     001C GR
+  2 A$arkosPlayerN     001E GR  |   2 A$arkosPlayerN     0021 GR
+  2 A$arkosPlayerN     0022 GR  |   2 A$arkosPlayerN     0024 GR
+  2 A$arkosPlayerN     0026 GR  |   2 A$arkosPlayerN     0029 GR
+  2 A$arkosPlayerN     002A GR  |   2 A$arkosPlayerN     002C GR
+  2 A$arkosPlayerN     002E GR  |   2 A$arkosPlayerN     0031 GR
+  2 A$arkosPlayerN     0033 GR  |   2 A$arkosPlayerN     0036 GR
+  2 A$arkosPlayerN     0038 GR  |   2 A$arkosPlayerN     003B GR
+  2 A$arkosPlayerN     003D GR  |   2 A$arkosPlayerN     0040 GR
+  2 A$arkosPlayerN     0041 GR  |   2 A$arkosPlayerN     0043 GR
+  2 A$arkosPlayerN     0045 GR  |   2 A$arkosPlayerN     0048 GR
+  2 A$arkosPlayerN     0049 GR  |   2 A$arkosPlayerN     004B GR
+  2 A$arkosPlayerN     004D GR  |   2 A$arkosPlayerN     0050 GR
+  2 A$arkosPlayerN     0053 GR  |   2 A$arkosPlayerN     0056 GR
+  2 A$arkosPlayerN     0059 GR  |   2 A$arkosPlayerN     005B GR
+  2 A$arkosPlayerN     005E GR  |   2 A$arkosPlayerN     0061 GR
+  2 A$arkosPlayerN     0064 GR  |   2 A$arkosPlayerN     0067 GR
+  2 A$arkosPlayerN     006A GR  |   2 A$arkosPlayerN     006D GR
+  2 A$arkosPlayerN     0070 GR  |   2 A$arkosPlayerN     0072 GR
+  2 A$arkosPlayerN     0075 GR  |   2 A$arkosPlayerN     0077 GR
+  2 A$arkosPlayerN     0078 GR  |   2 A$arkosPlayerN     007A GR
+  2 A$arkosPlayerN     007B GR  |   2 A$arkosPlayerN     007D GR
+  2 A$arkosPlayerN     007F GR  |   2 A$arkosPlayerN     0081 GR
+  2 A$arkosPlayerN     0084 GR  |   2 A$arkosPlayerN     0086 GR
+  2 A$arkosPlayerN     0089 GR  |   2 A$arkosPlayerN     008C GR
+  2 A$arkosPlayerN     0090 GR  |   2 A$arkosPlayerN     0092 GR
+  2 A$arkosPlayerN     0096 GR  |   2 A$arkosPlayerN     0098 GR
+  2 A$arkosPlayerN     009A GR  |   2 A$arkosPlayerN     009B GR
+  2 A$arkosPlayerN     009D GR  |   2 A$arkosPlayerN     009F GR
+  2 A$arkosPlayerN     00A1 GR  |   2 A$arkosPlayerN     00A3 GR
+  2 A$arkosPlayerN     00A4 GR  |   2 A$arkosPlayerN     00A6 GR
+  2 A$arkosPlayerN     00A9 GR  |   2 A$arkosPlayerN     00AB GR
+  2 A$arkosPlayerN     00AD GR  |   2 A$arkosPlayerN     00AF GR
+  2 A$arkosPlayerN     00B1 GR  |   2 A$arkosPlayerN     00B3 GR
+  2 A$arkosPlayerN     00B5 GR  |   2 A$arkosPlayerN     00B6 GR
+  2 A$arkosPlayerN     00B8 GR  |   2 A$arkosPlayerN     00BA GR
+  2 A$arkosPlayerN     00BC GR  |   2 A$arkosPlayerN     00BE GR
+  2 A$arkosPlayerN     00C1 GR  |   2 A$arkosPlayerN     00C3 GR
+  2 A$arkosPlayerN     00C5 GR  |   2 A$arkosPlayerN     00C7 GR
+  2 A$arkosPlayerN     00C9 GR  |   2 A$arkosPlayerN     00CA GR
+  2 A$arkosPlayerN     00CC GR  |   2 A$arkosPlayerN     00CE GR
+  2 A$arkosPlayerN     00D0 GR  |   2 A$arkosPlayerN     00D2 GR
+  2 A$arkosPlayerN     00D4 GR  |   2 A$arkosPlayerN     00D6 GR
+  2 A$arkosPlayerN     00D8 GR  |   2 A$arkosPlayerN     00DA GR
+  2 A$arkosPlayerN     00DB GR  |   2 A$arkosPlayerN     00DD GR
+  2 A$arkosPlayerN     00DF GR  |   2 A$arkosPlayerN     00E1 GR
+  2 A$arkosPlayerN     00E4 GR  |   2 A$arkosPlayerN     00E6 GR
+  2 A$arkosPlayerN     00E8 GR  |   2 A$arkosPlayerN     00EA GR
+  2 A$arkosPlayerN     00EC GR  |   2 A$arkosPlayerN     00EE GR
+  2 A$arkosPlayerN     00F1 GR  |   2 A$arkosPlayerN     00F3 GR
+  2 A$arkosPlayerN     00F5 GR  |   2 A$arkosPlayerN     00F7 GR
+  2 A$arkosPlayerN     00F9 GR  |   2 A$arkosPlayerN     00FB GR
+  2 A$arkosPlayerN     00FD GR  |   2 A$arkosPlayerN     00FF GR
+  2 A$arkosPlayerN     0100 GR  |   2 A$arkosPlayerN     0103 GR
+  2 A$arkosPlayerN     0104 GR  |   2 A$arkosPlayerN     0105 GR
+  2 A$arkosPlayerN     0108 GR  |   2 A$arkosPlayerN     010A GR
+  2 A$arkosPlayerN     010C GR  |   2 A$arkosPlayerN     010E GR
+  2 A$arkosPlayerN     0110 GR  |   2 A$arkosPlayerN     0112 GR
+  2 A$arkosPlayerN     0114 GR  |   2 A$arkosPlayerN     0116 GR
+  2 A$arkosPlayerN     0119 GR  |   2 A$arkosPlayerN     011B GR
+  2 A$arkosPlayerN     011D GR  |   2 A$arkosPlayerN     011F GR
+  2 A$arkosPlayerN     0122 GR  |   2 A$arkosPlayerN     0126 GR
+  2 A$arkosPlayerN     012A GR  |   2 A$arkosPlayerN     012D GR
+  2 A$arkosPlayerN     0130 GR  |   2 A$arkosPlayerN     0133 GR
+  2 A$arkosPlayerN     0136 GR  |   2 A$arkosPlayerN     0139 GR
+  2 A$arkosPlayerN     013C GR  |   2 A$arkosPlayerN     0140 GR
+  2 A$arkosPlayerN     0142 GR  |   2 A$arkosPlayerN     0144 GR
+  2 A$arkosPlayerN     0146 GR  |   2 A$arkosPlayerN     0147 GR
+  2 A$arkosPlayerN     0148 GR  |   2 A$arkosPlayerN     0149 GR
+  2 A$arkosPlayerN     014A GR  |   2 A$arkosPlayerN     014C GR
+  2 A$arkosPlayerN     014E GR  |   2 A$arkosPlayerN     0150 GR
+  2 A$arkosPlayerN     0151 GR  |   2 A$arkosPlayerN     0153 GR
+  2 A$arkosPlayerN     0154 GR  |   2 A$arkosPlayerN     0156 GR
+  2 A$arkosPlayerN     0158 GR  |   2 A$arkosPlayerN     015A GR
+  2 A$arkosPlayerN     015C GR  |   2 A$arkosPlayerN     0160 GR
+  2 A$arkosPlayerN     0162 GR  |   2 A$arkosPlayerN     0165 GR
+  2 A$arkosPlayerN     0168 GR  |   2 A$arkosPlayerN     016A GR
+  2 A$arkosPlayerN     016C GR  |   2 A$arkosPlayerN     016D GR
+  2 A$arkosPlayerN     0171 GR  |   2 A$arkosPlayerN     0173 GR
+  2 A$arkosPlayerN     0176 GR  |   2 A$arkosPlayerN     0177 GR
+  2 A$arkosPlayerN     017A GR  |   2 A$arkosPlayerN     017E GR
+  2 A$arkosPlayerN     0181 GR  |   2 A$arkosPlayerN     0183 GR
+  2 A$arkosPlayerN     0186 GR  |   2 A$arkosPlayerN     0188 GR
+  2 A$arkosPlayerN     018A GR  |   2 A$arkosPlayerN     018C GR
+  2 A$arkosPlayerN     018F GR  |   2 A$arkosPlayerN     0192 GR
+  2 A$arkosPlayerN     0194 GR  |   2 A$arkosPlayerN     0196 GR
+  2 A$arkosPlayerN     0198 GR  |   2 A$arkosPlayerN     019A GR
+  2 A$arkosPlayerN     019B GR  |   2 A$arkosPlayerN     019F GR
+  2 A$arkosPlayerN     01A1 GR  |   2 A$arkosPlayerN     01A3 GR
+  2 A$arkosPlayerN     01A5 GR  |   2 A$arkosPlayerN     01A8 GR
+  2 A$arkosPlayerN     01AB GR  |   2 A$arkosPlayerN     01AC GR
+  2 A$arkosPlayerN     01AE GR  |   2 A$arkosPlayerN     01B1 GR
+  2 A$arkosPlayerN     01B5 GR  |   2 A$arkosPlayerN     01B8 GR
+  2 A$arkosPlayerN     01B9 GR  |   2 A$arkosPlayerN     01BB GR
+  2 A$arkosPlayerN     01BE GR  |   2 A$arkosPlayerN     01C1 GR
+  2 A$arkosPlayerN     01C3 GR  |   2 A$arkosPlayerN     01C5 GR
+  2 A$arkosPlayerN     01C8 GR  |   2 A$arkosPlayerN     01CA GR
+  2 A$arkosPlayerN     01CE GR  |   2 A$arkosPlayerN     01D0 GR
+  2 A$arkosPlayerN     01D4 GR  |   2 A$arkosPlayerN     01D6 GR
+  2 A$arkosPlayerN     01D9 GR  |   2 A$arkosPlayerN     01DB GR
+  2 A$arkosPlayerN     01DE GR  |   2 A$arkosPlayerN     01E0 GR
+  2 A$arkosPlayerN     01E3 GR  |   2 A$arkosPlayerN     01E5 GR
+  2 A$arkosPlayerN     01E7 GR  |   2 A$arkosPlayerN     01E9 GR
+  2 A$arkosPlayerN     01EC GR  |   2 A$arkosPlayerN     01F0 GR
+  2 A$arkosPlayerN     01F2 GR  |   2 A$arkosPlayerN     01F4 GR
+  2 A$arkosPlayerN     01F7 GR  |   2 A$arkosPlayerN     01F8 GR
+  2 A$arkosPlayerN     01F9 GR  |   2 A$arkosPlayerN     01FA GR
+  2 A$arkosPlayerN     01FC GR  |   2 A$arkosPlayerN     01FD GR
+  2 A$arkosPlayerN     0200 GR  |   2 A$arkosPlayerN     0202 GR
+  2 A$arkosPlayerN     0204 GR  |   2 A$arkosPlayerN     0206 GR
+  2 A$arkosPlayerN     0207 GR  |   2 A$arkosPlayerN     0208 GR
+  2 A$arkosPlayerN     0209 GR  |   2 A$arkosPlayerN     020A GR
+  2 A$arkosPlayerN     020B GR  |   2 A$arkosPlayerN     020C GR
+  2 A$arkosPlayerN     020D GR  |   2 A$arkosPlayerN     020E GR
+  2 A$arkosPlayerN     020F GR  |   2 A$arkosPlayerN     0210 GR
+  2 A$arkosPlayerN     0211 GR  |   2 A$arkosPlayerN     0212 GR
+  2 A$arkosPlayerN     0213 GR  |   2 A$arkosPlayerN     0214 GR
+  2 A$arkosPlayerN     0216 GR  |   2 A$arkosPlayerN     0219 GR
+  2 A$arkosPlayerN     021B GR  |   2 A$arkosPlayerN     021D GR
+  2 A$arkosPlayerN     021F GR  |   2 A$arkosPlayerN     0221 GR
+  2 A$arkosPlayerN     0224 GR  |   2 A$arkosPlayerN     0227 GR
+  2 A$arkosPlayerN     0229 GR  |   2 A$arkosPlayerN     022B GR
+  2 A$arkosPlayerN     022D GR  |   2 A$arkosPlayerN     0230 GR
+  2 A$arkosPlayerN     0233 GR  |   2 A$arkosPlayerN     0236 GR
+  2 A$arkosPlayerN     0238 GR  |   2 A$arkosPlayerN     023B GR
+  2 A$arkosPlayerN     023E GR  |   2 A$arkosPlayerN     0240 GR
+  2 A$arkosPlayerN     0242 GR  |   2 A$arkosPlayerN     0245 GR
+  2 A$arkosPlayerN     0246 GR  |   2 A$arkosPlayerN     0247 GR
+  2 A$arkosPlayerN     0248 GR  |   2 A$arkosPlayerN     024A GR
+  2 A$arkosPlayerN     024B GR  |   2 A$arkosPlayerN     024E GR
+  2 A$arkosPlayerN     0250 GR  |   2 A$arkosPlayerN     0252 GR
+  2 A$arkosPlayerN     0254 GR  |   2 A$arkosPlayerN     0255 GR
+  2 A$arkosPlayerN     0256 GR  |   2 A$arkosPlayerN     0257 GR
+  2 A$arkosPlayerN     0258 GR  |   2 A$arkosPlayerN     0259 GR
+  2 A$arkosPlayerN     025A GR  |   2 A$arkosPlayerN     025B GR
+  2 A$arkosPlayerN     025C GR  |   2 A$arkosPlayerN     025D GR
+  2 A$arkosPlayerN     025E GR  |   2 A$arkosPlayerN     025F GR
+  2 A$arkosPlayerN     0260 GR  |   2 A$arkosPlayerN     0261 GR
+  2 A$arkosPlayerN     0262 GR  |   2 A$arkosPlayerN     0264 GR
+  2 A$arkosPlayerN     0266 GR  |   2 A$arkosPlayerN     0268 GR
+  2 A$arkosPlayerN     026A GR  |   2 A$arkosPlayerN     026E GR
+  2 A$arkosPlayerN     0270 GR  |   2 A$arkosPlayerN     0272 GR
+  2 A$arkosPlayerN     0274 GR  |   2 A$arkosPlayerN     0276 GR
+  2 A$arkosPlayerN     0279 GR  |   2 A$arkosPlayerN     027B GR
+  2 A$arkosPlayerN     027F GR  |   2 A$arkosPlayerN     0281 GR
+  2 A$arkosPlayerN     0283 GR  |   2 A$arkosPlayerN     0285 GR
+  2 A$arkosPlayerN     0288 GR  |   2 A$arkosPlayerN     028A GR
+  2 A$arkosPlayerN     028C GR  |   2 A$arkosPlayerN     028F GR
+  2 A$arkosPlayerN     0291 GR  |   2 A$arkosPlayerN     0293 GR
+  2 A$arkosPlayerN     0295 GR  |   2 A$arkosPlayerN     0297 GR
+  2 A$arkosPlayerN     0299 GR  |   2 A$arkosPlayerN     029C GR
+  2 A$arkosPlayerN     02A0 GR  |   2 A$arkosPlayerN     02A2 GR
+  2 A$arkosPlayerN     02A4 GR  |   2 A$arkosPlayerN     02A6 GR
+  2 A$arkosPlayerN     02A9 GR  |   2 A$arkosPlayerN     02AA GR
+  2 A$arkosPlayerN     02AB GR  |   2 A$arkosPlayerN     02AD GR
+  2 A$arkosPlayerN     02AF GR  |   2 A$arkosPlayerN     02B1 GR
+  2 A$arkosPlayerN     02B3 GR  |   2 A$arkosPlayerN     02B6 GR
+  2 A$arkosPlayerN     02B9 GR  |   2 A$arkosPlayerN     02BB GR
+  2 A$arkosPlayerN     02BD GR  |   2 A$arkosPlayerN     02BF GR
+  2 A$arkosPlayerN     02C2 GR  |   2 A$arkosPlayerN     02C5 GR
+  2 A$arkosPlayerN     02C7 GR  |   2 A$arkosPlayerN     02CA GR
+  2 A$arkosPlayerN     02CC GR  |   2 A$arkosPlayerN     02CE GR
+  2 A$arkosPlayerN     02D0 GR  |   2 A$arkosPlayerN     02D2 GR
+  2 A$arkosPlayerN     02D4 GR  |   2 A$arkosPlayerN     02D7 GR
+  2 A$arkosPlayerN     02DB GR  |   2 A$arkosPlayerN     02DD GR
+  2 A$arkosPlayerN     02E0 GR  |   2 A$arkosPlayerN     02E3 GR
+  2 A$arkosPlayerN     02E6 GR  |   2 A$arkosPlayerN     02E9 GR
+  2 A$arkosPlayerN     02EC GR  |   2 A$arkosPlayerN     02EF GR
+  2 A$arkosPlayerN     02F2 GR  |   2 A$arkosPlayerN     02F5 GR
+  2 A$arkosPlayerN     02F6 GR  |   2 A$arkosPlayerN     02F9 GR
+  2 A$arkosPlayerN     02FA GR  |   2 A$arkosPlayerN     02FD GR
+  2 A$arkosPlayerN     0300 GR  |   2 A$arkosPlayerN     0303 GR
+  2 A$arkosPlayerN     0306 GR  |   2 A$arkosPlayerN     0308 GR
+  2 A$arkosPlayerN     030B GR  |   2 A$arkosPlayerN     030E GR
+  2 A$arkosPlayerN     0310 GR  |   2 A$arkosPlayerN     0313 GR
+  2 A$arkosPlayerN     0314 GR  |   2 A$arkosPlayerN     0316 GR
+  2 A$arkosPlayerN     0318 GR  |   2 A$arkosPlayerN     031A GR
+  2 A$arkosPlayerN     031C GR  |   2 A$arkosPlayerN     031E GR
+  2 A$arkosPlayerN     031F GR  |   2 A$arkosPlayerN     0321 GR
+  2 A$arkosPlayerN     0323 GR  |   2 A$arkosPlayerN     0325 GR
+  2 A$arkosPlayerN     0327 GR  |   2 A$arkosPlayerN     0329 GR
+  2 A$arkosPlayerN     032B GR  |   2 A$arkosPlayerN     032D GR
+  2 A$arkosPlayerN     032F GR  |   2 A$arkosPlayerN     0331 GR
+  2 A$arkosPlayerN     0333 GR  |   2 A$arkosPlayerN     0335 GR
+  2 A$arkosPlayerN     0337 GR  |   2 A$arkosPlayerN     0339 GR
+  2 A$arkosPlayerN     033A GR  |   2 A$arkosPlayerN     033B GR
+  2 A$arkosPlayerN     033C GR  |   2 A$arkosPlayerN     033F GR
+  2 A$arkosPlayerN     0341 GR  |   2 A$arkosPlayerN     0343 GR
+  2 A$arkosPlayerN     0345 GR  |   2 A$arkosPlayerN     0347 GR
+  2 A$arkosPlayerN     0349 GR  |     ArkosChannel   =   0011 
+    Clear_x_d      =   F548     |   2 PLAYER             0000 GR
+  2 PLY_FREQUENCYT     034A GR  |   2 PLY_HEIGHTEND      006D GR
+  2 PLY_INIT           046A GR  |   2 PLY_NEWSPECIAL     004B GR
+  2 PLY_NONEWHEIGH     0048 GR  |   2 PLY_NONEWSPECI     0050 GR
+  2 PLY_NONEWTRANS     0021 GR  |   2 PLY_NONEWTRANS     0029 GR
+  2 PLY_NONEWTRANS     0031 GR  |   2 PLY_PLAY           0000 GR
+  2 PLY_PLAYSOUND      014E GR  |   2 PLY_PS_CALCULA     031F GR
+  2 PLY_PS_CALCULA     0314 GR  |   2 PLY_PS_HARD        01B8 GR
+  2 PLY_PS_HARDWAR     0236 GR  |   2 PLY_PS_HARD_LO     0270 GR
+  2 PLY_PS_HARD_NO     01C8 GR  |   2 PLY_PS_HD_NOSO     0268 GR
+  2 PLY_PS_HD_SHIF     0254 GR  |   2 PLY_PS_INDEPEN     0279 GR
+  2 PLY_PS_I_SKIPS     02A0 GR  |   2 PLY_PS_I_SOUND     028A GR
+  2 PLY_PS_SD_NOHA     021F GR  |   2 PLY_PS_SD_NOIS     0224 GR
+  2 PLY_PS_SD_SHIF     0206 GR  |   2 PLY_PS_S_SBN_N     0192 GR
+  2 PLY_PS_S_SBN_S     01AB GR  |   2 PLY_PS_S_SECON     0181 GR
+  2 PLY_PS_S_SOUND     0168 GR  |   2 PLY_PS_S_SOUND     0339 GR
+  2 PLY_PS_S_SOUND     032B GR  |   2 PLY_PT_SPECIAL     0084 GR
+  2 PLY_READTRACK      0098 GR  |   2 PLY_READTRACK_     00C7 GR
+  2 PLY_READTRACK_     00C3 GR  |   2 PLY_READTRACK_     00B1 GR
+  2 PLY_READTRACK_     00A4 GR  |   2 PLY_READTRACK_     00D2 GR
+    PLY_RETRIGVALU =   00FE     |   2 PLY_SENDREGIST     02FD GR
+  2 PLY_SONGNOTOVE     0019 GR  |   2 PLY_SPECIALTRA     008C GR
+  2 PLY_SPECIALTRA     0086 GR  |   2 PLY_SPECIALTRA     007F GR
+  2 PLY_SPECIALTRA     0081 GR  |   2 PLY_SPEEDEND       0130 GR
+  2 PLY_STOP           04CF GR  |     PLY_TRACK_INST =   0003 
+  2 PLY_TRACK_INST     0112 GR  |     PLY_TRACK_INST =   0005 
+    PLY_TRACK_INST =   0006     |   2 PLY_TRACK_NEWI     00FF GR
+  2 PLY_TRACK_NEWI     011D GR  |   2 PLY_TRACK_NEWI     011F GR
+  2 PLY_TRACK_NONO     011B GR  |     PLY_TRACK_NOTE =   000A 
+    PLY_TRACK_PITC =   000C     |     PLY_TRACK_PITC =   000E 
+  2 PLY_TRACK_PLAY     02D4 GR  |     PLY_TRACK_PT   =   0007 
+    PLY_TRACK_REG_ =   0010     |   2 PLY_TRACK_SAME     00E1 GR
+  2 PLY_TRACK_SAME     00BC GR  |     PLY_TRACK_SAVE =   0001 
+    PLY_TRACK_VOLU =   000B     |     PLY_TRACK_WAIT =   0009 
+    PLY_TRANSPOSIT =   0000     |     Vec_Music_Work =   C83F 
+    Vec_Music_Work =   C84C     |     Vec_Snd_Shadow =   C800 
+  3 _CVec_Music_Wo     0049 GR  |   3 _Channel1Data      0011 GR
+  3 _Channel2Data      0022 GR  |   3 _Channel3Data      0033 GR
+  3 _ChannelDataEn     0044 GR  |   3 _PLY_FREQ_REG      0047 GR
+  3 _PLY_HEIGHT        0003 GR  |   3 _PLY_HEIGHTCPT     0006 GR
+  3 _PLY_LINKER_PT     0009 GR  |   3 _PLY_PSGREG0       0049 GR
+  3 _PLY_PSGREG1       004A GR  |   3 _PLY_PSGREG10      0053 GR
+  3 _PLY_PSGREG11      0054 GR  |   3 _PLY_PSGREG12      0055 GR
+  3 _PLY_PSGREG13      0044 GR  |   3 _PLY_PSGREG13_     000B GR
+  3 _PLY_PSGREG2       004B GR  |   3 _PLY_PSGREG3       004C GR
+  3 _PLY_PSGREG4       004D GR  |   3 _PLY_PSGREG5       004E GR
+  3 _PLY_PSGREG6       004F GR  |   3 _PLY_PSGREG8       0051 GR
+  3 _PLY_PSGREG9       0052 GR  |   3 _PLY_PSGREGIST     0049 GR
+  3 _PLY_PSGREGIST     0057 GR  |   3 _PLY_SAVESPECI     000C GR
+  3 _PLY_SPECIALTR     000E GR  |   3 _PLY_SPECIALTR     0010 GR
+  3 _PLY_SPEED         0004 GR  |   3 _PLY_SPEEDCPT      0005 GR
+  3 _PLY_TRACK_INS     0007 GR  |   3 _PLY_VOL_REG       0045 GR
+  3 _arkosPlayerMe     0057 GR  |   3 _arkosPlayerMe     0000 GR
+  2 _play_sound_tr     0140 GR  |   2 _read_special_     006D GR
+  2 _read_track        0090 GR  |   3 _tmp_instrumen     0002 GR
+  3 _tmp_track_ins     0001 GR  |   3 _tmp_track_par     0000 GR
+  2 backFromPlayer     0313 GR  |   2 do_continue_p_     00DA GR
+  2 do_continue_p_     00E1 GR  |   2 doneplaying        02F2 GR
+  2 full_opt_note_     00EA GR  |   2 initCodeModifi     046A GR
+  2 noIntrumentRet     0119 GR  |   2 no_max_appegio     0339 GR
+  2 no_shift_carry     0219 GR  |   2 no_vol_underfl     019B GR
+  2 out_sound          02CA GR  |   2 outahere_1         02CA GR
+  2 playnextchanne     0140 GR  |   2 readnextchanne     0090 GR
+  2 ret_nla_here       0233 GR  |   2 vol_not_null_1     016D GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size  4E0   flags  100
+   3 .bss             size   57   flags    0
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

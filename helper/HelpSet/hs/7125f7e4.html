@@ -1,0 +1,250 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Display-Settings</title>
+</head>
+<body class="doc">
+<h1>Display-Settings</h1>
+
+<p>Display in Vide by now knows two different states:
+<ol><li>
+<p><b>the "historic" java display</b><br>
+This display is quite slow, it is implemented using the native java graphics routines. BUT it should work on all systems</p>
+</li><li>
+<p><b>a "new" openGL graphics system</b><br>
+ implemented via the library "JOGL" (which by now also is older than a decade :-) ). The JOGL library uses native library calls and thus might not be available on all systems. If JOGL is configured but not available - or fails to "run" for one reason or another, Vide automatically switches to the historic variant.</p>
+</li></ol>
+</p>
+
+<p>The "new" graphics system was only tested with a handfull of computers and is as such not guaranteed to run on all systems. If weird things happen, look at the debug output, and see if any exception was thrown - and contact me (Malban) - to improve Vedi!</p>
+
+<p>That said, there are 3 different types of options:
+<ul><li>
+<p>options that work for both implementations</p>
+</li><li>
+<p>options that are only relevant for openGL</p>
+</li><li>
+<p>options that are only relevant for java native</p>
+</li></ul>
+</p>
+<br><p align="center">
+<img src="pics/JOGLConfig.png" width="644" height="849"><br>
+<em>display config</em></p><br>
+
+<p> </p>
+<h2>Options for "all"</h2>
+
+<p><b> Load overlay when available </b><br>
+Well - just what it says.</p>
+
+<p>The loading of overlays follows following rules, until an overlay is  actually loaded (or vide gives up) vide searches with following:</p>
+
+<ul><li>
+<p>the name of a possible overlay is determined in following order:
+<ul><li>
+<p>name given in cartridge definition</p>
+</li><li>
+<p>name of the cartridge (without extention)</p>
+</li><li>
+<p>name of the rom - binary file (without extention)</p>
+</li></ul>
+</p>
+</li><li>
+<p>to the given name a ".png" is added</p>
+</li><li>
+<p>with each of these names an overlay file is searched
+<ul><li>
+<p>in the current directory (wherever the current directory is)</p>
+</li><li>
+<p>in the main vide directory</p>
+</li><li>
+<p>in main directory + "overlays" (directory)</p>
+</li><li>
+<p>in main directory + "overlays/homemade" (directory)</p>
+</li><li>
+<p>in the current directory (the rom was loaded from)</p>
+</li><li>
+<p>if run from Vedi, also the following paths are searched:
+<ul><li>
+<p>the parent directory of the bin file</p>
+</li><li>
+<p>in the directory of the bin file a directory called "overlay"</p>
+</li><li>
+<p>in the parent directory of the bin file a directory called "overlay"</p>
+</li></ul>
+</p>
+</li></ul>
+</p>
+</li></ul>
+
+<p><b>display rotation</b><br>
+Rotate the display to the given degrees (0, 90, 180, 270).</p>
+
+<p><b>Line width</b><br>
+The thickness of one vector line.  If not in JOGL mode -&gt; The thicker - the slower emulation!</p>
+
+<p><b>Brightness</b><br>
+Emulating the brightness control of the vectrex!<br>
+If not in JOGL mode -&gt; The brighter - the slower emulation!</p>
+
+<p><b>Persistence</b><br>
+How long does a vector "glow" after beeing displayed?  If not in JOGL mode -&gt; if persistency is off (slider complete to the right), there is a slight performance gain. </p>
+
+<p><b>Antialiazing</b><br>
+Smoother lines. Suprisingly at my place emulation is a lot faster with antializing switched on. Don't know why - try it!</p>
+
+<p><b> Use splines for curved vectors </b><br>
+Some games/programs do curved vectors on vectrex. "Usual" emulation does not handle that all that well, it always rather looks edgy. With this option you can switch enhanced emulation with "splines" (Catmull Rom) on.  If not in JOGL mode -&gt; Drawing splines is not optimized and slows down emulation. Although only very few roms use curved vectors, so you may as well leave it enabled.</p>
+
+<p><b> Slider nearby </b><br>
+The slider configures how many control points are used and how they are "translated" to the drawing routine. </p>
+
+<p><b> Other Slider nearby </b><br>
+This defines the maximum length (distance between to control points) that a spline is allowed to have. If the distance gets to great the spline function (which is still the correct formular) tends to "overdraw" extreme points - and that may look rather strange. The distance is given in vectrex coordinates and ranges (here) from 100 - 30000, a value in the range of 5000 has worked out rather well.</p>
+<h2>JOGL</h2>
+
+<p>For the opengl graphics system quite a lot of options are available, most of which nobody will ever use. But while implementing the routines these were rather helpfull, so I left them in for the adventurous user.</p>
+
+<p>The configuration for JOGL is done configurating so called "shaders" (if you don't know what that is - and your are interested, google "opengl" + "shader"). Different shaders are constructed by Vide on the fly using the configurations. Following different shaders can be used consecutivly to enhance the output (applied in that order):
+<ul><li>
+<p>spill shader (n times)</p>
+</li><li>
+<p>glow shader (m times)</p>
+</li><li>
+<p>persistency shader</p>
+</li><li>
+<p>screen shader</p>
+</li><li>
+<p>overlay shader</p>
+</li></ul>
+</p>
+
+<p>All of the above shaders can be switched on/off individually.</p>
+<h3>Spill</h3>
+
+<p>The spill shader is a multi pass shader, that is somewhat similar/redundant to the glow shader. It is executed befor the glow shader.</p>
+
+<p>The general idea behind it was, that for Vectrex the "brightness" has no limit. Although the beam brightness maximum can be thought of being $7f, the actual screen brightness can be quite different. If a vector is drawn with a brightness of $7f with slow speed, it is much brighter than with high speed, since the same "amount" of electrons is spread over a larger area. Most visible is the effect, if you do not move at all. If you draw a dot with a brightness of $7f and keep the beam there for a considerable amount of time, you will <b>burn</b> a hole in the phosphor coating of the screen. It gets THAT bright.</p>
+
+<p>Vide's emulation core can respect the speed and the amount of time the electron beam resides on a particular spot. The spill shader tries to get this on the screen.</p>
+
+<p>What it basically was supposed to do was:
+<ul><li>
+<p>let us say the maximum brightness a "normal" monitor can display is 255</p>
+</li><li>
+<p>the internal brightness "count" of vide says a spot has a brightness of 873</p>
+</li><li>
+<p>the the spill shader distributes the excessive amount of brightness (873-255) = 618 evenly to the neighboring pixels (15% of the excessive to direct neightbors each, and 10% to the diagonals)</p>
+</li></ul>
+</p>
+
+<p>Theoretically this is nice and sound, but letting the graphics card do it - Vide has to use some tricks. For the graphics card, the maximum brightness is 1.0, the minimum is 0.0, so every other brightness is in between. Although all information is kept seemingly in floats, from one pass to another (or from one shader to another shader), somehow the card remembers that it is only 8 bit. So inspite of being float - you can actually only store information for a point in the range of 0.0 to 1.0.</p>
+
+<p>Going back to the configuration - "<b>initial divisor</b>" divides all brightness data by a given factor, so that actual maximum brightness is much lower than the graphic card can calculate with.  A divisor of 3 thus allows us "virtually" to not only store brightness data between 0-255 (or 0.0 - 1.0) but between 0 - 765 (0.0 - 3.0) since all input is divided by the given factor (3).</p>
+
+<p>The spill shader now looks whether a brightness is higher than that divided brightness max (for the example 85 (or 0.33), and if so - spills the accessive amount of brightness to its neighbours.</p>
+
+<p>Since the data might not all be spillable in one pass (spilling to already "full brightness points" e.g.) you can give the number of consecutive "<b>spill passes</b>" that you want.</p>
+
+<p>"<b>final factor</b>" is the reverse factor - with which the shader concludes its working and sets the data again to the "natural" brightness of the card 0-255 (or 0.0 - 1.0).</p>
+
+<p>"<b>threshold</b>" defines the threshold, when that "spilling" should occur. In the above example the threshold was implicit "1.0" (or whatever you want to see as the maximum) - but with the variable threshold, you can also define, that spilling might start at "half" the brightness (0.5) or any other value you might want.</p>
+
+<p>"<b>add base</b>" adds the complete input data to the output data. "<b>unfactored add base</b>" only takes effect, when "add base" is selected - if selected than the original data is added. If not selected, the original data is added <i>after</i> the initial divisor was applied.</p>
+
+<p><b>Spill-Note</b><br>
+The thoughts behind the implementation of the spill shader might have been ok-ish. As you can see - the currrent use of the spill shader is quite different than what I explained that it does. It actually adds to the overall display in my oppinion, but the result that is used was gotten by trial and error and experiments, rather than the result from carefull planning.</p>
+<h3>Glow</h3>
+
+<p>This is a classic gaussian blur shader. It uses "classic" vertical and horizontal passes and can make use of linear sampling (which surpisingly gives slightly different results - I probably did something wrong within the shader - but have not been able to track it down). </p>
+
+<p>The meaning of the fields can be gotton from Wikipedia.</p>
+
+<p>As an addition:
+<ul><li>
+<p> you can also configure scaling (the blur is scaled down with the given factor and after bluring upscaled again)</p>
+</li><li>
+<p>you can configure whether each pass "adds" to the last or not</p>
+</li><li>
+<p>and as with the "spill" shader, you can add the original input again to the output.</p>
+</li></ul>
+</p>
+<h3>Persistency</h3>
+
+<p>Is also realized with a shader. Basically the last image vecxy produced is added with an applied alpha value to current image. The slider persistency here is than actually the alpha value and the only thing you can configure.</p>
+<h3>Screen</h3>
+
+<p>The screen idea was taken from ParaJVE - and thus from Franck Chevassu. The image I use actually is some kind of special overlay. It is drawn after the above shaders. The only possible configuration is an additional brightness setting, which makes it appear more or less clearly.</p>
+<h3>Overlay</h3>
+
+<p>Vide uses the "normal" PNG overlays which are "available" (Mess e.g.). Like Franck before I realized, that printing them to screen 1:1 looks not always the best.  For Vide a special shader for the overlay display was built, that can enhance the use of the images. Overlays usually consist of pixel information of different kinds, the one "needed" here is in general the alpha value of a pixel (how opaque or transparent it is). The internal changes the shader applies - it applies only to pixels it thinks of as transparent. The first value is used to configure that "<b>alpha threshold</b>" - technically speaking, each pixel with an alpha value below the given value is treated as "transparent", every pixel above the value is treated as opaque. In the above sense opaque pixels are drawn to screen as they come (if they still have some alpha value - that is respected). In the above sense transparent pixels may have one or two transformations applied
+<ol><li>
+<p><b>overlay alpha adjust</b><br>
+In general means the transparent pixels are made even more transparent. The original alpha level is multiplied by the value given here (If you really want, you can also make them more opaque).</p>
+</li><li>
+<p><b>overlay brightness adjust</b><br>
+If the transparent area has a "vector" underneath it, the alpha value is additionally adjusted (added to) with the brightness of the vector multiplied with the "overlay brightness adjust" value. <br>
+What this actually boils down to is:<br>
+
+<ul><li>
+<p>the higher the value the brighter the vector in the actual overlay color is drawn</p>
+</li><li>
+<p>the lower the value the less color of the overlay is used by the vector (zero means the vectors do not use overlay colors at all and are drawn in white)</p>
+</li></ul>
+</p>
+</li></ol>
+</p>
+
+<p><b>Note</b><br>
+The overlay images Vide uses at the time of writing use quite different "alpha" values. For that reason it is possible to define the alpha threshold also within the cartridge - if defined there, has preference over the value defined here. The default value is 0.8. But e.g. the minestrom overlay looks much better using a value of 0.5.</p>
+
+<p><b>vector speed maximal reduce factor</b><br>
+Mentioned before - the faster a vector is drawn with a fixed brightness - the less bright a vector actually is. With this factor you can configure Vide how pronounced this effect should be displayed.</p>
+
+<p><b>MSAA</b><br>
+<b>M</b>ulti<b>S</b>ample<b>A</b>nti<b>a</b>liazing - this setting only takes effect if the general "Antialiazing" option is switch on. Opengl knows two different options to implement antialiazing. The old option "SMOOTH" may not be implemented in hardware, but by software - the actual graphics card driver. "SMOOTH" may be considerably slower than "MSAA" - which is implemented by the graphics card in hardware.<br>
+The <b>samples</b> tell the graphics card with how many samples it should do the antialiazing.</p>
+
+<p><b>Note</b><br>
+The values for the samples are fixed - these are not gotton from the card. Thus if you configure a value that your graphics card is not capable of - vecxi will only show a blank screen (but there is no danger involved :-) )</p>
+
+<p><b>dot dwell divisor</b><br>
+Drawing dots is in many ways special - not the least is how "bright" a dot may be. With this setting you can influence the brightness of dots.</p>
+
+<p><b>show border overflow</b><br>
+If - on a real vectrex you draw way outside the normal screen range - parts of the border "glow" with some kind of an aftermath of the not printable vectors. If this option is switched on - vide tries to emulate this. This option might slow down emulation ever so slightly).<br>
+The accompanying "<b>overflow intensity divider</b>" influences the strength of the effect.</p>
+
+<p><b>Note</b><br>
+Different real life hardware vectri have different "out of scope" ranges. E.g. there are vectri which display Frogs "EmptyScreentro"-demo as out of scope. While I have a Vectrex where the drawing actually is "in scope". The scope of emulation can be set with "emulated vectrex integrator max" - see tab emulator.</p>
+
+<p><b>Fullscreen setup</b><br>
+Only two settings:
+<ul><li>
+<p>which screen mode to use (values gotton from your hardware, as Java sees them)</p>
+</li><li>
+<p>whether to keep aspect ratio </p>
+</li></ul>
+</p>
+
+<p><b>Note</b><br>
+Despite it saying "fullscreen setup" - the aspect ratio setting is "general" - which is also usefull with screen rotation.</p>
+<h2>Java Graphics</h2>
+
+<p><b>do glow</b><br>
+An option that tries to visually emulate the "glow" of vectors. Results are also dependend on "Line width". Glow really slows emulation, especially higher glow values. But it is so pretty!<br>
+Above "brightness" directly relates to glow. If glow is disabled, the brightness slider has no effect! <br>
+Some emulated "effects" are only visible if glow is switched on. 
+<ul><li>
+<p>e.g. "dots" are usually drawn using a dot dwell time (time the vector beam resides on one single spot). The higher the dwell time, the brigher the dot. </p>
+</li><li>
+<p>vectors are drawn with different "strength" values, the strength actually is the speed with which the vector is moving. The higher the speed, the less time the electrons are positioned at "one" location. Thus the higher the speed, the lower the brightness of one vector</p>
+</li></ul>
+</p>
+
+<p>Both effects (the second only very barely) can only be seen if glow is enable!</p>
+
+<p><b>Use Quads</b><br>
+Belongs to spline configuration, this is only active if splines are switched on. Drawing "Quads" is more performant than splines, but some curves look bad... I do not recommend this setting and it is available more for historic reasons than for any real value!</p>
+</body>
+</html>

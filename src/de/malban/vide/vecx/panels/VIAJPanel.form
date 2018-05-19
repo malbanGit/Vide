@@ -3379,7 +3379,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Courier" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="IRQ"/>
+            <Property name="text" type="java.lang.String" value="~IRQ"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField135">

@@ -59,7 +59,7 @@ playvidonce:
 		lda vid_running
 		beq playvid_draw
 		jsr framefwd
-playvid_draw:		jsr drawframe
+playvid_draw:		bsr drawframe
 		rts
 
 playvid:
@@ -70,16 +70,16 @@ playvid:
 		bne playvid_draw2
 		lda vid_framecount
 		ldx vid_frametab
-		jsr loadvid
+		bsr loadvid
 playvid_draw2:		
 		jsr framefwd
-		jsr drawframe
+		bsr drawframe
 		rts
 
 drawframe:
 		jsr DP_to_D0
         ldx #logo_temp
-		jsr Draw_VL_Mode_i_anim
+		bsr Draw_VL_Mode_i_anim
 		rts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; equivalent to Draw_VL_Mode  ;
@@ -192,7 +192,7 @@ Draw_VL_Mode_i:   lda     Vec_0Ref_Enable ;Save old Check0Ref flag
                 clr     Vec_0Ref_Enable ;Don't reset the zero reference yet
 LF476y:          lda     ,x+             ;Get the next mode byte
                 bpl     LF47Ey
-                bsr     Draw_Pat_VL     ;If <0, draw a patterned line
+                jsr     Draw_Pat_VL     ;If <0, draw a patterned line
                 bra     LF476y
 
 LF47Ey:          bne     LF485y
@@ -253,8 +253,8 @@ interpolate_next2:
 		bne interpolate_next
 		rts
 copy_nextframe:
-		jsr switch_fwd
-		jsr	copy_frame
+		bsr switch_fwd
+		bsr	copy_frame
 		rts		
 ; y points to rom
 ; x points to ram		
@@ -300,8 +300,8 @@ interpolate_nextba2:
 		
 
 copy_prevframe:
-		jsr	copy_frame
-		jsr switch_back
+		bsr	copy_frame
+		bsr switch_back
 		lda #1
 		sta logo_temp		; clear duration as this is the end position of the anim
 		rts
@@ -393,13 +393,13 @@ draw_gfx_di_done:
 		suba gfx_di
 		sta gfx_intensity
 		clr gfx_di
-		jmp draw_gfx_draw
+		bra draw_gfx_draw
 draw_gfx_updatex:
 		ldb gfx_xpos
 		addb gfx_dx
 		stb gfx_xpos
 		clrb
-		jmp draw_gfx_updatex_done	
+		bra draw_gfx_updatex_done	
 		
 
                
@@ -541,7 +541,7 @@ LF476:          lda     ,x+             ;Get the next mode byte
                 bpl     LF47E
                 lda		,x+				; update scale
                 sta		VIA_t1_cnt_lo
-                bsr     Draw_Pat_VL     ;If <0, draw a patterned line
+                jsr     Draw_Pat_VL     ;If <0, draw a patterned line
                 bra     LF476
 
 LF47E:          bne     LF485
@@ -644,9 +644,10 @@ LF4CBb:          lda     ,u+             ;Get next character
                 sta     <VIA_port_b     ;Disable RAMP, disable mux
 				lda #TEXTHEIGHT
 				sta <VIA_port_a
-				lda Vec_Text_Width
-				suba #TILTFIX1
+;				lda Vec_Text_Width
+;				suba #TILTFIX1
 				inc <VIA_port_b
+ clra
                 sta     <VIA_port_a     ;negate text width to D/A
 				neg     Vec_Text_Width
                 lda     #$01
@@ -693,8 +694,9 @@ LF4CBc:          lda     ,-u             ;Get next character
                 sta     <VIA_port_b     ;Disable RAMP, disable mux
 				lda #TEXTHEIGHT
 				sta <VIA_port_a
-				lda Vec_Text_Width
-				suba #TILTFIX2
+;				lda Vec_Text_Width
+;				suba #TILTFIX2
+ clra
 				inc <VIA_port_b
                 sta     <VIA_port_a     ;negate text width to D/A
 				neg     Vec_Text_Width
@@ -708,6 +710,6 @@ LF4CBc:          lda     ,-u             ;Get next character
  				clr     <VIA_port_a     ;Clear D/A
                 ldb     #$03            ;$0x = disable RAMP?
 				leau    1,u				; one char forward so pointer points to first char again
-                bra     LF4A5b           ;Go back for next scan line
+                jmp     LF4A5b           ;Go back for next scan line
 				
 				

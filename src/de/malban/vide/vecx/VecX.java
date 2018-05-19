@@ -25,6 +25,11 @@ Vecx
 7)  exgtfr_read (op >> 4)); if fed with "a" register than "ff" is returned instead of value of a!
 8) 
         return (datahi << 8) | (datalo&0xff); was done without &0xff negative lows could vanish the his
+9) original bug in emulation code discovered - upon read of T1 low counter the iFlag must be resetted - that was falsly implemented
+         and could lead to vectrex games crashing (e.g. vector Patrol).
+10) to test if originally wrong 
+  regardless of int allowed state, ramp flag changes upon timer expires T1
+
 
  */
 package de.malban.vide.vecx;
@@ -79,6 +84,7 @@ import de.malban.Global;
 import de.malban.vide.VideConfig;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.dialogs.ShowWarningDialog;
 import de.malban.vide.vecx.cartridge.CartridgeListener;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.vide.vecx.CodeScanMemory.MemInfo.*;
@@ -91,11 +97,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.INFO;
-import static de.malban.gui.panels.LogPanel.VERBOSE;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.veccy.VectorListScanner;
 import de.malban.vide.vecx.cartridge.Cartridge;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_ATMEL_EEPROM;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2430A;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2431;
 import de.malban.vide.vecx.devices.Imager3dDevice;
@@ -105,8 +111,8 @@ import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.lang.instrument.Instrumentation;
 import java.nio.charset.StandardCharsets;
+import java.util.Vector;
 
 /**
  *
@@ -217,16 +223,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     transient long trackyAbove = 0;
 
     ArrayList<TimerItem> timerHeap = new ArrayList<TimerItem>();
-/*
-    void timerAddItem(TimerItem item)
-    {
-        synchronized (timerItemList)
-        {
-            timerItemList.add(item);
-        }
-    }
-    */
-    void timerAddItem(int when, int value, IntegerPointer destination, int t)
+
+    
+    void timerAddItem(int when, int value, ValuePointer destination, int t)
     {
         TimerItem titem;
         if (timerHeap.size() == 0)
@@ -246,7 +245,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             timerItemList.add(titem);
         }
     }
-    void timerAddItem(int value, IntegerPointer destination, int t)
+    void timerAddItem(int value, ValuePointer destination, int t)
     {
         TimerItem titem;
         if (timerHeap.size() == 0)
@@ -268,46 +267,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
     }
     
-    /*
-    void timerAddItem(int when, int t)
-    {
-        TimerItem titem;
-        if (timerHeap.size() == 0)
-        {
-            titem = new  TimerItem(when, t);
-        }
-        else
-        {
-            titem = timerHeap.remove(0);
-            titem.countDown = when;
-            titem.type = t; 
-
-            titem.valueToSet = 0;
-            titem.whereToSet = null;
-        }
-        synchronized (timerItemList)
-        {
-            timerItemList.add(titem);
-        }
-    }
-*/
-    /*
-    // remove all timer items of a type
-    void timerRemoverItem(int t)
-    {
-        synchronized (timerItemList)
-        {
-            for (int i= timerItemList.size()-1; i>=0;i--)
-            {
-                TimerItem item = timerItemList.get(i);
-                if (item.type == t)
-                {
-                    timerItemList.remove(item);
-                }
-            }
-        }
-    }
-    */
     /**
      * Creates new form VecXPanel
      */
@@ -427,6 +386,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             via_ifr &= 0x7f;
         }
+        if (cart != null) cart.setIRQFromVectrex(((via_ifr&0x80) !=0 ));
     }
     // for dump windows,
     // so read does not effect IO
@@ -546,6 +506,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public int e6809_read8(int address)
     {
         int data=0;
+
         if (config.debugingCore)
         {
             if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_READ);
@@ -602,6 +563,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             timerAddItem(via_ca2,sig_zero, TIMER_ZERO);
                         }
                         via_ifr = via_ifr & (0xff-0x02); // clear ca1 interrupt
+                        if (cart != null) cart.setIRQFromVectrex(((via_ifr&0x80) !=0 ));
                         /* fall through */
                     case 0xf:
                         if ((via_orb & 0x18) == 0x08) 
@@ -625,7 +587,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         /* T1 low order counter */
                         data = via_t1c;
                         via_ifr &= 0xbf; /* remove timer 1 interrupt flag */
-                        via_t1int = 0;
+//                        via_t1int = 0; // THIS WAS original - and is wrong!
+                        via_t1int = 1;
                         int_update ();
                         return data;
                     case 0x5:
@@ -679,6 +642,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         return (via_ier | 0x80);
                 }
             }
+            else if (cart != null) 
+            {
+                return cart.get_cart(address);
+            } 
         } 
         else if (cart != null) 
         {
@@ -690,6 +657,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     @Override
     public void e6809_write8(int address, int data)
     {
+        
         if (config.debugingCore)
         {
             if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_WRITE);
@@ -708,11 +676,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             {
                 ram[address & 0x3ff] = data;
             }
+                
             if ((address & 0x1000) != 0)
             {
                 switch (address & 0xf) 
                 {
                     case 0x0:
+//            if ((data&0x40) == 0x40) 
+//                System.out.println("badOutFromVectrex pc = "  +e6809.reg_pc);
                         if (config.breakpointsActive) checkVIABreakpoint(0, via_orb, data);                  
                         boolean pb6 = setPB6FromVectrex(data, via_ddrb, true);
                         if ((data & 0x7) != (via_orb & 0x07)) // check if state of mux sel changed
@@ -730,7 +701,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                              * goes low whenever orb is written.
                              */
                             via_cb2h = 0;
-                            timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
+                            timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_ON_CHANGE);
                         }
                         doCheckRamp(true);
 
@@ -746,23 +717,29 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             timerAddItem(via_ca2,sig_zero, TIMER_ZERO);
                         }
                         via_ifr = via_ifr & (0xff-0x02); // clear ca1 interrupt
+                        if (cart != null) cart.setIRQFromVectrex(((via_ifr&0x80) !=0 ));
                     /* fall through */
                     case 0xf:
                         /* output of port a feeds directly into the dac which then
                          * feeds the x axis sample and hold.
                          */
-                        timerAddItem(getDACDelay((byte)(via_ora&0xff),(byte)( data&0xff)), data, alg_DAC, TIMER_DAC_CHANGE);
+                        
+                        alg_DAC.intValue = data;
                         via_ora = data;
+                    
+                        /* output of port a feeds directly into the dac which then
+                         * feeds the x axis sample and hold.
+                         */
+                        timerAddItem(alg_DAC.intValue, alg_xsh, TIMER_XSH_CHANGE);
+                        doCheckMultiplexer();
+                        
+                        
                         
                         snd_update(false);
                         break;
                     case 0x2:
                         setPB6FromVectrex(via_orb, data, false);
                         via_ddrb = data;
-                        if (cart != null)
-                        {
-                            cart.setPB6InputEnabledFromExternal(!((data&0x40)==0x40));
-                        }
                         break;
                     case 0x3:
                         via_ddra = data;
@@ -817,7 +794,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             else // use the last shift
                             {
     //                            addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
-                                timerAddItem(0, sig_blank, TIMER_BLANK_CHANGE);
+                                timerAddItem(0, sig_blank, TIMER_BLANK_ON_CHANGE);
                             }
                         }
                         if ((via_acr & 0xc0) != (data & 0xc0))
@@ -851,14 +828,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                                 /* cb2 is outputting low */
                                 via_cb2h = 0;
                                 via_cb2hmanual = 0;
-                                timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
+                                timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_ON_CHANGE);
                             } 
                             else if ((via_pcr & 0xe0) == 0xe0) 
                             {
                                 /* cb2 is outputting high */
                                 via_cb2h = 1;
                                 via_cb2hmanual = 1;
-                                timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
+                                timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_OFF_CHANGE);
                             } 
                             else 
                             {
@@ -866,7 +843,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                                  * outputting high.
                                  */
                                 via_cb2h = 1;
-                                timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
+                                timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_OFF_CHANGE);
                             }
                         }
                         break;
@@ -888,6 +865,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         int_update ();
                         break;
                 }
+            }
+            if (((address & 0x1000) == 0) && ((address & 0x800) == 0)) // not d000 nad < c800
+            {
+                // possibly write to cart
+                cart.write(address, (byte)data);
             }
             return;
         } 
@@ -952,7 +934,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         old_pb6 = false;
         intensityDrift = 0;
 
-        alg_rsh.intValue = 128;
+        c_alg_rsh.setDigitalVoltage(128);
         alg_xsh.intValue = 128;
         alg_ysh.intValue = 128;
         alg_zsh.intValue = 0;
@@ -1024,15 +1006,54 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 }
             }
         }
-        
     }
+    
+    
+    // from ParaJVE
+    /*
+    
+  private void outputPB()
+  {
+    int i = (this.ORB & this.DDRB) | (this.lines.via_read_PB() & (this.DDRB ^ 0xFFFFFFFF));
+    this.lines.via_write_PB(i, this.DDRB);
+  }
+      
+    
+  public void via_write_PB(int orb, int ddrb)
+  {
+    if ((orb != this.viaOutB) || (ddrb != this.DDRB))
+    {
+      this.DDRB = ddrb;
+      orb |= (this.DDRB ^ 0xFFFFFFFF) & 0xFF; // wherever ddrb is input -> place a one
+      this.viaOutB = orb;
+      fireInt(1, orb, ddrb);
+    }
+    this.viaInB = paramInt1;
+  }
+*/
+
+private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
+    {
+        boolean b=false;
+        // pb6 = input (ddra = 0) than pb6 always = 1
+        // pb6 = output (ddra = 1) than pb6 always = value that was written to pb6 (should always be 0 using BIOS)
+        
+        
+        int npb6 = tobe_via_orb & tobe_via_ddrb & 0x40; // all output (0x40)
+        if ((tobe_via_ddrb & 0x40) == 0x00)  npb6 = npb6 | 0x40; // all input (0x40)
+        b = npb6 != 0;
+
+        cart.setPB6FromVectrex(b);
+        if (config.breakpointsActive) checkExternalLineBreakpoint(b);
+        return b;
+    }    
 
     // called befor VIA is changed
     // so we have access to old via data
 
     // returns state of PB6
     // calls cart on line change
-    private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
+    private boolean setPB6FromVectrex_old(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
     {
         // below we do output to all bits
         // we are only really interested in PB6
@@ -1097,9 +1118,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             pb6_out = 0x40;
           
-            if (!isDualVec)
+            if (!cart.isDualVec())
             {
-                if (!extraRam8000_8800Enabled)
+                if (!cart.isExtra8000Ram2k())
                 {
                     if (orbInitiated)
                         if ((via_ddrb & 0x40) == 0x40)
@@ -1116,7 +1137,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             pb6_out = 00;
         }
         return pb6;
-    }
+    }    
+ 
     int pb6_pulseCounter = 0;
     /* perform a single cycle worth of via emulation.
      * via_sstep0 is the first postion of the emulation.
@@ -1126,6 +1148,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         int t2shift;
         if (via_t1on!=0) 
         {
+            
             via_t1c--;
             if ((via_t1c & 0xffff) == 0xffff) // two cycle "MORE" since in via manual it says timer runs 1,5 cycles to long
             {
@@ -1153,10 +1176,12 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 else 
                 {
                     /* one shot mode */
-                    if (via_t1int != 0) 
+                    
+// regardless of interrup, the t1pb7 is set when timer expired                
+// changed for VectorPatrol 13.01.2018, string print routine                     
+                    if (via_t1pb7 != 0x80)
                     {
-                        via_ifr |= 0x40;
-                        int_update ();
+                        via_t1pb7 = 0x80;
                         if (config.breakpointsActive)
                         {
                             if ((via_acr & 0x80)!=0)  
@@ -1165,8 +1190,16 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                                     checkVIABreakpoint(0, via_orb, via_orb+0x80); 
                             }
                         }
-                        via_t1pb7 = 0x80;
                         doCheckRamp(false);
+                    }
+                    else
+                    {
+                        via_t1pb7 = 0x80;
+                    }
+                    if (via_t1int != 0) 
+                    {
+                        via_ifr |= 0x40;
+                        int_update ();
                         via_t1int = 0;
                     }
                 }
@@ -1241,7 +1274,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         via_cb2s = (via_sr >> 7) & 1;
                         via_sr <<= 1;
                         via_sr |= via_cb2s;
-                        timerAddItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE);
+
+                        timerAddItem(via_cb2s, sig_blank, (via_cb2s==1) ? TIMER_BLANK_OFF_CHANGE : TIMER_BLANK_ON_CHANGE);
                     }
                     break;
                 case 0x14:
@@ -1251,7 +1285,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         via_cb2s = (via_sr >> 7) & 1;
                         via_sr <<= 1;
                         via_sr |= via_cb2s;
-                        timerAddItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE);
+                        timerAddItem(via_cb2s, sig_blank, (via_cb2s==1) ? TIMER_BLANK_OFF_CHANGE : TIMER_BLANK_ON_CHANGE);
                         via_srb++;
                     }
                     break;
@@ -1267,7 +1301,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         via_cb2s = (via_sr >> 7) & 1;
                         via_sr <<= 1;
                         via_sr |= via_cb2s;
-                        timerAddItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE);
+                        timerAddItem(via_cb2s, sig_blank, (via_cb2s==1) ? TIMER_BLANK_OFF_CHANGE : TIMER_BLANK_ON_CHANGE);
                         via_srb++;
                     }
                     break;
@@ -1301,8 +1335,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     if (via_srb == 9) 
                     {
                         via_cb2s = lastShift;
-                        timerAddItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE);
-                            via_srb++;
+                        timerAddItem(via_cb2s, sig_blank, (via_cb2s==1) ? TIMER_BLANK_OFF_CHANGE : TIMER_BLANK_ON_CHANGE);
+                        via_srb++;
                     }                
                 }                
             }
@@ -1326,7 +1360,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
              * it gets restored to '1' after the pulse.
              */
             via_cb2h = 1;
-            timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
+            timerAddItem(via_cb2h, sig_blank, (via_cb2h==1) ? TIMER_BLANK_OFF_CHANGE : TIMER_BLANK_ON_CHANGE);
         }
 
         // documentation of VIA
@@ -1393,9 +1427,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
         lastAddLine = cyclesRunning;
         int index;
-        
 
-        
         x0+=zeroRetainX;
         x1+=zeroRetainX;
         y0+=zeroRetainY;
@@ -1717,7 +1749,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 if (cyclesOrg>1)
                 {
                     e8910.updateSound();
-                    if (sidEnabled)
+                    if ((cart != null) && (cart.isSIDEnabled()))
                     {
                         cart.updateSound();
                     }
@@ -1753,9 +1785,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         return reason;
     }
     
+    
     int vecx_emu_plain(long cyclesOrg)
     {
-        config.breakpointsActive = false;
         stop = false;
         int c, icycles;
         long cycles = cyclesOrg;
@@ -1767,30 +1799,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             nonCPUStepsDone = 0;
             thisWaitRecal = ((e6809.reg_pc%65536) == 0xf1a2);
-/*
-            
-            E6809State save_good = new E6809State();
-            E6809State save_bad = new E6809State();
-            
-            E6809State saveOrg = new E6809State();            
-            E6809State.deepCopy(e6809, saveOrg);
 
-            icycles = e6809.e6809_sstep(via_ifr & 0x80, firq);
-            E6809State.deepCopy(e6809, save_good);
-            
-            E6809State.deepCopy(saveOrg, e6809);
-            
-            icycles = e6809.e6809_sstep_opt(via_ifr & 0x80, firq);
-            E6809State.deepCopy(e6809, save_bad);
-            
-            if (save_bad.reg_pc != save_good.reg_pc)
-            {
-                E6809State.deepCopy(saveOrg, e6809);
-                icycles = e6809.e6809_sstep_opt(via_ifr & 0x80, firq);
-            }
-            
-
-      */      
             
             
             
@@ -1896,14 +1905,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             {
                 soundCycles = 37500; // on 100% speed this is every 25ms Hz 40
                 e8910.updateSound();
-                if (sidEnabled)
+                if ((cart != null) && (cart.isSIDEnabled()))
                 {
                     cart.updateSound();
                 }
             }
         }
         cyclesDone=cyclesRunning-cyclesStart;
-        config.breakpointsActive = true;
         return reason;
     }
     
@@ -1986,16 +1994,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public boolean init(CartridgeProperties cartProp)
     {
         config.resetCartChanges();
+        /*
+        atmelEnabled = false;
         ds2430Enabled = false;
         ds2431Enabled = false;
         microchipEnabled = false;
-        extraRam2000_2800Enabled = false;
-        extraRam8000_8800Enabled = false;
-        extraRam6000_7fff_8k_Enabled = false;
         sidEnabled = false;
-
         isDualVec = false;
-        isDualVec = false;
+        */
         log.addLog("vecx: init cart: " + cartProp.mName, INFO);
 
         if (!loadBios()) 
@@ -2013,16 +2019,15 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 log.addLog("Vecx: init() cartridge not loaded!", WARN);
                 return false;
             }
+            /*
+            atmelEnabled = (cartProp.getTypeFlags()&FLAG_ATMEL_EEPROM)!=0;
             ds2430Enabled = (cartProp.getTypeFlags()&FLAG_DS2430A)!=0;
             ds2431Enabled = (cartProp.getTypeFlags()&FLAG_DS2431)!=0;
             microchipEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_MICROCHIP)!=0;
-            extraRam2000_2800Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
-            extraRam8000_8800Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
-            extraRam6000_7fff_8k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0;
             sidEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_SID)!=0;
-            
             isDualVec = (cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0;
             isDualVec = isDualVec || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0);
+            */
 
             e6809.e6809_reset();  
             vecx_reset();
@@ -2042,18 +2047,22 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     
     public boolean init(String filenameRom, boolean checkForCartridge)
     {
+        return init(filenameRom, checkForCartridge, false);
+    }
+    public boolean init(String filenameRom, boolean checkForCartridge, boolean fromPanel)
+    {
         config.resetCartChanges();
         cart = new Cartridge();
+        /*
+        atmelEnabled = false;
         ds2430Enabled = false;
         ds2431Enabled = false;
         microchipEnabled = false;
-        extraRam2000_2800Enabled = false;
-        extraRam8000_8800Enabled = false;
-        extraRam6000_7fff_8k_Enabled = false;
         sidEnabled = false;
         
         isDualVec = false;
         isDualVec = false;
+        */
         joyport[0].deinit();
         joyport[1].deinit();
         romName = filenameRom;
@@ -2062,7 +2071,31 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             CartridgeProperties cartProp = CartridgePropertiesPanel.getCartridgeProp(filenameRom);
             if (cartProp != null)
             {
-                return init(cartProp);
+                boolean loadit = true;
+                File f = new File (filenameRom);
+                if (f.exists())
+                {
+                    Vector<String> f1 = cartProp.getFullFilename();
+                    if (f1 == null) loadit = false;
+                    else
+                    {
+                        if (f1.size()<=0) loadit = false;
+                        else
+                        {
+                            String f2 = f1.elementAt(0);
+                            loadit = (filenameRom.contains(f2));
+                        }
+                    }
+                    
+                }
+                if (loadit)
+                {
+                    if (fromPanel)
+                    {
+                        ShowWarningDialog.showWarningDialog("Cartridge found!", "For the supplied vectrex binary\n(based on the name)\na cartridge definition was found.\n\nThe cartridge was loaded!");
+                    }
+                    return init(cartProp);
+                }
             }
         }
         if (!loadBios()) 
@@ -2076,6 +2109,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             cart.setVecx(this);
             // load Cartridge
             log.addLog("vecx: init rom: " + filenameRom, INFO);
+            
+            
+            
             cart.load(filenameRom);
             e6809.e6809_reset();  
             vecx_reset();
@@ -2133,7 +2169,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         cart.initStateSave();
 
         state.sidState = null;
-        if (sidEnabled)
+        if ((cart != null) && (cart.isSIDEnabled()))
         {
             if (cart.vsid != null)
             {
@@ -2507,6 +2543,16 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     doCheckRamp(false);
                     int_update ();
                 }
+                else if (t.type == TIMER_MUX_R_CHANGE)
+                {
+                    noiseCycles = cyclesRunning;
+                    c_alg_rsh.setDigitalVoltage(t.valueToSet&0xff);
+//                    dacOffset = (dacOffset/10.0)+t.valueToSet; 
+                    // 10.0 is the easy variant - in reality 
+                    // the charging/discharging of the offset would be an RC curve from the old to the new value
+                    // and the final value would be determined 
+                    // by how long the charging/discharging of the new value took place
+                }
                 else if (t.whereToSet != null)   
                 {
                     if (t.type == TIMER_SHIFT_WRITE)
@@ -2581,18 +2627,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     if (t.type != TIMER_MUX_Z_CHANGE) // Z must not be negative
                         if (t.whereToSet.intValue >= 128) t.whereToSet.intValue -= 256;
                     
-                    if (t.type == TIMER_DAC_CHANGE)
-                    {
-                        /* output of port a feeds directly into the dac which then
-                         * feeds the x axis sample and hold.
-                         */
-                        timerAddItem(t.whereToSet.intValue, alg_xsh, TIMER_XSH_CHANGE);
-                        doCheckMultiplexer();
-                    }
-                    if (t.type == TIMER_MUX_R_CHANGE)
-                    {
-                        noiseCycles = cyclesRunning;
-                    }
                 }
                 timerRemoveList.add(t);
             }
@@ -2621,7 +2655,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 break;
             case 0x02:
                 /* demultiplexor is on */
-                timerAddItem(alg_DAC.intValue, alg_rsh, TIMER_MUX_R_CHANGE);
+                timerAddItem(alg_DAC.intValue, null, TIMER_MUX_R_CHANGE);
                 break;
             case 0x04:
                 /* demultiplexor is on */
@@ -2694,6 +2728,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     long noiseCycles = 0;
     void analogStep()
     {
+        if (((via_orb & 0x01) == 0) && ((alg_sel.intValue & 0x06) == 0x02))
+            c_alg_rsh.doStep();
+        
+        
+        
         intensityDrift++;
         int sig_dx=0, sig_dy=0; // always the delta from the last vector end position, to the new position
                                 // even when zero is active!
@@ -2722,17 +2761,23 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
              * calculate distance to origin and use that as dx,dy.
              */
             // on zero - do not zero immediatly but "degrade" "slowly"
+            int absx = (int)Math.abs(alg_curr_x - (config.ALG_MAX_X / 2));
+            int absy = (int)Math.abs(alg_curr_y - (config.ALG_MAX_Y / 2));
+
+            
             sig_dx = (int)(((double)(config.ALG_MAX_X / 2 - (int)alg_curr_x))/config.zero_divider);
             sig_dy = (int)(((double)(config.ALG_MAX_Y / 2 - (int)alg_curr_y))/config.zero_divider);
-           
+            
         } 
         //else 
         // no else anymore, integrating can be done WHILE zeroing (see my discussion in forum Vectrex32)
         {
             if (sig_ramp.intValue== 0) 
             {
-                sig_dx += alg_xsh.intValue - alg_rsh.intValue;
-                sig_dy += -alg_ysh.intValue + alg_rsh.intValue;
+                sig_dx += alg_xsh.intValue;
+                sig_dy += -alg_ysh.intValue;
+                fractionSaveX = alg_xsh.intValue;
+                fractionSaveY = alg_ysh.intValue;
 
                 //fraction = false;
                 if (rampOnFraction)
@@ -2741,9 +2786,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     alg_curr_x -= (int)(((double)alg_xsh.intValue)*(config.rampOnFractionValue));
                     alg_curr_y -= -(int)(((double)alg_ysh.intValue)*(config.rampOnFractionValue));
 
-                    // warmUp
-                    alg_curr_x -= (int)(((double)alg_xsh.intValue)*(config.warmup));
-                    alg_curr_y -= -(int)(((double)alg_ysh.intValue)*(config.warmup));
                 }
             } 
             else 
@@ -2751,13 +2793,17 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 //fraction = false;
                 if (rampOffFraction)
                 {
+                    // with cycle exact programming we are not allowed to use "alg_xsh.intValue" as fraction
+                    // value, because that might have been altered in the last "cycle"
+                    // we must remember the last integration value and 
+                    // use that instead of the current one!
+//                    alg_curr_x += (int)(((double)alg_xsh.intValue)*config.rampOffFractionValue);
+//                    alg_curr_y += -(int)(((double)alg_ysh.intValue)*config.rampOffFractionValue);
                     rampOffFraction = false;
-                    alg_curr_x += (int)(((double)alg_xsh.intValue)*config.rampOffFractionValue);
-                    alg_curr_y += -(int)(((double)alg_ysh.intValue)*config.rampOffFractionValue);
+                    alg_curr_x += (int)(((double)fractionSaveX)*config.rampOffFractionValue);
+                    alg_curr_y += -(int)(((double)fractionSaveY)*config.rampOffFractionValue);
 
-                    //cooldown
-                    alg_curr_x += (int)(((double)alg_xsh.intValue)*(config.cooldown));
-                    alg_curr_y += -(int)(((double)alg_ysh.intValue)*(config.cooldown));
+                    
                     
                     if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
                     {
@@ -2791,12 +2837,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
                     /* start a new vector */
                     alg_vectoring = 1;
-                    alg_vector_x0 = (int)alg_curr_x;
-                    alg_vector_y0 = (int)alg_curr_y;
-                    alg_vector_x1 = (int)alg_curr_x;
-                    alg_vector_y1 = (int)alg_curr_y;
+
                     alg_vector_dx = alg_xsh.intValue;
                     alg_vector_dy = -alg_ysh.intValue;
+
+                    alg_vector_x0 = (int)alg_curr_x+(int)(config.blankOffDelay*alg_vector_dx);
+                    alg_vector_y0 = (int)alg_curr_y+(int)(config.blankOffDelay*alg_vector_dy);
+                    alg_vector_x1 = (int)alg_curr_x;
+                    alg_vector_y1 = (int)alg_curr_y;
 
                     alg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
 
@@ -2845,7 +2893,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                  * new line.
                  */
                 
-                if ((sig_ramp.intValue== 0)     && (sig_blank.intValue == 0))     
+                if (/*(sig_ramp.intValue== 0)     && */(sig_blank.intValue == 0))     
                 {
                     // ramping and blank just went enabled
                     // do a blank off delay
@@ -2977,7 +3025,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             alg_curr_x += sig_dx;
             alg_curr_y += sig_dy;
         }        
+            if (sig_ramp.intValue== 0) 
+            {
         
+            alg_curr_x -= c_alg_rsh.getDigitalValue();
+            alg_curr_y += c_alg_rsh.getDigitalValue();
+//                sig_dx += - alg_rsh.intValue;
+//                sig_dy += + alg_rsh.intValue;
+            }        
         if (alg_curr_x>100000) alg_curr_x=100000;
         else if (alg_curr_x<-100000) alg_curr_x=-100000;
         if (alg_curr_y>100000) alg_curr_y=100000;
@@ -3355,7 +3410,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             {
                 if ((bp.type & Breakpoint.BP_WRITE) == Breakpoint.BP_WRITE)
                 {
-                    if (((address&0xffff) == bp.targetAddress) && (cart.getCurrentBank() == bp.targetBank) )
+                    if (((address&0xffff) == bp.targetAddress) && ((cart.getCurrentBank() == bp.targetBank) || (bp.targetBank == -1)))
                     {
                         if ((bp.type & Breakpoint.BP_COMPARE) == Breakpoint.BP_COMPARE)
                         {
@@ -3385,7 +3440,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             {
                 if ((bp.type & Breakpoint.BP_READ) == Breakpoint.BP_READ)
                 {
-                     if (((address&0xffff) == bp.targetAddress) && (cart.getCurrentBank() == bp.targetBank) )
+if (address == 0xc88e)
+    System.out.println("GRML");
+                     if (((address&0xffff) == bp.targetAddress) && 
+                             ((cart.getCurrentBank() == bp.targetBank) || (bp.targetBank == -1))
+                             )
                     {
                         if ((bp.type & Breakpoint.BP_COMPARE) == Breakpoint.BP_COMPARE)
                         {
@@ -3674,44 +3733,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     }
     
 
-    // dac is funny
-    // it seems that the delay depends on:
-    // a) the old value
-    // b) the new value
-    // the generation of the vectrex
-    
-    // I would not have a CLUE what a good value would be
-    // I have an old and a new vectrex (Serials: 30xxxx and 31xxx [no Buz])
-    // for -$40 to 0 the old one has exactly a delay of 4 cycles
-    // for -$40 to 0 the new one has exactly a delay of 2 cycles
-    
-    // for -$70 to 0 the old one has exactly a delay of 2 cycles
-    // ... to be continued
-    
-    // the DAC delay is alltogether only interesting
-    // if DAC is changed while ramping
-    // general advice -> do not do that!
-    public int getDACDelay(byte oldValue, byte newValue)
-    {
-        int generation = config.generation;
-        if (generation ==0) return 0;
-        if (oldValue == newValue) return 0;
-        
-        int delay = 0;
-        if (newValue<oldValue) return 0;
-        if (oldValue > -0x10) delay = 0;
-        if (oldValue < -0x10) delay++;
-        if (oldValue < -0x20) delay++;
-        if (oldValue < -0x20) delay++;
-        if (oldValue < -0x30) delay++;
-//        if (oldValue < -0x50) delay--;
-        if (oldValue < -0x60) delay--;
-        if (generation>2)
-        {
-            delay = delay / 2;
-        }
-        return delay;
-    }
     
     public boolean shouldStall(int shiftCycleDif, boolean isRead)
     {

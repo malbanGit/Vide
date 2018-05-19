@@ -1,0 +1,113 @@
+                              1  .module ymplayerunpacked.pre.s
+                              2  .area .text
+                              3 
+                     F256     4 Sound_Byte = 0xF256
+                              5 
+                              6         .area .bss
+                              7 ; Warning - org line found, my be countering relocatable code!
+                              8 ;        org ym_ram
+                              9  .globl _ym_len
+   0000                      10 _ym_len:
+   0000                      11                 .blkb   2
+                             12  .globl _ym_reg_base
+   0002                      13 _ym_reg_base:
+   0002                      14                 .blkb   2
+                             15  .globl _ym_data_pos
+   0004                      16 _ym_data_pos:
+   0004                      17                 .blkb   2
+                             18 
+                             19 
+                             20         .area .text
+                             21 ;***************************************************************************
+                     C83F    22 Vec_Music_Work  =     0xC83F   ;Music work buffer (14 bytes, backwards?)
+                             23 
+                             24 ;***************************************************************************
+                             25  .globl do_ym_sound
+   0000                      26 do_ym_sound:
+   0000 FC 00 00      [ 6]   27                 ldd     _ym_len                ; load current VBL Counter
+   0003 27 23         [ 3]   28                 beq     ymsodone              ; if 0, than we are done
+   0005 83 00 01      [ 4]   29                 subd    #1                    ; otherwise remember we are doing one byte now
+   0008 FD 00 00      [ 6]   30                 std     _ym_len                ; and store it
+                             31 
+   000B FE 00 04      [ 6]   32                 ldu     _ym_data_pos           ; load current ym data position to u
+   000E 10 BE 00 02   [ 7]   33                 ldy     _ym_reg_base           ; get start address of regs we want to use
+   0012 A6 A0         [ 6]   34                 lda     ,y+                   ; reg to use in a
+                             35  .globl next_reg
+   0014                      36 next_reg:
+   0014 81 0D         [ 2]   37  cmpa #0xd
+   0016 26 04         [ 3]   38  bne no13
+   0018 C1 FF         [ 2]   39  cmpb #0xff
+   001A 27 08         [ 3]   40  beq noOutput
+                             41  .globl no13
+   001C                      42 no13:
+   001C E6 C0         [ 6]   43                 ldb     ,u+
+                             44                 ; A PSG reg
+                             45                 ; B data
+   001E 8E C8 4C      [ 3]   46                     ldx      #0xC84C
+   0021 40            [ 2]   47  nega
+   0022 E7 86         [ 5]   48 				  stb a,x
+                             49 
+                             50  .globl noOutput
+   0024                      51 noOutput:
+   0024 A6 A0         [ 6]   52                 lda     ,y+                   ; reg to use in a
+   0026 2A EC         [ 3]   53                 bpl     next_reg              ; we do not branch :-)
+                             54  .globl ymsodone
+   0028                      55 ymsodone:
+   0028 FF 00 04      [ 6]   56                 stu     _ym_data_pos
+   002B 39            [ 5]   57                 rts
+                             58 
+                             59 
+                             60  .globl init_ym_sound
+   002C                      61 init_ym_sound:
+                             62 
+   002C EC C1         [ 8]   63                 ldd     ,u++                  ; first load count of data and store it
+   002E FD 00 00      [ 6]   64                 std     _ym_len
+   0031 FF 00 02      [ 6]   65                 stu     _ym_reg_base
+   0034 EC C1         [ 8]   66                 ldd     ,u++                  ; load regInfo start
+                             67  .globl seek_reg_end
+   0036                      68 seek_reg_end:
+   0036 A6 C0         [ 6]   69                 lda     ,u+                
+   0038 2A FC         [ 3]   70                 bpl     seek_reg_end          ; find register end point (0xff)
+   003A FF 00 04      [ 6]   71                 stu     _ym_data_pos           ; that address is start of ymdata
+   003D 39            [ 5]   72                 rts
+                             73 
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 A$ymPlayerUnpa     0000 GR  |   2 A$ymPlayerUnpa     0003 GR
+  2 A$ymPlayerUnpa     0005 GR  |   2 A$ymPlayerUnpa     0008 GR
+  2 A$ymPlayerUnpa     000B GR  |   2 A$ymPlayerUnpa     000E GR
+  2 A$ymPlayerUnpa     0012 GR  |   2 A$ymPlayerUnpa     0014 GR
+  2 A$ymPlayerUnpa     0016 GR  |   2 A$ymPlayerUnpa     0018 GR
+  2 A$ymPlayerUnpa     001A GR  |   2 A$ymPlayerUnpa     001C GR
+  2 A$ymPlayerUnpa     001E GR  |   2 A$ymPlayerUnpa     0021 GR
+  2 A$ymPlayerUnpa     0022 GR  |   2 A$ymPlayerUnpa     0024 GR
+  2 A$ymPlayerUnpa     0026 GR  |   2 A$ymPlayerUnpa     0028 GR
+  2 A$ymPlayerUnpa     002B GR  |   2 A$ymPlayerUnpa     002C GR
+  2 A$ymPlayerUnpa     002E GR  |   2 A$ymPlayerUnpa     0031 GR
+  2 A$ymPlayerUnpa     0034 GR  |   2 A$ymPlayerUnpa     0036 GR
+  2 A$ymPlayerUnpa     0038 GR  |   2 A$ymPlayerUnpa     003A GR
+  2 A$ymPlayerUnpa     003D GR  |     Sound_Byte     =   F256 
+    Vec_Music_Work =   C83F     |   3 _ym_data_pos       0004 GR
+  3 _ym_len            0000 GR  |   3 _ym_reg_base       0002 GR
+  2 do_ym_sound        0000 GR  |   2 init_ym_sound      002C GR
+  2 next_reg           0014 GR  |   2 no13               001C GR
+  2 noOutput           0024 GR  |   2 seek_reg_end       0036 GR
+  2 ymsodone           0028 GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size   3E   flags  100
+   3 .bss             size    6   flags    0
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

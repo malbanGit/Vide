@@ -1,0 +1,186 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package de.malban.graphics;
+
+//https://github.com/artclarke/humble-video
+
+// http://java.worldbestlearningcenter.com/2013/06/screen-recording.html
+
+import io.humble.video.*;
+import io.humble.video.awt.MediaPictureConverter;
+import io.humble.video.awt.MediaPictureConverterFactory;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+
+/** slow as hell, do it in another thread?
+ * also should record audio and mux both together...
+ *
+ * @author malban
+ */
+public class ScreenGrabber {
+    static int UID_COUNT = 0;
+    
+    static Muxer muxer = null;
+    static MuxerFormat format = null;
+    static Codec codec= null;
+    static Encoder encoder= null;
+    static MediaPacket packet = null;
+    static boolean isInit = false;
+    static MediaPictureConverter converter = null;
+    static MediaPicture picture = null;
+    static int counter = 0;
+    public static boolean init(int width, int height)
+    {
+        if (isInit) return true;
+        isInit = true;
+
+
+        /** First we create a muxer using the passed in filename and formatname if given. */
+        muxer = Muxer.make("tmp"+File.separator+"video_"+UID_COUNT+".mp4", MuxerFormat.guessFormat("mp4", null,null), null);
+        UID_COUNT++;
+        System.out.println("FORMAT chosen: "+muxer.getFormat().getName());
+        
+        format = muxer.getFormat();
+        codec = Codec.findEncodingCodec(format.getDefaultVideoCodecId());
+
+        /**
+         * Now that we know what codec, we need to create an encoder
+         */
+        encoder = Encoder.make(codec);
+        
+        /**
+         * Video encoders need to know at a minimum:
+         *   width
+         *   height
+         *   pixel format
+         * Some also need to know frame-rate (older codecs that had a fixed rate at which video files could
+         * be written needed this). There are many other options you can set on an encoder, but we're
+         * going to keep it simpler here.
+         */
+        encoder.setWidth(width);
+        encoder.setHeight(height);
+        // We are going to use 420P as the format because that's what most video formats these days use
+        final PixelFormat.Type pixelformat = PixelFormat.Type.PIX_FMT_YUV420P;
+        encoder.setPixelFormat(pixelformat);
+        
+        converter = null;
+        picture = MediaPicture.make(encoder.getWidth(), encoder.getHeight(), pixelformat);
+        packet = MediaPacket.make();
+        counter = 0;
+        Rational framerate = Rational.make(1.0/50.0);
+        encoder.setTimeBase(framerate);
+
+        /** An annoynace of some formats is that they need global (rather than per-stream) headers,
+         * and in that case you have to tell the encoder. And since Encoders are decoupled from
+         * Muxers, there is no easy way to know this beyond
+         */
+        if (format.getFlag(MuxerFormat.Flag.GLOBAL_HEADER))
+        {
+            encoder.setFlag(Encoder.Flag.FLAG_GLOBAL_HEADER, true);
+        }
+
+        /** Open the encoder. */
+        encoder.open(null, null);
+
+        /** Add this stream to the muxer. */
+        muxer.addNewStream(encoder);
+
+        /** And open the muxer for business. */
+        try
+        {
+            muxer.open(null, null);
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
+    public static void addFrame(BufferedImage image)
+    {
+        /** Now begin our main loop of taking screen snaps.
+         * We're going to encode and then write out any resulting packets. */
+
+        
+        /** Make the screen capture && convert image to TYPE_3BYTE_BGR */
+            final BufferedImage screen = convertToType(image, BufferedImage.TYPE_3BYTE_BGR);
+
+            /** This is LIKELY not in YUV420P format, so we're going to convert it using some handy utilities. */
+            if (converter == null)
+            {
+                converter = MediaPictureConverterFactory.createConverter(screen, picture);
+            }
+            converter.toPicture(picture, screen, counter++);
+
+            do
+            {
+                encoder.encode(packet, picture);
+                if (packet.isComplete())
+                {
+                    muxer.write(packet, false);
+                }
+            } while (packet.isComplete());
+    }
+    
+    public static void deinit()
+    {
+        if (!isInit) return;
+        
+        /** Encoders, like decoders, sometimes cache pictures so it can do the right key-frame optimizations.
+         * So, they need to be flushed as well. As with the decoders, the convention is to pass in a null
+         * input until the output is not complete.
+         */
+        do
+        {
+            encoder.encode(packet, null);
+            if (packet.isComplete())
+            {
+                muxer.write(packet, false);
+            }
+        } while (packet.isComplete());
+
+        /** Finally, let's clean up after ourselves. */
+        muxer.close();
+        
+        
+        
+        isInit = false;
+    
+        muxer = null;
+        format = null;
+        codec= null;
+        encoder= null;
+        packet = null;
+        converter = null;
+    }
+    
+    public static BufferedImage convertToType (BufferedImage sourceImage, int targetType)
+    {
+        BufferedImage image;
+
+        // if the source image is already the target type, return the source image
+
+        if (sourceImage.getType() == targetType)
+        {
+            image = sourceImage;
+        }
+
+        // otherwise create a new image of the target type and draw the new
+        // image
+
+        else
+        {
+            image = new BufferedImage(sourceImage.getWidth(), sourceImage.getHeight(), targetType);
+            image.getGraphics().drawImage(sourceImage, 0, 0, null);
+        }
+
+        return image;
+    }
+    
+}

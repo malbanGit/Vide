@@ -8,7 +8,6 @@ package de.malban.vide.vecx.cartridge;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.panels.LogPanel;
-import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -68,7 +67,7 @@ DS1W_SEARCHROM  equ     $f0
 
 */
 
-public class DS2430A implements Serializable
+public class DS2430A implements Serializable, CartridgeInternalInterface
 {
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public static final int LL_UNKOWN = 0;
@@ -208,6 +207,9 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     {
         if (log == null)
             log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+    }
+    public void deinit()
+    {
     }
 
     public boolean isInputToDS()
@@ -393,18 +395,18 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     }
     
     // receiving line information from the emulator (VIA)
-    public void lineIn(boolean l)
+    public void linePB6In(boolean l)
     {
         line = l;
         lineIn = l;
     }
 
     // sending line information to the emulator (VIA)
-    public void lineOut(boolean l)
+    public void linePB6Out(boolean l)
     {
         line = l;
         lineOut = l;
-        cart.setPB6FromCarrtridge(line);
+        cart.setPB6FromCartridge(line);
     }
 
     // low level step
@@ -452,7 +454,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     // LSB first
                     boolean bit = (currentByteOutput & 0x01) == 0x01;
                     currentByteOutput = currentByteOutput>>1;
-                    lineOut(bit);
+                    linePB6Out(bit);
                     bitsOutputDone++;
                 }
                 break;
@@ -461,7 +463,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
             {
                 if (dif >= BIT_TIMESLOT)
                 {
-                    lineOut(true);
+                    linePB6Out(true);
                     if (old_line)
                     {
                         log.addLog("DS2430 Write bit timeslot done (1)!", LogPanel.INFO);
@@ -542,7 +544,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 if (dif > WAIT_TO_GO_LOW_AFTER_RESET_CYCLES)
                 {
                     lowLevelState = LL_PULSE_GENERATION;
-                    lineOut(false);
+                    linePB6Out(false);
                     log.addLog("DS2430 Reset sequence 3) - pulse start!", LogPanel.INFO);
                 }
                 break;
@@ -554,7 +556,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     lowLevelState = LL_READY_FOR_BITREAD;
                     currentByteRead = 0;
                     bitsLoaded = 0;
-                    lineOut(true);
+                    linePB6Out(true);
                     log.addLog("DS2430 Reset sequence 4) - pulse end!", LogPanel.INFO);
                 }
                 break;
@@ -824,6 +826,10 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     public boolean isActive()
     {
         return highLevelState != HL_WAIT_FOR_1W_COMMAND;
+    }
+    public boolean usesPB6() {return true;}
+    public void lineIRQIn(boolean i)
+    {
     }
 
 }

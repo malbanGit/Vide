@@ -1,0 +1,438 @@
+XH2
+H 3 areas 56 global symbols 3 banks 1 modes
+M vec_ram_dpc8_0.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+B page_00 base 0 size 100 map 0 flags 3
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A direct size 80 flags 8D8C bank 2
+S _dp_Vec_Random_Seed0 Def007D
+S _dp_Vec_ADSR_Table Def004F
+S _dp_Vec_Random_Seed1 Def007E
+S _dp_Vec_Expl_Flag Def0067
+S _dp_Vec_Expl_Chan Def005C
+S _dp_Vec_Music_Wk_1 Def004B
+S _dp_Vec_Random_Seed2 Def007F
+S _dp_Vec_counters Def002E
+S _dp_Vec_0Ref_Enable Def0024
+S _dp_Vec_Expl_ChanB Def005D
+S _dp_Vec_Misc_Count Def0023
+S _dp_Vec_Music_Wk_5 Def0047
+S _dp_Vec_Music_Wk_6 Def0046
+S _dp_Vec_Music_Wk_7 Def0045
+S _dp_Vec_Expl_Timer Def0077
+S _dp_Vec_Joy_1_X Def001B
+S _dp_Vec_Joy_2_X Def001D
+S _dp_Vec_Joy_1_Y Def001C
+S _dp_Vec_Joy_2_Y Def001E
+S _dp_Vec_Dot_Dwell Def0028
+S _dp_Vec_Music_Wk_A Def0042
+S _dp_Vec_Loop_Count Def0025
+S _dp_Vec_Music_Work Def003F
+S _dp_Vec_Btn_State Def000F
+S _dp_Vec_Rfrsh Def003D
+S _dp_Vec_Duration Def0057
+S _dp_Vec_RiseRun_Len Def003B
+S _dp_Vec_XXX_10 Def0068
+S _dp_Vec_Twang_Table Def0051
+S _dp_Vec_Num_Game Def007A
+S _dp_Vec_XXX_20 Def0072
+S _dp_Vec_XXX_11 Def0069
+S _dp_Vec_XXX_02 Def003C
+S _dp_Vec_Joy_Resltn Def001A
+S _dp_Vec_XXX_21 Def0073
+S _dp_Vec_XXX_12 Def006A
+S _dp_Vec_XXX_03 Def0043
+S _dp_Vec_Snd_shadow Def0000
+S _dp_Vec_XXX_22 Def0074
+S _dp_Vec_XXX_13 Def006B
+S _dp_Vec_XXX_04 Def0044
+S _dp_Vec_XXX_23 Def0075
+S _dp_Vec_XXX_14 Def006C
+S _dp_Vec_XXX_05 Def0048
+S _dp_Vec_Run_Index Def0037
+S _dp_Vec_XXX_24 Def0076
+S _dp_Vec_XXX_15 Def006D
+S _dp_Vec_XXX_06 Def0049
+S _dp_Vec_XXX_25 Def0078
+S _dp_Vec_XXX_16 Def006E
+S _dp_Vec_Music_freq Def0061
+S _dp_Vec_XXX_07 Def004A
+S _dp_Vec_Str_Ptr Def002C
+S _dp_Vec_XXX_17 Def006F
+S _dp_Vec_XXX_08 Def004C
+S _dp_Vec_XXX_18 Def0070
+S _dp_Vec_XXX_19 Def0071
+S _dp_Vec_Prev_Btns Def0010
+S _dp_Vec_Freq_Table Def004D
+S _dp_Vec_Seed_Ptr Def007B
+S _dp_Vec_Music_Ptr Def0053
+S _dp_Vec_RiseRun_Tmp Def0034
+S _dp_Vec_Brightness Def0027
+S _dp_Vec_Music_Flag Def0056
+S _dp_Vec_Music_Chan Def0055
+S _dp_Vec_Button_1_1 Def0012
+S _dp_Vec_ADSR_timers Def005E
+S _dp_Vec_Button_2_1 Def0016
+S _dp_Vec_Button_1_2 Def0013
+S _dp_Vec_Pattern Def0029
+S _dp_Vec_Button_2_2 Def0017
+S _dp_Vec_Button_1_3 Def0014
+S _dp_Vec_Button_2_3 Def0018
+S _dp_Vec_Button_1_4 Def0015
+S _dp_Vec_Button_2_4 Def0019
+S _dp_Vec_Text_HW Def002A
+S _dp_Vec_Angle Def0036
+S _dp_Vec_Expl_1 Def0058
+S _dp_Vec_Expl_2 Def0059
+S _dp_Vec_Rise_Index Def0039
+S _dp_Vec_Expl_3 Def005A
+S _dp_Vec_Joy_mux Def001F
+S _dp_Vec_Expl_4 Def005B
+S _dp_Vec_Num_Players Def0079
+S _dp_Vec_Buttons Def0011
+T 00 00
+R 00 00 00 02
+T 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 0C 00 00 00
+R 00 00 00 02
+T 00 0F
+R 00 00 00 02
+T 00 0F 00
+R 00 00 00 02
+T 00 10
+R 00 00 00 02
+T 00 10 00
+R 00 00 00 02
+T 00 11
+R 00 00 00 02
+T 00 11 00
+R 00 00 00 02
+T 00 12
+R 00 00 00 02
+T 00 12 00
+R 00 00 00 02
+T 00 13
+R 00 00 00 02
+T 00 13 00
+R 00 00 00 02
+T 00 14
+R 00 00 00 02
+T 00 14 00
+R 00 00 00 02
+T 00 15
+R 00 00 00 02
+T 00 15 00
+R 00 00 00 02
+T 00 16
+R 00 00 00 02
+T 00 16 00
+R 00 00 00 02
+T 00 17
+R 00 00 00 02
+T 00 17 00
+R 00 00 00 02
+T 00 18
+R 00 00 00 02
+T 00 18 00
+R 00 00 00 02
+T 00 19
+R 00 00 00 02
+T 00 19 00
+R 00 00 00 02
+T 00 1A
+R 00 00 00 02
+T 00 1A 00
+R 00 00 00 02
+T 00 1B
+R 00 00 00 02
+T 00 1B 00
+R 00 00 00 02
+T 00 1C
+R 00 00 00 02
+T 00 1C 00
+R 00 00 00 02
+T 00 1D
+R 00 00 00 02
+T 00 1D 00
+R 00 00 00 02
+T 00 1E
+R 00 00 00 02
+T 00 1E 00
+R 00 00 00 02
+T 00 1F
+R 00 00 00 02
+T 00 1F 00 00 00 00
+R 00 00 00 02
+T 00 23
+R 00 00 00 02
+T 00 23 00
+R 00 00 00 02
+T 00 24
+R 00 00 00 02
+T 00 24 00
+R 00 00 00 02
+T 00 25
+R 00 00 00 02
+T 00 25 00 00
+R 00 00 00 02
+T 00 27
+R 00 00 00 02
+T 00 27 00
+R 00 00 00 02
+T 00 28
+R 00 00 00 02
+T 00 28 00
+R 00 00 00 02
+T 00 29
+R 00 00 00 02
+T 00 29 00
+R 00 00 00 02
+T 00 2A
+R 00 00 00 02
+T 00 2A 00 00
+R 00 00 00 02
+T 00 2C
+R 00 00 00 02
+T 00 2C 00 00
+R 00 00 00 02
+T 00 2E
+R 00 00 00 02
+T 00 2E 00 00 00 00 00 00
+R 00 00 00 02
+T 00 34
+R 00 00 00 02
+T 00 34 00 00
+R 00 00 00 02
+T 00 36
+R 00 00 00 02
+T 00 36 00
+R 00 00 00 02
+T 00 37
+R 00 00 00 02
+T 00 37 00 00
+R 00 00 00 02
+T 00 39
+R 00 00 00 02
+T 00 39 00 00
+R 00 00 00 02
+T 00 3B
+R 00 00 00 02
+T 00 3B 00
+R 00 00 00 02
+T 00 3C
+R 00 00 00 02
+T 00 3C 00
+R 00 00 00 02
+T 00 3D
+R 00 00 00 02
+T 00 3D 00 00
+R 00 00 00 02
+T 00 3F
+R 00 00 00 02
+T 00 3F 00 00 00
+R 00 00 00 02
+T 00 42
+R 00 00 00 02
+T 00 42 00
+R 00 00 00 02
+T 00 43
+R 00 00 00 02
+T 00 43 00
+R 00 00 00 02
+T 00 44
+R 00 00 00 02
+T 00 44 00
+R 00 00 00 02
+T 00 45
+R 00 00 00 02
+T 00 45 00
+R 00 00 00 02
+T 00 46
+R 00 00 00 02
+T 00 46 00
+R 00 00 00 02
+T 00 47
+R 00 00 00 02
+T 00 47 00
+R 00 00 00 02
+T 00 48
+R 00 00 00 02
+T 00 48 00
+R 00 00 00 02
+T 00 49
+R 00 00 00 02
+T 00 49 00
+R 00 00 00 02
+T 00 4A
+R 00 00 00 02
+T 00 4A 00
+R 00 00 00 02
+T 00 4B
+R 00 00 00 02
+T 00 4B 00
+R 00 00 00 02
+T 00 4C
+R 00 00 00 02
+T 00 4C 00
+R 00 00 00 02
+T 00 4D
+R 00 00 00 02
+T 00 4D 00 00
+R 00 00 00 02
+T 00 4F
+R 00 00 00 02
+T 00 4F 00 00
+R 00 00 00 02
+T 00 51
+R 00 00 00 02
+T 00 51 00 00
+R 00 00 00 02
+T 00 53
+R 00 00 00 02
+T 00 53 00 00
+R 00 00 00 02
+T 00 55
+R 00 00 00 02
+T 00 55 00
+R 00 00 00 02
+T 00 56
+R 00 00 00 02
+T 00 56 00
+R 00 00 00 02
+T 00 57
+R 00 00 00 02
+T 00 57 00
+R 00 00 00 02
+T 00 58
+R 00 00 00 02
+T 00 58 00
+R 00 00 00 02
+T 00 59
+R 00 00 00 02
+T 00 59 00
+R 00 00 00 02
+T 00 5A
+R 00 00 00 02
+T 00 5A 00
+R 00 00 00 02
+T 00 5B
+R 00 00 00 02
+T 00 5B 00
+R 00 00 00 02
+T 00 5C
+R 00 00 00 02
+T 00 5C 00
+R 00 00 00 02
+T 00 5D
+R 00 00 00 02
+T 00 5D 00
+R 00 00 00 02
+T 00 5E
+R 00 00 00 02
+T 00 5E 00 00 00
+R 00 00 00 02
+T 00 61
+R 00 00 00 02
+T 00 61 00 00 00 00 00 00
+R 00 00 00 02
+T 00 67
+R 00 00 00 02
+T 00 67 00
+R 00 00 00 02
+T 00 68
+R 00 00 00 02
+T 00 68 00
+R 00 00 00 02
+T 00 69
+R 00 00 00 02
+T 00 69 00
+R 00 00 00 02
+T 00 6A
+R 00 00 00 02
+T 00 6A 00
+R 00 00 00 02
+T 00 6B
+R 00 00 00 02
+T 00 6B 00
+R 00 00 00 02
+T 00 6C
+R 00 00 00 02
+T 00 6C 00
+R 00 00 00 02
+T 00 6D
+R 00 00 00 02
+T 00 6D 00
+R 00 00 00 02
+T 00 6E
+R 00 00 00 02
+T 00 6E 00
+R 00 00 00 02
+T 00 6F
+R 00 00 00 02
+T 00 6F 00
+R 00 00 00 02
+T 00 70
+R 00 00 00 02
+T 00 70 00
+R 00 00 00 02
+T 00 71
+R 00 00 00 02
+T 00 71 00
+R 00 00 00 02
+T 00 72
+R 00 00 00 02
+T 00 72 00
+R 00 00 00 02
+T 00 73
+R 00 00 00 02
+T 00 73 00
+R 00 00 00 02
+T 00 74
+R 00 00 00 02
+T 00 74 00
+R 00 00 00 02
+T 00 75
+R 00 00 00 02
+T 00 75 00
+R 00 00 00 02
+T 00 76
+R 00 00 00 02
+T 00 76 00
+R 00 00 00 02
+T 00 77
+R 00 00 00 02
+T 00 77 00
+R 00 00 00 02
+T 00 78
+R 00 00 00 02
+T 00 78 00
+R 00 00 00 02
+T 00 79
+R 00 00 00 02
+T 00 79 00
+R 00 00 00 02
+T 00 7A
+R 00 00 00 02
+T 00 7A 00
+R 00 00 00 02
+T 00 7B
+R 00 00 00 02
+T 00 7B 00 00
+R 00 00 00 02
+T 00 7D
+R 00 00 00 02
+T 00 7D 00
+R 00 00 00 02
+T 00 7E
+R 00 00 00 02
+T 00 7E 00
+R 00 00 00 02
+T 00 7F
+R 00 00 00 02
+T 00 7F 00
+R 00 00 00 02

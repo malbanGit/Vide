@@ -1,0 +1,180 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Optimizing C</title>
+</head>
+<body class="doc">
+<h1>Optimizing C</h1>
+
+<p>The default setting Vide is compiling "C" programs are described above (see-&gt;compiling).</p>
+
+<p>The C flags that are passed to the compiler can be altered by the user via project settings. The default settings almost always generate executable code (exceptions: see-&gt; known GCC bug/deficiencies).</p>
+
+<p>Bei altering the compiler flags you can change the way GCC compiles the code. Personally I prefer to almost always use an addition "<tt>-O3</tt>".</p>
+
+<p>Often times "C" programs work out of the box with these settings, especially "easy" programs. Problem is the gcc 6809 package is old and sometimes fragile. With the above settings it is possible that gcc introduces strange behaviours to your program.</p>
+
+<p><b><tt>-O3 </tt><br>
+</b> Is an optimization option, that allows gcc in general terms to: produce inline code, loop unroling and code restructuring.<br>
+(exact definition look at: <a target="_blank" href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-O3">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-O3</a>)</p>
+
+<p>In general, code is much faster (I have seen up to 30% speed increase) much longer (I have also seen about 30% size increase).</p>
+
+<p><b>Bad things that can happen 1.</b></p>
+
+<p>The bad thing that can happen is some "code restructuring". This in general means, gcc can decide that it might change the order of your code if it things it would procude the same result but be much faster. It happened to me a couple of times - that this restructuring actually changed semantics of my code - and it did not work the way I intended it should. For the non experienced - or perhaps not so debugging versed coders this will present a problem. Since the actual code you did is not WRONG per se, but it is made wrong by the compiler. I think, when I found this problem, that nearly always a variable I declared was internally not kept intact for the later code parts. This problem could always be fixed by inserting a "<i>volatile</i>" with the definition of a variable.</p>
+
+<p>"Volatile" forces gcc to always read the contents of a variable and not keep it in some register (that may be falsly overwritten).</p>
+
+<p><b>Bad things that can happen 2.</b></p>
+
+<p>Debugging. In order to be able to show the "C" lines in dissi I insert generated comment lines into the code prior to compiling the "C" file. The lines are comments only - and should not influence gcc in any way. With "-O3" I have watched (on one occasion) that comments influence code generation. With debugging switched on gcc quit with a "spill" error (see known gcc bugs): "unable to find a register to spill in class "...". Switching debugging off resolved that problem.</p>
+
+<p>For that particular problem I invented two special compiler comments in C. If a comment like "// EnrichmentOff" is found, the generation of debug comments is switched of untill a comment: "// EnrichmentOn" ist found. That way it was possible to "wrap" problematic functions (only one function found so far) in a protective shell and to not produce debug information for that part of the source only.</p>
+
+<p>Also: Since gcc can "jumble" code around with "-O3" settings it might be arguable if enhancing it with debugging information is really such a good idea. Since it can happen, that the generated information (line based) - might not fit exactly to the generated code.</p>
+<br>
+
+<p><b>Optimize using Tracki<br>
+</b> To optimize your own vectrex programs in C (I mean - cycle based...) you have to experiment (using tracki).</p>
+
+<p>Some things appear not really logical to me (from a "C" point of view) - but the optimization used by -O3 takes strange ways sometimes.</p>
+
+<p>Example: (for the full source look at "printSync.c")<tt><br>
+</tt></p>
+
+<p>--- Faster:<br>
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (*u == 0) // moveTo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((*(u+1)!=0) || (*(u+2)!=0))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// internal moveTo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;port&nbsp;a = *(1+u);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// y pos to dac<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;cntl = (int)0xce;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// disable zero, disable all blank<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;port&nbsp;b = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mux enable, dac to -&gt; integrator y (and x)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;port&nbsp;b =1 ;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mux disable, dac only to x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;port&nbsp;a = *(2+u);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// dac -&gt; x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;t1&nbsp;cnt&nbsp;hi=0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// start timer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ((VIA&nbsp;int&nbsp;flags &amp; 0x40) == 0); // wait till timer finishes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+DIFFERENCE    u+=3;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+<br>
+---Slower:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (*u == 0) // moveTo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((*(u+1)!=0) || (*(u+2)!=0))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// internal moveTo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;port&nbsp;a = *(1+u);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// y pos to dac<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;cntl = (int)0xce;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// disable zero, disable all blank<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;port&nbsp;b = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mux enable, dac to -&gt; integrator y (and x)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;port&nbsp;b =1 ;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mux disable, dac only to x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;port&nbsp;a = *(2+u);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// dac -&gt; x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA&nbsp;t1&nbsp;cnt&nbsp;hi=0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// start timer<br>
+DIFFERENCE&nbsp;&nbsp;&nbsp;&nbsp;u+=3;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ((VIA&nbsp;int&nbsp;flags &amp; 0x40) == 0); // wait till timer finishes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+---</tt></p>
+
+<p>I moved the +3 from a "MoveTo" wait loop to a place outside of the if clause. That is faster because the whole if clause is encapsulated in a loop - and the last address "u+=3" on an assembler level is reused in the next loop round.</p>
+
+<p>If you seek out the last "cycles" in your C-code, try different variants of your code - and watch what gcc realy builds - and perhaps use tracki to see the differences speed wise.</p>
+<h2>Vide Peepholing</h2>
+
+<p>(See also Vide Specials)<br>
+I have seen on occasion that gcc generated plain WRONG code (using -O3).</p>
+
+<p>Scenario:</p>
+
+<p><tt><br>
+void drawTitleFace()<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw&nbsp;synced&nbsp;list&nbsp;c(( signed char*)FaceStraight[0],(int)yPos,0,MOVE&nbsp;SCALE,DRAW&nbsp;SCALE);<br>
+}<br>
+void calcTitleMovement()<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;... some additional stuff<br>
+&nbsp;&nbsp;&nbsp;&nbsp;yPos += (long)ySpeed;<br>
+}<br>
+void doTitle()<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;... start of main loop<br>
+&nbsp;&nbsp;&nbsp;&nbsp;calcTitleMovement();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;drawTitleFace();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;... continue main loop<br>
+}<br>
+</tt></p>
+
+<p>Using "-O3" all functions get inlined (in the above example). The last line of<br>
+ calcTitleMovement():<br>
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;yPos += (long)ySpeed;<br>
+ <br>
+ </tt> comes thus directly in from of:<br>
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;draw&nbsp;synced&nbsp;list&nbsp;c(...);<br>
+</tt>      gcc now is smart enough to recognize - "yPos" can be reused - cool, than I will remember that (in register X).</p>
+<br>
+
+<p>Following asm code is being generated:<br>
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;&nbsp;ySpeed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; , ySpeed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stb&nbsp;&nbsp;&nbsp;&nbsp;5,s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; , ySpeed.398<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;extendqihi2: R:b -&gt; R:d    ; ,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std&nbsp;&nbsp;&nbsp;&nbsp;,s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tfr&nbsp;&nbsp;&nbsp;&nbsp;d,x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; , yPos.106<br>
+&nbsp;&nbsp;&nbsp;&nbsp;exg&nbsp;&nbsp;&nbsp;&nbsp;d,x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; , yPos.106<br>
+&nbsp;&nbsp;&nbsp;&nbsp;addd&nbsp;&nbsp;&nbsp;yPos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; , yPos<br>
+!!&nbsp;&nbsp;exg&nbsp;&nbsp;&nbsp;&nbsp;d,x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; , yPos.106<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std&nbsp;&nbsp;&nbsp;&nbsp;yPos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;  yPos.106, yPos<br>
+ <br>
+</tt>      The second "<tt>exg</tt>" should be a "<tt>tfr</tt>"! The above generated code causes, that while the X register is set correctly, that value is never written to "<tt>&nbsp;yPos</tt>".   <br>
+(This can also be resolved by declaring yPos <i>volatile</i>!)<br>
+</p>
+
+<p>I have no clue how often such bad code is generated in real live. I even went so far as to take a look at the gcc source code - but I haven't got the time or will to explore the gcc engine to its fullest and something obvious I could not find. Still I found it important to correct things - because of that I introduced some peepholing into vide after the assembler code generation is done by gcc. Vide can now investigate the assembler code and search for different recognizable code segments and CHANGE the generated assembler code. As of yet this is not freely configurable but is hardcoded into Vide.</p>
+
+<p>The above scenario is now corrected by Vide.</p>
+
+<p>I found one other <b>FALSELY</b> generated code (also using -O3 - but I think this might also happen when not using -O3)</p>
+
+<p>At on occasion the compiler generated code like:<br>
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;ldx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u&nbsp;&nbsp;&nbsp;;  waveptr.175<br>
+</tt> Which does not make any sense at all - what it should have generated is:<br>
+ <br>
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;leax&nbsp;&nbsp;&nbsp;&nbsp;,u&nbsp;&nbsp;;  waveptr.175<br>
+</tt> (same can happen for "ldx y").</p>
+
+<p>That error is easy recognizable - since the linker produces a warning: <br>
+â<tt>undefined symbol y and/or u</tt>".<br>
+ <br>
+This can also be fixed using the above Vide feature.</p>
+
+<p>The "Peephole" feature can be switched on/off within the project settings dialog. If switched on, the "endmessage" of a project compile will show how many "peephole changes" were done by Vide:<br>
+"<tt>Header size: 26, Rom size: 18078, iRam size: 36, uRam size: 503, PF: 87</tt>"<br>
+</p>
+
+<p>The PF: value tells you how many changes were done to the sources. If you want to know exactly what Vide did - you can look at the generated assembler sources.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"<tt>PROJECTDIRECTORY/build/lib/SOME&nbsp;SOURCE.s</tt>"<br>
+<br>
+Each change is marked with "<tt>; Peep #</tt>" where "#" is the number of the peephole that was found (8 different at the time of writing). The code that is inserted follows, which again is followed by the commented code that it replaces.  e.g.:<br>
+<tt> ;&nbsp;Peep 2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stb&nbsp;&nbsp;&nbsp;&nbsp;,u&nbsp;&nbsp;&nbsp;&nbsp;; , D.2148<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;stb&nbsp;&nbsp;&nbsp;&nbsp;,u&nbsp;&nbsp;&nbsp;&nbsp;; , D.2148<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;&nbsp;,u&nbsp;&nbsp;&nbsp;&nbsp;; , D.2148<br>
+<br>
+</tt> (Which was a simple optimizing "peep", since the ldb is redundant)</p>
+</body>
+</html>

@@ -23,6 +23,10 @@ package de.malban.vide.assy;
 Labels are identifies while building a SourceLine Object (in the cosnstructor
 */
 
+import de.malban.config.Configuration;
+import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
+import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.vide.VideConfig;
 import static de.malban.vide.assy.SourceLine.commentRecognizer;
 import static de.malban.vide.assy.Symbol.SYMBOL_DEFINE_CODE;
@@ -40,6 +44,7 @@ import de.malban.vide.assy.instructions.fcb;
 import de.malban.vide.assy.instructions.fdb;
 import de.malban.vide.assy.instructions.rmb;
 import de.malban.vide.assy.instructions.struct;
+import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.vedi.DebugComment;
 import static de.malban.vide.vedi.DebugComment.COMMENT_TYPE_WATCH;
 import de.malban.vide.vedi.DebugCommentList;
@@ -49,6 +54,7 @@ import java.io.PrintStream;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -78,6 +84,164 @@ public class Asmj {
     public int currentDataOrg =0;
     private int globalAddress = 0;
 
+    static class Replacements
+    {
+        int address=0;
+        int len=0;
+        String replacementVarName="";
+        String replacementVarListName="";
+    }
+
+    static class ReplacementFileList
+    {
+        String binFileName="";
+        String replacementFileName="";
+        ArrayList<Replacements> replacementList= new ArrayList<Replacements>();
+    }
+            
+    static ArrayList<ReplacementFileList> allReplacements=new ArrayList<ReplacementFileList>();
+    public static void resetReplacements()
+    {
+        allReplacements=new ArrayList<ReplacementFileList>();
+    }
+    
+    // name change of bin files from the outside
+    public static void binFileRename(String org, String banked)
+    {
+        for (ReplacementFileList asmR : allReplacements)
+        {
+            if (asmR.binFileName.equals(org)) asmR.binFileName = banked;
+        }
+    }
+    
+    
+    static HashMap<String, HashMap> matchFiles;
+    static HashMap<String, Integer> matchList;
+    
+    
+    
+    public static void doReplacements()
+    {   
+        LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+        matchFiles = new HashMap<String, HashMap>();
+        for (ReplacementFileList asmR : allReplacements)
+        {
+            // load bin
+            try
+            {
+                log.addLog("Replacement start for file: "+asmR.binFileName, INFO);
+                Path path = Paths.get(asmR.binFileName);
+                byte[] data = Files.readAllBytes(path);
+
+                for (Replacements r : asmR.replacementList)
+                {
+                    if (r.address+r.len> data.length) continue;
+                    int value = getReplacementValue(r.replacementVarName, r.replacementVarListName);
+                    byte lo = (byte) (value &0xff);
+                    byte hi = (byte) ((value &0xff00)>>8);
+                    if (r.len ==1)
+                    {
+                        int org = data[r.address]&0xff;
+                        data[r.address] = lo;
+                        log.addLog("Replacement done (at $"+String.format("%04X", r.address)+"): '"+r.replacementVarName+"', from $"+String.format("%02X", org)+" to $"+String.format("%02X", (lo)), INFO);
+                    }
+                    if (r.len ==2)
+                    {
+                        int org = ((data[r.address]&0xff)*256+(data[r.address+1]&0xff) )&0xffff;
+                        data[r.address] = hi;
+                        data[r.address+1] = lo;
+
+                        log.addLog("Replacement done (at $"+String.format("%04X", r.address)+"): '"+r.replacementVarName+"', from $"+String.format("%04X", org)+" to $"+String.format("%04X", (value&0xffff)), INFO);
+                    }
+                }
+                
+                //save bin
+                de.malban.util.UtilityFiles.writeBinFile(asmR.binFileName, data, false);
+            }
+            catch (Throwable ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+    }
+    public static int getReplacementValue(String varName, String listName)
+    {
+        HashMap<String, Integer> matchList = matchFiles.get(listName);
+        if (matchList == null)
+        {
+            matchList = new HashMap<String, Integer>();
+            Vector<String> matches = de.malban.util.UtilityString.readTextFileToString(new File(listName));
+            for (int i=0; i<matches.size(); i++)
+            {
+                String l = matches.elementAt(i);
+                String[] split = l.split("=");
+                if (split.length!=2) continue;
+                matchList.put(split[0],DASM6809.toNumber(split[1]));
+            }
+        }
+        if (matchList.get(varName) != null) return matchList.get(varName);
+        
+        LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+        log.addLog("Replacement match not found: "+varName, WARN);
+
+        return 0;
+    }
+    
+    
+    public static boolean doReplacements = false;
+    public static ReplacementFileList rList;
+    private static void initReplacement()
+    {
+        doReplacements = false;
+        rList= new ReplacementFileList();
+    }
+
+    private static void exitReplacement(SymbolTable symbols)
+    {
+        allReplacements.add(rList);
+        
+        StringBuilder b = new StringBuilder();
+        String name;
+        int i, value;
+
+        for (i=0; i<symbols.symbols.size(); i++) 
+        {
+            Symbol s = (Symbol)symbols.symbols.elementAt(i);
+            name = s.getName();
+            if (name.startsWith("*")) { continue; }
+            if (s.defined()) 
+            {
+                value = s.getValue();
+
+                if (checkReplacer(name, value)) ;//continue;
+
+                b.append(name);
+                b.append("=");
+                b.append("0x"+String.format("%04X", value & 0xFFFF));
+                b.append("\n");
+            } 
+	}
+        de.malban.util.UtilityFiles.createTextFile(rList.replacementFileName, b.toString());
+    }
+    // return true is this name denotes something that needs replacing
+    // REPLACE_1_2_enemyPlayerControlledRightBehaviour_varFrom1_0
+    static boolean checkReplacer(String name, int value)
+    {
+        String[] split = name.split("_");
+        if (!split[0].equals("REPLACE")) return false;
+        if (split.length != 6) return false;
+        Replacements r= new Replacements();
+        r.address = value;
+        r.address += DASM6809.toNumber(split[1]); // plus starting place 
+
+        r.len = DASM6809.toNumber(split[2]);
+        r.replacementVarName = split[3];
+        r.replacementVarListName = split[4];
+        rList.replacementList.add(r);
+        return true;
+    }
+            
+    
     public int getGlobalAddress()
     {
         return globalAddress;
@@ -232,6 +396,7 @@ public class Asmj {
     
     public Asmj(String filename, OutputStream errOut, OutputStream result)
     {
+        initReplacement();
         clearLineInfo();
         mainFile = filename;
         ps_error_add=errOut;
@@ -330,6 +495,7 @@ public class Asmj {
         }
 
         opt_b.default_value = baseFilename + ".bin";
+        rList.binFileName = opt_b.default_value;
         opt_s.default_value = baseFilename + ".s19";
 
         try {
@@ -364,6 +530,7 @@ public class Asmj {
     public static HashMap <String, DebugCommentList> allDebugComments;
     public Asmj( String filename, OutputStream errOut, OutputStream listOut, OutputStream symOut, OutputStream infoOut , String defines, HashMap <String, DebugCommentList> adc) 
     {
+        initReplacement();
         allDebugComments = adc; // make comments accessable to all 
         clearLineInfo();
         mainFile = filename;
@@ -469,6 +636,7 @@ public class Asmj {
         }
 
         opt_b.default_value = baseFilename + ".bin";
+        rList.binFileName = opt_b.default_value;
         opt_s.default_value = baseFilename + ".s19";
 
         try {
@@ -500,6 +668,7 @@ public class Asmj {
      
     public Asmj( String argv[] ) 
     {
+        initReplacement();
         clearLineInfo();
         bank = 0;
 
@@ -603,6 +772,7 @@ public class Asmj {
         }
 
         opt_b.default_value = baseFilename + ".bin";
+        rList.binFileName = opt_b.default_value;
         opt_s.default_value = baseFilename + ".s19";
 
         try {
@@ -630,13 +800,14 @@ public class Asmj {
                 die(x);
         }
     }
-
+/*
     public Asmj(
             LineNumberReader inputs[], String filenames[],
             OutputStream binary, PrintStream srecords,
             PrintStream listing, PrintStream errors, PrintStream symtab,
             String symbols[], int values[] )
     {
+        initReplacement();
         clearLineInfo();
         bank = 0;
 
@@ -646,7 +817,7 @@ public class Asmj {
                 listing, errors, symtab, null,
                 symbols, values );
     }
-
+*/
     private void initProcessor() 
     {
         // Dynamic access to processor-specific code allows
@@ -739,6 +910,7 @@ public class Asmj {
                     if (symbols  != null) { symtab.dump(symbols); }
 
         }
+        exitReplacement(symtab);
     }
 
     private void include( LineContext ctx, String filename ) throws IOException

@@ -2,9 +2,39 @@
 <!DOCTYPE toc PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 2.0//EN" "http://java.sun.com/products/javahelp/toc_2_0.dtd">
 <toc version="2.0">
 <tocitem text="VIDE" target="_file.fb7d057b">
-<tocitem text="Thanks!" target="_file.81cde044" />
+<tocitem text="New here?" target="_file.b0a65f6d" />
 <tocitem text="In general!" target="_file.2c47ace5" />
 <tocitem text="Starter" target="_file.4d13db88" />
+<tocitem text="Command line options" target="_file.b918d07f" />
+<tocitem text="Programming in Assembler" target="_file.684f7277" />
+<tocitem text="Programming in C" target="_file.35b363c9">
+<tocitem text="TL;DN" target="_file.b2c95952" />
+<tocitem text="Preconditions" target="_file.d35a7252" />
+<tocitem text="Compiling" target="_file.9cb915a0" />
+<tocitem text="Assembling" target="_file.8a800569" />
+<tocitem text="Linking" target="_file.a269302a" />
+<tocitem text="'Building'" target="_file.bdcea95c" />
+<tocitem text="Starting a 'C'-Project" target="_file.1bd7dd96" />
+<tocitem text="Working with a 'C'-Project" target="_file.df2a3266" />
+<tocitem text="BIOS functions" target="_file.25a31e42" />
+<tocitem text="Using Vide Tools from 'C'" target="_file.ef4f05c8" />
+<tocitem text="Includes, libaries and 'paths'" target="_file.386f1632" />
+<tocitem text="Accessing own assembler routines" target="_file.880196a4" />
+<tocitem text="Using/building own libraries " target="_file.b92c6385">
+<tocitem text="Libraries / routines, that come with vide" target="_file.6caab88e" />
+<tocitem text="Building own libraries " target="_file.cdc7f87e" />
+</tocitem>
+<tocitem text="Debugging C" target="_file.9eca5981" />
+<tocitem text="Optimizing C" target="_file.1ef778fd" />
+<tocitem text="CFLAGS" target="_file.be45e9f3" />
+<tocitem text="Vide Specials" target="_file.1904e4cd">
+<tocitem text="Peepholes" target="_file.1b04831b" />
+<tocitem text="Direct page" target="_file.1843912a" />
+</tocitem>
+<tocitem text="Examples" target="_file.76385515" />
+<tocitem text="Known GCC bugs/deficiencies" target="_file.6ff9f9bc" />
+<tocitem text="Building the compiler and tools" target="_file.3f057e5b" />
+</tocitem>
 <tocitem text="vecxi" target="_file.99db4f14">
 <tocitem text="dissi" target="_file.9f7215b8">
 <tocitem text="dissi - indexed addressing" target="_file.eb765dd8" />
@@ -19,11 +49,19 @@
 <tocitem text="tracki" target="_file.53d0cc79" />
 <tocitem text="breaki" target="_file.ac4da94a" />
 <tocitem text="ayi" target="_file.58ef2faf" />
+<tocitem text="profi" target="_file.a833dc3a" />
 </tocitem>
-<tocitem text="vecci" target="_file.5f12c2eb">
-<tocitem text="Import" target="_file.6aacd4ec" />
-<tocitem text="Export" target="_file.aa9962d6" />
+<tocitem text="vecci" target="vecci">
+<tocitem text="Import" target="vecciImport" />
+<tocitem text="Export" target="vecciExport" />
+<tocitem text="Storyboard" target="vecciStoryboard" />
+<tocitem text="Storyboard 2" target="vecciStoryboard2" />
 <tocitem text="Vector images" target="_file.59f24a14" />
+<tocitem text="'perfect' Vectorlists" target="_file.f7d25861" />
+<tocitem text="'good' Vectorlists" target="_file.7e1927c5" />
+<tocitem text="'still ok'ish' Vectorlists" target="_file.2b2a043b" />
+<tocitem text="'still possible - but really bad' Vectorlists" target="_file.7428344f" />
+<tocitem text="'bad' Vectorlists" target="_file.8649fa7d" />
 </tocitem>
 <tocitem text="assi" target="_file.7a721502">
 <tocitem text="asmj - original syntax" target="_file.ab1f13b7" />
@@ -39,22 +77,12 @@
 <tocitem text="YM Packing used by VecSound" target="_file.c7d2b088" />
 <tocitem text="VecSound Decoder in C(++) example" target="_file.7ffd0b31" />
 </tocitem>
-<tocitem text="YM-Conversion II" target="_file.52584a51" />
+<tocitem text="YM-Conversion II" target="_file.52584a51">
+<tocitem text="YM vectrex generator" target="_file.48d4b36f" />
+</tocitem>
 <tocitem text="AYFX-Conversion" target="_file.ca8cc2e6" />
 <tocitem text="VecVoice/VecVox+" target="_file.33c0be8d" />
-</tocitem>
-<tocitem text="Code Generation" target="_file.83b2bd44">
-<tocitem text="Game loop" target="_file.ab9264fe" />
-<tocitem text="Bankswitching" target="_file.9e293717" />
-<tocitem text="eEprom DS2430A" target="_file.74800ffe" />
-<tocitem text="Samples" target="_file.26bf6b20" />
-<tocitem text="Mod-Files" target="_file.990ba6a9" />
-<tocitem text="Raster images" target="_file.364f1577" />
-<tocitem text="YM-Files" target="_file.e1fe840c" />
-<tocitem text="AYFX sound effects" target="_file.f34029d9" />
-<tocitem text="VecVoice/VecVox" target="_file.9f1f20c2" />
-<tocitem text="Vector images" target="_file.cd5a0191" />
-<tocitem text="Vectorlists" target="_file.f2256591" />
+<tocitem text="Arkos Tracker" target="_file.167cf83a" />
 </tocitem>
 <tocitem text="codi" target="_file.3c1a6002">
 <tocitem text="Example: Lightpen" target="_file.7fc4fa15" />
@@ -63,8 +91,30 @@
 <tocitem text="Example: 3d Imager" target="_file.f0cc41a7" />
 </tocitem>
 <tocitem text="Library" target="_file.f02d0c4c" />
+<tocitem text="Other tools" target="_file.13142d92">
+<tocitem text="Instrument editor" target="_file.2a31adb3" />
+<tocitem text="Explosion editor" target="_file.fc33d6d7" />
+<tocitem text="File utils" target="_file.c4ea5ceb" />
+<tocitem text="Overlay switcher" target="_file.8162769b" />
+</tocitem>
+<tocitem text="Code Generation" target="_file.83b2bd44">
+<tocitem text="Game loop" target="_file.ab9264fe" />
+<tocitem text="Bankswitching" target="_file.9e293717" />
+<tocitem text="eEprom DS2430A" target="_file.74800ffe" />
+<tocitem text="eEprom DS2431" target="_file.5ca64be1" />
+<tocitem text="Samples" target="_file.26bf6b20" />
+<tocitem text="Mod-Files" target="_file.990ba6a9" />
+<tocitem text="Raster images" target="_file.364f1577" />
+<tocitem text="YM-Files" target="_file.e1fe840c" />
+<tocitem text="AYFX sound effects" target="_file.f34029d9" />
+<tocitem text="Arkos Tracker music" target="_file.4d877149" />
+<tocitem text="VecVoice/VecVox" target="_file.9f1f20c2" />
+<tocitem text="Vector images" target="_file.cd5a0191" />
+<tocitem text="Vectorlists" target="_file.f2256591" />
+</tocitem>
 <tocitem text="Cartridges" target="_file.5d9d584e">
 <tocitem text="Emulation: eEprom DS2430A" target="_file.2a6412de" />
+<tocitem text="Emulation: eEprom DS2431" target="_file.1f9ace61" />
 <tocitem text="Emulation: eEprom Microchip 11AA010" target="_file.1a69dabf" />
 <tocitem text="Emulation: Bankswitching 'Dondzila'" target="_file.a720cadf" />
 <tocitem text="Emulation: VecFlash" target="_file.aee71600" />
@@ -79,14 +129,40 @@
 </tocitem>
 <tocitem text="Emulation: Dual Vec" target="_file.94a59805" />
 <tocitem text="Emulation: Imager 3d (Goggles)" target="_file.932a0405">
-<tocitem text="What is PWM." target="_file.8c8fdbdf" />
+<tocitem text="What is PWM?" target="_file.8c8fdbdf" />
 </tocitem>
+<tocitem text="Emulation: Card LED" target="_file.09fd2777" />
+<tocitem text="Emulation: SID" target="_file.f5e31918" />
 </tocitem>
-<tocitem text="Configuration" target="_file.a0d1a1a6" />
+<tocitem text="Configuration" target="config">
+<tocitem text="Emulation-Settings" target="configEmulator" />
+<tocitem text="Display-Settings" target="configDisplay" />
+<tocitem text="Debug-Settings" target="configDebug" />
+<tocitem text="Disassembler-Settings" target="configDisassembler" />
+<tocitem text="Assembler Settings" target="configAssembler" />
+<tocitem text="Miscellaneous-Settings" target="configMiscellaneous" />
+<tocitem text="Keyboard-Settings" target="configKeyboard" />
+<tocitem text="GUI-Settings" target="configGUI" />
+<tocitem text="Input-Settings" target="configInput" />
+</tocitem>
 <tocitem text="Programming the Vectrex" target="_file.eae1f853">
 <tocitem text="Strings - Raster" target="_file.a1c5ac89" />
 <tocitem text="Sound (Bios) - more or less" target="_file.17fcdfd5" />
+<tocitem text="Draw - Optimizations" target="_file.66250639" />
+<tocitem text="Drawing vectors - differently" target="_file.15f89890" />
 <tocitem text="... a demo written" target="_file.81796e0f" />
+<tocitem text="Vectrex32" target="_file.f4bb2ad3" />
+<tocitem text="Button queries" target="_file.e5f046e3">
+<tocitem text="Example Button query BIOS (flash)" target="J1" />
+<tocitem text="Example Button query BIOS (steady)" target="J2" />
+<tocitem text="Button quicky" target="_file.0dc72b68" />
+</tocitem>
+<tocitem text="Joystick queries" target="_file.a433994a">
+<tocitem text="Example Joystick Query BIOS (digital)" target="J3" />
+<tocitem text="Example Joystick Quicky" target="_file.0f9bd157" />
+</tocitem>
+<tocitem text="BIOS RAM locations" target="_file.2f2bb499" />
+<tocitem text="Findings" target="_file.92a0f132" />
 </tocitem>
 <tocitem text="Vectrex internals" target="_file.d89a00cd">
 <tocitem text="VIA Versatile Interface Adapter  6522A MOS Technology" target="_file.5838f00b" />
@@ -98,6 +174,8 @@
 <tocitem text="Bankswitching" target="_file.27322096" />
 <tocitem text="Joyport Devices" target="_file.b2de88b8" />
 </tocitem>
+<tocitem text="Thanks!" target="_file.81cde044" />
+<tocitem text="'Known Features'" target="_file.bf73b0c2" />
 <tocitem text="FAQ general" target="_file.fdbd5afd">
 <tocitem text="FAQ emulation" target="_file.7b55f032" />
 <tocitem text="FAQ development" target="_file.ea7fd625">
@@ -106,7 +184,7 @@
 <tocitem text="FAQ debugging/dissi" target="_file.ae7f11e6" />
 </tocitem>
 <tocitem text="VIDE: Copyrights and Licenses..." target="_file.19c9af2f" />
-<tocitem text="Other: Copyrights and Licenses..." target="_file.6fa35300" />
+<tocitem text="Code: Copyrights and Licenses..." target="_file.6fa35300" />
 <tocitem text="Other: Further used code..." target="_file.5348e46a" />
 </tocitem>
 </toc>

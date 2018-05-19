@@ -12,7 +12,7 @@ import java.io.Serializable;
 /* 
  * @author malban
  */
-public class XMasLED implements Serializable
+public class XMasLED implements Serializable, CartridgeInternalInterface
 {
     private static XMasLED[] dualVec = null;
     int side = 0;
@@ -21,6 +21,17 @@ public class XMasLED implements Serializable
     Cartridge cart = null;
     boolean lineOut = true; // only output value from our OWN vectrex
 
+    public XMasLED clone()
+    {
+        XMasLED c = new XMasLED();
+        c.inputFromExternalEnabled = inputFromExternalEnabled;
+        c.side = side;
+        c.otherSide = otherSide;
+        c.lineOut = lineOut;
+        
+        return c;
+        
+    }
     public void setCartridge(Cartridge c)
     {
         cart = c;
@@ -32,6 +43,15 @@ public class XMasLED implements Serializable
     {
         inputFromExternalEnabled = b;
     }
+    public void reset()
+    {
+    }
+    public void init()
+    {
+    }
+    public void deinit()
+    {
+    }
     public String toString()
     {
         return "Xmas LED";
@@ -40,7 +60,7 @@ public class XMasLED implements Serializable
     {
     }
     // only set from our OWN vectrex
-    public void setLine(boolean b)
+    public void linePB6In(boolean b)
     {
         lineOut = b;
         if (cart == null) return;
@@ -53,5 +73,13 @@ public class XMasLED implements Serializable
             cart.getDisplay().setLED(1);
         }
     }
+    public void linePB6Out(boolean b)
+    {
+    }
+    public void lineIRQIn(boolean i)
+    {
+    }
+    public boolean usesPB6() {return true;}
+    public boolean isActive() {return true;}
 }
 

@@ -33,7 +33,7 @@ public class TipOfTheDay {
         "Vedi: (middle) Double click or shift (left) double click on a 'known' definition - jumps to the definition.",
         "Vedi: Has an editor jump history - the arrow buttons in the panel 'navigation' can be used to navigate back and forth.",
         "Vedi: Double left click on a file in the file tree - starts the 'system'-default application for the file (except *.bin files).",
-        "Vedi: and dissi use the \"help\" directory to show help (F1 or 'ask' in vedi/double click in dissi), you can put your own 'help' in there as well, either as a *.png or a *.html file. "+
+        "Vedi and dissi use the \"help\" directory to show help (F1 or 'ask' in vedi/double click in dissi), you can put your own 'help' in there as well, either as a *.png or a *.html file. "+
               "The file name will be used as the help keyword (without the extention...)!",
         "Vedi: Need an ascii table? Type 'ascii' in the ask field and press return.",
         "Vedi: Need a calculator? Or a hex/binary conversion? Type in the ask field - the result will be displayed in the Editor message.",

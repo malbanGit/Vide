@@ -1,0 +1,387 @@
+;!FILE /Users/chrissalo/NetBeansProjects/Vide/projects/ayfxTest/ayfxPlayer.pre.asx.s
+XH2
+H 8 areas BE global symbols 4 banks 1 modes
+M ayfxplayer.s
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+B rom base 0 size 8000 map 0 flags 7 fsfx _rom
+B ram base C880 size 36B map 0 flags 7 fsfx _ram
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .cartridge size 0 flags 8C80 bank 2
+A .text size 147 flags 8D80 bank 2
+S A$ayfxPlayer.pre.asx$289 Def013D
+S A$ayfxPlayer.pre.asx$199 Def00C4
+S A$ayfxPlayer.pre.asx$60 Def0009
+S A$ayfxPlayer.pre.asx$70 Def0015
+S A$ayfxPlayer.pre.asx$61 Def000C
+S A$ayfxPlayer.pre.asx$80 Def0026
+S A$ayfxPlayer.pre.asx$71 Def0018
+S sfx_enablenoise_1 Def0064
+S A$ayfxPlayer.pre.asx$81 Def0028
+S A$ayfxPlayer.pre.asx$72 Def001A
+S sfx_enablenoise_2 Def00D1
+S A$ayfxPlayer.pre.asx$82 Def002A
+S A$ayfxPlayer.pre.asx$73 Def001C
+S A$ayfxPlayer.pre.asx$64 Def000F
+S sfx_enablenoise_3 Def013E
+S A$ayfxPlayer.pre.asx$92 Def0038
+S A$ayfxPlayer.pre.asx$83 Def002D
+S A$ayfxPlayer.pre.asx$74 Def001E
+S sfx_checktonedisable_1 Def003F
+S A$ayfxPlayer.pre.asx$93 Def003A
+S A$ayfxPlayer.pre.asx$75 Def0020
+S A$ayfxPlayer.pre.asx$57 Def0000
+S sfx_checktonedisable_2 Def00AC
+S A$ayfxPlayer.pre.asx$94 Def003C
+S A$ayfxPlayer.pre.asx$76 Def0022
+S A$ayfxPlayer.pre.asx$58 Def0003
+S sfx_checktonedisable_3 Def0119
+S sfx_disabletone_1 Def0046
+S sfx_checknoisefreq_1 Def002F
+S A$ayfxPlayer.pre.asx$86 Def002F
+S A$ayfxPlayer.pre.asx$68 Def0010
+S A$ayfxPlayer.pre.asx$59 Def0006
+S sfx_disabletone_2 Def00B3
+S sfx_checknoisefreq_2 Def009C
+S A$ayfxPlayer.pre.asx$87 Def0031
+S A$ayfxPlayer.pre.asx$69 Def0013
+S sfx_disabletone_3 Def0120
+S sfx_checknoisefreq_3 Def0109
+S A$ayfxPlayer.pre.asx$97 Def003F
+S A$ayfxPlayer.pre.asx$88 Def0033
+S A$ayfxPlayer.pre.asx$79 Def0024
+S sfx_doframe_intern_1 Def0010
+S A$ayfxPlayer.pre.asx$98 Def0042
+S A$ayfxPlayer.pre.asx$89 Def0035
+S sfx_doframe_intern_2 Def007D
+S A$ayfxPlayer.pre.asx$99 Def0044
+S sfx_doframe_intern_3 Def00EA
+S sfx_checkvolume_1 Def0038
+S sfx_checkvolume_2 Def00A5
+S sfx_checkvolume_3 Def0112
+S sfx_enabletone_1 Def0055
+S sfx_enabletone_2 Def00C2
+S sfx_enabletone_3 Def012F
+S sfx_checktonefreq_1 Def0024
+S sfx_checktonefreq_2 Def0091
+S sfx_checktonefreq_3 Def00FE
+S noay1 Def000F
+S noay2 Def007C
+S noay3 Def00E9
+S A$ayfxPlayer.pre.asx$200 Def00C6
+S A$ayfxPlayer.pre.asx$210 Def00D1
+S A$ayfxPlayer.pre.asx$120 Def005D
+S A$ayfxPlayer.pre.asx$102 Def0046
+S sfx_checknoisedisable_1 Def0057
+S A$ayfxPlayer.pre.asx$220 Def00DA
+S A$ayfxPlayer.pre.asx$211 Def00D3
+S A$ayfxPlayer.pre.asx$121 Def0060
+S A$ayfxPlayer.pre.asx$112 Def0055
+S A$ayfxPlayer.pre.asx$103 Def0048
+S sfx_checknoisedisable_2 Def00C4
+S A$ayfxPlayer.pre.asx$221 Def00DD
+S A$ayfxPlayer.pre.asx$212 Def00D6
+S A$ayfxPlayer.pre.asx$203 Def00C8
+S A$ayfxPlayer.pre.asx$140 Def0076
+S A$ayfxPlayer.pre.asx$122 Def0063
+S A$ayfxPlayer.pre.asx$104 Def004A
+S sfx_checknoisedisable_3 Def0131
+S sfx_disablenoise_1 Def005B
+S A$ayfxPlayer.pre.asx$240 Def00F6
+S A$ayfxPlayer.pre.asx$222 Def00E0
+S A$ayfxPlayer.pre.asx$213 Def00D9
+S A$ayfxPlayer.pre.asx$204 Def00CA
+S A$ayfxPlayer.pre.asx$141 Def0079
+S A$ayfxPlayer.pre.asx$105 Def004C
+S sfx_disablenoise_2 Def00C8
+S A$ayfxPlayer.pre.asx$250 Def0107
+S A$ayfxPlayer.pre.asx$241 Def00F8
+S A$ayfxPlayer.pre.asx$223 Def00E3
+S A$ayfxPlayer.pre.asx$205 Def00CD
+S A$ayfxPlayer.pre.asx$160 Def008F
+S A$ayfxPlayer.pre.asx$151 Def007D
+S A$ayfxPlayer.pre.asx$115 Def0057
+S A$ayfxPlayer.pre.asx$106 Def004E
+S sfx_disablenoise_3 Def0135
+S A$ayfxPlayer.pre.asx$260 Def0114
+S A$ayfxPlayer.pre.asx$242 Def00FA
+S A$ayfxPlayer.pre.asx$224 Def00E6
+S A$ayfxPlayer.pre.asx$206 Def00D0
+S A$ayfxPlayer.pre.asx$170 Def009C
+S A$ayfxPlayer.pre.asx$152 Def0080
+S A$ayfxPlayer.pre.asx$116 Def0059
+S A$ayfxPlayer.pre.asx$107 Def0051
+S A$ayfxPlayer.pre.asx$270 Def0122
+S A$ayfxPlayer.pre.asx$261 Def0116
+S A$ayfxPlayer.pre.asx$243 Def00FC
+S A$ayfxPlayer.pre.asx$234 Def00EA
+S A$ayfxPlayer.pre.asx$171 Def009E
+S A$ayfxPlayer.pre.asx$126 Def0064
+S A$ayfxPlayer.pre.asx$108 Def0054
+S A$ayfxPlayer.pre.asx$271 Def0124
+S A$ayfxPlayer.pre.asx$253 Def0109
+S A$ayfxPlayer.pre.asx$235 Def00ED
+S A$ayfxPlayer.pre.asx$190 Def00BB
+S A$ayfxPlayer.pre.asx$181 Def00AC
+S A$ayfxPlayer.pre.asx$172 Def00A0
+S A$ayfxPlayer.pre.asx$163 Def0091
+S A$ayfxPlayer.pre.asx$154 Def0082
+S A$ayfxPlayer.pre.asx$145 Def007C
+S A$ayfxPlayer.pre.asx$127 Def0066
+S A$ayfxPlayer.pre.asx$272 Def0126
+S A$ayfxPlayer.pre.asx$254 Def010B
+S A$ayfxPlayer.pre.asx$191 Def00BE
+S A$ayfxPlayer.pre.asx$182 Def00AF
+S A$ayfxPlayer.pre.asx$173 Def00A2
+S A$ayfxPlayer.pre.asx$164 Def0093
+S A$ayfxPlayer.pre.asx$155 Def0085
+S A$ayfxPlayer.pre.asx$137 Def006D
+S A$ayfxPlayer.pre.asx$128 Def0069
+S A$ayfxPlayer.pre.asx$119 Def005B
+S A$ayfxPlayer.pre.asx$282 Def0131
+S A$ayfxPlayer.pre.asx$273 Def0128
+S A$ayfxPlayer.pre.asx$264 Def0119
+S A$ayfxPlayer.pre.asx$255 Def010D
+S A$ayfxPlayer.pre.asx$246 Def00FE
+S A$ayfxPlayer.pre.asx$237 Def00EF
+S A$ayfxPlayer.pre.asx$228 Def00E9
+S A$ayfxPlayer.pre.asx$192 Def00C1
+S A$ayfxPlayer.pre.asx$183 Def00B1
+S A$ayfxPlayer.pre.asx$165 Def0095
+S A$ayfxPlayer.pre.asx$156 Def0087
+S A$ayfxPlayer.pre.asx$138 Def0070
+S A$ayfxPlayer.pre.asx$129 Def006C
+S sfx_endofeffect_1 Def0000
+S A$ayfxPlayer.pre.asx$283 Def0133
+S A$ayfxPlayer.pre.asx$274 Def012B
+S A$ayfxPlayer.pre.asx$265 Def011C
+S A$ayfxPlayer.pre.asx$256 Def010F
+S A$ayfxPlayer.pre.asx$247 Def0100
+S A$ayfxPlayer.pre.asx$238 Def00F2
+S A$ayfxPlayer.pre.asx$166 Def0097
+S A$ayfxPlayer.pre.asx$157 Def0089
+S A$ayfxPlayer.pre.asx$139 Def0073
+S sfx_endofeffect_2 Def006D
+S A$ayfxPlayer.pre.asx$293 Def013E
+S A$ayfxPlayer.pre.asx$275 Def012E
+S A$ayfxPlayer.pre.asx$266 Def011E
+S A$ayfxPlayer.pre.asx$248 Def0102
+S A$ayfxPlayer.pre.asx$239 Def00F4
+S A$ayfxPlayer.pre.asx$176 Def00A5
+S A$ayfxPlayer.pre.asx$167 Def009A
+S A$ayfxPlayer.pre.asx$158 Def008B
+S sfx_endofeffect_3 Def00DA
+S A$ayfxPlayer.pre.asx$294 Def0140
+S A$ayfxPlayer.pre.asx$249 Def0104
+S A$ayfxPlayer.pre.asx$186 Def00B3
+S A$ayfxPlayer.pre.asx$177 Def00A7
+S A$ayfxPlayer.pre.asx$159 Def008D
+S A$ayfxPlayer.pre.asx$295 Def0143
+S A$ayfxPlayer.pre.asx$286 Def0135
+S A$ayfxPlayer.pre.asx$259 Def0112
+S A$ayfxPlayer.pre.asx$196 Def00C2
+S A$ayfxPlayer.pre.asx$187 Def00B5
+S A$ayfxPlayer.pre.asx$178 Def00A9
+S A$ayfxPlayer.pre.asx$296 Def0146
+S A$ayfxPlayer.pre.asx$287 Def0137
+S A$ayfxPlayer.pre.asx$269 Def0120
+S A$ayfxPlayer.pre.asx$188 Def00B7
+S A$ayfxPlayer.pre.asx$288 Def013A
+S A$ayfxPlayer.pre.asx$279 Def012F
+S A$ayfxPlayer.pre.asx$189 Def00B9
+A .text.hot size 0 flags 8C80 bank 2
+A .text.unlikely size 0 flags 8C80 bank 2
+A .data size 0 flags 8C80 bank 3
+A .bss size F flags 8C80 bank 3
+S _sfx_status_1 Def0006
+S _sfx_status_2 Def0007
+S _sfx_status_3 Def0008
+S _sfx_pointer_1 Def0009
+S _sfx_pointer_2 Def000B
+S _sfx_pointer_3 Def000D
+S _currentSFX_1 Def0000
+S _currentSFX_2 Def0002
+S _currentSFX_3 Def0004
+T 00 00
+R 00 00 00 07
+T 00 02
+R 00 00 00 07
+T 00 04
+R 00 00 00 07
+T 00 06
+R 00 00 00 07
+T 00 07
+R 00 00 00 07
+T 00 08
+R 00 00 00 07
+T 00 09
+R 00 00 00 07
+T 00 0B
+R 00 00 00 07
+T 00 0D
+R 00 00 00 07
+T 00 00
+R 00 00 00 03
+T 00 00 CC 00 00 B7 C8 44 FD 00 09 B7 00 06 FD
+R 00 00 00 03 01 09 00 07 01 0C 00 07
+T 00 0D 00 00
+R 00 00 00 03 01 02 00 07
+T 00 0F
+R 00 00 00 03
+T 00 0F 39
+R 00 00 00 03
+T 00 10
+R 00 00 00 03
+T 00 10 B6 00 06 27 FA FE 00 09 E6 C0 C1 D0 26
+R 00 00 00 03 01 03 00 07 01 08 00 07
+T 00 1D 06 A6 C4 81 20 27 DC
+R 00 00 00 03
+T 00 24
+R 00 00 00 03
+T 00 24 C5 20 27 07 EC C1 FD C8 4C E6 5D
+R 00 00 00 03
+T 00 2F
+R 00 00 00 03
+T 00 2F C5 40 27 05 A6 C0 B7 C8 46
+R 00 00 00 03
+T 00 38
+R 00 00 00 03
+T 00 38 1F 98 84 0F B7 C8 44
+R 00 00 00 03
+T 00 3F
+R 00 00 00 03
+T 00 3F B6 C8 45 C5 10 27 0F
+R 00 00 00 03
+T 00 46
+R 00 00 00 03
+T 00 46 8A 01 C5 80 27 18 8A 08 B7 C8 45 FF
+R 00 00 00 03
+T 00 52 00 09 39
+R 00 00 00 03 01 02 00 07
+T 00 55
+R 00 00 00 03
+T 00 55 84 FE
+R 00 00 00 03
+T 00 57
+R 00 00 00 03
+T 00 57 C5 80 27 09
+R 00 00 00 03
+T 00 5B
+R 00 00 00 03
+T 00 5B 8A 08 B7 C8 45 FF 00 09 39
+R 00 00 00 03 01 08 00 07
+T 00 64
+R 00 00 00 03
+T 00 64 84 F7 B7 C8 45 FF 00 09 39
+R 00 00 00 03 01 08 00 07
+T 00 6D
+R 00 00 00 03
+T 00 6D CC 00 00 B7 C8 43 FD 00 0B B7 00 07 FD
+R 00 00 00 03 01 09 00 07 01 0C 00 07
+T 00 7A 00 02
+R 00 00 00 03 01 02 00 07
+T 00 7C
+R 00 00 00 03
+T 00 7C 39
+R 00 00 00 03
+T 00 7D
+R 00 00 00 03
+T 00 7D B6 00 07 27 FA FE 00 0B E6 C0 C1 D0 26
+R 00 00 00 03 01 03 00 07 01 08 00 07
+T 00 8A 06 A6 C4 81 20 27 DC
+R 00 00 00 03
+T 00 91
+R 00 00 00 03
+T 00 91 C5 20 27 07 EC C1 FD C8 4A E6 5D
+R 00 00 00 03
+T 00 9C
+R 00 00 00 03
+T 00 9C C5 40 27 05 A6 C0 B7 C8 46
+R 00 00 00 03
+T 00 A5
+R 00 00 00 03
+T 00 A5 1F 98 84 0F B7 C8 43
+R 00 00 00 03
+T 00 AC
+R 00 00 00 03
+T 00 AC B6 C8 45 C5 10 27 0F
+R 00 00 00 03
+T 00 B3
+R 00 00 00 03
+T 00 B3 8A 02 C5 80 27 18 8A 10 B7 C8 45 FF
+R 00 00 00 03
+T 00 BF 00 0B 39
+R 00 00 00 03 01 02 00 07
+T 00 C2
+R 00 00 00 03
+T 00 C2 84 FD
+R 00 00 00 03
+T 00 C4
+R 00 00 00 03
+T 00 C4 C5 80 27 09
+R 00 00 00 03
+T 00 C8
+R 00 00 00 03
+T 00 C8 8A 10 B7 C8 45 FF 00 0B 39
+R 00 00 00 03 01 08 00 07
+T 00 D1
+R 00 00 00 03
+T 00 D1 84 EF B7 C8 45 FF 00 0B 39
+R 00 00 00 03 01 08 00 07
+T 00 DA
+R 00 00 00 03
+T 00 DA CC 00 00 B7 C8 42 FD 00 0D B7 00 08 FD
+R 00 00 00 03 01 09 00 07 01 0C 00 07
+T 00 E7 00 04
+R 00 00 00 03 01 02 00 07
+T 00 E9
+R 00 00 00 03
+T 00 E9 39
+R 00 00 00 03
+T 00 EA
+R 00 00 00 03
+T 00 EA B6 00 08 27 FA FE 00 0D E6 C0 C1 D0 26
+R 00 00 00 03 01 03 00 07 01 08 00 07
+T 00 F7 06 A6 C4 81 20 27 DC
+R 00 00 00 03
+T 00 FE
+R 00 00 00 03
+T 00 FE C5 20 27 07 EC C1 FD C8 48 E6 5D
+R 00 00 00 03
+T 01 09
+R 00 00 00 03
+T 01 09 C5 40 27 05 A6 C0 B7 C8 46
+R 00 00 00 03
+T 01 12
+R 00 00 00 03
+T 01 12 1F 98 84 0F B7 C8 42
+R 00 00 00 03
+T 01 19
+R 00 00 00 03
+T 01 19 B6 C8 45 C5 10 27 0F
+R 00 00 00 03
+T 01 20
+R 00 00 00 03
+T 01 20 8A 04 C5 80 27 18 8A 20 B7 C8 45 FF
+R 00 00 00 03
+T 01 2C 00 0D 39
+R 00 00 00 03 01 02 00 07
+T 01 2F
+R 00 00 00 03
+T 01 2F 84 FB
+R 00 00 00 03
+T 01 31
+R 00 00 00 03
+T 01 31 C5 80 27 09
+R 00 00 00 03
+T 01 35
+R 00 00 00 03
+T 01 35 8A 20 B7 C8 45 FF 00 0D 39
+R 00 00 00 03 01 08 00 07
+T 01 3E
+R 00 00 00 03
+T 01 3E 84 DF B7 C8 45 FF 00 0D 39
+R 00 00 00 03 01 08 00 07

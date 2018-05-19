@@ -1,0 +1,10 @@
+:label configKeyboard
+:title Keyboard-Settings
+
+:h1 Keyboard
+All kind of keyboard inputs can be defined/altered here (editor, and vectrex emulator).~~
+
+Follow the instructions given on the TAB.
+~~
+~~Note:~~
+For Joytick simulations your have to configure both "Pressed" and "Released" events!

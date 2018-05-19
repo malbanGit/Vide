@@ -8,7 +8,7 @@ There are several ways:
 - Open a "codi" panel (menu: Tools->codi) navigate in the tree to an assembler program you would like to run and press the start button
 - do "the same" in vedi (menu: Tools->vedi), here load a project or a "single" source, and press the start button
 
-:h2 I have a xxxx.bin file - how do a run that?
+:h2 I have a xxxx.bin file - how do I run that?
 See "How do I start a game", second bullet point.
 
 :h2 My own new game should have an overlay, what can I do?
@@ -19,7 +19,7 @@ The filename of the overlay should be the same as the "bin" file, only with a di
 Several options:
 - in the same directory as the binary
 - in the directory "overlay"
-- if the overlay belongs to a "cartridge" file, than just put the path to the image in the appropriate place
+- if the overlay belongs to a "cartridge" file, than just put the path to the image in the appropriate place (configuration of cartridges)
 
 
 :h2 Some vectors in games seem wrong, vector lists appear to have lose ends?
@@ -47,13 +47,14 @@ In the configuration there is an option "Try autoSync". Well - if autosyncing is
 :h2 Emulation seems to be awfully slow, can I speed things up?
 Yep. Just remember, vide was never build for speed!
 ~~you can (in descending order):
+- if possible use JOGL as your display (see configuration)
 - be absolutley sure that "ray gun" is switched off!
+- if you do not debug - disable "debug core"
 - disable ringbuffer
 - antialiazing ON (on is faster on my system, why? I don't now!)
-- disable glow
-- set line width to 1
-- disable persistence
-- don't use an overlay
+- set line width to 1 (if not JOGL)
+- disable persistence (if not JOGL)
+- don't use an overlay (if not JOGL)
 - disable codescan
 - disable cycle exact emulation
 - switch off the use of splines
@@ -61,6 +62,7 @@ Yep. Just remember, vide was never build for speed!
 
 :h2 When I start one of the 3d games only a black screen is shown after the start, why?
 For all known 3d-Imager games the configuration includes "imager". If for some reason in the second joystick port no imager is present, that might be the problem. Chose "Imager" in the combobox for port 1.
+Also depending on your emualtion settings - the internal imager emulation needs to come up with the correct speed - this can take a few seconds!
 
 :h2 When I debug my program, I notice vectors are drawn differently, what is that?
 Depending on your VIDE settings ("activate direct draw on debug"), vectors while single stepping/multistepping are REALLY drawn differently!~~

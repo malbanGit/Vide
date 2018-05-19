@@ -60,9 +60,10 @@ Breakpoints are ALWAYS active, even when not in debug mode!
 - ##table_refresh.png##__**vari**~~ opens a variable listing window
 - ##table_relationship.png##__**labi**~~ opens a label listing window ~~ 
 - ##sound_add.png##__**ayi**~~ opens an ayi window ~~ 
-- ##application_lightning.png##__**breaki**~~ opens a breaki window ~~ ~~
+- ##application_lightning.png##__**breaki**~~ opens a breaki window ~~ 
+- ##layout_content.png##__**profi**~~ opens a profi (profiling) window ~~ ~~
 - ##mouse_error.png##__**vinfi**~~ this will enable a mouse pointer in the emulation window. You can select any displayed vector and get information about it. Upon selecting a vector a "vinfi" window opens.
-~~ ~~
+~~ ~~ 
 - ##page_save.png##__** write file**~~ This writes a source file of the current dissi contents to your hard drive. The file generated will save to the location the current bin file was loaded from and has a file extenstion of *.dasm.asm". ~~
 Shift click will save a "clean" assembler file. Clean, as in no variables, defines, equ or whatever. Just plain assembler with lots of numbers! ~~
 If the current cartridge has more than one bank, a file is generated for EACH bank.
@@ -145,7 +146,9 @@ All comments belonging to the address. Seperate lines are seperated by ":".
 All comments are displayed by the tooltip!
 Comments can be edited - as labels only for //exactly// the address of the current row. 
 - **Column 13 - DP**~~
-Guessed or set direct page register dissi thinks appropriate for that address. //This is not always correct!/
+Guessed or set direct page register dissi thinks appropriate for that address. //This is not always correct! //
+- additionally some columns can be displayed while profiling
+
 :h3 Popup-Menu
 :image dissi2.png|popup window
 Selecting rows in dissi enables you to change the "display" of the data on the fly.
@@ -154,6 +157,7 @@ Following options are provided:~~
 - **cast to code**~~ casts the selected rows to be "enforced" to code
 - **cast to byte**~~ casts the selected rows to be "enforced" to byte data
 - **cast to word**~~ casts the selected rows to be "enforced" to word data
+- **cast to wordpointer **~~ casts the selected rows to be "enforced" to word pointer data
 - **cast to char**~~ casts the selected rows to be "enforced" to char data
 - **ungroup** ~~ ungroup selected rows (if possible, code e.g. can't be ungrouped or joined)
 - **join** ~~ groups selected rows, ALL selected (if possible, data which are not ascii e.g. can't be char-joined)

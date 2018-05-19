@@ -1,0 +1,27 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>CFLAGS</title>
+</head>
+<body class="doc">
+<h1>CFLAGS</h1>
+<br><p align="center">
+<img src="pics/NewCProject.png" width="809" height="528"><br>
+<em>PeerC</em></p><br>
+
+<p>As seen in the above image CFLAGS can be set in the project dialog.</p>
+
+<p>I strongly recomend keeping the default values. Nonetheless you can CHANGE them - see also Optimizing C.</p>
+
+<p>You can overwrite the PROJECT settings for each file individually. I don't know how often this makes sense - but you CAN do it.</p>
+
+<p>See below image - there is a "Flags" section for each file - here you can insert gcc compiler flags.</p>
+
+<p>GCC treats flags "further to the right" in the command line prioritized. The flags of each file are "added" to the complete flags string of the project and thus come "further to the right" and as such have higher priority to gcc.</p>
+
+<p>So if you configured -O3 in your project compile settings and -O2 for one file - than for that one file the compile will be done with -O2!</p>
+<br><p align="center">
+<img src="pics/FileProperties.png" width="748" height="588"><br>
+<em>FileProperties</em></p><br>
+</body>
+</html>

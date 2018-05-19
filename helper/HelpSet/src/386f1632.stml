@@ -1,0 +1,36 @@
+:title Includes, libaries and "paths"
+
+:h2 Include paths
+
+The standard include (#include <xxx.h>)  path is set to:~~
+
+::.../Vide/C/PeerC/vectrex/include"::~~
+
+Additionally the standard include path also is set to the "::include::" directory of the current project.
+
+:h2 Libraries paths
+The default gcc 6809 C libraries are placed at:
+
+::.../Vide/C/PeerC/lib"::~~
+
+Additionally the vectrex startup code and other 
+special vectrex files are located at:
+
+::.../Vide/C/PeerC/vectrex/lib"::~~
+
+:h2 Special note on vectrex includes
+All files in the directory "::.../PeerC/::" (and subdirectories) were provided by Prof. Dr. rer. nat. Peer Johannsen.
+
+The setup in the include files to provide support for the vectrex BIOS from standard "C" with the current easyness and transparency to the difficulties underneath, must have been an incredible task to do. I am very gratefull that Peer allows the distribution of these files.
+
+Already two years he is working with his students with "C" for vectrex. His experience with all the difficulties and challenges he encountered have been put into the setup. He still has energy and hope left to further enhance the setup and find more efficient //working// ways to interface to the BIOS.
+
+Many a thank you Peer!
+
+
+
+
+
+
+
+ 

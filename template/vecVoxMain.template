@@ -55,7 +55,7 @@ message1:
                     DB       "PRESS BUTTON 4 "            ; only capital letters
                     DB       $80                          ; $80 is end of string 
 ; Vec Vox routines
-                    INCLUDE  "VECVOX.I"                   ; VecVox output routines
+                    INCLUDE  "vecvox.i"                   ; VecVox output routines
 ;
 ; Speech strings
                     INCLUDE  "speechData.i"               ; vectrex function includes

@@ -1,0 +1,33 @@
+                              1 
+                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
+                              3 ;;; 4.3.6 (gcc6809)
+                              4 ;;; ABI version 1
+                              5 ;;; -mint8
+                              6 	.module	mc6809.c
+                              7 	.globl __mc6809
+                              8 	.area .data
+   0000                       9 __mc6809:
+   0000 00 00                10 	.word	0	;skip space 8
+   0002 00 00                11 	.word	0	;skip space 6
+   0004 00 00                12 	.word	0	;skip space 4
+   0006 00 00                13 	.word	0	;skip space 2
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __mc6809           0000 GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .data            size    8   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

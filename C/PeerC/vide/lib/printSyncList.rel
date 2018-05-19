@@ -1,0 +1,102 @@
+;!FILE /Users/chrissalo/NetBeansProjects/Vide/tmp/veccyAsm.pre.asx.s
+XH2
+H 8 areas 31 global symbols 4 banks 1 modes
+M printSyncList.s
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+B rom base 0 size 8000 map 0 flags 7 fsfx _rom
+B ram base C880 size 36B map 0 flags 7 fsfx _ram
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .cartridge size 0 flags 8C80 bank 2
+A .text size 5F flags 8D80 bank 2
+S A$veccyAsm.pre.asx$100 Def002F
+S setPatternLoop Def0052
+S A$veccyAsm.pre.asx$110 Def003F
+S A$veccyAsm.pre.asx$101 Def0031
+S A$veccyAsm.pre.asx$120 Def0055
+S A$veccyAsm.pre.asx$111 Def0042
+S A$veccyAsm.pre.asx$121 Def0057
+S A$veccyAsm.pre.asx$112 Def0044
+S A$veccyAsm.pre.asx$122 Def005A
+S A$veccyAsm.pre.asx$113 Def0047
+S A$veccyAsm.pre.asx$104 Def0034
+S A$veccyAsm.pre.asx$114 Def004A
+S A$veccyAsm.pre.asx$105 Def0036
+S A$veccyAsm.pre.asx$115 Def004C
+S A$veccyAsm.pre.asx$106 Def0038
+S A$veccyAsm.pre.asx$116 Def004F
+S A$veccyAsm.pre.asx$126 Def005C
+S A$veccyAsm.pre.asx$108 Def003A
+S A$veccyAsm.pre.asx$127 Def005E
+S A$veccyAsm.pre.asx$109 Def003C
+S A$veccyAsm.pre.asx$119 Def0052
+S drawdone Def005C
+S zeroLoop Def0015
+S A$veccyAsm.pre.asx$71 Def0004
+S A$veccyAsm.pre.asx$81 Def0010
+S A$veccyAsm.pre.asx$91 Def001E
+S A$veccyAsm.pre.asx$82 Def0013
+S A$veccyAsm.pre.asx$92 Def0020
+S A$veccyAsm.pre.asx$74 Def0006
+S A$veccyAsm.pre.asx$93 Def0023
+S A$veccyAsm.pre.asx$75 Def0007
+S A$veccyAsm.pre.asx$94 Def0025
+S A$veccyAsm.pre.asx$95 Def0028
+S A$veccyAsm.pre.asx$86 Def0015
+S A$veccyAsm.pre.asx$77 Def0009
+S A$veccyAsm.pre.asx$68 Def0000
+S A$veccyAsm.pre.asx$96 Def002A
+S A$veccyAsm.pre.asx$87 Def0018
+S A$veccyAsm.pre.asx$78 Def000B
+S A$veccyAsm.pre.asx$69 Def0002
+S A$veccyAsm.pre.asx$88 Def0019
+S A$veccyAsm.pre.asx$79 Def000E
+S A$veccyAsm.pre.asx$89 Def001B
+S A$veccyAsm.pre.asx$99 Def002D
+S nextListEntry Def0034
+S draw_synced_list Def0000
+S moveTo Def002D
+S sync Def0006
+A .text.hot size 0 flags 8C80 bank 2
+A .text.unlikely size 0 flags 8C80 bank 2
+A .data size 0 flags 8C80 bank 3
+A .bss size 0 flags 8C80 bank 3
+T 00 00
+R 00 00 00 03
+T 00 00 34 02 34 04 A6 C0
+R 00 00 00 03
+T 00 06
+R 00 00 00 03
+T 00 06 4A 26 53 C6 CC F7 D0 0C C6 07 7F D0 01
+R 00 00 00 03
+T 00 13 86 82
+R 00 00 00 03
+T 00 15
+R 00 00 00 03
+T 00 15 B7 D0 00 5A 26 FA 7C D0 00 A6 61 B7
+R 00 00 00 03
+T 00 21 D0 04 1F 10 BD F3 12 A6 E4 B7 D0 04
+R 00 00 00 03
+T 00 2D
+R 00 00 00 03
+T 00 2D EC C1 27 03 BD F3 12
+R 00 00 00 03
+T 00 34
+R 00 00 00 03
+T 00 34 A6 C0 27 F5 2A CC EC C1 B7 D0 01 7F
+R 00 00 00 03
+T 00 40 D0 00 86 FF 7C D0 00 F7 D0 01 C6 40 7F
+R 00 00 00 03
+T 00 4D D0 05 B7 D0 0A
+R 00 00 00 03
+T 00 52
+R 00 00 00 03
+T 00 52 F5 D0 0D 27 FB 7F D0 0A 20 D8
+R 00 00 00 03
+T 00 5C
+R 00 00 00 03
+T 00 5C 35 06 39
+R 00 00 00 03

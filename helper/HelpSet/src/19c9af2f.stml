@@ -229,3 +229,17 @@ Main Maintainer: Sashnov Alexander / Roman Scherbakov~~
 Licence: GNU General Public License (GPL) V2.0 (or later)~~
 Homepage: [[https://github.com/gasman/libayemu]]~~
 ::
+
+::**Code for SID emulation**~~
+----------------------~~
+Source was taken from the emulation package around JaC64, a C64 emulator written in Java by Joakim Eriksson.
+
+::Sourceforge site: [[https://sourceforge.net/projects/jac64/]]
+
+::The included reSid java version from above emulator was used. It can be found in the "de.malban.vide.vecx.cartridge.resid" package.
+
+::The reSid package itself was developed by: Dag Lem,~~ 
+Ken Händel converted the code to Java.
+
+::Distribution and usage is allowed by GPL License V2.::
+

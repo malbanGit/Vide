@@ -1,0 +1,132 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>BIOS RAM locations</title>
+</head>
+<body class="doc">
+<h1>BIOS RAM locations</h1>
+
+<p>(by Bruce Tomlin, modified by Malban)</p>
+
+<p><tt>  <br>
+$C800: Vec_Snd_Shadow Shadow of sound chip registers (15 bytes) <br>
+$C80F: Vec_Btn_State Current state of all joystick buttons <br>
+$C810: Vec_Prev_Btns Previous state of all joystick buttons <br>
+$C811: Vec_Buttons Current toggle state of all buttons <br>
+$C812: Vec_Button_1_1 Current toggle state of stick 1 button 1 <br>
+$C813: Vec_Button_1_2 Current toggle state of stick 1 button 2 <br>
+$C814: Vec_Button_1_3 Current toggle state of stick 1 button 3 <br>
+$C815: Vec_Button_1_4 Current toggle state of stick 1 button 4 <br>
+$C816: Vec_Button_2_1 Current toggle state of stick 2 button 1 <br>
+$C817: Vec_Button_2_2 Current toggle state of stick 2 button 2 <br>
+$C818: Vec_Button_2_3 Current toggle state of stick 2 button 3 <br>
+$C819: Vec_Button_2_4 Current toggle state of stick 2 button 4 <br>
+$C81A: Vec_Joy_Resltn Joystick A/D resolution ($80=min $00=max) <br>
+$C81B: Vec_Joy_1_X Joystick 1 left/right <br>
+$C81C: Vec_Joy_1_Y Joystick 1 up/down <br>
+$C81D: Vec_Joy_2_X Joystick 2 left/right <br>
+$C81E: Vec_Joy_2_Y Joystick 2 up/down <br>
+$C81F: Vec_Joy_Mux Joystick enable/mux flags (4 bytes) <br>
+$C81F: Vec_Joy_Mux_1_X Joystick 1 X enable/mux flag (=1) <br>
+$C820: Vec_Joy_Mux_1_Y Joystick 1 Y enable/mux flag (=3) <br>
+$C821: Vec_Joy_Mux_2_X Joystick 2 X enable/mux flag (=5) <br>
+$C822: Vec_Joy_Mux_2_Y Joystick 2 Y enable/mux flag (=7) <br>
+$C823: Vec_Misc_Count Misc counter/flag byte, zero when not in use <br>
+$C824: Vec_0Ref_Enable Check0Ref enable flag <br>
+$C825: Vec_Loop_Count Loop counter word (incremented in Wait_Recal) <br>
+$C827: Vec_Brightness Default brightness <br>
+$C828: Vec_Dot_Dwell Dot dwell time? <br>
+$C829: Vec_Pattern Dot pattern (bits) <br>
+$C82A: Vec_Text_HW Default text height and width <br>
+$C82A: Vec_Text_Height Default text height <br>
+$C82B: Vec_Text_Width Default text width <br>
+$C82C: Vec_Str_Ptr Temporary string pointer for Print_Str <br>
+$C82E: Vec_Counters Six bytes of counters <br>
+$C82E: Vec_Counter_1 First counter byte <br>
+$C82F: Vec_Counter_2 Second counter byte <br>
+$C830: Vec_Counter_3 Third counter byte <br>
+$C831: Vec_Counter_4 Fourth counter byte <br>
+$C832: Vec_Counter_5 Fifth counter byte <br>
+$C833: Vec_Counter_6 Sixth counter byte <br>
+$C834: Vec_RiseRun_Tmp Temp storage word for rise/run <br>
+$C836: Vec_Angle Angle for rise/run and rotation calculations <br>
+$C837: Vec_Run_Index Index pair for run <br>
+$C839: * Pointer to copyright string during startup <br>
+$C839: Vec_Rise_Index Index pair for rise <br>
+$C83B: * High score cold-start flag (=0 if valid) <br>
+$C83B: Vec_RiseRun_Len length for rise/run <br>
+$C83C: * temp byte <br>
+$C83D: Vec_Rfrsh Refresh time (divided by 1.5MHz) <br>
+$C83D: Vec_Rfrsh_lo Refresh time low byte <br>
+$C83E: Vec_Rfrsh_hi Refresh time high byte <br>
+$C83F: Vec_Music_Work Music work buffer (14 bytes, backwards?) <br>
+$C842: Vec_Music_Wk_A register 10 <br>
+$C843: * register 9 <br>
+$C844: * register 8 <br>
+$C845: Vec_Music_Wk_7 register 7 <br>
+$C846: Vec_Music_Wk_6 register 6 <br>
+$C847: Vec_Music_Wk_5 register 5 <br>
+$C848: * register 4 <br>
+$C849: * register 3 <br>
+$C84A: * register 2 <br>
+$C84B: Vec_Music_Wk_1 register 1 <br>
+$C84C: * register 0 <br>
+$C84D: Vec_Freq_Table Pointer to note-to-frequency table (normally $FC8D) <br>
+$C84F: Vec_Max_Players Maximum number of players for Select_Game <br>
+$C850: Vec_Max_Games Maximum number of games for Select_Game <br>
+$C84F: Vec_ADSR_Table Storage for first music header word (ADSR table) <br>
+$C851: Vec_Twang_Table Storage for second music header word ("twang' table) <br>
+$C853: Vec_Music_Ptr Music data pointer <br>
+$C853: Vec_Expl_ChanA Used by Explosion_Snd - bit for first channel used? <br>
+$C854: Vec_Expl_Chans Used by Explosion_Snd - bits for all channels used? <br>
+$C855: Vec_Music_Chan Current sound channel number for Init_Music <br>
+$C856: Vec_Music_Flag Music active flag ($00=off $01=start $80=on) <br>
+$C857: Vec_Duration Duration counter for Init_Music <br>
+$C858: Vec_Music_Twang 3 word "twang' table used by Init_Music <br>
+$C858: Vec_Expl_1 4 bytes copied from Explosion_Snd's U-reg parameters <br>
+$C859: Vec_Expl_2 <br>
+$C85A: Vec_Expl_3 <br>
+$C85B: Vec_Expl_4 <br>
+$C85C: Vec_Expl_Chan Used by Explosion_Snd - channel number in use? <br>
+$C85D: Vec_Expl_ChanB Used by Explosion_Snd - bit for second channel used? <br>
+$C85E: Vec_ADSR_Timers ADSR timers for each sound channel (3 bytes) <br>
+$C861: Vec_Music_Freq Storage for base frequency of each channel (3 words) <br>
+$C85E: * Scratch "score' storage for Display_Option (7 bytes) <br>
+$C867: Vec_Expl_Flag Explosion_Snd initialization flag? <br>
+$C868: Unused? <br>
+$C869: Unused? <br>
+$C86a: Unused? <br>
+$C86b: Unused? <br>
+$C86c: Unused? <br>
+$C86d: Unused? <br>
+$C86e: Unused? <br>
+$C86f: Unused? <br>
+$C870: Unused? <br>
+$C871: Unused? <br>
+$C872: Unused? <br>
+$C873: Unused? <br>
+$C874: Unused? <br>
+$C875: Unused? <br>
+$C876: Unused? <br>
+$C877: Vec_Expl_Timer Used by Explosion_Snd <br>
+$C878: Unused? <br>
+$C879: Vec_Num_Players Number of players selected in Select_Game <br>
+$C87A: Vec_Num_Game Game number selected in Select_Game <br>
+$C87B: Vec_Seed_Ptr Pointer to 3-byte random number seed (=$C87D) <br>
+$C87D: Vec_Random_Seed Default 3-byte random number seed <br>
+:<br>
+* $C880 - $CBEA is user RAM :<br>
+: <br>
+$CBEA: Vec_Default_Stk Default top-of-stack <br>
+$CBEB: Vec_High_Score High score storage (7 bytes) <br>
+$CBF2: Vec_SWI3_Vector SWI2/SWI3 interrupt vector (3 bytes) <br>
+$CBF2: Vec_SWI2_Vector SWI2/SWI3 interrupt vector (3 bytes) <br>
+$CBF5: Vec_FIRQ_Vector FIRQ interrupt vector (3 bytes) <br>
+$CBF8: Vec_IRQ_Vector IRQ interrupt vector (3 bytes) <br>
+$CBFB: Vec_SWI_Vector SWI/NMI interrupt vector (3 bytes) <br>
+$CBFB: Vec_NMI_Vector SWI/NMI interrupt vector (3 bytes) <br>
+$CBFE: Vec_Cold_Flag Cold start flag (warm start if = $7321)</tt></p>
+
+<p><tt></tt></p>
+</body>
+</html>

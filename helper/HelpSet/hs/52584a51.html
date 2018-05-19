@@ -47,6 +47,9 @@ With these controls you edit the YM-Data, not the PSG registers!</p>
 <p>Note:<br>
 A double click on a textfield sends the data to the PSG-emulator of the YM-Panel!</p>
 
+<p>Note:<br>
+A SHIFT double click on a textfield sets the current data to the <b>complete</b> column.</p>
+
 <p>Below the textfields you see a checkbox for each of the registers.  These checkboxes enable/disable the denoted registers, enables/disables means:
 <ul><li>
 <p>the YM-Player recognizes the switches and plays only the channels which are enabled</p>
@@ -54,6 +57,8 @@ A double click on a textfield sends the data to the PSG-emulator of the YM-Panel
 <p>the source code generator of the ym-panel also recognizes the switches and only data (and the player) is generated for the selected registers</p>
 </li></ul>
 </p>
+
+<p>The 3 additional buttons "1&lt;&gt;2", "2&lt;&gt;3" and "3&lt;&gt;1"  switch complete channel data within the PSG (including frequency, amplitude and enable settings).</p>
 <h3>Channels</h3>
 
 <p>As you can see the channel specific data words/bytes/bits are colored consistently for each of the three available channels.</p>
@@ -81,8 +86,17 @@ Insert another YM-file befor the current active row.</p>
 </li><li>
 <p><img src="pics/page_edit.png" alt="page_edit.png"> &nbsp;&nbsp;<b>save selection as ym file</b><br>
 Save the current selected rows as a YM-file.</p>
+</li><li>
+<p><img src="pics/drive_user.png" alt="drive_user.png"> &nbsp;&nbsp;<b>insert ascii value file</b><br>
+Add ascii "source" ym data from a source file.</p>
 </li></ul>
 </p>
+
+<p>Last data must have a "pure" form like:<br>
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$50, $00, $F0, $00, $40, $00, $18, $31, $00, $02, $02, $00, $00, $00<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$50, $00, $F0, $00, $80, $00, $18, $31, $00, $02, $04, $00, $00, $00<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$50, $00, $F0, $00, $B0, $00, $18, $31, $02, $01, $04, $00, $00, $00<br>
+</tt></p>
 <h2>YM-Player</h2>
 
 <p>The left side of the window belongs mainly to the YM-Player.</p>
@@ -117,7 +131,28 @@ Deletes all data, creates a new "empty" YM-data table (with ONE row of nulled da
 <p>Below the player buttons, you can see listed the meta-data that was gathered from the loaded YM-file. Not all YM-versions supply all data fields, so some may be empty.</p>
 <h3>Source-generater</h3>
 
-<p>Below the YM-file information you see a two button and two checkboxes, with those you can influence (or start) the generation of source files. They are pretty self explainatory.</p>
+<p>Below the YM-file information you see two buttons and two checkboxes, with those you can influence (or start) the generation of source files. They are pretty self explainatory, see also the sub chapter on "YM vectrex generator"</p>
+<h2>Lister</h2>
+
+<p>There is a tab called "Lister". Within that tab you see a listing of all ym files that were in the directory your last ym file was loaded from.</p>
+
+<p>Double clicking an entry loads the ym file.</p>
+<h2>more configuration</h2>
+<br><p align="center">
+<img src="pics/YMAmplitude.png" width="237" height="181"><br>
+<em>more configuration</em></p><br>
+
+<p>PreProcess<br>
+If switched on the ym data will be preprocessed. Meaning values will be changed to represent the state of the according enable registers. E.g. if channel one is disabled, that the accordings frequency and amplitude registers are set to "0" (zero).</p>
+
+<p>Some files pack better with preprocessing, some worse. Here only trials can figure out the best settings</p>
+
+<p>Amplitude<br>
+The "&lt;&lt;" and "&gt;&gt;" button shift the amplitude of the corresponding channel 1 bit (double or half the value). The "mul" in the same line allows the multiplication of the amplitude with a "double" (result are 4 bit integers again).</p>
+
+<p>Force Channel<br>
+Only relevant for streamed output.<br>
+Streamed output examines the ym data and leaves out registers that do not change at all. With these checkboxes you can force streamed output even for registers that do not change at all.</p>
 <h2>AYFX Support</h2>
 
 <p>The last available feature is support for AYFX files (see the other chapter where these may come from). AYFX is a format for sound effects of the PSG-chips. The sound effects are channel independend, and are saved WITHOUT channel information (and can be loaded to any channel - any of the three :-)). The below description goes for all three channels.</p>

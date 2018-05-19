@@ -1,0 +1,21 @@
+:title Command line options
+
+Vide can be started with command line options. These are as follows:~~
+::
+____-help________________-h        help~~
+____-configuration_______-co (=)___name of the configuration file to load (e.g. developer.vsv)~~
+____-jogl________________-jg (+/-)_start with jogl graphics enabled~~
+____-oldJava_____________-oj (+/-)_start with java graphics enabled~~
+____-keepAspectRatio_____-ar (+/-)_keep aspect ratio when size of vecxi changes~~
+____-exitAfterGame_______-ex (+/-)_shuts down vedi after exiting vecxi~~
+____-fullpanel___________-fp (+/-)_starts vecxi in fullpanel (only if vecxi runs)~~
+____-fullscreen__________-fs (+/-)_starts vecxi in fullscreen (only if vecxi runs)~~
+____-enableOverlay_______-eo (+/-)_whether to load an overlay, if available~~
+____-enableScreen________-es (+/-)_whether to enable the 'screen' drawing~~
+____-port0Device_________-p0 (=)___name of the configured input device (names as they appear in vecxi combobox)~~
+____-port1Device_________-p1 (=)___name of the configured input device (names as they appear in vecxi combobox)~~
+____-rotation____________-ro (=)___rotation (0, 90, 180, 270)~~
+____-binary______________-bi (=)___loads a binary file and starts vecxi~~
+____-gameCartridge_______-gc (=)___loads a cartridge definition and starts vecxi (name of the cart)~~
+____-resolution__________-rs (=)___resolution of fullscreen, format like 800x600~~
+::

@@ -1,0 +1,260 @@
+                              1 
+                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
+                              3 ;;; 4.3.6 (gcc6809)
+                              4 ;;; ABI version 1
+                              5 ;;; -mint8
+                              6 	.module	gcc.c
+                              7 ;----- asm -----
+                              8 	.globl		_abort				
+                     F000     9 	_abort		.equ 	0xf000		
+                             10 	
+                             11 	.globl		_free				
+                     F000    12 	_free		.equ 	0xf000		
+                             13 	
+                             14 	.globl		_malloc				
+                     F000    15 	_malloc	.equ 	0xf000		
+                             16 	
+                             17 ;--- end asm ---
+                             18 	.area .text
+                             19 	.globl _memcmp
+   0000                      20 _memcmp:
+   0000 34 60         [ 7]   21 	pshs	y,u
+   0002 32 74         [ 5]   22 	leas	-12,s
+   0004 33 E4         [ 4]   23 	leau	,s
+   0006 AF 46         [ 6]   24 	stx	6,u
+                             25 	; ldx	6,u	; optimization 5
+   0008 AF 48         [ 6]   26 	stx	8,u
+   000A AE C8 12      [ 6]   27 	ldx	18,u
+   000D AF 4A         [ 6]   28 	stx	10,u
+   000F 20 48         [ 3]   29 	bra	L2
+   0011                      30 L8:
+   0011 E6 D8 08      [ 8]   31 	ldb	[8,u]
+   0014 E7 C4         [ 4]   32 	stb	,u
+   0016 E6 D8 0A      [ 8]   33 	ldb	[10,u]
+   0019 6F 41         [ 7]   34 	clr	1,u
+   001B E1 C4         [ 4]   35 	cmpb	,u	;cmpqi:(R)
+   001D 27 04         [ 3]   36 	beq	L3
+   001F C6 01         [ 2]   37 	ldb	#1
+   0021 E7 41         [ 5]   38 	stb	1,u
+   0023                      39 L3:
+   0023 EC 48         [ 6]   40 	ldd	8,u
+   0025 C3 00 01      [ 4]   41 	addd	#1
+   0028 ED 48         [ 6]   42 	std	8,u
+   002A EC 4A         [ 6]   43 	ldd	10,u
+   002C C3 00 01      [ 4]   44 	addd	#1
+   002F ED 4A         [ 6]   45 	std	10,u
+   0031 6D 41         [ 7]   46 	tst	1,u
+   0033 27 24         [ 3]   47 	beq	L2
+   0035 10 AE 48      [ 7]   48 	ldy	8,u
+   0038 30 3F         [ 5]   49 	leax	-1,y
+   003A E6 84         [ 4]   50 	ldb	,x
+   003C E7 44         [ 5]   51 	stb	4,u
+   003E 10 AE 4A      [ 7]   52 	ldy	10,u
+   0041 30 3F         [ 5]   53 	leax	-1,y
+   0043 E6 84         [ 4]   54 	ldb	,x
+   0045 E1 44         [ 5]   55 	cmpb	4,u	;cmpqi:(R)
+   0047 23 06         [ 3]   56 	bls	L4
+   0049 C6 FF         [ 2]   57 	ldb	#-1
+   004B E7 43         [ 5]   58 	stb	3,u
+   004D 20 04         [ 3]   59 	bra	L5
+   004F                      60 L4:
+   004F C6 01         [ 2]   61 	ldb	#1
+   0051 E7 43         [ 5]   62 	stb	3,u
+   0053                      63 L5:
+   0053 E6 43         [ 5]   64 	ldb	3,u
+   0055 E7 42         [ 5]   65 	stb	2,u
+   0057 20 1F         [ 3]   66 	bra	L6
+   0059                      67 L2:
+   0059 6F 45         [ 7]   68 	clr	5,u
+   005B AE C8 14      [ 6]   69 	ldx	20,u
+   005E 8C 00 00      [ 4]   70 	cmpx	#0
+   0061 27 04         [ 3]   71 	beq	L7
+   0063 C6 01         [ 2]   72 	ldb	#1
+   0065 E7 45         [ 5]   73 	stb	5,u
+   0067                      74 L7:
+   0067 EC C8 14      [ 6]   75 	ldd	20,u
+   006A C3 FF FF      [ 4]   76 	addd	#-1
+   006D ED C8 14      [ 6]   77 	std	20,u
+   0070 6D 45         [ 7]   78 	tst	5,u
+   0072 10 26 FF 9B   [ 6]   79 	lbne	L8
+   0076 6F 42         [ 7]   80 	clr	2,u
+   0078                      81 L6:
+   0078 E6 42         [ 5]   82 	ldb	2,u
+   007A 32 6C         [ 5]   83 	leas	12,s
+   007C 35 E0         [ 8]   84 	puls	y,u,pc
+                             85 	.globl _memcpy
+   007E                      86 _memcpy:
+   007E 34 40         [ 6]   87 	pshs	u
+   0080 32 79         [ 5]   88 	leas	-7,s
+   0082 33 E4         [ 4]   89 	leau	,s
+   0084 AF 41         [ 6]   90 	stx	1,u
+                             91 	; ldx	1,u	; optimization 5
+   0086 AF 43         [ 6]   92 	stx	3,u
+   0088 AE 4B         [ 6]   93 	ldx	11,u
+   008A AF 45         [ 6]   94 	stx	5,u
+   008C 20 14         [ 3]   95 	bra	L11
+   008E                      96 L13:
+   008E E6 D8 05      [ 8]   97 	ldb	[5,u]
+   0091 E7 D8 03      [ 8]   98 	stb	[3,u]
+   0094 EC 43         [ 6]   99 	ldd	3,u
+   0096 C3 00 01      [ 4]  100 	addd	#1
+   0099 ED 43         [ 6]  101 	std	3,u
+   009B EC 45         [ 6]  102 	ldd	5,u
+   009D C3 00 01      [ 4]  103 	addd	#1
+   00A0 ED 45         [ 6]  104 	std	5,u
+   00A2                     105 L11:
+   00A2 6F C4         [ 6]  106 	clr	,u
+   00A4 AE 4D         [ 6]  107 	ldx	13,u
+   00A6 8C 00 00      [ 4]  108 	cmpx	#0
+   00A9 27 04         [ 3]  109 	beq	L12
+   00AB C6 01         [ 2]  110 	ldb	#1
+   00AD E7 C4         [ 4]  111 	stb	,u
+   00AF                     112 L12:
+   00AF EC 4D         [ 6]  113 	ldd	13,u
+   00B1 C3 FF FF      [ 4]  114 	addd	#-1
+   00B4 ED 4D         [ 6]  115 	std	13,u
+   00B6 6D C4         [ 6]  116 	tst	,u
+   00B8 26 D4         [ 3]  117 	bne	L13
+   00BA AE 41         [ 6]  118 	ldx	1,u
+   00BC 32 67         [ 5]  119 	leas	7,s
+   00BE 35 C0         [ 7]  120 	puls	u,pc
+                            121 	.globl _memmove
+   00C0                     122 _memmove:
+   00C0 34 40         [ 6]  123 	pshs	u
+   00C2 32 74         [ 5]  124 	leas	-12,s
+   00C4 33 E4         [ 4]  125 	leau	,s
+   00C6 AF 42         [ 6]  126 	stx	2,u
+                            127 	; ldx	2,u	; optimization 5
+   00C8 AF 44         [ 6]  128 	stx	4,u
+   00CA AE C8 10      [ 6]  129 	ldx	16,u
+   00CD AF 46         [ 6]  130 	stx	6,u
+   00CF AE 44         [ 6]  131 	ldx	4,u
+   00D1 AC 46         [ 7]  132 	cmpx	6,u	;cmphi:
+   00D3 24 33         [ 3]  133 	bhs	L16
+   00D5 20 14         [ 3]  134 	bra	L17
+   00D7                     135 L19:
+   00D7 E6 D8 06      [ 8]  136 	ldb	[6,u]
+   00DA E7 D8 04      [ 8]  137 	stb	[4,u]
+   00DD EC 44         [ 6]  138 	ldd	4,u
+   00DF C3 00 01      [ 4]  139 	addd	#1
+   00E2 ED 44         [ 6]  140 	std	4,u
+   00E4 EC 46         [ 6]  141 	ldd	6,u
+   00E6 C3 00 01      [ 4]  142 	addd	#1
+   00E9 ED 46         [ 6]  143 	std	6,u
+   00EB                     144 L17:
+   00EB 6F C4         [ 6]  145 	clr	,u
+   00ED AE C8 12      [ 6]  146 	ldx	18,u
+   00F0 8C 00 00      [ 4]  147 	cmpx	#0
+   00F3 27 04         [ 3]  148 	beq	L18
+   00F5 C6 01         [ 2]  149 	ldb	#1
+   00F7 E7 C4         [ 4]  150 	stb	,u
+   00F9                     151 L18:
+   00F9 EC C8 12      [ 6]  152 	ldd	18,u
+   00FC C3 FF FF      [ 4]  153 	addd	#-1
+   00FF ED C8 12      [ 6]  154 	std	18,u
+   0102 6D C4         [ 6]  155 	tst	,u
+   0104 26 D1         [ 3]  156 	bne	L19
+   0106 20 49         [ 3]  157 	bra	L20
+   0108                     158 L16:
+   0108 EC C8 12      [ 6]  159 	ldd	18,u
+   010B C3 FF FF      [ 4]  160 	addd	#-1
+   010E AE 46         [ 6]  161 	ldx	6,u
+   0110 30 8B         [ 8]  162 	leax	d,x
+   0112 AF 48         [ 6]  163 	stx	8,u
+   0114 EC C8 12      [ 6]  164 	ldd	18,u
+   0117 C3 FF FF      [ 4]  165 	addd	#-1
+   011A AE 44         [ 6]  166 	ldx	4,u
+   011C 30 8B         [ 8]  167 	leax	d,x
+   011E AF 4A         [ 6]  168 	stx	10,u
+   0120 20 14         [ 3]  169 	bra	L21
+   0122                     170 L23:
+   0122 E6 D8 08      [ 8]  171 	ldb	[8,u]
+   0125 E7 D8 0A      [ 8]  172 	stb	[10,u]
+   0128 EC 4A         [ 6]  173 	ldd	10,u
+   012A C3 FF FF      [ 4]  174 	addd	#-1
+   012D ED 4A         [ 6]  175 	std	10,u
+   012F EC 48         [ 6]  176 	ldd	8,u
+   0131 C3 FF FF      [ 4]  177 	addd	#-1
+   0134 ED 48         [ 6]  178 	std	8,u
+   0136                     179 L21:
+   0136 6F 41         [ 7]  180 	clr	1,u
+   0138 AE C8 12      [ 6]  181 	ldx	18,u
+   013B 8C 00 00      [ 4]  182 	cmpx	#0
+   013E 27 04         [ 3]  183 	beq	L22
+   0140 C6 01         [ 2]  184 	ldb	#1
+   0142 E7 41         [ 5]  185 	stb	1,u
+   0144                     186 L22:
+   0144 EC C8 12      [ 6]  187 	ldd	18,u
+   0147 C3 FF FF      [ 4]  188 	addd	#-1
+   014A ED C8 12      [ 6]  189 	std	18,u
+   014D 6D 41         [ 7]  190 	tst	1,u
+   014F 26 D1         [ 3]  191 	bne	L23
+   0151                     192 L20:
+   0151 AE 42         [ 6]  193 	ldx	2,u
+   0153 32 6C         [ 5]  194 	leas	12,s
+   0155 35 C0         [ 7]  195 	puls	u,pc
+                            196 	.globl _memset
+   0157                     197 _memset:
+   0157 34 40         [ 6]  198 	pshs	u
+   0159 32 7A         [ 5]  199 	leas	-6,s
+   015B 33 E4         [ 4]  200 	leau	,s
+   015D AF 42         [ 6]  201 	stx	2,u
+   015F E7 41         [ 5]  202 	stb	1,u
+   0161 AE 42         [ 6]  203 	ldx	2,u
+   0163 AF 44         [ 6]  204 	stx	4,u
+   0165 20 0C         [ 3]  205 	bra	L26
+   0167                     206 L28:
+   0167 E6 41         [ 5]  207 	ldb	1,u
+   0169 E7 D8 04      [ 8]  208 	stb	[4,u]
+   016C EC 44         [ 6]  209 	ldd	4,u
+   016E C3 00 01      [ 4]  210 	addd	#1
+   0171 ED 44         [ 6]  211 	std	4,u
+   0173                     212 L26:
+   0173 6F C4         [ 6]  213 	clr	,u
+   0175 AE 4A         [ 6]  214 	ldx	10,u
+   0177 8C 00 00      [ 4]  215 	cmpx	#0
+   017A 27 04         [ 3]  216 	beq	L27
+   017C C6 01         [ 2]  217 	ldb	#1
+   017E E7 C4         [ 4]  218 	stb	,u
+   0180                     219 L27:
+   0180 EC 4A         [ 6]  220 	ldd	10,u
+   0182 C3 FF FF      [ 4]  221 	addd	#-1
+   0185 ED 4A         [ 6]  222 	std	10,u
+   0187 6D C4         [ 6]  223 	tst	,u
+   0189 26 DC         [ 3]  224 	bne	L28
+   018B AE 42         [ 6]  225 	ldx	2,u
+   018D 32 66         [ 5]  226 	leas	6,s
+   018F 35 C0         [ 7]  227 	puls	u,pc
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 L11                00A2 R   |   2 L12                00AF R
+  2 L13                008E R   |   2 L16                0108 R
+  2 L17                00EB R   |   2 L18                00F9 R
+  2 L19                00D7 R   |   2 L2                 0059 R
+  2 L20                0151 R   |   2 L21                0136 R
+  2 L22                0144 R   |   2 L23                0122 R
+  2 L26                0173 R   |   2 L27                0180 R
+  2 L28                0167 R   |   2 L3                 0023 R
+  2 L4                 004F R   |   2 L5                 0053 R
+  2 L6                 0078 R   |   2 L7                 0067 R
+  2 L8                 0011 R   |     _abort         =   F000 G
+    _free          =   F000 G   |     _malloc        =   F000 G
+  2 _memcmp            0000 GR  |   2 _memcpy            007E GR
+  2 _memmove           00C0 GR  |   2 _memset            0157 GR
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size  191   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

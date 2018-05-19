@@ -348,53 +348,41 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCheckBox5" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox1" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox2" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox7" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox19" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox17" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox8" alignment="0" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCheckBox23" alignment="0" min="-2" pref="82" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox22" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jCheckBox21" alignment="0" pref="89" max="32767" attributes="0"/>
-                                  <Component id="jCheckBox18" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBoxXmas" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox20" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox15" alignment="0" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="75" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox16" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox9" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox10" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox3" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox4" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox6" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jCheckBox5" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox1" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox2" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox7" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox19" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox17" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox8" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox16" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox9" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox10" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox3" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox6" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox4" alignment="0" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jCheckBoxXmas1" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox15" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox20" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBoxXmas" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox23" alignment="0" min="-2" pref="82" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox18" alignment="0" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox25" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox22" alignment="0" min="-2" pref="96" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox21" alignment="0" min="-2" pref="96" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox26" min="-2" pref="96" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jCheckBox24" max="32767" attributes="0"/>
+                                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
@@ -411,7 +399,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="51" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -429,42 +417,52 @@
                                   <Component id="jCheckBox20" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox16" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox9" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox10" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jCheckBox5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox23" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox6" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jCheckBox7" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox16" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBox22" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jCheckBox8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox9" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBox21" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCheckBox10" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBoxXmas" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCheckBox3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox23" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCheckBox4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox26" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCheckBox5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox25" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCheckBox6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBoxXmas1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jCheckBox7" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCheckBox8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox24" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jCheckBox17" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBox18" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jCheckBox19" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBoxXmas" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jCheckBox19" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                               <Component id="jComboBoxImager" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
@@ -502,7 +500,7 @@
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox3">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Lightpen Port 1"/>
+                        <Property name="text" type="java.lang.String" value="Lightpen 1"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                           <Insets value="[0, 2, 1, 0]"/>
                         </Property>
@@ -510,7 +508,7 @@
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox4">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Lightpen Port 2"/>
+                        <Property name="text" type="java.lang.String" value="Lightpen 2"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                           <Insets value="[0, 2, 1, 0]"/>
                         </Property>
@@ -529,7 +527,7 @@
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox6">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="extreme multi"/>
+                        <Property name="text" type="java.lang.String" value="extr. multi"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                           <Insets value="[0, 2, 1, 0]"/>
                         </Property>
@@ -556,15 +554,18 @@
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox9">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="RAM Animaction"/>
+                        <Property name="text" type="java.lang.String" value="RAM Anim."/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                           <Insets value="[0, 2, 1, 0]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox9ActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox10">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="RAM RA Spectrum"/>
+                        <Property name="text" type="java.lang.String" value="RAM RA "/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                           <Insets value="[0, 2, 1, 0]"/>
                         </Property>
@@ -581,7 +582,7 @@
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox16">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Microchip 11AA010"/>
+                        <Property name="text" type="java.lang.String" value="Microchip"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                           <Insets value="[0, 2, 1, 0]"/>
                         </Property>
@@ -719,6 +720,49 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox23ActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBox24">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Keyboard"/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                          <Insets value="[0, 2, 1, 0]"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox24ActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBoxXmas1">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="16k BS"/>
+                        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                          <Insets value="[0, 2, 1, 0]"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxXmas1ActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBox25">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="PIC"/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                          <Insets value="[0, 2, 1, 0]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBox26">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Atmel"/>
+                        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                          <Insets value="[0, 2, 1, 0]"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox26ActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>

@@ -64,6 +64,18 @@
 <p>all the other files are included by the assembler </p>
 </li></ul>
 </p>
+<h2>Assi is not optimizing as good as my older assembler.</h2>
+
+<p>Yep that might be true. Optimizing is sometimes tricky. And since I did not develope the core code of assi myself, I felt sometimes restrained to change the very core of it (or in other words I did not dare). Anyway I think a good solution is to let the programmer do optimization - I don't think any assembler (or compiler) can be as good as a programmer.</p>
+<h2>But... even a extended addressing is sometimes not translated to direct addressing even when possible!</h2>
+
+<p>Yes. If you use extended addressing with a variable (ram location e.g.) that is defined further down the source (or an include file loaded at a later stage), that address is not optimized to direct addressing. This also has to do with the inner working of assi. The decision whether an instruction is direct or extended is made in pass 1. In pass 1 also the includes and variables are evaluated. If a variable comes later down the line it is at that stage "unkown" and a decision whether the DP-register is the correct one can not be made. Doing extended addressing is the save path. The correct way for assi would be to do a pass in between and try to assert all "fixed" variables so at least they can be evaluated - I have not done that yet! Two fixes are possible for that particular "optimization":
+<ul><li>
+<p>do not use variables before they are declared!</p>
+</li><li>
+<p>"force" direct addressing with the "&lt;" prefix</p>
+</li></ul>
+</p>
 
 <p>If the files represent different banks for bankswitching, create a new project according to your bankswitching scheme. Set to each bank the according file as main (this can only be done from the project properties panel)</p>
 <h2>I love my old assembler I don't want to use assi, what can I do?</h2>

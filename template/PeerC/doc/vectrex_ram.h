@@ -1,24 +1,41 @@
 // ***************************************************************************
-// VECTREX EXECUTIVE RAM ADRESSES
+// VECTREX EXECUTIVE RAM ADDRESSES
 // as described in the Vectrex Programmer's Manual Volume 1
 // ***************************************************************************
 // quick reference - do not use this file as header file
 // use #include <vectrex.h> instead
 // ***************************************************************************
-// This file was developed by Prof. Dr. Peer Johannsen as part of the 
-// "Retro-Programming" and "Advanced C Programming" class at
+//
+// Disclaimer:
+//
+// This file is part of the Vectrex C programming setup developed by 
+// Prof. Dr. rer. nat. Peer Johannsen. The setup is used as tool and as
+// teaching material in the "Retro-Programming" and the "Advanced
+// hardware-oriented C and Assembly Language Programming" classes at
 // Pforzheim University, Germany.
 // 
-// It can freely be used, but at one's own risk and for non-commercial
-// purposes only. Please respect the copyright and credit the origin of
-// this file.
+// Writing their own games for a vintage arcade game console in a programming
+// course and seeing them run on a real Vectrex device has proved to greatly
+// contribute to the motivation of the students.
 //
-// Feedback, suggestions and bug-reports are welcome and can be sent to:
+// The C programming setup can freely be used by everyone for writing 
+// Vectrex games and Vectrex programs in C, but at one's own risk. Please
+// respect the copyright and credit the origin of these files.
+//
+// It would be truly fantastic if those who use this setup and/or these files
+// to develop and produce their own Vectrex game cartridges, would support the
+// educational approach and aim of these programming classes by donating a
+// complimentary cartridge which will then be used as additional motivational
+// content.
+//
+// Many thanks to all those out there who have already supported this course
+// in various ways!
+//
+// Feedback, suggestions and bug-reports are always welcome and can be sent
+// to the following contact address:
+//
 // peer.johannsen@pforzheim-university.de
-// ***************************************************************************
-
-#define RAM(addr, type) *((volatile type* const) addr)
-
+//
 // ***************************************************************************
 // 0xC800 - 0xCBFF (1KB)	static RAM (read or write)
 // ---------------------------------------------------------------------------
@@ -27,188 +44,164 @@
 // 0xCBEA - 0xCBFF (22B)	reserved for RUM
 // ***************************************************************************
 
-#define Vec_Snd_Shadow		RAM(0xC800, int) // Shadow of sound chip registers (15 bytes)
-#define Vec_Btn_State		RAM(0xC80F, unsigned int) // Current state of all joystick buttons
-#define Vec_Prev_Btns		RAM(0xC810, unsigned int) // Previous state of all joystick buttons
-#define Vec_Buttons			RAM(0xC811, unsigned int) // Current toggle state of all buttons
-#define Vec_Button_1_1		RAM(0xC812, unsigned int) // Current toggle state of stick 1 button 1
-#define Vec_Button_1_2		RAM(0xC813, unsigned int) // Current toggle state of stick 1 button 2
-#define Vec_Button_1_3		RAM(0xC814, unsigned int) // Current toggle state of stick 1 button 3
-#define Vec_Button_1_4		RAM(0xC815, unsigned int) // Current toggle state of stick 1 button 4
-#define Vec_Button_2_1		RAM(0xC816, unsigned int) // Current toggle state of stick 2 button 1
-#define Vec_Button_2_2		RAM(0xC817, unsigned int) // Current toggle state of stick 2 button 2
-#define Vec_Button_2_3		RAM(0xC818, unsigned int) // Current toggle state of stick 2 button 3
-#define Vec_Button_2_4		RAM(0xC819, unsigned int) // Current toggle state of stick 2 button 4
-#define Vec_Joy_Resltn		RAM(0xC81A, int) // Joystick A/D resolution (0x80=min 0x00=max)
-#define Vec_Joy_1_X			RAM(0xC81B, int) // Joystick 1 left/right
-#define Vec_Joy_1_Y			RAM(0xC81C, int) // Joystick 1 up/down
-#define Vec_Joy_2_X			RAM(0xC81D, int) // Joystick 2 left/right
-#define Vec_Joy_2_Y			RAM(0xC81E, int) // Joystick 2 up/down
-#define Vec_Joy_Mux			RAM(0xC81F, int) // Joystick enable/mux flags (4 bytes)
-#define Vec_Joy_Mux_1_X		RAM(0xC81F, int) // Joystick 1 X enable/mux flag (=1)
-#define Vec_Joy_Mux_1_Y		RAM(0xC820, int) // Joystick 1 Y enable/mux flag (=3)
-#define Vec_Joy_Mux_2_X		RAM(0xC821, int) // Joystick 2 X enable/mux flag (=5)
-#define Vec_Joy_Mux_2_Y		RAM(0xC822, int) // Joystick 2 Y enable/mux flag (=7)
-#define Vec_Misc_Count		RAM(0xC823, unsigned int) // Misc counter/flag byte, zero when not in use
-#define Vec_0Ref_Enable		RAM(0xC824, int) // Check0Ref enable flag
-#define Vec_Loop_Count		RAM(0xC825, int) // Loop counter word (incremented in Wait_Recal)
-#define Vec_Brightness		RAM(0xC827, int) // Default brightness
-#define Vec_Dot_Dwell		RAM(0xC828, unsigned int) // Dot dwell time?
-#define Vec_Pattern			RAM(0xC829, unsigned int) // Dot pattern (bits)
-#define Vec_Text_HW			RAM(0xC82A, unsigned long int) // Default text height and width
-#define Vec_Text_Height		RAM(0xC82A, int) // Default text height
-#define Vec_Text_Width		RAM(0xC82B, int) // Default text width
-#define Vec_Str_Ptr			RAM(0xC82C, int) // Temporary string pointer for Print_Str
-#define Vec_Counters		RAM(0xC82E, int) // Six bytes of counters
-#define Vec_Counter_1		RAM(0xC82E, int) // First  counter byte
-#define Vec_Counter_2		RAM(0xC82F, int) // Second counter byte
-#define Vec_Counter_3		RAM(0xC830, int) // Third  counter byte
-#define Vec_Counter_4		RAM(0xC831, int) // Fourth counter byte
-#define Vec_Counter_5		RAM(0xC832, int) // Fifth  counter byte
-#define Vec_Counter_6		RAM(0xC833, int) // Sixth  counter byte
-#define Vec_RiseRun_Tmp		RAM(0xC834, int) // Temp storage word for rise/run
-#define Vec_Angle			RAM(0xC836, int)	// Angle for rise/run and rotation calculations
-#define Vec_Run_Index		RAM(0xC837, int)	// Index pair for run
-#define Vec_XXX_00			RAM(0xC839, int)	// Pointer to copyright string during startup
-#define Vec_Rise_Index		RAM(0xC839, int)	// Index pair for rise
-#define Vec_XXX_01			RAM(0xC83B, int)	// High score cold-start flag (=0 if valid)
-#define Vec_RiseRun_Len		RAM(0xC83B, int)	// length for rise/run
-#define Vec_XXX_02			RAM(0xC83C, int)	// temp byte
-#define Vec_Rfrsh			RAM(0xC83D, int) // Refresh time (divided by 1.5MHz)
-#define Vec_Rfrsh_lo		RAM(0xC83D, int) // Refresh time low byte
-#define Vec_Rfrsh_hi		RAM(0xC83E, int) // Refresh time high byte
-#define Vec_Music_Work		RAM(0xC83F, int) // Music work buffer (14 bytes, backwards?)
-#define Vec_Music_Wk_A		RAM(0xC842, int) //         register 10
-#define Vec_XXX_03			RAM(0xC843, int)	// register 9
-#define Vec_XXX_04			RAM(0xC844, int)	// register 8
-#define Vec_Music_Wk_7		RAM(0xC845, int) //         register 7
-#define Vec_Music_Wk_6		RAM(0xC846, int) //         register 6
-#define Vec_Music_Wk_5		RAM(0xC847, int) //         register 5
-#define Vec_XXX_05			RAM(0xC848, int)	// register 4
-#define Vec_XXX_06			RAM(0xC849, int)	// register 3
-#define Vec_XXX_07			RAM(0xC84A, int)	// register 2
-#define Vec_Music_Wk_1		RAM(0xC84B, int) //         register 1
-#define Vec_XXX_08			RAM(0xC84C, int)	// register 0
-#define Vec_Freq_Table		RAM(0xC84D, int) // Pointer to note-to-frequency table (normally 0xFC8D)
-#define Vec_Max_Players		RAM(0xC84F, int) // Maximum number of players for Select_Game
-#define Vec_Max_Games		RAM(0xC850, int) // Maximum number of games for Select_Game
-#define Vec_ADSR_Table		RAM(0xC84F, int) // Storage for first music header word (ADSR table)
-#define Vec_Twang_Table		RAM(0xC851, int) // Storage for second music header word ('twang' table)
-#define Vec_Music_Ptr		RAM(0xC853, int) // Music data pointer
-#define Vec_Expl_ChanA		RAM(0xC853, int) // Used by Explosion_Snd - bit for first channel used?
-#define Vec_Expl_Chans		RAM(0xC854, int) // Used by Explosion_Snd - bits for all channels used?
-#define Vec_Music_Chan		RAM(0xC855, int) // Current sound channel number for Init_Music
-#define Vec_Music_Flag		RAM(0xC856, int) // Music active flag (0x00=off 0x01=start 0x80=on)
-#define Vec_Duration		RAM(0xC857, int) // Duration counter for Init_Music
-#define Vec_Music_Twang		RAM(0xC858, int) // 3 word 'twang' table used by Init_Music
-#define Vec_Expl_1			RAM(0xC858, int) // Four bytes copied from Explosion_Snd's U-reg parameters
-#define Vec_Expl_2			RAM(0xC859, int) // 
-#define Vec_Expl_3			RAM(0xC85A, int) // 
-#define Vec_Expl_4			RAM(0xC85B, int) // 
-#define Vec_Expl_Chan		RAM(0xC85C, int) // Used by Explosion_Snd - channel number in use?
-#define Vec_Expl_ChanB		RAM(0xC85D, int) // Used by Explosion_Snd - bit for second channel used?
-#define Vec_ADSR_Timers		RAM(0xC85E, int) // ADSR timers for each sound channel (3 bytes)
-#define Vec_Music_Freq		RAM(0xC861, int) // Storage for base frequency of each channel (3 words)
-#define Vec_XXX_09			RAM(0xC85E, int)	// Scratch 'score' storage for Display_Option (7 bytes)
-#define Vec_Expl_Flag		RAM(0xC867, unsigned int) // Explosion_Snd initialization flag?
-#define Vec_XXX_10			RAM(0xC868, int)	// Unused?
-#define Vec_XXX_11			RAM(0xC869, int)	// Unused?
-#define Vec_XXX_12			RAM(0xC86A, int)	// Unused?
-#define Vec_XXX_13			RAM(0xC86B, int)	// Unused?
-#define Vec_XXX_14			RAM(0xC86C, int)	// Unused?
-#define Vec_XXX_15			RAM(0xC86D, int)	// Unused?
-#define Vec_XXX_16			RAM(0xC86E, int)	// Unused?
-#define Vec_XXX_17			RAM(0xC86F, int)	// Unused?
-#define Vec_XXX_18			RAM(0xC870, int)	// Unused?
-#define Vec_XXX_19			RAM(0xC871, int)	// Unused?
-#define Vec_XXX_20			RAM(0xC872, int)	// Unused?
-#define Vec_XXX_21			RAM(0xC873, int)	// Unused?
-#define Vec_XXX_22			RAM(0xC874, int)	// Unused?
-#define Vec_XXX_23			RAM(0xC875, int)	// Unused?
-#define Vec_XXX_24			RAM(0xC876, int)	// Unused?
-#define Vec_Expl_Timer		RAM(0xC877, int) // Used by Explosion_Snd
-#define Vec_XXX_25			RAM(0xC878, int)	// Unused?
-#define Vec_Num_Players		RAM(0xC879, unsigned int) // Number of players selected in Select_Game
-#define Vec_Num_Game		RAM(0xC87A, unsigned int) // Game number selected in Select_Game
-#define Vec_Seed_Ptr		RAM(0xC87B, unsigned int*) // Pointer to 3-byte random number seed (=0xC87D)
-#define Vec_Random_Seed		RAM(0xC87D, long unsigned int) // working storage for random number generator (3 bytes)
-#define Vec_Random_Seed0	RAM(0xC87D, unsigned int) // Default 3-byte random number seed
-#define Vec_Random_Seed1	RAM(0xC87E, unsigned int) // Default 3-byte random number seed
-#define Vec_Random_Seed2	RAM(0xC87F, unsigned int) // Default 3-byte random number seed
+int					Vec_Snd_Shadow 		// 0xC800, Shadow of sound chip registers (15 bytes)
+int					Vec_Snd_shadow[15]	// 0xC800, Shadow of sound chip registers (15 bytes)
+unsigned int		Vec_Btn_State 		// 0xC80F, Current state of all joystick buttons
+unsigned int		Vec_Prev_Btns 		// 0xC810, Previous state of all joystick buttons
+unsigned int		Vec_Buttons 		// 0xC811, Current toggle state of all buttons
+unsigned int		Vec_Button_1_1 		// 0xC812, Current toggle state of stick 1 button 1
+unsigned int		Vec_Button_1_2		// 0xC813, Current toggle state of stick 1 button 2
+unsigned int		Vec_Button_1_3		// 0xC814, Current toggle state of stick 1 button 3
+unsigned int		Vec_Button_1_4		// 0xC815, Current toggle state of stick 1 button 4
+unsigned int		Vec_Button_2_1		// 0xC816, Current toggle state of stick 2 button 1
+unsigned int		Vec_Button_2_2		// 0xC817, Current toggle state of stick 2 button 2
+unsigned int		Vec_Button_2_3		// 0xC818, Current toggle state of stick 2 button 3
+unsigned int		Vec_Button_2_4		// 0xC819, Current toggle state of stick 2 button 4
+int					Vec_Joy_Resltn		// 0xC81A, Joystick A/D resolution (0x80=min 0x00=max)
+int 				Vec_Joy_1_X			// 0xC81B, Joystick 1 left/right
+int					Vec_Joy_1_Y			// 0xC81C, Joystick 1 up/down
+int					Vec_Joy_2_X			// 0xC81D, Joystick 2 left/right
+int					Vec_Joy_2_Y			// 0xC81E, Joystick 2 up/down
+int					Vec_Joy_Mux 		// 0xC81F, Joystick enable/mux flags (4 bytes)
+int					Vec_Joy_mux[4] 		// 0xC81F, Joystick enable/mux flags (4 bytes)
+int					Vec_Joy_Mux_1_X		// 0xC81F, Joystick 1 X enable/mux flag (=1)
+int					Vec_Joy_Mux_1_Y		// 0xC820, Joystick 1 Y enable/mux flag (=3)
+int					Vec_Joy_Mux_2_X		// 0xC821, Joystick 2 X enable/mux flag (=5)
+int					Vec_Joy_Mux_2_Y		// 0xC822, Joystick 2 Y enable/mux flag (=7)
+unsigned int		Vec_Misc_Count		// 0xC823, Misc counter/flag byte, zero when not in use
+int					Vec_0Ref_Enable		// 0xC824, Check0Ref enable flag
+unsigned long int	Vec_Loop_Count		// 0xC825, Loop counter word (incremented in Wait_Recal)
+unsigned int		Vec_Loop_Count_hi	// 0xC825, Loop counter hi byte (incremented in Wait_Recal)
+unsigned int		Vec_Loop_Count_lo	// 0xC826, Loop counter lo byte (incremented in Wait_Recal)
+int					Vec_Brightness		// 0xC827, Default brightness
+unsigned int		Vec_Dot_Dwell		// 0xC828, Dot dwell time?
+unsigned int		Vec_Pattern			// 0xC829, Dot pattern (bits)
+unsigned long int	Vec_Text_HW 		// 0xC82A, Default text height and width
+int 				Vec_Text_Height 	// 0xC82A, Default text height
+int					Vec_Text_Width 		// 0xC82B, Default text width
+int*				Vec_Str_Ptr			// 0xC82C, Temporary string pointer for Print_Str
+int					Vec_counters[6]		// 0xC82E, Six bytes of counters
+int					Vec_Counters		// 0xC82E, Six bytes of counters
+int					Vec_Counter_1		// 0xC82E, First  counter byte
+int					Vec_Counter_2		// 0xC82F, Second counter byte
+int					Vec_Counter_3		// 0xC830, Third  counter byte
+int					Vec_Counter_4		// 0xC831, Fourth counter byte
+int					Vec_Counter_5		// 0xC832, Fifth  counter byte
+int					Vec_Counter_6		// 0xC833, Sixth  counter byte
+unsigned long int	Vec_RiseRun_Tmp		// 0xC834, Temp storage word for rise/run
+int					Vec_Angle			// 0xC836, Angle for rise/run and rotation calculations
+unsigned long int	Vec_Run_Index		// 0xC837, Index pair for run
+unsigned long int	Vec_Rise_Index		// 0xC839, Index pair for rise
+unsigned long int	Vec_XXX_00			// 0xC839, Pointer to copyright string during startup
+int					Vec_RiseRun_Len		// 0xC83B, length for rise/run
+int					Vec_XXX_01			// 0xC83B, High score cold-start flag (=0 if valid)
+int					Vec_XXX_02			// 0xC83C, temp byte
+unsigned long int	Vec_Rfrsh			// 0xC83D, Refresh time (divided by 1.5MHz)
+unsigned int		Vec_Rfrsh_lo		// 0xC83D, Refresh time low byte
+unsigned int		Vec_Rfrsh_hi		// 0xC83E, Refresh time high byte
+int					Vec_Music_Work		// 0xC83F, Music work buffer (14 bytes, backwards?)
+int					Vec_Music_Wk_A		// 0xC842, register 10
+int					Vec_XXX_03			// 0xC843, register 9
+int					Vec_XXX_04			// 0xC844, register 8
+int					Vec_Music_Wk_7		// 0xC845, register 7
+int					Vec_Music_Wk_6		// 0xC846, register 6
+int					Vec_Music_Wk_5		// 0xC847, register 5
+int					Vec_XXX_05			// 0xC848, register 4
+int					Vec_XXX_06			// 0xC849, register 3
+int					Vec_XXX_07			// 0xC84A, register 2
+int					Vec_Music_Wk_1		// 0xC84B, register 1
+int					Vec_XXX_08			// 0xC84C, register 0
+int*				Vec_Freq_Table		// 0xC84D, Pointer to note-to-frequency table (normally 0xFC8D)
+long unsigned int	Vec_ADSR_Table		// 0xC84F, Storage for first music header word (ADSR table)
+int					Vec_Max_Players		// 0xC84F, Maximum number of players for Select_Game
+int					Vec_Max_Games		// 0xC850, Maximum number of games for Select_Game
+int*				Vec_Twang_Table		// 0xC851, Storage for second music header word ('twang' table)
+int*				Vec_Music_Ptr		// 0xC853, Music data pointer
+int					Vec_Expl_ChanA		// 0xC853, Used by Explosion_Snd - bit for first channel used?
+int					Vec_Expl_Chans		// 0xC854, Used by Explosion_Snd - bits for all channels used?
+int					Vec_Music_Chan		// 0xC855, Current sound channel number for Init_Music
+int					Vec_Music_Flag		// 0xC856, Music active flag (0x00=off 0x01=start 0x80=on)
+int					Vec_Duration		// 0xC857, Duration counter for Init_Music
+int					Vec_Expl_1			// 0xC858, Four bytes copied from Explosion_Snd's U-reg parameters
+long unsigned int	Vec_Music_Twang		// 0xC858, 3 word 'twang' table used by Init_Music
+int					Vec_Expl_2			// 0xC859, 
+int					Vec_Expl_3			// 0xC85A, 
+int					Vec_Expl_4			// 0xC85B, 
+int					Vec_Expl_Chan		// 0xC85C by Explosion_Snd - channel number in use?
+int					Vec_Expl_ChanB		// 0xC85D by Explosion_Snd - bit for second channel used?
+int					Vec_XXX_09			// 0xC85E, Scratch 'score' storage for Display_Option (7 bytes)
+int					Vec_ADSR_Timers		// 0xC85E, ADSR timers for each sound channel (3 bytes)
+int					Vec_ADSR_timers[3]	// 0xC85E, ADSR timers for each sound channel (3 bytes)
+unsigned long int	Vec_Music_Freq		// 0xC861, Storage for base frequency of each channel (3 words)
+unsigned long int	Vec_Music_freq[3]	// 0xC861, Storage for base frequency of each channel (3 words)
+unsigned int		Vec_Expl_Flag		// 0xC867, Explosion_Snd initialization flag?
+int					Vec_XXX_10			// 0xC868, Unused?
+int					Vec_XXX_11			// 0xC869, Unused?
+int					Vec_XXX_12			// 0xC86A, Unused?
+int					Vec_XXX_13			// 0xC86B, Unused?
+int					Vec_XXX_14			// 0xC86C, Unused?
+int					Vec_XXX_15			// 0xC86D, Unused?
+int					Vec_XXX_16			// 0xC86E, Unused?
+int					Vec_XXX_17			// 0xC86F, Unused?
+int					Vec_XXX_18			// 0xC870, Unused?
+int					Vec_XXX_19			// 0xC871, Unused?
+int					Vec_XXX_20			// 0xC872, Unused?
+int					Vec_XXX_21			// 0xC873, Unused?
+int					Vec_XXX_22			// 0xC874, Unused?
+int					Vec_XXX_23			// 0xC875, Unused?
+int					Vec_XXX_24			// 0xC876, Unused?
+int					Vec_Expl_Timer		// 0xC877, Used by Explosion_Snd
+int					Vec_XXX_25			// 0xC878, Unused?
+unsigned int		Vec_Num_Players		// 0xC879, Number of players selected in Select_Game
+unsigned int		Vec_Num_Game		// 0xC87A, Game number selected in Select_Game
+unsigned int*		Vec_Seed_Ptr		// 0xC87B, Pointer to 3-byte random number seed (=0xC87D)
+unsigned int		Vec_Random_Seed		// 0xC87D, working storage for random number generator (3 bytes)
+unsigned int		Vec_Random_Seed0	// 0xC87D, Default 3-byte random number seed
+unsigned int		Vec_Random_Seed1	// 0xC87E, Default 3-byte random number seed
+unsigned int		Vec_Random_Seed2	// 0xC87F, Default 3-byte random number seed
 
 // ---------------------------------------------------------------------------
 
-#define Vec_Default_Stk		RAM(0xCBEA, int) // Default top-of-stack
-#define Vec_High_Score		RAM(0xCBEB, int) // High score storage (7 bytes)
-#define Vec_SWI3_Vector		RAM(0xCBF2, int) // SWI2/SWI3 interrupt vector (3 bytes)
-#define Vec_SWI2_Vector		RAM(0xCBF2, int) // SWI2/SWI3 interrupt vector (3 bytes)
-#define Vec_FIRQ_Vector		RAM(0xCBF5, int) // FIRQ interrupt vector (3 bytes)
-#define Vec_IRQ_Vector		RAM(0xCBF8, int) // IRQ interrupt vector (3 bytes)
-#define Vec_SWI_Vector		RAM(0xCBFB, int) // SWI/NMI interrupt vector (3 bytes)
-#define Vec_NMI_Vector		RAM(0xCBFB, int) // SWI/NMI interrupt vector (3 bytes)
-#define Vec_Cold_Flag		RAM(0xCBFE, int) // Cold start flag (warm start if = 0x7321)
+int					Vec_Default_Stk		// 0xCBEA, Default top-of-stack
+unsigned int		Vec_High_Score 		// 0xCBEB, High score storage (7 bytes)
+unsigned int		Vec_High_score[7]	// 0xCBEB, High score storage (7 bytes)
+int					Vec_SWI3_Vector		// 0xCBF2, SWI2/SWI3 interrupt vector (3 bytes)
+int					Vec_SWI3_vector[3]	// 0xCBF2, SWI2/SWI3 interrupt vector (3 bytes)
+int					Vec_SWI2_Vector		// 0xCBF2, SWI2/SWI3 interrupt vector (3 bytes)
+int					Vec_SWI2_vector[3]	// 0xCBF2, SWI2/SWI3 interrupt vector (3 bytes)
+int					Vec_FIRQ_Vector		// 0xCBF5, FIRQ interrupt vector (3 bytes)
+int					Vec_FIRQ_vector[3]	// 0xCBF5, FIRQ interrupt vector (3 bytes)
+int					Vec_IRQ_Vector		// 0xCBF8, IRQ interrupt vector (3 bytes)
+int					Vec_IRQ_vector[3]	// 0xCBF8, IRQ interrupt vector (3 bytes)
+int					Vec_SWI_Vector		// 0xCBFB, SWI/NMI interrupt vector (3 bytes)
+int					Vec_SWI_vector[3]	// 0xCBFB, SWI/NMI interrupt vector (3 bytes)
+int					Vec_NWI_Vector		// 0xCBFB, SWI/NMI interrupt vector (3 bytes)
+int					Vec_NWI_vector[3]	// 0xCBFB, SWI/NMI interrupt vector (3 bytes)
+long unsigned int	Vec_Cold_Flag		// 0xCBFE, Cold start flag (warm start if = 0x7321)
 
 // ***************************************************************************
 // 0xDxx0 - 0xDxxF (16B)	programmable interface adapter VIA (read or write) 
 // ***************************************************************************
 
-#define VIA_port_b		RAM(0xD000, int) // VIA port B data I/O register
-//       0 sample/hold (0=enable  mux 1=disable mux)
-//       1 mux sel 0
-//       2 mux sel 1
-//       3 sound BC1
-//       4 sound BDIR
-//       5 comparator input
-//       6 external device (slot pin 35) initialized to input
-//       7 /RAMP
-#define VIA_port_a		RAM(0xD001, int) // VIA port A data I/O register (handshaking)
-#define VIA_DDR_b		RAM(0xD002, int) // VIA port B data direction register (0=input 1=output)
-#define VIA_DDR_a		RAM(0xD003, int) // VIA port A data direction register (0=input 1=output)
-#define VIA_t1_cnt_lo	RAM(0xD004, unsigned int) // VIA timer 1 count register lo (scale factor)
-#define VIA_t1_cnt_hi	RAM(0xD005, int) // VIA timer 1 count register hi
-#define VIA_t1_lch_lo	RAM(0xD006, int) // VIA timer 1 latch register lo
-#define VIA_t1_lch_hi	RAM(0xD007, int) // VIA timer 1 latch register hi
-#define VIA_t2_lo		RAM(0xD008, int) // VIA timer 2 count/latch register lo (refresh)
-#define VIA_t2_hi		RAM(0xD009, int) // VIA timer 2 count/latch register hi
-#define VIA_shift_reg	RAM(0xD00A, int) // VIA shift register
-#define VIA_aux_cntl	RAM(0xD00B, int) // VIA auxiliary control register
-//       0 PA latch enable
-//       1 PB latch enable
-//       2 \                     110=output to CB2 under control of phase 2 clock
-//       3  > shift register control     (110 is the only mode used by the Vectrex ROM)
-//       4 /
-//       5 0=t2 one shot                 1=t2 free running
-//       6 0=t1 one shot                 1=t1 free running
-//       7 0=t1 disable PB7 output       1=t1 enable PB7 output
-#define VIA_cntl		RAM(0xD00C, int) // VIA control register
-//       0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
-//       1 \ x
-//       2  > CA2 control  CA2 -> /ZERO  110=low 111=high
-//       3 /
-//       4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
-//       5 \ x
-//       6  > CB2 control  CB2 -> /BLANK 110=low 111=high
-//       7 /
-#define VIA_int_flags		RAM(0xD00D, int) // VIA interrupt flags register
-//               bit                             cleared by
-//       0 CA2 interrupt flag            reading or writing port A I/O
-//       1 CA1 interrupt flag            reading or writing port A I/O
-//       2 shift register interrupt flag reading or writing shift register
-//       3 CB2 interrupt flag            reading or writing port B I/O
-//       4 CB1 interrupt flag            reading or writing port A I/O
-//       5 timer 2 interrupt flag        read t2 low or write t2 high
-//       6 timer 1 interrupt flag        read t1 count low or write t1 high
-//       7 IRQ status flag               write logic 0 to IER or IFR bit
-#define VIA_int_enable		RAM(0xD00E, int) // VIA interrupt enable register
-//       0 CA2 interrupt enable
-//       1 CA1 interrupt enable
-//       2 shift register interrupt enable
-//       3 CB2 interrupt enable
-//       4 CB1 interrupt enable
-//       5 timer 2 interrupt enable
-//       6 timer 1 interrupt enable
-//       7 IER set/clear control
-#define VIA_port_a_nohs		RAM(0xD00F, int) // VIA port A data I/O register (no handshaking)
+int					VIA_port_b		// 0xD000, VIA port B data I/O register
+int					VIA_port_a		// 0xD001, VIA port A data I/O register (handshaking)
+unsigned int		VIA_DDR_b		// 0xD002, VIA port B data direction register (0=input 1=output)
+unsigned int		VIA_DDR_a		// 0xD003, VIA port A data direction register (0=input 1=output)
+unsigned long int	VIA_t1_cnt		// 0xD004, VIA timer 1 count register
+unsigned int		VIA_t1_cnt_lo	// 0xD004, VIA timer 1 count register lo (scale factor)
+unsigned int		VIA_t1_cnt_hi	// 0xD005, VIA timer 1 count register hi
+unsigned long int	VIA_t1_lch		// 0xD006, VIA timer 1 latch register
+unsigned int		VIA_t1_lch_lo	// 0xD006, VIA timer 1 latch register lo
+unsigned int		VIA_t1_lch_hi	// 0xD007, VIA timer 1 latch register hi
+unsigned long int	VIA_t2			// 0xD008, VIA timer 2 count register lo/hi (little endian access) (refresh)
+unsigned int		VIA_t2_lo		// 0xD008, VIA timer 2 count/latch register lo (refresh)
+unsigned int		VIA_t2_hi		// 0xD009, VIA timer 2 count/latch register hi
+unsigned int		VIA_shift_reg	// 0xD00A, VIA shift register
+unsigned int		VIA_aux_cntl	// 0xD00B, VIA auxiliary control register
+unsigned int 		VIA_cntl 		// 0xD00C, VIA control register
+unsigned int 		VIA_int_flags 	// 0xD00D, VIA interrupt flags register
+unsigned int 		VIA_int_enable 	// 0xD00E, VIA interrupt enable register
+unsigned int 		VIA_port_a_nohs // 0xD00F, VIA port A data I/O register (no handshaking)
 
 // ***************************************************************************
 // end of file

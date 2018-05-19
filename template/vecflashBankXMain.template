@@ -33,6 +33,7 @@ BANK_MAX            EQU      3+1
 ;***************************************************************************
 ; here the cartridge program starts off
                     clr      bankToSwitchTo 
+                    inc bankToSwitchTo; first is reset
                     JMP      main 
 
 main: 

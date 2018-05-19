@@ -130,7 +130,7 @@ public class EditorPanel extends EditorPanelFoundation
     public int getVediId()
     {
         if (vediId != -1) return vediId;
-        VediPanel vedi = VediPanel.getVedi(this);
+        VEdiFoundationPanel vedi = VEdiFoundationPanel.getVedi(this);
         if (vedi != null)
         {
             vediId = vedi.UID;
@@ -318,6 +318,11 @@ public class EditorPanel extends EditorPanelFoundation
         if (t == null) t=jTextPane1.getText();
        
         // Text Highlight setup
+        if (vediId == -1)
+        {
+            VEdiFoundationPanel vedi = VEdiFoundationPanel.getVedi(this);
+            if (vedi != null) vediId = vedi.UID;
+        }
         resetDocument();
         jTextPane1.setDocument(editorPaneDocument);
         

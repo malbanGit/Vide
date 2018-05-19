@@ -1,0 +1,59 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Programming in C</title>
+</head>
+<body class="doc">
+<h1>Programming in C</h1>
+
+<p>With Vide version 2.0 the language "C" starts to be supported with Vide. Not all features described within this documentation work seemlessly with C (yet).</p>
+
+<p>For some time I intended to write my own C-Compiler - but I never came arround actually doing it.</p>
+
+<p>For now the "C" support in Vide is based on external binaries, namely:
+<ul><li>
+<p>gcc (Compiler) - homepage at: <a target="_blank" href="https://github.com/bcd/gcc">https://github.com/bcd/gcc</a></p>
+</li><li>
+<p>as6809 (Assembler) - homepage at: <a target="_blank" href="http://shop-pdp.net/ashtml/asxxxx.php">http://shop-pdp.net/ashtml/asxxxx.php</a></p>
+</li><li>
+<p>aslink (Linker) - homepage at: <a target="_blank" href="http://shop-pdp.net/ashtml/asxxxx.php">http://shop-pdp.net/ashtml/asxxxx.php</a></p>
+</li><li>
+<p>srec2bin ("builder") - homepage at: <a target="_blank" href="http://www.s-record.com/">http://www.s-record.com/</a></p>
+</li></ul>
+</p>
+
+<p>All of which are "free" utilities which are offered in source code form (but are partly available in binary form also). With Vide I distribute self built binary versions for Mac OS X, Windows and Linux. The binary files are provided in the spirit that Vide should run (more or less) out of the box. Licence files accompany the binary distribution (directory "<tt>licence</tt>") - all three products are GPL 3.</p>
+
+<p>The sources I used for building the binaries will be downloadable in a seperate package to the Vide distribution, since (especially gcc) is a rather large package. The whole source for the above tools is well over 350MB.</p>
+
+<p>Very slight changes to some of the sources were applied - see further in the "Inner workings" section. <br>
+<br>
+</p>
+
+<hr>
+
+<p>My first intention was - to only use gcc as compiler and do the rest internally. That approach has many merrits:
+<ul><li>
+<p>"controll" over the assembler sources</p>
+</li><li>
+<p>enabling of "easy" debugging, because of compatibilty </p>
+</li><li>
+<p>easier error handling</p>
+</li><li>
+<p>no additional external binaries</p>
+</li><li>
+<p>and many others...</p>
+</li></ul>
+</p>
+
+<p>Sooner or later I might implement a more internal approach - but for now the external approach is the one I/we are using.</p>
+
+<p>The intention however is, whatever the "future" of vectrex C brings us, that it should stay compatible. Even if in the future I switch to another handling of things - projects created using "C" in Vide should always stay compatible (that is my intent).</p>
+<h2>Current C-Support</h2>
+
+<p>The current in Vide supported C-structure is nearly 100% based on the work of "Prof. Dr. rer. nat. Peer Johannsen", who also has (current date September 2017) offered two university courses to program the vectrex:<br>
+<a target="_blank" href="http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_project.htm">http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_project.htm</a><br>
+<a target="_blank" href="http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2017/vectrex_project.htm">http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2017/vectrex_project.htm</a> <br>
+</p>
+</body>
+</html>

@@ -126,6 +126,10 @@ public class HighlightedDocument extends DefaultStyledDocument
                 try
                 {
                     String text = getText(0, getLength());
+                    if (ASM6809FileMaster.getInfo(vediId) == null)
+                    {
+                        
+                    }
                     asmFileInfo = ASM6809FileMaster.getInfo(vediId).handleFile(filename, text);
                 }
                 catch (Throwable e)

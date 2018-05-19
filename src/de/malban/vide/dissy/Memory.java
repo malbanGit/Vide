@@ -52,6 +52,7 @@ public class Memory {
             }
         }
     }
+    
     public int getCurrentBank()
     {
         return currentBank;
@@ -59,6 +60,19 @@ public class Memory {
     public void setBank(int b)
     {
         setBank(b, false);
+    }
+    public int getMaxBank()
+    {
+        return maxBank;
+    }
+    public HashMap<Integer, MemoryInformation> getBankMemory(int bank)
+    {
+        if (bank > maxBank-1) 
+            return null;
+
+        
+        HashMap<Integer, MemoryInformation> memMap2 = allBanks.get(bank).memMap;
+        return memMap2;
     }
     
     // used for RAM hack
@@ -152,6 +166,33 @@ public class Memory {
         }
         return memMap.get(adr);
     }
+    
+
+    // unkown memory
+    public MemoryInformation buildMemInfo(int adr, int bank)
+    {
+        while (bank > maxBank-1)
+        {
+            int saveCurrent = currentBank;
+            allBanks.add(new OneBank());
+            maxBank++;
+            currentBank = bank%maxBank;
+            memMap  = allBanks.get(currentBank).memMap;
+            directLabels  = allBanks.get(currentBank).directLabels;
+            init();
+            // restore current settings
+            currentBank = saveCurrent;
+            memMap  = allBanks.get(currentBank).memMap;
+            directLabels  = allBanks.get(currentBank).directLabels;
+        }
+        
+        if (allBanks.get(bank).memMap.get(adr) == null) 
+        {
+            allBanks.get(bank).memMap.put(adr, new MemoryInformation(adr, (byte)0));            
+        }
+        return allBanks.get(bank).memMap.get(adr);
+    }
+    
     
     public long getCRC(int start, int end)
     {

@@ -1,0 +1,794 @@
+                              1 	.module	SCROLL.C
+                              2 
+                              3  .area .text
+                              4 
+                     0008     5 NUMBER_OF_SCROLL_LETTERS=8
+                     0019     6 SPRITE_BLOW_UP=25
+                     0091     7 SCALE_FACTOR_GAME=0H91
+                     0006     8 SCROLL_SCALE_FACTOR=6
+                     F2AB     9 Intensity_a=0HF2AB
+                     D004    10 VIA_t1_cnt_lo=0HD004
+                     D00C    11 VIA_cntl=0HD00C
+                     D001    12 VIA_port_a=0HD001
+                     D000    13 VIA_port_b=0HD000
+                     D00A    14 VIA_shift_reg=0HD00A
+                     D005    15 VIA_t1_cnt_hi=0HD005
+                     D00D    16 VIA_int_flags=0HD00D
+                             17 
+                             18 
+                             19         .area .bss
+   0000                      20 tmp1:
+   0000                      21         .blkb   2
+   0002                      22 tmp2:
+   0002                      23         .blkb   2
+   0004                      24 divide_tmp:
+   0004                      25 mul_tmp1:
+   0004                      26         .blkb   2
+   0006                      27 mul_tmp2:
+   0006                      28         .blkb   2
+                             29         .globl  _scr_strt
+   0008                      30 _scr_strt:
+   0008                      31         .blkb   2
+                             32         .globl  _scr_crnt
+   000A                      33 _scr_crnt:
+   000A                      34         .blkb   2
+                             35         .globl  _scr_sped
+   000C                      36 _scr_sped:
+   000C                      37         .blkb   1
+                             38         .globl  _scr_y
+   000D                      39 _scr_y:
+   000D                      40         .blkb   1
+                             41         .globl  _scr_lbnd
+   000E                      42 _scr_lbnd:
+   000E                      43         .blkb   1
+                             44         .globl  _scr_rbnd
+   000F                      45 _scr_rbnd:
+   000F                      46         .blkb   1
+                             47         .globl  _scr_stpw
+   0010                      48 _scr_stpw:
+   0010                      49         .blkb   1
+                             50         .globl  _scr_ints
+   0011                      51 _scr_ints:
+   0011                      52         .blkb   1
+                             53         .globl  _scr_objs
+   0012                      54 _scr_objs:
+   0012                      55         .blkb    (5*NUMBER_OF_SCROLL_LETTERS)+1
+                             56 
+                             57         .area .text
+                             58 ; this file is part of vectrex frogger, written by Christopher Salomon
+                             59 ; in March-April 1998
+                             60 ; all stuff contained here is public domain
+                             61 ;
+                             62 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             63 ; scroll subroutines used in the startup screen                             ;
+                             64 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             65 ;
+                             66 ;
+                             67 ;***************************************************************************
+                             68 ; below are all subroutines for scroll text
+                             69 ; scrolling from right to left!
+                             70 ; (only two) scr_init(), do_one_scr_step()
+                             71 ; scroll text ends with $80
+                             72 ; this restarts scrolling...
+                             73 ;***************************************************************************
+                             74 ; expects text address in X register
+                             75 ; scr_y:                  the y coordinate (signed byte value)
+                             76 ; scr_lbnd       (signed byte value)
+                             77 ; scr_rbnd      (signed byte value)
+                             78 ; scr_sped               (signed byte value) must be negative
+                             79 ; scr_ints           (byte value)
+                             80 ;
+                             81 ; NUMBER_OF_SCROLL_LETTERS
+                             82 ;
+                             83 ; uses tmp1, tmp2
+   0000 49 20 57 41 53 20    84         .ascii "I WAS HERE!"
+        48 45 52 45 21
+                             85         .globl  scr_init
+   000B                      86 scr_init:
+   000B BF 00 08      [ 6]   87                 stx     _scr_strt ; remember address of first letter
+   000E BF 00 0A      [ 6]   88                 stx     _scr_crnt ; and store it as current address
+   0011 CC 00 08      [ 3]   89                 ldd     #NUMBER_OF_SCROLL_LETTERS ; how many letters are at most to be displayed at once?
+   0014 FD 00 00      [ 6]   90                 std     tmp1               ; remember that value in tmp1 (16 bit)
+   0017 F6 00 0F      [ 5]   91                 ldb     _scr_rbnd ; load right boundary
+   001A F0 00 0E      [ 5]   92                 subb    _scr_lbnd ; subtract left boundary
+   001D 4F            [ 2]   93                 clra                       ; SEX it, this is the 16 bit width 'in pixel'
+                             94                 ;MY_DIV_D_BY_TMP1_TO_B      ; divide it by the number od letters to be displayed
+                             95 
+   001E 7F 00 04      [ 7]   96                 clr     divide_tmp
+   0021 7D 00 01      [ 7]   97                 tst     tmp1+1
+   0024 27 1F         [ 3]   98                 beq     divide_by_zero
+   0026 7A 00 04      [ 7]   99                 dec     divide_tmp
+   0029 10 83 00 00   [ 5]  100                 cmpd    #0
+   002D 2A 0E         [ 3]  101                 bpl     divide_next
+   002F                     102 divide_next1:
+   002F 7C 00 04      [ 7]  103                 inc     divide_tmp
+   0032 F3 00 00      [ 7]  104                 addd    tmp1
+   0035 2B F8         [ 3]  105                 bmi     divide_next1
+   0037                     106 divide_by_zero1:
+   0037 F6 00 04      [ 5]  107                 ldb     divide_tmp
+   003A 50            [ 2]  108                 negb
+   003B 20 0B         [ 3]  109                 bra     divide_end
+   003D                     110 divide_next:
+   003D 7C 00 04      [ 7]  111                 inc     divide_tmp
+   0040 B3 00 00      [ 7]  112                 subd    tmp1
+   0043 2A F8         [ 3]  113                 bpl     divide_next
+   0045                     114 divide_by_zero:
+   0045 F6 00 04      [ 5]  115                 ldb     divide_tmp
+   0048                     116 divide_end:
+                            117 
+                            118 
+   0048 F7 00 10      [ 5]  119                 stb     _scr_stpw  ; remember that as the scroll step...
+   004B 86 08         [ 2]  120                 lda     #NUMBER_OF_SCROLL_LETTERS ; set loop counter for initializing the scroll objects
+   004D B7 00 00      [ 5]  121                 sta     tmp1               ; remember that too in tmp1 (only 8 bit this time)
+   0050 8E 00 12      [ 3]  122                 ldx     #_scr_objs    ; get address of the first 'scroll object' (RAM address)
+   0053 F6 00 0D      [ 5]  123                 ldb     _scr_y           ; get the y position of the scroll text
+   0056 B6 00 0F      [ 5]  124                 lda     _scr_rbnd ; and screen address where first letter will appear
+                            125                 ; now we loop 'NUMBER_OF_SCROLL_LETTERS' times to set up our object space
+   0059                     126 scr_setup_loop1:
+   0059 E7 80         [ 6]  127                 stb     ,x+                ; y coordinate, from above
+   005B A7 80         [ 6]  128                 sta     ,x+                ; x coordinate, from above
+   005D 6F 80         [ 8]  129                 clr     ,x+                ; no object yet
+   005F 6F 80         [ 8]  130                 clr     ,x+                ; no object yet, these two are an address pointer,
+                            131                                            ; zero means a SPACE is printed...
+   0061 6F 80         [ 8]  132                 clr     ,x+                ; no x offset yet, here we will remember
+                            133                                            ; the x offset later on, must remember this,
+                            134                                            ; otherwise letters will overlap eventually...
+   0063 B0 00 10      [ 5]  135                 suba    _scr_stpw  ; go one letter to the left (x coordinate that is)
+   0066 7A 00 00      [ 7]  136                 dec     tmp1               ; decrements our loop counter
+   0069 26 EE         [ 3]  137                 bne     scr_setup_loop1 ; if not finnished ... loop again
+   006B 86 FF         [ 2]  138                 lda     #0Hff               ; otherwise store a 'ff' as an and marker
+   006D A7 80         [ 6]  139                 sta     ,x+                ; y coordinate ff loop over
+   006F 39            [ 5]  140                 rts                        ; bye bye...
+                            141 ;***************************************************************************
+                            142 ; does one scroll step of text initialized with the above function
+                            143 ; does also all printing...
+                            144 ; expects dp set to d0
+                            145 ; sets intensity and trashs beam position (as well as everything else...)
+                            146 ; destroys tmp1
+                            147         .globl  scr_step
+   0070                     148 scr_step:
+   0070 B6 00 11      [ 5]  149                 lda     _scr_ints   ; load intensity
+   0073 BD F2 AB      [ 8]  150                 jsr     Intensity_a
+   0076 CE 00 12      [ 3]  151                 ldu     #_scr_objs    ; get address of our scroll objects
+                            152                 ; now loop thru all objects, till we find a $ff
+                            153                 ; than we are done...
+   0079                     154 next_scr_object:
+                            155                 ;MY_GAME_SCALE              ; first set our scaling (whatever we designed our
+                            156                                            ; object offsets for)
+   0079 86 91         [ 2]  157                 lda #SCALE_FACTOR_GAME
+   007B B7 D0 04      [ 5]  158                 sta     VIA_t1_cnt_lo      ; move to time 1 lo, this means scaling
+                            159 
+                            160 
+                            161                 ;_ZERO_VECTOR_BEAM          ; than go to zero (pitty :-()
+                            162                                            ; but I guess we have to, otherwise
+                            163                                            ; the position will garble up I think
+   007E C6 CC         [ 2]  164                  ldb     #0HCC
+   0080 F7 D0 0C      [ 5]  165                  stb     VIA_cntl       ;/BLANK low and /ZERO low
+                            166 
+                            167 
+   0083 EC C0         [ 7]  168                 ldd     ,u+                ; load y, x coordinate
+                            169                                            ; A,B=D, increment U by 1, U pointing to X
+                            170                                            ; coordinate now
+   0085 81 FF         [ 2]  171                 cmpa    #0Hff               ; are we done yet?
+   0087 10 27 00 CD   [ 6]  172                 lbeq    scr_objs_all_done ; if so, jump out of the loop
+   008B FB 00 0C      [ 5]  173                 addb    _scr_sped       ; add to B (x coordinate that is)
+                            174                                            ; the speed value
+   008E F1 00 0E      [ 5]  175                 cmpb    _scr_lbnd; is on left side out of bounds?
+   0091 2E 65         [ 3]  176                 bgt     scr_bound_test_done ; if not go on...
+                            177                 ; otherwise ...
+                            178                 ; init new letter here
+   0093 10 BE 00 0A   [ 7]  179                 ldy     _scr_crnt ; get address of current letter
+   0097 E6 A4         [ 4]  180                 ldb     ,y                 ; load the current letter to B
+   0099 C1 80         [ 2]  181                 cmpb    #0H80               ; compare to $80, end marker
+   009B 26 0A         [ 3]  182                 bne     scr_text_not_over_yet ; if not set, go on
+   009D 10 BE 00 08   [ 7]  183                 ldy     _scr_strt ; otherwise load start address of text
+   00A1 10 BF 00 0A   [ 7]  184                 sty     _scr_crnt ; store it as current
+   00A5 E6 A4         [ 4]  185                 ldb     ,y                 ; and load the first letter of the text to B
+   00A7                     186 scr_text_not_over_yet:
+                            187                 ; here we certainly have a correct 'letter'- value in B register
+   00A7 C1 20         [ 2]  188                 cmpb    #32                ; really correct? isn't it a SPACE
+   00A9 26 08         [ 3]  189                 bne     nscr_space    ; no? than go on...
+   00AB 8E 00 00      [ 3]  190                 ldx     #0                 ; otherwise zero everything, pointer to vector list
+   00AE CC 00 00      [ 3]  191                 ldd     #0                 ; and offsets
+   00B1 20 1F         [ 3]  192                 bra     load_x_with_letter_address_done ; go on
+   00B3                     193 nscr_space:
+   00B3 C1 2E         [ 2]  194                 cmpb    #46               ; is it even a 'fullstop'
+   00B5 26 05         [ 3]  195                 bne     nscr_fullstop ; if not... go on
+   00B7 8E 01 8E      [ 3]  196                 ldx     #_fs               ; if it is load vectorlist addres to X
+   00BA 20 14         [ 3]  197                 bra     load1_x_with_letter_address_don ; and go on
+   00BC                     198 nscr_fullstop:
+   00BC C1 30         [ 2]  199                 cmpb    #48               ; is it even a 'turtle' :-)
+   00BE 26 05         [ 3]  200                 bne     nscr_0 ; if not... go on
+   00C0 8E 01 5B      [ 3]  201                 ldx     #_t_               ; if it is load vectorlist addres to X
+   00C3 20 0B         [ 3]  202                 bra     load1_x_with_letter_address_don ; and go on
+   00C5                     203 nscr_0:
+                            204                 ; no it should be a 'real' letter (CAPITAL!!!)
+                            205                 ; lets calculate the abc-table offset...
+   00C5 C0 41         [ 2]  206                 subb    #65               ; subtract smallest letter, so A has 0 offset
+   00C7 58            [ 2]  207                 lslb                       ; multiply by two, since addresses are 16 bit
+   00C8 4F            [ 2]  208                 clra                       ; SEX it :-)
+   00C9 C3 03 47      [ 4]  209                 addd    #_abc              ; and add the abc (table of vector list address of the alphabet's letters)
+   00CC 1F 01         [ 6]  210                 tfr     d,x                ; get that into an index register (X)
+   00CE AE 84         [ 5]  211                 ldx     ,x                 ; load the letters address from the table
+   00D0                     212 load1_x_with_letter_address_don:
+   00D0 EC 1E         [ 6]  213                 ldd     -2,x               ; and load the vector list offsets to D
+   00D2                     214 load_x_with_letter_address_done:
+                            215                 ; now we correct everything ...
+   00D2 AF 41         [ 6]  216                 stx     1,u                ; save vectorlist address to objectlist
+   00D4 FD 00 00      [ 6]  217                 std     tmp1               ; remember the offsets
+                            218 
+                            219                 ; now a small intermezzo...
+                            220                 ; just increment the letter pointer in our
+                            221                 ; text by one... so that the next letter will be correctly
+                            222                 ; handled
+   00D7 FC 00 0A      [ 6]  223                 ldd     _scr_crnt ; load current text address to D
+   00DA C3 00 01      [ 4]  224                 addd    #1                 ; increment one
+   00DD FD 00 0A      [ 6]  225                 std     _scr_crnt ; and store it back
+                            226 
+                            227                 ; ok, now back to that offset stuff from above
+                            228                 ; swap old and new offsets...
+   00E0 A6 43         [ 5]  229                 lda     3,u                ; load x offset of old letter to A (from object list)
+   00E2 F6 00 01      [ 5]  230                 ldb     tmp1+1             ; load x offset of new letter to B (from remembering from above)
+   00E5 B7 00 01      [ 5]  231                 sta     tmp1+1             ; store the old offset to tmp1 + 1
+   00E8 E7 43         [ 5]  232                 stb     3,u                ; and put the new offset into our object list
+   00EA FB 00 0F      [ 5]  233                 addb    _scr_rbnd ; now add the right boundary address to B
+                            234 
+   00ED F0 00 01      [ 5]  235                 subb    tmp1+1             ; and subtract the old offset from that, that
+                            236                                            ; is our new start address (screen oriented)
+                            237                                            ; (might even be further right than our
+                            238                                            ; dedicated start address, but that can't be helped)
+   00F0 B6 00 0D      [ 5]  239                 lda     _scr_y           ; load y address
+   00F3 BB 00 00      [ 5]  240                 adda    tmp1               ; modify that with new y offset ONLY
+   00F6 A7 5F         [ 5]  241                 sta     -1,u               ; and store that to our object list
+   00F8                     242 scr_bound_test_done:
+   00F8 E7 C0         [ 6]  243                 stb     ,u+                ; store the new x position, and increment U
+                            244 
+   00FA B7 D0 01      [ 5]  245                 sta     VIA_port_a     ;Store Y in D/A register
+   00FD 86 CE         [ 2]  246                 lda     #0HCE            ;Blank low, zero high?
+   00FF B7 D0 0C      [ 5]  247                 sta     VIA_cntl       ;
+   0102 4F            [ 2]  248                 clra
+   0103 B7 D0 00      [ 5]  249                 sta     VIA_port_b     ;Enable mux
+   0106 B7 D0 0A      [ 5]  250                 sta     VIA_shift_reg  ;Clear shift regigster
+   0109 7C D0 00      [ 7]  251                 inc     VIA_port_b     ;Disable mux
+   010C F7 D0 01      [ 5]  252                 stb     VIA_port_a     ;Store X in D/A register
+   010F B7 D0 05      [ 5]  253                 sta     VIA_t1_cnt_hi  ;enable timer
+   0112 C6 40         [ 2]  254                 ldb     #0H40            ;
+   0114 F5 D0 0D      [ 5]  255 LF33D:          bitb    VIA_int_flags  ;
+   0117 27 FB         [ 3]  256                 beq     LF33D           ;
+                            257 
+                            258 
+                            259 
+   0119 AE C1         [ 8]  260                 ldx     ,u++               ; load object vector list to X,
+   011B 27 36         [ 3]  261                 beq     no_space_draw      ; don't draw if vector is not available (== 0 means SPACE)
+   011D 86 06         [ 2]  262                  lda     #SCROLL_SCALE_FACTOR               ; scale for placing first point
+   011F B7 D0 04      [ 5]  263                  sta     VIA_t1_cnt_lo   ; move to time 1 lo, this means scaling
+                            264                 ;_draw_vlc                  ; (MAKRO) and draw the vector list
+                            265 
+   0122 A6 80         [ 6]  266                  lda     ,x+             ;
+   0124                     267 _DRAW_VLA:                               ; the local directive doesn't work here ???
+                            268                                          ; I think because it is a makro using makro...
+   0124 B7 C8 23      [ 5]  269                  sta     0HC823           ;
+   0127 EC 84         [ 5]  270                  ldd     ,x              ;
+                            271 
+   0129 B7 D0 01      [ 5]  272                  sta     VIA_port_a     ;Send Y to A/D
+   012C 7F D0 00      [ 7]  273                  clr     VIA_port_b     ;Enable mux
+   012F 30 02         [ 5]  274                  leax    2,x             ;Point to next coordinate pair
+   0131 12            [ 2]  275                  nop                     ;Wait a moment
+   0132 7C D0 00      [ 7]  276                  inc     VIA_port_b     ;Disable mux
+   0135 F7 D0 01      [ 5]  277                  stb     VIA_port_a     ;Send X to A/D
+   0138 CC FF 00      [ 3]  278                  ldd     #0HFF00          ;Shift reg=$FF (solid line), T1H=0
+   013B B7 D0 0A      [ 5]  279                  sta     VIA_shift_reg  ;Put pattern in shift register
+   013E F7 D0 05      [ 5]  280                  stb     VIA_t1_cnt_hi  ;Set T1H (scale factor?)
+   0141 CC 00 40      [ 3]  281                  ldd     #0H0040          ;B-reg = T1 interrupt bit
+   0144 F5 D0 0D      [ 5]  282 LF3F4:           bitb    VIA_int_flags  ;Wait for T1 to time out
+   0147 27 FB         [ 3]  283                  beq     LF3F4           ;
+   0149 12            [ 2]  284                  nop                     ;Wait a moment more
+   014A B7 D0 0A      [ 5]  285                  sta     VIA_shift_reg  ;Clear shift register (blank output)
+                            286 
+   014D B6 C8 23      [ 5]  287                  lda     0HC823           ;Decrement line count
+   0150 4A            [ 2]  288                  deca                    ;
+   0151 2A D1         [ 3]  289                  bpl     _DRAW_VLA       ;Go back for more points
+                            290 
+                            291 
+   0153                     292 no_space_draw:
+   0153 33 41         [ 5]  293                 leau    1,u                ; increment object list by one, since we are not
+                            294                                            ; really interested in the x offset at that point
+                            295                                            ; anymore...
+   0155 7E 00 79      [ 4]  296                 jmp     next_scr_object ; and go on with our next listobject...
+   0158                     297 scr_objs_all_done:
+   0158 39            [ 5]  298                 rts                        ; ok, that was our scroll step :-)
+                            299 ;***************************************************************************
+                            300 
+                            301 ; this file is part of vectrex frogger, written by Christopher Salomon
+                            302 ; in March-April 1998
+                            303 ; all stuff contained here is public domain
+                            304 ;
+                            305 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            306 ; this file contains 'sprite' definition data for all letters and a dot,    ;
+                            307 ; used in scroll text                                                            ;
+                            308 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            309 ;
+                            310 ;
+                            311 
+   0159 00                  312                 .byte  0                      ; y offset
+   015A 00                  313                 .byte  0                      ; x offset
+                            314 ; sprite definition
+   015B                     315 _t_: ; _t_ == turtle
+   015B 17                  316                 .byte 23
+   015C 32 32               317                 .byte  2*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   015E E7 32               318                 .byte -1*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0160 32 19               319                 .byte  2*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   0162 32 CE               320                 .byte  2*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   0164 00 32               321                 .byte  0*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0166 E7 19               322                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   0168 19 4B               323                 .byte  1*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   016A E7 64               324                 .byte -1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   016C 19 00               325                 .byte  1*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   016E E7 19               326                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   0170 E7 00               327                 .byte -1*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0172 B5 32               328                 .byte -3*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0174 B5 CE               329                 .byte -3*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   0176 E7 00               330                 .byte -1*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0178 E7 E7               331                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   017A 19 00               332                 .byte  1*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   017C E7 9C               333                 .byte -1*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
+   017E 19 B5               334                 .byte  1*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
+   0180 E7 E7               335                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   0182 00 CE               336                 .byte  0*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   0184 32 32               337                 .byte  2*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0186 32 E7               338                 .byte  2*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   0188 E7 CE               339                 .byte -1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   018A 32 CE               340                 .byte  2*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+                            341 
+   018C FB                  342                 .byte  -5   ; y offset
+   018D 01                  343                 .byte  1    ; x offset
+                            344 ; sprite definition
+   018E                     345 _fs: ; _fs == full stop
+   018E 03                  346                 .byte 3
+   018F 00 32               347                 .byte  0*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0191 CE 00               348                 .byte -2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0193 00 CE               349                 .byte  0*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   0195 32 00               350                 .byte  2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0197 F9                  351                 .byte -7    ; y offset
+   0198 01                  352                 .byte  1    ; x offset
+                            353 ; sprite definition
+   0199                     354 _a:
+   0199 06                  355                 .byte 6
+   019A 7D 00               356                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   019C 7D 32               357                 .byte  5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   019E 00 19               358                 .byte  0*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   01A0 83 32               359                 .byte -5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   01A2 83 00               360                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01A4 7D 00               361                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01A6 00 83               362                 .byte  0*SPRITE_BLOW_UP, -5*SPRITE_BLOW_UP
+   01A8 F9                  363                 .byte -7    ; y offset
+   01A9 01                  364                 .byte  1    ; x offset
+                            365 ; sprite definition
+   01AA                     366 _b:
+   01AA 08                  367                 .byte 8
+   01AB 7D 00               368                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01AD 7D 00               369                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01AF 00 4B               370                 .byte  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   01B1 CE 19               371                 .byte -2*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   01B3 E7 00               372                 .byte -1*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01B5 E7 CE               373                 .byte -1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   01B7 CE 4B               374                 .byte -2*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   01B9 B5 00               375                 .byte -3*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01BB E7 83               376                 .byte -1*SPRITE_BLOW_UP, -5*SPRITE_BLOW_UP
+   01BD 05                  377                 .byte  5    ; y offset
+   01BE 08                  378                 .byte  8    ; x offset
+                            379 ; sprite definition
+   01BF                     380 _c:
+   01BF 07                  381                 .byte 7
+   01C0 19 E7               382                 .byte  1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   01C2 00 B5               383                 .byte  0*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
+   01C4 E7 E7               384                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   01C6 83 00               385                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01C8 B5 00               386                 .byte -3*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01CA E7 19               387                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   01CC 00 4B               388                 .byte  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   01CE 19 19               389                 .byte  1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   01D0 F9                  390                 .byte -7    ; y offset
+   01D1 01                  391                 .byte  1    ; x offset
+                            392 ; sprite definition
+   01D2                     393 _d:
+   01D2 07                  394                 .byte 7
+   01D3 7D 00               395                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01D5 7D 00               396                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01D7 00 4B               397                 .byte  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   01D9 E7 19               398                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   01DB 9C 19               399                 .byte -4*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   01DD 9C E7               400                 .byte -4*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   01DF E7 E7               401                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   01E1 00 B5               402                 .byte  0*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
+   01E3 F9                  403                 .byte -7    ; y offset
+   01E4 08                  404                 .byte  8    ; x offset
+                            405 ; sprite definition
+   01E5                     406 _e:
+   01E5 05                  407                 .byte 5
+   01E6 00 83               408                 .byte  0*SPRITE_BLOW_UP, -5*SPRITE_BLOW_UP
+   01E8 64 00               409                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01EA 19 64               410                 .byte  1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   01EC 19 9C               411                 .byte  1*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
+   01EE 64 00               412                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01F0 00 7D               413                 .byte  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
+   01F2 F9                  414                 .byte -7    ; y offset
+   01F3 01                  415                 .byte  1    ; x offset
+                            416 ; sprite definition
+   01F4                     417 _f:
+   01F4 04                  418                 .byte 4
+   01F5 64 00               419                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01F7 19 64               420                 .byte  1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   01F9 19 9C               421                 .byte  1*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
+   01FB 64 00               422                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   01FD 00 7D               423                 .byte  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
+   01FF 05                  424                 .byte  5    ; y offset
+   0200 08                  425                 .byte  8    ; x offset
+                            426 ; sprite definition
+   0201                     427 _g:
+   0201 09                  428                 .byte 9
+   0202 19 E7               429                 .byte  1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   0204 00 B5               430                 .byte  0*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
+   0206 E7 E7               431                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   0208 9C 00               432                 .byte -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   020A 9C 00               433                 .byte -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   020C E7 19               434                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   020E 00 4B               435                 .byte  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   0210 19 19               436                 .byte  1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   0212 64 00               437                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0214 00 9C               438                 .byte  0*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
+   0216 06                  439                 .byte  6    ; y offset
+   0217 01                  440                 .byte  1    ; x offset
+                            441 ; sprite definition
+   0218                     442 _h:
+   0218 06                  443                 .byte 6
+   0219 83 00               444                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   021B 83 00               445                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   021D 7D 00               446                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   021F 00 7D               447                 .byte  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
+   0221 7D 00               448                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0223 83 00               449                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0225 83 00               450                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0227 06                  451                 .byte  6    ; y offset
+   0228 01                  452                 .byte  1    ; x offset
+                            453 ; sprite definition
+   0229                     454 _i:
+   0229 05                  455                 .byte 5
+   022A 00 64               456                 .byte  0*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   022C 00 CE               457                 .byte  0*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   022E 83 00               458                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0230 83 00               459                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0232 00 CE               460                 .byte  0*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   0234 00 64               461                 .byte  0*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   0236 06                  462                 .byte  6    ; y offset
+   0237 01                  463                 .byte  1    ; x offset
+                            464 ; sprite definition
+   0238                     465 _j:
+   0238 06                  466                 .byte 6
+   0239 00 7D               467                 .byte  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
+   023B 83 00               468                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   023D 9C 00               469                 .byte -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   023F E7 E7               470                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   0241 00 B5               471                 .byte  0*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
+   0243 19 E7               472                 .byte  1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   0245 32 00               473                 .byte  2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0247 06                  474                 .byte  6    ; y offset
+   0248 01                  475                 .byte  1    ; x offset
+                            476 ; sprite definition
+   0249                     477 _k:
+   0249 05                  478                 .byte 5
+   024A 83 00               479                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   024C 7D 7D               480                 .byte  5*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
+   024E 83 83               481                 .byte -5*SPRITE_BLOW_UP, -5*SPRITE_BLOW_UP
+   0250 83 7D               482                 .byte -5*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
+   0252 7D 83               483                 .byte  5*SPRITE_BLOW_UP, -5*SPRITE_BLOW_UP
+   0254 83 00               484                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0256 06                  485                 .byte  6    ; y offset
+   0257 01                  486                 .byte  1    ; x offset
+                            487 ; sprite definition
+   0258                     488 _l:
+   0258 02                  489                 .byte 2
+   0259 83 00               490                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   025B 83 00               491                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   025D 00 7D               492                 .byte  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
+   025F F9                  493                 .byte -7    ; y offset
+   0260 01                  494                 .byte  1    ; x offset
+                            495 ; sprite definition
+   0261                     496 _m:
+   0261 05                  497                 .byte 5
+   0262 7D 00               498                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0264 7D 00               499                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0266 83 32               500                 .byte -5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0268 7D 32               501                 .byte  5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   026A 83 00               502                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   026C 83 00               503                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   026E F9                  504                 .byte -7    ; y offset
+   026F 01                  505                 .byte  1    ; x offset
+                            506 ; sprite definition
+   0270                     507 _n:
+   0270 05                  508                 .byte 5
+   0271 7D 00               509                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0273 7D 00               510                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0275 83 32               511                 .byte -5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0277 83 32               512                 .byte -5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0279 7D 00               513                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   027B 7D 00               514                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   027D F9                  515                 .byte -7    ; y offset
+   027E 03                  516                 .byte  3    ; x offset
+                            517 ; sprite definition
+   027F                     518 _o:
+   027F 09                  519                 .byte 9
+   0280 19 E7               520                 .byte  1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   0282 64 00               521                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0284 64 00               522                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0286 19 19               523                 .byte  1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   0288 00 4B               524                 .byte  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   028A E7 19               525                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   028C 9C 00               526                 .byte -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   028E 9C 00               527                 .byte -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0290 E7 E7               528                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   0292 00 B5               529                 .byte  0*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
+   0294 F9                  530                 .byte -7    ; y offset
+   0295 01                  531                 .byte  1    ; x offset
+                            532 ; sprite definition
+   0296                     533 _p:
+   0296 06                  534                 .byte 6
+   0297 7D 00               535                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0299 7D 00               536                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   029B 00 64               537                 .byte  0*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   029D E7 19               538                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   029F B5 00               539                 .byte -3*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02A1 E7 E7               540                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   02A3 00 9C               541                 .byte  0*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
+   02A5 FD                  542                 .byte -3    ; y offset
+   02A6 04                  543                 .byte  4    ; x offset
+                            544 ; sprite definition
+   02A7                     545 _q:
+   02A7 0A                  546                 .byte 10
+   02A8 B5 32               547                 .byte -3*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   02AA 19 19               548                 .byte  1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   02AC 64 00               549                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02AE 64 00               550                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02B0 19 E7               551                 .byte  1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   02B2 00 B5               552                 .byte  0*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
+   02B4 E7 E7               553                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   02B6 9C 00               554                 .byte -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02B8 9C 00               555                 .byte -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02BA E7 19               556                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   02BC 00 4B               557                 .byte  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   02BE F9                  558                 .byte -7    ; y offset
+   02BF 01                  559                 .byte  1    ; x offset
+                            560 ; sprite definition
+   02C0                     561 _r:
+   02C0 08                  562                 .byte 8
+   02C1 7D 00               563                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02C3 7D 00               564                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02C5 00 64               565                 .byte  0*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   02C7 E7 19               566                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   02C9 B5 00               567                 .byte -3*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02CB E7 E7               568                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   02CD 00 9C               569                 .byte  0*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
+   02CF 00 4B               570                 .byte  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   02D1 83 32               571                 .byte -5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   02D3 05                  572                 .byte  5    ; y offset
+   02D4 08                  573                 .byte  8    ; x offset
+                            574 ; sprite definition
+   02D5                     575 _s:
+   02D5 0A                  576                 .byte 10
+   02D6 19 E7               577                 .byte  1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   02D8 00 B5               578                 .byte  0*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
+   02DA E7 E7               579                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   02DC B5 00               580                 .byte -3*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02DE E7 19               581                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   02E0 00 4B               582                 .byte  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   02E2 E7 19               583                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   02E4 B5 00               584                 .byte -3*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02E6 E7 E7               585                 .byte -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   02E8 00 B5               586                 .byte  0*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP
+   02EA 19 E7               587                 .byte  1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP
+   02EC 06                  588                 .byte  6    ; y offset
+   02ED 01                  589                 .byte  1    ; x offset
+                            590 ; sprite definition
+   02EE                     591 _t:
+   02EE 03                  592                 .byte 3
+   02EF 00 64               593                 .byte  0*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   02F1 00 CE               594                 .byte  0*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   02F3 83 00               595                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02F5 83 00               596                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02F7 06                  597                 .byte  6    ; y offset
+   02F8 01                  598                 .byte  1    ; x offset
+                            599 ; sprite definition
+   02F9                     600 _u:
+   02F9 06                  601                 .byte 6
+   02FA 83 00               602                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02FC 9C 00               603                 .byte -4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   02FE E7 19               604                 .byte -1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   0300 00 4B               605                 .byte  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
+   0302 19 19               606                 .byte  1*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   0304 64 00               607                 .byte  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0306 7D 00               608                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0308 06                  609                 .byte  6    ; y offset
+   0309 01                  610                 .byte  1    ; x offset
+                            611 ; sprite definition
+   030A                     612 _v:
+   030A 03                  613                 .byte 3
+   030B 83 19               614                 .byte -5*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   030D 83 19               615                 .byte -5*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   030F 7D 19               616                 .byte  5*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   0311 7D 19               617                 .byte  5*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
+   0313 06                  618                 .byte  6    ; y offset
+   0314 01                  619                 .byte  1    ; x offset
+                            620 ; sprite definition
+   0315                     621 _w:
+   0315 05                  622                 .byte 5
+   0316 83 00               623                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0318 83 00               624                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   031A 64 32               625                 .byte  4*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   031C 9C 32               626                 .byte -4*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   031E 7D 00               627                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0320 7D 00               628                 .byte  5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   0322 06                  629                 .byte  6    ; y offset
+   0323 01                  630                 .byte  1    ; x offset
+                            631 ; sprite definition
+   0324                     632 _x:
+   0324 05                  633                 .byte 5
+   0325 83 32               634                 .byte -5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0327 83 32               635                 .byte -5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0329 7D CE               636                 .byte  5*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   032B 7D 32               637                 .byte  5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   032D 83 CE               638                 .byte -5*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   032F 83 CE               639                 .byte -5*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   0331 06                  640                 .byte  6    ; y offset
+   0332 01                  641                 .byte  1    ; x offset
+                            642 ; sprite definition
+   0333                     643 _y:
+   0333 03                  644                 .byte 3
+   0334 83 32               645                 .byte -5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0336 7D 32               646                 .byte  5*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
+   0338 83 CE               647                 .byte -5*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   033A 83 00               648                 .byte -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
+   033C 06                  649                 .byte  6    ; y offset
+   033D 01                  650                 .byte  1    ; x offset
+                            651 ; sprite definition
+   033E                     652 _z:
+   033E 03                  653                 .byte 3
+   033F 00 64               654                 .byte  0*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   0341 83 CE               655                 .byte -5*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   0343 83 CE               656                 .byte -5*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP
+   0345 00 64               657                 .byte  0*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
+   0347                     658 _abc:
+   0347 01 99 01 AA 01 BF   659                 .word _a, _b, _c, _d, _e, _f, _g, _h, _i, _j
+        01 D2 01 E5 01 F4
+        02 01 02 18 02 29
+        02 38
+   035B 02 49 02 58 02 61   660                 .word _k, _l, _m, _n, _o, _p, _q, _r, _s, _t
+        02 70 02 7F 02 96
+        02 A7 02 C0 02 D5
+        02 EE
+   036F 02 F9 03 0A 03 15   661                 .word _u, _v, _w, _x, _y, _z
+        03 24 03 33 03 3E
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 A$SCROLL$100       0029 GR  |   2 A$SCROLL$101       002D GR
+  2 A$SCROLL$103       002F GR  |   2 A$SCROLL$104       0032 GR
+  2 A$SCROLL$105       0035 GR  |   2 A$SCROLL$107       0037 GR
+  2 A$SCROLL$108       003A GR  |   2 A$SCROLL$109       003B GR
+  2 A$SCROLL$111       003D GR  |   2 A$SCROLL$112       0040 GR
+  2 A$SCROLL$113       0043 GR  |   2 A$SCROLL$115       0045 GR
+  2 A$SCROLL$119       0048 GR  |   2 A$SCROLL$120       004B GR
+  2 A$SCROLL$121       004D GR  |   2 A$SCROLL$122       0050 GR
+  2 A$SCROLL$123       0053 GR  |   2 A$SCROLL$124       0056 GR
+  2 A$SCROLL$127       0059 GR  |   2 A$SCROLL$128       005B GR
+  2 A$SCROLL$129       005D GR  |   2 A$SCROLL$130       005F GR
+  2 A$SCROLL$132       0061 GR  |   2 A$SCROLL$135       0063 GR
+  2 A$SCROLL$136       0066 GR  |   2 A$SCROLL$137       0069 GR
+  2 A$SCROLL$138       006B GR  |   2 A$SCROLL$139       006D GR
+  2 A$SCROLL$140       006F GR  |   2 A$SCROLL$149       0070 GR
+  2 A$SCROLL$150       0073 GR  |   2 A$SCROLL$151       0076 GR
+  2 A$SCROLL$157       0079 GR  |   2 A$SCROLL$158       007B GR
+  2 A$SCROLL$164       007E GR  |   2 A$SCROLL$165       0080 GR
+  2 A$SCROLL$168       0083 GR  |   2 A$SCROLL$171       0085 GR
+  2 A$SCROLL$172       0087 GR  |   2 A$SCROLL$173       008B GR
+  2 A$SCROLL$175       008E GR  |   2 A$SCROLL$176       0091 GR
+  2 A$SCROLL$179       0093 GR  |   2 A$SCROLL$180       0097 GR
+  2 A$SCROLL$181       0099 GR  |   2 A$SCROLL$182       009B GR
+  2 A$SCROLL$183       009D GR  |   2 A$SCROLL$184       00A1 GR
+  2 A$SCROLL$185       00A5 GR  |   2 A$SCROLL$188       00A7 GR
+  2 A$SCROLL$189       00A9 GR  |   2 A$SCROLL$190       00AB GR
+  2 A$SCROLL$191       00AE GR  |   2 A$SCROLL$192       00B1 GR
+  2 A$SCROLL$194       00B3 GR  |   2 A$SCROLL$195       00B5 GR
+  2 A$SCROLL$196       00B7 GR  |   2 A$SCROLL$197       00BA GR
+  2 A$SCROLL$199       00BC GR  |   2 A$SCROLL$200       00BE GR
+  2 A$SCROLL$201       00C0 GR  |   2 A$SCROLL$202       00C3 GR
+  2 A$SCROLL$206       00C5 GR  |   2 A$SCROLL$207       00C7 GR
+  2 A$SCROLL$208       00C8 GR  |   2 A$SCROLL$209       00C9 GR
+  2 A$SCROLL$210       00CC GR  |   2 A$SCROLL$211       00CE GR
+  2 A$SCROLL$213       00D0 GR  |   2 A$SCROLL$216       00D2 GR
+  2 A$SCROLL$217       00D4 GR  |   2 A$SCROLL$223       00D7 GR
+  2 A$SCROLL$224       00DA GR  |   2 A$SCROLL$225       00DD GR
+  2 A$SCROLL$229       00E0 GR  |   2 A$SCROLL$230       00E2 GR
+  2 A$SCROLL$231       00E5 GR  |   2 A$SCROLL$232       00E8 GR
+  2 A$SCROLL$233       00EA GR  |   2 A$SCROLL$235       00ED GR
+  2 A$SCROLL$239       00F0 GR  |   2 A$SCROLL$240       00F3 GR
+  2 A$SCROLL$241       00F6 GR  |   2 A$SCROLL$243       00F8 GR
+  2 A$SCROLL$245       00FA GR  |   2 A$SCROLL$246       00FD GR
+  2 A$SCROLL$247       00FF GR  |   2 A$SCROLL$248       0102 GR
+  2 A$SCROLL$249       0103 GR  |   2 A$SCROLL$250       0106 GR
+  2 A$SCROLL$251       0109 GR  |   2 A$SCROLL$252       010C GR
+  2 A$SCROLL$253       010F GR  |   2 A$SCROLL$254       0112 GR
+  2 A$SCROLL$255       0114 GR  |   2 A$SCROLL$256       0117 GR
+  2 A$SCROLL$260       0119 GR  |   2 A$SCROLL$261       011B GR
+  2 A$SCROLL$262       011D GR  |   2 A$SCROLL$263       011F GR
+  2 A$SCROLL$266       0122 GR  |   2 A$SCROLL$269       0124 GR
+  2 A$SCROLL$270       0127 GR  |   2 A$SCROLL$272       0129 GR
+  2 A$SCROLL$273       012C GR  |   2 A$SCROLL$274       012F GR
+  2 A$SCROLL$275       0131 GR  |   2 A$SCROLL$276       0132 GR
+  2 A$SCROLL$277       0135 GR  |   2 A$SCROLL$278       0138 GR
+  2 A$SCROLL$279       013B GR  |   2 A$SCROLL$280       013E GR
+  2 A$SCROLL$281       0141 GR  |   2 A$SCROLL$282       0144 GR
+  2 A$SCROLL$283       0147 GR  |   2 A$SCROLL$284       0149 GR
+  2 A$SCROLL$285       014A GR  |   2 A$SCROLL$287       014D GR
+  2 A$SCROLL$288       0150 GR  |   2 A$SCROLL$289       0151 GR
+  2 A$SCROLL$293       0153 GR  |   2 A$SCROLL$296       0155 GR
+  2 A$SCROLL$298       0158 GR  |   2 A$SCROLL$87        000B GR
+  2 A$SCROLL$88        000E GR  |   2 A$SCROLL$89        0011 GR
+  2 A$SCROLL$90        0014 GR  |   2 A$SCROLL$91        0017 GR
+  2 A$SCROLL$92        001A GR  |   2 A$SCROLL$93        001D GR
+  2 A$SCROLL$96        001E GR  |   2 A$SCROLL$97        0021 GR
+  2 A$SCROLL$98        0024 GR  |   2 A$SCROLL$99        0026 GR
+    Intensity_a    =   F2AB     |   2 LF33D              0114 R
+  2 LF3F4              0144 R   |     NUMBER_OF_SCRO =   0008 
+    SCALE_FACTOR_G =   0091     |     SCROLL_SCALE_F =   0006 
+    SPRITE_BLOW_UP =   0019     |     VIA_cntl       =   D00C 
+    VIA_int_flags  =   D00D     |     VIA_port_a     =   D001 
+    VIA_port_b     =   D000     |     VIA_shift_reg  =   D00A 
+    VIA_t1_cnt_hi  =   D005     |     VIA_t1_cnt_lo  =   D004 
+  2 _DRAW_VLA          0124 R   |   2 _a                 0199 R
+  2 _abc               0347 R   |   2 _b                 01AA R
+  2 _c                 01BF R   |   2 _d                 01D2 R
+  2 _e                 01E5 R   |   2 _f                 01F4 R
+  2 _fs                018E R   |   2 _g                 0201 R
+  2 _h                 0218 R   |   2 _i                 0229 R
+  2 _j                 0238 R   |   2 _k                 0249 R
+  2 _l                 0258 R   |   2 _m                 0261 R
+  2 _n                 0270 R   |   2 _o                 027F R
+  2 _p                 0296 R   |   2 _q                 02A7 R
+  2 _r                 02C0 R   |   2 _s                 02D5 R
+  3 _scr_crnt          000A GR  |   3 _scr_ints          0011 GR
+  3 _scr_lbnd          000E GR  |   3 _scr_objs          0012 GR
+  3 _scr_rbnd          000F GR  |   3 _scr_sped          000C GR
+  3 _scr_stpw          0010 GR  |   3 _scr_strt          0008 GR
+  3 _scr_y             000D GR  |   2 _t                 02EE R
+  2 _t_                015B R   |   2 _u                 02F9 R
+  2 _v                 030A R   |   2 _w                 0315 R
+  2 _x                 0324 R   |   2 _y                 0333 R
+  2 _z                 033E R   |   2 divide_by_zero     0045 R
+  2 divide_by_zero     0037 R   |   2 divide_end         0048 R
+  2 divide_next        003D R   |   2 divide_next1       002F R
+  3 divide_tmp         0004 R   |   2 load1_x_with_l     00D0 R
+  2 load_x_with_le     00D2 R   |   3 mul_tmp1           0004 R
+  3 mul_tmp2           0006 R   |   2 next_scr_objec     0079 R
+  2 no_space_draw      0153 R   |   2 nscr_0             00C5 R
+  2 nscr_fullstop      00BC R   |   2 nscr_space         00B3 R
+  2 scr_bound_test     00F8 R   |   2 scr_init           000B GR
+  2 scr_objs_all_d     0158 R   |   2 scr_setup_loop     0059 R
+  2 scr_step           0070 GR  |   2 scr_text_not_o     00A7 R
+  3 tmp1               0000 R   |   3 tmp2               0002 R
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size  37B   flags  100
+   3 .bss             size   3B   flags    0
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

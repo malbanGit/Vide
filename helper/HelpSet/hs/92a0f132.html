@@ -1,0 +1,232 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Findings</title>
+</head>
+<body class="doc">
+<h1>Findings</h1>
+
+<p>Following "features" of the vectrex were found by me on the vectrex systems I own. Since the vectrex is partly an analog machine with by now fairly old hardware it seems that different machines do react slightly differently.</p>
+
+<p>Following "differences" were observed, some are due to manufacturing differences, some due to different BIOS versions and some due to aging (capacitors) or usage of different hardware parts (VIA).</p>
+
+<p>If you use BIOS routines and do not try to optimize to the extreme most of these difference do not need to concern you.</p>
+
+<ul><li>
+<p>VIA: delay of SHIFTREG</p>
+</li><li>
+<p>VIA: 9 shift bug</p>
+</li><li>
+<p>VIA: stalling of the SHIFTREG</p>
+</li><li>
+<p>Analog: zeroing (time untill the integrators are completely zero)</p>
+</li><li>
+<p>Analog: integrator retain ?</p>
+</li><li>
+<p>differences in "weight" (scale and strength)</p>
+</li><li>
+<p>sampling to the amplifier circuit</p>
+</li><li>
+<p>buzz / no buzz (CART line)</p>
+</li><li>
+<p>different dac delay</p>
+</li></ul>
+<h2>Explaining the things</h2>
+<h3>Delay of SHIFTREG</h3>
+
+<p>The vectrex uses the VIA 6522 chip internally for lots of stuff. The chip was manufactured by at least 5 different companies and in different "generations" from those manufacturers. </p>
+
+<p>The vectrex was only build over a small period of time, nonetheless different versions of the chip were used.</p>
+
+<p>The result being that even though it is always the VIA 6522 which was put into vectrex, the chip might behave slightly differently. One difference is the delay the actual shifting starts after accessing the shift register.</p>
+
+<p>Experiments with different vectrex (over the world) show that there are at least these "shift delay" versions:
+<ul><li>
+<p>delay of 0 cycles </p>
+</li><li>
+<p>delay of 1 cycles </p>
+</li><li>
+<p>delay of 2 cycles </p>
+</li><li>
+<p>delay of 3 cycles </p>
+</li></ul>
+</p>
+
+<p>While one does not see the difference "often", there is one particular area where you CAN see that difference. If you write optimized routines for bi-directional raster graphics (of text output using a raster font)</p>
+<br>
+
+<p><b>Note:</b><br>
+I am not sure anymore if this phenomenon is cased by the SHIFTREG delay. A delay is happening somewhere - that's for sure, and it is vectrex dependend - but what the actual cause is, is not verified.</p>
+
+<p>Example:</p>
+<br><p align="center">
+<img src="pics/CalibrateOK.png" width="333" height="42"><br>
+<em>ok</em></p><br>
+<br><p align="center">
+<img src="pics/CalibrateNOK.png" width="348" height="53"><br>
+<em>not ok</em></p><br>
+<h3>9 Shift bug</h3>
+
+<p>The vectrex uses the VIA 6522 and the models of VIA it uses have some bugs. One of its bugs is, that a complete shift cycle does not shift 8 times for one byte, but 8+1 (with the mode used by raster output, SHIFT out under system clock Mode %110). The last shifted value is repeated. So that e.g.<br>
+<tt>0101 0101</tt><br>
+[e.g. part of a bitmap]</p>
+
+<p>results in an output like:</p>
+
+<p><tt>0101 01011</tt></p>
+
+<p>In the normal "text" routines you do not see that, since letters always end with a "0" and a double "00" result just in a little bit more space between letters. In a "continues" bitmap you must align or tweak the bitmap thus, that you do not (or only barely) see bit doubles.</p>
+
+<p>It certainly is even more difficult to do if you are working with "diagonals", since you can not get rid of a double step.</p>
+
+<p>Example:</p>
+<br><p align="center">
+<img src="pics/9bitok.png" width="350" height="457"><br>
+<em>ok</em></p><br>
+<br><p align="center">
+<img src="pics/9bitnok.png" width="346" height="471"><br>
+<em>not ok</em></p><br>
+<h3>Stalling of SHIFTREG</h3>
+
+<p>The SHIFT register of VIA is prone to "stalling". Stalling here means, shift out the last shifted value indefenitly (or till someone changes VIA settings again). The stalling can happen, if the shiftregister is accessed (shifting is resetted) befor the current shift cycle is finished (befor all 18 cycles have passed).</p>
+
+<p>Different VIA version stall at different "times". Known cycle values
+<ul><li>
+<p>15 cycles</p>
+</li><li>
+<p>14 + 15 cycles.</p>
+</li></ul>
+</p>
+
+<p>One "famous" example of possible stalling is the Thrust title logo, which intercepts the current shift cycle at cycle count 14.  On some vectrex (3. generation - no buzz) the last letter of the title "streches" to the edge of the screen.</p>
+
+<p>Example:</p>
+<br><p align="center">
+<img src="pics/ThrustTitle.jpg" width="414" height="640"><br>
+<em>Thrust</em></p><br>
+
+<p> </p>
+<h2>Zeroing</h2>
+
+<p>The reference point of all vectors drawn is always "point zero", which is the middle of the vectrex screen. Point zero is the only point on the screen where you can go "directly" - all other movements are done in relation to the current position.</p>
+
+<p>Positioning is internally done using (analog) integration circuits which sum up values (positive or negative) you provide to the digital to analog converter. The x and y sum of these values represents the position on screen. </p>
+
+<p>The position (since an analog) value is some voltage that is held using the integration circuits. </p>
+
+<p>Going to point "zero" is in principal nothing more than poking a "0" to a specific memory location which in turn represents a "switch" that grounds the integration circuits and thus resets them to zero (at least that is my understanding).</p>
+
+<p>The act of "grounding" is in simplistic terms the discharging of a capacitor.  Due to age, variants and being analog hardware over all - the discharging (the zeroing) takes a certain amount of time. The time depends mainly:
+<ul><li>
+<p>start value of the capacitors</p>
+</li><li>
+<p>quality of capacitors</p>
+</li><li>
+<p>age and other analog invariants</p>
+</li></ul>
+</p>
+
+<p>Electronic laws even state that capacitors never get full discharged - in general if you leave the lights on while discharging you will see some sort of "e" function as the discharging happens.</p>
+
+<p>What it boils down to is - if you optimize your programs to use the least possible value for discharging (and thus saving some time) - the resulting program might look slightly different on another vectrex. </p>
+<h3>Integrator retain</h3>
+
+<p>The following is some "guess work" and describes a phenomenon I have witnessed but due to lack of electronic wisdom have not the knowledge to fully explain (if you know more - please tell me).</p>
+
+<p>It is evident, that a move from position 0,0 to another far away position, does not always result in the exact same position (experience have been 1-2 mm off).</p>
+
+<p>The resulting position is altered slightly by the position the vector beam was at before the last zeroing (regardless of how long you discharge).  There are different possible sources:
+<ul><li>
+<p>the integrator value</p>
+</li><li>
+<p>the last "sample and hold" values</p>
+</li><li>
+<p>the never "complete" zeroing</p>
+</li></ul>
+</p>
+
+<p>I experienced this behaviour under various circumstances, but the most evident occured during the use of synced printStr output:</p>
+
+<p>Example:</p>
+<br><p align="center">
+<img src="pics/Retain.png" width="212" height="37"><br>
+<em>Print String</em></p><br>
+
+<p>What you see above is a string printed, each line of the string was positioned from zero, that way each line matches exactly the one above and you do not get that <i>italic</i> look of the classic vectrex strings. Notice the first line is "off". This is because the first line had a different "previous" vector position befor its zeroing.</p>
+
+<p>If you do your own vectrex programming this "retain" thing might be "real" for you too - another example from Karl Quappe.</p>
+
+<p>The main Karl Quappe screen is divided into different sections:
+<ul><li>
+<p>strings (score, level, life)</p>
+</li><li>
+<p>borders (like the homes, the timer and the "middle" lane), these borders have fixed positions</p>
+</li><li>
+<p>automatic objects (everything that moves)</p>
+</li><li>
+<p>manual object (the frog you can move)</p>
+</li></ul>
+</p>
+
+<p>Notice the order I used above. This is the order I "must" use. The first two bullet points have fixed screen positions. If in my update round I print them  - say - after I print the frog, then the next fixed part I draw right after the frog, ever so slightly MOVES with the frog (~1 millimeters).</p>
+
+<p>That is very much noticable and disturbing. Even worse I seem to have a very good vectrex - I have reports of some other people - where that effect is even worse. </p>
+<h2>differences in "weight" (scale and strength)</h2>
+
+<p>In "general" you can calculate a position on screen using the formular:
+<ul><li>
+<p>scale * strength</p>
+</li></ul>
+</p>
+
+<p>Which results in a positions (if a maximum of scale = $ff is assumed) with a range form -32768 - +32767.</p>
+
+<p>Out of the general the formular is not 100% correct. If you want to position disjunct objects the accuracy of the above might be sufficient. But if you want to place objects EXACT you must either use the same strength or the same scale, otherwise the result will be slightly off.</p>
+
+<p>With my vectrex the "strength" seems to be a little bit "strengthier" than the scale. I don't know if that is a general rule though.</p>
+<h3>sampling to the amplifier circuit</h3>
+
+<p>The vectrex ng (aka no buzz models) have some different internal circuitry. Using samples the "classic" way does not work (well) anymore. For some reason or another the sampled sound is barely audible anymore. Reason - unkown.</p>
+<h3>buzz / no buzz (CART line)</h3>
+
+<p>The only time that bothered me was, when I couldn't use Vectrex32 with my no buzz model. But this might also happen when using e.g. VecMulti from Richard Hutchinson.</p>
+
+<p>For more information what this is about I quote a forum post (by a person called "flip" - <a target="_blank" href="http://vectorgaming.proboards.com/thread/1271/multicart-on-buzz-models">http://vectorgaming.proboards.com/thread/1271/multicart-on-buzz-models</a>):</p>
+
+<div class="code">
+<p>Hi,</p>
+
+<p>I'm new around here, having bought a Vectrex a few weeks ago. Mine is one of the newer no-buzz models (serial 31xxxxx with the 7ADB rom), that have problems with some multi-carts. I found out the hard way, after ordering one of them.</p>
+
+<p>Since I needed to open up my system anyway for some cleaning, I decided to poke around to get to know the insides, but also to see whether I could figure out what caused the problem. I tried to change the rom - which wasn't straightforward, since on the newer boards this is a 24pin chip compared to the 28pin ones on the older board. I replaced it with a rom adapter from a C64, which allows me to switch between rom images (B796 and 7ADB). But this made no difference for the multi cart.</p>
+
+<p>After a few exchanges with the supplier of the cart, I began comparing the circuit as drawn in the service manual to what was happening on my board, especially in what IC202 (74LS00) and IC203 (74LS32) did. These trigger various chip enable and clock signals internally and on the cartridge port. And it turns out that they changed this circuit: on the newer models, the *CART signal is no longer generated and pin 32 on the cartridge port is simply not connected to anything (see detail of the schematic attached - the bit marked in yellow is no longer there). The OR gate on IC203 that creates this signal on the older boards is now connected to the OE pin of the ROM...</p>
+
+<p>So i created an OR gate using two diodes (1N4148) and a pull up resistor (10k). The anodes should connect to pins 12 (E inverted) and 16 (Address line 15) on the cartridge port. The cathodes and the resistor should go to pin 32. And the other end of the resistor to GND. See the attached drawing. This "recreates' the *CART signal, and more importantly, brought the 72-in-1 cart to life on my machine!</p>
+
+<p>You can of course add this circuit to the cartridge as well, though to avoid problems on older models, you'd have to make sure to cut the *CART signal from the console.</p>
+
+<p>Hope this helps others, though no guarantee. If you have any questions, let me know...</p>
+<br><p align="center">
+<img src="pics/vectrex_cart_fix.jpg" width="173" height="271"><br>
+<em>vectrex_cart_fix.jpg</em></p><br>
+<br><p align="center">
+<img src="pics/vectrex_main_diff.jpg" width="500" height="396"><br>
+<em>vectrex_main_diff.jpg</em></p><br>
+</div>
+<h3>Different dac delay</h3>
+
+<p>It seems that different vectrex versions can have different DAC delay values. The time between a value is written to the DAC and the receiving end actually gets the "new" value.</p>
+
+<p>Granted you will most of the time NOT see this phenomenon. The only time I experienced it was when experimenting with curved vectors.</p>
+
+<p>When doing curved vectors, you change the DAC while ramping is switched on (in normal drawing you do not change integration values while the beam moves).</p>
+
+<p>My assumption is that this also has to do with the vectrex generation, although my vectrex samples I used for testing were only my three vectri.</p>
+
+<p>So, while you will not see that often - if you DO use curved vectors, there might be a difference on different vectri.</p>
+<h1>Emulation in vide</h1>
+
+<p>All of the above effects can be - to some extend - emulated using vide. In the configuration settings you can toy around with settings. But in general if you experience weirdnesses or are prone to optimization and edging the above mentioned findings, you probably should use a couple of real vectri for your tests!</p>
+</body>
+</html>

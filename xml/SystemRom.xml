@@ -2,8 +2,15 @@
 <AllSystemRom>
 	<SystemRom>
 		<Class>SystemRom</Class>
-		<Name>System_B795</Name>
-		<CartName>system/System_B795.IMG</CartName>
+		<Name>System_B796</Name>
+		<CartName>system/B796.bin</CartName>
+		<Version></Version>
+		<Comment></Comment>
+	</SystemRom>
+	<SystemRom>
+		<Class>SystemRom</Class>
+		<Name>System_7931</Name>
+		<CartName>system/7931.bin</CartName>
 		<Version></Version>
 		<Comment></Comment>
 	</SystemRom>
@@ -16,6 +23,20 @@
 	</SystemRom>
 	<SystemRom>
 		<Class>SystemRom</Class>
+		<Name>System_B796</Name>
+		<CartName>system/B796.bin</CartName>
+		<Version></Version>
+		<Comment></Comment>
+	</SystemRom>
+	<SystemRom>
+		<Class>SystemRom</Class>
+		<Name>System_7ADB</Name>
+		<CartName>system/7ADB.bin</CartName>
+		<Version></Version>
+		<Comment></Comment>
+	</SystemRom>
+	<SystemRom>
+		<Class>SystemRom</Class>
 		<Name>MalbanBios</Name>
 		<CartName>system/M2.bin</CartName>
 		<Version>0.1</Version>
@@ -23,8 +44,15 @@
 	</SystemRom>
 	<SystemRom>
 		<Class>SystemRom</Class>
-		<Name>Sys7ADB</Name>
+		<Name>System_7ADB</Name>
 		<CartName>system/7ADB.bin</CartName>
+		<Version></Version>
+		<Comment></Comment>
+	</SystemRom>
+	<SystemRom>
+		<Class>SystemRom</Class>
+		<Name>System_7931</Name>
+		<CartName>system/7931.bin</CartName>
 		<Version></Version>
 		<Comment></Comment>
 	</SystemRom>

@@ -2559,6 +2559,14 @@ public class DASM6809 extends DASMStatics {
                 info.typeWasSet = true;
                 info.disTypeCollectionMax = maxSame;
             }
+            if (type.trim().toUpperCase().equals("DW_POINTER")) // backwards compatability
+            {
+                if (maxSame==0) maxSame = 1;
+                MemoryInformation info = myMemory.buildMemInfo(i);
+                info.disType = MemoryInformation.DIS_TYPE_DATA_WORD_POINTER;
+                info.typeWasSet = true;
+                info.disTypeCollectionMax = maxSame;
+            }
             if (type.trim().toUpperCase().equals("CHAR_DATA"))
             {
                 if (maxSame==0) maxSame = 20;

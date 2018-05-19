@@ -1,4 +1,5 @@
 :title Configuration
+:label config
 Basically there are two kinds of options, general "Application" options.
 These can be found under the menu: ~~
 File -> extra -> application configuration~~
@@ -10,7 +11,7 @@ Tools -> Configuation
 
 All options are now bundled in one class and can as such be easily saved and loaded.
 
-So you can bundle all options to "sensible" names, like:
+You can bundle all options to "sensible" names, like:
 
     "Fastest emulation"
     "Default"
@@ -18,413 +19,35 @@ So you can bundle all options to "sensible" names, like:
     "Splines"
     etc
 
-Upon start allways the option "Default" is loaded!
+Upon start always the option "Default" is loaded!
+To save a configuration a Name must be entered (even the name "default")
 
-:h1 Options -  now really!
+:image ConfigHead.png|emulator config
 
-Vide is some kind of a Monster!~~
-I know that.~~
-~~
-Due to Vide being 100% pure java and trying to emulate vectrex as precisley as I am knowledgable to - Vide can become slow as hell.
+Following configuration "screens" exists:
 
-I know that I still am not able to emulate the old brute 100% - but god knows I have put much effort into the emulation - and I am quite certain that at the time beeing - emulation in VIDE is the most exact vectrex emulation around.
+**Contents**~~
+<<configEmulator|Emulation + Delays>>~~
+<<configDisplay|Display>>~~
+<<configDebug|Debug>>~~
+<<configDisassembler|Disassembler>>~~
+<<configAssembler|Assembler>>~~
+<<configMiscellaneous|Miscellaneous>>~~
+<<configGUI|GUI>>~~
+<<configKeyboard|Keyboard>>~~
+<<configInput|Input>>~~
 
-Always depending on the options you have chosen.
-Here some descriptions of what is emulated, and how you may alter emulation with configuration: 
-:h1 Emulator
 
-:image config1.png|emulator config
 
-** Load overlay when available **~~
-Well - just what it says.
 
-The loading of overlays follows following rules, until an overlay is 
-actually loaded (or vide gives up) vide searche with following:
 
-- the name of a possible overlay is determined in following order:
-* name given in cartridge definition
-* name of the cartridge (without extention)
-* name of the rom - binary file (without extention)
 
-- to the given name a ".png" is added
 
-- with each of these names an overlay file is searched
-* in the current directory (wherever the current directory is)
-* in the main vide directory
-* in main directory + "overlays" (directory)
-* in main directory + "overlays/homemade" (directory)
-* in the current directory (the rom was loaded from)
 
 
 
-** Vector information collection active **~~
-If use intend to use Vinfi to show specific vector information (e.g. address where a vector came to live), thus must be switched on. Minimal performance gain if switched off.
-
-** Ray Gun **~~
-Experimental start:~~
-To not "collect" vector data and do a draw when a vector is finished, but to draw on each cycle the current beam position!
-This was implemented, but probably won't be finalized.
-The raygun is shot at the display panel, each emulated cycle, with the information:
-- old position
-- new position
-- speed (or dwell time, however you would like to look at it)
-- color
-- isCurved
 
-The display routine is responsible to draw the positioning information. The idea was, that color, speed and position can be used to enhance brightness of the display. If a point has its color "full" (255), than it should spill further coloring to neighbouring pixels.
 
-The thing is, doing a "simple" draw right now without any further evaluation and "spilling" is already really slow (which is not really suprising either).
 
-** Cycle exact emulation**~~
-Most of the time you do not need this setting. It costs a little bit of emulation time.~~
-What it does:
-Hm...~~
-Basically it handles emulation cycle exact, yes I know you gathered that from the name. 
-With this option switched on analog hardware is emulated EVERY cycle. Not just at the end of each 6809 instruction. An instruction of the CPU can take anything from 2 to dunno 20 cycles? If RAMP, Shift or timers change in the middle of a CPU instruction and this is not handled at exactly the time, the output of the emulator can differ from the real machine - but this is most of the case only true if you try squeezing optimization out of the last pore of vectrex.
 
-** Enable bankswitching**~~
-Well just what it says. Emulator may perform a tiny little bit better if switched off, since some testing will be omitted. Barely - if at all noticable.
 
-** Ringbuffer active**~~
-You only need that for debugging purposes, this basically saves the state of vecx every CPU instruction and thus enables you to take emulation steps back. This option defenitly is one of the speed eaters. If Vide is to slow and you don't intend to debug - switch this off! 
-~~There are two different step back buffers. 
-- One single step buffer, which can be configured up to 50000 steps (you have the watch the memory usage yourself!)
-- One buffer for "large" step backs (30000 instructions per step), this can be configured up to 5000 (see dissi for more information)
-
-** Use splines for curved vectors **~~
-Some games/programs do curved vectors on vectrex. "Usual" emulation does not handle that all that well, it allways rather looks edgy. With this option you can switch enhanced emulation with "splines" (Catmull Rom) on. 
-Drawing splines is not optimized and slows down emulation. Although only very few roms use curved vectors, so you may as well leave it enabled.
-
-**Use Quads**~~
-Belongs to spline configuration, this is only active if splines are switched on.
-Drawing "Quads" is more performant than splines, but some curves look bad...
-I do not recommend this setting and it is available more for historic reasons than for any real value!
-
-** Slider nearby **~~
-The slider configures how many control points are used and how they are "translated" to the drawing routine. 
-
-** Suppress double draw on line sections**~~
-Is cheating!~~
-With this option you suppress the (normal for vectrex) double drawing at the end / begining of two vectors.
-Sometimes this speeds things up, sometimes it slows emulation down. Try it...
-
-**Antialiazing**~~
-Smoother lines. Suprisingly at my place emulation is a lot faster with antializing switched on. Don't know why - try it!
-
-** Try autosync**~~
-Nearly all vectrex programs have a different screen "refresh" rate. If you just emulate with a fixed frame sooner or later the screen flickers like mad.
-With this option switched on, the emulator trys to sync display with Timer T2 of vectrex, which is usually used to also sync vectrex display (WaitRecal).
-If Vide thinks this is not working it steps back and syncs to aproximately 50Hz - but this may result in vectrex screen flickering.
-
-** Imager auto mode on default**~~
-State of the imager emulation, see "Cartridges->Emulation: Imager 3d"
-
-** emulated vectrex integrator max (w/h)**~~
-Easily formulated, what resolution of the vectrex should be emulated. 
-The integrator coordinates are measured roughly as "time * draw strength".
-Where "draw strength" is the dac value put to the integrators (ranging from -128 to +127). Time naturally can become quite large. The largest by the Vectrex BIOS supported time is $ff (cycles), thus a "natural" resolution might be chosen as:
--32768 - +32767. But chosing a higher resolution is necessary for some carts because:
-a) theoretically time can be quite a bit larger
-b) vectors are added, so adding two vectors, can again be larger than the above value.~~ The default values (41000) seems to be pretty close to actual vectri. Although the display is vertically larger than horizontally - for internal "coordinates" this does not matter.
-
-**Speed limit**~~
-Limit the speed of emulation to given percentage of a real vectrex.
-
-**allow ROM write**~~
-Whether to allow cartridges "in general" to write (overwrite) cartridge memory - which is **bad**.
-
-**Line width**~~
-The thickness of one vector line. The appearence is also dependend on "glow". 
-The thicker - the slower emulation!
-
-**Persistence**~~
-How long does a vector "glow" after beeing displayed? If persistency is off (slider complete to the right), there is a slight performance gain. 
-
-**Drift**~~
-Nearly all vectri drift in one way or another. Drift is the slight "movement" of vectors over time without the user or programm actually changing anything. This has to do with electronic laws, old analog hardware, probably temperatur, humidty and so on.
-The default values represent my "no buz" vectrex.
-
-**Brightness/glow**~~
-An option that tries to visually emulate the "glow" of vectors. Results are also dependend on "Line width". Glow really slows emulation, especially higher glow values. But it is so pretty!~~
-~~
-Some emulated "effects" are only visible if glow is switched on. 
-- e.g. "dots" are usually drawn using a dot dwell time (time the vector beam resides on one single spot). The higher the dwell time, the brigher the dot. 
-- vectors are drawn with different "strength" values, the strength actually is the speed with which the vector is moving. The higher the speed, the less time the electrons are positioned at "one" location. Thus the higher the speed, the lower the brightness of one vector
-
-Both effects (the second only very barely) can only be seen if glow is enable!
-
-**Efficiency**~~
-I don't know if this is a "real" thing. In some desperate move to find a faulty behaviour, I implemented this.
-Basically what it does is "reduce" efficiency of the integrator Sample/Hold value the higher the absolut value of the current integrator already is.
-This e.g. (extreme example):~~
-- adding SH 100 to an integrator with a value of 0 will result in the integrator having a value of 100
-- adding SH 100 to an integrator with a value of 10000 will result in the integrator having a value of 10090
-
-This is 
-a) either a real thing and correct
-b) not - but the curved screen of the CRT has a similar effect, 
-
-Anyway it seems that adding "efficiency" might be correct either for a) or b) reasons.
-
-**scale/strength**~~
-See "Programming the Vectrex->Findings->differences in "weight" (scale and strength)".
-
-**noise factor**~~
-Experimental! With this I try to emulate the "wobble" effect, if the integrators are not "resetted" often enough. Does not work well and is implemented wrongly I think. Best leave the switch to off.~~ ~~
- 
-**overflow factor**~~
-Experimental! 
-~~And I think wrong, this will be gone in the near future
-
-**Boot Rom**~~
-Select the Rom you want per default use as your vectrex BIOS.
-The nearby buttons allow to configure the BIOS settings for each available ROM.
-
-:h1 Delays
-:image config2.png|delay config
-
-Delays seem to be quite important in exact vectrex emulation. As it seems the analog hardware does not react immediately to changes, but rather a short time span later.
-All delays that can be handled here are delays to analog hardware items inside vectrex.
-
-To the best of my experiments - all default values represent my "no buz" new vectrex (serial number: 3117403).
-
-**MUX-SEL**~~
-A delay in CPU cycles the data written to the VIA bit 1-2 (Mux sel) is taking to reach (trigger) the MUX. 
-~~This setting was introduced while trying to get the same output in the emulator as the real vectrex, while displaying that raster graphics of the "lineart" demo.
-
-**YSH**~~
-A delay in CPU cycles the data "written" to the VIA ORA is taking to reach the YSH "analog storage". 
-~~ I noticed, that usually the "sum" of YSH and MUX-SEL should be less than Ramp Off Delay.
-
-** ZSH**~~
-Implemented, but has no effect whatsoever.
-
-** SSH**~~
-Implemented, but has no effect whatsoever.
-
-** RSH**~~
-Implemented, but has no effect whatsoever.
-
-**XSH**~~
-A delay in CPU cycles the data "written" to the VIA ORA is taking to reach the XSH "analog storage". 
-
-**ZERO**~~
-A delay in CPU cycles the data "written" to the VIA CA2 is taking to reach (trigger) the ZERO (grounding the integrators). 
-~~This setting was introduced after some other settings and watching the "sd.bin" demo of Christopher Tumber. The shots Christopher is firing set the Zero flag very VERY early (actually while the shot should still be in the "air"). On a real vectrex this works ok, my guess is - because a delay.
-
-** Blank delay**~~
-Implemented, but as of yet no use found! But nice effects if you use the slider :-).
-
-** Blank On Delay **~~
-(1/10 cycle) Implemented, but as of yet no use found!
-
-**SHIFT**~~
-A delay in CPU cycles between writing/reading the shift register of via and the actual start of shifting, I think this should be more or less a fixed "2". 
-
-**T1**~~
-A delay in CPU cycles between starting the timer programatically and the actual starting of the timer t1 via internally.
-I switched this off, since any value other than 0 or 1 seem to be grossly false.
-(exact timing based programs, e.g. serial communication with a vecvoice does not work anymore - so my guess is that this is not a setting that should be toyed with) 
-
-**Ramp On/Off Delay**~~
-These delays seem to be the MOST important delays in exact emulation.
-I don't know why, and I find it strange that On/Off is different - but experiments showed, that these values DO differ.
-The ramp delays are 1/10 cycle exact - and believe me, you even see the difference on screen for 1/10 cylce, which is 1/15,000,000 seconds worth of emulation!
-
-** Integrator Warmup **~~
-Implemented, but as of yet no use found (1/100 cycle exact)!
-
-** Integrator Cool down **~~
-Implemented, but as of yet no use found (1/100 cycle exact)!
-
-** Vectrex generation **~~
-To my knowledge there are at least 3 different versions of vectrex hardware.
-It seems to me, that at least in my two vectri there are different DACs used.
-This can be seen by sample programs which try cycle exact DAC settings (usually with DAC changes while RAMP is enabled). 
-Therefor -> the "generation" setting hides in reality a **DAC-Delay** which seems to be different for these generations.~~
-I have not tested this extensivly, but implemented is a fixed DAC delay of 2 cycles for 3. generation, and 4 cycles for 1-2 generation (and none for "Off").
-The volume of generated sound for digitized music seems to be reduced on new vectri.
-
-Also... the generation (or the actual VIA) influences at what value via "stall" when shiftreg is updated befor the magic 18 cycles (off never stalls).
-
-**Via Shift 9 Bug**~~
-In general you will not see a difference in your programs if you switch this on or off. The Vectrex programmers EXPECT the Via shift 9 bug to be present and thus programmed handling it into the programs (raster display/text routines). This is why there is a "magic" 18 cycles time in all those routines (instead of a "magic" 16). So even if the bug is not emulated all those routines are timed to 18 cylces and the now NOT emulated bug (the 9th additional shift) does not take place, but not taking place looks for 18 cycles exactly the same as taking place, since CB2 STAYS at the last set value after a shift cycle. 
-
-If 9 Bug emulation is off and you program 16 cycles raster routines - you can see the difference - but you probably won't do that...
-
-** Delay variants**~~
-The name (probably falsely) derives from a vectrex feature I credited to the VIA. I thought via was built with different timing "variants" in relation to the shift register (see: "Programming the Vectrex->Findings->differences in "Delay of SHIFTREG"). I don't think that is "true" anymore. 
-
-With these settings you can set the ramp on/off values to predefined values that emulate the described variants (wherever they actually resut from). 
-
-:h2 Thoughts
-I am still not 100% certain, that all these delays are correct emulations or are just a lucky hunch which looks like they works - but rather I should be fiddling with something entirely different. I tried many different things - but nothing else comes close to these results - so take them - or find something better :-)! (end tell me!)
-
-:h1 Disassembler
-:image config3.png|disassembler config
-**Assume vectrex files**~~
-This option might surprise you in Vide, but fact is - the stand alone version of dissi could probably disasssemble other programs as well... Therefor this option sort of makes sense (nah - it doesn't...).~~
-Anyway if enabled dissi scans it's files for a typical vectrex heading, like the GCE entry and the following string list.
-
-**build generic labels**~~
-If disassembling unkown sources, dissi generates lables (in the form of "\_XXXX" - where "XXXX" is the actual address) instead of using the address directly.
-
-**codescan in Vecxi**~~
-If enabled, vecxi while executing marks addresses as "read", "write", "executed" and gives these information to dissi for use. That way dissi has a better chance to discern data from code. ~~
-If everthing else is finished in vide, this might be expanded to a more in depth automatic code analyses.
-
-**column setup**~~
-Straight forward - configuration which columns should be displayed in the dissi main table. Changes are applied at once!
-
-:h1 Debug
-:image config4.png|debug config
-**draw Vectors as arrows**~~
-Just one of those not really useful, but cool options. Lets you see in what direction vectors are drawn.
-
-**draw movement vectors**~~
-Not implemented yet - to get a glimps of what this could look like, play with the "blank delay" option. 
-
-**paint integrator position**~~
-This started as an unneccessary "cool" option - but actually I use it pretty often. With this enabled, vecxi draws a little red circle at the current vector beam postion, this is a great option to help "visualize" debugging (obviously there is a speed impact). 
-
-**ROM and PC breakpoints switch on by default**~~
-Chose whether these breakpoints are set per default on each emulation start (which if you are developing - makes sense).
-
-**MultiStep delay**~~
-The delay in milliseconds dissi waits between multi step - steps.
-
-:h1 Assembler
-:image config5.png|assembler config
-**automatically expand short branches to long if needed**~~
-Well - what the option says.~~
-**Note**:~~
-As of yet assi is a two pass assembler, and I have not changed its architecture all that much (yet). Because of that it is not possible to expand branches (to that point) to unkown locations. Expanding short to long branches therefor only works with branches "backward" not forward. If an expansion forward is necessary assi quits with an error and tells you where the branch should be expanded!
-
-**opt**~~
-Tells assi to use optimization (what little is implemented). ~~
-**Note**:~~
-The "opt" pseudo opcode not only overwrites this setting it also SETS this very setting in the config. If you use "opt" in your sources, than the last use of "opt" (or noopt) is the new "config-setting" as well!
-
-**LST output**~~
-List output takes (in relation to actually doing the assembly) a little bit of time. Therefor you can switch the generation off.
-
-**treat undefined in if clause as 0 value**~~
-This is actually a compatabilty option to AS09.
-
-**includes relative to parent**~~
-Whether the search path to includes is relative to the project file, or relative to the parent (including) file.
-
-**create cnt for unused symbols**~~
-Whether assi should create label information even for labels which are not explicitly used within the source code.
-
-**warn on define same symbol twice**~~
-Whether assi should issue a warning if two labels are defined twice.
-Even if switched on assi will only warn if the definitions are different.
-If switched on - and you need it temporarily switched of, you can comment the line defining a label with "; #noDoubleWarn" than the warning will only be switched of for that line.
-
-:h1 Miscellaneous
-:image config6.png|editor config
-**invoke Emulator after successfull assembly**~~
-Well this is realy self explaining - isn't it?
-
-**scan for defined ...**~~
-If checked, vedi scans files for the entities, this allows displaying / coloring of defined and undefined variables/macros and allows the "right/doubleclick" on such an entity to jump to its definition.
-
-**scan for vectorlists ...**~~
-If checked, vecxi scans while running, whether BIOS vectrex routines draw a vectorlist, if so - vecxi saves the list in XML format, under the cartridge name.
-
-**automatically eject attached VecFever on compile success**~~
-If you have a VecFever connected to the vectrex and your computer you have Vide eject the RAM disc of VecFever automatically after a build. The VecFever than starts the program called "cart.bin" that was saved to the RAM disk.
-
-This feature as of now only works with Windows and Mac OS. I have at the moment not a running linux system and thus could not positively code an "eject" for linux.
-
-**start up with**~~
-A vectrex "bin" file, that should be loaded upon start of Vide.
-
-**display rotation**~~
-Rotate the display to the given degrees (0, 90, 180, 270).
-~~Any angle other than 0 slightly slows down emulation.
-
-** Sound settings**~~
-
-**PSG Sound**~~
-Switch whether PSG emulation is producing any sound (might switch off if you prefer to listen to //sampled// sound or //VecVoice/VecVox//).
-
-**Volume setting**~~
-With this you set the sound volume.
-- Master, the "overall" volume
-- PSG, value of th PSG soundchip (other sounds come from emulated samples/voice modules)
-
-**PSG Emulation**~~
-Chose between two different emulation implementations. If LibAYEmu is chosen, you can also chose between different PSG chip emulation variations.
-
-:h1 Keyboard
-All kind of keyboard inputs can be defined/altered here (editor, and vectrex emulator input controls).~~
-
-Follow the instructions given on the TAB.
-~~
-~~Note:~~
-For Joytick simulations your have to configure both "Pressed" and "Released" events!
-
-:h1 Theme/Color
-Follow the instructions given on the TAB.
-
-:h1 Input
-:image jinput.png|input settings
-
-
-Here you can configure additional input settings for different inout "hardware" for use with the emulator. The code is based on the "JInput" library.
-
-The tab is split into two halfs, the upper half representing the vectrex "side" the lower half representing the input device parameters.
-
-There are at the moment two types of vectrex input types:
-a) Joystick
-b) spinner (like atari driving paddle)
-
-Pressing one button on the vectrex half enables "input chosing" - pressing (or moving) the actual hardware of the selected "real" input device - connects the two sides.
-
-**Note**:~~
-When the mouse is chosen as an input device - to configure buttons "other" than the left mouse button:
-- click button with left mousebutton and HOLD the left mouse button pressed
-- click the other button you want to use, after that release the left mouse button
-- the configuration is activated by a "button press" event and finished by the first "button release" event
-- thus the first button that is released is taken as the configured input button
-
-Pressing ##disk_add.png## saves the configuration (after a valid name was entered).
-
-Upon the next start of a vecxi window, the new input settings will be appear in the Joyport selection boxes.
-
-Devices will be remembered for the next vide-sessions, however should the device not be available, it won't appear in the combobox.
-
-~~
-
-**Note**:~~
-There is a global setting for spinner emulation: "minimum cycles bewteen spinner events". Following an explanation where this value is derived from, and when you might want to change it:
-
-The driving atari-controller works thus, that the state of two switches form a 2 bit value, the actual spinner "rotates" the switch states 00 01 10 11 (binary).
-
-The direction of rotation is computed via two of such states:~~
-- left direction is computed when following states succeed each other:~~ 00 -> 01
-~~ 01 -> 11
-~~ 10 -> 00
-~~ 11 -> 10
- 
-- right direction is computed when following states succeed each other:
-~~ 00 -> 10
-~~ 01 -> 00
-~~ 10 -> 11
-~~ 11 -> 01
-
-All other succeeding "pairs" of states are "illegal" or no "movements" and are as such taken as "no movement".
-
-The emulated paddle sets these paddle "button" values (button 1+2 of the used joyport) in the correct order at "fixed" intervalls. The minimum intervall these values are set is the cycle count given in the parameter "minimum cycles bewteen spinner events".~~
-(if you use analog emulation as input, than "slower" spinning is a multiple of that value)
-
-So...~~
-If your vectrex game, refreshes once each 30000 cycles and you call the paddle "read"-routine every 30000 cycles everything is fine (default setting).
-
-But if your game refreshes each 20000 and also reads paddle values each 20000 cylces the above state-order will "hickup" and some states will be read as "no movement".
-
-Same happens if you read more paddle events per update round.
-
-I think for most games the 30000 will be ok, but with the value "minimum cycles bewteen spinner events" you can actually alter the emulation of the paddle to accomodate possible slower games or multiple update readings.

@@ -1,0 +1,55 @@
+:title Compiling
+
+The gcc 6809 compiler is (at the time of writing) called with the options:
+* -quiet 
+* -fno-gcse
+* -fno-toplevel-reorder
+* -fverbose-asm 
+* -W 
+* -Wall 
+* -Wextra 
+* -Wconversion 
+* -Werror 
+* -fomit-frame-pointer 
+* -mint8 
+* -msoft-reg-count=0 
+* -std=gnu99 
+* -fno-time-report 
+* -IC/PeerC/vectrex/include
+
+Which in general means - use CLEAN good C, since everything, even the tiniest thing will be regarded as an error (-Wall / - Werror).
+
+Two notable options:
+
+**-mint8**~~
+Tells the compiler that "int" is 8 bit, which means more verbose, the compiler knows following data types:
+
+- int
+- unsigned int
+- signed int
+- char
+- unsigned char
+- signed char
+- long
+- signed long
+- unsigned long
+
+int is 8 bit~~
+char is 8 bit~~
+long is 16 bit~~
+
+but int != char type wise
+
+**-fomit-frame-pointer**~~
+Ensures that gcc does not generate an additional framepointer for each function.
+If an additional framepointer is generated, it makes the generated code quite "bloated" and not extremely performant.
+
+**CFLAGS**~~
+The above mentioned flags can be configured in the "project" panel of the "C" project. You can do much mischieve in changing them - be carefull!
+
+Switching the checkbox "PeerC" off and on - restores the default settings!
+
+**Note**:~~
+If you set the option to "-fomit-frame-pointer" Vide automatically generates upon compile time a "#define OMMIT\_FRAMEPOINTER=1" - so that you can check that with your sources.
+
+

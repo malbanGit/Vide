@@ -17,9 +17,9 @@ public class E6809State implements Serializable{
     public int reg_x;
     public int reg_y;
     /* user stack pointer */
-    public IntegerPointer reg_u = new IntegerPointer();
+    public ValuePointer reg_u = new ValuePointer();
     /* hardware stack pointer */
-    public IntegerPointer reg_s = new IntegerPointer();
+    public ValuePointer reg_s = new ValuePointer();
     /* program counter */
     public int reg_pc;
     /* accumulators */

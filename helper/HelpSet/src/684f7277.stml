@@ -1,0 +1,5 @@
+:title Programming in Assembler
+
+Originally Vide (amongst other things) was intended as an integrated development environment that was solely intended to work with assembler sources.
+
+Integrated into Vide is an own assembler implementation called "assi". All features described within the help work per default "seemlessly" when using assembler.

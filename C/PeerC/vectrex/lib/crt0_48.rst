@@ -1,0 +1,108 @@
+                              1 ;;; gcc for m6809 : Sep 18 2017 23:04:43
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mint8
+                              5 	.module	crt0_48.c
+                              6 ;  GNU C (GCC) version 4.3.6 (gcc6809) (m6809-unknown-none)
+                              7 ; 	compiled by GNU C version 4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.42), GMP version 4.3.2, MPFR version 2.4.2.
+                              8 ;  GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+                              9 ;  options passed:  -fverbose-asm -W -Wall -Wextra -Wconversion -Werror
+                             10 ;  -fno-omit-frame-pointer -mint8 -msoft-reg-count=0 -std=gnu99
+                             11 ;  -fno-time-report
+                             12 ;  -I/Users/chrissalo/NetBeansProjects/Vide/C/PeerC/vectrex/include
+                             13 ;  -I/Users/chrissalo/NetBeansProjects/Vide/tttt/include
+                             14 ;  /Users/chrissalo/NetBeansProjects/Vide/tttt/crt0_48.c
+                             15 ;  options enabled:  -falign-loops -fargument-alias -fauto-inc-dec
+                             16 ;  -fbranch-count-reg -fcommon -fearly-inlining
+                             17 ;  -feliminate-unused-debug-types -ffunction-cse -fgcse-lm -fident -fivopts
+                             18 ;  -fkeep-static-consts -fleading-underscore -fmath-errno
+                             19 ;  -fmerge-debug-strings -fmove-loop-invariants -fpcc-struct-return
+                             20 ;  -fpeephole -fsched-interblock -fsched-spec -fsched-stalled-insns-dep
+                             21 ;  -fsigned-zeros -fsplit-ivs-in-unroller -ftoplevel-reorder
+                             22 ;  -ftrapping-math -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+                             23 ;  -ftree-parallelize-loops= -ftree-reassoc -ftree-scev-cprop
+                             24 ;  -ftree-vect-loop-version -fverbose-asm -fzero-initialized-in-bss
+                             25 ;  Compiler executable checksum: 00747445f86410280d718c51fc7076ff
+                             26 ;----- asm -----
+                             27 	.bank rom(BASE=0x0000,SIZE=0xC000,FSFX=_rom)
+                             28 	.area .cartridge	(BANK=rom) 
+                             29 	.area .text  			(BANK=rom)
+                             30 	.area .text.hot		(BANK=rom)
+                             31 	.area .text.unlikely	(BANK=rom)
+                             32 	.bank ram(BASE=0xc880,SIZE=0x036b,FSFX=_ram)
+                             33 	.area .data  (BANK=ram)
+                             34 	.area .bss   (BANK=ram)
+                             35 		.area .text					
+   001D                      36 	_crt0_init_data:				
+   001D CE 00 1D      [ 3]   37 		ldu		#s_.text			
+   0020 33 C9 7E 10   [ 8]   38 		leau	l_.text,u			
+   0024 33 C9 00 00   [ 8]   39 		leau	l_.text.hot,u		
+   0028 33 C9 00 00   [ 8]   40 		leau	l_.text.unlikely,u	
+   002C 10 8E C8 80   [ 4]   41 		ldy		#s_.data			
+   0030 8E 02 15      [ 3]   42 		ldx		#l_.data			
+   0033 27 08         [ 3]   43 		beq		_crt0_init_bss		
+   0035                      44 	_crt0_copy_data:				
+   0035 A6 C0         [ 6]   45 		lda		,u+					
+   0037 A7 A0         [ 6]   46 		sta		,y+					
+   0039 30 1F         [ 5]   47 		leax	-1,x				
+   003B 26 F8         [ 3]   48 		bne		_crt0_copy_data		
+   003D                      49 	_crt0_init_bss:				
+   003D 10 8E CA 95   [ 4]   50 		ldy		#s_.bss				
+   0041 8E 00 49      [ 3]   51 		ldx		#l_.bss				
+   0044 27 06         [ 3]   52 		beq		_crt0_startup		
+   0046                      53 	_crt0_zero_bss:				
+   0046 6F A0         [ 8]   54 		clr		,y+					
+   0048 30 1F         [ 5]   55 		leax	-1,x				
+   004A 26 FA         [ 3]   56 		bne		_crt0_zero_bss		
+   004C                      57 	_crt0_startup:					
+   004C BD 79 D3      [ 8]   58 		jsr		_main				
+   004F 5D            [ 2]   59 		tstb						
+   0050 2F 03         [ 3]   60 		ble		_crt0_restart		
+   0052 7F CB FE      [ 7]   61 		clr		0xcbfe;	cold reset	
+   0055                      62 	_crt0_restart:					
+   0055 7E F0 00      [ 4]   63 		jmp 	0xf000;	rum			
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  3 A$crt0_48$37       0000 GR  |   3 A$crt0_48$38       0003 GR
+  3 A$crt0_48$39       0007 GR  |   3 A$crt0_48$40       000B GR
+  3 A$crt0_48$41       000F GR  |   3 A$crt0_48$42       0013 GR
+  3 A$crt0_48$43       0016 GR  |   3 A$crt0_48$45       0018 GR
+  3 A$crt0_48$46       001A GR  |   3 A$crt0_48$47       001C GR
+  3 A$crt0_48$48       001E GR  |   3 A$crt0_48$50       0020 GR
+  3 A$crt0_48$51       0024 GR  |   3 A$crt0_48$52       0027 GR
+  3 A$crt0_48$54       0029 GR  |   3 A$crt0_48$55       002B GR
+  3 A$crt0_48$56       002D GR  |   3 A$crt0_48$58       002F GR
+  3 A$crt0_48$59       0032 GR  |   3 A$crt0_48$60       0033 GR
+  3 A$crt0_48$61       0035 GR  |   3 A$crt0_48$63       0038 GR
+  3 _crt0_copy_dat     0018 R   |   3 _crt0_init_bss     0020 R
+  3 _crt0_init_dat     0000 R   |   3 _crt0_restart      0038 R
+  3 _crt0_startup      002F R   |   3 _crt0_zero_bss     0029 R
+    _main              **** GX  |     l_.bss             **** GX
+    l_.data            **** GX  |     l_.text            **** GX
+    l_.text.hot        **** GX  |     l_.text.unlike     **** GX
+    s_.bss             **** GX  |     s_.data            **** GX
+    s_.text            **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+[rom]
+   2 .cartridge       size    0   flags 8080
+   3 .text            size   3B   flags 8180
+   4 .text.hot        size    0   flags 8080
+   5 .text.unlikely   size    0   flags 8080
+[ram]
+   6 .data            size    0   flags 8080
+   7 .bss             size    0   flags 8080
+
