@@ -9,6 +9,8 @@ Intensity_5F    EQU     $F2A5   ;
 Wait_Recal      EQU     $F192   ;
 Draw_VL_mode    EQU     $F46E   ;mode y x mode y x ... $01
 Moveto_d        EQU     $F312   ;
+Vec_Pattern     EQU     $C829   ;Dot pattern (bits)
+
 
 ;***************************************************************************
 ; Variable / RAM SECTION
@@ -45,6 +47,10 @@ main:
                     LDA      #$00                 ; position relative Y 
                     LDB      #$00                 ; position relative X
                     JSR      Moveto_d             ; sets up VIA control register after a wait recal
+
+ lda ##PATTERN#
+ sta Vec_Pattern
+
 
                     LDX      #vData               ; address of string 
                     JSR      Draw_VL_mode         ; Vectrex BIOS print routine 

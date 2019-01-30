@@ -590,9 +590,9 @@ ADD_NOPS_NOU        macro
                     endm     
 
 
+ 
 
 ;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
-
 ;***************************************************************************
 ; DEFINE SECTION
 ;***************************************************************************
@@ -630,7 +630,7 @@ gameScale           ds       1
                     DB       "g GCE 2018", $80 ; 'g' is copyright sign
                     DW       music1                       ; music from the rom 
                     DB       $F8, $50, $20, -$80          ; hight, width, rel y, rel x (from 0,0) 
-                    DB       "SMARTLIST DRAW", $80        ; some game information, ending with $80
+                    DB       "SMARTLIST SCENE", $80       ; some game information, ending with $80
                     DB       0                            ; end of game header 
 ;***************************************************************************
 ; CODE SECTION
@@ -657,13 +657,17 @@ joyDone
                     JSR      Wait_Recal                   ; Vectrex BIOS recalibration 
                     jsr      Intensity_5F 
                     jsr      calibrationZero 
-                    ldd      #0 
-                    jsr      Moveto_d 
-                    ldu      #_SM_VectorList_
+redoFromStart 
+                    LDX      #_SM_sceneData                ; address of data 
+nextScenePart: 
                     lda      #SPRITE_SCALE 
                     sta      VIA_t1_cnt_lo 
+                    LDA      #$CE                         ;Blank low, zero high? 
+                    STA      <VIA_cntl 
+                    LDU      ,x++ 
+                    beq      main 
                     bsr      drawSmart 
-                    BRA      main                         ; and repeat forever 
+                    BRA      nextScenePart 
 
 ;***************************************************************************
 ; ROUTINE SECTION
@@ -675,8 +679,6 @@ drawSmart                                                 ;#isfunction
                     pulu     d,pc 
 ;***************************************************************************
 ; continue uses same shift  
-
-
 SHIFT_START         EQU      $1f 
 WAIT_BEFORE         macro    
                     WAIT3    
@@ -1342,3 +1344,5 @@ SM_Shift0_Intensity:                                      ;#isfunction
                     sta      <VIA_port_b 
                     stb      <VIA_port_b 
                     pulu     a,b,pc 
+
+_SM_sceneData
