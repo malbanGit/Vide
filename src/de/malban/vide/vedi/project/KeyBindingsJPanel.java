@@ -163,7 +163,7 @@ public class KeyBindingsJPanel extends javax.swing.JPanel {
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         
         event = evt;
-        lastKeyStroke = KeyStroke.getKeyStroke(evt.getKeyCode(), evt.getModifiers(), jCheckBox1.isSelected());
+        lastKeyStroke = KeyStroke.getKeyStroke(evt.getKeyCode(), evt.getModifiersEx(), jCheckBox1.isSelected());
         jTextField1.setText(lastKeyStroke.toString());
         
     }//GEN-LAST:event_jTextField1KeyPressed
@@ -173,7 +173,7 @@ public class KeyBindingsJPanel extends javax.swing.JPanel {
         if (lastKeyStroke == null) return;
         if (event == null) return;
         HotKey.hotkeyList.get(selectedRow).event = event.getKeyCode();
-        HotKey.hotkeyList.get(selectedRow).mask = event.getModifiers();
+        HotKey.hotkeyList.get(selectedRow).mask = event.getModifiersEx();
         HotKey.hotkeyList.get(selectedRow).onRelease = jCheckBox1.isSelected();
         
         

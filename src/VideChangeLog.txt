@@ -1,6 +1,93 @@
+-----------------
+Version 2.?
+new:
+- vecci added settings to scale x,y,z seperately
+- vecci: added centerline tracing via external tool "autotrace"
+- vecci: load lists to VecFever directly
+- new SmartList creation (can also still switch to old)
+- tool: added tool to "build" Video moves from "extreme vectrex" fata files. The builds can be played on a vecFever
+- tool: to build "Wav" player for vecFever
+bugs:
+- tinylaf and Java 10 seem to have problems when iconifying the window. Iconify disabled
+- C debugging was not working, when a function parameter had a pointer to a struct -> hopefully corrected
+- corrected Pattern draw from vecci (mode)
+- changed all modal dialogs in Vide from "desktop internal modal" to "system modal" since the previous implementation caused problems
+  (Freezes) on some machines
+- found a vectrex which has a T1 offset of 2 cycles -> all smartlist maximum scale without additional NOPS changed from 9 -> 7 :-(
+-----------------
+27th of December 2018
+Version 2.11
+new:
+ - vecx: on/off switch of Goggle/Lightpen in config
+ - vecx: added anaglyphic mode to imager
+
+
+24th of November 2018
+-----------------
+Version 2.1
+
+- added digital input device support for vecxi
+- vecci: added "int all" checkbox
+  ("normally" all vectors in vecci are internally kept as "double", if you scale a vectorlist, than beforehand "ints" can have non int values
+  you can see that be double clicking in the table and examining the value via the tableeditor. For some calculations it better to have PURE int values
+  if the swtch is "ON", than all values are always rounded and "ints")
+  
+- vecxi: std, stx, stu, sty were for the second part of the written byte written, one cycle to fast - corrected
+- assi: ds can now have a default filler value
+- vecxi: preliminary support of flash (SST39SF020A) introduced (vedi project only, no "saving", address and data BUS is very "hacky",)
+  since the emulation does not support a ~CE flag, and I do not really emulate a BUS, all "emulation" is handled in "cartridge" directly)
+  - supported: erase sector, get ID ($bf $b6), write byte (when used with "st..."
+  - only in debugging core!
+  - not supported is the "saving" of those changes to the binary though
+- dissi: breakpoints can be disabled, enabled, saved and loaded (in breaki)
+- vecci: smartlist support now "multiple ..._d"
+- vecxi: preliminary support of new bankswithcing PB6 combined with IRQ 
+  this can handle 4 banks each 48kb. = 192kB
+- vecci: added move to popup menu
+- vecci: added "move" and "solid" buttons
+- Sample: added option to save samples as unsigned data
+- Sample: added option for 4bit sample output (2 nibbles)
+- Sample: added two options and disabled them, because I now think they are not sensible...
+- Sample: added generator for PSG samples (automatic PSG samples are assumed if 4bit samples are chosen)
+- vecxi: PSG samples can be played by the emulator, 
+         quick hack to support samples played via PSG, this is not good! (only working in special siuations, and not really using the PSG)
+- vecxi: saved states are ADDITIONALLY saved with a timestap, to load a timestamped savestate - remove the timestamp
+- vide: added java version check on startup, at least 10 is required!
+
+BugFix:
+- break points in files with two banks (switched via if then else) did generate a false breakpoint in the "other" bank -> fixed
+- in vecci vectorlists in the file choser are now visible also for "just" vectorlists
+- scenario "preview" in play panel working correctly (again)
+- search and replace could "destroy" performace (dunno - some inner Java garbage), anyway - might be a little bit better
+- the "running cycle count" was not always updated with the correct cycle count of the instructions -> fixed
+- C-library added a couple of "Minestorm" functions
+
+
+12th of June 2018
+-----------------
+Version 2.02
+new:
+- added scenario generation for smartlists
+
+BugFix:
+- copy/paste error with 2.01 - Smart list generation did not work with "runnables"
+- also due to some stupidity lost some code - whatever that was that I fixed
+- small bug fix with paths garbled in codelib
+
+
+
+24th of May 2018
+----------------
+Version 2.01
+new:
+- changed the scaling done in vecci
+
+BugFix:
+- added some Java 10 compatabilities
 
 18th of May 2018
 ----------------
+Version 2.0
 new:
 - integrator offset can be fractions, which are as of yet dumbly calculated - but works (more or less) for vector Patrol
   todo -> RC/laws, setting of integrator offsets to fractions of "digital 1"  thru the use of RC laws

@@ -175,6 +175,8 @@ public class RasterPanel extends javax.swing.JPanel implements
         jButtonCancel = new javax.swing.JButton();
         jSliderGridSize = new javax.swing.JSlider();
         jLabel9 = new javax.swing.JLabel();
+        jTextFieldMultiplyBits = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jButtonLoad = new javax.swing.JButton();
@@ -482,6 +484,12 @@ public class RasterPanel extends javax.swing.JPanel implements
 
         jLabel9.setText("grid");
 
+        jTextFieldMultiplyBits.setText("1");
+        jTextFieldMultiplyBits.setToolTipText("not with brightnessdata included");
+
+        jLabel10.setText("multiply bits");
+        jLabel10.setToolTipText("only with vertical switch");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -556,7 +564,11 @@ public class RasterPanel extends javax.swing.JPanel implements
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jRadioButtonHorizontalVectors)
-                                                    .addComponent(jRadioButtonVertical))
+                                                    .addComponent(jRadioButtonVertical)
+                                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addComponent(jTextFieldMultiplyBits, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jLabel10)))
                                                 .addGap(39, 39, 39)
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                     .addComponent(jCheckBoxYMirror, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -629,7 +641,10 @@ public class RasterPanel extends javax.swing.JPanel implements
                             .addComponent(jCheckBoxGenerateData)
                             .addComponent(jCheckBoxBiDirectionalData))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBoxGenerateExampleCode))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBoxGenerateExampleCode)
+                            .addComponent(jTextFieldMultiplyBits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -670,7 +685,7 @@ public class RasterPanel extends javax.swing.JPanel implements
                             .addComponent(jRadioButtonVertical)
                             .addComponent(jRadioButtonAlphaAsGrayscale)
                             .addComponent(jCheckBoxYMirror))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonCancel)
                             .addComponent(jButtonCreate))))
@@ -1027,6 +1042,7 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBoxXMirror;
     private javax.swing.JCheckBox jCheckBoxYMirror;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1048,6 +1064,7 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JSlider jSliderThreshold;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextFieldHeight;
+    private javax.swing.JTextField jTextFieldMultiplyBits;
     private javax.swing.JTextField jTextFieldStartX;
     private javax.swing.JTextField jTextFieldStartY;
     private javax.swing.JTextField jTextFieldVectorHeight;
@@ -1059,7 +1076,7 @@ public class RasterPanel extends javax.swing.JPanel implements
 
     
     // returns new Properties, not saved yet!
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static boolean showRasterPanel(String fileName)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
@@ -1185,16 +1202,23 @@ public class RasterPanel extends javax.swing.JPanel implements
                     rgba =scaledImage.getRGB(usedX, usedY);
                     boolean bit= getBitFromColor(rgba);
                     
-                    if (bit) shiftReg++;
-                    bitCount++;
-                    if (bitCount == 8)
+                    int mulValue = de.malban.util.UtilityString.IntX(jTextFieldMultiplyBits.getText(),1);
+                    
+                    for (int ttt = 0; ttt<mulValue;ttt++)
                     {
-                        shiftRegRow.add(shiftReg);
-                        rowWidth++;
-                        shiftReg = 0;
-                        bitCount = 0;
+                        if (bit) shiftReg++;
+                        bitCount++;
+                        if (bitCount == 8)
+                        {
+                            shiftRegRow.add(shiftReg);
+                            rowWidth++;
+                            shiftReg = 0;
+                            bitCount = 0;
+                        }
+                        shiftReg = shiftReg << 1;
                     }
-                    shiftReg = shiftReg << 1;
+                    
+                    
                 }
                 while (bitCount<8)
                 {
@@ -1332,23 +1356,28 @@ public class RasterPanel extends javax.swing.JPanel implements
                     rgba =scaledImage.getRGB(usedX, usedY);
                     boolean bit= getBitFromColor(rgba);
 
-                    if (bit) shiftReg++;
-                    bitCount++;
-                    if (bitCount == 8)
-                    {
-                        shiftRegCol.add(shiftReg);
-                        colHeight++;
-                        shiftReg = 0;
-                        bitCount = 0;
+                    int mulValue = de.malban.util.UtilityString.IntX(jTextFieldMultiplyBits.getText(),1);
 
-                        if (jCheckBoxAssume9Bit.isSelected())
+                    for (int ttt = 0; ttt<mulValue;ttt++)
+                    {
+                        if (bit) shiftReg++;
+                        bitCount++;
+                        if (bitCount == 8)
                         {
-                            // simple overstep one pixel
-                            // the last pixel from above will be repeated 
-                            y++;
+                            shiftRegCol.add(shiftReg);
+                            colHeight++;
+                            shiftReg = 0;
+                            bitCount = 0;
+
+                            if (jCheckBoxAssume9Bit.isSelected())
+                            {
+                                // simple overstep one pixel
+                                // the last pixel from above will be repeated 
+                                y++;
+                            }
                         }
+                        shiftReg = shiftReg << 1;
                     }
-                    shiftReg = shiftReg << 1;
                 }
                 while (bitCount<8)
                 {
@@ -1524,6 +1553,8 @@ public class RasterPanel extends javax.swing.JPanel implements
     {
         if (orgName == null) return;
         if (orgName.length() == 0) return;
+
+   
         
         if (!modal)
         {
@@ -1880,5 +1911,21 @@ public class RasterPanel extends javax.swing.JPanel implements
         return ret;
     }
     public void deIconified()  {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 }

@@ -14,8 +14,11 @@ package de.malban.gui.dialogs;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.components.ModalInternalFrame;
+import de.malban.gui.panels.LogPanel;
 import de.malban.util.UtilityString;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
+import de.malban.vide.vecx.cartridge.VFCompress;
+import de.malban.vide.vedi.sound.SampleJPanel;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,14 +32,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 
 
-/**
+/**^
  *
  * @author Malban
  */
 public class FileUtil extends javax.swing.JPanel {
+    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
 
     static boolean error= false;
     /** Creates new form AskAccessCode */
@@ -138,6 +144,31 @@ public class FileUtil extends javax.swing.JPanel {
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
+        jTextFieldstart8 = new javax.swing.JTextField();
+        jButtonFileSelect10 = new javax.swing.JButton();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jButton13 = new javax.swing.JButton();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel30 = new javax.swing.JLabel();
+        jTextFieldstart9 = new javax.swing.JTextField();
+        jButtonFileSelect11 = new javax.swing.JButton();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jButton14 = new javax.swing.JButton();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel38 = new javax.swing.JLabel();
+        jTextFieldstart11 = new javax.swing.JTextField();
+        jButtonFileSelect13 = new javax.swing.JButton();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jButton15 = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        jButtonFileSelect12 = new javax.swing.JButton();
+        jLabel31 = new javax.swing.JLabel();
+        jTextFieldstart10 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
@@ -800,8 +831,8 @@ public class FileUtil extends javax.swing.JPanel {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -864,7 +895,7 @@ public class FileUtil extends javax.swing.JPanel {
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addComponent(jLabel32)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 333, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel33)
@@ -885,26 +916,289 @@ public class FileUtil extends javax.swing.JPanel {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("ROM to V4EB"));
+        jPanel12.setName("jPanel12"); // NOI18N
+        jPanel12.setPreferredSize(new java.awt.Dimension(515, 80));
+
+        jLabel29.setText("file");
+        jLabel29.setName("jLabel29"); // NOI18N
+
+        jTextFieldstart8.setName("jTextFieldstart8"); // NOI18N
+
+        jButtonFileSelect10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect10.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect10.setName("jButtonFileSelect10"); // NOI18N
+        jButtonFileSelect10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect10ActionPerformed(evt);
+            }
+        });
+
+        jLabel34.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel34.setName("jLabel34"); // NOI18N
+
+        jLabel35.setText("Ok");
+        jLabel35.setName("jLabel35"); // NOI18N
+
+        jButton13.setText("V4EB");
+        jButton13.setName("jButton13"); // NOI18N
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(jLabel29)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jTextFieldstart8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonFileSelect10))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel35)
+                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonFileSelect10)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldstart8, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9))
         );
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("ExtremeVectrex to V4EB"));
+        jPanel13.setName("jPanel13"); // NOI18N
+        jPanel13.setPreferredSize(new java.awt.Dimension(515, 80));
+
+        jLabel30.setText("file");
+        jLabel30.setName("jLabel30"); // NOI18N
+
+        jTextFieldstart9.setName("jTextFieldstart9"); // NOI18N
+
+        jButtonFileSelect11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect11.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect11.setName("jButtonFileSelect11"); // NOI18N
+        jButtonFileSelect11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect11ActionPerformed(evt);
+            }
+        });
+
+        jLabel36.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel36.setText("Enter a \"big\" bin file...");
+        jLabel36.setName("jLabel36"); // NOI18N
+
+        jLabel37.setText("Ok");
+        jLabel37.setName("jLabel37"); // NOI18N
+
+        jButton14.setText("V4EB");
+        jButton14.setName("jButton14"); // NOI18N
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addComponent(jLabel30)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jTextFieldstart9, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonFileSelect11))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel37)
+                    .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonFileSelect11)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldstart9, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9))
+        );
+
+        jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder("Music to V4EB"));
+        jPanel15.setName("jPanel15"); // NOI18N
+        jPanel15.setPreferredSize(new java.awt.Dimension(515, 80));
+
+        jLabel38.setText("file");
+        jLabel38.setName("jLabel38"); // NOI18N
+
+        jTextFieldstart11.setName("jTextFieldstart11"); // NOI18N
+
+        jButtonFileSelect13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect13.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect13.setName("jButtonFileSelect13"); // NOI18N
+        jButtonFileSelect13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect13ActionPerformed(evt);
+            }
+        });
+
+        jLabel39.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel39.setText("Enter a \"WAV\" file...");
+        jLabel39.setName("jLabel39"); // NOI18N
+
+        jLabel40.setText("Ok");
+        jLabel40.setName("jLabel40"); // NOI18N
+
+        jButton15.setText("V4EB");
+        jButton15.setName("jButton15"); // NOI18N
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addComponent(jLabel38)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(jTextFieldstart11, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonFileSelect13))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel40)
+                    .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonFileSelect13)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldstart11, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9))
+        );
+
+        jLabel39.getAccessibleContext().setAccessibleName("Enter a \"music\" bin file...");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 505, Short.MAX_VALUE))
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 230, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("3", jPanel10);
+
+        jPanel14.setName("jPanel14"); // NOI18N
+
+        jButtonFileSelect12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect12.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect12.setName("jButtonFileSelect12"); // NOI18N
+        jButtonFileSelect12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect12ActionPerformed(evt);
+            }
+        });
+
+        jLabel31.setText("file");
+        jLabel31.setName("jLabel31"); // NOI18N
+
+        jTextFieldstart10.setName("jTextFieldstart10"); // NOI18N
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel31)
+                .addGap(27, 27, 27)
+                .addComponent(jTextFieldstart10, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonFileSelect12)
+                .addContainerGap(425, Short.MAX_VALUE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonFileSelect12)
+                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldstart10, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(553, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("4", jPanel14);
 
         jButton3.setText("done");
         jButton3.setName("jButton3"); // NOI18N
@@ -919,10 +1213,10 @@ public class FileUtil extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jButton3)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1249,6 +1543,7 @@ public class FileUtil extends javax.swing.JPanel {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         error = false;
         int padLength = toNumber(jTextField2.getText());
+        if (padLength==0) padLength = 65536;
         if (error) 
         {
             jLabel7.setText("error");
@@ -1369,6 +1664,515 @@ public class FileUtil extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
+    private void jButtonFileSelect10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect10ActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String name = fc.getSelectedFile().getAbsolutePath();
+        jTextFieldstart8.setText(name);
+    }//GEN-LAST:event_jButtonFileSelect10ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        jLabel35.setVisible(false);
+        try
+        {
+            String file1 = jTextFieldstart8.getText();
+            Path path = Paths.get(file1);
+            byte[] data = Files.readAllBytes(path);
+
+            VFCompress compressor = new VFCompress();
+            compressor.compressData(data, 1024*32);
+
+            int no_banks = 1;
+            int sizeAll = 4+2+2+no_banks*6+compressor.dzipdata_size;
+            
+            byte header[] = new byte[sizeAll];
+            
+            
+            int index=0;
+            header[index++] = 'V';          // 0 header
+            header[index++] = '4';
+            header[index++] = 'E';
+            header[index++] = 'B';
+
+            int cart_type = 7;
+            header[index++] = (byte) ((cart_type>> 8)&0xff);      // 4
+            header[index++] = (byte) ((cart_type    )&0xff);
+
+            header[index++] = (byte) ((no_banks>> 8)&0xff);      // 6
+            header[index++] = (byte) ((no_banks    )&0xff);
+
+            header[index++] = (byte) ((compressor.dzipdata_crc>>24)&0xff);   // 8
+            header[index++] = (byte) ((compressor.dzipdata_crc>>16)&0xff);
+            header[index++] = (byte) ((compressor.dzipdata_crc>> 8)&0xff);
+            header[index++] = (byte) ((compressor.dzipdata_crc    )&0xff);
+
+            header[index++] = (byte) ((compressor.dzipdata_size>> 8)&0xff);  // 12
+            header[index++] = (byte) ((compressor.dzipdata_size    )&0xff);
+            for (int i=0; i<compressor.dzipdata_size; i++)
+            {
+                header[index++] = compressor.dzipdata[i];
+            }
+
+            FileOutputStream output = new FileOutputStream(file1+".v4e", true);
+            try 
+            {
+               output.write(header,0, sizeAll);
+            } 
+            finally 
+            {
+               output.close();
+            }        
+            
+
+            
+            jLabel35.setText("Ok");
+            jLabel35.setVisible(true);
+            jLabel35.setForeground(Color.green);
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+            jLabel35.setText("error");
+            jLabel35.setVisible(true);
+            jLabel35.setForeground(Color.red);
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButtonFileSelect11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect11ActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String name = fc.getSelectedFile().getAbsolutePath();
+        jTextFieldstart9.setText(name);
+
+    }//GEN-LAST:event_jButtonFileSelect11ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        jLabel37.setVisible(false);
+        try
+        {
+            String file1 = jTextFieldstart9.getText();
+            Path path = Paths.get(file1);
+            byte[] data = Files.readAllBytes(path);
+            byte[] data2 = new byte[32768]; //dummy bank 0
+
+            // format of extreme out is:
+            /*
+               one bank (frame) size is: 0x600
+               split to:
+               video data - size: 0x400, start at 0x000,  is loaded to 0x4000
+               audio sample - size: 0x200, start at 0x400  data - is loaded to 0x4400
+            
+               Thomas play routine uses:
+               ASSUMING bank data is always read to 0x4000 (16k)
+            
+               one bank (frame) size is: 0xc00
+               split to:
+               video data 1 - size: 0x400, start at 0x000,  is loaded to 0x4000
+               audio sample 1 - size: 0x200, start at 0x400  data - is loaded to 0x4400
+
+               video data 2 - size: 0x400, start at 0x600,  is loaded to 0x4600
+               audio sample 2 - size: 0x200, start at 0xa00  data - is loaded to 0x4a00
+            
+               one "double" frame in the vecFever than has 3072 (0xc00) bytes
+
+               The player can allways be the same.
+            */
+            
+            
+            final int MAX_BANK_DATA = (0x400+0x200)* 2;
+            
+            int banks=data.length / (MAX_BANK_DATA);
+            class HeaderInfo
+            {
+                byte[] h = new byte[6];
+            }
+            ArrayList<HeaderInfo> headers = new ArrayList<HeaderInfo>();
+            ArrayList<byte[]> datas = new ArrayList<byte[]>();
+            ArrayList<byte[]> datasZiped = new ArrayList<byte[]>();
+            
+            int sizeAll = 0;
+            VFCompress compressor = new VFCompress();
+            for (int i=0; i <banks; i++)
+            {
+                datas.add(new byte[MAX_BANK_DATA]);
+                headers.add(new HeaderInfo());
+                
+                for (int t=0;t<MAX_BANK_DATA;t++)
+                {
+                    datas.get(i)[t] = data[i*MAX_BANK_DATA+t];
+                }
+                compressor.compressData(datas.get(i), MAX_BANK_DATA);
+                int index = 0;
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_crc>>24)&0xff);   // 8
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_crc>>16)&0xff);
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_crc>> 8)&0xff);
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_crc    )&0xff);
+
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_size>> 8)&0xff);  // 12
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_size    )&0xff);
+                
+                datasZiped.add(compressor.dzipdata);
+                sizeAll+=6+compressor.dzipdata_size;
+                
+            }
+            String mainFile = Global.mainPathPrefix+"template"+File.separator+"ExtremePlayer.bin";
+
+            path = Paths.get(mainFile);
+            data = Files.readAllBytes(path);
+            
+            
+            
+            
+            VFCompress compressor2 = new VFCompress();
+            compressor2.compressData(data2, 1024*32);
+            compressor.compressData(data, 1024*32);
+
+            int no_banks = 2;
+            int sizeAllMain = 4+2+2+no_banks*6+compressor.dzipdata_size+compressor2.dzipdata_size;
+            sizeAll += sizeAllMain;
+            
+            byte header[] = new byte[sizeAll];
+            
+            int index=0;
+            header[index++] = 'V';          // 0 header
+            header[index++] = '4';
+            header[index++] = 'E';
+            header[index++] = 'B';
+
+            int cart_type = 2;
+            header[index++] = (byte) ((cart_type>> 8)&0xff);      // 4
+            header[index++] = (byte) ((cart_type    )&0xff);
+
+            header[index++] = (byte) (((no_banks+banks)>> 8)&0xff);      // 6
+            header[index++] = (byte) (((no_banks+banks)    )&0xff);
+
+            // dummy bank 0
+            header[index++] = (byte) ((compressor2.dzipdata_crc>>24)&0xff);   // 8
+            header[index++] = (byte) ((compressor2.dzipdata_crc>>16)&0xff);
+            header[index++] = (byte) ((compressor2.dzipdata_crc>> 8)&0xff);
+            header[index++] = (byte) ((compressor2.dzipdata_crc    )&0xff);
+
+            header[index++] = (byte) ((compressor2.dzipdata_size>> 8)&0xff);  // 12
+            header[index++] = (byte) ((compressor2.dzipdata_size    )&0xff);
+            // bank 1 with our program
+            header[index++] = (byte) ((compressor.dzipdata_crc>>24)&0xff);   // 8
+            header[index++] = (byte) ((compressor.dzipdata_crc>>16)&0xff);
+            header[index++] = (byte) ((compressor.dzipdata_crc>> 8)&0xff);
+            header[index++] = (byte) ((compressor.dzipdata_crc    )&0xff);
+
+            header[index++] = (byte) ((compressor.dzipdata_size>> 8)&0xff);  // 12
+            header[index++] = (byte) ((compressor.dzipdata_size    )&0xff);
+            
+            for (int i=0; i<banks; i++)
+            {
+                header[index++] = (byte) headers.get(i).h[0];   // 8
+                header[index++] = (byte) headers.get(i).h[1];
+                header[index++] = (byte) headers.get(i).h[2];
+                header[index++] = (byte) headers.get(i).h[3];
+
+                header[index++] = (byte) headers.get(i).h[4];  // 12
+                header[index++] = (byte) headers.get(i).h[5];
+            }
+            
+            
+            for (int i=0; i<compressor2.dzipdata_size; i++)
+            {
+                header[index++] = compressor2.dzipdata[i];
+            }
+            for (int i=0; i<compressor.dzipdata_size; i++)
+            {
+                header[index++] = compressor.dzipdata[i];
+            }
+
+            for (int i=0; i<banks; i++)
+            {
+                int size = (headers.get(i).h[4]&0xff)*256+(headers.get(i).h[5]&0xff);
+                for (int t=0; t<size;t++)
+                {
+                    header[index++] = (byte) datasZiped.get(i)[t];   // 8
+                }
+            }
+            
+            new File (file1+".v4e").delete();
+            FileOutputStream output = new FileOutputStream(file1+".v4e", true);
+            try 
+            {
+               output.write(header,0, sizeAll);
+            } 
+            finally 
+            {
+               output.close();
+            }        
+            
+
+            
+            jLabel37.setText("Ok");
+            jLabel37.setVisible(true);
+            jLabel37.setForeground(Color.green);
+        }
+        catch (Throwable e)
+        {
+            log.addLog(e);
+            e.printStackTrace();
+            jLabel37.setText("error");
+            jLabel37.setVisible(true);
+            jLabel37.setForeground(Color.red);
+            
+        }
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButtonFileSelect12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect12ActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != JFileChooser.APPROVE_OPTION) return;
+        String name = fc.getSelectedFile().getAbsolutePath();
+        jTextFieldstart10.setText(name);
+    }//GEN-LAST:event_jButtonFileSelect12ActionPerformed
+
+    private void jButtonFileSelect13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect13ActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("wav", "wav");
+        fc.setFileFilter(filter);
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String name = fc.getSelectedFile().getAbsolutePath();
+        jTextFieldstart11.setText(name);
+    }//GEN-LAST:event_jButtonFileSelect13ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        SampleJPanel sPanel = new SampleJPanel(de.malban.util.Utility.makeRelative(jTextFieldstart11.getText()));
+        sPanel.setVectrexValues(10000, 8, 1);
+        byte[] samples = sPanel.convertToVectrex(false);
+
+final int SAMPLE_OVERFLOW_BUFFER = 0;        
+        
+        for (int index8=0; index8<samples.length; index8++)
+        {
+            int data8=0;
+            data8=samples[index8]; 
+            data8-=128;
+            samples[index8] = (byte)data8;
+        }
+
+//        try
+//        {
+//            samples = Files.readAllBytes(Paths.get("LaLinea30.bin"));
+            
+//        }
+//       catch(Throwable e)
+//        {
+//            e.printStackTrace();
+//        }
+        
+        
+        jLabel40.setVisible(false);
+        try
+        {
+            String file1 = jTextFieldstart11.getText();
+            Path path = Paths.get(file1);
+            byte[] data = samples;
+
+            new File (path+".bin").delete();
+            FileOutputStream output1 = new FileOutputStream(path+".bin", true);
+            try 
+            {
+               output1.write(data,0, samples.length);
+            } 
+            finally 
+            {
+               output1.close();
+            }        
+
+
+
+
+            byte[] data2 = new byte[32768]; //dummy bank 0
+
+            // format of extreme out is:
+            /*
+               one bank (frame) size is: 0x600
+               split to:
+               video data - size: 0x400, start at 0x000,  is loaded to 0x4000
+               audio sample - size: 0x200, start at 0x400  data - is loaded to 0x4400
+            
+               Thomas play routine uses:
+               ASSUMING bank data is always read to 0x4000 (16k)
+            
+               one bank (frame) size is: 0xc00
+               split to:
+               video data 1 - size: 0x400, start at 0x000,  is loaded to 0x4000
+               audio sample 1 - size: 0x200, start at 0x400  data - is loaded to 0x4400
+
+               video data 2 - size: 0x400, start at 0x600,  is loaded to 0x4600
+               audio sample 2 - size: 0x200, start at 0xa00  data - is loaded to 0x4a00
+            
+               one "double" frame in the vecFever than has 3072 (0xc00) bytes
+
+               The player can allways be the same.
+            */
+            
+            
+            final int MAX_BANK_DATA = (0x400+0x200)* 1;
+
+
+
+            
+            int banks=data.length / (MAX_BANK_DATA);
+banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK_DATA);
+            
+            
+            
+            
+            
+            class HeaderInfo
+            {
+                byte[] h = new byte[6];
+            }
+            ArrayList<HeaderInfo> headers = new ArrayList<HeaderInfo>();
+            ArrayList<byte[]> datas = new ArrayList<byte[]>();
+            ArrayList<byte[]> datasZiped = new ArrayList<byte[]>();
+            
+            int sizeAll = 0;
+            VFCompress compressor = new VFCompress();
+            int readPointer = 0;
+            for (int i=0; i <banks; i++)
+
+            {
+                datas.add(new byte[MAX_BANK_DATA*2]); //packed data CAN be larger than unpacked - e.g. if no packing canbe done, than lots of 128 byte runs
+//                datas.add(new byte[MAX_BANK_DATA]); //packed data CAN be larger than unpacked - e.g. if no packing canbe done, than lots of 128 byte runs
+                headers.add(new HeaderInfo());
+                
+                for (int t=0;t<MAX_BANK_DATA-SAMPLE_OVERFLOW_BUFFER;t++)
+                {
+                    datas.get(i)[t] = data[readPointer++];
+                }
+                compressor.compressData(datas.get(i), MAX_BANK_DATA);
+                int index = 0;
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_crc>>24)&0xff);   // 8
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_crc>>16)&0xff);
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_crc>> 8)&0xff);
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_crc    )&0xff);
+
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_size>> 8)&0xff);  // 12
+                headers.get(i).h[index++] = (byte) ((compressor.dzipdata_size    )&0xff);
+                
+                datasZiped.add(compressor.dzipdata);
+                sizeAll+=6+compressor.dzipdata_size;
+                
+            }
+            String mainFile = Global.mainPathPrefix+"template"+File.separator+"WavPlayer.bin";
+
+            path = Paths.get(mainFile);
+            data = Files.readAllBytes(path);
+            
+            
+            
+            
+            VFCompress compressor2 = new VFCompress();
+            compressor2.compressData(data2, 1024*32);
+            compressor.compressData(data, 1024*32);
+
+            int no_banks = 2;
+            int sizeAllMain = 4+2+2+no_banks*6+compressor.dzipdata_size+compressor2.dzipdata_size;
+            sizeAll += sizeAllMain;
+            
+            byte header[] = new byte[sizeAll];
+            
+            int index=0;
+            header[index++] = 'V';          // 0 header
+            header[index++] = '4';
+            header[index++] = 'E';
+            header[index++] = 'B';
+
+            int cart_type = 2;
+            header[index++] = (byte) ((cart_type>> 8)&0xff);      // 4
+            header[index++] = (byte) ((cart_type    )&0xff);
+
+            header[index++] = (byte) (((no_banks+banks)>> 8)&0xff);      // 6
+            header[index++] = (byte) (((no_banks+banks)    )&0xff);
+
+            // dummy bank 0
+            header[index++] = (byte) ((compressor2.dzipdata_crc>>24)&0xff);   // 8
+            header[index++] = (byte) ((compressor2.dzipdata_crc>>16)&0xff);
+            header[index++] = (byte) ((compressor2.dzipdata_crc>> 8)&0xff);
+            header[index++] = (byte) ((compressor2.dzipdata_crc    )&0xff);
+
+            header[index++] = (byte) ((compressor2.dzipdata_size>> 8)&0xff);  // 12
+            header[index++] = (byte) ((compressor2.dzipdata_size    )&0xff);
+            // bank 1 with our program
+            header[index++] = (byte) ((compressor.dzipdata_crc>>24)&0xff);   // 8
+            header[index++] = (byte) ((compressor.dzipdata_crc>>16)&0xff);
+            header[index++] = (byte) ((compressor.dzipdata_crc>> 8)&0xff);
+            header[index++] = (byte) ((compressor.dzipdata_crc    )&0xff);
+
+            header[index++] = (byte) ((compressor.dzipdata_size>> 8)&0xff);  // 12
+            header[index++] = (byte) ((compressor.dzipdata_size    )&0xff);
+            
+            for (int i=0; i<banks; i++)
+            {
+                header[index++] = (byte) headers.get(i).h[0];   // 8
+                header[index++] = (byte) headers.get(i).h[1];
+                header[index++] = (byte) headers.get(i).h[2];
+                header[index++] = (byte) headers.get(i).h[3];
+
+                header[index++] = (byte) headers.get(i).h[4];  // 12
+                header[index++] = (byte) headers.get(i).h[5];
+            }
+            
+            
+            for (int i=0; i<compressor2.dzipdata_size; i++)
+            {
+                header[index++] = compressor2.dzipdata[i];
+            }
+            for (int i=0; i<compressor.dzipdata_size; i++)
+            {
+                header[index++] = compressor.dzipdata[i];
+            }
+
+            for (int i=0; i<banks; i++)
+            {
+                int size = (headers.get(i).h[4]&0xff)*256+(headers.get(i).h[5]&0xff);
+                for (int t=0; t<size;t++)
+                {
+                    header[index++] = (byte) datasZiped.get(i)[t];   // 8
+                }
+            }
+            
+            new File (file1+".v4e").delete();
+            FileOutputStream output = new FileOutputStream(file1+".v4e", true);
+            try 
+            {
+               output.write(header,0, sizeAll);
+            } 
+            finally 
+            {
+               output.close();
+            }        
+            jLabel40.setText("Ok");
+            jLabel40.setVisible(true);
+            jLabel40.setForeground(Color.green);
+        }
+        catch (Throwable e)
+        {
+            log.addLog(e);
+            e.printStackTrace();
+            jLabel40.setText("error");
+            jLabel40.setVisible(true);
+            jLabel40.setForeground(Color.red);
+            
+        }
+    }//GEN-LAST:event_jButton15ActionPerformed
+
     String spacesUpTo(String to, int fillPos, String p1)
     {
         to = to +p1;
@@ -1430,6 +2234,9 @@ public class FileUtil extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1439,6 +2246,10 @@ public class FileUtil extends javax.swing.JPanel {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonFileSelect1;
+    private javax.swing.JButton jButtonFileSelect10;
+    private javax.swing.JButton jButtonFileSelect11;
+    private javax.swing.JButton jButtonFileSelect12;
+    private javax.swing.JButton jButtonFileSelect13;
     private javax.swing.JButton jButtonFileSelect2;
     private javax.swing.JButton jButtonFileSelect3;
     private javax.swing.JButton jButtonFileSelect4;
@@ -1468,10 +2279,20 @@ public class FileUtil extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1480,6 +2301,10 @@ public class FileUtil extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1499,12 +2324,16 @@ public class FileUtil extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextFieldstart;
     private javax.swing.JTextField jTextFieldstart1;
+    private javax.swing.JTextField jTextFieldstart10;
+    private javax.swing.JTextField jTextFieldstart11;
     private javax.swing.JTextField jTextFieldstart2;
     private javax.swing.JTextField jTextFieldstart3;
     private javax.swing.JTextField jTextFieldstart4;
     private javax.swing.JTextField jTextFieldstart5;
     private javax.swing.JTextField jTextFieldstart6;
     private javax.swing.JTextField jTextFieldstart7;
+    private javax.swing.JTextField jTextFieldstart8;
+    private javax.swing.JTextField jTextFieldstart9;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 

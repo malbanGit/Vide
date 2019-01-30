@@ -5,6 +5,7 @@
  */
 package de.malban.vide;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import static de.malban.vide.ConfigJPanel.buildStringForMode;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
@@ -94,6 +95,12 @@ public class CLI {
         addKnownCommand("-gameCartridge   ","-gc","(=)   loads a cartridge definition and starts vecxi (name of the cart)");
         addKnownCommand("-resolution      ","-rs","(=)   resolution of fullscreen, format like '800x600'");
         
+        addKnownCommand("-hotkeys         ","-hk","(+/-) enable/disable use of hotkeys (for debugging purposes only, default: enable)");
+        addKnownCommand("-syntaxhighlite  ","-sy","(+/-) enable/disable use syntaxhighlite (for debugging purposes only, default: enable)");
+        addKnownCommand("-undo            ","-un","(+/-) enable/disable use undo in editor (for debugging purposes only, default: enable)");
+        addKnownCommand("-versionTest     ","-vt","(+/-) do test for java version (default: enable)");
+     
+        
     }
     private static void addKnownCommand(String l, String s, String h)
     {
@@ -156,6 +163,11 @@ public class CLI {
             String configFile = CLI.activeCommandsMap.get("-co").getValue();
             config.load(configFile);
         }
+
+        if (CLI.activeCommandsMap.get("-hk") != null) VideConfig.hotKeysEnabled = CLI.activeCommandsMap.get("-hk").isEnabled();
+        if (CLI.activeCommandsMap.get("-sy") != null) VideConfig.syntaxHighliteEnabled = CLI.activeCommandsMap.get("-sy").isEnabled();
+        if (CLI.activeCommandsMap.get("-un") != null) VideConfig.editorUndoEnabled = CLI.activeCommandsMap.get("-un").isEnabled();
+        if (CLI.activeCommandsMap.get("-vt") != null) Global.doTestJava = CLI.activeCommandsMap.get("-vt").isEnabled();
         
         if (CLI.activeCommandsMap.get("-jg") != null) config.tryJOGL = CLI.activeCommandsMap.get("-jg").isEnabled();
         if (CLI.activeCommandsMap.get("-oj") != null) config.tryJOGL = !CLI.activeCommandsMap.get("-oj").isEnabled();
@@ -167,6 +179,9 @@ public class CLI {
         if (CLI.activeCommandsMap.get("-es") != null) config.JOGLScreen = CLI.activeCommandsMap.get("-es").isEnabled();
         if (CLI.activeCommandsMap.get("-p0") != null) config.devicePort0 = CLI.activeCommandsMap.get("-p0").getValue();
         if (CLI.activeCommandsMap.get("-p1") != null) config.devicePort1 = CLI.activeCommandsMap.get("-p1").getValue();
+        
+        
+        
         if (CLI.activeCommandsMap.get("-ro") != null) 
         {
             String ro = CLI.activeCommandsMap.get("-ro").getValue().trim();

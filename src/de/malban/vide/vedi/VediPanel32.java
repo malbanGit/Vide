@@ -49,6 +49,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.EventObject;
 import javax.swing.AbstractAction;
@@ -1394,7 +1396,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         jLabel5.setText("");
         EditorPanel edi = getSelectedEditor();
         if (edi == null) return;
-        boolean found = getSelectedEditor().replaceNext(jTextFieldSearch.getText(), jTextFieldReplace.getText(), jCheckBoxIgnoreCase.isSelected(), true);
+        boolean found = getSelectedEditor().replaceNext(jTextFieldSearch.getText(), jTextFieldReplace.getText(), jCheckBoxIgnoreCase.isSelected(), true, false);
         if (!found) jLabel5.setText("not found!");
     }//GEN-LAST:event_jButtonReplaceNextActionPerformed
 
@@ -2356,6 +2358,16 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
 
         // get all the files from a directory
         File[] fList = directory.listFiles();
+        Arrays.sort(fList, new Comparator<File>()
+                {
+                    @Override
+                    public int compare(File f1, File f2)
+                    {
+                        if (f1 == null) return 1;
+                        if (f2 == null) return -1;
+                        return f1.getName().toLowerCase().compareTo(f2.getName().toLowerCase());
+                    }
+                });
         if (fList == null) return true;
         for (File file : fList) 
         {
@@ -2385,6 +2397,16 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
 
         // get all the files from a directory
         File[] fList = directory.listFiles();
+        Arrays.sort(fList, new Comparator<File>()
+                {
+                    @Override
+                    public int compare(File f1, File f2)
+                    {
+                        if (f1 == null) return 1;
+                        if (f2 == null) return -1;
+                        return f1.getName().toLowerCase().compareTo(f2.getName().toLowerCase());
+                    }
+                });
         for (File file : fList) 
         {
             if (file.getName().contains("FileProperty.xml")) continue;

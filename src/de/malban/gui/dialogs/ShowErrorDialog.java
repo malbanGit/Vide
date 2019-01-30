@@ -24,7 +24,7 @@ import javax.swing.JInternalFrame;
  */
 public class ShowErrorDialog extends javax.swing.JPanel {
 
-    JInternalFrame modal=null;
+    ModalInternalFrame modal=null;
     /** Creates new form GetStringDialog */
     public ShowErrorDialog() {
         initComponents();
@@ -111,6 +111,7 @@ public class ShowErrorDialog extends javax.swing.JPanel {
             return;
         }
         JFrame frame = Configuration.getConfiguration().getMainFrame();
+        if (!frame.isVisible()) return;
         ShowErrorDialog si = new ShowErrorDialog();
         String m = "<html>"+text+"</html>";
         m = UtilityString.replace(m, "\n", "<BR>");
@@ -127,6 +128,7 @@ public class ShowErrorDialog extends javax.swing.JPanel {
             return;
         }
         JFrame frame = Configuration.getConfiguration().getMainFrame();
+        if (!frame.isVisible()) return;
         ShowErrorDialog si = new ShowErrorDialog();
         String m = "<html>"+message+"</html>";
         m = UtilityString.replace(m, "\n", "<BR>");

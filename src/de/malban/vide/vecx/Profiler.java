@@ -257,7 +257,7 @@ public class Profiler implements Serializable
                 contextOK = false;
             }
 
-            int sAddress = vecx.e6809_readOnly8(c.stackAddress)*256+vecx.e6809_readOnly8(c.stackAddress+1);
+            int sAddress = vecx.e6809_readOnly8(c.stackAddress&0xffff)*256+vecx.e6809_readOnly8((c.stackAddress+1)&0xffff);
             if (sAddress != c.stackedAddress)
             {
                 // address on stack is not the same return adress anymore ->

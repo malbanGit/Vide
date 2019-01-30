@@ -12,7 +12,8 @@ import de.malban.config.TinyLogInterface;
 import de.malban.gui.HotKey;
 import de.malban.gui.ListPopupJPanel;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
-import de.malban.util.Downloader;
+import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.Syntax.HighlightedDocument;
 import de.malban.util.syntax.Syntax.TokenStyles;
@@ -35,9 +36,11 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import static java.awt.event.ActionEvent.CTRL_MASK;
-import static java.awt.event.ActionEvent.SHIFT_MASK;
+import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
+import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -71,6 +74,7 @@ import javax.swing.text.StyleConstants;
 public class EditorPanel extends EditorPanelFoundation
 {
     VideConfig config = VideConfig.getConfig();
+    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
 
     // indicator whether rows must be counted anew
     int rowCount = -1;
@@ -80,8 +84,6 @@ public class EditorPanel extends EditorPanelFoundation
     boolean assume6809Asm = false;
     boolean assume6809C = false;
     boolean addToSettings = true;  
-//    private int FONTHEIGHT = 12;
-//    private int FONTWIDTH = 12;
     void setAddToSettings(boolean b)
     {
         addToSettings = b;
@@ -163,7 +165,8 @@ public class EditorPanel extends EditorPanelFoundation
         }
         catch (IOException e) 
         {
-            tl.printError("Error loading file: "+getFilename());
+            if (tl != null)
+                tl.printError("Error loading file: "+getFilename());
             initError = true;
         }
         if (!initError)
@@ -242,7 +245,6 @@ public class EditorPanel extends EditorPanelFoundation
     {
         if (editorPaneDocument == null) return;
         savePos();
-        
         editorPaneDocument.stopColoring();
     }
      
@@ -286,6 +288,7 @@ public class EditorPanel extends EditorPanelFoundation
     class CSAViewport2 extends JViewport
     {
         public boolean enableViewport = true;
+        @Override
         public void setViewPosition(Point p)
         {
             if (enableViewport) super.setViewPosition(p);
@@ -382,19 +385,22 @@ public class EditorPanel extends EditorPanelFoundation
         
         if (t != null) jTextPane1.setText(t);
         editorPaneDocument.start(getFilename());
-        editorPaneDocument.addUndoableEditListener(undoManager);
+        if (VideConfig.editorUndoEnabled)
+        {
+            editorPaneDocument.addUndoableEditListener(undoManager);
+            new HotKey("UndoMac", undoAction, jTextPane1);
+            new HotKey("RedoMac", redoAction, jTextPane1);
+            new HotKey("UndoWin", undoAction, jTextPane1);
+            new HotKey("RedoWin", redoAction, jTextPane1);
+            new HotKey("UndoWin", undoAction, jTextPane1);
+            new HotKey("RedoWin", redoAction, jTextPane1);
+        }
         
         new HotKey(javax.swing.text.DefaultEditorKit.copyAction,null, jTextPane1);
         new HotKey(javax.swing.text.DefaultEditorKit.pasteAction, null, jTextPane1);
         new HotKey(javax.swing.text.DefaultEditorKit.cutAction, null, jTextPane1);
         new HotKey("unindent", shiftTabAction, jTextPane1);
         new HotKey("indent", tabAction, jTextPane1);
-        new HotKey("UndoMac", undoAction, jTextPane1);
-        new HotKey("RedoMac", redoAction, jTextPane1);
-        new HotKey("UndoWin", undoAction, jTextPane1);
-        new HotKey("RedoWin", redoAction, jTextPane1);
-        new HotKey("UndoWin", undoAction, jTextPane1);
-        new HotKey("RedoWin", redoAction, jTextPane1);
         new HotKey("SearchMac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.requestSearchFocus(); }}, this);
         new HotKey("SearchWin", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.requestSearchFocus(); }}, this);
         new HotKey("Run", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.run(); }}, this);
@@ -742,6 +748,7 @@ public class EditorPanel extends EditorPanelFoundation
             catch (Throwable e)
             {
                 e.printStackTrace();
+log.addLog("Attrib:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
             }
         
         
@@ -771,6 +778,7 @@ public class EditorPanel extends EditorPanelFoundation
             catch (Throwable e)
             {
                 e.printStackTrace();
+log.addLog("Attrib:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
             }
         
         
@@ -820,9 +828,9 @@ public class EditorPanel extends EditorPanelFoundation
         return word;
         
     }
-    
+   
     private void jTextPane1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyPressed
-        boolean ctrl = ((evt.getModifiers() & CTRL_MASK) == CTRL_MASK);
+        boolean ctrl = ((evt.getModifiersEx() & CTRL_DOWN_MASK) == CTRL_DOWN_MASK);
         if (!ctrl) return;
         if (evt.getKeyCode() == KeyEvent.VK_SPACE)
         {
@@ -846,15 +854,18 @@ public class EditorPanel extends EditorPanelFoundation
                 startPos++;
                 String starter = getStarterText();
                 ArrayList<String> possibleWord = getPossibleWords(starter);
-                Rectangle pos = jTextPane1.modelToView(startPos);
+                //Rectangle pos = jTextPane1.modelToView(startPos);
 
-                int x1 = pos.x;
+                Rectangle2D pos = jTextPane1.modelToView2D(startPos);
+                
+                
+                int x1 = (int) pos.getX();
                 int x2 = parent.getEditorPos().x;
                 int x3 = Configuration.getConfiguration().getMainFrame().getInternalFrame(parent).getX();
                 int x4 = jScrollPane1.getWidth()+4;
                 int x5 = -jScrollPane2.getViewport().getViewPosition().x;
                 
-                int y1 = pos.y;
+                int y1 = (int)pos.getY();
                 int y2 = parent.getEditorPos().y;
                 int y3 = Configuration.getConfiguration().getMainFrame().getInternalFrame(parent).getY();
                 int y4 = 95;
@@ -882,7 +893,7 @@ public class EditorPanel extends EditorPanelFoundation
             }
             catch (Throwable e)
             {
-//e.printStackTrace();
+e.printStackTrace();
             }
             
             
@@ -932,11 +943,12 @@ public class EditorPanel extends EditorPanelFoundation
     private void jTextPane1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane1MousePressed
 
         if (isBasic) return;
-        Point pt = new Point(evt.getX(), evt.getY());
-        int pos = jTextPane1.viewToModel(pt);
-        boolean shift = false;
-        if ((evt != null ) )
-            shift = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
+        //Point pt = new Point(evt.getX(), evt.getY());
+        Point2D.Float pt = new Point2D.Float(evt.getX(), evt.getY());
+        //int pos = jTextPane1.viewToModel(pt);
+        int pos = jTextPane1.viewToModel2D(pt);
+        
+        boolean shift = ((evt.getModifiersEx()& SHIFT_DOWN_MASK) == SHIFT_DOWN_MASK);
 
         if (evt.getClickCount() == 2) 
         {
@@ -974,7 +986,7 @@ public class EditorPanel extends EditorPanelFoundation
             // click one
             if (SwingUtilities.isLeftMouseButton(evt))
             {
-                if (((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
+                if (((evt.getModifiersEx() & SHIFT_DOWN_MASK) == SHIFT_DOWN_MASK))
                 {
                     // select between current caret and THIS position!
                     int oldpos = jTextPane1.getCaretPosition();
@@ -1038,15 +1050,15 @@ public class EditorPanel extends EditorPanelFoundation
     }//GEN-LAST:event_jMenuItemAddAnimActionPerformed
 
     private void jTextPane1ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTextPane1ComponentResized
-         JPanel w = noWrapPanel;
+         //JPanel w = noWrapPanel;
     }//GEN-LAST:event_jTextPane1ComponentResized
 
     private void jScrollPane2ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jScrollPane2ComponentResized
-         JPanel w = noWrapPanel;
+         //JPanel w = noWrapPanel;
     }//GEN-LAST:event_jScrollPane2ComponentResized
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-         JPanel w = noWrapPanel;
+         //JPanel w = noWrapPanel;
          jScrollPane2.doLayout();
          Rectangle size = jScrollPane2.getBounds();
          size.height = getHeight();
@@ -1065,9 +1077,12 @@ public class EditorPanel extends EditorPanelFoundation
 
     private void jTextPane2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane2MousePressed
         if (isBasic) return;
-
-        Point pt = new Point(evt.getX(), evt.getY());
-        int pos = jTextPane2.viewToModel(pt);
+        
+        Point2D.Float pt = new Point2D.Float(evt.getX(), evt.getY());
+        int pos = jTextPane2.viewToModel2D(pt);
+        
+//        Point pt = new Point(evt.getX(), evt.getY());
+//        int pos = jTextPane2.viewToModel(pt);
 
         int line = getLineOfPos(jTextPane2, pos); // starts at 0
         if (line == -1)
@@ -1419,27 +1434,7 @@ public class EditorPanel extends EditorPanelFoundation
     {
         tinyLog = tl;
     }
-    /*
-    String saveText(String path)
-    {
-        try
-        {
-            String text = editorPaneDocument.getText(0, editorPaneDocument.getLength());
-            
-            BufferedWriter writer = null;
-            File logFile = new File(path);
-            writer = new BufferedWriter(new FileWriter(logFile));
-            writer.write(text);
-            writer.close();
-        }
-        catch (Throwable e)
-        {
-            tinyLog.printError(de.malban.util.Utility.getStackTrace(e));
-            return null;
-        }
-        return path;
-    }
-*/
+
     public int getCharCount()
     {
         return editorPaneDocument.getLength();
@@ -1611,7 +1606,7 @@ public class EditorPanel extends EditorPanelFoundation
         
         return true;
     }
-    public boolean replaceNext(String toSearch, String replacement, boolean ignoreCase, boolean singleReplace)
+    public boolean replaceNext(String toSearch, String replacement, boolean ignoreCase, boolean singleReplace, boolean isLocked)
     {
         try
         {
@@ -1622,12 +1617,22 @@ public class EditorPanel extends EditorPanelFoundation
             int startPos = text.indexOf(toSearch);
             if (startPos<0) return false;
 
-            synchronized (editorPaneDocument.getDocumentLock())
+            if (!isLocked)
+            {
+                synchronized (editorPaneDocument.getDocumentLock())
+                {
+                    jTextPane1.setSelectionStart(startPos+startSearchPos);
+                    jTextPane1.setSelectionEnd(startPos+startSearchPos+toSearch.length());
+                    jTextPane1.replaceSelection(replacement);
+                }
+            }
+            else
             {
                 jTextPane1.setSelectionStart(startPos+startSearchPos);
                 jTextPane1.setSelectionEnd(startPos+startSearchPos+toSearch.length());
                 jTextPane1.replaceSelection(replacement);
             }
+          //  System.gc();
             if (singleReplace)
                 jTextPane1.requestFocusInWindow();
             return true;
@@ -1645,21 +1650,24 @@ public class EditorPanel extends EditorPanelFoundation
     {
         if (toSearch.length()==0) return -1;
         int count = -1;
+        int startSearchPos = jTextPane1.getCaretPosition();
         jTextPane1.setCaretPosition(0);
+        stopColoring();
         synchronized (editorPaneDocument.getDocumentLock())
         {
             boolean found = false;
             do
             {
                 count++;
-                found = replaceNext(toSearch, replacement, ignoreCase, false);
+                found = replaceNext(toSearch, replacement, ignoreCase, false, true);
             } while (found);
-            
         }
-        
+        startColoring();
+        jTextPane1.setCaretPosition(startSearchPos);
+                
         return count;
     }    
-    public int replaceSel(String toSearch, String replacement, boolean ignoreCase, int start, int end)
+    public int replaceSel(String toSearch, String replacement, boolean ignoreCase, int start, int end, boolean isLocked)
     {
         try
         {
@@ -1679,14 +1687,26 @@ public class EditorPanel extends EditorPanelFoundation
 
             if (startPos<0) return -1;
 
-            synchronized (editorPaneDocument.getDocumentLock())
+            if (!isLocked)
+            {
+                synchronized (editorPaneDocument.getDocumentLock())
+                {
+                    jTextPane1.setSelectionStart(startPos+startSearchPos);
+                    jTextPane1.setSelectionEnd(startPos+startSearchPos+toSearch.length());
+                    jTextPane1.replaceSelection(replacement);
+                    jTextPane1.requestFocusInWindow();
+                }
+            }
+            else
             {
                 jTextPane1.setSelectionStart(startPos+startSearchPos);
                 jTextPane1.setSelectionEnd(startPos+startSearchPos+toSearch.length());
                 jTextPane1.replaceSelection(replacement);
                 jTextPane1.requestFocusInWindow();
-                
             }
+                
+                
+                
             return jTextPane1.getCaretPosition();
             
         }
@@ -1722,15 +1742,20 @@ public class EditorPanel extends EditorPanelFoundation
         int startOrg = start;
         int end = jTextPane1.getSelectionEnd();
         int count = -1;
+        
+        stopColoring();
+        
         jTextPane1.setCaretPosition(start);
         synchronized (editorPaneDocument.getDocumentLock())
         {
             do
             {
                 count++;
-                start = replaceSel(toSearch, replacement, ignoreCase, start, end);
+                start = replaceSel(toSearch, replacement, ignoreCase, start, end, true);
             } while (start>0);
         }
+        startColoring();
+        jTextPane1.setCaretPosition(startOrg);
         jTextPane1.setSelectionStart(startOrg);
         jTextPane1.setSelectionEnd(end);
         jTextPane1.requestFocusInWindow();
@@ -1738,15 +1763,12 @@ public class EditorPanel extends EditorPanelFoundation
     }    
     public void reColor()
     {
-        
         editorPaneDocument.colorAll();
-//        correctLineNumbers(false);
     }
     public void reColorDirect()
     {
         editorPaneDocument.stopColoring();
         editorPaneDocument.startColoring();
-        
     }
 
     // watching, if swing does something evil!
@@ -1852,7 +1874,7 @@ public class EditorPanel extends EditorPanelFoundation
         for (int i=0;i<config.tab_width; i++) tab +=" ";
         return tab;
     }
-//    String TAB_STRING = "    ";
+
     AbstractAction tabAction = new AbstractAction()
     {
         @Override
@@ -1862,12 +1884,10 @@ public class EditorPanel extends EditorPanelFoundation
             {
                 String TAB_STRING = getTABString();
                 int start = jTextPane1.getSelectionStart();
-                int startOrg = start;
                 int end = jTextPane1.getSelectionEnd();
                 if (start != end) end--;
                 if (end-start == 0)
                 {
-//                    jTextPane1.getDocument().insertString(jTextPane1.getCaretPosition(),TAB_STRING, null);
                     jTextPane1.getDocument().insertString(jTextPane1.getCaretPosition(),"\t", null);
                     return;
                 }
@@ -1902,13 +1922,9 @@ public class EditorPanel extends EditorPanelFoundation
             {
                 String TAB_STRING = getTABString();
                 int start = jTextPane1.getSelectionStart();
-                int startOrg = start;
                 int end = jTextPane1.getSelectionEnd();
                 if (start != end) end--;
-                if (end-start == 0)
-                {
-                   // return;
-                }
+
                 stopColoring();
 
                 // now, sub for every line in selection one TAB from start!
@@ -2146,7 +2162,7 @@ public class EditorPanel extends EditorPanelFoundation
         }
         catch (Throwable e)
         {
-            
+            log.addLog("LineNumbers:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
         }
         syncViewports();
     }
@@ -2158,6 +2174,7 @@ public class EditorPanel extends EditorPanelFoundation
         
         JViewport viewport2 = (JViewport)jScrollPane1.getViewport();
         p.x=0;
+        if (viewport2 == null) return;
         if (viewport2 instanceof CSAViewport)
             ((CSAViewport)viewport2).setViewPositionCSA(p);                
         else
@@ -2397,13 +2414,11 @@ public class EditorPanel extends EditorPanelFoundation
                 doc.setCharacterAttributes(pos, num.length(), currentStyle, true);
                 return;
             }
-//            syncViewports();
         }
         catch (Throwable e)
         {
+log.addLog("Correct Line:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
         }
     }
-    
-
 }
 

@@ -88,7 +88,7 @@ public class ImageSearch extends javax.swing.JPanel {
     String mSUrl ="";
     
     boolean randomOnly = false;
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public ImageSearch(boolean rndOnly) 
     {
         initComponents();
@@ -98,7 +98,7 @@ public class ImageSearch extends javax.swing.JPanel {
         if (!randomOnly)
         {
             JFrame frame = Configuration.getConfiguration().getMainFrame();
-            JInternalFrame modal = new ModalInternalFrame("Image search", frame.getRootPane(), frame, this, jButton2);
+            ModalInternalFrame modal = new ModalInternalFrame("Image search", frame.getRootPane(), frame, this, jButton2);
             this.modelDialog = modal;
         }
     

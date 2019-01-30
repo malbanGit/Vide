@@ -146,6 +146,11 @@
                                                       <Group type="103" groupAlignment="0" attributes="0">
                                                           <Component id="jRadioButtonHorizontalVectors" alignment="0" min="-2" max="-2" attributes="0"/>
                                                           <Component id="jRadioButtonVertical" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Group type="102" alignment="0" attributes="0">
+                                                              <Component id="jTextFieldMultiplyBits" min="-2" pref="29" max="-2" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
                                                       </Group>
                                                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -243,7 +248,11 @@
                                   <Component id="jCheckBoxBiDirectionalData" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jCheckBoxGenerateExampleCode" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCheckBoxGenerateExampleCode" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldMultiplyBits" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -298,7 +307,7 @@
                                   <Component id="jRadioButtonAlphaAsGrayscale" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBoxYMirror" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="42" max="32767" attributes="0"/>
+                              <EmptySpace pref="66" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jButtonCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jButtonCreate" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -712,6 +721,18 @@
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
                 <Property name="text" type="java.lang.String" value="grid"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextFieldMultiplyBits">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="1"/>
+                <Property name="toolTipText" type="java.lang.String" value="not with brightnessdata included"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel10">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="multiply bits"/>
+                <Property name="toolTipText" type="java.lang.String" value="only with vertical switch"/>
               </Properties>
             </Component>
           </SubComponents>

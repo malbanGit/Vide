@@ -27,7 +27,7 @@ import javax.swing.JScrollBar;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import sun.swing.DefaultLookup;
+//import sun.swing.DefaultLookup;
 
 import de.muntjak.tinylookandfeel.util.ColorRoutines;
 

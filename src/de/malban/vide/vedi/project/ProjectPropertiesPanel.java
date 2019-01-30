@@ -101,14 +101,20 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                 if (mProjectProperties.mBankMainFiles == null) return ;
                 if (mProjectProperties.mBankMainFiles.size()<= rowIndex) return ;
                 String path = aValue.toString();
+                String malRel = de.malban.util.Utility.ensureRelative(path);
+                        
+                String repl = mProjectProperties.projectPrefix+File.separator;
+                path = de.malban.util.UtilityString.replace(path, repl, "");
                 
-                String ppath = mProjectProperties.mOldPath.toString();
-                if (ppath.length() != 0 )ppath+=File.separator;
-                Path projectPath = Paths.get(ppath+mProjectProperties.mProjectName);
-                Path filePath = Paths.get(path);
                 
-                Path relativePath1 = projectPath.relativize(filePath);
-                mProjectProperties.mBankMainFiles.setElementAt(relativePath1.toString(), rowIndex);
+//                String ppath = mProjectProperties.mOldPath.toString();
+//                if (ppath.length() != 0 )ppath+=File.separator;
+//                Path projectPath = Paths.get(mProjectProperties.projectPrefix);
+//                if (projectPath.toString().length() != 0 )ppath+=File.separator;
+//                Path filePath = Paths.get(path);
+//                
+//                Path relativePath1 = projectPath.relativize(filePath);
+                mProjectProperties.mBankMainFiles.setElementAt(path.toString(), rowIndex);
             }
             if (columnIndex == 2)
             {
@@ -199,7 +205,6 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         mClassSetting--;
         UIManager.addPropertyChangeListener(pListener);
         updateMyUI(); 
-
     }
 
     public ProjectPropertiesPanel(ProjectProperties currentProject) 
@@ -254,6 +259,10 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             number = 2;
         }
         else if (jComboBoxBankswitch.getSelectedIndex()==2)
+        {
+            number = 4;
+        }
+        else if (jComboBoxBankswitch.getSelectedIndex()==3)
         {
             number = jComboBoxBankswitchNumber.getSelectedIndex()+1;
         }
@@ -409,7 +418,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBox8.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_DS2431) == Cartridge.FLAG_DS2431);
         jCheckBox9.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_SID) == Cartridge.FLAG_SID);
         jCheckBox10.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_48K) == Cartridge.FLAG_48K);
-
+        jCheckBoxFlashSupport.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_FLASH_SUPPORT) == Cartridge.FLAG_FLASH_SUPPORT);
 
         jCheckBoxCProject1.setSelected(mProjectProperties.mIsPeerCProject);
         
@@ -444,6 +453,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         
         enableASM(!mProjectProperties.mIsPeerCProject);
         initScripts();
+
         mClassSetting--;
     }
 
@@ -528,7 +538,12 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         if (jCheckBox8.isSelected()) extra+= Cartridge.FLAG_DS2431;
         if (jCheckBox9.isSelected()) extra+= Cartridge.FLAG_SID;
         if (jCheckBox10.isSelected()) extra+= Cartridge.FLAG_48K;
-
+        if (jCheckBoxFlashSupport.isSelected()) extra+= Cartridge.FLAG_FLASH_SUPPORT;
+        
+        if (jComboBoxBankswitch.getSelectedIndex()==2)
+            extra+= Cartridge.FLAG_BS_PB6_IRQ;
+        
+        
         mProjectProperties.mExtras = extra;
     }
     
@@ -592,6 +607,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBoxCPeepholing = new javax.swing.JCheckBox();
         jCheckBoxCKeepEnriched = new javax.swing.JCheckBox();
         jCheckBoxCRumInlined = new javax.swing.JCheckBox();
+        jCheckBoxFlashSupport = new javax.swing.JCheckBox();
         jButtonPre = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jComboBoxPostName = new javax.swing.JComboBox();
@@ -663,7 +679,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel1.setText("Description");
 
-        jComboBoxBankswitch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "2 bank standard", "VecFlash (up to 32 banks)" }));
+        jComboBoxBankswitch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "2 bank standard", "4 bank PB6/IRQ", "VecFlash (up to 32 banks)" }));
         jComboBoxBankswitch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxBankswitchActionPerformed(evt);
@@ -887,35 +903,44 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBoxFlashSupport.setText("Flash support");
+        jCheckBoxFlashSupport.setToolTipText("SST39SF020A - and only \"barely\"");
+        jCheckBoxFlashSupport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxFlashSupportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxCPeepholing)
-                    .addComponent(jCheckBoxCKeepEnriched)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox16)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox8)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox2)
                             .addComponent(jCheckBox1)
                             .addComponent(jCheckBox7))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jCheckBox9)
-                            .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jCheckBoxCDebugging)
-                    .addComponent(jCheckBoxCRumInlined)
+                            .addComponent(jCheckBoxFlashSupport, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBox6)
                             .addComponent(jCheckBox5))
                         .addGap(30, 30, 30)
-                        .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCheckBoxCRumInlined)
+                    .addComponent(jCheckBoxCDebugging)
+                    .addComponent(jCheckBox8)
+                    .addComponent(jCheckBox4)
+                    .addComponent(jCheckBox3)
+                    .addComponent(jCheckBox16)
+                    .addComponent(jCheckBoxCKeepEnriched)
+                    .addComponent(jCheckBoxCPeepholing))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -929,7 +954,9 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBox7)
                     .addComponent(jCheckBox10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox2)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox2)
+                    .addComponent(jCheckBoxFlashSupport))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1108,24 +1135,25 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                                 .addGap(6, 6, 6)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jCheckBoxCreateSupportCode)
-                                        .addGap(100, 100, 100)
-                                        .addComponent(jComboBoxBankswitch, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBoxBankswitchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addComponent(jComboBoxPostName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jComboBoxPostClass, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButtonPost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jCheckBoxCreateGameLoop)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addComponent(jComboBoxPreName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jComboBoxPreClass, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonPre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(jButtonPre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jCheckBoxCreateSupportCode)
+                                            .addComponent(jCheckBoxCreateGameLoop))
+                                        .addGap(100, 100, 100)
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jComboBoxBankswitchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboBoxBankswitch, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1133,7 +1161,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                                 .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(87, 87, 87)
                                 .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 109, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1186,14 +1214,17 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                                 .addComponent(jLabel10)))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBoxBankswitch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBoxBankswitchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxBankswitch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jCheckBoxCreateSupportCode))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBoxCreateGameLoop)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jCheckBoxCreateGameLoop)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jComboBoxBankswitchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1211,7 +1242,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1357,6 +1388,14 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         }
         if (jComboBoxBankswitch.getSelectedIndex()==2)
         {
+            String[] s = new String[4];
+            for (int i=0;i<=3; i++)
+                s[i]=""+(i+1);
+            jComboBoxBankswitchNumber.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "4" }));
+            jComboBoxBankswitchNumber.setEnabled(false);
+        }
+        if (jComboBoxBankswitch.getSelectedIndex()==3)
+        {
             String[] s = new String[32];
             for (int i=0;i<=31; i++)
                 s[i]=""+(i+1);
@@ -1385,7 +1424,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private void jButtonPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPreActionPerformed
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ScriptDataPanel sdp = new ScriptDataPanel();
-        JInternalFrame modal=null;
+        ModalInternalFrame modal=null;
         
         String pp = convertSeperator(mProjectProperties.getOldPath());
         if (pp.length() >0 ) pp += File.separator;
@@ -1404,7 +1443,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private void jButtonPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPostActionPerformed
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ScriptDataPanel sdp = new ScriptDataPanel();
-        JInternalFrame modal=null;
+        ModalInternalFrame modal=null;
         String pp = convertSeperator(mProjectProperties.getOldPath());
         if (pp.length() >0 ) pp += File.separator;
         pp += mProjectProperties.getProjectName();
@@ -1507,6 +1546,10 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxCRumInlinedActionPerformed
 
+    private void jCheckBoxFlashSupportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxFlashSupportActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxFlashSupportActionPerformed
+
     boolean wasMainSetManually = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1538,6 +1581,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBoxCRumInlined;
     private javax.swing.JCheckBox jCheckBoxCreateGameLoop;
     private javax.swing.JCheckBox jCheckBoxCreateSupportCode;
+    private javax.swing.JCheckBox jCheckBoxFlashSupport;
     private javax.swing.JComboBox jComboBoxBankswitch;
     private javax.swing.JComboBox jComboBoxBankswitchNumber;
     private javax.swing.JComboBox jComboBoxImager;
@@ -1578,7 +1622,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
     
     // returns new Properties, not saved yet!
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static ProjectProperties showNewProjectProperties()
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
@@ -1750,7 +1794,6 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jTable1.setEnabled(b);
         jCheckBoxCDebugging.setEnabled(!b);
         jCheckBoxCRumInlined.setEnabled(!b);
-
     }
 
 }

@@ -386,7 +386,7 @@ public final class Configuration
 
         // Manually construct an input popup
         javax.swing.JOptionPane optionPane = new JOptionPane( text+"\n"+extension, JOptionPane.ERROR_MESSAGE);
-        JInternalFrame modal = new ModalInternalFrame("Error!", getMainFrame().getRootPane(), getMainFrame(), optionPane);
+        ModalInternalFrame modal = new ModalInternalFrame("Error!", getMainFrame().getRootPane(), getMainFrame(), optionPane);
         modal.setVisible(true);
     }
 
@@ -394,7 +394,7 @@ public final class Configuration
     {
         if (mMainFrame == null) return;
         javax.swing.JOptionPane optionPane = new JOptionPane( message, JOptionPane.INFORMATION_MESSAGE);
-        JInternalFrame modal = new ModalInternalFrame(title, getMainFrame().getRootPane(), getMainFrame(), optionPane);
+        ModalInternalFrame modal = new ModalInternalFrame(title, getMainFrame().getRootPane(), getMainFrame(), optionPane);
         modal.setVisible(true);
     }
 
@@ -403,7 +403,7 @@ public final class Configuration
         if (mMainFrame == null) return DIALOG_CANCEL;
         // Manually construct an input popup
         JOptionPane optionPane = new JOptionPane( message, JOptionPane.QUESTION_MESSAGE,  JOptionPane.YES_NO_OPTION);
-        JInternalFrame modal = new ModalInternalFrame(title, getMainFrame().getRootPane(), getMainFrame(), optionPane);
+        ModalInternalFrame modal = new ModalInternalFrame(title, getMainFrame().getRootPane(), getMainFrame(), optionPane);
         modal.setVisible(true);
 
         Object value = optionPane.getValue();
@@ -436,7 +436,7 @@ public final class Configuration
 
         int returnVal = fc.showOpenDialog(null);
 
-        JInternalFrame modal = new ModalInternalFrame(title, getMainFrame().getRootPane(), getMainFrame(), optionPane);
+        ModalInternalFrame modal = new ModalInternalFrame(title, getMainFrame().getRootPane(), getMainFrame(), optionPane);
         modal.setVisible(true);
 
         Object value = optionPane.getValue();

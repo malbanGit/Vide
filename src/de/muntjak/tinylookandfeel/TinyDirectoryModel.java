@@ -13,6 +13,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
@@ -23,7 +25,7 @@ import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicDirectoryModel;
 import javax.swing.plaf.basic.BasicFileChooserUI;
 
-import sun.awt.shell.ShellFolder;
+//import sun.awt.shell.ShellFolder;
 
 /**
  * A copy of BasicDirectoryModel with access to the fileCache.
@@ -204,7 +206,22 @@ public class TinyDirectoryModel extends BasicDirectoryModel {
 
 	protected void sort(Vector v) {
 //		ShellFolder.sortFiles(v);
-		ShellFolder.sort(v);
+            Collections.sort(v, new Comparator()
+            {
+                public int compare(Object o1, Object o2)
+                {
+                    if (o1 == null) return 1;
+                    if (o2 == null) return -1;
+                    if (!(o1 instanceof File)) return 1;
+                    if (!(o2 instanceof File)) return 2;
+                    File f1 = (File)o1;
+                    File f2 = (File)o2;
+                    if ((f1.isDirectory()) && (!f2.isDirectory())) return -1;
+                    if ((f2.isDirectory()) && (!f1.isDirectory())) return 1;
+                    return f1.getName().toLowerCase().compareTo(f2.getName().toLowerCase());
+                }
+            } ); 
+//		ShellFolder.sort(v);
 	}
 
 	// Obsolete - not used

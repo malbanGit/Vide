@@ -45,6 +45,7 @@ import org.json.simple.parser.JSONParser;
 public class VectorJPanel extends javax.swing.JPanel implements Windowable
 {
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+    StringBuilder outGobblerString = null;
 
     String pathOnly = "";
     TinyLogInterface tinyLog = null;
@@ -175,6 +176,9 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         jLabel6 = new javax.swing.JLabel();
         jRadioButtonPotrace = new javax.swing.JRadioButton();
         jRadioButtonAutotrace = new javax.swing.JRadioButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(960, 537));
 
@@ -626,12 +630,29 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
 
         buttonGroup1.add(jRadioButtonAutotrace);
         jRadioButtonAutotrace.setText("autotrace");
-        jRadioButtonAutotrace.setEnabled(false);
         jRadioButtonAutotrace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonAutotraceActionPerformed(evt);
             }
         });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "black", "white" }));
+        jComboBox1.setToolTipText("only autotrace");
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jTextField4.setText("0.2");
+        jTextField4.setToolTipText("<html>\nonly autotrace\n<BR>\ninto how many single vectors curves are \"splitted\", the higher (0.5, 1, 2,3,4...) the blockier\n</html>");
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setText("error-Threshold");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -646,18 +667,32 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                 .addComponent(jRadioButtonPotrace)
                 .addGap(35, 35, 35)
                 .addComponent(jRadioButtonAutotrace)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonLoad)
-                    .addComponent(jLabel6)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRadioButtonPotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRadioButtonAutotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(2, 2, 2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonLoad)
+                            .addComponent(jLabel6)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jRadioButtonPotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jRadioButtonAutotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel20))
+                        .addGap(0, 0, 0)))
                 .addComponent(jTabbedPane1))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -824,6 +859,15 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         buildVectors();
     }//GEN-LAST:event_jRadioButtonAutotraceActionPerformed
 
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        buildVectors();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        buildVectors();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     double xFactor = 1.0;
     double yFactor = 1.0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -834,6 +878,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBoxGenerateData;
     private javax.swing.JCheckBox jCheckBoxGenerateExampleCode;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -846,6 +891,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -873,6 +919,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextFieldHeight;
     private javax.swing.JTextField jTextFieldStartX;
     private javax.swing.JTextField jTextFieldStartY;
@@ -1008,10 +1055,14 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             ArrayList<GFXVectorList> vList = new ArrayList<GFXVectorList>();
 
             String outFilename = filenameTMP.substring(0, filenameTMP.length()-4)+".vec";
-            if (jRadioButtonPotrace.isSelected())
+           // if (jRadioButtonPotrace.isSelected())
             {
                 // execute potrace
-                result = executePoTrace(filenameTMP, outFilename);
+                if (jRadioButtonPotrace.isSelected())
+                    result = executePoTrace(filenameTMP, outFilename);
+                else
+                    result = executeAutotrace(filenameTMP);
+
                 if (!result) 
                 {
                     building = false;
@@ -1019,7 +1070,19 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                 }
 
                 // read data to point lists
-                Features features = readJSONData(outFilename, filteredImage.getWidth(), filteredImage.getHeight());
+                Features features;
+                if (jRadioButtonPotrace.isSelected())
+                    features = readJSONData(outFilename, filteredImage.getWidth(), filteredImage.getHeight());
+                else
+                {
+                    while (!outGobblerString.toString().contains("</svg>"))
+                    {
+                        
+                        Thread.sleep(10);
+                    }
+                    features = readSVGData(outGobblerString.toString(), filteredImage.getWidth(), filteredImage.getHeight());
+                    
+                }
 
                 // now process the result
                 features = cullBorders(features);
@@ -1032,10 +1095,6 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                 int scale=4;
 
                 vList = generateGFXVectorList(features);
-            }
-            else if (jRadioButtonAutotrace.isSelected())
-            {
-                // do autotrace
             }
             // build GFXVectorList
             jTextField1.setText(""+vList.size());
@@ -1333,6 +1392,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     //Out: array of polys with rel coordinates
     Features scaleRel(Features in, int sc) 
     {
+        int scaleMode = 1;
+        if (!jRadioButtonPotrace.isSelected()) scaleMode = -1;
         int px=128*sc;
         int py=128*sc;
         Features retFeatures = new Features();
@@ -1369,7 +1430,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                         } 
                         else 
                         {
-                            VPoint retPoint = new VPoint((int)(dx/div), (int)(dy/div));
+                            VPoint retPoint = new VPoint((int)(dx/div), (int)(dy/div)*scaleMode);
                             retPoint.flagSign="c";
                             retPoint.flag = (int) div; // count
                             px+=((int)(dx/div))*div;
@@ -1382,7 +1443,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                         //Just put multiple jumps in.
                         for (int i=0; i<div; i++) 
                         {
-                            VPoint retPoint = new VPoint((int)(dx/div), (int)(dy/div));
+                            VPoint retPoint = new VPoint((int)(dx/div), (int)(dy/div)*scaleMode);
                             px+=((int)(dx/div));
                             py+=((int)(dy/div));
                             retPoint.flagSign="c";
@@ -1420,7 +1481,6 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             return Math.PI/2;
 	return Math.acos(dp/np);
     }
-    
     // helper class to get messages from exec commands
     class StreamGobbler extends Thread
     {
@@ -1431,6 +1491,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         {
             this.is = is;
             this.type = type;
+            if (type.equals("OUTPUT"))
+                outGobblerString = new StringBuilder();
         }
 
         public void run()
@@ -1453,6 +1515,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                         if (tinyLog != null)
                             tinyLog.printMessage(line);
                         log.addLog(line, INFO);
+                        outGobblerString.append(line+"\n");
                     }
                 }
             } 
@@ -1564,6 +1627,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     //In: array of polys with abs coordinates
     ArrayList<GFXVectorList> generateGFXVectorList(Features in) 
     {
+        int scaleMode= 1;
+        if (!jRadioButtonPotrace.isSelected()) scaleMode = -1;
         ArrayList<GFXVectorList> vListList = new ArrayList<GFXVectorList>();
         for (Feature feature : in.feature) 
         {
@@ -1578,7 +1643,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                     int y= coord.y-128;
                     
                     x = (int) (((double)x)*xFactor);
-                    y = (int) (((double)y)*yFactor);
+                    y = (int) (((double)y)*yFactor)*scaleMode;
                     
                     if (lastVector == null)
                     {
@@ -1596,7 +1661,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                 }
                 if (vList.list.size()>0)
                 {
-                    vList.list.remove(vList.list.size()-1); // drop last element, since it only contains the last endpoint
+//                    vList.list.remove(vList.list.size()-1); // drop last element, since it only contains the last endpoint
                     vListList.add(vList);
                 }
             }
@@ -1620,5 +1685,330 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     public void deIconified()  {}
 
     
+
+	
+	
+    public boolean executeAutotrace(String filename)
+    {
+        boolean b = false;
+        if (isMac)
+        {
+            b = executeAutotraceMac( filename);
+        }
+        if (isWin)
+        {
+            b = executeAutotraceWin( filename);
+        }
+        if (isLinux)
+        {
+            b = executeAutotraceLin( filename);
+        }
+        return b;
+    }
+    public boolean executeAutotraceMac(String filename)
+    {
+        int bits = Global.getOSBit();
+        String osDir = "mac"+bits;
+        String filepath = Global.mainPathPrefix+"externalTools"+File.separator+"autotrace"+File.separator+osDir+File.separator+"MacOS"+File.separator+"autotrace";
+        
+        String [] cmd = new String[8];
+        cmd[0] = filepath;
+        if (jComboBox1.getSelectedIndex()==0)
+            cmd[1] = "-background-color=000000";   
+        else
+            cmd[1] = "-background-color=ffffff";   
+        cmd[2] = "-error-threshold="+jTextField4.getText();   
+        cmd[3] = "-centerline";   
+        cmd[4] = "-line-reversion-threshold=1000";   
+        cmd[5] = "-line-threshold=1000";   
+        cmd[6] = "-output-format=svg";   
+
+        cmd[7] = filename;   
+
+        
+        // output is written to stdio
+		// must be gotten from "gobbler"
+		
+        log.addLog("Starting Mac autotrace...", INFO);
+        return executeOSCommand(cmd);
+    }
+    public boolean executeAutotraceWin(String filename)
+    {
+        int bits = Global.getOSBit();
+        String osDir = "win"+bits;
+        String filepath = Global.mainPathPrefix+"externalTools"+File.separator+"autotrace"+File.separator+osDir+File.separator+"autotrace.exe";
+        
+
+        String [] cmd = new String[8];
+        cmd[0] = filepath;
+        if (jComboBox1.getSelectedIndex()==0)
+            cmd[1] = "-background-color=000000";   
+        else
+            cmd[1] = "-background-color=ffffff";   
+        cmd[2] = "-error-threshold="+jTextField4.getText();   
+        cmd[3] = "-centerline";   
+        cmd[4] = "-line-reversion-threshold=1000";   
+        cmd[5] = "-line-threshold=1000";   
+        cmd[6] = "-output-format=svg";   
+
+        cmd[7] = filename;   
+
+        
+        log.addLog("Starting Win autotrace...", INFO);
+        return executeOSCommand(cmd);
+    }
+    public boolean executeAutotraceLin(String filename)
+    {
+        int bits = Global.getOSBit();
+        String osDir = "linux"+bits;
+        String filepath = Global.mainPathPrefix+"externalTools"+File.separator+"autotrace"+File.separator+osDir+File.separator+"autotrace";
+        
+        String [] cmd = new String[8];
+        cmd[0] = filepath;
+        if (jComboBox1.getSelectedIndex()==0)
+            cmd[1] = "-background-color=000000";   
+        else
+            cmd[1] = "-background-color=ffffff";   
+        cmd[2] = "-error-threshold="+jTextField4.getText();   
+        cmd[3] = "-centerline";   
+        cmd[4] = "-line-reversion-threshold=1000";   
+        cmd[5] = "-line-threshold=1000";   
+        cmd[6] = "-output-format=svg";   
+
+        cmd[7] = filename;   
+
+        
+        log.addLog("Starting Linux autotrace...", INFO);
+        return executeOSCommand(cmd);
+    }
+	
+    class SVGStream
+    {
+        String err="";
+        String s;
+        String work;
+        int pos;
+        String mode="";
+        SVGStream(String ss)
+        {
+            s= ss;
+            work= ss;
+            pos = 0;
+        }
+        void error(String s)
+        {
+            err=err+"("+pos+"): "+s+"\n";
+        }
+        boolean toNextPath()
+        {
+            int p = work.indexOf("d=\"");
+            if (p <0) return false;
+            work = work.substring(p+3);
+            this.pos = this.pos +p+3;
+            return true;
+        }
+
+        void skipSpaces()
+        {
+            char m;
+            int p = 0;
+            do
+            {
+                m = work.substring(p,p+1).charAt(0);
+                p++;
+                pos++;
+            } while (m == ' ');
+            pos--; // correct pos, last found was NO space
+            p--;
+            if (p > 0)
+                work = work.substring(p);
+        }
+
+        // advances 1 char if mode was found
+        // does not advance when no mode was found
+        // mode is returned, either the last (when none found) or new mode
+        String nextMode()
+        {
+            skipSpaces();
+            char m = peekChar();
+
+            // finish upon unkown mode!
+            if ((m != 'L') && (m != 'l') && (m != 'M') && (m != 'm'))
+            {
+                mode="x";
+                return mode;
+            }
+
+            mode = ""+getChar();
+            return mode;
+        }
+        char peekChar()
+        {
+            if (work.length() == 0)
+            {
+                error("stream end");
+                return 0;
+            }
+            return work.substring(0,1).charAt(0);
+        }
+        char getChar()
+        {
+            if (work.length() == 0)
+            {
+                error("stream end");
+                return 0;
+            }
+            char m = work.substring(0,1).charAt(0);
+            pos++;
+            work = work.substring(1);
+            return m;
+        }
+        int nextIntNumber()
+        {
+            int ret = 0;
+            skipSpaces();
+
+            char m = peekChar();
+            while ((m>='0') && (m<='9'))
+            {
+                m = getChar();
+                ret*=10;
+                ret+=m-'0';
+                m = peekChar();
+            } 
+            if (m == '.')
+            {
+                m = getChar(); // skip '.'
+                // skip to end of decimal
+                m = peekChar();
+                while ((m>='0') && (m<='9'))
+                {
+                    m = getChar();
+                    m = peekChar();
+                } 
+            }
+            return ret;
+        }
+    };
+	
+    // only reads Paths
+    // ignores curves, h, v, z
+    Features readSVGData(String data, int imageWidth, int imageHeight)
+    {
+        Features features = new Features();
+        Feature feature = new Feature();
+        features.feature.add(feature);
+        int globalX = 0;
+        int globalY = 0;
+        int oldMoveX = 0;
+        int oldMoveY = 0;
+        try
+        {
+            SVGStream svg = new SVGStream(data);
+            String mode = "";
+            String nextMode = "";
+
+            while (svg.toNextPath())
+            {
+                // following only does ONE
+                // path
+                Poly poly = null;
+                while (!mode.equals("x"))
+                {
+                    nextMode = svg.nextMode();
+                    int x= svg.nextIntNumber();
+                    int y= svg.nextIntNumber();
+
+                    if ((nextMode.equals("L")) || (nextMode.equals("M")))
+                    {
+                        globalX = x;
+                        globalY = y;
+                    }
+                    if ((nextMode.equals("l")) || (nextMode.equals("m")))
+                    {
+                        globalX += x;
+                        globalY += y;
+                    }
+                    nextMode = nextMode.toLowerCase();
+                    if ((mode.equals("l")) && (!nextMode.equals("l")))
+                    {
+                        // from line mode to something else
+                        // finish Poly
+                        feature.poly.add(poly);
+                        poly = null;
+                    }
+                    else if ((!mode.equals("l")) && (nextMode.equals("l")))
+                    {
+                        // from something else to line
+                        // create new poly
+                        poly = new Poly();
+                        
+                        if (mode.equals("m"))
+                        {
+                            // last mode was a move, so add the first coordinate, so we can draw a single line
+                            // and add one coordinate pair
+                            double val0 = oldMoveX;
+                            double val1 = oldMoveY;
+
+                            val0 = val0*255; // x
+                            val1 = val1*255; // y
+
+                            val0 = val0/imageWidth;
+                            val1 = val1/imageHeight;
+
+                            VPoint point = new VPoint((int)val0, (int)val1);
+                            poly.coords.add(point);
+                            
+                        }
+                        
+                        // and add one coordinate pair
+                        double val0 = globalX;
+                        double val1 = globalY;
+
+                        val0 = val0*255; // x
+                        val1 = val1*255; // y
+
+                        val0 = val0/imageWidth;
+                        val1 = val1/imageHeight;
+
+                        VPoint point = new VPoint((int)val0, (int)val1);
+                        poly.coords.add(point);
+                    }
+                    else if (nextMode.equals("l"))
+                    {
+                        // staying in line mode
+                        // add one coordinate pair
+                        double val0 = globalX;
+                        double val1 = globalY;
+
+                        val0 = val0*255; // x
+                        val1 = val1*255; // y
+
+                        val0 = val0/imageWidth;
+                        val1 = val1/imageHeight;
+
+                        VPoint point = new VPoint((int)val0, (int)val1);
+                        poly.coords.add(point);
+                    }
+                    mode = nextMode;
+                    if (mode.equals("m"))
+                    {
+                        oldMoveX = globalX;
+                        oldMoveY = globalY;
+                    }
+                } // path while
+                if (poly != null)
+                    feature.poly.add(poly);
+            } // svg path while
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+        return features;
+    }
+	
+	
 }
 

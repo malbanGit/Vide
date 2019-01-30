@@ -37,6 +37,7 @@ public class InternalFrameFileChoser extends JFileChooser{
         final ModalInternalFrame modal = new ModalInternalFrame(title, frame.getRootPane(),frame, this, "Ok");
 
         modal.setSystemDialog(true);
+/*        
         final javax.swing.event.InternalFrameAdapter l = new javax.swing.event.InternalFrameAdapter()
         {
             javax.swing.event.InternalFrameAdapter ll=this;
@@ -52,6 +53,7 @@ public class InternalFrameFileChoser extends JFileChooser{
         };
 
         modal.addInternalFrameListener(l);
+*/
 	returnValue = ERROR_OPTION;
         rescanCurrentDirectory();
         addActionListener(new ActionListener()

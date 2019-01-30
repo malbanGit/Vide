@@ -74,6 +74,7 @@ public class Asmj {
     public static boolean multibank = false; // is a multibannk asm 64k in one file
     public static boolean inBSS = false;
     public static String currentBaseDir="";
+    public static boolean is48k = false;
     
     public static final int SEGMENT_CODE = 0;
     public static final int SEGMENT_DATA = 1;
@@ -136,6 +137,8 @@ public class Asmj {
                 for (Replacements r : asmR.replacementList)
                 {
                     if (r.address+r.len> data.length) continue;
+                    if (r.replacementVarName.equals("noiseOnlyData"))
+                        System.out.println("");
                     int value = getReplacementValue(r.replacementVarName, r.replacementVarListName);
                     byte lo = (byte) (value &0xff);
                     byte hi = (byte) ((value &0xff00)>>8);
@@ -530,6 +533,11 @@ public class Asmj {
     public static HashMap <String, DebugCommentList> allDebugComments;
     public Asmj( String filename, OutputStream errOut, OutputStream listOut, OutputStream symOut, OutputStream infoOut , String defines, HashMap <String, DebugCommentList> adc) 
     {
+        this(  filename,  errOut,  listOut,  symOut,  infoOut ,  defines,   adc, false);
+    }
+    public Asmj( String filename, OutputStream errOut, OutputStream listOut, OutputStream symOut, OutputStream infoOut , String defines, HashMap <String, DebugCommentList> adc, boolean is48k) 
+    {
+        Asmj.is48k = is48k;
         initReplacement();
         allDebugComments = adc; // make comments accessable to all 
         clearLineInfo();
@@ -1294,6 +1302,7 @@ public class Asmj {
                 pline.eraseErrorMessages();
                 pline.eraseWarningMessages();
                 pline.eraseOptimizeMessages();
+                pline.eraseComments();
             }
             // If line has no instruction, no more work is needed
             if (instr == null) 
@@ -1534,10 +1543,13 @@ public class Asmj {
             {
                 if (!multibank)
                 {
-                    if (mem.current.length > 32768)
+                    int maxMem = 32768;
+                    if (Asmj.is48k) maxMem = 32768 +16384;
+                    
+                    if (mem.current.length > maxMem)
                     {
                         if (!oomDone)
-                        Asmj.error( pline, "Resulting binary is larger than 32768 bytes, it can not run on a vectrex!" );
+                        Asmj.error( pline, "Resulting binary is larger than "+maxMem+" bytes, it can not run on a vectrex!" );
                         oomDone = true;
                     }
                 }

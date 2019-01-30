@@ -85,7 +85,7 @@ public class GetSinValuePanel extends javax.swing.JPanel {
 
     int lineNumber = 360;
     // returns new Properties, not saved yet!
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static int showEnterValueDialog()
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

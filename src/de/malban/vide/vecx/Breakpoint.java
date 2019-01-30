@@ -7,13 +7,14 @@ package de.malban.vide.vecx;
 
 import de.malban.vide.dissy.MemoryInformation;
 import static de.malban.vide.vecx.VecXStatics.EMU_EXIT_BREAKPOINT_BREAK;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author malban   
  */
-public class Breakpoint 
+public class Breakpoint implements Serializable
 {
     public static int BP_NONE = 0;
     public static int BP_ONCE = 1;
@@ -95,7 +96,6 @@ public class Breakpoint
     
     
     private static int UID_C = 1;
-    public final int uid = UID_C++;
 
     public int targetType = BP_TARGET_CPU;
     public int targetSubType = BP_SUBTARGET_CPU_PC;
@@ -106,10 +106,12 @@ public class Breakpoint
     public long counter=0;
     public String name = "";
     public int exitType = EMU_EXIT_BREAKPOINT_BREAK; // default break of emulation
+    public boolean enabled = true;
     public ArrayList<String> printInfo = null;
-    public boolean wasTriggered = false;
     
-    public MemoryInformation memInfo = null;
+    public transient MemoryInformation memInfo = null;
+    public transient final int uid = UID_C++;
+    public transient boolean wasTriggered = false;
     
     
     // meminfo is not cloned, but taken directly!
@@ -124,6 +126,7 @@ public class Breakpoint
         nbp.compareValue = compareValue;
         nbp.counter = counter;
         nbp.name = name;
+        nbp.enabled = enabled;
         nbp.exitType = exitType;
         nbp.wasTriggered = wasTriggered;
         if (printInfo != null)
@@ -144,8 +147,6 @@ public class Breakpoint
         if (type != bp.type) return false;
         return true;
     }
-    
-    
     
     public boolean equals(Breakpoint bp)
     {

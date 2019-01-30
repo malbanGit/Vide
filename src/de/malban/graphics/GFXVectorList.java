@@ -557,16 +557,29 @@ public class GFXVectorList {
         return max;
     }
     
-    // safety map is used to
-    // ensure no vertices are scaled double
-    // this would happen for "joined" vectors
-    public void scaleAll(double scale, HashMap<Vertex, Boolean> safetyMap)
+    public void intAll()
     {
         GFXVectorList al = this;
         for (int i=0; i< al.size(); i++)
         {
-            al.get(i).scaleAll(scale, safetyMap);
+            al.get(i).intAll();
         }       
+    }
+    
+    // safety map is used to
+    // ensure no vertices are scaled double
+    // this would happen for "joined" vectors
+    public void scaleAll(double scale, HashMap<Vertex, Boolean> safetyMap, boolean  yScale, boolean xScale, boolean zScale)
+    {
+        GFXVectorList al = this;
+        for (int i=0; i< al.size(); i++)
+        {
+            al.get(i).scaleAll(scale, safetyMap, yScale, xScale, zScale);
+        }       
+    }
+    public void scaleAll(double scale, HashMap<Vertex, Boolean> safetyMap)
+    {
+        scaleAll( scale, safetyMap, true, true, true);
     }
     public void disconnectAll()
     {
@@ -2499,11 +2512,11 @@ public class GFXVectorList {
             log.addLog("isDraw_VLp failed, not continuous!", WARN);
             return false;
         }
-        if (!isAllPatternHigh(true))
-        {
-            log.addLog("isDraw_VLp failed, low patterns found!", WARN);
-            return false;
-        }
+//        if (!isAllPatternHigh(true))
+//        {
+//            log.addLog("isDraw_VLp failed, low patterns found!", WARN);
+//            return false;
+//        }
         
         return true;
     }
@@ -3932,18 +3945,20 @@ public class GFXVectorList {
                 v1.start = v2.start;
                 v1.uid_start_connect = v2.uid_start_connect;
                 v1.start_connect = v2.start_connect;
-                
-                if ((newEnd.start_connect!=null) &&(newEnd.start_connect.uid == v2.uid))
+                if (newEnd!=null)
                 {
-                    newEnd.start_connect = v2.start_connect;
-                    newEnd.start = v1.start;
-                    newEnd.uid_start_connect = v2.uid_start_connect;
-                }
-                if ((newEnd.end_connect!=null) &&(newEnd.end_connect.uid == v2.uid))
-                {
-                    newEnd.end_connect = v2.start_connect;
-                    newEnd.end = v1.start;
-                    newEnd.uid_end_connect = v2.uid_start_connect;
+                    if ((newEnd.start_connect!=null) &&(newEnd.start_connect.uid == v2.uid))
+                    {
+                        newEnd.start_connect = v2.start_connect;
+                        newEnd.start = v1.start;
+                        newEnd.uid_start_connect = v2.uid_start_connect;
+                    }
+                    if ((newEnd.end_connect!=null) &&(newEnd.end_connect.uid == v2.uid))
+                    {
+                        newEnd.end_connect = v2.start_connect;
+                        newEnd.end = v1.start;
+                        newEnd.uid_end_connect = v2.uid_start_connect;
+                    }
                 }
             }
         }

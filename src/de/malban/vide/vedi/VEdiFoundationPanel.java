@@ -383,39 +383,4 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         Point p = new Point();
         return p;
     }
-
-
-    /*
-    private static TimingTriggerer timer = null; 
-    private static TriggerCallback timerWorker = null;
-    private static void initScheduler()
-    {
-        if (timer == null)
-        {
-            timer = TimingTriggerer.getPrivatTimer();
-            timer.setResolution(10000); // 10 seconds
-            
-            timerWorker = new TriggerCallback()
-            {
-                @Override
-                public void doIt(int state, Object o)
-                {
-                    updateDefinitions();
-                    timer.addTrigger(timerWorker, 30000, 0, null); // every 1/2 minute
-                }
-            };
-            timer.addTrigger(timerWorker, 30000, 0, null);            
-        }
-    }
-    private static void updateDefinitions()
-    {
-        SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                ASM6809FileInfo.resetDefinitions();
-            }
-        });                    
-    }
-    */
 }

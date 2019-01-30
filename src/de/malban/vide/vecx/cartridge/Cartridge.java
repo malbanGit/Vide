@@ -18,8 +18,6 @@ import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.DisplayerInterface;
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.cartridge.resid.SID.State;
-import de.malban.vide.vedi.EditorPanel;
-import de.malban.vide.vedi.VediPanel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.Serializable;
@@ -63,12 +61,17 @@ public class Cartridge implements Serializable
     public static int FLAG_SID = FLAG_32K_ONLY*2; // SID chip board at $8000 (kokovec)
     public static int FLAG_48K = FLAG_SID*2; // 
 
+
     // todo
     public static int FLAG_V4E_16K_BS = FLAG_48K*2; // 
-    public static int FLAG_ATMEL_EEPROM = FLAG_V4E_16K_BS*2; // VPATROL
+    public static int FLAG_ATMEL_EEPROM = FLAG_V4E_16K_BS*2; // VPATROL - DONE
     public static int FLAG_PIC_EEPROM = FLAG_ATMEL_EEPROM*2; // BLOXORZ
     public static int FLAG_KEYBOARD = FLAG_PIC_EEPROM*2; // 
     
+
+    //
+    public static int FLAG_FLASH_SUPPORT = FLAG_KEYBOARD*2; // 
+    public static int FLAG_BS_PB6_IRQ = FLAG_FLASH_SUPPORT*2; // 
     
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
 
@@ -76,12 +79,15 @@ public class Cartridge implements Serializable
     public boolean isAtmel = false;
     public boolean isDS2431 = false;
     public boolean is2430a = false;
+    public boolean isVecFeverCartridge = false;
     boolean extraRam2000_2800_2k_Enabled = false;
     boolean extraRam8000_8800_2k_Enabled = false;
     boolean extraRam6000_7fff_8k_Enabled = false;
 
     public boolean currentIRQ = true;
     public boolean currentPB6 = true;
+    public boolean flashSupport = true;
+
     // redundant to flag
     boolean isXmas = false;
     boolean isDualVec = false;
@@ -92,6 +98,7 @@ public class Cartridge implements Serializable
     boolean _32kOnly = false;
     
     boolean v4e_16k_bankswitch = false;
+    boolean isPB6IRQBankswitch = false;
 
     public Microchip11AA010 microchip = new Microchip11AA010(this);
     public AT24C02 atmel = new AT24C02(this);
@@ -134,15 +141,21 @@ public class Cartridge implements Serializable
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0) ret+="$6000 8k extra RAM  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0) ret+="XMas LED  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2431)!=0) ret+="eEprom DS2431  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_32K_ONLY)!=0) ret+="32k forced ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_SID)!=0) ret+="SID extension ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_48K)!=0) ret+="48k ROM ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_32K_ONLY)!=0) ret+="32k forced  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_SID)!=0) ret+="SID extension  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_48K)!=0) ret+="48k ROM  ";
         
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_V4E_16K_BS)!=0) ret+="V4E 16k BS ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_ATMEL_EEPROM)!=0) ret+="eEprom atmel ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_PIC_EEPROM)!=0) ret+="eEprom PIC ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_KEYBOARD)!=0) ret+="Keyboard ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_V4E_16K_BS)!=0) ret+="V4E 16k BS  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_ATMEL_EEPROM)!=0) ret+="eEprom atmel  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_PIC_EEPROM)!=0) ret+="eEprom PIC  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_KEYBOARD)!=0) ret+="Keyboard  ";
 
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_FLASH_SUPPORT)!=0) ret+="Flash support  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_BS_PB6_IRQ)!=0) ret+="Quad BS ";
+
+        
+        
+        
         ret = ret.trim();
         ret = de.malban.util.UtilityString.replace(ret, "  ", ", ");
         return ret;
@@ -170,7 +183,6 @@ public class Cartridge implements Serializable
         
         ret += "$"+String.format("%04X", vecx.getPC());
         return ret;
-        
     }
     int typeFlags=0;
     public long crc=0;
@@ -188,6 +200,7 @@ public class Cartridge implements Serializable
     int oldBank=-1;    
     int currentBank =0;
     boolean previousExternalLineB = true;
+    boolean previousExternalLineIRQ = true;
     
     long oldCycles = 0;
     
@@ -325,10 +338,29 @@ public class Cartridge implements Serializable
     // & 0xff needed, since conversion from byte to int is "signed", and a negative value
     // is returned on x >=128, which in turn  does not
     // fit the other parts of emulation
-    public int get_cart(int pos) 
+    public int readByte(int pos) 
     {
         // TODO move if away from EVERY CaARTRIDGE ACCESS!!!
         if (cart == null) return 0;
+        
+        if (flashSupport)
+        {
+            if ((idSequenceData == 3) && (idSequenceAddress == 3)  )
+            {
+                if ((pos%2) == 0)
+                {
+                    log.addLog("FLASH ID read: $bf", INFO);
+                    return 0xbf;
+                }
+                else
+                {
+                    log.addLog("FLASH ID read: $b6", INFO);
+                    return 0xb6; // SST39SF020A
+                }
+            }
+
+        }
+        
         if (extraRam2000_2800_2k_Enabled)
         {
             if ((pos>=0x2000) && (pos <0x2800))
@@ -366,8 +398,6 @@ public class Cartridge implements Serializable
             }
         }
         
-        
-        
         if (cart.length<=currentBank) return 0xff;
         if (cart[currentBank] == null) return 0xff;
         if ((pos%MAX_BANK_SIZE)>=cart[currentBank].length) return 0xff;
@@ -391,6 +421,8 @@ public class Cartridge implements Serializable
                 return;
             }
         }
+        
+        
         if (extremeMulti)
         {
             writeExtreme(address, data);
@@ -400,60 +432,106 @@ public class Cartridge implements Serializable
         {
             extraRam[address-0x2000] = data;
         }
-        
-        else if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800_2k_Enabled))  
+        boolean flashDone = false;
+        if (flashSupport)
         {
-            extraRam[address-0x8000] = data;
-        }
-        else if ((address == 0xa000) && (extraRam8000_8800_2k_Enabled))  
-        {
-            spectrumByte = data;
-        }
-        else if ((address >= 0x6000) && (address < 0x6000+8192) && (extraRam6000_7fff_8k_Enabled))  
-        {
-            extraRam[address-0x6000] = data;
-        }
-        else
-        {
-            if (v4e_16k_bankswitch)
+            if ((writeSequenceAddress >= 3) && (writeSequenceData >= 3))
             {
-                if ((pos&0xc000) == 0xc000)
+                if (address!=0x5555) 
                 {
-                    int b = pos & 0xc000; // for now 4 banks only
-                    if (b==0) setBank(0);
-                    if (b==1) setBank(1);
-                    if (b==2) setBank(2);
-                    if (b==3) setBank(3);
+                    flashDone = true;
+                    writeSequenceAddress = 0;
+                    writeSequenceData = 0;
+                    if (cart.length<=currentBank) return;
+
+                    if ((address%MAX_BANK_SIZE)>=cart[currentBank].length) return;
+                    byte oldData = (byte) cart[currentBank][address%MAX_BANK_SIZE];
+
+                    // only erase of bit is allowed!
+                    byte newData = (byte) (data & oldData);
+                    cart[currentBank][address%MAX_BANK_SIZE] = newData;
+                    log.addLog("FLASH write ("+currentBank+","+(address%MAX_BANK_SIZE)+"->"+newData+")", INFO);
                 }
             }
-            
-            if (cart.length<=currentBank) return;
-
-            if (vecx.config.ramAccessAllowed)
+        }
+        if (!flashDone)
+        {
+            if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800_2k_Enabled))  
             {
-                if ((address%MAX_BANK_SIZE)>=cart[currentBank].length) return;
-                cart[currentBank][address%MAX_BANK_SIZE] = data;
+                extraRam[address-0x8000] = data;
+            }
+            else if ((address == 0xa000) && (extraRam8000_8800_2k_Enabled))  
+            {
+                spectrumByte = data;
+            }
+            else if ((address >= 0x6000) && (address < 0x6000+8192) && (extraRam6000_7fff_8k_Enabled))  
+            {
+                extraRam[address-0x6000] = data;
             }
             else
             {
-                log.addLog("ROM write-access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", vecx.getPC()), VERBOSE);
-                if (vecx.config.breakpointsActive) vecx.checkROMBreakPoint(address, data);
-            }
-            
-        }
-        
-    }
+                if (v4e_16k_bankswitch)
+                {
+                    if ((pos&0xc000) == 0xc000)
+                    {
+                        int b = pos & 0xc000; // for now 4 banks only
+                        if (b==0) setBank(0);
+                        if (b==1) setBank(1);
+                        if (b==2) setBank(2);
+                        if (b==3) setBank(3);
+                    }
+                }
 
+                if (cart.length<=currentBank) return;
+
+                if (vecx.config.ramAccessAllowed)
+                {
+                    if ((address%MAX_BANK_SIZE)>=cart[currentBank].length) return;
+                    cart[currentBank][address%MAX_BANK_SIZE] = data;
+                }
+                else
+                {
+                    log.addLog("ROM write-access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", vecx.getPC()), VERBOSE);
+                    if (vecx.config.breakpointsActive) vecx.checkROMBreakPoint(address, data);
+                }
+            }            
+        }
+
+    }
     
     int cHi;
     int parm;
     byte[] allData= null;
     int pos;
     // as a  test only bad apple now!
+    int big = 0;
+    boolean doExtremeOutput = false;
     private void writeExtreme(int addr, byte data)
     {
 	int i;
 	if (addr==1) cHi=data<<8;
+        if (addr==2) 
+        {
+            int timerT2 = (cHi+data)&0xffff;
+            int timerT2Real = ((data<<8)+(cHi>>8))&0xffff;
+            if (doExtremeOutput)
+            {
+                System.out.println("DBG: 1 "+String.format("%04X", timerT2)+"");
+                if (timerT2Real >0xc350)
+                {
+     //           System.out.println("DBG: 1  "+String.format("%04X", timerT2)+",");
+                    big++;
+                    if (big>1) 
+                    {
+                        System.out.println("Buh");
+                    }
+                }
+                else
+                {
+                    big=0;
+                }
+            }
+        }
 	if (addr==0x7ffe) parm=data;
 	if ((addr&0xff)==0xff) 
         {
@@ -467,10 +545,30 @@ public class Cartridge implements Serializable
                 {
                     try
                     {
-                        Path path = Paths.get("vec.bin");
+                        Path path = Paths.get(Global.mainPathPrefix+"vec.bin");
                         if (currentCardProp != null)
                         {
-                            path = Paths.get(Global.mainPathPrefix+currentCardProp.mextremeVecFileImage);
+                            String s = "vec.bin";
+                            if(currentCardProp.mFullFilename.size()>0)
+                            {
+                                String org = currentCardProp.mFullFilename.elementAt(0);
+                                int t = org.lastIndexOf(File.separator)+1;
+                                s = org.substring(0, t)+s;
+                            }
+                            path = Paths.get(Global.mainPathPrefix+s);
+                            if (currentCardProp.mextremeVecFileImage==null)
+                            {
+                            }
+                            else
+                            {
+                                if (currentCardProp.mextremeVecFileImage.trim().length()==0)
+                                {
+                                }
+                                else
+                                {
+                                    path = Paths.get(Global.mainPathPrefix+currentCardProp.mextremeVecFileImage);
+                                }
+                            }
                         }
 //                        log.addLog("Cart: extreme multicard -> hardcoded 'vec.bin' used", WARN);
                         allData = Files.readAllBytes(path);
@@ -486,10 +584,13 @@ public class Cartridge implements Serializable
                 for (int ii=0; ii< 1024+512;ii++)
                 {
                     cart[currentBank][0x4000+ii] = allData[pos];
+//System.out.println("Extreme bank switch");                    
                     pos++;
                 }
 //                i=fread(&cart[0x4000], 1, 1024+512, str);
 //                printf("Read %d bytes %hhx.\n", i, cart[0x4000]);
+                if (doExtremeOutput)
+                    System.out.println("Read 1536 bytes "+String.format("%02X", cart[currentBank][0x4000])+".");
             } 
             else if (data==66) 
             {
@@ -516,6 +617,7 @@ public class Cartridge implements Serializable
         }
         return bankFileNames[bank];
     }
+    
     public byte[] getByteData(int bank)
     {
         if (bankLength==null)
@@ -545,19 +647,20 @@ public class Cartridge implements Serializable
         MAX_BANK_SIZE = 32768;
         if (rom48KEnabled) MAX_BANK_SIZE = 32768+32768/2;
         
-        
-        
         is2430a = (cartProp.getTypeFlags()&Cartridge.FLAG_DS2430A)!=0;
         isDS2431 = (cartProp.getTypeFlags()&Cartridge.FLAG_DS2431)!=0;
         isAtmel = (cartProp.getTypeFlags()&Cartridge.FLAG_ATMEL_EEPROM)!=0;
         isMicrochip = (cartProp.getTypeFlags()&Cartridge.FLAG_MICROCHIP)!=0;
         
-        
+        isPB6IRQBankswitch = (cartProp.getTypeFlags()&Cartridge.FLAG_BS_PB6_IRQ)!=0;
         _32kOnly = (cartProp.getTypeFlags()&Cartridge.FLAG_32K_ONLY)!=0;
         isXmas =  ((cartProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0);
         isDualVec = (  ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0));
         extremeMulti = (cartProp.getTypeFlags()&Cartridge.FLAG_EXTREME_MULTI)!=0;
         sidEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_SID)!=0;
+// todo
+// for now always enabled!
+        flashSupport = (cartProp.getTypeFlags()&Cartridge.FLAG_FLASH_SUPPORT)!=0;
         
         previousExternalLineB = false;
         oldCycles = 0;
@@ -591,6 +694,7 @@ public class Cartridge implements Serializable
                 return false;
             }
         }
+//        log.addLog("Cart init: "+getTypInfoString(), INFO);
         
         if (bankMax == 1)
         {
@@ -633,13 +737,16 @@ public class Cartridge implements Serializable
                 }
                 bankFileNames[bank] = romName;
             }
-            
-            if (getBankCount()<3) // assume vecflash for more than 2 banks
+
+            if (!isPB6IRQBankswitch)
             {
-                setBank(previousExternalLineB ? 1 : 0);
-                return true;
+                if (getBankCount()<3) // assume vecflash for more than 2 banks
+                {
+                    setBank(previousExternalLineB ? 1 : 0);
+                    log.addLog("cart: init " + toString(cartProp), INFO);
+                    return true;
+                }
             }
-            
         }
         
         if (extraRam2000_2800_2k_Enabled)
@@ -891,7 +998,8 @@ public class Cartridge implements Serializable
             {
                 if (getBankCount()<3) 
                 {
-                    setBank(previousExternalLineB ? 1 : 0);
+                    if (!isPB6IRQBankswitch)
+                        setBank(previousExternalLineB ? 1 : 0);
                 }
             }
             
@@ -915,6 +1023,7 @@ public class Cartridge implements Serializable
         to.ds2431.cart = to;
         to.microchip = from.microchip.clone();
         to.microchip.cart = to;
+        to.isPB6IRQBankswitch = to.isPB6IRQBankswitch;
         
         if (from.dualvec == null) 
         {
@@ -925,21 +1034,19 @@ public class Cartridge implements Serializable
             to.dualvec = from.dualvec.clone();
             to.dualvec.cart = to;
         }
-        
+
+        // todo FLASH
         to.vecx = from.vecx;
     }
-    
 
     private static enum VECFLASH
     {
         RESET,  LOW_CHECK,  LOW_PULSE;
     }    
     VECFLASH vfState = VECFLASH.LOW_PULSE;
-    
-    
-    
+
     // returns true if bank was switched
-    public boolean checkBankswitch(boolean externalLine , long cycles)
+    public boolean checkBankswitchPB6(boolean externalLine , long cycles)
     {
         if (v4e_16k_bankswitch) return false; // no pb6 bankswitch!
         // only interesting pin is pb6 external
@@ -948,7 +1055,20 @@ public class Cartridge implements Serializable
         if (previousExternalLineB != externalLine)
         {
             previousExternalLineB = externalLine;
+            
+            if (isPB6IRQBankswitch) 
+            {
+                setPB6IRQBank();
+                return true;
+            }
+            
+            
             if (getBankCount()<3) // assume vecflash for more than 2 banks
+            {
+                setBank(previousExternalLineB ? 1 : 0);
+                return true;
+            }
+            if (getBankCount()>32) // assume vecflash for more than 2 banks
             {
                 setBank(previousExternalLineB ? 1 : 0);
                 return true;
@@ -1020,6 +1140,37 @@ public class Cartridge implements Serializable
         return false;
         
     }
+    private void setPB6IRQBank()
+    {
+        // 2 bit number
+        // PB6 is bit 0
+        // IRQ is bit 1
+
+        // IRQ is per default (non active) = 1
+        // PB6 is per default 1
+        //
+        // so the "start" bank is actually bank 3
+        int newBank = 0;
+        if (previousExternalLineB) newBank +=1;
+        if (previousExternalLineIRQ) newBank +=2;
+        setBank(newBank);
+    } 
+    
+    // returns true if bank was switched
+    // IRQLine is zero active
+    // if IRQ occured the IRQLine is FALSE
+    public boolean checkBankswitchIRQ(boolean IRQLine , long cycles)
+    {
+        if (!isPB6IRQBankswitch) return false;
+        // and even THAT is only interesting if it changed
+        if (previousExternalLineIRQ != IRQLine)
+        {
+            previousExternalLineIRQ = IRQLine;
+            setPB6IRQBank();
+            return true;
+        }        
+        return false;
+    }
     public static String convertSeperator(String filename)
     {
         String ret = de.malban.util.UtilityString.replace(filename, "/", File.separator);
@@ -1054,7 +1205,7 @@ public class Cartridge implements Serializable
         if (vecx.config.enableBankswitch)
         {
             // send changed via port b out put to cartridge
-            boolean changed = checkBankswitch(pb6, vecx.cyclesRunning);
+            boolean changed = checkBankswitchPB6(pb6, vecx.cyclesRunning);
             if (changed)
             {
                 vecx.checkBankswitchBreakpoint();
@@ -1077,6 +1228,7 @@ public class Cartridge implements Serializable
     // line IRQ
     // is set FROM vectrex
     // can be used by any "device" on line IRQ
+    // if IRW = true, than IRQ occured
     public void setIRQFromVectrex(boolean irq)
     {
         if (vecx==null) return;
@@ -1088,6 +1240,19 @@ public class Cartridge implements Serializable
             // implemented in vecxi!!!!
             
             atmel.lineIRQIn(!irq);
+        }
+        if (isPB6IRQBankswitch)
+        {
+            if (vecx.config.enableBankswitch)
+            {
+                // send changed via port b out put to cartridge
+                // IRQ "external" line is zero active -> therefore invert the IRQ
+                boolean changed = checkBankswitchIRQ(!irq, vecx.cyclesRunning);
+                if (changed)
+                {
+                    vecx.checkBankswitchBreakpoint();
+                }
+            }
         }
         
     }    
@@ -1111,9 +1276,6 @@ public class Cartridge implements Serializable
         {
             vsid.updateSound();
         }
-        
-        
-        
     }
     public State getSidState()
     {
@@ -1161,7 +1323,218 @@ public class Cartridge implements Serializable
         {
             dualvec.step(cycles);
         }
+        if (flashSupport) // watch lines!
+        {
+            // todo use device
+            checkEraseSequence();
+            checkIDSequence();
+            checkWriteSequence();
+        }
     }
+    int eraseAddress = 0;
+    int eraseSequenceAddress = 0;
+    int eraseSequenceData = 0;
+    private void checkEraseSequence()
+    {
+        int addressBUS = vecx.getAddressBUS();
+        int dataBUS = (int) ((vecx.getDataBUS()) & 0xff);
+
+        if ((eraseSequenceAddress == 0) && (addressBUS == 0x5555)) eraseSequenceAddress = 1;
+        else if ((eraseSequenceAddress == 1) && ((addressBUS == 0x5555) || (addressBUS == 0x2aaa) ))
+        {
+            if (addressBUS == 0x2aaa) eraseSequenceAddress = 2;
+        }
+        else if ((eraseSequenceAddress == 2) && ((addressBUS == 0x5555) || (addressBUS == 0x2aaa) ))
+        {
+            if (addressBUS == 0x2aaa) eraseSequenceAddress = 3;
+        }
+        else if ((eraseSequenceAddress == 3) && ((addressBUS == 0x5555) || (addressBUS == 0x2aaa) ))
+        {
+            if (addressBUS == 0x5555) eraseSequenceAddress = 4;
+        }
+        else if ((eraseSequenceAddress == 4) && ((addressBUS == 0x5555) || (addressBUS == 0x2aaa) ))
+        {
+            if (addressBUS == 0x2aaa) eraseSequenceAddress = 5; 
+        }
+        else if ((eraseSequenceAddress == 5) && (addressBUS == 0x2aaa) )
+        {
+            ;
+        }
+        else if ((eraseSequenceAddress == 5) && (addressBUS != 0x2aaa) )
+        {
+            eraseAddress = addressBUS;
+            eraseSequenceAddress = 6;
+        }
+        else if ((eraseSequenceAddress == 6) && (addressBUS != eraseAddress) )
+        {
+            eraseSequenceAddress = 0;
+        }
+        else eraseSequenceAddress = 0;
+
+        if ((eraseSequenceData == 0) && (dataBUS == 0xaa))
+        {
+            eraseSequenceData = 1;
+        }
+        else if ((eraseSequenceData == 1) && ( (dataBUS == 0xaa)||(dataBUS == 0x55) ))
+        {
+            if (dataBUS == 0x55) eraseSequenceData = 2;
+        }
+        else if ((eraseSequenceData == 2) && ( (dataBUS == 0x55)||(dataBUS == 0x80) ))
+        {
+            if (dataBUS == 0x80) eraseSequenceData = 3;
+        }
+        else if ((eraseSequenceData == 3) && ( (dataBUS == 0xaa)||(dataBUS == 0x80) ))
+        {
+            if (dataBUS == 0xaa) eraseSequenceData = 4;
+        }
+        else if ((eraseSequenceData == 4) && ( (dataBUS == 0xaa)||(dataBUS == 0x55) ))
+        {
+            if (dataBUS == 0x55) eraseSequenceData = 5;
+        }
+        else if ((eraseSequenceData == 5) && ( (dataBUS == 0x30)||(dataBUS == 0x55) ))
+        {
+            if (dataBUS == 0x30) 
+            {
+                eraseSequenceData = 6;
+            }
+        }
+        else if ((eraseSequenceData == 6) &&  (dataBUS == 0x30))
+        {
+            ;
+        }
+        else eraseSequenceData = 0;
+
+        if ((eraseSequenceAddress == 6) && (eraseSequenceData == 6))
+        {
+            log.addLog("Erase sequence ...", INFO);
+            eraseSequenceAddress = 0;
+            eraseSequenceData = 0;
+            int start = eraseAddress & 0xffff000;
+            for (int i= start; i<start+4096;i++)
+            {
+                cart[currentBank][i%MAX_BANK_SIZE] = 0xff;
+            }
+        }
+    }
+    int idSequenceAddress = 0;
+    int idSequenceData = 0;
+    private void checkIDSequence()
+    {
+        int addressBUS = vecx.getAddressBUS();
+        int dataBUS = (int) ((vecx.getDataBUS()) & 0xff);
+
+        if ((idSequenceAddress == 0) && (addressBUS == 0x5555)) idSequenceAddress = 1;
+        else if ((idSequenceAddress == 1) && ((addressBUS == 0x5555) || (addressBUS == 0x2aaa) ))
+        {
+            if (addressBUS == 0x2aaa) idSequenceAddress = 2;
+        }
+        else if ((idSequenceAddress == 2) && ((addressBUS == 0x5555) || (addressBUS == 0x2aaa) ))
+        {
+            if (addressBUS == 0x5555) idSequenceAddress = 3;
+        }
+        else if ((idSequenceAddress == 3) && (addressBUS == 0x5555) )
+        {
+            ; 
+        }
+        else if ((idSequenceData == 3) && (idSequenceAddress == 3)  )
+        {
+            ;
+        }
+        else idSequenceAddress = 0;
+
+        if ((idSequenceData == 0) && (dataBUS == 0xaa))
+        {
+            idSequenceData = 1;
+        }
+        else if ((idSequenceData == 1) && ( (dataBUS == 0xaa)||(dataBUS == 0x55) ))
+        {
+            if (dataBUS == 0x55) idSequenceData = 2;
+        }
+        else if ((idSequenceData == 2) && ( (dataBUS == 0x55)||(dataBUS == 0x90) ))
+        {
+            if (dataBUS == 0x90) idSequenceData = 3;
+        }
+        else if ((idSequenceData == 3) && (dataBUS == 0x90) )
+        {
+            ;
+        }
+        else if ((idSequenceData == 3) && (idSequenceAddress == 3)  )
+        {
+            log.addLog("Id Sequence on", INFO);
+        }
+        else idSequenceData = 0;
+
+        if ((idSequenceAddress == 3) && (idSequenceData == 3))
+        {
+            if (dataBUS==0xf0)
+            {
+                idSequenceAddress = 0;
+                idSequenceData = 0;
+                log.addLog("Id Sequence off", INFO);
+            }
+        }
+        
+    }
+    int writeSequenceAddress = 0;
+    int writeSequenceData = 0;
+//    int writeAddress = 0;
+//    int writeData = 0;
+    private void checkWriteSequence()
+    {
+        int addressBUS = vecx.getAddressBUS();
+        int dataBUS = (int) ((vecx.getDataBUS()) & 0xff);
+
+        if ((writeSequenceAddress == 0) && (addressBUS == 0x5555)) writeSequenceAddress = 1;
+        else if ((writeSequenceAddress == 1) && ((addressBUS == 0x5555) || (addressBUS == 0x2aaa) ))
+        {
+            if (addressBUS == 0x2aaa) writeSequenceAddress = 2;
+        }
+        else if ((writeSequenceAddress == 2) && ((addressBUS == 0x5555) || (addressBUS == 0x2aaa) ))
+        {
+            if (addressBUS == 0x5555) writeSequenceAddress = 3;
+        }
+        else if ((writeSequenceAddress == 3) && (addressBUS == 0x5555) )
+        {
+            ; 
+        }
+        else if ((writeSequenceData >= 3) && (writeSequenceAddress == 3)  )
+        {
+//            writeAddress = addressBUS;
+            writeSequenceAddress=4;
+        }
+        else if ((writeSequenceData >= 3) && (writeSequenceAddress == 4)  )
+        {
+        }
+        else writeSequenceAddress = 0;
+
+        if ((writeSequenceData == 0) && (dataBUS == 0xaa))
+        {
+            writeSequenceData = 1;
+        }
+        else if ((writeSequenceData == 1) && ( (dataBUS == 0xaa)||(dataBUS == 0x55) ))
+        {
+            if (dataBUS == 0x55) writeSequenceData = 2;
+        }
+        else if ((writeSequenceData == 2) && ( (dataBUS == 0x55)||(dataBUS == 0xA0) ))
+        {
+            if (dataBUS == 0xA0) writeSequenceData = 3;
+        }
+        else if ((writeSequenceData == 3) && (dataBUS == 0xA0) )
+        {
+            ;
+        }
+        else if ((writeSequenceData == 3) && (writeSequenceAddress >= 3)  )
+        {
+            writeSequenceData = 4;
+        }
+        else if ((writeSequenceData == 4) && (writeSequenceAddress >= 3)  )
+        {
+        }
+        else writeSequenceData = 0;
+
+        
+    }
+
     public void reset()
     {
         if (vecx==null) return;
@@ -1182,9 +1555,6 @@ public class Cartridge implements Serializable
         {
             microchip.reset();
         }
-    
-
-        
     }
     public DisplayerInterface getDisplay()
     {
@@ -1360,10 +1730,13 @@ main            jsr     DP_to_D0
             int v4eBanks = (data[6]&0xff)*256+(data[7]&0xff);
             log.addLog("    banks    : "+v4eBanks, INFO);
 
+            long crcSeed = VFCompress.CRC_SEED;
+            
             long[] bankedCRC = new long[v4eBanks];
             int[] bankedSize = new int[v4eBanks];
 
             bankedCRC[0] = (data[8]&0xff)*256*256*256 + (data[9]&0xff)*256*256+ (data[10]&0xff)*256 +(data[11]&0xff);
+            
             bankedSize[0] = (data[12]&0xff)*256 +(data[13]&0xff); // zipped size
 
 
@@ -1402,12 +1775,23 @@ main            jsr     DP_to_D0
                 int bankSize = 32768; // we don't know the unzipped size, so we reserve memory for a whole 32k Bank
                 byte[] buffer = new byte[bankSize]; 
                 
-                
                 bankFileNames[b] = filenameRom;
 
                 cart[b] = new int[bankSize];
-                index = dunzip(buffer, data, zipedSize, index);
                 
+                /*
+                TODO verify CRC
+                                byte[] crcBuffer = new byte[zipedSize];
+                                for (int tt=0;tt<zipedSize;tt++)
+                                    crcBuffer[tt] = data[tt+index];
+        
+                
+                 int newDzipdata_crc  = VFCompress.mycrc32(VFCompress.CRC_SEED, crcBuffer, zipedSize);
+                System.out.println("CRC Verify "+b+": "+newDzipdata_crc);            
+                */
+
+                
+                index = dunzip(buffer, data, zipedSize, index);
                 
                 bankLength[b] = lastUnzippedSize; // todo correct it
                 for (int i=0; i< lastUnzippedSize;i++)
@@ -1430,6 +1814,22 @@ main            jsr     DP_to_D0
                 // for this to work 
                 // we must also ensure that we have allocated enought ROM memory...
                 // which should be all right
+            }
+            if ((v4eType&0xff) == 2)
+            {
+                isVecFeverCartridge = true; // possibly extensive bankswitching (Bad apple)
+                // for now - dum the banks
+
+                String to = Global.mainPathPrefix+"tmp"+File.separator+"";
+                for (int b=0;b<bankMax;b++)
+                {
+                    if (b==0)
+                   de.malban.util.UtilityFiles.writeBinFile(to+b+".bin", cart[b], false);
+                }
+
+
+                
+                
             }
             if ((v4eType&0xff) == 3)
             {
@@ -1511,7 +1911,6 @@ main            jsr     DP_to_D0
             {
                 rom48KEnabled = true;
                 MAX_BANK_SIZE = 32768+32768/2;
-                bankMax = 1;
 
                 int[] ibuffer = new int[MAX_BANK_SIZE]; 
                 
@@ -1522,15 +1921,23 @@ main            jsr     DP_to_D0
                     else
                         ibuffer[i] = 1;
                 }
-                for (int i=0; i< 32768/2; i++)
+                if (bankMax>1)
                 {
-                    if (i<cart[1].length)
-                        ibuffer[i+32768] = cart[1][i];
-                    else
-                        ibuffer[i+32768] = 1;
+                    for (int i=0; i< 32768/2; i++)
+                    {
+                        if (i<cart[1].length)
+                            ibuffer[i+32768] = cart[1][i];
+                        else
+                            ibuffer[i+32768] = 1;
+                    }
+
                 }
-                
+                else
+                {
+                    MAX_BANK_SIZE = 32768;
+                }
                 cart = new int[1][];     // and so many banks as memory data
+                bankMax = 1;
                 bankLength = new int[1]; // so many bank length we need
                 bankFileNames= new String[1];
                 
@@ -1538,11 +1945,6 @@ main            jsr     DP_to_D0
                 bankLength[0] = MAX_BANK_SIZE;
                 bankFileNames[0] = filenameRom;
                 
-                // dump to vedi
-//                de.malban.util.UtilityFiles.writeBinFile("test_e.bin", ibuffer);
-//                VediPanel vedi = Configuration.getConfiguration().getMainFrame().getVedi(true);
-//                vedi.addBinaryDisplay("test_e.bin", false);
-
             }            
             
             
@@ -1553,6 +1955,8 @@ main            jsr     DP_to_D0
             log.addLog(e, WARN);
             return false;
         }
+        if (bankMax>1)
+            currentBank = 1;
         return true;
     }        
     
@@ -1576,6 +1980,8 @@ main            jsr     DP_to_D0
                     {
                             from += BACKREFERENCESIZE;
                     }
+                    
+                    
                     dest[outsize++] = window[from];
                     window[window_pos++] = window[from];
                     window_pos %= BACKREFERENCESIZE;
@@ -1584,6 +1990,7 @@ main            jsr     DP_to_D0
     }
     
     int lastUnzippedSize = 0;
+    
     int dunzip(byte[] dest, byte[] source, int zipSize, int startPosition) 
     {
         int outsize = 0;
@@ -1633,6 +2040,7 @@ main            jsr     DP_to_D0
                     if (dunzipposition > zipSize) 
                     {
                         System.out.println("ERROR UNZIP");
+                        break;
                     }
                     dest[outsize++] = c;
                     window[window_pos++] = c;
@@ -1642,8 +2050,5 @@ main            jsr     DP_to_D0
         }
         lastUnzippedSize= outsize;
         return dunzipposition+startPosition;
-//        return (outsize);
     }    
-
-    
 }

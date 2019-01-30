@@ -85,6 +85,7 @@ import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
+import java.time.LocalDateTime;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 
@@ -849,7 +850,8 @@ public class VecXPanel extends javax.swing.JPanel
                     }
                 }
                 CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
-                
+                LocalDateTime ldt = LocalDateTime.now(); 
+                CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString().replace(':','_')+".ser");
             }
             return;
         } 
@@ -885,6 +887,8 @@ public class VecXPanel extends javax.swing.JPanel
                 }
             }
             CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
+            LocalDateTime ldt = LocalDateTime.now(); 
+            CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString()+".ser");
             cont();
             return;
         }
@@ -908,6 +912,8 @@ public class VecXPanel extends javax.swing.JPanel
             }
         }
         CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
+        LocalDateTime ldt = LocalDateTime.now(); 
+        CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString()+".ser");
 
     }//GEN-LAST:event_jButtonSaveStateActionPerformed
     private void jButtonLoadStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadStateActionPerformed
@@ -1775,10 +1781,21 @@ waitAMoment = false;
             return color;
         }
         Imager3dDevice i3d = (Imager3dDevice) vecx.joyport[1].getDevice();
-        if (left > 0)
-            color =  i3d.getWheel().colors[left];
-        else if (right > 0)
-            color =  i3d.getWheel().colors[right];
+ 
+        if (i3d.isAnaglyphicEnabled())
+        {
+            if (left > 0)
+                color =  Color.RED;
+            else if (right > 0)
+                color =  Color.BLUE;
+        }
+        else
+        {
+            if (left > 0)
+                color =  i3d.getWheel().colors[left];
+            else if (right > 0)
+                color =  i3d.getWheel().colors[right];
+        }
         if (vecx.intensityDrift>100000)
         {
             return new Color( (int)(color.getRed()*vecx.intensityDriftNow),  (int)(color.getGreen()*vecx.intensityDriftNow),  (int)(color.getBlue()*vecx.intensityDriftNow), color.getAlpha()  );
@@ -2099,6 +2116,11 @@ waitAMoment = false;
             labi.initLabels();
     }
     
+    public void updateDumpi()
+    {
+        if (dumpi != null)
+            dumpi.setDissi(dissi);
+    }
     public void updateLabi()
     {
         if (labi != null)
@@ -2159,8 +2181,9 @@ waitAMoment = false;
             if ((bp.type&Breakpoint.BP_QUIET) ==0)
             {
                 if (!dissi.isQuiet())
-                dissi.printMessage("Triggered: "+bp, DissiPanel.MESSAGE_INFO);
+                    dissi.printMessage("Triggered: "+bp, DissiPanel.MESSAGE_INFO);
             }
+            dissi.ensureCorrectOutput();
         }
         if (breaki != null) breaki.updateValues(true);
     }
@@ -2212,7 +2235,7 @@ waitAMoment = false;
         MemoryInformation memInfo = dissi.getMemory().get(bp.targetAddress, bp.targetBank);
         if (memInfo == null) return false;
         bp.memInfo = memInfo;
- 
+
         Breakpoint oldBreakpoint = memInfo.hasBreakpoint(bp);
         if (oldBreakpoint == null)
         {
@@ -2553,6 +2576,22 @@ waitAMoment = false;
         vecx.e6809.reg_pc = addr;
     }
     
+    public void setAllBreakpoints(ArrayList<Breakpoint>[] ab)
+    {
+        // remove all
+        vecx.clearAllBreakpoints();
+        // set all
+        for (ArrayList<Breakpoint> blist: ab)
+        {
+            for (Breakpoint bp: blist)
+            {
+                MemoryInformation memInfo = dissi.getMemory().get(bp.targetAddress, bp.targetBank);
+                bp.memInfo = memInfo;
+            }
+        }
+        vecx.setAllBreakpoints(ab);
+        
+    }
     public ArrayList<Breakpoint>[] getAllBreakpoints()
     {
         return vecx.getAllBreakpoints();

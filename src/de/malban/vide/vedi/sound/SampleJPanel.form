@@ -655,15 +655,27 @@
                       </Group>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jComboBox1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jComboBoxEncodingType" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTextFieldSampleRate" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jComboBox2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox3" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
-                          <Component id="jTextField5" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
                           <Component id="jTextField6" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jComboBox4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jTextField5" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jComboBox4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jCheckBoxZeroUnsigned" min="-2" pref="46" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jComboBox3" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="20" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jComboBoxSampleBits" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jCheckBox4BitTranslate" min="-2" pref="82" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -672,7 +684,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBoxEncodingType" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -682,7 +694,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBoxSampleBits" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox4BitTranslate" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -703,6 +716,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                           <Component id="jComboBox4" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBoxZeroUnsigned" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
@@ -768,25 +782,33 @@
                 <Property name="text" type="java.lang.String" value="endian"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
+            <Component class="javax.swing.JComboBox" name="jComboBoxEncodingType">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="1">
-                    <StringItem index="0" value="PCM_UNSIGNED"/>
+                  <StringArray count="2">
+                    <StringItem index="0" value="PCM_SIGNED"/>
+                    <StringItem index="1" value="PCM_UNSIGNED"/>
                   </StringArray>
                 </Property>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="toolTipText" type="java.lang.String" value="Save signed for direct output. Save unsigned for PSG output!"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxEncodingTypeActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox2">
+            <Component class="javax.swing.JComboBox" name="jComboBoxSampleBits">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="1">
+                  <StringArray count="2">
                     <StringItem index="0" value="8 bit"/>
+                    <StringItem index="1" value="4 bit"/>
                   </StringArray>
                 </Property>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="toolTipText" type="java.lang.String" value="Use 8bit for direct output. 4bit can be used for PSG output."/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxSampleBitsActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBox3">
               <Properties>
@@ -806,6 +828,20 @@
                     <StringItem index="0" value="1 byte"/>
                   </StringArray>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBox4BitTranslate">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="4b transl."/>
+                <Property name="toolTipText" type="java.lang.String" value="&quot;Translates&quot; 4bit PCM data to PSG volumes (exponential steps)"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBoxZeroUnsigned">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="0f"/>
+                <Property name="toolTipText" type="java.lang.String" value="zero unsigned floored"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>

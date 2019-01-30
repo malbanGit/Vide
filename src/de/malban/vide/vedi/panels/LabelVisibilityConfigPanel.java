@@ -272,7 +272,7 @@ public class LabelVisibilityConfigPanel extends javax.swing.JPanel {
    
     
     VediSettings settings;
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static void showEnterValueDialog(VediSettings s)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

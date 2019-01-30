@@ -17,6 +17,9 @@
  */
 package de.malban.util.syntax.Syntax;
 
+import de.malban.config.Configuration;
+import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
 import javax.swing.text.*;
 
 import java.io.*;
@@ -28,6 +31,7 @@ import de.malban.util.syntax.entities.ASM6809File;
 import de.malban.util.syntax.entities.ASM6809FileMaster;
 import de.malban.util.syntax.entities.C6809File;
 import de.malban.util.syntax.entities.C6809FileMaster;
+import de.malban.vide.VideConfig;
 
 /**
  * A <a href="http://ostermiller.org/syntax/editor.html">demonstration text
@@ -92,7 +96,10 @@ public class HighlightedDocument extends DefaultStyledDocument
                 // thread snaps event and starts running
                 // two, since event queue is empty upon setting the actual text
                 
-                colorer = new Colorer(this);
+                if (VideConfig.syntaxHighliteEnabled)
+                    colorer = new Colorer(this);
+                else
+                    colorer = null;
 
 		// create the new document.
 		documentReader = new DocumentReader(this);
@@ -134,12 +141,13 @@ public class HighlightedDocument extends DefaultStyledDocument
                 }
                 catch (Throwable e)
                 {
-                    e.printStackTrace();
+                    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+                    log.addLog(de.malban.util.Utility.getStackTrace(e), INFO);
                 }
                 if  ( filename.toLowerCase().endsWith(".c")
-                    ||filename.toLowerCase().endsWith(".cxx")
-                    ||filename.toLowerCase().endsWith(".c++")
-                    ||filename.toLowerCase().endsWith(".h")
+                        ||filename.toLowerCase().endsWith(".cxx")
+                        ||filename.toLowerCase().endsWith(".c++")
+                        ||filename.toLowerCase().endsWith(".h")
                         )   
                 try
                 {
@@ -149,25 +157,31 @@ public class HighlightedDocument extends DefaultStyledDocument
                 catch (Throwable e)
                 {
                     e.printStackTrace();
+                    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+                    log.addLog(de.malban.util.Utility.getStackTrace(e), INFO);
                 }
             }
             // do first coloring NOT in thread, saves us SOME trouble of swing and synchronicity
-            if (!colorer.isStarted())
-            {
-                colorAllDirect();
-                colorer.start();
-            }
+            if (VideConfig.syntaxHighliteEnabled)
+                if (!colorer.isStarted())
+                {
+                    colorAllDirect();
+                    colorer.start();
+                }
         }
         public void deinit()
         {
+            if (!VideConfig.syntaxHighliteEnabled) return;
             colorer.stopIt();
         }
         public void stopColoring()
         {
+            if (!VideConfig.syntaxHighliteEnabled) return;
             colorer.stopIt();
         }
         public void startColoring()
         {
+            if (!VideConfig.syntaxHighliteEnabled) return;
             if (colorer != null) colorer.stopIt();
             colorer = new Colorer(this);
             colorAllDirect();
@@ -179,6 +193,7 @@ public class HighlightedDocument extends DefaultStyledDocument
 	 */
 	public void colorAll() 
         {
+            if (!VideConfig.syntaxHighliteEnabled) return;
             if (colorer.isStarted())
             {
                 colorer.colorAll();
@@ -186,6 +201,7 @@ public class HighlightedDocument extends DefaultStyledDocument
         }
 	public void colorAllDirect() 
         {
+            if (!VideConfig.syntaxHighliteEnabled) return;
             if (!colorer.isStarted())
             {
                 colorer.colorAllDirect();
@@ -202,10 +218,12 @@ public class HighlightedDocument extends DefaultStyledDocument
 	 *            amount of text inserted or removed at the starting point.
 	 */
 	public void colordbg(int position, int adjustment) {
+            if (!VideConfig.syntaxHighliteEnabled) return;
             if (colorer.isStarted())
                 colorer.colordbg(position, adjustment);
 	}
 	public void color(int position, int adjustment) {
+            if (!VideConfig.syntaxHighliteEnabled) return;
             if (colorer.isStarted())
                 colorer.color(position, adjustment);
 	}
@@ -293,6 +311,11 @@ public class HighlightedDocument extends DefaultStyledDocument
                     catch (Throwable e)
                     {
                       //  e.printStackTrace();
+                        LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+                        log.addLog("Insert String - probably not mega bad", INFO);
+                        log.addLog(de.malban.util.Utility.getStackTrace(e), INFO);
+                        log.addLog("offs: "+offs, INFO);
+                        log.addLog("str: "+str, INFO);
                     }
 		}
 	}
@@ -315,7 +338,10 @@ public class HighlightedDocument extends DefaultStyledDocument
                 // colorer in a THREAD does really hickup
                 // we leave the thread and do it out of the thread
                 // it is bad - I know!
-                boolean restartColorer = colorer.isStarted();
+
+                boolean restartColorer = false;
+                if (VideConfig.syntaxHighliteEnabled)
+                    restartColorer = colorer.isStarted();
 
                 if (restartColorer)
                     stopColoring();
@@ -326,6 +352,8 @@ public class HighlightedDocument extends DefaultStyledDocument
                 }
                 catch (Throwable e)
                 {
+                    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+                    log.addLog("Remove 1", INFO);
                     
                 }
                 if (restartColorer)
@@ -343,7 +371,18 @@ public class HighlightedDocument extends DefaultStyledDocument
                     int len2=Math.min(elem.getEndOffset()-offs,len);
                     if(len2>0)
                     {
-                       super.remove(offs, len2);
+                
+                        try
+                        {
+                            super.remove(offs, len2); 
+                        }
+                        catch (Throwable e)
+                        {
+                            LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+                            log.addLog("Remove 2", INFO);
+                        }
+
+
                        color(offs, -len2);
                        documentReader.update(offs, -len2);
                     }
@@ -360,5 +399,4 @@ public class HighlightedDocument extends DefaultStyledDocument
 	public Object getDocumentLock() { return docLock; }
 	Lexer getSyntaxLexer() { return syntaxLexer; }
 	AttributeSet getGlobalStyle() { return globalStyle; }
-        
 }

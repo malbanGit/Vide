@@ -64,6 +64,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         int gridWidth = 10;
         boolean displayGrid = true;
         boolean continueMode = false;
+        public boolean allwaysInt = false;
         Vertex continueStart = new Vertex();
         Vertex hightLightVPoint = null;
         ArrayList<Vertex> selectedVertexOrder = new ArrayList<Vertex>();
@@ -393,10 +394,21 @@ public class SingleVectorPanel extends javax.swing.JPanel
             sharedRepaint();
         }
     }
+    
+    void allwaysInt()
+    {
+        if (vars.allwaysInt)
+        {
+            GFXVectorList vl = getForegroundVectorList();
+            vl.intAll();
+        }
+    }
+    
     // repaint self and all siblings
     public void sharedRepaint()
     {
         if (!vars.shareRepaintEnabled) return;
+        allwaysInt();
         for (SingleVectorPanel svp: vars.siblings) 
             svp.updateAndRepaint();
     }

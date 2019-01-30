@@ -21,7 +21,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" pref="791" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -102,26 +102,29 @@
                                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jCheckBoxCreateSupportCode" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
-                                              <Component id="jComboBoxBankswitch" min="-2" pref="106" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jComboBoxBankswitchNumber" min="-2" pref="40" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
                                               <Component id="jComboBoxPostName" min="-2" pref="120" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jComboBoxPostClass" min="-2" pref="116" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jButtonPost" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="jCheckBoxCreateGameLoop" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jComboBoxPreName" min="-2" pref="120" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jComboBoxPreClass" min="-2" pref="116" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jButtonPre" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jCheckBoxCreateSupportCode" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBoxCreateGameLoop" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jComboBoxBankswitchNumber" min="-2" pref="40" max="-2" attributes="0"/>
+                                                  <Component id="jComboBoxBankswitch" min="-2" pref="138" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -137,7 +140,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="109" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -202,16 +205,21 @@
                               </Group>
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                      <Component id="jComboBoxBankswitch" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jComboBoxBankswitchNumber" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jComboBoxBankswitch" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBoxCreateSupportCode" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jCheckBoxCreateGameLoop" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" pref="84" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jCheckBoxCreateGameLoop" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jScrollPane2" pref="82" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jComboBoxBankswitchNumber" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
@@ -333,10 +341,11 @@
             <Component class="javax.swing.JComboBox" name="jComboBoxBankswitch">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
+                  <StringArray count="4">
                     <StringItem index="0" value="none"/>
                     <StringItem index="1" value="2 bank standard"/>
-                    <StringItem index="2" value="VecFlash (up to 32 banks)"/>
+                    <StringItem index="2" value="4 bank PB6/IRQ"/>
+                    <StringItem index="3" value="VecFlash (up to 32 banks)"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -519,26 +528,19 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jCheckBoxCPeepholing" max="-2" attributes="0"/>
-                              <Component id="jCheckBoxCKeepEnriched" max="-2" attributes="0"/>
-                              <Component id="jCheckBox2" alignment="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox16" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jCheckBox3" alignment="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox4" alignment="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox8" alignment="0" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jCheckBox2" alignment="0" max="-2" attributes="0"/>
                                       <Component id="jCheckBox1" alignment="0" max="-2" attributes="0"/>
                                       <Component id="jCheckBox7" alignment="0" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jCheckBox9" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox10" min="-2" pref="93" max="-2" attributes="0"/>
+                                      <Component id="jCheckBox10" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
+                                      <Component id="jCheckBox9" alignment="0" max="-2" attributes="0"/>
+                                      <Component id="jCheckBoxFlashSupport" alignment="0" min="-2" pref="134" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="jCheckBoxCDebugging" alignment="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBoxCRumInlined" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jCheckBox6" alignment="0" max="-2" attributes="0"/>
@@ -547,6 +549,14 @@
                                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="jComboBoxImager" min="-2" pref="109" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="jCheckBoxCRumInlined" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxCDebugging" alignment="0" max="-2" attributes="0"/>
+                              <Component id="jCheckBox8" alignment="0" max="-2" attributes="0"/>
+                              <Component id="jCheckBox4" alignment="0" max="-2" attributes="0"/>
+                              <Component id="jCheckBox3" alignment="0" max="-2" attributes="0"/>
+                              <Component id="jCheckBox16" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxCKeepEnriched" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxCPeepholing" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="18" max="32767" attributes="0"/>
                       </Group>
@@ -565,7 +575,10 @@
                               <Component id="jCheckBox10" alignment="3" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jCheckBox2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jCheckBox2" alignment="3" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxFlashSupport" alignment="3" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jCheckBox16" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -727,6 +740,15 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxCRumInlinedActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="jCheckBoxFlashSupport">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Flash support"/>
+                    <Property name="toolTipText" type="java.lang.String" value="SST39SF020A - and only &quot;barely&quot;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxFlashSupportActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

@@ -77,6 +77,7 @@ public class Imager3dDevice extends AbstractDevice implements Serializable
     private boolean leftEnabled = true;
     private boolean rightEnabled = true;
     private boolean bwEnabled = false;
+    private boolean anaglyphicEnabled = false;
 
     int lastPulseChanges = 0;
     long lastCycles = 0;
@@ -461,6 +462,24 @@ public class Imager3dDevice extends AbstractDevice implements Serializable
     public void setBwEnabled(boolean bwEnabled) {
         this.bwEnabled = bwEnabled;
     }
+
+
+
+
+    /**
+     * @return the anaglyphicEnabled
+     */
+    public boolean isAnaglyphicEnabled() {
+        return anaglyphicEnabled;
+    }
+
+    /**
+     * @param anaglyphicEnabled the anaglyphicEnabled to set
+     */
+    public void setAnaglyphicEnabled(boolean anaglyphicEnabled) {
+        this.anaglyphicEnabled = anaglyphicEnabled;
+    }
+
     
     
     

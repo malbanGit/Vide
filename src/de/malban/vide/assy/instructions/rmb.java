@@ -9,6 +9,7 @@ import de.malban.vide.assy.exceptions.ParseException;
 import de.malban.vide.assy.exceptions.SymbolDoesNotExistException;
 import de.malban.vide.assy.expressions.ExpressionList;
 import de.malban.vide.assy.expressions.ExpressionSymbol;
+import de.malban.vide.dissy.DASM6809;
 
 public class rmb extends PseudoOp
 {
@@ -16,7 +17,7 @@ public class rmb extends PseudoOp
     ExpressionSymbol symbolExpression=null;
     
     boolean isBSS = false;
-    
+    byte fillByte = 0;
     public Symbol getSymbol()
     {
         if (symbolExpression!=null)
@@ -46,6 +47,7 @@ public class rmb extends PseudoOp
     {
         isBSS =control.currentSegment == Asmj.SEGMENT_BSS;
         data = Expression.parse(paramString, this.symtab);
+        fillByte = 0;
         if ((data instanceof ExpressionSymbol) && (paramString.contains(",")))
         {
             symbolExpression = (ExpressionSymbol)data;
@@ -57,6 +59,20 @@ public class rmb extends PseudoOp
             paramString = paramString.trim();
             data = Expression.parse(paramString, this.symtab);
         }
+        // hackaty hack Malban
+        else
+        {
+            if (paramString.contains(","))
+            {
+                // assuming second parameter, this than can be thought oif the filler value for ds
+                String param = paramString.substring(paramString.indexOf(",")+1);
+                param = param.trim();
+                int value = DASM6809.toNumber(param);
+                value = value & 0xff;
+                fillByte = (byte) value;
+            }
+        }
+        
         setLength(0);
         int i = 0;
         try 
@@ -77,7 +93,7 @@ public class rmb extends PseudoOp
       if (isBSS) return true;
       for (int i = 0; i < this.length; i++) 
       {
-          paramMemory.write(this.address + i,0, Memory.MEM_BYTE_DATA);
+          paramMemory.write(this.address + i,fillByte, Memory.MEM_BYTE_DATA);
       }
         Asmj.addLineInfo(this.address, this.length, LI_BYTE);
       return true;

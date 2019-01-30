@@ -457,6 +457,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         jCheckBox4 = new javax.swing.JCheckBox();
+        jCheckBoxAnaglyphic = new javax.swing.JCheckBox();
         jSlider1 = new javax.swing.JSlider();
         jLabel15 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
@@ -892,6 +893,14 @@ public class JoyportPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBoxAnaglyphic.setText("anaglyphic");
+        jCheckBoxAnaglyphic.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jCheckBoxAnaglyphic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxAnaglyphicActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout imagerWheel1Layout = new javax.swing.GroupLayout(imagerWheel1);
         imagerWheel1.setLayout(imagerWheel1Layout);
         imagerWheel1Layout.setHorizontalGroup(
@@ -902,7 +911,8 @@ public class JoyportPanel extends javax.swing.JPanel implements
                 .addComponent(jCheckBox2))
             .addGroup(imagerWheel1Layout.createSequentialGroup()
                 .addComponent(jCheckBox4)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jCheckBoxAnaglyphic))
         );
         imagerWheel1Layout.setVerticalGroup(
             imagerWheel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -911,8 +921,10 @@ public class JoyportPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBox1)
                     .addComponent(jCheckBox2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox4)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(imagerWheel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox4)
+                    .addComponent(jCheckBoxAnaglyphic))
+                .addGap(0, 504, Short.MAX_VALUE))
         );
 
         jSlider1.setMajorTickSpacing(10);
@@ -1265,10 +1277,10 @@ public class JoyportPanel extends javax.swing.JPanel implements
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
                                         .addComponent(jLabel38)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextField51, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField51)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel43)
@@ -1690,6 +1702,23 @@ public class JoyportPanel extends javax.swing.JPanel implements
         loadSelectedWheel();
     }//GEN-LAST:event_jComboBoxWheelListActionPerformed
 
+    private void jCheckBoxAnaglyphicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAnaglyphicActionPerformed
+        
+        int port = jComboBox1.getSelectedIndex();
+        if ((port <0) || (port >1)) return;
+        VectrexJoyport[] portDevices =  vecxPanel.getJoyportDevices();
+        if (portDevices == null) return;
+        VectrexJoyport portDevice = portDevices[port];
+        if (portDevice == null) return;
+        JoyportDevice device = portDevice.getDevice();
+        if (device == null) return;
+        if (!(device instanceof Imager3dDevice)) return;
+        Imager3dDevice imager = (Imager3dDevice)device;
+        imager.setAnaglyphicEnabled(jCheckBoxAnaglyphic.isSelected());
+        
+        
+    }//GEN-LAST:event_jCheckBoxAnaglyphicActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1702,6 +1731,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JCheckBox jCheckBoxAnaglyphic;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBoxWheelList;
     private javax.swing.JLabel jLabel1;

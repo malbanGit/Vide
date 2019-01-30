@@ -17,8 +17,11 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -111,10 +114,12 @@ public class ListPopupJPanel extends javax.swing.JPanel {
         Rectangle b=si.modal.getBounds();
         b.x=x;
         b.y=y;
+        b.width=150;
         
         si.modal.setBounds(b);
-        BasicInternalFrameUI bi = (BasicInternalFrameUI)si.modal.getUI();
-        bi.setNorthPane(null);
+        
+//        BasicInternalFrameUI bi = (BasicInternalFrameUI)si.modal.getUI();
+//        bi.setNorthPane(null);
 
       
         KeyEventDispatcher ked = new KeyEventDispatcher() {
@@ -131,7 +136,11 @@ public class ListPopupJPanel extends javax.swing.JPanel {
             };
         
 KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( ked);        
-        si.modal.setVisible(true);        
+
+      si.modal.setUndecorated(true);
+      si.modal.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+
+      si.modal.setVisible(true);        
 KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(ked);      
         return si.ret;
         

@@ -62,7 +62,7 @@ class ConfigStatic1 implements Serializable
    public String startFile = "";
 
   // public int[] delays = {0,5,0,11,4,0,0,0,11,0,13, 2, 3, 1}; // full delays, ramp on and off have partials!
-   public int[] delays = {0,5,0,0,11,11,0,0,0,11,0,14, 2, 0, 1}; // full delays, ramp on and off have partials!
+   public int[] delays = {0,5,0,0,11,11,0,0,0,11,0,14, 1, 0, 1}; // full delays, ramp on and off have partials!
    public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
    public String[] delaysDisplay = {"-", "ZERO", "BLANK_ON", "BLANK_OFF", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
 
@@ -284,15 +284,19 @@ class ConfigStatic2 implements Serializable
 {
    public Color cLinesFore = new Color(250,250,80);
    public Color cLinesBack  = new Color(100,100,255);
-
    public Color cLsinesBack  = new Color(100,100,255);
+
+   public boolean displayModeWriting = true;
+
 }
 
 public class VideConfig  implements Serializable{
     // VECX CONFIG
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     
-
+    public static boolean hotKeysEnabled = true;
+    public static boolean syntaxHighliteEnabled = true;
+    public static boolean editorUndoEnabled = true;
     
     
     ///////// static 1
@@ -324,6 +328,7 @@ public class VideConfig  implements Serializable{
     public boolean enableBankswitch = true;
     public boolean codeScanActive = false;
     public boolean ringbufferActive = false;
+    public boolean displayModeWriting = true;
 
     public String usedSystemRom="system"+File.separator+"FASTBOOT.IMG";
     public double drift_x = .09; // resolution 0.01
@@ -1211,12 +1216,14 @@ public class VideConfig  implements Serializable{
         to.cLinesBack = from.cLinesBack;
         to.cLinesFore = from.cLinesFore;
         to.cLsinesBack = from.cLsinesBack;
+        to.displayModeWriting = from.displayModeWriting;
     }
     private void copyFromConfigToStatic(VideConfig from, ConfigStatic2 to)
     {
         to.cLinesBack = from.cLinesBack;
         to.cLinesFore = from.cLinesFore;
         to.cLsinesBack = from.cLsinesBack;
+        to.displayModeWriting = from.displayModeWriting;
     }
     
     public static File[] getConfigs()

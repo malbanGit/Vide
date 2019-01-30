@@ -85,7 +85,7 @@ public class AddVariablePanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     // returns new Properties, not saved yet!
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static int showEnterValueDialog()
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

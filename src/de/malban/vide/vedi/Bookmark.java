@@ -6,8 +6,6 @@
 package de.malban.vide.vedi;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -19,6 +17,7 @@ public class Bookmark implements Serializable {
     String fullFilename;
     String project;
     int number;
+    @Override
     public String toString()
     {
         return ""+number+": "+fullFilename+"->"+lineNumber;

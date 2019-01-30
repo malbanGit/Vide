@@ -381,7 +381,7 @@ public class WheelEdit extends javax.swing.JPanel {
         
         mClassSetting--;
     }
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static void showWheelEdit()
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

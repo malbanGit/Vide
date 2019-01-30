@@ -31,6 +31,7 @@ public class ScriptDataPanel extends javax.swing.JPanel {
     javax.swing.JFrame frame = null;
     Collection mCollection = null;
     VeccyPanel vecci = null;
+    VediPanel vedi = null;
     ExecutionDescriptor ed;
     
     /** Creates new form ExportDataPanel */
@@ -41,6 +42,11 @@ public class ScriptDataPanel extends javax.swing.JPanel {
 document.start();
         mExportDataPool = new ExportDataPool();
         resetConfigPool(false, "");
+    }
+    
+    public void setVedi(VediPanel v)
+    {
+        vedi = v;
     }
     
     private void resetConfigPool(boolean select, String klasseToSet) /* allneeded*/
@@ -509,7 +515,11 @@ document.start();
         
         String script = jTextPaneScript.getText();
         ScriptEnvironment ev = new ScriptEnvironment(script);
-        ev.setData(vecci, frame, ed);
+
+        if (vedi !=null)
+            ev.setData(vedi, frame, ed);
+        else
+            ev.setData(vecci, frame, ed);
         ev.execute();
         jTextAreaOutput.setText(ev.getOutString());
         jEditorLog.setText(ev.getErrorString());

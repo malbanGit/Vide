@@ -789,6 +789,11 @@ public class SingleVector3dPanel  extends SingleVectorPanel
         
         
         long max = (minx/gwidth)*(miny/gwidth)*(minz/gwidth);
+        
+        if (minx!=1) max *=2;
+        if (miny!=1) max *=2;
+        if (minz!=1) max *=2;
+        
         if (max > 10000) return ;//50*50*25) return;
         
         if (!gridx)minx = 1;
@@ -823,7 +828,7 @@ public class SingleVector3dPanel  extends SingleVectorPanel
                     
                 
                     g.drawLine((int)printx, (int)printy,  (int)printx, (int)printy);
-                
+
                     if (minz == 1) z += 1000000;
                 }
                 if (miny == 1) y += 1000000;

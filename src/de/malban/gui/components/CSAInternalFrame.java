@@ -12,7 +12,6 @@
 package de.malban.gui.components;
 
 import de.malban.gui.Windowable;
-import de.malban.vide.dissy.DissiPanel;
 import java.awt.Rectangle;
 import javax.swing.SwingUtilities;
 

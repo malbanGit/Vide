@@ -45,7 +45,10 @@ public class UtilityString
         out = replace(out,"´","&apos;");
         out = replace(out,"`","&apos;");
         out = replace(out,"\t","&#009;");
-        out = replace(out,"<","&gt;");
+        out = replace(out,"<","&lt;");
+        out = replace(out,">","&gt;");
+        out = replace(out,"≤","&le;");
+        out = replace(out,"≥","&ge;");
         out = replace(out,"\"","&quot;");
 
         out = replace(out,"Ä","&#196;");
@@ -73,7 +76,9 @@ public class UtilityString
         out = replace(out,"&apos;","´");
         out = replace(out,"&apos;", "`");
         out = replace(out,"&lt;", "<");
-        out = replace(out,"&gt;", "<");
+        out = replace(out,"&gt;", ">");
+        out = replace(out,"&le;","≤");
+        out = replace(out,"&ge;","≥");
         out = replace(out,"&quot;", "\"");
         return out;
     }
@@ -364,7 +369,9 @@ public class UtilityString
         out = replace(out,"´","");
         out = replace(out,"`","");
         out = replace(out,"<","");
-        out = replace(out,"<","");
+        out = replace(out,">","");
+        out = replace(out,"≥","");
+        out = replace(out,"≤","");
         out = replace(out,"\"","");
         out = replace(out,"/","");
         out = replace(out,"-","");
@@ -394,7 +401,9 @@ public class UtilityString
         out = replace(out,"´","");
         out = replace(out,"`","");
         out = replace(out,"<","");
-        out = replace(out,"<","");
+        out = replace(out,">","");
+        out = replace(out,"≥","");
+        out = replace(out,"≤","");
         out = replace(out,"\"","");
         out = replace(out,"/","");
         out = replace(out,"-","");

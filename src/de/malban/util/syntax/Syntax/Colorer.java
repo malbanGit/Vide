@@ -19,6 +19,7 @@ package de.malban.util.syntax.Syntax;
 
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -161,7 +162,7 @@ class Colorer extends Thread
         }
         catch (Throwable e)
         {
-
+log.addLog("not importent:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
         }
     }
     // avoid lots and lots of recolors
@@ -177,8 +178,7 @@ class Colorer extends Thread
         }
         catch (Throwable ex)
         {
-
-
+log.addLog("not importent:\n"+de.malban.util.Utility.getStackTrace(ex), INFO);
         }
     }
     // coloring within thread of caller!
@@ -189,7 +189,10 @@ class Colorer extends Thread
         if(doc == null) return;
         boolean old = mBreak;
         if (old == false)
+        {
+log.addLog("Strange", INFO);
             System.out.println("Strange");
+        }
 
         // process label changes "by hand"
         // since in process event we color here without vars!
@@ -202,6 +205,7 @@ class Colorer extends Thread
         }
         catch (Throwable e)
         {
+log.addLog("not importent:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
            // e.printStackTrace();
         }
 
@@ -406,6 +410,11 @@ class Colorer extends Thread
         } 
         catch (NoSuchElementException x) 
         {
+//log.addLog("not importent:\n"+de.malban.util.Utility.getStackTrace(x), INFO);
+
+//log.addLog("position: "+position, INFO);
+//log.addLog("adjustment: "+adjustment, INFO);
+//log.addLog("varCheck: "+varCheck, INFO);
             // if there were no good positions before the requested
             // start,
             // we can always start at the very beginning.
@@ -439,6 +448,7 @@ class Colorer extends Thread
                 }
                 catch (Throwable e)
                 {
+log.addLog("unkown:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
             //        e.printStackTrace();
                 }
 
@@ -466,6 +476,7 @@ class Colorer extends Thread
                 }
                 catch (Throwable e)
                 {
+log.addLog("unkown:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
             //        e.printStackTrace();
                 }
 
@@ -519,8 +530,7 @@ class Colorer extends Thread
         AttributeSet paraSet = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.TabSet, tabset);
         doc.setParagraphAttributes(position, position + Math.abs(adjustment), paraSet, true);        
         
-        
-        
+        Token lastToken = null;
         try 
         {
             Token t;
@@ -554,6 +564,7 @@ class Colorer extends Thread
                 // document and wee
                 // need to stop there.
                 t = syntaxLexer.getNextToken();
+                lastToken = t;
                 tokenCount++;
             }
             newPositions.add(dpStart);
@@ -633,10 +644,14 @@ class Colorer extends Thread
                     try
                     {
                         t = syntaxLexer.getNextToken();
+                        lastToken = t;
+
                         tokenCount++;
                     }
                     catch (Throwable ex)
                     {
+log.addLog("Token:\n"+de.malban.util.Utility.getStackTrace(ex), INFO);
+log.addLog("lastToken:\n"+lastToken, INFO);
                         ex.printStackTrace();
                         VediPanel.setInScan(false);
 //                        doc.initVediId();
@@ -673,6 +688,16 @@ class Colorer extends Thread
         } 
         catch (IOException x) 
         {
+log.addLog("IO:\n"+de.malban.util.Utility.getStackTrace(x), INFO);
+        }
+        catch (Throwable x) 
+        {
+log.addLog("all - weird:\n"+x, INFO);
+log.addLog("position: "+position, INFO);
+log.addLog("adjustment: "+adjustment, INFO);
+log.addLog("varCheck: "+varCheck, INFO);
+log.addLog("lastToken:\n"+lastToken, INFO);
+
         }
         synchronized (docLock) 
         {
@@ -680,8 +705,6 @@ class Colorer extends Thread
             change = 0;
         }
         VediPanel.setInScan(false);
-//System.out.println("Tokens processed: "+                    tokenCount);
-
     }
     boolean didAttributesChange(int sstart, int slen, AttributeSet saset, HighlightedDocument doc)
     {
@@ -697,7 +720,7 @@ class Colorer extends Thread
         }
         catch (Throwable e)
         {
-            
+log.addLog("Attrib:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
         }
         return false;
     }

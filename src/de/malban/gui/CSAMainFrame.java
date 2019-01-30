@@ -399,9 +399,17 @@ jCheckBoxMenuItem1.setVisible(false);
         setTitle("VIDE");
         setMinimumSize(new java.awt.Dimension(200, 200));
         setPreferredSize(new java.awt.Dimension(1024, 768));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowIconified(java.awt.event.WindowEvent evt) {
+                formWindowIconified(evt);
             }
         });
 
@@ -843,6 +851,9 @@ jCheckBoxMenuItem1.setVisible(false);
 
         Configuration C = Configuration.getConfiguration();
         FileUtil ac = new FileUtil();
+        
+        JDialog dialog = new JDialog();
+        
         ModalInternalFrame modal = new ModalInternalFrame("FileUtil", C.getMainFrame().getRootPane(), C.getMainFrame(), ac, ac.getExitButton());
         ac.setDialog(modal);
         modal.setVisible(true);
@@ -1091,6 +1102,20 @@ jCheckBoxMenuItem1.setVisible(false);
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         ExplosionEditor.showExplosionPanelNoModal(log);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void formWindowIconified(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowIconified
+        // TODO add your handling code here:
+ int i;
+  i= 0;
+  i++;
+    }//GEN-LAST:event_formWindowIconified
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+ int i;
+  i= 0;
+  i++;
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMousePressed
 
     boolean gameMode = false;
     de.malban.event.MasterEventListener keyListener = null;    
@@ -1932,7 +1957,7 @@ getMainPanel().remove(starter);
         JButton close = new JButton("Ok");
         all.add(close, BorderLayout.SOUTH);
 
-        final JInternalFrame modal = new ModalInternalFrame(name, getFrame().getRootPane(), getFrame(), all, close);
+        final ModalInternalFrame modal = new ModalInternalFrame(name, getFrame().getRootPane(), getFrame(), all, close);
 
         modal.setResizable(true);
         

@@ -296,12 +296,21 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
         int max = jSliderSourceScale.getMaximum();
 
         double scale = value - ((max-1)/2);
-
         if (value <((max/2)+1))
         {
-            int invScale = ((max/2)+2)-value;
-            scale = 1.0/invScale;
+            value--;
+            int invScale = ((max/2))-value;
+            if (invScale == 0) 
+                scale = 1;
+            else
+                scale = 1.0/invScale;
         }
+        // smooth out "big steps"
+        if (scale<1) scale += 0.25;
+        if (scale>1) scale -= 0.75;
+        if (scale>2) scale -= 0.5;
+        if (scale>2.5) scale -= 0.25;
+        if (scale>2.75) scale -= 0.5;
         singleVectorPanel1.setScale(scale);
         updateOutput();
     }//GEN-LAST:event_jSliderSourceScaleStateChanged

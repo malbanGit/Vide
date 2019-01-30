@@ -154,6 +154,18 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
     transient CodeScanMemory dissiMem=CodeScanMemory.getCodeScanMemory();
 
+    public void setAllBreakpoints(ArrayList<Breakpoint>[] ab)
+    {
+        // set all
+        for (ArrayList<Breakpoint> blist: ab)
+        {
+            for (Breakpoint b: blist)
+            {
+                addBreakpoint(b);
+            }
+        }
+    }
+
     ArrayList<Breakpoint>[] getAllBreakpoints() 
     {
         return breakpoints;
@@ -496,7 +508,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         } 
         else if (cart != null) 
         {
-            return cart.get_cart(address)& 0xff;
+            return cart.readByte(address)& 0xff;
         } 
 
         return data & 0xff; // and return unsigned byte!        
@@ -509,7 +521,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
         if (config.debugingCore)
         {
-            if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_READ);
+            if (config.codeScanActive) 
+                dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_READ);
             checkMemReadBreakpoint(address);
         }
 
@@ -644,12 +657,12 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             }
             else if (cart != null) 
             {
-                return cart.get_cart(address);
+                return cart.readByte(address);
             } 
         } 
         else if (cart != null) 
         {
-            return cart.get_cart(address);
+            return cart.readByte(address);
         } 
         return 0xff; // and return unsigned byte!
     }
@@ -790,6 +803,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                                 // test with release explosion normal end - 
                                 // if this is IN scrolltext (e.g.) draws dots
          //                       addTimerItem(new TimerItem(via_cb2hmanual, sig_blank, TIMER_BLANK_CHANGE));
+         // possibly this sets teh shift interrupt flag to disbaled!
+
+//                via_ifr &= (255-0x04); // 
+
+
                             }
                             else // use the last shift
                             {
@@ -1521,7 +1539,23 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
             cart.setCyclesRunning(n);
     }
     
-    public void vectrexNonCPUStep(int cycles)
+    public void vectrexNonCPUStepDontAdd(int cycles)
+    {
+        if (!config.cycleExactEmulation) return;
+        for (int c = 0; c < cycles; c++) 
+        {
+            if (cart != null) cart.cartStep(cyclesRunning);
+            via_sstep0();
+            timerDoStep();
+            // timer after via, to make sure befor analog step, that 0 timers are respected!
+            analogStep();
+            if (joyport[0] != null) joyport[0].step();
+            if (joyport[1] != null) joyport[1].step();
+            via_sstep1();
+//            nonCPUStepsDone++;
+//            cyclesRunning++;
+        }
+    }    public void vectrexNonCPUStep(int cycles)
     {
         if (!config.cycleExactEmulation) return;
         for (int c = 0; c < cycles; c++) 
@@ -2250,32 +2284,38 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     // or from "our" thread!
     private void addStateToRingbuffer()
     {
-        if (goSSBackRingBuffer[ringSSBufferNext] == null) 
-            goSSBackRingBuffer[ringSSBufferNext] = new CompleteState();
-        CompleteState state = goSSBackRingBuffer[ringSSBufferNext];
-        cart.initStateSave();
-        state.sidState = cart.getSidState();
-        state.putState(this);
-        state.putState(e6809);
-        state.putState(e8910);
-             
-        ringSSBufferNext = (ringSSBufferNext+1)%SS_RING_BUFFER_SIZE;
-        ringSSWalkStep=-1; 
-        
-        
-        if ((cyclesRunning%30000) == 0)
+        try
         {
-            if (goFrameBackRingBuffer[ringFrameBufferNext] == null) 
-                goFrameBackRingBuffer[ringFrameBufferNext] = new CompleteState();
-            state = goFrameBackRingBuffer[ringFrameBufferNext];
+            if (goSSBackRingBuffer[ringSSBufferNext] == null) 
+                goSSBackRingBuffer[ringSSBufferNext] = new CompleteState();
+            CompleteState state = goSSBackRingBuffer[ringSSBufferNext];
+            cart.initStateSave();
+            state.sidState = cart.getSidState();
             state.putState(this);
             state.putState(e6809);
             state.putState(e8910);
 
-            
-            ringFrameBufferNext = (ringFrameBufferNext+1)%FRAME_RING_BUFFER_SIZE;
-            ringFrameWalkStep=-1; 
+            ringSSBufferNext = (ringSSBufferNext+1)%SS_RING_BUFFER_SIZE;
+            ringSSWalkStep=-1; 
+
+
+            if ((cyclesRunning%30000) == 0)
+            {
+                if (goFrameBackRingBuffer[ringFrameBufferNext] == null) 
+                    goFrameBackRingBuffer[ringFrameBufferNext] = new CompleteState();
+                state = goFrameBackRingBuffer[ringFrameBufferNext];
+                state.putState(this);
+                state.putState(e6809);
+                state.putState(e8910);
+
+
+                ringFrameBufferNext = (ringFrameBufferNext+1)%FRAME_RING_BUFFER_SIZE;
+                ringFrameWalkStep=-1; 
+            }
         }
+        catch (Throwable e)
+        { }
+
     }  
     // get # of step backs from "0" (current)
     public int getRingbufferPos()
@@ -3275,13 +3315,13 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     
     void checkCPUBreakpoints(int cycles)
     {
-        
         if (!config.breakpointsActive) return;
         synchronized (breakpoints[Breakpoint.BP_TARGET_CPU])
         {
             // check PC = ADR breakpoint
             for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CPU])
             {
+                if (!bp.enabled) continue;
                 if (bp.targetSubType  == Breakpoint.BP_SUBTARGET_CPU_PC)
                 {
                     if ((bp.type & Breakpoint.BP_COMPARE) == Breakpoint.BP_COMPARE)
@@ -3385,6 +3425,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         {
             for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_MEMORY])
             {
+                if (!bp.enabled) continue;
                 if ((bp.type & Breakpoint.BP_WRITE) == Breakpoint.BP_WRITE)
                 {
                     if ((bp.targetSubType & Breakpoint.BP_SUBTARGET_MEMORY_ROM) == Breakpoint.BP_SUBTARGET_MEMORY_ROM)
@@ -3408,6 +3449,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         {
             for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_MEMORY])
             {
+                if (!bp.enabled) continue;
                 if ((bp.type & Breakpoint.BP_WRITE) == Breakpoint.BP_WRITE)
                 {
                     if (((address&0xffff) == bp.targetAddress) && ((cart.getCurrentBank() == bp.targetBank) || (bp.targetBank == -1)))
@@ -3438,10 +3480,9 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
 
             for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_MEMORY])
             {
+                if (!bp.enabled) continue;
                 if ((bp.type & Breakpoint.BP_READ) == Breakpoint.BP_READ)
                 {
-if (address == 0xc88e)
-    System.out.println("GRML");
                      if (((address&0xffff) == bp.targetAddress) && 
                              ((cart.getCurrentBank() == bp.targetBank) || (bp.targetBank == -1))
                              )
@@ -3479,6 +3520,7 @@ if (address == 0xc88e)
         {
             for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_VIA])
             {
+                if (!bp.enabled) continue;
                 if ((bp.targetSubType  == Breakpoint.BP_SUBTARGET_VIA_ORB) && (register == 0))
                 {
                     if ((bp.type & Breakpoint.BP_BITCOMPARE) == Breakpoint.BP_BITCOMPARE)
@@ -3558,6 +3600,7 @@ if (address == 0xc88e)
         {
             for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
             {
+                if (!bp.enabled) continue;
                 if ((bp.targetSubType & Breakpoint.BP_SUBTARGET_CARTRIDGE_BANKSWITCH) == Breakpoint.BP_SUBTARGET_CARTRIDGE_BANKSWITCH)
                 {
                     if ((bp.type & Breakpoint.BP_BANK) == Breakpoint.BP_BANK)
@@ -3580,6 +3623,7 @@ if (address == 0xc88e)
         {
             for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
             {
+                if (!bp.enabled) continue;
                 if ((bp.targetSubType & Breakpoint.BP_SUBTARGET_CARTRIDGE_PB6) == Breakpoint.BP_SUBTARGET_CARTRIDGE_PB6)
                 {
                     if ((bp.type & Breakpoint.BP_BITCOMPARE) == Breakpoint.BP_BITCOMPARE)
@@ -4126,6 +4170,14 @@ if (address == 0xc88e)
     public String dumpCurrentROM()
     {
         return cart.dumpCurrentROM();
+    }
+    public int getAddressBUS()
+    {
+        return e6809.getAddressBUS();
+    }
+    public byte getDataBUS()
+    {
+        return e6809.getDataBUS();
     }
 }
 

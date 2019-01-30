@@ -89,6 +89,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     public void setDissi(DissiPanel d)
     {
         dissi = d;
+        update();
     }
 
     public class MemoryDumpTableModel extends AbstractTableModel
@@ -432,6 +433,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = buildTable();
         jPanel2 = new javax.swing.JPanel();
@@ -562,6 +564,8 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
             }
         });
 
+        jLabel5.setText("bank always same as emulation (not dissi)");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -588,7 +592,9 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                 .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(jCheckBox1)
-                .addGap(0, 585, Short.MAX_VALUE))
+                .addGap(44, 44, 44)
+                .addComponent(jLabel5)
+                .addGap(0, 421, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -603,7 +609,8 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel5))
         );
 
         jTable1.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
@@ -730,7 +737,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
             }
         });
 
-        jSpinnerRasterWidth.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        jSpinnerRasterWidth.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         jSpinnerRasterWidth.setValue(1);
         jSpinnerRasterWidth.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1204,6 +1211,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1349,6 +1357,13 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                 
                 int brightness = 255;
                 int shiftreg = memInfo.content;
+                
+                if ((address > 0xc800) && (address < 0xcc00))
+                {
+                    if (dissi != null)
+                        shiftreg = dissi.getVecXPanel().getVecXMem8(address);
+                }
+                
                 for (int b=0; b<8; b++)
                 {
                     boolean bit = ((shiftreg&0x80)!=0);

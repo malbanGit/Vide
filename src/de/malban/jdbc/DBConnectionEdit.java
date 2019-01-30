@@ -19,7 +19,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.io.File;
 import java.util.*;
-import javafx.stage.FileChooser;
+//import javafx.stage.FileChooser;
 import static javax.swing.JFileChooser.DIRECTORIES_ONLY;
 import javax.swing.filechooser.FileNameExtensionFilter;
 /**
@@ -32,7 +32,7 @@ public class DBConnectionEdit extends JPanel {
 
     private DBConnectionDataPool mConnectionPool;
     private int mInSetting =0;
-    JInternalFrame modal=null;
+    ModalInternalFrame modal=null;
     
     public static void showDBConnectionEditDialog()
     {

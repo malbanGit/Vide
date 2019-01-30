@@ -130,6 +130,27 @@ public class ScriptEnvironment {
         
         dataSet = true;
     }
+    public void setData(VediPanel v, Frame f, ExecutionDescriptor e_d)
+    {
+        frame = f;
+        vedi = v;
+        ed = e_d;
+        status=SCRIPT_NOT_EXECUTED;
+        try
+        {
+            i.set("vedi", vedi);  
+            i.set("frame", frame);  
+            i.set("ed", ed);  
+        }
+        catch (Throwable e)
+        {
+            status = SCRIPT_EXCEPTION;
+            Configuration.getConfiguration().getDebugEntity().addLog("Script Exception!", 0);
+            Configuration.getConfiguration().getDebugEntity().addLog(e, 0);
+        }
+        
+        dataSet = true;
+    }
     
     
     String out="";

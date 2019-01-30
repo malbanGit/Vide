@@ -3501,7 +3501,9 @@ public class DissiPanel extends javax.swing.JPanel  implements
         currentDissi.dasm.setCreateLabels(config.createUnkownLabels);
         try
         {
-            for (int b=0;b<cart.getBankCount(); b++)
+            int bankCount = cart.getBankCount();
+            if (bankCount>32) bankCount = 4;
+            for (int b=0;b<bankCount; b++)
             {
                 if (cart.getBankeRomName(b) != null)
                 {
@@ -3837,7 +3839,17 @@ public class DissiPanel extends javax.swing.JPanel  implements
                         ;
                     else if (memInfo.hasBreakpoint())
                     {
-                        setBackground(config.valueChanged);//Color.RED);
+                        boolean enabled = false;
+                        ArrayList<Breakpoint> bp = memInfo.getBreakpoints();
+                        for (Breakpoint b: bp)
+                        {
+                            if (b.enabled) enabled = true;
+                        }
+                        
+                        if (enabled)
+                            setBackground(config.valueChanged);//Color.RED);
+                        else
+                            setBackground(config.psgChannelA);//some other color);
                         // setForeground(Color.WHITE);
                     } 
                     else 
@@ -4614,9 +4626,14 @@ public class DissiPanel extends javax.swing.JPanel  implements
     // receives the contents of the textfield after a return
     public void executeCommand(String command)
     {
+        executeCommand(command, false);
+    }
+    public void executeCommand(String command, boolean quiet)
+    {
         command = de.malban.util.UtilityString.replaceWhiteSpaces(command, " ");
         command = de.malban.util.UtilityString.replace(command, "  ", " ");
-        printMessage(command, MESSAGE_INFO);
+        if (!quiet)
+            printMessage(command, MESSAGE_INFO);
         String[] parts = command.split(" ");
         if (parts.length==0) return;
         if (parts[0].length()==0) return;
@@ -4641,7 +4658,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
         try
         {
-            executeCommand(com, parts);
+            executeCommand(com, parts, quiet);
         }
         catch (Throwable e)
         {
@@ -4649,13 +4666,14 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
     }
     boolean bsDebug = false;
+    // insert breakpoints in ALL banks
     public boolean isBankDebug()
     {
         return bsDebug;
     }
     
 // executes given command with given parameters, param[0] is string of command invocation!
-    public void executeCommand(Command command, String[] param)
+    public void executeCommand(Command command, String[] param, boolean quiet)
     {
         // commanfs that can be used outside of emulation
         switch (command.ID)
@@ -4663,7 +4681,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             case Command.D_CMD_DUMP_JOGL:
             {
                 String t = JOGLSupport.getJOGLInfo();
-
+                
                 printMessage(t, MESSAGE_INFO);
                 log.addLog(t);
                 return;
@@ -5161,15 +5179,16 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 int bank = DASM6809.toNumber(param[1]);
 
                 setDissiBank(bank);
-
-                printMessage("Bank in dissi switched to: "+getCurrentBank()+" (bank may be changed automatically by emulation...)", MESSAGE_INFO);
+                if (!quiet)
+                    printMessage("Bank in dissi switched to: "+getCurrentBank()+" (bank may be changed automatically by emulation...)", MESSAGE_INFO);
                 break;
             }
             case Command.D_CMD_BANKSWITCH_INFO:
             {
                 currentDissi.bankswitchInfo = !currentDissi.bankswitchInfo;
                 
-                printMessage("Information display for bankswitches: "+(currentDissi.bankswitchInfo?"on":"off"), MESSAGE_INFO);
+                if (!quiet)
+                    printMessage("Information display for bankswitches: "+(currentDissi.bankswitchInfo?"on":"off"), MESSAGE_INFO);
                 break;
             }
             case Command.D_CMD_TOGGLE_DISASM_RAM:
@@ -5225,20 +5244,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
             case Command.D_CMD_TO_FEVER:
             {
-                /*
-                if (!(mParent instanceof CSAMainFrame)) 
-                {
-                    printMessage("Vedi not found.", MESSAGE_WARN);
-                    return;
-                }
-                
-                VediPanel v = ((CSAMainFrame)mParent).checkVedi();
-                if ((v == null)) 
-                {
-                    printMessage("Vedi not found.", MESSAGE_WARN);
-                    return;
-                }
-*/              
                 String dump = currentDissi.vecxPanel.dumpCurrentROM();
                 if (dump == null)
                 {
@@ -5630,6 +5635,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         correctModel();    
         if (currentDissi.vecxPanel==null) return;
         currentDissi.vecxPanel.updateLabi();
+        currentDissi.vecxPanel.updateDumpi();
     }
     public void setUpTableColumns()
     {
@@ -6387,7 +6393,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             if (currentDissi.vecxPanel==null) return 0;
 
             
-            return 0xcbea-currentDissi.vecxPanel.getSReg()+NEGATIVE_OFFSET_MAX;
+            return 40;//0xcbea-currentDissi.vecxPanel.getSReg()+NEGATIVE_OFFSET_MAX;
         }
         public int getColumnCount()
         {
@@ -6551,6 +6557,21 @@ public class DissiPanel extends javax.swing.JPanel  implements
         updateTable();        
     }
     
+    public void ensureCorrectOutput()
+    {
+        if(getMemory()==null) return;
+        int banks = getMemory().getMaxBank();
+        if (banks == 0) 
+            return ;
+        if(currentDissi==null) return;
+        if(currentDissi.vecxPanel==null) return;
+        executeCommand("bs "+currentDissi.vecxPanel.getCurrentBank(), true);
+//        updateTable();
+//        jTableSource.invalidate();
+//        jTableSource.validate();
+//        jTableSource.repaint();
+        goAddress(reg_pc, false, false, true);
+    }
     
     
 }

@@ -43,6 +43,8 @@ public class Global {
     public static final boolean MAC_OS_X;
     public static final boolean WINDOWS;
 
+    public static boolean doTestJava = true;
+    
     public static final String mainPathPrefix;
     
     //public static StringBuilder devNullString=new StringBuilder();
@@ -283,6 +285,9 @@ public class Global {
     
     public static void initLAF()
     {
+//        if (firstTime)
+//            return;
+        
         if (firstTime)
         {
             firstTime = false;

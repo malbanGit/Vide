@@ -413,7 +413,8 @@ private Image getWindowIcon(Window window) {
         Frame frame = getFrame();
 
         if(frame != null) {
-            frame.setExtendedState(frame.getExtendedState() | Frame.ICONIFIED);
+//            frame.setState(Frame.ICONIFIED);
+//            frame.setExtendedState(frame.getExtendedState() | Frame.ICONIFIED);
         }
     }
 

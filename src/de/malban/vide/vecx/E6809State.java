@@ -32,11 +32,15 @@ public class E6809State implements Serializable{
     /* flag to see if interrupts should be handled (sync/cwai). */
     public int irq_status;
     public long cyclesRunning;
+    public int addressBUS;
+    public int dataBUS;
     
     public ArrayList<Integer> callStack = new  ArrayList<Integer>();
     
     public static void deepCopy(E6809State from, E6809State to)
     {
+        to.addressBUS = from.addressBUS;
+        to.dataBUS = from.dataBUS;
         to.reg_x = from.reg_x;
         to.reg_y = from.reg_y;
         to.reg_u.intValue = from.reg_u.intValue;

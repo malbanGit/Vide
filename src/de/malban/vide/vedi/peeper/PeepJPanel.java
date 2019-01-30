@@ -235,11 +235,12 @@ public class PeepJPanel extends javax.swing.JPanel implements
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(peepEditJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonOk)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButtonSave1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonSave1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonOk)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2)))
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -266,7 +267,7 @@ public class PeepJPanel extends javax.swing.JPanel implements
         refreshTable();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static boolean showEditPeepProperties()
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

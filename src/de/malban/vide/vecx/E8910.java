@@ -135,7 +135,8 @@ public class E8910 extends E8910State implements E8910Statics
            return reg14In;//snd_regs[14];
 //        return 0xff;
     }
-    
+    // test hack
+    boolean digit4Bit= false;
     public void e8910_write(int r, int v)
     {
         int old;
@@ -170,6 +171,44 @@ public class E8910 extends E8910State implements E8910Statics
             return;
         }
         
+        // dummy dummy test for PSG samples
+        // all channels off
+        if ((snd_regs[7]&(0xff-128-64)) == 0xff-128-64)
+        {
+            if ((r==8) || (r==9) || (r==10))
+            {
+                if (v<=15)
+                {
+                    // for NOW this is a hack
+                    // PSG emulation as it is
+                    // does seemingly not support 
+                    // digitized stuff
+                    if (digit4Bit)
+                    {
+                        // sound sample is acive
+                        if (digitByteCounter>=MAX_DIGIT_BUFFER) return;
+                        if (digitByteCounter==-1) digitByteCounter =0; // -1 means digitizing active, but buffer was reset
+                        int sampleByte = v<<4;
+                        sampleByte = sampleByte-128;
+
+                        digitByte[digitByteCounter++] = sampleByte;
+                        return;
+                        
+                    }
+                    else
+                    {
+                        digit4Bit=true;
+                        digitByteCounter = 0; // counter 0 == NO digitizing active
+                    }
+                }
+                else
+                    digit4Bit = false;
+            }
+            else
+                digit4Bit = false;
+        }
+        else
+            digit4Bit = false;
         
         // 255 dummy register for "path thru data to sound direct
         if ((r != 255) && (digitByteCounter != 0))
@@ -182,10 +221,9 @@ public class E8910 extends E8910State implements E8910Statics
             if (digitByteCounter>=MAX_DIGIT_BUFFER) return;
             if (digitByteCounter==-1) digitByteCounter =0; // -1 means digitizing active, but buffer was reset
             digitByte[digitByteCounter++] = v;
-           
-            
             return;
         }
+        
         int oldReg = snd_regs[r];
         
         if (r<15)

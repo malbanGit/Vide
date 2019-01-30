@@ -504,8 +504,12 @@ public class ASM6809File
             boolean done = false;
             if (adjustment == 1) // only one char dif
             {
-                String[] sp1 = lineOld.split(";");
-                String[] sp2 = lineNew.split(";");
+                String[] sp1=new String[0];
+                if (lineOld != null)
+                    sp1 = lineOld.split(";");
+                String[] sp2 = new String[0];
+                if (lineNew != null)
+                    sp2 = lineNew.split(";");
                 if ((sp1.length>0) && (sp2.length>0))
                 {
                     if (!(sp1[sp1.length-1].equals((sp2[sp2.length-1]))))

@@ -1,3 +1,121 @@
+On mac retina displays, vecxi only uses 1/4 of the window size (even when using shift-p). It would be nice to have a setting to expand this to use the full window...
+
+ATTENTION!
+; "in instruction" bankswitch not supported by VIDE
+
+https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/self-contained-packaging.html
+
+
+
+generate a IMAGE smart list (which respects virtuell brightness)
+and Quadro..., light off intensity
+
+
+
+BUG in Vie
+                    ldd      #(%00000010)*256+$CC         ; zero the integrators 
+                    stb      <VIA_cntl                    ; store zeroing values to cntl 
+                    ldb      #ZERO_DELAY_P  
+
+
+C debugging
+fixed??? see vedi 12233
+if function parameter contains struct - than debugging enrichment fails!
+
+tracki
+Button alle gespeicherten Ergebnisse als Excel liste ausgeben
+
+tiny LAF and JAVA 10 -> broken on iconify
+
+see TinyTitlePane - Iconfify action - commented out iconifiyng
+
+
+
+Switch for goggle/lightpen
+
+
+
+
+Hm - test seems ok,Code scan in vexci not "working" for DP?
+
+Hm - test seems ok,Active in dissi > vectorlisten display in dumpi, not working?
+
+
+Bug Screen adjust in windows not working? -> Black screen?
+Bug Overlay adjust in windows not working? -> Black Screen? (emulation)
+
+
+
+;	1) cursor positioning does not use the same system as most IDEs. Took me ages to get to grips with it, and it still feels off. Basically, if you click on
+;		a character, the cursor appears at the start of that character (or tab) - however it should really look at the position within the character or tab
+;		and go left or right of the character based on being above or below 50 percent of the way in. Hope that makes sense. May be very hard to fix.
+
+;	2) Visual studio uses Alt with the mouse for block copying - so you can position a bunch of lines at once, or cut a square out of the text. Again - not
+; 		vital but would be a great addition for anal coders like myself. 
+
+;	8) I am a crap 6809 coder, and many people will be too - some other optimisations VIDE could suggest include 
+;		clra clrb instead of ldd #0 - I think this uses less space?
+;		lda and ldb with constants could show the ldd #$HEXX value you can use instead
+;		cmpa #0 after a lda is unnecessary as the 0 flag is set after a lot (but not all?) operations - would be handy to have this pointed out by the compiler
+;		overall however - I think vide's optimisation suggestions are great - very useful for tracking down efficient branches when files are being rearranged
+
+
+Absturtz wenn im multistep save?
+
+BUG in C - BLOXORX
+
+void setSwatchField(int8_t x, int8_t y, int on)
+{
+	volatile long int index = (long int) y*LEVEL_WIDTH + (long int)x;
+	uint8_t bit = (uint8_t) (index & 7);
+	index >>= 3;
+	if (on) {
+		swatchesOn[index] |= shifts[bit];
+	} else {
+		swatchesOn[index] &= ~shifts[bit];
+	}
+}
+
+Generiert 2 * den index in Register X!
+
+
+
+
+breakpoints enable/disable/save/load
+
+breakpoints on IRQ cart port line
+
+breakpoint on IRQ VIA
+
+
+- writing in 3d scroll
+
+
+1) Line drawing in help -> comparisson
+2) Smart list generation
+3) new things in Vecci
+  - swicth dir
+  - remove point
+  - Join here
+  - usage of anim lists
+  - big window
+  - ctrl pan
+
+4) sun in edit
+5) double click in edit
+6) calculator / help in edit
+7) navigator in edit
+
+
+
+TDOD
+New game
+Fortnight for Vectrex
+
+
+
+
+
 
 Tricky things in Vectorblade
 

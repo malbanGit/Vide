@@ -49,12 +49,12 @@ public class VediSettings implements Serializable
     {
         String mName;
         String mClass;
-        String mPath;
+        String mFullPath;
         public P(String n, String c, String p)
         {
             mName = n;
             mClass = c;
-            mPath = p;
+            mFullPath = p;
         }
         public String toString()
         {
@@ -184,11 +184,11 @@ addRecent(fn, pos);
     {
         if (currentProject != null)
         {
-            currentProject.mPath = de.malban.util.Utility.ensureRelative(currentProject.mPath);
+            currentProject.mFullPath = de.malban.util.Utility.ensureRelative(currentProject.mFullPath);
         }
         for (P p: recentProject)
         {
-            p.mPath = de.malban.util.Utility.ensureRelative(p.mPath);
+            p.mFullPath = de.malban.util.Utility.ensureRelative(p.mFullPath);
         }
         for (EditorFileSettings set: currentOpenFiles)
         {

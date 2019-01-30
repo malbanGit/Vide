@@ -56,7 +56,7 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicMenuItemUI;
 import javax.swing.plaf.basic.BasicRootPaneUI;
 
-import sun.swing.UIAction;
+//import sun.swing.UIAction;
 
 /**
  * TinyRootPaneUI

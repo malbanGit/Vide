@@ -86,7 +86,7 @@ public class GetLengthValuePanel extends javax.swing.JPanel {
 
     int lineNumber = 127;
     // returns new Properties, not saved yet!
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static int showEnterValueDialog()
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

@@ -22,6 +22,7 @@ import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
@@ -29,6 +30,7 @@ import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.E8910;
+import de.malban.vide.vedi.GetJumpValuePanel;
 import de.malban.vide.vedi.VediPanel;
 import static de.malban.vide.vedi.VediPanel.convertToCASM;
 import de.malban.vide.vedi.VediPanel32;
@@ -53,6 +55,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -3363,7 +3366,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lister", jPanel9);
@@ -3604,7 +3607,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addComponent(jCheckBoxForce2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxForce3)
-                .addContainerGap(274, Short.MAX_VALUE))
+                .addContainerGap(255, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("more configuration", jPanel11);
@@ -3680,7 +3683,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                     .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCreate)
@@ -3749,7 +3752,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
                                     .addComponent(jScrollPane2)))
                             .addComponent(jButtonAddRow)))
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -7425,20 +7428,61 @@ s
         String text = de.malban.util.UtilityString.readTextFileToOneString(new File (file));
 
         String[] lines = text.split("\n");
+        if (lines.length==0) return null;
         ArrayList<String> lineArray = new ArrayList<String>();
-        for (String line: lines)
+        if (lines[0].trim().startsWith("#"))
         {
-            line = line.trim();
-        line = de.malban.util.UtilityString.replace(line, "\r", " ");
-        line = de.malban.util.UtilityString.replace(line, "\t", " ");
-        line = de.malban.util.UtilityString.replace(line, ",", " ");
-        line = de.malban.util.UtilityString.replace(line, "0x", "$");
-        line = de.malban.util.UtilityString.replace(line, "  ", " ");
-            if (line.length() != 0)
+            // ask for AY ID and only take the ids data
+            
+            JFrame frame = Configuration.getConfiguration().getMainFrame();
+            GetYMIDDialog panel = new GetYMIDDialog();
+
+            ArrayList<JButton> eb= new ArrayList<JButton>();
+            ModalInternalFrame modal = new ModalInternalFrame("AY ID:", frame.getRootPane(), frame, panel,null, null , null);
+            modal.setVisible(true);
+            
+            String option = panel.getString();
+            
+            if (!option.toLowerCase().equals("all"))
             {
-                lineArray.add(line);
+                String notDiscard = "#$"+option+"#";
+                for (String line: lines)
+                {
+                    if (!line.trim().startsWith(notDiscard)) continue;
+                    line = de.malban.util.UtilityString.replace(line, notDiscard, "");
+                    line = line.trim();
+                    line = de.malban.util.UtilityString.replace(line, "\r", " ");
+                    line = de.malban.util.UtilityString.replace(line, "\t", " ");
+                    line = de.malban.util.UtilityString.replace(line, ",", " ");
+                    line = de.malban.util.UtilityString.replace(line, "0x", "$");
+                    line = de.malban.util.UtilityString.replace(line, "  ", " ");
+                    if (line.length() != 0)
+                    {
+                        lineArray.add(line);
+                    }
+                }
             }
         }
+        if (lineArray.size() == 0)
+        {
+            for (String line: lines)
+            {
+                line = line.trim();
+                int second = line.indexOf("#",1);
+                if (second != -1)
+                    line = line.substring(second+1).trim();
+                line = de.malban.util.UtilityString.replace(line, "\r", " ");
+                line = de.malban.util.UtilityString.replace(line, "\t", " ");
+                line = de.malban.util.UtilityString.replace(line, ",", " ");
+                line = de.malban.util.UtilityString.replace(line, "0x", "$");
+                line = de.malban.util.UtilityString.replace(line, "  ", " ");
+                if (line.length() != 0)
+                {
+                    lineArray.add(line);
+                }
+            }
+        }
+
         int lineCount = lineArray.size();
         if (lineCount==0) return null;
         
@@ -7472,7 +7516,7 @@ s
                 }
             }
             if (r != regCount) 
-                return null;
+                continue;//null;
             l++;
 //            System.out.println(""+l+"/"+lineCount);
         }

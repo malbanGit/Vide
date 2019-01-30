@@ -23,7 +23,7 @@ import javax.swing.JInternalFrame;
  */
 public class ShowInfoDialog extends javax.swing.JPanel {
 
-    JInternalFrame modal=null;
+    ModalInternalFrame modal=null;
     /** Creates new form GetStringDialog */
     public ShowInfoDialog() {
         initComponents();
@@ -108,6 +108,7 @@ public class ShowInfoDialog extends javax.swing.JPanel {
             return;
         }
         JFrame frame = Configuration.getConfiguration().getMainFrame();
+        if (!frame.isVisible()) return;
         ShowInfoDialog si = new ShowInfoDialog();
         si.setText(text);
         
@@ -122,6 +123,7 @@ public class ShowInfoDialog extends javax.swing.JPanel {
             return;
         }
         JFrame frame = Configuration.getConfiguration().getMainFrame();
+        if (!frame.isVisible()) return;
         ShowInfoDialog si = new ShowInfoDialog();
         si.setText(message);
         

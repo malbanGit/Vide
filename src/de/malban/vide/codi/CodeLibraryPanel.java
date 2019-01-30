@@ -9,6 +9,7 @@ import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
+import static de.malban.util.Utility.makeGlobalAbsolute;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
 import de.malban.vide.VideConfig;
@@ -1058,12 +1059,11 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                         
                         if (project.projectPrefix.length()==0)
                         {
-                            filenameASM = project.getOldPath()+File.separator+project.mName+File.separator+filenameASM;
+                            Path p = Paths.get(treeName);
+                            String dir = p.getParent().toString();
+                            project.projectPrefix = dir;
                         }
-                        else
-                        {
-                            filenameASM = project.projectPrefix+File.separator+filenameASM;
-                        }
+                        filenameASM = project.projectPrefix+File.separator+filenameASM;
                         
                         
                         File test = new File(filenameASM);
@@ -1205,7 +1205,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 filename = filename.substring(0,li);
             filename = filename+"_"+(b) + ".bin";
 
-            File test = new File(Global.mainPathPrefix+filename);
+            File test = new File(makeGlobalAbsolute(filename));
             if (!test.exists())
             {
                 cart.getFullFilename().add("");

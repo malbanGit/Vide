@@ -5,18 +5,25 @@
  */
 package de.malban.vide.vecx.panels;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.gui.dialogs.InternalFrameFileChoser;
+import de.malban.gui.panels.LogPanel;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.Updatable;
 import java.awt.Dimension;
+import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -144,6 +151,8 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
         oneBreakpointPanel1 = new de.malban.vide.vecx.panels.OneBreakpointPanel();
         oneBreakpointPanel2 = new de.malban.vide.vecx.panels.OneBreakpointPanel();
         jButtonFileSelect10 = new javax.swing.JButton();
+        jButtonLoad = new javax.swing.JButton();
+        jButtonSave = new javax.swing.JButton();
 
         jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
         jToggleButton3.setToolTipText("Toggle Update (always or only while debug)");
@@ -173,6 +182,24 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jButtonLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoad.setToolTipText("load breakpoints");
+        jButtonLoad.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoadActionPerformed(evt);
+            }
+        });
+
+        jButtonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
+        jButtonSave.setToolTipText("save breakpoints");
+        jButtonSave.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,6 +210,10 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
                         .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonFileSelect10)
+                        .addGap(28, 28, 28)
+                        .addComponent(jButtonLoad)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSave)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE))
                 .addGap(0, 0, 0))
@@ -192,7 +223,9 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonFileSelect10))
+                    .addComponent(jButtonFileSelect10)
+                    .addComponent(jButtonSave)
+                    .addComponent(jButtonLoad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
         );
@@ -207,9 +240,19 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
         
     }//GEN-LAST:event_jButtonFileSelect10ActionPerformed
 
+    private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
+        loadBreakpoints();
+    }//GEN-LAST:event_jButtonLoadActionPerformed
+
+    private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
+        saveBreakpoints();
+    }//GEN-LAST:event_jButtonSaveActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonFileSelect10;
+    private javax.swing.JButton jButtonLoad;
+    private javax.swing.JButton jButtonSave;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToggleButton jToggleButton3;
@@ -247,6 +290,12 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
             if (!updateEnabled) return;
         update();
     }
+    void updateDissi()
+    {
+        if (dissi==null) return;
+        dissi.updateTableOnly();
+    }
+
     public void setUpdateEnabled(boolean b)
     {
         updateEnabled = b;
@@ -256,4 +305,50 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
         vecxPanel.breakpointRemove(bp);
     }
     public void deIconified() { }
+
+    public void loadBreakpoints()
+    {
+        ArrayList<Breakpoint>[] allBreakpoints;
+
+        String filename =Global.mainPathPrefix+"serialize";
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        Path p = Paths.get(filename);
+        fc.setCurrentDirectory(new java.io.File(p.toString()));
+        FileNameExtensionFilter  filter = new  FileNameExtensionFilter("Breakpoints", "brk");
+        fc.setFileFilter(filter);
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        filename = fc.getSelectedFile().getAbsolutePath();            
+
+        Object o = CSAMainFrame.deserialize(filename);
+        if (o == null)
+        {
+            LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+            log.addLog("Deserialization of breakpoints failed!");
+            return;
+        }
+        allBreakpoints = (ArrayList<Breakpoint>[]) o;
+        vecxPanel.setAllBreakpoints(allBreakpoints);
+        init();
+        dissi.updateTableOnly();
+        
+    }
+
+    public void saveBreakpoints()
+    {
+        ArrayList<Breakpoint>[] allBreakpoints = vecxPanel.getAllBreakpoints();
+
+        String filename =Global.mainPathPrefix+"serialize";
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        Path p = Paths.get(filename);
+        fc.setCurrentDirectory(new java.io.File(p.toString()));
+        FileNameExtensionFilter  filter = new  FileNameExtensionFilter("Breakpoints", "brk");
+        fc.setFileFilter(filter);
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        filename = fc.getSelectedFile().getAbsolutePath();            
+        filename = de.malban.util.UtilityString.replaceCI(filename, ".BRK", ".brk");
+        if (!filename.endsWith(".brk")) filename = filename+".brk";
+        CSAMainFrame.serialize(allBreakpoints, filename);
+    }
 }

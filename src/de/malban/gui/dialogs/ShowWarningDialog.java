@@ -24,7 +24,7 @@ import javax.swing.JInternalFrame;
  */
 public class ShowWarningDialog extends javax.swing.JPanel {
 
-    JInternalFrame modal=null;
+    ModalInternalFrame modal=null;
     /** Creates new form GetStringDialog */
     public ShowWarningDialog() {
         initComponents();
@@ -111,6 +111,8 @@ public class ShowWarningDialog extends javax.swing.JPanel {
             return;
         }
         JFrame frame = Configuration.getConfiguration().getMainFrame();
+        // if on starup a modal dialog is displayed - than we wait for eternaty!
+        if (!frame.isVisible()) return;
         ShowWarningDialog si = new ShowWarningDialog();
         String m = "<html>"+text+"</html>";
         m = UtilityString.replace(m, "\n", "<BR>");
@@ -127,6 +129,8 @@ public class ShowWarningDialog extends javax.swing.JPanel {
             return;
         }
         JFrame frame = Configuration.getConfiguration().getMainFrame();
+        // if on starup a modal dialog is displayed - than we wait for eternaty!
+        if (!frame.isVisible()) return;
         ShowWarningDialog si = new ShowWarningDialog();
         String m = "<html>"+message+"</html>";
         m = UtilityString.replace(m, "\n", "<BR>");

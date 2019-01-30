@@ -41,7 +41,7 @@ public class QuickHelpModal extends javax.swing.JPanel {
         QuickHelpModal panel = new QuickHelpModal();
         panel.jEditorPane1.setContentType("text/html");
         panel.jEditorPane1.setText(html);
-        JInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel);
+        ModalInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel);
         panel.modelDialog = modal;
         modal.setVisible(true);
     }
@@ -51,7 +51,7 @@ public class QuickHelpModal extends javax.swing.JPanel {
         QuickHelpModal panel = new QuickHelpModal();
         panel.jEditorPane1.setContentType("text/plain");
         panel.jEditorPane1.setText(text);
-        JInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel);
+        ModalInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel);
         panel.modelDialog = modal;
         modal.setVisible(true);
     }
@@ -78,11 +78,11 @@ public class QuickHelpModal extends javax.swing.JPanel {
                 panel.jEditorPane1.setText("Can´t display page:\n"+page);
             }
         }
-        JInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel);
+        ModalInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel);
         panel.modelDialog = modal;
         modal.setVisible(true);
     }
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

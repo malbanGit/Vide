@@ -16,45 +16,38 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanel1" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Component id="jTextFieldFileName" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFileName" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jButtonOk" min="-2" pref="86" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButtonCancel" min="-2" pref="86" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jButtonOk" min="-2" pref="86" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButtonCancel" min="-2" pref="86" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="jComboBox1" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="jComboBox1" max="32767" attributes="0"/>
                           </Group>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="singleVectorPanel" max="32767" attributes="0"/>
-                          <Component id="jLabel5" max="32767" attributes="0"/>
-                          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="270" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,15 +56,8 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                      <Component id="singleVectorPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                      <Component id="jPanel2" max="32767" attributes="0"/>
-                  </Group>
                   <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                  <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -90,7 +76,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -199,7 +185,7 @@
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -220,130 +206,167 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="de.malban.graphics.Single3dDisplayPanel" name="singleVectorPanel">
+    <Container class="javax.swing.JPanel" name="jPanel3">
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="150" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
-    <Component class="javax.swing.JLabel" name="jLabel5">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="animation"/>
-      </Properties>
-    </Component>
-    <Container class="javax.swing.JPanel" name="jPanel2">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jButtonMov_Draw_VLc_a" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
-              <Component id="jButtonDraw_VLc" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
-              <Component id="jButtonDraw_VLp" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
-              <Component id="jButtonDraw_VL_mode" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
-              <Component id="jButtonCodeGen" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="singleVectorPanel" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jButtonMov_Draw_VLc_a" min="-2" max="-2" attributes="0"/>
+                  <Component id="singleVectorPanel" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonDraw_VLc" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonDraw_VLp" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonDraw_VL_mode" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jButtonCodeGen" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                  <Component id="jPanel2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButtonMov_Draw_VLc_a">
+        <Container class="de.malban.graphics.Single3dDisplayPanel" name="singleVectorPanel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Mov_Draw_VLc_a"/>
-            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Mov_Draw_VLc_a&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine moves to the first location specified in vector list,    &lt;BR&gt;     &#xa;and then draws lines between the rest of coordinates in the list.    &lt;BR&gt;      &#xa;The number of vectors to draw is specified as the first byte in the   &lt;BR&gt;     &#xa;vector list.  The current scale factor is used.  The vector list has  &lt;BR&gt;     &#xa;the following format:                                                 &lt;BR&gt;     &#xa;                                       &lt;BR&gt;                                  &#xa;&lt;PRE&gt;&#xa;   count, rel y, rel x, rel y, rel x, ... &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;"/>
-            <Property name="enabled" type="boolean" value="false"/>
-            <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="name" type="java.lang.String" value="create" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[160, 21]"/>
+              <Dimension value="[200, 200]"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMov_Draw_VLc_aActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButtonDraw_VLc">
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="200" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="200" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+        </Container>
+        <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Draw_VLc"/>
-            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw_VLc&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine draws vectors between the set of (y,x) points pointed    &lt;BR&gt;     &#xa;to by the X register.  The number of vectors to draw is specified     &lt;BR&gt;     &#xa;as the first byte in the vector list.  The current scale factor is    &lt;BR&gt;     &#xa;used.  The vector list has the following format:                      &lt;BR&gt;  &#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;   count, rel y, rel x, rel y, rel x, ... &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;&#xa;&#xa;   &#xa;"/>
-            <Property name="enabled" type="boolean" value="false"/>
-            <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="name" type="java.lang.String" value="create" noResource="true"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[160, 21]"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="animation"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDraw_VLcActionPerformed"/>
-          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonDraw_VLp">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Draw_VLp"/>
-            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw_VLp&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine draws patterned lines using the vector list pointed to   &lt;BR&gt;&#xa;by the X-register.  The current scale factor is used.  The vector   &lt;BR&gt;&#xa;list has the following format: &lt;BR&gt;&#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;      pattern, rel y, rel x                                           &#xa;      pattern, rel y, rel x                                           &#xa;         .      .      .                                              &#xa;         .      .      .                                              &#xa;      pattern, rel y, rel x                                           &#xa;      0x01 &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;"/>
-            <Property name="enabled" type="boolean" value="false"/>
-            <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="name" type="java.lang.String" value="create" noResource="true"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[160, 21]"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDraw_VLpActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButtonDraw_VL_mode">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Draw_VL_mode"/>
-            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw_VL_mode&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine processes the vector list pointed to by the X register.  &lt;BR&gt; &#xa;The current scale factor is used.  The vector list has the following  &lt;BR&gt; &#xa;format: &lt;BR&gt; &#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;     mode, rel y, rel x,                                             &#xa;     mode, rel y, rel x,                                             &#xa;     .      .      .                                                &#xa;     .      .      .                                                &#xa;     mode, rel y, rel x,                                             &#xa;     0x01  &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;&#xa;where mode has the following meaning:         &lt;BR&gt;                        &#xa;                                              &lt;BR&gt;                    &#xa;&lt; 0  use the pattern in $C829        &lt;BR&gt;                           &#xa;= 0  move to specified endpoint      &lt;BR&gt;                           &#xa;= 1  end of list, so return         &lt;BR&gt;                            &#xa;&gt; 1  draw to specified endpoint &lt;BR&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;"/>
-            <Property name="enabled" type="boolean" value="false"/>
-            <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="name" type="java.lang.String" value="create" noResource="true"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[160, 21]"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDraw_VL_modeActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButtonCodeGen">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Code generation"/>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-            <Property name="enabled" type="boolean" value="false"/>
-            <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="name" type="java.lang.String" value="create" noResource="true"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[160, 21]"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCodeGenActionPerformed"/>
-          </Events>
-        </Component>
+        <Container class="javax.swing.JPanel" name="jPanel2">
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jButtonMov_Draw_VLc_a" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
+                  <Component id="jButtonDraw_VLc" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
+                  <Component id="jButtonDraw_VLp" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
+                  <Component id="jButtonDraw_VL_mode" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
+                  <Component id="jButtonCodeGen" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jButtonMov_Draw_VLc_a" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonDraw_VLc" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonDraw_VLp" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonDraw_VL_mode" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                      <Component id="jButtonCodeGen" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="jButtonMov_Draw_VLc_a">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Mov_Draw_VLc_a"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Mov_Draw_VLc_a&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine moves to the first location specified in vector list,    &lt;BR&gt;     &#xa;and then draws lines between the rest of coordinates in the list.    &lt;BR&gt;      &#xa;The number of vectors to draw is specified as the first byte in the   &lt;BR&gt;     &#xa;vector list.  The current scale factor is used.  The vector list has  &lt;BR&gt;     &#xa;the following format:                                                 &lt;BR&gt;     &#xa;                                       &lt;BR&gt;                                  &#xa;&lt;PRE&gt;&#xa;   count, rel y, rel x, rel y, rel x, ... &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
+                <Property name="name" type="java.lang.String" value="create" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[160, 21]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMov_Draw_VLc_aActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonDraw_VLc">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Draw_VLc"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw_VLc&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine draws vectors between the set of (y,x) points pointed    &lt;BR&gt;     &#xa;to by the X register.  The number of vectors to draw is specified     &lt;BR&gt;     &#xa;as the first byte in the vector list.  The current scale factor is    &lt;BR&gt;     &#xa;used.  The vector list has the following format:                      &lt;BR&gt;  &#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;   count, rel y, rel x, rel y, rel x, ... &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;&#xa;&#xa;   &#xa;"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
+                <Property name="name" type="java.lang.String" value="create" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[160, 21]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDraw_VLcActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonDraw_VLp">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Draw_VLp"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw_VLp&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine draws patterned lines using the vector list pointed to   &lt;BR&gt;&#xa;by the X-register.  The current scale factor is used.  The vector   &lt;BR&gt;&#xa;list has the following format: &lt;BR&gt;&#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;      pattern, rel y, rel x                                           &#xa;      pattern, rel y, rel x                                           &#xa;         .      .      .                                              &#xa;         .      .      .                                              &#xa;      pattern, rel y, rel x                                           &#xa;      0x01 &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
+                <Property name="name" type="java.lang.String" value="create" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[160, 21]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDraw_VLpActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonDraw_VL_mode">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Draw_VL_mode"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw_VL_mode&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine processes the vector list pointed to by the X register.  &lt;BR&gt; &#xa;The current scale factor is used.  The vector list has the following  &lt;BR&gt; &#xa;format: &lt;BR&gt; &#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;     mode, rel y, rel x,                                             &#xa;     mode, rel y, rel x,                                             &#xa;     .      .      .                                                &#xa;     .      .      .                                                &#xa;     mode, rel y, rel x,                                             &#xa;     0x01  &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;&#xa;where mode has the following meaning:         &lt;BR&gt;                        &#xa;                                              &lt;BR&gt;                    &#xa;&lt; 0  use the pattern in $C829        &lt;BR&gt;                           &#xa;= 0  move to specified endpoint      &lt;BR&gt;                           &#xa;= 1  end of list, so return         &lt;BR&gt;                            &#xa;&gt; 1  draw to specified endpoint &lt;BR&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
+                <Property name="name" type="java.lang.String" value="create" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[160, 21]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDraw_VL_modeActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonCodeGen">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Code generation"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
+                <Property name="name" type="java.lang.String" value="create" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[160, 21]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCodeGenActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>

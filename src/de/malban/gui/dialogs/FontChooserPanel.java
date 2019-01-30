@@ -75,7 +75,7 @@ public class FontChooserPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonOk;
     // End of variables declaration//GEN-END:variables
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static de.malban.gui.dialogs.FontChooserComponent showFontChoserDialog(String title, SimpleAttributeSet style, boolean enableSize)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

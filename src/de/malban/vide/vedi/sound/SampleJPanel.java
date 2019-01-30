@@ -267,10 +267,12 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         jLabel6 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
+        jComboBoxEncodingType = new javax.swing.JComboBox();
+        jComboBoxSampleBits = new javax.swing.JComboBox();
         jComboBox3 = new javax.swing.JComboBox();
         jComboBox4 = new javax.swing.JComboBox();
+        jCheckBox4BitTranslate = new javax.swing.JCheckBox();
+        jCheckBoxZeroUnsigned = new javax.swing.JCheckBox();
         jLabel18 = new javax.swing.JLabel();
         jComboBoxAudioDevices1 = new javax.swing.JComboBox();
         jButton5 = new javax.swing.JButton();
@@ -621,17 +623,35 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
 
         jLabel7.setText("endian");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PCM_UNSIGNED" }));
-        jComboBox1.setEnabled(false);
+        jComboBoxEncodingType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PCM_SIGNED", "PCM_UNSIGNED" }));
+        jComboBoxEncodingType.setToolTipText("Save signed for direct output. Save unsigned for PSG output!");
+        jComboBoxEncodingType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxEncodingTypeActionPerformed(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "8 bit" }));
-        jComboBox2.setEnabled(false);
+        jComboBoxSampleBits.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "8 bit", "4 bit" }));
+        jComboBoxSampleBits.setToolTipText("Use 8bit for direct output. 4bit can be used for PSG output.");
+        jComboBoxSampleBits.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxSampleBitsActionPerformed(evt);
+            }
+        });
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2" }));
         jComboBox3.setEnabled(false);
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 byte" }));
         jComboBox4.setEnabled(false);
+
+        jCheckBox4BitTranslate.setText("4b transl.");
+        jCheckBox4BitTranslate.setToolTipText("\"Translates\" 4bit PCM data to PSG volumes (exponential steps)");
+        jCheckBox4BitTranslate.setEnabled(false);
+
+        jCheckBoxZeroUnsigned.setText("0f");
+        jCheckBoxZeroUnsigned.setToolTipText("zero unsigned floored");
+        jCheckBoxZeroUnsigned.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -649,21 +669,29 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
                     .addComponent(jLabel7))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxEncodingType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextFieldSampleRate)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField6)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jCheckBoxZeroUnsigned, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jComboBoxSampleBits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckBox4BitTranslate, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxEncodingType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -671,7 +699,8 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxSampleBits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox4BitTranslate))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -687,7 +716,8 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxZeroUnsigned))
                 .addGap(0, 0, 0))
         );
 
@@ -1020,20 +1050,38 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jTextFieldSampleRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSampleRateActionPerformed
+        if (mClassSetting>0) return;
         jTextField6.setText(jTextFieldSampleRate.getText());
-        jTextFieldVectrexSize.setText(""+(convertToVectrex().length));
+        if (convertToVectrex(false) != null) 
+        {
+            if (jComboBoxSampleBits.getSelectedIndex()==0)
+                jTextFieldVectrexSize.setText(""+(convertToVectrex(false).length));
+            else
+                jTextFieldVectrexSize.setText(""+(convertToVectrex(false).length/2));
+        }
 
     }//GEN-LAST:event_jTextFieldSampleRateActionPerformed
 
     private void jTextFieldSampleRateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldSampleRateFocusLost
         jTextField6.setText(jTextFieldSampleRate.getText());
-        jTextFieldVectrexSize.setText(""+(convertToVectrex().length));
+        if (convertToVectrex(false) != null) 
+        {
+            if (jComboBoxSampleBits.getSelectedIndex()==0)
+                jTextFieldVectrexSize.setText(""+(convertToVectrex(false).length));
+            else
+                jTextFieldVectrexSize.setText(""+(convertToVectrex(false).length/2));
+        }
     }//GEN-LAST:event_jTextFieldSampleRateFocusLost
 
     private void jTextFieldSampleRateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSampleRateKeyTyped
         jTextField6.setText(jTextFieldSampleRate.getText());
-        if (convertToVectrex() != null) 
-            jTextFieldVectrexSize.setText(""+(convertToVectrex().length));
+        if (convertToVectrex(false) != null) 
+        {
+            if (jComboBoxSampleBits.getSelectedIndex()==0)
+                jTextFieldVectrexSize.setText(""+(convertToVectrex(false).length));
+            else
+                jTextFieldVectrexSize.setText(""+(convertToVectrex(false).length/2));
+        }
     }//GEN-LAST:event_jTextFieldSampleRateKeyTyped
 
     private void jButtonSaveOrgSampleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveOrgSampleActionPerformed
@@ -1092,6 +1140,23 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jComboBoxSampleBitsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSampleBitsActionPerformed
+        if (mClassSetting>0) return;
+        jTextField6.setText(jTextFieldSampleRate.getText());
+        if (convertToVectrex(false) != null) 
+        {
+            if (jComboBoxSampleBits.getSelectedIndex()==0)
+                jTextFieldVectrexSize.setText(""+(convertToVectrex(false).length));
+            else
+                jTextFieldVectrexSize.setText(""+(convertToVectrex(false).length/2));
+        }
+    }//GEN-LAST:event_jComboBoxSampleBitsActionPerformed
+
+    private void jComboBoxEncodingTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEncodingTypeActionPerformed
+        if (mClassSetting>0) return;
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxEncodingTypeActionPerformed
+
     void calcFrameSize()
     {
         int size = jComboBoxBit.getSelectedIndex()+1;
@@ -1114,9 +1179,9 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     private javax.swing.JButton jButtonSaveOrgSample;
     private javax.swing.JButton jButtonStop2;
     private javax.swing.JButton jButtonStop3;
+    private javax.swing.JCheckBox jCheckBox4BitTranslate;
     private javax.swing.JCheckBox jCheckBoxReverse;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JCheckBox jCheckBoxZeroUnsigned;
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JComboBox jComboBox4;
     private javax.swing.JComboBox jComboBoxAudioDevices;
@@ -1124,8 +1189,10 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     private javax.swing.JComboBox jComboBoxBit;
     private javax.swing.JComboBox jComboBoxChannels;
     private javax.swing.JComboBox jComboBoxEncoding;
+    private javax.swing.JComboBox jComboBoxEncodingType;
     private javax.swing.JComboBox jComboBoxEndian;
     private javax.swing.JComboBox jComboBoxNormalize;
+    private javax.swing.JComboBox jComboBoxSampleBits;
     private javax.swing.JComboBox jComboBoxSampleRate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1161,7 +1228,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     private de.malban.graphics.SingleImagePanel singleImagePanel1;
     // End of variables declaration//GEN-END:variables
 
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static boolean showSamplePanel(String fileName, boolean fileExists)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
@@ -1280,7 +1347,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         int oneChannelFrameSize = 2;
 
         jTextFieldSizeInternal.setText(""+(sound.getLeftData().length*2));
-        jTextFieldVectrexSize.setText(""+(convertToVectrex().length));
+        jTextFieldVectrexSize.setText(""+(convertToVectrex(false).length));
         // no need to change anything
         // data from SOUND
         // allways are: 44100, 16bit, unsigned
@@ -1672,10 +1739,36 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     void createSource()
     {
         
-        byte[] vectrexSampleData = convertToVectrex();
+        byte[] vectrexSampleData = convertToVectrex(true);
         int size = vectrexSampleData.length;
+        int div = 1;
+        if (jComboBoxSampleBits.getSelectedIndex() == 1) div = 2;
+        // unsigned 8 bit data here
+
+        if (jCheckBoxZeroUnsigned.isSelected())
+        {
+            for (int index8=0; index8<size; index8++)
+            {
+                int data8=0;
+                data8=vectrexSampleData[index8]; 
+                data8+=128;
+                
+                byte test = (byte) (data8&0xff);
+                if (test <0)
+                {
+                    int t2 = test *-1;
+                    test = (byte) t2;
+                    data8 = test;
+                }
+                
+                vectrexSampleData[index8] = (byte)data8;
+            }
+        }
+
+
+
         
-        if (size > 32768)
+        if (size/div > 32768)
         {
             ShowErrorDialog.showErrorDialog("Size of samples exceeds memory limit of vectrex, creating source of that is stupid!<BR>I, <B>'VIDE'</B> refuses to do so!");
             return;
@@ -1717,18 +1810,34 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
 //        if (pathOnly.length()>0)
 //            name = pathOnly+File.separator+name;
             
-        // convert to signed!
-        for (int index8=0; index8<size; index8++)
-        {
-            int data8=0;
-            data8=vectrexSampleData[index8]; 
-            data8-=128;
-            vectrexSampleData[index8] = (byte)data8;
-        }
-        
         StringBuilder b = new StringBuilder();
         b.append("; following is sample data saved by Vide\n");
-        b.append("; the data is in raw format: 8 bit, signed, 1 channel, samplerate: "+jTextFieldSampleRate.getText()+"\n");
+        // convert to signed!
+        if (jComboBoxEncodingType.getSelectedIndex() == 0)
+        {
+            for (int index8=0; index8<size; index8++)
+            {
+                int data8=0;
+                data8=vectrexSampleData[index8]; 
+                data8-=128;
+                vectrexSampleData[index8] = (byte)data8;
+            }
+            b.append("; the data is in raw format: 8 bit, signed, 1 channel, samplerate: "+jTextFieldSampleRate.getText()+"\n");
+        }
+        else
+        {
+            if (jComboBoxSampleBits.getSelectedIndex() == 0)
+            {
+                b.append("; the data is in raw format: 8 bit, unsigned, 1 channel, samplerate: "+jTextFieldSampleRate.getText()+"\n");
+            }
+            else
+            {
+                b.append("; the data is in raw format: 4 bit (two nibbles), unsigned, 1 channel, samplerate: "+jTextFieldSampleRate.getText()+"\n");
+            }
+            
+            
+        }
+        
         b.append("; since a frame is only one byte, endianess is meaningless\n");
         b.append("; one word with 'length', followed by length sample bytes\n");
         b.append("\n");
@@ -1737,7 +1846,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         b.append("\n");
         b.append(nameOnly.toUpperCase()+"_SAMPLERATE equ "+jTextFieldSampleRate.getText()+"\n");
         b.append("\n");
-        b.append(nameOnly+"_length:\n dw "+size+"\n\n");
+        b.append(nameOnly+"_length:\n dw "+(size/div)+"\n\n");
         b.append(nameOnly+"_data: \n");
         b.append(nameOnly+"_data_start: ");
 
@@ -1745,23 +1854,66 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         int lineCount = 0;
         
         int count=0;
-        for (int index8=0; index8<size; index8++)
+        if (jComboBoxSampleBits.getSelectedIndex() == 0)
         {
-            if (lineCount == 0)
+            // 8 bit
+            for (int index8=0; index8<size; index8++)
             {
-                b.append("\n db ");
+                if (lineCount == 0)
+                {
+                    b.append("\n db ");
+                }
+                else
+                {
+                    b.append(", ");
+                }
+                int data = vectrexSampleData[index8];
+                if (jCheckBoxReverse.isSelected())
+                    data = vectrexSampleData[(size-1)-index8];
+                b.append(" $"+String.format("%02X", (data & 0xff)));
+
+                lineCount = (lineCount+1)%LINEMAX;
+                count++;
             }
-            else
+        }
+        else
+        {
+            // 4 bit
+            for (int index8=0; index8<size; index8+=2)
             {
-                b.append(", ");
+                if (lineCount == 0)
+                {
+                    b.append("\n db ");
+                }
+                else
+                {
+                    b.append(", ");
+                }
+                int data1 = vectrexSampleData[index8];
+
+                int data2 = 0;
+                if (index8+1<size)
+                    data2 = vectrexSampleData[index8+1];
+                if (jCheckBoxReverse.isSelected())
+                {
+                    data1 = vectrexSampleData[(size-1)-index8];
+                    data2 = 0;
+                    if (index8+1<size)
+                        data2 = vectrexSampleData[(size-1)-(index8+1)];
+                }
+                int data = (data1&0xf0) + ((data2>>4)&0xf);
+                if (jCheckBox4BitTranslate.isSelected())
+                {
+                    data = psgVolumeTranslation[data1&0xff]*16 + psgVolumeTranslation[data2&0xff];
+                }
+                
+                
+                b.append(" $"+String.format("%02X", (data & 0xff)));
+
+                lineCount = (lineCount+1)%LINEMAX;
+                count++;
             }
-            int data = vectrexSampleData[index8];
-            if (jCheckBoxReverse.isSelected())
-                data = vectrexSampleData[(size-1)-index8];
-            b.append(" $"+String.format("%02X", (data & 0xff)));
             
-            lineCount = (lineCount+1)%LINEMAX;
-            count++;
         }
         b.append("\n"+nameOnly+"_data_end: ");
         String pathNow = pathOnly;
@@ -1770,31 +1922,59 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
 //            pathNow = pathNow+File.separator;
         de.malban.util.UtilityFiles.createTextFile(pathNow+name, b.toString());
         
-        
-        
-        Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
-        de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathNow+ "VECTREX.I");
-        Path digital = Paths.get(Global.mainPathPrefix, "template", "digitalPlayer.i");
-        de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathNow+ "digitalPlayer.i");
-
-        Path template = Paths.get(Global.mainPathPrefix, "template", "digitalPlayMain.template");
-        String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-
-        int sampleRate = de.malban.util.UtilityString.IntX(jTextFieldSampleRate.getText(), 8000);
-        exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_RATE#", ""+nameOnly.toUpperCase()+"_SAMPLERATE");
-        exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_START#", ""+nameOnly+"_data_start");
-        exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_LENGTH#", ""+nameOnly+"_length");
-        exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_FILE#", ""+nameOnly+".asm");
-        de.malban.util.UtilityFiles.createTextFile(pathNow+nameOnly+"Main.asm", exampleMain);
-        if (standalone)
+        // for 8 bits "normal" samples are assumed
+        if (jComboBoxSampleBits.getSelectedIndex() == 0)
         {
-            VediPanel.openInVedi(pathNow+nameOnly+"Main.asm");
+            Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathNow+ "VECTREX.I");
+            Path digital = Paths.get(Global.mainPathPrefix, "template", "digitalPlayer.i");
+            de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathNow+ "digitalPlayer.i");
+
+            Path template = Paths.get(Global.mainPathPrefix, "template", "digitalPlayMain.template");
+            String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+
+            int sampleRate = de.malban.util.UtilityString.IntX(jTextFieldSampleRate.getText(), 8000);
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_RATE#", ""+nameOnly.toUpperCase()+"_SAMPLERATE");
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_START#", ""+nameOnly+"_data_start");
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_LENGTH#", ""+nameOnly+"_length");
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_FILE#", ""+nameOnly+".asm");
+            de.malban.util.UtilityFiles.createTextFile(pathNow+nameOnly+"Main.asm", exampleMain);
+            if (standalone)
+            {
+                VediPanel.openInVedi(pathNow+nameOnly+"Main.asm");
+            }
         }
+        else
+        {
+            // otherwise (4 bit)
+            // PSG sample handling is assumed (and different code generated)
+            
+            Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathNow+ "VECTREX.I");
+            Path digital = Paths.get(Global.mainPathPrefix, "template", "digitalPlayerPSG.i");
+            de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathNow+ "digitalPlayerPSG.i");
+
+            Path template = Paths.get(Global.mainPathPrefix, "template", "digitalPlayMainPSG.template");
+            String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+
+            int sampleRate = de.malban.util.UtilityString.IntX(jTextFieldSampleRate.getText(), 8000);
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_RATE#", ""+nameOnly.toUpperCase()+"_SAMPLERATE");
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_START#", ""+nameOnly+"_data_start");
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_LENGTH#", ""+nameOnly+"_length");
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_FILE#", ""+nameOnly+".asm");
+            de.malban.util.UtilityFiles.createTextFile(pathNow+nameOnly+"Main.asm", exampleMain);
+            if (standalone)
+            {
+                VediPanel.openInVedi(pathNow+nameOnly+"Main.asm");
+            }
+        }
+            
+
         
     }
     void playVectrex()
     {
-        byte[] vectrexSampleData = convertToVectrex();
+        byte[] vectrexSampleData = convertToVectrex(false);
         if (vectrexSampleData == null) return;
 
         AudioInputStream audioStream= new AudioInputStream( new ByteArrayInputStream(vectrexSampleData) ,getVectrexAudioFormat(), vectrexSampleData.length );
@@ -1819,7 +1999,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         name = name+".raw";
         if (!pathOnly.endsWith(File.separator)) pathOnly+=File.separator;
         name = pathOnly+name;
-        byte[] vectrexSampleData = convertToVectrex();
+        byte[] vectrexSampleData = convertToVectrex(false);
         if (vectrexSampleData == null) return;
         
         // convert to signed!
@@ -1867,7 +2047,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         
         
         
-        byte[] vectrexSampleData = convertToVectrex();
+        byte[] vectrexSampleData = convertToVectrex(false);
         if (vectrexSampleData == null) return;
         int sampleRate = de.malban.util.UtilityString.IntX(jTextFieldSampleRate.getText(), 8000);
 
@@ -1885,11 +2065,40 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         }
     }
 
-    byte[] convertToVectrex()
+    public void setVectrexValues(int sampleRate, int bits, int encodingtype)
+    {
+        mClassSetting++;
+        jTextFieldSampleRate.setText(""+sampleRate);
+        if (bits == 8)
+            jComboBoxSampleBits.setSelectedIndex(0);
+        else // 4
+            jComboBoxSampleBits.setSelectedIndex(1);
+        if (encodingtype>0) // unsigned
+        {
+            jComboBoxEncodingType.setSelectedIndex(1);
+        }
+        else // signed
+        {
+            jComboBoxEncodingType.setSelectedIndex(0);
+        }
+        mClassSetting--;
+    }
+
+    
+    
+    
+    public byte[] convertToVectrex(boolean fakeSamplerate)
     {
         if (sound == null) return null;
 
         int sampleRate = de.malban.util.UtilityString.IntX(jTextFieldSampleRate.getText(), 8000);
+        if (jComboBoxSampleBits.getSelectedIndex() != 0)
+        {
+            // somehow the 4 bit samples are a bit slower... whatever
+            // this again is a dirty hack
+            if (fakeSamplerate)
+                sampleRate = (int) (sampleRate * 0.8);
+        }
         // convert the current sound to 
         // 8 bit
         // 1 channel
@@ -1924,6 +2133,9 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
             //   byte[] orgData8 = convert16bitTo8bitUnsigned(orgData16, false);
             // 8 bit
             orgData16 = getData(lowResAIS);
+         
+            // unsigned means: unsigned, the sample range is 0..255 with a centerpoint of 128
+            // signed means:  If the sample is signed, the sample range is -128..127 with a centerpoint of 0
             byte[] orgData8 = convert16BitSignedTo8BitUnsigned(orgData16, false);
          
             lowResAIS = new AudioInputStream( new ByteArrayInputStream(orgData8) ,getVectrexAudioFormat(), orgData8.length );
@@ -2190,4 +2402,267 @@ private static AudioInputStream convertSampleRate(
         }
 
     public void deIconified()  {}
+    
+    
+    static int[] psgVolumeTranslation = 
+            {
+                0	,
+                2	,
+                3	,
+                3	,
+                4	,
+                4	,
+                4	,
+                5	,
+                5	,
+                6	,
+                6	,
+                6	,
+                6	,
+                7	,
+                7	,
+                7	,
+                7	,
+                7	,
+                7	,
+                8	,
+                8	,
+                8	,
+                8	,
+                8	,
+                8	,
+                8	,
+                9	,
+                9	,
+                9	,
+                9	,
+                9	,
+                9	,
+                9	,
+                9	,
+                9	,
+                9	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                10	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                11	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                12	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                13	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                14	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	,
+                15	
+                
+            };
+    
 }

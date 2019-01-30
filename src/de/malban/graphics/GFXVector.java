@@ -361,22 +361,37 @@ public class GFXVector
         max = Math.max(max, Math.abs(zLen));
         return max;
     }
+    public void intAll()
+    {
+        GFXVector v = this;
+        v.start.x((int)(v.start.x()));
+        v.start.y((int)(v.start.y()));
+        v.start.z((int)(v.start.z()));
+
+        v.end.x((int)(v.end.x()));
+        v.end.y((int)(v.end.y()));
+        v.end.z((int)(v.end.z()));
+    }
 
     public void scaleAll(double scale, HashMap<Vertex, Boolean> safetyMap)
+    {
+        scaleAll(scale,safetyMap, true, true, true);
+    }
+    public void scaleAll(double scale, HashMap<Vertex, Boolean> safetyMap, boolean  yScale, boolean xScale, boolean zScale)
     {
         GFXVector v = this;
         if (safetyMap.get(v.start) == null)
         {
-            v.start.x((int)(v.start.x()*scale));
-            v.start.y((int)(v.start.y()*scale));
-            v.start.z((int)(v.start.z()*scale));
+            if (xScale) v.start.x((int)(v.start.x()*scale));
+            if (yScale) v.start.y((int)(v.start.y()*scale));
+            if (zScale) v.start.z((int)(v.start.z()*scale));
             safetyMap.put(v.start, true);
         }
         if (safetyMap.get(v.end) == null)
         {
-            v.end.x((int)(v.end.x()*scale));
-            v.end.y((int)(v.end.y()*scale));
-            v.end.z((int)(v.end.z()*scale));
+            if (xScale) v.end.x((int)(v.end.x()*scale));
+            if (yScale) v.end.y((int)(v.end.y()*scale));
+            if (zScale) v.end.z((int)(v.end.z()*scale));
             safetyMap.put(v.end, true);
         }
     }

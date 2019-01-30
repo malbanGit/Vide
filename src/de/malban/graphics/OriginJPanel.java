@@ -16,7 +16,7 @@ import javax.swing.JInternalFrame;
  * @author malban
  */
 public class OriginJPanel extends javax.swing.JPanel {
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
 
     /**
      * Creates new form OriginJPanel
@@ -137,7 +137,7 @@ public class OriginJPanel extends javax.swing.JPanel {
         panel.jEditorPane1.setContentType("text/html");
 //        panel.jEditorPane1.setContentType("text/plain");
         panel.jEditorPane1.setText(panel.mText);
-        JInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel, panel.jButton1);
+        ModalInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel, panel.jButton1);
         panel.modelDialog = modal;
         modal.setVisible(true);
         panel.mText = panel.jEditorPane1.getText();
@@ -159,7 +159,7 @@ public class OriginJPanel extends javax.swing.JPanel {
         panel.jEditorPane1.setContentType("text/html");
 //        panel.jEditorPane1.setContentType("text/plain");
         panel.jEditorPane1.setText(panel.mText);
-        JInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel, panel.jButton1);
+        ModalInternalFrame modal = new ModalInternalFrame("Help", frame.getRootPane(), frame, panel, panel.jButton1);
         panel.modelDialog = modal;
         modal.setVisible(true);
         panel.mText = panel.jEditorPane1.getText();

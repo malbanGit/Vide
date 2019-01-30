@@ -11,6 +11,9 @@
 
 package de.malban.util.syntax.Syntax.Lexer;
 
+import de.malban.config.Configuration;
+import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.ERROR;
 import java.io.*;
 import java.util.HashMap;
 import de.malban.vide.VideConfig;
@@ -1838,11 +1841,14 @@ public class M6809Lexer implements Lexer {
    * @param   errorCode  the code of the errormessage to display
    */
   private void zzScanError(int errorCode) {
+    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     String message;
     try {
       message = ZZ_ERROR_MSG[errorCode];
+      log.addLog("zzScanError: " + message, ERROR);
     }
     catch (ArrayIndexOutOfBoundsException e) {
+      log.addLog("zzScanError, errorCode: " + errorCode, ERROR);
       message = ZZ_ERROR_MSG[ZZ_UNKNOWN_ERROR];
     }
 
@@ -2730,6 +2736,4 @@ public class M6809Lexer implements Lexer {
       }
     }
   }
-
-
 }

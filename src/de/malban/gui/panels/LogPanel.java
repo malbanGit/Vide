@@ -465,7 +465,7 @@ System.out.println("Strange");
         }
         return false;
     }
-    private int mDebugLevel=0;
+    private int mDebugLevel=5;
     @Override
     public void setDebugLevel(int l)
     {

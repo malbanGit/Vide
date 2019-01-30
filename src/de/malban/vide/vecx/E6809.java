@@ -238,7 +238,7 @@ public class E6809 extends E6809State implements E6809Statics
         int datahi, datalo;
 
         datahi = vecx.e6809_read8(address & 0xffff);
-        vecx.vectrexNonCPUStep(1);
+        vecx.vectrexNonCPUStepDontAdd(1);
         datalo = vecx.e6809_read8((address + 1) & 0xffff) ;
 
         return (datahi << 8) | (datalo);
@@ -253,7 +253,7 @@ public class E6809 extends E6809State implements E6809Statics
     void write16 (int address, int data, boolean doCycles)
     {
         write8 (address, data >> 8);
-        vecx.vectrexNonCPUStep(1);
+        vecx.vectrexNonCPUStepDontAdd(1);
         write8 (address + 1, data); // write 8 does & 0xff
     }
 
@@ -330,7 +330,8 @@ public class E6809 extends E6809State implements E6809Statics
      */
     int ea_extended ()
     {
-        return pc_read16 ();
+        addressBUS = pc_read16 ();
+        return addressBUS;
     }
 
     
@@ -2067,6 +2068,8 @@ int e6809_sstep (int irq_i, int irq_f)
             /* lda */
         case 0x86:
             reg_a = pc_read8 ();
+dataBUS = reg_a;
+            
             vecx.vectrexNonCPUStep(1+1);
             inst_tst8 (reg_a);
             
@@ -2099,9 +2102,9 @@ int e6809_sstep (int irq_i, int irq_f)
             /* ldb */
         case 0xc6:
             reg_b = pc_read8 ();
+dataBUS = reg_b;
             vecx.vectrexNonCPUStep(1+1);
             inst_tst8 (reg_b);
-            
             cycles.intValue += 2;
             break;
         case 0xd6:
@@ -2508,23 +2511,23 @@ int e6809_sstep (int irq_i, int irq_f)
         case 0x9f:
             ea = ea_direct ();
             vecx.vectrexNonCPUStep(3+1);
-            write16 (ea, reg_x);
+            write16 (ea, reg_x, true);
             inst_tst16 (reg_x);
             vecx.vectrexNonCPUStep(1);
             cycles.intValue += 5;
             break;
         case 0xaf:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(3+1);
-            write16 (ea, reg_x);
+            vecx.vectrexNonCPUStep(3);
+            write16 (ea, reg_x, true);
             inst_tst16 (reg_x);
             vecx.vectrexNonCPUStep(1);
             cycles.intValue += 5;
             break;
         case 0xbf:
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(4+1);
-            write16 (ea, reg_x);
+            vecx.vectrexNonCPUStep(4);
+            write16 (ea, reg_x, true);
             inst_tst16 (reg_x);
             vecx.vectrexNonCPUStep(1);
             cycles.intValue += 6;
@@ -2532,24 +2535,24 @@ int e6809_sstep (int irq_i, int irq_f)
             /* stu */
         case 0xdf:
             ea = ea_direct ();
-            vecx.vectrexNonCPUStep(3+1);
-            write16 (ea, reg_u.intValue);
+            vecx.vectrexNonCPUStep(3);
+            write16 (ea, reg_u.intValue, true);
             inst_tst16 (reg_u.intValue);
             vecx.vectrexNonCPUStep(1);
             cycles.intValue += 5;
             break;
         case 0xef:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(3+1);
-            write16 (ea, reg_u.intValue);
+            vecx.vectrexNonCPUStep(3);
+            write16 (ea, reg_u.intValue, true);
             inst_tst16 (reg_u.intValue);
             vecx.vectrexNonCPUStep(1);
             cycles.intValue += 5;
             break;
         case 0xff:
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(4+1);
-            write16 (ea, reg_u.intValue);
+            vecx.vectrexNonCPUStep(4);
+            write16 (ea, reg_u.intValue, true);
             inst_tst16 (reg_u.intValue);
             vecx.vectrexNonCPUStep(1);
             cycles.intValue += 6;
@@ -2615,7 +2618,7 @@ int e6809_sstep (int irq_i, int irq_f)
             /* std */
         case 0xdd:
             ea = ea_direct ();
-            vecx.vectrexNonCPUStep(3+1);
+            vecx.vectrexNonCPUStep(3);
             write16 (ea, get_reg_d (), true);
             inst_tst16 (get_reg_d ());
             vecx.vectrexNonCPUStep(1);
@@ -2623,7 +2626,7 @@ int e6809_sstep (int irq_i, int irq_f)
             break;
         case 0xed:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(3+1);
+            vecx.vectrexNonCPUStep(3);
             write16 (ea, get_reg_d (), true);
             vecx.vectrexNonCPUStep(1);
             
@@ -2632,7 +2635,7 @@ int e6809_sstep (int irq_i, int irq_f)
             break;
         case 0xfd:
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(4+1);
+            vecx.vectrexNonCPUStep(4);
             write16 (ea, get_reg_d (), true);
             vecx.vectrexNonCPUStep(1);
             
@@ -2976,7 +2979,7 @@ reg_cc &= tmp;
             
         case 0x10:
             op = pc_read8 ();
-;            vecx.vectrexNonCPUStep(2);
+//            vecx.vectrexNonCPUStep(2);
             
             switch (op) {
                     /* lbra */
@@ -5662,6 +5665,21 @@ int e6809_sstep_opt (int irq_i, int irq_f)
 	}
         cyclesRunning += cycles.intValue;
 	return cycles.intValue;
+    }
+    public int getAddressBUS()
+    {
+        // only done for 
+        // stb $xxxx
+        // sta $xxxx
+        return addressBUS;
+    }
+    public byte getDataBUS()
+    {
+        // only in cycle exact
+        // only done for 
+        // lda #
+        // ldb #
+        return (byte)(dataBUS&0xff);
     }
 
 

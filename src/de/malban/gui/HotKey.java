@@ -1,12 +1,12 @@
 package de.malban.gui;
 
-import java.awt.Event;
-import java.awt.event.ActionEvent;
+import de.malban.config.Configuration;
+import de.malban.gui.panels.LogPanel;
+import de.malban.vide.VideConfig;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 import javax.swing.JPanel;
@@ -44,27 +44,25 @@ public class HotKey implements Serializable
     transient Action action = null;
     transient JTextComponent editor=null;
     transient JPanel panel = null;
-    transient public static HashMap <String, HotKey> allMappings = null;
-    transient public static ArrayList<HotKey> hotkeyList = null;
+    transient public static HashMap <String, HotKey> allMappings;
+    transient public static ArrayList<HotKey> hotkeyList;
     
     static
     {
-        if (allMappings == null)
-        {
-            allMappings= new HashMap<String, HotKey>();
-            hotkeyList = new ArrayList<HotKey>();
+            allMappings= new HashMap<>();
+            hotkeyList = new ArrayList<>();
 
-            HotKey.addMap(KeyEvent.VK_C, Event.META_MASK, javax.swing.text.DefaultEditorKit.copyAction, "Editor");
-            HotKey.addMap(KeyEvent.VK_V, Event.META_MASK, javax.swing.text.DefaultEditorKit.pasteAction, "Editor");
-            HotKey.addMap(KeyEvent.VK_X, Event.META_MASK, javax.swing.text.DefaultEditorKit.cutAction, "Editor");
-            HotKey.addMap(KeyEvent.VK_TAB, Event.SHIFT_MASK ,"unindent", "Editor");
+            HotKey.addMap(KeyEvent.VK_C, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.copyAction, "Editor");
+            HotKey.addMap(KeyEvent.VK_V, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.pasteAction, "Editor");
+            HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.cutAction, "Editor");
+            HotKey.addMap(KeyEvent.VK_TAB, java.awt.event.KeyEvent.SHIFT_DOWN_MASK ,"unindent", "Editor");
             HotKey.addMap(KeyEvent.VK_TAB, 0 ,"indent", "Editor");
-            HotKey.addMap(KeyEvent.VK_Z, Event.META_MASK ,"UndoMac", "Editor");
-            HotKey.addMap(KeyEvent.VK_Y, Event.META_MASK ,"RedoMac", "Editor");
-            HotKey.addMap(KeyEvent.VK_Z, Event.CTRL_MASK ,"UndoWin", "Editor");
-            HotKey.addMap(KeyEvent.VK_Y, Event.CTRL_MASK ,"RedoWin", "Editor");
-            HotKey.addMap(KeyEvent.VK_F, Event.META_MASK ,"SearchMac", "Editor");
-            HotKey.addMap(KeyEvent.VK_F, Event.CTRL_MASK ,"SearchWin", "Editor");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.META_DOWN_MASK ,"UndoMac", "Editor");
+            HotKey.addMap(KeyEvent.VK_Y, java.awt.event.KeyEvent.META_DOWN_MASK ,"RedoMac", "Editor");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"UndoWin", "Editor");
+            HotKey.addMap(KeyEvent.VK_Y, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"RedoWin", "Editor");
+            HotKey.addMap(KeyEvent.VK_F, java.awt.event.KeyEvent.META_DOWN_MASK ,"SearchMac", "Editor");
+            HotKey.addMap(KeyEvent.VK_F, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"SearchWin", "Editor");
 
             HotKey.addMap(KeyEvent.VK_F5, 0, "Run", "Editor");
             HotKey.addMap(KeyEvent.VK_F6, 0, "Debug", "Editor");
@@ -72,60 +70,60 @@ public class HotKey implements Serializable
             
             
             
-            HotKey.addMap(KeyEvent.VK_R, Event.META_MASK, "RecolorMac", "Editor");
-            HotKey.addMap(KeyEvent.VK_R, Event.CTRL_MASK, "RecolorWin", "Editor");
-            HotKey.addMap(KeyEvent.VK_J, Event.META_MASK, "JumpMac", "Editor");
-            HotKey.addMap(KeyEvent.VK_J, Event.CTRL_MASK, "JumpWin", "Editor");
+            HotKey.addMap(KeyEvent.VK_R, java.awt.event.KeyEvent.META_DOWN_MASK, "RecolorMac", "Editor");
+            HotKey.addMap(KeyEvent.VK_R, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "RecolorWin", "Editor");
+            HotKey.addMap(KeyEvent.VK_J, java.awt.event.KeyEvent.META_DOWN_MASK, "JumpMac", "Editor");
+            HotKey.addMap(KeyEvent.VK_J, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "JumpWin", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_1, Event.META_MASK, "GoBookmark1Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_1, Event.CTRL_MASK, "GoBookmark1Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_1, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark1Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_1, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark1Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark1Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark1Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark1Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark1Win", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_2, Event.META_MASK, "GoBookmark2Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_2, Event.CTRL_MASK, "GoBookmark2Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_2, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark2Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_2, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark2Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_2, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark2Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_2, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark2Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_2, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark2Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_2, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark2Win", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_3, Event.META_MASK, "GoBookmark3Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_3, Event.CTRL_MASK, "GoBookmark3Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_3, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark3Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_3, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark3Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_3, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark3Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_3, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark3Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_3, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark3Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_3, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark3Win", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_4, Event.META_MASK, "GoBookmark4Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_4, Event.CTRL_MASK, "GoBookmark4Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_4, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark4Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_4, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark4Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_4, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark4Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_4, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark4Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_4, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark4Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_4, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark4Win", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_5, Event.META_MASK, "GoBookmark5Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_5, Event.CTRL_MASK, "GoBookmark5Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_5, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark5Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_5, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark5Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_5, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark5Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_5, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark5Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_5, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark5Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_5, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark5Win", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_6, Event.META_MASK, "GoBookmark6Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_6, Event.CTRL_MASK, "GoBookmark6Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_6, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark6Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_6, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark6Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_6, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark6Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_6, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark6Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_6, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark6Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_6, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark6Win", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_7, Event.META_MASK, "GoBookmark7Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_7, Event.CTRL_MASK, "GoBookmark7Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_7, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark7Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_7, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark7Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_7, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark7Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_7, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark7Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_7, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark7Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_7, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark7Win", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_8, Event.META_MASK, "GoBookmark8Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_8, Event.CTRL_MASK, "GoBookmark8Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_8, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark8Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_8, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark8Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_8, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark8Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_8, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark8Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_8, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark8Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_8, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark8Win", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_9, Event.META_MASK, "GoBookmark9Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_9, Event.CTRL_MASK, "GoBookmark9Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_9, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark9Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_9, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark9Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_9, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark9Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_9, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark9Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_9, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark9Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_9, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark9Win", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_0, Event.META_MASK, "GoBookmark0Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_0, Event.CTRL_MASK, "GoBookmark0Win", "Editor");
-            HotKey.addMap(KeyEvent.VK_0, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark0Mac", "Editor");
-            HotKey.addMap(KeyEvent.VK_0, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark0Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_0, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark0Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_0, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark0Win", "Editor");
+            HotKey.addMap(KeyEvent.VK_0, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark0Mac", "Editor");
+            HotKey.addMap(KeyEvent.VK_0, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark0Win", "Editor");
             
             
             
@@ -179,19 +177,18 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_1, 0, "VecX QuickSave", "Vecxi");
             HotKey.addMap(KeyEvent.VK_2, 0, "VecX QuickLoad", "Vecxi");
             HotKey.addMap(KeyEvent.VK_B, 0, "RingbufferToggle", "Vecxi");            
-            HotKey.addMap(KeyEvent.VK_P, Event.SHIFT_MASK, "Panel/Toggle", "Vecxi");
-            HotKey.addMap(KeyEvent.VK_F, Event.SHIFT_MASK, "FullScreen/Toggle", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_P, java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "Panel/Toggle", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_F, java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "FullScreen/Toggle", "Vecxi");
             HotKey.addMap(KeyEvent.VK_Q, 0, "Quit vecxi", "Vecxi");
             
             
             
             
             HotKey.addMap(KeyEvent.VK_F3, 0, "Search next", "Editor");
-            HotKey.addMap(KeyEvent.VK_F3, Event.SHIFT_MASK, "Search previous", "Editor");
+            HotKey.addMap(KeyEvent.VK_F3, java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "Search previous", "Editor");
 
-            HotKey.addMap(KeyEvent.VK_S, Event.META_MASK, "SaveMac", "Editor");
-            HotKey.addMap(KeyEvent.VK_S, Event.CTRL_MASK, "SaveWin", "Editor");
-        }
+            HotKey.addMap(KeyEvent.VK_S, java.awt.event.KeyEvent.META_DOWN_MASK, "SaveMac", "Editor");
+            HotKey.addMap(KeyEvent.VK_S, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "SaveWin", "Editor");
     }
     
     
@@ -270,8 +267,14 @@ public class HotKey implements Serializable
         panel = p;
         addKeysToPanel();
     }
+    public KeyStroke getKeyStroke()
+    {
+        return KeyStroke.getKeyStroke(event, mask, onRelease);
+    }
     private void addKeysToEditor()
     {
+        if (!VideConfig.hotKeysEnabled) return;
+        
         if (editor==null) return;
         editor.getInputMap().put(getKeyStroke(), name);
         if (action != null)
@@ -279,13 +282,11 @@ public class HotKey implements Serializable
     }
     private void addKeysToPanel()
     {
+        if (!VideConfig.hotKeysEnabled) return;
+
         if (panel==null) return;
         panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(getKeyStroke(), name);
         if (action != null)
             panel.getActionMap().put(name, action);
     }  
-    public KeyStroke getKeyStroke()
-    {
-        return KeyStroke.getKeyStroke(event, mask, onRelease);
-    }
 }

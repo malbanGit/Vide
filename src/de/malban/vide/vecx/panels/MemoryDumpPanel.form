@@ -101,7 +101,9 @@
                           <Component id="jButton9" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="585" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="421" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -119,6 +121,7 @@
                           <Component id="jButton8" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                           <Component id="jButton9" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                           <Component id="jCheckBox1" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -264,6 +267,11 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox1ActionPerformed"/>
                   </Events>
                 </Component>
+                <Component class="javax.swing.JLabel" name="jLabel5">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="bank always same as emulation (not dissi)"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -338,7 +346,7 @@
                               <Component id="jCheckBoxActive" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="237" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="single3dDisplayPanel1" alignment="0" pref="862" max="32767" attributes="0"/>
+                          <Component id="single3dDisplayPanel1" alignment="0" pref="972" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>

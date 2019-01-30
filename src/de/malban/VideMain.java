@@ -5,15 +5,21 @@
  */
 package de.malban;
 
+import com.sun.tools.javac.resources.legacy;
 import static de.malban.Global.initLAF;
 import de.malban.jogl.JOGLSupport;
 import de.malban.config.Configuration;
+import de.malban.config.Logable;
 import de.malban.event.EventSupport;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.dialogs.ShowErrorDialog;
+import de.malban.gui.dialogs.ShowWarningDialog;
+import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.input.SystemController;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.CLI;
+import de.malban.vide.dissy.DASM6809;
 import java.awt.Toolkit;
 
 import javax.swing.JDialog;
@@ -74,6 +80,30 @@ public class VideMain {
             {
                 CSAMainFrame mainFrame = new CSAMainFrame();
                 mainFrame.setVisible(true);
+                
+                
+                String javaVersion = System.getProperty("java.version");
+                String[] splitter = javaVersion.split("\\.");
+                if (splitter.length == 0)
+                {
+                    ShowWarningDialog.showWarningDialog("Java version", "Java version cannot be determined,\nyou need at least Java version 10, procede at own risk!");
+                }
+                else
+                {
+                    int v = DASM6809.toNumber(splitter[0]);
+                    Logable l = Configuration.getConfiguration().getDebugEntity();
+                    l.addLog("Version string found: "+javaVersion+"("+v+")", INFO);
+                    if (v<10)
+                    {
+                        if (Global.doTestJava)
+                        {
+                            ShowErrorDialog.showErrorDialog("Java version", "You need at least Java version 10 to run Vide!\nPlease update Java.");
+                            System.exit(1);
+                        }
+                    }
+                }
+                
+                
             }
         });
 

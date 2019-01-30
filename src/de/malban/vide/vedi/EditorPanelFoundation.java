@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vedi;
 
+import de.malban.vide.VideConfig;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
@@ -129,14 +131,39 @@ public class EditorPanelFoundation extends javax.swing.JPanel {
 	public void undoableEditHappened(UndoableEditEvent e)
 	{
             //  Check for an attribute change
-            AbstractDocument.DefaultDocumentEvent event = (AbstractDocument.DefaultDocumentEvent)e.getEdit();
+            // java 10 uses a wrapper for AbstractDocument.DefaultDocumentEvent
+            // and thus can not access AbstractDocument.DefaultDocumentEvent directly
+            // (without breaking Java 1.8 code)
+            // thus in java 10 for now
+            // all "style" events are also undoable :-/ 
+            
+//            UIManager.getString("AbstractDocument.additionText");
+            
 
-            // style
-            if  (event.getType().equals(DocumentEvent.EventType.CHANGE))
+//        System.out.println("Presentation:"+e.getEdit().getPresentationName()+" = "+compareString);
+            if (e.getEdit() instanceof AbstractDocument.DefaultDocumentEvent)
             {
-                if (compoundEdit == null) return;
-                compoundEdit.addEdit(e.getEdit() );
-                return;
+                AbstractDocument.DefaultDocumentEvent event = (AbstractDocument.DefaultDocumentEvent)e.getEdit();
+
+                // style
+                if  (event.getType().equals(DocumentEvent.EventType.CHANGE))
+                {
+                    if (compoundEdit == null) return;
+                    compoundEdit.addEdit(e.getEdit() );
+                    return;
+                }
+            }
+            else
+            {
+                // Java 10?
+                String compareString =UIManager.getString("AbstractDocument.styleChangeText");
+                if (e.getEdit().getPresentationName().equals(compareString))
+                {
+//        System.out.println("Presentation:"+e.getEdit().getPresentationName()+" = "+compareString);
+                    if (compoundEdit == null) return;
+                    compoundEdit.addEdit(e.getEdit() );
+                    return;
+                }
             }
 
             //  Start a new compound edit
@@ -145,10 +172,11 @@ public class EditorPanelFoundation extends javax.swing.JPanel {
                     compoundEdit = startCompoundEdit( e.getEdit() );
                     return;
             }
-            
+
             //  Not incremental edit, end previous edit and start a new one
             compoundEdit.end();
-            compoundEdit = startCompoundEdit( e.getEdit() );
+            compoundEdit = startCompoundEdit( e.getEdit() );                
+
 	}
 	/*
 	**  Each CompoundEdit will store a group of related incremental edits
@@ -300,18 +328,22 @@ public class EditorPanelFoundation extends javax.swing.JPanel {
     }    
     public void undo()
     {
-        undoAction.actionPerformed(null);
+        if (VideConfig.editorUndoEnabled)
+            undoAction.actionPerformed(null);
     }
     public void redo()
     {
-        redoAction.actionPerformed(null);
+        if (VideConfig.editorUndoEnabled)
+            redoAction.actionPerformed(null);
     }
     public boolean canUndo()
     {
+        if (!VideConfig.editorUndoEnabled) return false;
         return undoManager.canUndo();
     }
     public boolean canRedo()
     {
+        if (!VideConfig.editorUndoEnabled) return false;
         return undoManager.canRedo();
     }
 
@@ -320,9 +352,12 @@ public class EditorPanelFoundation extends javax.swing.JPanel {
      */
     public EditorPanelFoundation() {
         initComponents();
-        undoAction = new UndoAction();
-        redoAction = new RedoAction(); 
-        undoManager.setLimit(1000);
+        if (VideConfig.editorUndoEnabled)
+        {
+            undoAction = new UndoAction();
+            redoAction = new RedoAction(); 
+            undoManager.setLimit(1000);
+        }
     }
 
     /**

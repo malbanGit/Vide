@@ -173,20 +173,16 @@ import de.malban.vide.vecx.spline.CardinalSpline;
 import de.malban.vide.vecx.spline.Pt;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 /*
@@ -3219,20 +3215,26 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
         }
         if(vpanel.getDeviceList().get(DEVICE_LIGHTPEN).isActive())
         {
-            GLUT glut = new GLUT();
-            if (vpanel.isMousePressed())
-                gl2.glColor3f(1f,0.5f,0f); // orange
-            else
-                gl2.glColor3f(1f,1f,0f); // yellow
-            gl2.glRasterPos2f(-Scaler.scaleFloatToFloat((float)((glut.glutBitmapLength(GLUT.BITMAP_HELVETICA_18, "Lightpen")))/2.0f, 1.0f/(float)gl2Width), Scaler.scaleFloatToFloat((float)(gl2Height/3), 1.0f/(float)gl2Height)     );
-            glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18, "Lightpen");
+            if (config.displayModeWriting)
+            {
+                GLUT glut = new GLUT();
+                if (vpanel.isMousePressed())
+                    gl2.glColor3f(1f,0.5f,0f); // orange
+                else
+                    gl2.glColor3f(1f,1f,0f); // yellow
+                gl2.glRasterPos2f(-Scaler.scaleFloatToFloat((float)((glut.glutBitmapLength(GLUT.BITMAP_HELVETICA_18, "Lightpen")))/2.0f, 1.0f/(float)gl2Width), Scaler.scaleFloatToFloat((float)(gl2Height/3), 1.0f/(float)gl2Height)     );
+                glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18, "Lightpen");
+            }
         }
         if(vpanel.getDeviceList().get(DEVICE_IMAGER).isActive())
         {
-            GLUT glut = new GLUT();
-            gl2.glColor3f(1f,1f,0f); // yellow
-            gl2.glRasterPos2f(-Scaler.scaleFloatToFloat((float)((glut.glutBitmapLength(GLUT.BITMAP_HELVETICA_18, "Goggle")))/2.0f, 1.0f/(float)gl2Width), Scaler.scaleFloatToFloat((float)(gl2Height/3), 1.0f/(float)gl2Height)     );
-            glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18, "Goggle");
+            if (config.displayModeWriting)
+            {
+                GLUT glut = new GLUT();
+                gl2.glColor3f(1f,1f,0f); // yellow
+                gl2.glRasterPos2f(-Scaler.scaleFloatToFloat((float)((glut.glutBitmapLength(GLUT.BITMAP_HELVETICA_18, "Goggle")))/2.0f, 1.0f/(float)gl2Width), Scaler.scaleFloatToFloat((float)(gl2Height/3), 1.0f/(float)gl2Height)     );
+                glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18, "Goggle");
+            }
         }
         
         
@@ -3930,24 +3932,31 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
 
             gl2.glActiveTexture(GL2.GL_TEXTURE0 );
             gl2.glBindTexture(GL2.GL_TEXTURE_2D, screenTextureObject.get(0));
-            gl2.glBindFramebuffer(GL2.GL_FRAMEBUFFER, lineFBO[0].fbo.get(0));
 
             
             if (config.JOGLScreenAdjustment)
             {
                 gl2.glUseProgram(screenProgramId);
-                gl2.glActiveTexture(GL.GL_TEXTURE0);
+//                gl2.glActiveTexture(GL.GL_TEXTURE0);
+//JOGLSupport.checkError(gl2, "JOGLScreenAdjustment():0");
 
                 int i = gl2.glGetUniformLocation(screenProgramId, "screenTexture");
                 gl2.glUniform1i(i, 0);
+//JOGLSupport.checkError(gl2, "JOGLScreenAdjustment():1");
 
                 i = gl2.glGetUniformLocation(screenProgramId, "screenBrightnessAdjust");
                 gl2.glUniform1f(i, (float) config.JOGLScreenBrightnessAdjustmentFactor);
+
+//JOGLSupport.checkError(gl2, "JOGLScreenAdjustment():2");
+
+
             }            
 
 
             
+            gl2.glBindFramebuffer(GL2.GL_FRAMEBUFFER, lineFBO[0].fbo.get(0));
             gl2.glBegin( GL2.GL_QUADS ); 
+//JOGLSupport.checkError(gl2, "JOGLScreenAdjustment():3");
 
             float y1 = screenMustFlip ? 1.0F : -1.0F;
             float y2 = 1.0F - y1;
@@ -3960,6 +3969,11 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
             gl2.glTexCoord2f( 0.f, 1.f ); gl2.glVertex2f( -1.f, y2 ); 
             gl2.glEnd();
 
+//JOGLSupport.checkError(gl2, "JOGLScreenAdjustment():4");
+//JOGLSupport.checkError(gl2, "JOGLScreenAdjustment():4a");
+            
+            
+            
             gl2.glBindTexture( GL2.GL_TEXTURE_2D, 0 );
             gl2.glBindFramebuffer(GL2.GL_FRAMEBUFFER, 0);
             gl2.glUseProgram(0);

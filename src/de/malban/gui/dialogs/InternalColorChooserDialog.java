@@ -77,7 +77,7 @@ public class InternalColorChooserDialog extends javax.swing.JPanel {
     {
         return showDialog(title, null);
     }
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static Color showDialog(String title, Color col)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

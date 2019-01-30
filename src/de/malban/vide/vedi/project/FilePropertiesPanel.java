@@ -12,6 +12,7 @@ import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_FILE_PRE;
 import de.malban.vide.script.ExportData;
 import de.malban.vide.script.ExportDataPool;
 import de.malban.vide.script.ScriptDataPanel;
+import de.malban.vide.vedi.VediPanel;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,6 +33,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
     String relOnly ="";
     String filenameOnly ="";
     String filenameBaseOnly ="";
+    VediPanel vedi = null;
     
     
 
@@ -87,6 +89,10 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         setAllFromCurrent();
     
     
+    }
+    public void setVedi(VediPanel v)
+    {
+        vedi = v;
     }
 
     private void resetConfigPool(boolean select, String klasseToSet) /* allneeded*/
@@ -362,6 +368,11 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         jComboBoxActionClass.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBoxActionClassItemStateChanged(evt);
+            }
+        });
+        jComboBoxActionClass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxActionClassActionPerformed(evt);
             }
         });
 
@@ -764,7 +775,9 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
     private void jButtonActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActionActionPerformed
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ScriptDataPanel sdp = new ScriptDataPanel();
-        JInternalFrame modal=null;
+        sdp.setVedi(vedi);
+
+        ModalInternalFrame modal=null;
 
         if (Paths.get(mFileProperties.mFilename).getParent() == null) return;
         String path = Paths.get(mFileProperties.mFilename).getParent().toString();
@@ -785,7 +798,8 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
     private void jButtonPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPreActionPerformed
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ScriptDataPanel sdp = new ScriptDataPanel();
-        JInternalFrame modal=null;
+        sdp.setVedi(vedi);
+        ModalInternalFrame modal=null;
         if (Paths.get(mFileProperties.mFilename).getParent() == null) return;
         String path = Paths.get(mFileProperties.mFilename).getParent().toString();
         String filenameOnly = Paths.get(mFileProperties.mFilename).getFileName().toString();
@@ -803,7 +817,8 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
     private void jButtonPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPostActionPerformed
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ScriptDataPanel sdp = new ScriptDataPanel();
-        JInternalFrame modal=null;
+        sdp.setVedi(vedi);
+        ModalInternalFrame modal=null;
 
         if (Paths.get(mFileProperties.mFilename).getParent() == null) return;
         String path = Paths.get(mFileProperties.mFilename).getParent().toString();
@@ -840,6 +855,10 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
     private void jTextFieldVersionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldVersionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldVersionActionPerformed
+
+    private void jComboBoxActionClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxActionClassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxActionClassActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -893,7 +912,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     // returns new Properties, not saved yet!
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static boolean showNewFilesProperties()
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
@@ -938,7 +957,29 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         
         return false;
     }
-
+    public static boolean showEditFileProperties(String filename, VediPanel v)
+    {
+        Path p = Paths.get(filename);
+        JFrame frame = Configuration.getConfiguration().getMainFrame();
+        FilePropertiesPanel panel = new FilePropertiesPanel();
+        panel.setVedi(v);
+        panel.setFile(filename);        
+        
+        ArrayList<JButton> eb= new ArrayList<JButton>();
+        eb.add(panel.jButtonCreate);
+        eb.add(panel.jButtonCancel);
+        ModalInternalFrame modal = new ModalInternalFrame(p.getFileName().toString(), frame.getRootPane(), frame, panel,null, null , eb);
+        panel.modelDialog = modal;
+        modal.setVisible(true);
+        String result = modal.getNamedExit();
+        if (result.equals("ok"))
+        {
+            panel.readAllToCurrent();
+            return true;
+        }
+        
+        return false;
+    }
     void initScripts()
     {
         mExportDataPool = new ExportDataPool();

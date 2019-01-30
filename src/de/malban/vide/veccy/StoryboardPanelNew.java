@@ -778,8 +778,29 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     }//GEN-LAST:event_jButtonEditInVediActionPerformed
 
     private void jButtonAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleActionPerformed
+
+ // savety measure - save to tmp the current storyboard
+        String filename =Global.mainPathPrefix+"tmp"+File.separator+"storyboard.tmp";
+ File f =new File(filename);
+        
+        String saveName = f.getAbsolutePath();
+//        saveName = de.malban.util.Utility.makeRelative(saveName);
+        
+        if (saveName != null)
+        {
+            if (!saveName.toUpperCase().endsWith(".XML"))
+            {
+                saveName+= ".xml";
+            }
+            saveAsXML(saveName);
+        }
+        
+        
+        
+        
+
         generateSource();
-        String filename = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.asm";
+        filename = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.asm";
         de.malban.util.UtilityFiles.createTextFile(filename, jTextAreaResult.getText());
         startASM(filename);
     }//GEN-LAST:event_jButtonAssembleActionPerformed
@@ -1488,6 +1509,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
         fc.setCurrentDirectory(new java.io.File(filename));
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return false;
+        if (fc.getSelectedFile() == null) return false;
         String saveName = fc.getSelectedFile().getAbsolutePath();
 //        saveName = de.malban.util.Utility.makeRelative(saveName);
         

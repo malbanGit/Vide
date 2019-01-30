@@ -113,7 +113,7 @@ public class GetWavFilenamePanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     // returns new Properties, not saved yet!
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static String showEnterValueDialog()
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

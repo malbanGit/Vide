@@ -315,11 +315,19 @@ public class UtilityFiles
         
         return true;
     }
+    public static boolean writeBinFile(String filename, byte[] data, boolean append)
+    {
+        return writeBinFile(filename, data, data.length, append);
+    }
     public static boolean writeBinFile(String filename, byte[] data)
     {
-        return writeBinFile(filename, data, true);
+        return writeBinFile(filename, data, data.length, true);
     }
-    public static boolean writeBinFile(String filename, byte[] data, boolean append)
+    public static boolean writeBinFile(String filename, byte[] data, int length)
+    {
+        return writeBinFile(filename, data, length, true);
+    }
+    public static boolean writeBinFile(String filename, byte[] data, int length, boolean append)
     {
         try
         {
@@ -328,7 +336,7 @@ public class UtilityFiles
             FileOutputStream output = new FileOutputStream(filename, true);
             try 
             {
-               output.write(data);
+               output.write( data,0, length);
             } 
             finally 
             {
@@ -343,6 +351,17 @@ public class UtilityFiles
     }    
     public static boolean writeBinFile(String filename, int[] data)
     {
+        byte dataB[] = new byte[data.length];
+        for (int d = 0; d<data.length; d++)
+        {
+            dataB[d] = (byte) (data[d] & 0xff);
+        }
+        
+        return writeBinFile(filename, dataB);
+    }        
+    public static boolean writeBinFile(String filename, int[] data, boolean append)
+    {
+        if (!append) new File (filename).delete();
         byte dataB[] = new byte[data.length];
         for (int d = 0; d<data.length; d++)
         {

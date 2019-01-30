@@ -420,15 +420,22 @@ public class VecxiPanel_JAVA extends javax.swing.JPanel implements DisplayPanelI
                 g2.setColor(Color.ORANGE);
             else
                 g2.setColor(Color.YELLOW);
-            g2.setFont(this.getFont());
-            g2.drawString("Lightpen", (image.getWidth()/2)-20, image.getHeight()/3);
+            if (config.displayModeWriting)
+            {
+                g2.setFont(this.getFont());
+                g2.drawString("Lightpen", (image.getWidth()/2)-20, image.getHeight()/3);
+            }
+                
         }
         if(vpanel.getDeviceList().get(DEVICE_IMAGER).isActive())
         {
-            Color c = new Color(255,0,0,255 );
-            g2.setColor(Color.YELLOW);
-            g2.setFont(this.getFont());
-            g2.drawString("Goggle", (image.getWidth()/2)-20, image.getHeight()/3);
+            if (config.displayModeWriting)
+            {
+                Color c = new Color(255,0,0,255 );
+                g2.setColor(Color.YELLOW);
+                g2.setFont(this.getFont());
+                g2.drawString("Goggle", (image.getWidth()/2)-20, image.getHeight()/3);
+            }
         }
         
         RenderingHints rh;

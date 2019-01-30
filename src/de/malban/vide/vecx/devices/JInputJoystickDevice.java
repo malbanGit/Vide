@@ -99,52 +99,81 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
         if (vectrexTarget.equals("3")) joyport.setButton3(!e.currentButtonState, true); 
         if (vectrexTarget.equals("4")) joyport.setButton4(!e.currentButtonState, true); 
         
-        if (vectrexTarget.equals("left"))  joyport.setHorizontal((e.currentButtonState)?0x00:JOYSTICK_CENTER, true);
-        if (vectrexTarget.equals("right"))  joyport.setHorizontal((e.currentButtonState)?0xff:JOYSTICK_CENTER, true);
-        if (vectrexTarget.equals("down"))  joyport.setVertical((e.currentButtonState)?0x00:JOYSTICK_CENTER, true);
-        if (vectrexTarget.equals("up"))  joyport.setVertical((e.currentButtonState)?0xff:JOYSTICK_CENTER, true);
+        
+        
+        if ((e.componentId.equals("x")) && ((vectrexTarget.equals("left")) || (vectrexTarget.equals("right")) ) )
+        {
+            if (e.currentAxisPercent>60)
+                joyport.setHorizontal(0xff, true);// right
+            else if (e.currentAxisPercent<40)
+                joyport.setHorizontal(0x00, true); // left
+            else
+                joyport.setHorizontal(JOYSTICK_CENTER, true);
+        }
+        else if ((e.componentId.equals("y")) && ((vectrexTarget.equals("up")) || (vectrexTarget.equals("down")) ) )
+        {
+            if (e.currentAxisPercent>60)
+                joyport.setVertical(0x00, true); // down
+            else if (e.currentAxisPercent<40)
+                joyport.setVertical(0xff, true); // up
+            else
+                joyport.setVertical(JOYSTICK_CENTER, true);
+        }
+        else
+        {
+            if (vectrexTarget.equals("left"))
+                    joyport.setHorizontal((e.currentButtonState)?0x00:JOYSTICK_CENTER, true);
+            if (vectrexTarget.equals("right"))  
+                    joyport.setHorizontal((e.currentButtonState)?0xff:JOYSTICK_CENTER, true);
+            if (vectrexTarget.equals("down"))  
+                    joyport.setVertical((e.currentButtonState)?0x00:JOYSTICK_CENTER, true);
+            if (vectrexTarget.equals("up"))  
+                    joyport.setVertical((e.currentButtonState)?0xff:JOYSTICK_CENTER, true);
 
-        if (vectrexTarget.equals("vertical"))  
-        {
-            if (e.isRelative)
+            if (vectrexTarget.equals("vertical"))  
             {
-                int val = -(int)e.currentRelative;
-                if (val<0)
+                if (e.isRelative)
                 {
-                    if (val<-128) val = -127;
+                    int val = -(int)e.currentRelative;
+                    if (val<0)
+                    {
+                        if (val<-128) val = -127;
+                    }
+                    if (val>0)
+                    {
+                        if (val>127) val = 128;
+                    }
+                    joyport.setVertical((int)((JOYSTICK_CENTER+val)&0xff), true);
                 }
-                if (val>0)
+                else
                 {
-                    if (val>127) val = 128;
+                    joyport.setVertical((int)(e.currentAxisPercent*FACTOR)&0xff, true);
                 }
-                joyport.setVertical((int)((JOYSTICK_CENTER+val)&0xff), true);
             }
-            else
+            if (vectrexTarget.equals("horizontal"))  
             {
-                joyport.setVertical((int)(e.currentAxisPercent*FACTOR)&0xff, true);
+                if (e.isRelative)
+                {
+                    int val = (int)e.currentRelative;
+                    if (val<0)
+                    {
+                        if (val<-128) val = -127;
+                    }
+                    if (val>0)
+                    {
+                        if (val>127) val = 128;
+                    }
+                    joyport.setHorizontal((int)((JOYSTICK_CENTER+val)&0xff), true);
+                }
+                else
+                {
+                    joyport.setHorizontal((int)(e.currentAxisPercent*FACTOR)&0xff, true);
+                }
+
             }
         }
-        if (vectrexTarget.equals("horizontal"))  
-        {
-            if (e.isRelative)
-            {
-                int val = (int)e.currentRelative;
-                if (val<0)
-                {
-                    if (val<-128) val = -127;
-                }
-                if (val>0)
-                {
-                    if (val>127) val = 128;
-                }
-                joyport.setHorizontal((int)((JOYSTICK_CENTER+val)&0xff), true);
-            }
-            else
-            {
-                joyport.setHorizontal((int)(e.currentAxisPercent*FACTOR)&0xff, true);
-            }
             
-        }
+
         
     }
     static double FACTOR = 127.0/50.0;

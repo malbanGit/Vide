@@ -83,7 +83,7 @@ public class GetIDValuePanel extends javax.swing.JPanel {
 
     String id = "";
     // returns new Properties, not saved yet!
-    JInternalFrame modelDialog;
+    ModalInternalFrame modelDialog;
     public static String showEnterValueDialog()
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();

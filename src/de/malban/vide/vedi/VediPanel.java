@@ -121,6 +121,10 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import static de.malban.util.Utility.makeGlobalAbsolute;
+import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
+import java.awt.geom.Point2D;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Vector;
 
 
@@ -901,7 +905,7 @@ class TransferableTreeNode implements Transferable {
                 
                 if ((settings.currentProject != null) && (settings.currentProject.mName.trim().length()!=0))
                 {
-                    loadProject(settings.currentProject.mClass, settings.currentProject.mName, settings.currentProject.mPath);
+                    loadProject(settings.currentProject.mClass, settings.currentProject.mName, settings.currentProject.mFullPath);
                 }
                 ArrayList<EditorFileSettings> toRemove = new ArrayList<EditorFileSettings>();
                 for (EditorFileSettings fn: settings.currentOpenFiles)
@@ -1364,6 +1368,7 @@ class TransferableTreeNode implements Transferable {
         jButtonAssembleOne2 = new javax.swing.JButton();
         jButtonAssembleOne3 = new javax.swing.JButton();
         jButtonAssembleOne4 = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
         jButtonNew = new javax.swing.JButton();
         jButtonPrettyPrint = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -2095,6 +2100,15 @@ class TransferableTreeNode implements Transferable {
             }
         });
 
+        jCheckBox1.setSelected(true);
+        jCheckBox1.setText("scheduler");
+        jCheckBox1.setToolTipText("update timer to check files for var changes");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -2105,12 +2119,16 @@ class TransferableTreeNode implements Transferable {
                     .addComponent(jButtonAssembleOne1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonAssembleOne3, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
                     .addComponent(jButtonAssembleOne4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(296, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(jCheckBox1)
+                .addContainerGap(193, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addComponent(jButtonAssembleOne1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAssembleOne1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonAssembleOne3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -2133,7 +2151,7 @@ class TransferableTreeNode implements Transferable {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Assi->C", jPanel9);
@@ -2691,7 +2709,13 @@ class TransferableTreeNode implements Transferable {
                     Thread.sleep(10);
                     try
                     {
-                        Asmj asm = new Asmj(filenameASM, asmErrorOut, null, null, asmMessagesOut, "", settings.allDebugComments);
+                        boolean is48K = false;
+                        if (currentProject != null)
+                            is48K= (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
+                        Asmj asm = new Asmj(filenameASM, asmErrorOut, null, null, asmMessagesOut, "", settings.allDebugComments,is48K);
+
+
+
                         //Asmj asm = new Asmj(filenameASM, asmErrorOut, asmListOut, asmSymbolOut, asmMessagesOut);
                         printASMList(asm.getListing(), ASM_LIST);
                         String info = asm.getInfo();
@@ -2814,7 +2838,7 @@ class TransferableTreeNode implements Transferable {
     }
 
     private void jButtonAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleActionPerformed
-        FilePeeper.peepsFound = 0;
+// following initialized the FilePeeper even in ASM...
         jEditorPaneASMListing.setText("");
         jEditorASMMessages.setText("");
         jEditorLog.setText("");
@@ -2850,6 +2874,7 @@ class TransferableTreeNode implements Transferable {
 
         if (fname.toLowerCase().endsWith(".c"))
         {
+            FilePeeper.peepsFound = 0;
             doCCompilerSingleFile(fname);
         }
         else
@@ -2887,7 +2912,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         jLabel5.setText("");
         EditorPanel edi = getSelectedEditor();
         if (edi == null) return;
-        boolean found = getSelectedEditor().replaceNext(jTextFieldSearch.getText(), jTextFieldReplace.getText(), jCheckBoxIgnoreCase.isSelected(), true);
+        boolean found = getSelectedEditor().replaceNext(jTextFieldSearch.getText(), jTextFieldReplace.getText(), jCheckBoxIgnoreCase.isSelected(), true, false);
         if (!found) jLabel5.setText("not found!");
     }//GEN-LAST:event_jButtonReplaceNextActionPerformed
 
@@ -3008,8 +3033,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     private void jEditorASMMessagesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jEditorASMMessagesMousePressed
         if (evt.getClickCount() == 2) 
         {
-            Point pt = new Point(evt.getX(), evt.getY());
-            int pos = jEditorASMMessages.viewToModel(pt);
+            Point2D.Float pt = new Point2D.Float(evt.getX(), evt.getY());
+            int pos = jEditorASMMessages.viewToModel2D(pt);
             int line = getLineOfPos(jEditorASMMessages, pos);
             if (line != -1)
             {
@@ -3390,7 +3415,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     }//GEN-LAST:event_jPopupMenu1MouseExited
 
     private void jButtonNewMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNewMousePressed
-        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
+        if (evt == null) return;
+        if ((evt != null ) && ((evt.getModifiersEx() & SHIFT_DOWN_MASK) == SHIFT_DOWN_MASK))
             return;
         jMenuItemCFile.setVisible(false);
         if (currentProject!=null)
@@ -3602,6 +3628,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             jMenuItemModi.setEnabled(te.name.toLowerCase().endsWith(".mod"));
           //  jMenuItemModi.setEnabled(true);
             jMenuItemYM.setEnabled(te.name.toLowerCase().endsWith(".ym"));
+            jMenuItemYM.setEnabled(te.name.toLowerCase().endsWith(".afx"));
 //            jMenuItemYM.setEnabled(true);
             jMenuItemASFX.setEnabled(te.name.toLowerCase().endsWith(".afx"));
             jMenuItemAKS.setEnabled(te.name.toLowerCase().endsWith(".bin"));
@@ -3863,11 +3890,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 closeAllEditors();
                 asmInfo.clearDefinitions();
                 cInfo.clearDefinitions();
-                String path = settings.currentProject.mPath;
-                if (!settings.currentProject.mPath.endsWith(settings.currentProject.mName))
-                {
-                    path = path + File.separator +settings.currentProject.mName;
-                }
+                String path = settings.currentProject.mFullPath;
+                
+//                if (!settings.currentProject.mFullPath.endsWith(settings.currentProject.mName))
+//                {
+//                    path = path + File.separator +settings.currentProject.mName;
+//                }
+                
                 
                 loadProject(settings.currentProject.mClass, settings.currentProject.mName, path);
             }
@@ -4361,6 +4390,21 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         refreshTree();
         
     }//GEN-LAST:event_jMenuItemCFileActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+        // debug only
+        if (jCheckBox1.isSelected())
+        {
+            initScheduler();
+            log.addLog("scheduling was switched on manually", INFO);
+        }
+        else
+        {
+            deinitScheduler();
+            log.addLog("scheduling was switched off manually", INFO);
+        }
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
     
     @Override
     public void doQuickHelp(String word, String integer)
@@ -4466,6 +4510,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     private javax.swing.JButton jButtonSearchNext;
     private javax.swing.JButton jButtonSearchPrevious;
     private javax.swing.JButton jButtonUndo;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBoxIgnoreCase;
     private javax.swing.JCheckBox jCheckBoxIgnoreCase1;
     private javax.swing.JEditorPane jEditorASMMessages;
@@ -5237,6 +5282,21 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
         // get all the files from a directory
         File[] fList = directory.listFiles();
+        Arrays.sort(fList, new Comparator<File>()
+                {
+                    @Override
+                    public int compare(File f1, File f2)
+                    {
+                        if (f1 == null) return 1;
+                        if (f2 == null) return -1;
+                        if ((f1.isDirectory()) && (!f2.isDirectory())) return -1;
+                        if ((f2.isDirectory()) && (!f1.isDirectory())) return 1;
+                        return f1.getName().toLowerCase().compareTo(f2.getName().toLowerCase());
+                    }
+                });
+                
+        
+        
         for (File file : fList) 
         {
             TreeEntry newEntry = new TreeEntry(Paths.get(basePath.toString(), file.getName()));
@@ -5256,6 +5316,18 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
         // get all the files from a directory
         File[] fList = directory.listFiles();
+        Arrays.sort(fList, new Comparator<File>()
+                {
+                    @Override
+                    public int compare(File f1, File f2)
+                    {
+                        if (f1 == null) return 1;
+                        if (f2 == null) return -1;
+                        if ((f1.isDirectory()) && (!f2.isDirectory())) return -1;
+                        if ((f2.isDirectory()) && (!f1.isDirectory())) return 1;
+                        return f1.getName().toLowerCase().compareTo(f2.getName().toLowerCase());
+                    }
+                });
         for (File file : fList) 
         {
             if (file.getName().contains("FileProperty.xml")) continue;
@@ -5723,8 +5795,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         currentProject = project;
         if (shouldSave)
             saveProject(); // since files 
-        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getOldPath());
-        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getOldPath());
+        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getOldPath()+File.separator+currentProject.getName());
+        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getOldPath()+File.separator+currentProject.getName());
 
         updateList();
 
@@ -5890,13 +5962,14 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     {
         if (selectedTreeEntry==null) return; // how?
         if (selectedTreeEntry.pathAndName==null) return; // file not project?
-         FilePropertiesPanel.showEditFileProperties(selectedTreeEntry.pathAndName.toString());
+         FilePropertiesPanel.showEditFileProperties(selectedTreeEntry.pathAndName.toString(), this);
     }
     void doBuildProject()
     {
         saveAll();
         if (currentProject.getIsCProject())
         {
+            FilePeeper.peepsFound = 0;
             if (startTypeRun == START_TYPE_STOP)
             {
                 String fname = getSelectedEditor().getFilename();
@@ -5913,6 +5986,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         if (currentProject.getIsPeerCProject())
         {
+            FilePeeper.peepsFound = 0;
             doBuildPeerCProject();
             return;
         }
@@ -6036,10 +6110,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             public void run() 
             {
                 boolean asmOk = true;
+                boolean is48K = (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
+
                 try
                 {
                     String path = currentProject.projectPrefix;
-            Asmj.resetReplacements();
+                    Asmj.resetReplacements();
+                    
                     // get all the files from a directory
                     final String failure = executeFileScripts("Pre", path);
                     if (failure!=null) 
@@ -6067,6 +6144,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     for (int b = 0; b<currentProject.getNumberOfBanks(); b++)
                     {
                         String filenameASM = currentProject.getBankMainFiles().elementAt(b);
+                        // ensure name only
+                        File f = new File(filenameASM);
+                        filenameASM = f.getName();
+
                         if (filenameASM.length() == 0) continue;
                         filenameASM = path+File.separator+filenameASM;
                         
@@ -6095,7 +6176,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                         
                         String define = currentProject.getBankDefines().elementAt(b);
                         printMessage("Assembling: "+filenameASM);
-                        Asmj asm = new Asmj(filenameASM, asmErrorOut, null, null, asmMessagesOut, define, settings.allDebugComments);
+                        Asmj asm = new Asmj(filenameASM, asmErrorOut, null, null, asmMessagesOut, define, settings.allDebugComments,is48K);
+                        
+                        
+                        
                         printASMList(asm.getListing(), ASM_LIST);
 
                         String info = asm.getInfo();
@@ -6105,18 +6189,22 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
                         
                         String filename = currentProject.getBankMainFiles().elementAt(b);
+                        File ff = new File(filename);
+                        filename = ff.getName(); // ensure name only
                         filename = path+File.separator+filename;
                         int li = filename.lastIndexOf(".");
                         if (li>=0) 
                             filename = filename.substring(0,li);
                         String org = filename + ".bin";
+                        
+                    
+                        
                         String banked = filename+"_"+(b) + ".bin";
                         de.malban.util.UtilityFiles.move(org, banked);
                         Asmj.binFileRename(org, banked);
                         
                         org = filename + ".cnt";
                         banked = filename+"_"+(b) + ".cnt";
-//                        de.malban.util.UtilityFiles.move(org, banked);
                         
                         Vector<String> what = new Vector<String>();
                         Vector<String> with = new Vector<String>();
@@ -6199,15 +6287,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     asmStarted = false;
                     return;
                 }
-                String postClass = currentProject.getProjectPostScriptClass();
-                String postName = currentProject.getProjectPostScriptName();
-                
-                String pp = currentProject.projectPrefix;
-                
-                ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, currentProject.getProjectName(), "", "VediPanel", pp);
-                boolean ok =  ScriptDataPanel.executeScript(postClass, postName, VediPanel.this, ed);
                 final boolean asmOk2 = asmOk; // effectivly final!
-            Asmj.doReplacements();
+                Asmj.doReplacements();
                 SwingUtilities.invokeLater(new Runnable()
                 {
                     public void run()
@@ -6232,10 +6313,15 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         refreshTree();
         if (buildOk)
         {
-            
             CartridgeProperties cartProp = buildCart(currentProject, true);
-            
             checkVec4EverProject(cartProp);
+            
+            String postClass = currentProject.getProjectPostScriptClass();
+            String postName = currentProject.getProjectPostScriptName();
+            String pp = currentProject.projectPrefix;
+            ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, currentProject.getProjectName(), "", "VediPanel", pp);
+            boolean ok =  ScriptDataPanel.executeScript(postClass, postName, VediPanel.this, ed);
+            
             if (config.invokeEmulatorAfterAssembly)
             {
                 VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
@@ -7354,15 +7440,50 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             // concatinate the two
             if (cart.getFullFilename().size() == 2)
             {
+                boolean is48K = (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
+                int memSize = 32768;
+                if (is48K) memSize+=32768;
+                
                 String newFilename = makeGlobalAbsolute(cart.getFullFilename().elementAt(0).substring(0,cart.getFullFilename().elementAt(0).length()-1-4));
                 String n1 = makeGlobalAbsolute(cart.getFullFilename().elementAt(0));
                 String n2 = makeGlobalAbsolute(cart.getFullFilename().elementAt(1));
-                de.malban.util.UtilityFiles.padFile(n1, (byte)0, 32768);
-                de.malban.util.UtilityFiles.padFile(n2, (byte)0, 32768);
+                de.malban.util.UtilityFiles.padFile(n1, (byte)0, memSize);
+                de.malban.util.UtilityFiles.padFile(n2, (byte)0, memSize);
                 n1 += ".fil";
                 n2 += ".fil";
                 de.malban.util.UtilityFiles.concatFiles(n1, n2);
                 checkVec4EverFile(n1+".con");
+            }
+            if (cart.getFullFilename().size() == 4)
+            {
+                boolean is48K = (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
+                int memSize = 32768;
+                if (is48K) memSize+=32768;
+                
+                String newFilename = makeGlobalAbsolute(cart.getFullFilename().elementAt(0).substring(0,cart.getFullFilename().elementAt(0).length()-1-4));
+                String n1 = makeGlobalAbsolute(cart.getFullFilename().elementAt(0));
+                String n2 = makeGlobalAbsolute(cart.getFullFilename().elementAt(1));
+                String n3 = makeGlobalAbsolute(cart.getFullFilename().elementAt(2));
+                String n4 = makeGlobalAbsolute(cart.getFullFilename().elementAt(3));
+                de.malban.util.UtilityFiles.padFile(n1, (byte)0, memSize);
+                de.malban.util.UtilityFiles.padFile(n2, (byte)0, memSize);
+                de.malban.util.UtilityFiles.padFile(n3, (byte)0, memSize);
+                de.malban.util.UtilityFiles.padFile(n4, (byte)0, memSize);
+                n1 += ".fil";
+                n2 += ".fil";
+                n3 += ".fil";
+                n4 += ".fil";
+                de.malban.util.UtilityFiles.concatFiles(n1, n2);
+                de.malban.util.UtilityFiles.concatFiles(n3, n4);
+                de.malban.util.UtilityFiles.concatFiles(n1+".con", n3+".con");
+                de.malban.util.UtilityFiles.rename(n1+".con"+".con", newFilename+"256k.bin");
+                de.malban.util.UtilityFiles.deleteFile(n1);
+                de.malban.util.UtilityFiles.deleteFile(n2);
+                de.malban.util.UtilityFiles.deleteFile(n3);
+                de.malban.util.UtilityFiles.deleteFile(n4);
+                de.malban.util.UtilityFiles.deleteFile(n1+".con");
+                de.malban.util.UtilityFiles.deleteFile(n3+".con");
+
             }
             else
             {
@@ -7819,6 +7940,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             {
                 if (config.deepSyntaxCheck)
                 {
+                    EditorPanel lastEdi = null;
                     for (int i=0; i <jTabbedPane1. getTabCount(); i++)
                     {
                         try
@@ -7826,6 +7948,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                             if (jTabbedPane1.getComponentAt(i) instanceof EditorPanel)
                             {
                                 EditorPanel edi = (EditorPanel) jTabbedPane1.getComponentAt(i);
+                                lastEdi = edi;
                                 if (edi.assume6809Asm)
                                 {
                                     if (edi.hasChanged1)
@@ -7850,7 +7973,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                         }
                         catch (Throwable e)
                         {
+                            log.addLog("UpdateDefinitions:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
+                            if (lastEdi != null)
+                                log.addLog("Editorname:\n"+lastEdi.getFilename(), INFO);
                             e.printStackTrace();
+                            
                         }
                     }
                     if (getSelectedEditor() != null)
@@ -7864,12 +7991,23 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                                 {
                                     if (!getSelectedEditor().hasSelection())
                                     {
-                getSelectedEditor().setViewportEnabled(false);
-                                        getSelectedEditor().saveSelection();
-                                        getSelectedEditor().stopColoring();
-                                        getSelectedEditor().startColoring(settings.fontSize);
-                                        getSelectedEditor().restoreSelection();
-                getSelectedEditor().setViewportEnabled(true);
+                                        try
+                                        {
+                    getSelectedEditor().setViewportEnabled(false);
+                                            getSelectedEditor().saveSelection();
+                                            getSelectedEditor().stopColoring();
+                                            getSelectedEditor().startColoring(settings.fontSize);
+                                            getSelectedEditor().restoreSelection();
+                    getSelectedEditor().setViewportEnabled(true);
+                                        }
+                                        catch (Throwable e)
+                                        {
+                                            log.addLog("UpdateDefinitions 2:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
+                                            if (lastEdi != null)
+                                                log.addLog("Editorname:\n"+getSelectedEditor().getFilename(), INFO);
+                                            e.printStackTrace();
+
+                                        }
                                     }
                                 }
                             }
@@ -7989,7 +8127,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         catch (Throwable e)
         {
-            e.printStackTrace();
+            log.addLog(de.malban.util.Utility.getStackTrace(e), INFO);
         }
         log.addLog("Compile failed: "+file, WARN);
         printError(UtilityFiles.lastError);
@@ -8025,7 +8163,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         catch (Throwable e)
         {
-            e.printStackTrace();
+            log.addLog(de.malban.util.Utility.getStackTrace(e), INFO);
         }
         log.addLog("Compile failed: "+file, WARN);
         printError(UtilityFiles.lastError);
@@ -9234,7 +9372,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 cflags[cflags.length-5] = "-DFRAME_POINTER=1";
 
             if (currentProject.getIsCRumInlined())
-                cflags[cflags.length-6] = "-D__RUM_INLINE=1";
+            {
+                cflags[cflags.length-6] = "-D__INLINE_RUM=1";
+                
+            }
             else
                 cflags[cflags.length-6] = "-D__RUM_FUNCTION=1";
         }
@@ -9246,7 +9387,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 cflags[cflags.length-4] = "-DFRAME_POINTER=1";
             
             if (currentProject.getIsCRumInlined())
-                cflags[cflags.length-5] = "-D__RUM_INLINE=1";
+                cflags[cflags.length-5] = "-D__INLINE_RUM=1";
             else
                 cflags[cflags.length-5] = "-D__RUM_FUNCTION=1";
         }
@@ -12185,7 +12326,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             
             if (countCurly == 0)
             {
-                if (countReadyLine.contains("struct ")) inStruct = true;
+                if (countReadyLine.contains("struct ")) 
+                {
+                    if (!countReadyLine.contains(",")) 
+                        if (!countReadyLine.contains("*")) 
+                          inStruct = true;
+                    
+                }
             }
             if ((countCurly == 0) && (curlyStart!=0) && (inStruct)) inStruct= false;
 

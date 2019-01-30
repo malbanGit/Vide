@@ -31,8 +31,8 @@ public class SourceLine {
 	SourceLine next;      // the next line
 	int macroDepth;       // how many macros expanded to produce this line?
 	boolean hidden;       // supress this line in the output listing?
-        String endOfLineComment = "";
         boolean endOfLineCommentDone = false;
+        String endOfLineComment = "";
         String fullLineComment = "";
         int dp_value = -1;
         private boolean optimize = false;
@@ -71,7 +71,8 @@ public class SourceLine {
             inputLine = line;
             fileName = fname;
             lineNumber = lineNum;
-
+//if (line.contains("REPLACE_1_2_main00_varFrom0_1"))
+//    System.out.println("BUH");
             if (line.toLowerCase().contains("#genvarlist#"))
             {
                 Asmj.doReplacements = true;
@@ -205,6 +206,10 @@ public class SourceLine {
             parsedOK = true;
             next = null;
 	}
+        public void eraseComments() {
+         endOfLineComment = "";
+         fullLineComment = "";
+	}
 
 	public SourceLine( SourceLine p0 ) 
         {
@@ -281,6 +286,7 @@ public class SourceLine {
 		if (optimizeMessages == null) { optimizeMessages = new Vector(); }
 		optimizeMessages.addElement( m );
 	}
+
 
 	public void eraseErrorMessages() {
 		if (errorMessages != null) {
