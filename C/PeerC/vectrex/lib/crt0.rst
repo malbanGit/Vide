@@ -16,34 +16,34 @@
                              16 	.area .bss   (BANK=ram)
                              17 	
                              18 		.area .text					
-   001A                      19 	_crt0_init_data:				
-   001A CE 00 1A      [ 3]   20 		ldu		#s_.text			
-   001D 33 C9 56 67   [ 8]   21 		leau	l_.text,u			
-   0021 33 C9 00 00   [ 8]   22 		leau	l_.text.hot,u		
-   0025 33 C9 00 00   [ 8]   23 		leau	l_.text.unlikely,u	
-   0029 10 8E C8 80   [ 4]   24 		ldy		#s_.data			
-   002D 8E 00 2D      [ 3]   25 		ldx		#l_.data			
-   0030 27 08         [ 3]   26 		beq		_crt0_init_bss		
-   0032                      27 	_crt0_copy_data:				
-   0032 A6 C0         [ 6]   28 		lda		,u+					
-   0034 A7 A0         [ 6]   29 		sta		,y+					
-   0036 30 1F         [ 5]   30 		leax	-1,x				
-   0038 26 F8         [ 3]   31 		bne		_crt0_copy_data		
-   003A                      32 	_crt0_init_bss:				
-   003A 10 8E C8 AD   [ 4]   33 		ldy		#s_.bss				
-   003E 8E 01 ED      [ 3]   34 		ldx		#l_.bss				
-   0041 27 06         [ 3]   35 		beq		_crt0_startup		
-   0043                      36 	_crt0_zero_bss:				
-   0043 6F A0         [ 8]   37 		clr		,y+					
-   0045 30 1F         [ 5]   38 		leax	-1,x				
-   0047 26 FA         [ 3]   39 		bne		_crt0_zero_bss		
-   0049                      40 	_crt0_startup:					
-   0049 BD 3A 37      [ 8]   41 		jsr		_main				
-   004C 5D            [ 2]   42 		tstb						
-   004D 2F 03         [ 3]   43 		ble		_crt0_restart		
-   004F 7F CB FE      [ 7]   44 		clr		0xcbfe;	cold reset	
-   0052                      45 	_crt0_restart:					
-   0052 7E F0 00      [ 4]   46 		jmp 	0xf000;	rum			
+   0019                      19 	_crt0_init_data:				
+   0019 CE 00 19      [ 3]   20 		ldu		#s_.text			
+   001C 33 C9 77 A4   [ 8]   21 		leau	l_.text,u			
+   0020 33 C9 00 00   [ 8]   22 		leau	l_.text.hot,u		
+   0024 33 C9 00 00   [ 8]   23 		leau	l_.text.unlikely,u	
+   0028 10 8E C8 80   [ 4]   24 		ldy		#s_.data			
+   002C 8E 00 19      [ 3]   25 		ldx		#l_.data			
+   002F 27 08         [ 3]   26 		beq		_crt0_init_bss		
+   0031                      27 	_crt0_copy_data:				
+   0031 A6 C0         [ 6]   28 		lda		,u+					
+   0033 A7 A0         [ 6]   29 		sta		,y+					
+   0035 30 1F         [ 5]   30 		leax	-1,x				
+   0037 26 F8         [ 3]   31 		bne		_crt0_copy_data		
+   0039                      32 	_crt0_init_bss:				
+   0039 10 8E C8 99   [ 4]   33 		ldy		#s_.bss				
+   003D 8E 02 46      [ 3]   34 		ldx		#l_.bss				
+   0040 27 06         [ 3]   35 		beq		_crt0_startup		
+   0042                      36 	_crt0_zero_bss:				
+   0042 6F A0         [ 8]   37 		clr		,y+					
+   0044 30 1F         [ 5]   38 		leax	-1,x				
+   0046 26 FA         [ 3]   39 		bne		_crt0_zero_bss		
+   0048                      40 	_crt0_startup:					
+   0048 BD 52 11      [ 8]   41 		jsr		_main				
+   004B 5D            [ 2]   42 		tstb						
+   004C 2F 03         [ 3]   43 		ble		_crt0_restart		
+   004E 7F CB FE      [ 7]   44 		clr		0xcbfe;	cold reset	
+   0051                      45 	_crt0_restart:					
+   0051 7E F0 00      [ 4]   46 		jmp 	0xf000;	rum			
                              47 	
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
