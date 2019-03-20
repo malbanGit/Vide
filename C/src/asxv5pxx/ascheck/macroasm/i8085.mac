@@ -1,0 +1,448 @@
+.IIF	NDEF,.$.LIST.$.	.NLIST	;CROSS-ASSEMBLER NOT LISTED
+	;DURING CHECKOUT DEFINE .$.LIST.$. TO ENABLE LISTING
+.IIF	DEF,.$.LIST.$.	.LIST
+	;
+	;
+	.TITLE	I8085 CROSS-ASSEMBLER
+	;
+	.SBTTL	CROSS-ASSEMBLER INTRODUCTION
+	;
+	;****************************************************************
+	;*								*
+	;*	  MACRO PACKAGE FOR THE INTEL 8085 MICROPROCESSOR	*
+	;*		TO RUN UNDER MACRO-11.				*
+	;*								*
+	;*	BY  ALAN R. BALDWIN					*
+	;*		NOVEMBER 1980					*
+	;*								*
+	;****************************************************************
+	;****************************************************************
+	;*								*
+	;*	REWRITTEN FOR THE ASXXXX 'ASCHECK' ASSEMBLER		*
+	;*								*
+	;*		DECEMBER 2008					*
+	;*								*
+	;****************************************************************
+	;
+	;****************************************************************
+	;*								*
+	;*	This Cross Assembler removes the relocation		*
+	;*	information from all addresses yielding an		*
+	;*	ABSOLUTE ASSEMBLER.  Relocating assembled		*
+	;*	code using the ASLINK relocation options		*
+	;*	will not generate a correctly relocated			*
+	;*	image.							*
+	;*								*
+	;****************************************************************
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+	;
+	;THE FOLLOWING DIFFERENCES EXIST BETWEEN THIS CROSS-ASSEMBLER
+	;AND OTHER ASSEMBLERS
+	;	LABELS MUST TERMINATE WITH A :
+	;	COMMENTS START WITH A ;
+	;	IMMEDIATE MODE IS DENOTED BY A SEPERATE ARGUMENT - #
+	;	DIRECT    MODE IS DENOTED BY A SEPERATE ARGUMENT - *
+	;
+	;
+	;DEFINITION OF ASSEMBLER DIRECTIVES WITH DIFFERENCES
+	;	END -  USE	.END	END OF PROGRAM
+	;	EQU -  USE  	=	EQUATE SYMBOL
+	;	FCB -  USE	.FCB	FORM SINGLE-BYTE CONSTANT
+	;	FCC -  USE	.FCC	FORM CONSTANT CHARACTERS
+	;	FDB -  USE	.FDB	FORM DOUBLE-BYTE CONSTANT
+	;	MON -  NOT IMPLEMENTED	RETURN TO MONITOR CONSOLE
+	;	NAM -  USE	.SBTTL	PROGRAM NAME
+	;	OPT -  NOT IMPLEMENTED	OPTION
+	;	ORG -  USE	.ORG	ORIGIN
+	;	PAGE - USE	.PAGE	ADVANCE LISTING TO TOP OF PAGE
+	;	RMB -  USE	.RMB	RESERVE MEMORY BYTES
+	;	SETDP -USE	SETDP	SET DIRECT PAGE BOUNDARY
+	;	SPC -  NOT IMPLEMENTED	SPACE N LINES
+	;
+	;
+	;PROCESSOR CONDITION CODE REVIEW
+	;	0 - CARRY
+	;	1 - '1'
+	;	2 - PARITY
+	;	3 - '0'
+	;	4 - AUXILIARY CARRY
+	;	5 - '0'
+	;	6 - ZERO
+	;	7 - SIGN
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+.IIF	DEF,.$.LIST.$.	.SBTTL	LOCAL VARIABLES
+	;
+	.LOCAL	...A,	...B
+	.LOCAL	...EXT,	...TYP
+	;
+	;
+	;BYTE ORDERING IS LO ... HI
+	;
+	.LOHI
+	;
+	;
+	;CONSTANTS ARE IN OCTAL
+	;
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+.IIF	DEF,.$.LIST.$.	.SBTTL	ADDRESSING MACROS
+	;
+.MACRO	.$.SREG	I
+ ...A=-0Q1
+ .IIF	IDN	^!I!,b		...A=0Q0
+ .IIF	IDN	^!I!,c		...A=0Q1
+ .IIF	IDN	^!I!,d		...A=0Q2
+ .IIF	IDN	^!I!,e		...A=0Q3
+ .IIF	IDN	^!I!,f		...A=0Q4
+ .IIF	IDN	^!I!,l		...A=0Q5
+ .IIF	IDN	^!I!,m		...A=0Q6
+ .IIF	IDN	^!I!,a		...A=0Q7
+ .IIF	IDN	^!I!,B		...A=0Q0
+ .IIF	IDN	^!I!,C		...A=0Q1
+ .IIF	IDN	^!I!,D		...A=0Q2
+ .IIF	IDN	^!I!,E		...A=0Q3
+ .IIF	IDN	^!I!,H		...A=0Q4
+ .IIF	IDN	^!I!,L		...A=0Q5
+ .IIF	IDN	^!I!,M		...A=0Q6
+ .IIF	IDN	^!I!,A		...A=0Q7
+ .IIF	LT,...A		.ERROR	1	;INVALID REGISTER
+ ...A=(...A&0Q7)
+.ENDM	;.$.SREG
+	;
+.MACRO	.$.DREG	I
+ ...A=-0Q1
+ .IIF	IDN	^!I!,b		...A=0Q0
+ .IIF	IDN	^!I!,d		...A=0Q2
+ .IIF	IDN	^!I!,h		...A=0Q4
+ .IIF	IDN	^!I!,sp		...A=0Q6
+ .IIF	IDN	^!I!,B		...A=0Q0
+ .IIF	IDN	^!I!,D		...A=0Q2
+ .IIF	IDN	^!I!,H		...A=0Q4
+ .IIF	IDN	^!I!,SP		...A=0Q6
+ .IIF	LT,...A		.ERROR	1	;INVALID REGISTER
+ ...A=(...A&0Q6)
+.ENDM	;.$.DREG
+	;
+.MACRO	.$.PREG	I
+ ...A=-0Q1
+ .IIF	IDN	^!I!,b		...A=0Q0
+ .IIF	IDN	^!I!,d		...A=0Q2
+ .IIF	IDN	^!I!,h		...A=0Q4
+ .IIF	IDN	^!I!,psw	...A=0Q6
+ .IIF	IDN	^!I!,B		...A=0Q0
+ .IIF	IDN	^!I!,D		...A=0Q2
+ .IIF	IDN	^!I!,H		...A=0Q4
+ .IIF	IDN	^!I!,PSW	...A=0Q6
+ .IIF	LT,...A		.ERROR	1	;INVALID REGISTER
+ ...A=(...A&0Q6)
+.ENDM	;.$.PREG
+	;
+.MACRO	XREG	I
+ ...A=-0Q1
+ .IIF	IDN	^!I!,b		...A=0Q0
+ .IIF	IDN	^!I!,d		...A=0Q2
+ .IIF	IDN	^!I!,B		...A=0Q0
+ .IIF	IDN	^!I!,D		...A=0Q2
+ .IIF	LT,...A		.ERROR	1	;INVALID REGISTER
+ ...A=(...A&0Q2)
+.ENDM	;XREG
+	;
+	;EXTENDED ADDRESSING
+	;
+.MACRO	.$.EXT		I
+ .NTYP	...TYP,I
+ .IF	EQ,...TYP
+  ...EXT = I
+ .ELSE
+  .NVAL	...EXT,I
+ .ENDIF
+.ENDM	;.$.EXT
+	;
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+.IIF	DEF,.$.LIST.$.	.SBTTL	SINGLE BYTE 'INHERENT' INSTRUCTIONS
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H
+ .BYTE	I
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	OPCODE	;OPERATION
+.$.$.$	NOP	0Q0	;DO NOTHING
+.$.$.$	RLC	0Q7	;ROTATE A LEFT
+.$.$.$	RRC	0Q17	;ROTATE A RIGHT
+.$.$.$	RAL	0Q27	;ROTATE A LEFT THROUGH CARRY
+.$.$.$	RAR	0Q37	;ROTATE A RIGHT THROUGH CARRY
+.$.$.$	RIM	0Q40	;READ INTERRUPT MASK
+.$.$.$	DAA	0Q47	;DECIMAL ADJUST A
+.$.$.$	CMA	0Q57	;COMPLEMENT A
+.$.$.$	SIM	0Q60	;SET INTERRUPT MASK
+.$.$.$	STC	0Q67	;SET CARRY
+.$.$.$	CMC	0Q77	;COMPLEMENT CARRY
+.$.$.$	HLT	0Q166	;HALT
+.$.$.$	RET	0Q311	;UNCONDITIONAL RETURN
+.$.$.$	RNZ	0Q300	;RETURN IF NOT ZERO
+.$.$.$	RZ	0Q310	;RETURN IF ZERO
+.$.$.$	RNC	0Q320	;RETURN IF CARRY CLEAR
+.$.$.$	RC	0Q330	;RETURN IF CARRY SET
+.$.$.$	RPO	0Q340	;RETURN IF PARITY ODD
+.$.$.$	RPE	0Q350	;RETURN IF PARITY EVEN
+.$.$.$	RP	0Q360	;RETURN IF POSITIVE
+.$.$.$	RM	0Q370	;RETURN IF MINUS
+.$.$.$	XTHL	0Q343	;EXCHANGE TOP OF STACK, H&L
+.$.$.$	XCHG	0Q353	;EXCHANGE D&E WITH H&L
+.$.$.$	PCHL	0Q351	;H&L TO PROGRAM COUNTER
+.$.$.$	SPHL	0Q371	;H&L TO STACK POINTER
+.$.$.$	DI	0Q363	;DISABLE INTERRUPTS
+.$.$.$	EI	0Q373	;ENABLE INTERRUPTS
+	;
+	;UNDOCUMENTED 8085 INSTRUCTIONS
+	;
+    ;MNEMONIC	OPCODE	;OPERATION
+.$.$.$	DSUB	0Q10	;
+.$.$.$	ARHL	0Q20	;
+.$.$.$	RDEL	0Q30	;
+.$.$.$	RSTV	0Q313	;
+.$.$.$	SHLX	0Q331	;
+.$.$.$	LHLX	0Q355	;
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+.IIF	DEF,.$.LIST.$.	.SBTTL	BRANCH GROUP
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H,J
+ .$.EXT		J
+ .BYTE	I,<...EXT,>...EXT
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	OPCODE	;OPERATION
+.$.$.$	JMP	0Q303	;UNCONDITIONAL JUMP
+.$.$.$	JNZ	0Q302	;JUMP IF NOT ZERO
+.$.$.$	JZ	0Q312	;JUMP IF ZERO
+.$.$.$	JNC	0Q322	;JUMP IF CARRY CLEAR
+.$.$.$	JC	0Q332	;JUMP IF CARRY SET
+.$.$.$	JPO	0Q342	;JUMP IF PARITY ODD
+.$.$.$	JPE	0Q352	;JUMP IF PARITY EVEN
+.$.$.$	JP	0Q362	;JUMP IF POSITIVE
+.$.$.$	JM	0Q372	;JUMP IF MINUS
+.$.$.$	CALL	0Q315	;UNCONDITIONAL CALL
+.$.$.$	CNZ	0Q304	;CALL IF NOT ZERO
+.$.$.$	CZ	0Q314	;CALL IF ZERO
+.$.$.$	CNC	0Q324	;CALL IF CARRY CLEAR
+.$.$.$	CC	0Q334	;CALL IF CARRY SET
+.$.$.$	CPO	0Q344	;CALL IF PARITY ODD
+.$.$.$	CPE	0Q354	;CALL IF PARITY EVEN
+.$.$.$	CP	0Q364	;CALL IF POSITIVE
+.$.$.$	CM	0Q374	;CALL IF MINUS
+	;
+	;UNDOCUMENTED 8085 INSTRUCTIONS
+	;
+    ;MNEMONIC	OPCODE	;OPERATION
+.$.$.$	JNX5	0Q335	;
+.$.$.$	JX5	0Q375	;
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+.IIF	DEF,.$.LIST.$.	.SBTTL	MOV INSTRUCTIONS
+	;
+.MACRO	MOV	J,K	;MOVE DATA / REGISTERS <=> MEMORY
+ .$.SREG	J
+ ...B = 0Q10 * ...A
+ .$.SREG	K
+ .BYTE	0Q100 + ...A + ...B
+.ENDM	;Instruction
+	;
+	;
+.MACRO	MVI	J,K	;MOVE IMMEDIATE TO REGISTERS/MEMORY
+ .$.SREG	J
+ .BYTE	0Q10 * ...A + 0Q6,K
+.ENDM	;Instruction
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+.IIF	DEF,.$.LIST.$.	.SBTTL	ARITHMETIC AND LOGICAL INSTRUCTIONS
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H,J
+ .$.EXT		J
+ .BYTE	I,...EXT
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	;OPCODE	;OPERATION
+.$.$.$	ADI	0Q306	;ADD
+.$.$.$	ACI	0Q316	;ADD WITH CARRY
+.$.$.$	SUI	0Q326	;SUBTRACT
+.$.$.$	SBI	0Q336	;SUBTRACT WITH BORROW
+.$.$.$	ANI	0Q346	;AND
+.$.$.$	XRI	0Q356	;EXCLUSIVE OR
+.$.$.$	ORI	0Q366	;INCLUSIVE OR
+.$.$.$	CPI	0Q376	;COMPARE
+	;
+	;UNDOCUMENTED 8085 INSTRUCTIONS
+	;
+    ;MNEMONIC	;OPCODE	;OPERATION
+.$.$.$	LDHI	0Q50	;
+.$.$.$	LDSI	0Q70	;
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H,J
+ .$.SREG	J
+ .BYTE	I + ...A
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	;OPCODE	;OPERATION
+.$.$.$	ADD	0Q200	;ADD
+.$.$.$	ADC	0Q210	;ADD WITH CARRY
+.$.$.$	SUB	0Q220	;SUBRACT
+.$.$.$	SBB	0Q230	;SUBTRACT WITH BORROW
+.$.$.$	ANA	0Q240	;AND
+.$.$.$	XRA	0Q250	;EXCLUSIVE OR
+.$.$.$	ORA	0Q260	;INCLUSIVE OR
+.$.$.$	CMP	0Q270	;COMPARE
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+.IIF	DEF,.$.LIST.$.	.SBTTL	LOAD AND STORE INSTRUCTIONS
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H,J
+ .$.EXT		J
+ .BYTE	I,<...EXT,>...EXT
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	;OPCODE	;OPERATION
+.$.$.$	LDA	0Q72	;LOAD A
+.$.$.$	STA	0Q62	;STORE A
+.$.$.$	LHLD	0Q52	;LOAD L & H
+.$.$.$	SHLD	0Q42	;STORE L & H
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.MACRO	LXI	J,K,L	;LOAD REGISTER PAIR IMMEDIATE
+ .$.DREG	J
+ .$.EXT		K
+ .IF	B,^!L!
+  .BYTE	0Q10 * ...A + 1,<...EXT,>...EXT
+ .ELSE
+  ...A = ...EXT
+  .$.EXT	L
+  .BYTE	0Q10 * ...A + 1,...EXT,...A
+ .ENDIF
+.ENDM	;Instruction
+	;
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H,J
+ XREG	J
+ .BYTE	0Q10 * ...A + I
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	;OPCODE	;OPERATION
+.$.$.$	LDAX	0Q12	;LOAD A INDIRECTLY
+.$.$.$	STAX	0Q2	;STORE A INDIRECTLY
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+.IIF	DEF,.$.LIST.$.	.SBTTL	INCREMENTS AND DECREMENTS
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H,J
+ .$.SREG	J
+ .BYTE	0Q10 * ...A + I
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	;OPCODE	;OPERATION
+.$.$.$	INR	0Q4	;INCREMENT REGISTER / OR MEMORY @(H,L)
+.$.$.$	DCR	0Q5	;DECREMENT REGISTER / OR MEMORY @(H,L)
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H,J
+ .$.DREG	J
+ .BYTE	0Q10 * ...A + I
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	;OPCODE	;OPERATION
+.$.$.$	INX	0Q3	;INCREMENT REGISTER PAIR
+.$.$.$	DCX	0Q13	;DECREMENT REGISTER PAIR
+.$.$.$	DAD	0Q11	;ADD REGISTER PAIR TO H & L
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$.LIST.$.	.PAGE
+.IIF	DEF,.$.LIST.$.	.SBTTL	SPECIAL INSTRUCTIONS
+	;
+.MACRO	RST	J	;RESTART INSTRUCTIONS
+ .$.EXT		J
+ .IIF	LT,...EXT	.ERROR	1	;<0
+ .IIF	GT,...EXT -0Q7	.ERROR	1	;>7
+ .BYTE	((...EXT & 0Q7) * 0Q10) + 0Q307
+.ENDM	;Instruction
+	;
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H,J
+ .$.EXT		J
+ .BYTE	I,...EXT
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	;OPCODE	;OPERATION
+.$.$.$	IN	0Q333	;IN INSTRUCTION
+.$.$.$	OUT	0Q323	;OUT INSTRUCTION
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H,J
+ .$.PREG	J
+ .BYTE	0Q10 * ...A + I
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC	;OPCODE	;OPERATION
+.$.$.$	PUSH	0Q305	;PUSH ONTO STACK
+.$.$.$	POP	0Q301	;POP FROM STACK
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$.LIST.$.	.LIST		;LIST PROGRAM PROPER
+.IIF	DEF,.$.LIST.$.	.PAGE
+

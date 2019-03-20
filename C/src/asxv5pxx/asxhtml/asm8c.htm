@@ -1,0 +1,215 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASM8C  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+
+M8C REGISTER SET 
+
+The following is a list of the M8C registers used by ASM8C:  
+
+        A       -   Accumulator
+        X       -   Index
+        SP      -   Stack Pointer
+        F       -   Flags
+
+
+M8C ADDRESSING MODES 
+
+
+     The  M8C  instructions  may have none, one, or two operands
+selected from the registers listed above or an  addressing  mode
+from the following list:  
+
+        expr         -  immediate argument
+                     -  In the lcall, ljmp, index,
+                        and pc relative branching
+                        instructions expr is an
+                        address expression.
+        #expr        -  immediate argument
+        [expr]       -  argument at location expr
+        [x+expr]     -  argument at location x + expr
+        reg[expr]    -  argument at location expr
+                        in register space
+        reg[x+expr]  -  argument at location x + expr
+                        in register space
+        [[expr]++]   -  The value in memory at address
+                        expr (the indirect address)
+                        points to a memory location in
+                        RAM. The value in memory at
+                        address expr is then incremented.
+                        This addressing mode is used only
+                        by the mvi instruction and
+                        allows the short form [expr]
+                        for this addressing mode.
+
+
+
+     The  following tables list all M8C mnemonics and addressing
+modes recognized by the ASM8C assembler.  
+
+
+Double Operand Arithmetic Instructions 
+
+        adc  a,expr
+        adc  a,[expr]           adc  [expr],a
+        adc  a,[x+expr]         adc  [x+expr],a
+        adc  [expr],expr        adc  [x+expr],expr
+
+        add  a,expr
+        add  a,[expr]           add  [expr],a
+        add  a,[x+expr]         add  [x+expr],a
+        add  [expr],expr        add  [x+expr],expr
+        add  sp,expr
+
+        cmp  a,expr
+        cmp  a,[expr]
+        cmp  a,[x+expr]
+        cmp  [expr],expr        cmp  [x+expr],expr
+
+        sbb  a,expr
+        sbb  a,[expr]           sbb  [expr],a
+        sbb  a,[x+expr]         sbb  [x+expr],a
+        sbb  [expr],expr        sbb  [x+expr],expr
+
+        sub  a,expr
+        sub  a,[expr]           sub  [expr],a
+        sub  a,[x+expr]         sub  [x+expr],a
+        sub  [expr],expr        sub  [x+expr],expr
+
+
+Double Operand Logic Instructions 
+
+        and  a,expr             and  f,expr
+        and  a,[expr]           and  [expr],a
+        and  a,[x+expr]         and  [x+expr],a
+        and  [expr],expr        and  [x+expr],expr
+        and  reg[expr],expr     and  reg[x+expr],expr
+
+        or   a,expr             or   f,expr
+        or   a,[expr]           or   [expr],a
+        or   a,[x+expr]         or   [x+expr],a
+        or   [expr],expr        or   [x+expr],expr
+        or   reg[expr],expr     or   reg[x+expr],expr
+
+        xor  a,expr             xor  f,expr
+        xor  a,[expr]           xor  [expr],a
+        xor  a,[x+expr]         xor  [x+expr],a
+        xor  [expr],expr        xor  [x+expr],expr
+        xor  reg[expr],expr     xor  reg[x+expr],expr
+
+
+Miscellaneous Double Operand Instructions 
+
+        swap a,x                swap a,sp
+        swap a,[expr]           swap a,[x+expr]
+
+        tst  [expr]             tst  [x+expr]
+        tst  reg[expr]          tst  reg[x+expr]
+
+
+Single Operand Shift/Rotate Instructions 
+
+        asl  a
+        asl  [expr]             asl  [x+expr]
+
+        asr  a
+        asr  [expr]             asr  [x+expr]
+
+        rlc  a
+        rlc  [expr]             rlc  [x+expr]
+
+        rrc  a
+        rrc  [expr]             rrc  [x+expr]
+
+
+Miscellaneous Single Operand Instructions 
+
+        cpl  a
+
+        dec  a                  dec  x
+        dec  [expr]             dec  [x+expr]
+
+        inc  a                  inc  x
+        inc  [expr]             inc  [x+expr]
+
+        pop  a                  pop  x
+        push a                  push x
+
+        tst  [expr]             tst  [x+expr]
+        tst  reg[expr]          tst  reg[x+expr]
+
+
+AZ.3.6  Move Instructions 
+
+        mov  a,x
+        mov  a,expr
+        mov  a,[expr]           mov  [expr],a
+        mov  a[x+expr]          mov  [x+expr],a
+
+        mov  x,a                mov  x,sp
+        mov  x,expr
+        mov  x,[expr]           mov  [expr],x
+        mov  x,[x+expr]
+
+        mov  [expr],expr        mov  [x+expr],expr
+
+        mov  [expr],[expr]
+
+        mov  a,reg[expr]        mov  a,reg[x+expr]
+        mov  reg[expr],a        mov  reg[x+expr],a
+
+        mov  reg[expr],expr     mov  reg[x+expr],expr
+
+        mvi  a,[expr]      ==   mvi  a,[[expr]++]
+        mvi  [expr],a      ==   mvi  [[expr]++],a
+
+
+Inherent Instructions 
+
+        halt                    nop
+        romx                    ssc
+        ret                     reti
+
+
+Branching Instructions 
+
+        lcall expr              ljmp  expr
+        jz    expr              jnz   expr
+        jc    expr              jnc   expr
+        jacc  expr
+
+
+Relative Table Read Instruction 
+
+        index expr
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

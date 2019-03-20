@@ -1,0 +1,1838 @@
+.sbttl	/* ds8xcxx.sfr */
+.nlist
+
+;	Include this file to select the processor SFR definitions.
+;
+;	If you have included one of the processor specific
+;	assembler directives:
+;
+;		.DS8xCxxx
+;		.DS80C310
+;		.DS80C320
+;		.DS80C323
+;		.DS80C390
+;		.DS83C520
+;		.DS83C530
+;		.DS83C550
+;		.DS87C520
+;		.DS87C530
+;		.DS87C550
+;
+;	then the cpu type and SFR registers should not be selected here.
+;
+;	If no processor specific assembler directive is
+;	specified in you assembler file then select a
+;	processor by setting its definition to a non zero value.
+;		
+;	Checking is done to verify only one cpu type is selected.
+
+	DS8xCxxx	=:	0	; 80C32 Core
+	DS80C310	=:	0
+	DS80C320	=:	0
+	DS80C323	=:	0
+	DS80C390	=:	0
+	DS83C520	=:	0
+	DS83C530	=:	0
+	DS83C550	=:	0
+	DS87C520	=:	0
+	DS87C530	=:	0
+	DS87C550	=:	0
+
+; Enable non-bit-addressable bit definitions by setting
+; SFR_BITS non zero.
+
+	SFR_BITS	=:	0
+
+
+; *****-----*****-----*****-----*****-----*****-----*****-----*****
+; *****-----*****-----*****-----*****-----*****-----*****-----*****
+; End of User Alterable Portion of File
+; *****-----*****-----*****-----*****-----*****-----*****-----*****
+; *****-----*****-----*****-----*****-----*****-----*****-----*****
+
+.page
+.sbttl	 Check Locally Defined CPU Type
+
+.if	DS8xCxxx
+	DS8xCxxx =: 1
+.endif
+.if	DS80C310
+	DS80C310 =: 1
+.endif
+.if	DS80C320
+	DS80C320 =: 1
+.endif
+.if	DS80C323
+	DS80C323 =: 1
+.endif
+.if	DS80C390
+	DS80C390 =: 1
+.endif
+.if	DS83C520
+	DS83C520 =: 1
+.endif
+.if	DS83C530
+	DS83C530 =: 1
+.endif
+.if	DS83C550
+	DS83C550 =: 1
+.endif
+.if	DS87C520
+	DS87C520 =: 1
+.endif
+.if	DS87C530
+	DS87C530 =: 1
+.endif
+.if	DS87C550
+	DS87C550 =: 1
+.endif
+
+	DSCpuType	=:	DS8xCxxx
+	DSCpuType	=:	DSCpuType + DS80C310 + DS80C320 + DS80C323 + DS80C390
+	DSCpuType	=:	DSCpuType + DS83C520 + DS83C530 + DS83C550
+	DSCpuType	=:	DSCpuType + DS87C520 + DS87C530 + DS87C550
+
+.if DSCpuType
+	.if DS80C390
+		.24bit		; 24-Bit Addressing
+	.else
+		.16bit		; 16-Bit Addressing
+	.endif
+.endif
+
+.page
+.sbttl	Check Globally Defined CPU Type
+
+.ifdef __DS8xCxxx
+	DS8xCxxx =: 1
+.endif
+.ifdef __DS80C310
+	DS80C310 =: 1
+.endif
+.ifdef __DS80C320
+	DS80C320 =: 1
+.endif
+.ifdef __DS80C323
+	DS80C323 =: 1
+.endif
+.ifdef __DS80C390
+	DS80C390 =: 1
+.endif
+.ifdef __DS83C520
+	DS83C520 =: 1
+.endif
+.ifdef __DS83C530
+	DS83C530 =: 1
+.endif
+.ifdef __DS83C550
+	DS83C550 =: 1
+.endif
+.ifdef __DS87C520
+	DS87C520 =: 1
+.endif
+.ifdef __DS87C530
+	DS87C530 =: 1
+.endif
+.ifdef __DS87C550
+	DS87C550 =: 1
+.endif
+
+	DSCpuType	=:	DS8xCxxx
+	DSCpuType	=:	DSCpuType + DS80C310 + DS80C320 + DS80C323 + DS80C390
+	DSCpuType	=:	DSCpuType + DS83C520 + DS83C530 + DS83C550
+	DSCpuType	=:	DSCpuType + DS87C520 + DS87C530 + DS87C550
+
+.if DSCpuType
+	.error	DSCpuType - 1	; More Than 1 CPU Type Selected
+.else
+	.error	DSCpuType + 1	; CPU Type not Selected
+.endif
+
+.if DSCpuType
+	SFR_BITS	=:	__SFR_BITS
+.endif
+
+.page
+.sbttl	Conditional Value Definitions
+
+	CXXX =: DS8xCxxx
+	C310 =: DS80C310
+	C320 =: DS80C320
+	C323 =: DS80C323
+	C390 =: DS80C390
+	C520 =: DS83C520 | DS87C520
+	C530 =: DS83C530 | DS87C530
+	C550 =: DS83C550 | DS87C550
+
+.page
+.sbttl	Special Function Register and Bit Definitions
+
+.if SFR_BITS
+	.if DS8xCxxx
+		.sbttl	DS8xCxxx Special Function Register and Bit Definitions
+	.endif
+	.if DS80C310
+		.sbttl	DS80C310 Special Function Register and Bit Definitions
+	.endif
+	.if DS80C320
+		.sbttl	DS80C320 Special Function Register and Bit Definitions
+	.endif
+	.if DS80C323
+		.sbttl	DS80C323 Special Function Register and Bit Definitions
+	.endif
+	.if DS80C390
+		.sbttl	DS80C390 Special Function Register and Bit Definitions
+	.endif
+	.if DS83C520
+		.sbttl	DS83C520 Special Function Register and Bit Definitions
+	.endif
+	.if DS83C530
+		.sbttl	DS83C530 Special Function Register and Bit Definitions
+	.endif
+	.if DS83C550
+		.sbttl	DS83C550 Special Function Register and Bit Definitions
+	.endif
+	.if DS87C520
+		.sbttl	DS87C520 Special Function Register and Bit Definitions
+	.endif
+	.if DS87C530
+		.sbttl	DS87C530 Special Function Register and Bit Definitions
+	.endif
+	.if DS87C550
+		.sbttl	DS87C550 Special Function Register and Bit Definitions
+	.endif
+.else
+	.if DS8xCxxx
+		.sbttl	DS8xCxxx Special Function Register
+	.endif
+	.if DS80C310
+		.sbttl	DS80C310 Special Function Register
+	.endif
+	.if DS80C320
+		.sbttl	DS80C320 Special Function Register
+	.endif
+	.if DS80C323
+		.sbttl	DS80C323 Special Function Register
+	.endif
+	.if DS80C390
+		.sbttl	DS80C390 Special Function Register
+	.endif
+	.if DS83C520
+		.sbttl	DS83C520 Special Function Register
+	.endif
+	.if DS83C530
+		.sbttl	DS83C530 Special Function Register
+	.endif
+	.if DS83C550
+		.sbttl	DS83C550 Special Function Register
+	.endif
+	.if DS87C520
+		.sbttl	DS87C520 Special Function Register
+	.endif
+	.if DS87C530
+		.sbttl	DS87C530 Special Function Register
+	.endif
+	.if DS87C550
+		.sbttl	DS87C550 Special Function Register
+	.endif
+.endif
+
+.page
+;	Special Function Register Definitions
+;	Special Function Bit Definitions
+
+.if C520|C530|C550
+PORT0	=:	0x0080
+P0	=:	0x0080
+	P0.0	=:	0x0080
+	P0.1	=:	0x0081
+	P0.2	=:	0x0082
+	P0.3	=:	0x0083
+	P0.4	=:	0x0084
+	P0.5	=:	0x0085
+	P0.6	=:	0x0086
+	P0.7	=:	0x0087
+.endif
+
+.if C390
+PORT4	=:	0x0080
+P4	=:	0x0080
+	P4.0	=:	0x0080
+	P4.1	=:	0x0081
+	P4.2	=:	0x0082
+	P4.3	=:	0x0083
+	P4.4	=:	0x0084
+	P4.5	=:	0x0085
+	P4.6	=:	0x0086
+	P4.7	=:	0x0087
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+SP	=:	0x0081
+.endif
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+DPL	=:	0x0082
+.endif
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+DPH	=:	0x0083
+.endif
+.if C310|C320|C323|C390|C520|C530|C550
+DPL1	=:	0x0084
+.endif
+.if C310|C320|C323|C390|C520|C530|C550
+DPH1	=:	0x0085
+.endif
+
+.if C310|C320|C323|C390|C520|C530|C550
+DPS	=:	0x0086
+.if SFR_BITS
+	.if C390|C550
+		ID1	=:	0x80
+		ID0	=:	0x40
+		TSL	=:	0x20
+	.endif
+	;	=:	0x10
+	;	=:	0x08
+	;	=:	0x04
+	;	=:	0x02
+	.if CXXX|C310|C320|C323|C390|C520|C530|C550
+		SEL	=:	0x01
+	.endif
+.endif
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+PCON	=:	0x0087
+.if SFR_BITS
+	.if CXXX|C310|C320|C323|C390|C520|C530|C550
+		SMOD	=:	0x80
+	.endif
+	.if C320|C323|C390|C520|C530|C550
+		SMOD_0	=:	0x80
+	.endif
+	.if CXXX|C310|C320|C323|C390|C520|C530|C550
+		SMOD0	=:	0x40
+	.endif
+	.if C390|C550
+		OFDF	=:	0x20
+		OFDE	=:	0x10
+	.endif
+	.if CXXX|C310|C320|C323|C390|C520|C530|C550
+		GF1	=:	0x08
+		GF0	=:	0x04
+		STOP	=:	0x02
+		IDLE	=:	0x01
+	.endif
+.endif
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+TCON	=:	0x0088
+	TCON.0	=:	0x0088
+	TCON.1	=:	0x0089
+	TCON.2	=:	0x008A
+	TCON.3	=:	0x008B
+	TCON.4	=:	0x008C
+	TCON.5	=:	0x008D
+	TCON.6	=:	0x008E
+	TCON.7	=:	0x008F
+	IT0	=:	0x0088
+	IE0	=:	0x0089
+	IT1	=:	0x008A
+	IE1	=:	0x008B
+	TR0	=:	0x008C
+	TF0	=:	0x008D
+	TR1	=:	0x008E
+	TF1	=:	0x008F
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+TMOD	=:	0x0089
+.if SFR_BITS
+	.if CXXX|C310|C320|C323|C390|C520|C530|C550
+		T1GATE	=:	0x80
+		T1C_T	=:	0x40
+		T1M1	=:	0x20
+		T1M0	=:	0x10
+		T0GATE	=:	0x08
+		T0C_T	=:	0x04
+		T0M1	=:	0x02
+		T0M0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+TL0	=:	0x008A
+.endif
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+TL1	=:	0x008B
+.endif
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+TH0	=:	0x008C
+.endif
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+TH1	=:	0x008D
+.endif
+
+.if C310|C320|C323|C390|C520|C530|C550
+CKCON	=:	0x008E
+.if SFR_BITS
+	.if C320|C323|C390|C520|C530|C550
+		WD1	=:	0x80
+		WD0	=:	0x40
+	.endif
+	.if C310|C320|C323|C390|C520|C530|C550
+		T2M	=:	0x20
+		T1M	=:	0x10
+		T0M	=:	0x08
+		MD2	=:	0x04
+		MD1	=:	0x02
+		MD0	=:	0x01
+	.endif
+.endif
+.endif
+
+;	=:	0x008F
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+PORT1	=:	0x0090
+P1	=:	0x0090
+	P1.0	=:	0x0090
+	P1.1	=:	0x0091
+	P1.2	=:	0x0092
+	P1.3	=:	0x0093
+	P1.4	=:	0x0094
+	P1.5	=:	0x0095
+	P1.6	=:	0x0096
+	P1.7	=:	0x0097
+.if C390
+	T2	=:	0x0090
+	T2EX	=:	0x0091
+	RXD1	=:	0x0092
+	TXD1	=:	0x0093
+	INT2	=:	0x0094
+	INT3	=:	0x0095
+	INT4	=:	0x0096
+	INT5	=:	0x0097
+.endif
+.endif
+
+.if C310|C320|C323|C390|C520|C530
+EXIF	=:	0x0091
+.if SFR_BITS
+	.if C310|C320|C323|C390|C520|C530
+		IE5	=:	0x80
+		IE4	=:	0x40
+		IE3	=:	0x20
+		IE2	=:	0x10
+	.endif
+	.if C390
+		CKRY	=:	0x08
+	.endif
+	.if C520|C530
+		XT_RG	=:	0x08
+	.endif
+	.if C320|C323|C390|C520|C530
+		RGMD	=:	0x04
+		RGSL	=:	0x02
+		BGS	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+RCON	=:	0x0091
+.if SFR_BITS
+	.if C550
+		;	=:	0x80
+		;	=:	0x40
+		;	=:	0x20
+		;	=:	0x10
+		CKRDY	=:	0x08
+		RGMD	=:	0x04
+		RGSL	=:	0x02
+		BGS	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+P4CNT	=:	0x0092
+.if SFR_BITS
+	.if C390
+		;	=:	0x80
+		SBCAN	=:	0x40
+		P5CNT.5	=:	0x20
+		P5CNT.4	=:	0x10
+		P5CNT.3	=:	0x08
+		P5CNT.2	=:	0x04
+		P5CNT.1	=:	0x02
+		P5CNT.0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+DPX	=:	0x0093
+.endif
+;	=:	0x0094
+.if C390
+DPX1	=:	0x0095
+.endif
+
+.if C530
+TRIM	=:	0x0096
+.if SFR_BITS
+	.if C530
+		E4K	=:	0x80
+		x12_6	=:	0x40
+		TRM2	=:	0x20
+		_TRM2	=:	0x10
+		TRM1	=:	0x08
+		_TRM1	=:	0x04
+		TRM0	=:	0x02
+		_TRM0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+CORMS0	=:	0x0096
+.endif
+.if C390
+CORMS1	=:	0x0097
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+SCON	=:	0x0098
+	SCON.0	=:	0x0098
+	SCON.1	=:	0x0099
+	SCON.2	=:	0x009A
+	SCON.3	=:	0x009B
+	SCON.4	=:	0x009C
+	SCON.5	=:	0x009D
+	SCON.6	=:	0x009E
+	SCON.7	=:	0x009F
+	RI	=:	0x0098
+	TI	=:	0x0099
+	RB8	=:	0x009A
+	TB8	=:	0x009B
+	REN	=:	0x009C
+	SM2	=:	0x009D
+	SM1	=:	0x009E
+	SM0	=:	0x009F
+	FE	=:	0X009F
+.endif
+
+.if C320|C323|C390|C520|C530|C550
+SCON0	=:	0x0098
+	SCON0.0	=:	0x0098
+	SCON0.1	=:	0x0099
+	SCON0.2	=:	0x009A
+	SCON0.3	=:	0x009B
+	SCON0.4	=:	0x009C
+	SCON0.5	=:	0x009D
+	SCON0.6	=:	0x009E
+	SCON0.7	=:	0x009F
+	RI_O	=:	0x0098
+	TI_O	=:	0x0099
+	RB8_0	=:	0x009A
+	TB8_0	=:	0x009B
+	REN_0	=:	0x009C
+	SM2_0	=:	0x009D
+	SM1_0	=:	0x009E
+	SM0_0	=:	0x009F
+	FE_0	=:	0x009F
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+SBUF	=:	0x0099
+.endif
+.if C320|C323|C390|C520|C530|C550
+SBUF0	=:	0x0099
+.endif
+;	=:	0x009A
+
+.if C390
+ESP	=:	0x009B
+.if SFR_BITS
+	.if C390
+		;	=:	0x80
+		;	=:	0x40
+		;	=:	0x20
+		;	=:	0x10
+		;	=:	0x08
+		;	=:	0x04
+		ESP.1	=:	0x02
+		ESP.0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+AP	=:	0x009C
+.endif
+
+.if C390
+ACON	=:	0x009D
+.if SFR_BITS
+	.if C390
+		;	=:	0x80
+		;	=:	0x40
+		;	=:	0x20
+		;	=:	0x10
+		;	=:	0x08
+		SA	=:	0x04
+		AM1	=:	0x02
+		AM0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+COTMA0	=:	0x009E
+.endif
+.if C390
+COTMA1	=:	0x009F
+.endif
+
+.if C550
+PMR	=:	0x009F
+.if SFR_BITS
+	.if C550
+		CD1	=:	0x80
+		CD0	=:	0x40
+		SWB	=:	0x20
+		CTM	=:	0x10
+		_4X_2X	=:	0x08
+		ALEOFF	=:	0x04
+		DME1	=:	0x02
+		DME0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+PORT2	=:	0X00A0
+P2	=:	0x00A0
+	P2.0	=:	0x00A0
+	P2.1	=:	0x00A1
+	P2.2	=:	0x00A2
+	P2.3	=:	0x00A3
+	P2.4	=:	0x00A4
+	P2.5	=:	0x00A5
+	P2.6	=:	0x00A6
+	P2.7	=:	0x00A7
+.endif
+
+.if C390
+PORT5	=:	0x00A1
+P5	=:	0x00A1
+.if SFR_BITS
+	.if C390
+		P5.7	=:	0x80
+		P5.6	=:	0x40
+		P5.5	=:	0x20
+		P5.4	=:	0x10
+		P5.3	=:	0x08
+		P5.2	=:	0x04
+		P5.1	=:	0x02
+		P5.0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+SADDR0	=:	0x00A1
+.endif
+
+.if C390
+P5CNT	=:	0x00A2
+.if SFR_BITS
+	.if C390
+		CAN1BA	=:	0x80
+		CAN0BA	=:	0x40
+		SP1EC	=:	0x20
+		C1_IO	=:	0x10
+		C0_IO	=:	0x08
+		P5CNT.2	=:	0x04
+		P5CNT.1	=:	0x02
+		P5CNT.0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+SADDR1	=:	0x00A2
+.endif
+
+.if C390
+C0C	=:	0x00A3
+.if SFR_BITS
+	.if C390
+		ERIE	=:	0x80
+		STIE	=:	0x40
+		PDE	=:	0x20
+		SIESTA	=:	0x10
+		CRST	=:	0x08
+		AUTOB	=:	0x04
+		ERCS	=:	0x02
+		SWINT	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+C0S	=:	0x00A4
+.if SFR_BITS
+	.if C390
+		BSS	=:	0x80
+		EC96_128=:	0x40
+		WKS	=:	0x20
+		RXS	=:	0x10
+		TXS	=:	0x08
+		ER2	=:	0x04
+		ER1	=:	0x02
+		ER0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+C0IR	=:	0x00A5
+.if SFR_BITS
+	.if C390
+		INTIN7	=:	0x80
+		INTIN6	=:	0x40
+		INTIN5	=:	0x20
+		INTIN4	=:	0x10
+		INTIN3	=:	0x08
+		INTIN2	=:	0x04
+		INTIN1	=:	0x02
+		INTIN0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+C0TE	=:	0x00A6
+.endif
+.if C390
+C0RE	=:	0x00A7
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+IE	=:	0x00A8
+	IE.0	=:	0x00A8
+	IE.1	=:	0x00A9
+	IE.2	=:	0x00AA
+	IE.3	=:	0x00AB
+	IE.4	=:	0x00AC
+	IE.5	=:	0x00AD
+	IE.6	=:	0x00AE
+	IE.7	=:	0x00AF
+	EX	=:	0x00A8
+	ET	=:	0x00A9
+	ES	=:	0x00AC
+	EX0	=:	0x00A8
+	ET0	=:	0x00A9
+	EX1	=:	0x00AA
+	ET1	=:	0x00AB
+	ES0	=:	0x00AC
+.if CXXX|C310|C320|C323|C390|C520|C530
+	ET2	=:	0x00AD
+.endif
+.if C550
+	ES1	=:	0x00AD
+.endif
+.if C320|C323|C390|C520|C530
+	ES1	=:	0x00AE
+.endif
+.if C550
+	EAD	=:	0x00AE
+.endif
+	EA	=:	0x00AF
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530
+SADDR0	=:	0x00A9
+.endif
+.if C320|C323|C390|C520|C530
+SADDR1	=:	0x00AA
+.endif
+
+.if C390
+C0M1C	=:	0x00AB
+.if SFR_BITS
+	.if C390
+		MSRDY	=:	0x80
+		ETI	=:	0x40
+		ERI	=:	0x20
+		INTRQ	=:	0x10
+		EXTRQ	=:	0x08
+		MTRQ	=:	0x04
+		ROW_TIH	=:	0x02
+		DTUP	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+C0M2C	=:	0x00AC		; C0M1C
+.endif
+.if C390
+C0M3C	=:	0x00AD		; C0M1C
+.endif
+.if C390
+C0M4C	=:	0x00AE		; C0M1C
+.endif
+.if C390
+C0M5C	=:	0x00AF		; C0M1C
+.endif
+
+.if C550
+CMPL0	=:	0x00A9
+.endif
+.if C550
+CMPL1	=:	0x00AA
+.endif
+.if C550
+CMPL2	=:	0x00AB
+.endif
+.if C550
+CPTL0	=:	0x00AC
+.endif
+.if C550
+CPTL1	=:	0x00AD
+.endif
+.if C550
+CPTL2	=:	0x00AE
+.endif
+.if C550
+CPTL3	=:	0x00AF
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+PORT3	=:	0x00B0
+P3	=:	0x00B0
+	P3.0	=:	0x00B0
+	P3.1	=:	0x00B1
+	P3.2	=:	0x00B2
+	P3.3	=:	0x00B3
+	P3.4	=:	0x00B4
+	P3.5	=:	0x00B5
+	P3.6	=:	0x00B6
+	P3.7	=:	0x00B7
+.if C390
+	RXD0	=:	0x00B0
+	TXD0	=:	0x00B1
+	INT0	=:	0x00B2
+	INT1	=:	0x00B3
+	T0	=:	0x00B4
+	T1	=:	0x00B5
+.endif
+.endif
+
+.if C550
+ADCON1	=:	0x00B2
+.if SFR_BITS
+	.if C550
+		STRT_BSY=:	0x80
+		EOC	=:	0x40
+		CONT_SS	=:	0x20
+		ADEX	=:	0x10
+		WCQ	=:	0x08
+		WCM	=:	0x04
+		ADON	=:	0x02
+		WCIO	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+ADCON2	=:	0x00B3
+.if SFR_BITS
+	.if C550
+		OUTCF	=:	0x80
+		MUX2	=:	0x40
+		MUX1	=:	0x20
+		MUX0	=:	0x10
+		APS3	=:	0x08
+		APS2	=:	0x04
+		APS1	=:	0x02
+		APS0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+ADMSB	=:	0x00B4
+.endif
+.if C550
+ADLSB	=:	0x00B5
+.endif
+.if C550
+WINHI	=:	0x00B6
+.endif
+.if C550
+WINLO	=:	0x00B7
+.endif
+
+;	=:	0x00B1
+;	=:	0x00B2
+.if C390
+C0M6C	=:	0x00B3		; C0M1C
+.endif
+.if C390
+C0M7C	=:	0x00B4		; C0M1C
+.endif
+.if C390
+C0M8C	=:	0x00B5		; C0M1C
+.endif
+.if C390
+C0M9C	=:	0x00B6		; C0M1C
+.endif
+.if C390
+C0M10C	=:	0x00B7		; C0M1C
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+IP	=:	0x00B8
+	IP.0	=:	0x00B8
+	IP.1	=:	0x00B9
+	IP.2	=:	0x00BA
+	IP.3	=:	0x00BB
+	IP.4	=:	0x00BC
+	IP.5	=:	0x00BD
+	IP.6	=:	0x00BE
+	IP.7	=:	0x00BF
+	PX	=:	0x00B8
+	PT	=:	0x00B9
+	PS	=:	0x00BC
+	PX0	=:	0x00B8
+	PT0	=:	0x00B9
+	PX1	=:	0x00BA
+	PT1	=:	0x00BB
+	PS0	=:	0x00BC
+.if CXXX|C310|C320|C323|C390|C520|C530
+	PT2	=:	0x00BD
+.endif
+.if C550
+	PS1	=:	0x00BD
+.endif
+.if C320|C323|C390|C520|C530
+	PS1	=:	0x00BE
+.endif
+.if C550
+	PAD	=:	0x00BE
+.endif
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+SADEN0	=:	0x00B9
+.endif
+.if C320|C323|C390|C520|C530|C550
+SADEN1	=:	0x00BA
+.endif
+.if C390
+C0M11C	=:	0x00BB		; C0M1C
+.endif
+.if C390
+C0M12C	=:	0x00BC		; C0M1C
+.endif
+.if C390
+C0M13C	=:	0x00BD		; C0M1C
+.endif
+.if C390
+C0M14C	=:	0x00BE		; C0M1C
+.endif
+
+.if C550
+T2CON	=:	0x00BE
+.if SFR_BITS
+	.if C550
+		TF2	=:	0x80
+		EXF2	=:	0x40
+		RCLK	=:	0x20
+		TCLK	=:	0x10
+		EXEN2	=:	0x08
+		TR2	=:	0x04
+		C_T2	=:	0x02
+		_RL2	=:	0x01
+		CT2	=:	0x02
+		CPRL2	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+C0M15C	=:	0x00BF		; C0M1C
+.endif
+
+.if C550
+T2MOD	=:	0x00BF
+.if SFR_BITS
+	.if C550
+		;	=:	0x80
+		;	=:	0x40
+		;	=:	0x20
+		;	=:	0x10
+		;	=:	0x08
+		;	=:	0x04
+		T2OE	=:	0x02
+		DCEN	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C320|C323|C390|C520|C530
+SCON1	=:	0x00C0
+	SCON1.0	=:	0x00C0
+	SCON1.1	=:	0x00C1
+	SCON1.2	=:	0x00C2
+	SCON1.3	=:	0x00C3
+	SCON1.4	=:	0x00C4
+	SCON1.5	=:	0x00C5
+	SCON1.6	=:	0x00C6
+	SCON1.7	=:	0x00C7
+	RI_1	=:	0x00C0
+	TI_1	=:	0x00C1
+	RB8_1	=:	0x00C2
+	TB8_1	=:	0x00C3
+	REN_1	=:	0x00C4
+	SM2_1	=:	0x00C5
+	SM1_1	=:	0x00C6
+	SM0_1	=:	0x00C7
+	FE_1	=:	0x00C7
+.endif
+
+.if C550
+PORT4	=:	0x00C0
+P4	=:	0x00C0
+	P4.0	=:	0x00C0
+	P4.1	=:	0x00C1
+	P4.2	=:	0x00C2
+	P4.3	=:	0x00C3
+	P4.4	=:	0x00C4
+	P4.5	=:	0x00C5
+	P4.6	=:	0x00C6
+	P4.7	=:	0x00C7
+	CMSR0	=:	0x00C0
+	CMSR1	=:	0x00C1
+	CMSR2	=:	0x00C2
+	CMSR3	=:	0x00C3
+	CMSR4	=:	0x00C4
+	CMSR5	=:	0x00C5
+	CMT0	=:	0x00C6
+	CMT1	=:	0x00C7
+.endif
+
+.if C320|C323|C390|C520|C530
+SBUF1	=:	0x00C1
+.if SFR_BITS
+	.if C520
+		SB7	=:	0x80
+		SB6	=:	0x40
+		SB5	=:	0x20
+		SB4	=:	0x10
+		SB3	=:	0x08
+		SB2	=:	0x04
+		SB1	=:	0x02
+		SB0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C520|C530|C550
+ROMSIZE	=:	0x00C2
+.if SFR_BITS
+	.if C520|C530|C550
+		;	=:	0x80
+		;	=:	0x40
+		;	=:	0x20
+		;	=:	0x10
+		;	=:	0x08
+		RMS2	=:	0x04
+		RMS1	=:	0x02
+		RMS0	=:	0x01
+	.endif
+.endif
+.endif
+
+;	=:	0x00C3
+
+.if C390|C520|C530
+PMR	=:	0x00C4
+.if SFR_BITS
+	.if C390|C520|C530
+		CD1	=:	0x80
+		CD0	=:	0x40
+		SWB	=:	0x20
+	.endif
+	.if C390
+		CTM	=:	0x10
+		_X4_X2	=:	0x08
+	.endif
+	.if C520|C530
+		XTOFF	=:	0x08
+	.endif
+	.if C390|C520|C530
+		ALEOFF	=:	0x04
+	.endif
+	.if C520|C530
+		DMEO1	=:	0x02
+		DMEO0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+PORT5	=:	0x00C4
+P5	=:	0x00C4
+.if SFR_BITS
+	.if C550
+		ADC7	=:	0x80
+		ADC6	=:	0x40
+		ADC5	=:	0x20
+		ADC4	=:	0x10
+		ADC3	=:	0x08
+		ADC2	=:	0x04
+		ADC1	=:	0x02
+		ADC0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+STATUS	=:	0x00C5
+.if SFR_BITS
+	.if C320|C323|C390|C520|C530|C550
+		PIP	=:	0x80
+	.endif
+	.if CXXX|C310|C390|C520|C530|C550
+		HIP	=:	0x40
+		LIP	=:	0x20
+	.endif
+	.if C520|C530
+		XTUP	=:	0x10
+	.endif
+	.if C390|C520|C530|C550
+		SPTA1	=:	0x08
+		SPRA1	=:	0x04
+		SPTA0	=:	0x02
+		SPRA0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+MCON	=:	0x00C6
+.if SFR_BITS
+	.if C390
+		IDM1	=:	0x80
+		IDM0	=:	0x40
+		CMA	=:	0x20
+		;	=:	0x10
+		PDCE3	=:	0x08
+		PDCE2	=:	0x04
+		PDEC1	=:	0x02
+		PDEC0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C320|C323|C390|C520|C530|C550
+TA	=:	0x00C7
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530
+T2CON	=:	0x00C8
+	T2CON.0	=:	0x00C8
+	T2CON.1	=:	0x00C9
+	T2CON.2	=:	0x00CA
+	T2CON.3	=:	0x00CB
+	T2CON.4	=:	0x00CC
+	T2CON.5	=:	0x00CD
+	T2CON.6	=:	0x00CE
+	T2CON.7	=:	0x00CF
+	CP_RL2	=:	0x00C8
+	C_T2	=:	0x00C9
+	TR2	=:	0x00CA
+	EXEN2	=:	0x00CB
+	TCLK	=:	0x00CC
+	RCLK	=:	0x00CD
+	EXF2	=:	0x00CE
+	TF2	=:	0x00CF
+	CPRL2	=:	0x00C8
+	CT2	=:	0x00C9
+.endif
+
+.if C550
+T2IR	=:	0x00C8
+	T2IR.0	=:	0x00C8
+	T2IR.1	=:	0x00C9
+	T2IR.2	=:	0x00CA
+	T2IR.3	=:	0x00CB
+	T2IR.4	=:	0x00CC
+	T2IR.5	=:	0x00CD
+	T2IR.6	=:	0x00CE
+	T2IR.7	=:	0x00CF
+	CF0	=:	0x00C8
+	CF1	=:	0x00C9
+	CF2	=:	0x00CA
+	CF3	=:	0x00CB
+	CM0F	=:	0x00CC
+	CM1F	=:	0x00CD
+	CM2F	=:	0x00CE
+	IE2	=:	0x00C8
+	IE3	=:	0x00C9
+	IE4	=:	0x00CA
+	IE5	=:	0x00CB
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530
+T2MOD	=:	0x00C9
+.if SFR_BITS
+		;	=:	0x80
+		;	=:	0x40
+		;	=:	0x20
+	.if C390
+		D13T1	=:	0x10
+		D13T2	=:	0x08
+	.endif
+		;	=:	0x04
+	.if CXXX|C310|C320|C323|C390|C520|C530
+		T2OE	=:	0x02
+		DCEN	=:	0x01
+	.endif
+.endif
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530
+RCAP2L	=:	0x00CA
+.endif
+.if CXXX|C310|C320|C323|C390|C520|C530
+RCAP2H	=:	0x00CB
+.endif
+.if CXXX|C310|C320|C323|C390|C520|C530
+TL2	=:	0x00CC
+.endif
+.if CXXX|C310|C320|C323|C390|C520|C530
+TH2	=:	0x00CD
+.endif
+
+.if C390
+COR	=:	0x00CE
+.if SFR_BITS
+	.if C390
+		IRDACK	=:	0x80
+		C1BPR7	=:	0x40
+		C1BPR6	=:	0x20
+		C0BPR7	=:	0x10
+		C0BPR6	=:	0x08
+		COD1	=:	0x04
+		COD0	=:	0x02
+		CLKOE	=:	0x01
+	.endif
+.endif
+.endif
+
+;	=:	0x00CF
+
+.if C550
+CMPH0	=:	0x00C9
+.endif
+.if C550
+CMPH1	=:	0x00CA
+.endif
+.if C550
+CMPH2	=:	0x00CB
+.endif
+.if C550
+CPTH0	=:	0x00CC
+.endif
+.if C550
+CPTH1	=:	0x00CD
+.endif
+.if C550
+CPTH2	=:	0x00CE
+.endif
+.if C550
+CPTH3	=:	0x00CF
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+PSW	=:	0x00D0
+	PSW.0	=:	0x00D0
+	PSW.1	=:	0x00D1
+	PSW.2	=:	0x00D2
+	PSW.3	=:	0x00D3
+	PSW.4	=:	0x00D4
+	PSW.5	=:	0x00D5
+	PSW.6	=:	0x00D6
+	PSW.7	=:	0x00D7
+	P	=:	0x00D0
+	F1	=:	0x00D1
+	OV	=:	0x00D2
+	RS0	=:	0x00D3
+	RS1	=:	0x00D4
+	F0	=:	0x00D5
+	AC	=:	0x00D6
+	CY	=:	0x00D7
+.endif
+
+.if C390
+MCNT0	=:	0x00D1
+.if SFR_BITS
+	.if C390
+		_LSHIFT	=:	0x80
+		CSE	=:	0x40
+		SCB	=:	0x20
+		MAS4	=:	0x10
+		MAS3	=:	0x08
+		MAS2	=:	0x04
+		MAS1	=:	0x02
+		MAS0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+MCNT1	=:	0x00D2
+.if SFR_BITS
+	.if C390
+		MST	=:	0x80
+		MOF	=:	0x40
+		;	=:	0x20
+		CLM	=:	0x10
+		;	=:	0x08
+		;	=:	0x04
+		;	=:	0x02
+		;	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+MA	=:	0x00D3
+.endif
+.if C390
+MB	=:	0x00D4
+.endif
+.if C390
+MC	=:	0x00D5
+.endif
+.if C390
+C1RMS0	=:	0x00D6
+.endif
+.if C390
+C1RMS1	=:	0x00D7
+.endif
+
+.if C550
+PW0FG	=:	0x00D2
+.endif
+.if C550
+PW1FG	=:	0x00D3
+.endif
+.if C550
+PW2FG	=:	0x00D4
+.endif
+.if C550
+PW3FG	=:	0x00D5
+.endif
+
+.if C550
+PWMADR	=:	0x00D6
+.if SFR_BITS
+	.if C550
+		ADRS	=:	0x80
+		;	=:	0x40
+		;	=:	0x20
+		;	=:	0x10
+		;	=:	0x08
+		;	=:	0x04
+		PWE1	=:	0x02
+		PWE0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C310|C320|C323|C390|C520|C530
+WDCON	=:	0x00D8
+	WDCON.0	=:	0x00D8
+	WDCON.1	=:	0x00D9
+	WDCON.2	=:	0x00DA
+	WDCON.3	=:	0x00DB
+	WDCON.4	=:	0x00DC
+	WDCON.5	=:	0x00DD
+	WDCON.6	=:	0x00DE
+	WDCON.7	=:	0x00DF
+.if C320|C323|C390|C520|C530
+	RWT	=:	0x00D8
+	EWT	=:	0x00D9
+	WTRF	=:	0x00DA
+	WDIF	=:	0x00DB
+	PFI	=:	0x00DC
+	EPFI	=:	0x00DD
+.endif
+	POR	=:	0x00DE
+.if C320|C323|C390|C520|C530
+	SMOD_1	=:	0x00DF
+.endif
+.endif
+
+.if C550
+SCON1	=:	0x00D8
+	SCON1.0	=:	0x00D8
+	SCON1.1	=:	0x00D9
+	SCON1.2	=:	0x00DA
+	SCON1.3	=:	0x00DB
+	SCON1.4	=:	0x00DC
+	SCON1.5	=:	0x00DD
+	SCON1.6	=:	0x00DE
+	SCON1.7	=:	0x00DF
+	RI_1	=:	0x00D8
+	TI_1	=:	0x00D9
+	RB8_1	=:	0x00DA
+	TB8_1	=:	0x00DB
+	REN_1	=:	0x00DC
+	SM2_1	=:	0x00DD
+	SM1_1	=:	0x00DE
+	SM0_1	=:	0x00DF
+	FE_1	=:	0x00DF
+.endif
+
+.if C550
+SBUF1	=:	0x00D9
+.endif
+;	=:	0x00DA
+;	=:	0x00DB
+.if C550
+PWM0	=:	0x00DC
+.endif
+.if C550
+PWM1	=:	0x00DD
+.endif
+.if C550
+PWM2	=:	0x00DE
+.endif
+.if C550
+PWM3	=:	0x00DF
+.endif
+.if C390
+C1TMA0	=:	0x00DE
+.endif
+.if C390
+C1TMA1	=:	0x00DF
+.endif
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+ACC	=:	0x00E0
+	ACC.0	=:	0x00E0
+	ACC.1	=:	0x00E1
+	ACC.2	=:	0x00E2
+	ACC.3	=:	0x00E3
+	ACC.4	=:	0x00E4
+	ACC.5	=:	0x00E5
+	ACC.6	=:	0x00E6
+	ACC.7	=:	0x00E7
+ .endif
+
+.if C550
+PW01CS	=:	0x00E1
+.if SFR_BITS
+	.if C550
+		PW0S2	=:	0x80
+		PW0S1	=:	0x40
+		PW0S0	=:	0x20
+		PW0EN	=:	0x10
+		PW1S2	=:	0x08
+		PW1S1	=:	0x04
+		PW1S0	=:	0x02
+		PW1EN	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+PW23CS	=:	0x00E2
+.if SFR_BITS
+	.if C550
+		PW2S2	=:	0x80
+		PW2S1	=:	0x40
+		PW2S0	=:	0x20
+		PW2EN	=:	0x10
+		PW3S2	=:	0x08
+		PW3S1	=:	0x04
+		PW3S0	=:	0x02
+		PW3EN	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+PW01CON	=:	0x00E3
+.if SFR_BITS
+	.if C550
+		PW0F	=:	0x80
+		PW0DC	=:	0x40
+		PW0OE	=:	0x20
+		PW0T_C	=:	0x10
+		PW1F	=:	0x08
+		PW1DC	=:	0x04
+		PW1OE	=:	0x02
+		PW1T_C	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+PW23CON	=:	0x00E4
+.if SFR_BITS
+	.if C550
+		PW2F	=:	0x80
+		PW2DC	=:	0x40
+		PW2OE	=:	0x20
+		PW2T_C	=:	0x10
+		PW3F	=:	0x08
+		PW3DC	=:	0x04
+		PW3OE	=:	0x02
+		PW3T_C	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+RLOADL	=:	0x00E6
+.endif
+.if C550
+RLOADH	=:	0x00E7
+.endif
+
+.if C390
+C1C	=:	0x00E3		; C0C
+.endif
+
+.if C390
+C1S	=:	0x00E4		; C0S
+.if SFR_BITS
+	.if C390
+		;	=:	0x80
+		CECE	=:	0x40
+		;	=:	0x20
+		;	=:	0x10
+		;	=:	0x08
+		;	=:	0x04
+		;	=:	0x02
+		;	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C390
+C1IR	=:	0x00E5		; C0IR
+.endif
+.if C390
+C1TE	=:	0x00E6
+.endif
+.if C390
+C1RE	=:	0x00E7
+.endif
+
+.if C310|C320|C323|C390|C520|C530|C550
+EIE	=:	0x00E8
+	EIE.0	=:	0x00E8
+	EIE.1	=:	0x00E9
+	EIE.2	=:	0x00EA
+	EIE.3	=:	0x00EB
+	EIE.4	=:	0x00EC
+	EIE.5	=:	0x00ED
+	EIE.6	=:	0x00EE
+	EIE.7	=:	0x00EF
+	EX2	=:	0x00E8
+	EX3	=:	0x00E9
+	EX4	=:	0x00EA
+	EX5	=:	0x00EB
+.if C320|C323|C390|C520|C530
+	EWDI	=:	0x00EC
+.endif
+.if C530
+	ERTCI	=:	0x00ED
+.endif
+.if C390
+	C1IE	=:	0x00ED
+	C0IE	=:	0x00EE
+	CANBIE	=:	0x00EF
+.endif
+
+.if C550
+	EC0	=:	0x00E8
+	EC1	=:	0x00E9
+	EC2	=:	0x00EA
+	EC3	=:	0x00EB
+	ECM0	=:	0x00EC
+	ECM1	=:	0x00ED
+	ECM2	=:	0x00EE
+	ET2	=:	0x00EF
+.endif
+.endif
+
+;	=:	0x00E9
+.if C390
+MIXAX	=:	0x00EA
+.endif
+.if C390
+C1M1C	=:	0x00EB		; C0M1C
+.endif
+.if C390
+C1M2C	=:	0x00EC		; C0M1C
+.endif
+.if C390
+C1M3C	=:	0x00ED		; C0M1C
+.endif
+.if C390
+C1M4C	=:	0x00EE		; C0M1C
+.endif
+.if C390
+C1M5C	=:	0x00EF		; C0M1C
+.endif
+
+.if C550
+T2SEL	=:	0x00EA
+.if SFR_BITS
+	.if C550
+		TF2S	=:	0x80
+		TF2BS	=:	0x40
+		;	=:	0x20
+		TF2B	=:	0x10
+		;	=:	0x08
+		;	=:	0x04
+		T2P1	=:	0x02
+		T2P0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+CTCON	=:	0x00EB
+.if SFR_BITS
+	.if C550
+		_CT3	=:	0x80
+		CT3	=:	0x40
+		_CT2	=:	0x20
+		CT2	=:	0x10
+		_CT1	=:	0x08
+		CT1	=:	0x04
+		_CT0	=:	0x02
+		CT0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+TL2	=:	0x00EC
+.endif
+.if C550
+TH2	=:	0x00ED
+.endif
+
+.if C550
+SETR	=:	0x00EE
+.if SFR_BITS
+	.if C550
+		TGFF1	=:	0x80
+		TGFF0	=:	0x40
+		CMS5	=:	0x20
+		CMS4	=:	0x10
+		CMS3	=:	0x08
+		CMS2	=:	0x04
+		CMS1	=:	0x02
+		CMS0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C550
+RSTR	=:	0x00EF
+.if SFR_BITS
+	.if C550
+		CMTE1	=:	0x80
+		CMTE0	=:	0x40
+		CMR5	=:	0x20
+		CMR4	=:	0x10
+		CMR3	=:	0x08
+		CMR2	=:	0x04
+		CMR1	=:	0x02
+		CMR0	=:	0x01
+	.endif
+.endif
+.endif
+
+
+.if CXXX|C310|C320|C323|C390|C520|C530|C550
+B	=:	0x00F0
+	B.0	=:	0x00F0
+	B.1	=:	0x00F1
+	B.2	=:	0x00F2
+	B.3	=:	0x00F3
+	B.4	=:	0x00F4
+	B.5	=:	0x00F5
+	B.6	=:	0x00F6
+	B.7	=:	0x00F7
+.endif
+
+.if C550
+PORT6	=:	0x00F1
+P6	=:	0x00F1
+.if SFR_BITS
+	.if C550
+		STADC	=:	0x80
+		;	=:	0x40
+		PWMC1	=:	0x20
+		PWMC0	=:	0x10
+		PWMO3	=:	0x08
+		PWMO2	=:	0x04
+		PWMO1	=:	0x02
+		PWMO0	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C530
+RTASS	=:	0x00F2
+.endif
+.if C530
+RTAS	=:	0x00F3
+.endif
+.if C530
+RTAM	=:	0x00F4
+.endif
+.if C530
+RTAH	=:	0x00F5
+.endif
+
+.if C390
+C1M6C	=:	0x00F3		; C0M1C
+.endif
+.if C390
+C1M7C	=:	0x00F4		; C0M1C
+.endif
+.if C390
+C1M8C	=:	0x00F5		; C0M1C
+.endif
+.if C390
+C1M9C	=:	0x00F6		; C0M1C
+.endif
+.if C390
+C1M10C	=:	0x00F7		; C0M1C
+.endif
+
+.if C310|C320|C323|C390|C520|C530|C550
+EIP	=:	0x00F8
+	EIP.0	=:	0x00F8
+	EIP.1	=:	0x00F9
+	EIP.2	=:	0x00FA
+	EIP.3	=:	0x00FB
+	EIP.4	=:	0x00FC
+	EIP.5	=:	0x00FD
+	EIP.6	=:	0x00FE
+	EIP.7	=:	0x00FF
+	PX2	=:	0x00F8
+	PX3	=:	0x00F9
+	PX4	=:	0x00FA
+	PX5	=:	0x00FB
+.if C320|C323|C390|C520|C530
+	PWDI	=:	0x00FC
+.endif
+.if C530
+	PRTCI	=:	0x00FD
+.endif
+.if C390
+	C1IP	=:	0x00FD
+	C0IP	=:	0x00FE
+	CANBIP	=:	0x00FF
+.endif
+.if C550
+	PC0	=:	0x00F8
+	PC1	=:	0x00F9
+	PC2	=:	0x00FA
+	PC3	=:	0x00FB
+	PCM0	=:	0x00FC
+	PCM1	=:	0x00FD
+	PCM2	=:	0x00FE
+	PT2	=:	0x00FF
+.endif
+.endif
+
+.if C530
+RTCC	=:	0x00F9
+.if SFR_BITS
+	.if C530
+		SSCE	=:	0x80
+		SCE	=:	0x40
+		MCE	=:	0x20
+		HCE	=:	0x10
+		RTCRE	=:	0x08
+		RTCWE	=:	0x04
+		RTCIF	=:	0x02
+		RTCE	=:	0x01
+	.endif
+.endif
+.endif
+
+.if C530
+RTCSS	=:	0x00FA
+.endif
+.if C530
+RTCS	=:	0x00FB
+.endif
+.if C530
+RTCM	=:	0x00FC
+.endif
+.if C530
+RTCH	=:	0x00FD
+.endif
+.if C530
+RTCD0	=:	0x00FE
+.endif
+.if C530
+RTCD1	=:	0x00FF
+.endif
+
+.if C390
+C1M11C	=:	0x00FB		; C0M1C
+.endif
+.if C390
+C1M12C	=:	0x00FC		; C0M1C
+.endif
+.if C390
+C1M13C	=:	0x00FD		; C0M1C
+.endif
+.if C390
+C1M14C	=:	0x00FE		; C0M1C
+.endif
+.if C390
+C1M15C	=:	0x00FF		; C0M1C
+.endif
+
+.if C550
+WDCON	=:	0x00FF
+.if SFR_BITS
+	.if C550
+		SMOD_1	=:	0x80
+		POR	=:	0x40
+		EPFI	=:	0x20
+		PFI	=:	0x10
+		WDIF	=:	0x08
+		WDRF	=:	0x04
+		EWT	=:	0x02
+		RWT	=:	0x01
+	.endif
+.endif
+.endif
+
+.sbttl
+.list
+

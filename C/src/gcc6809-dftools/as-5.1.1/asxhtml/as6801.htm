@@ -1,0 +1,234 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS6801  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+.hd6303 DIRECTIVE 
+
+Format:  
+
+        .hd6303 
+
+The  .hd6303 directive enables processing of the HD6303 specific
+mnemonics not included in  the  6801  instruction  set.   HD6303
+mnemonics  encountered  without  the  .hd6303  directive will be
+flagged with an 'o' error.  
+
+
+6801 REGISTER SET 
+
+The following is a list of the 6801 registers used by AS6801:  
+
+        a,b     -       8-bit accumulators
+        d       -       16-bit accumulator &lt;a:b&gt;
+        x       -       index register
+
+
+6801 INSTRUCTION SET 
+
+
+   The  following tables list all 6801/6303 mnemonics recognized
+by the AS6801 assembler.  The designation []  refers  to  a  re-
+quired  addressing  mode argument.  The following list specifies
+the format for each addressing mode supported by AS6801:  
+
+        #data           immediate data
+                        byte or word data
+
+        *dir            direct page addressing
+                        (see .setdp directive)
+                        0 &lt;= dir &lt;= 255 
+
+        ,x              register indirect addressing
+                        zero offset
+
+        offset,x        register indirect addressing
+                        0 &lt;= offset &lt;= 255
+
+        ext             extended addressing
+
+        label           branch label
+
+The  terms  data, dir, offset, ext, and label may all be expres-
+sions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to  the  6801/6303  technical  data  for  valid
+modes.  
+
+
+Inherent Instructions 
+
+        aba             abx
+        cba             clc
+        cli             clv
+        daa             des
+        dex             ins
+        inx             mul
+        nop             rti
+        rts             sba
+        sec             sei
+        sev             swi
+        tab             tap
+        tba             tpa
+        tsx             txs
+        wai
+
+
+Branch Instructions 
+
+        bra     label           brn     label
+        bhi     label           bls     label
+        bcc     label           bhs     label
+        bcs     label           blo     label
+        bne     label           beq     label
+        bvc     label           bvs     label
+        bpl     label           bmi     label
+        bge     label           blt     label
+        bgt     label           ble     label
+        bsr     label
+
+
+Single Operand Instructions 
+
+        asla            aslb            asld
+        asl a           asl b           asl d
+        asl     []
+
+        asra            asrb
+        asr a           asr b
+        asr     []
+
+        clra            clrb
+        clr a           clr b
+        clr     []
+
+        coma            comb
+        com a           com b
+        com     []
+
+        deca            decb
+        dec a           dec b
+        dec     []
+
+        eora            eorb
+        eor a           eor b
+        eor     []
+
+        inca            incb
+        inc a           inc b
+        inc     []
+
+        lsla            lslb            lsld
+        lsl a           lsl b           lsl d
+        lsl     []
+
+        lsra            lsrb            lsrd
+        lsr a           lsr b           lsr d
+        lsr     []
+
+        nega            negb
+        neg a           neg b
+        neg     []
+
+        psha            pshb            pshx
+        psh a           psh b           psh x
+
+        pula            pulb            pulx
+        pul a           pul b           pul x
+
+        rola            rolb
+        rol a           rol b
+        rol     []
+
+        rora            rorb
+        ror a           ror b
+        ror     []
+
+        tsta            tstb
+        tst a           tst b
+        tst     []
+
+
+Double Operand Instructions 
+
+        adca    []      adcb    []
+        adc a   []      adc b   []
+
+        adda    []      addb    []      addd    []
+        add a   []      add b   []      add d   []
+
+        anda    []      andb    []
+        and a   []      and b   []
+
+        bita    []      bitb    []
+        bit a   []      bit b   []
+
+        cmpa    []      cmpb    []
+        cmp a   []      cmp b   []
+
+        ldaa    []      ldab    []
+        lda a   []      lda b   []
+
+        oraa    []      orab    []
+        ora a   []      ora b   []
+
+        sbca    []      sbcb    []
+        sbc a   []      sbc b   []
+
+        staa    []      stab    []
+        sta a   []      sta b   []
+
+        suba    []      subb    []      subd    []
+        sub a   []      sub b   []      sub d   []
+
+
+Jump and Jump to Subroutine Instructions 
+
+        jmp     []      jsr     []
+
+
+Long Register Instructions 
+
+        cpx     []      ldd     []
+        lds     []      ldx     []
+        std     []      sts     []
+        stx     []
+
+
+6303 Specific Instructions 
+
+        aim     #data, []       eim     #data, []
+        oim     #data, []       tim     #data, []
+
+        xgdx            slp
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

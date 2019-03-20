@@ -1,0 +1,473 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASRAB  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+ACKNOWLEDGMENT 
+
+
+   Thanks to Ulrich Raich and Razaq Ijoduola for their contribution
+of the ASRAB cross assembler.  
+
+   Ulrich Raich and Razaq Ijoduola
+   PS Division
+   CERN
+   CH-1211 Geneva-23
+
+   Ulrich dot Raich at cern dot ch
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+PROCESSOR SPECIFIC DIRECTIVES
+
+   The  ASRAB  assembler is a port of the ASZ80 assembler.  This
+assembler can process Rabbit 2000/3000 (default), HD64180 (Z180),
+and  Z80  code.   The  following  processor  specific  assembler
+directives specify which processor to target when processing the
+input assembler files.  
+
+
+Format:  
+
+        .r2k 
+
+The  .r2k  directive  enables processing of the Rabbit 2000/3000
+specific mnemonics.  Mnemonics not associated  with  the  Rabbit
+2000/3000 processor will be flagged with an 'o' error.  Address-
+ing modes not supported by the Rabbit 2000/3000 will be  flagged
+with  an 'a' error.  A synonym of .r2k is .r3k.  The default as-
+sembler mode is .r2k.  
+
+     The  .r2k  directive  also  selects  the  Rabbit  2000/3000
+specific cycles count output when the -c command line option  is
+specified.  
+
+
+Format:  
+
+        .hd64 
+
+The  .hd64  directive  enables  processing of the HD64180 (Z180)
+specific mnemonics not included  in  the  Z80  instruction  set.
+Rabbit  2000/3000  mnemonics encountered will be flagged with an
+'o' error.  Addressing modes not supported by the HD64180 (Z180)
+will be flagged with an 'a' error.  A synonym of .hd64 is .z180.
+
+     The  .hd64 directive also selects the HD64180/Z180 specific
+cycles count output when the -c command line  option  is  speci-
+fied.  
+
+
+Format:  
+
+        .z80 
+
+The  .z80  directive  enables  processing  of  the  Z80 specific
+mnemonics.  HD64180 and Rabbit 2000/3000 specific mnemonics will
+be flagged with an 'o' error.  Addressing modes not supported by
+the z80 will be flagged with an 'a' error.
+
+     The  .z80  directive  also  selects the Z80 specific cycles
+count output when the -c command line option is specified.  
+
+
+The .__.CPU.  Variable 
+
+     The  value of the pre-defined symbol '.__.CPU.' corresponds
+to the selected processor type.  The default value  is  0  which
+corresponds  to the default processor type.  The following table
+lists the processor types and associated values  for  the  ASRAB
+assembler:  
+
+        Processor Type            .__.CPU. Value
+        --------------            --------------
+         .r2k / .r3k                     0
+        .hd64 / .z180                    1
+            .z80                         2
+
+
+     The  variable '.__.CPU.' is by default defined as local and
+will not be output to the created .rel file.  The assembler com-
+mand line options -g or -a will not cause the local symbol to be
+output to the created .rel file.  
+
+     The  assembler  .globl  directive may be used to change the
+variable  type  to  global causing its definition  to be  output
+to  the .rel file.  The inclusion of the definition of the vari-
+able '.__.CPU.' might be  a  useful  means  of  validating  that
+seperately  assembled files have been compiled for the same pro-
+cessor type.  The linker will report an error for variables with
+multiple non equal definitions.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+RABBIT INSTRUCTION SYMBOLS
+
+        b       Bit select
+                        (000 = bit 0, 001 = bit 1,
+                         010 = bit 2, 011 = bit 3,
+                         100 = bit 4, 101 = bit 5,
+                         110 = bit 6, 111 = bit 7)
+        cc      Condition code select
+                        (00 = NZ, 01 = Z, 10 = NC, 11 = C)
+        d       8-bit (signed) displacement.
+                Expressed in two\'s complement.
+        dd      word register select-destination
+                        (00 = BC, 01 = DE, 10 = HL, 11 = SP)
+        dd'     word register select-alternate
+                        (00 = BC', 01 = DE', 10 = HL')
+        e       8-bit (signed) displacement added to PC.
+        f       condition code select
+                        (000 = NZ, 001 = Z, 010 = NC, 011 = C,
+                         100 = LZ/NV, 101 = LO/V, 110 = P, 111 = M)
+        m       the most significant bits(MSB) of a 16-bit constant
+        mn      16-bit constant
+        n       8-bit constant or the least significant bits(LSB)
+                of a 16-bit constant
+        r, g    byte register select
+                        (000 = B, 001 = C, 010 = D, 011 = E,
+                         100 = H, 101 = L, 111 = A)
+        ss      word register select-source
+                        (00 = BC, 01 = DE, 10 = HL, 11 = SP)
+        v       Restart address select
+                        (010 = 0020h, 011 = 0030h, 100 = 0040h,
+                         101 = 0050h, 111 = 0070h)
+        x       an 8-bit constant to load into the XPC
+        xx      word register select
+                        (00 = BC, 01 = DE, 10 = IX, 11 = SP)
+        yy      word register select
+                        (00 = BC, 01 = DE, 10 = IY, 11 = SP)
+        zz      word register select
+                        (00 = BC, 01 = DE, 10 = HL, 11 = AF)
+
+   
+        C  -    carry bit set
+        M  -    sign bit set
+        NC -    carry bit clear
+        NZ -    zero bit clear
+        P  -    sign bit clear
+        PE -    parity even
+        V  -    overflow bit set
+        PO -    parity odd
+        NV -    overflow bit clear
+        Z  -    zero bit set
+
+
+The  terms  m, mn, n, and x may all be expressions.  The terms b
+and v are not allowed to be external references.
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+RABBIT INSTRUCTION SET 
+
+   The  following list of instructions (with explicit addressing
+modes) are available in the  Rabbit  2000/3000  assembler  mode.
+Those instructions denoted by an asterisk (*) are additional in-
+structions not available in the HD64180 or Z80 assembler mode.  
+
+         ADC A,n                 DEC IX                  LD A,EIR
+         ADC A,r                 DEC IY                  LD A,IIR
+         ADC A,(HL)              DEC r                  *LD A,XPC
+         ADC A,(IX+d)            DEC ss                  LD A,(BC)
+         ADC A,(IY+d)            DEC (HL)                LD A,(DE)
+         ADC HL,ss               DEC (IX+d)              LD A,(mn)
+         ADD A,n                 DEC (IY+d)             *LD dd,BC
+         ADD A,r                 DJNZ e                 *LD dd,DE
+         ADD A,(HL)                                      LD dd,mn
+         ADD A,(IX+d)            EX AF,AF                LD dd,(mn)
+         ADD A,(IY+d)            EX DE,HL                LD EIR,A
+         ADD HL,ss               EX DE,HL               *LD HL,IX
+         ADD IX,xx               EX (SP),HL             *LD HL,IY
+         ADD IY,yy               EX (SP),IX             *LD HL,(HL+d)
+        *ADD SP,d                EX (SP),IY             *LD HL,(IX+d)
+        *ALTD                    EXX                    *LD HL,(IY+d)
+        *AND HL,DE                                       LD HL,(mn)
+        *AND IX,DE               INC IX                 *LD HL,(SP+n)
+        *AND IY,DE               INC IY                  LD IIR,A
+         AND n                   INC r                  *LD IX,HL
+         AND r                   INC ss                  LD IX,mn
+         AND (HL)                INC (HL)                LD IX,(mn)
+         AND (IX+d)              INC (IX+d)             *LD IX,(SP+n)
+         AND (IY+d)              INC (IY+d)             *LD IY,HL
+                                *IOE                     LD IY,mn
+         BIT b,r                *IOI                     LD IY,(mn)
+         BIT b,(HL)             *IPRES                  *LD IY,(SP+n)
+         BIT b,(IX+d)           *IPSET 0                 LD r,g
+         BIT b,(IY+d)           *IPSET 1                 LD r,n
+        *BOOL HL                *IPSET 2                 LD r,(HL)
+        *BOOL IX                *IPSET 3                 LD r,(IX+d)
+        *BOOL IY                                         LD r,(IY+d)
+                                 JP f,mn                 LD SP,HL
+         CALL mn                 JP mn                   LD SP,IX
+         CCF                     JP (HL)                 LD SP,IY
+         CP n                    JP (IX)                *LD XPC,A
+         CP r                    JP (IY)                 LD (BC),A
+         CP (HL)                 JR cc,e                 LD (DE),A
+         CP (IX+d)               JR e                    LD (HL),n
+         CP (IY+d)                                       LD (HL),r
+         CPL                    *LCALL x,mn
+
+
+
+        *LD (HL+d),HL           *POP IP                  SBC A,n
+        *LD (IX+d),HL            POP IX                  SBC A,r
+         LD (IX+d),n             POP IY                  SBC A,(HL)
+         LD (IX+d),r             POP zz                  SBC HL,ss
+        *LD (IY+d),HL           *PUSH IP                 SBC (IX+d)
+         LD (IY+d),n             PUSH IX                 SBC (IY+d)
+         LD (IY+d),r             PUSH IY                 SCF
+         LD (mn),A               PUSH zz                 SET b,r
+         LD (mn),HL                                      SET b,(HL)
+         LD (mn),IX              RA                      SET b,(IX+d)
+         LD (mn),IY              RES b,r                 SET b,(IY+d)
+         LD (mn),ss              RES b,(HL)              SLA r
+        *LD (SP+n),HL            RES b,(IX+d)            SLA (HL)
+        *LD (SP+n),IX            RES b,(IY+d)            SLA (IX+d)
+        *LD (SP+n),IY            RET                     SLA (IY+d)
+         LDD                     RET f                   SRA r
+         LDDR                   *RETI                    SRA (HL)
+         LDI                    *RL DE                   SRA (IX+d)
+         LDIR                    RL r                    SRA (IY+d)
+        *LDP HL,(HL)             RL (HL)                 SRL r
+        *LDP HL,(IX)             RL (IX+d)               SRL (HL)
+        *LDP HL,(IY)             RL (IY+d)               SRL (IX+d)
+        *LDP HL,(mn)             RLA                     SRL (IY+d)
+        *LDP IX,(mn)             RLC r                   SUB n
+        *LDP IY,(mn)             RLC (HL)                SUB r
+        *LDP (HL),HL             RLC (IX+d)              SUB (HL)
+        *LDP (IX),HL             RLC (IY+d)              SUB (IX+d)
+        *LDP (IY),HL             RLCA                    SUB (IY+d)
+        *LDP (mn),HL            *RR DE
+        *LDP (mn),IX            *RR HL                   XOR n
+        *LDP (mn),IY            *RR IX                   XOR r
+         LJP x,mn               *RR IY                   XOR (HL)
+         LRET                    RR r                    XOR (IX+d)
+                                 RR (HL)                 XOR (IY+d)
+        *MUL                     RR (IX+d)
+                                 RR (IY+d)
+         NEG                     RRC r
+         NOP                     RRC (HL)
+                                 RRC (IX+d)
+        *OR HL,DE                RRC (IY+d)
+        *OR IX,DE                RRCA
+        *OR IY,DE                RST v
+         OR n
+         OR r
+         OR (HL)
+         OR (IX+d)
+         OR (IY+d)
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+Z80/HD64180 INSTRUCTION SYMBOLS
+
+  The following list specifies the format for each Z80/HD64180
+addressing mode supported by ASRAB:  
+
+        #data           immediate data
+                        byte or word data
+
+        n               byte value
+
+        rg              a byte register
+                        a,b,c,d,e,h,l
+
+        rp              a register pair
+                        bc,de,hl
+
+        (hl)            implied addressing or
+                        register indirect addressing
+
+        (label)         direct addressing
+
+        (ix+offset)     indexed addressing with
+         offset(ix)     an offset
+
+        label           call/jmp/jr label
+
+
+The  terms  data, n, label, and offset may all be expressions.
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the Z80/HD64180  technical  data  for  valid
+modes.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+Z80/HD64180 INSTRUCTIONS
+
+   The  following  tables  list all Z80/HD64180 mnemonics recog-
+nized by the ASRAB assembler.  The designation []  refers  to  a
+required addressing mode argument.
+
+
+Inherent Instructions 
+
+        ccf             cpd
+        cpdr            cpi
+        cpir            cpl
+        daa             di
+        ei              exx
+        halt            neg
+        nop             reti
+        retn            rla
+        rlca            rld
+        rra             rrca
+        rrd             scf
+
+
+Implicit Operand Instructions 
+
+        adc     a,[]            adc     []
+        add     a,[]            add     []
+        and     a,[]            and     []
+        cp      a,[]            cp      []
+        dec     a,[]            dec     []
+        inc     a,[]            inc     []
+        or      a,[]            or      []
+        rl      a,[]            rl      []
+        rlc     a,[]            rlc     []
+        rr      a,[]            rr      []
+        rrc     a,[]            rrc     []
+        sbc     a,[]            sbc     []
+        sla     a,[]            sla     []
+        sra     a,[]            sra     []
+        srl     a,[]            srl     []
+        sub     a,[]            sub     []
+        xor     a,[]            xor     []
+
+   
+Load Instruction 
+
+        ld      rg,[]           ld      [],rg
+        ld      (bc),a          ld      a,(bc)
+        ld      (de),a          ld      a,(de)
+        ld      (label),a       ld      a,(label)
+        ld      (label),rp      ld      rp,(label)
+        ld      i,a             ld      r,a
+        ld      a,i             ld      a,r
+        ld      sp,hl           ld      sp,ix
+        ld      sp,iy           ld      rp,#data
+        ldd                     lddr
+        ldi                     ldir
+
+   
+Call/Return Instructions 
+
+        call    C,label         ret     C
+        call    M,label         ret     M
+        call    NC,label        ret     NC
+        call    NZ,label        ret     NZ
+        call    P,label         ret     P
+        call    PE,label        ret     PE
+        call    PO,label        ret     PO
+        call    Z,label         ret     Z
+        call    label           ret
+
+
+Jump and Jump to Subroutine Instructions 
+
+        jp      C,label         jp      M,label
+        jp      NC,label        jp      NZ,label
+        jp      P,label         jp      PE,label
+        jp      PO,label        jp      Z,label
+        jp      (hl)            jp      (ix)
+        jp      (iy)            jp      label
+        djnz    label
+        jr      C,label         jr      NC,label
+        jr      NZ,label        jr      Z,label
+        jr      label
+
+   
+Bit Manipulation Instructions 
+
+        bit     n,[]
+        res     n,[]
+        set     n,[]
+
+
+Interrupt Mode and Reset Instructions 
+
+        im      n
+        im      n
+        im      n
+        rst     n
+
+
+Input and Output Instructions 
+
+        in      a,(n)           in      rg,(c)
+        ind                     indr
+        ini                     inir
+        out     (n),a           out     (c),rg
+        outd                    otdr
+        outi                    otir
+
+
+Register Pair Instructions 
+
+        add     hl,rp           add     ix,rp
+        add     iy,rp
+        adc     hl,rp           sbc     hl,rp
+        ex      (sp),hl         ex      (sp),ix
+        ex      (sp),iy
+        ex      de,hl
+        ex      af,af'
+        push    rp              pop     rp
+
+		  
+HD64180 SPECIFIC INSTRUCTIONS
+
+        in0     rg,(n)
+        out0    (n),rg
+        otdm                    otdmr
+        otim                    otimr
+        mlt     bc              mlt     de
+        mlt     hl              mlt     sp
+        slp
+        tst     a
+        tstio   #data
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

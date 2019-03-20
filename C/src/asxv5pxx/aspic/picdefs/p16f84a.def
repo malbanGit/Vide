@@ -1,0 +1,134 @@
+        .LIST
+; P16F84A.INC  Standard Header File, Version 2.00    Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC16F84 microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.  
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PIC16F84A
+;       2. LIST directive in the source file
+;               LIST   P=PIC16F84A
+;       3. Processor Type entry in the MPASM full-screen interface
+
+;==========================================================================
+;
+;       Revision History
+;
+;==========================================================================
+
+;Rev:   Date:    Reason:
+
+;1.00   2/15/99 Initial Release
+
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __16F84A
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+W                            =:     0x0000
+F                            =:     0x0001
+
+;----- Register Files------------------------------------------------------
+
+INDF                         =:     0x0000
+TMR0                         =:     0x0001
+PCL                          =:     0x0002
+STATUS                       =:     0x0003
+FSR                          =:     0x0004
+PORTA                        =:     0x0005
+PORTB                        =:     0x0006
+EEDATA                       =:     0x0008
+EEADR                        =:     0x0009
+PCLATH                       =:     0x000A
+INTCON                       =:     0x000B
+
+OPTION_REG                   =:     0x0081
+TRISA                        =:     0x0085
+TRISB                        =:     0x0086
+EECON1                       =:     0x0088
+EECON2                       =:     0x0089
+
+;----- STATUS Bits --------------------------------------------------------
+
+IRP                          =:     0x0007
+RP1                          =:     0x0006
+RP0                          =:     0x0005
+NOT_TO                       =:     0x0004
+NOT_PD                       =:     0x0003
+Z                            =:     0x0002
+DC                           =:     0x0001
+C                            =:     0x0000
+
+;----- INTCON Bits --------------------------------------------------------
+
+GIE                          =:     0x0007
+EEIE                         =:     0x0006
+T0IE                         =:     0x0005
+INTE                         =:     0x0004
+RBIE                         =:     0x0003
+T0IF                         =:     0x0002
+INTF                         =:     0x0001
+RBIF                         =:     0x0000
+
+;----- OPTION_REG Bits ----------------------------------------------------
+
+NOT_RBPU                     =:     0x0007
+INTEDG                       =:     0x0006
+T0CS                         =:     0x0005
+T0SE                         =:     0x0004
+PSA                          =:     0x0003
+PS2                          =:     0x0002
+PS1                          =:     0x0001
+PS0                          =:     0x0000
+
+;----- EECON1 Bits --------------------------------------------------------
+
+EEIF                         =:     0x0004
+WRERR                        =:     0x0003
+WREN                         =:     0x0002
+WR                           =:     0x0001
+RD                           =:     0x0000
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+        .MAXRAM 0xCF
+        .BADRAM 0x07, 0x50:0x7F, 0x87
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;==========================================================================
+
+_CP_ON                       =:     0x000F
+_CP_OFF                      =:     0x3FFF
+_PWRTE_ON                    =:     0x3FF7
+_PWRTE_OFF                   =:     0x3FFF
+_WDT_ON                      =:     0x3FFF
+_WDT_OFF                     =:     0x3FFB
+_LP_OSC                      =:     0x3FFC
+_XT_OSC                      =:     0x3FFD
+_HS_OSC                      =:     0x3FFE
+_RC_OSC                      =:     0x3FFF
+
+        .LIST

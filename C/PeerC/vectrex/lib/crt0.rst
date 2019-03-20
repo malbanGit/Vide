@@ -1,50 +1,49 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	crt0.c
-                              7 ;----- asm -----
-                              8 	.bank rom(BASE=0x0000,SIZE=0x8000,FSFX=_rom)
-                              9 	.area .cartridge	(BANK=rom) 
-                             10 	.area .text  			(BANK=rom)
-                             11 	.area .text.hot		(BANK=rom)
-                             12 	.area .text.unlikely	(BANK=rom)
-                             13 	
-                             14 	.bank ram(BASE=0xc880,SIZE=0x036b,FSFX=_ram)
-                             15 	.area .data  (BANK=ram)
-                             16 	.area .bss   (BANK=ram)
-                             17 	
-                             18 		.area .text					
-   0019                      19 	_crt0_init_data:				
-   0019 CE 00 19      [ 3]   20 		ldu		#s_.text			
-   001C 33 C9 77 A4   [ 8]   21 		leau	l_.text,u			
-   0020 33 C9 00 00   [ 8]   22 		leau	l_.text.hot,u		
-   0024 33 C9 00 00   [ 8]   23 		leau	l_.text.unlikely,u	
-   0028 10 8E C8 80   [ 4]   24 		ldy		#s_.data			
-   002C 8E 00 19      [ 3]   25 		ldx		#l_.data			
-   002F 27 08         [ 3]   26 		beq		_crt0_init_bss		
-   0031                      27 	_crt0_copy_data:				
-   0031 A6 C0         [ 6]   28 		lda		,u+					
-   0033 A7 A0         [ 6]   29 		sta		,y+					
-   0035 30 1F         [ 5]   30 		leax	-1,x				
-   0037 26 F8         [ 3]   31 		bne		_crt0_copy_data		
-   0039                      32 	_crt0_init_bss:				
-   0039 10 8E C8 99   [ 4]   33 		ldy		#s_.bss				
-   003D 8E 02 46      [ 3]   34 		ldx		#l_.bss				
-   0040 27 06         [ 3]   35 		beq		_crt0_startup		
-   0042                      36 	_crt0_zero_bss:				
-   0042 6F A0         [ 8]   37 		clr		,y+					
-   0044 30 1F         [ 5]   38 		leax	-1,x				
-   0046 26 FA         [ 3]   39 		bne		_crt0_zero_bss		
-   0048                      40 	_crt0_startup:					
-   0048 BD 52 11      [ 8]   41 		jsr		_main				
-   004B 5D            [ 2]   42 		tstb						
-   004C 2F 03         [ 3]   43 		ble		_crt0_restart		
-   004E 7F CB FE      [ 7]   44 		clr		0xcbfe;	cold reset	
-   0051                      45 	_crt0_restart:					
-   0051 7E F0 00      [ 4]   46 		jmp 	0xf000;	rum			
-                             47 	
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	crt0.c
+                              6 ;----- asm -----
+                              7 	.bank rom(BASE=0x0000,SIZE=0x8000,FSFX=_rom)
+                              8 	.area .cartridge	(BANK=rom) 
+                              9 	.area .text  			(BANK=rom)
+                             10 	.area .text.hot		(BANK=rom)
+                             11 	.area .text.unlikely	(BANK=rom)
+                             12 	
+                             13 	.bank ram(BASE=0xc880,SIZE=0x036b,FSFX=_ram)
+                             14 	.area .data  (BANK=ram)
+                             15 	.area .bss   (BANK=ram)
+                             16 	
+                             17 		.area .text					
+   0019                      18 	_crt0_init_data:				
+   0019 CE 00 19      [ 3]   19 		ldu		#s_.text			
+   001C 33 C9 7F 0E   [ 8]   20 		leau	l_.text,u			
+   0020 33 C9 00 00   [ 8]   21 		leau	l_.text.hot,u		
+   0024 33 C9 00 00   [ 8]   22 		leau	l_.text.unlikely,u	
+   0028 10 8E C8 80   [ 4]   23 		ldy		#s_.data			
+   002C 8E 00 1A      [ 3]   24 		ldx		#l_.data			
+   002F 27 08         [ 3]   25 		beq		_crt0_init_bss		
+   0031                      26 	_crt0_copy_data:				
+   0031 A6 C0         [ 6]   27 		lda		,u+					
+   0033 A7 A0         [ 6]   28 		sta		,y+					
+   0035 30 1F         [ 5]   29 		leax	-1,x				
+   0037 26 F8         [ 3]   30 		bne		_crt0_copy_data		
+   0039                      31 	_crt0_init_bss:				
+   0039 10 8E C8 9A   [ 4]   32 		ldy		#s_.bss				
+   003D 8E 02 29      [ 3]   33 		ldx		#l_.bss				
+   0040 27 06         [ 3]   34 		beq		_crt0_startup		
+   0042                      35 	_crt0_zero_bss:				
+   0042 6F A0         [ 8]   36 		clr		,y+					
+   0044 30 1F         [ 5]   37 		leax	-1,x				
+   0046 26 FA         [ 3]   38 		bne		_crt0_zero_bss		
+   0048                      39 	_crt0_startup:					
+   0048 BD 56 FD      [ 8]   40 		jsr		_main				
+   004B 5D            [ 2]   41 		tstb						
+   004C 2F 03         [ 3]   42 		ble		_crt0_restart		
+   004E 7F CB FE      [ 7]   43 		clr		0xcbfe;	cold reset	
+   0051                      44 	_crt0_restart:					
+   0051 7E F0 00      [ 4]   45 		jmp 	0xf000;	rum			
+                             46 	
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

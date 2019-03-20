@@ -1,0 +1,311 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS8051  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+ACKNOWLEDGMENT 
+
+   Thanks  to  John  Hartman  for his contribution of the AS8051
+cross assembler.  
+
+        John L. Hartman
+        jhartman@compuserve.com
+
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+8051 REGISTER SET 
+
+        The following is a list of the 8051 registers used by AS8051:  
+
+                a,b             -       8-bit accumulators
+                r0,r1,r2,r3     -       8-bit registers
+                r4,r5,r6,r7
+                dptr            -       data pointer
+                sp              -       stack pointer
+                pc              -       program counter
+                psw             -       status word
+                c               -       carry (bit in status word)
+
+
+8051 INSTRUCTION SET 
+
+
+   The  following  tables  list all 8051 mnemonics recognized by
+the AS8051 assembler.  The following list specifies  the  format
+for each addressing mode supported by AS8051:  
+
+        #data           immediate data
+                        byte or word data
+        
+        r,r1,r2         register r0,r1,r2,r3,r4,r5,r6, or r7
+        
+        @r              indirect on register r0 or r1
+        @dptr           indirect on data pointer
+        @a+dptr         indirect on accumulator
+                        plus data pointer
+        @a+pc           indirect on accumulator
+                        plus program counter
+        
+        addr            direct memory address
+        
+        bitaddr         bit address
+        
+        label           call or jump label
+
+The terms data, addr, bitaddr, and label may all be expressions. 
+
+   Note  that  not all addressing modes are valid with every in-
+struction.  Refer to the 8051 technical data for valid modes.  
+
+
+Inherent Instructions 
+
+        nop
+
+
+Move Instructions 
+
+        mov     a,#data         mov     a,addr
+        mov     a,r             mov     a,@r
+
+        mov     r,#data         mov     r,addr
+        mov     r,a
+
+        mov     addr,a          mov     addr,#data
+        mov     addr,r          mov     addr,@r
+        mov     addr1,addr2     mov     bitaddr,c
+
+        mov     @r,#data        mov     @r,addr
+        mov     @r,a
+
+        mov     c,bitaddr
+        mov     dptr,#data
+
+        movc    a,@a+dptr       movc    a,@a+pc
+        movx    a,@dptr         movx    a,@r
+        movx    @dptr,a         movx    @r,a
+
+
+Single Operand Instructions 
+
+        clr     a               clr     c
+        clr     bitaddr
+        cpl     a               cpl     c
+        cpl     bitaddr
+        setb    c               setb    bitaddr
+
+        da      a               
+        rr      a               rrc     a
+        rl      a               rlc     a
+        swap    a
+
+        dec     a               dec     r
+        dec     @r
+        inc     a               inc     r
+        inc     dptr            inc     @r
+
+        div     ab              mul     ab
+
+        pop     addr            push    addr
+
+
+Two Operand Instructions 
+
+        add     a,#data         add     a,addr
+        add     a,r             add     a,@r
+        addc    a,#data         addc    a,addr
+        addc    a,r             addc    a,@r
+        subb    a,#data         subb    a,addr
+        subb    a,r             subb    a,@r
+        orl     a,#data         orl     a,addr
+        orl     a,r             orl     a,@r
+        orl     addr,a          orl     addr,#data
+        orl     c,bitaddr       orl     c,/bitaddr
+        anl     a,#data         anl     a,addr
+        anl     a,r             anl     a,@r
+        anl     addr,a          anl     addr,#data
+        anl     c,bitaddr       anl     c,/bitaddr
+        xrl     a,#data         xrl     a,addr
+        xrl     a,r             xrl     a,@r
+        xrl     addr,a          xrl     addr,#data
+        xrl     c,bitaddr       xrl     c,/bitaddr
+        xch     a,addr          xch     a,r
+        xch     a,@r            xchd    a,@r
+
+
+Call and Return Instructions 
+
+        acall   label           lcall   label
+        ret                     reti
+        in      data
+        out     data
+        rst     data
+
+
+Jump Instructions 
+
+        ajmp    label
+        cjne    a,#data,label   cjne    a,addr,label
+        cjne    r,#data,label   cjne    @r,#data,label
+        djnz    r,label         djnz    addr,label
+        jbc     bitadr,label
+        jb      bitadr,label    jnb     bitadr,label
+        jc      label           jnc     label
+        jz      label           jnz     label
+        jmp     @a+dptr
+        ljmp    label           sjmp    label
+
+
+Predefined Symbols:  SFR Map 
+
+                --------- 4 Bytes ----------
+                ----    ----    ----    ----
+        FC                                          FF
+        F8                                          FB
+        F4                                          F7
+        F0      B                                   F3
+        EC                                          EF
+        E8                                          EB
+        E4                                          E7
+        E0      ACC                                 E3
+        DC                                          DF
+        D8                                          DB
+        D4                                          D7
+        D0      PSW                                 D3
+        CC   [  TL2     TH2                     ]   CF
+        C8   [  T2CON           RCAP2L  RCAP2H  ]   CB
+        C4                                          C7
+        C0                                          C3
+        BC                                          BF
+        B8      IP                                  BB
+        B4                                          B7
+        B0      P3                                  B3
+        AC                                          AF
+        A8      IE                                  AB
+        A4                                          A7
+        A0      P2                                  A3
+        9C                                          9F
+        98      SCON    SBUF                        9B
+        94                                          97
+        90      P1                                  93
+        8C      TH0     TH1                         8F
+        88      TCON    TMOD    TL0     TL1         8B
+        84                              PCON        87
+        80      P0      SP      DPL     DPH         83
+
+        [...] Indicates Resident in 8052, not 8051
+        A is an allowed alternate for ACC.
+
+
+Predefined Symbols:  SFR Bit Addresses 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        FC                                          FF
+        F8                                          FB
+        F4      B.4     B.5     B.6     B.7         F7
+        F0      B.0     B.1     B.2     B.3         F3
+        EC                                          EF
+        E8                                          EB
+        E4      ACC.4   ACC.5   ACC.6   ACC.7       E7
+        E0      ACC.0   ACC.1   ACC.2   ACC.3       E3
+        DC                                          DF
+        D8                                          DB
+        D4      PSW.4   PSW.5   PSW.6   PSW.7       D7
+        D0      PSW.0   PSW.1   PSW.2   PSW.3       D3
+        CC   [  T2CON.4 T2CON.5 T2CON.6 T2CON.7 ]   CF
+        C8   [  T2CON.0 T2CON.1 T2CON.2 T2CON.3 ]   CB
+        C4                                          C7
+        C0                                          C3
+        BC      IP.4    IP.5    IP.6    IP.7        BF
+        B8      IP.0    IP.1    IP.2    IP.3        BB
+        B4      P3.4    P3.5    P3.6    P3.7        B7
+        B0      P3.0    P3.1    P3.2    P3.3        B3
+        AC      IE.4    IE.5    EI.6    IE.7        AF
+        A8      IE.0    IE.1    IE.2    IE.3        AB
+        A4      P2.4    P2.5    P2.6    P2.7        A7
+        A0      P2.0    P2.1    P2.2    P2.3        A3
+        9C      SCON.4  SCON.5  SCON.6  SCON.7      9F
+        98      SCON.0  SCON.1  SCON.2  SCON.3      9B
+        94      P1.4    P1.5    P1.6    P1.7        97
+        90      P1.0    P1.1    P1.2    P1.3        93
+        8C      TCON.4  TCON.5  TCON.6  TCON.7      8F
+        88      TCON.0  TCON.1  TCON.2  TCON.3      8B
+        84      P0.4    P0.5    P0.6    P0.7        87
+        80      P0.0    P0.1    P0.2    P0.3        83
+
+        [...] Indicates Resident in 8052, not 8051
+        A is an allowed alternate for ACC.
+
+
+Predefined Symbols:  Control Bits 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        FC                                          FF
+        F8                                          FB
+        F4                                          F7
+        F0                                          F3
+        EC                                          EF
+        E8                                          EB
+        E4                                          E7
+        E0                                          E3
+        DC                                          DF
+        D8                                          DB
+        D4      RS1     F0      AC      CY          D7
+        D0      P               OV      RS0         D3
+        CC   [  TLCK    RCLK    EXF2    TF2     ]   CF
+        C8   [  CPRL2   CT2     TR2     EXEN2   ]   CB
+        C4                                          C7
+        C0                                          C3
+        BC      PS      PT2                         BF
+        B8      PX0     PT0     PX1     PT1         BB
+        B4                                          B7
+        B0      RXD     TXD     INT0    INT1        B3
+        AC      ES      ET2             EA          AF
+        A8      EX0     ET0     EX1     ET1         AB
+        A4                                          A7
+        A0                                          A3
+        9C      REN     SM2     SM1     SM0         9F
+        98      RI      TI      RB8     TB8         9B
+        94                                          97
+        90                                          93
+        8C      TR0     TF0     TR1     TF1         8F
+        88      IT0     IE0     IT1     IE1         8B
+        84                                          87
+        80                                          83
+
+        [...] Indicates Resident in 8052, not 8051
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

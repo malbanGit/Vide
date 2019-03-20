@@ -1,0 +1,6 @@
+# For a few minor differences in code generation on the CoCo...
+T_CFLAGS = -DTARGET_COCO
+
+# For doing the startup differently on the CoCo...
+CRT0STUFF_T_CFLAGS += -Wa,--globalize-symbols -DTARGET_COCO
+# vim: set filetype=make:

@@ -1,0 +1,138 @@
+!define BLANK ""
+R:\asxv5pxx\asxmak\watcom\build\lkarea.obj : R:\asxv5pxx\LINKSRC\lkarea.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkarea.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -z&
+q -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lkbank.obj : R:\asxv5pxx\LINKSRC\lkbank.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkbank.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -z&
+q -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lkdata.obj : R:\asxv5pxx\LINKSRC\lkdata.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkdata.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -z&
+q -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lkeval.obj : R:\asxv5pxx\LINKSRC\lkeval.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkeval.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -z&
+q -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lkhead.obj : R:\asxv5pxx\LINKSRC\lkhead.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkhead.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -z&
+q -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lklex.obj : R:\asxv5pxx\LINKSRC\lklex.c .AUT&
+ODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lklex.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -zq&
+ -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lklibr.obj : R:\asxv5pxx\LINKSRC\lklibr.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lklibr.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -z&
+q -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lklist.obj : R:\asxv5pxx\LINKSRC\lklist.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lklist.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -z&
+q -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lkmain.obj : R:\asxv5pxx\LINKSRC\lkmain.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkmain.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -z&
+q -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lknoice.obj : R:\asxv5pxx\LINKSRC\lknoice.c &
+.AUTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lknoice.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -&
+zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lkout.obj : R:\asxv5pxx\LINKSRC\lkout.c .AUT&
+ODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkout.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -zq&
+ -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lkrloc.obj : R:\asxv5pxx\LINKSRC\lkrloc.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkrloc.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -z&
+q -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lkrloc3.obj : R:\asxv5pxx\LINKSRC\lkrloc3.c &
+.AUTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkrloc3.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -&
+zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lkrloc4.obj : R:\asxv5pxx\LINKSRC\lkrloc4.c &
+.AUTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lkrloc4.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -&
+zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lksdcdb.obj : R:\asxv5pxx\LINKSRC\lksdcdb.c &
+.AUTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lksdcdb.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -&
+zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\lksym.obj : R:\asxv5pxx\LINKSRC\lksym.c .AUT&
+ODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\LINKSRC\lksym.c -i=C:\WATCOM\h;C:\WATCOM\h\nt -w4 -e25 -zq&
+ -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\aslink.exe : R:\asxv5pxx\asxmak\watcom\build&
+\lkarea.obj R:\asxv5pxx\asxmak\watcom\build\lkbank.obj R:\asxv5pxx\asxmak\wa&
+tcom\build\lkdata.obj R:\asxv5pxx\asxmak\watcom\build\lkeval.obj R:\asxv5pxx&
+\asxmak\watcom\build\lkhead.obj R:\asxv5pxx\asxmak\watcom\build\lklex.obj R:&
+\asxv5pxx\asxmak\watcom\build\lklibr.obj R:\asxv5pxx\asxmak\watcom\build\lkl&
+ist.obj R:\asxv5pxx\asxmak\watcom\build\lkmain.obj R:\asxv5pxx\asxmak\watcom&
+\build\lknoice.obj R:\asxv5pxx\asxmak\watcom\build\lkout.obj R:\asxv5pxx\asx&
+mak\watcom\build\lkrloc.obj R:\asxv5pxx\asxmak\watcom\build\lkrloc3.obj R:\a&
+sxv5pxx\asxmak\watcom\build\lkrloc4.obj R:\asxv5pxx\asxmak\watcom\build\lksd&
+cdb.obj R:\asxv5pxx\asxmak\watcom\build\lksym.obj .AUTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ @%write aslink.lk1 FIL lkarea.obj,lkbank.obj,lkdata.obj,lkeval.obj,lkhead.o&
+bj,lklex.obj,lklibr.obj,lklist.obj,lkmain.obj,lknoice.obj,lkout.obj,lkrloc.o&
+bj,lkrloc3.obj,lkrloc4.obj,lksdcdb.obj,lksym.obj
+ @%append aslink.lk1 
+!ifneq BLANK ""
+ *wlib -q -n -b aslink.imp 
+ @%append aslink.lk1 LIBR aslink.imp
+!endif
+!ifneq BLANK ""
+ @%append aslink.lk1 op resource=
+!endif
+ *wlink name aslink d all SYS nt op m op maxe=25 op q op symf @aslink.lk1
+

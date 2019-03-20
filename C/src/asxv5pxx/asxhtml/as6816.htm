@@ -1,0 +1,277 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS6816  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+68HC16 REGISTER SET 
+
+The following is a list of the 68HC16 registers used by AS6816:  
+
+        a,b     -       8-bit accumulators
+        d       -       16-bit accumulator &lt;a:b&gt;
+        e       -       16-bit accumulator
+        x,y,z   -       index registers
+        k       -       address extension register
+        s       -       stack pointer
+        ccr     -       condition code
+
+
+68HC16 INSTRUCTION SET 
+
+
+   The  following  tables  list all 68HC16 mnemonics recognized by
+the AS6816 assembler.  The designation [] refers to  a  required
+addressing  mode  argument.   The  following  list specifies the
+format for each addressing mode supported by AS6816:  
+
+        #data           immediate data
+                        byte or word data
+
+        #xo,#yo         local immediate data (mac / rmac)
+
+        label           branch label
+
+        r               register
+                        ccr,a,b,d,e,x,y,z,s
+
+        ,x              zero offset register indexed addressing
+        ,x8
+        ,x16
+
+        offset,x        register indexed addressing
+                             0 &lt;= offset &lt;= 255   ---  8-bit
+                        -32768 &lt;= offset &lt;= -1    --- 16-bit
+                           256 &lt;= offset &lt;= 32767 --- 16-bit
+                        (external definition of offset
+                         uses 16-bit mode)
+
+        offset,x8       unsigned 8-bit offset indexed addressing
+        offset,x16      signed 16-bit offset indexed addressing
+
+        e,x             accumulator offset indexed addressing
+
+        ext             extended addressing
+
+        bank            64K bank number (jmp / jsr)
+
+The  terms data, label, offset, bank, and ext may all be expres-
+sions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the 6816 technical data for valid modes.  
+
+
+Inherent Instructions 
+
+        aba             abx             aby             abz
+        ace             aced            ade             adx
+        ady             adz             aex             aey
+        aez             bgnd            cba             daa
+        ediv            edivs           emul            emuls
+        fdiv            fmuls           idiv            ldhi
+        lpstop          mul             nop             psha
+        pshb            pshmac          pula            pulb
+        pulmac          rtr             rts             sba
+        sde             sted            swi             sxt
+        tab             tap             tba             tbek
+        tbsk            tbxk            tbyk            tbzk
+        tde             tdmsk           tdp             ted
+        tedm            tekb            tem             tmer
+        tmet            tmxed           tpa             tpd
+        tskb            tsx             tsy             tsz
+        txkb            txs             txy             txz
+        tykb            tys             tyx             tyz
+        tzkb            tzs             tzx             tzy
+        wai             xgab            xgde            xgdx
+        xgdy            xgdz            xgex            xgey
+        xgez
+
+
+Push/Pull Multiple Register Instructions 
+
+        pshm    r,...           pulm    r,...
+
+
+Short Branch Instructions 
+
+        bcc     label           bcs     label
+        beq     label           bge     label
+        bgt     label           bhi     label
+        bhis    label           bhs     label
+        ble     label           blo     label
+        blos    label           bls     label
+        blt     label           bmi     label
+        bne     label           bpl     label
+        bra     label           brn     label
+        bvc     label           bvs     label
+        bsr     label
+
+
+Long Branch Instructions 
+
+        lbcc    label           lbcs    label
+        lbeq    label           lbge    label
+        lbgt    label           lbhi    label
+        lbhis   label           lbhs    label
+        lble    label           lblo    label
+        lblos   label           lbls    label
+        lblt    label           lbmi    label
+        lbne    label           lbpl    label
+        lbra    label           lbrn    label
+        lbvc    label           lbvs    label
+        lbsr    label
+
+
+Bit Manipulation Instructions 
+
+        bclr    [],#data
+        bset    [],#data
+
+        brclr   [],#data,label
+        brset   [],#data,label
+
+
+Single Operand Instructions 
+
+        asla                    aslb
+        asld                    asle
+        aslm
+        asl     []              aslw    []
+
+        asra                    asrb
+        asrd                    asre
+        asrm
+        asr     []              asrw    []
+
+        clra                    clrb
+        clrd                    clre
+                                clrm
+        clr     []              clrw    []
+
+        coma                    comb
+        comd                    come
+        com     []              comw    []
+
+        deca                    decb
+        dec     []              decw    []
+
+        inca                    incb
+        inc     []              incw    []
+
+        lsla                    lslb
+        lsld                    lsle
+        lslm
+        lsl     []              lslw    []
+
+        lsra                    lsrb
+        lsrd                    lsre
+        lsr     []              lsrw    []
+
+        nega                    negb
+        negd                    nege
+        neg     []              negw    []
+
+        rola                    rolb
+        rold                    role
+        rol     []              rolw    []
+
+        rora                    rorb
+        rord                    rore
+        ror     []              rorw    []
+
+        tsta                    tstb
+        tsta                    tste
+        tst     []              tstw    []
+
+
+Double Operand Instructions 
+
+        adca    []              adcb    []
+        adcd    []              adce    []
+
+        adda    []              addb    []
+        addd    []              adde    []
+
+        anda    []              andb    []
+        andd    []              ande    []
+
+        bita    []              bitb    []
+
+        cmpa    []              cmpb    []
+        cpd     []              cpe     []
+
+        eora    []              eorb    []
+        eord    []              eore    []
+
+        ldaa    []              ldab    []
+        ldd     []              lde     []
+
+        oraa    []              orab    []
+        ord     []              ore     []
+
+        sbca    []              sbcb    []
+        sbcd    []              sbce    []
+
+        staa    []              stab    []
+        std     []              ste     []
+
+        suba    []              subb    []
+        subd    []              sube    []
+
+
+Index/Stack Register Instructions 
+
+        cps     []              cpx     []
+        cpy     []              cpz     []
+
+        lds     []              ldx     []
+        ldy     []              ldz     []
+
+        sts     []              stx     []
+        sty     []              stz     []
+
+
+Jump and Jump to Subroutine Instructions 
+
+        jmp     bank,[]         jsr     bank,[]
+
+
+Condition Code Register Instructions 
+
+        andp    #data           orp     #data
+
+
+Multiply and Accumulate Instructions 
+
+        mac     #data           rmac    #data
+        mac     #xo,#yo         rmac    #xo,#yo
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

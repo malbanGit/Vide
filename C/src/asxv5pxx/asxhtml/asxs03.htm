@@ -1,0 +1,450 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>The Assembler Description</H2>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "Invoking"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Invoking ASxxxx</A>
+</B></H3>
+
+<H4><B><PRE>
+   Starting  an  ASxxxx assembler without any arguments provides
+the following option list and then exits:  
+
+Usage: [-Options] file
+Usage: [-Options] outfile file1 [file2 file3 ...]
+  -d   Decimal listing
+  -q   Octal   listing
+  -x   Hex     listing (default)
+  -g   Undefined symbols made global
+  -a   All user symbols made global
+  -b   Display .define substitutions in listing
+  -bb  and display without .define substitutions
+  -c   Disable instruction cycle count in listing
+  -j   Enable NoICE Debug Symbols
+  -y   Enable SDCC  Debug Symbols
+  -l   Create list   output (out)file[.lst]
+  -o   Create object output (out)file[.rel]
+  -s   Create symbol output (out)file[.sym]
+  -p   Disable listing pagination
+  -u   Disable .list/.nlist processing
+  -w   Wide listing format for symbol table
+  -z   Disable case sensitivity for symbols
+  -f   Flag relocatable references by  `   in listing file
+  -ff  Flag relocatable references by mode in listing file
+
+
+
+   The ASxxxx assemblers are command line oriented.  Most sytems
+require the option(s) and file(s) arguments to follow the ASxxxx
+assembler name:  
+
+  as6809 -[Options] file
+
+  as6809 [-Options] outfile file1 [file2 ...]
+
+
+Some  systems  may  request the arguments after the assembler is
+started at a system specific prompt:  
+
+  as6809
+  argv: -[Options] file
+
+  as6809
+  argv: [-Options] outfile file1 [file2 ...]
+
+
+The ASxxxx options in some more detail:  
+
+        -d      decimal listing
+        -q      octal   listing
+        -x      hex     listing (default)
+
+                The listing radix affects the
+                .lst, .rel, and .sym files.
+
+        -g      undefined symbols made global
+
+                Unresolved (external) variables
+                and symbols are flagged as global.
+
+        -a      all user symbols made global
+
+                All defined (not local or external)
+                variables and symbols are flagged
+                as global.
+
+        -b      display .define substitutions in listing
+
+                If a .define substitution has been applied
+                to an assembler source line the source
+                line is printed with the substitution.
+
+        -bb     and display without .define substitutions
+
+                If a .define substitution has been applied
+                to an assembler source line the source
+                line is first printed without substitution
+                followed by the line with the substitution.
+
+        -c      Disable instruction cycle count in listing
+
+                This option overrides the listing option
+                'cyc' in the .list and .nlist directives.
+                Instruction cycle counts cannot be enabled
+                if the -c option is specified.
+
+        -j      enable NOICE debug symbols
+        -y      enable SDCC debug symbols
+
+        -l      create list   output (out)file.lst
+
+                If -s (symbol table output) is not
+                specified the symbol table is included
+                at the end of the listing file.
+
+        -o      create object output (out)file.rel
+        -s      create symbol output (out)file.sym
+
+        -p      disable listing pagination
+
+                This option inhibits the generation
+                of a form-feed character and its
+                associated page header in the
+                assembler listing.
+
+        -u      disable .list/.nlist processing
+
+                This option disables all .list and
+                .nlist directives. The listing mode
+                is .list with the options err, loc,
+                bin, eqt, cyc, lin, src, pag, lst,
+                and md. The options cyc and pag are
+                overridden by the -c and -p command
+                line options.
+
+        -w      wide listing format for symbol table
+
+        -z      disable case sensitivity for symbols
+
+        -f      by  `   in the listing file
+        -ff     by mode in the listing file
+
+                Relocatable modess are flagged by byte
+                position (LSB, Byte 2, Byte 3, MSB)
+                *nMN    paged,
+                uvUV    unsigned,
+                rsRS    signed,
+                pqPQ    program counter relative.
+
+   The file name for the .lst, .rel, and .sym files is the first
+file name specified in the command line.  All output  files  are
+ascii  text  files which may be edited, copied, etc.  The output
+files are the concatenation of all the input files, if files are
+to  be  assembled  independently  invoke  the assembler for each
+file.  
+
+   The  .rel  file contains a radix directive so that the linker
+will use the proper conversion for this file.  Linked files  may
+have different radices.  
+
+</PRE></B></H4>
+<H5><A HREF="asmblr.htm#Index">  Return to the Assembler Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "Errors"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Errors</A>
+</B></H3>
+
+<H4><B><PRE>
+   The  ASxxxx assemblers provide limited diagnostic error codes
+during the assembly process, these errors will be noted  in  the
+listing file and printed on the stderr device.  
+
+   The assembler reports the errors on the stderr device as 
+
+        ?ASxxxx-Error-<*> in line nnn of filename
+
+where  * is the error code, nnn is the line number, and filename
+is the source/include file.  
+
+   The errors are:  
+
+      (.)   This  error  is caused by an absolute direct assign-
+            ment of the current location counter 
+                  . = expression (incorrect) 
+            rather than the correct 
+                  . = . + expression 
+
+      (a)   Indicates  a machine specific addressing or address-
+            ing mode error.  
+
+      (b)   Indicates a direct page boundary error.  
+
+      (d)   Indicates a direct page addressing error.  
+
+      (e)   Caused by a .error or .assume directive.  
+
+      (i)   Caused  by  an  .include file error or an .if/.endif
+            mismatch.  
+
+      (m)   Multiple  definitions  of  the  same label, multiple
+            .module directives, multiple conflicting  attributes
+            in  an  .area or .bank directive or the use of .hilo
+            and lohi within the same assembly.  
+
+      (n)   An  .mexit,  .endm,  or .narg directive outside of a
+            macro, repeat block or indefinite repeat block.  
+
+      (o)   Directive  or  mnemonic error or the use of the .org
+            directive in a relocatable area.  
+
+      (p)   Phase error:  label location changing between passes
+            2 and 3.  Normally caused by having  more  than  one
+            level of forward referencing.  
+
+      (q)   Questionable syntax:  missing or improper operators,
+            terminators, or delimiters.  
+
+      (r)   Relocation  error:   logic  operation attempted on a
+            relocatable term, addition of two relocatable terms,
+            subtraction  of two relocatable terms not within the
+            same programming area or external symbols.  
+
+      (s)   String Substitution / recursion error.  
+
+      (u)   Undefined symbol encountered during assembly.  
+
+      (z)   Divide by 0 or Modulus by 0 error:  result is 0.  
+
+</PRE></B></H4>
+<H5><A HREF="asmblr.htm#Index">  Return to the Assembler Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "Listing"></A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Listing File</A>
+</B></H3>
+
+<H4><B><PRE>
+   The  (-l) option produces an ascii output listing file.  Each
+page of output contains a five line header:  
+
+
+     1.  The ASxxxx program name and page number 
+
+     2.  Assembler Radix and Address Bits 
+
+     3.  Title from a .title directive (if any) 
+
+     4.  Subtitle from a .sbttl directive (if any) 
+
+     5.  Blank line 
+
+
+Each succeeding line contains five fields:  
+
+
+     1.  Error field (first two characters of line) 
+
+     2.  Current location counter 
+
+     3.  Generated code in byte format 
+
+     4.  Opcode cycles count 
+
+     5.  Source text line number 
+
+     6.  Source text 
+
+
+   The error field may contain upto 2 error flags indicating any
+errors encountered while assembling this line of source code.  
+
+   The  current  location  counter  field  displays  the 16-bit,
+24-bit, or 32-bit program position.  This field will be  in  the
+selected radix.  
+
+   The generated code follows the program location.  The listing
+radix determines the number of bytes that will be  displayed  in
+this field.  Hexidecimal listing allows six bytes of data within
+the field, decimal and octal allow four bytes within the  field.
+If more than one field of data is generated from the assembly of
+a single line of source code, then the data field is repeated on
+successive lines.  
+
+   The  opcode cycles count is printed within the delimiters [ ]
+on the line with the source text.  This reduces  the  number  of
+generated code bytes displayed on the line with the source list-
+ing by one.  (The -c option disables all opcode cycle listing.) 
+
+   The source text line number is printed in decimal and is fol-
+lowed by the source text.  A Source line with a .page  directive
+is never listed.  (The -u option overrides this behavior.) 
+
+   Two  additional options are available for printing the source
+line text.  If the -b option is specified then the listed source
+line  contains all the .define substitutions.  If the -bb option
+is specified then the original source line is printed before the
+source line with substitutions.  
+
+   Two  data  field  options  are  available to flag those bytes
+which will be relocated by the linker.   If  the  -f  option  is
+specified  then  each  byte to be relocated will be preceeded by
+the '`' character.  If the -ff option  is  specified  then  each
+byte  to  be relocated will be preceeded by one of the following
+characters:  
+
+     1.  *   paged relocation 
+
+     2.  u   low  byte of unsigned word or unsigned byte 
+
+     3.  v   high byte of unsigned word 
+
+     4.  p   PCR low  byte of word relocation or PCR byte 
+
+     5.  q   PCR high byte of word relocation 
+
+     6.  r   low  byte relocation or byte relocation 
+
+     7.  s   high byte relocation 
+
+
+   Assemblers  which  use 24-bit or 32-bit addressing use an ex-
+tended flagging mode:  
+
+     1.  *   paged relocation 
+
+     2.  u   1st  byte of unsigned value 
+
+     3.  v   2nd  byte of unsigned value 
+
+     4.  U   3rd  byte of unsigned value 
+
+     5.  V   4th  byte of unsigned value 
+
+     6.  p   PCR 1st  byte of relocation value or PCR byte 
+
+     7.  q   PCR 2nd  byte of relocation value 
+
+     8.  P   PCR 3rd  byte of relocation value 
+
+     9.  Q   PCR 4th  byte of relocation value 
+
+    10.  r   1st  byte of relocation value or byte relocation 
+
+    11.  s   2nd  byte of relocation value 
+
+    12.  R   3rd  byte of relocation value 
+
+    13.  S   4th  byte of relocation value 
+
+</PRE></B></H4>
+<H5><A HREF="asmblr.htm#Index">  Return to the Assembler Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "Symbol"></A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Symbol Table File</A>
+</B></H3>
+
+<H4><B><PRE>
+   The symbol table has two parts:  
+
+     1.  The alphabetically sorted list of symbols and/or labels
+         defined or referenced in the source program.  
+
+     2.  A  list of the program areas defined during assembly of
+         the source program.  
+
+
+   The sorted list of symbols and/or labels contains the follow-
+ing information:  
+
+     1.  Program  area  number (none if absolute value or exter-
+         nal) 
+
+     2.  The symbol or label 
+
+     3.  Directly assigned symbol is denoted with an (=) sign 
+
+     4.  The  value of a symbol, location of a label relative to
+         the program area base address (=0), or a ****  indicat-
+         ing the symbol or label is undefined.  
+
+     5.  The characters: G - global, L - local, R - relocatable,
+         and X - external.  
+
+
+   The list of program areas provides the correspondence between
+the program area numbers and the defined program areas, the size
+of the program areas, and the area flags (attributes).  
+
+</PRE></B></H4>
+<H5><A HREF="asmblr.htm#Index">  Return to the Assembler Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "Object"></A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Object File</A>
+</B></H3>
+
+<H4><B><PRE>
+   The  object  file is an ascii file containing the information
+needed by the linker to bind multiple object modules into a com-
+plete  loadable  memory  image.   The object module contains the
+following designators:  
+
+        [XDQ][HL][234]
+                X       Hexidecimal radix
+                D       Decimal radix
+                Q       Octal radix
+
+                H       Most significant byte first
+                L       Least significant byte first
+
+                2       16-Bit Addressing
+                3       24-Bit Addressing
+                4       32-Bit Addressing
+
+        H       Header 
+        M       Module
+        G       Merge Mode
+        B       Bank
+        A       Area
+        S       Symbol
+        T       Object code
+        R       Relocation information
+        P       Paging information
+
+   Refer to the linker for a detailed description of each of the
+designators and the format of the information contained  in  the
+object file.  
+
+<H5><A HREF="asmblr.htm#Index">  Return to the Assembler Index</A></H5>
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

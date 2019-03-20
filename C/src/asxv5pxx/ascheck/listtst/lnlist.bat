@@ -1,0 +1,2 @@
+ascheck -loxchff lnlist.asm
+

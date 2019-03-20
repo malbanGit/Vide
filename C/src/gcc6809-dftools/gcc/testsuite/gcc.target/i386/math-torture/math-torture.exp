@@ -1,0 +1,42 @@
+# This harness is for tests that should be run at all optimisation levels.
+
+# Exit immediately if this isn't a x86 target.
+if { ![istarget i?86*-*-*] && ![istarget x86_64-*-*] } then {
+  return
+}
+
+set MATH_TORTURE_OPTIONS [list \
+        { -O0 } \
+        { -O0 -mfpmath=387 } \
+        { -O0 -msse -mno-sse2 -mfpmath=sse } \
+        { -O0 -msse -msse2 -mfpmath=sse } \
+        { -O0 -msse -mno-sse2 -mfpmath=sse,387 } \
+        { -O0 -msse -msse2 -mfpmath=sse,387 } \
+        { -O0 -mfpmath=387 -ffast-math } \
+        { -O0 -msse -mno-sse2 -mfpmath=sse -ffast-math } \
+        { -O0 -msse -msse2 -mfpmath=sse -ffast-math } \
+        { -O0 -msse -mno-sse2 -mfpmath=sse,387 -ffast-math } \
+        { -O0 -msse -msse2 -mfpmath=sse,387 -ffast-math } \
+        { -O2 } \
+        { -O2 -mfpmath=387 } \
+        { -O2 -msse -mno-sse2 -mfpmath=sse } \
+        { -O2 -msse -msse2 -mfpmath=sse } \
+        { -O2 -msse -mno-sse2 -mfpmath=sse,387 } \
+        { -O2 -msse -msse2 -mfpmath=sse,387 } \
+        { -O2 -mfpmath=387 -ffast-math } \
+        { -O2 -msse -mno-sse2 -mfpmath=sse -ffast-math } \
+        { -O2 -msse -msse2 -mfpmath=sse -ffast-math } \
+        { -O2 -msse -mno-sse2 -mfpmath=sse,387 -ffast-math } \
+        { -O2 -msse -msse2 -mfpmath=sse,387 -ffast-math } \
+]
+
+load_lib gcc-dg.exp
+load_lib torture-options.exp
+
+torture-init
+set-torture-options $MATH_TORTURE_OPTIONS
+
+dg-init
+gcc-dg-runtest [lsort [glob $srcdir/$subdir/*.c]] ""
+torture-finish
+dg-finish

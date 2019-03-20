@@ -1,0 +1,262 @@
+        .LIST
+; P14000.INC  Standard Header File, Version 1.01    Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC14000 microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.  
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PIC14000
+;       2. LIST directive in the source file
+;               LIST   P=PIC14000
+;       3. Processor Type entry in the MPASM full-screen interface
+
+;==========================================================================
+;
+;       Revision History
+;
+;==========================================================================
+
+;Rev:   Date:    Reason:
+
+;1.01   11/18/96 SSR 2824 Updated according to Applications' requirements
+;1.00   10/31/95 Initial Release
+
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __14000 
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+W                            =:     0x0000
+F                            =:     0x0001
+
+;----- Register Files------------------------------------------------------
+
+INDF                         =:     0x0000
+TMR0                         =:     0x0001
+PCL                          =:     0x0002
+STATUS                       =:     0x0003
+FSR                          =:     0x0004
+PORTA                        =:     0x0005
+PORTC                        =:     0x0007
+PORTD                        =:     0x0008
+PCLATH                       =:     0x000A
+INTCON                       =:     0x000B
+PIR1                         =:     0x000C
+ADTMRL                       =:     0x000E
+ADTMRH                       =:     0x000F
+I2CBUF                       =:     0x0013
+I2CCON                       =:     0x0014
+ADCAPL                       =:     0x0015
+ADCAPH                       =:     0x0016
+ADCON0                       =:     0x001F
+   
+OPTION_REG                   =:     0x0081
+TRISA                        =:     0x0085
+TRISC                        =:     0x0087
+TRISD                        =:     0x0088
+PIE1                         =:     0x008C
+PCON                         =:     0x008E
+SLPCON                       =:     0x008F
+I2CADD                       =:     0x0093
+I2CSTAT                      =:     0x0094
+LDACA                        =:     0x009B
+PREFA                        =:     0x009B
+LDACB                        =:     0x009C
+PREFB                        =:     0x009C
+CHGCON                       =:     0x009D
+CMCON                        =:     0x009D
+MISC                         =:     0x009E
+ADCON1                       =:     0x009F
+
+;----- STATUS Bits --------------------------------------------------------
+
+IRP                          =:     0x0007
+RP1                          =:     0x0006
+RP0                          =:     0x0005
+NOT_TO                       =:     0x0004
+NOT_PD                       =:     0x0003
+Z                            =:     0x0002
+DC                           =:     0x0001
+C                            =:     0x0000
+
+;----- INTCON Bits --------------------------------------------------------
+
+GIE                          =:     0x0007
+PEIE                         =:     0x0006
+T0IE                         =:     0x0005
+T0IF                         =:     0x0002
+
+;----- PIR1 Bits ----------------------------------------------------------
+
+WUIF                         =:     0x0007
+CMIF                         =:     0x0007
+PBIF                         =:     0x0004
+I2CIF                        =:     0x0003
+RCIF                         =:     0x0002
+ADCIF                        =:     0x0001
+OVFIF                        =:     0x0000
+
+;----- I2CCON Bits --------------------------------------------------------
+
+WCOL                         =:     0x0007
+I2COV                        =:     0x0006
+I2CEN                        =:     0x0005
+CKP                          =:     0x0004
+I2CM3                        =:     0x0003
+I2CM2                        =:     0x0002
+I2CM1                        =:     0x0001
+I2CM0                        =:     0x0000
+
+;----- ADCON0 Bits --------------------------------------------------------
+
+ADCS3                        =:     0x0007
+ADCS2                        =:     0x0006
+ADCS1                        =:     0x0005
+ADCS0                        =:     0x0004
+AMUXOE                       =:     0x0002
+ADRST                        =:     0x0001
+ADZERO                       =:     0x0000
+
+;----- OPTION Bits --------------------------------------------------------
+
+NOT_RCPU                     =:     0x0007
+T0CS                         =:     0x0005
+T0SE                         =:     0x0004
+PSA                          =:     0x0003
+PS2                          =:     0x0002
+PS1                          =:     0x0001
+PS0                          =:     0x0000
+
+;---- PIE1 Bits ----------------------------------------------------------
+
+WUIE                         =:     0x0007
+CMIE                         =:     0x0007
+PBIE                         =:     0x0004
+I2CIE                        =:     0x0003
+RCIE                         =:     0x0002
+ADCIE                        =:     0x0001
+OVFIE                        =:     0x0000
+
+;----- PCON Bits ----------------------------------------------------------
+
+NOT_POR                      =:     0x0001
+NOT_LVD                      =:     0x0000
+
+;----- SLPCON -------------------------------------------------------------
+
+HIBEN                        =:     0x0007
+REFOFF                       =:     0x0005
+BIASOFF                      =:     0x0004
+LSOFF                        =:     0x0004
+OSCOFF                       =:     0x0003
+CWUOFF                       =:     0x0002
+CMOFF                        =:     0x0002
+TEMPOFF                      =:     0x0001
+ADOFF                        =:     0x0000
+
+;----- I2CSTAT Bits -------------------------------------------------------
+
+D                            =:     0x0005
+I2C_DATA                     =:     0x0005
+NOT_A                        =:     0x0005
+NOT_ADDRESS                  =:     0x0005
+D_A                          =:     0x0005
+DATA_ADDRESS                 =:     0x0005
+P                            =:     0x0004
+I2C_STOP                     =:     0x0004
+S                            =:     0x0003
+I2C_START                    =:     0x0003
+R                            =:     0x0002
+I2C_READ                     =:     0x0002
+NOT_W                        =:     0x0002
+NOT_WRITE                    =:     0x0002
+R_W                          =:     0x0002
+READ_WRITE                   =:     0x0002
+UA                           =:     0x0001
+BF                           =:     0x0000
+
+;----- CMCON --------------------------------------------------------------
+
+CCOMPB                       =:     0x0006
+CMBOUT                       =:     0x0006
+CCBEN                        =:     0x0005
+CMBOE                        =:     0x0005
+CPOLB                        =:     0x0004
+CCOMPA                       =:     0x0002
+CMAOUT                       =:     0x0002
+CCAEN                        =:     0x0001
+CMAOE                        =:     0x0001
+CPOLA                        =:     0x0000
+
+;----- MISC Bits ----------------------------------------------------------
+
+SMHOG                        =:     0x0007
+SPGNDB                       =:     0x0006
+SPGNDA                       =:     0x0005
+I2CSEL                       =:     0x0004
+SMBUS                        =:     0x0003
+INCLKEN                      =:     0x0002
+OSC2                         =:     0x0001
+OSC1                         =:     0x0000
+
+;----- ADCON1 Bits --------------------------------------------------------
+
+ADDAC3                       =:     0x0007
+ADDAC2                       =:     0x0006
+ADDAC1                       =:     0x0005
+ADDAC0                       =:     0x0004
+ACFG3                        =:     0x0003
+PCFG3                        =:     0x0003
+ACFG2                        =:     0x0002
+PCFG2                        =:     0x0002
+ACFG1                        =:     0x0001
+ACFG1                        =:     0x0001
+ACFG0                        =:     0x0000
+ACFG0                        =:     0x0000
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+        .MAXRAM 0x0FF
+        .BADRAM 0x06,0x09,0x0D,0x10:0x12,0x17:0x1E
+        .BADRAM 0x86,0x89,0x8D,0x90:0x92,0x95:0x9A
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;==========================================================================
+
+_CPC_ON                      =:     0x1E7F
+_CPC_OFF                     =:     0x3FFF
+_CPU_ON                      =:     0x2DDF
+_CPU_OFF                     =:     0x3FFF
+_CPP_ON                      =:     0x33EF
+_CPP_OFF                     =:     0x3FFF
+_PWRTE_ON                    =:     0x3FF7
+_PWRTE_OFF                   =:     0x3FFF
+_WDT_ON                      =:     0x3FFF
+_WDT_OFF                     =:     0x3FFB
+_FOSC_HS                     =:     0x3FFE
+_FOSC_RC                     =:     0x3FFF
+
+	.LIST

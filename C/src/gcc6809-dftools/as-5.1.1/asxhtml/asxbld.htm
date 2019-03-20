@@ -1,0 +1,649 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>Building ASxxxx and ASlink</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "Index"></A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink</A>
+</B></H3>
+<H4><PRE>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#LINUX">Building ASxxxx and ASlink with Linux</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#CYGWIN">Building ASxxxx and ASlink with Cygwin</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#DJGPP">Building ASxxxx and ASlink with DJGPP</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#SYMANTEC">Building ASxxxx and ASlink with Symantec C/C++ 7.2</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#TURBOC">Building ASxxxx and ASlink with Turbo C++ 3.0</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#VC6">Building ASxxxx and ASlink with VC6</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#VS05">Building ASxxxx and ASlink with VS2005</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#VS10">Building ASxxxx and ASlink with VS2010</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#VS13">Building ASxxxx and ASlink with VS2013</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#WATCOM">Building ASxxxx and ASlink with Open Watcom</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "#BUILD">Maintenance Files _prep.bat and _clean.bat</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "asxdoc.htm#TOP">Go to Documentation Index</A>
+
+</PRE></H4>
+
+<H4><B><PRE>
+   The assemblers and linker have been successfully compiled for
+Linux, DOS, and various flavors of Windows using the Linux  GCC,
+the Cygwin environment, the DJGPP environment, and the graphical
+user   interfaces   and    command    line    environments    of
+MS Visual C++ V6.0,                       MS Visual Studio 2005,
+MS Visual Studio 2010, MS Visual Studio 2013,  Open Watcom V1.7,
+Symantec C/C++ V7.2, and Turbo C 3.0.  
+
+   Makefiles  for  Linux,  Cygwin,  DJGPP,  project  files and a
+makefile for Turbo C and psuedo makefiles and project files  for
+VC6, VS2005, VS2010, VS2013, Open Watcom and Symantec are avail-
+able to build all the assemblers and the linker.  
+
+   Unpack  the  asxv5pxx.zip  file into an appropriate directory
+using the utility appropriate to your environment.  For  DOS  or
+Windows  the following command line will unpack the distribution
+zip file:  
+
+        pkunzip -d asxv5pxx.zip
+
+
+The  distribution  file  has  been  packed with DOS style end of
+lines (CR/LF), and UPPER CASE file names.  The Linux  make  file
+assumes  all  lower  case directories and file names.  For Linux
+the unpacking utility you choose should have an option to  force
+all  lower  case  directories / file names and convert the ascii
+files to local format.  On most systems  the  following  command
+should do the trick:  
+
+        unzip -L -a asxv5pxx.zip
+
+Some systems may require a -LL option to force all lower case.  
+
+   The  distribution  will  be  unpacked into the base directory
+'asxv5pxx' which will contain source directories for  each  sup-
+ported  processor  (as6800, asz80, ...), the machine independent
+source  (asxxsrc),  the  linker  source   (linksrc),   and   the
+miscellaneous sources (asxxmisc).  Other directories include the
+documentation (asxdoc), test file directory (asxtst),  html  do-
+cumentation  (asxhtml),  NoICE  support  files  (noice), various
+debug monitors that can be assembled with the ASxxxx  assemblers
+(asmasm),  project files for an application that uses the AS6809
+assembler and ASlink linker (project), and the packaging  direc-
+tory (zipper).
+
+</PRE></B></H4>
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "LINUX"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with Linux</A>
+</B></H3>
+
+<H4><B><PRE>
+   The  Linux  build  directory is /asxv5pxx/asxmak/linux/build.
+The makefile in this directory is compatible with the Linux  GNU
+make and GCC.  The command 
+
+        make clean
+
+will  remove  all  the  current  executable  files  in directory
+/asxv5pxx/asxmak/linux/exe and all the compiled  object  modules
+from the /asxv5pxx/asxmak/linux/build directory.  
+
+   The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "CYGWIN"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with Cygwin</A>
+</B></H3>
+
+<H4><B><PRE>
+   The  Cygwin build directory is \asxv5pxx\asxmak\cygwin\build.
+The makefile in this directory is compatible with the Cygwin GNU
+make and GCC.  The command 
+
+        make clean
+
+will  remove  all  the  current  executable  files  in directory
+\asxv5pxx\asxmak\cygwin\exe and all the compiled object  modules
+from the \asxv5pxx\asxmak\cygwin\build directory.  The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "DJGPP"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with DJGPP</A>
+</B></H3>
+
+<H4><B><PRE>
+   The  DJGPP  build  directory is \asxv5pxx\asxmak\djgpp\build.
+The makefile in this directory is compatible with the DJGPP  GNU
+make and GCC.  The command 
+
+        make clean
+
+will  remove  all  the  current  executable  files  in directory
+\asxv5pxx\asxmak\djgpp\exe and all the compiled  object  modules
+from the \asxv5pxx\asxmak\djgpp\build directory.  The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "TURBOC"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with Turbo C++ 3.0</A>
+</B></H3>
+
+<H4><B><PRE>
+   The  Borland  product  is  available in the Borland Turbo C++
+Suite which contains C++ Builder 1.0, Turbo C++ 4.5 for  Windows
+and  Turbo C++ 3.0 for DOS.  The DOS IDE will install and run on
+any version of Windows (including Windows Vista [Longhorn]).  
+
+
+Graphical User Interface 
+
+   Each   ASxxxx   Assembler  has  two  project  specific  files
+(*.dsk and *.prj)     located      in      the      subdirectory
+\asxv5pxx\asxmak\turboc30\build.    You   must  enter  the  .prj
+filename into the Turbo C++ IDE:  enter Options->Directories and
+change  the  include and output directories to match your confi-
+guration.  After these changes have been made you will  be  able
+to compile the selected project.  These changes must be manually
+entered for each project.  
+
+
+Command Line Interface 
+
+   Before  the  command line interface can be used you must per-
+form the steps outlined in the 'Graphical  User  Interface'  in-
+structions above for each project you wish to build.  
+
+   Open      a      command     prompt     window     in     the
+\asxv5pxx\asxmak\turboc30\build directory.  Assuming the Turbo C
+compiler  has been installed in the default location (C:\TC) the
+file _setpath.bat will set the PATH variable.  If  this  is  not
+the case then the line 
+
+PATH=C:\TC;C:\TC\BIN;C:\TC\INCLUDE
+
+must  be changed to match your environment.  The compiled object
+code      modules      will      be      placed      in      the
+\asxv5pxx\asxmak\turboc30\build\  directory  and  the executable
+files will be placed in the \asxv5pxx\asxmak\turboc30\exe direc-
+tory.  
+
+
+   The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+
+The Turbo C make utility uses the information in the correspond-
+ing .prj and .dsk files to compile and link the programs.  
+
+   The file _makeall.bat found in the directory can also be used
+to invoke the Turbo C command line compiler.   The  _makeall.bat
+file calls the _setpath.bat file to set the path to the compiler
+directories in the environment variable PATH  and  then  invokes
+'make all'.  
+
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "VC6"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with VC6</A>
+</B></H3>
+
+<H4><B><PRE>
+
+Graphical User Interface 
+
+
+   Each  ASxxxx Assembler has a VC6 project file (*.dsw) located
+in a subdirectory of \asxv5pxx\asxmak\vc6\build.   Simply  enter
+this project filename into the VC6 IDE and build/rebuild the as-
+sembler.  
+
+
+Command Line Interface 
+
+
+   Open      a      command     prompt     window     in     the
+\asxv5pxx\asxmak\vc6\build directory.  The file  make.bat  found
+in the directory can be used to invoke the VC6 command line com-
+piler.  The make.bat file assumes that the Visual  C++  compiler
+has  been installed in the default location.  If this is not the
+case then the line 
+
+SET MS$DEV="C:\Program Files\Microsoft Visual Studio\
+               Common\MSDev98\Bin\msdev.exe"
+
+must  be changed to match your environment.  The compiled object
+code      modules      will      be      placed      in      the
+\asxv5pxx\asxmak\vc6\build\as----\release directory and the exe-
+cutable files will be  placed  in  the  \asxv5pxx\asxmak\vc6\exe
+directory.  
+
+
+   The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+
+The  VC6  command line compiler uses the information in the cor-
+responding .dsw/.dsp files to compile and link the programs.  
+
+   The  command  'make clean' is not required or valid as a make
+of anything does a complete rebuild of the program.
+  
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "VS05"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with VS2005</A>
+</B></H3>
+
+<H4><B><PRE>
+
+Graphical User Interface 
+
+
+   Each  ASxxxx  Assembler  has a VS2005 project file (*.vcproj)
+located in a subdirectory of \asxv5pxx\asxmak\vs05\build.   Sim-
+ply  enter  this  project  filename  into  the  VS2005  IDE  and
+build/rebuild the assembler.  
+
+
+Command Line Interface 
+
+
+   Open      a      command     prompt     window     in     the
+\asxv5pxx\asxmak\vs05\build directory.  The file make.bat  found
+in  the  directory can be used to invoke the VS2005 command line
+compiler.  The make.bat file assumes that the  Visual  C++  com-
+piler  has  been  installed in the default location.  If this is
+not the case then the line 
+
+SET VC$BUILD="C:\Program Files\Microsoft Visual Studio 8\
+                 Common\MSDev98\Bin\msdev.exe"
+
+must  be changed to match your environment.  The compiled object
+code      modules      will      be      placed      in      the
+\asxv5pxx\asxmak\vs05\build\as----\release directory and the ex-
+ecutable files will be placed in  the  \asxv5pxx\asxmak\vs05\exe
+directory.  
+
+
+   The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+
+The  VS2005  command  line  compiler uses the information in the
+corresponding .vcproj file to compile and link the programs.  
+
+   The  command  'make clean' is not required or valid as a make
+of anything does a complete rebuild of the program.  
+
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "VS10"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with VS2010</A>
+</B></H3>
+
+<H4><B><PRE>
+
+Graphical User Interface 
+
+
+   Each  ASxxxx  Assembler has a VS2010 project file (*.vcxproj)
+located in a subdirectory of \asxv5pxx\asxmak\vs10\build.   Sim-
+ply  enter  this  project  filename  into  the  VS2010  IDE  and
+build/rebuild the assembler.  
+
+
+Command Line Interface 
+
+
+   Open      a      command     prompt     window     in     the
+\asxv5pxx\asxmak\vs10\build directory.  The file make.bat  found
+in  the  directory can be used to invoke the VS2010 command line
+compiler.  The make.bat file assumes that the  Visual  C++  com-
+piler  has  been  installed in the default location.  If this is
+not the case then the line 
+
+call "c:\Program Files (x86)\Microsoft Visual Studio 10.0\
+                 VC\bin\vcvars32.bat"
+
+must  be changed to match your environment.  The compiled object
+code      modules      will      be      placed      in      the
+\asxv5pxx\asxmak\vs10\build\as----\release directory and the ex-
+ecutable files will be placed in  the  \asxv5pxx\asxmak\vs10\exe
+directory.  
+
+
+   The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+
+The  VS2010  command  line  compiler uses the information in the
+corresponding .vcxproj file to compile and link the programs.  
+
+   The  command  'make clean' is not required or valid as a make
+of anything does a complete rebuild of the program.  
+
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "VS13"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with VS2013</A>
+</B></H3>
+
+<H4><B><PRE>
+
+Graphical User Interface 
+
+
+   Each  ASxxxx  Assembler has a VS2013 project file (*.vcxproj)
+located in a subdirectory of \asxv5pxx\asxmak\vs13\build.   Sim-
+ply  enter  this  project  filename  into  the  VS2013  IDE  and
+build/rebuild the assembler.  
+
+
+Command Line Interface 
+
+
+   Open      a      command     prompt     window     in     the
+\asxv5pxx\asxmak\vs13\build directory.  The file make.bat  found
+in  the  directory can be used to invoke the VS2013 command line
+compiler.  The make.bat file assumes that the  Visual  C++  com-
+piler  has  been  installed in the default location.  If this is
+not the case then the line 
+
+call "c:\Program Files (x86)\Microsoft Visual Studio 12.0\
+                 VC\bin\vcvars32.bat"
+
+must  be changed to match your environment.  The compiled object
+code      modules      will      be      placed      in      the
+\asxv5pxx\asxmak\vs13\build\as----\release directory and the ex-
+ecutable files will be placed in  the  \asxv5pxx\asxmak\vs13\exe
+directory.  
+
+
+
+   The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+
+The  VS2013  command  line  compiler uses the information in the
+corresponding .vcxproj file to compile and link the programs.  
+
+   The  command  'make clean' is not required or valid as a make
+of anything does a complete rebuild of the program.  
+
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "WATCOM"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with Open Watcom</A>
+</B></H3>
+
+<H4><B><PRE>
+
+Graphical User Interface 
+
+
+   Each ASxxxx Assembler has a set of project files (.prj, .tgt,
+.mk,   .mk1,   and   .lk1)   located   in    the    subdirectory
+\asxv5pxx\asxmak\watcom\build.   You  will have to edit the pro-
+ject files to match your local file locations.  
+
+
+Command Line Interface 
+
+
+   Open      a      command     prompt     window     in     the
+\asxv5pxx\asxmak\watcom\build directory.   Assuming  the  Watcom
+compiler  has been installed in the default location (C:\WATCOM)
+the file _setpath.bat will set the PATH variable.   If  this  is
+not the case then the line 
+
+PATH=C:\WATCOM\BINNT;C:\WATCOM\BINW
+
+must  be changed to match your environment.  The compiled object
+code      modules      will      be      placed      in      the
+\asxv5pxx\asxmak\watcom\build\   directory  and  the  executable
+files will be placed in the  \asxv5pxx\asxmak\watcom\exe  direc-
+tory.  
+
+
+   The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+
+The  Watcom command line compiler wmake.exe uses the information
+in the corresponding project files to compile and link the  pro-
+grams.  
+
+   The file _makeall.bat found in the directory can also be used
+to invoke the Watcom command line  compiler.   The  _makeall.bat
+file calls the _setpath.bat file to set the path to the compiler
+directories in the environment variable PATH  and  then  invokes
+'make all'.  
+
+   The  command  'make clean' is not required or valid as a make
+of anything does a complete rebuild of the program.
+  
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "SYMANTEC"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Building ASxxxx and ASlink with Symantec C/C++ V7.2</A>
+</B></H3>
+
+<H4><B><PRE>
+
+   The  Symantec  product is no longer available but is included
+for historical reasons (the final version, 7.5,  was  introduced
+in  1996).   The  product had an excellent graphical user inter-
+face, built in editor, project manager, and supported  DOS,  Ex-
+tended  DOS  (the  executable  contained a built in DOS extender
+which was rendered unusable in Windows 2000, after service  pack
+2, or in Windows XP), Win95, and Windows NT.  
+
+
+Graphical User Interface 
+
+
+   Each  ASxxxx Assembler has a series of project specific files
+(*.bro, *.def, *.dpd, *.lnk, *.mak, *.opn, and *.prj) located in
+in  the  subdirectory \asxv5pxx\asxmak\symantec\build.  You must
+enter the .prj filename into the Symantec IDE  and  then  select
+Project->Settings->Directories  and  change the include, target,
+and compiler output directories  to  match  your  configuration.
+After  these  changes have been made you will be able to compile
+the selected project.  These changes must  be  manually  entered
+for each project.  
+
+
+Command Line Interface 
+
+
+   Before  the  command line interface can be used you must per-
+form the steps outlined in the 'Graphical  User  Interface'  in-
+structions above for each project you wish to build.  
+
+   Open      a      command     prompt     window     in     the
+\asxv5pxx\asxmak\symantec\build directory.   The  file  make.bat
+found  in  the directory can be used to invoke the Symantec com-
+mand line compiler.  The make.bat file assumes that the path  to
+the  compiler  directories has been set in the environment vari-
+able PATH.  Assuming the Symantec compiler has been installed in
+the  default location (C:\SC) the file _setpath.bat will set the
+PATH variable.  If this is not the case then the line 
+
+PATH=C:\SC;C:\SC\BIN;C:\SC\INCLUDE;C:\SC\LIB
+
+must  be changed to match your environment.  The compiled object
+code      modules      will      be      placed      in      the
+\asxv5pxx\asxmak\symantec\build  directory  and  the  executable
+files will be placed in the \asxv5pxx\asxmak\symantec\exe direc-
+tory.  
+
+
+   The command 
+
+        make all
+
+will compile and link all the ASxxxx assemblers, the ASlink pro-
+gram, and the utility programs asxscn and asxcnv.  The make file
+can make a single program by invoking make with the specific as-
+sembler, linker, or utility you wish to build:  
+
+        make aslink
+
+
+The  Symantec  make utility , smake.exe, uses the information in
+the corresponding .mak files to compile and link the programs.  
+
+   The file _makeall.bat found in the directory can also be used
+to invoke the Symantec command line compiler.  The  _makeall.bat
+file calls the _setpath.bat file to set the path to the compiler
+directories in the environment variable PATH  and  then  invokes
+'make all'.  
+  
+</PRE></B></H4>
+
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<A NAME = "BUILD"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Maintenace Files _prep.bat and _clean.bat</A>
+</B></H3>
+
+<H4><B><PRE>
+
+   Each  of  the  build  directories have two maintenance files:
+_prep.bat and _clean.bat.  The command file  _prep.bat  prepares
+the particular compiler directories for distribution by removing
+all exteraneous files but keeping  the  final  compiled  execut-
+ables.   The  _clean.bat command file performs the same function
+as _prep.bat and removes the compiled executables.  
+  
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: October 2014</B></P></H6>
+</BODY> 
+</HTML>

@@ -1,0 +1,4 @@
+# Symantec SC++ generated .dpd file. V: 7200
+..\build\asxxconv.OBJ: \
+	..\..\..\asxxmisc\asxxconv.c \
+	..\..\..\asxxsrc\asxxxx.h 

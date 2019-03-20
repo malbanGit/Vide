@@ -1,0 +1,231 @@
+#!/bin/sh
+#
+# Copyright 2006 by Brian Dominy <brian@oddchange.com>
+#
+# Changes by David Flamand <dflamand@gmail.com> (June 2016)
+#  - cleanup, more robust and verbose in case of error
+#
+# This file is part of GCC6809.
+#
+# GCC6809 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# GCC6809 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with GCC6809; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#
+
+# This script is a frontend to the aslib library manager, to make it
+# look more like GNU ar.  Not all ar features are supported here.
+# It basically translates ar style options into aslib format.
+
+set -e
+IFS=' '
+
+as_prefix=@AS_PREFIX@
+bindir=${as_prefix}/bin
+
+showversion () {
+cat <<END
+ar (m6809) [GNU archiver frontend] 0.3 20160608
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License.  This program has absolutely no warranty.
+END
+}
+
+# Output a message to stderr and exit with a failure code.
+error ()
+{
+	echo "ar (m6809): $1" >&2
+	if [ -z "$2" ]; then
+		exit 1
+	fi
+}
+
+# Strip directory from path.
+basename()
+{
+	printf "%s" "${1##*/}"
+}
+
+# Strip filename from path.
+dirname()
+{
+	name=${1##*/}
+	name=${1%$name}
+	printf "%s" "${name:-.}"
+}
+
+# Install or uninstall library cache.
+libcachetool ()
+{
+	install=$1; shift
+
+	if [ $# = 0 ]; then
+		error "no file given"
+	fi
+	if [ $# -gt 1 ]; then
+		shift
+		error "extra garbage '$*'"
+	fi
+
+	libpathname=$1
+	if [ "$install" = 1 -a ! -f "$libpathname" ]; then
+		error "no such file '$libpathname'"
+	fi
+
+	libfile=`basename "$libpathname"`
+	libdir=`dirname "$libpathname"`
+	lib=${libfile%.*}
+	tmplibfile=$libfile.tmp
+	libcache=${lib}-cache
+	tmplibcache=$libcache.tmp
+
+	if [ ! -d "$libdir" ]; then
+		error "no such directory '$libdir'"
+	fi
+	cd "$libdir"
+
+	# Check if library file exist
+	if [ ! -f "$libfile" ]; then
+		error "'$libfile' does not exist in '$libdir'"
+	fi
+
+	if [ "$install" = 1 ]; then
+		### '--cache' option ###
+
+		# Check for cache directory
+		if [ -d "$libcache" ]; then
+			error "directory '$libcache' already exist"
+		fi
+
+		# Recreate the cache directory
+		rm -rf "$tmplibcache"
+		mkdir -p "$tmplibcache"
+
+		# Fill the cache
+		cd "$tmplibcache"
+		if ! $bindir/aslib x "../$libfile"; then
+			cd ..
+			rm -rf "$tmplibcache"
+			exit 1
+		fi
+		cd ..
+
+		# Overwrite cache with temp cache
+		rm -rf "$libcache"
+		mv "$tmplibcache" "$libcache"
+
+		# Make the index file
+		find "$libcache" -name '*.o' | LC_ALL=C sort >"$libfile"
+	else
+		### '--uncache' option ###
+
+		# Check for cache directory
+		if [ ! -d "$libcache" ]; then
+			error "directory '$libcache' does not exist"
+		fi
+
+		# Separator set to newline
+		IFS='
+'
+		# Generate a list of object file
+		objects=`cat $libfile`
+
+		# Remove temp file
+		rm -f "$tmplibfile"
+
+		# Rename old library file
+		mv "$libfile" "$tmplibfile"
+
+		# Build a new library from object file
+		cd "$libcache"
+		if ! $bindir/aslib qc "../$libfile" $objects; then
+			cd ..
+			rm -rf "$libfile"
+			mv "$tmplibfile" "$libfile"
+			exit 1
+		fi
+		cd ..
+
+		# Removing cache directory and library file
+		rm -rf "$libcache" "$tmplibfile"
+	fi
+
+	exit
+}
+
+# Reorder and remove duplicate option letter.
+options=${1#-}
+prefix=${1%$options}
+if [ "$options" = "${options#-}" ]; then
+	error=; c=; d=; p=; q=; r=; t=; u=; v=; x=
+	while [ -n "$options" ]; do
+		remain=${options#?}
+		letter=${options%$remain}
+		case $letter in
+			c) c=c;; d) d=d;; p) p=p;;
+			q) q=q;; r) r=r;; t) t=t;;
+			u) u=u;; v) v=v;; x) x=x;;
+			*) error=X; error "invalid option -- '$letter'" X;;
+		esac
+		options=$remain
+	done
+	if [ -n "$error" ]; then
+		exit 1
+	fi
+	options=$c$d$p$q$r$t$u$v$x
+fi
+
+# Make sure we have an option.
+if [ -z "$options" ]; then
+	error "no options given"
+fi
+
+# Parse and translate command-line options.
+shift
+case $options in
+############################################################
+# these are custom archiver options (no GNU ar equivalent) #
+	-cache)
+		libcachetool 1 "$@"
+		;;
+	-uncache)
+		libcachetool 0 "$@"
+		;;
+############################################################
+	-version)
+		showversion
+		exit 0
+		;;
+	-help)
+		cat $0 # TODO
+		exit 0
+		;;
+	cru)
+		options="cr"
+		;;
+	cruv)
+		options="crv"
+		;;
+	cr|crv|d|dv|p|pv|q|qv|r|rv|t|tv|vx|x)
+		;;
+	*)
+		error "invalid options '$prefix$options'"
+		;;
+esac
+
+# Make sure we have an archive.
+if [ -z "$1" ]; then
+	error "no archive given"
+fi
+
+# Invoke the real assembler with translated options.
+exec $bindir/aslib $options "$@"

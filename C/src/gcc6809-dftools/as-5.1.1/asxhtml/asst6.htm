@@ -1,0 +1,139 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASST6  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+ST6 REGISTER SET 
+
+The following is a list of the ST6 registers used by ASST6:  
+
+        a       -       8-bit accumulator
+        x,y     -       8-bit index registers
+        v,w     -       8-bit scratch registers
+
+
+ST6 INSTRUCTION SET 
+
+
+     The following list specifies the format for each addressing
+mode supported by ASST6:  
+
+        r               register (a,x,y,w,v) addressing
+
+        #data           immediate data byte
+
+        dir or *dir     8-bit zero page addressing
+                        0 <= dir <= 255 
+
+        ext             12-bit extended addressing
+
+        (x) or (y)      register indirect addressing
+
+        label           pc-relative branch addressing
+
+The  terms  data, dir, offset, ext, and label may all be expres-
+sions.  
+
+     Note that not all addressing modes are valid with every in-
+struction, refer to the ST6 technical data for valid modes.  
+The  following  tables  list all ST6 mnemonics recognized by the
+ASST6 assembler.  
+
+
+Inherent Instructions 
+
+        nop                     ret
+        reti                    stop
+        wait
+
+
+Conditional Branch Instructions 
+
+        jrc     label           jrnc    label
+        jrz     label           jrnz    label
+        jrr     #,*dir,label
+        jrs     #,*dir,label
+
+
+Bit Manipulation Instructions 
+
+        set     #,*dir          res     #,*dir
+
+
+Single Operand Instructions 
+
+        clr     a               clr     *dir
+        com     a
+
+        dec     r               dec     *dir
+        dec     (x)             dec     (y)
+        inc     r               inc     *dir
+        inc     (x)             inc     (y)
+
+        rlc     a               sla     a
+
+
+Double Operand Instructions 
+
+        add     a,(x)           add     a,(y)
+        add     a,*dir          addi    a,#
+
+        and     a,(x)           and     a,(y)
+        and     a,*dir          andi    a,#
+
+        cp      a,(x)           cp      a,(y)
+        cp      a,*dir          cpi     a,#
+
+        sub     a,(x)           sub     a,(y)
+        sub     a,*dir          subi    a,#
+
+
+Call to Subroutine and Jump Instructions 
+
+        call    ext             jmp     ext
+
+
+Load and Store Instructions 
+
+        ld      a,x             ld      a,y
+        ld      a,v             ld      a,w
+
+        ld      x,a             ld      y,a
+        ld      v,a             ld      w,a
+
+        ld      a,*dir          ld      *dir,a
+
+        ld      a,(x)           ld      a,(y)
+        ld      (x),a           ld      (y),a
+
+        ldi     a,#             ld      *dir,#
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: October 2010</B></P></H6>
+</BODY> 
+</HTML>

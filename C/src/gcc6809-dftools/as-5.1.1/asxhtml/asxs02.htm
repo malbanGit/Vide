@@ -1,0 +1,1860 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>The Assembler Description</H2>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<BR>
+<A NAME = "Directives"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... General Assembler Directives</A>
+</B></H3>
+
+<H4><B><PRE>
+   An  ASxxxx  directive  is placed in the operator field of the
+source line.  Only one directive is  allowed  per  source  line.
+Each  directive  may  have  a blank operand field or one or more
+operands.  Legal operands differ with each directive.  
+
+</PRE></B></H4>
+
+<H4><B><UL>
+<LI><A HREF= #module>  .module Directive </A> 
+<LI><A HREF= #title>  .title Directive </A>
+<LI><A HREF= #sbttl>  .sbttl Directive </A>
+<LI><A HREF= #list>  .list and .nlist Directives </A>
+<LI><A HREF= #page>  .page Directive </A>
+<LI><A HREF= #msg>  .msg Directive </A>
+<LI><A HREF= #error>  .error Directive </A>
+<LI><A HREF= #byte>  .byte, .db, and .fcb Directives </A>
+<LI><A HREF= #word>  .word, .dw, and .fdb Directives </A>
+<LI><A HREF= #3byte>  .3byte and .triple Directives </A>
+<LI><A HREF= #4byte>  .4byte and .quad Directives </A>
+<LI><A HREF= #blkb>  .blkb, .ds, .rmb, and .rs Directives </A>
+<LI><A HREF= #blkw>  .blkw, .blk3, and .blk4 Directives </A>
+<LI><A HREF= #ascii>  .ascii, .fcc, and .str Directives </A>
+<LI><A HREF= #ascis>  .ascis and .strs Directives </A>
+<LI><A HREF= #asciz>  .asciz and .strz Directives </A>
+<LI><A HREF= #assume>  .assume Directive </A>
+<LI><A HREF= #radix>  .radix Directive </A>
+<LI><A HREF= #even>  .even Directive </A>
+<LI><A HREF= #odd>  .odd Directive </A>
+<LI><A HREF= #bndry>  .bndry Directive </A>
+<LI><A HREF= #area>  .area Directive </A>
+<LI><A HREF= #bank>  .bank Directive </A>
+<LI><A HREF= #org>  .org Directive </A>
+<LI><A HREF= #globl>  .globl Directive </A>
+<LI><A HREF= #local>  .local Directive </A>
+<LI><A HREF= #alt>  .equ, .gblequ, and .lclequ Directives </A>
+<LI><A HREF= #if>  .if, .else, and .endif Directives </A>
+<LI><A HREF= #iftf>  .iff, .ift, and .iftf Directives </A>
+<LI><A HREF= #ifxx>  .ifxx Directive </A>
+<LI><A HREF= #ifdef>  .ifdef Directive </A>
+<LI><A HREF= #ifndef>  .ifndef Directive </A>
+<LI><A HREF= #ifb>  .ifb Directive </A>
+<LI><A HREF= #ifnb>  .ifnb Directive </A>
+<LI><A HREF= #ifidn>  .ifidn Directive </A>
+<LI><A HREF= #ifdif>  .ifdif Directive </A>
+<LI><A HREF= #ifalt>  Alternate .if Directive Forms </A>
+<LI><A HREF= #iif>  Immediate Conditional Assembly Directives </A>
+<LI><A HREF= #include>  .include Directive </A>
+<LI><A HREF= #define>  .define and .undefine Directives </A>
+<LI><A HREF= #setdp>  .setdp Directive </A>
+<LI><A HREF= #bits>  .16bit, .24bit, and .32bit Directives </A>
+<LI><A HREF= #msb>  .msb Directive </A>
+<LI><A HREF= #lohi>  .lohi and .hilo Directives </A>
+<LI><A HREF= #end>  .end Directive </A>
+<BR><BR>
+<LI><A HREF="asmblr.htm#Index">  Return to the Assembler Index</A>
+</UL></B></H4>
+
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "module"></A><FONT COLOR="#FF0000">.module</FONT> Directive 
+
+Format:  
+
+        .module name 
+
+   The  .module  directive causes the name to be included in the
+assemblers output file as an identifier for this particular  ob-
+ject module.  The name may be from 1 to 79 characters in length.
+The name may not have any embedded white space (spaces or tabs).
+Only  one  identifier is allowed per assembled module.  The main
+use of this directive  is  to  allow  the  linker  to  report  a
+modules'  use  of undefined symbols.  At link time all undefined
+symbols are  reported  and  the  modules  referencing  them  are
+listed.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "title"></A><FONT COLOR="#FF0000">.title</FONT> Directive 
+
+Format:  
+
+        .title  string 
+
+   The .title directive provides a character string to be placed
+on the second line of each page during listing.  The string  be-
+gins  with  the first non white space character (after any space
+or tab) and ends with the end of the line.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "sbttl"></A><FONT COLOR="#FF0000">.sbttl</FONT> Directive 
+
+Format:  
+
+        .sbttl  string 
+
+   The .sbttl directive provides a character string to be placed
+on the third line of each page during listing.  The  string  be-
+gins  with  the first non white space character (after any space
+or tab) and ends with the end of the line.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "list"></A><FONT COLOR="#FF0000">.list</FONT> and </A><FONT COLOR="#FF0000">.nlist</FONT> Directives 
+
+Format:  
+
+        .list                           ;Basic .list 
+
+        .list   expr                    ;with expression 
+
+        .list   (arg1,arg2,...,argn)    ;with sublist options 
+
+        .nlist                          ;Basic .nlist 
+
+        .nlist  expr                    ;with expression 
+
+        .nlist  (arg1,arg2,...,argn)    ;with sublist options 
+
+
+The  .list  and  .nlist directives control the listing output to
+the .lst  file.   The  directives  have  the  following  sublist
+options:  
+
+        err     -       errors
+        loc     -       program location
+        bin     -       binary output
+        eqt     -       symbol or .if evaluation
+        cyc     -       opcode cycle count
+        lin     -       source line number
+        src     -       source line text
+        pag     -       pagination
+        lst     -       .list/.nlist line listing
+        md      -       macro definition listing
+        me      -       macro expansion listing
+        meb     -       macro expansion binary listing
+
+        !       -       sets the listing mode to
+                        !(.list) or !(.nlist) before
+                        applying the sublist options
+
+
+The  'normal' listing mode .list is the combination of err, loc,
+bin, eqt, cyc, lin, src, pag, lst, and md enabled  with  me  and
+meb  disabled.  The 'normal' listing mode .nlist has all sublist
+items disabled.  When specifying sublist options the option list
+must   be  enclosed  within  parenthesis  and  multiple  options
+seperated by commas.  
+
+   The NOT option, !, is used to set the listing mode to the op-
+posite of the .list or .nlist directive before applying the sub-
+list options.  For example:  
+
+        .nlist  (!)     is equivalent to .list  and
+        .list   (!)     is equivalent to .nlist
+                        any additional options will
+                        be applied normally
+
+
+   Normal  .list/.nlist processing is disabled within false con-
+ditional blocks.  However, the .list/.nlist with  an  expression
+can  override  this  behavior  if  the expression has a non zero
+value.  
+
+   Examples of listing options:  
+
+        .list   (meb)   ; lists macro generated binary
+
+        .list   (me)    ; lists macro expansions
+
+        .nlist  (src)   ; .nlist src lines not listed
+
+        .nlist  (!,lst) ; list all except .nlist
+
+        .nlist          ; combination lists only
+        .list   (src)   ; the source line
+
+        .list   (!,src) ; list only the source line
+
+        .list   1       ; enable listing even within
+                        ; a FALSE conditional block
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "page"></A><FONT COLOR="#FF0000">.page</FONT> Directive 
+
+Format:  
+
+        .page 
+
+   The .page directive causes a page ejection with a new heading
+to be printed.  The new page occurs after the next line  of  the
+source  program is processed, this allows an immediately follow-
+ing .sbttl directive to appear  on  the  new  page.   The  .page
+source  line will not appear in the file listing.  Paging may be
+disabled by invoking the -p directive or by using the directive: 
+
+        .nlist  (pag)
+
+
+   If  the .page directive is followed by a non zero constant or
+an expression that evaluates to a non zero value then pagination
+will be enabled within a false condition range to allow extended
+textual information to be incorporated  in  the  source  program
+with out the need to use the comment delimiter (;):  
+
+        .if     0
+
+        .page   1       ;Enable pagination within 'if' block.
+        This text will be bypassed during assembly
+        but appear in the listing file.
+        .
+        .
+        .
+
+        .endif
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "msg"></A><FONT COLOR="#FF0000">.msg</FONT> Directive 
+
+Format:  
+
+        .msg     /string/               or 
+
+        .msg    ^/string/ 
+
+
+where:  string  represents a text string.  The string is printed
+                to the console during the final assembly pass.  
+
+        /  /    represent   the  delimiting  characters.   These
+                delimiters   may   be   any   paired    printing
+                characters,  as  long  as the characters are not
+                contained within  the  string  itself.   If  the
+                delimiting  characters  do  not  match, the .msg
+                directive will give the (q) error.  
+
+
+   The  .msg  directive  is  useful to report assembly status or
+other information during the assembly process.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "error"></A><FONT COLOR="#FF0000">.error</FONT> Directive 
+
+Format:  
+
+        .error exp 
+
+where:  exp     represents   an  absolute  expression.   If  the
+                evaluation of the expression results  in  a  non
+                zero value then an 'e' error is reported and the
+                text line is listed in the generated error.  
+
+
+   The  .error  directive  is  useful to report configuration or
+value errors during the assembly process.  (The .error directive
+is  identical in function to the .assume directive, just perhaps
+more descriptive.) 
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "byte"></A><FONT COLOR="#FF0000">.byte</FONT>, <FONT COLOR="#FF0000">.db</FONT>, and <FONT COLOR="#FF0000">.fcb</FONT> Directives 
+
+Format:  
+
+        .byte   exp             ;Stores the binary value
+        .db     exp             ;of the expression in the
+        .fcb    exp             ;next byte.
+
+        .byte   exp1,exp2,expn  ;Stores the binary values
+        .db     exp1,exp2,expn  ;of the list of expressions
+        .fcb    exp1,exp2,expn  ;in successive bytes.
+
+where:  exp,    represent expressions that will be
+        exp1,   truncated to 8-bits of data.
+        .       Each expression will be calculated,
+        .       the high-order byte will be truncated.
+        .       Multiple expressions must be
+        expn    separated by commas.
+
+   The  .byte, .db, or .fcb directives are used to generate suc-
+cessive bytes of binary data in the object module.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "word"></A><FONT COLOR="#FF0000">.word</FONT>, <FONT COLOR="#FF0000">.dw</FONT>, and <FONT COLOR="#FF0000">.fdb</FONT> Directives 
+
+Format:  
+
+        .word   exp             ;Stores the binary value
+        .dw     exp             ;of the expression in
+        .fdb    exp             ;the next word.
+
+        .word   exp1,exp2,expn  ;Stores the binary values
+        .dw     exp1,exp2,expn  ;of the list of expressions
+        .fdb    exp1,exp2,expn  ;in successive words.
+
+where:  exp,    represent expressions that will occupy two
+        exp1,   bytes of data. Each expression will be
+        .       calculated as a 16-bit word expression.
+        .       Multiple expressions must be
+        expn    separated by commas.
+
+   The  .word, .dw, or .fdb directives are used to generate suc-
+cessive words of binary data in the object module.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "3byte"></A><FONT COLOR="#FF0000">.3byte</FONT> and <FONT COLOR="#FF0000">.triple</FONT> Directive 
+
+Format:  
+
+        .3byte  exp             ;Stores the binary value
+        .triple exp             ;of the expression in
+                                ;the next triple (3 bytes).
+
+        .3byte  exp1,exp2,expn  ;Stores the binary values
+        .triple exp1,exp2,expn  ;of the list of expressions
+                                ;in successive triples
+                                ;(3 bytes).
+
+where:  exp,    represent expressions that will occupy three
+        exp1,   bytes of data. Each expression will be
+        .       calculated as a 24-bit word expression.
+        .       Multiple expressions must be
+        expn    separated by commas.
+
+   The  .3byte  or .triple directive is used to generate succes-
+sive triples of binary data in the object module.  (These direc-
+tives   are  only  available  in  assemblers  supporting  24-bit
+addressing.) 
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "4byte"></A><FONT COLOR="#FF0000">.4byte</FONT> and <FONT COLOR="#FF0000">.quad</FONT> Directives 
+
+Format:  
+
+        .4byte  exp             ;Stores the binary value
+        .quad   exp             ;of the expression in
+                                ;the next quad (4 bytes).
+        
+        .4byte  exp1,exp2,expn  ;Stores the binary values
+        .quad   exp1,exp2,expn  ;of the list of expressions
+                                ;in successive quads
+                                ;(4 bytes).
+        
+where:  exp,    represent expressions that will occupy three
+        exp1,   bytes of data. Each expression will be
+        .       calculated as a 32-bit word expression.
+        .       Multiple expressions must be
+        expn    separated by commas.
+
+   The  .4byte or .quad directive is used to generate successive
+quads of binary data in the object module.  (This  directive  is
+only available in assemblers supporting 32-bit addressing.) 
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "blkb"></A><FONT COLOR="#FF0000">.blkb</FONT>, <FONT COLOR="#FF0000">.ds</FONT>, <FONT COLOR="#FF0000">.rmb</FONT>, and <FONT COLOR="#FF0000">.rs</FONT> Directives 
+
+Format:  
+
+        .blkb   N       ;reserve N bytes of space
+        .ds     N       ;reserve N bytes of space
+        .rmb    N       ;reserve N bytes of space
+        .rs     N       ;reserve N bytes of space
+
+   The  .blkb, .ds, .rmb, and .rs directives reserve byte blocks
+in the object module;  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "blkw"></A><FONT COLOR="#FF0000">.blkw</FONT>, <FONT COLOR="#FF0000">.blk3</FONT>, and <FONT COLOR="#FF0000">.blk4</FONT> Directives 
+
+Format:  
+
+        .blkw   N       ;reserve N words of space
+        .blk3   N       ;reserve N triples of space
+        .blk4   N       ;reserve N quads of space
+
+   The .blkw directive reserves word blocks;  the .blk3 reserves
+3  byte  blocks(available  in   assemblers   supporting   24-bit
+addressing);  the .blk4 reserves 4 byte blocks (available in as-
+semblers supporting 32-bit addressing).  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ascii"></A><FONT COLOR="#FF0000">.ascii</FONT>, <FONT COLOR="#FF0000">.fcc</FONT> and <FONT COLOR="#FF0000">.str</FONT> Directives 
+
+Format:  
+
+        .ascii   /string/               or 
+
+        .ascii  ^/string/ 
+
+        .fcc     /string/               or 
+
+        .fcc    ^/string/ 
+
+        .str     /string/               or 
+
+        .str    ^/string/ 
+
+where:  string  is a string of printable ascii characters.  
+
+        /  /    represent   the  delimiting  characters.   These
+                delimiters   may   be   any   paired    printing
+                characters,  as  long  as the characters are not
+                contained within  the  string  itself.   If  the
+                delimiting  characters  do not match, the .ascii
+                directive will give the (q) error.  
+
+The  .ascii,  .fcc, and .str directives place one binary byte of
+data for each character in the string into the object module.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ascis"></A><FONT COLOR="#FF0000">.ascis</FONT> and <FONT COLOR="#FF0000">.strs</FONT> Directives 
+
+Format:  
+
+        .ascis   /string/               or 
+
+        .ascis  ^/string/ 
+
+        .strs    /string/               or 
+
+        .strs   ^/string/ 
+
+
+where:  string  is a string of printable ascii characters.  
+
+        /  /    represent   the  delimiting  characters.   These
+                delimiters   may   be   any   paired    printing
+                characters,  as  long  as the characters are not
+                contained within  the  string  itself.   If  the
+                delimiting  characters  do not match, the .ascis
+                and .strs directives will give the (q) error.  
+
+
+   The .ascis and .strs directives place one binary byte of data
+for each character in the string into the  object  module.   The
+last character in the string will have the high order bit set.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "asciz"></A><FONT COLOR="#FF0000">.asciz</FONT> and <FONT COLOR="#FF0000">.strz</FONT> Directives 
+
+Format:  
+
+        .asciz   /string/               or 
+
+        .asciz  ^/string/ 
+
+        .strz    /string/               or 
+
+        .strz   ^/string/ 
+
+
+where:  string  is a string of printable ascii characters.  
+
+        /  /    represent   the  delimiting  characters.   These
+                delimiters   may   be   any   paired    printing
+                characters,  as  long  as the characters are not
+                contained within  the  string  itself.   If  the
+                delimiting  characters  do not match, the .asciz
+                and .strz directive will give the (q) error.  
+
+
+   The .asciz and .strz directives place one binary byte of data
+for each character in the string into the object  module.   Fol-
+lowing  all  the  character data a zero byte is inserted to ter-
+minate the character string.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "assume"></A><FONT COLOR="#FF0000">.assume</FONT> Directive 
+
+Format:  
+
+        .assume exp 
+
+where:  exp     represents   an  absolute  expression.   If  the
+                evaluation of the expression results  in  a  non
+                zero value then an 'e' error is reported and the
+                text line is listed in the generated error.  
+
+
+   The  .assume  directive  is useful to check assumptions about
+assembler values.  (The .assume directive is identical in  func-
+tion to the .error directive, just perhaps more descriptive.) 
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "radix"></A><FONT COLOR="#FF0000">.radix</FONT> Directive 
+
+Format:  
+
+        .radix  character 
+
+where:  character  represents  a single character specifying the
+        default radix to be used for  succeeding  numbers.   The
+        character may be any one of the following:  
+
+                B,b     Binary
+
+                O,o     Octal
+                Q,q
+
+                D,d     Decimal
+                'blank'
+
+                H,h     Hexidecimal
+                X,x
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "even"></A><FONT COLOR="#FF0000">.even</FONT> Directive 
+
+Format:  
+
+        .even 
+
+   The .even directive ensures that the current location counter
+contains an even boundary value by adding 1 if the current loca-
+tion is odd.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "odd"></A><FONT COLOR="#FF0000">.odd</FONT> Directive 
+
+Format:  
+
+        .odd 
+
+   The  .odd directive ensures that the current location counter
+contains an odd boundary value by adding one if the current  lo-
+cation is even.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "bndry"></A><FONT COLOR="#FF0000">.bndry</FONT> Directive 
+
+Format:  
+
+        .bndry  n 
+
+   If  the current location is not an integer multiple of n then
+the location counter is increased to the next  integer  multiple
+of n.  
+
+   As an example:  
+
+        .bndry  4 
+
+changes  the current location to be at a multiple of 4, a 4-byte
+boundary.  
+
+   The  relocation  and/or  concatenation  of an area containing
+.bndry directives to place code at specific boundaries will  NOT
+maintain  the  specified  boundaries.  When relocating such code
+areas you must specify the base addresses to the linker manually
+and/or  you must pad the allocated space of an area to match the
+boundary conditions.  
+
+   As  an  example  suppose  you wish to link multiple assembled
+code sections, each of which has code for the same area and  re-
+quires a 4 byte boundary.  The starting address of the area must
+be specified to the linker on a 4 byte  boundary  and  each  as-
+sembled code section must be padded to fill out the area in each
+of the individually assembled files.  The  following  code  will
+provide  the necessary area padding to allow a succesful linking
+of files and maintain the boundary requirements:  
+
+        .$.end = .              ; end of area address
+        .bndry  4               ; set boundary
+        .if ne,. - .$.end       ; is . the same ?
+          . = . - 1             ; no: backup 1 byte
+          .byte 0               ; place padding byte
+        .endif
+
+
+   If  all  files  are  assembled  simultaneously  then only the
+.bndry directive is required at the beginning  of  the  area  in
+each  file and the initial area address must be specified to the
+linker.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "area"></A><FONT COLOR="#FF0000">.area</FONT> Directive 
+
+Format:  
+
+        .area   name    [(options)] 
+
+where:  name    represents the symbolic name of the program sec-
+                tion.   This  name  may  be  the  same  as   any
+                user-defined  symbol  or  bank as the area names
+                are independent  of  all  symbols,  labels,  and
+                banks.  
+
+        options specify the type of program or data area:  
+                ABS     absolute (automatically invokes OVR) 
+                REL     relocatable 
+                OVR     overlay 
+                CON     concatenate 
+                NOPAG   non-paged area 
+                PAG     paged area 
+
+        options specify a code or data segment:  
+                CSEG    Code segment 
+                DSEG    Data segment 
+
+        option  specifies the data area bank:  
+                BANK    Named collection of areas 
+
+
+   The .area directive provides a means of defining and separat-
+ing multiple programming and data sections.   The  name  is  the
+area  label used by the assembler and the linker to collect code
+from various separately assembled modules into one section.  The
+name may be from 1 to 79 characters in length.  
+
+   The options are specified within parenthesis and separated by
+commas as shown in the following example:  
+
+        .area  TEST  (REL,CON)  ;This section is relocatable
+                                ;and concatenated with other
+                                ;sections of this program area.
+
+        .area  DATA  (REL,OVR)  ;This section is relocatable
+                                ;and overlays other sections
+                                ;of this program area.
+
+        .area  SYS   (ABS,OVR)  ;(CON not allowed with ABS)
+                                ;This section is defined as
+                                ;absolute. Absolute sections
+                                ;are always overlayed with
+                                ;other sections of this program
+                                ;area.
+
+        .area  PAGE  (PAG)      ;This is a paged section. The
+                                ;section must be on a 256 byte
+                                ;boundary and its length is
+                                ;checked by the linker to be
+                                ;no larger than 256 bytes.
+                                ;This is useful for direct page
+                                ;areas.
+
+   The  default  area type is REL|CON;  i.e.  a relocatable sec-
+tion which is concatenated with other sections of code with  the
+same area name.  The ABS option indicates an absolute area.  The
+OVR and CON options indicate if program  sections  of  the  same
+name  will overlay each other (start at the same location) or be
+concatenated with each other (appended to each other).  
+
+   The  area can be specified as either a code segment, CSEG, or
+a data segment, DSEG.  The CSEG and DSEG descriptors are  useful
+when  the  microprocessor  code  and  data  unit allocations are
+unequal:  e.g.  the executable code  uses  an  allocation  of  2
+bytes for each instruction and is addressed at an increment of 1
+for every instruction, and the data uses an allocation of 1 byte
+for  each element and is addressed at an increment of 1 for each
+data byte.  The allocation units are defined by the architecture
+of the particular microprocessor.  
+
+   The  .area  directive also provides a means of specifying the
+bank this area is associated with.  All areas associated with  a
+particular  bank  are  combined  at  link  time  into a block of
+code/data.  
+
+   The  CSEG,  DSEG,  and  BANK options are specified within the
+parenthesis as shown in the following examples:  
+
+        .area   C_SEG   (CSEG,BANK=C1)
+                                ;This is a code section
+                                ;and is included in bank C1
+        .area   D_SEG   (DSEG,BANK=D1)
+                                ;This is a data section
+                                ;and is included in bank D1.
+
+
+   Multiple  invocations  of  the  .area directive with the same
+name must specify the same options or leave  the  options  field
+blank,  this  defaults  to  the previously specified options for
+this program area.  
+
+The   ASxxxx   assemblers   automatically  provide  two  program
+sections:  
+
+
+        '_CODE'         This  is  the  default  code/data  area.
+                        This   program   area   is    of    type
+                        (REL,CON,CSEG).  
+
+        '_DATA'         This  is the default optional data area.
+                        This   program   area   is    of    type
+                        (REL,CON,DSEG).  
+
+The  ASxxxx  assemblers  also automatically generate two symbols
+for each program area:  
+
+        's_<area>'      This is the starting address of the pro-
+                        gram area.  
+
+        'l_<area>'      This is the length of the program area. 
+
+The .area names and options are never case sensitive.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "bank"></A><FONT COLOR="#FF0000">.bank</FONT> Directive 
+
+Format:  
+
+        .bank   name    [(options)] 
+
+where:  name    represents  the  symbolic  name of the bank sec-
+                tion.   This  name  may  be  the  same  as   any
+                user-defined  symbol  or  area as the bank names
+                are independent  of  all  symbols,  labels,  and
+                areas.   The name may be from 1 to 79 characters
+                in length.  
+
+        options specify the parameters of the bank:  
+                BASE    base address of bank 
+                SIZE    maximum size of bank 
+                FSFX    file suffix for this bank 
+                MAP     NOICE mapping 
+
+
+   The  .bank  directive allows an arbitrary grouping of program
+and/or data areas to be communicated to the  linker.   The  bank
+parameters are all optional and are described as follows:  
+
+     1.  BASE, the  starting  address of the bank (default is 0)
+         may be defined.  This address can be overridden by  us-
+         ing  the linker -b option for the first area within the
+         bank.  The bank address is always specified  in  'byte'
+         addressing.  A first area which is not 'byte' addressed
+         (e.g.  a processor addressed by a 'word' of 2  or  more
+         bytes)  has  the  area  address  scaled to begin at the
+         'byte' address.  
+
+     2.  SIZE, the  maximum  length  of  the  bank  specified in
+         bytes.  The size is always specified in terms of bytes. 
+
+     3.  FSFX, the file suffix to be used by the linker for this
+         bank.  The suffix may not contain embedded white space. 
+
+     4.  MAP,  NOICE   mapping   parameter   for  this  bank  of
+         code/data.  
+
+
+   The options are specified within parenthesis and separated by
+commas as shown in the following example:  
+
+        .BANK  C1  (BASE=0x0100,SIZE=0x1000,FSFX=_C1)
+                                ;This bank starts at 0x0100,
+                                ;has a maximum size of 0x1000,
+                                ;and is to be placed into
+                                ;a file with a suffix of _C1
+
+           The parameters must be absolute (external symbols are not al-
+        lowed.) 
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "org"></A><FONT COLOR="#FF0000">.org</FONT> Directive 
+
+Format:  
+
+        .org    exp 
+
+where:  exp     is  an absolute expression that becomes the cur-
+                rent location counter.  
+
+The  .org directive is valid only in an absolute program section
+and will give a (q) error if used in a relocatable program area.
+The  .org  directive specifies that the current location counter
+is to become the specified absolute value.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "globl"></A><FONT COLOR="#FF0000">.globl</FONT> Directive 
+
+Format:  
+
+        .globl  sym1,sym2,...,symn 
+
+where:  sym1,           represent legal symbolic names. When
+        sym2,...        When multiple symbols are specified,
+        symn            they are separated by commas.
+
+   A  .globl directive may also have a label field and/or a com-
+ment field.  
+
+   The  .globl directive is provided to define (and thus provide
+linkage to) symbols not  otherwise  defined  as  global  symbols
+within  a  module.   In  defining  global  symbols the directive
+.globl J is similar to:  
+
+      J == expression or J::  
+
+   Because  object  modules  are linked by global symbols, these
+symbols are vital to a program.  All internal symbols  appearing
+within  a  given program must be defined at the end of pass 1 or
+they will be considered undefined.  The assembly directive  (-g)
+can  be  be  invoked to make all undefined symbols global at the
+end of pass 1.  
+
+   The  .globl directive and == construct can be overridden by a
+following .local directive.  
+
+
+                              NOTE
+
+     The  ASxxxx  assemblers  use the last occurring symbol
+     specification in the source file(s) as the type  shown
+     in the symbol table and output to the .rel file.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "local"></A><FONT COLOR="#FF0000">.local</FONT> Directive 
+
+Format:  
+
+        .local  sym1,sym2,...,symn 
+
+where:  sym1,           represent legal symbolic names.
+        sym2,...        When multiple symbols are specified,
+        symn            they are separated by commas.
+
+   A  .local directive may also have a label field and/or a com-
+ment field.  
+
+   The  .local  directive is provided to define symbols that are
+local to the current assembly process.  Local  symbols  are  not
+effected  by  the assembler option -a (make all symbols global).
+In defining local symbols the directive .local J is similar to: 
+
+      J =: expression 
+
+   The  .local directive and the =:  construct are useful in de-
+fining symbols and constants within a header or definition  file
+that contains many symbols specific to the current assembly pro-
+cess that should not be exported into the .rel output  file.   A
+typical  usage  is  in  the definition of SFRs (Special Function
+Registers) for a microprocessor.  
+
+   The .local directive and =:  construct can be overridden by a
+following .globl directive.  
+
+
+                              NOTE
+
+     The  ASxxxx  assemblers  use the last occurring symbol
+     specification in the source file(s) as the type  shown
+     in the symbol table and output to the .rel file.
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "alt"></A><FONT COLOR="#FF0000">.equ</FONT>, <FONT COLOR="#FF0000">.gblequ</FONT>, and <FONT COLOR="#FF0000">.lclequ</FONT> Directives
+
+Format:  
+
+        sym1    .equ    expr    ; equivalent to sym1  = expr
+        sym2    .gblequ expr    ; equivalent to sym2 == expr
+        sym3    .lclequ expr    ; equivalent to sym3 =: expr
+
+   These  alternate  forms  of equivalence are provided for user
+convenience.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "if"></A><FONT COLOR="#FF0000">.if</FONT>, <FONT COLOR="#FF0000">.else</FONT>, and <FONT COLOR="#FF0000">.endif</FONT> Directives 
+
+Format:  
+
+        .if     expr
+        .                       ;}
+        .                       ;} range of true condition
+        .                       ;}
+        .else
+        .                       ;}
+        .                       ;} range of false condition
+        .                       ;}
+        .endif
+
+   The  conditional  assembly directives allow you to include or
+exclude blocks of source code during the assembly process, based
+on the evaluation of the condition test.  
+
+   The  range of true condition will be processed if the expres-
+sion 'expr' is not zero (i.e.  true) and the range of false con-
+dition  will  be processed if the expression 'expr' is zero (i.e
+false).  The range of true condition is optional as is the .else
+directive  and  the range of false condition.  The following are
+all valid .if/.else/.endif constructions:  
+
+        .if     A-4             ;evaluate A-4
+        .byte   1,2             ;insert bytes if A-4 is
+        .endif                  ;not zero
+
+        .if     K+3             ;evaluate K+3
+        .else
+        .byte   3,4             ;insert bytes if K+3
+        .endif                  ;is zero
+
+        .if     J&3             ;evaluate J masked by 3
+        .byte   12              ;insert this byte if J&3
+        .else                   ;is not zero
+        .byte   13              ;insert this byte if J&3
+        .endif                  ;is zero
+
+
+The .if/.else/.endif directives may be nested upto 10 levels.  
+
+   The  .page  directive  is  processed within a false condition
+range to allow extended textual information to  be  incorporated
+in  the  source  program  with  out  the need to use the comment
+delimiter (;):  
+
+        .if     0
+
+        .page
+        This text will be bypassed during assembly
+        but appear in the listing file.
+        .
+        .
+        .
+
+        .endif
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "iftf"></A><FONT COLOR="#FF0000">.iff</FONT>, <FONT COLOR="#FF0000">.ift</FONT>, and <FONT COLOR="#FF0000">.iftf</FONT> Directives 
+
+Format:  
+
+        .if     expr    ;'if' range Condition is
+                        ;TRUE when expr is not zero
+         .ift                                   ;}
+         .      ;} range of true condition      ;}
+         .iff                                   ;} if
+         .      ;} range of false condition     ;} block
+         .iftf                                  ;}
+         .      ;} unconditional range          ;}
+        .else           ;'else' range Condition is
+                        ;TRUE when expr is zero
+         .ift                                   ;}
+         .      ;} range of true condition      ;}
+         .iff                                   ;} else
+         .      ;} range of false condition     ;} block
+         .iftf                                  ;}
+         .      ;} unconditional range          ;}
+        .endif
+
+   The  subconditional  assembly directives may be placed within
+conditional assembly blocks to indicate:  
+
+        1. The assembly of an alternate body of code when
+           the condition of the block tests false.
+
+        2. The assembly of non-contiguous body of code
+           within the conditional assembly block,
+           depending upon the result of the conditional
+           test in entering the block.
+
+        3. The unconditional assembly of a body of code
+           within a conditional assembly block.
+
+
+The use of the .iff, .ift, and .iftf directives makes the use of
+the .else directive redundant.  
+
+   Note  that  the  implementation of the .else directive causes
+the .if tested condition to be complemented.  The TRUE and FALSE
+conditions are determined by the .if/.else conditional state.  
+
+   All  .if/.else/.endif  directives  are  limited  to a maximum
+nesting of 10 levels.  
+
+   The  use  of the .iff, .ift, or .iftf directives outside of a
+conditional block results in a (i) error code.  
+
+   The  use of a .else directive outside a .if/.endif block will
+generate an (i) error.  Assemblies having unequal .if and .endif
+counts will cause an (i) error.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ifxx"></A><FONT COLOR="#FF0000">.ifxx</FONT> Directives 
+   Additional  conditional  directives are available to test the
+value of an evaluated expression:  
+
+        .ifne   expr            ; true if expr != 0
+        .ifeq   expr            ; true if expr == 0
+        .ifgt   expr            ; true if expr >  0
+        .iflt   expr            ; true if expr <  0
+        .ifge   expr            ; true if expr >= 0
+        .ifle   expr            ; true if expr <= 0
+
+   Format:  
+
+        .ifxx   expr
+        .                       ;}
+        .                       ;} range of true condition
+        .                       ;}
+        .else
+        .                       ;}
+        .                       ;} range of false condition
+        .                       ;}
+        .endif
+
+
+   The  conditional  assembly directives allow you to include or
+exclude blocks of source code during the assembly process, based
+on the evaluation of the test condition.  
+
+   The  range of true condition will be processed if the expres-
+sion 'expr' is not zero (i.e.  true) and the range of false con-
+dition  will  be processed if the expression 'expr' is zero (i.e
+false).  The range of true condition is optional as is the .else
+directive  and  the range of false condition.  The following are
+all valid .if/.else/.endif constructions:  
+
+        .ifne   A-4             ;evaluate A-4
+        .byte   1,2             ;insert bytes if A-4 is
+        .endif                  ;not zero
+
+        .ifeq   K+3             ;evaluate K+3
+        .byte   3,4             ;insert bytes if K+3
+        .endif                  ;is zero
+
+        .ifne   J&3             ;evaluate J masked by 3
+        .byte   12              ;insert this byte if J&3
+        .else                   ;is not zero
+        .byte   13              ;insert this byte if J&3
+        .endif                  ;is zero
+
+
+The .ifxx/.else/.endif directives may be nested upto 10 levels. 
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ifdef"></A><FONT COLOR="#FF0000">.ifdef</FONT> Directive 
+
+Format:  
+
+        .ifdef  sym
+        .                       ;}
+        .                       ;} range of true condition
+        .                       ;}
+        .else
+        .                       ;}
+        .                       ;} range of false condition
+        .                       ;}
+        .endif
+
+   The  conditional  assembly directives allow you to include or
+exclude blocks of source code during the assembly process, based
+on the evaluation of the condition test.  
+
+   The  range  of true condition will be processed if the symbol
+'sym' has been defined with a .define directive or  'sym'  is  a
+variable  with  an  assigned  value else the false range will be
+processed.  The range of true condition is optional  as  is  the
+.else directive and the range of false condition.  The following
+are all valid .ifdef/.else/.endif constructions:  
+
+        .ifdef  sym$1           ;lookup symbol sym$1
+        .byte   1,2             ;insert bytes if sym$1 is
+        .endif                  ;defined
+
+        .ifdef  sym$2           ;lookup symbol sym$2
+        .else
+        .byte   3,4             ;insert bytes if sym$1
+        .endif                  ;is not defined
+
+        .ifdef  sym$3           ;lookup symbol sym$3
+        .byte   12              ;insert this byte if sym$3
+        .else                   ;is defined
+        .byte   13              ;insert this byte if sym$3
+        .endif                  ;is not defined
+
+
+The .ifdef/.else/.endif directives may be nested upto 10 levels. 
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ifndef"></A><FONT COLOR="#FF0000">.ifndef</FONT> Directive 
+
+Format:  
+
+        .ifndef sym
+        .                       ;}
+        .                       ;} range of true condition
+        .                       ;}
+        .else
+        .                       ;}
+        .                       ;} range of false condition
+        .                       ;}
+        .endif
+
+   The  conditional  assembly directives allow you to include or
+exclude blocks of source code during the assembly process, based
+on the evaluation of the condition test.  
+
+   The  range  of true condition will be processed if the symbol
+'sym' is not defined by a .define directive and a variable 'sym'
+has  not been assigned a value else the range of false condition
+will be processed.  The range of true condition is  optional  as
+is  the  .else  directive and the range of false condition.  The
+following are all valid .ifndef/.else/.endif constructions:  
+
+        .ifndef sym$1           ;lookup symbol sym$1
+        .byte   1,2             ;insert bytes if sym$1 is
+        .endif                  ;not defined
+
+        .ifndef sym$2           ;lookup symbol sym$2
+        .else
+        .byte   3,4             ;insert bytes if sym$1
+        .endif                  ;is defined
+
+        .ifndef sym$3           ;lookup symbol sym$3
+        .byte   12              ;insert this byte if sym$3
+        .else                   ;is not defined
+        .byte   13              ;insert this byte if sym$3
+        .endif                  ;is defined
+
+
+The  .ifndef/.else/.endif  directives may be nested upto 10 lev-
+els.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ifb"></A><FONT COLOR="#FF0000">.ifb</FONT> Directive 
+
+Format:  
+
+        .ifb    sym
+        .                       ;}
+        .                       ;} range of true condition
+        .                       ;}
+        .else
+        .                       ;}
+        .                       ;} range of false condition
+        .                       ;}
+        .endif
+
+   The  conditional  assembly directives allow you to include or
+exclude blocks of source code during the assembly process, based
+on the evaluation of the test condition.  
+
+   The  conditional  .ifb  is most useful when used in macro de-
+finitions to determine if the argument is blank.  The  range  of
+true  condition  will be processed if the symbol 'sym' is blank.
+The range of true condition is optional as is the  .else  direc-
+tive  and  the  range of false condition.  The following are all
+valid .ifb/.else/.endif constructions:  
+
+        .ifb    sym$1           ;argument is not blank
+        .byte   1,2             ;insert bytes if argument
+        .endif                  ;is blank
+
+        .ifb    sym$2           ;argument is not blank
+        .else
+        .byte   3,4             ;insert bytes if argument
+        .endif                  ;is not blank
+
+        .ifb                    ;argument is blank
+        .byte   12              ;insert this byte if
+        .else                   ;argument is blank
+        .byte   13              ;insert this byte if
+        .endif                  ;argument not blank
+
+
+All .if/.else/.endif directives are limited to a maximum nesting
+of 10 levels.  
+
+   The  use of a .else directive outside a .if/.endif block will
+generate an (i) error.  Assemblies having unequal .if and .endif
+counts will cause an (i) error.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ifnb"></A><FONT COLOR="#FF0000">.ifnb</FONT> Directive 
+
+Format:  
+
+        .ifnb   sym
+        .                       ;}
+        .                       ;} range of true condition
+        .                       ;}
+        .else
+        .                       ;}
+        .                       ;} range of false condition
+        .                       ;}
+        .endif
+
+   The  conditional  assembly directives allow you to include or
+exclude blocks of source code during the assembly process, based
+on the evaluation of the test condition.  
+
+   The  conditional  .ifnb is most useful when used in macro de-
+finitions to determine if the argument is not blank.  The  range
+of  true  condition will be processed if the symbol 'sym' is not
+blank.  The range of true condition is optional as is the  .else
+directive  and  the range of false condition.  The following are
+all valid .ifnb/.else/.endif constructions:  
+
+        .ifnb   sym$1           ;argument is not blank
+        .byte   1,2             ;insert bytes if argument
+        .endif                  ;is not blank
+
+        .ifnb   sym$2           ;argument is not blank
+        .else
+        .byte   3,4             ;insert bytes if argument
+        .endif                  ;is blank
+
+        .ifnb                   ;argument is blank
+        .byte   12              ;insert this byte if
+        .else                   ;argument is not blank
+        .byte   13              ;insert this byte if
+        .endif                  ;argument is blank
+
+
+All .if/.else/.endif directives are limited to a maximum nesting
+of 10 levels.  
+
+   The  use of a .else directive outside a .if/.endif block will
+generate an (i) error.  Assemblies having unequal .if and .endif
+counts will cause an (i) error.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ifidn"></A><FONT COLOR="#FF0000">.ifidn</FONT> Directive 
+
+Format:  
+
+        .ifidn  sym$1,sym$2
+        .                       ;}
+        .                       ;} range of true condition
+        .                       ;}
+        .else
+        .                       ;}
+        .                       ;} range of false condition
+        .                       ;}
+        .endif
+
+   The  conditional  assembly directives allow you to include or
+exclude blocks of source code during the assembly process, based
+on the evaluation of the test condition.  
+
+   The  conditional .ifidn is most useful when used in macro de-
+finitions to determine if  the  arguments  are  identical.   The
+range  of true condition will be processed if the symbol 'sym$1'
+is idendical to 'sym$2' (i.e.  the character strings  for  sym$1
+and  sym$2  are  the  same  consistent with the case sensitivity
+flag).  When this if statement occurs inside a  macro  where  an
+argument  substitution  may  be blank then an argument should be
+delimited with the form /symbol/ for each symbol.  The range  of
+true  condition  is  optional  as is the .else directive and the
+range  of  false  condition.   The  following  are   all   valid
+.ifidn/.else/.endif constructions:  
+
+        .ifidn  sym$1,sym$1     ;arguments are the same
+        .byte   1,2             ;insert bytes if arguments
+        .endif                  ;are the sane
+
+        .ifidn  sym$1,sym$2     ;arguments are not the same
+        .else
+        .byte   3,4             ;insert bytes if arguments
+        .endif                  ;are not the same
+
+        .ifidn  sym$3,sym$3     ;arguments are the same
+        .byte   12              ;insert this byte if
+        .else                   ;arguments are the same
+        .byte   13              ;insert this byte if
+        .endif                  ;arguments are not the same
+
+
+All .if/.else/.endif directives are limited to a maximum nesting
+of 10 levels.  
+
+   The  use of a .else directive outside a .if/.endif block will
+generate an (i) error.  Assemblies having unequal .if and .endif
+counts will cause an (i) error.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ifdif"></A><FONT COLOR="#FF0000">.ifdif</FONT> Directive 
+
+Format:  
+
+        .ifdif  sym$1,sym$2
+        .                       ;}
+        .                       ;} range of true condition
+        .                       ;}
+        .else
+        .                       ;}
+        .                       ;} range of false condition
+        .                       ;}
+        .endif
+
+   The  conditional  assembly directives allow you to include or
+exclude blocks of source code during the assembly process, based
+on the evaluation of the test condition.  
+
+   The  conditional .ifdif is most useful when used in macro de-
+finitions to determine if  the  arguments  are  different.   The
+range  of true condition will be processed if the symbol 'sym$1'
+is different from 'sym$2' (i.e.  the character strings for sym$1
+and  sym$2  are the not the same consistent with the case sensi-
+tivity flag).  When this if  statement  occurs  inside  a  macro
+where  an  argument  substitution  may be blank then an argument
+should be delimited with the form /symbol/ for each symbol.  The
+range  of  true  condition is optional as is the .else directive
+and the range of false condition.  The following are  all  valid
+.ifdif/.else/.endif constructions:  
+
+        .ifdif  sym$1,sym$2     ;arguments are different
+        .byte   1,2             ;insert bytes if arguments
+        .endif                  ;are different
+
+        .ifdif  sym$1,sym$1     ;arguments are identical
+        .else
+        .byte   3,4             ;insert bytes if arguments
+        .endif                  ;are different
+
+        .ifdif  sym$1,sym$3     ;arguments are different
+        .byte   12              ;insert this byte if
+        .else                   ;arguments are different
+        .byte   13              ;insert this byte if
+        .endif                  ;arguments are identical
+
+
+All .if/.else/.endif directives are limited to a maximum nesting
+of 10 levels.  
+
+   The  use of a .else directive outside a .if/.endif block will
+generate an (i) error.  Assemblies having unequal .if and .endif
+counts will cause an (i) error.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "ifalt"></A><FONT COLOR="#FF0000">Alternate .if Directive Forms</FONT>
+
+Format:  
+
+        .if     cnd(,)  arg1(, arg2)
+
+   where  the  cnd (followed by an optional comma) may be any of
+the following:  
+
+        -------------------------------------------------------
+         condition              Assemble
+        (complement)    Args    Block if:
+        -------------------------------------------------------
+        eq   ( ne )     expr    equal to zero
+                                (not equal to zero)
+
+        gt   ( le )     expr    greater than zero
+                                (less than or equal to zero)
+
+        lt   ( ge )     expr    less than zero
+                                (greater than or equal to zero)
+
+        def  ( ndef )   symbol  .define'd or user set
+                                (not .define'd or user set)
+
+        b    ( nb )     macro   argument present
+                        symbol  (argument not present)
+
+        idn  ( dif )    macro   arguments identical
+                        symbol  (arguments not identical)
+
+        f    ( t )      -----   only within a .if/.else/.endif
+                                conditional block
+
+        tf              -----   only within a .if/.else/.endif
+                                conditional block
+
+
+All .if/.else/.endif directives are limited to a maximum nesting
+of 10 levels.  
+
+   The  use of a .else directive outside a .if/.endif block will
+generate an (i) error.  Assemblies having unequal .if and .endif
+counts will cause an (i) error.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "iif"></A><FONT COLOR="#FF0000">Immediate Conditional Assembly Directives</FONT>
+
+   The  immediate conditional assembly directives allow a single
+line of code to be assembled without  using  a  .if/.else/.endif
+construct.   All  of  the previously described conditionals have
+immediate equivalents.  
+
+   Format:  
+
+        .iif            arg(,)          line_to_assemble
+        .iifeq          arg(,)          line_to_assemble
+        .iifne          arg(,)          line_to_assemble
+        .iifgt          arg(,)          line_to_assemble
+        .iifle          arg(,)          line_to_assemble
+        .iifge          arg(,)          line_to_assemble
+        .iiflt          arg(,)          line_to_assemble
+        .iifdef         arg(,)          line_to_assemble
+        .iifndef        arg(,)          line_to_assemble
+
+        .iifb        (,)arg(,)          line_to_assemble
+        .iifnb       (,)arg(,)          line_to_assemble
+        .iifidn      (,)arg1,arg2(,)    line_to_assemble
+        .iifdif      (,)arg1,arg2(,)    line_to_assemble
+
+        .iiff                           line_to_assemble
+        .iift                           line_to_assemble
+        .iiftf                          line_to_assemble
+
+
+Alternate Format:  
+
+        .iif            arg(,)          line_to_assemble
+        .iif    eq      arg(,)          line_to_assemble
+        .iif    ne      arg(,)          line_to_assemble
+        .iif    gt      arg(,)          line_to_assemble
+        .iif    le      arg(,)          line_to_assemble
+        .iif    ge      arg(,)          line_to_assemble
+        .iif    lt      arg(,)          line_to_assemble
+        .iif    def     arg(,)          line_to_assemble
+        .iif    ndef    arg(,)          line_to_assemble
+
+        .iif    b    (,)arg(,)          line_to_assemble
+        .iif    nb   (,)arg(,)          line_to_assemble
+        .iif    idn  (,)arg1,arg2(,)    line_to_assemble
+
+
+THE ASSEMBLER                                          PAGE 1-44
+GENERAL ASSEMBLER DIRECTIVES
+
+
+        .iif    dif  (,)arg1,arg2(,)    line_to_assemble
+
+        .iiff                           line_to_assemble
+        .iift                           line_to_assemble
+        .iiftf                          line_to_assemble
+
+
+The (,) indicates an optional comma.  
+
+   The  .iif  types b, n, idn, and dif require the commas if the
+argument(s) may be blank.  These commas may be  removed  if  the
+arguments are delimited with the form ^/symbol/ for each symbol. 
+
+   The   immediate   conditional  directives  donot  change  the
+.if/.else/.endif nesting level.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "include"></A><FONT COLOR="#FF0000">.include</FONT> Directive 
+
+Format:  
+
+        .include         /string/               or 
+
+        .include        ^/string/ 
+
+
+where:  string  represents  a string that is the file specifica-
+                tion of an ASxxxx source file.  
+
+        /  /    represent   the  delimiting  characters.   These
+                delimiters   may   be   any   paired    printing
+                characters,  as  long  as the characters are not
+                contained within  the  string  itself.   If  the
+                delimiting characters do not match, the .include
+                directive will give the (q) error.  
+
+   The .include directive is used to insert a source file within
+the source file currently being assembled.  When this  directive
+is encountered, an implicit .page directive is issued.  When the
+end of the specified source file is reached, an  implicit  .page
+directive is issued and input continues from the previous source
+file.  The maximum nesting level of source files specified by  a
+.include directive is five.  
+
+   The  total  number  of separately specified .include files is
+unlimited as each .include file is opened and then closed during
+each pass made by the assembler.  
+
+   The  default  directory  path,  if none is specified, for any
+.include file is the directory path of the  current  file.   For
+example:   if  the  current  source file, D:\proj\file1.asm, in-
+cludes  a  file  specified   as   "include1"   then   the   file
+D:\proj\include1.asm is opened.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "define"></A><FONT COLOR="#FF0000">.define</FONT> and <FONT COLOR="#FF0000">.undefine</FONT> Directives 
+
+Format:  
+
+        .define        keyword  /string/        or 
+
+        .define        keyword ^/string/ 
+
+        .undefine      keyword 
+
+
+where:  keyword is  the  substitutable  string  which must start
+                with a letter and may contain any combination of
+                digits and letters.  
+
+where:  string  represents  a string that is substituted for the
+                keyword.  The string may contain any sequence of
+                characters including white space.  
+
+        /  /    represent   the  delimiting  characters.   These
+                delimiters   may   be   any   paired    printing
+                characters,  as  long  as the characters are not
+                contained within  the  string  itself.   If  the
+                delimiting  characters do not match, the .define
+                directive will give the (q) error.  
+
+   The  .define  directive specifies a user defined string which
+is substituted for the keyword.  The substitution string may it-
+self  contain other keywords that are substitutable.  The assem-
+bler resumes the parse of the line at the point the keyword  was
+found.  Care must be excersized to avoid any circular references
+within .define directives, otherwise the assembler may  enter  a
+'recursion runaway' resulting in an 's' error.  
+
+   The  .undefine  directive removes the keyword as a substitut-
+able string.  No error is returned if the keyword  was  not  de-
+fined.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "setdp"></A><FONT COLOR="#FF0000">.setdp</FONT> Directive 
+
+Format:  
+
+        .setdp [base [,area]] 
+
+The  set  direct  page  directive has a common format in all the
+AS68xx assemblers.  The .setdp directive is used to  inform  the
+assembler  of  the current direct page region and the offset ad-
+dress within the selected area.  The normal  invocation  methods
+are:  
+
+        .area   DIRECT  (PAG)
+        .setdp
+
+        or
+
+        .setdp  0,DIRECT
+
+for  all  the  68xx microprocessors (the 6804 has only the paged
+ram area).  The commands specify that the direct page is in area
+DIRECT and its offset address is 0 (the only valid value for all
+but the 6809 microprocessor).  Be sure to place the DIRECT  area
+at address 0 during linking.  When the base address and area are
+not specified, then zero and the current area are the  defaults.
+If  a  .setdp directive is not issued the assembler defaults the
+direct page to the area "_CODE" at offset 0.  
+
+   The  assembler  verifies  that  any  local variable used in a
+direct variable reference is located in this area.  Local  vari-
+able  and  constant value direct access addresses are checked to
+be within the address range from 0 to 255.  
+
+   External direct references are assumed by the assembler to be
+in the correct area and have valid  offsets.   The  linker  will
+check all direct page relocations to verify that they are within
+the correct area.  
+
+   The  6809  microprocessor  allows the selection of the direct
+page to be on any 256 byte boundary by loading  the  appropriate
+value  into the dp register.  Typically one would like to select
+the page boundary at link time, one method follows:  
+
+        .area   DIRECT  (PAG)   ; define the direct page
+        .setdp
+        .
+        .
+        .
+        .area   PROGRAM
+        .
+        ldd     #DIRECT         ; load the direct page register
+        tfr     a,dp            ; for access to the direct page
+
+At  link  time specify the base and global equates to locate the
+direct page:  
+
+        -b DIRECT = 0x1000
+        -g DIRECT = 0x1000
+
+Both  the  area address and offset value must be specified (area
+and variable names are independent).   The  linker  will  verify
+that  the  relocated  direct page accesses are within the direct
+page.
+  
+The  preceeding  sequence  could  be repeated for multiple paged
+areas, however an alternate method is to define a non-paged area
+and use the .setdp directive to specify the offset value:  
+
+        .area   DIRECT          ; define non-paged area
+        .
+        .
+        .
+        .area   PROGRAM
+        .
+        .setdp  0,DIRECT        ; direct page area
+        ldd     #DIRECT         ; load the direct page register
+        tfr     a,dp            ; for access to the direct page
+        .
+        .
+        .setdp  0x100,DIRECT    ; direct page area
+        ldd     #DIRECT+0x100   ; load the direct page register
+        tfr     a,dp            ; for access to the direct page
+
+The  linker  will  verify that subsequent direct page references
+are in the specified area and offset address range.  It  is  the
+programmers responsibility to load the dp register with the cor-
+rect page segment  corresponding  to  the  .setdp  base  address
+specified.  
+
+   For  those  cases  where a single piece of code must access a
+defined data structure within a direct page and there  are  many
+pages,  define  a  dumby  direct page linked at address 0.  This
+dumby page is used only to define  the  variable  labels.   Then
+load  the dp register with the real base address but donot use a
+.setdp  directive.   This  method  is  equivalent   to   indexed
+addressing,  where the dp register is the index register and the
+direct addressing is the offset.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "bits"></A><FONT COLOR="#FF0000">.16bit</FONT>, <FONT COLOR="#FF0000">.24bit</FONT>, and <FONT COLOR="#FF0000">.32bit</FONT> Directives 
+
+Format:  
+
+        .16bit          ;specify 16-bit addressing
+        .24bit          ;specify 24-bit addressing
+        .32bit          ;specify 32-bit addressing
+
+
+   The  .16bit, .24bit, and .32bit directives are special direc-
+tives for assembler configuration when default  values  are  not
+used.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "msb"></A><FONT COLOR="#FF0000">.msb</FONT> Directive
+
+Format:  
+
+        .msb    n 
+
+
+   The  .msb  directive is only available in selected assemblers
+which support 24- or 32-bit addressing.  
+
+   The  assembler operator '&gt;' selects the upper byte (MSB) when
+included in an assembler instruction.  The default assembler mode
+is  to select bits &lt;15:8&gt; as the MSB.  The .msb directive allows
+the programmer to specify a particular byte as  the  'MSB'  when
+the address space is larger than 16-bits.  
+
+   The  assembler  directive  .msb n  configures the assembler to
+select a particular byte as MSB.  Given a 32-bit address of MNmn
+(M(3)  is  &lt;31:24&gt;, N(2) is &lt;23:16&gt;, m(1) is &lt;15:8&gt;, and n(0) is
+&lt;7:0&gt;) the following examples show how to  select  a  particular
+address byte:  
+
+        .msb 1          ;select byte 1 of address
+                        ;&lt;M(3):N(2):m(1):n(0)&gt;
+        LD A,&gt;MNmn      ;byte m &lt;15:8&gt; ==&gt;&gt; A
+        ...
+        
+        .msb 2          ;select byte 2 of address
+                        ;&lt;M(3):N(2):m(1):n(0)&gt;
+        LD A,&gt;MNmn      ;byte N &lt;23:16&gt; ==&gt;&gt; A
+        ...
+        
+        .msb 3          ;select byte 3 of address
+                        ;&lt;M(3):N(2):m(1):n(0)&gt;
+        LD A,&gt;MNmn      ;byte M &lt;31:24&gt; ==&gt;&gt; A
+        ...
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "lohi"></A><FONT COLOR="#FF0000">.lohi</FONT> and <FONT COLOR="#FF0000">.hilo</FONT> Directives 
+
+Format:  
+
+        .lohi           ;specify LSB first output
+        .hilo           ;specify MSB first output
+
+
+   The .lohi and .hilo directives are special directives for as-
+sembler output configuration.  These  directives  are  currently
+only enabled in assembler 'ascheck'.  
+
+   An  'm' error will be generated if the .lohi and .hilo direc-
+tives are both used within the same assembly source file.  
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "end"></A><FONT COLOR="#FF0000">.end</FONT> Directive 
+
+Format:  
+
+        .end 
+
+        .end    exp 
+
+where:  exp     represents  any expression, including constants,
+                symbols, or labels.  
+
+
+   The  .end  directive is used to specify a code entry point to
+be included in the linker output file.  Review  the  I86  and  S
+record formats described in the linker section for details.  
+
+   The .end directive without an expression is ignored.
+
+</PRE></B></H4>
+<H5><A HREF= #Directives> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>
+
+

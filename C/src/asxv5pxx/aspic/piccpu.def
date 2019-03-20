@@ -1,0 +1,931 @@
+	.nlist
+	.sbttl	piccpu.def
+
+	.16bit
+
+	;
+	; UPPER CASE Definitions
+	;
+
+	.ifdef	__12C508
+		.pic12bit
+	.endif
+
+	.ifdef	__12C508A
+		.pic12bit
+	.endif
+
+	.ifdef	__12C509
+		.pic12bit
+	.endif
+
+	.ifdef	__12C509A
+		.pic12bit
+	.endif
+
+	.ifdef	__12CR509A
+		.pic12bit
+	.endif
+
+	.ifdef	__12C671
+		.pic14bit
+		.picfix		"P12C671",	"clrw",		0x0103
+	.endif
+
+	.ifdef	__12C672
+		.pic14bit
+		.picfix		"P12C672",	"clrw",		0x0103
+	.endif
+
+	.ifdef	__12CE518
+		.pic12bit
+	.endif
+
+	.ifdef	__12CE519
+		.pic12bit
+	.endif
+
+	.ifdef	__12CE673
+		.pic14bit
+		.picfix		"P12CE673",	"clrw",		0x0103
+	.endif
+
+	.ifdef	__12CE674
+		.pic14bit
+		.picfix		"P12CE674",	"clrw",		0x0103
+	.endif
+
+	.ifdef	__14000
+		.pic14bit
+	.endif
+
+	.ifdef	__16C5X
+		.pic12bit
+	.endif
+
+	.ifdef	__16C61
+		.pic14bit
+	.endif
+
+	.ifdef	__16C62
+		.pic14bit
+	.endif
+
+	.ifdef	__16C62A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C62B
+		.pic14bit
+	.endif
+
+	.ifdef	__16C63
+		.pic14bit
+	.endif
+
+	.ifdef	__16C63A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C64
+		.pic14bit
+	.endif
+
+	.ifdef	__16C64A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C65
+		.pic14bit
+	.endif
+
+	.ifdef	__16C65A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C65B
+		.pic14bit
+	.endif
+
+	.ifdef	__16C66
+		.pic14bit
+	.endif
+
+	.ifdef	__16C67
+		.pic14bit
+	.endif
+
+	.ifdef	__16C70
+		.pic14bit
+	.endif
+
+	.ifdef	__16C71
+		.pic14bit
+	.endif
+
+	.ifdef	__16C71A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C72
+		.pic14bit
+	.endif
+
+	.ifdef	__16C72A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C73
+		.pic14bit
+	.endif
+
+	.ifdef	__16C73A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C73B
+		.pic14bit
+	.endif
+
+	.ifdef	__16C74
+		.pic14bit
+	.endif
+
+	.ifdef	__16C74A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C74B
+		.pic14bit
+	.endif
+
+	.ifdef	__16C76
+		.pic14bit
+	.endif
+
+	.ifdef	__16C77
+		.pic14bit
+	.endif
+
+	.ifdef	__16C84
+		.pic14bit
+	.endif
+
+	.ifdef	__16C432
+		.pic14bit
+	.endif
+
+	.ifdef	__16C433
+		.pic14bit
+	.endif
+
+	.ifdef	__16C505
+		.pic14bit
+	.endif
+
+	.ifdef	__16C554
+		.pic14bit
+	.endif
+
+	.ifdef	__16C558
+		.pic14bit
+	.endif
+
+	.ifdef	__16C620
+		.pic14bit
+	.endif
+
+	.ifdef	__16C620A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C621
+		.pic14bit
+	.endif
+
+	.ifdef	__16C621A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C622
+		.pic14bit
+	.endif
+
+	.ifdef	__16C622A
+		.pic14bit
+	.endif
+
+	.ifdef	__16C642
+		.pic14bit
+	.endif
+
+	.ifdef	__16C662
+		.pic14bit
+	.endif
+
+	.ifdef	__16C710
+		.pic14bit
+	.endif
+
+	.ifdef	__16C711
+		.pic14bit
+	.endif
+
+	.ifdef	__16C712
+		.pic14bit
+	.endif
+
+	.ifdef	__16C715
+		.pic14bit
+	.endif
+
+	.ifdef	__16C716
+		.pic14bit
+	.endif
+
+	.ifdef	__16C717
+		.pic14bit
+	.endif
+
+	.ifdef	__16C745
+		.pic14bit
+	.endif
+
+	.ifdef	__16C765
+		.pic14bit
+	.endif
+
+	.ifdef	__16C770
+		.pic14bit
+	.endif
+
+	.ifdef	__16C771
+		.pic14bit
+	.endif
+
+	.ifdef	__16C773
+		.pic14bit
+	.endif
+
+	.ifdef	__16C774
+		.pic14bit
+	.endif
+
+	.ifdef	__16C923
+		.pic14bit
+	.endif
+
+	.ifdef	__16C924
+		.pic14bit
+	.endif
+
+	.ifdef	__16C925
+		.pic14bit
+	.endif
+
+	.ifdef	__16C926
+		.pic14bit
+	.endif
+
+	.ifdef	__16CE623
+		.pic14bit
+	.endif
+
+	.ifdef	__16CE624
+		.pic14bit
+	.endif
+
+	.ifdef	__16CE625
+		.pic14bit
+	.endif
+
+	.ifdef	__16CR62
+		.pic14bit
+	.endif
+
+	.ifdef	__16CR63
+		.pic14bit
+	.endif
+
+	.ifdef	__16CR64
+		.pic14bit
+	.endif
+
+	.ifdef	__16CR65
+		.pic14bit
+	.endif
+
+	.ifdef	__16CR72
+		.pic14bit
+	.endif
+
+	.ifdef	__16CR83
+		.pic14bit
+	.endif
+
+	.ifdef	__16CR84
+		.pic14bit
+	.endif
+
+	.ifdef	__16F73
+		.pic14bit
+	.endif
+
+	.ifdef	__16F74
+		.pic14bit
+	.endif
+
+	.ifdef	__16F76
+		.pic14bit
+	.endif
+
+	.ifdef	__16F77
+		.pic14bit
+	.endif
+
+	.ifdef	__16F83
+		.pic14bit
+	.endif
+
+	.ifdef	__16F84
+		.pic14bit
+	.endif
+
+	.ifdef	__16F84A
+		.pic14bit
+	.endif
+
+	.ifdef	__16F627
+		.pic14bit
+	.endif
+
+	.ifdef	__16F628
+		.pic14bit
+	.endif
+
+	.ifdef	__16F870
+		.pic14bit
+	.endif
+
+	.ifdef	__16F871
+		.pic14bit
+	.endif
+
+	.ifdef	__16F872
+		.pic14bit
+	.endif
+
+	.ifdef	__16F873
+		.pic14bit
+	.endif
+
+	.ifdef	__16F874
+		.pic14bit
+	.endif
+
+	.ifdef	__16F876
+		.pic14bit
+	.endif
+
+	.ifdef	__16F877
+		.pic14bit
+	.endif
+
+	.ifdef	__16HV540
+		.pic14bit
+	.endif
+
+	.ifdef	__17C42A
+		.pic16bit
+	.endif
+
+	.ifdef	__17C43
+		.pic16bit
+	.endif
+
+	.ifdef	__17C44
+		.pic16bit
+	.endif
+
+	.ifdef	__17C752
+		.pic16bit
+	.endif
+
+	.ifdef	__17C756
+		.pic16bit
+	.endif
+
+	.ifdef	__17C756A
+		.pic16bit
+	.endif
+
+	.ifdef	__17C762
+		.pic16bit
+	.endif
+
+	.ifdef	__17C766
+		.pic16bit
+	.endif
+
+	.ifdef	__17CR42
+		.pic16bit
+	.endif
+
+	.ifdef	__17CR43
+		.pic16bit
+	.endif
+
+	.ifdef	__18C242
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18C252
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18C442
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18C452
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18C658
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18C858
+		.pic20bit
+		.32bit
+	.endif
+
+
+	;
+	; LOWER CASE Definitions
+	;
+
+	.ifdef	__12c508
+		.pic12bit
+	.endif
+
+	.ifdef	__12c508a
+		.pic12bit
+	.endif
+
+	.ifdef	__12c509
+		.pic12bit
+	.endif
+
+	.ifdef	__12c509a
+		.pic12bit
+	.endif
+
+	.ifdef	__12cr509a
+		.pic12bit
+	.endif
+
+	.ifdef	__12c671
+		.pic14bit
+		.picfix		"p12c671",	"clrw",		0x0103
+	.endif
+
+	.ifdef	__12c672
+		.pic14bit
+		.picfix		"p12c672",	"clrw",		0x0103
+	.endif
+
+	.ifdef	__12ce518
+		.pic12bit
+	.endif
+
+	.ifdef	__12ce519
+		.pic12bit
+	.endif
+
+	.ifdef	__12ce673
+		.pic14bit
+		.picfix		"p12ce673",	"clrw",		0x0103
+	.endif
+
+	.ifdef	__12ce674
+		.pic14bit
+		.picfix		"p12ce674",	"clrw",		0x0103
+	.endif
+
+	.ifdef	__14000
+		.pic14bit
+	.endif
+
+	.ifdef	__16c5X
+		.pic12bit
+	.endif
+
+	.ifdef	__16c61
+		.pic14bit
+	.endif
+
+	.ifdef	__16c62
+		.pic14bit
+	.endif
+
+	.ifdef	__16c62a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c62B
+		.pic14bit
+	.endif
+
+	.ifdef	__16c63
+		.pic14bit
+	.endif
+
+	.ifdef	__16c63a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c64
+		.pic14bit
+	.endif
+
+	.ifdef	__16c64a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c65
+		.pic14bit
+	.endif
+
+	.ifdef	__16c65a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c65B
+		.pic14bit
+	.endif
+
+	.ifdef	__16c66
+		.pic14bit
+	.endif
+
+	.ifdef	__16c67
+		.pic14bit
+	.endif
+
+	.ifdef	__16c70
+		.pic14bit
+	.endif
+
+	.ifdef	__16c71
+		.pic14bit
+	.endif
+
+	.ifdef	__16c71a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c72
+		.pic14bit
+	.endif
+
+	.ifdef	__16c72a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c73
+		.pic14bit
+	.endif
+
+	.ifdef	__16c73a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c73B
+		.pic14bit
+	.endif
+
+	.ifdef	__16c74
+		.pic14bit
+	.endif
+
+	.ifdef	__16c74a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c74B
+		.pic14bit
+	.endif
+
+	.ifdef	__16c76
+		.pic14bit
+	.endif
+
+	.ifdef	__16c77
+		.pic14bit
+	.endif
+
+	.ifdef	__16c84
+		.pic14bit
+	.endif
+
+	.ifdef	__16c432
+		.pic14bit
+	.endif
+
+	.ifdef	__16c433
+		.pic14bit
+	.endif
+
+	.ifdef	__16c505
+		.pic14bit
+	.endif
+
+	.ifdef	__16c554
+		.pic14bit
+	.endif
+
+	.ifdef	__16c558
+		.pic14bit
+	.endif
+
+	.ifdef	__16c620
+		.pic14bit
+	.endif
+
+	.ifdef	__16c620a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c621
+		.pic14bit
+	.endif
+
+	.ifdef	__16c621a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c622
+		.pic14bit
+	.endif
+
+	.ifdef	__16c622a
+		.pic14bit
+	.endif
+
+	.ifdef	__16c642
+		.pic14bit
+	.endif
+
+	.ifdef	__16c662
+		.pic14bit
+	.endif
+
+	.ifdef	__16c710
+		.pic14bit
+	.endif
+
+	.ifdef	__16c711
+		.pic14bit
+	.endif
+
+	.ifdef	__16c712
+		.pic14bit
+	.endif
+
+	.ifdef	__16c715
+		.pic14bit
+	.endif
+
+	.ifdef	__16c716
+		.pic14bit
+	.endif
+
+	.ifdef	__16c717
+		.pic14bit
+	.endif
+
+	.ifdef	__16c745
+		.pic14bit
+	.endif
+
+	.ifdef	__16c765
+		.pic14bit
+	.endif
+
+	.ifdef	__16c770
+		.pic14bit
+	.endif
+
+	.ifdef	__16c771
+		.pic14bit
+	.endif
+
+	.ifdef	__16c773
+		.pic14bit
+	.endif
+
+	.ifdef	__16c774
+		.pic14bit
+	.endif
+
+	.ifdef	__16c923
+		.pic14bit
+	.endif
+
+	.ifdef	__16c924
+		.pic14bit
+	.endif
+
+	.ifdef	__16c925
+		.pic14bit
+	.endif
+
+	.ifdef	__16c926
+		.pic14bit
+	.endif
+
+	.ifdef	__16ce623
+		.pic14bit
+	.endif
+
+	.ifdef	__16ce624
+		.pic14bit
+	.endif
+
+	.ifdef	__16ce625
+		.pic14bit
+	.endif
+
+	.ifdef	__16cr62
+		.pic14bit
+	.endif
+
+	.ifdef	__16cr63
+		.pic14bit
+	.endif
+
+	.ifdef	__16cr64
+		.pic14bit
+	.endif
+
+	.ifdef	__16cr65
+		.pic14bit
+	.endif
+
+	.ifdef	__16cr72
+		.pic14bit
+	.endif
+
+	.ifdef	__16cr83
+		.pic14bit
+	.endif
+
+	.ifdef	__16cr84
+		.pic14bit
+	.endif
+
+	.ifdef	__16f73
+		.pic14bit
+	.endif
+
+	.ifdef	__16f74
+		.pic14bit
+	.endif
+
+	.ifdef	__16f76
+		.pic14bit
+	.endif
+
+	.ifdef	__16f77
+		.pic14bit
+	.endif
+
+	.ifdef	__16f83
+		.pic14bit
+	.endif
+
+	.ifdef	__16f84
+		.pic14bit
+	.endif
+
+	.ifdef	__16f84a
+		.pic14bit
+	.endif
+
+	.ifdef	__16f627
+		.pic14bit
+	.endif
+
+	.ifdef	__16f628
+		.pic14bit
+	.endif
+
+	.ifdef	__16f870
+		.pic14bit
+	.endif
+
+	.ifdef	__16f871
+		.pic14bit
+	.endif
+
+	.ifdef	__16f872
+		.pic14bit
+	.endif
+
+	.ifdef	__16f873
+		.pic14bit
+	.endif
+
+	.ifdef	__16f874
+		.pic14bit
+	.endif
+
+	.ifdef	__16f876
+		.pic14bit
+	.endif
+
+	.ifdef	__16f877
+		.pic14bit
+	.endif
+
+	.ifdef	__16HV540
+		.pic14bit
+	.endif
+
+	.ifdef	__17c42a
+		.pic16bit
+	.endif
+
+	.ifdef	__17c43
+		.pic16bit
+	.endif
+
+	.ifdef	__17c44
+		.pic16bit
+	.endif
+
+	.ifdef	__17c752
+		.pic16bit
+	.endif
+
+	.ifdef	__17c756
+		.pic16bit
+	.endif
+
+	.ifdef	__17c756a
+		.pic16bit
+	.endif
+
+	.ifdef	__17c762
+		.pic16bit
+	.endif
+
+	.ifdef	__17c766
+		.pic16bit
+	.endif
+
+	.ifdef	__17cr42
+		.pic16bit
+	.endif
+
+	.ifdef	__17cr43
+		.pic16bit
+	.endif
+
+	.ifdef	__18c242
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18c252
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18c442
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18c452
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18c658
+		.pic20bit
+		.32bit
+	.endif
+
+	.ifdef	__18c858
+		.pic20bit
+		.32bit
+	.endif
+
+	.list

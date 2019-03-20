@@ -16,14 +16,14 @@
 
 __asm(
 	".bank page_00 (BASE=0x0000,SIZE=0x0100)\n\t"
-	".area direct (OVR,BANK=page_00)\n\t"
+	".area .direct (OVR,BANK=page_00)\n\t"
 );
 
 // ---------------------------------------------------------------------------
 // page FE00
 
-int					dp_Vec_Snd_shadow[0xb6]	__attribute__((section("direct"), used)); // 0xC800, Shadow of sound chip registers (15 bytes)
-const unsigned int 	dp_Vec_TWANG_VIBENL 	__attribute__((section("direct"), used)); // 0xFEB6, twang table, minestorm
+int					dp_Vec_Snd_shadow[0xb6]	__attribute__((section(".direct"), used)); // 0xC800, Shadow of sound chip registers (15 bytes)
+const unsigned int 	dp_Vec_TWANG_VIBENL 	__attribute__((section(".direct"), used)); // 0xFEB6, twang table, minestorm
 
 // ***************************************************************************
 // end of file

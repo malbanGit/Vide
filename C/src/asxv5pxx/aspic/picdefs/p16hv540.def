@@ -1,0 +1,96 @@
+	.LIST
+; P16HV540.INC  Standard Header File, Version 4.00    Microchip Technology, Inc.
+	.NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the 16HV540 microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.
+; There is one group of symbols that is valid for all microcontrollers.  
+; Each microcontroller in this family also has its own section of special 
+; symbols.  Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /P16HV540
+;       2. LIST directive in the source file
+;               LIST   P=16HV540
+;       3. Processor Type entry in the MPASM full-screen interface
+
+;==========================================================================
+;
+;	   Revision History
+;
+;==========================================================================
+
+;Rev:   Date:   Reason:
+
+;1.00	10 Feb 1999  initial release.
+
+;==========================================================================
+;
+;       Generic Definitions
+;
+;==========================================================================
+
+W                            =:     0x0000
+F                            =:     0x0001
+
+;----- Register Files -----------------------------------------------------
+
+INDF                         =:     0x0000
+TMR0                         =:     0x0001
+PCL                          =:     0x0002
+STATUS                       =:     0x0003
+FSR                          =:     0x0004
+PORTA                        =:     0x0005
+PORTB                        =:     0x0006
+
+;----- STATUS Bits --------------------------------------------------------
+
+PCF                          =:     0x0007
+PA1                          =:     0x0006
+PA0                          =:     0x0005
+NOT_TO                       =:     0x0004
+NOT_PD                       =:     0x0003
+Z                            =:     0x0002
+DC                           =:     0x0001
+C                            =:     0x0000
+
+;----- OPTION Bits --------------------------------------------------------
+
+T0CS                         =:     0x0005
+T0SE                         =:     0x0004
+PSA                          =:     0x0003
+PS2                          =:     0x0002
+PS1                          =:     0x0001
+PS0                          =:     0x0000
+
+;----- OPTION2 Bits --------------------------------------------------------
+
+WPC                          =:     0x0005
+SWE                          =:     0x0004
+RL                           =:     0x0003
+SL                           =:     0x0002
+BL                           =:     0x0001
+BE                           =:     0x0000
+
+
+           .MAXRAM 0x01F
+
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;==========================================================================
+
+_CP_ON                       =:     0x0FF7
+_CP_OFF                      =:     0x0FFF
+_WDT_ON                      =:     0x0FFF
+_WDT_OFF                     =:     0x0FFB
+_LP_OSC                      =:     0x0FFC
+_XT_OSC                      =:     0x0FFD
+_HS_OSC                      =:     0x0FFE
+_RC_OSC                      =:     0x0FFF
+
+	.LIST

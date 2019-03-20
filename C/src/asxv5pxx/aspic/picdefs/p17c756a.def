@@ -1,0 +1,455 @@
+        .LIST
+; P17C756A.INC  Standard Header File, Version 1.0   Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC17C756A microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.  
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PIC17C756A
+;       2. LIST directive in the source file
+;               LIST   P=PIC17C756A
+;       3. Processor Type entry in the MPASM full-screen interface
+
+;==========================================================================
+;
+;       Revision History
+;
+;==========================================================================
+
+;Rev:   Date:    Reason:
+
+;1.00   05/01/98 Initial Release
+
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __17C756A
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+W                               =:     0x0000
+F                               =:     0x0001
+
+BANK0                           =:     0x0000
+BANK1                           =:     0x0001
+BANK2                           =:     0x0002
+BANK3                           =:     0x0003
+BANK4                           =:     0x0004
+BANK5                           =:     0x0005
+BANK6                           =:     0x0006
+BANK7                           =:     0x0007
+
+GPR_BANK0                       =:    0x0000
+GPR_BANK1                       =:    0x0008
+GPR_BANK2                       =:    0x0010
+GPR_BANK3                       =:    0x0018
+
+;----- Register Files -----------------------------------------------------
+
+INDF0                           =:     0x0000
+FSR0                            =:     0x0001
+PCL                             =:     0x0002
+PCLATH                          =:     0x0003
+ALUSTA                          =:     0x0004
+T0STA                           =:     0x0005
+CPUSTA                          =:     0x0006
+INTSTA                          =:     0x0007
+INDF1                           =:     0x0008
+FSR1                            =:     0x0009
+WREG                            =:     0x000A
+TMR0L                           =:     0x000B
+TMR0H                           =:     0x000C
+TBLPTRL                         =:     0x000D
+TBLPTRH                         =:     0x000E
+BSR                             =:     0x000F
+
+;----- Bank 0 -------------------------------------------------------------
+
+PORTA                           =:     0x0010
+DDRB                            =:     0x0011
+PORTB                           =:     0x0012
+RCSTA                           =:     0x0013
+RCSTA1                          =:     0x0013
+RCREG                           =:     0x0014    ; Backward compatibility only
+RCREG1                          =:     0x0014
+TXSTA                           =:     0x0015    ; Backward compatibility only
+TXSTA1                          =:     0x0015
+TXREG                           =:     0x0016    ; Backward compatibility only
+TXREG1                          =:     0x0016
+SPBRG                           =:     0x0017    ; Backward compatibility only
+SPBRG1                          =:     0x0017
+
+;----- Bank 1 -------------------------------------------------------------
+
+DDRC                            =:     0x0110
+PORTC                           =:     0x0111
+DDRD                            =:     0x0112
+PORTD                           =:     0x0113
+DDRE                            =:     0x0114
+PORTE                           =:     0x0115
+PIR                             =:     0x0116    ; Backward compatibility only
+PIR1                            =:     0x0116
+PIE                             =:     0x0117    ; Backward compatibility only
+PIE1                            =:     0x0117
+
+;----- Bank 2 -------------------------------------------------------------
+
+TMR1                            =:     0x0210
+TMR2                            =:     0x0211
+TMR3L                           =:     0x0212
+TMR3H                           =:     0x0213
+PR1                             =:     0x0214
+PR2                             =:     0x0215
+PR3L                            =:     0x0216
+PR3H                            =:     0x0217
+
+CA1L                            =:     0x0216
+CA1H                            =:     0x0217
+
+;----- Bank 3 -------------------------------------------------------------
+
+PW1DCL                          =:     0x0310
+PW2DCL                          =:     0x0311
+PW1DCH                          =:     0x0312
+PW2DCH                          =:     0x0313
+CA2L                            =:     0x0314
+CA2H                            =:     0x0315
+TCON1                           =:     0x0316
+TCON2                           =:     0x0317
+
+;----- Bank 4 -------------------------------------------------------------
+
+PIR2                            =:     0x0410
+PIE2                            =:     0x0411
+
+RCSTA2                          =:     0x0413
+RCREG2                          =:     0x0414
+TXSTA2                          =:     0x0415
+TXREG2                          =:     0x0416
+SPBRG2                          =:     0x0417
+
+;----- Bank 5 -------------------------------------------------------------
+
+DDRF                            =:     0x0510
+PORTF                           =:     0x0511
+DDRG                            =:     0x0512
+PORTG                           =:     0x0513
+ADCON0                          =:     0x0514
+ADCON1                          =:     0x0515
+ADRESL                          =:     0x0516
+ADRESH                          =:     0x0517
+
+;----- Bank 6 -------------------------------------------------------------
+
+SSPADD                          =:     0x0610
+SSPCON1                         =:     0x0611
+SSPCON2                         =:     0x0612
+SSPSTAT                         =:     0x0613
+SSPBUF                          =:     0x0614
+
+;----- Bank 7 -------------------------------------------------------------
+
+PW3DCL                          =:     0x0710
+PW3DCH                          =:     0x0711
+CA3L                            =:     0x0712
+CA3H                            =:     0x0713
+CA4L                            =:     0x0714
+CA4H                            =:     0x0715
+TCON3                           =:     0x0716
+
+
+;----- Unbanked -----------------------------------------------------------
+
+PRODL                           =:     0x0018
+PL                              =:     0x0018    ; Backward compatibility only
+PRODH                           =:     0x0019
+PH                              =:     0x0019    ; Backward compatibility only
+
+;----- Special Function Register Bit Definitions --------------------------
+;
+;----- ALUSTA Bits --------------------------------------------------------
+
+FS3                             =:     0x0007
+FS2                             =:     0x0006
+FS1                             =:     0x0005
+FS0                             =:     0x0004
+OV                              =:     0x0003
+Z                               =:     0x0002
+DC                              =:     0x0001
+C                               =:     0x0000
+
+;----- CPUSTA Bits --------------------------------------------------------
+
+STKAV                           =:     0x0005
+GLINTD                          =:     0x0004
+NOT_TO                          =:     0x0003
+TO                              =:     0x0003
+NOT_PD                          =:     0x0002
+PD                              =:     0x0002
+NOT_POR                         =:     0x0001
+POR                             =:     0x0001
+NOT_BOR                         =:     0x0000
+BOR                             =:     0x0000
+
+;----- INTSTA Bits --------------------------------------------------------
+
+PEIF                            =:     0x0007
+T0CKIF                          =:     0x0006
+T0IF                            =:     0x0005
+INTF                            =:     0x0004
+PEIE                            =:     0x0003
+T0CKIE                          =:     0x0002
+T0IE                            =:     0x0001
+INTE                            =:     0x0000
+
+;----- PIR1 Bits ----------------------------------------------------------
+
+RBIF                            =:     0x0007
+TMR3IF                          =:     0x0006
+TMR2IF                          =:     0x0005
+TMR1IF                          =:     0x0004
+CA2IF                           =:     0x0003
+CA1IF                           =:     0x0002
+TXIF                            =:     0x0001    ; Backward compatibility only
+TX1IF                           =:     0x0001
+RCIF                            =:     0x0000    ; Backward compatibility only
+RC1IF                           =:     0x0000
+
+;----- PIE1 Bits -----------------------------------------------------------
+
+RBIE                            =:     0x0007
+TMR3IE                          =:     0x0006
+TMR2IE                          =:     0x0005
+TMR1IE                          =:     0x0004
+CA2IE                           =:     0x0003
+CA1IE                           =:     0x0002
+TXIE                            =:     0x0001    ; Backward compatibility only
+TX1IE                           =:     0x0001
+RCIE                            =:     0x0000    ; Backward compatibility only
+RC1IE                           =:     0x0000
+
+;----- PORTA Bits ---------------------------------------------------------
+
+NOT_RBPU                        =:    0x0007
+RBPU                            =:    0x0007
+
+;----- RCSTA1 and 2 Bits --------------------------------------------------
+
+SPEN                            =:     0x0007
+RX9                             =:     0x0006
+RC9                             =:     0x0006    ; Backward compatibility only
+NOT_RC8                         =:     0x0006    ; Backward compatibility only
+RC8_9                           =:     0x0006    ; Backward compatibility only
+SREN                            =:     0x0005
+CREN                            =:     0x0004
+FERR                            =:     0x0002
+OERR                            =:     0x0001
+RX9D                            =:     0x0000
+RCD8                            =:     0x0000    ; Backward compatibility only
+
+;----- T0STA Bits --------------------------------------------------------
+
+INTEDG                          =:     0x0007
+T0SE                            =:     0x0006
+T0CS                            =:     0x0005
+T0PS3                           =:     0x0004
+PS3                             =:     0x0004    ; Backward compatibility only
+T0PS2                           =:     0x0003
+PS2                             =:     0x0003    ; Backward compatibility only
+T0PS1                           =:     0x0002
+PS1                             =:     0x0002    ; Backward compatibility only
+T0PS0                           =:     0x0001
+PS0                             =:     0x0001    ; Backward compatibility only
+
+;----- TCON1 Bits ---------------------------------------------------------
+
+CA2ED1                          =:     0x0007
+CA2ED0                          =:     0x0006
+CA1ED1                          =:     0x0005
+CA1ED0                          =:     0x0004
+T16                             =:     0x0003
+TMR3CS                          =:     0x0002
+TMR2CS                          =:     0x0001
+TMR1CS                          =:     0x0000
+
+;----- TCON2 Bits ---------------------------------------------------------
+
+CA2OVF                          =:     0x0007
+CA1OVF                          =:     0x0006
+PWM2ON                          =:     0x0005
+PWM1ON                          =:     0x0004
+CA1                             =:     0x0003
+NOT_PR3                         =:     0x0003
+PR3                             =:     0x0003
+CA1_PR3                         =:     0x0003
+TMR3ON                          =:     0x0002
+TMR2ON                          =:     0x0001
+TMR1ON                          =:     0x0000
+
+;----- PIR2 Bits ----------------------------------------------------------
+
+SSPIF                           =:    0x0007
+BCLIF                           =:    0x0006
+ADIF                            =:    0x0005
+CA4IF                           =:    0x0003
+CA3IF                           =:    0x0002
+TX2IF                           =:    0x0001
+RC2IF                           =:    0x0000
+
+;----- PIE2 Bits ----------------------------------------------------------
+
+SSPIE                           =:    0x0007
+BCLIE                           =:    0x0006
+ADIE                            =:    0x0005
+CA4IE                           =:    0x0003
+CA3IE                           =:    0x0002
+TX2IE                           =:    0x0001
+RC2IE                           =:    0x0000
+
+;----- TXSTA1 and 2 Bits --------------------------------------------------
+
+CSRC                            =:     0x0007
+TX9                             =:     0x0006
+NOT_TX8                         =:     0x0006    ; Backward compatibility only
+TX8_9                           =:     0x0006    ; Backward compatibility only
+TXEN                            =:     0x0005
+SYNC                            =:     0x0004
+TRMT                            =:     0x0001
+TX9D                            =:     0x0000
+TXD8                            =:     0x0000    ; Backward compatibility only
+
+;----- ADCON0 Bits --------------------------------------------------------
+
+CHS3                            =:    0x0007
+CHS2                            =:    0x0006
+CHS1                            =:    0x0005
+CHS0                            =:    0x0004
+GO                              =:    0x0002
+NOT_DONE                        =:    0x0002
+DONE                            =:    0x0002
+ADON                            =:    0x0000
+
+;----- ADCON1 Bits --------------------------------------------------------
+
+ADCS1                           =:    0x0007
+ADCS0                           =:    0x0006
+ADFM                            =:    0x0005
+PCFG3                           =:    0x0003
+PCFG2                           =:    0x0002
+PCFG1                           =:    0x0001
+PCFG0                           =:    0x0000
+
+;----- SSPCON1 Bits -------------------------------------------------------
+
+WCOL                            =:    0x0007
+SSPOV                           =:    0x0006
+SSPEN                           =:    0x0005
+CKP                             =:    0x0004
+SSPM3                           =:    0x0003
+SSPM2                           =:    0x0002
+SSPM1                           =:    0x0001
+SSPM0                           =:    0x0000
+
+;----- SSPCON2 Bits -------------------------------------------------------
+
+GCEN                            =:    0x0007
+ACKSTAT                         =:    0x0006
+AKSTAT                          =:    0x0006
+ACKDT                           =:    0x0005
+AKDT                            =:    0x0005
+ACKEN                           =:    0x0004
+AKEN                            =:    0x0004
+RCEN                            =:    0x0003
+PEN                             =:    0x0002
+RSEN                            =:    0x0001
+SEN                             =:    0x0000
+
+;----- SSPSTAT Bits -------------------------------------------------------
+
+SMP                             =:    0x0007
+CKE                             =:    0x0006
+D                               =:    0x0005
+NOT_A                           =:    0x0005
+D_A                             =:    0x0005
+P                               =:    0x0004
+S                               =:    0x0003
+R                               =:    0x0002
+NOT_W                           =:    0x0002
+R_W                             =:    0x0002
+UA                              =:    0x0001
+BF                              =:    0x0000
+
+;----- TCON3 Bits ---------------------------------------------------------
+
+CA4OVF                          =:    0x0006
+CA3OVF                          =:    0x0005
+CA4ED1                          =:    0x0004
+CA4ED0                          =:    0x0003
+CA3ED1                          =:    0x0002
+CA3ED0                          =:    0x0001
+PWM3ON                          =:    0x0000
+
+;----- PW2DCL Bit ---------------------------------------------------------
+
+TM2PW2                          =:    0x0005
+
+
+;----- PW3DCL Bit ---------------------------------------------------------
+
+TM2PW3                          =:    0x0005
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+        .MAXRAM        0x8FF
+        .BADRAM        0x118:0x11F, 0x218:0x21F, 0x318:0x31F
+        .BADRAM        0x412, 0x418:0x4FF
+        .BADRAM        0x518:0x5FF
+        .BADRAM        0x615:0x6FF
+        .BADRAM        0x717:0x7FF
+        .BADRAM        0x814:0x8FF
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;==========================================================================
+
+_PMC_MODE                       =:     0x7FAF
+_XMC_MODE                       =:     0xFFBF
+_MC_MODE                        =:     0xFFEF
+_MP_MODE                        =:     0xFFFF
+
+_BODEN_OFF                      =:     0xBFFF
+_BODEN_ON                       =:     0xFFFF
+
+_WDT_NORM                       =:     0xFFF3
+_WDT_OFF                        =:     0xFFF3
+_WDT_64                         =:     0xFFF7
+_WDT_256                        =:     0xFFFB
+_WDT_1                          =:     0xFFFF
+_WDT_0                          =:     0xFFFF
+
+_LF_OSC                         =:     0xFFFC
+_RC_OSC                         =:     0xFFFD
+_XT_OSC                         =:     0xFFFE
+_EC_OSC                         =:     0xFFFF
+
+        .LIST

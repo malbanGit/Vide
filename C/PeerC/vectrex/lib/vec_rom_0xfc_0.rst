@@ -1,38 +1,27 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	vec_rom_0xfc_0.c
-                              7 ;----- asm -----
-                              8 	.bank page_fc (BASE=0xfc6d,SIZE=0x0100)
-                              9 	.area .dpfc (OVR,BANK=page_fc)
-                             10 	
-                             11 ;--- end asm ---
-                             12 	.globl _Vec_Sine_Table
-                             13 	.area	.dpfc
-   FC6D                      14 _Vec_Sine_Table:
-   FC6D 00 00                15 	.word	0	;skip space 16
-   FC6F 00 00                16 	.word	0	;skip space 14
-   FC71 00 00                17 	.word	0	;skip space 12
-   FC73 00 00                18 	.word	0	;skip space 10
-   FC75 00 00                19 	.word	0	;skip space 8
-   FC77 00 00                20 	.word	0	;skip space 6
-   FC79 00 00                21 	.word	0	;skip space 4
-   FC7B 00 00                22 	.word	0	;skip space 2
-                             23 	.globl _Vec_Cosine_Table
-   FC7D                      24 _Vec_Cosine_Table:
-   FC7D 00 00                25 	.word	0	;skip space 16
-   FC7F 00 00                26 	.word	0	;skip space 14
-   FC81 00 00                27 	.word	0	;skip space 12
-   FC83 00 00                28 	.word	0	;skip space 10
-   FC85 00 00                29 	.word	0	;skip space 8
-   FC87 00 00                30 	.word	0	;skip space 6
-   FC89 00 00                31 	.word	0	;skip space 4
-   FC8B 00 00                32 	.word	0	;skip space 2
-                             33 	.globl _Vec_Note_Table
-   FC8D                      34 _Vec_Note_Table:
-   FC8D 00                   35 	.byte	0	;skip space
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	vec_rom_0xfc_0.c
+                              6 ;----- asm -----
+                              7 	.bank page_fc (BASE=0xfc6d,SIZE=0x0100)
+                              8 	.area .dpfc (OVR,BANK=page_fc)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	_Vec_Sine_Table
+                             12 	.area	.dpfc
+   FC6D                      13 _Vec_Sine_Table:
+   FC6D 00 00 00 00 00 00    14 	.word	0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00
+                             15 	.globl	_Vec_Cosine_Table
+   FC7D                      16 _Vec_Cosine_Table:
+   FC7D 00 00 00 00 00 00    17 	.word	0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00
+                             18 	.globl	_Vec_Note_Table
+   FC8D                      19 _Vec_Note_Table:
+   FC8D 00                   20 	.byte	0
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

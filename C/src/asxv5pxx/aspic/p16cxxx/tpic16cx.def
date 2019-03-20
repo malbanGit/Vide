@@ -1,0 +1,43 @@
+	.sbttl	TPIC16CX Definition File
+
+	;
+	; The Register File is in	BANK RAM	AREA DATA
+	; The EEPROM is in		BANK EEPROM	AREA EEDATA
+	; The program is in		BANK EPROM	AREA CODE
+	;
+	; By default:
+	; DATA areas are	(ABS, OVR)	and
+	; Program areas are	(REL, CON)
+	;
+
+	.pic	"p16c52"
+	.pic14bit
+
+	.ifndef	__16c52
+	  .msg	"Processor-header file mismatch.  Verify selected processor."
+	.endif
+
+	;
+	; Register File RAM Definition
+	;
+	.bank	RAM	(BASE=0, SIZE=128)
+	.area	DATA	(ABS, OVR, DSEG, BANK=RAM)
+	.org	0
+
+	;
+	; EEPROM Definition
+	;
+	.bank	EEPROM	(BASE=0, SIZE=16)
+	.area	EEDATA	(ABS, OVR, DSEG, BANK=EEPROM)
+
+	;
+	; EPROM Definition
+	; CSEG is 2 Bytes per Word for the PIC.
+	; BANK size is in Bytes.
+	;
+	.bank	EPROM	(BASE=0, SIZE=2*2048)
+	.area	CODE	(CSEG, BANK=EPROM)
+
+
+	.sbttl
+

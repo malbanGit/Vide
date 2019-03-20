@@ -1,0 +1,108 @@
+	.LIST
+; P12CE519.INC  Standard Header File, Version 1.00    Microchip Technology, Inc.
+	.NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC12CE519 microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.  
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /P12CE519
+;       2. LIST directive in the source file
+;               LIST   P=12CE519
+;       3. Processor Type entry in the MPASM full-screen interface
+
+;==========================================================================
+;
+;	   Revision History
+;
+;==========================================================================
+
+;Rev:   Date:        Reason:
+
+;1.00   17 Dec 1997  Initial Release
+
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __12CE519
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+W                            =:     0x0000
+F                            =:     0x0001
+
+;----- Register Files -----------------------------------------------------
+
+INDF                         =:     0x0000
+TMR0                         =:     0x0001
+PCL                          =:     0x0002
+STATUS                       =:     0x0003
+FSR                          =:     0x0004
+OSCCAL                       =:     0x0005
+GPIO                         =:     0x0006
+
+;----- STATUS Bits --------------------------------------------------------
+
+GPWUF                        =:     0x0007
+PA0                          =:     0x0005
+NOT_TO                       =:     0x0004
+NOT_PD                       =:     0x0003
+Z                            =:     0x0002
+DC                           =:     0x0001
+C                            =:     0x0000
+
+;----- OPTION Bits --------------------------------------------------------
+
+NOT_GPWU                     =:     0x0007
+NOT_GPPU                     =:     0x0006
+T0CS                         =:     0x0005
+T0SE                         =:     0x0004
+PSA                          =:     0x0003
+PS2                          =:     0x0002
+PS1                          =:     0x0001
+PS0                          =:     0x0000
+
+;----- OSCCAL Bits --------------------------------------------------------
+
+OSCFST                       =:     0x0003
+OSCSLW                       =:     0x0002
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+        .MAXRAM 0x3F
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;==========================================================================
+
+_MCLRE_ON                    =:     0x0FFF
+_MCLRE_OFF                   =:     0x0FEF
+_CP_ON                       =:     0x0FF7
+_CP_OFF                      =:     0x0FFF
+_WDT_ON                      =:     0x0FFF
+_WDT_OFF                     =:     0x0FFB
+_LP_OSC                      =:     0x0FFC
+_XT_OSC                      =:     0x0FFD
+_IntRC_OSC                   =:     0x0FFE
+_ExtRC_OSC                   =:     0x0FFF
+
+	.LIST

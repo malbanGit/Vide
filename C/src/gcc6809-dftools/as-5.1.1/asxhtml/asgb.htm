@@ -1,0 +1,333 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASGB  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+ACKNOWLEDGEMENT 
+
+
+   Thanks  to  Roger Ivie for his contribution of the ASGB cross
+assembler.  
+
+        Roger Ivie
+        ivie at cc dot usu dot edu
+
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+INTRODUCTION 
+
+
+   The  Gameboy uses an 8-bit processor which is closely related
+to the 8080.  It is usually described as a modified Z80, but may
+be more closely understood as an enhanced 8080;  it has the 8080
+register set and many, but not all, enhanced  Z80  instructions.
+However,  even  this is not accurate, for the Gameboy also lacks
+some basic 8080 instructions (most annoyingly  SHLD  and  LHLD).
+ASGB is based on ASZ80 and therefore uses the Z80 mnemonic set. 
+
+
+GAMEBOY REGISTER SET AND CONDITIONS 
+
+
+   The following is a complete list of register designations and
+condition mnemonics:  
+
+        byte registers - a,b,c,d,e,h,l
+        register pairs - af, bc, de, hl
+        word registers - pc, sp
+
+        C  - carry bit set
+        NC - carry bit clear
+        NZ - zero bit clear
+        Z  - zero bit set
+
+
+GAMEBOY INSTRUCTION SET 
+
+
+   The following tables list all Gameboy mnemnoics recognized by
+the ASGB assembler.  The designation [] refers to a required ad-
+dressing mode argument.  The following list specifies the format
+for each addressing mode supported by ASGB:  
+
+        #data           immediate data
+                        byte or word data
+
+        n               byte value
+
+        rg              a byte register
+                        a,b,c,d,e,h,l
+
+        rp              a register pair or 16-bit register
+                        bc,de,hl
+
+        (hl)            implied addressing or
+                        register indirect addressing
+
+        (label)         direct addressing
+
+        label           call/jmp/jr label
+
+
+   The terms data, dir, and ext may all be expression.  The term
+dir is not allowed to be an external reference.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction.  Although official information is not, as  far  as  I
+know, publically available for the Gameboy processor, many unof-
+ficial sources are available on the internet.  
+
+
+.tile Directive 
+
+Format: .tile /string/ 
+
+where:  string  is  a  string of ascii characters taken from the
+                set ' ', '.', '+', '*', '0', '1', '2', and  '3'.
+                The   string   must   be  a  multiple  of  eight
+                characters long.  
+
+        /  /     represent  the  delimiting  characters.   These
+                delimiters   may   be   any   paired    printing
+                characters,  as  long  as the characters are not
+                contained within  the  string  itself.   If  the
+                delimiting  characters  do  not match, the .tile
+                directive will give the (q) error.  
+
+
+     The Gameboy displays information on the screen using a pro-
+grammable character set (referred to as  "tiles"  among  Gameboy
+developers).   The ASGB cross assembler has a processor-specific
+assembler directive  to  aid  in  the  creation  of  the  game's
+character set.  
+
+     Each  character is created from an 8x8 grid of pixels, each
+pixel of which is composed of two bits.  The .tile directive ac-
+cepts  a single string argument which is processed to create the
+byte  values  corresponding  to  the  lines  of  pixels  in  the
+character.   The  string  argument  must  be  some multiple of 8
+characters long, and be one of these characters:  
+
+        ' ' or '0' - for the pixel value 00
+        '.' or '1' - for the pixel value 01
+        '+' or '2' - for the pixel value 10
+        '*' or '3' - for the pixel value 11
+
+     The .tile directive processes each 8-character group of its
+string argument to create the two-byte  value  corresponding  to
+that  line of pixels.  The example in the popular extant litera-
+ture could be done using ASGB like this:  
+
+   0000 7C 7C                 1         .tile " *****  "
+   0002 00 C6                 2         .tile "++   ++ "
+   0004 C6 00                 3         .tile "..   .. "
+   0006 00 FE                 4         .tile "+++++++ "
+   0008 C6 C6                 5         .tile "**   ** "
+   000A 00 C6                 6         .tile "++   ++ "
+   000C C6 00                 7         .tile "..   .. "
+   000E 00 00                 8         .tile "        "
+
+     Or, using the synonym character set, as:  
+
+   0010 7C 7C                10         .tile "03333300"
+   0012 00 C6                11         .tile "22000220"
+   0014 C6 00                12         .tile "11000110"
+   0016 00 FE                13         .tile "22222220"
+   0018 C6 C6                14         .tile "33000330"
+   001A 00 C6                15         .tile "22000220"
+   001C C6 00                16         .tile "11000110"
+   001E 00 00                17         .tile "00000000"
+
+     Since .tile is perfectly willing to assemble multiple lines
+of a character at once (as long as it is given complete rows  of
+pixels), it could even be done as:  
+
+        .tile " *****  ++   ++ ..   .. +++++++ "
+        .tile "**   ** ++   ++ ..   ..         "
+
+
+Potentially Controversial Mnemonic Selection 
+
+
+     Although the Gameboy processor is based on the Z80, it does
+include some features which are not present in the Z80.  The Z80
+mnemonic  set  is  not  sufficient  to describe these additional
+operations;  mnemonics must be created for the  new  operations.
+The  mnemonics ASGB uses are not the same as those used by other
+publically-available Gameboy assemblers.  
+
+
+Auto-Indexing Loads  - 
+
+     The  Gameboy provides instructions to load or store the ac-
+cumulator indirectly via HL and then subsequently  increment  or
+decrement HL.  ASGB uses the mnemonic 'ldd' for the instructions
+which decrement HL and 'ldi' for the instructions  which  incre-
+ment  HL.   Because the Gameboy lacks the Z80's block moves, the
+mnemonics are not otherwise needed by ASGB.  
+
+        ldd a,(hl)      ldd (hl),a
+        ldi a,(hl)      ldi (hl),a
+
+
+Input and Output Operations  - 
+
+     The  Gameboy  replaces the Z80's separate address space for
+I/O with a mechanism similar to the zero page addressing of pro-
+cessors  such  as  the  6800  or 6502.  All I/O registers in the
+Gameboy reside in the address range between 0xff00  and  0xffff.
+The  Gameboy adds special instructions to load and store the ac-
+cumulator from and into this page of memory.   The  instructions
+are  analogous to the Z80's in and out instructions and ASGB re-
+tains the 'in' and 'out' mnemonics for them.  
+
+        in a,(n)        out (n),a
+        in a,(c)        out (c),a
+
+     From  ASGB's  perspective,  the  RAM  available from 0xff80
+through 0xffff is composed of unused I/O locations  rather  than
+direct-page RAM.  
+
+
+The 'stop' Instruction  - 
+
+     The  publically-available  documentation  for  the  Gameboy
+lists the 'stop' instruction as the two-byte instruction 10  00,
+and the other freely-available Gameboy assemblers assemble it in
+that manner.  As far as I can tell, the only rationale for  this
+is  that  the  corresponding Z80 instruction ('djnz label') is a
+two-byte instruction.  ASGB assembles 'stop' as the one-byte in-
+struction 10.  
+
+
+Inherent Instructions 
+
+
+        ccf             cpl
+        daa             di
+        ei              nop
+        halt            rla
+        rlca            rra
+        rrca            scf
+        reti            stop
+        swap
+
+
+Implicit Operand Instructions 
+
+
+        adc a,[]        adc []
+        add a,[]        add []
+        and a,[]        and []
+        cp a,[]         cp []
+        dec a,[]        dec []
+        inc a,[]        inc []
+        or a,[]         or []
+        rl a,[]         rl []
+        rlc a,[]        rlc []
+        rr a,[]         rr []
+        rrc a,[]        rrc []
+        sbc a,[]        sbc []
+        sla a,[]        sla []
+        sra a,[]        sra []
+        srl a,[]        srl []
+        sub a,[]        sub []
+        xor a,[]        xor []
+
+
+Load Instructions 
+
+
+        ld rg,[]        ld [],rg
+        ld (bc),a       ld a,(bc)
+        ld (de),a       ld a,(de)
+        ld (label),a    ld a,(label)
+        ld (label),sp   ld rp,#data
+        ld sp,hl        ld hl,sp
+
+        ldd a,(hl)      ldd (hl),a
+        ldi a,(hl)      ldi (hl),a
+
+
+Call/Return Instructions 
+
+
+        call C,label    ret C
+        call NC,label   ret NC
+        call Z,label    ret Z
+        call NZ,label   ret NZ
+        call label      ret
+
+        rst n
+
+
+Jump Instructions 
+
+
+        jp C,label      jp NC,label
+        jp Z,label      jp NZ,label
+
+        jp (hl)         jp label
+
+        jr C,label      jr NC,label
+        jr Z,label      jr NZ,label
+        jr label
+
+
+Bit Manipulation Instructions 
+
+
+        bit n,[]
+        res n,[]
+        set n,[]
+
+
+Input and Output Instructions 
+
+
+        in a,(n)        in a,(c)
+        out (n),a       out (c),a
+
+
+Register Pair Instructions 
+
+
+        add hl,rp       add hl,sp
+        add sp,#data
+
+        push rp         pop rp
+
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>
+

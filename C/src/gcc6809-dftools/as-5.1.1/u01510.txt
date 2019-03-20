@@ -1,0 +1,37 @@
+Version 5.10 Update 1
+2015_06_27
+
+   This  update  for  Version  5.10  of the  ASxxxx Cross
+Assemblers includes fixes for the following errors:
+
+   (1)  The as6500 assembler incorrectly assembled
+        cpx # and cpy # instructions.
+
+   (2)  An error in asmain.c inhibited the listing of
+        all .if.. assembler directives.
+
+   Merge the update asxv5pxx directory and subdirectories
+with the V5.10 distribution.  The following files will be
+overwritten:
+
+[asxv5pxx\as6500]
+      m65mch.c
+      t6500.asm
+
+[asxv5pxx\asxxsrc]
+      asmain.c
+      asxxxx.h
+
+[asxv5pxx\linksrc]
+      aslink.h
+
+[asxv5pxx\asxhtml]
+      aschng.htm
+
+[asxv5pxx]
+      u01510.txt
+
+
+   You must recompile the ASxxxx Assemblers and Linker
+to incorporate the update.
+

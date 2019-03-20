@@ -1,0 +1,23 @@
+!define BLANK ""
+R:\asxv5pxx\asxmak\watcom\build\asxxconv.obj : R:\asxv5pxx\ASXXMISC\asxxconv&
+.c .AUTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXMISC\asxxconv.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WAT&
+COM\h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\asxcnv.exe : R:\asxv5pxx\asxmak\watcom\build&
+\asxxconv.obj .AUTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ @%write asxcnv.lk1 FIL asxxconv.obj
+ @%append asxcnv.lk1 
+!ifneq BLANK ""
+ *wlib -q -n -b asxcnv.imp 
+ @%append asxcnv.lk1 LIBR asxcnv.imp
+!endif
+!ifneq BLANK ""
+ @%append asxcnv.lk1 op resource=
+!endif
+ *wlink name asxcnv d all SYS nt op m op maxe=25 op q op symf @asxcnv.lk1
+

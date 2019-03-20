@@ -1,0 +1,2 @@
+ascheck -gloabbsxff schk
+

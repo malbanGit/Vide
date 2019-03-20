@@ -1,0 +1,32 @@
+	.sbttl	Area Definitions and Linking Order
+
+	; indexed label definitions
+
+	.area	PORTDATA	(ABS,OVR)
+	.area	ACQBUFR		(ABS,OVR)
+	.area	ACQVARBL	(ABS,OVR)
+
+	; data areas
+
+	.area	WORKPG		(REL,CON)
+	.area	BUFSAV		(REL,CON)
+	.area	ACQDATA		(REL,CON)
+
+	; program areas
+
+	.area	PGMSAV		(REL,CON)
+	.area	ACIA		(REL,CON)
+	.area	ACQ		(REL,CON)
+	.area	HVCTRL		(REL,CON)
+	.area	TERMIO		(REL,CON)
+	.area	SELECT		(REL,CON)
+	.area	SCREEN		(REL,CON)
+	.area	SCRNUPDT	(REL,CON)
+	.area	AICONV		(REL,CON)
+	.area	MONDEB		(REL,CON)
+	.area	IRQVEC		(REL,CON)
+
+	.sbttl	Default Direct Page
+
+	.setdp	0,PORTDATA
+

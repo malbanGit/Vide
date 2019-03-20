@@ -1,0 +1,6070 @@
+	.sbttl	/* avr.sfr */
+	.nlist
+
+;	To select the specific processor without specififying
+;	SFRs (Special Function Registers) you may insert one (1)
+;	of the following AVR specific assembler mnemonics into your
+;	assembly source file and NOT include this file in the assembly.
+;
+;		.AT90SXXXX
+;		.AT90S1200
+;		.AT90S2313
+;		.AT90S2323
+;		.AT90S2343
+;		.AT90S2333
+;		.AT90S4433
+;		.AT90S4414
+;		.AT90S4434
+;		.AT90S8515
+;		.AT90C8534
+;		.AT90S8535
+;		.ATmega103
+;		.ATmega603
+;		.ATmega161
+;		.ATmega163
+;		.ATtiny10
+;		.ATtiny11
+;		.ATtiny12
+;		.ATtiny15
+;		.ATtiny22
+;		.ATtiny28
+;
+;
+;
+;	To select the specific processor with SFRs edit this
+;	file to set the processor value to 1.
+;
+;	Your assembly source file should NOT specify the
+;	CPU Type with the standard assembler directives.
+;
+;	Checking is done to verify only one cpu type is selected.
+
+	AT90Sxxxx	=:	1
+	AT90S1200	=:	0
+	AT90S2313	=:	0
+	AT90S2323	=:	0
+	AT90S2343	=:	0
+	AT90S2333	=:	0
+	AT90S4433	=:	0
+	AT90S4414	=:	0
+	AT90S4434	=:	0
+	AT90S8515	=:	0
+	AT90C8534	=:	0
+	AT90S8535	=:	0
+	ATmega103	=:	0
+	ATmega603	=:	0
+	ATmega161	=:	0
+	ATmega163	=:	0
+	ATtiny10	=:	0
+	ATtiny11	=:	0
+	ATtiny12	=:	0
+	ATtiny15	=:	0
+	ATtiny22	=:	0
+	ATtiny28	=:	0
+
+; Enable non-bit-addressable bit definitions by setting
+; SFR_BITS non zero.
+
+	SFR_BITS	=:	1
+
+
+; *****-----*****-----*****-----*****-----*****-----*****-----*****
+; *****-----*****-----*****-----*****-----*****-----*****-----*****
+; End of User Alterable Portion of File
+; *****-----*****-----*****-----*****-----*****-----*****-----*****
+; *****-----*****-----*****-----*****-----*****-----*****-----*****
+
+
+.page
+.sbttl	Check CPU Type Count
+
+.if AT90Sxxxx
+	AT90Sxxxx =: 1
+.endif
+.if AT90S1200
+	AT90S1200 =: 1
+.endif
+.if AT90S2313
+	AT90S2313 =: 1
+.endif
+.if AT90S2323
+	AT90S2323 =: 1
+.endif
+.if AT90S2343
+	AT90S2343 =: 1
+.endif
+.if AT90S2333
+	AT90S2333 =: 1
+.endif
+.if AT90S4433
+	AT90S4433 =: 1
+.endif
+.if AT90S4414
+	AT90S4414 =: 1
+.endif
+.if AT90S4434
+	AT90S4434 =: 1
+.endif
+.if AT90S8515
+	AT90S8515 =: 1
+.endif
+.if AT90C8534
+	AT90C8534 =: 1
+.endif
+.if AT90S8535
+	AT90S8535 =: 1
+.endif
+.if ATmega103
+	ATmega103 =: 1
+.endif
+.if ATmega603
+	ATmega603 =: 1
+.endif
+.if ATmega161
+	ATmega161 =: 1
+.endif
+.if ATmega163
+	ATmega163 =: 1
+.endif
+.if ATtiny10
+	ATtiny10 =: 1
+.endif
+.if ATtiny11
+	ATtiny11 =: 1
+.endif
+.if ATtiny12
+	ATtiny12 =: 1
+.endif
+.if ATtiny15
+	ATtiny15 =: 1
+.endif
+.if ATtiny22
+	ATtiny22 =: 1
+.endif
+.if ATtiny28
+	ATtiny28 =: 1
+.endif
+
+.if SFR_BITS
+	SFR_BITS =: 1
+.endif
+
+	ATCpuType	=:	AT90Sxxxx
+	ATCpuType	=:	ATCpuType + AT90S1200 + AT90S2313 + AT90S2323
+	ATCpuType	=:	ATCpuType + AT90S2343 + AT90S2333 + AT90S4433
+	ATCpuType	=:	ATCpuType + AT90S4414 + AT90S4434
+	ATCpuType	=:	ATCpuType + AT90S8515 + AT90C8534 + AT90S8535
+	ATCpuType	=:	ATCpuType + ATmega103 + ATmega603 + ATmega161
+	ATCpuType	=:	ATCpuType + ATmega163
+	ATCpuType	=:	ATCpuType + ATtiny10 + ATtiny11 + ATtiny12
+	ATCpuType	=:	ATCpuType + ATtiny15 + ATtiny22 + ATtiny28
+
+
+.if ATCpuType
+	.error	ATCpuType - 1	; More Than 1 CPU Type Selected
+.else
+	.error	ATCpuType + 1	; CPU Type not Selected
+.endif
+
+
+.page
+.sbttl	Special Function Register and Bit Definitions
+
+.if AT90Sxxxx
+	.sbttl	AT90Sxxxx Special Function Register and Bit Definitions
+.endif
+.if AT90S1200
+	.sbttl	AT90S1200 Special Function Register and Bit Definitions
+.endif
+.if AT90S2313
+	.sbttl	AT90S2313 Special Function Register and Bit Definitions
+.endif
+.if AT90S2323
+	.sbttl	AT90S2323 Special Function Register and Bit Definitions
+.endif
+.if AT90S2343
+	.sbttl	AT90S2343 Special Function Register and Bit Definitions
+.endif
+.if AT90S2333
+	.sbttl	AT90S2333 Special Function Register and Bit Definitions
+.endif
+.if AT90S4433
+	.sbttl	AT90S4433 Special Function Register and Bit Definitions
+.endif
+.if AT90S4414
+	.sbttl	AT90S4414 Special Function Register and Bit Definitions
+.endif
+.if AT90S4434
+	.sbttl	AT90S4434 Special Function Register and Bit Definitions
+.endif
+.if AT90S8515
+	.sbttl	AT90S8515 Special Function Register and Bit Definitions
+.endif
+.if AT90C8534
+	.sbttl	AT90C8515 Special Function Register and Bit Definitions
+.endif
+.if AT90S8535
+	.sbttl	AT90S8535 Special Function Register and Bit Definitions
+.endif
+.if ATmega103
+	.sbttl	ATmega103 Special Function Register and Bit Definitions
+.endif
+.if ATmega603
+	.sbttl	ATmega603 Special Function Register and Bit Definitions
+.endif
+.if ATmega161
+	.sbttl	ATmega161 Special Function Register and Bit Definitions
+.endif
+.if ATmega163
+	.sbttl	ATmega163 Special Function Register and Bit Definitions
+.endif
+.if ATtiny10
+	.sbttl	ATtiny10 Special Function Register and Bit Definitions
+.endif
+.if ATtiny11
+	.sbttl	ATtiny11 Special Function Register and Bit Definitions
+.endif
+.if ATtiny12
+	.sbttl	ATtiny12 Special Function Register and Bit Definitions
+.endif
+.if ATtiny15
+	.sbttl	ATtiny15 Special Function Register and Bit Definitions
+.endif
+.if ATtiny22
+	.sbttl	ATtiny22 Special Function Register and Bit Definitions
+.endif
+.if ATtiny28
+	.sbttl	ATtiny28 Special Function Register and Bit Definitions
+.endif
+
+.page
+	;/*
+	; * PreDefined Symbols For Processors
+	; */
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S1200
+	; */
+
+.if AT90S1200
+	.AT90S1200
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	SM	=:	0x0004
+	SE	=:	0x0005
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S2313
+	; */
+
+.if AT90S2313
+	.AT90S2313
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCR	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+USR	=:	0x000B
+.if SFR_BITS
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+ICR1L	=:	0x0024
+
+ICR1H	=:	0x0025
+
+OCR1AL	=:	0x002A
+
+OCR1AH	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	COM1A0	=:	0x0006
+	COM1A1	=:	0x0007
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	SM	=:	0x0004
+	SE	=:	0x0005
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+	ICF1	=:	0x0003
+	OCF1A	=:	0x0006
+	TOV1	=:	0x0007
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+	TICIE1	=:	0x0003
+	OCIE1A	=:	0x0006
+	TOIE1	=:	0x0007
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S2323
+	; */
+
+.if AT90S2323
+	.AT90S2323
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEWE	=:	0x0002
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTO	=:	0x0004
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	SM	=:	0x0004
+	SE	=:	0x0005
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S2343
+	; */
+
+.if AT90S2343
+	.AT90S2343
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEWE	=:	0x0002
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTO	=:	0x0004
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	SM	=:	0x0004
+	SE	=:	0x0005
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S2333
+	; */
+
+.if AT90S2333
+	.AT90S2333
+UBRRHI	=:	0x0003
+
+ADCL	=:	0x0004
+.if SFR_BITS
+	ADC0	=:	0x0000
+	ADC1	=:	0x0001
+	ADC2	=:	0x0002
+	ADC3	=:	0x0003
+	ADC4	=:	0x0004
+	ADC5	=:	0x0005
+	ADC6	=:	0x0006
+	ADC7	=:	0x0007
+.endif
+
+ADCH	=:	0x0005
+.if SFR_BITS
+	ADC8	=:	0x0000
+	ADC9	=:	0x0001
+.endif
+
+ADCSR	=:	0x0006
+.if SFR_BITS
+	ADPS0	=:	0x0000
+	ADPS1	=:	0x0001
+	ADPS2	=:	0x0002
+	ADIE	=:	0x0003
+	ADIF	=:	0x0004
+	ADFR	=:	0x0005
+	ADSC	=:	0x0006
+	ADDEN	=:	0x0007
+.endif
+
+ADMUX	=:	0x0007
+.if SFR_BITS
+	MUX0	=:	0x0000
+	MUX1	=:	0x0001
+	MUX2	=:	0x0002
+	ADCBG	=:	0x0006
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	AINBG	=:	0x0006
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCSRB	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+UCSRA	=:	0x000B
+.if SFR_BITS
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PINC	=:	0x0013
+.if SFR_BITS
+	PINC0	=:	0x0000
+	PINC1	=:	0x0001
+	PINC2	=:	0x0002
+	PINC3	=:	0x0003
+	PINC4	=:	0x0004
+	PINC5	=:	0x0005
+.endif
+
+DDRC	=:	0x0014
+.if SFR_BITS
+	DDC0	=:	0x0000
+	DDC1	=:	0x0001
+	DDC2	=:	0x0002
+	DDC3	=:	0x0003
+	DDC4	=:	0x0004
+	DDC5	=:	0x0005
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+ICR1L	=:	0x0026
+
+ICR1H	=:	0x0002
+
+OCR1L	=:	0x002A
+
+OCR1H	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	COM10	=:	0x0006
+	COM11	=:	0x0007
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+	BORF	=:	0x0002
+	WDRF	=:	0x0003
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	SM	=:	0x0004
+	SE	=:	0x0005
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+	ICF1	=:	0x0003
+	OCF1	=:	0x0006
+	TOV1	=:	0x0007
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+	TICE1	=:	0x0003
+	OCIE1	=:	0x0006
+	TOIE1	=:	0x0007
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SP	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S4433
+	; */
+
+.if AT90S4433
+	.AT90S4433
+UBRRHI	=:	0x0003
+
+ADCL	=:	0x0004
+.if SFR_BITS
+	ADC0	=:	0x0000
+	ADC1	=:	0x0001
+	ADC2	=:	0x0002
+	ADC3	=:	0x0003
+	ADC4	=:	0x0004
+	ADC5	=:	0x0005
+	ADC6	=:	0x0006
+	ADC7	=:	0x0007
+.endif
+
+ADCH	=:	0x0005
+.if SFR_BITS
+	ADC8	=:	0x0000
+	ADC9	=:	0x0001
+.endif
+
+ADCSR	=:	0x0006
+.if SFR_BITS
+	ADPS0	=:	0x0000
+	ADPS1	=:	0x0001
+	ADPS2	=:	0x0002
+	ADIE	=:	0x0003
+	ADIF	=:	0x0004
+	ADFR	=:	0x0005
+	ADSC	=:	0x0006
+	ADDEN	=:	0x0007
+.endif
+
+ADMUX	=:	0x0007
+.if SFR_BITS
+	MUX0	=:	0x0000
+	MUX1	=:	0x0001
+	MUX2	=:	0x0002
+	ADCBG	=:	0x0006
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	AINBG	=:	0x0006
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCSRB	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+UCSRA	=:	0x000B
+.if SFR_BITS
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PINC	=:	0x0013
+.if SFR_BITS
+	PINC0	=:	0x0000
+	PINC1	=:	0x0001
+	PINC2	=:	0x0002
+	PINC3	=:	0x0003
+	PINC4	=:	0x0004
+	PINC5	=:	0x0005
+.endif
+
+DDRC	=:	0x0014
+.if SFR_BITS
+	DDC0	=:	0x0000
+	DDC1	=:	0x0001
+	DDC2	=:	0x0002
+	DDC3	=:	0x0003
+	DDC4	=:	0x0004
+	DDC5	=:	0x0005
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+ICR1L	=:	0x0026
+
+ICR1H	=:	0x0002
+
+OCR1L	=:	0x002A
+
+OCR1H	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	COM10	=:	0x0006
+	COM11	=:	0x0007
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+	BORF	=:	0x0002
+	WDRF	=:	0x0003
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	SM	=:	0x0004
+	SE	=:	0x0005
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+	ICF1	=:	0x0003
+	OCF1	=:	0x0006
+	TOV1	=:	0x0007
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+	TICE1	=:	0x0003
+	OCIE1	=:	0x0006
+	TOIE1	=:	0x0007
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SP	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S4414
+	; */
+
+.if AT90S4414
+	.AT90S4414
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCR	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+USR	=:	0x000B
+.if SFR_BITS
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PINC	=:	0x0013
+.if SFR_BITS
+	PINC0	=:	0x0000
+	PINC1	=:	0x0001
+	PINC2	=:	0x0002
+	PINC3	=:	0x0003
+	PINC4	=:	0x0004
+	PINC5	=:	0x0005
+	PINC6	=:	0x0006
+	PINC7	=:	0x0007
+.endif
+
+DDRC	=:	0x0014
+.if SFR_BITS
+	DDC0	=:	0x0000
+	DDC1	=:	0x0001
+	DDC2	=:	0x0002
+	DDC3	=:	0x0003
+	DDC4	=:	0x0004
+	DDC5	=:	0x0005
+	DDC6	=:	0x0006
+	DDC7	=:	0x0007
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+	PORTC6	=:	0x0006
+	PORTC7	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+PINA	=:	0x0019
+.if SFR_BITS
+	PINA0	=:	0x0000
+	PINA1	=:	0x0001
+	PINA2	=:	0x0002
+	PINA3	=:	0x0003
+	PINA4	=:	0x0004
+	PINA5	=:	0x0005
+	PINA6	=:	0x0006
+	PINA7	=:	0x0007
+.endif
+
+DDRA	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	DDA2	=:	0x0002
+	DDA3	=:	0x0003
+	DDA4	=:	0x0004
+	DDA5	=:	0x0005
+	DDA6	=:	0x0006
+	DDA7	=:	0x0007
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+	PORTA4	=:	0x0004
+	PORTA5	=:	0x0005
+	PORTA6	=:	0x0006
+	PORTA7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+ICR1L	=:	0x0024
+
+ICR1H	=:	0x0002
+
+OCR1BL	=:	0x0028
+
+OCR1BH	=:	0x0029
+
+OCR1AL	=:	0x002A
+
+OCR1AH	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	COM1B0	=:	0x0004
+	COM1B1	=:	0x0005
+	COM1A0	=:	0x0006
+	COM1A1	=:	0x0007
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	SM	=:	0x0004
+	SE	=:	0x0005
+	SRW	=:	0x0006
+	SRE	=:	0x0007
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+	ICF1	=:	0x0003
+	ICF1B	=:	0x0005
+	OCF1A	=:	0x0006
+	TOV1	=:	0x0007
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+	TICIE1	=:	0x0003
+	OCIE1B	=:	0x0005
+	OCIE1A	=:	0x0006
+	TOIE1	=:	0x0007
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SPH	=:	0x003E
+.if SFR_BITS
+	SP8	=:	0x0000
+	SP9	=:	0x0001
+	SP10	=:	0x0002
+	SP11	=:	0x0003
+	SP12	=:	0x0004
+	SP13	=:	0x0005
+	SP14	=:	0x0006
+	SP15	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S4434
+	; */
+
+.if AT90S4434
+	.AT90S4434
+ADCL	=:	0x0004
+.if SFR_BITS
+	ADC0	=:	0x0000
+	ADC1	=:	0x0001
+	ADC2	=:	0x0002
+	ADC3	=:	0x0003
+	ADC4	=:	0x0004
+	ADC5	=:	0x0005
+	ADC6	=:	0x0006
+	ADC7	=:	0x0007
+.endif
+
+ADCH	=:	0x0005
+.if SFR_BITS
+	ADC8	=:	0x0000
+	ADC9	=:	0x0001
+.endif
+
+ADCSR	=:	0x0006
+.if SFR_BITS
+	ADPS0	=:	0x0000
+	ADPS1	=:	0x0001
+	ADPS2	=:	0x0002
+	ADIE	=:	0x0003
+	ADIF	=:	0x0004
+	ADFR	=:	0x0005
+	ADSC	=:	0x0006
+	ADEN	=:	0x0007
+.endif
+
+ADMUX	=:	0x0007
+.if SFR_BITS
+	MUX0	=:	0x0000
+	MUX1	=:	0x0001
+	MUX2	=:	0x0002
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCR	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+USR	=:	0x000B
+.if SFR_BITS
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PINC	=:	0x0013
+.if SFR_BITS
+	PINC0	=:	0x0000
+	PINC1	=:	0x0001
+	PINC2	=:	0x0002
+	PINC3	=:	0x0003
+	PINC4	=:	0x0004
+	PINC5	=:	0x0005
+	PINC6	=:	0x0006
+	PINC7	=:	0x0007
+.endif
+
+DDRC	=:	0x0014
+.if SFR_BITS
+	DDC0	=:	0x0000
+	DDC1	=:	0x0001
+	DDC2	=:	0x0002
+	DDC3	=:	0x0003
+	DDC4	=:	0x0004
+	DDC5	=:	0x0005
+	DDC6	=:	0x0006
+	DDC7	=:	0x0007
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+	PORTC6	=:	0x0006
+	PORTC7	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+PINA	=:	0x0019
+.if SFR_BITS
+	PINA0	=:	0x0000
+	PINA1	=:	0x0001
+	PINA2	=:	0x0002
+	PINA3	=:	0x0003
+	PINA4	=:	0x0004
+	PINA5	=:	0x0005
+	PINA6	=:	0x0006
+	PINA7	=:	0x0007
+.endif
+
+DDRA	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	DDA2	=:	0x0002
+	DDA3	=:	0x0003
+	DDA4	=:	0x0004
+	DDA5	=:	0x0005
+	DDA6	=:	0x0006
+	DDA7	=:	0x0007
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+	PORTA4	=:	0x0004
+	PORTA5	=:	0x0005
+	PORTA6	=:	0x0006
+	PORTA7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEARL	=:	0x001E
+.if SFR_BITS
+	EEAR0	=:	0x0000
+	EEAR1	=:	0x0001
+	EEAR2	=:	0x0002
+	EEAR3	=:	0x0003
+	EEAR4	=:	0x0004
+	EEAR5	=:	0x0005
+	EEAR6	=:	0x0006
+	EEAR7	=:	0x0007
+.endif
+
+EEARH	=:	0x001F
+.if SFR_BITS
+	EEAR8	=:	0x0000
+.endif
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+ASSR	=:	0x0022
+.if SFR_BITS
+	TCR2UB	=:	0x0000
+	OCR2UB	=:	0x0001
+	TCN2UB	=:	0x0002
+	AS2	=:	0x0003
+.endif
+
+OCR2	=:	0x0023
+
+TCNT2	=:	0x0024
+
+TCCR2	=:	0x0025
+.if SFR_BITS
+	CS20	=:	0x0000
+	CS21	=:	0x0001
+	CS22	=:	0x0002
+	CTC2	=:	0x0003
+	COM20	=:	0x0004
+	COM21	=:	0x0005
+	PWM2	=:	0x0006
+.endif
+
+ICR1L	=:	0x0026
+
+ICR1H	=:	0x0027
+
+OCR1BL	=:	0x0028
+
+OCR1BH	=:	0x0029
+
+OCR1AL	=:	0x002A
+
+OCR1AH	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	COM1B0	=:	0x0004
+	COM1B1	=:	0x0005
+	COM1A0	=:	0x0006
+	COM1A1	=:	0x0007
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	SM0	=:	0x0004
+	SM1	=:	0x0005
+	SE	=:	0x0006
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0000
+	TOV1	=:	0x0002
+	OCF1B	=:	0x0003
+	OCF1A	=:	0x0004
+	ICF1	=:	0x0005
+	TOV2	=:	0x0006
+	OCF2	=:	0x0007
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0000
+	TOIE1	=:	0x0002
+	OCIE1B	=:	0x0003
+	OCIE1A	=:	0x0004
+	TICIE1	=:	0x0005
+	TOIE2	=:	0x0006
+	OCIE2	=:	0x0007
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SPH	=:	0x003E
+.if SFR_BITS
+	SP8	=:	0x0000
+	SP9	=:	0x0001
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S8535
+	; */
+
+.if AT90S8535
+	.AT90S8535
+ADCL	=:	0x0004
+.if SFR_BITS
+	ADC0	=:	0x0000
+	ADC1	=:	0x0001
+	ADC2	=:	0x0002
+	ADC3	=:	0x0003
+	ADC4	=:	0x0004
+	ADC5	=:	0x0005
+	ADC6	=:	0x0006
+	ADC7	=:	0x0007
+.endif
+
+ADCH	=:	0x0005
+.if SFR_BITS
+	ADC8	=:	0x0000
+	ADC9	=:	0x0001
+.endif
+
+ADCSR	=:	0x0006
+.if SFR_BITS
+	ADPS0	=:	0x0000
+	ADPS1	=:	0x0001
+	ADPS2	=:	0x0002
+	ADIE	=:	0x0003
+	ADIF	=:	0x0004
+	ADFR	=:	0x0005
+	ADSC	=:	0x0006
+	ADEN	=:	0x0007
+.endif
+
+ADMUX	=:	0x0007
+.if SFR_BITS
+	MUX0	=:	0x0000
+	MUX1	=:	0x0001
+	MUX2	=:	0x0002
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCR	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+USR	=:	0x000B
+.if SFR_BITS
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PINC	=:	0x0013
+.if SFR_BITS
+	PINC0	=:	0x0000
+	PINC1	=:	0x0001
+	PINC2	=:	0x0002
+	PINC3	=:	0x0003
+	PINC4	=:	0x0004
+	PINC5	=:	0x0005
+	PINC6	=:	0x0006
+	PINC7	=:	0x0007
+.endif
+
+DDRC	=:	0x0014
+.if SFR_BITS
+	DDC0	=:	0x0000
+	DDC1	=:	0x0001
+	DDC2	=:	0x0002
+	DDC3	=:	0x0003
+	DDC4	=:	0x0004
+	DDC5	=:	0x0005
+	DDC6	=:	0x0006
+	DDC7	=:	0x0007
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+	PORTC6	=:	0x0006
+	PORTC7	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+PINA	=:	0x0019
+.if SFR_BITS
+	PINA0	=:	0x0000
+	PINA1	=:	0x0001
+	PINA2	=:	0x0002
+	PINA3	=:	0x0003
+	PINA4	=:	0x0004
+	PINA5	=:	0x0005
+	PINA6	=:	0x0006
+	PINA7	=:	0x0007
+.endif
+
+DDRA	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	DDA2	=:	0x0002
+	DDA3	=:	0x0003
+	DDA4	=:	0x0004
+	DDA5	=:	0x0005
+	DDA6	=:	0x0006
+	DDA7	=:	0x0007
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+	PORTA4	=:	0x0004
+	PORTA5	=:	0x0005
+	PORTA6	=:	0x0006
+	PORTA7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEARL	=:	0x001E
+.if SFR_BITS
+	EEAR0	=:	0x0000
+	EEAR1	=:	0x0001
+	EEAR2	=:	0x0002
+	EEAR3	=:	0x0003
+	EEAR4	=:	0x0004
+	EEAR5	=:	0x0005
+	EEAR6	=:	0x0006
+	EEAR7	=:	0x0007
+.endif
+
+EEARH	=:	0x001F
+.if SFR_BITS
+	EEAR8	=:	0x0000
+.endif
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+ASSR	=:	0x0022
+.if SFR_BITS
+	TCR2UB	=:	0x0000
+	OCR2UB	=:	0x0001
+	TCN2UB	=:	0x0002
+	AS2	=:	0x0003
+.endif
+
+OCR2	=:	0x0023
+
+TCNT2	=:	0x0024
+
+TCCR2	=:	0x0025
+.if SFR_BITS
+	CS20	=:	0x0000
+	CS21	=:	0x0001
+	CS22	=:	0x0002
+	CTC2	=:	0x0003
+	COM20	=:	0x0004
+	COM21	=:	0x0005
+	PWM2	=:	0x0006
+.endif
+
+ICR1L	=:	0x0026
+
+ICR1H	=:	0x0027
+
+OCR1BL	=:	0x0028
+
+OCR1BH	=:	0x0029
+
+OCR1AL	=:	0x002A
+
+OCR1AH	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	COM1B0	=:	0x0004
+	COM1B1	=:	0x0005
+	COM1A0	=:	0x0006
+	COM1A1	=:	0x0007
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	SM0	=:	0x0004
+	SM1	=:	0x0005
+	SE	=:	0x0006
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0000
+	TOV1	=:	0x0002
+	OCF1B	=:	0x0003
+	OCF1A	=:	0x0004
+	ICF1	=:	0x0005
+	TOV2	=:	0x0006
+	OCF2	=:	0x0007
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0000
+	TOIE1	=:	0x0002
+	OCIE1B	=:	0x0003
+	OCIE1A	=:	0x0004
+	TICIE1	=:	0x0005
+	TOIE2	=:	0x0006
+	OCIE2	=:	0x0007
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SPH	=:	0x003E
+.if SFR_BITS
+	SP8	=:	0x0000
+	SP9	=:	0x0001
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90S8515
+	; */
+
+.if AT90S8515
+	.AT90S8515
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACISC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCR	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+USR	=:	0x000B
+.if SFR_BITS
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PINC	=:	0x0013
+.if SFR_BITS
+	PINC0	=:	0x0000
+	PINC1	=:	0x0001
+	PINC2	=:	0x0002
+	PINC3	=:	0x0003
+	PINC4	=:	0x0004
+	PINC5	=:	0x0005
+	PINC6	=:	0x0006
+	PINC7	=:	0x0007
+.endif
+
+DDRC	=:	0x0014
+.if SFR_BITS
+	DDC0	=:	0x0000
+	DDC1	=:	0x0001
+	DDC2	=:	0x0002
+	DDC3	=:	0x0003
+	DDC4	=:	0x0004
+	DDC5	=:	0x0005
+	DDC6	=:	0x0006
+	DDC7	=:	0x0007
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+	PORTC6	=:	0x0006
+	PORTC7	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+PINA	=:	0x0019
+.if SFR_BITS
+	PINA0	=:	0x0000
+	PINA1	=:	0x0001
+	PINA2	=:	0x0002
+	PINA3	=:	0x0003
+	PINA4	=:	0x0004
+	PINA5	=:	0x0005
+	PINA6	=:	0x0006
+	PINA7	=:	0x0007
+.endif
+
+DDRA	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	DDA2	=:	0x0002
+	DDA3	=:	0x0003
+	DDA4	=:	0x0004
+	DDA5	=:	0x0005
+	DDA6	=:	0x0006
+	DDA7	=:	0x0007
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+	PORTA4	=:	0x0004
+	PORTA5	=:	0x0005
+	PORTA6	=:	0x0006
+	PORTA7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+.endif
+
+EEDR	=:	0x001D
+
+EEARL	=:	0x001E
+
+EEARH	=:	0x001F
+.if SFR_BITS
+	EEAR8	=:	0x0000
+.endif
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+ICR1L	=:	0x0024
+
+ICR1H	=:	0x0002
+
+OCR1BL	=:	0x0028
+
+OCR1BH	=:	0x0029
+
+OCR1AL	=:	0x002A
+
+OCR1AH	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	COM1B0	=:	0x0004
+	COM1B1	=:	0x0005
+	COM1A0	=:	0x0006
+	COM1A1	=:	0x0007
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	SM	=:	0x0004
+	SE	=:	0x0005
+	SRW	=:	0x0006
+	SRE	=:	0x0007
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+	ICF1	=:	0x0003
+	ICF1B	=:	0x0005
+	OCF1A	=:	0x0006
+	TOV1	=:	0x0007
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+	TICIE1	=:	0x0003
+	OCIE1B	=:	0x0005
+	OCIE1A	=:	0x0006
+	TOIE1	=:	0x0007
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SPH	=:	0x003E
+.if SFR_BITS
+	SP8	=:	0x0000
+	SP9	=:	0x0001
+	SP10	=:	0x0002
+	SP11	=:	0x0003
+	SP12	=:	0x0004
+	SP13	=:	0x0005
+	SP14	=:	0x0006
+	SP15	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * AT90C8534
+	; */
+
+.if AT90C8534
+	.AT90C8534
+ADCL	=:	0x0004
+.if SFR_BITS
+	ADC0	=:	0x0000
+	ADC1	=:	0x0001
+	ADC2	=:	0x0002
+	ADC3	=:	0x0003
+	ADC4	=:	0x0004
+	ADC5	=:	0x0005
+	ADC6	=:	0x0006
+	ADC7	=:	0x0007
+.endif
+
+ADCH	=:	0x0005
+.if SFR_BITS
+	ADC8	=:	0x0000
+	ADC9	=:	0x0001
+.endif
+
+ADCSR	=:	0x0006
+.if SFR_BITS
+	ADPS0	=:	0x0000
+	ADPS1	=:	0x0001
+	ADPS2	=:	0x0002
+	ADIE	=:	0x0003
+	ADIF	=:	0x0004
+	ADFR	=:	0x0005
+	ADSC	=:	0x0006
+	ADDEN	=:	0x0007
+.endif
+
+ADMUX	=:	0x0007
+.if SFR_BITS
+	MUX0	=:	0x0000
+	MUX1	=:	0x0001
+	MUX2	=:	0x0002
+.endif
+
+GIPR	=:	0x0010
+.if SFR_BITS
+	IPIN0	=:	0x0002
+	IPIN1	=:	0x0003
+.endif
+
+DDRA	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	DDA2	=:	0x0002
+	DDA3	=:	0x0003
+	DDA4	=:	0x0004
+	DDA5	=:	0x0005
+	DDA6	=:	0x0006
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+	PORTA4	=:	0x0004
+	PORTA5	=:	0x0005
+	PORTA6	=:	0x0006
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEARL	=:	0x001E
+.if SFR_BITS
+	EEAR0	=:	0x0000
+	EEAR1	=:	0x0001
+	EEAR2	=:	0x0002
+	EEAR3	=:	0x0003
+	EEAR4	=:	0x0004
+	EEAR5	=:	0x0005
+	EEAR6	=:	0x0006
+	EEAR7	=:	0x0007
+.endif
+
+EEARH	=:	0x001F
+.if SFR_BITS
+	EEAR8	=:	0x0000
+.endif
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC0	=:	0x0000
+	ISC1	=:	0x0002
+	SM	=:	0x0005
+	SE	=:	0x0006
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0000
+	TOV1	=:	0x0002
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0000
+	TOIE1	=:	0x0002
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SPH	=:	0x003E
+.if SFR_BITS
+	SP8	=:	0x0000
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATmega103
+	; */
+
+.if ATmega103
+	.ATmega103
+PINF	=:	0x0000
+.if SFR_BITS
+	PINF0	=:	0x0000
+	PINF1	=:	0x0001
+	PINF2	=:	0x0002
+	PINF3	=:	0x0003
+	PINF4	=:	0x0004
+	PINF5	=:	0x0005
+	PINF6	=:	0x0006
+	PINF7	=:	0x0007
+.endif
+
+PINE	=:	0x0001
+.if SFR_BITS
+	PINE0	=:	0x0000
+	PINE1	=:	0x0001
+	PINE2	=:	0x0002
+	PINE3	=:	0x0003
+	PINE4	=:	0x0004
+	PINE5	=:	0x0005
+	PINE6	=:	0x0006
+	PINE7	=:	0x0007
+.endif
+
+DDRE	=:	0x0002
+.if SFR_BITS
+	DDE0	=:	0x0000
+	DDE1	=:	0x0001
+	DDE2	=:	0x0002
+	DDE3	=:	0x0003
+	DDE4	=:	0x0004
+	DDE5	=:	0x0005
+	DDE6	=:	0x0006
+	DDE7	=:	0x0007
+.endif
+
+PORTE	=:	0x0003
+.if SFR_BITS
+	PORTE0	=:	0x0000
+	PORTE1	=:	0x0001
+	PORTE2	=:	0x0002
+	PORTE3	=:	0x0003
+	PORTE4	=:	0x0004
+	PORTE5	=:	0x0005
+	PORTE6	=:	0x0006
+	PORTE7	=:	0x0007
+.endif
+
+ADCL	=:	0x0004
+.if SFR_BITS
+	ADC0	=:	0x0000
+	ADC1	=:	0x0001
+	ADC2	=:	0x0002
+	ADC3	=:	0x0003
+	ADC4	=:	0x0004
+	ADC5	=:	0x0005
+	ADC6	=:	0x0006
+	ADC7	=:	0x0007
+.endif
+
+ADCH	=:	0x0005
+.if SFR_BITS
+	ADC8	=:	0x0000
+	ADC9	=:	0x0001
+.endif
+
+ADCSR	=:	0x0006
+.if SFR_BITS
+	ADPS0	=:	0x0000
+	ADPS1	=:	0x0001
+	ADPS2	=:	0x0002
+	ADIE	=:	0x0003
+	ADIF	=:	0x0004
+	ADRF	=:	0x0005
+	ABSY	=:	0x0006
+	ADES	=:	0x0007
+.endif
+
+ADMUX	=:	0x0007
+.if SFR_BITS
+	MUX0	=:	0x0000
+	MUX1	=:	0x0001
+	MUX2	=:	0x0002
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCR	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+USR	=:	0x000B
+.if SFR_BITS
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+	PORTC6	=:	0x0006
+	PORTC7	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+PINA	=:	0x0019
+.if SFR_BITS
+	PINA0	=:	0x0000
+	PINA1	=:	0x0001
+	PINA2	=:	0x0002
+	PINA3	=:	0x0003
+	PINA4	=:	0x0004
+	PINA5	=:	0x0005
+	PINA6	=:	0x0006
+	PINA7	=:	0x0007
+.endif
+
+DDRA	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	DDA2	=:	0x0002
+	DDA3	=:	0x0003
+	DDA4	=:	0x0004
+	DDA5	=:	0x0005
+	DDA6	=:	0x0006
+	DDA7	=:	0x0007
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+	PORTA4	=:	0x0004
+	PORTA5	=:	0x0005
+	PORTA6	=:	0x0006
+	PORTA7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEARL	=:	0x001E
+
+EEARH	=:	0x001F
+.if SFR_BITS
+	EEAR8	=:	0x0000
+	EEAR9	=:	0x0001
+	EEAR10	=:	0x0002
+	EEAR11	=:	0x0003
+.endif
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+OCR2	=:	0x0023
+
+TCNT2	=:	0x0024
+
+TCCR2	=:	0x0025
+.if SFR_BITS
+	CS20	=:	0x0000
+	CS21	=:	0x0001
+	CS22	=:	0x0002
+	CTC2	=:	0x0003
+	COM20	=:	0x0004
+	COM21	=:	0x0005
+	PWM2	=:	0x0006
+.endif
+
+ICR1L	=:	0x0026
+
+ICR1H	=:	0x0002
+
+OCR1BL	=:	0x0028
+
+OCR1BH	=:	0x0029
+
+OCR1AL	=:	0x002A
+
+OCR1AH	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	COM1B0	=:	0x0004
+	COM1B1	=:	0x0005
+	COM1A0	=:	0x0006
+	COM1A1	=:	0x0007
+.endif
+
+ASSR	=:	0x0030
+.if SFR_BITS
+	TCR0UB	=:	0x0000
+	OCR0UB	=:	0x0001
+	TCN0UB	=:	0x0002
+	AS0	=:	0x0003
+.endif
+
+OCR0	=:	0x0031
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+	CTC0	=:	0x0003
+	COM00	=:	0x0004
+	COM01	=:	0x0005
+	PWM0	=:	0x0006
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	SM0	=:	0x0003
+	SM1	=:	0x0004
+	SE	=:	0x0005
+	SRW	=:	0x0006
+	SRE	=:	0x0007
+.endif
+
+TIFR	=:	0x0036
+.if SFR_BITS
+	TOV0	=:	0x0000
+	OCF0	=:	0x0001
+	TOV1	=:	0x0002
+	OCF1B	=:	0x0003
+	OCF1A	=:	0x0004
+	ICF1	=:	0x0005
+	TOV2	=:	0x0006
+	OCF2	=:	0x0007
+.endif
+
+TIMSK	=:	0x0037
+.if SFR_BITS
+	TOIE0	=:	0x0000
+	OCIE0	=:	0x0001
+	TOIE1	=:	0x0002
+	OCIE1B	=:	0x0003
+	OCIE1A	=:	0x0004
+	TICIE1	=:	0x0005
+	TOIE2	=:	0x0006
+	OCIE2	=:	0x0007
+.endif
+
+EIFR	=:	0x0038
+.if SFR_BITS
+	INTF4	=:	0x0004
+	INTF5	=:	0x0005
+	INTF6	=:	0x0006
+	INTF7	=:	0x0007
+.endif
+
+EIMSK	=:	0x0039
+.if SFR_BITS
+	INT0	=:	0x0000
+	INT1	=:	0x0001
+	INT2	=:	0x0002
+	INT3	=:	0x0003
+	INT4	=:	0x0004
+	INT5	=:	0x0005
+	INT6	=:	0x0006
+	INT7	=:	0x0007
+.endif
+
+EICR	=:	0x003A
+.if SFR_BITS
+	ISC40	=:	0x0000
+	ISC41	=:	0x0001
+	ISC50	=:	0x0002
+	ISC51	=:	0x0003
+	ISC60	=:	0x0004
+	ISC61	=:	0x0005
+	ISC70	=:	0x0006
+	ISC71	=:	0x0007
+.endif
+
+RAMPZ	=:	0x003B
+.if SFR_BITS
+	RAMPZ0	=:	0x0000
+.endif
+
+XDIV	=:	0x003C
+.if SFR_BITS
+	XDIV0	=:	0x0000
+	XDIV1	=:	0x0001
+	XDIV2	=:	0x0002
+	XDIV3	=:	0x0003
+	XDIV4	=:	0x0004
+	XDIV5	=:	0x0005
+	XDIV6	=:	0x0006
+	XDIVEN	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SPH	=:	0x003E
+.if SFR_BITS
+	SP8	=:	0x0000
+	SP9	=:	0x0001
+	SP10	=:	0x0002
+	SP11	=:	0x0003
+	SP12	=:	0x0004
+	SP13	=:	0x0005
+	SP14	=:	0x0006
+	SP15	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATmega603
+	; */
+
+.if ATmega603
+	.ATmega603
+PINF	=:	0x0000
+.if SFR_BITS
+	PINF0	=:	0x0000
+	PINF1	=:	0x0001
+	PINF2	=:	0x0002
+	PINF3	=:	0x0003
+	PINF4	=:	0x0004
+	PINF5	=:	0x0005
+	PINF6	=:	0x0006
+	PINF7	=:	0x0007
+.endif
+
+PINE	=:	0x0001
+.if SFR_BITS
+	PINE0	=:	0x0000
+	PINE1	=:	0x0001
+	PINE2	=:	0x0002
+	PINE3	=:	0x0003
+	PINE4	=:	0x0004
+	PINE5	=:	0x0005
+	PINE6	=:	0x0006
+	PINE7	=:	0x0007
+.endif
+
+DDRE	=:	0x0002
+.if SFR_BITS
+	DDE0	=:	0x0000
+	DDE1	=:	0x0001
+	DDE2	=:	0x0002
+	DDE3	=:	0x0003
+	DDE4	=:	0x0004
+	DDE5	=:	0x0005
+	DDE6	=:	0x0006
+	DDE7	=:	0x0007
+.endif
+
+PORTE	=:	0x0003
+.if SFR_BITS
+	PORTE0	=:	0x0000
+	PORTE1	=:	0x0001
+	PORTE2	=:	0x0002
+	PORTE3	=:	0x0003
+	PORTE4	=:	0x0004
+	PORTE5	=:	0x0005
+	PORTE6	=:	0x0006
+	PORTE7	=:	0x0007
+.endif
+
+ADCL	=:	0x0004
+.if SFR_BITS
+	ADC0	=:	0x0000
+	ADC1	=:	0x0001
+	ADC2	=:	0x0002
+	ADC3	=:	0x0003
+	ADC4	=:	0x0004
+	ADC5	=:	0x0005
+	ADC6	=:	0x0006
+	ADC7	=:	0x0007
+.endif
+
+ADCH	=:	0x0005
+.if SFR_BITS
+	ADC8	=:	0x0000
+	ADC9	=:	0x0001
+.endif
+
+ADCSR	=:	0x0006
+.if SFR_BITS
+	ADPS0	=:	0x0000
+	ADPS1	=:	0x0001
+	ADPS2	=:	0x0002
+	ADIE	=:	0x0003
+	ADIF	=:	0x0004
+	ADRF	=:	0x0005
+	ABSY	=:	0x0006
+	ADES	=:	0x0007
+.endif
+
+ADMUX	=:	0x0007
+.if SFR_BITS
+	MUX0	=:	0x0000
+	MUX1	=:	0x0001
+	MUX2	=:	0x0002
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCR	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+USR	=:	0x000B
+.if SFR_BITS
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+	PORTC6	=:	0x0006
+	PORTC7	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+PINA	=:	0x0019
+.if SFR_BITS
+	PINA0	=:	0x0000
+	PINA1	=:	0x0001
+	PINA2	=:	0x0002
+	PINA3	=:	0x0003
+	PINA4	=:	0x0004
+	PINA5	=:	0x0005
+	PINA6	=:	0x0006
+	PINA7	=:	0x0007
+.endif
+
+DDRA	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	DDA2	=:	0x0002
+	DDA3	=:	0x0003
+	DDA4	=:	0x0004
+	DDA5	=:	0x0005
+	DDA6	=:	0x0006
+	DDA7	=:	0x0007
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+	PORTA4	=:	0x0004
+	PORTA5	=:	0x0005
+	PORTA6	=:	0x0006
+	PORTA7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEARL	=:	0x001E
+
+EEARH	=:	0x001F
+.if SFR_BITS
+	EEAR8	=:	0x0000
+	EEAR9	=:	0x0001
+	EEAR10	=:	0x0002
+	EEAR11	=:	0x0003
+.endif
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+OCR2	=:	0x0023
+
+TCNT2	=:	0x0024
+
+TCCR2	=:	0x0025
+.if SFR_BITS
+	CS20	=:	0x0000
+	CS21	=:	0x0001
+	CS22	=:	0x0002
+	CTC2	=:	0x0003
+	COM20	=:	0x0004
+	COM21	=:	0x0005
+	PWM2	=:	0x0006
+.endif
+
+ICR1L	=:	0x0026
+
+ICR1H	=:	0x0002
+
+OCR1BL	=:	0x0028
+
+OCR1BH	=:	0x0029
+
+OCR1AL	=:	0x002A
+
+OCR1AH	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	COM1B0	=:	0x0004
+	COM1B1	=:	0x0005
+	COM1A0	=:	0x0006
+	COM1A1	=:	0x0007
+.endif
+
+ASSR	=:	0x0030
+.if SFR_BITS
+	TCR0UB	=:	0x0000
+	OCR0UB	=:	0x0001
+	TCN0UB	=:	0x0002
+	AS0	=:	0x0003
+.endif
+
+OCR0	=:	0x0031
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+	CTC0	=:	0x0003
+	COM00	=:	0x0004
+	COM01	=:	0x0005
+	PWM0	=:	0x0006
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	SM0	=:	0x0003
+	SM1	=:	0x0004
+	SE	=:	0x0005
+	SRW	=:	0x0006
+	SRE	=:	0x0007
+.endif
+
+TIFR	=:	0x0036
+.if SFR_BITS
+	TOV0	=:	0x0000
+	OCF0	=:	0x0001
+	TOV1	=:	0x0002
+	OCF1B	=:	0x0003
+	OCF1A	=:	0x0004
+	ICF1	=:	0x0005
+	TOV2	=:	0x0006
+	OCF2	=:	0x0007
+.endif
+
+TIMSK	=:	0x0037
+.if SFR_BITS
+	TOIE0	=:	0x0000
+	OCIE0	=:	0x0001
+	TOIE1	=:	0x0002
+	OCIE1B	=:	0x0003
+	OCIE1A	=:	0x0004
+	TICIE1	=:	0x0005
+	TOIE2	=:	0x0006
+	OCIE2	=:	0x0007
+.endif
+
+EIFR	=:	0x0038
+.if SFR_BITS
+	INTF4	=:	0x0004
+	INTF5	=:	0x0005
+	INTF6	=:	0x0006
+	INTF7	=:	0x0007
+.endif
+
+EIMSK	=:	0x0039
+.if SFR_BITS
+	INT0	=:	0x0000
+	INT1	=:	0x0001
+	INT2	=:	0x0002
+	INT3	=:	0x0003
+	INT4	=:	0x0004
+	INT5	=:	0x0005
+	INT6	=:	0x0006
+	INT7	=:	0x0007
+.endif
+
+EICR	=:	0x003A
+.if SFR_BITS
+	ISC40	=:	0x0000
+	ISC41	=:	0x0001
+	ISC50	=:	0x0002
+	ISC51	=:	0x0003
+	ISC60	=:	0x0004
+	ISC61	=:	0x0005
+	ISC70	=:	0x0006
+	ISC71	=:	0x0007
+.endif
+
+RAMPZ	=:	0x003B
+.if SFR_BITS
+	RAMPZ0	=:	0x0000
+.endif
+
+XDIV	=:	0x003C
+.if SFR_BITS
+	XDIV0	=:	0x0000
+	XDIV1	=:	0x0001
+	XDIV2	=:	0x0002
+	XDIV3	=:	0x0003
+	XDIV4	=:	0x0004
+	XDIV5	=:	0x0005
+	XDIV6	=:	0x0006
+	XDIVEN	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SPH	=:	0x003E
+.if SFR_BITS
+	SP8	=:	0x0000
+	SP9	=:	0x0001
+	SP10	=:	0x0002
+	SP11	=:	0x0003
+	SP12	=:	0x0004
+	SP13	=:	0x0005
+	SP14	=:	0x0006
+	SP15	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATmega161
+	; */
+
+.if ATmega161
+	.ATmega161
+UBBR1	=:	0x0000
+
+UCSR1B	=:	0x0001
+.if SFR_BITS
+	TXB81	=:	0x0000
+	RXB81	=:	0x0001
+	CHR91	=:	0x0002
+	TXEN1	=:	0x0003
+	RXEN1	=:	0x0004
+	UDRIE1	=:	0x0005
+	TXCIE1	=:	0x0006
+	RXCIE1	=:	0x0007
+.endif
+
+UCSR1A	=:	0x0002
+.if SFR_BITS
+	MPCM1	=:	0x0000
+	U2X1	=:	0x0001
+	OR1	=:	0x0003
+	FE1	=:	0x0004
+	UDRE1	=:	0x0005
+	TXC1	=:	0x0006
+	RXC1	=:	0x0007
+.endif
+
+UDR1	=:	0x0003
+
+PINE	=:	0x0005
+.if SFR_BITS
+	PINE0	=:	0x0000
+	PINE1	=:	0x0001
+	PINE2	=:	0x0002
+.endif
+
+DDRE	=:	0x0006
+.if SFR_BITS
+	DDE0	=:	0x0000
+	DDE1	=:	0x0001
+	DDE2	=:	0x0002
+.endif
+
+PORTE	=:	0x0003
+.if SFR_BITS
+	PORTE0	=:	0x0000
+	PORTE1	=:	0x0001
+	PORTE2	=:	0x0002
+.endif
+
+PORTE	=:	0x0007
+.if SFR_BITS
+	PORTE0	=:	0x0000
+	PORTE1	=:	0x0001
+	PORTE2	=:	0x0002
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	AINBG	=:	0x0006
+	ACD	=:	0x0007
+.endif
+
+UBRR0	=:	0x0009
+
+UCSR0B	=:	0x000A
+.if SFR_BITS
+	TXB80	=:	0x0000
+	RXB80	=:	0x0001
+	CHR90	=:	0x0002
+	TXEN0	=:	0x0003
+	RXEN0	=:	0x0004
+	UDRIE0	=:	0x0005
+	TXCIE0	=:	0x0006
+	RXCIE0	=:	0x0007
+.endif
+
+UCSR0A	=:	0x000B
+.if SFR_BITS
+	MPCM0	=:	0x0000
+	U2X0	=:	0x0001
+	OR0	=:	0x0003
+	FE0	=:	0x0004
+	UDRE0	=:	0x0005
+	TXC0	=:	0x0006
+	RXC0	=:	0x0007
+.endif
+
+UDR0	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	SPI2X	=:	0x0000
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PINC	=:	0x0013
+.if SFR_BITS
+	PINC0	=:	0x0000
+	PINC1	=:	0x0001
+	PINC2	=:	0x0002
+	PINC3	=:	0x0003
+	PINC4	=:	0x0004
+	PINC5	=:	0x0005
+	PINC6	=:	0x0006
+	PINC7	=:	0x0007
+.endif
+
+DDRC	=:	0x0014
+.if SFR_BITS
+	DDC0	=:	0x0000
+	DDC1	=:	0x0001
+	DDC2	=:	0x0002
+	DDC3	=:	0x0003
+	DDC4	=:	0x0004
+	DDC5	=:	0x0005
+	DDC6	=:	0x0006
+	DDC7	=:	0x0007
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+	PORTC6	=:	0x0006
+	PORTC7	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+PINA	=:	0x0019
+.if SFR_BITS
+	PINA0	=:	0x0000
+	PINA1	=:	0x0001
+	PINA2	=:	0x0002
+	PINA3	=:	0x0003
+	PINA4	=:	0x0004
+	PINA5	=:	0x0005
+	PINA6	=:	0x0006
+	PINA7	=:	0x0007
+.endif
+
+DDRA	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	DDA2	=:	0x0002
+	DDA3	=:	0x0003
+	DDA4	=:	0x0004
+	DDA5	=:	0x0005
+	DDA6	=:	0x0006
+	DDA7	=:	0x0007
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+	PORTA4	=:	0x0004
+	PORTA5	=:	0x0005
+	PORTA6	=:	0x0006
+	PORTA7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEARL	=:	0x001E
+
+EEARH	=:	0x001F
+.if SFR_BITS
+	EEAR8	=:	0x0000
+.endif
+
+UBBRHI	=:	0x0020
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+ASSR	=:	0x0026
+.if SFR_BITS
+	TCR2UB	=:	0x0000
+	OCR2UB	=:	0x0001
+	TCN2UB	=:	0x0002
+	AS20	=:	0x0003
+.endif
+
+OCR2	=:	0x0022
+
+TCNT2	=:	0x0023
+
+ICR1L	=:	0x0024
+
+ICR1H	=:	0x0025
+
+TCCR2	=:	0x0027
+.if SFR_BITS
+	CS20	=:	0x0000
+	CS21	=:	0x0001
+	CS22	=:	0x0002
+	CTC2	=:	0x0003
+	COM20	=:	0x0004
+	COM21	=:	0x0005
+	PWM2	=:	0x0006
+	FOC2	=:	0x0007
+.endif
+
+OCR1BL	=:	0x0028
+
+OCR1BH	=:	0x0029
+
+OCR1AL	=:	0x002A
+
+OCR1AH	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	FOC1B	=:	0x0002
+	FOC1A	=:	0x0003
+	COM1B0	=:	0x0004
+	COM1B1	=:	0x0005
+	COM1A0	=:	0x0006
+	COM1A1	=:	0x0007
+.endif
+
+SFIOR	=:	0x0030
+.if SFR_BITS
+	PSR10	=:	0x0000
+	PSR2	=:	0x0001
+.endif
+
+OCR0	=:	0x0031
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+	CTC0	=:	0x0003
+	COM00	=:	0x0004
+	COM01	=:	0x0005
+	PWM0	=:	0x0006
+	FOC0	=:	0x0007
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+	BORF	=:	0x0002
+	WDRF	=:	0x0003
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	SM1	=:	0x0004
+	SE	=:	0x0005
+	SRW10	=:	0x0006
+	SRE	=:	0x0007
+.endif
+
+EMCUCR	=:	0x0036
+.if SFR_BITS
+	ISC2	=:	0x0000
+	SRW11	=:	0x0001
+	SRW00	=:	0x0002
+	SRW01	=:	0x0003
+	SRL0	=:	0x0004
+	SRL1	=:	0x0005
+	SRL2	=:	0x0006
+	SM0	=:	0x0007
+.endif
+
+SPMCR	=:	0x0037
+.if SFR_BITS
+	SPMEM	=:	0x0000
+	PGERS	=:	0x0001
+	PGWRT	=:	0x0002
+	LBSET	=:	0x0003
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	OCIF0	=:	0x0000
+	TOV0	=:	0x0001
+	TOV2	=:	0x0002
+	ICF1	=:	0x0003
+	OCFI2	=:	0x0004
+	OCF1B	=:	0x0005
+	OCF1A	=:	0x0006
+	TOV1	=:	0x0007
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	OCIE0	=:	0x0000
+	TOIE0	=:	0x0001
+	TOIE2	=:	0x0002
+	TICIE1	=:	0x0003
+	OCIE2	=:	0x0004
+	OCIE1B	=:	0x0005
+	OCIE1A	=:	0x0006
+	TOIE1	=:	0x0007
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF2	=:	0x0005
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT2	=:	0x0005
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SPH	=:	0x003E
+.if SFR_BITS
+	SP8	=:	0x0000
+	SP9	=:	0x0001
+	SP10	=:	0x0002
+	SP11	=:	0x0003
+	SP12	=:	0x0004
+	SP13	=:	0x0005
+	SP14	=:	0x0006
+	SP15	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATmega163
+	; */
+
+.if ATmega163
+	.ATmega163
+TWSR	=:	0x0001
+.if SFR_BITS
+	TWS3	=:	0x0003
+	TWS4	=:	0x0004
+	TWS5	=:	0x0005
+	TWS6	=:	0x0006
+	TWS7	=:	0x0007
+.endif
+
+TWAR	=:	0x0002
+.if SFR_BITS
+	TWGCE	=:	0x0000
+	TWA0	=:	0x0001
+	TWA1	=:	0x0002
+	TWA2	=:	0x0003
+	TWA3	=:	0x0004
+	TWA4	=:	0x0005
+	TWA5	=:	0x0006
+	TWA6	=:	0x0007
+.endif
+
+TWAR	=:	0x0003
+
+ADCL	=:	0x0004
+
+ADCH	=:	0x0005
+
+ADCSR	=:	0x0006
+.if SFR_BITS
+	ADPS0	=:	0x0000
+	ADPS1	=:	0x0001
+	ADPS2	=:	0x0002
+	ADIE	=:	0x0003
+	ADIF	=:	0x0004
+	ADFR	=:	0x0005
+	ADSC	=:	0x0006
+	ADEN	=:	0x0007
+.endif
+
+ADMUX	=:	0x0007
+.if SFR_BITS
+	MUX0	=:	0x0000
+	MUX1	=:	0x0001
+	MUX2	=:	0x0002
+	MUX3	=:	0x0003
+	MUX4	=:	0x0004
+	ADLAR	=:	0x0005
+	REFS0	=:	0x0006
+	REFS1	=:	0x0007
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIC	=:	0x0002
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACBG	=:	0x0006
+	ACD	=:	0x0007
+.endif
+
+UBRR	=:	0x0009
+
+UCSRB	=:	0x000A
+.if SFR_BITS
+	TXB8	=:	0x0000
+	RXB8	=:	0x0001
+	CHR9	=:	0x0002
+	TXEN	=:	0x0003
+	RXEN	=:	0x0004
+	UDRIE	=:	0x0005
+	TXCIE	=:	0x0006
+	RXCIE	=:	0x0007
+.endif
+
+UCSRB	=:	0x000B
+.if SFR_BITS
+	MPCM	=:	0x0000
+	U2X	=:	0x0001
+	OR	=:	0x0003
+	FE	=:	0x0004
+	UDRE	=:	0x0005
+	TXC	=:	0x0006
+	RXC	=:	0x0007
+.endif
+
+UDR	=:	0x000C
+
+SPCR	=:	0x000D
+.if SFR_BITS
+	SPR0	=:	0x0000
+	SPR1	=:	0x0001
+	CPHA	=:	0x0002
+	CPOL	=:	0x0003
+	MSTR	=:	0x0004
+	DORD	=:	0x0005
+	SPE	=:	0x0006
+	SPIE	=:	0x0007
+.endif
+
+SPSR	=:	0x000E
+.if SFR_BITS
+	SPI2X	=:	0x0000
+	WCOL	=:	0x0006
+	SPIF	=:	0x0007
+.endif
+
+SPDR	=:	0x000F
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PINC	=:	0x0013
+.if SFR_BITS
+	PINC0	=:	0x0000
+	PINC1	=:	0x0001
+	PINC2	=:	0x0002
+	PINC3	=:	0x0003
+	PINC4	=:	0x0004
+	PINC5	=:	0x0005
+	PINC6	=:	0x0006
+	PINC7	=:	0x0007
+.endif
+
+DDRC	=:	0x0014
+.if SFR_BITS
+	DDC0	=:	0x0000
+	DDC1	=:	0x0001
+	DDC2	=:	0x0002
+	DDC3	=:	0x0003
+	DDC4	=:	0x0004
+	DDC5	=:	0x0005
+	DDC6	=:	0x0006
+	DDC7	=:	0x0007
+.endif
+
+PORTC	=:	0x0015
+.if SFR_BITS
+	PORTC0	=:	0x0000
+	PORTC1	=:	0x0001
+	PORTC2	=:	0x0002
+	PORTC3	=:	0x0003
+	PORTC4	=:	0x0004
+	PORTC5	=:	0x0005
+	PORTC6	=:	0x0006
+	PORTC7	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+	DDB6	=:	0x0006
+	DDB7	=:	0x0007
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+	PORTB5	=:	0x0005
+	PORTB6	=:	0x0006
+	PORTB7	=:	0x0007
+.endif
+
+PINA	=:	0x0019
+.if SFR_BITS
+	PINA0	=:	0x0000
+	PINA1	=:	0x0001
+	PINA2	=:	0x0002
+	PINA3	=:	0x0003
+	PINA4	=:	0x0004
+	PINA5	=:	0x0005
+	PINA6	=:	0x0006
+	PINA7	=:	0x0007
+.endif
+
+DDRA	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	DDA2	=:	0x0002
+	DDA3	=:	0x0003
+	DDA4	=:	0x0004
+	DDA5	=:	0x0005
+	DDA6	=:	0x0006
+	DDA7	=:	0x0007
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+	PORTA4	=:	0x0004
+	PORTA5	=:	0x0005
+	PORTA6	=:	0x0006
+	PORTA7	=:	0x0007
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEARL	=:	0x001E
+.if SFR_BITS
+	EEAR0	=:	0x0000
+	EEAR1	=:	0x0001
+	EEAR2	=:	0x0002
+	EEAR3	=:	0x0003
+	EEAR4	=:	0x0004
+	EEAR5	=:	0x0005
+	EEAR6	=:	0x0006
+	EEAR7	=:	0x0007
+.endif
+
+EEARH	=:	0x001F
+.if SFR_BITS
+	EEAR8	=:	0x0000
+.endif
+
+UBRRHI	=:	0x0020
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+ASSR	=:	0x0022
+.if SFR_BITS
+	TCR2UB	=:	0x0000
+	OCR2UB	=:	0x0001
+	TCN2UB	=:	0x0002
+	AS2	=:	0x0003
+.endif
+
+OCR2	=:	0x0023
+
+TCNT2	=:	0x0024
+
+TCCR2	=:	0x0025
+.if SFR_BITS
+	CS20	=:	0x0000
+	CS21	=:	0x0001
+	CS22	=:	0x0002
+	CTC2	=:	0x0003
+	COM20	=:	0x0004
+	COM21	=:	0x0005
+	PWM2	=:	0x0006
+	FOC2	=:	0x0007
+.endif
+
+ICR1L	=:	0x0026
+
+ICR1H	=:	0x0027
+
+OCR1BL	=:	0x0028
+
+OCR1BH	=:	0x0029
+
+OCR1AL	=:	0x002A
+
+OCR1AH	=:	0x002B
+
+TCNT1L	=:	0x002C
+
+TCNT1H	=:	0x002D
+
+TCCR1B	=:	0x002E
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CTC1	=:	0x0003
+	ICES1	=:	0x0006
+	ICNC1	=:	0x0007
+.endif
+
+TCCR1A	=:	0x002F
+.if SFR_BITS
+	PWM10	=:	0x0000
+	PWM11	=:	0x0001
+	FOC1B	=:	0x0002
+	FOC1A	=:	0x0003
+	COM1B0	=:	0x0004
+	COM1B1	=:	0x0005
+	COM1A0	=:	0x0006
+	COM1A1	=:	0x0007
+.endif
+
+SFIOR	=:	0x0030
+.if SFR_BITS
+	PSR10	=:	0x0000
+	PSR2	=:	0x0001
+	PUD	=:	0x0002
+	ACME	=:	0x0003
+.endif
+
+OSCCAL	=:	0x0031
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+	BORF	=:	0x0002
+	WDRF	=:	0x0003
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	SM0	=:	0x0004
+	SM1	=:	0x0005
+	SE	=:	0x0006
+.endif
+
+TWCR	=:	0x0036
+.if SFR_BITS
+	TWIE	=:	0x0000
+	TWEN	=:	0x0002
+	TWWC	=:	0x0003
+	TWSTO	=:	0x0004
+	TWSTA	=:	0x0005
+	TWEA	=:	0x0006
+	TWINT	=:	0x0007
+.endif
+
+SPMCR	=:	0x0037
+.if SFR_BITS
+	SPMEM	=:	0x0000
+	PGERS	=:	0x0001
+	PGWRT	=:	0x0002
+	BLDSET	=:	0x0003
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0000
+	TOV1	=:	0x0002
+	OCF1B	=:	0x0003
+	OCF1A	=:	0x0004
+	ICF1	=:	0x0005
+	TOV2	=:	0x0006
+	OCF2	=:	0x0007
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0000
+	TOIE1	=:	0x0002
+	OCIE1B	=:	0x0003
+	OCIE1A	=:	0x0004
+	TICIE1	=:	0x0005
+	TOIE2	=:	0x0006
+	OCIE2	=:	0x0007
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SPH	=:	0x003E
+.if SFR_BITS
+	SP8	=:	0x0000
+	SP9	=:	0x0001
+	SP10	=:	0x0001
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATtiny10
+	; */
+
+.if ATtiny10
+	.ATtiny10
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+.endif
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	SM	=:	0x0004
+	SE	=:	0x0005
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	PCIF	=:	0x0005
+	INTF0	=:	0x0006
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	PCIE	=:	0x0005
+	INT0	=:	0x0006
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATtiny11
+	; */
+
+.if ATtiny11
+	.ATtiny11
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+.endif
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	SM	=:	0x0004
+	SE	=:	0x0005
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	PCIF	=:	0x0005
+	INTF0	=:	0x0006
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	PCIE	=:	0x0005
+	INT0	=:	0x0006
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATtiny12
+	; */
+
+.if ATtiny12
+	.ATtiny12
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	AINBG	=:	0x0006
+	ACD	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+OSCCAL	=:	0x0031
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+	BORF	=:	0x0002
+	WDRF	=:	0x0003
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	SM	=:	0x0004
+	SE	=:	0x0005
+	PUD	=:	0X0006
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	PCIF	=:	0x0005
+	INTF0	=:	0x0006
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	PCIE	=:	0x0005
+	INT0	=:	0x0006
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATtiny15
+	; */
+
+.if ATtiny15
+	.ATtiny15
+ADCL	=:	0x0004
+
+ADCH	=:	0x0005
+
+ADCSR	=:	0x0006
+.if SFR_BITS
+	ADPS0	=:	0x0000
+	ADPS1	=:	0x0001
+	ADPS2	=:	0x0002
+	ADIE	=:	0x0003
+	ADIF	=:	0x0004
+	ADFR	=:	0x0005
+	ADSC	=:	0x0006
+	ADDEN	=:	0x0007
+.endif
+
+ADMUX	=:	0x0007
+.if SFR_BITS
+	MUX0	=:	0x0000
+	MUX1	=:	0x0001
+	MUX2	=:	0x0002
+	ADLAR	=:	0x0005
+	REFS0	=:	0x0006
+	REFS1	=:	0x0007
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACBG	=:	0x0006
+	ACD	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+	DDB5	=:	0x0005
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMWE	=:	0x0002
+	EERIE	=:	0x0003
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+.if SFR_BITS
+	EEAR0	=:	0x0000
+	EEAR1	=:	0x0001
+	EEAR2	=:	0x0002
+	EEAR3	=:	0x0003
+	EEAR4	=:	0x0004
+	EEAR5	=:	0x0005
+.endif
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+SFIOR	=:	0X002C
+.if SFR_BITS
+	PSR0	=:	0x0000
+	PSR1	=:	0x0001
+	FOC1A	=:	0x0002
+.endif
+
+OCR1B	=:	0x002D
+
+OCR1A	=:	0x002E
+
+TCNT1	=:	0x002F
+
+TCCR1	=:	0x0030
+.if SFR_BITS
+	CS10	=:	0x0000
+	CS11	=:	0x0001
+	CS12	=:	0x0002
+	CS13	=:	0x0003
+	COM1A0	=:	0x0004
+	COM1A1	=:	0x0005
+	PWM1	=:	0x0006
+	CTC1	=:	0x0007
+.endif
+
+OSCCAL	=:	0x0031
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+	BORF	=:	0x0002
+	WDRF	=:	0x0003
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	SM0	=:	0x0003
+	SM1	=:	0x0004
+	SE	=:	0x0005
+	PUD	=:	0X0006
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+	TOV1	=:	0x0002
+	OCF1A	=:	0x0006
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+	TOIE1	=:	0x0002
+	OCIE1A	=:	0x0006
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	PCIF	=:	0x0005
+	INTF0	=:	0x0006
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	PCIE	=:	0x0005
+	INT0	=:	0x0006
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATtiny22
+	; */
+
+.if ATtiny22
+	.ATtiny22
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+.endif
+
+DDRB	=:	0x0017
+.if SFR_BITS
+	DDB0	=:	0x0000
+	DDB1	=:	0x0001
+	DDB2	=:	0x0002
+	DDB3	=:	0x0003
+	DDB4	=:	0x0004
+.endif
+
+PORTB	=:	0x0018
+.if SFR_BITS
+	PORTB0	=:	0x0000
+	PORTB1	=:	0x0001
+	PORTB2	=:	0x0002
+	PORTB3	=:	0x0003
+	PORTB4	=:	0x0004
+.endif
+
+EECR	=:	0x001C
+.if SFR_BITS
+	EERE	=:	0x0000
+	EEWE	=:	0x0001
+	EEMW	=:	0x0002
+.endif
+
+EEDR	=:	0x001D
+
+EEAR	=:	0x001E
+
+WDTCR	=:	0x0021
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+TCNT0	=:	0x0032
+
+TCCR0	=:	0x0033
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+.endif
+
+MCUSR	=:	0x0034
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+.endif
+
+MCUCR	=:	0x0035
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	SM	=:	0x0004
+	SE	=:	0x0005
+.endif
+
+TIFR	=:	0x0038
+.if SFR_BITS
+	TOV0	=:	0x0001
+.endif
+
+TIMSK	=:	0x0039
+.if SFR_BITS
+	TOIE0	=:	0x0001
+.endif
+
+GIFR	=:	0x003A
+.if SFR_BITS
+	INTF0	=:	0x0006
+.endif
+
+GIMSK	=:	0x003B
+.if SFR_BITS
+	INT0	=:	0x0006
+.endif
+
+SPL	=:	0x003D
+.if SFR_BITS
+	SP0	=:	0x0000
+	SP1	=:	0x0001
+	SP2	=:	0x0002
+	SP3	=:	0x0003
+	SP4	=:	0x0004
+	SP5	=:	0x0005
+	SP6	=:	0x0006
+	SP7	=:	0x0007
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	;/* *****-----*****-----*****-----*****-----*****-----*****
+	; * ATtiny28
+	; */
+
+.if ATtiny28
+	.ATtiny28
+OSCCAL	=:	0x0000
+
+WDTCR	=:	0X0001
+.if SFR_BITS
+	WDP0	=:	0x0000
+	WDP1	=:	0x0001
+	WDP2	=:	0x0002
+	WDE	=:	0x0003
+	WDTOE	=:	0x0004
+.endif
+
+MODCR	=:	0x0002
+.if SFR_BITS
+	MCONF0	=:	0x0000
+	MCONF1	=:	0x0001
+	MCONF2	=:	0x0002
+	ONTIM0	=:	0x0003
+	ONTIM1	=:	0x0004
+	ONTIM2	=:	0x0005
+	ONTIM3	=:	0x0006
+	ONTIM4	=:	0x0007
+.endif
+
+TCNT0	=:	0X0003
+
+TCCR0	=:	0X0004
+.if SFR_BITS
+	CS00	=:	0x0000
+	CS01	=:	0x0001
+	CS02	=:	0x0002
+	OOM01	=:	0x0003
+	OOM01	=:	0x0004
+	FOV0	=:	0x0007
+.endif
+
+IFR	=:	0X0005
+.if SFR_BITS
+	TOV0	=:	0x0004
+	INTF0	=:	0x0006
+	INTF1	=:	0x0007
+.endif
+
+ICR	=:	0X0006
+.if SFR_BITS
+	ISC00	=:	0x0000
+	ISC01	=:	0x0001
+	ISC10	=:	0x0002
+	ISC11	=:	0x0003
+	TOIE0	=:	0x0004
+	LLIE	=:	0x0005
+	INT0	=:	0x0006
+	INT1	=:	0x0007
+.endif
+
+MCUCS	=:	0X0007
+.if SFR_BITS
+	PORF	=:	0x0000
+	EXTRF	=:	0x0001
+	WDRF	=:	0x0003
+	SM	=:	0x0004
+	SE	=:	0x0005
+	PLUPB	=:	0x0007
+.endif
+
+ACSR	=:	0x0008
+.if SFR_BITS
+	ACIS0	=:	0x0000
+	ACIS1	=:	0x0001
+	ACIE	=:	0x0003
+	ACI	=:	0x0004
+	ACO	=:	0x0005
+	ACD	=:	0x0007
+.endif
+
+PIND	=:	0x0010
+.if SFR_BITS
+	PIND0	=:	0x0000
+	PIND1	=:	0x0001
+	PIND2	=:	0x0002
+	PIND3	=:	0x0003
+	PIND4	=:	0x0004
+	PIND5	=:	0x0005
+	PIND6	=:	0x0006
+	PIND7	=:	0x0007
+.endif
+
+DDRD	=:	0x0011
+.if SFR_BITS
+	DDD0	=:	0x0000
+	DDD1	=:	0x0001
+	DDD2	=:	0x0002
+	DDD3	=:	0x0003
+	DDD4	=:	0x0004
+	DDD5	=:	0x0005
+	DDD6	=:	0x0006
+	DDD7	=:	0x0007
+.endif
+
+PORTD	=:	0x0012
+.if SFR_BITS
+	PORTD0	=:	0x0000
+	PORTD1	=:	0x0001
+	PORTD2	=:	0x0002
+	PORTD3	=:	0x0003
+	PORTD4	=:	0x0004
+	PORTD5	=:	0x0005
+	PORTD6	=:	0x0006
+	PORTD7	=:	0x0007
+.endif
+
+PINB	=:	0x0016
+.if SFR_BITS
+	PINB0	=:	0x0000
+	PINB1	=:	0x0001
+	PINB2	=:	0x0002
+	PINB3	=:	0x0003
+	PINB4	=:	0x0004
+	PINB5	=:	0x0005
+	PINB6	=:	0x0006
+	PINB7	=:	0x0007
+.endif
+
+PINA	=:	0x0019
+.if SFR_BITS
+	PINA0	=:	0x0000
+	PINA1	=:	0x0001
+	PINA3	=:	0x0003
+.endif
+
+PACR	=:	0x001A
+.if SFR_BITS
+	DDA0	=:	0x0000
+	DDA1	=:	0x0001
+	PA2HC	=:	0x0002
+	DDA3	=:	0x0003
+.endif
+
+PORTA	=:	0x001B
+.if SFR_BITS
+	PORTA0	=:	0x0000
+	PORTA1	=:	0x0001
+	PORTA2	=:	0x0002
+	PORTA3	=:	0x0003
+.endif
+
+SREG	=:	0x003F
+.if SFR_BITS
+	C	=:	0x0000
+	Z	=:	0x0001
+	N	=:	0x0002
+	V	=:	0x0003
+	S	=:	0x0004
+	H	=:	0x0005
+	T	=:	0x0006
+	I	=:	0x0007
+.endif
+.endif
+
+	.sbttl
+	.list
+

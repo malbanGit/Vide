@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# | tac | less # > 6809.commits # less # awk '{print $1}' | tac
+
+git='git --no-pager'
+
+find_commits()
+{
+	branch=$1
+	$git log --author=Dominy --no-merges --pretty=format:"%h" $branch
+}
+
+
+cherries="3df78b1 c8c25c1 8ac0659 66d8bfa f2536f1"
+
+tags="gcc6809/4.3.2-1 gcc6809/4.3.2-2"
+
+maint=`find_commits v4.3`
+echo "Branch 4.3"
+for c in $maint; do
+	echo $c `$git log -n 1 --date=short --pretty=format:"%s (%cd)" $c`
+	cherry=`$git log -n 1 $c | grep "cherry.picked"`
+	if [ "$cherry" ]; then
+		echo "> $cherry"
+	cherries="$cherries $cherry"
+	fi
+	for tag in $tags; do
+		taghash=`$git log -n 1 $tag --pretty=format:%h`
+		if [ "$taghash" = "$c" ]; then
+			echo "> $tag"
+			break
+		fi
+	done
+done
+echo ""
+
+echo "Branch trunk"
+trunk=`find_commits trunk`
+for c in $trunk; do
+	echo "$cherries" | grep $c > /dev/null 2>&1
+	if [ "$?" = "0" ]; then
+		echo -n " $ "
+	else
+		echo -n "   "
+	fi
+	echo $c `$git log -n 1 --date=short --pretty=format:"%s (%cd)" $c`
+done

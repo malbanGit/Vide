@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS6804  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+
+   Requires the .setdp directive to specify the ram area.  
+
+
+6804 REGISTER SET 
+
+The following is a list of the 6804 registers used by AS6804:  
+
+        x,y     -       index registers
+
+
+6804 INSTRUCTION SET 
+
+
+   The  following  tables  list all 6804 mnemonics recognized by
+the AS6804 assembler.  The designation [] refers to  a  required
+addressing  mode  argument.   The  following  list specifies the
+format for each addressing mode supported by AS6804:  
+
+        #data           immediate data
+                        byte or word data
+
+        ,x              register indirect addressing
+
+        dir             direct addressing
+                        (see .setdp directive)
+                        0 &lt;= dir &lt;= 255
+
+        ext             extended addressing
+
+        label           branch label
+
+The  terms data, dir, and ext may be expressions.  The label for
+the short branchs beq, bne, bcc, and bcs must not be external.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the 6804 technical data for valid modes.  
+
+
+Inherent Instructions 
+
+        coma            decx
+        decy            incx
+        incy            rola
+        rti             rts
+        stop            tax
+        tay             txa
+        tya             wait
+
+
+Branch Instructions 
+
+        bne     label           beq     label
+        bcc     label           bcs     label
+
+
+Single Operand Instructions 
+
+        add     []
+        and     []
+        cmp     []
+        dec     []
+        inc     []
+        lda     []
+        sta     []
+        sub     []
+
+
+Jump and Jump to Subroutine Instructions 
+
+        jsr     []
+        jmp     []
+
+
+Bit Test Instructions 
+
+        brclr   #data,[],label
+        brset   #data,[],label
+
+        bclr    #label,[]
+        bset    #label,[]
+
+
+Load Immediate data Instruction 
+
+        mvi     [],#data
+
+
+6804 Derived Instructions 
+
+        asla
+        bam     label
+        bap     label
+        bxmi    label
+        bxpl    label
+        bymi    label
+        bypl    label
+        clra
+        clrx
+        clry
+        deca
+        decx
+        decy
+        inca
+        incx
+        incy
+        ldxi    #data
+        ldyi    #data
+        nop
+        tax
+        tay
+        txa
+        tya
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

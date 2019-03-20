@@ -1,0 +1,237 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASST7  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+ST7 REGISTER SET 
+
+The following is a list of the ST7 registers used by ASST7:  
+
+        a       -       8-bit accumulator
+        x,y     -       8-bit index registers
+        cc      -       8-bit condition code register
+        s       -       16-bit stack pointer
+
+
+ST7 INSTRUCTION SET 
+
+
+     The following list specifies the format for each addressing
+mode supported by ASST7:  
+
+        reg             register addressing
+                        (a,x,y,s,cc)
+
+        #data           immediate data byte
+
+        *saddr          8-bit zero page addressing
+                        0x00 <= dir <= 0xFF
+
+        laddr           16-bit addressing
+
+        (x)             register indirect addressing
+
+        (*sofst,r)      short indexed (r = x,y)
+        (sofst,r).b
+
+        (lofst,r).w     long indexed (r = x,y)
+
+        (ofst,r)        if ofst is relocatable or
+                        an external value then
+                        the (lofst,r).w mode is
+                        selected by default
+                        else
+
+        (ofst,r)        if ofst is a locally
+                        defined constant then
+                        the (sofst,r).b mode
+                        is selected when
+                        0x00 <= ofst <= 0xFF else
+                        the (lofst,r).w mode
+                        is selected
+
+                        Instructions supporting
+                        only a single form will
+                        use the appropriate form
+                        but will report an error.
+
+
+        [*saddr]        short indirect
+        [saddr].b
+
+        [laddr].w       long indexed
+
+        [addr]          if addr is relocatable or
+                        an external value then
+                        the [laddr].w mode is
+                        selected by default
+                        else
+
+        [addr]          if addr is a locally
+                        defined constant then
+                        the [saddr].b mode
+                        is selected when
+                        0x00 <= addr <= 0xFF else
+                        the [laddr].w mode
+                        is selected
+
+                        Instructions supporting
+                        only a single form will
+                        use the appropriate form
+                        but will report an error.
+
+
+        ([*saddr],r)    short indirect indexed
+        ([saddr].b,r)   (r = x,y)
+        ([saddr],r).b
+
+        ([laddr].w,r)   long indirect indexed
+        ([laddr],r).w   (r = x,y)
+
+        ([addr],r)      if addr is relocatable or
+                        an external value then
+                        the ([laddr],r).w mode is
+                        selected by default
+                        else
+
+        ([addr],r)      if addr is a locally
+                        defined constant then
+                        the ([saddr],r).b mode
+                        is selected when
+                        0x00 <= addr <= 0xFF else
+                        the ([laddr],r).w mode
+                        is selected
+
+                        Instructions supporting
+                        only a single form will
+                        use the appropriate form
+                        but will report an error.
+
+
+        label           pc-relative branch addressing
+
+
+
+The  terms  data,  saddr,  laddr,  addr, sofst, lofst, ofst, and
+label may all be expressions.  
+
+     Note that not all addressing modes are valid with every in-
+struction, refer to the ST7 technical data for valid modes.  
+The  following  tables  list all ST7 mnemonics recognized by the
+ASST7 assembler.  The designation [] refers to  a  required  ad-
+dressing mode argument.  
+
+
+Inherent Instructions 
+
+        nop                     trap
+        wfi                     halt
+        ret                     iret
+        sim                     rim
+        scf                     rcf
+        rsp
+
+
+Conditional Branch Instructions 
+
+        jra     label
+        jrt     label           jrf     label
+        jrih    label           jril    label
+        jrh     label           jrnh    label
+        jrm     label           jrnm    label
+        jrmi    label           jrpl    label
+        jreq    label           jrne    label
+        jrc     label           jrnc    label
+        jrult   label           jruge   label
+        jrugt   label           jrule   label
+
+        jra     [saddr]
+        jrt     [saddr]         jrf     [saddr]
+        jrih    [saddr]         jril    [saddr]
+        jrh     [saddr]         jrnh    [saddr]
+        jrm     [saddr]         jrnm    [saddr]
+        jrmi    [saddr]         jrpl    [saddr]
+        jreq    [saddr]         jrne    [saddr]
+        jrc     [saddr]         jrnc    [saddr]
+        jrult   [saddr]         jruge   [saddr]
+        jrugt   [saddr]         jrule   [saddr]
+
+
+Bit Test and Branch Instructions 
+
+        btjt    saddr,#,label
+        btjf    saddr,#,label
+        btjt    [saddr],#,label
+        btjf    [saddr],#,label
+
+
+Bit Manipulation Instructions 
+
+        bset    saddr,#
+        bres    saddr,#
+        bset    [saddr],#
+        bres    [saddr],#
+
+
+Single Operand Instructions 
+
+        neg     []              cpl     []
+        srl     []              rrc     []
+        sra     []              rlc     []
+        sll     []              sla     []
+        dec     []              inc     []
+        tnz     []              swap    []
+        clr     []
+
+        pop     reg             push    reg
+
+
+Double Operand Instructions 
+
+        add     a,[]            adc     a,[]
+        and     a,[]            bcp     a,[]
+        or      a,[]            sbc     a,[]
+        sub     a,[]            xor     a,[]
+
+        mul     x,a             mul     y,a
+
+        cp      reg,[]
+
+        ld      [],[]
+
+
+Call to Subroutine and Jump Instructions 
+
+        call    []              jp      []
+
+        callr   label           callr   [saddr]
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: October 2010</B></P></H6>
+</BODY> 
+</HTML>

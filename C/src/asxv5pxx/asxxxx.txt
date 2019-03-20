@@ -1,0 +1,27 @@
+
+
+        ASxxxx Cross Assemblers, Version 5.00, April 2009 
+
+        Submitted by:  
+        Alan R.  Baldwin, 
+        Physics Dept.  
+        Kent State University 
+        Kent, Ohio 44242 
+
+        Operating System:  Linux, Windows, MS-DOS 
+        or other supporting ANSI C.  
+
+        Source Langauge:  C 
+
+           The  ASxxxx  Cross  Assembler and Linker package (V5.00 April
+        2008) contains cross assemblers for  the  1802,  S2650,  MPS430,
+        61860,   6500,   6800(6802/6808),   6801(hd6303),   6804,  6805,
+        68HC(S)08, 6809, 68HC11, 68HC(S)12,  68HC16,  740,  8048,  8051,
+        8085(8080),   AVR,   DS8xCxxx,  ez80,  F2MC8L/FX,  GameBoy(Z80),
+        H8/3xx, Cypress PSoC(M8C), PIC, Rabbit 2000/3000, SC/MP, z8, and
+        z80(hd64180)  series  microprocessors.   Complete source code is
+        provided with the assembler/linker submission.  
+
+           The  ASxxxx  Cross  Assembler and Linker package is available
+        from Kent State University at shop-pdp.kent.edu  by  "anonymous"
+        FTP or through the web page at http://shop-pdp.kent.edu/.  

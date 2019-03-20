@@ -1,0 +1,208 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS6805  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+.6805 DIRECTIVE 
+
+Format:  
+
+        .6805 
+
+The  .6805  directive  selects  the MC6805 specific cycles count
+output when the -c command line option is specified.  
+
+
+.hc05 DIRECTIVE 
+
+Format:  
+
+        .hc05 
+
+The  .hc05 directive selects the MC68HC05/146805 specific cycles
+count output when the -c command line option is specified.  
+
+
+THE .__.CPU.  VARIABLE 
+
+   The value of the pre-defined symbol '.__.CPU.' corresponds to
+the selected processor type.  The default value is 0 which  cor-
+responds  to  the  default  processor type.  The following table
+lists the processor types and associated values  for  the  ASZ80
+assembler:  
+
+        Processor Type            .__.CPU. Value
+        --------------            --------------
+            .6805                        0
+            .hc05                        1
+
+   The  variable  '.__.CPU.'  is by default defined as local and
+will not be output to the created .rel file.  The assembler com-
+mand line options -g or -a will not cause the local symbol to be
+output to the created .rel file.  
+
+   The  assembler  .globl  directive  may  be used to change the
+variable type to global causing its definition to be  output  to
+the  .rel file.  The inclusion of the definition of the variable
+'.__.CPU.' might be a useful means of validating that seperately
+assembled  files have been compiled for the same processor type.
+The linker will report an error for variables with multiple  non
+equal definitions.  
+
+
+6805 REGISTER SET 
+
+The following is a list of the 6805 registers used by AS6805:  
+
+        a       -       8-bit accumulator
+        x       -       index register
+
+
+6805 INSTRUCTION SET 
+
+
+   The  following  tables  list all 6805 mnemonics recognized by
+the AS6805 assembler.  The designation [] refers to  a  required
+addressing  mode  argument.   The  following  list specifies the
+format for each addressing mode supported by AS6805:  
+
+        #data           immediate data
+                        byte or word data
+
+        *dir            direct page addressing
+                        (see .setdp directive)
+                        0 &lt;= dir &lt;= 255 
+
+        ,x              register indirect addressing
+                        zero offset
+
+        offset,x        register indirect addressing
+                          0 &lt;= offset &lt;= 255   --- byte mode
+                        256 &lt;= offset &lt;= 65535 --- word mode
+                        (an externally defined offset uses the
+                         word mode)
+
+        ext             extended addressing
+
+        label           branch label
+
+
+The terms data, dir, offset, and ext may all be expressions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the 6805 technical data for valid modes.  
+
+
+Control Instructions 
+
+        clc             cli
+        nop             rsp
+        rti             rts
+        sec             sei
+        stop            swi
+        tax             txa
+        wait
+
+
+Bit Manipulation Instructions 
+
+        brset   #data,*dir,label
+        brclr   #data,*dir,label
+
+        bset    #data,*dir
+        bclr    #data,*dir
+
+
+Branch Instructions 
+
+        bra     label           brn     label
+        bhi     label           bls     label
+        bcc     label           bcs     label
+        bne     label           beq     label
+        bhcc    label           bhcs    label
+        bpl     label           bmi     label
+        bmc     label           bms     label
+        bil     label           bih     label
+        bsr     label
+
+
+Read-Modify-Write Instructions 
+
+        nega            negx
+        neg     []
+
+        coma            comx
+        com     []
+
+        lsra            lsrx
+        lsr     []
+
+        rora            rorx
+        ror     []
+
+        asra            asrx
+        asr     []
+
+        lsla            lslx
+        lsl     []
+
+        rola            rolx
+        rol     []
+
+        deca            decx
+        dec     []
+
+        inca            incx
+        inc     []
+
+        tsta            tstx
+        tst     []
+
+        clra            clrx
+        clr     []
+
+
+Register\Memory Instructions 
+
+        sub     []              cmp     []
+        sbc     []              cpx     []
+        and     []              bit     []
+        lda     []              sta     []
+        eor     []              adc     []
+        ora     []              add     []
+        ldx     []              stx     []
+
+
+Jump and Jump to Subroutine Instructions 
+
+        jmp     []              jsr     []
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

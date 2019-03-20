@@ -1,0 +1,789 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>The Assembler Description</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<BR>
+<A NAME = "Assemblers"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... The ASxxxx Assemblers</A>
+</B></H3>
+<H4><B><UL> 
+<LI><A HREF= #Pass1>  Assembly Pass 1 </A>
+<LI><A HREF= #Pass2>  Assembly Pass 2 </A>
+<LI><A HREF= #Pass3>  Assembly Pass 3 </A>
+<BR><BR>
+<LI><A HREF="asmblr.htm#Index">  Return to the Assembler Index</A>
+</UL></B></H4>
+
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Pass1"></A><FONT COLOR="#FF0000">Assembly Pass 1</FONT>
+
+   During  pass  1, ASxxxx opens all source files and performs a
+rudimenatry assembly of each source statement.  During this pro-
+cess  all symbol tables are built, program sections defined, and
+number of bytes for each assembled source line is estimated.  
+
+   At the end of pass 1 all undefined symbols may be made global
+(external) using the ASxxxx switch -g, otherwise undefined  sym-
+bols will be flagged as errors during succeeding passes.
+  
+</PRE></B></H4>
+<H5><A HREF= #Assemblers> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Pass2"></A><FONT COLOR="#FF0000">Assembly Pass 2</FONT>
+
+   During  pass  2  the ASxxxx assembler resolves forward refer-
+ences and determines the number  of  bytes  for  each  assembled
+line.   The  number  of bytes used by a particular assembler in-
+struction may depend upon the addressing mode, whether  the  in-
+struction allows multiple forms based upon the relative distance
+to the addressed location, or other factors.   Pass  2  resolves
+these cases and determines the address of all symbols.
+  
+</PRE></B></H4>
+<H5><A HREF= #Assemblers> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Pass3"></A><FONT COLOR="#FF0000">Assembly Pass 3</FONT>
+
+   Pass 3 by the assembler generates the listing file, the relo-
+catable output file, and the symbol tables.  Also during pass  3
+the errors will be reported.  
+
+   The  relocatable object file is an ascii file containing sym-
+bol references and definitions, program  area  definitions,  and
+the  relocatable assembled code, the linker ASLINK will use this
+information to generate an absolute load file  (Intel,  Motorola
+or Tandy CoCo Disk Basic formats).  
+
+</PRE></B></H4>
+<H5><A HREF= #Assemblers> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<BR><BR>
+<A NAME = "Source"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Source Program Format</A>
+</B></H3>
+
+<H4><B><UL>
+<LI><A HREF= #Statement>  Statement Format </A> 
+<LI><A HREF= #Label>  Label Field </A>
+<LI><A HREF= #Operator>  Operator Field </A>
+<LI><A HREF= #Operand>  Operand Field </A>
+<LI><A HREF= #Comment>  Comment Field </A>
+<BR><BR>
+<LI><A HREF="asmblr.htm#Index">  Return to the Assembler Index</A>
+</UL></B></H4>
+
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Statement"></A><FONT COLOR="#FF0000">Statement Format</FONT>
+
+   A source program is composed of assembly-language statements.
+Each statement must be completed on one line.  A line  may  con-
+tain a maximum of 128 characters, longer lines are truncated and
+lost.  
+
+   An  ASxxxx  assembler  statement  may  have  as  many as four
+fields.  These fields are identified by their order  within  the
+statement  and/or  by separating characters between fields.  The
+general format of the ASxxxx statement is:  
+
+      [label:]  Operator        Operand         [;Comment(s)] 
+
+   The  label and comment fields are optional.  The operator and
+operand fields are interdependent.  The operator field may be an
+assembler  directive or an assembly mnemonic.  The operand field
+may be optional or required as defined in  the  context  of  the
+operator.  
+
+   ASxxxx  interprets  and  processes source statements one at a
+time.  Each statement causes a particular operation to  be  per-
+formed.  
+
+</PRE></B></H4>
+<H5><A HREF= #Source> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Label"></A><FONT COLOR="#FF0000">Label Field</FONT>  -
+
+   A  label is a user-defined symbol which is assigned the value
+of the current location counter and entered into  the  user  de-
+fined  symbol  table.   The  current location counter is used by
+ASxxxx to assign memory addresses to the source  program  state-
+ments as they are encountered during the assembly process.  Thus
+a label is a means  of  symbolically  referring  to  a  specific
+statement.  
+
+   When  a program section is absolute, the value of the current
+location counter is absolute;  its value references an  absolute
+memory  address.   Similarly, when a program section is relocat-
+able, the value of the current location counter is  relocatable.
+A  relocation  bias  calculated at link time is added to the ap-
+parent value of the current location counter  to  establish  its
+effective  absolute  address  at  execution time.  (The user can
+also force the linker to relocate sections defined as  absolute.
+This may be required under special circumstances.) 
+
+   If  present,  a  label  must  be  the first field in a source
+statement and must be terminated by a colon (:).   For  example,
+if  the  value  of  the  current  location  counter  is absolute
+01F0(H), the statement:  
+
+      abcd:     nop 
+
+assigns  the  value  01F0(H) to the label abcd.  If the location
+counter value were relocatable, the final value of abcd would be
+01F0(H)+K, where K represents the relocation bias of the program
+section, as calculated by the linker at link time.  
+
+   More  than  one label may appear within a single label field.
+Each label so specified is assigned the same address value.  For
+example,  if  the  value  of  the  current  location  counter is
+1FF0(H), the multiple labels in the following statement are each
+assigned the value 1FF0(H):  
+
+      abcd:     aq:     $abc:   nop 
+
+   Multiple labels may also appear on successive lines.  For ex-
+ample, the statements 
+
+      abcd:  
+      aq:  
+      $abc:     nop 
+
+likewise  cause  the  same value to be assigned to all three la-
+bels.  
+
+   A  double  colon  (::)  defines the label as a global symbol.
+For example, the statement 
+
+      abcd::    nop 
+
+establishes the label abcd as a global symbol.  The distinguish-
+ing attribute of a global symbol is that it  can  be  referenced
+from  within an object module other than the module in which the
+symbol is defined.  References to this label  in  other  modules
+are  resolved when the modules are linked as a composite execut-
+able image.  
+
+The legal characters for defining labels are:  
+
+        A through Z 
+        a through z 
+        0 through 9 
+        . (Period) 
+        $ (Dollar sign) 
+        _ (underscore) 
+
+   A  label  may  be  any  length,  however,  only the first  79
+characters are significant and, therefore must be  unique  among
+all   labels  in  the  source  program  (not  necessarily  among
+separately compiled modules).  An error code(s) (m or p) will be
+generated  in the assembly  listing if the  first  79 characters
+in two or more labels are the same.  The m code is caused by the
+redeclaration  of  the symbol or its reference by another state-
+ment.  The p code is generated because the symbols  location  is
+changing on each pass through the source file.  
+
+   The  label  must  not  start with the characters 0-9, as this
+designates a reusable symbol with special  attributes  described
+in a later section.  
+
+   The  label  must  not  start  with  the  sequence $$, as this
+represents the temporary radix 16 for constants.  
+
+</PRE></B></H4>
+<H5><A HREF= #Source> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Operator"></A><FONT COLOR="#FF0000">Operator Field</FONT>  -
+
+   The  operator field specifies the action to be performed.  It
+may consist of an instruction mnemonic (op code) or an assembler
+directive.  
+
+   When  the  operator is an instruction mnemonic, a machine in-
+struction is generated and the assembler evaluates the addresses
+of  the operands which follow.  When the operator is a directive
+ASxxxx performs certain control actions or processing operations
+during assembly of the source program.  
+
+   Leading  and  trailing  spaces  or tabs in the operator field
+have no significance;  such characters serve  only  to  separate
+the operator field from the preceeding and following fields.  
+
+   An operator is terminated by a space, tab or end of line.  
+
+</PRE></B></H4>
+<H5><A HREF= #Source> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Operand"></A><FONT COLOR="#FF0000">Operand Field</FONT>  -
+
+   When  the  operator is an instruction mnemonic (op code), the
+operand  field  contains  program  variables  that  are  to   be
+evaluated/manipulated by the operator.  
+
+   Operands  may  be  expressions  or  symbols, depending on the
+operator.  Multiple expressions used in the operand  fields  may
+be  separated  by a comma.  An operand should be preceeded by an
+operator field;  if it is not, the statement will give an  error
+(q  or  o).   All  operands  following instruction mnemonics are
+treated as expressions.  
+
+   The operand field is terminated by a semicolon when the field
+is followed  by  a  comment.   For  example,  in  the  following
+statement:  
+
+      label:    lda     abcd,x          ;Comment field 
+
+the  tab  between lda and abcd terminates the operator field and
+defines the beginning of the operand field;  a  comma  separates
+the operands abcd and x;  and a semicolon terminates the operand
+field and defines the beginning of the comment field.   When  no
+comment  field  follows,  the operand field is terminated by the
+end of the source line.  
+
+</PRE></B></H4>
+<H5><A HREF= #Source> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Comment"></A><FONT COLOR="#FF0000">Comment Field</FONT>  -
+
+   The comment field begins with a semicolon and extends through
+the end of the line.  This field is optional and may contain any
+7-bit ascii character except null.  
+
+   Comments  do not affect assembly processing or program execu-
+tion.  
+
+<H5><A HREF= #Source> =&gt; Section Index</A></H5>
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<BR><BR>
+<A NAME = "Symbols"> </A>
+<H3><B>
+<IMG SRC = "green.gif" ALT = "-">... Symbols and Expressions</A>
+</B></H3>
+<H4><B><PRE>
+   This  section  describes the generic components of the ASxxxx
+assemblers:  the character set, the conventions observed in con-
+structing  symbols,  and  the use of numbers, operators, and ex-
+pressions.  
+
+</PRE></B></H4>
+
+<H4><B><UL>
+<LI><A HREF= #Character>  Character Sets </A> 
+<LI><A HREF= #User>  User-Defined Symbols </A>
+<LI><A HREF= #Reusable>  Reusable Symbols </A>
+<LI><A HREF= #Current>  Current Location Counter </A>
+<LI><A HREF= #Numbers>  Numbers </A>
+<LI><A HREF= #Terms>  Terms </A>
+<LI><A HREF= #Expressions>  Expressions </A>
+<BR><BR>
+<LI><A HREF="asmblr.htm#Index">  Return to the Assembler Index</A>
+</UL></B></H4>
+
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Character"></A><FONT COLOR="#FF0000">Character Set</FONT> 
+
+   The following characters are legal in ASxxxx source programs: 
+
+     1.  The  letters  A  through Z.  Both upper- and lower-case
+         letters are acceptable.  The  assemblers,  by  default,
+         are  case  sensitive,  i.e.   ABCD and abcd are not the
+         same symbols.  (The assemblers can be made case  insen-
+         sitive by using the -z command line option.) 
+
+     2.  The digits 0 through 9 
+
+     3.  The  characters . (period), $ (dollar sign), and _ (un-
+         derscore).  
+
+     4.  The special characters listed in Tables 1 through 6.  
+
+
+   Tables  1  through  6  describe  the various ASxxxx label and
+field terminators, assignment operators, operand separators, as-
+sembly, unary, binary, and radix operators.  
+
+
+Table 1         Label Terminators and Assignment Operators 
+---------------------------------------------------------------- 
+
+        :   Colon               Label terminator.  
+
+        ::  Double colon        Label  Terminator;   defines the
+                                label as a global label.  
+
+        =   Equal sign          Direct assignment operator.  
+
+        ==  Double equal        Direct assignment operator;  
+            sign                defines  the  symbol as a global
+                                symbol.  
+
+        =:  Local equal         Direct assignment operator;  de-
+                                fines the symbol as a local sym-
+                                bol.  
+
+---------------------------------------------------------------- 
+
+
+Table 2         Field Terminators and Operand Separators 
+---------------------------------------------------------------- 
+
+            Tab                 Item or field terminator.  
+
+            Space               Item or field terminator.  
+
+        ,   Comma               Operand field separator.  
+
+        ;   Semicolon           Comment field indicator.  
+
+---------------------------------------------------------------- 
+
+
+Table 3         Assembler Operators 
+---------------------------------------------------------------- 
+
+        #   Number sign         Immediate expression indicator. 
+
+        .   Period              Current location counter.  
+
+        (   Left parenthesis    Expression delimiter.  
+
+        )   Right parenthesis   Expression delimeter.  
+
+---------------------------------------------------------------- 
+
+
+Table 4         Unary Operators 
+---------------------------------------------------------------- 
+
+        &lt;   Left bracket        &lt;FEDC   Produces  the lower byte
+                                        value of the expression.
+                                        (DC) 
+
+        &gt;   Right bracket       &gt;FEDC   Produces  the upper byte
+                                        value of the expression.
+                                        (FE) 
+
+        +   Plus sign           +A      Positive value of A 
+
+        -   Minus sign          -A      Produces   the  negative
+                                        (2's complement) of A.  
+
+        ~   Tilde               ~A      Produces the 1's comple-
+                                        ment of A.  
+
+        '   Single quote        'D      Produces  the  value  of
+                                        the character D.  
+
+        "   Double quote        "AB     Produces the double byte
+                                        value for AB.  
+
+        \   Backslash           '\n     Unix style characters 
+                                        \b, \f, \n, \r, \t 
+                             or '\001   or octal byte values.  
+
+---------------------------------------------------------------- 
+
+
+Table 5         Binary Operators 
+---------------------------------------------------------------- 
+
+        &lt;&lt;  Double          0800 &lt;&lt; 4   Produces the 4 bit 
+            Left bracket                left-shifted   value  of
+                                        0800.  (8000) 
+
+        &gt;&gt;  Double          0800 &gt;&gt; 4   Produces the 4 bit 
+            Right bracket               right-shifted  value  of
+                                        0800.  (0080) 
+
+        +   Plus sign       A + B       Arithmetic      Addition
+                                        operator.  
+
+        -   Minus sign      A - B       Arithmetic   Subtraction
+                                        operator.  
+
+        *   Asterisk        A * B       Arithmetic   Multiplica-
+                                        tion operator.
+
+        /   Slash           A / B       Arithmetic      Division
+                                        operator.
+
+        &amp;   Ampersand       A &amp; B       Logical AND operator.  
+
+        |   Bar             A | B       Logical OR operator.  
+
+        %   Percent sign    A % B       Modulus operator.  
+
+        ^   Up arrow or     A ^ B       EXCLUSIVE OR operator.  
+            circumflex 
+
+---------------------------------------------------------------- 
+
+
+Table 6         Temporary Radix Operators 
+---------------------------------------------------------------- 
+
+        $%,   0b, 0B            Binary radix operator.  
+
+        $&amp;,   0o, 0O, 0q, 0Q    Octal radix operator.  
+
+        $#,   0d, 0D            Decimal radix operator.  
+
+        $$,   0h, 0H, 0x, 0X    Hexidecimal radix operator.  
+
+
+        Potential  ambiguities arising from the use of 0b and 0d
+        as temporary radix operators may be circumvented by pre-
+        ceding  all  non-prefixed  hexidecimal  numbers with 00.
+        Leading 0's are required in any  case  where  the  first
+        hexidecimal  digit is abcdef as the assembler will treat
+        the letter sequence as a label.  
+
+---------------------------------------------------------------- 
+
+</PRE></B></H4>
+<H5><A HREF= #Symbols> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "User"></A><FONT COLOR="#FF0000">User-Defined Symbols</FONT> 
+
+   User-defined  symbols are those symbols that are equated to a
+specific value through a direct assignment statement  or  appear
+as  labels.  These symbols are added to the User Symbol Table as
+they are encountered during assembly.  
+
+The following rules govern the creation of user-defined symbols: 
+
+     1.  Symbols  can  be  composed  of alphanumeric characters,
+         dollar signs ($),  periods  (.),  and  underscores  (_)
+         only.  
+
+     2.  The  first  character  of a symbol must not be a number
+         (except in the case of local symbols).  
+
+     3.  The  first  79  characters of a  symbol must be unique.
+         A  symbol  can be  written  with  more  than  79  legal
+         characters, but the 80th  and subsequent characters are
+         ignored.  
+
+     4.  Spaces and Tabs must not be embedded within a symbol.  
+
+</PRE></B></H4>
+<H5><A HREF= #Symbols> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Reusable"></A><FONT COLOR="#FF0000">Reusable Symbols</FONT> 
+
+   Reusable  symbols are specially formatted symbols used as la-
+bels within a block of coding that has been delimited as a reus-
+able symbol block.  Reusable symbols are of the form n$, where n
+is a decimal integer from 0 to 65535,  inclusive.   Examples  of
+reusable symbols are:  
+
+      1$ 
+      27$ 
+      138$ 
+      244$ 
+
+
+   The range of a reusable symbol block consists of those state-
+ments between two normally constructed  symbolic  labels.   Note
+that a statement of the form:  
+
+      ALPHA = EXPRESSION 
+
+is a direct assignment statement but does not create a label and
+thus does not delimit the range of a reusable symbol block.  
+
+   Note  that  the  range  of a reusable symbol block may extend
+across program areas.  
+
+   Reusable symbols provide a convenient means of generating la-
+bels for branch instructions and other  such  references  within
+reusable symbol blocks.  Using reusable symbols reduces the pos-
+sibility of symbols with multiple definitions appearing within a
+user  program.   In  addition,  the use of reusable symbols dif-
+ferentiates entry-point labels from other labels, since reusable
+labels cannot be referenced from outside their respective symbol
+blocks.  Thus, reusable symbols of the same name can  appear  in
+other  symbol blocks without conflict.  Reusable symbols require
+less symbol table space  than  normal  symbols.   Their  use  is
+recommended.  
+
+   The  use  of  the  same reusable symbol within a symbol block
+will generate one or both of the m or p errors.  
+
+Example of reusable symbols:  
+
+        a:      ldx     #atable ;get table address
+                lda     #0d48   ;table length
+        1$:     clr     ,x+     ;clear
+                deca
+                bne     1$
+                
+        b:      ldx     #btable ;get table address
+                lda     #0d48   ;table length
+        1$:     clr     ,x+     ;clear
+                deca
+                bne     1$
+
+</PRE></B></H4>
+<H5><A HREF= #Symbols> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Current"></A><FONT COLOR="#FF0000">Current Location Counter</FONT> 
+
+   The  period  (.) is the symbol for the current location coun-
+ter.  When used in the operand  field  of  an  instruction,  the
+period   represents  the  address  of  the  first  byte  of  the
+instruction:  
+
+        AS:     ldx     #.      ;The period (.) refers to
+                                ;the address of the ldx
+                                ;instruction.
+
+   When  used  in  the  operand field of an ASxxxx directive, it
+represents the address of the current byte or word:  
+
+        QK = 0
+
+        .word   0xFFFE,.+4,QK   ;The operand .+4 in the .word
+                                ;directive represents a value
+                                ;stored in the second of the
+                                ;three words during assembly.
+
+   If  we  assume  the  current  value of the program counter is
+0H0200, then during assembly, ASxxxx  reserves  three  words  of
+storage  starting  at  location 0H0200.  The first value, a hex-
+idecimal constant FFFE, will be stored at location 0H0200.   The
+second  value  represented  by  .+4  will  be stored at location
+0H0202, its value will be 0H0206 ( = 0H0202  +  4).   The  third
+value  defined  by  the  symbol  QK  will  be placed at location
+0H0204.  
+
+   At the beginning of each assembly pass, ASxxxx resets the lo-
+cation counter.  Normally, consecutive memory locations are  as-
+signed  to  each  byte  of  object code generated.  However, the
+value of the location counter can be changed  through  a  direct
+assignment statement of the following form:  
+
+
+      . = . + expression 
+
+
+   The  new  location  counter can only be specified relative to
+the current location counter.  Neglecting to specify the current
+program  counter  along with the expression on the right side of
+the assignment operator will generate the (.) error.   (Absolute
+program areas may use the .org directive to specify the absolute
+location of the current program counter.) 
+
+The following coding illustrates the use of the current location
+counter:  
+
+        .area   CODE1   (ABS)   ;program area CODE1
+                                ;is ABSOLUTE
+
+        .org    0H100           ;set location to
+                                ;0H100 absolute
+
+num1:   ldx     #.+0H10         ;The label num1 has
+                                ;the value 0H100.
+                                ;X is loaded with
+                                ;0H100 + 0H10
+
+        .org    0H130           ;location counter
+                                ;set to 0H130
+
+num2:   ldy     #.              ;The label num2 has
+                                ;the value 0H130.
+                                ;Y is loaded with
+                                ;value 0H130.
+
+
+        .area   CODE2   (REL)   ;program area CODE2
+                                ;is RELOCATABLE
+
+        . = . + 0H20            ;Set location counter
+                                ;to relocatable 0H20 of
+                                ;the program section.
+
+num3:   .word   0               ;The label num3 has
+                                ;the value
+                                ;of relocatable 0H20.
+
+        . = . + 0H40            ;will reserve 0H40
+                                ;bytes of storage as will
+        .blkb   0H40            ;or
+        .blkw   0H20
+
+   The  .blkb  and .blkw directives are the preferred methods of
+allocating space.  
+
+</PRE></B></H4>
+<H5><A HREF= #Symbols> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Numbers"><A/><FONT COLOR="#FF0000">Numbers</FONT>
+
+   ASxxxx  assumes that all numbers in the source program are to
+be interpreted in decimal radix unless otherwise specified.  The
+.radix  directive  may  be used to specify the default as octal,
+decimal, or hexidecimal.  Individual numbers can  be  designated
+as  binary, octal, decimal, or hexidecimal through the temporary
+radix prefixes shown in table 6.  
+
+   Negative  numbers  must be preceeded by a minus sign;  ASxxxx
+translates such numbers into two's  complement  form.   Positive
+numbers may (but need not) be preceeded by a plus sign.  
+
+   Numbers are always considered to be absolute values, therefor
+they are never relocatable.  
+
+</PRE></B></H4>
+<H5><A HREF= #Symbols> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Terms"></A><FONT COLOR="#FF0000">Terms</FONT>
+
+   A  term is a component of an expression and may be one of the
+following:  
+
+
+     1.  A number.  
+
+     2.  A symbol:  
+         1.  A  period (.) specified in an expression causes the
+             current location counter to be used.  
+         2.  A User-defined symbol.  
+         3.  An undefined symbol is assigned a value of zero and
+             inserted in the User-Defined symbol table as an un-
+             defined symbol.  
+
+     3.  A single quote followed by a single ascii character, or
+         a double quote followed by two ascii characters.  
+
+     4.  An  expression enclosed in parenthesis.  Any expression
+         so enclosed is evaluated and reduced to a  single  term
+         before  the remainder of the expression in which it ap-
+         pears is evaluated.  Parenthesis, for example,  may  be
+         used  to  alter the left-to-right evaluation of expres-
+         sions, (as in A*B+C versus A*(B+C)), or to apply a  un-
+         ary operator to an entire expression (as in -(A+B)).  
+
+     5.  A unary operator followed by a symbol or number.  
+
+</PRE></B></H4>
+<H5><A HREF= #Symbols> =&gt; Section Index</A></H5>
+<HR SIZE=3 WIDTH=100% ALIGN=Center NOSHADE>
+<H4><B><PRE>
+<A NAME = "Expressions"></A><FONT COLOR="#FF0000">Expressions</FONT>
+
+   Expressions  are  combinations  of  terms  joined together by
+binary operators.  Expressions reduce to a value.   The  evalua-
+tion  of  an expression includes the determination of its attri-
+butes.  A resultant expression value may be one of  three  types
+(as  described  later  in this section):  relocatable, absolute,
+and external.  
+
+Expressions are evaluate with an operand hierarchy as follows:  
+
+        *       /       %       multiplication,
+                                division, and
+                                modulus first.
+
+        +       -               addition and
+                                subtraction second.
+
+        &lt;&lt;      &gt;&gt;              left shift and
+                                right shift third.
+
+        ^                       exclusive or fourth.
+
+        &amp;                       logical and fifth.
+
+        |                       logical or last
+
+        except that unary operators take precedence over binary
+        operators.
+
+
+   A  missing  or  illegal  operator  terminates  the expression
+analysis, causing error codes (o) and/or  (q)  to  be  generated
+depending upon the context of the expression itself.  
+
+   At assembly time the value of an external (global) expression
+is equal to the value of the absolute part of  that  expression.
+For  example,  the expression external+4, where 'external' is an
+external symbol, has the value of 4.  This expression,  however,
+when  evaluated  at link time takes on the resolved value of the
+symbol 'external', plus 4.  
+
+   Expressions,  when  evaluated  by  ASxxxx,  are  one of three
+types:  relocatable, absolute, or external.  The following  dis-
+tinctions are important:  
+
+     1.  An  expression is relocatable if its value is fixed re-
+         lative to the base address of the program area in which
+         it appears;  it will have an offset value added at link
+         time.  Terms that contain labels defined in relocatable
+         program  areas  will  have  a relocatable value;  simi-
+         larly, a period (.)  in  a  relocatable  program  area,
+         representing  the value of the current program location
+         counter, will also have a relocatable value.  
+
+     2.  An  expression  is  absolute if its value is fixed.  An
+         expression whose terms are numbers and ascii characters
+         will  reduce  to  an absolute value.  A relocatable ex-
+         pression or term minus a relocatable term,  where  both
+         elements  being  evaluated  belong  to the same program
+         area, is an absolute expression.  This is because every
+         term  in  a  program area has the same relocation bias.
+         When one term is subtracted from the other the  reloca-
+         tion bias is zero.  
+
+     3.  An  expression is external (or global) if it contains a
+         single global reference (plus or minus an absolute  ex-
+         pression  value) that is not defined within the current
+         program.  Thus, an external  expression  is  only  par-
+         tially  defined following assembly and must be resolved
+         at link time.  
+
+<H5><A HREF= #Symbols> =&gt; Section Index</A></H5>
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

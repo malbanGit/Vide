@@ -16,7 +16,7 @@
 
 __asm(
 	".bank page_00 (BASE=0x0000,SIZE=0x0100)\n\t"
-	".area direct (OVR,BANK=page_00)\n\t"
+	".area .direct (OVR,BANK=page_00)\n\t"
 );
 
 // ***************************************************************************
@@ -27,10 +27,10 @@ __asm(
 // 0xCBEA - 0xCBFF (22B)	reserved for RUM
 // ***************************************************************************
 
-int	dp_Vec_Snd_shadow[0x1f]			__attribute__((section("direct"), used));	// 0xC800, Shadow of sound chip registers (15 bytes)
-int dp_Vec_Joy_Mux[0x2e - 0x1f] 	__attribute__((section("direct"), used));	// 0xC81F, Joystick enable/mux flags (4 bytes)
-int	dp_Vec_Counters[0x5e - 0x2e]	__attribute__((section("direct"), used));	// 0xC82E, Six bytes of counters
-int	dp_Vec_XXX_09					__attribute__((section("direct"), used));	// 0xC85E, Scratch 'score' storage for Display_Option (7 bytes)
+int	dp_Vec_Snd_shadow[0x1f]			__attribute__((section(".direct"), used));	// 0xC800, Shadow of sound chip registers (15 bytes)
+int dp_Vec_Joy_Mux[0x2e - 0x1f] 	__attribute__((section(".direct"), used));	// 0xC81F, Joystick enable/mux flags (4 bytes)
+int	dp_Vec_Counters[0x5e - 0x2e]	__attribute__((section(".direct"), used));	// 0xC82E, Six bytes of counters
+int	dp_Vec_XXX_09					__attribute__((section(".direct"), used));	// 0xC85E, Scratch 'score' storage for Display_Option (7 bytes)
 
 // ***************************************************************************
 // end of file

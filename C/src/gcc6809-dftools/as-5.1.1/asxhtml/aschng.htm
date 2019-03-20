@@ -1,0 +1,655 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASxxxx Change Log</H2>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+Version 5.10 Update 1
+2015_06_27
+
+   This  update  for  Version  5.10  of the  ASxxxx Cross
+Assemblers includes fixes for the following errors:
+
+   (1)  The as6500 assembler incorrectly assembled
+        cpx # and cpy # instructions.
+
+   (2)  An error in asmain.c inhibited the listing of
+        all .if.. assembler directives.
+
+
+   Asxxxx/ASlink version 5.10 is considered
+a major release version.  
+
+Version 5.10
+2014_10_31
+
+   (1)  Rewrite of listing to relocated listing translation
+        code in the assembler and the linker base code.
+        The Assemblers now create a .lst to .rst hint file
+        with the extension .hlr (when both .lst and .rel
+        files are created by the assembler).
+
+   (2)  Add as6100 assembler (Intersil IM6100 / Harris HM6100)
+
+   (3)  Add as78k0s assembler (Renesas/NEC 78K/0S) 
+
+
+   Summary  of  changes/additions  to the ASxxxx Assemblers from
+Version 4.11 to Version 5.06.  
+
+Version 5.00 Update 6
+
+   This  update  for  Version  5.00  of the  ASxxxx Cross
+Assemblers rolls up updates 1, 2, 3, 4, and 5 with fixes
+for the following:
+
+   (1)  Fix asscmp assembler (pre-increment on fetch).
+
+   (2)  Fix aslink error reporting for PC relative modes.
+
+Version 5.00 Update 5
+2012_08_01
+
+Update_05 for the ASxxxx Assembler and Linker Version 5.00
+(use 'pkunzip -d u05500.zip' for extraction with MS-DOS)
+(use 'unzip -L -a u05500.zip' for extraction with Linux)
+
+       See the note about merging
+       this update with the
+       asxv5pxx distribution.
+
+   This  update  for  Version  5.00  of the  ASxxxx Cross
+Assemblers rolls up updates 1, 2, 3, and 4 with the addition of
+a new assembler and fixes:
+
+   (1)  A new cross assembler for the Fairchild
+        F8 microprocessor (or Mostek 3870).
+
+   (2)  Minor syntactical changes for ANSI C compatability,
+        fix type conversion warnings, and update the
+        various build, make, and test files.
+
+
+   Update 4 Items
+
+   (1)  The AS8048 base opcode value for the JMPP
+        instruction should be B3 and NOT 83.
+
+   (2)  The AS8051 assembler calculates incorrect
+        offsets when using the program counter, ".",
+        as a destination in the instructions having
+        a PC-Relative addressing mode.  These
+        instructions include: jbc, jb, jbn, jc,
+        jnc, jz, jnz, cjne, and djnz.
+
+
+   Update 3 Items
+
+   (1)  A new cross assembler for the Fairchild
+        F8 microprocessor (or Mostek 3870).
+
+   (2)  Minor syntactical changes for ANSI C compatability,
+        fix type conversion warnings, and update the
+        various build, make, and test files.
+
+   (1)  New cross assemblers for STMicroelectronics
+        ST6, ST7, and STM8 microprocessors.
+
+   (2)  An ASlink list file update error fix (-u option)
+        causing some errors not to be inserted into the
+        created .rst file.
+
+   (3)  An additional ASxxxx assembler option (-v) which
+        enables checking for out of range signed / unsigned
+        values in symbol equates and arithmetic operations.
+        This option has some ambiguities as internally the
+        assemblers use unsigned arithmetic for calculations.
+        (e.g. for a 2-byte machine -32768 and 32768 are both
+        represented as 0x8000)
+
+
+   Update 2 Items
+
+   (1)  When using the assembler directive .end to specify
+        the code entry address the assembler fails to set
+        the variable .__.END. as a global.  Therefor the
+        value of .__.END. is not passed to the linker and
+        the start address frame is always zero.
+
+   (2)  The linker will fail to create a start address frame
+        when there is no code generated within the area/bank
+        referenced by the .__.END. variable.
+
+
+   Update 1 Items
+
+   (1)  The newest versions of gcc (and perhaps other
+        compilers) give warnings about missing arguments
+        in the fprintf() function.  This update replaces
+        fprintf(arg1, arg2) with fprintf(arg1, "%s", arg2)
+        in each affected line of code.
+
+   (2)  The newest versions of gcc (and perhaps other
+        compilers) have defined 'getline' as a standard
+        function in 'stdio.h'.  This conflicts with the
+        function 'getline()' in the ASxxxx package.
+        All references to 'getline()' have been changed
+        to 'nxtline()'.
+
+
+   Before merging the asxv5pxx directory and subdirectories with
+the V5.00 distribution the following files/directories must be
+deleted:
+
+        [asxv5pxx\asf2mc8\f8mch.c
+        [asxv5pxx\asf2mc8\f8adr.c
+        [asxv5pxx\asf2mc8\f8pst.c
+        [asxv5pxx\asf2mc8\f8.h
+
+        [asxv5pxx\asxmak\vc6\asf2mc8]
+        [asxv5pxx\asxmak\vs05\asf2mc8]
+
+
+
+
+
+2011_07_24 Version 5.00 Update 4
+
+   This  update  for  Version  5.00  of the  ASxxxx Cross
+Assemblers includes fixes for the following errors:
+
+   (1)  The AS8048 base opcode value for the
+        JMPP instruction should be B3 and NOT 83.
+
+   (2)  The AS8051 assembler calculates incorrect
+        offsets when using the program counter, ".",
+        as a destination in the instructions having
+        a PC-Relative addressing mode.  These
+        instructions include: jbc, jb, jbn, jc,
+        jnc, jz, jnz, cjne, and djnz.
+
+
+
+2010_10_31 Version 5.00 Update 3
+
+   This  update  for  Version  5.00  of the  ASxxxx Cross
+Assemblers rolls up updates 1 and 2 with the addition of
+three new assemblers and fixes:
+
+   (1)  New cross assemblers for STMicroelectronics
+        ST6, ST7, and STM8 microprocessors.
+
+   (2)  An ASlink list file update error fix (-u option)
+        causing some errors not to be inserted into the
+        created .rst file.
+
+   (3)  An additional ASxxxx assembler option (-v) which
+        enables checking for out of range signed / unsigned
+        values in symbol equates and arithmetic operations.
+        This option has some ambiguities as internally the
+        assemblers use unsigned arithmetic for calculations.
+        (e.g. for a 2-byte machine -32768 and 32768 are both
+        represented as 0x8000)
+
+
+   Update 2 Items
+
+   (1)  When using the assembler directive .end to specify
+        the code entry address the assembler fails to set
+        the variable .__.END. as a global.  Therefor the
+        value of .__.END. is not passed to the linker and
+        the start address frame is always zero.
+
+   (2)  The linker will fail to create a start address frame
+        when there is no code generated within the area/bank
+        referenced by the .__.END. variable.
+
+
+   Update 1 Items
+
+   (1)  The newest versions of gcc (and perhaps other
+        compilers) give warnings about missing arguments
+        in the fprintf() function.  This update replaces
+        fprintf(arg1, arg2) with fprintf(arg1, "%s", arg2)
+        in each affected line of code.
+
+   (2)  The newest versions of gcc (and perhaps other
+        compilers) have defined 'getline' as a standard
+        function in 'stdio.h'.  This conflicts with the
+        function 'getline()' in the ASxxxx package.
+        All references to 'getline()' have been changed
+        to 'nxtline()'.
+
+
+
+2010_04_01 Version 5.00 Update 2
+
+   This  update  for  Version  5.00  of the  ASxxxx Cross
+Assemblers includes fixes for the following errors:
+
+   (1)  When using the assembler directive .end to specify
+        the code entry address the assembler fails to set
+        the variable .__.END. as a global.  Therefor the
+        value of .__.END. is not passed to the linker and
+        the start address frame is always zero.
+
+   (2)  The linker will fail to create a start address frame
+        when there is no code generated within the area/bank
+        referenced by the .__.END. variable.
+
+
+
+2010_03_03 Version 5.00 Update 1
+
+   This  update  for  Version  5.00  of the  ASxxxx Cross
+Assemblers includes fixes for the following errors:
+
+   (1)  The newest versions of gcc (and perhaps other
+        compilers) give warnings about missing arguments
+        in the fprintf() function.  This update replaces
+        fprintf(arg1, arg2) with fprintf(arg1, "%s", arg2)
+        in each affected line of code.
+
+
+   (2)  The newest versions of gcc (and perhaps other
+        compilers) have defined 'getline' as a standard
+        function in 'stdio.h'.  This conflicts with the
+        function 'getline()' in the ASxxxx package.
+        All references to 'getline()' have been changed
+        to 'nxtline()'.
+
+
+
+2009_04_01 (Version 5.00)
+
+
+   Added  a general purpose macro processor to the ASxxxx assem-
+blers.  
+
+   Added  true (t), false (f), and true or false (tf) condition-
+als to the  .if / .else / .endif  construct.   The  conditionals
+.ift,  .iff,  and .iftf allow replacement of the .else directive
+making the .if / .endif construct more readable.  
+
+e.g.    .ift    if condition is true
+
+
+   An  alternate  .if  construction has been added to the ASxxxx
+assemblers:  
+
+e.g.    .if    eq,...   if argument == 0
+
+
+   The  immediate  conditional statements have been added to the
+ASxxxx  assemblers.   These   conditionals   can   replace   the
+.if / ... / .endif construct for a single assembler source line: 
+
+e.g.    .iifeq  arg     label:  .word   0x1234
+
+
+   The alternate immediate conditional statements have also been
+added to the ASxxxx assemblers:  
+
+e.g.    .iif    eq,arg  label:  .word   0x1234
+
+
+   The  listing  options  for the ASxxxx assemblers has been up-
+dated to enable/disable any of the following parameters from be-
+ing output to a generated listing file:  
+
+    err         error codes
+    loc         code location
+    bin         assembler binary code
+    eqt         symbolic equates / if evaluations
+    cyc         machine cycles
+    lin         assembler source line number
+    src         assembler source code
+    pag         paging control
+    lst         listing of .list / .nlist
+    md          macro definition
+    me          macro expansion
+    meb         macro expansion binary code
+
+    !           sets the listing mode to
+                !(.list) or !(.nlist) before
+                applying the sublist options
+
+e.g.    .nlist  (lst,pag)       ; disable .list/.nlist listing
+                                ; and pagination
+
+
+   The  NOT parameter, !, is used to set the listing mode to the
+opposite sense of the .list or .nlist directive.  For example:  
+
+    .nlist (!)  is equivalent to .list and
+    .list  (!)  is equivalent to .nlist
+
+To enable listing and simultaneously disable the cycle count use
+the directive:  
+
+    .nlist  (!,cyc)
+
+or  if  you  wish  to suppress the listing of the .list / .nlist
+directives:  
+
+    .nlist              ; disables all listing
+    .nlist  (!,lst)     ; enables  all listing except
+                        : .list (...) and .nlist
+
+
+   Normally  the  .list  and .nlist directives are not evaluated
+when encountered within a FALSE conditional block.  This default
+behavior  can  be  modified by specifying a non zero argument in
+the .list or .nlist directive:  
+
+    .nlist   1,(!,lst)  ; enables listing even within
+                        ; a FALSE conditional block
+
+
+
+   The .bndry assembler directive has been added to ASxxxx.  The
+.bndry directive changes the  current  location  address  to  be
+evenly divisible by a specified integer value.  
+
+e.g.    .org    0
+        .bndry  4
+        ; . == 0
+
+        .org    1
+        .bndry  4
+        ; . == 4
+
+
+
+2009_02
+   Added the Cypress PSoc (M8C) ASM8C assembler
+   to ASxxxx.
+
+
+2008_09
+   Added the 8048 (8021, 8022, and 8041) AS8048
+   assembler to Asxxxx.
+
+
+2008_02
+   Added the SC/MP ASSCMP assembler to ASxxxx.
+
+
+2008_02_03 (Version 4.11 Update 4)
+
+   An update to the AS2650 assembler to
+   fix the following errors:
+
+   1)  The indexed addressing mode generates invalid
+       code by using the first argument register as
+       the index register: (addr = 0x1234)
+
+           loda    r0,[addr,r1]          0C F2 34
+                   this should give      0D F2 34
+
+   2)  The index addressing mode did not generate
+       an addressing error when the first argument
+       register was not r0:
+
+           stra    r1,[addr,r2]  should give an 'a'
+                   error, the source must be r0
+
+
+           loda    r2,[addr,r3]  should give an 'a'
+                   error, the destination must be r0
+
+   3)  The S2650 auto increment and decrement indexing 
+       modes always perform the register update before
+       the register is used. i.e. +Rn or -Rn.  The
+       assembler now accepts +Rn or Rn+ as meaning
+       pre-increment and -Rn or Rn- as meaning
+       pre-decrement.
+
+
+   The AS2650 assembler tstscn files have been updated
+   for testing the assemblers.
+
+
+
+2007_10_21 (Version 4.11 Fix)
+
+   In the AS6816 assembler the instruction ANDP gives
+   wrong object code. Changed from 37 2A  to  37 3A.
+
+
+2007_04_01 (Version 4.11 Update 3)
+
+   An update to the ASPIC assembler and
+   associated fix to ASLINK:
+
+   1)  Change the pic addressing to lo/hi from hi/lo
+       byte ordering.
+
+   2)  The update fixes an error in the pic17 series
+       LCALL instruction.
+
+   3)  A rewrite of the pic18 series assembler to change
+       the PC addressing from 1 per 16-bit word to 1 per
+       8-bit byte and add the extended instruction set.
+
+   4)  Modify the Linker Merge Mode processing to take into
+       account the discarded low order bits for PC Relative
+       Addressing.
+
+   5)  New  tstscn files for testing the assemblers.
+
+
+
+2006_11_01 (Version 4.11 Optional Update 2)
+
+   1)  OS9  definition files and an  OS9 assembler module
+       which creates the OS9 header, code and data areas,
+       and the module CRC block:
+
+            os9_mod.def       OS9 Module Definitions
+            os9_sys.def       OS9 Sytem  Definitions
+            os9_mod.asm       OS9 Module Begin / End Code
+
+   2)  a program, s19os9, to post-process  assembled  OS9
+       modules in  S19  format into  binary  OS9  modules
+       with the appropriate  header  checksum  and module
+       CRC values calculated.
+
+   3)  new  make  and  project files which may be used to
+       compile the s19os9 program.
+
+
+
+2006_11_01 (Version 4.11 Optional Update 01)
+
+   The .list  and  .nlist  directives  are  now  modified
+   by .if / .else / .endif  processing  so  that they are
+   active only in a TRUE clause.
+
+   The  .page  and  .include  directives are now modified
+   by the .list and .nlist  directives so that pagination
+   occurs only when listing is active.
+
+   The new  default functionality for the  .list,  .nlist
+   and .page directives may  be  modified by including an
+   optional argument  in the  directive as shown here for
+   the the .list directive:
+
+      .list    arg
+
+   a non-zero argument invokes the directive irrespective
+   of the .if / .else / .endif status.
+
+
+
+2006_07_26 (Version 4.11 Patch 01)
+
+   The  assembly  of  a  direct  page  instruction with a
+   numeric  constant  causes a program  crash when a .rel
+   file is created. e.g.:
+
+        andb    *0x02
+
+
+   The  use  of  a  symbolic  constant  or  symbol plus a
+   a constant compiles normally.
+
+        val = 0x02
+
+        andb    *val
+        andb    *extern+0x01
+
+
+   The assemblers effected are:
+
+        as6809
+        as6812
+        ash8
+        aspic
+
+
+
+   Summary  of  changes/additions  to the ASxxxx Assemblers from
+Version 4.10 to Version 4.11.  
+
+     1.  Incorporated  the patches contained in p01410.zip which
+         corrected a coding error that affected BANKS containing
+         multiple ABS areas or mixed AREA types.  
+
+     2.  Incorporated  the patches contained in p02410.zip which
+         corrected improper use of  R_USGN  in  most  addressing
+         modes  in AS6500.  This caused unexpected 'a' errors in
+         V4.xx because of the ASxxxx core change to  32-bit  in-
+         tegers and arithmetic.  
+
+     3.  Incorporated  the patches contained in p03410.zip which
+         corrected errors in the  .local  and  .globl  assembler
+         directive  processing  routine that introduced unwanted
+         side effects for variable and symbol definition  files.
+         These  effects included improper definitions and incor-
+         rect error warnings.  
+
+     4.  The  following  new subdirectories and their files have
+         been added to the asxtst directory:  
+
+          *  areabank     Area and Bank Processing Test 
+             This  directory  contains  several  test  programs:
+             ts.asm (single file - multiple areas), tm1.asm  and
+             tm2.asm  (multiple  file  -  multiple  areas),  and
+             tbm.asm, tbm1.asm, and tbm2.asm ( multiple  file  -
+             multiple  areas  within  a  bank) and several other
+             files which verify the  correct  operation  of  the
+             linker  when used with a single linked file, multi-
+             ple linked files having no  banking,  and  multiple
+             linked  files  with banking.  These reference files
+             show in detail how the .area and  .bank  directives
+             work together.  
+
+          *  equtst       Equate Processing Test 
+             This  directory  contains a test file for verifying
+             the operation of the .globl, .local, .equ, .gblequ,
+             and  .lclequ  directives  and  the  =,  ==,  and =:
+             equalities.  
+
+          *  inctst       Nested Include File Test 
+
+          *  itst         Include File Error Reporting Test 
+
+
+     5.  Incorporated  the updates contained in u01410.zip which
+         added 10 undocumented 8085 instructions to  the  AS8085
+         assembler.  
+
+
+
+   Summary  of  changes/additions  to the ASxxxx Assemblers from
+Version 4.00 to Version 4.10.  
+
+     1.  Added new assemblers for the Zilog EZ80, Zilog Z8, Sig-
+         netics 2650, and Fujitsu F2MC8(L,FX) processors.  
+
+     2.  Added the processor cycle count option (-c) to all pro-
+         cessors.  
+
+     3.  Several   of  the  assemblers  (ASZ80,  ASRAB,  AS6805,
+         AS6808, AS6812, ASF2MC8, ...) now  support  subsets  or
+         supersets  of  their basic opcodes by the use of assem-
+         bler specific directives.  
+
+     4.  Added .ifeq, .ifne, .iflt, .ifgt, .ifle, and .ifge con-
+         ditional assembly directives.  
+
+     5.  Added  support  for the Tandy Color Computer Disc Basic
+         binary file format to ASLINK.  
+
+     6.  Problem:  
+         When  an area size is equal to the 'address space size'
+         the size parameter is reported as 0.  (A normal  condi-
+         tion  caused  by  address rollover to 0.) Aslink inter-
+         preted this as a 0 size.  
+
+         Fix:  
+         A  new area 'Output Code Flag' bit was defined to indi-
+         cate when data is  defined  in  an  area.   ASxxxx  and
+         Aslink  have  been updated to set and process this area
+         flag bit.  
+
+     7.  Problem:  
+         The  use  of  the .end assembler directive in an Asxxxx
+         assembler would cause Aslink  to  output  the  optional
+         start address in all output files.  
+
+         Fix:  
+         Updated  Aslink  to  output  the optional start address
+         only in the output file associated with  the  area/bank
+         containing the .end directive.  
+
+     8.  Problem:  
+         Aslink  creates  output  files for banks with no output
+         data.  
+
+         Fix:  
+         Aslink  now  deletes  any created output file for banks
+         with no data.  
+
+     9.  Incorporated  the  patches  contained in p01400.zip for
+         files t1802.asm and 1802pst.c to correct for  an  error
+         in  the  opcodes  generated  for  the  BM,  BL, and BNF
+         mnemonics.  
+
+    10.  Incorporated  the  patches  contained in p02400.zip for
+         file ds8adr.c to correct for an  error  in  the  direct
+         page addressing mode of AS8xCxxx.  
+
+    11.  Incorporated  the  patches  contained in p03400.zip for
+         file rabmch.c to correct for an error in the processing
+         of the "ret cc" instruction.  
+
+    12.  Made many corrections to internal code comments.  
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: October 2014</B></P></H6>
+</BODY> 
+</HTML>

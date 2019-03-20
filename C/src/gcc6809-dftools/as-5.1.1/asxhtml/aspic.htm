@@ -1,0 +1,602 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASPIC  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+PIC ASSEMBLER NOTES 
+
+The PIC 12,14,16, and 17 series of processors uses a non unified
+addressing  scheme:   the   instruction   addressing  is  1  per
+instruction word, each instruction uses a word of memory varying
+from 12 to 16 bits in length.  The processor  data is  addressed
+as 1  per  byte of  data.   To properly address the program/data
+spaces you, the programmer, must seperate your program and  data
+into seperate code  and  data areas.  The data area is addressed
+as  1  per  byte  and  the  code  area  is  addressed  as  1 per
+instruction.  The  assembler/linker  processes  the  instruction
+code so that the linker will output 2 bytes for each instruction
+word.  The instruction word  address will  be the  file  encoded
+address divided by 2.  
+
+
+The  pic 18  series  of processors  uses  a  unified  addressing
+scheme: the instruction and data addressing is 1 per 8-bit byte.
+The assembler/linker  processes the instruction code so that the
+linker will output 2 bytes for each instruction  word.  The byte
+ordering is  low-byte  then  high-byte  and  the program address
+is the the file encoded address.
+
+
+PROCESSOR SPECIFIC DIRECTIVES 
+
+     The  ASPIC  assembler has several processor specific assem-
+bler directives.  These directives  specify  a  processor  name,
+select  a  PIC processor family type, define the maximum ram ad-
+dress, specify ram addresses that should not  be  accessed,  and
+define the register file address page.  
+
+
+Format:  
+
+        .pic    "string" 
+
+     The assembler uses the delimited string to define a proces-
+sor  specific  symbol.   e.g:   "p12c508"  produces  the  symbol
+__12c508  having  a value of 1.  This symbol can then be used in
+an .ifdef/.else/.endif construct.  
+
+     The  assembler should be configured by including directives
+similiar to the folowing at the beginning of your assembly file: 
+
+        .pic            "p12c508"       ; Set PIC Name
+        .pic12bit                       ; Select PIC Type
+
+     The  ASPIC  assembler  will  then be configured for the PIC
+processor type "p12c508".  The .pic directive must  precede  the
+PIC  type  directive.  The PIC type directive configures the as-
+sembler base on the processor name and type selection.  
+
+     An  alternate method to configure the ASPIC assembler is as
+follows:  
+
+        .pic            "p12c508"       ; Set PIC Name
+        .include        "piccpu.def"    ; Selects PIC Type
+
+     To  define the special function register names, bit values,
+and memory constraints for  a  specific  processor  include  the
+appropriate definition file:  
+
+        .include        "p12c508.def"   ; Definitions
+
+
+Format:  
+
+        .picnopic 
+
+     This directive deselects all processor specific mnemonics. 
+
+
+Format:  
+
+        .pic12bit 
+
+     This  directive selects the 12-bit instruction word mnemon-
+ics and opcode values to be used during the assembly process.  
+
+
+Format:  
+
+        .pic14bit 
+
+     This  directive selects the 14-bit instruction word mnemon-
+ics and opcode values to be used during the assembly process.  
+
+
+Format:  
+
+        .pic16bit 
+
+     This  directive selects the 16-bit instruction word mnemon-
+ics and opcode values to be used during the assembly process.  
+
+
+Format:  
+
+        .pic20bit 
+
+     This directive selects 20-bit addressing and the 16-bit in-
+struction word mnemonics and opcode values to be used during the
+assembly process.  
+
+
+Format:  
+
+        .picgoto	(optional argument) 
+
+     This directive selects the PIC or ASxxxx mode of CALL, GOTO
+and Branching  argument processing.  The  default  ASxxxx  mode,
+specified  by a  zero valued argument, processes the instruction
+arguments  as  regular  labels  (with  relocation  if required).
+A  blank  or  non-zero  argument invokes the  PIC mode.  The PIC
+mode inserts the value of the instruction argument directly into
+the instruction without further processing.
+
+
+The .__.CPU.  Variable 
+
+     The  value of the pre-defined symbol '.__.CPU.' corresponds
+to the selected processor type.  The default value  is  0  which
+corresponds  to the default processor type.  The following table
+lists the processor types and associated values  for  the  ASPIC
+assembler:  
+
+        Processor Type            .__.CPU. Value
+        --------------            --------------
+          .picnopic                      0
+          .pic12bit                      1
+          .pic14bit                      2
+          .pic16bit                      3
+          .pic20bit                      4
+
+
+     The  variable '.__.CPU.' is by default defined as local and
+will not be output to the created .rel file.  The assembler com-
+mand line options -g or -a will not cause the local symbol to be
+output to the created .rel file.  
+
+     The  assembler  .globl  directive may be used to change the
+variable type to  global  causing  its  definition to be  output
+to  the .rel file.  The inclusion of the definition of the vari-
+able '.__.CPU.' might be  a  useful  means  of  validating  that
+seperately  assembled files have been compiled for the same pro-
+cessor type.  The linker will report an error for variables with
+multiple non equal definitions.  
+
+
+Format:  
+
+        .picfix chip,   mnemonic,       value 
+
+     This  directive  can  be used to "fix" or change the opcode
+value of any pic instruction of the currently selected pic type.
+e.g.:  
+
+
+     .picfix    "p12c671",      "clrw", 0x0103 
+
+will  change  the  "clrw"  instruction's opcode to 0x0103 if the
+current pic type is "p12c671".  
+
+
+Format:  
+
+        .maxram value 
+
+     Where value is the highest allowed ram address 
+
+
+Format:  
+
+        .badram address 
+        .badram lo:hi 
+
+     Where  address is a single location and lo:hi is a range of
+addresses that should not be used.   Multiple  locations  and/or
+ranges  may  be  specified  by  seperating  the arguments with a
+comma:  
+
+        .badram         0x23, 0x28:0x2F, ...
+
+     The  ASPIC  assembler will report an error for any absolute
+register file address in the badram range.  
+
+
+Format:  
+
+        .setdmm value 
+
+     The  .setdmm (set Data Memory Map) directive is used to in-
+form the assembler and linker about  which  ram  bank  has  been
+selected for access.  The PIC17Cxxx microprocessor family allows
+upto 2 (or more) banks of 256 byte ram  blocks.   The  PIC18Cxxx
+microprocessor  family  allows  upto  16  banks  of 256 byte ram
+blocks.  The data memory map value must be set  on  a  256  byte
+boundary.  e.g.:  
+
+
+     .setdmm    0x0F00 
+
+     The  assembler  verifies  that  any absolute address to the
+register file is within the  256  byte  page.   External  direct
+references  are  assumed  by  the assembler to be in the correct
+area and have valid offsets.  The linker  will  check  all  page
+relocations  to verify that they are within the correct address-
+ing range.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+12-BIT OPCODE PIC 
+
+The 12-bit opcode family of PIC processors support the following
+assembler arguments:  
+        (*)f
+        (*)f,(#)d
+        (*)f,(#)b
+        (#)k
+        label
+
+        where:  f       register file address
+                d       destination select:
+                                (0, -> w), (1 -> f)
+                                the letters w or f may be used
+                                to select the destination
+                b       bit address in an 8-bit file register
+                k       literal constant
+                label   label name
+
+        Items enclosed in () are optional.
+
+
+   The  terms  f, d, b, k, and label may all be expressions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction,  refer to the processor specific  technical data for
+valid modes.
+  
+
+    PIC12C5XX CPU Type
+        PIC12C508,      PIC12C509,      PIC12CE518
+        PIC12C508A,     PIC12C509A,     PIC12CE519
+        PIC12CR509A
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+14-BIT OPCODE PIC 
+
+The 14-bit opcode family of PIC processors support the following
+assembler arguments:  
+        (*)f
+        (*)f,(#)d
+        (*)f,(#)b
+        (#)k
+        label
+
+        where:  f       register file address
+                d       destination select:
+                                (0, -> w), (1 -> f)
+                                the letters w or f may be used
+                                to select the destination
+                b       bit address in an 8-bit file register
+                k       literal constant
+                label   label name
+
+        Items enclosed in () are optional.
+
+
+   The  terms  f, d, b, k, and label may all be expressions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction,  refer to the processor specific  technical data for
+valid modes.
+  
+
+    PIC12C67X CPU Type
+        PIC12C671,      PIC12C672,      PIC12LC671,
+        PIC12LC672
+        PIC12CE673,     PIC12CE674,     PIC12LCE673,
+        PIC12LCE674
+
+    PIC14000 CPU Type
+        PIC14000
+
+    PIC16C15X CPU Type
+        PIC16C154,      PIC16C156,      PIC16C158
+        PIC16CR154,     PIC16CR156,     PIC16CR158
+
+    PIC16C5X CPU Type
+        PIC16C52
+        PIC16C54,       PICC16C54A,     PIC16C54B,
+        PIC16C54C
+        PIC16CR54,      PIC16CR54A,     PIC16C54B,
+        PIC16CR54C
+        PIC16C55,       PIC16C55A,      PIC16C56,
+        PIC16C56A
+        PIC16CR56A
+        PIC16C57,       PIC16CR57A,     PIC16C57B,
+        PIC16C57C
+        PIC16C58A,      PIC16CR58A,     PIC16C58B,
+        PIC16CR58B
+
+    PIC16C55X CPU Type
+        PIC16C554,      PIC16C556,      PIC16C558
+
+    PIC16C62X, PIC16C64X and, PIC16C66X CPU Types
+        PIC16C620,      PIC16C621,      PIC16C622
+        PIC16C642,      PIC16C662
+
+    PIC16C7XX CPU Type
+        PIC16C71,       PIC16C72,       PIC16CR72
+        PIC16C73A,      PIC16C74A,      PIC16C76,       PIC16C77
+        PIC16C710,      PIC16C711,      PIC16C715
+
+    PIC16C8X CPU Type
+        PIC16F83,       PIC16CR83,      PIC16F84,
+        PIC16CR84
+        PIC16HV540
+        PIC16F627,      PIC16F628
+        PIC16F870,      PIC16F871,      PIC16F872,
+        PIC16F873
+        PIC16F874,      PIC16F876,      PIC16F877
+
+    PIC16C9XX CPU Type
+        PIC16C923,      PIC16C924
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+16-BIT OPCODE PIC 
+
+
+The 16-bit opcode family of PIC processors support the following
+assembler arguments:  
+        (*)f
+        (*)f,(#)d
+        (*)f,(#)s
+        (*)f,(#)b
+        (*)f,(*)p       /       (*)p,(*)f
+        (#)t,(*)f
+        (#)t,(#)i,(*)f
+        {#}k
+        label
+
+        where:  f       register file address
+                d       destination select:
+                                (0, -> w), (1 -> f)
+                                the letters w or f may be used
+                                to select the destination
+                s       destination select:
+                                (0, -> f and w), (1, -> f)
+                                the letters w or f may be used
+                                to select the destination
+                t       table byte select:
+                                (0, -> lower byte)
+                                (1, -> upper byte)
+                i       table pointer control
+                                (0, -> no change)
+                                (1, -> post increment)
+                b       bit address of an 8-bit file register
+                p       peripheral register file address
+                k       literal constant
+                label   label name
+
+        Items enclosed in () are optional.
+
+
+   The  terms  f, d, s, t, i, b, p, k,  and  label  may  all be
+expressions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction,  refer to the processor specific  technical data for
+valid modes.
+  
+
+    PIC17CXXX CPU Type
+        PIC17C42,       PIC17C42A,      PIC17C43,       PIC17C44
+        PIC17C752,      PIC17C756,      PIC17C756A
+        PIC17C762,      PIC17C766,      PIC17CR42,
+        PIC17CR43
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+20-BIT ADDRESSING PIC 
+
+
+     The  20-bit addressing family of PIC processors support the
+following assembler arguments:  
+        (*)f(,a)
+        (*)f,(#)d(,(#)a)
+        (*)f,(#)s
+        (*)f,(#)b(,(#)a)
+        (*)fs,(*)fd
+        (#)t,(*)f
+        (#)t,(#)i,(*)f
+        {#}k
+        label(,(#)s)
+        ((#)s)
+        mm
+
+        where:  f       register file address
+                fs      register file source
+                fd      register file destination
+                a       ram access bit
+                                (0, -> ACCESS RAM)
+                                (1, -> RAM BANK)
+                d       destination select:
+                                (0, -> w), (1 -> f)
+                                the letters w or f may be used
+                                to select the destination
+                s       fast call/return mode:
+                                (0, -> SLOW), (1, -> FAST)
+                b       bit address of an 8-bit file register
+                mm      TBLRD and TBLWT suffixs
+                                ('*',  -> no change)
+                                ('*+', -> post-increment)
+                                ('*-', -> post-decrement)
+                                ('+*', -> pre-increment)
+                k       literal constant
+                label   label name
+
+        Items enclosed in () are optional.
+
+
+   The  terms  f, fs, fd, a, b, d, s, k, and  label  may all be
+expressions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction,  refer to the processor specific  technical data for
+valid modes.
+  
+
+    PIC18CXXX CPU Type
+        PIC18C242,      PIC18C252
+        PIC18C442,      PIC18C452
+        PIC18C658,      PIC18C858
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+PIC OPCODES 
+
+     The  following  table contains all the mnemonics recognized
+by the ASPIC assembler.  The processors supporting each mnemonic
+are  indicated by the code 'PIC:12:14:16:20' after each instruc-
+tion type.  The designation [] refers to a  required  addressing
+mode argument.  
+
+        addwf   []              PIC:12:14:16:20
+        addwfc  []              PIC:--:--:16:20
+        andwf   []              PIC:12:14:16:20
+        comf    []              PIC:12:14:16:20
+        decf    []              PIC:12:14:16:20
+        decfsz  []              PIC:12:14:16:20
+        dcfsnz  []              PIC:--:--:16:20
+        incf    []              PIC:12:14:16:20
+        incfsz  []              PIC:12:14:16:20
+        infsnz  []              PIC:--:--:16:20
+        iorwf   []              PIC:12:14:16:20
+        movf    []              PIC:12:14:--:20
+        negw    []              PIC:--:--:16:--
+        rlf     []              PIC:12:14:--:--
+        rlcf    []              PIC:--:--:16:20
+        rlncf   []              PIC:--:--:16:20
+        rrf     []              PIC:12:14:--:--
+        rrcf    []              PIC:--:--:16:20
+        rrncf   []              PIC:--:--:16:20
+        subfwb  []              PIC:--:--:--:20
+        subwf   []              PIC:12:14:16:20
+        subwfb  []              PIC:--:--:16:20
+        swapf   []              PIC:12:14:16:20
+        xorwf   []              PIC:12:14:16:20
+
+        movfp   []              PIC:--:--:16:--
+        movpf   []              PIC:--:--:16:--
+
+        movlb   []              PIC:--:--:16:20
+        movlr   []              PIC:--:--:16:--
+
+        movff   []              PIC:--:--:--:20
+
+        lfsr    []              PIC:--:--:--:20
+
+        clrf    []              PIC:12:14:16:20
+        cpfseq  []              PIC:--:--:16:20
+        cpfsgt  []              PIC:--:--:16:20
+        cpfslt  []              PIC:--:--:16:20
+        movwf   []              PIC:12:14:16:20
+        mulwf   []              PIC:--:--:16:20
+        negf    []              PIC:--:--:--:20
+
+        setf    []              PIC:--:--:16:20
+        tstfsz  []              PIC:--:--:16:20
+
+        bcf     []              PIC:12:14:16:20
+        bsf     []              PIC:12:14:16:20
+        btfsc   []              PIC:12:14:16:20
+        btfss   []              PIC:12:14:16:20
+        btg     []              PIC:--:--:16:20
+
+        addlw   []              PIC:--:14:16:20
+        andlw   []              PIC:12:14:16:20
+        iorlw   []              PIC:12:14:16:20
+        movlw   []              PIC:12:14:16:20
+        mullw   []              PIC:--:--:16:20
+        retlw   []              PIC:12:14:16:20
+        sublw   []              PIC:--:14:16:20
+        xorlw   []              PIC:12:14:16:20
+
+        call    []              PIC:12:14:16:20
+        goto    []              PIC:12:14:16:20
+        lcall   []              PIC:--:--:16:--
+
+        bc      []              PIC:--:--:--:20
+        bn      []              PIC:--:--:--:20
+        bnc     []              PIC:--:--:--:20
+        bnn     []              PIC:--:--:--:20
+        bnov    []              PIC:--:--:--:20
+        bnc     []              PIC:--:--:--:20
+        bov     []              PIC:--:--:--:20
+        bz      []              PIC:--:--:--:20
+
+        bra     []              PIC:--:--:--:20
+        rcall   []              PIC:--:--:--:20
+
+        tablrd  []              PIC:--:--:16:--
+        tablwt  []              PIC:--:--:16:--
+        tlrd    []              PIC:--:--:16:--
+        tlwt    []              PIC:--:--:16:--
+        tblrd   []              PIC:--:--:--:20
+        tblwt   []              PIC:--:--:--:20
+
+        clrw    []              PIC:12:14:--:--
+        clrwdt                  PIC:12:14:16:20
+        daw                     PIC:--:--:16:20
+        nop                     PIC:12:14:16:20
+        option                  PIC:12:14:--:--
+        pop                     PIC:--:--:--:20
+        push                    PIC:--:--:--:20
+        retfie  []              PIC:--:14:16:20
+        return  []              PIC:--:14:16:20
+        sleep                   PIC:12:14:16:20
+
+        tris    []              PIC:12:14:--:--
+
+        addfsr  []              PIC:--:--:--:20
+        addulnk []              PIC:--:--:--:20
+        callw                   PIC:--:--:--:20
+        movsf   []              PIC:--:--:--:20
+        movss   []              PIC:--:--:--:20
+        pushl   []              PIC:--:--:--:20
+        subfsr  []              PIC:--:--:--:20
+        subulnk []              PIC:--:--:--:20
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

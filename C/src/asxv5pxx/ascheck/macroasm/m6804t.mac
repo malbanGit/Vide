@@ -1,0 +1,416 @@
+	.title	M6804 Macro Assembler Checks
+
+	;****************************************************************
+	;*								*
+	;*	The M6804.MAC Macro Cross Assembler requires		*
+	;*	the 'direct page' to be initialized by using		*
+	;*	the following macro:					*
+	;*								*
+	;*	setdp							*
+	;* or	setdp	0	(a non zero argument is an error)	*
+	;*								*
+	;*								*
+	;*	This Cross Assembler removes the relocation		*
+	;*	information from all addresses yielding an		*
+	;*	ABSOLUTE ASSEMBLER.  Relocating assembled		*
+	;*	code using the ASLINK relocation options		*
+	;*	will NOT generate a correctly relocated			*
+	;*	image.							*
+	;*								*
+	;****************************************************************
+
+	.nlist
+	.include	"mlib.def"
+	.list
+
+	.mlib	crossasm.sml
+	.mcall	M6804
+
+	.nlist	(pag)
+	.list	(meb)
+
+	.area	DIRECT	(ABS,OVR,DSEG,BANK=_DSEG)
+	.area	M6804T	(ABS,OVR,CSEG,BANK=_CSEG)
+	
+
+	defg = 0xFE
+
+
+	.area	DIRECT
+	.org	0
+
+	setdp	0
+
+loc0:	.blkb	1
+abcd:	.blkb	1
+ram:	.blkb	1
+
+	.org 0x0100
+loc1:
+	.org 0x0200
+loc2:
+	.org 0x0300
+loc3:
+	.org 0x0400
+loc4:
+	.org 0x0500
+loc5:
+	.org 0x0600
+loc6:
+	.org 0x0700
+loc7:
+	.org 0x0800
+loc8:
+	.org 0x0900
+loc9:
+	.org 0x0A00
+loc10:
+	.org 0x0B00
+loc11:
+	.org 0x0C00
+loc12:
+	.org 0x0D00
+loc13:
+	.org 0x0E00
+loc14:
+	.org 0x0F00
+loc15:
+
+
+	.area	M6804T
+	.org	0x0100
+
+	bne	.+0x01			; 00
+	bne	.+0x02			; 01
+	bne	.+0x03			; 02
+	bne	.+0x04			; 03
+	bne	.+0x05			; 04
+	bne	.+0x06			; 05
+	bne	.+0x07			; 06
+	bne	.+0x08			; 07
+	bne	.+0x09			; 08
+	bne	.+0x0A			; 09
+	bne	.+0x0B			; 0A
+	bne	.+0x0C			; 0B
+	bne	.+0x0D			; 0C
+	bne	.+0x0E			; 0D
+	bne	.+0x0F			; 0E
+	bne	.+0x10			; 0F
+	bne	.-0x0F			; 10
+	bne	.-0x0E			; 11
+	bne	.-0x0D			; 12
+	bne	.-0x0C			; 13
+	bne	.-0x0B			; 14
+	bne	.-0x0A			; 15
+	bne	.-0x09			; 16
+	bne	.-0x08			; 17
+	bne	.-0x07			; 18
+	bne	.-0x06			; 19
+	bne	.-0x05			; 1A
+	bne	.-0x04			; 1B
+	bne	.-0x03			; 1C
+	bne	.-0x02			; 1D
+	bne	.-0x01			; 1E
+	bne	.			; 1F
+
+
+	beq	.+0x01			; 20
+	beq	.+0x02			; 21
+	beq	.+0x03			; 22
+	beq	.+0x04			; 23
+	beq	.+0x05			; 24
+	beq	.+0x06			; 25
+	beq	.+0x07			; 26
+	beq	.+0x08			; 27
+	beq	.+0x09			; 28
+	beq	.+0x0A			; 29
+	beq	.+0x0B			; 2A
+	beq	.+0x0C			; 2B
+	beq	.+0x0D			; 2C
+	beq	.+0x0E			; 2D
+	beq	.+0x0F			; 2E
+	beq	.+0x10			; 2F
+	beq	.-0x0F			; 30
+	beq	.-0x0E			; 31
+	beq	.-0x0D			; 32
+	beq	.-0x0C			; 33
+	beq	.-0x0B			; 34
+	beq	.-0x0A			; 35
+	beq	.-0x09			; 36
+	beq	.-0x08			; 37
+	beq	.-0x07			; 38
+	beq	.-0x06			; 39
+	beq	.-0x05			; 3A
+	beq	.-0x04			; 3B
+	beq	.-0x03			; 3C
+	beq	.-0x02			; 3D
+	beq	.-0x01			; 3E
+	beq	.			; 3F
+
+
+	bcc	.+0x01			; 40
+	bcc	.+0x02			; 41
+	bcc	.+0x03			; 42
+	bcc	.+0x04			; 43
+	bcc	.+0x05			; 44
+	bcc	.+0x06			; 45
+	bcc	.+0x07			; 46
+	bcc	.+0x08			; 47
+	bcc	.+0x09			; 48
+	bcc	.+0x0A			; 49
+	bcc	.+0x0B			; 4A
+	bcc	.+0x0C			; 4B
+	bcc	.+0x0D			; 4C
+	bcc	.+0x0E			; 4D
+	bcc	.+0x0F			; 4E
+	bcc	.+0x10			; 4F
+	bcc	.-0x0F			; 50
+	bcc	.-0x0E			; 51
+	bcc	.-0x0D			; 52
+	bcc	.-0x0C			; 53
+	bcc	.-0x0B			; 54
+	bcc	.-0x0A			; 55
+	bcc	.-0x09			; 56
+	bcc	.-0x08			; 57
+	bcc	.-0x07			; 58
+	bcc	.-0x06			; 59
+	bcc	.-0x05			; 5A
+	bcc	.-0x04			; 5B
+	bcc	.-0x03			; 5C
+	bcc	.-0x02			; 5D
+	bcc	.-0x01			; 5E
+	bcc	.			; 5F
+
+
+	bcs	.+0x01			; 60
+	bcs	.+0x02			; 61
+	bcs	.+0x03			; 62
+	bcs	.+0x04			; 63
+	bcs	.+0x05			; 64
+	bcs	.+0x06			; 65
+	bcs	.+0x07			; 66
+	bcs	.+0x08			; 67
+	bcs	.+0x09			; 68
+	bcs	.+0x0A			; 69
+	bcs	.+0x0B			; 6A
+	bcs	.+0x0C			; 6B
+	bcs	.+0x0D			; 6C
+	bcs	.+0x0E			; 6D
+	bcs	.+0x0F			; 6E
+	bcs	.+0x10			; 6F
+	bcs	.-0x0F			; 70
+	bcs	.-0x0E			; 71
+	bcs	.-0x0D			; 72
+	bcs	.-0x0C			; 73
+	bcs	.-0x0B			; 74
+	bcs	.-0x0A			; 75
+	bcs	.-0x09			; 76
+	bcs	.-0x08			; 77
+	bcs	.-0x07			; 78
+	bcs	.-0x06			; 79
+	bcs	.-0x05			; 7A
+	bcs	.-0x04			; 7B
+	bcs	.-0x03			; 7C
+	bcs	.-0x02			; 7D
+	bcs	.-0x01			; 7E
+	bcs	.			; 7F
+
+
+	jsr	loc0			; 80 00
+	jsr	loc1			; 81 00
+	jsr	loc2			; 82 00
+	jsr	loc3			; 83 00
+	jsr	loc4			; 84 00
+	jsr	loc5			; 85 00
+	jsr	loc6			; 86 00
+	jsr	loc7			; 87 00
+	jsr	loc8			; 88 00
+	jsr	loc9			; 89 00
+	jsr	loc10			; 8A 00
+	jsr	loc11			; 8B 00
+	jsr	loc12			; 8C 00
+	jsr	loc13			; 8D 00
+	jsr	loc14			; 8E 00
+	jsr	loc15			; 8F 00
+
+	jmp	loc0			; 90 00
+	jmp	loc1			; 91 00
+	jmp	loc2			; 92 00
+	jmp	loc3			; 93 00
+	jmp	loc4			; 94 00
+	jmp	loc5			; 95 00
+	jmp	loc6			; 96 00
+	jmp	loc7			; 97 00
+	jmp	loc8			; 98 00
+	jmp	loc9			; 99 00
+	jmp	loc10			; 9A 00
+	jmp	loc11			; 9B 00
+	jmp	loc12			; 9C 00
+	jmp	loc13			; 9D 00
+	jmp	loc14			; 9E 00
+	jmp	loc15			; 9F 00
+
+
+					; A0
+					; A1
+					; A2
+					; A3
+					; A4
+					; A5
+					; A6
+					; A7
+	incx				; A8
+	incy				; A9
+					; AA
+					; AB
+	txa				; AC
+	tya				; AD
+					; AE
+					; AF
+
+	mvi	abcd,#,defg		; B0*01 FE
+					; B1
+	rti				; B2
+	rts				; B3
+	coma				; B4
+	rola				; B5
+	stop				; B6
+	wait				; B7
+	decx				; B8
+	decy				; B9
+					; BA
+					; BB
+	tax				; BC
+	tay				; BD
+					; BE
+					; BF
+
+
+1$:	brclr0	ram, .			; C0 02 FD
+2$:	brclr1	ram,2$			; C1 02 FD
+3$:	brclr2	ram,3$			; C2 02 FD
+4$:	brclr3	ram,4$			; C3 02 FD
+5$:	brclr4	ram,5$			; C4 02 FD
+6$:	brclr5	ram,6$			; C5 02 FD
+7$:	brclr6	ram,7$			; C6 02 FD
+8$:	brclr7	ram,8$			; C7 02 FD
+
+9$:	brset0	ram,9$			; C8 02 FD
+10$:	brset1	ram,10$			; C9 02 FD
+11$:	brset2	ram,11$			; CA 02 FD
+12$:	brset3	ram,12$			; CB 02 FD
+13$:	brset4	ram,13$			; CC 02 FD
+14$:	brset5	ram,14$			; CD 02 FD
+15$:	brset6	ram,15$			; CE 02 FD
+16$:	brset7	ram,16$			; CF 02 FD
+
+	bclr0	ram			; D0 02
+	bclr1	ram			; D1 02
+	bclr2	ram			; D2 02
+	bclr3	ram			; D3 02
+	bclr4	ram			; D4 02
+	bclr5	ram			; D5 02
+	bclr6	ram			; D6 02
+	bclr7	ram			; D7 02
+
+	bset0	ram			; D8 02
+	bset1	ram			; D9 02
+	bset2	ram			; DA 02
+	bset3	ram			; DB 02
+	bset4	ram			; DC 02
+	bset5	ram			; DD 02
+	bset6	ram			; DE 02
+	bset7	ram			; DF 02
+
+
+	lda	@x			; E0
+	sta	@x			; E1
+	add	@x			; E2
+	sub	@x			; E3
+	cmp	@x			; E4
+	and	@x			; E5
+	inc	@x			; E6
+	dec	@x			; E7
+
+	lda	#,defg			; E8 FE
+					; E9
+	add	#,defg			; EA FE
+	sub	#,defg			; EB FE
+	cmp	#,defg			; EC FE
+	and	#,defg			; ED FE
+					; EE
+					; EF
+
+	lda	@y			; F0
+	sta	@y			; F1
+	add	@y			; F2
+	sub	@y			; F3
+	cmp	@y			; F4
+	and	@y			; F5
+	inc	@y			; F6
+	dec	@y			; F7
+
+	lda	ram			; F8 02
+	sta	ram			; F9 02
+	add	ram			; FA 02
+	sub	ram			; FB 02
+	cmp	ram			; FC 02
+	and	ram			; FD 02
+	inc	ram			; FE 02
+	dec	ram			; FF 02
+
+	.sbttl	Special Forms of inc, dec, lda, and sta
+
+	; incx
+	inc	0x80			; A8
+	; incy
+	inc	0x81			; A9
+	inc	0x82			; AA
+	inc	0x83			; AB
+	; txa
+	lda	0x80			; AC
+	; tya
+	lda	0x81			; AD
+	lda	0x82			; AE
+	lda	0x83			; AF
+
+	; decx
+	dec	0x80			; B8
+	; decy
+	dec	0x81			; B9
+	dec	0x82			; BA
+	dec	0x83			; BB
+	; tax
+	sta	0x80			; BC
+	; tay
+	sta	0x81			; BD
+	sta	0x82			; BE
+	sta	0x83			; BF
+
+	.sbttl	Derived Instructions
+
+	asla				; FA FF
+17$:	bam	17$			; CF FF FD
+18$:	bap	18$			; C7 FF FD
+19$:	bxmi	19$			; CF 80 FD
+20$:	bxpl	20$			; C7 80 FD
+21$:	bymi	21$			; CF 81 FD
+22$:	bypl	22$			; C7 81 FD
+	clra				; FB FF
+	clrx				; B0 80 00
+	clry				; B0 81 00
+	deca				; FF FF
+	decx				; B8
+	decy				; B9
+	inca				; FE FF
+	incx				; A8
+	incy				; A9
+	ldxi	#,defg			; B0 80 FE
+	ldyi	#,defg			; B0 81 FE
+	nop				; 20
+	tax				; BC
+	tay				; BD
+	txa				; AC
+	tya				; AD
+
+

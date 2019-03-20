@@ -1,0 +1,381 @@
+	.sbttl	OS9 Sytem Definitions (os9_sys.def)
+
+	; Derived from NitrOS9: os9defs.a
+
+	;************************************************************
+	;*
+	;*     System Service Request Code Definitions
+	;*
+	F$LINK		=: 0x00		; Link to Module
+	F$LOAD		=: 0x01		; Load Module from File
+	F$UNLINK	=: 0x02		; Unlink Module
+	F$FORK		=: 0x03		; Start New Process
+	F$WAIT		=: 0x04		; Wait for Child Process to Die
+	F$CHAIN		=: 0x05		; Chain Process to New Module
+	F$EXIT		=: 0x06		; Terminate Process
+	F$MEM		=: 0x07		; Set Memory Size
+	F$SEND		=: 0x08		; Send Signal to Process
+	F$ICPT		=: 0x09		; Set Signal Intercept
+	F$SLEEP		=: 0x0A		; Suspend Process
+	F$SSPD		=: 0x0B		; Suspend Process
+	F$ID		=: 0x0C		; Return Process ID
+	F$SPRIOR	=: 0x0D		; Set Process Priority
+	F$SSWI		=: 0x0E		; Set Software Interrupt
+	F$PERR		=: 0x0F		; Print Error
+	F$PRSNAM	=: 0x10		; Parse Pathlist Name
+	F$CMPNAM	=: 0x11		; Compare Two Names
+	F$SCHBIT	=: 0x12		; Search Bit Map
+	F$ALLBIT	=: 0x13		; Allocate in Bit Map
+	F$DELBIT	=: 0x14		; Deallocate in Bit Map
+	F$TIME		=: 0x15		; Get Current Time
+	F$STIME		=: 0x16		; Set Current Time
+	F$CRC		=: 0x17		; Generate CRC
+	F$GPRDSC	=: 0x18		; get Process Descriptor copy
+	F$GBLKMP	=: 0x19		; get System Block Map copy
+	F$GMODDR	=: 0x1A		; get Module Directory copy
+	F$CPYMEM	=: 0x1B		; Copy External Memory
+	F$SUSER		=: 0x1C		; Set User ID number
+	F$UNLOAD	=: 0x1D		; Unlink Module by name
+	F$ALARM		=: 0x1E		; Alarm handling
+	   F$RESERVED	=: 0x1F
+	   F$RESERVED	=: 0x20
+	F$NMLINK	=: 0x21		; Link to Module without adding to address space
+	F$NMLOAD	=: 0x22		; Load Module without adding to address space
+	   F$RESERVED	=: 0x23
+	   F$RESERVED	=: 0x24
+	   F$RESERVED	=: 0x25
+	   F$RESERVED	=: 0x26
+
+
+	.page
+	;************************************************************
+	;*
+	;*     System Reserved Calls
+	;*
+	F$VIRQ		=: 0x27		; virtual IRQ handling
+	F$SRQMEM	=: 0x28		; System Memory Request
+	F$SRTMEM	=: 0x29		; System Memory Return
+	F$IRQ		=: 0x2A		; Enter IRQ Polling Table
+	F$IOQU		=: 0x2B		; Enter I/O Queue
+	F$APROC		=: 0x2C		; Enter Active Process Queue
+	F$NPROC		=: 0x2D		; Start Next Process
+	F$VMODUL	=: 0x2E		; Validate Module
+	F$FIND64	=: 0x2F		; Find Process/Path Descriptor
+	F$ALL64		=: 0x30		; Allocate Process/Path Descriptor
+	F$RET64		=: 0x31		; Return Process/Path Descriptor
+	F$SSVC		=: 0x32		; Service Request Table Initialization
+	F$IODEL		=: 0x33		; Delete I/O Module
+	F$SLINK		=: 0x34		; System Link
+	F$BOOT		=: 0x35		; Bootstrap System
+	F$BTMEM		=: 0x36		; Bootstrap Memory Request
+	F$GPROCP	=: 0x37		; Get Process ptr
+	F$MOVE		=: 0x38		; Move Data (low bound first)
+	F$AllRAM	=: 0x39		; Allocate RAM blocks
+	F$ALLIMG	=: 0x3A		; Allocate Image RAM blocks
+	F$DELIMG	=: 0x3B		; Deallocate Image RAM blocks
+	F$SETIMG	=: 0x3C		; Set Process DAT Image
+	F$FREELB	=: 0x3D		; Get Free Low Block
+	F$FREEHB	=: 0x3E		; Get Free High Block
+	F$ALLTSK	=: 0x3F		; Allocate Process Task number
+	F$DELTSK	=: 0x40		; Deallocate Process Task number
+	F$SETTSK	=: 0x41		; Set Process Task DAT registers
+	F$RESTSK	=: 0x42		; Reserve Task number
+	F$RELTSK	=: 0x43		; Release Task number
+	F$DATLOG	=: 0x44		; Convert DAT Block/Offset to Logical
+	   F$RESERVED	=: 0x45
+	F$LDAXY		=: 0x46		; Load A [X,[Y]]
+	F$LDAXYP	=: 0x47		; Load A [X+,[Y]]
+	F$LDDDXY	=: 0x48		; Load D [D+X,[Y]]
+	F$LDABX		=: 0x49		; Load A from 0,X in task B
+	F$STABX		=: 0x4A		; Store A at 0,X in task B
+	F$ALLPRC	=: 0x4B		; Allocate Process Descriptor
+	F$DELPRC	=: 0x4C		; Deallocate Process Descriptor
+	F$ELINK		=: 0x4D		; Link using Module Directory Entry
+	F$FMODUL	=: 0x4E		; Find Module Directory Entry
+	F$MAPBLK	=: 0x4F		; Map Specific Block
+	F$CLRBLK	=: 0x50		; Clear Specific Block
+	F$DELRAM	=: 0x51		; Deallocate RAM blocks
+	F$GCMDIR	=: 0x52		; Pack module directory
+	F$ALHRAM	=: 0x53		; Allocate HIGH RAM Blocks
+
+
+	.page
+	;************************************************************
+	;*
+	;*     I/O Service Request Code Definitions
+	;*
+	I$ATTACH	=: 0x80		; Attach I/O Device
+	I$DETACH	=: 0x81		; Detach I/O Device
+	I$DUP		=: 0x82		; Duplicate Path
+	I$CREATE	=: 0x83		; Create New File
+	I$OPEN		=: 0x84		; Open Existing File
+	I$MAKDIR	=: 0x85		; Make Directory File
+	I$CHGDIR	=: 0x86		; Change Default Directory
+	I$DELETE	=: 0x87		; Delete File
+	I$SEEK		=: 0x88		; Change Current Position
+	I$READ		=: 0x89		; Read Data
+	I$WRITE		=: 0x8A		; Write Data
+	I$READLN	=: 0x8B		; Read Line of ASCII Data
+	I$WRITLN	=: 0x8C		; Write Line of ASCII Data
+	I$GETSTT	=: 0x8D		; Get Path Status
+	I$SETSTT	=: 0x8E		; Set Path Status
+	I$CLOSE		=: 0x8F		; Close Path
+	I$DELETX	=: 0x90		; Delete from current exec dir
+
+
+	;************************************************************
+	;*
+	;*      File Access Modes
+	;*
+	READ.		=: 0b00000001
+	WRITE.		=: 0b00000010
+	UPDAT.		=: READ. | WRITE.
+	EXEC.		=: 0b00000100
+	PREAD.		=: 0b00001000
+	PWRIT.		=: 0b00010000
+	PEXEC.		=: 0b00100000
+	SHARE.		=: 0b01000000
+	DIR.		=: 0b10000000
+	ISIZ.		=: 0b00100000
+
+ 
+	;************************************************************
+	;*
+	;*     Signal Codes
+	;*
+	S$KILL		=: 0x00		; Non-Interceptable Abort
+	S$WAKE		=: 0x01		; Wake-up Sleeping Process
+	S$ABORT		=: 0x02		; Keyboard Abort
+	S$INTRPT	=: 0x03		; Keyboard Interrupt
+	S$WINDOW	=: 0x04		; Window Change
+
+
+	.page
+	;************************************************************
+	;*
+	;*     Status Codes for GetStat/PutStat
+	;*
+	SS.OPT		=: 0x00		; Read/Write PD Options
+	SS.READY	=: 0x01		; Check for Device Ready
+	SS.SIZE		=: 0x02		; Read/Write File Size
+	SS.RESET	=: 0x03		; Device Restore
+	SS.WTRK		=: 0x04		; Device Write Track
+	SS.POS		=: 0x05		; Get File Current Position
+	SS.EOF		=: 0x06		; Test for End of File
+	SS.LINK		=: 0x07		; Link to Status routines
+	SS.ULINK	=: 0x08		; Unlink Status routines
+	SS.FEED		=: 0x09		; issue form feed
+	SS.FRZ		=: 0x0A		; Freeze DD. information
+	SS.SPT		=: 0x0B		; Set DD.TKS to given value
+	SS.SQD		=: 0x0C		; Sequence down hard disk
+	SS.DCMD		=: 0x0D		; Send direct command to disk
+	SS.DEVNM	=: 0x0E		; Return Device name (32-bytes at [X])
+	SS.FD		=: 0x0F		; Return File Descriptor (Y-bytes at [X])
+	SS.TICKS	=: 0x10		; Set Lockout honor duration
+	SS.LOCK		=: 0x11		; Lock/Release record
+	SS.DSTAT	=: 0x12		; Return Display Status (CoCo)
+	SS.JOY		=: 0x13		; Return Joystick Value (CoCo)
+	SS.BLKRD	=: 0x14		; Block Read
+	SS.BLKWR	=: 0x15		; Block Write
+	SS.RETEN	=: 0x16		; Retension cycle
+	SS.WFM		=: 0x17		; Write File Mark
+	SS.RFM		=: 0x18		; Read past File Mark
+	SS.ELOG		=: 0x19		; Read Error Log
+	SS.SSIG		=: 0x1A		; Send signal on data ready
+	SS.RELEA	=: 0x1B		; Release device
+	SS.ALFAS	=: 0x1C		; Return Alfa Display Status (CoCo)
+	   SS.ATTR	=: SS.ALFAS	; Serves 68K/RBF/Setstat thru net
+	SS.BREAK	=: 0x1D		; Send break signal out acia
+	SS.RSBIT	=: 0x1E		; Reserve bitmap sector (do not allocate in) LSB(X)=sct#
+	   SS.RESERVED	=: 0x1F
+	SS.FDINF	=: 0x20		; to serve 68K/RBF/GetStat only, thru NET
+	   SS.RESERVED	=: 0x20		; reserve $20-$23 for Japanese version (Hoshi)
+	   SS.RESERVED	=: 0x21
+	   SS.RESERVED	=: 0x22
+	   SS.RESERVED	=: 0x23
+	SS.SETMF	=: 0x24		; reserve $24 for Gimix G68 (Flex compatability?)
+	SS.CURSR	=: 0x25		; Cursor information for COCO
+	SS.SCSIZ	=: 0x26		; Return screen size for COCO
+	SS.KYSNS	=: 0x27		; Getstat/Putstat for COCO keyboard
+	SS.COMST	=: 0x28		; Getstat/Putstat for Baud/Parity
+	SS.OPEN		=: 0x29		; Putstat to tell driver a path was opened
+	SS.CLOSE	=: 0x2A		; Putstat to tell driver a path was closed
+	SS.HNGUP	=: 0x2B		; Putstat to tell driver to hangup phone
+
+
+	SS.AAGBF	=: 0x80		; Putstat to Allocate Additional Graphic Buffer
+	SS.SLGBF	=: 0x81		; Putstat to Select a different Graphic Buffer
+	SS.MOUNT	=: 0x82		; Network 4 Mount Setstat
+	SS.RDNET	=: 0x83		; Read Raw Sector from Network 4 Omnidrive
+	SS.MPGPB	=: 0x84		; Putstat to request a Get/Put Buffer be mapped in workspace
+	SS.SLOTS	=: 0x85		; Network 4 slots? getstat
+	SS.WNSET	=: 0x86		; Set up High Level Windowing Information
+	SS.MNSEL	=: 0x87		; Request High level Menu Handler take determine next event
+	SS.SBAR		=: 0x88		; Putstat to set position block on Window scroll bars
+	SS.MOUSE	=: 0x89		; Return Mouse information packet (COCO)
+	SS.MSSIG	=: 0x8A		; Putstat to tell driver to send signal on mouse event
+	SS.ASCRN	=: 0x8B		; Allocate a screen for application poking
+	SS.DSCRN	=: 0x8C		; Display a screen allocated by 	SS.AScrn
+	SS.FSCRN	=: 0x8D		; Free a screen allocated by 	SS.AScrn
+	SS.PSCRN	=: 0x8E		; Polymorph Screen into different screen Type
+	   SS.RESERVED	=: 0x8F
+	   SS.RESERVED	=: 0x90
+	SS.PALET	=: 0x91		; Return palette information
+	SS.MONTR	=: 0x92		; Get and Set Monitor Type
+	SS.SCTYP	=: 0x93		; Get screen type information
+	SS.GIP		=: 0x94		; Global Input Parameters (SetStat)
+	SS.UMBAR	=: 0x95		; update menu bar (SetStat)
+	SS.FBRGS	=: 0x96		; return color registers (GetStat)
+	SS.DFPAL	=: 0x96		; set/return default palette registers (GetStat/SetStat)
+	SS.TONE		=: 0x97		; Generate a tone using 6 bit sound
+
+
+	.page
+	;************************************************************
+	;*
+	;*     Module Definitions
+	;*
+	;*     Universal Module Offsets
+	;*
+	M$ID		=: 0x00		; ID Code
+	M$SIZE		=: 0x02		; Module Size
+	M$NAME		=: 0x04		; Module Name
+	M$TYPE		=: 0x06		; Type / Language
+	M$REVS		=: 0x07		; Attributes / Revision Level
+	M$PARITY	=: 0x08		; Header Parity
+	;*
+	;*     Type-Dependent Module Offsets
+	;*
+	;*   System, File Manager, Device Driver, Program Module
+	;*
+	M$EXEC		=: 0x09		; Execution Entry Offset
+	;*
+	;*   Device Driver, Program Module
+	;*
+	M$MEM		=: 0x0B		; Stack Requirement
+	;*
+	;*   Device Driver, Device Descriptor Module
+	;*
+	M$MODE		=: 0x0D		; Device Driver Mode Capabilities
+	;*
+	;*   Device Descriptor Module
+	;*
+	M$FMGR		=: 0x09		; File Manager Name Offset
+	M$PDEV		=: 0x0B		; Device Driver Name Offset
+	.assume		M$MODE - 0x0D	; M$MODE (defined above)
+	M$PORT		=: 0x0E		; Port Address
+	M$OPT		=: 0x11		; Device Default Options
+	M$DTYP		=: 0x12		; Device Type
+
+
+	.page
+	;************************************************************
+	;*
+	;*   Machine Characteristics Definitions
+	;*
+	R$CC		=: 0d0		; Condition Codes register
+	R$A		=: 0d1		; A Accumulator
+	R$B		=: 0d2		; B Accumulator
+	R$D		=: R$A		; Combined A:B Accumulator
+	R$DP		=: 0d3		; Direct Page register
+	R$X		=: 0d4		; X Index register
+	R$Y		=: 0d6		; Y Index register
+	R$U		=: 0d8		; User Stack register
+	R$PC		=: 0d10		; Program Counter register
+	R$SIZE		=: 0d12		; Total register package size
+
+	ENTIRE		=: 0b10000000	; Full Register Stack flag
+	FIRQMASK	=: 0b01000000	; Fast-Interrupt Mask bit
+	HALFCRRY	=: 0b00100000	; Half Carry flag
+	IRQMASK		=: 0b00010000	; Interrupt Mask bit
+	NEGATIVE	=: 0b00001000	; Negative flag
+	ZERO		=: 0b00000100	; Zero flag
+	TWOSOVFL	=: 0b00000010	; Two's Comp Overflow flag
+	CARRY		=: 0b00000001	; Carry bit
+	INTMASKS	=: IRQMASK | FIRQMASK
+	SIGN		=: 0b10000000	; sign bit
+
+
+	.page
+	;************************************************************
+	;*
+	;*     Error Code Definitions
+	;*
+
+	;*
+	;* System Dependent Error Codes
+	;*
+	E$STKOVF	=: 0d186	; Stack overflow
+	E$ILLARG	=: 0d187	; Illegal argument
+	   E$RESERVED	=: 0d188
+	E$ICOORD	=: 0d189	; Illegal coordinates
+	E$BUG		=: 0d190	; Bug (should never be returned)
+	E$BUFSIZ	=: 0d191	; Buffer size is too small
+	E$ILLCMD	=: 0d192	; Illegal command
+	E$TBLFUL	=: 0d193	; Screen or window table is full
+	E$BADBUF	=: 0d194	; Bad/Undefined buffer number
+	E$IWDEF		=: 0d195	; Illegal window definition
+	E$WUNDEF	=: 0d196	; Window undefined
+
+	;*
+	;* Standard OS-9 Error Codes
+	;*
+	E$PTHFUL	=: 0d200	; Path Table full
+	E$BPNUM		=: 0d201	; Bad Path Number
+	E$POLL		=: 0d202	; Polling Table Full
+	E$BMODE		=: 0d203	; Bad Mode
+	E$DEVOVF	=: 0d204	; Device Table Overflow
+	E$BMID		=: 0d205	; Bad Module ID
+	E$DIRFUL	=: 0d206	; Module Directory Full
+	E$MEMFUL	=: 0d207	; Process Memory Full
+	E$UNKSVC	=: 0d208	; Unknown Service Code
+	E$MODBSY	=: 0d209	; Module Busy
+	E$BPADDR	=: 0d210	; Bad Page Address
+	E$EOF		=: 0d211	; End of File
+	   E$RESERVED	=: 0d212
+	E$NES		=: 0d213	; Non-Existing Segment
+	E$FNA		=: 0d214	; File Not Accesible
+	E$BPNAM		=: 0d215	; Bad Path Name
+	E$PNNF		=: 0d216	; Path Name Not Found
+	E$SLF		=: 0d217	; Segment List Full
+	E$CEF		=: 0d218	; Creating Existing File
+	E$IBA		=: 0d219	; Illegal Block Address
+	   E$RESERVED	=: 0d220
+	E$MNF		=: 0d221	; Module Not Found
+	   E$RESERVED	=: 0d222
+	E$DELSP		=: 0d223	; Deleting Stack Pointer memory
+	E$IPRCID	=: 0d224	; Illegal Process ID
+	   E$RESERVED	=: 0d225
+	E$NOCHLD	=: 0d226	; No Children
+	E$ISWI		=: 0d227	; Illegal SWI code
+	E$PRCABT	=: 0d228	; Process Aborted
+	E$PRCFUL	=: 0d229	; Process Table Full
+	E$IFORKP	=: 0d230	; Illegal Fork Parameter
+	E$KWNMOD	=: 0d231	; Known Module
+	E$BMCRC		=: 0d232	; Bad Module CRC
+	E$USIGP		=: 0d233	; Unprocessed Signal Pending
+	E$NEMOD		=: 0d234	; Non Existing Module
+
+	E$BNAM		=: 0d235	; Bad Name
+	E$BMHP		=: 0d236	; (bad module header parity)
+	E$NORAM		=: 0d237	; No Ram Available
+	E$BPRCID	=: 0d238	; Bad Process ID
+	E$NOTASK	=: 0d239	; No available Task number
+
+
+	E$UNIT		=: 0xF0		; Illegal Unit (drive)
+	E$SECT		=: 0xF1		; Bad SECTor number
+	E$WP		=: 0XF2		; Write Protect
+	E$CRC		=: 0XF3		; Bad Check Sum
+	E$READ		=: 0XF4		; Read Error
+	E$WRITE		=: 0XF5		; Write Error
+	E$NOTRDY	=: 0XF6		; Device Not Ready
+	E$SEEK		=: 0XF7		; Seek Error
+	E$FULL		=: 0XF8		; Media Full
+	E$BTYP		=: 0XF9		; Bad Type (incompatable) media
+	E$DEVBSY	=: 0XFA		; Device Busy
+	E$DIDC		=: 0XFB		; Disk ID Change
+	E$LOCK		=: 0XFC		; Record is busy (locked out)
+	E$SHARE		=: 0XFD		; Non-sharable file busy
+	E$DEADLK	=: 0XFE		; I/O Deadlock error
+

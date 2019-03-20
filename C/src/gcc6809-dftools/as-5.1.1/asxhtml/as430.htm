@@ -1,0 +1,158 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS430  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+MPS430 REGISTER SET 
+
+The following is a list of the MPS430 registers used by AS430:  
+
+Sixteen 16-bit registers provide adddress, data, and
+special functions:
+        pc  /   r0      -       program counter
+        sp  /   r1      -       stack pointer
+        sr  /   r2      -       status register
+        cg1 /   r2      -       constant generator 1
+        cg2 /   r3      -       constant generator 2
+                r4      -       working register r4
+                r5      -       working register r5
+                ...
+                r14     -       working register r14
+                r15     -       working register r15
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+MPS430 ADDRESSING MODES 
+
+The following list specifies the format for each addressing mode
+supported by AS430:  
+
+        Source/Destination Operand Addressing Modes
+        As/Ad   Addressing Mode Syntax  Description
+        -----   --------------- ------  -----------
+        00/0    Register mode   Rn      Register contents are operand.
+        01/1    Indexed mode    X(Rn)   (Rn + X) points to the operand,
+                                        X is stored in the next word.
+        01/1    Symbolic mode   ADDR    (PC + X) points to the operand,
+                                        X is stored in the next word,
+                                        Indexed mode X(PC) is used.
+        01/1    Absolute mode   &ADDR   The word following the
+                                        instruction, contains the
+                                        absolute address.
+        10/-    Indirect        @Rn     Rn is used as a pointer to the
+                register mode           operand.
+        11/-    Indirect        @Rn+    Rn is used as a pointer to the
+                autoincrement           operand. Rn is incremented
+                                        afterwards.
+        11/-    Immediate mode  #N      The word following the
+                                        instruction contains the
+                                        immediate constant N. Indirect
+                                        autoincrement mode @PC+ is used.
+
+The  terms  ADDR, X and N may all be expressions.  Note that not
+all addressing modes are valid with every instruction, refer  to
+the MPS430 technical data for valid modes.
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+MPS430 Instruction Mnemonics 
+
+The following table lists all MPS430 family mnemonics recognized
+by the AS430 assembler.  The designations src and dst  refer  to
+required source and/or destination addressing mode arguments.  
+
+        * ADC[.W];ADC.B  dst        dst + C -> dst
+          ADD[.W];ADD.B  src,dst    src + dst -> dst
+          ADDC[.W];ADDC.B           src,dst src + dst + C -> dst
+          AND[.W];AND.B  src,dst    src .and. dst -> dst
+          BIC[.W];BIC.B src,dst     .not.src .and. dst -> dst
+          BIS[.W];BIS.B src,dst     src .or. dst -> dst
+          BIT[.W];BIT.B src,dst     src .and. dst
+        * BR dst                Branch to .......
+        * BRANCH dst            Branch to .......
+          CALL dst              PC+2 -> stack, dst -> PC
+        * CLR[.W];CLR.B dst     Clear destination
+        * CLRC                  Clear carry bit
+        * CLRN                  Clear negative bit
+        * CLRZ                  Clear zero bit
+          CMP[.W];CMP.B src,dst     dst - src
+        * DADC[.W];DADC.B dst       dst + C -> dst (decimal)
+          DADD[.W];DADD.B src,dst   src + dst + C -> dst (decimal)
+        * DEC[.W];DEC.B dst     dst - 1 -> dst
+        * DECD[.W];DECD.B dst   dst - 2 -> dst
+        * DINT                  Disable interrupt
+        * EINT                  Enable interrupt
+        * INC[.W];INC.B dst     dst + 1 -> dst
+        * INCD[.W];INCD.B dst   dst + 2 -> dst
+        * INV[.W];INV.B dst     Invert destination
+          JC/JHS Label          Jump to Label if Carry-bit is set
+          JEQ/JZ Label          Jump to Label if Zero-bit is set
+          JGE Label             Jump to Label if (N .XOR. V) = 0
+          JL Label              Jump to Label if (N .XOR. V) = 1
+          JMP Label             Jump to Label unconditionally
+          JN Label              Jump to Label if Negative-bit is set
+          JNC/JLO Label         Jump to Label if Carry-bit is reset
+          JNE/JNZ Label         Jump to Label if Zero-bit is reset
+          MOV[.W];MOV.B src,dst     src -> dst
+        * NOP                   No operation
+        * POP[.W];POP.B dst     Item from stack, SP+2 -> SP
+          PUSH[.W];PUSH.B src   SP - 2 -> SP, src -> @SP
+          RETI                  Return from interrupt
+                                    TOS -> SR, SP + 2 -> SP
+                                    TOS -> PC, SP + 2 -> SZP
+        * RET                   Return from subroutine
+                                    TOS -> PC, SP + 2 -> SP
+        * RLA[.W];RLA.B dst     Rotate left arithmetically
+        * RLC[.W];RLC.B dst     Rotate left through carry
+          RRA[.W];RRA.B dst     MSB -> MSB . ....LSB -> C
+          RRC[.W];RRC.B dst     C -> MSB . ......LSB -> C
+        * SBC[.W];SBC.B dst     Subtract carry from destination
+        * SETC                  Set carry bit
+        * SETN                  Set negative bit
+        * SETZ                  Set zero bit
+          SUB[.W];SUB.B src,dst     dst + .not.src + 1 -> dst
+          SUBC[.W];SUBC.B src,dst   dst + .not.src + C -> dst
+          SBB[.W];SBB.B src,dst     dst + .not.src + C -> dst
+          SWPB dst              swap bytes
+          SXT dst               Bit7 -> Bit8 ........ Bit15
+        * TST[.W];TST.B dst     Test destination
+          XOR[.W];XOR.B src,dst     src .xor. dst -> dst
+                Note: Asterisked Instructions
+                Asterisked (*) instructions are emulated.
+                They are replaced with coreinstructions
+                by the assembler.
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

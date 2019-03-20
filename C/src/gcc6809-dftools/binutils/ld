@@ -1,0 +1,433 @@
+#!/bin/sh
+#
+# Copyright 2006, 2007 by Brian Dominy <brian@oddchange.com>
+#
+# Changes by David Flamand <dflamand@gmail.com> (June 2016)
+#  - added more options, more robust and verbose in case of error
+#
+# This file is part of GCC6809.
+#
+# GCC6809 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# GCC6809 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with GCC6809; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#
+
+# This script is a frontend to the aslink object linker, to make it
+# look more like GNU ld.  Not all ld features are supported here.
+# It basically translates ld style options into aslink format.
+
+set -e
+IFS=' '
+
+as_prefix=@AS_PREFIX@
+bindir=${as_prefix}/bin
+
+showversion () {
+cat <<END
+ld (m6809) [GNU linker frontend] 0.3 20160608
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License.  This program has absolutely no warranty.
+END
+}
+
+# Output an error message to stderr and exit with a failure code.
+error ()
+{
+	echo "ld (m6809): $1" >&2
+	exit 1
+}
+
+# Check if a given filename will survive a variable expansion.
+checkfilename ()
+{
+	MSG=$1; shift
+	OIFS=$IFS; IFS=/
+	A=$1; shift; B=$*
+	IFS=$OIFS
+	if [ -z "$A" -o "$A" != "$B" ]; then
+		error "$MSG '$A'"
+	fi
+}
+
+# Set output format.
+setformat ()
+{
+	case $1 in
+		raw)      # Raw binary, no header or structure
+			aslink_options="${aslink_options}o" # unsupported
+			as09_options="$as09_options -f r"
+			exe_suffix=$1
+			;;
+		s19|srec) # Motorola S Record
+			aslink_options="${aslink_options}o"
+			as09_options="$as09_options -f m"
+			exe_suffix=$1
+			;;
+		decb)     # Tandy CoCo Disk BASIC binary
+			aslink_options="${aslink_options}t"
+			as09_options="$as09_options -f d"
+			exe_suffix=$1
+			;;
+		hex|ihx)  # Intel Hex
+			aslink_options="${aslink_options}i"
+			as09_options="$as09_options -f i"
+			exe_suffix=$1
+			;;
+		*)
+			error "unrecognized output format '$1'"
+			;;
+	esac
+}
+
+# Assume nothing.
+args=
+asmap_file=
+asoutput_file=
+crt0_file=
+entry=
+exe_suffix=
+defsections=
+gen_map_file=
+input_files=
+libpaths=
+libs=
+libpaths_as09=
+libs_as09=
+map_file=
+noargs=
+options=
+options_as09=
+script=
+target=
+verbose=
+version=
+
+# Set defaults.
+aslink_options=-nwxsar
+as09_options=-h
+output_file=a.out
+
+# Try to guest the target type, which is determined
+# by the name by which the program was invoked.
+case ${0##*/} in
+	coco-*|*-coco-*|*-coco)
+		defsections="-b .text=0x2000 -b .data=0x7000 -b .bss=0x7C00 -b .ctors=0x7F00 -b .dtors=0x7F80 -b .vector=0x7FF0"
+		target=coco
+		setformat bin
+		LD_NOARGS=X
+		;;
+	sim-*|*-sim-*|*-sim)
+		defsections="-b .text=0x10 -b .vector=0xFFF0"
+		target=sim
+		setformat s19
+		LD_NOARGS=X
+		;;
+	*)
+		defsections="-b .vector=0xFFF0"
+		target=unknown
+		setformat s19
+		LD_NOARGS=X # default to noargs for now
+		;;
+esac
+
+# Parse and translate command-line options.
+while [ $# -gt 0 ]; do
+	arg=$1; shift
+	case $arg in
+##########################################################
+# these are custom linker options
+		-gn)
+			# Generate NoICE debug file
+			aslink_options="${aslink_options}j"
+			;;
+		-gs)
+			# Generate SDCDB debug file
+			aslink_options="${aslink_options}y"
+			;;
+		--map)
+			# Generate map file
+			gen_map_file=X
+			;;
+		--map=*)
+			# Generate map file with filename
+			map_file=${arg#*=}
+			gen_map_file=X
+			;;
+		--args)
+			# Prototype of main():
+			#  if supplied main() prototype is
+			#    int main(int argc, char **argc)
+			#  if not supplied main() prototype is
+			#    int main(void)
+			args=X
+			;;
+		--noargs)
+			# The inverse of the above
+			noargs=X
+			;;
+		-Tcode)
+			# Same as -Ttext
+			options="$options -b .text=$1"; shift
+			;;
+##########################################################
+		-o|--output)
+			output_file=$1; shift
+			;;
+		--output=*)
+			output_file=${arg#*=}
+			;;
+		-L|--library-path)
+			path=$1; shift
+			checkfilename "invalid library path" "$path" $path
+			libpaths="$libpaths -k ${path%/}/"
+			libpaths_as09="$libpaths_as09 -L$path"
+			;;
+		-L*)
+			path=${arg#-L}
+			checkfilename "invalid library path" "$path" $path
+			libpaths="$libpaths -k ${path%/}/"
+			libpaths_as09="$libpaths_as09 -L$path"
+			;;
+		--library-path=*)
+			path=${arg#*=}
+			checkfilename "invalid library name" "$path" $path
+			libpaths="$libpaths -k ${path%/}/"
+			libpaths_as09="$libpaths_as09 -L$path"
+			;;
+		-l|--library)
+			name=$1; shift
+			checkfilename "invalid library name" "$name" $name
+			libs="$libs -l lib$name.a"
+			libs_as09="$libs_as09 -l$name"
+			;;
+		-l*)
+			name=${arg#-l}
+			checkfilename "invalid library name" "$name" $name
+			libs="$libs -l lib$name.a"
+			libs_as09="$libs_as09 -l$name"
+			;;
+		--library=*)
+			name=${arg#*=}
+			checkfilename "invalid library name" "$name" $name
+			libs="$libs -l lib$name.a"
+			libs_as09="$libs_as09 -l$name"
+			;;
+		--entry|-e)
+			entry=$1; shift
+			;;
+		--entry=*)
+			entry=${arg#*=}
+			;;
+		--section-start)
+			options="$options -b $1"; shift
+			;;
+		--section-start=*)
+			options="$options -b ${arg#*=}"
+			;;
+		--defsym)
+			options="$options -g $1"; shift
+			;;
+		--defsym=*)
+			options="$options -g ${arg#*=}"
+			;;
+		--oformat)
+			setformat "$1"; shift
+			;;
+		--oformat=*)
+			setformat "${arg#*=}"
+			;;
+		-Tbss)
+			options="$options -b .bss=$1"; shift
+			;;
+		-Tdata)
+			options="$options -b .data=$1"; shift
+			;;
+		-Ttext)
+			options="$options -b .text=$1"; shift
+			;;
+		-g)
+			# Ignored by GNU ld; we should do the same
+			;;
+		--gc-sections|--no-gc-sections)
+			# Ignored for now, TODO
+			;;
+		--relax|--no-relax)
+			# Ignored for now, TODO
+			;;
+		--start-group|--end-group)
+			# Ignored for now, TODO
+			;;
+		-v|-verbose|--verbose)
+			verbose=X
+			as09_options="$as09_options -v"
+			;;
+		-version|--version)
+			version=X
+			;;
+		-help|--help)
+			cat $0 # TODO
+			exit 0
+			;;
+		-T|--script)
+			script=$1; shift
+			;;
+		--script=*)
+			script=${arg#*=}
+			;;
+		-Map|--Map)
+			map_file=$1; shift
+			gen_map_file=X
+			;;
+		-Map=*|--Map=*)
+			map_file=${arg#*=}
+			gen_map_file=X
+			;;
+		-*)
+			error "unrecognized option '$arg'"
+			;;
+		*/crt0.o|crt0.o)
+			checkfilename "invalid input file name" "$arg" $arg
+			if [ -n "$crt0_file" ]; then
+				error "more than one crt0.o given"
+			fi
+			crt0_file=$arg
+			;;
+		*)
+			checkfilename "invalid input file name" "$arg" $arg
+			if [ "${arg%.*}" = "$arg" ]; then
+				error "input file '$arg' without extension"
+			fi
+			input_files="$input_files $arg"
+			;;
+	esac
+done
+
+# Setup various file name.
+if [ -z "$map_file" ]; then
+	map_file=${output_file%\.*}.map
+fi
+if [ -n "$USEAS09" -o -n "$AS09OPT" ]; then
+	asoutput_file=$output_file
+	asmap_file=$map_file
+else
+	if [ -n "$gen_map_file" ]; then
+		aslink_options="${aslink_options}m"
+	fi
+	asoutput_file=${output_file%\.*}.$exe_suffix
+	asmap_file=${asoutput_file%\.*}.map
+fi
+
+# default sections and --noargs/--args options
+# are valid only when no linker script is set
+if [ -z "$script" ]; then
+	# Handle --noargs and --args option.
+	if [ -n "$args" ]; then
+		noargs=
+	elif [ -z "$noargs" ]; then
+		noargs=$LD_NOARGS # from target or from environment variable
+	fi
+	# $noargs non-empty, so define __argc and __argv to NULL.
+	if [ -n "$noargs" ]; then
+		options="$options -g __argc=0 -g __argv=0"
+	fi
+	options="$defsections $options"
+fi
+
+# Output version information.
+if [ -n "$version" -o -n "$verbose" ]; then
+	showversion
+fi
+if [ -n "$version" ]; then
+	exit 0
+fi
+
+# Output more information when --verbose option is set.
+if [ -n "$verbose" ]; then
+	if [ -n "$USEAS09" -o -n "$AS09OPT" ]; then
+		echo "as09link $AS09OPT $as09_options $options -o $asoutput_file $crt0_file $input_files $libpaths_as09 $libs_as09"
+	else
+		echo "$bindir/aslink $aslink_options $options $asoutput_file $crt0_file $input_files $libpaths $libs"
+	fi
+	echo "Target: '$target'"
+	echo "Output format: '$exe_suffix'"
+	echo "Output file: '$output_file'"
+	if [ -n "$gen_map_file" ]; then
+		echo "Map file: '$map_file'"
+	fi
+fi
+
+# Exit if no input files given.
+if [ -z "$input_files" ]; then
+	if [ -n "$verbose" ]; then
+		exit 0
+	fi
+	error "no input files"
+fi
+
+if [ -n "$gen_map_file" -a -e "$asmap_file" ]; then
+	rm -f "$asmap_file"
+fi
+
+# Translate options.
+if [ -n "$USEAS09" -o -n "$AS09OPT" ]; then
+	if [ -n "$gen_map_file" ]; then
+		options="$options -m $map_file"
+	fi
+	if [ -n "$script" ]; then
+		options="$options -T $script"
+	fi
+	if [ -n "$entry" ]; then
+		options="$options -e $entry"
+	fi
+else
+	if [ -n "$script" ]; then
+		options="$options -f $script"
+	fi
+	if [ -n "$entry" ]; then
+		error "unsupported option '--entry'"
+	fi
+fi
+
+# Invoke the real linker with translated options.
+set +e
+if [ -n "$USEAS09" -o -n "$AS09OPT" ]; then
+	as09link $AS09OPT $as09_options $options -o "$asoutput_file" $crt0_file $input_files $libpaths_as09 $libs_as09
+	rc=$?
+else
+	$bindir/aslink $aslink_options $options "$asoutput_file" $crt0_file $input_files $libpaths $libs
+	rc=$?
+fi
+set -e
+
+# Do some cleanup in case of error.
+if [ "$rc" != "0" ]; then
+	rm -f "$asoutput_file"
+	if [ -n "$gen_map_file" -a -e "$asmap_file" ]; then
+		rm -f "$asmap_file"
+	fi
+	exit $rc
+fi
+
+# aslink creates the output file with the same name as the
+# input file, but with a .s19|.bin|.ihx extension.  The user may want
+# a different filename altogether, so honor that request here.
+if [ "$asoutput_file" != "$output_file" ]; then
+	mv "$asoutput_file" "$output_file"
+fi
+
+# Same as above but for the map file with a .map extension.
+if [ -n "$gen_map_file" -a "$asmap_file" != "$map_file" ]; then
+	mv "$asmap_file" "$map_file"
+fi
+
+exit 0

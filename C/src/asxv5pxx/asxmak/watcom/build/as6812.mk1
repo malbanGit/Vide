@@ -1,0 +1,116 @@
+!define BLANK ""
+R:\asxv5pxx\asxmak\watcom\build\m12adr.obj : R:\asxv5pxx\AS6812\m12adr.c .AU&
+TODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\AS6812\m12adr.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM\&
+h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\m12mch.obj : R:\asxv5pxx\AS6812\m12mch.c .AU&
+TODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\AS6812\m12mch.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM\&
+h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\m12pst.obj : R:\asxv5pxx\AS6812\m12pst.c .AU&
+TODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\AS6812\m12pst.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM\&
+h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\asdata.obj : R:\asxv5pxx\ASXXSRC\asdata.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\asdata.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM&
+\h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\asdbg.obj : R:\asxv5pxx\ASXXSRC\asdbg.c .AUT&
+ODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\asdbg.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM\&
+h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\asexpr.obj : R:\asxv5pxx\ASXXSRC\asexpr.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\asexpr.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM&
+\h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\aslex.obj : R:\asxv5pxx\ASXXSRC\aslex.c .AUT&
+ODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\aslex.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM\&
+h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\aslist.obj : R:\asxv5pxx\ASXXSRC\aslist.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\aslist.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM&
+\h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\asmain.obj : R:\asxv5pxx\ASXXSRC\asmain.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\asmain.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM&
+\h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\asmcro.obj : R:\asxv5pxx\ASXXSRC\asmcro.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\asmcro.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM&
+\h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\asout.obj : R:\asxv5pxx\ASXXSRC\asout.c .AUT&
+ODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\asout.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM\&
+h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\assubr.obj : R:\asxv5pxx\ASXXSRC\assubr.c .A&
+UTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\assubr.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM&
+\h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\assym.obj : R:\asxv5pxx\ASXXSRC\assym.c .AUT&
+ODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\ASXXSRC\assym.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM\&
+h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\as6812.exe : R:\asxv5pxx\asxmak\watcom\build&
+\m12adr.obj R:\asxv5pxx\asxmak\watcom\build\m12mch.obj R:\asxv5pxx\asxmak\wa&
+tcom\build\m12pst.obj R:\asxv5pxx\asxmak\watcom\build\asdata.obj R:\asxv5pxx&
+\asxmak\watcom\build\asdbg.obj R:\asxv5pxx\asxmak\watcom\build\asexpr.obj R:&
+\asxv5pxx\asxmak\watcom\build\aslex.obj R:\asxv5pxx\asxmak\watcom\build\asli&
+st.obj R:\asxv5pxx\asxmak\watcom\build\asmain.obj R:\asxv5pxx\asxmak\watcom\&
+build\asmcro.obj R:\asxv5pxx\asxmak\watcom\build\asout.obj R:\asxv5pxx\asxma&
+k\watcom\build\assubr.obj R:\asxv5pxx\asxmak\watcom\build\assym.obj .AUTODEP&
+END
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ @%write as6812.lk1 FIL m12adr.obj,m12mch.obj,m12pst.obj,asdata.obj,asdbg.ob&
+j,asexpr.obj,aslex.obj,aslist.obj,asmain.obj,asmcro.obj,asout.obj,assubr.obj&
+,assym.obj
+ @%append as6812.lk1 
+!ifneq BLANK ""
+ *wlib -q -n -b as6812.imp 
+ @%append as6812.lk1 LIBR as6812.imp
+!endif
+!ifneq BLANK ""
+ @%append as6812.lk1 op resource=
+!endif
+ *wlink name as6812 d all SYS nt op m op maxe=25 op q op symf @as6812.lk1
+

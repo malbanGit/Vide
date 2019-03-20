@@ -1,0 +1,598 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS8085  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+8085 REGISTER SET 
+
+The  following  is  a  list  of  the 8080/8085 registers used by
+AS8085:  
+
+        a,b,c,d,e,h,l   -       8-bit accumulators
+        m               -       memory through (hl)
+        sp              -       stack pointer
+        psw             -       status word
+
+
+8085 INSTRUCTION SET 
+
+
+   The  following tables list all 8080/8085 mnemonics recognized
+by the AS8085  assembler.   The  following  list  specifies  the
+format for each addressing mode supported by AS8085:  
+
+        #data           immediate data
+                        byte or word data
+
+        r,r1,r2         register or register pair
+                        psw,a,b,c,d,e,h,l
+                        bc,de,hl,sp,pc
+
+        m               memory address using (hl)
+
+        addr            direct memory addressing
+
+        label           call or jump label
+
+The terms data, m, addr, and label may be expressions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to  the  8080/8085  technical  data  for  valid
+modes.  
+
+
+Inherent Instructions 
+
+        cma             cmc
+        daa             di
+        ei              hlt
+        nop             pchl
+        ral             rar
+        ret             rim
+        rrc             rlc
+        sim             sphl
+        stc             xchg
+        xthl
+
+
+Register/Memory/Immediate Instructions 
+
+        adc     r       adc     m       aci     #data
+        add     r       add     m       adi     #data
+        ana     r       ana     m       ani     #data
+        cmp     r       cmp     m       cpi     #data
+        ora     r       ora     m       ori     #data
+        sbb     r       sbb     m       sbi     #data
+        sub     r       sub     m       sui     #data
+        xra     r       xra     m       xri     #data
+
+
+Call and Return Instructions 
+
+        cc      label           rc
+        cm      label           rm
+        cnc     label           rnc
+        cnz     label           rnz
+        cp      label           rp
+        cpe     label           rpe
+        cpo     label           rpo
+        cz      label           rz
+        call    label
+
+
+Jump Instructions 
+
+        jc      label
+        jm      label
+        jnc     label
+        jnz     label
+        jp      label
+        jpe     label
+        jpo     label
+        jz      label
+        jmp     label
+
+
+Input/Output/Reset Instructions 
+
+        in      data
+        out     data
+        rst     data
+
+
+Move Instructions 
+
+        mov     r1,r2
+        mov     r,m
+        mov     m,r
+
+        mvi     r,#data
+        mvi     m,#data
+
+
+Other Instructions 
+
+        dcr     r               dcr     m
+        inr     r               inr     m
+
+        dad     r               dcx     r
+        inx     r               ldax    r
+        pop     r               push    r
+        stax    r
+
+        lda     addr            lhld    addr
+        shld    addr            sta     addr
+
+        lxi     r,#data
+
+
+Unspecified Instructions 
+
+        arhl
+        dsub
+        
+        jnx5    addr
+        jx5     addr
+        
+        ldhi    #data
+        ldsi    #data
+        
+        lhlx
+        rdel
+        rstv
+        shlx
+
+
+UNSPECIFIED OPCODE ARTICLE 
+
+Engineer's Notebook,
+"Electronics" magazine, 1980
+
+----------------------------
+
+Unspecified 8085 Op Codes Enhance Programming
+
+by Wolfgang Dehnhardt and Villy M. Sorenson
+GSI, Dermstat, and Sorenson Software,
+Seeheim, West Germany
+
+----------------------------
+
+
+
+   Ten  operating  codes and two flag bits previously unknown to
+most users of the 8085 microprocessor will enable programmers to
+write  more efficient routines.  The new members of the instruc-
+tion set, which were stumbled upon  during  the  testing  of  an
+assembler-disassembler  module,  include  seven opcodes that in-
+volve the processing of register pairs, two  that  involve  jump
+operations  with  one  new  flag, and one that performs a condi-
+tional restart on the overflow indication of the other flag bit. 
+
+
+   The   seven  register  pair  instructions  (all  with  16-bit
+operands) consist of a double subtraction, a  rotate,  a  shift,
+indirect  loading  and  storing of a word, and two offset opera-
+tions.  Either BC, DE, HL, or SP  are  the  designated  register
+pairs used in these opcodes.  
+
+
+   The  mnemonic names of the instructions have been selected to
+be compatible with the 8085's existing mnemonics.  In the double
+subtraction  (DSUB),  register  pair  BC  is subtracted from HL.
+This instruction thus performs the opposite task  of  DAD  B,  a
+well-known  instruction.   The instruction RDEL rotates register
+pair DE left 1 bit through the carry.   ARHL  is  an  arithmetic
+shift  to  the right of HL.  It serves to divide HL by 2, except
+in cases where HL is -1.  
+
+
+   All  16  bits of register pair HL can be stored indirectly at
+the address contained in the DE pair by  specifying  instruction
+SHLX.  To load HL, LHLX must be employed.  
+
+
+   As  an example of how this instruction can be used to cut in-
+struction steps, consider the common sequence used for a routine
+table  jump  shown  in part (a) of the figure.  By assigning the
+
+
+AS8085 ASSEMBLER                                       PAGE AQ-5
+UNSPECIFIED OPCODE ARTICLE
+
+
+register DE for HL and using the LHLX instruction, this sequence
+can  be  replaced  by  the much simpler arrangement shown at the
+bottom of part (a).  
+
+
+   As  for  adding  the contents of register pairs with an addi-
+tional byte (offset), DE can be loaded with HL plus the byte  by
+selecting  the instruction LDHI, which simplifies array address-
+ing.  Usually, the architecture of the 8080-type systems dictate
+addressing  of  arrays  in  what  are called pages of 256 bytes.
+This restriction means that the starting  address  of  an  array
+must  be placed near the beginning of a page.  A typical call is
+shown in part (b) of the figure.  
+
+
+   The  page  limitation  is by passed using th LDHI instruction
+code and constant indexes.  The starting address  of  the  array
+can  now  be  placed anywhere, and addressing occurs as shown at
+the bottom of part (b).  
+
+
+   An  additional  byte can be combined with register pair SP in
+DE if  instruction  LDSI  is  specified.   This  instruction  is
+designed  for  operating system routines that transfer arguments
+on the stack.  An example sequence, shown in (c), stores HL into
+a  16-bit  word  located as the second item below the top of the
+stack.  
+
+
+   The  jump  and  restart instructions work in conjunction with
+the two discoverd flag bits, X5 and V.  Op codes  JX5  and  JNX5
+jump depending on the state of th X5 flag.  Op code RSTV makes a
+restart call to hexidecimal address 40 if the  V  flag  is  set;
+otherwise it functions as a no-operation instruction.  
+
+
+   Flag  bit V indicates a 2's complement overflow condition for
+8- and 16-bit arithmetic operations.  Flag bit X5 has been named
+for  its  position  in  the  condition code byte and not for its
+function.  It does not resemble any normal flag bit.   The  only
+use  for this bit found thus far are as an unsigned overflow in-
+dicator resulting from a data change of FFFF to 0000 on  execut-
+ing DCX.  
+
+
+   The new 8085 instructions are outlined in the table.  
+
+
+AS8085 ASSEMBLER                                       PAGE AQ-6
+UNSPECIFIED OPCODE ARTICLE
+
+
+Figure:
+
+    ------------------------------------------------------|
+    |  part (a)                                           |
+    | |-------------------------------------------------| |
+    | | Sourec Statement |           Comment            | |
+    | |-------------------------------------------------| |
+    | |    MOV   E,M     |  ;Routine ADR Low Byte       | |
+    | |    INX   H       |  ;HL = Table ADR             | |
+    | |    MOV   D,M     |  ;Routine ADR High Byte      | |
+    | |    XCHG          |  ;DE = Routine ADR           | |
+    | |    PCHL          |  ;Go to Routine ADR          | |
+    | |----                                         ----| |
+    |                       ||                            |
+    |                       \/                            |
+    | |----                                         ----| |
+    | |    LHLX          |  ;DE = Table ADR             | |
+    | |    PCHL          |  ;HL = Routine ADR           | |
+    | |-------------------------------------------------| |
+    |                                                     |
+    |  part (b)                                           |
+    | |-------------------------------------------------| |
+    | | Sourec Statement |           Comment            | |
+    | |-------------------------------------------------| |
+    | |    LXI   H,ARRAY |  ;ARRAY Base ADR             | |
+    | |    MVI   L,INDEX |  ;8-Bit INDEX, HL=ARRAY ADR  | |
+    | |----                                         ----| |
+    |                       ||                            |
+    |                       \/                            |
+    | |----                                         ----| |
+    | |    LXI   H,ARRAY |  ;ARRAY Base ADR             | |
+    | |    LDHI  L,INDEX |  ;8-Bit INDEX, HL=ARRAY ADR  | |
+    | |-------------------------------------------------| |
+    |                                                     |
+    |  part (c)                                           |
+    | |-------------------------------------------------| |
+    | | Sourec Statement |           Comment            | |
+    | |-------------------------------------------------| |
+    | |    LDSI  2       |  ;DE = SP + 2                | |
+    | |    SHLX          |  ;Replace 2, Item on Stack   | |
+    | |-------------------------------------------------| |
+    |                                                     |
+    | Options.   Newly discovered operating codes for     |
+    | 8085 shown in table enables the writing of more     |
+    | efficient programs. Program for table jump (a, top) |
+    | can be reduced significantly when new instructions  |
+    | (a, bottom) are implemented. Array routine (b, top) |
+    | can be rewritten (b, Bottom) so that arrays can be  |
+    | addressed across page boundaries.  Data words can   |
+    | be entered at any point in a stack register (c).    |
+    ------------------------------------------------------|
+
+
+AS8085 ASSEMBLER                                       PAGE AQ-7
+UNSPECIFIED OPCODE ARTICLE
+
+
+Table:
+
+    -----------------------------------
+    |    Condition  Code  Format      |
+    -----------------------------------
+    |  S   Z  X5  AC   O   P   V  CY  |
+    -----------------------------------
+
+    New Condition Codes:
+
+    V  = Bit 1     2's complement overflow
+    X5 = bit 5     Underflow (DCX) or Overflow (INX)
+                   X5 = O1*O2 + O1*R + O2*R, where
+                   * == AND, + == OR
+                   O1 = sign of operand 1
+                   O2 = sign of operand 2
+                   R  = sign of result.
+                   For subtraction and comparisons
+                   replace O2 with ~O2.
+
+
+
+  DSUB   (double subtraction)
+
+    (H)(L)=(H)(L)-(B)(C)
+    The contents of register pair B and C are subtracted
+    from the contents of register pair H and L. The
+    result is placed in register pair H and L. All
+    condition flags are affected.
+
+      ---------------------
+      [  0 0 0 0 1 0 0 0  ]                (08)
+      ---------------------
+
+      cycles:          3
+      states:         10
+      addressing:     register
+      flags:          Z,S,P,CY,AC,X5,V
+
+
+AS8085 ASSEMBLER                                       PAGE AQ-8
+UNSPECIFIED OPCODE ARTICLE
+
+
+
+  ARHL    (arithmetic shift of H and L to the right)
+
+    (H7=H7);(Hn-1)=(Hn)
+    (L7=H0);(Ln-1)=(Ln);(CY)=(L0)
+    The contents of register pair H and L are shifted
+    right one bit. The uppermost bit is duplicated and
+    the lowest bit is shifted into the carry bit.
+    The result is placed in register pair H and L.
+    Note: only the CY flag is affected.
+
+      ---------------------
+      [  0 0 0 1 0 0 0 0  ]                (10)
+      ---------------------
+
+      cycles:         3
+      states:         7
+      addressing:     register
+      flags:          CY
+
+
+
+  RDEL    (rotate D and E left through carry)
+
+    (Dn+1)=(Dn);(D0)=(E7)
+    (CY)=(D7);(En+1)=(En);(E0)=(CY)
+    The contents of register pair D and E are rotated
+    left one position through the carry flag. The low
+    order bit is set equal to the CY flag and the CY
+    flag is set to the value shifted out of the
+    high-order bit. Only the CY and V flags are
+    affected.
+
+       ---------------------
+       [  0 0 0 1 1 0 0 0  ]                (18)
+       ---------------------
+
+      cycles:           3
+      states:          10
+      addressing:      register
+      flags:           CY, V
+
+
+AS8085 ASSEMBLER                                       PAGE AQ-9
+UNSPECIFIED OPCODE ARTICLE
+
+
+
+  LDHI    (load D and E with H and L plus immediate byte)
+
+    (D)(E)=((H)(L)+(byte 2)
+    The contents of register pair H and L are added to
+    the immediate byte. The result is placed in
+    register pair D and E.
+    Note: no condition flags are affected.
+
+       ---------------------
+       [  0 0 1 0 1 0 0 0  ]                (28)
+       ---------------------
+       [       data        ]
+       ---------------------
+
+      cycles:           3
+      states:          10
+      addressing:      immediate register
+      flags:           none
+
+
+
+  LDSI    (load D and E with SP plus immediate bytey)
+
+    (D)(E);(D0)=(E7)
+    (CY)=(D7);(SPH)(SPL)+(byte 2)
+    The contents of register pair H and L are added to
+    the immediate byte. The result is placed in
+    register pair D and E.
+    Note: no condition flags are affected.
+
+       ---------------------
+       [  0 0 1 1 1 0 0 0  ]                (38)
+       ---------------------
+       [       data        ]
+       ---------------------
+
+      cycles:           3
+      states:          10
+      addressing:      immediate register
+      flags:           none
+
+
+AS8085 ASSEMBLER                                      PAGE AQ-10
+UNSPECIFIED OPCODE ARTICLE
+
+
+
+  RSTV    (restart on overflow)
+
+    if (V):
+       ((SP)-1))=(PCH)
+       ((SP)-2))=(PCL)
+       (SP)=(SP)-2
+       (PC)=40 hex
+    If the overflow flag V is set, the actions
+    specified above are performed; otherwise
+    control continues sequentially.
+
+       ---------------------
+       [  1 1 0 0 1 0 1 1  ]                (CB)
+       ---------------------
+
+      cycles:          1 or 3
+      states:          6 or 12
+      addressing:      register indirect
+      flags:           none
+
+
+
+  SHLX    (store H and L indirect through D and E)
+
+    ((D)(E))=(L)
+    ((D)(E)+1)=(H)
+    The contents of register L are moved to the
+    memory-location whose address is in register pair
+    D and E. The contents of register H are moved to
+    the succeeding memory location.
+
+       ---------------------
+       [  1 1 0 1 1 0 0 1  ]                (D9)
+       ---------------------
+
+      cycles:           3
+      states:          10
+      addressing:      register indirect
+      flags:           none
+
+
+AS8085 ASSEMBLER                                      PAGE AQ-11
+UNSPECIFIED OPCODE ARTICLE
+
+
+
+  JNX5    (jump on not X5)
+
+    if (not X5)
+       (PC)=(byte 3)(byte 2)
+
+    If the X5 flag is reset, control is transferred to
+    the instruction whose address is specified in byte
+    3 and byte 2 of the current instruction; otherwise
+    control continues sequentially.
+
+       ---------------------
+       [  1 1 0 1 1 1 0 1  ]                (DD)
+       ---------------------
+       [  lo-order address ]
+       ---------------------
+       [  hi-order address ]
+       ---------------------
+
+      cycles:          2 or 3
+      states:          7 or 10
+      addressing:      immediate
+      flags:           none
+
+
+
+  LHLX    (load H and L indirect through D and E))
+
+    (L)=((D)(E))
+    (H)=((D)(E)+1)
+    The content of the memory location whose address
+    is in D and E, are moved to register L. The
+    contents of the succeeding memory location are
+    moved to register H.
+
+       ---------------------
+       [  1 1 1 0 1 1 0 1  ]                (ED)
+       ---------------------
+
+      cycles:           3
+      states:          10
+      addressing:      register indirect
+      flags:           none
+
+
+AS8085 ASSEMBLER                                      PAGE AQ-12
+UNSPECIFIED OPCODE ARTICLE
+
+
+
+  JX5     (jump on X5)
+
+    if (X5)
+       (PC)=(byte 3)(byte 2)
+
+    If the X5 flag is set, control is transferred to
+    the instruction whose address is specified in byte
+    3 and byte 2 of the current instruction; otherwise
+    control continues sequentially.
+
+       ---------------------
+       [  1 1 1 1 1 1 0 1  ]                (FD)
+       ---------------------
+       [  lo-order address ]
+       ---------------------
+       [  hi-order address ]
+       ---------------------
+
+      cycles:          2 or 3
+      states:          7 or 10
+      addressing:      immediate
+      flags:           none
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

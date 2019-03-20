@@ -1,0 +1,491 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASxxxx Change Log</H2>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+   Summary  of  changes/additions  to the ASxxxx Assemblers from
+Version 4.11 to Version 5.00.  
+
+2009_04_01 (Version 5.00)
+
+
+   Added  a general purpose macro processor to the ASxxxx assem-
+blers with the following mnemonics:  
+
+    .macro      define a general macro
+    .irp        define an indefinite repeat macro by arguments
+    .irpc       define an indefinite repeat macro by characters
+    .rept       define a repeating macro
+    .mexit      exit to end of macro
+    .endm       end of macro
+    .nchr       assign number of characters to a symbol
+    .narg       assign number of expansion arguments to a symbol
+    .ntyp       assign 0/1 if argument is absolute/relocatable
+    .nval       assign value of argument to an absolute symbol
+    .mdelete    delete a macro definition
+
+
+   The  following  additional  conditionals  provide  testing of
+string arguments most useful within macros:  
+
+    .ifb        if argument blank
+    .ifnb       if argument not blank
+
+    .ifidn      if arguments are identical
+    .ifdif      if arguments are different
+
+
+   Added  true (t), false (f), and true or false (tf) condition-
+als to the  .if / .else / .endif  construct.   The  conditionals
+.ift,  .iff,  and .iftf allow replacement of the .else directive
+making the .if / .endif construct more readable.  
+
+    .ift        if condition is true
+    .iff        if condition is false
+    .iftf       if condition is true or false
+
+
+   An  alternate  .if  construction has been added to the ASxxxx
+assemblers:  
+
+    .if    eq,...       if argument == 0
+    .if    ne,...       if argument != 0
+    .if    lt,...       if argument <  0
+    .if    ge,...       if argument >= 0
+    .if    le,...       if argument <= 0
+    .if    gt,...       if argument >  0
+
+    .if    def,...      if argument is defined
+    .if    ndef,...     if argument is not defined
+
+    .if    b,...        if argument is blank
+    .if    nb,...       if argument is not blank
+    .if    idn,...,...  if arguments are the same
+    .if    dif,...,...  if arguments are not the same
+
+    .if    t            if condition is true
+    .if    f            if condition is false
+    .if    tf           if condition is true or false
+
+
+   The  immediate  conditional statements have been added to the
+ASxxxx  assemblers.   These   conditionals   can   replace   the
+.if / ... / .endif construct for a single assembler source line: 
+
+e.g.    .iifeq  arg     label:  .word   0x1234
+
+    .iif        if argument != 0
+    .iifeq      if argument == 0
+    .iifne      if argument != 0
+    .iiflt      if argument <  0
+    .iifge      if argument >= 0
+    .iifle      if argument <= 0
+    .iifgt      if argument >  0
+
+    .iifdef     if argument is defined
+    .iifndef    if argument is not defined
+
+    .iifb       if argument is blank
+    .iifnb      if argument is not blank
+    .iifidn     if arguments are the same
+    .iifdif     if arguments are not the same
+
+    .iift       if condition is true
+    .iiff       if condition is false
+    .iiftf      if condition is true or false
+
+
+   The alternate immediate conditional statements have also been
+added to the ASxxxx assemblers:  
+
+e.g.    .iif    eq,arg  label:  .word   0x1234
+
+    .iif   eq,...       if argument == 0
+    .iif   ne,...       if argument != 0
+    .iif   lt,...       if argument <  0
+    .iif   ge,...       if argument >= 0
+    .iif   le,...       if argument <= 0
+    .iif   gt,...       if argument >  0
+
+    .iif   def,...      if argument is defined
+    .iif   ndef,...     if argument is not defined
+
+    .iif   b,...        if argument is blank
+    .iif   nb,...       if argument is not blank
+    .iif   idn,...,...  if arguments are the same
+    .iif   dif,...,...  if arguments are not the same
+
+    .iif    t           if condition is true
+    .iif    f           if condition is false
+    .iif    tf          if condition is true or false
+
+
+   The  listing  options  for the ASxxxx assemblers has been up-
+dated to enable/disable any of the following parameters from be-
+ing output to a generated listing file:  
+
+    err         error codes
+    loc         code location
+    bin         assembler binary code
+    eqt         symbolic equates / if evaluations
+    cyc         machine cycles
+    lin         assembler source line number
+    src         assembler source code
+    pag         paging control
+    lst         listing of .list / .nlist
+    md          macro definition
+    me          macro expansion
+    meb         macro expansion binary code
+
+    !           sets the listing mode to
+                !(.list) or !(.nlist) before
+                applying the sublist options
+
+e.g.    .nlist  (lst,pag)       ; disable .list/.nlist listing
+                                ; and pagination
+
+
+   The  NOT parameter, !, is used to set the listing mode to the
+opposite sense of the .list or .nlist directive.  For example:  
+
+    .nlist (!)  is equivalent to .list and
+    .list  (!)  is equivalent to .nlist
+
+To enable listing and simultaneously disable the cycle count use
+the directive:  
+
+    .nlist  (!,cyc)
+
+or  if  you  wish  to suppress the listing of the .list / .nlist
+directives:  
+
+    .nlist              ; disables all listing
+    .nlist  (!,lst)     ; enables  all listing except
+                        : .list (...) and .nlist
+
+
+   Normally  the  .list  and .nlist directives are not evaluated
+when encountered within a FALSE conditional block.  This default
+behavior  can  be  modified by specifying a non zero argument in
+the .list or .nlist directive:  
+
+    .nlist   1,(!,lst)  ; enables listing even within
+                        ; a FALSE conditional block
+
+
+
+   The .bndry assembler directive has been added to ASxxxx.  The
+.bndry directive changes the  current  location  address  to  be
+evenly divisible by a specified integer value.  
+
+e.g.    .org    0
+        .bndry  4
+        ; . == 0
+
+        .org    1
+        .bndry  4
+        ; . == 4
+
+
+
+2009_02
+   Added the Cypress PSoc (M8C) ASM8C assembler
+   to ASxxxx.
+
+
+2008_09
+   Added the 8048 (8021, 8022, and 8041) AS8048
+   assembler to Asxxxx.
+
+
+2008_02
+   Added the SC/MP ASSCMP assembler to ASxxxx.
+
+
+2008_02_03 (Version 4.11 Update 4)
+
+   An update to the AS2650 assembler to
+   fix the following errors:
+
+   1)  The indexed addressing mode generates invalid
+       code by using the first argument register as
+       the index register: (addr = 0x1234)
+
+           loda    r0,[addr,r1]          0C F2 34
+                   this should give      0D F2 34
+
+   2)  The index addressing mode did not generate
+       an addressing error when the first argument
+       register was not r0:
+
+           stra    r1,[addr,r2]  should give an 'a'
+                   error, the source must be r0
+
+
+           loda    r2,[addr,r3]  should give an 'a'
+                   error, the destination must be r0
+
+   3)  The S2650 auto increment and decrement indexing 
+       modes always perform the register update before
+       the register is used. i.e. +Rn or -Rn.  The
+       assembler now accepts +Rn or Rn+ as meaning
+       pre-increment and -Rn or Rn- as meaning
+       pre-decrement.
+
+
+   The AS2650 assembler tstscn files have been updated
+   for testing the assemblers.
+
+
+
+2007_10_21 (Version 4.11 Fix)
+
+   In the AS6816 assembler the instruction ANDP gives
+   wrong object code. Changed from 37 2A  to  37 3A.
+
+
+2007_04_01 (Version 4.11 Update 3)
+
+   An update to the ASPIC assembler and
+   associated fix to ASLINK:
+
+   1)  Change the pic addressing to lo/hi from hi/lo
+       byte ordering.
+
+   2)  The update fixes an error in the pic17 series
+       LCALL instruction.
+
+   3)  A rewrite of the pic18 series assembler to change
+       the PC addressing from 1 per 16-bit word to 1 per
+       8-bit byte and add the extended instruction set.
+
+   4)  Modify the Linker Merge Mode processing to take into
+       account the discarded low order bits for PC Relative
+       Addressing.
+
+   5)  New  tstscn files for testing the assemblers.
+
+
+
+2006_11_01 (Version 4.11 Optional Update 2)
+
+   1)  OS9  definition files and an  OS9 assembler module
+       which creates the OS9 header, code and data areas,
+       and the module CRC block:
+
+            os9_mod.def       OS9 Module Definitions
+            os9_sys.def       OS9 Sytem  Definitions
+            os9_mod.asm       OS9 Module Begin / End Code
+
+   2)  a program, s19os9, to post-process  assembled  OS9
+       modules in  S19  format into  binary  OS9  modules
+       with the appropriate  header  checksum  and module
+       CRC values calculated.
+
+   3)  new  make  and  project files which may be used to
+       compile the s19os9 program.
+
+
+2006_11_01 (Version 4.11 Optional Update 01)
+
+   The .list  and  .nlist  directives  are  now  modified
+   by .if / .else / .endif  processing  so  that they are
+   active only in a TRUE clause.
+
+   The  .page  and  .include  directives are now modified
+   by the .list and .nlist  directives so that pagination
+   occurs only when listing is active.
+
+   The new  default functionality for the  .list,  .nlist
+   and .page directives may  be  modified by including an
+   optional argument  in the  directive as shown here for
+   the the .list directive:
+
+      .list    arg
+
+   a non-zero argument invokes the directive irrespective
+   of the .if / .else / .endif status.
+
+
+
+2006_07_26 (Version 4.11 Patch 01)
+
+   The  assembly  of  a  direct  page  instruction with a
+   numeric  constant  causes a program  crash when a .rel
+   file is created. e.g.:
+
+        andb    *0x02
+
+
+   The  use  of  a  symbolic  constant  or  symbol plus a
+   a constant compiles normally.
+
+        val = 0x02
+
+        andb    *val
+        andb    *extern+0x01
+
+
+   The assemblers effected are:
+
+        as6809
+        as6812
+        ash8
+        aspic
+
+
+CHANGE LOG                                              Page D-9
+
+
+
+   Summary  of  changes/additions  to the ASxxxx Assemblers from
+Version 4.10 to Version 4.11.  
+
+     1.  Incorporated  the patches contained in p01410.zip which
+         corrected a coding error that affected BANKS containing
+         multiple ABS areas or mixed AREA types.  
+
+     2.  Incorporated  the patches contained in p02410.zip which
+         corrected improper use of  R_USGN  in  most  addressing
+         modes  in AS6500.  This caused unexpected 'a' errors in
+         V4.xx because of the ASxxxx core change to  32-bit  in-
+         tegers and arithmetic.  
+
+     3.  Incorporated  the patches contained in p03410.zip which
+         corrected errors in the  .local  and  .globl  assembler
+         directive  processing  routine that introduced unwanted
+         side effects for variable and symbol definition  files.
+         These  effects included improper definitions and incor-
+         rect error warnings.  
+
+     4.  The  following  new subdirectories and their files have
+         been added to the asxtst directory:  
+
+          *  areabank     Area and Bank Processing Test 
+             This  directory  contains  several  test  programs:
+             ts.asm (single file - multiple areas), tm1.asm  and
+             tm2.asm  (multiple  file  -  multiple  areas),  and
+             tbm.asm, tbm1.asm, and tbm2.asm ( multiple  file  -
+             multiple  areas  within  a  bank) and several other
+             files which verify the  correct  operation  of  the
+             linker  when used with a single linked file, multi-
+             ple linked files having no  banking,  and  multiple
+             linked  files  with banking.  These reference files
+             show in detail how the .area and  .bank  directives
+             work together.  
+
+          *  equtst       Equate Processing Test 
+             This  directory  contains a test file for verifying
+             the operation of the .globl, .local, .equ, .gblequ,
+             and  .lclequ  directives  and  the  =,  ==,  and =:
+             equalities.  
+
+          *  inctst       Nested Include File Test 
+
+          *  itst         Include File Error Reporting Test 
+
+
+     5.  Incorporated  the updates contained in u01410.zip which
+         added 10 undocumented 8085 instructions to  the  AS8085
+         assembler.  
+
+
+
+   Summary  of  changes/additions  to the ASxxxx Assemblers from
+Version 4.00 to Version 4.10.  
+
+     1.  Added new assemblers for the Zilog EZ80, Zilog Z8, Sig-
+         netics 2650, and Fujitsu F2MC8(L,FX) processors.  
+
+     2.  Added the processor cycle count option (-c) to all pro-
+         cessors.  
+
+     3.  Several   of  the  assemblers  (ASZ80,  ASRAB,  AS6805,
+         AS6808, AS6812, ASF2MC8, ...) now  support  subsets  or
+         supersets  of  their basic opcodes by the use of assem-
+         bler specific directives.  
+
+     4.  Added .ifeq, .ifne, .iflt, .ifgt, .ifle, and .ifge con-
+         ditional assembly directives.  
+
+     5.  Added  support  for the Tandy Color Computer Disc Basic
+         binary file format to ASLINK.  
+
+     6.  Updated the assembler and linker source code to support
+         16-Bit and 32-Bit compilers.  Tested with Borland Turbo
+         C++  3.0  and  Symantec 7.2 C/C++ 16-Bit compilers, and
+         with Visual C++ 6.0, Cygwin, DJGPP  V02.03,  and  Linux
+         32-Bit compilers.  
+
+     7.  Problem:  
+         When  an area size is equal to the 'address space size'
+         the size parameter is reported as 0.  (A normal  condi-
+         tion  caused  by  address rollover to 0.) Aslink inter-
+         preted this as a 0 size.  
+
+         Fix:  
+         A  new area 'Output Code Flag' bit was defined to indi-
+         cate when data is  defined  in  an  area.   ASxxxx  and
+         Aslink  have  been updated to set and process this area
+         flag bit.  
+
+     8.  Problem:  
+         The  use  of  the .end assembler directive in an Asxxxx
+         assembler would cause Aslink  to  output  the  optional
+         start address in all output files.  
+
+         Fix:  
+         Updated  Aslink  to  output  the optional start address
+         only in the output file associated with  the  area/bank
+         containing the .end directive.  
+
+     9.  Problem:  
+         Aslink  creates  output  files for banks with no output
+         data.  
+
+         Fix:  
+         Aslink  now  deletes  any created output file for banks
+         with no data.  
+
+    10.  Incorporated  the  patches  contained in p01400.zip for
+         files t1802.asm and 1802pst.c to correct for  an  error
+         in  the  opcodes  generated  for  the  BM,  BL, and BNF
+         mnemonics.  
+
+    11.  Incorporated  the  patches  contained in p02400.zip for
+         file ds8adr.c to correct for an  error  in  the  direct
+         page addressing mode of AS8xCxxx.  
+
+    12.  Incorporated  the  patches  contained in p03400.zip for
+         file rabmch.c to correct for an error in the processing
+         of the "ret cc" instruction.  
+
+    13.  Made many corrections to internal code comments.  
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

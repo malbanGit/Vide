@@ -1,0 +1,7 @@
+# Symantec SC++ generated .dpd file. V: 7200
+..\build\pictoasx.OBJ: \
+	..\..\..\aspic\ptoa\pictoasx.c \
+	..\..\..\ASPIC\PTOA\ptoa.h 
+..\build\ptoa.OBJ: \
+	..\..\..\aspic\ptoa\ptoa.c \
+	..\..\..\ASPIC\PTOA\ptoa.h 

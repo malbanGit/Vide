@@ -1,0 +1,30 @@
+82569
+R:\ASXV5PXX\ASXMAK\SYMANTEC\BUILD\aslink.prj
+aslink.OPN
+novcs
+aslink.DEF
+6
+1150355460
+0 0 0 0 0 "..\..\..\LINKSRC\lkarea.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lkbank.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lkdata.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lkeval.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lkhead.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lklex.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lklibr.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lklist.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lkmain.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lknoice.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lkout.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lkrloc.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lksdcdb.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lksym.c"
+0 0 0 0 0 "aslink.DEF"
+0 0 0 0 0 "..\..\..\LINKSRC\lkrloc3.c"
+0 0 0 0 0 "..\..\..\LINKSRC\lkrloc4.c"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdio.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\string.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\alloc.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdlib.h"
+0 -1 0 0 0 "..\..\..\LINKSRC\aslink.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\setjmp.h"

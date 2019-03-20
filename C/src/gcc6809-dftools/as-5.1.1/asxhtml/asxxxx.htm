@@ -1,0 +1,106 @@
+<HTML>
+<HEAD>
+<meta name="keywords" content="... ASxxxx Assemblers, ASxxxx Linker, cross assembler, macro assembler ..." />
+<meta name="keywords" content="... as1802, as2650, as430, as6100, as61860 ..." />
+<meta name="keywords" content="... as6500, as6800, as6801, as6804, as6805 ..." />
+<meta name="keywords" content="... as6808, as6809, as6811, as6812, as6816 ..." />
+<meta name="keywords" content="... as740, as78k0s, as8048, as8051, as8085 ..." />
+<meta name="keywords" content="... as8xcxx, asavr, asez80, asf2mc8, asf8 ..." />
+<meta name="keywords" content="... asgb, ash8, asm8c, aspic, asrab, asscmp, ..." />
+<meta name="keywords" content="... asst6, asst7, asst8, asz8, asz80 ..." />
+<meta name="description" content="... ASxxxx Cross Assembler and Linker Documentation ..." />
+<TITLE>
+ASxxxx Cross Assemblers
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<a href="../home.htm">
+<IMG width=343 heigth=58 border = 0 SRC="welcom.gif" ALT="Welcome"></a>
+
+<H2>ASxxxx Cross Assemblers</H2>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><PRE>
+ASxxxx Cross Assemblers, Version 5.10, October 2014 
+
+Submitted by Alan R.  Baldwin, 
+Kent State University, Kent, Ohio 
+
+Operating System:  Linux, Windows, MS-DOS 
+or other supporting ANSI C.  
+
+Source Langauge:  C 
+
+Abstract:  
+
+   The  ASxxxx  assemblers are a series of microprocessor assem-
+blers written in the C programming  language.   This  collection
+contains  cross  assemblers  for the 1802, S2650, SC/MP, MPS430,
+6100, 61860,  6500,  6800(6802/6808),  6801(6803/HD6303),  6804,
+6805,  68HC(S)08,  6809, 68HC11, 68HC(S)12, 68HC16, 740, 78K/0S,
+8048(8041/8022/8021)  8051,  8085(8080),  DS8xCxxx,  AVR,  EZ80,
+F2MC8L/FX,  F8/3870,  GameBoy(Z80),  H8/3xx,  Cypress PSoC(M8C),
+PIC, Rabbit 2000/3000, asst6, asst7, asst8, Z8, and Z80(HD64180)
+series  microprocessors.   Each  assembler has a device specific
+section which includes:  (1) device description, byte order, and
+file  extension  information,  (2)  a table of assembler general
+directives, special directives, assembler  mnemonics  and  asso-
+ciated operation codes, (3) machine specific code for processing
+the device mnemonics, addressing modes, and special directives. 
+
+   The assemblers have a common device independent section which
+handles the details of file input/output, symbol  table  genera-
+tion,  program/data  areas,  expression  analysis, and assembler
+directive processing.  
+
+   The  assemblers  provide  the following features:  (1) alpha-
+betized, formatted symbol table listings, (2) relocatable object
+modules, (3) global symbols for linking object modules, (4) con-
+ditional assembly directives, (5) reusable  local  symbols,  (6)
+include-file  processing,  and  (7)  a  general macro processing
+facility.  
+
+   The  companion program ASLINK is a relocating linker perform-
+ing the following functions:  (1) bind multiple  object  modules
+into  a  single  memory  image,  (2) resolve inter-module symbol
+references,  (3)  resolve  undefined  symbols   from   specified
+librarys of object modules, (4) process absolute, relative, con-
+catenated, and overlay attributes in data and program  sections,
+(5)  perform  byte and word program-counter relative (pc or pcr)
+addressing calculations, (6) define absolute  symbol  values  at
+link  time, (7) define absolute area base address values at link
+time, (8) produce an Intel Hex  record,  Motorola  S  record  or
+Tandy  CoCo  Disk  Basic  output  file, (9) produce a map of the
+linked memory  image,  and  (10)  update  the  ASxxxx  assembler
+listing files with the absolute linked addresses and data.  
+
+   The  assemblers  and  linker have been tested using Linux and
+DJGPP, Cygwin, Symantec C/C++ V7.2, Borland Turbo C++ 3.0,  Open
+Watcom  V1.9,  VC6,  Visual Studio 2005, Visual Studio 2010, and
+Visual Studio 2013.  Complete source code and documentation  for
+the  assemblers  and  linker  is included with the distribution.
+Additionally, test code for each assembler and several micropro-
+cessor monitors ( ASSIST05 for the 6805, MONDEB and ASSIST09 for
+the 6809, and BUFFALO 2.5 for the 6811) are included as  working
+examples of use of these assemblers.  
+</PRE></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<A NAME = "JUMP"></A>
+
+<H4>
+<P><a href="asxdoc.htm">
+<IMG width=32 height=32 border=0 SRC="manual.gif" ALIGN=BOTTOM></a>
+<B>...  View documentation for the ASxxxx Assemblers and Linker</B></P>
+
+<P><a href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=BOTTOM></a>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: October 2014</B></P></H6>
+</BODY>
+</HTML>

@@ -1,0 +1,28 @@
+82569
+R:\ASXV5PXX\ASXMAK\SYMANTEC\BUILD\as6804.prj
+as6804.OPN
+novcs
+as6804.DEF
+6
+1150355460
+0 0 0 0 0 "..\..\..\ASXXSRC\asdata.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asdbg.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asexpr.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\aslex.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\aslist.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asmain.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asmcro.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asout.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\assubr.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\assym.c"
+0 0 0 0 0 "..\..\..\AS6804\m04adr.c"
+0 0 0 0 0 "..\..\..\AS6804\m04mch.c"
+0 0 0 0 0 "..\..\..\AS6804\m04pst.c"
+0 0 0 0 0 "as6804.DEF"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdio.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\setjmp.h"
+0 -1 0 0 0 "..\..\..\asxxsrc\asxxxx.h"
+0 -1 0 0 0 "..\..\..\AS6804\m6804.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\string.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\alloc.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdlib.h"

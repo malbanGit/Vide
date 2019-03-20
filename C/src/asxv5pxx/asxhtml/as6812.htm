@@ -1,0 +1,368 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS6812  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+PROCESSOR SPECIFIC DIRECTIVES 
+
+   The   AS6812  assembler  supports  the  68HC(S)12  series  of
+microprocessors which includes  the  68HC(S)8xx  and  68HC(S)9xx
+series.  
+
+
+.hc12 Directive 
+
+Format:  
+
+        .hc12 
+
+The  .hc12 directive selects the HC12 core specific cycles count
+output when the -c command line option is specified.  
+
+
+.hcs12 Directive 
+
+Format:  
+
+        .hcs12 
+
+The  .hcs12  directive  selects  the  HCS12 core specific cycles
+count output when the -c command line option is specified.  
+
+
+The .__.CPU.  Variable 
+
+   The value of the pre-defined symbol '.__.CPU.' corresponds to
+the selected processor type.  The default value is 0 which  cor-
+responds  to  the  default  processor type.  The following table
+lists the processor types and associated values for  the  AS6812
+assembler:  
+
+        Processor Type            .__.CPU. Value
+        --------------            --------------
+            .hc12                        0
+            .hcs12                       1
+
+
+   The  variable  '.__.CPU.'  is by default defined as local and
+will not be output to the created .rel file.  The assembler com-
+mand line options -g or -a will not cause the local symbol to be
+output to the created .rel file.  
+
+   The  assembler  .globl  directive  may  be used to change the
+variable type to global causing its definition to be  output  to
+the  .rel file.  The inclusion of the definition of the variable
+'.__.CPU.' might be a useful means of validating that seperately
+assembled  files have been compiled for the same processor type.
+The linker will report an error for variables with multiple  non
+equal definitions.  
+
+
+68HC(S)12 REGISTER SET 
+
+The  following  is a list of the  68HC(S)12  registers  used  by
+AS6812: 
+
+        a,b     -       8-bit accumulators
+        d       -       16-bit accumulator &lt;a:b&gt;
+        x,y     -       index registers
+        sp,s    -       stack pointer
+        pc      -       program counter
+        ccr,cc  -       condition code register
+
+
+68HC(S)12 INSTRUCTION SET 
+
+
+   The   following   tables   list   all   68HC(S)12   mnemonics
+recognized by the  AS6812 assembler.  The designation  [] refers
+to  a  required addressing  mode  argument.   The following list
+specifies  the  format  for  each  addressing   mode   supported
+by AS6812:  
+
+        #data           immediate data
+                        byte or word data
+
+        ext             extended addressing
+
+        pg              memory page number
+
+        *dir            direct page addressing
+                        (see .setdp directive)
+                        0 &lt;= dir &lt;= 255 
+
+        label           branch label
+
+        r,r1,r2         registers
+                        ccr,a,b,d,x,y,sp,pc
+
+        -x      x-      register indexed, pre or
+        ,-x     ,x-     post autodecrement by 1
+
+        n,-x    n,x-    register indexed, pre or
+                        post autodecrement by 1 - 8
+
+        +x      x+      register indexed, pre or
+        ,+x     ,x+     post autoincrement by 1
+
+        n,+x    n,x+    register indexed, pre or
+                        post autoincrement by 1 - 8
+
+        offset,x        register indexed addressing
+                           -16 &lt;= offset &lt;= 15    ---  5-bit
+                          -256 &lt;= offset &lt;= -17   ---  9-bit
+                            16 &lt;= offset &lt;= 255   ---  9-bit
+                        -32768 &lt;= offset &lt;= -257  --- 16-bit
+                           256 &lt;= offset &lt;= 32767 --- 16-bit
+                        (external definition of offset
+                         uses 16-bit mode)
+
+        [offset,x]      register indexed indirect addressing
+                        -32768 &lt;= offset &lt;= 32767 --- 16-bit
+
+        [,x]            register indexed indirect addressing
+                        zero offset
+
+        a,x             accumulator offset indexed addressing
+
+        [d,x]           d accumulator offset indexed
+                        indirect addressing
+
+The  terms  data, dir, label, offset, and ext may all be expres-
+sions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the 68HC(S)12 technical data for valid modes.  
+
+
+Inherent Instructions 
+
+        aba             bgnd            cba
+        daa             dex             dey
+        ediv            edivs           emul
+        emuls           fdiv            idiv
+        idivs           inx             iny
+        mem             mul             nop
+        psha            pshb            pshc
+        pshd            pshx            pshy
+        pula            pulb            pulc
+        puld            pulx            puly
+        rev             revw            rtc
+        rti             rts             sba
+        stop            swi             tab
+        tba             wai             wav
+        wavr
+
+
+Short Branch Instructions 
+
+        bcc     label           bcs     label
+        beq     label           bge     label
+        bgt     label           bhi     label
+        bhis    label           bhs     label
+        ble     label           blo     label
+        blos    label           bls     label
+        blt     label           bmi     label
+        bne     label           bpl     label
+        bra     label           brn     label
+        bvc     label           bvs     label
+        bsr     label
+
+
+Long Branch Instructions 
+
+        lbcc    label           lbcs    label
+        lbeq    label           lbge    label
+        lbgt    label           lbhi    label
+        lbhis   label           lbhs    label
+        lble    label           lblo    label
+        lblos   label           lbls    label
+        lblt    label           lbmi    label
+        lbne    label           lbpl    label
+        lbra    label           lbrn    label
+        lbvc    label           lbvs    label
+
+
+Branch on Decrement, Test, or Increment 
+
+        dbeq    r,label         dbne    r,label
+        ibeq    r,label         ibne    r,label
+        tbeq    r,label         tbne    r,label
+
+
+Bit Clear and Set Instructions 
+
+        bclr    [],#data
+        bset    [],#data
+
+
+Branch on Bit Clear or Set 
+
+        brclr   [],#data,label
+        brset   [],#data,label
+
+
+Single Operand Instructions 
+
+        asla            aslb
+        asl     []
+
+        asra            asrb
+        asr     []
+
+        clra            clrb
+        clr     []
+
+        coma            comb
+        com     []
+
+        deca            decb
+        dec     []
+
+        inca            incb
+        inc     []
+
+        lsla            lslb
+        lsl     []
+
+        lsra            lsrb
+        lsr     []
+
+        nega            negb
+        neg     []
+
+        rola            rolb
+        rol     []
+
+        rora            rorb
+        ror     []
+
+        tsta            tstb
+        tst     []
+
+
+Double Operand Instructions 
+
+        adca    []              adcb    []
+
+        adda    []              addb    []
+
+        anda    []              andb    []
+
+        bita    []              bitb    []
+
+        cmpa    []              cmpb    []
+
+        eora    []              eorb    []
+
+        ldaa    []      &lt;=&gt;     lda     []
+
+        ldab    []      &lt;=&gt;     ldb     []
+
+        oraa    []      &lt;=&gt;     ora     []
+
+        orab    []      &lt;=&gt;     orb     []
+
+        sbca    []              sbcb    []
+
+        staa    []      &lt;=&gt;     sta     []
+
+        stab    []      &lt;=&gt;     stb     []
+
+        suba    []              subb    []
+
+
+Move Instructions 
+
+        movb    [],[]           movw    [],[]
+
+
+D-register Instructions 
+
+        addd    []              subd    []
+        cpd     []      &lt;=&gt;     cmpd    []
+        ldd     []              std     []
+
+
+Index/Stack Register Instructions 
+
+        cps     []      &lt;=&gt;     cmps    []
+        cpx     []      &lt;=&gt;     cmpx    []
+        cpy     []      &lt;=&gt;     cmpy    []
+
+        lds     []
+        ldx     []              ldy     []
+
+        leas    []
+        leax    []              leay    []
+
+        sts     []
+        stx     []              sty     []
+
+
+Jump and Jump/Call to Subroutine Instructions 
+
+        call    [],pg
+        jmp     []              jsr     []
+
+
+Other Special Instructions 
+
+        emacs   []
+        emaxd   []              emaxm   []
+        emind   []              eminm   []
+        etbl    []
+        maxa    []              maxm    []
+        mina    []              minm    []
+        tbl     []              trap    #data
+
+
+H.2.14  Register - Register Instructions 
+
+        exg     r1,r2           sex     r1,r2
+        tfr     r1,r2
+
+
+Condition Code Register Instructions 
+
+        andcc   #data           orcc    #data
+
+
+M68HC11 Compatibility Mode Instructions 
+
+        abx             aby             clc
+        cli             clv             des
+        ins             sec             sei
+        sev             tap             tpa
+        tsx             tsy             txs
+        tys             xgdx            xgdy
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

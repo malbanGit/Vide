@@ -1,0 +1,291 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS6809  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+6809 REGISTER SET 
+
+The following is a list of the 6809 registers used by AS6809:  
+
+        a,b     -       8-bit accumulators
+        d       -       16-bit accumulator &lt;a:b&gt;
+        x,y     -       index registers
+        s,u     -       stack pointers
+        pc      -       program counter
+        cc      -       condition code
+        dp      -       direct page
+
+
+6809 INSTRUCTION SET 
+
+
+   The  following  tables  list all 6809 mnemonics recognized by
+the AS6809 assembler.  The designation [] refers to  a  required
+addressing  mode  argument.   The  following  list specifies the
+format for each addressing mode supported by AS6809:  
+
+        #data           immediate data
+                        byte or word data
+
+        *dir            direct page addressing
+                        (see .setdp directive)
+                        0 &lt;= dir &lt;= 255 
+
+        label           branch label
+
+        r,r1,r2         registers
+                        cc,a,b,d,dp,x,y,s,u,pc
+
+        ,-x     ,--x    register indexed
+                        autodecrement
+
+        ,x+     ,x++    register indexed
+                        autoincrement
+
+        ,x              register indexed addressing
+                        zero offset
+
+        offset,x        register indexed addressing
+                           -16 &lt;= offset &lt;= 15    ---  5-bit
+                          -128 &lt;= offset &lt;= -17   ---  8-bit
+                            16 &lt;= offset &lt;= 127   ---  8-bit
+                        -32768 &lt;= offset &lt;= -129  --- 16-bit
+                           128 &lt;= offset &lt;= 32767 --- 16-bit
+                        (external definition of offset
+                         uses 16-bit mode)
+
+        a,x             accumulator offset indexed addressing
+
+        ext             extended addressing
+
+        ext,pc          pc addressing ( pc &lt;- pc + ext )
+
+        ext,pcr         pc relative addressing
+                        
+        [,--x]          register indexed indirect
+                        autodecrement
+
+        [,x++]          register indexed indirect
+                        autoincrement
+
+        [,x]            register indexed indirect addressing
+                        zero offset
+
+        [offset,x]      register indexed indirect addressing
+                          -128 &lt;= offset &lt;= 127   ---  8-bit
+                        -32768 &lt;= offset &lt;= -129  --- 16-bit
+                           128 &lt;= offset &lt;= 32767 --- 16-bit
+                        (external definition of offset
+                         uses 16-bit mode)
+
+        [a,x]           accumulator offset indexed
+                        indirect addressing
+
+        [ext]           extended indirect addressing
+
+        [ext,pc]        pc indirect addressing
+                        ( [pc &lt;- pc + ext] )
+
+        [ext,pcr]       pc relative indirect addressing
+
+The  terms  data, dir, label, offset, and ext may all be expres-
+sions.  
+
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the 6809 technical data for valid modes.  
+
+
+Inherent Instructions 
+
+        abx             daa
+        mul             nop
+        rti             rts
+        sex             swi
+        swi1            swi2
+        swi3            sync
+
+
+Short Branch Instructions 
+
+        bcc     label           bcs     label
+        beq     label           bge     label
+        bgt     label           bhi     label
+        bhis    label           bhs     label
+        ble     label           blo     label
+        blos    label           bls     label
+        blt     label           bmi     label
+        bne     label           bpl     label
+        bra     label           brn     label
+        bvc     label           bvs     label
+        bsr     label
+
+
+Long Branch Instructions 
+
+        lbcc    label           lbcs    label
+        lbeq    label           lbge    label
+        lbgt    label           lbhi    label
+        lbhis   label           lbhs    label
+        lble    label           lblo    label
+        lblos   label           lbls    label
+        lblt    label           lbmi    label
+        lbne    label           lbpl    label
+        lbra    label           lbrn    label
+        lbvc    label           lbvs    label
+        lbsr    label
+
+
+Single Operand Instructions 
+
+        asla            aslb
+        asl     []
+
+        asra            asrb
+        asr     []
+
+        clra            clrb
+        clr     []
+
+        coma            comb
+        com     []
+
+        deca            decb
+        dec     []
+
+        inca            incb
+        inc     []
+
+        lsla            lslb
+        lsl     []
+
+        lsra            lsrb
+        lsr     []
+
+        nega            negb
+        neg     []
+
+        rola            rolb
+        rol     []
+
+        rora            rorb
+        ror     []
+
+        tsta            tstb
+        tst     []
+
+
+Double Operand Instructions 
+
+        adca    []              adcb    []
+
+        adda    []              addb    []
+
+        anda    []              andb    []
+
+        bita    []              bitb    []
+
+        cmpa    []              cmpb    []
+
+        eora    []              eorb    []
+
+        lda     []              ldb     []
+
+        ora     []              orb     []
+
+        sbca    []              sbcb    []
+
+        sta     []              stb     []
+
+        suba    []              subb    []
+
+
+D-register Instructions 
+
+        addd    []              subd    []
+        cmpd    []              ldd     []
+        std     []
+
+
+Index/Stack Register Instructions 
+
+        cmps    []              cmpu    []
+        cmpx    []              cmpy    []
+
+        lds     []              ldu     []
+        ldx     []              ldy     []
+
+        leas    []              leau    []
+        leax    []              leay    []
+
+        sts     []              stu     []
+        stx     []              sty     []
+
+        pshs    r               pshu    r
+        puls    r               pulu    r
+
+
+Jump and Jump to Subroutine Instructions 
+
+        jmp     []              jsr     []
+
+
+Register - Register Instructions 
+
+        exg     r1,r2           tfr     r1,r2
+
+
+Condition Code Register Instructions 
+
+        andcc   #data           orcc    #data
+        cwai    #data
+
+
+6800 Compatibility Instructions 
+
+        aba             cba
+        clc             cli
+        clv             des
+        dex             ins
+        inx
+        ldaa    []      ldab    []
+        oraa    []      orab    []
+        psha            pshb
+        pula            pulb
+        sba             sec
+        sei             sev
+        staa    []      stab    []
+        tab             tap
+        tba             tpa
+        tsx             txs
+        wai
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

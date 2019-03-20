@@ -1,0 +1,293 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT = "Welcome"></A>
+
+<H2>ASZ80  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+.z80 DIRECTIVE 
+
+Format:  
+
+        .z80 
+
+The  .z80  directive enables processing of only the z80 specific
+mnemonics.  HD64180/Z180 mnemonics encountered without the .hd64
+directive will be flagged with an 'o' error.  
+
+     The  .z80  directive  also  selects the Z80 specific cycles
+count output when the -c command line option is specified.  
+
+
+.hd64 DIRECTIVE 
+
+Format:  
+
+        .hd64 
+
+The  .hd64  directive  enables  processing  of  the HD64180/Z180
+specific mnemonics not included  in  the  Z80  instruction  set.
+HD64180/Z180  mnemonics  encountered without the .hd64 directive
+will be flagged with an 'o' error.  A synonym of .hd64 is .z180. 
+
+     The  .hd64 directive also selects the HD64180/Z180 specific
+cycles count output when the -c command line  option  is  speci-
+fied.  
+
+
+
+THE .__.CPU.  VARIABLE 
+
+
+     The  value of the pre-defined symbol '.__.CPU.' corresponds
+to the selected processor type.  The default value  is  0  which
+corresponds  to the default processor type.  The following table
+lists the processor types and associated values  for  the  ASZ80
+assembler:  
+
+        Processor Type            .__.CPU. Value
+        --------------            --------------
+            .z80                         0
+        .hd64 / .z180                    1
+
+
+     The  variable '.__.CPU.' is by default defined as local and
+will not be output to the created .rel file.  The assembler com-
+mand line options -g or -a will not cause the local symbol to be
+output to the created .rel file.  
+
+     The  assembler  .globl  directive may be used to change the
+variable  type to  global  causing  its definition to be  output
+to  the .rel file.  The inclusion of the definition of the vari-
+able '.__.CPU.' might be  a  useful  means  of  validating  that
+seperately  assembled files have been compiled for the same pro-
+cessor type.  The linker will report an error for variables with
+multiple non equal definitions.  
+
+
+Z80 REGISTER SET AND CONDITIONS 
+
+
+   The following is a complete list of register designations and
+condition mnemonics:  
+
+        byte registers  -       a,b,c,d,e,h,l,i,r
+        register pairs  -       af,af',bc,de,hl
+        word registers  -       pc,sp,ix,iy
+
+        C -     carry bit set
+        M -     sign bit set
+        NC -    carry bit clear
+        NZ -    zero bit clear
+        P -     sign bit clear
+        PE -    parity even
+        PO -    parity odd
+        Z -     zero bit set
+
+
+
+Z80 INSTRUCTION SET 
+
+
+  The following list specifies the format for each addressing
+mode supported by ASZ80:  
+
+        #data           immediate data
+                        byte or word data
+
+        n               byte value
+
+        rg              a byte register
+                        a,b,c,d,e,h,l
+
+        rp              a register pair
+                        bc,de,hl
+
+        (hl)            implied addressing or
+                        register indirect addressing
+
+        (label)         direct addressing
+
+        offset(ix)      indexed addressing with
+                        an offset
+
+        label           call/jmp/jr label
+
+The  terms  data,  dir,  offset, and ext may all be expressions.
+The terms dir and offset are not allowed to be  external  refer-
+ences.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction,  refer  to the Z80/HD64180/Z180  technical  data  for
+valid modes.  
+
+   The  following  tables  list  all  Z80/HD64180/Z180 mnemonics
+recognized by the ASZ80 assembler.  The designation [] refers to
+a required addressing mode argument.  
+
+Inherent Instructions 
+
+        ccf             cpd
+        cpdr            cpi
+        cpir            cpl
+        daa             di
+        ei              exx
+        halt            neg
+        nop             reti
+        retn            rla
+        rlca            rld
+        rra             rrca
+        rrd             scf
+
+
+Implicit Operand Instructions 
+
+        adc     a,[]            adc     []
+        add     a,[]            add     []
+        and     a,[]            and     []
+        cp      a,[]            cp      []
+        dec     a,[]            dec     []
+        inc     a,[]            inc     []
+        or      a,[]            or      []
+        rl      a,[]            rl      []
+        rlc     a,[]            rlc     []
+        rr      a,[]            rr      []
+        rrc     a,[]            rrc     []
+        sbc     a,[]            sbc     []
+        sla     a,[]            sla     []
+        sra     a,[]            sra     []
+        srl     a,[]            srl     []
+        sub     a,[]            sub     []
+        xor     a,[]            xor     []
+
+
+Load Instruction 
+
+        ld      rg,[]           ld      [],rg
+        ld      (bc),a          ld      a,(bc)
+        ld      (de),a          ld      a,(de)
+        ld      (label),a       ld      a,(label)
+        ld      (label),rp      ld      rp,(label)
+        ld      i,a             ld      r,a
+        ld      a,i             ld      a,r
+        ld      sp,hl           ld      sp,ix
+        ld      sp,iy           ld      rp,#data
+
+        ldd                     lddr
+        ldi                     ldir
+
+
+Call/Return Instructions 
+
+        call    C,label         ret     C
+        call    M,label         ret     M
+        call    NC,label        ret     NC
+        call    NZ,label        ret     NZ
+        call    P,label         ret     P
+        call    PE,label        ret     PE
+        call    PO,label        ret     PO
+        call    Z,label         ret     Z
+        call    label           ret
+
+
+Jump and Jump to Subroutine Instructions 
+
+        jp      C,label         jp      M,label
+        jp      NC,label        jp      NZ,label
+        jp      P,label         jp      PE,label
+        jp      PO,label        jp      Z,label
+
+        jp      (hl)            jp      (ix)
+        jp      (iy)            jp      label
+
+        djnz    label
+
+        jr      C,label         jr      NC,label
+        jr      NZ,label        jr      Z,label
+        jr      label
+
+
+Bit Manipulation Instructions 
+
+        bit     n,[]
+        res     n,[]
+        set     n,[]
+
+
+Interrupt Mode and Reset Instructions 
+
+        im      n
+        im      n
+        im      n
+        rst     n
+
+
+Input and Output Instructions 
+
+        in      a,(n)           in      rg,(c)
+        ind                     indr
+        ini                     inir
+
+        out     (n),a           out     (c),rg
+        outd                    otdr
+        outi                    otir
+
+
+Register Pair Instructions 
+
+        add     hl,rp           add     ix,rp
+        add     iy,rp
+
+        adc     hl,rp           sbc     hl,rp
+
+        ex      (sp),hl         ex      (sp),ix
+        ex      (sp),iy
+        ex      de,hl
+        ex      af,af'
+
+        push    rp              pop     rp
+
+
+HD64180/Z180 Specific Instructions 
+
+        in0     rg,(n)
+        out0    (n),rg
+
+        otdm                    otdmr
+        otim                    otimr
+
+        mlt     bc              mlt     de
+        mlt     hl              mlt     sp
+
+        slp
+
+        tst     a
+        tstio   #data
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

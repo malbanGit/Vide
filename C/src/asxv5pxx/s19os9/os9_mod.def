@@ -1,0 +1,54 @@
+	.sbttl	OS9 Module Definitions (os9_mod.def)
+
+	; Derived from NitrOS9: os9_mod.DEF
+
+
+	OS9_HEADER_SIZE		=: 9
+	TYPE_MASK		=: 0xF0
+
+	NULL_TYPE		=: 0x00
+	PRGRM			=: 0x10
+	SBTRN			=: 0x20
+	MULTI			=: 0x30
+	DATA			=: 0x40
+	SSBTRN			=: 0x50
+	TYPE_6			=: 0x60
+	TYPE_7			=: 0x70
+	TYPE_8			=: 0x80
+	TYPE_9			=: 0x90
+	TYPE_A			=: 0xA0
+	TRAPLIB			=: 0xB0
+	SYSTM			=: 0xC0 
+	FLMGR			=: 0xD0
+	DRIVR			=: 0xE0
+	DEVIC			=: 0xF0
+
+
+	LANG_MASK		=: 0x0F
+
+	NULL_LANG		=: 0x00
+	OBJCT			=: 0x01
+	ICODE			=: 0x02
+	PCODE			=: 0x03
+	CCODE			=: 0x04
+	CBLCODE			=: 0x05
+	FRTNCODE		=: 0x06
+	OBJ6309			=: 0x07
+
+
+	ATTR_MASK		=: 0xF0
+
+	REENT			=: 0x80
+	MODPROT			=: 0x40
+
+
+	REVS_MASK		=: 0x0F
+
+
+	OS9_ID0			=: 0x87
+	OS9_ID1			=: 0xCD
+
+	OS9_CRC0		=: 0x80
+	OS9_CRC1		=: 0x0F
+	OS9_CRC2		=: 0xE3
+

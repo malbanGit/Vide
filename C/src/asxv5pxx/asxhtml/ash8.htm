@@ -1,0 +1,370 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASH8  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+H8/3XX REGISTER SET 
+
+The following is a list of the H8 registers used by ASH8:  
+
+        r0  -  r7,sp            16-bit accumulators
+        r0L -  r7L,spL          8-bit accumulators
+        r0H -  r7H,spH          8-bit accumulators
+        spL,spH,sp              stack pointers
+        ccr                     condition code
+
+
+H8/3XX INSTRUCTION SET 
+
+
+   The  following tables list all H8/3xx mnemonics recognized by
+the ASH8 assembler.  The designation [] refers to a required ad-
+dressing mode argument.  The following list specifies the format
+for each addressing mode supported by ASH8:  
+
+        #xx:3           immediate data (3  bit)
+        #xx:8           immediate data (8  bit)
+        #xx:16          immediate data (16 bit)
+
+        *dir            direct page addressing
+                        (see .setdp directive)
+                        0xFF00 &lt;= dir &lt;= 0xFFFF
+
+        label           branch label
+
+
+        rn              registers (16 bit)
+                        r0-r7,sp
+
+        rnB             registers (8 bit)
+                        r0H-r7H,r0L-r7L,spH,spL
+
+        ccr             condition code register
+
+        @rn             register indirect
+
+        @-rn            register indirect (auto pre-decrement)
+
+        @rn+            register indirect (auto post-increment)
+
+        @[offset,rn]    register indirect, 16-bit displacement
+
+        @@offset        memory indirect, (8-bit address)
+
+        ext             extended addressing (16-bit)
+
+The  terms  data, dir, label, offset, and ext may all be expres-
+sions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the H8/3xx technical data for valid modes.  
+
+
+Inherent Instructions 
+
+        eepmov
+        nop
+        sleep
+        rte
+        rts
+
+
+Branch Instructions 
+
+        bcc     label                   bcs     label
+        beq     label                   bf      label
+        bge     label                   bgt     label
+        bhi     label                   bhis    label
+        bhs     label                   ble     label
+        blo     label                   blos    label
+        bls     label                   blt     label
+        bmi     label                   bne     label
+        bpl     label                   bra     label
+        brn     label                   bt      label
+        bvc     label                   bvs     label
+        bsr     label
+
+
+Single Operand Instructions 
+
+        Free Form
+
+        daa     rnB                     das     rnB
+
+        dec     rnB                     inc     rnB
+
+        neg     rnB                     not     rnB
+
+        rotxl   rnB                     rotxr   rnB
+
+        rotl    rnB                     rotr    rnB
+
+        shal    rnB                     shar    rnB
+
+        shll    rnB                     shlr    rnB
+
+        push    rn                      pop     rn
+
+
+        Byte / Word Form
+
+        daa.b   rnB                     das.b   rnB
+
+        dec.b   rnB                     inc.b   rnB
+
+        neg.b   rnB                     not.b   rnB
+
+        rotxl.b rnB                     rotxr.b rnB
+
+        rotl.b  rnB                     rotr.b  rnB
+
+        shal.b  rnB                     shar.b  rnB
+
+        shll.b  rnB                     shlr.b  rnB
+
+        push.w  rn                      pop.w   rn
+
+
+Double Operand Instructions 
+
+        Free Form
+
+        add     rnB,rnB                 add     #xx:8,rnB
+        add     rn,rn
+        adds    #1,rn                   adds    #2,rn
+        addx    rnB,rnB                 addx    #xx:8,rnB
+
+        cmp     rnB,rnB                 cmp     #xx:8,rnB
+        cmp     rn,rn
+
+        sub     rnB,rnB
+        sub     rn,rn
+        subs    #1,rn                   subs    #2,rn
+        subx    rnB,rnB                 subx    #xx:8,rnB
+
+        and     rnB,rnB                 and     #xx:8,rnB
+                                        and     #xx:8,ccr
+
+        or      rnB,rnB                 or      #xx:8,rnB
+                                        or      #xx:8,ccr
+
+        xor     rnB,rnB                 xor     #xx:8,rnB
+                                        xor     #xx:8,ccr
+
+
+        Byte / Word Form
+
+        add.b   rnB,rnB                 add.b   #xx:8,rnB
+        add.w   rn,rn
+
+        cmp.b   rnB,rnB                 cmp.b   #xx:8,rnB
+        cmp.w   rn,rn
+
+        sub.b   rnB,rnB
+        sub.w   rn,rn
+
+        addx.b  rnB,rnB                 addx.b  #xx:8,rnB
+
+        and.b   rnB,rnB                 and.b   #xx:8,rnB
+                                        and.b   #xx:8,ccr
+
+        or.b    rnB,rnB                 or.b    #xx:8,rnB
+                                        or.b    #xx:8,ccr
+
+        subx.b  rnB,rnB                 subx.b  #xx:8,rnB
+
+        xor.b   rnB,rnB                 xor.b   #xx:8,rnB
+                                        xor.b   #xx:8,ccr
+
+
+Mov Instructions 
+
+        Free Form
+
+        mov     rnB,rnB                 mov     rn,rn
+        mov     #xx:8,rnB               mov     #xx:16,rn
+        mov     @rn,rnB                 mov     @rn,rn
+        mov     @[offset,rn],rnB        mov     @[offset,rn],rn
+        mov     @rn+,rnB                mov     @rn+,rn
+        mov     @dir,rnB
+        mov     dir,rnB
+        mov     *@dir,rnB
+        mov     *dir,rnB
+        mov     @label,rnB              mov     @label,rn
+        mov     label,rnB               mov     label,rn
+        mov     rnB,@rn                 mov     rn,@rn
+        mov     rnB,@[offset,rn]        mov     rn,@[offset,rn]
+        mov     rnB,@-rn                mov     rn,@-rn
+        mov     rnB,@dir
+        mov     rnB,dir
+        mov     rnB,*@dir
+        mov     rnB,*dir
+        mov     rnB,@label              mov     rn,@label
+        mov     rnB,label               mov     rn,label
+
+
+        Byte / Word Form
+
+        mov.b   rnB,rnB                 mov.w   rn,rn
+        mov.b   #xx:8,rnB               mov.w   #xx:16,rn
+        mov.b   @rn,rnB                 mov.w   @rn,rn
+        mov.b   @[offset,rn],rnB        mov.w   @[offset,rn],rn
+        mov.b   @rn+,rnB                mov.w   @rn+,rn
+        mov.b   @dir,rnB
+        mov.b   dir,rnB
+        mov.b   *@dir,rnB
+        mov.b   *dir,rnB
+        mov.b   @label,rnB              mov.w   @label,rn
+        mov.b   label,rnB               mov.w   label,rn
+        mov.b   rnB,@rn                 mov.w   rn,@rn
+        mov.b   rnB,@[offset,rn]        mov.w   rn,@[offset,rn]
+        mov.b   rnB,@-rn                mov.w   rn,@-rn
+        mov.b   rnB,@dir
+        mov.b   rnB,dir
+        mov.b   rnB,*@dir
+        mov.b   rnB,*dir
+        mov.b   rnB,@label              mov.w   rn,@label
+        mov.b   rnB,label               mov.w   rn,label
+
+
+Bit Manipulation Instructions 
+
+        bld     #xx:3,rnB               bld     #xx:3,@rn
+        bld     #xx:3,@dir              bld     #xx:3,dir
+        bld     #xx:3,*@dir             bld     #xx:3,*dir
+
+        bild    #xx:3,rnB               bild    #xx:3,@rn
+        bild    #xx:3,@dir              bild    #xx:3,dir
+        bild    #xx:3,*@dir             bild    #xx:3,*dir
+
+        bst     #xx:3,rnB               bst     #xx:3,@rn
+        bst     #xx:3,@dir              bst     #xx:3,dir
+        bst     #xx:3,*@dir             bst     #xx:3,*dir
+
+        bist    #xx:3,rnB               bist    #xx:3,@rn
+        bist    #xx:3,@dir              bist    #xx:3,dir
+        bist    #xx:3,*@dir             bist    #xx:3,*dir
+
+        band    #xx:3,rnB               band    #xx:3,@rn
+        band    #xx:3,@dir              band    #xx:3,dir
+        band    #xx:3,*@dir             band    #xx:3,*dir
+
+        biand   #xx:3,rnB               biand   #xx:3,@rn
+        biand   #xx:3,@dir              biand   #xx:3,dir
+        biand   #xx:3,*@dir             biand   #xx:3,*dir
+
+        bor     #xx:3,rnB               bor     #xx:3,@rn
+        bor     #xx:3,@dir              bor     #xx:3,dir
+        bor     #xx:3,*@dir             bor     #xx:3,*dir
+
+        bior    #xx:3,rnB               bior    #xx:3,@rn
+        bior    #xx:3,@dir              bior    #xx:3,dir
+        bior    #xx:3,*@dir             bior    #xx:3,*dir
+
+        bxor    #xx:3,rnB               bxor    #xx:3,@rn
+        bxor    #xx:3,@dir              bxor    #xx:3,dir
+        bxor    #xx:3,*@dir             bxor    #xx:3,*dir
+
+        bixor   #xx:3,rnB               bixor   #xx:3,@rn
+        bixor   #xx:3,@dir              bixor   #xx:3,dir
+        bixor   #xx:3,*@dir             bixor   #xx:3,*dir
+
+
+Extended Bit Manipulation Instructions 
+
+        bset    #xx:3,rnB               bset    #xx:3,@rn
+        bset    #xx:3,@dir              bset    #xx:3,dir
+        bset    #xx:3,*@dir             bset    #xx:3,*dir
+        bset    rnB,rnB                 bset    rnB,@rn
+        bset    rnB,@dir                bset    rnB,dir
+        bset    rnB,*@dir               bset    rnB,*dir
+
+        bclr    #xx:3,rnB               bclr    #xx:3,@rn
+        bclr    #xx:3,@dir              bclr    #xx:3,dir
+        bclr    #xx:3,*@dir             bclr    #xx:3,*dir
+        bclr    rnB,rnB                 bclr    rnB,@rn
+        bclr    rnB,@dir                bclr    rnB,dir
+        bclr    rnB,*@dir               bclr    rnB,*dir
+
+        bnot    #xx:3,rnB               bnot    #xx:3,@rn
+        bnot    #xx:3,@dir              bnot    #xx:3,dir
+        bnot    #xx:3,*@dir             bnot    #xx:3,*dir
+        bnot    rnB,rnB                 bnot    rnB,@rn
+        bnot    rnB,@dir                bnot    rnB,dir
+        bnot    rnB,*@dir               bnot    rnB,*dir
+
+        btst    #xx:3,rnB               btst    #xx:3,@rn
+        btst    #xx:3,@dir              btst    #xx:3,dir
+        btst    #xx:3,*@dir             btst    #xx:3,*dir
+        btst    rnB,rnB                 btst    rnB,@rn
+        btst    rnB,@dir                btst    rnB,dir
+        btst    rnB,*@dir               btst    rnB,*dir
+
+
+Condition Code Instructions 
+
+        andc    #xx:8,ccr               andc    #xx:8
+        and     #xx:8,ccr               and.b   #xx:8,ccr
+
+        ldc     #xx:8,ccr               ldc     #xx:8
+        ldc     rnB,ccr                 ldc     rnB
+
+        orc     #xx:8,ccr               orc     #xx:8
+        or      #xx:8,ccr               or.b    #xx:8,ccr
+
+        xorc    #xx:8,ccr               xorc    #xx:8
+        xor     #xx:8,ccr               xor.b   #xx:8,ccr
+
+        stc     ccr,rnB                 stc     rnB
+
+
+Other Instructions 
+
+        divxu   rnB,rn                  divxu.b rnB,rn
+
+        mulxu   rnB,rn                  mulxu.b rnB,rn
+
+        movfpe  @label,rnB              movfpe  label,rnB
+        movfpe.b  @label,rnB            movfpe.b  label,rnB
+
+        movtpe  @label,rnB              movtpe  label,rnB
+        movtpe.b  @label,rnB            movtpe.b  label,rnB
+
+
+Jump and Jump to Subroutine Instructions 
+
+        jmp     @rn                     jmp     @@dir
+        jmp     @label                  jmp     label
+
+        jsr     @rn                     jsr     @@dir
+        jsr     @label                  jsr     label
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

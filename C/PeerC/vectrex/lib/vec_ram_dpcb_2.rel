@@ -8,7 +8,7 @@ B page_00 base 0 size 100 map 0 flags 3
 S .__.ABS. Def0000
 A _CODE size 0 flags CC80 bank 0
 A _DATA size 0 flags CCC0 bank 1
-A direct size FC flags 8D8C bank 2
+A .direct size FC flags 8D8C bank 2
 S _dp_Vec_SWI2_Vector Def00F2
 S _dp_Vec_NWI_Vector Def00FB
 S _dp_Vec_Snd_shadow Def0000

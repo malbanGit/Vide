@@ -16,16 +16,16 @@
 
 __asm(
 	".bank page_00 (BASE=0x0000,SIZE=0x0100)\n\t"
-	".area direct (OVR,BANK=page_00)\n\t"
+	".area .direct (OVR,BANK=page_00)\n\t"
 );
 
 // ---------------------------------------------------------------------------
 // page 0xFC00
 
-int			dp_Vec_Snd_shadow[0x6d]			__attribute__((section("direct"), used)); // 0xC800, Shadow of sound chip registers (15 bytes)
-const int 	dp_Vec_Sine_Table[0x7d-0x6d]	__attribute__((section("direct"), used)); // 0xFC6D, sine table
-const int 	dp_Vec_Cosine_Table[0x8d-0x7d]	__attribute__((section("direct"), used)); // 0xFC7D, cosine table
-const int 	dp_Vec_Note_Table				__attribute__((section("direct"), used)); // 0xFC8D, frequency table
+int			dp_Vec_Snd_shadow[0x6d]			__attribute__((section(".direct"), used)); // 0xC800, Shadow of sound chip registers (15 bytes)
+const int 	dp_Vec_Sine_Table[0x7d-0x6d]	__attribute__((section(".direct"), used)); // 0xFC6D, sine table
+const int 	dp_Vec_Cosine_Table[0x8d-0x7d]	__attribute__((section(".direct"), used)); // 0xFC7D, cosine table
+const int 	dp_Vec_Note_Table				__attribute__((section(".direct"), used)); // 0xFC8D, frequency table
 
 // ***************************************************************************
 // end of file

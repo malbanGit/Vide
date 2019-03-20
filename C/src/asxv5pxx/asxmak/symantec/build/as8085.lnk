@@ -1,0 +1,15 @@
+..\build\asdata.OBJ+
+..\build\asdbg.OBJ+
+..\build\asexpr.OBJ+
+..\build\aslex.OBJ+
+..\build\aslist.OBJ+
+..\build\asmain.OBJ+
+..\build\asmcro.OBJ+
+..\build\asout.OBJ+
+..\build\assubr.OBJ+
+..\build\assym.OBJ+
+..\build\i85mch.OBJ+
+..\build\i85pst.OBJ
+..\exe\$SCW$.EXE
+NUL
+  

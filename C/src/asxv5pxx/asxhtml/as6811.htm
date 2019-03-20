@@ -1,0 +1,231 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS6811  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+68HC11 REGISTER SET 
+
+The following is a list of the 68HC11 registers used by AS6811: 
+
+        a,b     -       8-bit accumulators
+        d       -       16-bit accumulator &lt;a:b&gt;
+        x,y     -       index registers
+
+
+68HC11 INSTRUCTION SET 
+
+
+   The  following tables list all 68HC11 mnemonics recognized by
+the AS6811 assembler.  The designation [] refers to  a  required
+addressing  mode  argument.   The  following  list specifies the
+format for each addressing mode supported by AS6811:  
+
+        #data           immediate data
+                        byte or word data
+
+        *dir            direct page addressing
+                        (see .setdp directive)
+                        0 &lt;= dir &lt;= 255 
+
+        ,x              register indirect addressing
+                        zero offset
+
+        offset,x        register indirect addressing
+                        0 &lt;= offset &lt;= 255
+
+        ext             extended addressing
+
+        label           branch label
+
+The terms data, dir, offset, and ext may all be expressions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the 68HC11 technical data for valid modes.  
+
+
+Inherent Instructions 
+
+        aba             abx
+        aby             cba
+        clc             cli
+        clv             daa
+        des             dex
+        dey             fdiv
+        idiv            ins
+        inx             iny
+        mul             nop
+        rti             rts
+        sba             sec
+        sei             sev
+        stop            swi
+        tab             tap
+        tba             tpa
+        tsx             txs
+        wai             xgdx
+        xgdy
+
+        psha            pshb
+        psh a           psh b
+        pshx            pshy
+        psh x           psh y
+
+        pula            pulb
+        pul a           pul b
+        pulx            puly
+        pul x           pul y
+
+
+Branch Instructions 
+
+        bra     label           brn     label
+        bhi     label           bls     label
+        bcc     label           bhs     label
+        bcs     label           blo     label
+        bne     label           beq     label
+        bvc     label           bvs     label
+        bpl     label           bmi     label
+        bge     label           blt     label
+        bgt     label           ble     label
+        bsr     label
+
+
+Single Operand Instructions 
+
+        asla            aslb            asld
+        asl a           asl b           asl d
+        asl     []
+
+        asra            asrb
+        asr a           asr b
+        asr     []
+
+        clra            clrb
+        clr a           clr b
+        clr     label
+
+        coma            comb
+        com a           com b
+        com     []
+
+        deca            decb
+        dec a           dec b
+        dec     []
+
+        inca            incb
+        inc a           inc b
+        inc     []
+
+        lsla            lslb            lsld
+        lsl a           lsl b           lsl d
+        lsl     []
+
+        lsra            lsrb            lsrd
+        lsr a           lsr b           lsr d
+        lsr     []
+
+        nega            negb
+        neg a           neg b
+        neg     []
+
+        rola            rolb
+        rol a           rol b
+        rol     []
+
+        rora            rorb
+        ror a           ror b
+        ror     []
+
+        tsta            tstb
+        tst a           tst b
+        tst     []
+
+
+Double Operand Instructions 
+
+        adca    []              adcb    []
+        adc a   []              adc b   []
+
+        adda    []      addb    []      addd    []
+        add a   []      add b   []      add d   []
+
+        anda    []              andb    []
+        and a   []              and b   []
+
+        bita    []              bitb    []
+        bit a   []              bit b   []
+
+        cmpa    []              cmpb    []
+        cmp a   []              cmp b   []
+
+        eora    []              eorb    []
+        eor a   []              eor b   []
+
+        ldaa    []              ldab    []
+        lda a   []              lda b   []
+
+        oraa    []              orab    []
+        ora a   []              ora b   []
+
+        sbca    []              sbcb    []
+        sbc a   []              sbc b   []
+
+        staa    []              stab    []
+        sta a   []              sta b   []
+
+        suba    []      subb    []      subd    []
+        sub a   []      sub b   []      sub d   []
+
+
+Bit Manupulation Instructions 
+
+        bclr    [],#data
+        bset    [],#data
+
+        brclr   [],#data,label
+        brset   [],#data,label
+
+
+Jump and Jump to Subroutine Instructions 
+
+        jmp     []              jsr     []
+
+
+Long Register Instructions 
+
+        cpx     []              cpy     []
+
+        ldd     []              lds     []
+        ldx     []              ldy     []
+
+        std     []              sts     []
+        stx     []              sty     []
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

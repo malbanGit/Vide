@@ -1,31 +1,26 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	vec_ram_0xcb_2.c
-                              7 ;----- asm -----
-                              8 	.bank page_cb (BASE=0xcbea,SIZE=0x0100)
-                              9 	.area .dpcb (OVR,BANK=page_cb)
-                             10 	
-                             11 ;--- end asm ---
-                             12 	.globl _Vec_Default_Stk
-                             13 	.area	.dpcb
-   CBEA                      14 _Vec_Default_Stk:
-   CBEA 00 00                15 	.word	0	;skip space 8
-   CBEC 00 00                16 	.word	0	;skip space 6
-   CBEE 00 00                17 	.word	0	;skip space 4
-   CBF0 00 00                18 	.word	0	;skip space 2
-                             19 	.globl _Vec_SWI2_Vector
-   CBF2                      20 _Vec_SWI2_Vector:
-   CBF2 00 00                21 	.word	0	;skip space 9
-   CBF4 00 00                22 	.word	0	;skip space 7
-   CBF6 00 00                23 	.word	0	;skip space 5
-   CBF8 00 00                24 	.word	0	;skip space 3
-   CBFA 00                   25 	.byte	0	;skip space
-                             26 	.globl _Vec_NWI_Vector
-   CBFB                      27 _Vec_NWI_Vector:
-   CBFB 00                   28 	.byte	0	;skip space
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	vec_ram_0xcb_2.c
+                              6 ;----- asm -----
+                              7 	.bank page_cb (BASE=0xcbea,SIZE=0x0100)
+                              8 	.area .dpcb (OVR,BANK=page_cb)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	_Vec_Default_Stk
+                             12 	.area	.dpcb
+   CBEA                      13 _Vec_Default_Stk:
+   CBEA 00 00 00 00 00 00    14 	.word	0,0,0,0
+        00 00
+                             15 	.globl	_Vec_SWI2_Vector
+   CBF2                      16 _Vec_SWI2_Vector:
+   CBF2 00 00 00 00 00 00    17 	.word	0,0,0,0
+        00 00
+   CBFA 00                   18 	.byte	0
+                             19 	.globl	_Vec_NWI_Vector
+   CBFB                      20 _Vec_NWI_Vector:
+   CBFB 00                   21 	.byte	0
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

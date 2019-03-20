@@ -1,0 +1,289 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS6500  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+ACKNOWLEDGMENT 
+
+
+   Thanks  to  Marko  Makela  for his contribution of the AS6500
+cross assembler.  
+
+        Marko Makela
+        Sillitie 10 A
+        01480 Vantaa
+        Finland
+        Internet: Marko.Makela@Helsinki.Fi
+        EARN/BitNet: msmakela@finuh
+
+   Several  additions and modifications were made to his code to
+support the following families of 6500 processors:  
+
+        (1)     650X and 651X processor family
+        (2)     65F11 and 65F12 processor family
+        (3)     65C00/21 and 65C29 processor family
+        (4)     65C02, 65C102, and 65C112 processor family
+
+   The  instruction  syntax of this cross assembler contains two
+peculiarities:  (1) the addressing indirection is denoted by the
+square  brackets  []  and (2) the `bbrx' and `bbsx' instructions
+are written `bbr0 memory,label'.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+6500 REGISTER SET 
+
+The following is a list of the 6500 registers used by AS6500:  
+
+        a       -       8-bit accumulator
+        x,y     -       index registers
+
+
+6500 INSTRUCTION SET 
+
+
+   The  following  tables  list all 6500 family mnemonics recog-
+nized by the AS6500 assembler.  The designation [] refers  to  a
+required addressing mode argument.  The following list specifies
+the format for each addressing mode supported by AS6500:  
+
+        #data           immediate data
+                        byte or word data
+
+        *dir            direct page addressing
+                        (see .setdp directive)
+                        0 &lt;= dir &lt;= 255 
+
+        offset,x        indexed addressing
+        offset,y        indexed addressing
+                        address = (offset + (x or y))
+
+        [offset,x]      pre-indexed indirect addressing
+                        0 &lt;= offset &lt;= 255
+                        address = contents of location
+                            (offset + (x or y)) mod 256
+
+        [offset],y      post-indexed indirect addressing
+                        address = contents of location at offset
+                            plus the value of the y register
+
+        [address]       indirect addressing
+
+        ext             extended addressing
+
+        label           branch label
+
+        address,label   direct page memory location
+                        branch label
+                        bbrx and bbsx instruction addressing
+
+The  terms data, dir, offset, address, ext, and label may all be
+expressions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the 65xx technical data for valid modes.  
+
+
+Processor Specific Directives 
+
+
+   The  AS6500  cross  assembler has four (4) processor specific
+assembler directives which  define  the  target  65xx  processor
+family:  
+
+        .r6500          Core 650X and 651X family (default)
+        .r65f11         Core plus 65F11 and 65F12
+        .r65c00         Core plus 65C00/21 and 65C29
+        .r65c02         Core plus 65C02, 65C102, and 65C112
+
+
+65xx Core Inherent Instructions 
+
+        brk                     clc
+        cld                     cli
+        clv                     dex
+        dey                     inx
+        iny                     nop
+        pha                     php
+        pla                     plp
+        rti                     rts
+        sec                     sed
+        sei                     tax
+        tay                     tsx
+        txa                     txs
+        tya
+
+
+65xx Core Branch Instructions 
+
+        bcc     label           bhs     label
+        bcs     label           blo     label
+        beq     label           bmi     label
+        bne     label           bpl     label
+        bvc     label           bvs     label
+
+
+65xx Core Single Operand Instructions 
+
+        asl     []
+        dec     []
+        inc     []
+        lsr     []
+        rol     []
+        ror     []
+
+
+65xx Core Double Operand Instructions 
+
+        adc     []
+        and     []
+        bit     []
+        cmp     []
+        eor     []
+        lda     []
+        ora     []
+        sbc     []
+        sta     []
+
+
+65xx Core Jump and Jump to Subroutine Instructions 
+
+        jmp     []              jsr     []
+
+
+65xx Core Miscellaneous X and Y Register Instructions 
+
+        cpx     []
+        cpy     []
+        ldx     []
+        stx     []
+        ldy     []
+        sty     []
+
+
+65F11 and 65F12 Specific Instructions 
+
+        bbr0    [],label                bbr1    [],label
+        bbr2    [],label                bbr3    [],label
+        bbr4    [],label                bbr5    [],label
+        bbr6    [],label                bbr7    [],label
+
+        bbs0    [],label                bbs1    [],label
+        bbs2    [],label                bbs3    [],label
+        bbs4    [],label                bbs5    [],label
+        bbs6    [],label                bbs7    [],label
+
+        rmb0    []                      rmb1    []
+        rmb2    []                      rmb3    []
+        rmb4    []                      rmb5    []
+        rmb6    []                      rmb7    []
+
+        smb0    []                      smb1    []
+        smb2    []                      smb3    []
+        smb4    []                      smb5    []
+        smb6    []                      smb7    []
+
+
+65C00/21 and 65C29 Specific Instructions 
+
+        bbr0    [],label                bbr1    [],label
+        bbr2    [],label                bbr3    [],label
+        bbr4    [],label                bbr5    [],label
+        bbr6    [],label                bbr7    [],label
+
+        bbs0    [],label                bbs1    [],label
+        bbs2    [],label                bbs3    [],label
+        bbs4    [],label                bbs5    [],label
+        bbs6    [],label                bbs7    [],label
+
+        bra     label
+
+        phx                             phy
+        plx                             ply
+
+        rmb0    []                      rmb1    []
+        rmb2    []                      rmb3    []
+        rmb4    []                      rmb5    []
+        rmb6    []                      rmb7    []
+
+        smb0    []                      smb1    []
+        smb2    []                      smb3    []
+        smb4    []                      smb5    []
+        smb6    []                      smb7    []
+
+
+65C02, 65C102, and 65C112 Specific Instructions 
+
+        bbr0    [],label                bbr1    [],label
+        bbr2    [],label                bbr3    [],label
+        bbr4    [],label                bbr5    [],label
+        bbr6    [],label                bbr7    [],label
+
+        bbs0    [],label                bbs1    [],label
+        bbs2    [],label                bbs3    [],label
+        bbs4    [],label                bbs5    [],label
+        bbs6    [],label                bbs7    [],label
+
+        bra     label
+
+        phx                             phy
+        plx                             ply
+
+        rmb0    []                      rmb1    []
+        rmb2    []                      rmb3    []
+        rmb4    []                      rmb5    []
+        rmb6    []                      rmb7    []
+
+        smb0    []                      smb1    []
+        smb2    []                      smb3    []
+        smb4    []                      smb5    []
+        smb6    []                      smb7    []
+
+        stz     []
+        trb     []
+        tsb     []
+
+   Additional  addressing  modes for the following core instruc-
+tions are also available with the 65C02, 65C102, and 65C112 pro-
+cessors.  
+
+        adc     []                      and     []
+        cmp     []                      eor     []
+        lda     []                      ora     []
+        sbc     []                      sta     []
+
+        bit     []                      jmp     []
+
+        dec                             inc
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

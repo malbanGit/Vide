@@ -1,35 +1,25 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	vec_rum_0xe7.c
-                              7 ;----- asm -----
-                              8 	.bank page_e7 (BASE=0xe7b5,SIZE=0x004b)
-                              9 	.area .0xe7 (OVR,BANK=page_e7)
-                             10 	
-                             11 ;--- end asm ---
-                             12 	.globl ___Displ8_xy
-                             13 	.area	.0xe7
-   E7B5                      14 ___Displ8_xy:
-   E7B5 00 00                15 	.word	0	;skip space 29
-   E7B7 00 00                16 	.word	0	;skip space 27
-   E7B9 00 00                17 	.word	0	;skip space 25
-   E7BB 00 00                18 	.word	0	;skip space 23
-   E7BD 00 00                19 	.word	0	;skip space 21
-   E7BF 00 00                20 	.word	0	;skip space 19
-   E7C1 00 00                21 	.word	0	;skip space 17
-   E7C3 00 00                22 	.word	0	;skip space 15
-   E7C5 00 00                23 	.word	0	;skip space 13
-   E7C7 00 00                24 	.word	0	;skip space 11
-   E7C9 00 00                25 	.word	0	;skip space 9
-   E7CB 00 00                26 	.word	0	;skip space 7
-   E7CD 00 00                27 	.word	0	;skip space 5
-   E7CF 00 00                28 	.word	0	;skip space 3
-   E7D1 00                   29 	.byte	0	;skip space
-                             30 	.globl ___Displ16_xy
-   E7D2                      31 ___Displ16_xy:
-   E7D2 00                   32 	.byte	0	;skip space
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	vec_rum_0xe7.c
+                              6 ;----- asm -----
+                              7 	.bank page_e7 (BASE=0xe7b5,SIZE=0x004b)
+                              8 	.area .0xe7 (OVR,BANK=page_e7)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	___Displ8_xy
+                             12 	.area	.0xe7
+   E7B5                      13 ___Displ8_xy:
+   E7B5 00 00 00 00 00 00    14 	.word	0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00
+   E7D1 00                   15 	.byte	0
+                             16 	.globl	___Displ16_xy
+   E7D2                      17 ___Displ16_xy:
+   E7D2 00                   18 	.byte	0
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

@@ -1,0 +1,27 @@
+tm8cs
+-mxsu
+-g xjmp1=jmp1+1
+-g xjmp2=jmp2+1
+-g xjmp3=jmp3+1
+-g xcall1=call1+1
+-g xcall2=call2+1
+-g xcall3=call3+1
+-g xjz1=jz1+1
+-g xjz2=jz2+1
+-g xjz3=jz3+1
+-g xjnz1=jnz1+1
+-g xjnz2=jnz2+1
+-g xjnz3=jnz3+1
+-g xjc1=jc1+1
+-g xjc2=jc2+1
+-g xjc3=jc3+1
+-g xjnc1=jnc1+1
+-g xjnc2=jnc2+1
+-g xjnc3=jnc3+1
+-g xjacc1=jacc1+1
+-g xjacc2=jacc2+1
+-g xjacc3=jacc3+1
+-g xindex1=index1+1
+-g xindex2=index2+1
+-g xindex3=index3+1
+-e

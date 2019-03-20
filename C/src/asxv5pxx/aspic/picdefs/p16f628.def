@@ -1,0 +1,261 @@
+        .LIST
+; P16F628.INC  Standard Header File, Version 1.01    Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC16F628 microcontroller.  These names are taken to match
+; the data sheets as closely as possible.
+
+; Note that the processor must be selected before this file is
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PIC16F628
+;       2. LIST directive in the source file
+;               LIST   P=PIC16F628
+;       3. Processor Type entry in the MPASM full-screen interface
+
+;==========================================================================
+;
+;       Revision History
+;
+;==========================================================================
+
+;Rev:   Date:    Reason:
+;1.01   13 Sept 2001  Added _DATA_CP_ON and _DATA_CP_OFF
+;1.00   10 Feb 1999 Initial Release
+
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __16F628
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+W                            =:     0x0000
+F                            =:     0x0001
+
+;----- Register Files------------------------------------------------------
+
+INDF                         =:     0x0000
+TMR0                         =:     0x0001
+PCL                          =:     0x0002
+STATUS                       =:     0x0003
+FSR                          =:     0x0004
+PORTA                        =:     0x0005
+PORTB                        =:     0x0006
+PCLATH                       =:     0x000A
+INTCON                       =:     0x000B
+PIR1                         =:     0x000C
+TMR1L                        =:     0x000E
+TMR1H                        =:     0x000F
+T1CON                        =:     0x0010
+TMR2                         =:     0x0011
+T2CON                        =:     0x0012
+CCPR1L                       =:     0x0015
+CCPR1H                       =:     0x0016
+CCP1CON                      =:     0x0017
+RCSTA                        =:     0x0018
+TXREG                        =:     0x0019
+RCREG                        =:     0x001A
+CMCON                        =:     0x001F
+
+OPTION_REG                   =:     0x0081
+TRISA                        =:     0x0085
+TRISB                        =:     0x0086
+PIE1                         =:     0x008C
+PCON                         =:     0x008E
+PR2                          =:     0x0092
+TXSTA                        =:     0x0098
+SPBRG                        =:     0x0099
+EEDATA                       =:     0x009A
+EEADR                        =:     0x009B
+EECON1                       =:     0x009C
+EECON2                       =:     0x009D
+VRCON                        =:     0x009F
+
+;----- STATUS Bits --------------------------------------------------------
+
+IRP                          =:     0x0007
+RP1                          =:     0x0006
+RP0                          =:     0x0005
+NOT_TO                       =:     0x0004
+NOT_PD                       =:     0x0003
+Z                            =:     0x0002
+DC                           =:     0x0001
+C                            =:     0x0000
+
+;----- INTCON Bits --------------------------------------------------------
+
+GIE                          =:     0x0007
+PEIE                         =:     0x0006
+T0IE                         =:     0x0005
+INTE                         =:     0x0004
+RBIE                         =:     0x0003
+T0IF                         =:     0x0002
+INTF                         =:     0x0001
+RBIF                         =:     0x0000
+
+;----- PIR1 Bits ----------------------------------------------------------
+
+EEIF                         =:     0x0007
+CMIF                         =:     0x0006
+RCIF                         =:     0x0005
+TXIF                         =:     0x0004
+CCP1IF                       =:     0x0002
+TMR2IF                       =:     0x0001
+TMR1IF                       =:     0x0000
+
+;----- T1CON Bits ---------------------------------------------------------
+T1CKPS1                      =:     0x0005
+T1CKPS0                      =:     0x0004
+T1OSCEN                      =:     0x0003
+NOT_T1SYNC                   =:     0x0002
+TMR1CS                       =:     0x0001
+TMR1ON                       =:     0x0000
+
+;----- T2CON Bits ---------------------------------------------------------
+TOUTPS3                      =:     0x0006
+TOUTPS2                      =:     0x0005
+TOUTPS1                      =:     0x0004
+TOUTPS0                      =:     0x0003
+TMR2ON                       =:     0x0002
+T2CKPS1                      =:     0x0001
+T2CKPS0                      =:     0x0000
+
+;----- CCP1CON Bits ---------------------------------------------------------
+CCP1X                        =:     0x0005
+CCP1Y                        =:     0x0004
+CCP1M3                       =:     0x0003
+CCP1M2                       =:     0x0002
+CCP1M1                       =:     0x0001
+CCP1M0                       =:     0x0000
+
+;----- RCSTA Bits ---------------------------------------------------------
+SPEN                         =:     0x0007
+RX9                          =:     0x0006
+SREN                         =:     0x0005
+CREN                         =:     0x0004
+ADEN                         =:     0x0003
+FERR                         =:     0x0002
+OERR                         =:     0x0001
+RX9D                         =:     0x0000
+
+;----- CMCON Bits ---------------------------------------------------------
+
+C2OUT                        =:     0x0007
+C1OUT                        =:     0x0006
+C2INV                        =:     0x0005
+C1INV                        =:     0x0004
+CIS                          =:     0x0003
+CM2                          =:     0x0002
+CM1                          =:     0x0001
+CM0                          =:     0x0000
+
+;----- OPTION Bits --------------------------------------------------------
+
+NOT_RBPU                     =:     0x0007
+INTEDG                       =:     0x0006
+T0CS                         =:     0x0005
+T0SE                         =:     0x0004
+PSA                          =:     0x0003
+PS2                          =:     0x0002
+PS1                          =:     0x0001
+PS0                          =:     0x0000
+
+;----- PIE1 Bits ----------------------------------------------------------
+
+EEIE                         =:     0x0007
+CMIE                         =:     0x0006
+RCIE                         =:     0x0005
+TXIE                         =:     0x0004
+CCP1IE                       =:     0x0002
+TMR2IE                       =:     0x0001
+TMR1IE                       =:     0x0000
+
+;----- PCON Bits ----------------------------------------------------------
+
+OSCF                         =:     0x0003
+NOT_POR                      =:     0x0001
+NOT_BO                       =:     0x0000
+NOT_BOR                      =:     0x0000
+NOT_BOD                      =:     0x0000
+
+;----- TXSTA Bits ----------------------------------------------------------
+CSRC                         =:     0x0007
+TX9                          =:     0x0006
+TXEN                         =:     0x0005
+SYNC                         =:     0x0004
+BRGH                         =:     0x0002
+TRMT                         =:     0x0001
+TX9D                         =:     0x0000
+
+;----- EECON1 Bits ---------------------------------------------------------
+WRERR                        =:     0x0003
+WREN                         =:     0x0002
+WR                           =:     0x0001
+RD                           =:     0x0000
+
+;----- VRCON Bits ---------------------------------------------------------
+
+VREN                         =:     0x0007
+VROE                         =:     0x0006
+VRR                          =:     0x0005
+VR3                          =:     0x0003
+VR2                          =:     0x0002
+VR1                          =:     0x0001
+VR0                          =:     0x0000
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+    .MAXRAM 0x01FF
+    .BADRAM 0x07:0x09, 0x0D, 0x13:0x14, 0x1B:0x1E
+    .BADRAM 0x87:0x89, 0x8D, 0x8F:0x91, 0x93:0x97, 0x9E
+    .BADRAM 0x105, 0x107:0x109, 0x10C:0x11F, 0x150:0x16F
+    .BADRAM 0x185, 0x187:0x189, 0x18C:0x1EF
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;==========================================================================
+
+_BODEN_ON                    =:     0x3FFF
+_BODEN_OFF                   =:     0x3FBF
+_CP_ALL                      =:     0x03FF
+_CP_75                       =:     0x17FF
+_CP_50                       =:     0x2BFF
+_CP_OFF                      =:     0x3FFF
+_DATA_CP_ON                  =:     0x3EFF
+_DATA_CP_OFF                 =:     0x3FFF
+_PWRTE_OFF                   =:     0x3FFF
+_PWRTE_ON                    =:     0x3FF7
+_WDT_ON                      =:     0x3FFF
+_WDT_OFF                     =:     0x3FFB
+_LVP_ON                      =:     0x3FFF
+_LVP_OFF                     =:     0x3F7F
+_MCLRE_ON                    =:     0x3FFF
+_MCLRE_OFF                   =:     0x3FDF
+_ER_OSC_CLKOUT               =:     0x3FFF
+_ER_OSC_NOCLKOUT             =:     0x3FFE
+_INTRC_OSC_CLKOUT            =:     0x3FFD
+_INTRC_OSC_NOCLKOUT          =:     0x3FFC
+_EXTCLK_OSC                  =:     0x3FEF
+_LP_OSC                      =:     0x3FEC
+_XT_OSC                      =:     0x3FED
+_HS_OSC                      =:     0x3FEE
+
+        .LIST

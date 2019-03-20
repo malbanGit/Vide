@@ -1,0 +1,23 @@
+!define BLANK ""
+R:\asxv5pxx\asxmak\watcom\build\s19os9.obj : R:\asxv5pxx\S19OS9\s19os9.c .AU&
+TODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ *wcc386 ..\..\..\S19OS9\s19os9.c -i=..\..\..\asxxsrc;C:\WATCOM\h;C:\WATCOM\&
+h\nt -w4 -e25 -zq -od -d2 -6r -bt=nt -mf
+
+R:\asxv5pxx\asxmak\watcom\build\s19os9.exe : R:\asxv5pxx\asxmak\watcom\build&
+\s19os9.obj .AUTODEPEND
+ @R:
+ cd R:\asxv5pxx\asxmak\watcom\build
+ @%write s19os9.lk1 FIL s19os9.obj
+ @%append s19os9.lk1 
+!ifneq BLANK ""
+ *wlib -q -n -b s19os9.imp 
+ @%append s19os9.lk1 LIBR s19os9.imp
+!endif
+!ifneq BLANK ""
+ @%append s19os9.lk1 op resource=
+!endif
+ *wlink name s19os9 d all SYS nt op m op maxe=25 op q op symf @s19os9.lk1
+

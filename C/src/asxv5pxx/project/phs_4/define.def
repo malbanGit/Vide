@@ -1,0 +1,161 @@
+	.title	PHS Constant definitions
+
+
+	.sbttl	VT1xx screen definitions
+
+	.radix	d
+
+;
+;	VT1xx screen definitions
+;
+
+	SCRNW	==	80		; screen width
+
+	SCRNTP	==	 0		; ypos for top    line of edit area
+	SCRNBT	==	23		; ypos for bottom line of edit area
+	STATUS	==	 0		; ypos for status/command-input line
+
+	SCRNL	==	24		; screen length
+
+
+; ----------------------------------------------------------
+; Definitions for various parameters
+
+	ERR	==	(-1)
+	END	==	(-2)
+
+	EOS	==	0
+	OK	==	1
+
+	NO	==	0
+	YES	==	1
+
+; ----------------------------------------------------------
+; Definitions for the Keypad
+
+			; zero not allowed
+	SELECT	==	 (-1)
+	CUT	==	 (-2)
+	APPEND	==	 (-3)
+	FNDNXT	==	 (-4)
+	GOLD	==	 (-5)
+	HELP	==	 (-6)
+	ENTER	==	 (-7)
+	SCRLL	==	   8	; backspace = 8
+	TAB	==	   9	; horizontal tab = 9
+	LF	==	  10	; linefeed = 10
+	SCRLU	==	  11	; vertical tab = 11
+	FF	==	  12	; formfeed = 12
+	CR	==	  13	; carriage return = 13
+	CHAR	==	(-14)
+	WORD	==	(-15)
+	LINE	==	(-16)
+	DELC	==	(-17)
+	DELW	==	(-18)
+	DELL	==	(-19)
+	EOL	==	(-20)
+	CTRLU	==	  21	; ^U
+	ADVANCE	==	(-22)
+	CTRLW	==	  23	; ^W
+	SECTION	==	(-24)
+	PAGE	==	(-25)
+	CTRLZ	==	  26	; ^Z
+	ESCAPE	==	  27	; esc character
+	SCRLD	==	(-28)
+	SCRLR	==	(-29)
+	BACKUP	==	(-30)
+	ERROR	==	(-31)
+				; characters 32-126 are valid
+	DELETE	==	 127	; delete to left of cursor
+	CRLF	==	0x7F	; internal line termination
+	REVERSE	==	0x80	; internal reverse video bit
+	NORMAL	==	0x00	; internal normal  video
+
+; ----------------------------------------------------------
+
+	; VT1xx keypad definitions
+	;
+	;	(ESC O l)	--> (DELC)
+	;	(ESC O m)	--> (DELW)
+	;	(ESC O n)	--> (SELECT)
+	;	(ESC O p)	--> (LINE)
+	;	(ESC O q)	--> (WORD)
+	;	(ESC O r)	--> (EOL)
+	;	(ESC O s)	--> (CHAR)
+	;	(ESC O t)	--> (ADVANCE)
+	;	(ESC O u)	--> (BACKUP)
+	;	(ESC O v)	--> (CUT)
+	;	(ESC O w)	--> (PAGE)
+	;	(ESC O x)	--> (SECTION)
+	;	(ESC O y)	--> (APPEND)
+	;	(ESC O M)	--> (ENTER)
+	;	(ESC O P)	--> (GOLD)
+	;	(ESC O Q)	--> (HELP)
+	;	(ESC O R)	--> (FNDNXT)
+	;	(ESC O S)	--> (DELL)
+	;	(ESC O other)	--> (ERROR)
+	;
+	;	(GOLD)(DELC)	--> (UNDEL C)
+	;	(GOLD)(DELW)	--> (UNDEL W)
+	;	(GOLD)(SELECT)	--> (RESET)
+	;	(GOLD)(LINE)	--> (OPENLINE)
+	;	(GOLD)(WORD)	--> (CHNGCASE)
+	;	(GOLD)(EOL)	--> (DEL EOL)
+	;	(GOLD)(CHAR)	--> (BOTTOM)
+	;	(GOLD)(BACKUP)	--> (TOP)
+	;	(GOLD)(CUT)	--> (PASTE)
+	;	(GOLD)(PAGE)	--> (COMMAND)
+	;	(GOLD)(SECTION)	--> (MOVE CURSOR)
+	;	(GOLD)(APPEND)	--> (REPLACE)
+	;	(GOLD)(ENTER)	--> (SUBS)
+	;	(GOLD)(GOLD)	--> (GOLD)
+	;	(GOLD)(HELP)	--> (HELP)
+	;	(GOLD)(FNDNXT)	--> (FIND)
+	;	(GOLD)(DELL)	--> (UNDEL L)
+	;
+	;	(ESC [ A)	--> (SCRLU)
+	;	(ESC [ B)	--> (SCRLD)
+	;	(ESC [ C)	--> (SCRLL)
+	;	(ESC [ D)	--> (SCRLR)
+	;	(ESC [ other)	--> (ERROR)
+
+
+	.sbttl	Acquisition Definitions
+
+	$STOP	==	0b00000000	; acq$sts bits
+	$SCAN	==	0b00000001
+	$FAILED	==	0b00000010
+	$HOLD	==	0b00000100
+	$ACTIVE	==	0b00001000
+
+	$OFF	==	0b00000011	; LED control bits
+	$YELLOW	==	0b00000000
+	$YFLASH	==	0b00000011
+	$RED	==	0b00000001
+	$RFLASH	==	0b00000010
+	$GREEN	==	0b00000010
+	$GFLASH	==	0b00000001
+
+	.sbttl	HV-Status
+
+	$HVQMRK	==	0		; unknown state
+	$HVOFF	==	1
+	$HVON	==	2
+	$HVZERO	==	3
+	$HVFAIL	==	4
+
+	.sbttl	HV-Queue Functions
+
+	M16F	==	1		; HV-Off
+	M16N	==	2		; HV-On
+	M16S	==	3		; HV-Status
+	M16D	==	4		; Demand Voltages
+	M16V	==	5		; Voltage Readings
+	M16CxxG	==	6		; Get Channel Voltage
+	M16CxxS	==	7		; Set Channel Voltage
+	M16CxxZ	==	8		; Zero Channel
+	M16CxxR	==	9		; Restore Channel
+	M16UPDT	==	10		; Update Sequence
+	M16WAIT	==	11		; 5 Second Wait
+
+

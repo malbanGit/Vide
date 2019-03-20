@@ -1,0 +1,27 @@
+82569
+R:\asxv5pxx\asxmak\symantec\build\ash8.prj
+ash8.OPN
+novcs
+ash8.DEF
+6
+1150355460
+0 0 0 0 0 "..\..\..\ASXXSRC\asdata.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asdbg.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asexpr.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\aslex.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\aslist.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asmain.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asmcro.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asout.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\assubr.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\assym.c"
+0 0 0 0 0 "..\..\..\ASH8\h8adr.c"
+0 0 0 0 0 "..\..\..\ASH8\h8mch.c"
+0 0 0 0 0 "..\..\..\ASH8\h8pst.c"
+0 0 0 0 0 "ash8.DEF"
+0 -1 0 0 0 "..\..\..\asxxsrc\asxxxx.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdlib.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdio.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\setjmp.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\string.h"
+0 -1 0 0 0 "..\..\..\ASH8\h8.h"

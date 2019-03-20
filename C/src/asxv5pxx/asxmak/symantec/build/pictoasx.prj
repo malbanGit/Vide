@@ -1,0 +1,16 @@
+82569
+R:\asxv5pxx\asxmak\symantec\build\pictoasx.prj
+pictoasx.OPN
+novcs
+pictoasx.DEF
+6
+1150355460
+0 0 0 0 0 "..\..\..\ASPIC\PTOA\pictoasx.c"
+0 0 0 0 0 "..\..\..\ASPIC\PTOA\PtoA.c"
+0 0 0 0 0 "pictoasx.DEF"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdio.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\setjmp.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\string.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\alloc.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdlib.h"
+0 -1 0 0 0 "..\..\..\ASPIC\PTOA\ptoa.h"

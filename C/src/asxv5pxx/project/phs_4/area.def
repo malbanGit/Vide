@@ -1,0 +1,41 @@
+	.sbttl	Area / Bank Definitions and Linking Order
+
+	; CODE, DATA, and OPTION banks
+
+	.bank	CODE		;(FSFX=_CD)
+	.bank	DATA		;(FSFX=_DT)
+	.bank	OPTN		(FSFX=_OP)
+
+	; indexed label definitions
+
+	.area	PORTDATA	(ABS,OVR,DSEG,BANK=DATA)
+	.area	ACQBUFR		(ABS,OVR,DSEG,BANK=DATA)
+	.area	ACQVARBL	(ABS,OVR,DSEG,BANK=DATA)
+
+	; data areas
+
+	.area	WORKPG		(REL,CON,DSEG,BANK=DATA)
+	.area	BUFSAV		(REL,CON,DSEG,BANK=DATA)
+	.area	ACQDATA		(REL,CON,DSEG,BANK=DATA)
+
+	; program areas
+
+	.area	PGMSAV		(REL,CON,CSEG,BANK=CODE)
+	.area	ACIA		(REL,CON,CSEG,BANK=CODE)
+	.area	ACQ		(REL,CON,CSEG,BANK=CODE)
+	.area	HVCTRL		(REL,CON,CSEG,BANK=CODE)
+	.area	TERMIO		(REL,CON,CSEG,BANK=CODE)
+	.area	SELECT		(REL,CON,CSEG,BANK=CODE)
+	.area	SCREEN		(REL,CON,CSEG,BANK=CODE)
+	.area	SCRNUPDT	(REL,CON,CSEG,BANK=CODE)
+	.area	AICONV		(REL,CON,CSEG,BANK=CODE)
+	.area	MONDEB		(REL,CON,CSEG,BANK=CODE)
+	.area	IRQVEC		(REL,CON,CSEG,BANK=CODE)
+
+	.area	OPTFUN		(ABS,OVR,CSEG,BANK=OPTN)
+
+
+	.sbttl	Default Direct Page
+
+	.setdp	0,PORTDATA
+

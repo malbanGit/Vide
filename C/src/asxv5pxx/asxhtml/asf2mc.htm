@@ -1,0 +1,207 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASF2MC8  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+PROCESSOR SPECIFIC DIRECTIVES 
+
+
+   The ASF2MC8 assembler supports the F2MC8L and F2MC8FX proces-
+sor cores.  
+
+
+.8L Directive 
+
+Format:  
+
+        .8L 
+
+The  .8L  directive selects the F2MC8L processor cycle counts to
+be listed when the -c option is specified.  This is the  default
+selection  if  no processor directive is specified in the source
+assemby file.  
+
+
+.8FX Directive 
+
+Format:  
+
+        .8FX 
+
+The .8FX directive selects the F2MC8FX processor cycle counts to
+be listed when the -c option is specified.  .8L is  the  default
+selection  if  no processor directive is specified in the source
+assemby file.  
+
+
+
+The .__.CPU.  Variable 
+
+   The value of the pre-defined symbol '.__.CPU.' corresponds to
+the selected processor type.  The default value is 0 which  cor-
+responds  to  the  default  processor type.  The following table
+lists the processor types and associated values for the  ASF2MC8
+assembler:  
+
+        Processor Type            .__.CPU. Value
+        --------------            --------------
+            .8L                          0
+            .8FX                         1
+
+
+   The  variable  '.__.CPU.'  is by default defined as local and
+will not be output to the created .rel file.  The assembler com-
+mand line options -g or -a will not cause the local symbol to be
+output to the created .rel file.  
+
+   The  assembler  .globl  directive  may  be used to change the
+variable type to global causing its definition to be  output  to
+the  .rel file.  The inclusion of the definition of the variable
+'.__.CPU.' might be a useful means of validating that seperately
+assembled  files have been compiled for the same processor type.
+The linker will report an error for variables with multiple  non
+equal definitions.  
+
+
+F2MC8L/F2MC8FX REGISTERS 
+
+   The  following  is a list of register designations recognized
+by the ASF2MC8 assembler:  
+
+        pc              -       Program Counter
+
+        a               -       Accumulator
+
+        t               -       Temporary Accumulator
+
+        ix              -       Index Register
+
+        ep              -       Extra Pointer
+
+        sp              -       Stack Pointer
+
+        ps              -       Program Status
+
+        r0,r1,r2,r3,    -       Memory Registers
+        r4,r5,r6,r7             32 banks of
+                                8 registers each
+
+
+F2MC8L/F2MC8FX INSTRUCTION SET 
+
+   The  following  list specifies the format for each addressing
+mode supported by ASF2MC8:  
+
+        #data           immediate data
+                        byte or word data
+
+        *dir            direct page addressing
+
+        *dir:b          bit addressing to a
+                        direct page address
+
+        ext             extended addressing
+
+        a,t             register addressing
+        pc,sp,ix,ep
+
+        @a              accumulator indexed
+
+        @ix+d           indexed addressing
+                        plus offset
+
+        @ix             indexed addressing
+                        with a zero offset
+
+        @ep             pointer addressing
+
+        r               General-purpose registers
+
+        label           call/jmp/branch label
+
+The  terms  data,  dir,  ext, b, d, and label may all be expres-
+sions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction, refer to the F2MC8L/F2MC8FX technical data for  valid
+modes.  
+
+   The following tables list all F2MC8L/F2MC8FX mnemonics recog-
+nized by the ASF2MC8 assembler.  The designation [] refers to  a
+required addressing mode argument.  
+
+
+
+Transfer Instructions 
+
+        mov     [],[]           movw    [],[]
+        xch     [],[]           xchw    [],[]
+        clrb    []              setb    []
+        swap    []
+
+
+Operation Instructions 
+
+        addc    a(,[])          addcw   a
+        subc    a(,[])          subcw   a
+        inc     r               incw    []
+        dec     r               decw    []
+        mulu    a               divu    a
+        and     a(,[])          andw    a
+        cmp     a(,[])          cmpw    a
+        or      a(,[])          orw     a
+        xor     a(,[])          xorw    a
+        rolc    a               rorc    a
+        daa                     das
+
+
+Branch/Jump/Call Instructions 
+
+        bz      label           bew     label
+        bnz     label           bne     label
+        bc      label           blo     label
+        bnc     label           bhs     label
+        bn      label           bp      label
+        blt     label           bge     label
+        bbc     *dir:b,label    bbs     *dir:b,label
+        jmp     []              call    label
+        callv   #data           xchw    a,pc
+        ret                     reti
+
+
+Other Instructions 
+
+        pushw   []              popw    []
+        nop
+        clrc                    setc
+        clri                    seti
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>
+

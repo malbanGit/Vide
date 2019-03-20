@@ -1,0 +1,7 @@
+-xu
+-g extaddr=0
+-g lbl6f=lbl6-0xFE
+-g lbl6r=lbl6+0x100
+-g lbl7f=lbl7-0x7FE
+-g lbl7r=lbl7+0x800
+tpic18cx

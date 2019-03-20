@@ -1,0 +1,485 @@
+.IF	DEF,.$$.M6805
+
+.IIF	NDEF,.$$.LIST	.NLIST	;CROSS-ASSEMBLER NOT LISTED
+	;DURING CHECKOUT DEFINE .$$.LIST TO ENABLE LISTING
+.IIF	DEF,.$$.LIST	.LIST
+	;
+	;
+	.TITLE	M6805 CROSS-ASSEMBLER
+	;
+.IIF	DEF,.$$.LIST	.SBTTL	CROSS-ASSEMBLER INTRODUCTION
+	;
+	;****************************************************************
+	;*								*
+	;*	MACRO PACKAGE FOR THE MOTOROLA 6805 MICROPROCESSOR	*
+	;*		TO RUN UNDER MACRO 11.				*
+	;*								*
+	;*								*
+	;*	BY ALAN R. BALDWIN					*
+	;*		PHYSICS DEPARTMENT				*
+	;*		KENT STATE UNIVERSITY				*
+	;*		KENT, OHIO  44242				*
+	;*								*
+	;*		V01 - AUGUST 1983				*
+	;*								*
+	;****************************************************************
+	;****************************************************************
+	;*								*
+	;*	REWRITTEN FOR THE ASXXXX 'ASCHECK' ASSEMBLER		*
+	;*								*
+	;*		DECEMBER 2008					*
+	;*								*
+	;****************************************************************
+	;
+	;****************************************************************
+	;*								*
+	;*	The M6805.MAC Macro Cross Assembler requires		*
+	;*	the 'direct page' to be initialized by using		*
+	;*	the following macro:					*
+	;*								*
+	;*	setdp							*
+	;* or	setdp	0	(a non zero argument is an error)	*
+	;*								*
+	;*								*
+	;*	This Cross Assembler removes the relocation		*
+	;*	information from all addresses yielding an		*
+	;*	ABSOLUTE ASSEMBLER.  Relocating assembled		*
+	;*	code using the ASLINK relocation options		*
+	;*	will not generate a correctly relocated			*
+	;*	image.							*
+	;*								*
+	;****************************************************************
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+	;
+	;THE FOLLOWING DIFFERENCES EXIST BETWEEN THIS CROSS-ASSEMBLER
+	;AND MOTOROLA'S M6805 ASSEMBLER
+	;	LABELS MUST TERMINATE WITH A :
+	;	COMMENTS START WITH A ;
+	;	IMMEDIATE MODE IS DENOTED BY A SEPERATE ARGUMENT - #
+	;	DIRECT MODE IS DENOTED BY A SEPERATE ARGUMENT - *
+	;
+	;
+	;DEFINITION OF ASSEMBLER DIRECTIVES WITH DIFFERENCES
+	;	END -  USE	.END	END OF PROGRAM
+	;	EQU -  USE  	=	EQUATE SYMBOL
+	;	FCB -  USE	.FCB	FORM SINGLE-BYTE CONSTANT
+	;	FCC -  USE	.FCC	FORM CONSTANT CHARACTERS
+	;	FDB -  USE	.FDB	FORM DOUBLE-BYTE CONSTANT
+	;	MON -  NOT IMPLEMENTED	RETURN TO MONITOR CONSOLE
+	;	NAM -  USE	.SBTTL	PROGRAM NAME
+	;	OPT -  NOT IMPLEMENTED	OPTION
+	;	ORG -  USE	.ORG	ORIGIN
+	;	PAGE - USE	.PAGE	ADVANCE LISTING TO TOP OF PAGE
+	;	RMB -  USE	.RMB	RESERVE MEMORY BYTES
+	;	SETDP -USE	SETDP	SET DIRECT PAGE BOUNDARY
+	;	SPC -  NOT IMPLEMENTED	SPACE N LINES
+	;
+	;
+	;PROCESSOR CONDITION CODE REVIEW
+	;	0 - CARRY BIT (C)
+	;	1 - ZERO BIT (Z)
+	;	2 - NEGATIVE BIT (N)
+	;	3 - INTERRUPT MASK BIT (I)
+	;	4 - HALF CARRY BIT (H)
+	;	5 - ALWAYS 1
+	;	6 - ALWAYS 1
+	;	7 - ALWAYS 1
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+.IIF	DEF,.$$.LIST	.SBTTL	LOCAL VARIABLES
+	;
+	.LOCAL	...A,	...B,	...PAG,	...TYP
+	.LOCAL	...IMM,	...DIR,	...EXT,	...IDX,	...FLG
+	;
+	;
+	;BYTE ORDERING IS HI ... LO
+	;
+	.HILO
+	;
+	;
+	;CONSTANTS ARE IN OCTAL
+	;
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+.IIF	DEF,.$$.LIST	.SBTTL	ADDRESSING MACROS
+	;
+	;IMMEDIATE DATA
+	;
+.MACRO	.$.IMM		I,J,K
+ ...IMM = -0Q1
+ .IIF	IDN	^!I!,#	...IMM = 0Q0
+ .IIF	GE,...IMM	...FLG =  0Q1
+ .IIF	LT,...IMM	...FLG = -0Q1
+ .IF	GE,...FLG
+  .NTYP		...TYP,J
+  .IF	EQ,...TYP
+   ...IMM =J
+  .ELSE
+   .NVAL	...IMM,J
+  .ENDIF
+ .ENDIF
+ .IF	LT,...FLG
+  .IIF	NB,^!K!		.ERROR	1	;NOT IMMEDIATE
+ .ENDIF
+.ENDM	;.$.IMM
+	;
+	;DIRECT PAGE ADDRESSING
+        ;
+.MACRO	.$.DIR		I,J,K
+ ...DIR = -0Q1
+ .IIF	IDN	^!I!,*	...DIR = 0Q0
+ .IIF	GE,...DIR	...FLG =  0Q1
+ .IIF	LT,...DIR	...FLG = -0Q1
+ .IF	GE,...FLG
+  .NTYP	...TYP,J
+  .IF EQ,...TYP
+   ...DIR = J
+  .ELSE
+   ...DIR = J - ...PAG
+  .ENDIF
+  .IF	NE,(...DIR & 0Q177400)
+   .IIF	NB,^!K!		.ERROR	1	;ADDRESS NOT IN PAGE
+   ...DIR = ...DIR & 0Q377
+  .ENDIF
+ .ENDIF
+.ENDM	;.$.DIR
+	;
+	;INDEXED ADRESSING
+	;
+.MACRO	.$.IDX		I,J,K
+ ...IDX = -0Q1
+ .IIF	IDN	^!J!,x	...IDX = 0Q1
+ .IIF	IDN	^!J!,X	...IDX = 0Q1
+ .IIF	GE,...IDX	...FLG =  0Q1
+ .IIF	LT,...IDX	...FLG = -0Q1
+ .IF	GE,...FLG
+  .NVAL	...IDX,I
+  .IF	NE,(...IDX & 0Q177400)
+   .IIF	NB,^!K!		.ERROR	1	;OFFSET OUT OF RANGE
+  .ENDIF
+ .ENDIF
+.ENDM	;.$.IDX
+	;
+	;EXTENDED ADDRESSING
+	;
+.MACRO	.$.EXT		I
+ .NTYP	...TYP,I
+ .IF	EQ,...TYP
+  ...EXT = I
+ .ELSE
+  .NVAL	...EXT,I
+ .ENDIF
+.ENDM	;.$.EXT
+	;
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+.IIF	DEF,.$$.LIST	.SBTTL	SINGLE BYTE 'INHERENT' INSTRUCTIONS
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H
+ .BYTE	I
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC  OPCODE	;OPERATION
+.$.$.$	NEGA,	0Q100	;NEGATE A
+.$.$.$	COMA,	0Q103	;COMPLEMENT A
+.$.$.$	LSRA,	0Q104	;LOGICAL SHIFT RIGHT A
+.$.$.$	RORA,	0Q106	;ROTATE RIGHT A
+.$.$.$	ASRA,	0Q107	;ARITHMETIC SHIFT RIGHT A
+.$.$.$	LSLA,	0Q110	;LOGIC SHIFT LEFT A
+.$.$.$	ROLA,	0Q111	;ROTATE LEFT A
+.$.$.$	DECA,	0Q112	;DECREMENT A
+.$.$.$	INCA,	0Q114	;INCREMENT A
+.$.$.$	TSTA,	0Q115	;TEST A
+.$.$.$	CLRA,	0Q117	;CLEAR A
+.$.$.$	NEGX,	0Q120	;NEGATE X
+.$.$.$	COMX,	0Q123	;COMPLEMENT X
+.$.$.$	LSRX,	0Q124	;LOGICAL SHIFT RIGHT X
+.$.$.$	RORX,	0Q126	;ROTATE RIGHT X
+.$.$.$	ASRX,	0Q127	;ARITHMETIC SHIFT RIGHT X
+.$.$.$	LSLX,	0Q130	;LOGICAL SHIFT LEFT X
+.$.$.$	ROLX,	0Q131	;ROTATE LEFT X
+.$.$.$	DECX,	0Q132	;DECREMENT X
+.$.$.$	INCX,	0Q134	;INCREMENT X
+.$.$.$	TSTX,	0Q135	;TEST X
+.$.$.$	CLRX,	0Q137	;CLEAR X
+.$.$.$	RTI,	0Q200	;RETURN FROM INTERRUPT
+.$.$.$	RTS,	0Q201	;RETURN FROM SUBROUTINE
+.$.$.$	SWI,	0Q203	;SOFTWARE INTERRUPT
+.$.$.$	STOP,	0Q216	;STOP
+.$.$.$	WAIT,	0Q217	;WAIT
+.$.$.$	TAX,	0Q227	;X=A
+.$.$.$	CLC,	0Q230	;CLEAR C BIT
+.$.$.$	SEC,	0Q231	;SET C BIT
+.$.$.$	CLI,	0Q232	;CLEAR I BIT
+.$.$.$	SEI,	0Q233	;SET I BIT
+.$.$.$	RSP,	0Q234	;RESET STACK POINTER
+.$.$.$	NOP,	0Q235	;DO NOTHING
+.$.$.$	TXA,	0Q237	;A=X
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+.IIF	DEF,.$$.LIST	.SBTTL	RELATIVE BRANCH INSTRUCTIONS
+	;
+.MACRO	.$.BKRNL	I,J
+ ...A=J-.-0Q2
+ .IIF	LT,...A+0Q200	.ERROR	1	;BRANCH OUT OF RANGE
+ .IIF	GE,...A-0Q200	.ERROR	1	;BRANCH OUT OF RANGE
+ .BYTE	I,...A
+.ENDM	;.$.BKRNL
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H	J
+ .$.BKRNL	I,J
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC  OPCODE	;OPFERATION
+.$.$.$	BRA,	0Q40	;BRANCH ALWAYS
+.$.$.$	BRN,	0Q41	;BRANCH NEVER
+.$.$.$	BHI,	0Q42	;BRANCH IF (C=0) AND (Z=0)
+.$.$.$	BLS,	0Q43	;BRANCH IF (C=1) OR (Z=1)
+.$.$.$	BCC,	0Q44	;BRANCH IF (C=0)
+.$.$.$	BHS,	0Q44	;BRANCH IF (C=0)
+.$.$.$	BCS,	0Q45	;BRANCH IF (C=1)
+.$.$.$	BLO,	0Q45	;BRANCH IF (C=1)
+.$.$.$	BNE,	0Q46	;BRANCH IF (Z=0)
+.$.$.$	BEQ,	0Q47	;BRANCH IF (Z=1)
+.$.$.$	BHCC,	0Q50	;BRANCH IF (H=0)
+.$.$.$	BHCS	0Q51	;BRANCH IF (H=1)
+.$.$.$	BPL,	0Q52	;BRANCH IF (N=0)
+.$.$.$	BMI,	0Q53	;BRANCH IF (N=1)
+.$.$.$	BMC,	0Q54	;BRANCH IF (I=0)
+.$.$.$	BMS,	0Q55	;BRANCH IF (I=1)
+.$.$.$	BIL,	0Q56	;BRANCH IF INTERRUPT LINE LOW
+.$.$.$	BIH,	0Q57	;BRANCH IF INTERRUPT LINE HIGH
+.$.$.$	BSR,	0Q255	;BRANCH TO SUBROUTINE
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+.IIF	DEF,.$$.LIST	.SBTTL	INSTRUCTIONS HAVING ACC/DIR/IND MODES
+	;
+.MACRO	.$.CKRNL	I,J,K
+ .IF	NB,^!K!		;TWO ARGUMENTS - THEN DIRECT/INDEXED
+  .$.DIR	J,K
+  .IF	GE,...FLG
+   .BYTE	I,...DIR
+   .MEXIT
+  .ENDIF
+  .$.IDX	J,K,ERROR
+  .IF	GE,...FLG
+   .IIF	EQ,...IDX	.BYTE	I + 0Q100
+   .IIF	NE,...IDX	.BYTE	I + 0Q60,...IDX
+   .MEXIT
+  .ENDIF
+ .ENDIF
+ .ERROR	1	;BAD INSTRUCTION
+.ENDM	;.$.CKRNL
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H	J,K
+ .$.CKRNL	I,J,K
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+    ;MNEMONIC  OPCODE	;OPERATION
+	;
+.$.$.$	NEG,	0Q60	;NEGATE
+.$.$.$	COM,	0Q63	;COMPLEMENT
+.$.$.$	LSR,	0Q64	;LOGICAL SHIFT RIGHT
+.$.$.$	ROR,	0Q66	;ROTATE RIGHT
+.$.$.$	ASR,	0Q67	;ARITHMETIC SHIFT RIGHT
+.$.$.$	LSL,	0Q70	;LOGICAL SHIFT LEFT
+.$.$.$	ROL,	0Q71	;ROTATE LEFT
+.$.$.$	DEC,	0Q72	;DECREMENT
+.$.$.$	INC,	0Q74	;INCREMENT
+.$.$.$	TST,	0Q75	;TEST
+.$.$.$	CLR,	0Q77	;CLEAR
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+.IIF	DEF,.$$.LIST	.SBTTL	ALL INSTRUCTIONS WITH IMM/DIR/IND/EXT MODES
+	;
+.MACRO	.$.EKRNL	I,J,K
+ .IF	NB,^!K!		;TWO ARGS - IMMEDIATE/DIRECT/INDEXED
+  .$.IMM	J,K
+  .IF	GE,...FLG
+   .IIF	EQ	I-0Q247	,.ERROR	1	;STA #
+   .IIF	EQ	I-0Q254	,.ERROR	1	;JMP #
+   .IIF	EQ	I-0Q255	,.ERROR	1	;JSR #
+   .IIF	EQ	I-0Q257	,.ERROR	1	;STX #
+   .BYTE	I,...IMM
+   .MEXIT
+  .ENDIF
+  .$.DIR	J,K
+  .IF	GE,...FLG
+   .BYTE	I + 0Q20,...DIR
+   .MEXIT
+  .ENDIF
+  .$.IDX	J,K
+  .IF	GE,...FLG
+   .IF	NE,(...IDX & 0Q177400)
+    .BYTE	I + 0Q60,>...IDX,<...IDX
+   .ELSE
+    .IF	NE,(...IDX & 0Q377)
+     .BYTE	I + 0Q100,...IDX
+    .ELSE
+     .BYTE	I + 0Q120
+    .ENDIF
+   .ENDIF
+   .MEXIT
+  .ENDIF
+  .ERROR 1	;BAD INSTRUCTION
+  .MEXIT
+ .ENDIF
+ .IF	NB,^!J!		;ONE ARGUMENT - EXTENDED
+  .$.EXT	J
+  .BYTE	I + 0Q40,>...EXT,<...EXT
+  .MEXIT
+ .ENDIF
+.ERROR	1	;BAD INSTRUCTION
+.ENDM	;.$.EKRNL
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H	J,K
+ .$.EKRNL	I,J,K
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+     ;MNEMONIC  OPCODE	;OPERATION
+.$.$.$	SUB,	0Q240	;SUBTRACT
+.$.$.$	CMP,	0Q241	;COMPARE
+.$.$.$	SBC,	0Q242	;SUBTRACT WITH CARRY
+.$.$.$	CPX,	0Q243	;COMPARE WITH X
+.$.$.$	AND,	0Q244	;LOGICAL AND
+.$.$.$	BIT,	0Q245	;BIT TEST
+.$.$.$	LDA,	0Q246	;LOAD ACCUMULATOR
+.$.$.$	STA,	0Q247	;STORE ACCUMULATOR
+.$.$.$	EOR,	0Q250	;EXCLUSIVE OR
+.$.$.$	ADC,	0Q251	;ADD WITH CARRY
+.$.$.$	ORA,	0Q252	;LOGICAL OR
+.$.$.$	ADD,	0Q253	;ADD
+.$.$.$	JMP,	0Q254	;JUMP
+.$.$.$	JSR,	0Q255	;JUMP TO SUBROUTINE
+.$.$.$	LDX,	0Q256	;LOAD X
+.$.$.$	STX,	0Q257	;STORE X
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+.IIF	DEF,.$$.LIST	.SBTTL	ALL BIT SET/CLEAR INSTRUCTIONS
+	;
+.MACRO	.$.FKRNL	I,J,K
+ .IF	NB,^!K!
+  .$.DIR	J,K,ERROR
+  .IF	GE,...FLG
+   .BYTE	I,...DIR
+   .MEXIT
+  .ENDIF
+ .ENDIF
+ .ERROR	1	;BAD INSTRUCTION
+.ENDM	;.$.FKRNL
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H	J,K
+ .$.FKRNL	I,J,K
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+     ;MNEMONIC  OPCODE	;OPERATION
+.$.$.$	BSET0,	0Q20	;SET BIT 0
+.$.$.$	BCLR0,	0Q21	;CLR BIT 0
+.$.$.$	BSET1,	0Q22	;SET BIT 1
+.$.$.$	BCLR1,	0Q23	;CLR BIT 1
+.$.$.$	BSET2,	0Q24	;SET BIT 2
+.$.$.$	BCLR2,	0Q25	;CLR BIT 2
+.$.$.$	BSET3,	0Q26	;SET BIT 3
+.$.$.$	BCLR3,	0Q27	;CLR BIT 3
+.$.$.$	BSET4,	0Q30	;SET BIT 4
+.$.$.$	BCLR4,	0Q31	;CLR BIT 4
+.$.$.$	BSET5,	0Q32	;SET BIT 5
+.$.$.$	BCLR5,	0Q33	;CLR BIT 5
+.$.$.$	BSET6,	0Q34	;SET BIT 6
+.$.$.$	BCLR6,	0Q35	;CLR BIT 6
+.$.$.$	BSET7,	0Q36	;SET BIT 7
+.$.$.$	BCLR7,	0Q37	;CLR BIT 7
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+.IIF	DEF,.$$.LIST	.SBTTL	ALL BIT TEST AND BRANCH INSTRUCTIONS
+	;
+.MACRO	.$.GKRNL	I,J,K,L
+ .IF	NB,^!L!
+  .$.DIR	J,K,ERROR
+  .IF	GE,...FLG
+   ...A=L-.-0Q3
+   .IIF	LT,...A+0Q200	.ERROR	1	;BRANCH OUT OF RANGE
+   .IIF	GE,...A-0Q200	.ERROR	1	;BRANCH OUT OF RANGE
+   .BYTE	I,...DIR,...A
+   .MEXIT
+  .ENDIF
+ .ENDIF
+ .ERROR	1	;BAD INSTRUCTION
+.ENDM	;.$.GKRNL
+	;
+.MACRO	.$.$.$	H,I
+ .MACRO	H	J,K,L
+ .$.GKRNL	I,J,K,L
+ .ENDM	;Instruction
+.ENDM	;.$.$.$
+	;
+	;
+     ;MNEMONIC  OPCODE	;OPERATION
+.$.$.$	BRSET0,	0Q0	;BRANCH ON BIT 0 SET
+.$.$.$	BRCLR0,	0Q1	;BRANCH ON BIT 0 CLR
+.$.$.$	BRSET1,	0Q2	;BRANCH ON BIT 1 SET
+.$.$.$	BRCLR1,	0Q3	;BRANCH ON BIT 1 CLR
+.$.$.$	BRSET2,	0Q4	;BRANCH ON BIT 2 SET
+.$.$.$	BRCLR2,	0Q5	;BRANCH ON BIT 2 CLR
+.$.$.$	BRSET3,	0Q6	;BRANCH ON BIT 3 SET
+.$.$.$	BRCLR3,	0Q7	;BRANCH ON BIT 3 CLR
+.$.$.$	BRSET4,	0Q10	;BRANCH ON BIT 4 SET
+.$.$.$	BRCLR4,	0Q11	;BRANCH ON BIT 4 CLR
+.$.$.$	BRSET5,	0Q12	;BRANCH ON BIT 5 SET
+.$.$.$	BRCLR5,	0Q13	;BRANCH ON BIT 5 CLR
+.$.$.$	BRSET6,	0Q14	;BRANCH ON BIT 6 SET
+.$.$.$	BRCLR6,	0Q15	;BRANCH ON BIT 6 CLR
+.$.$.$	BRSET7,	0Q16	;BRANCH ON BIT 7 SET
+.$.$.$	BRCLR7,	0Q17	;BRANCH ON BIT 7 CLR
+	;
+	.MDELETE	.$.$.$
+	;
+	;
+.IIF	DEF,.$$.LIST	.PAGE
+.IIF	DEF,.$$.LIST	.SBTTL	SPECIAL DIRECTIVES
+	;
+.MACRO	SETDP	I
+ ...A = 0Q0
+ .IF	NB,^!I!
+  .IIF	NE,I	.ERROR	1	;DIRECT PAGE MUST = 0
+  .NVAL	...A,I
+ .ENDIF
+ .NVAL	...B,.
+ ...PAG = (. - ...B) + (0Q400 * ...A)
+.ENDM	;Instruction
+	;
+	;
+.IIF	DEF,.$$.LIST	.LIST		;LIST PROGRAM PROPER
+.IIF	DEF,.$$.LIST	.PAGE
+.ENDIF

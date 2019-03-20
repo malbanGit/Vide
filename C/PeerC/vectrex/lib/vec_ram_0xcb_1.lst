@@ -1,40 +1,37 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	vec_ram_0xcb_1.c
-                              7 ;----- asm -----
-                              8 	.bank page_cb (BASE=0xcbea,SIZE=0x0100)
-                              9 	.area .dpcb (OVR,BANK=page_cb)
-                             10 	
-                             11 ;--- end asm ---
-                             12 	.globl _Vec_Default_Stk
-                             13 	.area	.dpcb
-   0000                      14 _Vec_Default_Stk:
-   0000 00                   15 	.byte	0	;skip space
-                             16 	.globl _Vec_High_score
-   0001                      17 _Vec_High_score:
-   0001 00 00                18 	.word	0	;skip space 7
-   0003 00 00                19 	.word	0	;skip space 5
-   0005 00 00                20 	.word	0	;skip space 3
-   0007 00                   21 	.byte	0	;skip space
-                             22 	.globl _Vec_SWI3_vector
-   0008                      23 _Vec_SWI3_vector:
-   0008 00 00                24 	.word	0	;skip space 3
-   000A 00                   25 	.byte	0	;skip space
-                             26 	.globl _Vec_FIRQ_vector
-   000B                      27 _Vec_FIRQ_vector:
-   000B 00 00                28 	.word	0	;skip space 3
-   000D 00                   29 	.byte	0	;skip space
-                             30 	.globl _Vec_IRQ_vector
-   000E                      31 _Vec_IRQ_vector:
-   000E 00 00                32 	.word	0	;skip space 3
-   0010 00                   33 	.byte	0	;skip space
-                             34 	.globl _Vec_SWI_vector
-   0011                      35 _Vec_SWI_vector:
-   0011 00 00                36 	.word	0	;skip space 3
-   0013 00                   37 	.byte	0	;skip space
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	vec_ram_0xcb_1.c
+                              6 ;----- asm -----
+                              7 	.bank page_cb (BASE=0xcbea,SIZE=0x0100)
+                              8 	.area .dpcb (OVR,BANK=page_cb)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	_Vec_Default_Stk
+                             12 	.area	.dpcb
+   0000                      13 _Vec_Default_Stk:
+   0000 00                   14 	.byte	0
+                             15 	.globl	_Vec_High_score
+   0001                      16 _Vec_High_score:
+   0001 00 00 00 00 00 00    17 	.word	0,0,0
+   0007 00                   18 	.byte	0
+                             19 	.globl	_Vec_SWI3_vector
+   0008                      20 _Vec_SWI3_vector:
+   0008 00 00                21 	.word	0
+   000A 00                   22 	.byte	0
+                             23 	.globl	_Vec_FIRQ_vector
+   000B                      24 _Vec_FIRQ_vector:
+   000B 00 00                25 	.word	0
+   000D 00                   26 	.byte	0
+                             27 	.globl	_Vec_IRQ_vector
+   000E                      28 _Vec_IRQ_vector:
+   000E 00 00                29 	.word	0
+   0010 00                   30 	.byte	0
+                             31 	.globl	_Vec_SWI_vector
+   0011                      32 _Vec_SWI_vector:
+   0011 00 00                33 	.word	0
+   0013 00                   34 	.byte	0
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

@@ -1,18 +1,17 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	vec_rum_0xf0.c
-                              7 ;----- asm -----
-                              8 	.bank page_f0 (BASE=0xf000,SIZE=0x0100)
-                              9 	.area .0xf0 (OVR,BANK=page_f0)
-                             10 	
-                             11 ;--- end asm ---
-                             12 	.globl ___Reset
-                             13 	.area	.0xf0
-   F000                      14 ___Reset:
-   F000 00                   15 	.byte	0	;skip space
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	vec_rum_0xf0.c
+                              6 ;----- asm -----
+                              7 	.bank page_f0 (BASE=0xf000,SIZE=0x0100)
+                              8 	.area .0xf0 (OVR,BANK=page_f0)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	___Reset
+                             12 	.area	.0xf0
+   F000                      13 ___Reset:
+   F000 00                   14 	.byte	0
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

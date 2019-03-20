@@ -1,0 +1,176 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>Assembly and Linking Example</H2>
+
+<A NAME = "TOP"> </A> 
+<A NAME = "Index"> </A>
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+  This section describes the assembly and linking of a moderately
+complex program.  (The project is a multi-channel high voltage
+control system for the stabilization of nuclear radiation detection
+equipment.)  The files may be found in the '/project/phs_4' directory.
+
+  The project includes an 'optional' module that can be downloaded
+by the main project.  The 'optional' module is assembled from an
+independent file but must be linked with the main project files
+to resolve references external to the 'optional' module.
+
+
+</PRE></B></H4>
+
+<H4><PRE>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF="#Assembly">Assembly</A>
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF="#Linking">Linking</A>
+
+    <IMG SRC = "yellow.gif" ALT = "-">... <A HREF = "asxdoc.htm#TOP">Go to Documentation Index</A>
+
+</PRE></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H3><B>
+<A NAME = "Assembly">
+<IMG SRC = "green.gif" ALT = "-">... Assembly</A>
+</B></H3>
+
+<H4><B><PRE>
+  the project files included twelve .asm modules and
+four .def include files:
+
+        phs.asm                 system.def
+        acia.asm                area.def
+        acq.asm                 define.def
+        hvctrl.asm              data.def
+        termio.asm
+        select.asm
+        status.asm
+        histos.asm
+        help.asm
+        aiconv.asm
+        phsmon.asm
+        phsopt.asm
+
+  Each of the modules was assembled individually.  This was done
+by creating a command file containing the assembly command lines:
+
+        as6809 -gloaxsff phs
+        as6809 -gloaxsff acia
+        as6809 -gloaxsff acq
+        as6809 -gloaxsff hvctrl
+        as6809 -gloaxsff termio
+        as6809 -gloaxsff select
+        as6809 -gloaxsff status
+        as6809 -gloaxsff histos
+        as6809 -gloaxsff help
+        as6809 -gloaxsff aiconv
+        as6809 -gloaxsff phsmon
+        as6809 -gloaxsff phsopt
+
+the assembly process produced an object (.rel) file (-s), a listing
+(.lst) file (-l), and a symbol (.sym) file (-s) for each individual
+.asm file.  the assembly process made all undefined labels
+global (-g), all internal labels global (-a), the output in HEX
+format (-x), and the listing files to have relocations flagged (-ff).
+
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+<H3><B>
+<A NAME = "Linking">
+<IMG SRC = "green.gif" ALT = "-">... Linking</A>
+</B></H3>
+
+<H4><B><PRE>
+  The main program was linked using a file (PHS.LNK) containing the
+following command lines:
+
+        -mxsu                          ; linker options
+        phs                            ; output file name
+        phs                            ; input file
+        acia                           ; .
+        acq                            ; .
+        hvctrl                         ; .
+        termio                         ; .
+        select                         ; .
+        status                         ; .
+        histos                         ; .
+        help                           ; .
+        aiconv                         ; .
+        phsmon                         ; input file
+        -b WORKPG = 0x0F00             ; value definition
+        -b BUFSAV = bufsav             ; .
+        -b PGMSAV = pgmsav             ; .
+        -b IRQVEC = irqvec             ; value definition
+        -e                             ; end of file
+
+and was invoked by the command line:
+
+        aslink -f phs
+
+The linking process produced a map (.map) file (-m) in HEX format (-x)
+and a Motorola (.s19) loader file (-s).  The -b options specify the
+memory addresses for certain program sections as defined in the
+assembled modules.  The file input was terminated by the -e option.
+
+  The 'optional' loadable program was linked using a file (PHSOPT.LNK)
+containing the following command lines:
+
+        -mxsu                          ; linker options
+        phsopt                         ; output file name
+        -v                             ; suppress linker output
+        phs                            ; input file
+        acia                           ; .
+        acq                            ; .
+        hvctrl                         ; .
+        termio                         ; .
+        select                         ; .
+        status                         ; .
+        histos                         ; .
+        help                           ; .
+        aiconv                         ; .
+        phsmon                         ; input file
+        -o                             ; enable linker output
+        phsopt                         ; input file
+        -b WORKPG = 0x0F00             ; value definition
+        -b BUFSAV = bufsav             ; .
+        -b PGMSAV = pgmsav             ; .
+        -b IRQVEC = irqvec             ; value definition
+        -e                             ; end of file
+
+and was invoked by the command line:
+
+        aslink -f phsopt
+
+The linking process creates an overlay output file from the
+PHSOPT code using all the global symbols defined in the PHS
+files.  The order of the main project files MUST be identical
+to that in the main project .lnk file.
+
+</PRE></B></H4>
+<H5><A HREF= #Index> =&gt; Section Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

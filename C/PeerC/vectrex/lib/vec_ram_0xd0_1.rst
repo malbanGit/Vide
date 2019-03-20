@@ -1,36 +1,35 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	vec_ram_0xd0_1.c
-                              7 ;----- asm -----
-                              8 	.bank page_d0 (BASE=0xd000,SIZE=0x0100)
-                              9 	.area .dpd0 (OVR,BANK=page_d0)
-                             10 	
-                             11 ;--- end asm ---
-                             12 	.globl _VIA_port_ba
-                             13 	.area	.dpd0
-   D000                      14 _VIA_port_ba:
-   D000 00 00                15 	.word	0	;skip space 2
-                             16 	.globl _VIA_DDR_ba
-   D002                      17 _VIA_DDR_ba:
-   D002 00 00                18 	.word	0	;skip space 2
-                             19 	.globl _VIA_t1_cnt
-   D004                      20 _VIA_t1_cnt:
-   D004 00 00                21 	.word	0	;skip space 2
-                             22 	.globl _VIA_t1_lch
-   D006                      23 _VIA_t1_lch:
-   D006 00 00                24 	.word	0	;skip space 2
-                             25 	.globl _VIA_t2
-   D008                      26 _VIA_t2:
-   D008 00 00                27 	.word	0	;skip space 2
-                             28 	.globl _dummy
-   D00A                      29 _dummy:
-   D00A 00                   30 	.byte	0	;skip space
-                             31 	.globl _VIA_aux_cntl_w
-   D00B                      32 _VIA_aux_cntl_w:
-   D00B 00 00                33 	.word	0	;skip space 2
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	vec_ram_0xd0_1.c
+                              6 ;----- asm -----
+                              7 	.bank page_d0 (BASE=0xd000,SIZE=0x0100)
+                              8 	.area .dpd0 (OVR,BANK=page_d0)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	_VIA_port_ba
+                             12 	.area	.dpd0
+   D000                      13 _VIA_port_ba:
+   D000 00 00                14 	.word	0
+                             15 	.globl	_VIA_DDR_ba
+   D002                      16 _VIA_DDR_ba:
+   D002 00 00                17 	.word	0
+                             18 	.globl	_VIA_t1_cnt
+   D004                      19 _VIA_t1_cnt:
+   D004 00 00                20 	.word	0
+                             21 	.globl	_VIA_t1_lch
+   D006                      22 _VIA_t1_lch:
+   D006 00 00                23 	.word	0
+                             24 	.globl	_VIA_t2
+   D008                      25 _VIA_t2:
+   D008 00 00                26 	.word	0
+                             27 	.globl	_dummy
+   D00A                      28 _dummy:
+   D00A 00                   29 	.byte	0
+                             30 	.globl	_VIA_aux_cntl_w
+   D00B                      31 _VIA_aux_cntl_w:
+   D00B 00 00                32 	.word	0
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

@@ -1,0 +1,4 @@
+# Symantec SC++ generated .dpd file. V: 7200
+..\build\s19os9.OBJ: \
+	..\..\..\s19os9\s19os9.c \
+	..\..\..\asxxsrc\asxxxx.h 

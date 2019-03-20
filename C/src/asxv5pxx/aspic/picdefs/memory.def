@@ -1,0 +1,297 @@
+        .LIST
+; MEMORY.INC  Standard Header File, Version 1.02    Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines the maximum byte address for memory devices.
+
+; To use MPASM to generate memory device data, select either EEPROM8 or
+; EEPROM16 as the "processor".  Use the DATA directive to generate the 
+; data for the device.  All mathematical, text substitution, symbol, and 
+; macro support is available for generating the data.
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PEEPROM8
+;          or
+;               C:\ MPASM MYFILE.ASM /PEEPROM16
+;       2. LIST directive in the source file
+;               LIST   P=EEPROM8
+;          or
+;               LIST   P=EEPROM16
+;       3. Processor Type entry in the MPASM full-screen interface
+
+; The default byte size for a memory device is 256 bytes.  To modify this,
+; use the symbols defined in the file in the LIST M=??? directive.  For
+; example:
+
+;       LIST    P=EEPROM8
+;       INCLUDE "MEMORY.INC"
+;       LIST    M=_24LCS21
+
+; Note that case sensitivity is enforced by default.
+
+;==========================================================================
+;
+;	   Revision History
+;
+; Rev:   Date:    Reason:
+; 1.02  03/25/99  Added new devices
+; 1.01  12/16/96  Added new devices
+; 1.00  07/18/96  Initial release
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFDEF __EEPROM8
+.define __IS_MEMORY
+        .ENDIF
+       
+        .IFDEF __EEPROM16
+.define __IS_MEMORY
+        .ENDIF
+       
+        .IFNDEF __IS_MEMORY
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ELSE
+.undefine __IS_MEMORY
+        .ENDIF
+
+;==========================================================================
+;
+;       2-Wire Bus Protocol
+;
+;==========================================================================
+;--------------------------------------------------------------------------
+;
+;       AA Series
+;
+;--------------------------------------------------------------------------
+
+.define _24AA00,	"0x000F"
+.define _24AA01,	"0x007F"
+.define _24AA02,	"0x00FF"
+.define _24AA04,	"0x01FF"
+.define _24AA08,	"0x03FF"
+.define _24AA16,	"0x07FF"
+.define _24AA32,	"0x0FFF"
+.define _24AA32A,	"0x0FFF"
+.define _24AA64,	"0x1FFF"
+.define _24AA128,	"0x3FFF"
+.define _24AA256,	"0x7FFF"
+
+.define _24AA164,	"0x07FF"
+.define _24AA174,	"0x07FF"
+
+;--------------------------------------------------------------------------
+;
+;       C-Series
+;
+;--------------------------------------------------------------------------
+
+.define _24C00,		"0x000F"
+.define _24C01A,	"0x007F"
+.define _24C01B,	"0x007F"
+.define _24C01C,	"0x007F"
+.define _24C02A,	"0x00FF"
+.define _24C02B,	"0x00FF"
+.define _24C02C,	"0x00FF"
+.define _24C04A,	"0x01FF"
+.define _24C08B,	"0x03FF"
+.define _24C16B,	"0x07FF"
+.define _24C32,		"0x0FFF"
+.define _24C32A,	"0x0FFF"
+
+.define _85C72,		"0x007F"
+.define _85C82,		"0x00FF"
+.define _85C92,		"0x01FF"
+
+;--------------------------------------------------------------------------
+;
+;       FC Series
+;
+;--------------------------------------------------------------------------
+
+.define _24FC16,	"0x07FF"
+.define _24FC32,	"0x0FFF"
+
+;--------------------------------------------------------------------------
+;
+;       Low-Voltage LC Series 
+;
+;--------------------------------------------------------------------------
+
+.define _24LC00,	"0x000F"
+.define _24LC01B,	"0x007F"
+.define _24LC02B,	"0x00FF"
+.define _24LC04B,	"0x01FF"
+.define _24LC08B,	"0x03FF"
+.define _24LC16B,	"0x07FF"
+.define _24LC32,	"0x0FFF"
+.define _24LC32A,	"0x0FFF"
+.define _24LC64,	"0x1FFF"
+.define _24LC128,	"0x3FFF"
+.define _24LC256,	"0x7FFF"
+
+.define _24LC164,	"0x07FF"
+.define _24LC174,	"0x07FF"
+
+;--------------------------------------------------------------------------
+;
+;       Smart Card Devices
+;
+;--------------------------------------------------------------------------
+
+.define _24C01SC,	"0x007F"
+.define _24C02SC,	"0x00FF"
+.define _24LC32ASC,	"0x0FFF"
+.define _24LC64SC,	"0x1FFF"
+.define _24LC128SC,	"0x3FFF"
+.define _24LC256SC,	"0x7FFF"
+
+;--------------------------------------------------------------------------
+;
+;       Smart Serial (tm) Family
+;
+;--------------------------------------------------------------------------
+
+.define _24C65,		"0x1FFF"
+.define _24LC65,	"0x1FFF"
+.define _24AA65,	"0x1FFF"
+.define _24FC65,	"0x1FFF"
+
+;--------------------------------------------------------------------------
+;
+;       VESA (tm) / DDC (tm)
+;
+;--------------------------------------------------------------------------
+
+.define _24LC21,	"0x007F"
+.define _24LC21A,	"0x007F"
+.define _24LCS21,	"0x007F"
+.define _24LCS21A,	"0x007F"
+.define _24LC41A,	"0x01FF"
+
+;--------------------------------------------------------------------------
+;
+;       SPD DIMM
+;
+;--------------------------------------------------------------------------
+
+.define _24LC024,	"0x00FF"
+.define _24LC025,	"0x00FF"
+.define _24LCS52,	"0x00FF"
+
+.define _24LCS61,	"0x007F"
+.define _24LCS62,	"0x00FF"
+
+;==========================================================================
+;
+;       3-Wire/4-Wire Bus Protocol
+;
+;==========================================================================
+;--------------------------------------------------------------------------
+;
+;       G.I.
+;
+;--------------------------------------------------------------------------
+
+.define _59C11,	"0x007F"
+
+;--------------------------------------------------------------------------
+;
+;       AA Series
+;
+;--------------------------------------------------------------------------
+
+.define _93AA46,	"0x007F"
+.define _93AA56,	"0x00FF"
+.define _93AA66,	"0x01FF"
+.define _93AA76,	"0x03FF"
+.define _93AA86,	"0x07FF"
+
+;--------------------------------------------------------------------------
+;
+;       C-Series
+;
+;--------------------------------------------------------------------------
+
+.define _93C06,		"0x001F"
+.define _93C46,		"0x007F"
+.define _93C76,		"0x03FF"
+.define _93C86,		"0x07FF"
+
+;--------------------------------------------------------------------------
+;
+;       Low-Voltage LC Series
+;
+;--------------------------------------------------------------------------
+
+.define _93LC46,	"0x007F'
+.define _93LC46A,	"0x007F"
+.define _93LC46B,	"0x007F"
+.define _93LC56,	"0x00FF"
+.define _93LC56A,	"0x00FF"
+.define _93LC56B,	"0x00FF"
+.define _93LC66,	"0x01FF"
+.define _93LC66A,	"0x01FF"
+.define _93LC66B,	"0x01FF"
+.define _93LC76,	"0x03FF"
+.define _93LC86,	"0x07FF"
+
+;--------------------------------------------------------------------------
+;
+;       Secure LCS-Series
+;
+;--------------------------------------------------------------------------
+
+.define _93LCS56,	"0x00FF"
+.define _93LCS66,	"0x01FF"
+
+;==========================================================================
+;
+;       SPI Protocol
+;
+;==========================================================================
+;--------------------------------------------------------------------------
+;
+;       AA Series
+;
+;--------------------------------------------------------------------------
+
+.define _25AA040,	"0x01FF"
+.define _25AA080,	"0x03FF"
+.define _25AA160,	"0x07FF"
+.define _25AA640,	"0x1FFF"
+.define _25AA128,	"0x3FFF"
+.define _25AA256,	"0x7FFF"
+
+;--------------------------------------------------------------------------
+;
+;       C-Series
+;
+;--------------------------------------------------------------------------
+
+.define _25C040,	"0x01FF"
+.define _25C080,	"0x03FF"
+.define _25C160,	"0x07FF"
+.define _25C320,	"0x0FFF"
+
+;--------------------------------------------------------------------------
+;
+;       Low-Voltage LC Series
+;
+;--------------------------------------------------------------------------
+
+.define _25LC040,	"0x01FF"
+.define _25LC080,	"0x03FF"
+.define _25LC160,	"0x07FF"
+.define _25LC320,	"0x0FFF"
+.define _25LC640,	"0x1FFF"
+.define _25LC128,	"0x3FFF"
+.define _25LC256,	"0x7FFF"
+
+        .LIST

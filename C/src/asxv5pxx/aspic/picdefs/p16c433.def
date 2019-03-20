@@ -1,0 +1,179 @@
+        .LIST
+; P16C433.INC  Standard Header File, Version 1.00    Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC16C433 microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.  
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PIC16C433
+;       2. LIST directive in the source file
+;               LIST   P=PIC16C433
+;       3. Processor Type entry in the MPASM full-screen interface
+
+;==========================================================================
+;
+;       Revision History
+;
+;==========================================================================
+
+;Rev:   Date:       Reason:
+
+;1.00   31 Aug 2000 Original Release
+;1.10	28 Mar 2001 Corrected definitions of LINTX and LINRX.
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __16C433
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+W                            =:     0x0000
+F                            =:     0x0001
+
+;----- Register Files------------------------------------------------------
+
+INDF                         =:     0x0000
+TMR0                         =:     0x0001
+PCL                          =:     0x0002
+STATUS                       =:     0x0003
+FSR                          =:     0x0004
+GPIO                         =:     0x0005
+PCLATH                       =:     0x000A
+INTCON                       =:     0x000B
+PIR1			     =:     0x000C
+ADRES			     =:     0x001E
+ADCON0			     =:     0x001F
+
+OPTION_REG                   =:     0x0081
+TRISIO                       =:     0x0085
+PIE1			     =:     0x008C
+PCON                         =:     0x008E
+OSCCAL			     =:     0x008F
+ADCON1                       =:     0x009F
+
+;----- STATUS Bits --------------------------------------------------------
+
+IRP                          =:     0x0007
+RP1                          =:     0x0006
+RP0                          =:     0x0005
+NOT_TO                       =:     0x0004
+NOT_PD                       =:     0x0003
+Z                            =:     0x0002
+DC                           =:     0x0001
+C                            =:     0x0000
+
+;----- LIN Port bits (within GPIO) ----------------------------------------
+LINTX                        =:     0x0007
+LINRX                        =:     0x0006
+
+;----- ADCON0 Bits --------------------------------------------------------
+
+ADCS1                        =:     0x0007
+ADCS0                        =:     0x0006
+CHS1                         =:     0x0004
+CHS0                         =:     0x0003
+GO                           =:     0x0002
+NOT_DONE                     =:     0x0002
+GO_DONE                      =:     0x0002
+ADON                         =:     0x0000
+
+;----- INTCON Bits --------------------------------------------------------
+
+GIE                          =:     0x0007
+PEIE                         =:     0x0006
+T0IE                         =:     0x0005
+INTE                         =:     0x0004
+GPIE                         =:     0x0003
+T0IF                         =:     0x0002
+INTF                         =:     0x0001
+GPIF                         =:     0x0000
+
+;----- PIR1 Bits ----------------------------------------------------------
+
+ADIF                         =:     0x0006
+
+;----- OPTION Bits --------------------------------------------------------
+
+NOT_GPPU		     =:     0x0007
+INTEDG                       =:     0x0006
+T0CS                         =:     0x0005
+T0SE                         =:     0x0004
+PSA                          =:     0x0003
+PS2                          =:     0x0002
+PS1                          =:     0x0001
+PS0                          =:     0x0000
+
+;----- PIE1 Bits ----------------------------------------------------------
+
+ADIE                         =:     0x0006
+
+;----- PCON Bits ----------------------------------------------------------
+
+NOT_POR                      =:     0x0001
+
+;----- OSCCAL Bits --------------------------------------------------------
+
+CAL3                         =:     0x0007
+CAL2                         =:     0x0006
+CAL1                         =:     0x0005
+CAL0                         =:     0x0004
+CALFST                       =:     0x0003
+CALSLW                       =:     0x0002
+
+;----- ADCON1 Bits --------------------------------------------------------
+
+PCFG2			     =:     0x0002
+PCFG1                        =:     0x0001
+PCFG0                        =:     0x0000
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+        .MAXRAM 0xFF
+        .BADRAM 0x06:0x09, 0x0D:0x1D
+        .BADRAM 0x86:0x89, 0x8D, 0x90:0x9E, 0xC0:0xEF
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;==========================================================================
+
+_MCLRE_ON                    =:     0x3FFF
+_MCLRE_OFF                   =:     0x3F7F
+_CP_ALL                      =:     0x009F
+_CP_75                       =:     0x15BF
+_CP_50                       =:     0x2ADF
+_CP_OFF                      =:     0x3FFF
+_PWRTE_OFF                   =:     0x3FFF
+_PWRTE_ON                    =:     0x3FEF
+_WDT_ON                      =:     0x3FFF
+_WDT_OFF                     =:     0x3FF7
+_LP_OSC                      =:     0x3FF8
+_XT_OSC                      =:     0x3FF9
+_HS_OSC                      =:     0x3FFA
+_INTRC_OSC                   =:     0x3FFC
+_INTRC_OSC_NOCLKOUT          =:     0x3FFC
+_INTRC_OSC_CLKOUT            =:     0x3FFD
+_EXTRC_OSC                   =:     0x3FFE
+_EXTRC_OSC_NOCLKOUT          =:     0x3FFE
+_EXTRC_OSC_CLKOUT            =:     0x3FFF
+
+        .LIST

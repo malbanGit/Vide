@@ -1,0 +1,8 @@
+-xms
+phsopt
+phssys.rel
+-b BUFSAV = bufsav
+-b PGMSAV = pgmsav
+-b IRQVEC = irqvec
+-b OPTFUN = $xtrn0
+-e

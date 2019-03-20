@@ -16,15 +16,15 @@
 
 __asm(
 	".bank page_00 (BASE=0x0000,SIZE=0x0100)\n\t"
-	".area direct (OVR,BANK=page_00)\n\t"
+	".area .direct (OVR,BANK=page_00)\n\t"
 );
 
 // ---------------------------------------------------------------------------
 // direct page
 
-int	dp_Vec_Snd_shadow[0xf2]			__attribute__((section("direct"), used));	// 0xC800, Shadow of sound chip registers (15 bytes)
-int	dp_Vec_SWI2_Vector[0xfb-0xf2]	__attribute__((section("direct"), used));	// 0xCBF2, SWI2/SWI3 interrupt vector (3 bytes)
-int	dp_Vec_NWI_Vector				__attribute__((section("direct"), used));	// 0xCBFB, SWI/NMI interrupt vector (3 bytes)
+int	dp_Vec_Snd_shadow[0xf2]			__attribute__((section(".direct"), used));	// 0xC800, Shadow of sound chip registers (15 bytes)
+int	dp_Vec_SWI2_Vector[0xfb-0xf2]	__attribute__((section(".direct"), used));	// 0xCBF2, SWI2/SWI3 interrupt vector (3 bytes)
+int	dp_Vec_NWI_Vector				__attribute__((section(".direct"), used));	// 0xCBFB, SWI/NMI interrupt vector (3 bytes)
 
 // ***************************************************************************
 // end of file

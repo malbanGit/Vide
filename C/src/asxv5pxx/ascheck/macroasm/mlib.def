@@ -1,0 +1,35 @@
+	;************************************************
+	;*						*
+	;*    A simple Macro Library Implementation	*
+	;*						*
+	;*		December 2008			*
+	;*						*
+	;************************************************
+
+	.macro .mlib	FileName
+	  .if b,^!FileName!
+	    .error 1	; File Name Required
+	    .mexit
+	  .endif
+	  .mdelete	.mcall
+	  .macro	.mcall	a,b,c,d,e,f,g,h
+	    .irp sym	^!a!,^!b!,^!c!,^!d!,^!e!,^!f!,^!g!,^!h!
+		.iif nb,^!sym!	.define    .$$.'sym
+	    .endm
+	    .mload
+	    .irp sym	^!a!,^!b!,^!c!,^!d!,^!e!,^!f!,^!g!,^!h!
+		.if nb,^!sym!
+		    .iif ndef,sym'.$$.	.error	1	; macro not found
+		    .undefine	.$$.'sym
+		    .undefine	sym'.$$.
+		.endif
+	    .endm
+	  .endm	;.mcall
+	  .mdelete	.mload
+	  .macro	.mload
+	    .nlist
+	    .include ^!FileName!
+	    .list
+	  .endm	;.mload
+	.endm	;.mlib
+

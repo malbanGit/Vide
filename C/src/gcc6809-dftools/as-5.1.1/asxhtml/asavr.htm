@@ -1,0 +1,334 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASAVR  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+AVR ASSEMBLER NOTES 
+
+     The AVR series of processors uses a non  unified addressing
+scheme:  the instruction addressing is 1 per  instruction  word,
+each  instruction uses 2 bytes of memory.  The processor data is
+addressed as 1 per byte of data.  To properly address  the  pro-
+gram/data spaces you, the programmer, must seperate your program
+and data into seperate code and data areas.  The  data  area  is
+addressed  as 1 per byte and the code area is addressed as 1 per
+instruction.  
+
+     The assembler/linker processes the instruction code so that
+the linker will output 2 bytes for each instruction  word.   The
+instruction  word  address  will  be  the  file  encoded address
+divided by 2.  
+
+
+PROCESSOR SPECIFIC DIRECTIVES 
+
+     The  normal  PC relative addressing is -2047 to +2048 rela-
+tive to the current PC.  For a processor with less than 4K words
+of program space the AVR relative jump/call can access any loca-
+tion due to address wrap around.  
+
+     The  ASAVR  cross  assembler has one (1) processor specific
+assembler directive which tells the assembler that the  AVR  has
+4K words or less of program space.  
+
+        .avr_4k   0     Normal PC Relative addressing
+        .avr_4k   1     AVR with <= 4K of Memory
+
+     The remaining processor specific directives specify the AVR
+processor type.  
+
+        .AT90SXXXX
+        .AT90S1200
+        .AT90S2313
+        .AT90S2323
+        .AT90S2343
+        .AT90S2333
+        .AT90S4433
+        .AT90S4414
+        .AT90S4434
+        .AT90S8515
+        .AT90C8534
+        .AT90S8535
+        .ATmega103
+        .ATmega603
+        .ATmega161
+        .ATmega163
+        .ATtiny10
+        .ATtiny11
+        .ATtiny12
+        .ATtiny15
+        .ATtiny22
+        .ATtiny28
+
+   A  file, avr.sfr, contains definitions for the Spepcial Func-
+tion Registers for all the defined processors.  Edit the file to
+make  your  selection of processor and then .include the file at
+the beginning of your assembler file.  
+
+
+The .__.CPU.  Variable 
+
+   The value of the pre-defined symbol '.__.CPU.' corresponds to
+the selected processor type.  The default value is 0 which  cor-
+responds  to  the  default  processor type.  The following table
+lists the processor types and associated values  for  the  ASAVR
+assembler:  
+
+        Processor Type            .__.CPU. Value
+        --------------            --------------
+         Undefined                       0
+         AT90SXXXX (User Defined)        1
+         AT90S1200                       2
+         AT90S2313                       3
+         AT90S2323                       4
+         AT90S2343                       5
+         AT90S2333                       6
+         AT90S4433                       7
+         AT90S4414                       8
+         AT90S4434                       9
+         AT90S8515                      10
+         AT90C8534                      11
+         AT90S8535                      12
+         ATmega103                      13
+         ATmega603                      14
+         ATmega161                      15
+         ATmega163                      16
+         ATtiny10                       17
+         ATtiny11                       18
+         ATtiny12                       19
+         ATtiny15                       20
+         ATtiny22                       21
+         ATtiny28                       22
+
+
+   The  variable  '.__.CPU.'  is by default defined as local and
+will not be output to the created .rel file.  The assembler com-
+mand line options -g or -a will not cause the local symbol to be
+output to the created .rel file.  
+
+   The  assembler  .globl  directive  may  be used to change the
+variable type to global causing its definition to be  output  to
+the  .rel file.  The inclusion of the definition of the variable
+'.__.CPU.' might be a useful means of validating that seperately
+assembled  files have been compiled for the same processor type.
+The linker will report an error for variables with multiple  non
+equal definitions.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+AVR REGISTER SET 
+
+The following is a list of the AVR registers used by ASAVR:  
+
+        r0-r31  -       8-bit registers
+        x       -       index register (x = r27:r26)
+        y       -       index register (y = r29:r28)
+        z       -       index register (z = r31:r30)
+
+
+AVR ADDRESSING MODES 
+
+   The designation [] refers  to  a  required addressing  mode
+argument.   The  following  list specifies the format for each
+addressing mode supported by ASAVR:  
+
+        #data           immediate data
+
+        expr            expression
+
+        Rd              destination register (0-31)
+
+        Rd,Rs           destination register (0-31)
+                        source register (0-31)
+
+        Rd,#data        destination register (0-31)
+                        immediate data
+
+        addr            address
+
+        addr,Rs         destination address
+                        source register
+
+        Rd,addr         destination register
+                        source address
+
+        Rs,b            source register
+                        bit position
+
+        Rd,b            destination register
+                        bit position
+
+        A               an I/O register (0-31)
+
+        A,b             an I/O register (0-31)
+                        bit position
+
+        A,Rs            source register to
+                        output register
+
+        Rd,A            input register to
+                        destination register
+
+        Rd,X            load indirect
+        Rd,Y
+        Rd,Z
+
+        Rd,-X           load indirect pre-decrement
+        Rd,-Y
+        Rd,-Z
+
+        Rd,X+           load indirect post-increment
+        Rd,Y+
+        Rd,Z+
+
+        Rd,Z+Q          load indirect with displacement
+
+        X,Rs            store indirect
+        Y,Rs
+        Z,Rs
+
+        -X,Rs           store indirect pre-decrement
+        -Y,Rs
+        -Z,Rs
+
+        X+,Rs           store indirect post increment
+        Y+,Rs
+        Z+,Rs
+
+        Z+Q,Rs          store indirect with displacement
+
+        label           branch label
+
+The  terms  data, expr, displacement, bit position, A, and label
+may be expressions.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+AVR INSTRUCTION SET
+
+     Note  that  not  all  instructions are available with every
+processor type.  Not all addressing modes are valid  with  every
+instruction,  refer to the AVR technical data for valid instruc-
+tions and modes.  
+
+
+AVR Arithmetic and Logical Instructions 
+
+        add     Rd,Rs           adc     Rd,Rs
+        adiw    Rd,#data        sub     Rd,Rs
+        subi    Rd,#data        sbc     Rd,Rs
+        sbci    Rd,#data        sbiw    Rd,#data
+        and     Rd,Rs           andi    Rd,#data
+        or      Rd,Rs           ori     Rd,#data
+        cp      Rd,Rs           eor     Rd,Rs
+        cpi     Rd,#data        cpc     Rd,Rs
+        cbr     Rd,#data        sbr     Rd,#data
+        clr     Rd              com     Rd
+        dec     Rd              inc     Rd
+        neg     Rd              ser     Rd
+        tst     Rd
+        mul     Rd,Rs           fmul    Rd,Rs
+        muls    Rd,Rs           fmuls   Rd,Rs
+        mulsu   Rd,Rs           fmulsu  Rd,Rs
+
+
+AVR Bit and Bit-Test Instructions 
+
+        lsl     Rd              lsr     Rd
+        rol     Rd              ror     Rd
+        asr     Rd              swap    Rd
+        bset    b               bclr    b
+        sbi     A,b             cbi     A,b
+        bst     Rs,b            bld     Rd,b
+        sec                     sez
+        sen                     sev
+        ses                     seh
+        set                     sei
+        clc                     clz
+        cln                     clv
+        cls                     clh
+        clt                     cli
+        nop                     sleep
+        wdr
+
+
+AVR Skip on Test Instructions 
+
+        cpse    Rd,Rs
+        sbrc    Rs,b            sbrs    Rs,b
+        sbic    A,b             sbis    A,b
+
+
+AVR Jump/Call/Return Instructions 
+
+        jmp     addr            rjmp    addr
+        ijmp                    eijmp
+        call    addr            rcall   addr
+        icall                   eicall
+        ret                     reti
+
+
+AVR Short Branch Instructions 
+
+        brcc    label           brcs    label
+        breq    label           brge    label
+        brhc    label           brhs    label
+        brid    label           brie    label
+        brlo    label           brlt    label
+        brmi    label           brne    label
+        brpl    label           brsh    label
+        brtc    label           brts    label
+        brvc    label           brvs    label
+
+
+AVR Short Branch Instructions with Bit Test 
+
+        brbc    b,label         brbs    b,label
+
+
+AVR Data Transfer Instructions 
+
+        mov     Rd,Rs           movw    Rd,Rs
+        ldi     Rd,#data
+        ld      []              st      []
+        ldd     []              std     []
+        lds     Rd,addr         sts     addr,Rs
+        lpm     []              elpm    []
+        spm
+        push    Rs              pop     Rd
+        in      Rd,A            out     A,Rs
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

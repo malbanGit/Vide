@@ -1,0 +1,27 @@
+82569
+R:\ASXV5PXX\ASXMAK\SYMANTEC\BUILD\as6500.prj
+as6500.OPN
+novcs
+as6500.DEF
+6
+1150355460
+0 0 0 0 0 "..\..\..\ASXXSRC\asdata.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asdbg.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asexpr.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\aslex.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\aslist.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asmain.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asmcro.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\asout.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\assubr.c"
+0 0 0 0 0 "..\..\..\ASXXSRC\assym.c"
+0 0 0 0 0 "..\..\..\AS6500\r65adr.c"
+0 0 0 0 0 "..\..\..\AS6500\r65mch.c"
+0 0 0 0 0 "..\..\..\AS6500\r65pst.c"
+0 0 0 0 0 "as6500.DEF"
+0 -1 0 0 0 "..\..\..\asxxsrc\asxxxx.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdlib.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdio.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\setjmp.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\string.h"
+0 -1 0 0 0 "..\..\..\AS6500\r6500.h"

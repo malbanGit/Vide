@@ -1,0 +1,1506 @@
+        .LIST
+; P18F458.INC  Standard Header File, Version 0.10   Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC18F458 microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.  
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PIC18F458
+;       2. LIST directive in the source file
+;               LIST   P=PIC18F458
+;       3. Processor Type entry in the MPASM full-screen interface
+;       4. Setting the processor in the MPLAB Project Dialog
+
+;==========================================================================
+;
+;       Revision History
+;
+;==========================================================================
+;Rev:   Date:        Details:                                         Who:
+;0.90  15 May 2001   Preliminary Release                               dzb
+;0.99  29 June2001   Rev 1                                             dzb
+;1.00  29 Oct.2001   Corrections & Additions			       cjh
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __18F458
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;       18Fxxx Family        EQUates
+;==========================================================================
+
+FSR0            =: 0
+FSR1            =: 1
+FSR2            =: 2
+
+FAST            =: 1
+
+W               =: 0
+A               =: 0
+ACCESS          =: 0
+BANKED		=: 1
+
+;==========================================================================
+;       16Cxxx/17Cxxx Substitutions
+;==========================================================================
+
+  .define clrw, "clrf WREG"	; PIC16Cxxx code substitution (WREG is addressable)
+  .define CLRW, "CLRF WREG"	; PIC16Cxxx code substitution (WREG is addressable)
+  .define negw, "negf WREG"	; PIC16Cxxx code substitution (WREG is addressable)
+  .define NEGW, "NEGF WREG"	; PIC16Cxxx code substitution (WREG is addressable)
+  .define movpf, "movff"	; PIC17Cxxx code substitution
+  .define MOVPF, "MOVFF"	; PIC17Cxxx code substitution
+  .define movfp, "movff"	; PIC17Cxxx code substitution
+  .define MOVFP, "MOVFF"	; PIC17Cxxx code substitution
+  .define lcall, "call"		; PIC17Cxxx code substitution
+  .define LCALL, "CALL"		; PIC17Cxxx code substitution
+  .define lgoto, "goto"		; PIC17Cxxx code substitution
+  .define LGOTO, "GOTO"		; PIC17Cxxx code substitution
+  .define DDRA,  "TRISA"	; PIC17Cxxx SFR substitution
+  .define DDRB,  "TRISB"	; PIC17Cxxx SFR substitution
+  .define DDRC,  "TRISC"	; PIC17Cxxx SFR substitution
+  .define DDRD,  "TRISD"	; PIC17Cxxx SFR substitution
+  .define DDRE,  "TRISE"	; PIC17Cxxx SFR substitution
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+;----- Register Files -----------------------------------------------------
+TOSU            =:  0x0FFF
+TOSH            =:  0x0FFE
+TOSL            =:  0x0FFD
+STKPTR          =:  0x0FFC
+PCLATU          =:  0x0FFB
+PCLATH          =:  0x0FFA
+PCL             =:  0x0FF9
+TBLPTRU         =:  0x0FF8
+TBLPTRH         =:  0x0FF7
+TBLPTRL         =:  0x0FF6
+TABLAT          =:  0x0FF5
+PRODH           =:  0x0FF4
+PRODL           =:  0x0FF3
+
+INTCON          =:  0x0FF2
+INTCON1         =:  0x0FF2
+INTCON2         =:  0x0FF1
+INTCON3         =:  0x0FF0
+
+INDF0           =:  0x0FEF
+POSTINC0        =:  0x0FEE
+POSTDEC0        =:  0x0FED
+PREINC0         =:  0x0FEC
+PLUSW0          =:  0x0FEB
+FSR0H           =:  0x0FEA
+FSR0L           =:  0x0FE9
+WREG            =:  0x0FE8
+
+INDF1           =:  0x0FE7
+POSTINC1        =:  0x0FE6
+POSTDEC1        =:  0x0FE5
+PREINC1         =:  0x0FE4
+PLUSW1          =:  0x0FE3
+FSR1H           =:  0x0FE2
+FSR1L           =:  0x0FE1
+BSR             =:  0x0FE0
+
+INDF2           =:  0x0FDF
+POSTINC2        =:  0x0FDE
+POSTDEC2        =:  0x0FDD
+PREINC2         =:  0x0FDC
+PLUSW2          =:  0x0FDB
+FSR2H           =:  0x0FDA
+FSR2L           =:  0x0FD9
+STATUS          =:  0x0FD8
+
+TMR0H           =:  0x0FD7
+TMR0L           =:  0x0FD6
+T0CON           =:  0x0FD5
+
+;RESERVED_0FD4   EQU  0x0FD4
+
+OSCCON          =:  0x0FD3
+LVDCON          =:  0x0FD2
+WDTCON          =:  0x0FD1
+RCON            =:  0x0FD0
+
+TMR1H           =:  0x0FCF
+TMR1L           =:  0x0FCE
+T1CON           =:  0x0FCD
+TMR2            =:  0x0FCC
+PR2             =:  0x0FCB
+T2CON           =:  0x0FCA
+
+SSPBUF          =:  0x0FC9
+SSPADD          =:  0x0FC8
+SSPSTAT         =:  0x0FC7
+SSPCON1         =:  0x0FC6
+SSPCON2         =:  0x0FC5
+
+ADRESH          =:  0x0FC4
+ADRESL          =:  0x0FC3
+ADCON0          =:  0x0FC2
+ADCON1          =:  0x0FC1
+
+CCPR1H          =:  0x0FBF
+CCPR1L          =:  0x0FBE
+CCP1CON         =:  0x0FBD
+ECCPR1H         =:  0x0FBC
+ECCPR1L         =:  0x0FBB
+ECCP1CON        =:  0x0FBA
+
+ECCP1DEL        =:  0x0FB7
+ECCPAS          =:  0x0FB6
+CVRCON          =:  0x0FB5
+CMCON           =:  0x0FB4
+
+TMR3H           =:  0x0FB3
+TMR3L           =:  0x0FB2
+T3CON           =:  0x0FB1
+
+PSPCON          =:  0x0FB0
+
+SPBRG           =:  0x0FAF
+RCREG           =:  0x0FAE
+TXREG           =:  0x0FAD
+TXSTA           =:  0x0FAC
+RCSTA           =:  0x0FAB
+
+EEADR           =:  0x0FA9
+EEDATA          =:  0x0FA8
+EECON2          =:  0x0FA7
+EECON1          =:  0x0FA6
+IPR3            =:  0x0FA5
+PIR3            =:  0x0FA4
+PIE3            =:  0x0FA3
+
+IPR2            =:  0x0FA2
+PIR2            =:  0x0FA1
+PIE2            =:  0x0FA0
+IPR1            =:  0x0F9F
+PIR1            =:  0x0F9E
+PIE1            =:  0x0F9D
+
+TRISE           =:  0x0F96
+TRISD           =:  0x0F95
+TRISC           =:  0x0F94
+TRISB           =:  0x0F93
+TRISA           =:  0x0F92
+
+LATE            =:  0x0F8D
+LATD            =:  0x0F8C
+LATC            =:  0x0F8B
+LATB            =:  0x0F8A
+LATA            =:  0x0F89
+
+PORTE           =:  0x0F84
+PORTD           =:  0x0F83
+PORTC           =:  0x0F82
+PORTB           =:  0x0F81
+PORTA           =:  0x0F80
+
+TXERRCNT        =:  0x0F76
+RXERRCNT        =:  0x0F75
+COMSTAT         =:  0x0F74
+CIOCON          =:  0x0F73
+BRGCON3         =:  0x0F72
+BRGCON2         =:  0x0F71
+BRGCON1         =:  0x0F70
+
+CANCON          =:  0x0F6F
+CANSTAT         =:  0x0F6E
+RXB0D7          =:  0x0F6D
+RXB0D6          =:  0x0F6C
+RXB0D5          =:  0x0F6B
+RXB0D4          =:  0x0F6A
+RXB0D3          =:  0x0F69
+RXB0D2          =:  0x0F68
+RXB0D1          =:  0x0F67
+RXB0D0          =:  0x0F66
+RXB0DLC         =:  0x0F65
+RXB0EIDL        =:  0x0F64
+RXB0EIDH        =:  0x0F63
+RXB0SIDL        =:  0x0F62
+RXB0SIDH        =:  0x0F61
+RXB0CON         =:  0x0F60
+
+CANSTATRO1      =:  0x0F5E
+RXB1D7          =:  0x0F5D
+RXB1D6          =:  0x0F5C
+RXB1D5          =:  0x0F5B
+RXB1D4          =:  0x0F5A
+RXB1D3          =:  0x0F59
+RXB1D2          =:  0x0F58
+RXB1D1          =:  0x0F57
+RXB1D0          =:  0x0F56
+RXB1DLC         =:  0x0F55
+RXB1EIDL        =:  0x0F54
+RXB1EIDH        =:  0x0F53
+RXB1SIDL        =:  0x0F52
+RXB1SIDH        =:  0x0F51
+RXB1CON         =:  0x0F50
+
+CANSTATRO2      =:  0x0F4E
+TXB0D7          =:  0x0F4D
+TXB0D6          =:  0x0F4C
+TXB0D5          =:  0x0F4B
+TXB0D4          =:  0x0F4A
+TXB0D3          =:  0x0F49
+TXB0D2          =:  0x0F48
+TXB0D1          =:  0x0F47
+TXB0D0          =:  0x0F46
+TXB0DLC         =:  0x0F45
+TXB0EIDL        =:  0x0F44
+TXB0EIDH        =:  0x0F43
+TXB0SIDL        =:  0x0F42
+TXB0SIDH        =:  0x0F41
+TXB0CON         =:  0x0F40
+
+CANSTATRO3      =:  0x0F3E
+TXB1D7          =:  0x0F3D
+TXB1D6          =:  0x0F3C
+TXB1D5          =:  0x0F3B
+TXB1D4          =:  0x0F3A
+TXB1D3          =:  0x0F39
+TXB1D2          =:  0x0F38
+TXB1D1          =:  0x0F37
+TXB1D0          =:  0x0F36
+TXB1DLC         =:  0x0F35
+TXB1EIDL        =:  0x0F34
+TXB1EIDH        =:  0x0F33
+TXB1SIDL        =:  0x0F32
+TXB1SIDH        =:  0x0F31
+TXB1CON         =:  0x0F30
+
+CANSTATRO4      =:  0x0F2E
+TXB2D7          =:  0x0F2D
+TXB2D6          =:  0x0F2C
+TXB2D5          =:  0x0F2B
+TXB2D4          =:  0x0F2A
+TXB2D3          =:  0x0F29
+TXB2D2          =:  0x0F28
+TXB2D1          =:  0x0F27
+TXB2D0          =:  0x0F26
+TXB2DLC         =:  0x0F25
+TXB2EIDL        =:  0x0F24
+TXB2EIDH        =:  0x0F23
+TXB2SIDL        =:  0x0F22
+TXB2SIDH        =:  0x0F21
+TXB2CON         =:  0x0F20
+
+RXM1EIDL        =:  0x0F1F
+RXM1EIDH        =:  0x0F1E
+RXM1SIDL        =:  0x0F1D
+RXM1SIDH        =:  0x0F1C
+
+RXM0EIDL        =:  0x0F1B
+RXM0EIDH        =:  0x0F1A
+RXM0SIDL        =:  0x0F19
+RXM0SIDH        =:  0x0F18
+
+RXF5EIDL        =:  0x0F17
+RXF5EIDH        =:  0x0F16
+RXF5SIDL        =:  0x0F15
+RXF5SIDH        =:  0x0F14
+
+RXF4EIDL        =:  0x0F13
+RXF4EIDH        =:  0x0F12
+RXF4SIDL        =:  0x0F11
+RXF4SIDH        =:  0x0F10
+
+RXF3EIDL        =:  0x0F0F
+RXF3EIDH        =:  0x0F0E
+RXF3SIDL        =:  0x0F0D
+RXF3SIDH        =:  0x0F0C
+
+RXF2EIDL        =:  0x0F0B
+RXF2EIDH        =:  0x0F0A
+RXF2SIDL        =:  0x0F09
+RXF2SIDH        =:  0x0F08
+
+RXF1EIDL        =:  0x0F07
+RXF1EIDH        =:  0x0F06
+RXF1SIDL        =:  0x0F05
+RXF1SIDH        =:  0x0F04
+
+RXF0EIDL        =:  0x0F03
+RXF0EIDH        =:  0x0F02
+RXF0SIDL        =:  0x0F01
+RXF0SIDH        =:  0x0F00
+
+;----- STKPTR Bits --------------------------------------------------------
+STKFUL          =:  0x0007
+STKUNF          =:  0x0006
+SP4	        =:  0x0004
+SP3	        =:  0x0003
+SP2	        =:  0x0002
+SP1	        =:  0x0001
+SP0	        =:  0x0000
+
+;----- INTCON Bits --------------------------------------------------------
+GIE             =:  0x0007
+GIEH            =:  0x0007
+PEIE            =:  0x0006
+GIEL            =:  0x0006
+TMR0IE          =:  0x0005
+T0IE            =:  0x0005      ; For backward compatibility
+INT0IE          =:  0x0004
+INT0E           =:  0x0004      ; For backward compatibility
+RBIE            =:  0x0003
+TMR0IF          =:  0x0002
+T0IF            =:  0x0002      ; For backward compatibility
+INT0IF          =:  0x0001
+INT0F           =:  0x0001      ; For backward compatibility
+RBIF            =:  0x0000
+
+;----- INTCON2 Bits --------------------------------------------------------
+NOT_RBPU        =:  0x0007
+RBPU            =:  0x0007
+INTEDG0         =:  0x0006
+INTEDG1         =:  0x0005
+TMR0IP          =:  0x0002
+T0IP            =:  0x0002      ; For compatibility with T0IE and T0IF
+RBIP            =:  0x0000
+
+;----- INTCON3 Bits --------------------------------------------------------
+INT1IP          =:  0x0006
+INT1P           =:  0x0006
+INT1IE          =:  0x0003
+INT1E           =:  0x0003
+INT1IF          =:  0x0000
+INT1F           =:  0x0000
+
+;----- STATUS Bits --------------------------------------------------------
+N               =:  0x0004
+OV              =:  0x0003
+Z               =:  0x0002
+DC              =:  0x0001
+C               =:  0x0000
+
+;----- T0CON Bits ---------------------------------------------------------
+TMR0ON          =:  0x0007
+T08BIT          =:  0x0006
+T0CS            =:  0x0005
+T0SE            =:  0x0004
+PSA             =:  0x0003
+T0PS2           =:  0x0002
+T0PS1           =:  0x0001
+T0PS0           =:  0x0000
+
+;----- OSCON Bits ---------------------------------------------------------
+SCS             =:  0x0000
+
+;----- LVDCON Bits ---------------------------------------------------------
+IVRST           =:  0x0005
+LVDEN           =:  0x0004
+LVDL3           =:  0x0003
+LVDL2           =:  0x0002
+LVDL1           =:  0x0001
+LVDL0           =:  0x0000
+
+;----- WDTCON Bits ---------------------------------------------------------
+SWDTEN          =:  0x0000
+SWDTE           =:  0x0000
+
+;----- RCON Bits -----------------------------------------------------------
+IPEN            =:  0x0007
+NOT_RI          =:  0x0004
+RI              =:  0x0004
+NOT_TO          =:  0x0003
+TO              =:  0x0003
+NOT_PD          =:  0x0002
+PD              =:  0x0002
+NOT_POR         =:  0x0001
+POR             =:  0x0001
+NOT_BOR         =:  0x0000
+BOR             =:  0x0000
+
+;----- T1CON Bits ---------------------------------------------------------
+RD16            =:  0x0007
+T1CKPS1         =:  0x0005
+T1CKPS0         =:  0x0004
+T1OSCEN         =:  0x0003
+NOT_T1SYNC      =:  0x0002
+T1SYNC          =:  0x0002
+T1INSYNC        =:  0x0002    ; Backward compatibility only
+TMR1CS          =:  0x0001
+TMR1ON          =:  0x0000
+
+;----- T2CON Bits ---------------------------------------------------------
+TOUTPS3         =:  0x0006
+TOUTPS2         =:  0x0005
+TOUTPS1         =:  0x0004
+TOUTPS0         =:  0x0003
+TMR2ON          =:  0x0002
+T2CKPS1         =:  0x0001
+T2CKPS0         =:  0x0000
+
+;----- SSPSTAT Bits -------------------------------------------------------
+SMP             =:  0x0007
+CKE             =:  0x0006
+D               =:  0x0005
+I2C_DAT         =:  0x0005
+NOT_A           =:  0x0005
+NOT_ADDRESS     =:  0x0005
+D_A             =:  0x0005
+DATA_ADDRESS    =:  0x0005
+P               =:  0x0004
+I2C_STOP        =:  0x0004
+S               =:  0x0003
+I2C_START       =:  0x0003
+R               =:  0x0002
+I2C_READ        =:  0x0002
+NOT_W           =:  0x0002
+NOT_WRITE       =:  0x0002
+R_W             =:  0x0002
+READ_WRITE      =:  0x0002
+UA              =:  0x0001
+BF              =:  0x0000
+
+;----- SSPCON1 Bits --------------------------------------------------------
+WCOL            =:  0x0007
+SSPOV           =:  0x0006
+SSPEN           =:  0x0005
+CKP             =:  0x0004
+SSPM3           =:  0x0003
+SSPM2           =:  0x0002
+SSPM1           =:  0x0001
+SSPM0           =:  0x0000
+
+;----- SSPCON2 Bits --------------------------------------------------------
+GCEN            =:  0x0007
+ACKSTAT         =:  0x0006
+ACKDT           =:  0x0005
+ACKEN           =:  0x0004
+RCEN            =:  0x0003
+PEN             =:  0x0002
+RSEN            =:  0x0001
+SEN             =:  0x0000
+
+;----- ADCON0 Bits --------------------------------------------------------
+ADCS1           =:  0x0007
+ADCS0           =:  0x0006
+CHS2            =:  0x0005
+CHS1            =:  0x0004
+CHS0            =:  0x0003
+GO              =:  0x0002
+NOT_DONE        =:  0x0002
+DONE            =:  0x0002
+GO_DONE         =:  0x0002
+ADON            =:  0x0000
+
+;----- ADCON1 Bits --------------------------------------------------------
+ADFM            =:  0x0007
+ADCS2           =:  0x0006
+PCFG3           =:  0x0003
+PCFG2           =:  0x0002
+PCFG1           =:  0x0001
+PCFG0           =:  0x0000
+
+;----- CCP1CON Bits -------------------------------------------------------
+DC1B1           =:  0x0005
+CCP1X           =:  0x0005      ; For backward compatibility
+DC1B0           =:  0x0004
+CCP1Y           =:  0x0004      ; For backward compatibility
+CCP1M3          =:  0x0003
+CCP1M2          =:  0x0002
+CCP1M1          =:  0x0001
+CCP1M0          =:  0x0000
+
+;----- ECCP1CON Bits ------------------------------------------------------
+EPWM1M1         =:  0x0007
+EPWM1M0         =:  0x0006
+EDC2B1          =:  0x0005
+EDC2B0          =:  0x0004
+ECCP1M3         =:  0x0003
+ECCP1M2         =:  0x0002
+ECCP1M1         =:  0x0001
+ECCP1M0         =:  0x0000
+
+;----- ECCPAS Bits --------------------------------------------------------
+ECCPASE         =:  0x0007
+ECCPAS2         =:  0x0006
+ECCPAS1         =:  0x0005
+ECCPAS0         =:  0x0004
+PSSAC1          =:  0x0003
+PSSAC0          =:  0x0002
+PSSBD1          =:  0x0001
+PSSBD0          =:  0x0000
+
+;----- CVRCON Bits --------------------------------------------------------
+CVREN           =:  0x0007
+CVROE           =:  0x0006      ; For backward compatibility
+CVRR            =:  0x0005
+CVRSS           =:  0x0004      ; For backward compatibility
+CVR3            =:  0x0003
+CVR2            =:  0x0002
+CVR1            =:  0x0001
+CVR0            =:  0x0000
+
+;----- CMCON Bits ---------------------------------------------------------
+C2OUT           =:  0x0007
+C1OUT           =:  0x0006      ; For backward compatibility
+C2INV           =:  0x0005
+C1INV           =:  0x0004      ; For backward compatibility
+CIS             =:  0x0003
+CM2             =:  0x0002
+CM1             =:  0x0001
+CM0             =:  0x0000
+
+;----- T3CON Bits ---------------------------------------------------------
+RD16            =:  0x0007
+T3ECCP1          =:  0x0006
+T3CKPS1         =:  0x0005
+T3CKPS0         =:  0x0004
+T3CCP1          =:  0x0003
+NOT_T3SYNC      =:  0x0002
+T3SYNC          =:  0x0002
+T3INSYNC        =:  0x0002    ; Backward compatibility only
+TMR3CS          =:  0x0001
+TMR3ON          =:  0x0000
+
+;----- PSPCON Bits --------------------------------------------------------
+IBF             =:  0x0007
+OBF             =:  0x0006
+IBOV            =:  0x0005
+PSPMODE         =:  0x0004
+
+;----- TXSTA Bits ---------------------------------------------------------
+CSRC            =:  0x0007
+TX9             =:  0x0006
+NOT_TX8         =:  0x0006    ; Backward compatibility only
+TX8_9           =:  0x0006    ; Backward compatibility only
+TXEN            =:  0x0005
+SYNC            =:  0x0004
+BRGH            =:  0x0002
+TRMT            =:  0x0001
+TX9D            =:  0x0000
+TXD8            =:  0x0000    ; Backward compatibility only
+
+;----- RCSTA Bits ---------------------------------------------------------
+SPEN            =:  0x0007
+RX9             =:  0x0006
+RC9             =:  0x0006    ; Backward compatibility only
+NOT_RC8         =:  0x0006    ; Backward compatibility only
+RC8_9           =:  0x0006    ; Backward compatibility only
+SREN            =:  0x0005
+CREN            =:  0x0004
+ADDEN           =:  0x0003
+FERR            =:  0x0002
+OERR            =:  0x0001
+RX9D            =:  0x0000
+RCD8            =:  0x0000    ; Backward compatibility only
+
+;----- EECON1 Bits --------------------------------------------------------
+EEPGD           =:  0x0007
+EEFS            =:  0x0006
+FREE            =:  0x0004
+WRERR           =:  0x0003
+WREN            =:  0x0002
+WR              =:  0x0001
+RD              =:  0x0000
+
+;----- IPR3 Bits ----------------------------------------------------------
+IRXIP           =:  0x0007
+WAKIP           =:  0x0006
+ERRIP           =:  0x0005
+TXB2IP          =:  0x0004
+TXB1IP          =:  0x0003
+TXB0IP          =:  0x0002
+RXB1IP          =:  0x0001
+RXB0IP          =:  0x0000
+
+;----- PIR3 Bits ----------------------------------------------------------
+IRXIF           =:  0x0007
+WAKIF           =:  0x0006
+ERRIF           =:  0x0005
+TXB2IF          =:  0x0004
+TXB1IF          =:  0x0003
+TXB0IF          =:  0x0002
+RXB1IF          =:  0x0001
+RXB0IF          =:  0x0000
+
+;----- PIE3 Bits ----------------------------------------------------------
+IRXIE           =:  0x0007
+WAKIE           =:  0x0006
+ERRIE           =:  0x0005
+TXB2IE          =:  0x0004
+TXB1IE          =:  0x0003
+TXB0IE          =:  0x0002
+RXB1IE          =:  0x0001
+RXB0IE          =:  0x0000
+
+;----- IPR2 Bits ----------------------------------------------------------
+CMIP            =:  0x0006
+EEIP            =:  0x0004
+BCLIP           =:  0x0003
+LVDIP           =:  0x0002
+TMR3IP          =:  0x0001
+ECCP1IP         =:  0x0000
+
+;----- PIR2 Bits ----------------------------------------------------------
+CMIF            =:  0x0006
+EEIF            =:  0x0004
+BCLIF           =:  0x0003
+LVDIF           =:  0x0002
+TMR3IF          =:  0x0001
+ECCP1IF         =:  0x0000
+
+;----- PIE2 Bits ----------------------------------------------------------
+CMIE            =:  0x0006
+EEIE            =:  0x0004
+BCLIE           =:  0x0003
+LVDIE           =:  0x0002
+TMR3IE          =:  0x0001
+ECCP1IE         =:  0x0000
+
+;----- IPR1 Bits ----------------------------------------------------------
+PSPIP           =:  0x0007
+ADIP            =:  0x0006
+RCIP            =:  0x0005
+TXIP            =:  0x0004
+SSPIP           =:  0x0003
+CCP1IP          =:  0x0002
+TMR2IP          =:  0x0001
+TMR1IP          =:  0x0000
+
+;----- PIR1 Bits ----------------------------------------------------------
+PSPIF           =:  0x0007
+ADIF            =:  0x0006
+RCIF            =:  0x0005
+TXIF            =:  0x0004
+SSPIF           =:  0x0003
+CCP1IF          =:  0x0002
+TMR2IF          =:  0x0001
+TMR1IF          =:  0x0000
+
+;----- PIE1 Bits ----------------------------------------------------------
+PSPIE           =:  0x0007
+ADIE            =:  0x0006
+RCIE            =:  0x0005
+TXIE            =:  0x0004
+SSPIE           =:  0x0003
+CCP1IE          =:  0x0002
+TMR2IE          =:  0x0001
+TMR1IE          =:  0x0000
+
+;----- COMSTAT Bits ---------------------------------------------------------
+RX1OVFL         =:  0x0007
+RXB0OVFL        =:  0x0007
+RX2OVFL         =:  0x0006
+RXB1OVFL        =:  0x0006
+TXBO            =:  0x0005
+TXBP            =:  0x0004
+RXBP            =:  0x0003
+TXWARN          =:  0x0002
+RXWARN          =:  0x0001
+EWARN           =:  0x0000
+
+;----- CIOCON Bits -----------------------------------------------------------
+ENDRHI          =:  0x0005
+CANCAP          =:  0x0004
+
+;----- BRGCON3 Bits ----------------------------------------------------------
+WAKFIL          =:  0x0006
+SEG2PH2         =:  0x0002
+SEG2PH1         =:  0x0001
+SEG2PH0         =:  0x0000
+
+;----- BRGCON2 Bits -----------------------------------------------------------
+SEG2PHTS        =:  0x0007
+SAM             =:  0x0006
+SEG1PH2         =:  0x0005
+SEG1PH1         =:  0x0004
+SEG1PH0         =:  0x0003
+PRSEG2          =:  0x0002
+PRSEG1          =:  0x0001
+PRSEG0          =:  0x0000
+
+;----- BRGCON1 Bits ------------------------------------------------------------
+SJW1            =:  0x0007
+SJW0            =:  0x0006
+BRP5            =:  0x0005
+BRP4            =:  0x0004
+BRP3            =:  0x0003
+BRP2            =:  0x0002
+BRP1            =:  0x0001
+BRP0            =:  0x0000
+
+;----- CANCON Bits -------------------------------------------------------------
+REQOP2          =:  0x0007
+REQOP1          =:  0x0006
+REQOP0          =:  0x0005
+ABAT            =:  0x0004
+WIN2            =:  0x0003
+WIN1            =:  0x0002
+WIN0            =:  0x0001
+
+;----- CANSTAT Bits -----------------------------------------------------------
+OPMODE2         =:  0x0007
+OPMODE1         =:  0x0006
+OPMODE0         =:  0x0005
+ICODE2          =:  0x0003
+ICODE1          =:  0x0002
+ICODE0          =:  0x0001
+
+;----- RXBnCON Bits -----------------------------------------------------------
+RXFUL           =:  0x0007
+RXM1            =:  0x0006
+RXM0            =:  0x0005
+RXRTRRO         =:  0x0003
+RXB0DBEN        =:  0x0002
+FILHIT2         =:  0x0002
+JTOFF           =:  0x0001
+FILHIT1         =:  0x0001
+FILHIT0         =:  0x0000
+
+;----- TXBnCON Bits ----------------------------------------------------------
+TXABT           =:  0x0006
+TXLARB          =:  0x0005
+TXERR           =:  0x0004
+TXREQ           =:  0x0003
+TXPRI1          =:  0x0001
+TXPRI0          =:  0x0000
+
+;----- TXERRCNT Bits ----------------------------------------------------------
+TEC7            =:  0x0007
+TEC6            =:  0x0006
+TEC5            =:  0x0005
+TEC4            =:  0x0004
+TEC3            =:  0x0003
+TEC2            =:  0x0002
+TEC1            =:  0x0001
+TEC0            =:  0x0000
+
+;----- RXERRCNT Bits ----------------------------------------------------------
+REC7            =:  0x0007
+REC6            =:  0x0006
+REC5            =:  0x0005
+REC4            =:  0x0004
+REC3            =:  0x0003
+REC2            =:  0x0002
+REC1            =:  0x0001
+REC0            =:  0x0000
+
+;----- RXBnDLC and TXBnDLC Bits -----------------------------------------------
+RXRTR           =:  0x0006
+TXRTR           =:  0x0006
+RESB1           =:  0x0005
+RESB0           =:  0x0004
+DLC3            =:  0x0003
+DLC2            =:  0x0002
+DLC1            =:  0x0001
+DLC0            =:  0x0000
+
+;----- RXBnEIDL, RXFnEIDL, RXMnEIDL, and TXBnEIDL Bits -------------------------
+EID7            =:  0x0007
+EID6            =:  0x0006
+EID5            =:  0x0005
+EID4            =:  0x0004
+EID3            =:  0x0003
+EID2            =:  0x0002
+EID1            =:  0x0001
+EID0            =:  0x0000
+
+;----- RXBnEIDH, RXFnEIDH, RXMnEIDH, and TXBnEIDH Bits -------------------------
+EID15           =:  0x0007
+EID14           =:  0x0006
+EID13           =:  0x0005
+EID12           =:  0x0004
+EID11           =:  0x0003
+EID10           =:  0x0002
+EID9            =:  0x0001
+EID8            =:  0x0000
+
+;----- RXBnSIDL, RXFnSIDL, RXMnSIDL, and TXBnSIDL Bits ----------------------
+SID2            =:  0x0007
+SID1            =:  0x0006
+SID0            =:  0x0005
+SRR             =:  0x0004
+EXID            =:  0x0003
+EXIDE           =:  0x0003
+EXIDEN          =:  0x0003
+EID17           =:  0x0001
+EID16           =:  0x0000
+
+;----- RXBnSIDH, RXFnSIDH, RXMnSIDH, and TXBnSIDH Bits ----------------------
+SID10           =:  0x0007
+SID9            =:  0x0006
+SID8            =:  0x0005
+SID7            =:  0x0004
+SID6            =:  0x0003
+SID5            =:  0x0002
+SID4            =:  0x0001
+SID3            =:  0x0001
+
+;----- RXB0D7 Bits ----------------------------------------------------------
+RB0D77          =:  0x0007
+RB0D76          =:  0x0006
+RB0D75          =:  0x0005
+RB0D74          =:  0x0004
+RB0D73          =:  0x0003
+RB0D72          =:  0x0002
+RB0D71          =:  0x0001
+RB0D70          =:  0x0000
+
+;----- RXB0D6 Bits ----------------------------------------------------------
+RB0D67          =:  0x0007
+RB0D66          =:  0x0006
+RB0D65          =:  0x0005
+RB0D64          =:  0x0004
+RB0D63          =:  0x0003
+RB0D62          =:  0x0002
+RB0D61          =:  0x0001
+RB0D60          =:  0x0000
+
+;----- RXB0D5 Bits ----------------------------------------------------------
+RB0D57          =:  0x0007
+RB0D56          =:  0x0006
+RB0D55          =:  0x0005
+RB0D54          =:  0x0004
+RB0D53          =:  0x0003
+RB0D52          =:  0x0002
+RB0D51          =:  0x0001
+RB0D50          =:  0x0000
+
+;----- RXB0D4 Bits ----------------------------------------------------------
+RB0D47          =:  0x0007
+RB0D46          =:  0x0006
+RB0D45          =:  0x0005
+RB0D44          =:  0x0004
+RB0D43          =:  0x0003
+RB0D42          =:  0x0002
+RB0D41          =:  0x0001
+RB0D40          =:  0x0000
+
+;----- RXB0D3 Bits ----------------------------------------------------------
+RB0D37          =:  0x0007
+RB0D36          =:  0x0006
+RB0D35          =:  0x0005
+RB0D34          =:  0x0004
+RB0D33          =:  0x0003
+RB0D32          =:  0x0002
+RB0D31          =:  0x0001
+RB0D30          =:  0x0000
+
+;----- RXB0D2 Bits ----------------------------------------------------------
+RB0D27          =:  0x0007
+RB0D26          =:  0x0006
+RB0D25          =:  0x0005
+RB0D24          =:  0x0004
+RB0D23          =:  0x0003
+RB0D22          =:  0x0002
+RB0D21          =:  0x0001
+RB0D20          =:  0x0000
+
+;----- RXB0D1 Bits ----------------------------------------------------------
+RB0D17          =:  0x0007
+RB0D16          =:  0x0006
+RB0D15          =:  0x0005
+RB0D14          =:  0x0004
+RB0D13          =:  0x0003
+RB0D12          =:  0x0002
+RB0D11          =:  0x0001
+RB0D10          =:  0x0000
+
+;----- RXB0D0 Bits ----------------------------------------------------------
+RB0D07          =:  0x0007
+RB0D06          =:  0x0006
+RB0D05          =:  0x0005
+RB0D04          =:  0x0004
+RB0D03          =:  0x0003
+RB0D02          =:  0x0002
+RB0D01          =:  0x0001
+RB0D00          =:  0x0000
+
+;----- RXB1D7 Bits ----------------------------------------------------------
+RXB1D77          =:  0x0007
+RXB1D76          =:  0x0006
+RXB1D75          =:  0x0005
+RXB1D74          =:  0x0004
+RXB1D73          =:  0x0003
+RXB1D72          =:  0x0002
+RXB1D71          =:  0x0001
+RXB1D70          =:  0x0000
+
+;----- RXB1D6 Bits ----------------------------------------------------------
+RXB1D67          =:  0x0007
+RXB1D66          =:  0x0006
+RXB1D65          =:  0x0005
+RXB1D64          =:  0x0004
+RXB1D63          =:  0x0003
+RXB1D62          =:  0x0002
+RXB1D61          =:  0x0001
+RXB1D60          =:  0x0000
+
+;----- RXB1D5 Bits ----------------------------------------------------------
+RXB1D57          =:  0x0007
+RXB1D56          =:  0x0006
+RXB1D55          =:  0x0005
+RXB1D54          =:  0x0004
+RXB1D53          =:  0x0003
+RXB1D52          =:  0x0002
+RXB1D51          =:  0x0001
+RXB1D50          =:  0x0000
+
+
+;----- RXB1D4 Bits ----------------------------------------------------------
+RXB1D47          =:  0x0007
+RXB1D46          =:  0x0006
+RXB1D45          =:  0x0005
+RXB1D44          =:  0x0004
+RXB1D43          =:  0x0003
+RXB1D42          =:  0x0002
+RXB1D41          =:  0x0001
+RXB1D40          =:  0x0000
+
+
+;----- RXB1D3 Bits ----------------------------------------------------------
+RXB1D37          =:  0x0007
+RXB1D36          =:  0x0006
+RXB1D35          =:  0x0005
+RXB1D34          =:  0x0004
+RXB1D33          =:  0x0003
+RXB1D32          =:  0x0002
+RXB1D31          =:  0x0001
+RXB1D30          =:  0x0000
+
+
+;----- RXB1D2 Bits ----------------------------------------------------------
+RXB1D27          =:  0x0007
+RXB1D26          =:  0x0006
+RXB1D25          =:  0x0005
+RXB1D24          =:  0x0004
+RXB1D23          =:  0x0003
+RXB1D22          =:  0x0002
+RXB1D21          =:  0x0001
+RXB1D20          =:  0x0000
+
+
+;----- RXB1D1 Bits ----------------------------------------------------------
+RXB1D17          =:  0x0007
+RXB1D16          =:  0x0006
+RXB1D15          =:  0x0005
+RXB1D14          =:  0x0004
+RXB1D13          =:  0x0003
+RXB1D12          =:  0x0002
+RXB1D11          =:  0x0001
+RXB1D10          =:  0x0000
+
+;----- RXB1D0 Bits ----------------------------------------------------------
+RXB1D07          =:  0x0007
+RXB1D06          =:  0x0006
+RXB1D05          =:  0x0005
+RXB1D04          =:  0x0004
+RXB1D03          =:  0x0003
+RXB1D02          =:  0x0002
+RXB1D01          =:  0x0001
+RXB1D00          =:  0x0000
+
+
+;----- TXB2D7 Bits ----------------------------------------------------------
+TXB2D77          =:  0x0007
+TXB2D76          =:  0x0006
+TXB2D75          =:  0x0005
+TXB2D74          =:  0x0004
+TXB2D73          =:  0x0003
+TXB2D72          =:  0x0002
+TXB2D71          =:  0x0001
+TXB2D70          =:  0x0000
+
+;----- TXB2D6 Bits ----------------------------------------------------------
+TXB2D67          =:  0x0007
+TXB2D66          =:  0x0006
+TXB2D65          =:  0x0005
+TXB2D64          =:  0x0004
+TXB2D63          =:  0x0003
+TXB2D62          =:  0x0002
+TXB2D61          =:  0x0001
+TXB2D60          =:  0x0000
+
+;----- TXB2D5 Bits ----------------------------------------------------------
+TXB2D57          =:  0x0007
+TXB2D56          =:  0x0006
+TXB2D55          =:  0x0005
+TXB2D54          =:  0x0004
+TXB2D53          =:  0x0003
+TXB2D52          =:  0x0002
+TXB2D51          =:  0x0001
+TXB2D50          =:  0x0000
+
+;----- TXB2D4 Bits ----------------------------------------------------------
+TXB2D47          =:  0x0007
+TXB2D46          =:  0x0006
+TXB2D45          =:  0x0005
+TXB2D44          =:  0x0004
+TXB2D43          =:  0x0003
+TXB2D42          =:  0x0002
+TXB2D41          =:  0x0001
+TXB2D40          =:  0x0000
+
+;----- TXB2D3 Bits ----------------------------------------------------------
+TXB2D37          =:  0x0007
+TXB2D36          =:  0x0006
+TXB2D35          =:  0x0005
+TXB2D34          =:  0x0004
+TXB2D33          =:  0x0003
+TXB2D32          =:  0x0002
+TXB2D31          =:  0x0001
+TXB2D30          =:  0x0000
+
+;----- TXB2D2 Bits ----------------------------------------------------------
+TXB2D27          =:  0x0007
+TXB2D26          =:  0x0006
+TXB2D25          =:  0x0005
+TXB2D24          =:  0x0004
+TXB2D23          =:  0x0003
+TXB2D22          =:  0x0002
+TXB2D21          =:  0x0001
+TXB2D20          =:  0x0000
+
+;----- TXB2D1 Bits ----------------------------------------------------------
+TXB2D17          =:  0x0007
+TXB2D16          =:  0x0006
+TXB2D15          =:  0x0005
+TXB2D14          =:  0x0004
+TXB2D13          =:  0x0003
+TXB2D12          =:  0x0002
+TXB2D11          =:  0x0001
+TXB2D10          =:  0x0000
+
+;----- TXB2D0 Bits ----------------------------------------------------------
+TXB2D07          =:  0x0007
+TXB2D06          =:  0x0006
+TXB2D05          =:  0x0005
+TXB2D04          =:  0x0004
+TXB2D03          =:  0x0003
+TXB2D02          =:  0x0002
+TXB2D01          =:  0x0001
+TXB2D00          =:  0x0000
+
+
+;----- TXB1D7 Bits ----------------------------------------------------------
+TXB1D77          =:  0x0007
+TXB1D76          =:  0x0006
+TXB1D75          =:  0x0005
+TXB1D74          =:  0x0004
+TXB1D73          =:  0x0003
+TXB1D72          =:  0x0002
+TXB1D71          =:  0x0001
+TXB1D70          =:  0x0000
+
+;----- TXB1D6 Bits ----------------------------------------------------------
+TXB1D67          =:  0x0007
+TXB1D66          =:  0x0006
+TXB1D65          =:  0x0005
+TXB1D64          =:  0x0004
+TXB1D63          =:  0x0003
+TXB1D62          =:  0x0002
+TXB1D61          =:  0x0001
+TXB1D60          =:  0x0000
+
+;----- TXB1D5 Bits ----------------------------------------------------------
+TXB1D57          =:  0x0007
+TXB1D56          =:  0x0006
+TXB1D55          =:  0x0005
+TXB1D54          =:  0x0004
+TXB1D53          =:  0x0003
+TXB1D52          =:  0x0002
+TXB1D51          =:  0x0001
+TXB1D50          =:  0x0000
+
+;----- TXB1D4 Bits ----------------------------------------------------------
+TXB1D47          =:  0x0007
+TXB1D46          =:  0x0006
+TXB1D45          =:  0x0005
+TXB1D44          =:  0x0004
+TXB1D43          =:  0x0003
+TXB1D42          =:  0x0002
+TXB1D41          =:  0x0001
+TXB1D40          =:  0x0000
+
+;----- TXB1D3 Bits ----------------------------------------------------------
+TXB1D37          =:  0x0007
+TXB1D36          =:  0x0006
+TXB1D35          =:  0x0005
+TXB1D34          =:  0x0004
+TXB1D33          =:  0x0003
+TXB1D32          =:  0x0002
+TXB1D31          =:  0x0001
+TXB1D30          =:  0x0000
+
+;----- TXB1D2 Bits ----------------------------------------------------------
+TXB1D27          =:  0x0007
+TXB1D26          =:  0x0006
+TXB1D25          =:  0x0005
+TXB1D24          =:  0x0004
+TBB1D23          =:  0x0003
+TXB1D22          =:  0x0002
+TXB1D21          =:  0x0001
+TXB1D20          =:  0x0000
+
+;----- TXB1D1 Bits ----------------------------------------------------------
+TXB1D17          =:  0x0007
+TXB1D16          =:  0x0006
+TXB1D15          =:  0x0005
+TXB1D14          =:  0x0004
+TXB1D13          =:  0x0003
+TXB1D12          =:  0x0002
+TXB1D11          =:  0x0001
+TXB1D10          =:  0x0000
+
+;----- TXB1D0 Bits ----------------------------------------------------------
+TXB1D07          =:  0x0007
+TXB1D06          =:  0x0006
+TXB1D05          =:  0x0005
+TXB1D04          =:  0x0004
+TXB1D03          =:  0x0003
+TXB1D02          =:  0x0002
+TXB1D01          =:  0x0001
+TXB1D00          =:  0x0000
+
+
+;----- TXB0D7 Bits ----------------------------------------------------------
+TXB0D77          =:  0x0007
+TXB0D76          =:  0x0006
+TXB0D75          =:  0x0005
+TXB0D74          =:  0x0004
+TXB0D73          =:  0x0003
+TXB0D72          =:  0x0002
+TXB0D71          =:  0x0001
+TXB0D70          =:  0x0000
+
+;----- TXB0D6 Bits ----------------------------------------------------------
+TXB0D67          =:  0x0007
+TXB0D66          =:  0x0006
+TXB0D65          =:  0x0005
+TXB0D64          =:  0x0004
+TXB0D63          =:  0x0003
+TXB0D62          =:  0x0002
+TXB0D61          =:  0x0001
+TXB0D60          =:  0x0000
+
+;----- TXB0D5 Bits ----------------------------------------------------------
+TXB0D57          =:  0x0007
+TXB0D56          =:  0x0006
+TXB0D55          =:  0x0005
+TXB0D54          =:  0x0004
+TXB0D53          =:  0x0003
+TXB0D52          =:  0x0002
+TXB0D51          =:  0x0001
+TXB0D50          =:  0x0000
+
+;----- TXB0D4 Bits ----------------------------------------------------------
+TXB0D47          =:  0x0007
+TXB0D46          =:  0x0006
+TXB0D45          =:  0x0005
+TXB0D44          =:  0x0004
+TXB0D43          =:  0x0003
+TXB0D42          =:  0x0002
+TXB0D41          =:  0x0001
+TXB0D40          =:  0x0000
+
+;----- TXB0D3 Bits ----------------------------------------------------------
+TXB0D37          =:  0x0007
+TXB0D36          =:  0x0006
+TXB0D35          =:  0x0005
+TXB0D34          =:  0x0004
+TXB0D33          =:  0x0003
+TXB0D32          =:  0x0002
+TXB0D31          =:  0x0001
+TXB0D30          =:  0x0000
+
+;----- TXB0D2 Bits ----------------------------------------------------------
+TXB0D27          =:  0x0007
+TXB0D26          =:  0x0006
+TXB0D25          =:  0x0005
+TXB0D24          =:  0x0004
+TXB0D23          =:  0x0003
+TXB0D22          =:  0x0002
+TXB0D21          =:  0x0001
+TXB0D20          =:  0x0000
+
+;----- TXB0D1 Bits ----------------------------------------------------------
+TXB0D17          =:  0x0007
+TXB0D16          =:  0x0006
+TXB0D15          =:  0x0005
+TXB0D14          =:  0x0004
+TXB0D13          =:  0x0003
+TXB0D12          =:  0x0002
+TXB0D11          =:  0x0001
+TXB0D10          =:  0x0000
+
+;----- TXB0D0 Bits ----------------------------------------------------------
+TXB0D07          =:  0x0007
+TXB0D06          =:  0x0006
+TXB0D05          =:  0x0005
+TXB0D04          =:  0x0004
+TXB0D03          =:  0x0003
+TXB0D02          =:  0x0002
+TXB0D01          =:  0x0001
+TXB0D00          =:  0x0000
+
+
+;==========================================================================
+;
+;       I/O Pin Name Definitions
+;
+;==========================================================================
+
+;----- PORTA ------------------------------------------------------------------
+RA0             =:  0
+AN0             =:  0
+CVREF           =:  0
+RA1             =:  1
+AN1             =:  1
+RA2             =:  2
+AN2             =:  2
+VREFM           =:  2
+RA3             =:  3
+AN3             =:  3
+VREFP           =:  3
+RA4             =:  4
+T0CKI           =:  4
+RA5             =:  5
+AN4             =:  5
+SS              =:  5
+NOT_SS          =:  5
+LVDIN           =:  5
+RA6             =:  6
+OSC2            =:  6
+CLKO            =:  6
+
+;----- PORTB ------------------------------------------------------------------
+RB0             =:  0
+INT0            =:  0
+RB1             =:  1
+INT1            =:  1
+RB2             =:  2
+CANTX           =:  2
+RB3             =:  3
+CANRX           =:  3
+RB4             =:  4
+RB5             =:  5
+PGM             =:  5
+RB6             =:  6
+PGC             =:  6
+RB7             =:  7
+PGD             =:  7
+
+;----- PORTC ------------------------------------------------------------------
+RC0             =:  0
+T1OSO           =:  0
+T1CKI           =:  0
+RC1             =:  1
+T1OSI           =:  1
+RC2             =:  2
+CCP1            =:  2
+RC3             =:  3
+SCK             =:  3
+SCL             =:  3
+RC4             =:  4
+SDI             =:  4
+SDA             =:  4
+RC5             =:  5
+SDO             =:  5
+RC6             =:  6
+TX              =:  6
+CK              =:  6
+RC7             =:  7
+RX              =:  7
+;****DT              EQU  7      ;*** Not Available due to conflict with
+                                 ;***    Define Table (DT) directive
+
+;----- PORTD ------------------------------------------------------------------
+RD0             =:  0
+PSP0            =:  0
+C1INP           =:  0
+RD1             =:  1
+PSP1            =:  1
+C1INM           =:  1
+RD2             =:  2
+PSP2            =:  2
+C2INP           =:  2
+RD3             =:  3
+PSP3            =:  3
+C2INM           =:  3
+RD4             =:  4
+PSP4            =:  4
+ECCP1           =:  4
+P1A             =:  4
+RD5             =:  5
+PSP5            =:  5
+P1B             =:  5
+RD6             =:  6
+PSP6            =:  6
+P1C             =:  6
+RD7             =:  7
+PSP7            =:  7
+P1D             =:  7
+
+;----- PORTE ------------------------------------------------------------------
+RE0             =:  0
+RD              =:  0
+NOT_RD          =:  0
+AN5             =:  0
+RE1             =:  1
+;WR              EQU  1 *** Already defined by EECON.WR, also bit 1
+NOT_WR          =:  1
+AN6             =:  1
+RE2             =:  2
+CS              =:  2
+NOT_CS          =:  2
+AN7             =:  2
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+	.MAXRAM 0xFFF
+	.BADRAM 0x600:0xEFF
+	.BADRAM 0xFD4,0xFC0,0xFB9,0xFB8,0xFAA,0xF97:0xF9C
+	.BADRAM 0xF8E:0xF91,0xF85:0xF88, 0xF79:0xF7F,0xF77
+	.BADRAM 0xF5F,0xF4F,0xF3F,0xF2F
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;     Data Sheet    Include File                  Address
+;     CONFIG1L    = Configuration Byte 1L         300000h
+;     CONFIG1H    = Configuration Byte 1H         300001h
+;     CONFIG2L    = Configuration Byte 2L         300002h
+;     CONFIG2H    = Configuration Byte 2H         300003h
+;     CONFIG4L    = Configuration Byte 4L         300006h
+;
+;==========================================================================
+
+;Configuration Byte 1L Options
+_CP_ON_1L         =:  0x00	; Code Protect enable   
+_CP_OFF_1L        =:  0xFF
+
+;Configuration Byte 1H Options
+_OSCS_ON_1H       =:  0xDF	; Oscillator Switch enable
+_OSCS_OFF_1H      =:  0xFF
+
+_LP_OSC_1H        =:  0xF8	; Oscillator type
+_XT_OSC_1H        =:  0xF9
+_HS_OSC_1H        =:  0xFA
+_RC_OSC_1H        =:  0xFB
+_EC_OSC_1H        =:  0xFC	; External Clock w/OSC2 output divide by 4
+_ECIO_OSC_1H      =:  0xFD	; w/OSC2 as an IO pin (RA6)
+_HSPLL_OSC_1H     =:  0xFE	; HS PLL
+_RCIO_OSC_1H      =:  0xFF	; RC w/OSC2 as an IO pin (RA6)
+
+;Configuration Byte 2L Options
+_BOR_ON_2L        =:  0xFF	; Brown-Out Reset enable
+_BOR_OFF_2L       =:  0xFD
+_PWRT_OFF_2L      =:  0xFF	; Power-Up Timer enable
+_PWRT_ON_2L       =:  0xFE
+_BORV_25_2L       =:  0xFF	; BOR Voltage - 2.5v
+_BORV_27_2L       =:  0xFB	;               2.7v
+_BORV_42_2L       =:  0xF7 	;               4.2v
+_BORV_45_2L       =:  0xF3	;               4.5v
+
+;Configuration Byte 2H Options
+_WDT_ON_2H        =:  0xFF	; Watch Dog Timer enable
+_WDT_OFF_2H       =:  0xFE
+_WDTPS_128_2H     =:  0xFF	; Watch Dog Timer PostScaler count
+_WDTPS_64_2H      =:  0xFD
+_WDTPS_32_2H      =:  0xFB
+_WDTPS_16_2H      =:  0xF9
+_WDTPS_8_2H       =:  0xF7
+_WDTPS_4_2H       =:  0xF5
+_WDTPS_2_2H       =:  0xF3
+_WDTPS_1_2H       =:  0xF1
+
+;Configuration Byte 4L Options
+_STVR_ON_4L       =:  0xFF	; Stack over/underflow Reset enable
+_STVR_OFF_4L      =:  0xFE
+
+; To use the Configuration Bits, place the following lines in your source code
+;  in the following format, and change the configuration value to the desired 
+;  setting (such as CP_OFF to CP_ON).  These are currently commented out here
+;  and each __CONFIG line should have the preceding semicolon removed when
+;  pasted into your source code.
+
+;  The following is a assignment of address values for all of the configuration
+;  registers for the purpose of table reads
+_CONFIG1L       =:    0x300000
+_CONFIG1H       =:    0x300001
+_CONFIG2L       =:    0x300002
+_CONFIG2H       =:    0x300003
+_CONFIG4L       =:    0x300006
+_DEVID1         =:    0x3FFFFE
+_DEVID2         =:    0x3FFFFF
+_IDLOC0         =:    0x200000
+_IDLOC1         =:    0x200001
+_IDLOC2         =:    0x200002
+_IDLOC3         =:    0x200003
+_IDLOC4         =:    0x200004
+_IDLOC5         =:    0x200005
+_IDLOC6         =:    0x200006
+_IDLOC7         =:    0x200007
+
+;Program Configuration Register 1L
+;		__CONFIG    _CONFIG1L, _CP_OFF_1L
+
+;Program Configuration Register 1H
+;		__CONFIG    _CONFIG1H, _OSCS_OFF_1H & _RCIO_OSC_1H
+
+;Program Configuration Register 2L
+;		__CONFIG    _CONFIG2L, _BOR_ON_2L & _BORV_25_2L & _PWRT_OFF_2L
+
+;Program Configuration Register 2H
+;		__CONFIG    _CONFIG2H, _WDT_ON_2H & _WDTPS_128_2H
+
+;Program Configuration Register 4L
+;		__CONFIG    _CONFIG4L, _STVR_ON_4L
+
+;ID Locations Register 0
+;		__IDLOCS    _IDLOC0, <expression>
+
+;ID Locations Register 1
+;		__IDLOCS    _IDLOC1, <expression>
+
+;ID Locations Register 2
+;		__IDLOCS    _IDLOC2, <expression>
+
+;ID Locations Register 3
+;		__IDLOCS    _IDLOC3, <expression>
+
+;ID Locations Register 4
+;		__IDLOCS    _IDLOC4, <expression>
+
+;ID Locations Register 5
+;		__IDLOCS    _IDLOC5, <expression>
+
+;ID Locations Register 6
+;		__IDLOCS    _IDLOC6, <expression>
+
+;ID Locations Register 7
+;		__IDLOCS    _IDLOC7, <expression>
+
+;Device ID registers hold device ID and revision number and can only be read
+;Device ID Register 1
+;               DEV2, DEV1, DEV0, REV4, REV3, REV2, REV1, REV0
+;Device ID Register 2
+;               DEV10, DEV9, DEV8, DEV7, DEV6, DEV5, DEV4, DEV3
+
+
+;==========================================================================
+        .LIST

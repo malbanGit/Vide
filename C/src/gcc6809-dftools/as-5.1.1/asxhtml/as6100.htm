@@ -1,0 +1,333 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS6100  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+6100 MACHINE DESCRIPTION 
+
+
+   The IM6100 (Intersil) and HM6100 (Harris) microprocessors are
+12-bit word addressable machines having three 12-bit program ac-
+cessible  registers  and one single bit register.  These are the
+Accumulator (AC), MQ Register (MQ), Program  Counter  (PC),  and
+the Link (L) respectively.  
+
+   The  6100  is basically a clone of the Digital Equipment Cor-
+poration PDP-8E minicomputer  architecture.   This  architecture
+predates  all  microprocessors  and labeled the bits from 0 (the
+most significant) to 11 (the least significant) rather than from
+least  to  most  significant.  The actual labelling is arbitrary
+and the as6100 assembler uses the now more common labelling.  
+
+   The  output  generated from the assembler/linker is two bytes
+per word ordered as MSB then LSB with the upper 4  bits  of  the
+MSB always zero.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+ASSEMBLER SPECIFIC DIRECTIVES 
+
+
+   Because  the  6100  microprocessor  has  no  concept of bytes
+several of the cross assembler directives have  their  operation
+changed to reflect the 12-Bit nature of the microprocessor.  
+
+These are:
+        .byte           (.db and .fcb are aliases)
+                        output an 8-Bit value
+                        into a 12-bit word
+        .word           (.dw and .fdb are aliases)
+                        output a 12-Bit value
+                        into a 12-Bit word
+        .ascii          (.asciz and ascis also)
+                        output a sequence of 8-Bit
+                        characters in 12-bit words
+
+   A double precision integer (24-Bits) mnemonic has been added: 
+
+        .dubl           (.4byte and .quad are aliases)
+                        output a 24-Bit value
+                        into two 12-bit words
+
+   Two  new  directives  have  been  added  to  implement  6-bit
+character string operations.  The characters A-Z and  [/]^_  are
+masked  to values of 0x01 to 0x1F, the characters a-z are masked
+to values of 0x01 to 0x1A, and the characters from  ' '  (space)
+to  '?'  are masked to 0x20 to 0x3F.  All other ascii characters
+become a space (0x20).  
+
+These are:
+        .text           output upto two characters per 12-bit
+word
+        .textz          output upto two characters per 12-bit
+word
+                        followed by a 6-bit zero value.
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+MACHINE SPECIFIC DIRECTIVES 
+
+
+   The  6100  microprocessor  memory architecture consists of 32
+pages each having 128 words for  a  total  of  4096  addressable
+words.   The  6100  instruction set allows direct access only to
+the current page and to page 0.  Three machine  specific  direc-
+tives  provide  differing  methods  to  select  the memory page.
+These directives are:  
+
+
+.setpg 
+
+Format:  
+
+        .setpg          ; . = next page boundary
+        .setpg  N       ; . = Nth page boundary
+
+where:  N       is the page number from 0 to 31
+
+   The .setpg directive is used to set the current program loca-
+tion counter to a specific 128 word page boundary or to the next
+128  word  page boundary and inform the assembler/linker of this
+boundary.  
+
+
+.mempn 
+
+Format:  
+
+        .mempn N        ; . = Nth page boundary
+
+where:  N       is the page number from 0 to 31
+
+   The .mempn directive is used to set the current program loca-
+tion counter to a specific 128 word page boundary and inform the
+assembler/linker of this boundary.  
+
+
+.mempa 
+
+Format:  
+
+        .mempa A        ; . = A (a page boundary)
+
+where:  A       is a 128 word page address boundary
+
+   The .mempa directive is used to set the current program loca-
+tion counter to a specific page boundary address and inform  the
+assembler/linker of this boundary.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+6100 INSTRUCTION SET 
+
+
+   The  following  tables  list all 6100 family mnemonics recog-
+nized by the AS6100 assembler.  The instruction set is described
+in 3 major groupings:  Basic Instructions, Operate Microinstruc-
+tions, and IOT Instructions.  
+
+
+Basic Instructions 
+
+
+   The basic instructions are:  
+
+        and     Logical AND
+        tad     Binary ADD
+        isz     Increment and skip if zero
+        dca     Deposit and clear AC
+        jms     Jump to subroutine
+        jmp     Jump
+
+   These instructions have two paging addressing modes:  
+
+        addr            current page address
+        *addr           page 0 address
+
+which  can  be  combined with an indirect mode signified by an i
+argument or enclosing brackets []:  
+
+        i addr          indirect current page
+        [addr]
+
+        i *addr         indirect page 0
+        [*addr] or *[addr]
+
+The  6100  implements  an auto-increment mode when accessing ad-
+dresses 0x08 - 0x0F in page 0 by incrementing  the  contents  of
+the location before using the value as an address.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+Operate Instructions 
+
+
+   The  operate  instructions are split into three groups of mu-
+tually exclusive micro operations.  The single  micro  operation
+in common with all three groups is:  
+
+        CLA     Clear Accumulator
+
+
+Group 1 Operate Instructions  - 
+
+   The  group  1 microinstructions are used primarily to perform
+logical operations on the contents of the accumulator and link: 
+
+        CLL     Clear Link
+        CMA     Complement Accumulator
+        CML     Complement Link
+        IAC     Increment Accumulator
+
+        RAL     Rotate Accumulator Left
+        RTL     Rotate Two Left
+        RAR     Rotate Accumulator Right
+        RTR     Rotate Two Right
+        BSW     Byte Swap
+
+A group 1 microinstruction can contain one or all of the mnemon-
+ics CLA, CLL, CMA, CML, IAC, but only one of the RAL, RTL,  RAR,
+RTR,  or BSW mnemonics (RAL, RTL, RAR, RTR, and BSW are mutually
+exclusive).  
+
+   The  NOP  (No  Operation) functionality can be implemented in
+all three operate instruction groups but is specified by the as-
+sembler as a group 1 instruction.  
+
+   Several  common  group 1 operations have been given their own
+mnemonics:  
+
+        NOP     NO Operation
+        CIA     Complement and Increment Accumulator
+        GLT     Get Link
+        STA     Set Accumulator
+
+
+Group 2 Operate Instructions  - 
+
+   The  group 2 microinstructions are used primarily to test the
+contents of the accumulator and/or link and  then  conditionally
+skip the next sequential instruction:  
+
+        HLT     Halt
+        OSR     Or With Switch Register
+
+        SKP     Skip
+        SNL     Skip On Non-Zero Link
+        SZL     Skip On Zero Link
+        SZA     Skip On Zero Accumulator
+        SNA     Skip On Non-Zero Accumulator
+        SMA     Skip On Minus Accumulator
+        SPA     Skip On Plus Accumulator
+
+A group 2 microinstruction can contain one or all of the mnemon-
+ics CLA, HLT, OSR, but only one of the SKP, SNL, SZL, SZA,  SNA,
+SMA, or SPA mnemonics (SKP, SNL, SZL, SZA, SNA, SMA, and SPA are
+mutually exclusive).  
+
+   One common group 2 operation has been given its own mnemonic: 
+
+        LAS     Load Accumulator With Switch Register
+
+
+Group 3 Operate Instructions  - 
+
+   The  group  3 microinstructions perform logical operations on
+the contents of AC and MQ.  
+
+        MQL     MQ Register Load
+        MQA     MQ Register Into Accumulator
+
+A group 3 microinstruction can contain one or all of the mnemon-
+ics CLA, MQL, and MQA.  
+
+   Several  common  group 3 operations have been given their own
+mnemonics:  
+
+        SWP     Swap Accumulator and MQ Register
+        CAM     Clear Accumulator and MQ Register
+        ACL     Clear Accumulator and Load
+                MQ Register into Accumulator
+
+
+Group Errors  - 
+
+   The 6100 assembler has three additional error codes which oc-
+cur when the group 1, 2, or 3 operations are mixed.   The  error
+code  will  be  a 1, 2, or 3 based upon the first group type en-
+countered followed by any other type of  group  operation.   The
+CLA operation is valid with all groups and does not cause an er-
+ror code to be generated.  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+Input/Output (IOT) Instructions 
+
+
+   The  input/output  transfer  instructions are used to control
+the operation of peripherals and  transfer  data  between  peri-
+pherals and the 6100 microprocessor.  Of the lower 9 bits of the
+instruction used for device selection and control typically  the
+3  LSBs  are  the  I/O  operation  bits and the remaining 6 bits
+select the peripheral device.  
+
+        IOT     DEV,CMND
+
+        where DEV is the device select code and
+        CMND is the command code.
+
+Specifying  a  device select code of zero in the IOT instruction
+allows the user program to control the  interrupt  mechanism  of
+the 6100 microprocessor.  These instructions are:  
+
+        SKON    Skip If Interrupt On
+        ION     Interrupt Turn On
+        IOF     Interrupt Turn Off
+        SRQ     Skip If Int Request
+        GTF     GetFlags
+        RTF     Return Flags
+        SGT     Defined By Device Logic
+        CAF     Clear All Flags
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: October 2014</B></P></H6>
+</BODY> 
+</HTML>

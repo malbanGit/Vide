@@ -1,18 +1,18 @@
 @echo off
 setlocal enableextensions enabledelayedexpansion
 set GCC=..\..\gcc6809
-set GCC_FLAGS=-quiet -W -Wall -Wextra -Wconversion -Wno-return-type -Werror -fomit-frame-pointer -fno-toplevel-reorder -mint8 -msoft-reg-count=0 -std=gnu99 -fno-time-report 
+set GCC_FLAGS=-quiet -W -Wall -Wextra -Wconversion -Wno-return-type -fomit-frame-pointer -fno-toplevel-reorder -mint8 -msoft-reg-count=0 -std=gnu99 -fno-time-report 
 set GCC_INC=-I include -I %GCC%\inc
 set TARGET=%1
 if [%TARGET%] == [] (
 	set TARGET=assemble
 )
-set "OPT=%2"
+set OPT=%2
 if [%OPT%] == [] (
-	set "OPT=-O2"
+	set OPT=-O2
 )
-call :main %TARGET% "%OPT%"
-REM call :main assemble "%OPT%"
+call :main %TARGET% %OPT%
+REM call :main assemble %OPT%
 exit /B %ERRORLEVEL%
 
 :find_source_files - path pattern
@@ -141,39 +141,39 @@ exit /B 0
 	call :clean
 exit /B 0
 
-:make_preprocess - PROJECT "OPT"
+:make_preprocess - PROJECT OPT
 	setlocal enableextensions enabledelayedexpansion
 	set PROJECT=%1
-	set "OPT=%2"
+	set OPT=%2
 	call :make_clean %PROJECT%
 	call :separator
 	echo preprocessing project %PROJECT% ...
 	for /R . %%F in (*.c) do (
 		call :line
 		set RELATIVE=%%F
-		call :preprocess !RELATIVE:%CD%\=! build "%OPT%"
+		call :preprocess !RELATIVE:%CD%\=! build %OPT%
 	)
 exit /B 0
 
 :make_compile - PROJECT OPT
 	setlocal enableextensions enabledelayedexpansion
 	set PROJECT=%1
-	set "OPT=%2"
-	call :make_preprocess %PROJECT% "%OPT%"
+	set OPT=%2
+	call :make_preprocess %PROJECT% %OPT%
 	call :separator
 	echo compiling project %PROJECT% ...
 	for /R . %%F in (*.c) do (
 		call :line
 		set RELATIVE=%%F
-		call :compile !RELATIVE:%CD%\=! build "%OPT%"
+		call :compile !RELATIVE:%CD%\=! build %OPT%
 	)
 exit /B 0
 
 :make_optimize - PROJECT OPT
 	setlocal enableextensions enabledelayedexpansion
 	set PROJECT=%1
-	set "OPT=%2"
-	call :make_compile %PROJECT% "%OPT%"
+	set OPT=%2
+	call :make_compile %PROJECT% %OPT%
 	set ASS_OPT=0
 	call :separator
 	echo optimizing project %PROJECT% ...
@@ -188,8 +188,8 @@ exit /B 0
 
 :make_assemble - PROJECT OPT
 	set PROJECT=%1
-	set "OPT=%2"
-	call :make_optimize %PROJECT% "%OPT%"
+	set OPT=%2
+	call :make_optimize %PROJECT% %OPT%
 	call :separator
 	echo assembling project %PROJECT% ...
 	for %%F in (.\build\*.s) do	(
@@ -205,8 +205,8 @@ exit /B 0
 
 :make_link - PROJECT OPT
 	set PROJECT=%1
-	set "OPT=%2"
-	call :make_assemble %PROJECT% "%OPT%"
+	set OPT=%2
+	call :make_assemble %PROJECT% %OPT%
 	call :separator
 	echo linking project %PROJECT% ...
 	call :link %PROJECT%
@@ -214,8 +214,8 @@ exit /B 0
 
 :make_build - PROJECT OPT
 	set PROJECT=%1
-	set "OPT=%2"
-	call :make_link %PROJECT% "%OPT%"
+	set OPT=%2
+	call :make_link %PROJECT% %OPT%
 	call :separator
 	echo building project %PROJECT% ...
 	call :build %PROJECT%
@@ -259,17 +259,17 @@ exit /B 0
 	@if %TARGET% == clean (
 		@call :make_clean %PROJECT%
 	) else if %TARGET% == preprocess (
-		@call :make_preprocess %PROJECT% "%OPT%"
+		@call :make_preprocess %PROJECT% %OPT%
 	) else if %TARGET% == compile (
-		@call :make_compile %PROJECT% "%OPT%"
+		@call :make_compile %PROJECT% %OPT%
 	) else if %TARGET% == optimize (
-		@call :make_optimize %PROJECT% "%OPT%"
+		@call :make_optimize %PROJECT% %OPT%
 	) else if %TARGET% == assemble (
-		@call :make_assemble %PROJECT% "%OPT%"
+		@call :make_assemble %PROJECT% %OPT%
 	) else if %TARGET% == link (
-		@call :make_link %PROJECT% "%OPT%"
+		@call :make_link %PROJECT% %OPT%
 	) else if %TARGET% == build (
-		@call :make_build %PROJECT% "%OPT%"
+		@call :make_build %PROJECT% %OPT%
 	) else if %TARGET% == lint (
 		@call :make_lint %PROJECT%
 	) else if %TARGET% == run (
@@ -288,7 +288,7 @@ exit /B 0
 	if [%TARGET%] == [] (
 		set TARGET=assemble
 	)
-	set "OPT=%2"
+	set OPT=%2
 	if [%OPT%] == [] (
 		set "OPT=-O0"
 	)
@@ -298,6 +298,6 @@ exit /B 0
 		@echo ERROR - could not determine project name
 		@exit /B 1		
 	) else (
-		call :make %TARGET% %PROJECT% "%OPT%"
+		call :make %TARGET% %PROJECT% %OPT%
 	)
 exit /B 0

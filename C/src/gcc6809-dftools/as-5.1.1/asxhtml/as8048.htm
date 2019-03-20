@@ -1,0 +1,343 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS8048  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+
+<H4><B><PRE>
+  AS8048  supports the 8048, 8041, 8022, and 8021 variations of
+the 8048 microprocessor family.  
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+.8048 DIRECTIVE 
+
+Format:  
+
+        .8048 
+
+The .8048 directive enables processing of only the 8048 specific
+mnemonics.  8041/8022/8021 mnemonics encountered will be flagged
+with an 'o' error.  
+
+
+.8041 DIRECTIVE 
+
+Format:  
+
+        .8041 
+
+The  .8041  directive  enables  processing  of the 8041 specific
+mnemonics.  8041 mnemonics encountered without the .8041  direc-
+tive will be flagged with an 'o' error.  
+
+
+.8022 DIRECTIVE 
+
+Format:  
+
+        .8022 
+
+The  .8022  directive  enables  processing  of the 8022 specific
+mnemonics.  8022 mnemonics encountered without the .8022  direc-
+tive will be flagged with an 'o' error.  
+
+
+.8021 DIRECTIVE 
+
+Format:  
+
+        .8021 
+
+The  .8021  directive  enables  processing  of the 8021 specific
+mnemonics.  8021 mnemonics encountered without the .8021  direc-
+tive will be flagged with an 'o' error.  
+
+
+THE .__.CPU.  VARIABLE 
+
+
+   The value of the pre-defined symbol '.__.CPU.' corresponds to
+the selected processor type.  The default value is 0 which  cor-
+responds  to  the  default  processor type.  The following table
+lists the processor types and associated values for  the  AS8048
+assembler:  
+
+        Processor Type            .__.CPU. Value
+        --------------            --------------
+            .8048                        0
+            .8041                        1
+            .8022                        2
+            .8021                        3
+
+
+   The  variable  '.__.CPU.'  is by default defined as local and
+will not be output to the created .rel file.  The assembler com-
+mand line options -g or -a will not cause the local symbol to be
+output to the created .rel file.  
+
+   The  assembler  .globl  directive  may  be used to change the
+variable type to global causing its definition to be  output  to
+the  .rel file.  The inclusion of the definition of the variable
+'.__.CPU.' might be a useful means of validating that seperately
+assembled  files have been compiled for the same processor type.
+The linker will report an error for variables with multiple  non
+equal definitions.  
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+8048 REGISTER SET 
+
+The following is a list of the 8048 registers used by AS8048:  
+
+        a               -       8-bit accumulator
+        r0,r1,r2,r3     -       8-bit registers
+        r4,r5,r6,r7
+        bus,p1,p2       -       bus and ports
+        p4,p5,p6,p7
+        an0,an1         -       analog input select
+        rb0,rb1         -       register bank select
+        mb0,mb1         -       memory bank select
+        c               -       carry (bit in status word)
+        clk             -       timer
+        cnt             -       counter
+        dbb             -       data bus buffer
+        f0              -       f0 bit in psw
+        f1              -       f1 bit in psw
+        i               -       interrupt
+        psw             -       program status word
+        t               -       timer register
+        tcnt            -       timer counter
+        tcnti           -       timer interrupt
+
+
+8048 INSTRUCTION SET 
+
+
+   The  following  tables  list all 8048 mnemonics recognized by
+the AS8048 assembler.  The following list specifies  the  format
+for each addressing mode supported by AS8048:  
+
+        #data           immediate data
+                        byte or word data
+
+        r               register r0,r1
+        rn              register r0,r1,r2,r3,r4,r5,r6, or r7
+
+        @r              indirect on register r0 or r1
+        @a              indirect on accumulator
+
+        addr            direct memory address
+        addr8           current page 8-bit jmp address
+
+        #data           immediate data
+
+        pn              ports p1 or p2
+        port            ports p1,p2 or bus
+        ep              ports p4,p5,p6, or p7
+
+        bus             i/o bus
+
+        s               f0 or f1 bits in psw
+        bitaddr         bit address
+
+        label           call or jump label
+
+The terms data, addr, and label may all be expressions.  
+
+   Note  that  not all addressing modes are valid with every in-
+struction.  Refer to the 8048, 8041, 8022,  and  8021  technical
+data for valid modes.  
+
+
+Alphabetical Instruction Listing 
+
+                                8021    8022    8041    8048
+        add     a,@r            x       x       x       x
+        add     a,#data         x       x       x       x
+        add     a,rn            x       x       x       x
+
+        addc    a,@r            x       x       x       x
+        addc    a,#data         x       x       x       x
+        addc    a,rn            x       x       x       x
+
+        anl     port,#data                      x       x
+        anl     bus,#data                               x
+        anl     a,@r            x       x       x       x
+        anl     a,rn            x       x       x       x
+
+        anld    ep,a            x       x       x       x
+
+        call    addr            x       x       x       x
+
+        clr     a               x       x       x       x
+        clr     c               x       x       x       x
+        clr     s                               x       x
+
+        cpl     a               x       x       x       x
+        cpl     c               x       x       x       x
+        cpl     s                               x       x
+
+        daa     a               x       x       x       x
+
+        dec     rn                              x       x
+        dec     a               x       x       x       x
+
+        dis     tcnti                           x       x
+        dis     i                               x       x
+
+        djnz    rn,addr8        x       x       x       x
+
+        en      tcnti                           x       x
+        en      i                               x       x
+
+        ent0    clk                                     x
+
+
+                                8021    8022    8041    8048
+        in      a,dbb                           x
+        in      a,pn            x       x       x       x
+
+        inc     a               x       x       x       x
+        inc     a,@r                            x       x
+        inc     rn              x       x       x       x
+
+        ins     a,bus                                   x
+
+        jmp     addr            x       x       x       x
+
+        jmpp    @a              x       x       x       x
+
+        jb0     addr8                           x       x
+        jb1     addr8                           x       x
+        jb2     addr8                           x       x
+        jb3     addr8                           x       x
+        jb4     addr8                           x       x
+        jb5     addr8                           x       x
+        jb6     addr8                           x       x
+        jb7     addr8                           x       x
+
+        jc      addr8           x       x       x       x
+        jf0     addr8                           x       x
+        jf1     addr8                           x       x
+        jnc     addr8           x       x       x       x
+        jni     addr8                                   x
+        jnibf   addr8                           x
+        jnt0    addr8                           x       x
+        jnt1    addr8                           x       x
+        jnz     addr8           x       x       x       x
+        jobf    addr8                                   x
+        jtf     addr8           x       x       x       x
+        jt0     addr8                           x       x
+        jt1     addr8           x       x       x       x
+        jz      addr8           x       x       x       x
+
+
+                                8021    8022    8041    8048
+        mov     a,#data         x       x       x       x
+        mov     a,psw                           x       x
+        mov     a,@r            x       x       x       x
+        mov     a,rn            x       x       x       x
+        mov     a,t             x       x       x       x
+        mov     psw,a                           x       x
+        mov     rn,a            x       x       x       x
+        mov     @r,a            x       x       x       x
+        mov     rn,#data        x       x       x       x
+        mov     @r,#data        x       x       x       x
+        mov     t,a             x       x       x       x
+
+        movd    a,ep            x       x       x       x
+        movd    ep,a            x               x       x
+
+        movp    a,@a            x       x       x       x
+
+        movp3   a,@a                            x       x
+
+        movx    a,@r                                    x
+        movx    @r,a                                    x
+
+        nop                     x               x       x
+
+        orl     a,#data         x       x       x       x
+        orl     a,rn            x       x       x       x
+        orl     a,@r            x       x       x       x
+        orl     bus,#data                               x
+        orl     port,#data                      x       x
+
+        orld    ep,a            x       x       x       x
+
+        out     dbb,a                           x
+
+        outl    bus,a                   x
+        outl    port,a          x       x       x       x
+
+        rad     a                       x
+
+        ret                     x       x       x       x
+
+        retr                                    x       x
+
+
+                                8021    8022    8041    8048
+        rl      a               x       x       x       x
+
+        rlc     a               x       x       x       x
+
+        rr      a               x       x       x       x
+
+        rrc     a               x       x       x       x
+
+        sel     an0                     x
+        sel     an1                     x
+        sel     mb0                                     x
+        sel     mb1                                     x
+        sel     rb0                                     x
+        sel     rb1                                     x
+
+        swap    a               x       x       x       x
+
+        stop    tcnt            x       x       x       x
+        strt    cnt             x       x       x       x
+        strt    t               x       x       x       x
+
+        xch     a,@r            x       x       x       x
+
+        xchd    a,@r            x       x       x       x
+
+        xrl     a,@r            x       x       x       x
+
+
+        xrl     a,#data         x       x       x       x
+
+        xch     a,rn            x       x       x       x
+
+        xrl     a,rn            x       x       x       x
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

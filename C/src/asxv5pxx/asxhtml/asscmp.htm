@@ -1,0 +1,182 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASSCMP  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+
+SC/MP REGISTER SET 
+
+The following is a list of the SC/MP registers used by ASSCMP:  
+
+        p0,pc      -    16-bit program counter
+        p1,p2,p3   -    16-bit pointer registers
+
+
+SC/MP ADDRESSING MODES 
+
+
+     The  general addressing modes are normally described in the
+form @DISP(X) which correspond to these specific modes:  
+
+    DISP        a PC relative address
+    DISP(X)     a DISPlacement from a pointer register
+    @DISP(X)    An auto-increment DISPlacement from a
+                pointer register
+
+
+     The ASSCMP assembler also allows the ( and ) designators to
+be replaced by the [ and ] designators.  
+
+     The  ASSCMP  assembler  also allows several shorthand nota-
+tions for the addressing modes as shown here:  
+
+    (X)         ==>>    0(X)
+    @(X)        ==>>    @0(X)
+    @DISP       ==>>    @DISP(PC)
+
+
+     The  xpal,  xpah,  and  xppc  instructions  require  only a
+pointer register - p0, p1, p2, p3, or pc.  
+
+
+     The  standard  memory reference instructions:  ld, and, or,
+xor, dad, add, and cad also allow an  alternate  immediate  mode
+instruction using the following format:  
+
+    ld  #DATA
+
+
+     The  #  is  required otherwise DATA will be treated as a PC
+relative address.  
+
+     The  immediate mode instructions:  ldi, ani, ori, xri, dai,
+adi, and cai allow either of these forms:  
+
+    ldi #DATA
+    ldi DATA
+
+
+SC/MP INSTRUCTION SET 
+
+
+     The following tables list all SC/MP mnemonics recognized by
+the ASSCMP assembler.  
+
+
+Memory Reference Instructions 
+
+        ld      @DISP(X) / #data        Load
+        st      @DISP(X) -------        Store
+        and     @DISP(X) / #data        AND
+        or      @DISP(X) / #data        OR
+        xor     @DISP(X) / #data        Exclusive OR
+        dad     @DISP(X) / #data        Decimal Add
+        add     @DISP(X) / #data        Add
+        cad     @DISP(X) / #data        Complement and Add
+
+
+Immediate Instructions 
+
+        ldi     #data / data    Load Immediate
+        ld      #data
+        ani     #data / data    AND Immediate
+        and     #data
+        ori     #data / data    Or Immediate
+        or      #data
+        xri     #data / data    Exclusive Or Immediate
+        xor     #data
+        dai     #data / data    Decimal Add Immediate
+        dad     #data
+        adi     #data / data    Add Immediate
+        add     #data
+        cai     #data / data    Complement and Add Immediate
+        cad     #data
+
+
+Extension Register Instructions 
+
+        lde             Load AC from Extension
+        xae             Exchange AC and Extension
+        ane             AND Extension
+        ore             OR Extension
+        xre             Exclusive Or Extension
+        dae             Decimal Add Extension
+        ade             Add Extension
+        cae             Complement and Add Extension
+
+
+Memory Increment/Decrement Instructions 
+
+        dld     DISP(X)         Increment and Load
+        ild     DISP(X)         Decrement  aand Load
+
+
+Transfer Instructions 
+
+        jmp     DISP(X)         Jump
+        jp      DISP(X)         Jump if Positive
+        jz      DISP(X)         Jump if Zero
+        jnz     DISP(X)         Jump if Not Zero
+
+
+Pointer Register Move Instructions 
+
+        xpal    X               Exchange Pointer Low
+        xpah    X               Exchange Pointer High
+        xppc    X               Exchange Pointer with PC
+
+
+Shift, Rotate, Serial I/O Instructions 
+
+        sio             Serial Input/Output
+        sr              Shift Right
+        srl             Shift Right with Link
+        rr              Rotate Right
+        rrl             Rotate Right with Link
+
+
+Single-Byte Miscellaneous Instructions 
+
+        halt            Halt
+        ccl             Clear Carry Link
+        scl             Set Carry Link
+        dint            Disable Interrupt
+        ien             Enable Interrupt
+        csa             Copy Status to AC
+        cas             Copy AC to Status
+        nop             No Operation
+
+
+Double-Byte Miscellaneous Instruction 
+
+        dly     #data / data    Delay
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

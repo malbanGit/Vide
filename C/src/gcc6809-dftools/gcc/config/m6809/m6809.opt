@@ -1,0 +1,94 @@
+; Options for the M6809 port of the compiler
+;
+; Copyright (C) 2005 Free Software Foundation, Inc.
+;
+; This file is part of GCC.
+;
+; GCC is free software; you can redistribute it and/or modify it under
+; the terms of the GNU General Public License as published by the Free
+; Software Foundation; either version 2, or (at your option) any later
+; version.
+;
+; GCC is distributed in the hope that it will be useful, but WITHOUT
+; ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+; or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
+; License for more details.
+;
+; You should have received a copy of the GNU General Public License
+; along with GCC; see the file COPYING.  If not, write to the Free
+; Software Foundation, 51 Franklin Street, Fifth Floor, Boston, MA
+; 02110-1301, USA.
+
+;margcount
+;Target Mask(ARGCOUNT)
+;Push argument count
+
+mint8
+Target RejectNegative Mask(BYTE_INT)
+Use 8-bit integers
+
+mint16
+Target RejectNegative
+Use 16-bit integers InverseMask(BYTE_INT)
+
+mreg-args
+Target Mask(REG_ARGS)
+Use registers for function arguments
+
+;mshort_size
+;Target RejectNegative Mask(SMALL_SIZE_T)
+;Use 8-bit size_t
+
+;mlong_size
+;Target RejectNegative InverseMask(SMALL_SIZE_T)
+;Use 16-bit size_t
+
+mdirect
+Target Mask(DIRECT)
+Enable direct addressing
+
+mwpc
+Target RejectNegative Mask(WPC)
+Enable WPC platform extensions
+
+m6309
+Target RejectNegative Mask(6309)
+Enable Hitachi 6309 extensions
+
+mcasesi
+Target RejectNegative Mask(CASESI)
+Enable the casesi pattern
+
+mfar-code-page=
+Target RejectNegative Joined Var(far_code_page_option)
+Sets the far code page value for this compilation unit
+
+mcode-section=
+Target RejectNegative Joined Var(code_section_ptr)
+Sets the name of the section for code
+
+mdata-section=
+Target RejectNegative Joined Var(data_section_ptr)
+Sets the name of the section for initialized data
+
+mbss-section=
+Target RejectNegative Joined Var(bss_section_ptr)
+Sets the name of the section for uninitialized data
+
+mabi=
+Target RejectNegative Joined Var(m6809_abi_version_ptr)
+Sets the calling convention
+
+msoft-reg-count=
+Target RejectNegative Joined Var(m6809_soft_reg_count)
+Sets the number of soft registers that can be used
+
+mdret
+Target RejectNegative Mask(DRET)
+Put function call results in D, not X
+
+mfar-stack-param
+Target Mask(FAR_STACK_PARAM)
+Enable stack parameters to a farcall
+
+

@@ -1,139 +1,76 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	vec_rum_0xf8.c
-                              7 ;----- asm -----
-                              8 	.bank page_f8 (BASE=0xf835,SIZE=0x00cb)
-                              9 	.area .0xf8 (OVR,BANK=page_f8)
-                             10 	
-                             11 ;--- end asm ---
-                             12 	.globl ___Display_Option
-                             13 	.area	.0xf8
-   0000                      14 ___Display_Option:
-   0000 00 00                15 	.word	0	;skip space 26
-   0002 00 00                16 	.word	0	;skip space 24
-   0004 00 00                17 	.word	0	;skip space 22
-   0006 00 00                18 	.word	0	;skip space 20
-   0008 00 00                19 	.word	0	;skip space 18
-   000A 00 00                20 	.word	0	;skip space 16
-   000C 00 00                21 	.word	0	;skip space 14
-   000E 00 00                22 	.word	0	;skip space 12
-   0010 00 00                23 	.word	0	;skip space 10
-   0012 00 00                24 	.word	0	;skip space 8
-   0014 00 00                25 	.word	0	;skip space 6
-   0016 00 00                26 	.word	0	;skip space 4
-   0018 00 00                27 	.word	0	;skip space 2
-                             28 	.globl ___Clear_Score
-   001A                      29 ___Clear_Score:
-   001A 00 00                30 	.word	0	;skip space 15
-   001C 00 00                31 	.word	0	;skip space 13
-   001E 00 00                32 	.word	0	;skip space 11
-   0020 00 00                33 	.word	0	;skip space 9
-   0022 00 00                34 	.word	0	;skip space 7
-   0024 00 00                35 	.word	0	;skip space 5
-   0026 00 00                36 	.word	0	;skip space 3
-   0028 00                   37 	.byte	0	;skip space
-                             38 	.globl ___Add_Score_a
-   0029                      39 ___Add_Score_a:
-   0029 00 00                40 	.word	0	;skip space 30
-   002B 00 00                41 	.word	0	;skip space 28
-   002D 00 00                42 	.word	0	;skip space 26
-   002F 00 00                43 	.word	0	;skip space 24
-   0031 00 00                44 	.word	0	;skip space 22
-   0033 00 00                45 	.word	0	;skip space 20
-   0035 00 00                46 	.word	0	;skip space 18
-   0037 00 00                47 	.word	0	;skip space 16
-   0039 00 00                48 	.word	0	;skip space 14
-   003B 00 00                49 	.word	0	;skip space 12
-   003D 00 00                50 	.word	0	;skip space 10
-   003F 00 00                51 	.word	0	;skip space 8
-   0041 00 00                52 	.word	0	;skip space 6
-   0043 00 00                53 	.word	0	;skip space 4
-   0045 00 00                54 	.word	0	;skip space 2
-                             55 	.globl ___Add_Score_d
-   0047                      56 ___Add_Score_d:
-   0047 00 00                57 	.word	0	;skip space 59
-   0049 00 00                58 	.word	0	;skip space 57
-   004B 00 00                59 	.word	0	;skip space 55
-   004D 00 00                60 	.word	0	;skip space 53
-   004F 00 00                61 	.word	0	;skip space 51
-   0051 00 00                62 	.word	0	;skip space 49
-   0053 00 00                63 	.word	0	;skip space 47
-   0055 00 00                64 	.word	0	;skip space 45
-   0057 00 00                65 	.word	0	;skip space 43
-   0059 00 00                66 	.word	0	;skip space 41
-   005B 00 00                67 	.word	0	;skip space 39
-   005D 00 00                68 	.word	0	;skip space 37
-   005F 00 00                69 	.word	0	;skip space 35
-   0061 00 00                70 	.word	0	;skip space 33
-   0063 00 00                71 	.word	0	;skip space 31
-   0065 00 00                72 	.word	0	;skip space 29
-   0067 00 00                73 	.word	0	;skip space 27
-   0069 00 00                74 	.word	0	;skip space 25
-   006B 00 00                75 	.word	0	;skip space 23
-   006D 00 00                76 	.word	0	;skip space 21
-   006F 00 00                77 	.word	0	;skip space 19
-   0071 00 00                78 	.word	0	;skip space 17
-   0073 00 00                79 	.word	0	;skip space 15
-   0075 00 00                80 	.word	0	;skip space 13
-   0077 00 00                81 	.word	0	;skip space 11
-   0079 00 00                82 	.word	0	;skip space 9
-   007B 00 00                83 	.word	0	;skip space 7
-   007D 00 00                84 	.word	0	;skip space 5
-   007F 00 00                85 	.word	0	;skip space 3
-   0081 00                   86 	.byte	0	;skip space
-                             87 	.globl ___Strip_Zeros
-   0082                      88 ___Strip_Zeros:
-   0082 00 00                89 	.word	0	;skip space 16
-   0084 00 00                90 	.word	0	;skip space 14
-   0086 00 00                91 	.word	0	;skip space 12
-   0088 00 00                92 	.word	0	;skip space 10
-   008A 00 00                93 	.word	0	;skip space 8
-   008C 00 00                94 	.word	0	;skip space 6
-   008E 00 00                95 	.word	0	;skip space 4
-   0090 00 00                96 	.word	0	;skip space 2
-                             97 	.globl ___Compare_Score
-   0092                      98 ___Compare_Score:
-   0092 00 00                99 	.word	0	;skip space 17
-   0094 00 00               100 	.word	0	;skip space 15
-   0096 00 00               101 	.word	0	;skip space 13
-   0098 00 00               102 	.word	0	;skip space 11
-   009A 00 00               103 	.word	0	;skip space 9
-   009C 00 00               104 	.word	0	;skip space 7
-   009E 00 00               105 	.word	0	;skip space 5
-   00A0 00 00               106 	.word	0	;skip space 3
-   00A2 00                  107 	.byte	0	;skip space
-                            108 	.globl ___New_High_Score
-   00A3                     109 ___New_High_Score:
-   00A3 00 00               110 	.word	0	;skip space 13
-   00A5 00 00               111 	.word	0	;skip space 11
-   00A7 00 00               112 	.word	0	;skip space 9
-   00A9 00 00               113 	.word	0	;skip space 7
-   00AB 00 00               114 	.word	0	;skip space 5
-   00AD 00 00               115 	.word	0	;skip space 3
-   00AF 00                  116 	.byte	0	;skip space
-                            117 	.globl ___Obj_Will_Hit_u
-   00B0                     118 ___Obj_Will_Hit_u:
-   00B0 00 00               119 	.word	0	;skip space 14
-   00B2 00 00               120 	.word	0	;skip space 12
-   00B4 00 00               121 	.word	0	;skip space 10
-   00B6 00 00               122 	.word	0	;skip space 8
-   00B8 00 00               123 	.word	0	;skip space 6
-   00BA 00 00               124 	.word	0	;skip space 4
-   00BC 00 00               125 	.word	0	;skip space 2
-                            126 	.globl ___Obj_Will_Hit
-   00BE                     127 ___Obj_Will_Hit:
-   00BE 00 00               128 	.word	0	;skip space 12
-   00C0 00 00               129 	.word	0	;skip space 10
-   00C2 00 00               130 	.word	0	;skip space 8
-   00C4 00 00               131 	.word	0	;skip space 6
-   00C6 00 00               132 	.word	0	;skip space 4
-   00C8 00 00               133 	.word	0	;skip space 2
-                            134 	.globl ___Obj_Hit
-   00CA                     135 ___Obj_Hit:
-   00CA 00                  136 	.byte	0	;skip space
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	vec_rum_0xf8.c
+                              6 ;----- asm -----
+                              7 	.bank page_f8 (BASE=0xf835,SIZE=0x00cb)
+                              8 	.area .0xf8 (OVR,BANK=page_f8)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	___Display_Option
+                             12 	.area	.0xf8
+   0000                      13 ___Display_Option:
+   0000 00 00 00 00 00 00    14 	.word	0,0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00
+                             15 	.globl	___Clear_Score
+   001A                      16 ___Clear_Score:
+   001A 00 00 00 00 00 00    17 	.word	0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00
+   0028 00                   18 	.byte	0
+                             19 	.globl	___Add_Score_a
+   0029                      20 ___Add_Score_a:
+   0029 00 00 00 00 00 00    21 	.word	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+                             22 	.globl	___Add_Score_d
+   0047                      23 ___Add_Score_d:
+   0047 00 00 00 00 00 00    24 	.word	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00
+   0067 00 00 00 00 00 00    25 	.word	0,0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00
+   0081 00                   26 	.byte	0
+                             27 	.globl	___Strip_Zeros
+   0082                      28 ___Strip_Zeros:
+   0082 00 00 00 00 00 00    29 	.word	0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00
+                             30 	.globl	___Compare_Score
+   0092                      31 ___Compare_Score:
+   0092 00 00 00 00 00 00    32 	.word	0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00
+   00A2 00                   33 	.byte	0
+                             34 	.globl	___New_High_Score
+   00A3                      35 ___New_High_Score:
+   00A3 00 00 00 00 00 00    36 	.word	0,0,0,0,0,0
+        00 00 00 00 00 00
+   00AF 00                   37 	.byte	0
+                             38 	.globl	___Obj_Will_Hit_u
+   00B0                      39 ___Obj_Will_Hit_u:
+   00B0 00 00 00 00 00 00    40 	.word	0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00
+                             41 	.globl	___Obj_Will_Hit
+   00BE                      42 ___Obj_Will_Hit:
+   00BE 00 00 00 00 00 00    43 	.word	0,0,0,0,0,0
+        00 00 00 00 00 00
+                             44 	.globl	___Obj_Hit
+   00CA                      45 ___Obj_Hit:
+   00CA 00                   46 	.byte	0
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

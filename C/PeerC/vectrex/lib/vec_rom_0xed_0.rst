@@ -1,32 +1,23 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	vec_rom_0xed_0.c
-                              7 ;----- asm -----
-                              8 	.bank page_ed (BASE=0xed77,SIZE=0x0100)
-                              9 	.area .dped (OVR,BANK=page_ed)
-                             10 	
-                             11 ;--- end asm ---
-                             12 	.globl _Vec_Music_0
-                             13 	.area	.dped
-   ED77                      14 _Vec_Music_0:
-   ED77 00 00                15 	.word	0	;skip space 24
-   ED79 00 00                16 	.word	0	;skip space 22
-   ED7B 00 00                17 	.word	0	;skip space 20
-   ED7D 00 00                18 	.word	0	;skip space 18
-   ED7F 00 00                19 	.word	0	;skip space 16
-   ED81 00 00                20 	.word	0	;skip space 14
-   ED83 00 00                21 	.word	0	;skip space 12
-   ED85 00 00                22 	.word	0	;skip space 10
-   ED87 00 00                23 	.word	0	;skip space 8
-   ED89 00 00                24 	.word	0	;skip space 6
-   ED8B 00 00                25 	.word	0	;skip space 4
-   ED8D 00 00                26 	.word	0	;skip space 2
-                             27 	.globl _Vec_ADSR_FADE66
-   ED8F                      28 _Vec_ADSR_FADE66:
-   ED8F 00                   29 	.byte	0	;skip space
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	vec_rom_0xed_0.c
+                              6 ;----- asm -----
+                              7 	.bank page_ed (BASE=0xed77,SIZE=0x0100)
+                              8 	.area .dped (OVR,BANK=page_ed)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	_Vec_Music_0
+                             12 	.area	.dped
+   ED77                      13 _Vec_Music_0:
+   ED77 00 00 00 00 00 00    14 	.word	0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+                             15 	.globl	_Vec_ADSR_FADE66
+   ED8F                      16 _Vec_ADSR_FADE66:
+   ED8F 00                   17 	.byte	0
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

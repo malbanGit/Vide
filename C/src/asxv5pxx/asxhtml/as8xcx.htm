@@ -1,0 +1,1619 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS8xCxxx Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+ACKNOWLEDGMENTS 
+
+   Thanks to Bill McKinnon for his contributions to the AS8XCXXX
+cross assembler.  
+
+        Bill McKinnon
+        w_mckinnon@conknet.com
+
+   This  assembler  was  derived from the AS8051 cross assembler
+contributed by John Hartman.  
+
+        John L. Hartman
+        jhartman@compuserve.com
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+DS8XCXXX ASSEMBLER DIRECTIVES 
+
+   The  AS8XCXXX  assembler  contains  directives to specify the
+processor core SFR (Special Function Registers) and  enable  the
+SFR  Bit  Register values during the assembly process.  The fol-
+lowing directives are supported:  
+
+        .DS8XCXXX               ;80C32 core
+        .DS80C310               ;Dallas Semiconductor
+        .DS80C320               ;Microprocessors
+        .DS80C323
+        .DS80C390
+        .DS83C520
+        .DS83C530
+        .DS83C550
+        .DS87C520
+        .DS87C530
+        .DS87C550
+
+The invocation of one of the processor directives creates a pro-
+cessor specific symbol and an SFR-Bits symbol.  For example  the
+directive 
+
+        .DS80C390
+
+creates  the  global  symbols '__DS80C390' and '__SFR_BITS' each
+with a value of 1.  If the microprocessor core selection  direc-
+tive  is  followed  by  an  optional  argument  then  the symbol
+'__SFR_BITS' is given the  value  of  the  argument.   The  file
+DS8XCXXX.SFR  contains  the  SFR and SFR register bit values for
+all the microprocessor selector directives.  This  file  may  be
+modified to create a new SFR for other microprocessor types.  
+
+   If a microprocessor selection directive is not specified then
+no processor symbols will be defined.  This mode allows the  SFR
+and SFR register bit values to be defined by the assembly source
+file.  
+
+
+.cpu Directive 
+
+   The  .cpu  directive  is  similar  to the processor selection
+directives.  This directive defines a  new  processor  type  and
+creates a user defined symbol:  
+
+        .cpu    "CP84C331"      2
+
+   creates  the  symbol  '__CP84C331'  with a value of 1 and the
+symbol '__SFR_BITS' with a value of 2.  These values can be used
+to  select  the  processor SFR and SFR register bits from an in-
+clude file.  If the optional final argument, 2, is omitted  then
+the value of the symbol '__SFR_BITS' is 1.  
+
+
+Processor Addressing Range Directives 
+
+   If one of the .DS8...  microprocessor selection directives is
+not specified then the following address range assembler  direc-
+tives are accepted:  
+
+        .16bit                  ;16-Bit Addressing
+        .24bit                  ;24-Bit Addressing
+        .32bit                  ;32-Bit Addressing
+
+These  directives specify the assembler addressing space and ef-
+fect the output format for the .lst, .sym, and .rel files.  
+
+   The  default  addressing space for defined microprocessors is
+16-Bit except for the DS80C390 microprocessor which is 24-Bit.  
+
+   The  .cpu  directive  defaults to the 16-Bit addressing range
+but this can be changed using these directives.  
+
+
+The .__.CPU.  Variable 
+
+   The value of the pre-defined symbol '.__.CPU.' corresponds to
+the selected processor type.  The default value is 0 which  cor-
+responds  to  the  default  processor type.  The following table
+lists the processor types and associated values for the AS8XCXXX
+assembler:  
+
+        Processor Type            .__.CPU. Value
+        --------------            --------------
+          .cpu                           0
+
+          .DS8XCXXX                      1
+          .DS80C310                      2
+          .DS80C320                      3
+          .DS80C323                      4
+          .DS80C390                      5
+          .DS83C520                      6
+          .DS83C530                      7
+          .DS83C550                      8
+          .DS87C520                      9
+          .DS87C530                     10
+          .DS87C550                     11
+
+
+   The  variable  '.__.CPU.'  is by default defined as local and
+will not be output to the created .rel file.  The assembler com-
+mand line options -g or -a will not cause the local symbol to be
+output to the created .rel file.  
+
+   The  assembler  .globl  directive  may  be used to change the
+variable type to global causing its definition to be  output  to
+the  .rel file.  The inclusion of the definition of the variable
+'.__.CPU.' might be a useful means of validating that seperately
+assembled  files have been compiled for the same processor type.
+The linker will report an error for variables with multiple  non
+equal definitions.  
+
+
+DS80C390 Addressing Mode Directive 
+
+   The  DS80C390  microprocessor  supports 16-Bit and 24-Bit ad-
+dressing modes.   The  .amode  assembler  directive  provides  a
+method  to  select  the addressing mode used by the ajmp, acall,
+ljmp, and lcall instructions.  These four  instructions  support
+16  and  24 bit addressing modes selected by bits AM0 and AM1 in
+the ACON register.  The assembler is 'informed'  about  the  ad-
+dressing mode selected by using the .amode directive:  
+
+        .amode  2       ;mode 2 is 24-bit addressing
+
+If  a  second  argument  is specified and its value is non-zero,
+then a three instruction sequence is inserted at the .amode  lo-
+cation loading the mode bits into the ACON register:  
+
+        .amode  2,1     ;mode 2 is 24-bit addressing, load ACON
+        ;mov    ta,#0xAA
+        ;mov    ta,#0x55
+        ;mov    acon,#amode
+
+
+DS8XCXXX REGISTER SET 
+
+The  AS8XCXXX  cross assembler supports the Dallas Semiconductor
+DS8XCXXX series of 8051-compatible devices.  These  microproces-
+sors  retain  instruction set and object code compatability with
+the 8051 microprocessor.  The DS8XCXXX family  is  updated  with
+several   new  peripherals  while  providing  all  the  standard
+features of the 80C32 microprocessor.  
+
+   The following is a list of the registers used by AS8XCXXX:  
+
+        a,b             -       8-bit accumulators
+        r0,r1,r2,r3     -       8-bit registers
+        r4,r5,r6,r7
+        dptr            -       data pointer
+        sp              -       stack pointer
+        pc              -       program counter
+        psw             -       status word
+        c               -       carry (bit in status word)
+
+
+DS8XCXXX INSTRUCTION SET 
+
+   The  following  tables list all DS8XCXXX mnemonics recognized
+by the AS8XCXXX assembler.  The  following  list  specifies  the
+format for each addressing mode supported by AS8XCXXX:  
+
+        #data           immediate data
+                        byte or word data
+
+        r,r1,r2         register r0,r1,r2,r3,r4,r5,r6, or r7
+
+        @r              indirect on register r0 or r1
+        @dptr           indirect on data pointer
+        @a+dptr         indirect on accumulator
+                        plus data pointer
+        @a+pc           indirect on accumulator
+                        plus program counter
+
+        addr            direct memory address
+
+        bitaddr         bit address
+
+        label           call or jump label
+
+The terms data, addr, bitaddr, and label may all be expressions. 
+
+   Note  that  not all addressing modes are valid with every in-
+struction.  Refer to  the  DS8XCXXX  technical  data  for  valid
+modes.  
+
+
+Inherent Instructions 
+
+        nop
+
+
+Move Instructions 
+
+        mov     a,#data         mov     a,addr
+        mov     a,r             mov     a,@r
+
+        mov     r,#data         mov     r,addr
+        mov     r,a
+
+        mov     addr,a          mov     addr,#data
+        mov     addr,r          mov     addr,@r
+        mov     addr1,addr2     mov     bitaddr,c
+
+        mov     @r,#data        mov     @r,addr
+        mov     @r,a
+
+        mov     c,bitaddr
+        mov     dptr,#data
+
+        movc    a,@a+dptr       movc    a,@a+pc
+        movx    a,@dptr         movx    a,@r
+        movx    @dptr,a         movx    @r,a
+
+
+Single Operand Instructions 
+
+        clr     a               clr     c
+        clr     bitaddr
+        cpl     a               cpl     c
+        cpl     bitaddr
+        setb    c               setb    bitaddr
+
+        da      a               
+        rr      a               rrc     a
+        rl      a               rlc     a
+        swap    a
+
+        dec     a               dec     r
+        dec     @r
+        inc     a               inc     r
+        inc     dptr            inc     @r
+
+        div     ab              mul     ab
+
+        pop     addr            push    addr
+
+
+Two Operand Instructions 
+
+        add     a,#data         add     a,addr
+        add     a,r             add     a,@r
+        addc    a,#data         addc    a,addr
+        addc    a,r             addc    a,@r
+        subb    a,#data         subb    a,addr
+        subb    a,r             subb    a,@r
+        orl     a,#data         orl     a,addr
+        orl     a,r             orl     a,@r
+        orl     addr,a          orl     addr,#data
+        orl     c,bitaddr       orl     c,/bitaddr
+        anl     a,#data         anl     a,addr
+        anl     a,r             anl     a,@r
+        anl     addr,a          anl     addr,#data
+        anl     c,bitaddr       anl     c,/bitaddr
+        xrl     a,#data         xrl     a,addr
+        xrl     a,r             xrl     a,@r
+        xrl     addr,a          xrl     addr,#data
+        xrl     c,bitaddr       xrl     c,/bitaddr
+        xch     a,addr          xch     a,r
+        xch     a,@r            xchd    a,@r
+
+
+Call and Return Instructions 
+
+        acall   label           lcall   label
+        ret                     reti
+        in      data
+        out     data
+        rst     data
+
+
+M.4.6  Jump Instructions 
+
+        ajmp    label
+        cjne    a,#data,label   cjne    a,addr,label
+        cjne    r,#data,label   cjne    @r,#data,label
+        djnz    r,label         djnz    addr,label
+        jbc     bitadr,label
+        jb      bitadr,label    jnb     bitadr,label
+        jc      label           jnc     label
+        jz      label           jnz     label
+        jmp     @a+dptr
+        ljmp    label           sjmp    label
+
+
+DS8XCXXX SPECIAL FUNCTION REGISTERS 
+
+   The  80C32 core Special Function Registers are selected using
+the .DS8xCxxx assembler directive.  
+
+
+DS8XCXXX SPECIAL FUNCTION REGISTERS 
+SFR Map 
+
+                --------- 4 Bytes ----------
+                ----    ----    ----    ----
+        80              SP      DPL     DPH         83
+        84                              PCON        87
+        88      TCON    TMOD    TL0     TL1         8B
+        8C      TH0     TH1                         8F
+        90      P1                                  93
+        94                                          97
+        98      SCON    SBUF                        9B
+        9C                                          9F
+        A0      P2                                  A3
+        A4                                          A7
+        A8      IE      SADDR0                      AB
+        AC                                          AF
+        B0      P3                                  B3
+        B4                                          B7
+        B8      IP      SADEN0                      BB
+        BC                                          BF
+        C0                                          C3
+        C4              STATUS                      C7
+        C8      T2CON   T2MOD   RCAP2L  RCAP2H      CB
+        CC      TL2     TH2                         CF
+        D0      PSW                                 D3
+        D4                                          D7
+        D8                                          DB
+        DC                                          DF
+        E0      ACC                                 E3
+        E4                                          E7
+        E8                                          EB
+        EC                                          EF
+        F0      B                                   F3
+        F4                                          F7
+        F8                                          FB
+        FC                                          FF
+
+
+DS8XCXXX SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Generic 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      TCON.0  TCON.1  TCON.2  TCON.3      8B
+        8C      TCON.4  TCON.5  TCON.6  TCON.7      8F
+P1      90      P1.0    P1.1    P1.2    P1.3        93
+        94      P1.4    P1.5    P1.6    P1.7        97
+SCON    98      SCON.0  SCON.1  SCON.2  SCON.3      9B
+        9C      SCON.4  SCON.5  SCON.6  SCON.7      9F
+P2      A0      P2.0    P2.1    P2.2    P2.3        A3
+        A4      P2.4    P2.5    P2.6    P2.7        A7
+IE      A8      IE.0    IE.1    IE.2    IE.3        AB
+        AC      IE.4    IE.5    EI.6    IE.7        AF
+P3      B0      P3.0    P3.1    P3.2    P3.3        B3
+        B4      P3.4    P3.5    P3.6    P3.7        B7
+IP      B8      IP.0    IP.1    IP.2    IP.3        BB
+        BC      IP.4    IP.5    IP.6    IP.7        BF
+        C0                                          C3
+        C4                                          C7
+T2CON   C8      T2CON.0 T2CON.1 T2CON.2 T2CON.3     CB
+        CC      T2CON.4 T2CON.5 T2CON.6 T2CON.7     CF
+PSW     D0      PSW.0   PSW.1   PSW.2   PSW.3       D3
+        D4      PSW.4   PSW.5   PSW.6   PSW.7       D7
+        D8                                          DB
+        DC                                          DF
+ACC     E0      ACC.0   ACC.1   ACC.2   ACC.3       E3
+        E4      ACC.4   ACC.5   ACC.6   ACC.7       E7
+        E8                                          EB
+        EC                                          EF
+B       F0      B.0     B.1     B.2     B.3         F3
+        F4      B.4     B.5     B.6     B.7         F7
+        F8                                          FB
+        FC                                          FF
+
+
+DS8XCXXX SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Specific 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      IT0     IE0     IT1     IE1         8B
+        8C      TR0     TF0     TR1     TF1         8F
+        90                                          93
+        94                                          97
+SCON    98      RI      TI      RB8     TB8         9B
+        9C      REN     SM2     SM1     SMO         9F
+        A0                                          A3
+        A4                                          A7
+IE      A8      EX0     ET0     EX1     ET1         AB
+        AC      ES0     ET2             EA          AF
+        B0                                          B3
+        B4                                          B7
+IP      B8      PX0     PT0     PX1     PT1         BB
+        BC      PS0     PT2                         BF
+        C0                                          C3
+        C4                                          C7
+T2CON   C8      CPRL2   CT2     TR2     EXEN2       CB
+        CC      TCLK    RCLK    EXF2    TF2         CF
+PSW     D0      P       FL      OV      RS0         D3
+        D4      RS1     F0      AC      CY          D7
+        D8                                          DB
+        DC                                          DF
+        E0                                          E3
+        E4                                          E7
+        E8                                          EB
+        EC                                          EF
+        F0                                          F3
+        F4                                          F7
+        F8                                          FB
+        FC                                          FF
+
+        Alternates:
+
+SCON    98                                          9B
+        9C                              FE          9F
+T2CON   C8      CP_RL2  C_T2                        CB
+        CC                                          CF
+
+
+DS8XCXXX SPECIAL FUNCTION REGISTERS 
+Optional Symbols:  Control Bits 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+                0x80    0x40    0x20    0x10
+                0x08    0x04    0x02    0x10
+                ----    ----    ----    ----
+PCON    0x80    SMOD    SMOD0                       0x10
+        0x08    GF1     GF0     STOP    IDLE        0x01
+TMOD    0x80    T1GATE  T1C_T   T1M1    T1M0        0x10
+        0x08    T0GATE  T0C_T   T0M1    T0M0        0x01
+STATUS  0x80            HIP     LIP                 0x10
+        0x08                                        0x01
+T2MOD   0x80                                        0x10
+        0x08                    T2OE    DCEN        0x01
+
+
+DS80C310 SPECIAL FUNCTION REGISTERS 
+
+   The  DS80C310  Special  Function Registers are selected using
+the .DS80C310 assembler directive.  
+
+
+DS80C310 SPECIAL FUNCTION REGISTERS 
+SFR Map 
+
+                --------- 4 Bytes ----------
+                ----    ----    ----    ----
+        80              SP      DPL     DPH         83
+        84      DPL1    DPH1    DPS     PCON        87
+        88      TCON    TMOD    TL0     TL1         8B
+        8C      TH0     TH1     CKCON               8F
+        90      P1      EXIF                        93
+        94                                          97
+        98      SCON    SBUF                        9B
+        9C                                          9F
+        A0      P2                                  A3
+        A4                                          A7
+        A8      IE      SADDR0                      AB
+        AC                                          AF
+        B0      P3                                  B3
+        B4                                          B7
+        B8      IP      SADEN0                      BB
+        BC                                          BF
+        C0                                          C3
+        C4              STATUS                      C7
+        C8      T2CON   T2MOD   RCAP2L  RCAP2H      CB
+        CC      TL2     TH2                         CF
+        D0      PSW                                 D3
+        D4                                          D7
+        D8      WDCON                               DB
+        DC                                          DF
+        E0      ACC                                 E3
+        E4                                          E7
+        E8      EIE                                 EB
+        EC                                          EF
+        F0      B                                   F3
+        F4                                          F7
+        F8      EIP                                 FB
+        FC                                          FF
+
+
+DS80C310 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Generic 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      TCON.0  TCON.1  TCON.2  TCON.3      8B
+        8C      TCON.4  TCON.5  TCON.6  TCON.7      8F
+P1      90      P1.0    P1.1    P1.2    P1.3        93
+        94      P1.4    P1.5    P1.6    P1.7        97
+SCON    98      SCON.0  SCON.1  SCON.2  SCON.3      9B
+        9C      SCON.4  SCON.5  SCON.6  SCON.7      9F
+P2      A0      P2.0    P2.1    P2.2    P2.3        A3
+        A4      P2.4    P2.5    P2.6    P2.7        A7
+IE      A8      IE.0    IE.1    IE.2    IE.3        AB
+        AC      IE.4    IE.5    EI.6    IE.7        AF
+P3      B0      P3.0    P3.1    P3.2    P3.3        B3
+        B4      P3.4    P3.5    P3.6    P3.7        B7
+IP      B8      IP.0    IP.1    IP.2    IP.3        BB
+        BC      IP.4    IP.5    IP.6    IP.7        BF
+        C0                                          C3
+        C4                                          C7
+T2CON   C8      T2CON.0 T2CON.1 T2CON.2 T2CON.3     CB
+        CC      T2CON.4 T2CON.5 T2CON.6 T2CON.7     CF
+PSW     D0      PSW.0   PSW.1   PSW.2   PSW.3       D3
+        D4      PSW.4   PSW.5   PSW.6   PSW.7       D7
+WDCON   D8      WDCON.0 WDCON.1 WDCON.2 WDCON.3     DB
+        DC      WDCON.4 WDCON.5 WDCON.6 WDCON.7     DF
+ACC     E0      ACC.0   ACC.1   ACC.2   ACC.3       E3
+        E4      ACC.4   ACC.5   ACC.6   ACC.7       E7
+EIE     E8      EIE.0   EIE.1   EIE.2   EIE.3       EB
+        EC      EIE.4   EIE.5   EIE.6   EIE.7       EF
+B       F0      B.0     B.1     B.2     B.3         F3
+        F4      B.4     B.5     B.6     B.7         F7
+EIP     F8      EIP.0   EIP.1   EIP.2   EIP.3       FB
+        FC      EIP.4   EIP.5   EIP.6   EIP.7       FF
+
+
+DS80C310 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Specific 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      IT0     IE0     IT1     IE1         8B
+        8C      TR0     TF0     TR1     TF1         8F
+        90                                          93
+        94                                          97
+SCON    98      RI      TI      RB8     TB8         9B
+        9C      REN     SM2     SM1     SMO         9F
+        A0                                          A3
+        A4                                          A7
+IE      A8      EX0     ET0     EX1     ET1         AB
+        AC      ES0     ET2             EA          AF
+        B0                                          B3
+        B4                                          B7
+IP      B8      PX0     PT0     PX1     PT1         BB
+        BC      PS0     PT2                         BF
+        C0                                          C3
+        C4                                          C7
+T2CON   C8      CPRL2   CT2     TR2     EXEN2       CB
+        CC      TCLK    RCLK    EXF2    TF2         CF
+PSW     D0      P       FL      OV      RS0         D3
+        D4      RS1     F0      AC      CY          D7
+WDCON   D8                                          DB
+        DC                      POR                 DF
+        E0                                          E3
+        E4                                          E7
+EIE     E8      EX2     EX3     EX4     EX5         EB
+        EC                                          EF
+        F0                                          F3
+        F4                                          F7
+EIP     F8      PX2     PX3     PX4     PX5         FB
+        FC                                          FF
+
+        Alternates:
+
+SCON    98                                          9B
+        9C                              FE          9F
+T2CON   C8      CP_RL2  C_T2                        CB
+        CC                                          CF
+
+
+DS80C310 SPECIAL FUNCTION REGISTERS 
+Optional Symbols:  Control Bits 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+                0x80    0x40    0x20    0x10
+                0x08    0x04    0x02    0x10
+                ----    ----    ----    ----
+DPS     0x80                                        0x10
+        0x08                            SEL         0x01
+PCON    0x80    SMOD    SMOD0                       0x10
+        0x08    GF1     GF0     STOP    IDLE        0x01
+TMOD    0x80    T1GATE  T1C_T   T1M1    T1M0        0x10
+        0x08    T0GATE  T0C_T   T0M1    T0M0        0x01
+CKCON   0x80                    T2M     T1M         0x10
+        0x08    T0M     MD2     MD1     MD0         0x01
+EXIF    0x80    IE5     IE4     IE3     IE2         0x10
+        0x08                                        0x01
+STATUS  0x80            HIP     LIP                 0x10
+        0x08                                        0x01
+T2MOD   0x80                                        0x10
+        0x08                    T2OE    DCEN        0x01
+
+        Alternates:
+
+PCON    0x80    SMOD_0                              0x10
+        0x08                                        0x01
+
+
+DS80C320/DS80C323 SPECIAL FUNCTION REGISTERS 
+
+   The DS80C320/DS80C323 Special Function Registers are selected
+using the .DS80C320 or DS80C323 assembler directives.  
+
+
+DS80C320/DS80C323 SPECIAL FUNCTION REGISTERS 
+SFR Map 
+
+                --------- 4 Bytes ----------
+                ----    ----    ----    ----
+        80              SP      DPL     DPH         83
+        84      DPL1    DPH1    DPS     PCON        87
+        88      TCON    TMOD    TL0     TL1         8B
+        8C      TH0     TH1     CKCON               8F
+        90      P1      EXIF                        93
+        94                                          97
+        98      SCON0   SBUF0                       9B
+        9C                                          9F
+        A0      P2                                  A3
+        A4                                          A7
+        A8      IE      SADDR0                      AB
+        AC                                          AF
+        B0      P3                                  B3
+        B4                                          B7
+        B8      IP      SADEN0                      BB
+        BC                                          BF
+        C0      SCON1   SBUF1                       C3
+        C4              STATUS          TA          C7
+        C8      T2CON   T2MOD   RCAP2L  RCAP2H      CB
+        CC      TL2     TH2                         CF
+        D0      PSW                                 D3
+        D4                                          D7
+        D8      WDCON                               DB
+        DC                                          DF
+        E0      ACC                                 E3
+        E4                                          E7
+        E8      EIE                                 EB
+        EC                                          EF
+        F0      B                                   F3
+        F4                                          F7
+        F8      EIP                                 FB
+        FC                                          FF
+
+        Alternates:
+
+        98      SCON    SBUF                        9B
+
+
+DS80C320/DS80C323 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Generic 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      TCON.0  TCON.1  TCON.2  TCON.3      8B
+        8C      TCON.4  TCON.5  TCON.6  TCON.7      8F
+P1      90      P1.0    P1.1    P1.2    P1.3        93
+        94      P1.4    P1.5    P1.6    P1.7        97
+SCON0   98      SCON0.0 SCON0.1 SCON0.2 SCON0.3     9B
+        9C      SCON0.4 SCON0.5 SCON0.6 SCON0.7     9F
+P2      A0      P2.0    P2.1    P2.2    P2.3        A3
+        A4      P2.4    P2.5    P2.6    P2.7        A7
+IE      A8      IE.0    IE.1    IE.2    IE.3        AB
+        AC      IE.4    IE.5    EI.6    IE.7        AF
+P3      B0      P3.0    P3.1    P3.2    P3.3        B3
+        B4      P3.4    P3.5    P3.6    P3.7        B7
+IP      B8      IP.0    IP.1    IP.2    IP.3        BB
+        BC      IP.4    IP.5    IP.6    IP.7        BF
+SCON1   C0      SCON1.0 SCON1.1 SCON1.2 SCON1.3     C3
+        C4      SCON1.4 SCON1.5 SCON1.6 SCON1.7     C7
+T2CON   C8      T2CON.0 T2CON.1 T2CON.2 T2CON.3     CB
+        CC      T2CON.4 T2CON.5 T2CON.6 T2CON.7     CF
+PSW     D0      PSW.0   PSW.1   PSW.2   PSW.3       D3
+        D4      PSW.4   PSW.5   PSW.6   PSW.7       D7
+WDCON   D8      WDCON.0 WDCON.1 WDCON.2 WDCON.3     DB
+        DC      WDCON.4 WDCON.5 WDCON.6 WDCON.7     DF
+ACC     E0      ACC.0   ACC.1   ACC.2   ACC.3       E3
+        E4      ACC.4   ACC.5   ACC.6   ACC.7       E7
+EIE     E8      EIE.0   EIE.1   EIE.2   EIE.3       EB
+        EC      EIE.4   EIE.5   EIE.6   EIE.7       EF
+B       F0      B.0     B.1     B.2     B.3         F3
+        F4      B.4     B.5     B.6     B.7         F7
+EIP     F8      EIP.0   EIP.1   EIP.2   EIP.3       FB
+        FC      EIP.4   EIP.5   EIP.6   EIP.7       FF
+
+                Alternates:
+
+SCON    98      SCON.0  SCON.1  SCON.2  SCON.3      9B
+        9C      SCON.4  SCON.5  SCON.6  SCON.7      9F
+
+
+DS80C320/DS80C323 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Specific 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      IT0     IE0     IT1     IE1         8B
+        8C      TR0     TF0     TR1     TF1         8F
+        90                                          93
+        94                                          97
+SCON0   98      RI_0    TI_0    RB8_0   TB8_0       9B
+        9C      REN_0   SM2_0   SM1_0   SMO_0       9F
+        A0                                          A3
+        A4                                          A7
+IE      A8      EX0     ET0     EX1     ET1         AB
+        AC      ES0     ET2             EA          AF
+        B0                                          B3
+        B4                                          B7
+IP      B8      PX0     PT0     PX1     PT1         BB
+        BC      PS0     PT2                         BF
+SCON1   C0      RI_1    TI_1    RB8_1   TB8_1       C3
+        C4      REN_1   SM2_1   SM1_1   SMO_1       C7
+T2CON   C8      CPRL2   CT2     TR2     EXEN2       CB
+        CC      TCLK    RCLK    EXF2    TF2         CF
+PSW     D0      P       FL      OV      RS0         D3
+        D4      RS1     F0      AC      CY          D7
+WDCON   D8      RWT     EWT     WTRF    WDIF        DB
+        DC      PFI     EPFI    POR     SMOD_1      DF
+        E0                                          E3
+        E4                                          E7
+EIE     E8      EX2     EX3     EX4     EX5         EB
+        EC      EWDI                                EF
+        F0                                          F3
+        F4                                          F7
+EIP     F8      PX2     PX3     PX4     PX5         FB
+        FC      PWDI                                FF
+
+        Alternates:
+
+SCON    98      RI      TI      RB8     TB8         9B
+        9C      REN     SM2     SM1     SMO         9F
+SCON    98                                          9B
+        9C                              FE          9F
+SCON0   98                                          9B
+        9C                              FE_0        9F
+SCON1   C0                                          C3
+        C4                              FE_1        C7
+T2CON   C8      CP_RL2  C_T2                        CB
+        CC                                          CF
+
+
+DS80C320/DS80C323 SPECIAL FUNCTION REGISTERS 
+Optional Symbols:  Control Bits 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+                0x80    0x40    0x20    0x10
+                0x08    0x04    0x02    0x10
+                ----    ----    ----    ----
+DPS     0x80                                        0x10
+        0x08                            SEL         0x01
+PCON    0x80    SMOD_0  SMOD0                       0x10
+        0x08    GF1     GF0     STOP    IDLE        0x01
+TMOD    0x80    T1GATE  T1C_T   T1M1    T1M0        0x10
+        0x08    T0GATE  T0C_T   T0M1    T0M0        0x01
+CKCON   0x80    WD1     WD0     T2M     T1M         0x10
+        0x08    T0M     MD2     MD1     MD0         0x01
+EXIF    0x80    IE5     IE4     IE3     IE2         0x10
+        0x08            RGMD    RGSL    BGS         0x01
+STATUS  0x80    PIP     HIP     LIP                 0x10
+        0x08                                        0x01
+T2MOD   0x80                                        0x10
+        0x08                    T2OE    DCEN        0x01
+
+        Alternates:
+
+PCON    0x80    SMOD                                0x10
+        0x08                                        0x01
+
+
+DS80C390 SPECIAL FUNCTION REGISTERS 
+
+   The  DS80C390  Special  Function Registers are selected using
+the .DS80C390 assembler directive.  
+
+
+DS80C390 SPECIAL FUNCTION REGISTERS 
+SFR Map 
+
+                --------- 4 Bytes ----------
+                ----    ----    ----    ----
+        80      P4      SP      DPL     DPH         83
+        84      DPL1    DPH1    DPS     PCON        87
+        88      TCON    TMOD    TL0     TL1         8B
+        8C      TH0     TH1     CKCON               8F
+        90      P1      EXIF    P4CNT   DPX         93
+        94              DPX1    C0RMS0  C0RMS1      97
+        98      SCON0   SBUF0           ESP         9B
+        9C      AP      ACON    C0TMA0  C0TMA1      9F
+        A0      P2      P5      P5CNT   C0C         A3
+        A4      C0S     C0IR    C0TE    C0RE        A7
+        A8      IE      SADDR0  SADDR1  C0M1C       AB
+        AC      C0M2C   C0M3C   C0M4C   C0M5C       AF
+        B0      P3                      C0M6C       B3
+        B4      C0M7C   C0M8C   C0M9C   C0M10C      B7
+        B8      IP      SADEN0  SADEN1  C0M11C      BB
+        BC      C0M12C  C0M13C  C0M14C  C0M15C      BF
+        C0      SCON1   SBUF1                       C3
+        C4      PMR     STATUS  MCON    TA          C7
+        C8      T2CON   T2MOD   RCAP2L  RCAP2H      CB
+        CC      TL2     TH2     COR                 CF
+        D0      PSW     MCNT0   MCNT1   MA          D3
+        D4      MB      MC      C1RMS0  C1RMS1      D7
+        D8      WDCON                               DB
+        DC                      C1TMA0  C1TMA1      DF
+        E0      ACC                     C1C         E3
+        E4      C1S     C1IR    C1TE    C1RE        E7
+        E8      EIE             MXAX    C1M1C       EB
+        EC      C1M2C   C1M3C   C1M4C   C1M5C       EF
+        F0      B                       C1M6C       F3
+        F4      C1M7C   C1M8C   C1M9C   C1M10C      F7
+        F8      EIP                     C1M11C      FB
+        FC      C1M12C  C1M13C  C1M14C  C1M15C      FF
+
+        Alternates:
+
+        98      SCON    SBUF                        9B
+
+
+DS80C390 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Generic 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+P4      80      P4.0    P4.1    P4.2    P4.3        83
+        84      P4.4    P4.5    P4.6    P4.7        87
+TCON    88      TCON.0  TCON.1  TCON.2  TCON.3      8B
+        8C      TCON.4  TCON.5  TCON.6  TCON.7      8F
+P1      90      P1.0    P1.1    P1.2    P1.3        93
+        94      P1.4    P1.5    P1.6    P1.7        97
+SCON0   98      SCON0.0 SCON0.1 SCON0.2 SCON0.3     9B
+        9C      SCON0.4 SCON0.5 SCON0.6 SCON0.7     9F
+P2      A0      P2.0    P2.1    P2.2    P2.3        A3
+        A4      P2.4    P2.5    P2.6    P2.7        A7
+IE      A8      IE.0    IE.1    IE.2    IE.3        AB
+        AC      IE.4    IE.5    EI.6    IE.7        AF
+P3      B0      P3.0    P3.1    P3.2    P3.3        B3
+        B4      P3.4    P3.5    P3.6    P3.7        B7
+IP      B8      IP.0    IP.1    IP.2    IP.3        BB
+        BC      IP.4    IP.5    IP.6    IP.7        BF
+SCON1   C0      SCON1.0 SCON1.1 SCON1.2 SCON1.3     C3
+        C4      SCON1.4 SCON1.5 SCON1.6 SCON1.7     C7
+T2CON   C8      T2CON.0 T2CON.1 T2CON.2 T2CON.3     CB
+        CC      T2CON.4 T2CON.5 T2CON.6 T2CON.7     CF
+PSW     D0      PSW.0   PSW.1   PSW.2   PSW.3       D3
+        D4      PSW.4   PSW.5   PSW.6   PSW.7       D7
+WDCON   D8      WDCON.0 WDCON.1 WDCON.2 WDCON.3     DB
+        DC      WDCON.4 WDCON.5 WDCON.6 WDCON.7     DF
+ACC     E0      ACC.0   ACC.1   ACC.2   ACC.3       E3
+        E4      ACC.4   ACC.5   ACC.6   ACC.7       E7
+EIE     E8      EIE.0   EIE.1   EIE.2   EIE.3       EB
+        EC      EIE.4   EIE.5   EIE.6   EIE.7       EF
+B       F0      B.0     B.1     B.2     B.3         F3
+        F4      B.4     B.5     B.6     B.7         F7
+EIP     F8      EIP.0   EIP.1   EIP.2   EIP.3       FB
+        FC      EIP.4   EIP.5   EIP.6   EIP.7       FF
+
+                Alternates:
+
+SCON    98      SCON.0  SCON.1  SCON.2  SCON.3      9B
+        9C      SCON.4  SCON.5  SCON.6  SCON.7      9F
+
+
+DS80C390 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Specific 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      IT0     IE0     IT1     IE1         8B
+        8C      TR0     TF0     TR1     TF1         8F
+P1      90      T2      T2EX    RXD1    TXD1        93
+        94      INT2    INT3    INT4    INT5        97
+SCON0   98      RI_0    TI_0    RB8_0   TB8_0       9B
+        9C      REN_0   SM2_0   SM1_0   SMO_0       9F
+        A0                                          A3
+        A4                                          A7
+IE      A8      EX0     ET0     EX1     ET1         AB
+        AC      ES0     ET2     ES1     EA          AF
+P3      B0      RXD0    TXD0    INT0    INT1        B3
+        B4      T0      T1                          B7
+IP      B8      PX0     PT0     PX1     PT1         BB
+        BC      PS0     PT2     PS1                 BF
+SCON1   C0      RI_1    TI_1    RB8_1   TB8_1       C3
+        C4      REN_1   SM2_1   SM1_1   SMO_1       C7
+T2CON   C8      CPRL2   CT2     TR2     EXEN2       CB
+        CC      TCLK    RCLK    EXF2    TF2         CF
+PSW     D0      P       FL      OV      RS0         D3
+        D4      RS1     F0      AC      CY          D7
+WDCON   D8      RWT     EWT     WTRF    WDIF        DB
+        DC      PFI     EPFI    POR     SMOD_1      DF
+        E0                                          E3
+        E4                                          E7
+EIE     E8      EX2     EX3     EX4     EX5         EB
+        EC      EWDI    C1IE    C0IE    CANBIE      EF
+        F0                                          F3
+        F4                                          F7
+EIP     F8      PX2     PX3     PX4     PX5         FB
+        FC      PWDI    C1IP    C0IP    CANBIP      FF
+
+        Alternates:
+
+SCON    98      RI      TI      RB8     TB8         9B
+        9C      REN     SM2     SM1     SMO         9F
+SCON    98                                          9B
+        9C                              FE          9F
+SCON0   98                                          9B
+        9C                              FE_0        9F
+SCON1   C0                                          C3
+        C4                              FE_1        C7
+T2CON   C8      CP_RL2  C_T2                        CB
+        CC                                          CF
+
+
+DS80C390 SPECIAL FUNCTION REGISTERS 
+Optional Symbols:  Control Bits 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+                0x80    0x40    0x20    0x10
+                0x08    0x04    0x02    0x10
+                ----    ----    ----    ----
+DPS     0x80    ID1     ID0     TSL                 0x10
+        0x08                            SEL         0x01
+PCON    0x80    SMOD_0  SMOD0   OFDF    OFDE        0x10
+        0x08    GF1     GF0     STOP    IDLE        0x01
+TMOD    0x80    T1GATE  T1C_T   T1M1    T1M0        0x10
+        0x08    T0GATE  T0C_T   T0M1    T0M0        0x01
+CKCON   0x80    WD1     WD0     T2M     T1M         0x10
+        0x08    T0M     MD2     MD1     MD0         0x01
+EXIF    0x80    IE5     IE4     IE3     IE2         0x10
+        0x08    CKRY    RGMD    RGSL    BGS         0x01
+P4CNT   0x80            SBCAN                       0x10
+        0x08                                        0x01
+ESP     0x80                                        0x10
+        0x08                    ESP.1   ESP.0       0x01
+ACON    0x80                                        0x10
+        0x08            SA      AM1     AM0         0x01
+P5      0x80    P5.7    P5.6    P5.5    P5.4        0x10
+        0x08    P5.3    P5.2    P5.1    P5.0        0x01
+P5CNT   0x80    CAN1BA  CAN0BA  SP1EC   C1_IO       0x10
+        0x08    C0_IO   P5CNT.2 P5CNT.1 P5CNT.0     0x01
+CxC     0x80    ERIE    STIE    PDE     SIESTA      0x10
+        0x08    CRST    AUTOB   ERCS    SWINT       0x01
+CxS     0x80    BSS   EC96_128  WKS     RXS         0x10
+        0x08    TXS     ER2     ER1     ER0         0x01
+CxIR    0x80    INTIN7  INTIN6  INTIN5  INTIN4      0x10
+        0x08    INTIN3  INTIN2  INTIN1  INTIN0      0x01
+CxCxxC  0x80    MSRDY   ET1     ER1     INTRQ       0x10
+        0x08    EXTRQ   MTRQ    ROW_TIH DTUP        0x01
+PMR     0x80    CD1     CD0     SWB     CTM         0x10
+        0x08    4X_2X   ALEOFF                      0x01
+STATUS  0x80    PIP     HIP     LIP                 0x10
+        0x08    SPTA1   SPRA1   SPTA0   SPRA0       0x01
+MCON    0x80    IDM1    IDM0    CMA                 0x10
+        0x08    PDCE3   PDCE2   PDCE1   PDCE0       0x01
+T2MOD   0x80                            D13T1       0x10
+        0x08    D13T2           T2OE    DCEN        0x01
+COR     0x80    IRDACK  C1BPR7  C1BPR6  C0BPR7      0x10
+        0x08    C0BPR6  COD1    COD0    CLKOE       0x01
+MCNT0   0x80    _LSHIFT CSE     SCB     MAS4        0x10
+        0x08    MAS3    MAS2    MAS1    MAS0        0x01
+MCNT1   0x80    MST     MOF             CLM         0x10
+        0x08                                        0x01
+
+        Alternates:
+
+PCON    0x80    SMOD                                0x10
+        0x08                                        0x01
+
+
+DS83C520/DS87C520 SPECIAL FUNCTION REGISTERS 
+
+
+   The DS83C520/DS87C520 Special Function Registers are selected
+using the .DS83C520 or DS87C520 assembler directives.  
+
+
+DS83C520/DS87C520 SPECIAL FUNCTION REGISTERS 
+SFR Map 
+
+                --------- 4 Bytes ----------
+                ----    ----    ----    ----
+        80      P0      SP      DPL     DPH         83
+        84      DPL1    DPH1    DPS     PCON        87
+        88      TCON    TMOD    TL0     TL1         8B
+        8C      TH0     TH1     CKCON               8F
+        90      PORT1   EXIF                        93
+        94                                          97
+        98      SCON0   SBUF0                       9B
+        9C                                          9F
+        A0      P2                                  A3
+        A4                                          A7
+        A8      IE      SADDR0  SADDR1              AB
+        AC                                          AF
+        B0      P3                                  B3
+        B4                                          B7
+        B8      IP      SADEN0  SADEN1              BB
+        BC                                          BF
+        C0      SCON1   SBUF1   ROMSIZE             C3
+        C4      PMR     STATUS          TA          C7
+        C8      T2CON   T2MOD   RCAP2L  RCAP2H      CB
+        CC      TL2     TH2                         CF
+        D0      PSW                                 D3
+        D4                                          D7
+        D8      WDCON                               DB
+        DC                                          DF
+        E0      ACC                                 E3
+        E4                                          E7
+        E8      EIE                                 EB
+        EC                                          EF
+        F0      B                                   F3
+        F4                                          F7
+        F8      EIP                                 FB
+        FC                                          FF
+
+        Alternates:
+
+        98      SCON    SBUF                        9B
+
+
+DS83C520/DS87C520 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Generic 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+P0      80      P0.7    P0.6    P0.5    P0.4        83
+        84      P0.3    P0.2    P0.1    P0.0        87
+TCON    88      TCON.0  TCON.1  TCON.2  TCON.3      8B
+        8C      TCON.4  TCON.5  TCON.6  TCON.7      8F
+PORT1   90      P1.0    P1.1    P1.2    P1.3        93
+        94      P1.4    P1.5    P1.6    P1.7        97
+SCON0   98      SCON0.0 SCON0.1 SCON0.2 SCON0.3     9B
+        9C      SCON0.4 SCON0.5 SCON0.6 SCON0.7     9F
+P2      A0      P2.0    P2.1    P2.2    P2.3        A3
+        A4      P2.4    P2.5    P2.6    P2.7        A7
+IE      A8      IE.0    IE.1    IE.2    IE.3        AB
+        AC      IE.4    IE.5    EI.6    IE.7        AF
+P3      B0      P3.0    P3.1    P3.2    P3.3        B3
+        B4      P3.4    P3.5    P3.6    P3.7        B7
+IP      B8      IP.0    IP.1    IP.2    IP.3        BB
+        BC      IP.4    IP.5    IP.6    IP.7        BF
+SCON1   C0      SCON1.0 SCON1.1 SCON1.2 SCON1.3     C3
+        C4      SCON1.4 SCON1.5 SCON1.6 SCON1.7     C7
+T2CON   C8      T2CON.0 T2CON.1 T2CON.2 T2CON.3     CB
+        CC      T2CON.4 T2CON.5 T2CON.6 T2CON.7     CF
+PSW     D0      PSW.0   PSW.1   PSW.2   PSW.3       D3
+        D4      PSW.4   PSW.5   PSW.6   PSW.7       D7
+WDCON   D8      WDCON.0 WDCON.1 WDCON.2 WDCON.3     DB
+        DC      WDCON.4 WDCON.5 WDCON.6 WDCON.7     DF
+ACC     E0      ACC.0   ACC.1   ACC.2   ACC.3       E3
+        E4      ACC.4   ACC.5   ACC.6   ACC.7       E7
+EIE     E8      EIE.0   EIE.1   EIE.2   EIE.3       EB
+        EC      EIE.4   EIE.5   EIE.6   EIE.7       EF
+B       F0      B.0     B.1     B.2     B.3         F3
+        F4      B.4     B.5     B.6     B.7         F7
+EIP     F8      EIP.0   EIP.1   EIP.2   EIP.3       FB
+        FC      EIP.4   EIP.5   EIP.6   EIP.7       FF
+
+                Alternates:
+
+PORT1   90      PORT1.0 PORT1.1 PORT1.2 PORT1.3     93
+        94      PORT1.4 PORT1.5 PORT1.6 PORT1.7     97
+SCON    98      SCON.0  SCON.1  SCON.2  SCON.3      9B
+        9C      SCON.4  SCON.5  SCON.6  SCON.7      9F
+
+
+DS83C520/DS87C520 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Specific 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      IT0     IE0     IT1     IE1         8B
+        8C      TR0     TF0     TR1     TF1         8F
+        90                                          93
+        94                                          97
+SCON0   98      RI_0    TI_0    RB8_0   TB8_0       9B
+        9C      REN_0   SM2_0   SM1_0   SMO_0       9F
+        A0                                          A3
+        A4                                          A7
+IE      A8      EX0     ET0     EX1     ET1         AB
+        AC      ES0     ET2     ES1     EA          AF
+        B0                                          B3
+        B4                                          B7
+IP      B8      PX0     PT0     PX1     PT1         BB
+        BC      PS0     PT2     PS1                 BF
+SCON1   C0      RI_1    TI_1    RB8_1   TB8_1       C3
+        C4      REN_1   SM2_1   SM1_1   SMO_1       C7
+T2CON   C8      CPRL2   CT2     TR2     EXEN2       CB
+        CC      TCLK    RCLK    EXF2    TF2         CF
+PSW     D0      P       FL      OV      RS0         D3
+        D4      RS1     F0      AC      CY          D7
+WDCON   D8      RWT     EWT     WTRF    WDIF        DB
+        DC      PFI     EPFI    POR     SMOD_1      DF
+        E0                                          E3
+        E4                                          E7
+EIE     E8      EX2     EX3     EX4     EX5         EB
+        EC      EWDI                                EF
+        F0                                          F3
+        F4                                          F7
+EIP     F8      PX2     PX3     PX4     PX5         FB
+        FC      PWDI                                FF
+
+        Alternates:
+
+SCON    98      RI      TI      RB8     TB8         9B
+        9C      REN     SM2     SM1     SMO         9F
+SCON    98                                          9B
+        9C                              FE          9F
+SCON0   98                                          9B
+        9C                              FE_0        9F
+SCON1   C0                                          C3
+        C4                              FE_1        C7
+T2CON   C8      CP_RL2  C_T2                        CB
+        CC                                          CF
+
+
+DS83C520/DS87C520 SPECIAL FUNCTION REGISTERS 
+Optional Symbols:  Control Bits 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+                0x80    0x40    0x20    0x10
+                0x08    0x04    0x02    0x10
+                ----    ----    ----    ----
+DPS     0x80                                        0x10
+        0x08                            SEL         0x01
+PCON    0x80    SMOD_0  SMOD0                       0x10
+        0x08    GF1     GF0     STOP    IDLE        0x01
+TMOD    0x80    T1GATE  T1C_T   T1M1    T1M0        0x10
+        0x08    T0GATE  T0C_T   T0M1    T0M0        0x01
+CKCON   0x80    WD1     WD0     T2M     T1M         0x10
+        0x08    T0M     MD2     MD1     MD0         0x01
+EXIF    0x80    IE5     IE4     IE3     IE          0x10
+        0x08    XT_RG   RGMD    RGSL    BGS         0x01
+SBUF1   0x80    SB7     SB6     SB5     SB4         0x10
+        0x08    SB3     SB2     SB1     SB0         0x01
+ROMSIZE 0x80                                        0x10
+        0x08            RMS2    RMS1    RMS0        0x01
+PMR     0x80    CD1     CD0     SWB                 0x10
+        0x08    XTOFF   ALEOFF  DME1    DME0        0x01
+STATUS  0x80    PIP     HIP     LIP     XTUP        0x10
+        0x08    SPTA1   SPRA1   SPTA0   SPRA0       0x01
+T2MOD   0x80                                        0x10
+        0x08                    T2OE    DCEN        0x01
+
+        Alternates:
+
+PCON    0x80    SMOD                                0x10
+        0x08                                        0x01
+
+
+DS83C530/DS87C530 SPECIAL FUNCTION REGISTERS 
+
+
+   The DS83C530/DS87C530 Special Function Registers are selected
+using the .DS83C530 or DS87C530 assembler directives.  
+
+
+DS83C530/DS87C530 SPECIAL FUNCTION REGISTERS 
+SFR Map 
+
+                --------- 4 Bytes ----------
+                ----    ----    ----    ----
+        80      P0      SP      DPL     DPH         83
+        84      DPL1    DPH1    DPS     PCON        87
+        88      TCON    TMOD    TL0     TL1         8B
+        8C      TH0     TH1     CKCON               8F
+        90      P1      EXIF                        93
+        94                      TRIM                97
+        98      SCON0   SBUF0                       9B
+        9C                                          9F
+        A0      P2                                  A3
+        A4                                          A7
+        A8      IE      SADDR0  SADDR1              AB
+        AC                                          AF
+        B0      P3                                  B3
+        B4                                          B7
+        B8      IP      SADEN0  SADEN1              BB
+        BC                                          BF
+        C0      SCON1   SBUF1   ROMSIZE             C3
+        C4      PMR     STATUS          TA          C7
+        C8      T2CON   T2MOD   RCAP2L  RCAP2H      CB
+        CC      TL2     TH2                         CF
+        D0      PSW                                 D3
+        D4                                          D7
+        D8      WDCON                               DB
+        DC                                          DF
+        E0      ACC                                 E3
+        E4                                          E7
+        E8      EIE                                 EB
+        EC                                          EF
+        F0      B               RTASS   RTAS        F3
+        F4      RTAM    RTAH                        F7
+        F8      EIP     RTCC    RTCSS   RTCS        FB
+        FC      RTCM    RTCH    RTCD0   RTCD1       FF
+
+        Alternates:
+
+        98      SCON    SBUF                        9B
+
+
+DS83C530/DS87C530 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Generic 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+P0      80      P0.7    P0.6    P0.5    P0.4        83
+        84      P0.3    P0.2    P0.1    P0.0        87
+TCON    88      TCON.0  TCON.1  TCON.2  TCON.3      8B
+        8C      TCON.4  TCON.5  TCON.6  TCON.7      8F
+P1      90      P1.0    P1.1    P1.2    P1.3        93
+        94      P1.4    P1.5    P1.6    P1.7        97
+SCON0   98      SCON0.0 SCON0.1 SCON0.2 SCON0.3     9B
+        9C      SCON0.4 SCON0.5 SCON0.6 SCON0.7     9F
+P2      A0      P2.0    P2.1    P2.2    P2.3        A3
+        A4      P2.4    P2.5    P2.6    P2.7        A7
+IE      A8      IE.0    IE.1    IE.2    IE.3        AB
+        AC      IE.4    IE.5    EI.6    IE.7        AF
+P3      B0      P3.0    P3.1    P3.2    P3.3        B3
+        B4      P3.4    P3.5    P3.6    P3.7        B7
+IP      B8      IP.0    IP.1    IP.2    IP.3        BB
+        BC      IP.4    IP.5    IP.6    IP.7        BF
+SCON1   C0      SCON1.0 SCON1.1 SCON1.2 SCON1.3     C3
+        C4      SCON1.4 SCON1.5 SCON1.6 SCON1.7     C7
+T2CON   C8      T2CON.0 T2CON.1 T2CON.2 T2CON.3     CB
+        CC      T2CON.4 T2CON.5 T2CON.6 T2CON.7     CF
+PSW     D0      PSW.0   PSW.1   PSW.2   PSW.3       D3
+        D4      PSW.4   PSW.5   PSW.6   PSW.7       D7
+WDCON   D8      WDCON.0 WDCON.1 WDCON.2 WDCON.3     DB
+        DC      WDCON.4 WDCON.5 WDCON.6 WDCON.7     DF
+ACC     E0      ACC.0   ACC.1   ACC.2   ACC.3       E3
+        E4      ACC.4   ACC.5   ACC.6   ACC.7       E7
+EIE     E8      EIE.0   EIE.1   EIE.2   EIE.3       EB
+        EC      EIE.4   EIE.5   EIE.6   EIE.7       EF
+B       F0      B.0     B.1     B.2     B.3         F3
+        F4      B.4     B.5     B.6     B.7         F7
+EIP     F8      EIP.0   EIP.1   EIP.2   EIP.3       FB
+        FC      EIP.4   EIP.5   EIP.6   EIP.7       FF
+
+                Alternates:
+
+SCON    98      SCON.0  SCON.1  SCON.2  SCON.3      9B
+        9C      SCON.4  SCON.5  SCON.6  SCON.7      9F
+
+
+DS83C530/DS87C530 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Specific 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      IT0     IE0     IT1     IE1         8B
+        8C      TR0     TF0     TR1     TF1         8F
+        90                                          93
+        94                                          97
+SCON0   98      RI_0    TI_0    RB8_0   TB8_0       9B
+        9C      REN_0   SM2_0   SM1_0   SMO_0       9F
+        A0                                          A3
+        A4                                          A7
+IE      A8      EX0     ET0     EX1     ET1         AB
+        AC      ES0     ET2     ES1     EA          AF
+        B0                                          B3
+        B4                                          B7
+IP      B8      PX0     PT0     PX1     PT1         BB
+        BC      PS0     PT2     PS1                 BF
+SCON1   C0      RI_1    TI_1    RB8_1   TB8_1       C3
+        C4      REN_1   SM2_1   SM1_1   SMO_1       C7
+T2CON   C8      CPRL2   CT2     TR2     EXEN2       CB
+        CC      TCLK    RCLK    EXF2    TF2         CF
+PSW     D0      P       FL      OV      RS0         D3
+        D4      RS1     F0      AC      CY          D7
+WDCON   D8      RWT     EWT     WTRF    WDIF        DB
+        DC      PFI     EPFI    POR     SMOD_1      DF
+        E0                                          E3
+        E4                                          E7
+EIE     E8      EX2     EX3     EX4     EX5         EB
+        EC      EWDI    ERTCI                       EF
+        F0                                          F3
+        F4                                          F7
+EIP     F8      PX2     PX3     PX4     PX5         FB
+        FC      PWDI    PRTCI                       FF
+
+        Alternates:
+
+SCON    98      RI      TI      RB8     TB8         9B
+        9C      REN     SM2     SM1     SMO         9F
+SCON    98                                          9B
+        9C                              FE          9F
+SCON0   98                                          9B
+        9C                              FE_0        9F
+SCON1   C0                                          C3
+        C4                              FE_1        C7
+T2CON   C8      CP_RL2  C_T2                        CB
+        CC                                          CF
+
+
+DS83C530/DS87C530 SPECIAL FUNCTION REGISTERS 
+Optional Symbols:  Control Bits 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+                0x80    0x40    0x20    0x10
+                0x08    0x04    0x02    0x10
+                ----    ----    ----    ----
+DPS     0x80                                        0x10
+        0x08                            SEL         0x01
+PCON    0x80    SMOD_0  SMOD0                       0x10
+        0x08    GF1     GF0     STOP    IDLE        0x01
+TMOD    0x80    T1GATE  T1C_T   T1M1    T1M0        0x10
+        0x08    T0GATE  T0C_T   T0M1    T0M0        0x01
+CKCON   0x80    WD1     WD0     T2M     T1M         0x10
+        0x08    T0M     MD2     MD1     MD0         0x01
+EXIF    0x80    IE5     IE4     IE3     IE          0x10
+        0x08    XT_RG   RGMD    RGSL    BGS         0x01
+TRIM    0x80    E4K     X12_6   TRM2    _TRM2       0x10
+        0x08    TRM1    _TRM1   TRM0    _TRM0       0x01
+SBUF1   0x80    SB7     SB6     SB5     SB4         0x10
+        0x08    SB3     SB2     SB1     SB0         0x01
+ROMSIZE 0x80                                        0x10
+        0x08            RMS2    RMS1    RMS0        0x01
+PMR     0x80    CD1     CD0     SWB                 0x10
+        0x08    XTOFF   ALEOFF  DME1    DME0        0x01
+STATUS  0x80    PIP     HIP     LIP     XTUP        0x10
+        0x08    SPTA1   SPRA1   SPTA0   SPRA0       0x01
+T2MOD   0x80                                        0x10
+        0x08                    T2OE    DCEN        0x01
+RTCC    0x80    SSCE    SCE     MCE     HCE         0x10
+        0x08    RTCRE   RTCWE   RTCIF   RTCE        0x01
+
+        Alternates:
+
+PCON    0x80    SMOD                                0x10
+        0x08                                        0x01
+
+
+DS83C550/DS87C550 SPECIAL FUNCTION REGISTERS 
+
+   The DS83C550/DS87C550 Special Function Registers are selected
+using the .DS83C550 or DS87C550 assembler directives.  
+
+
+DS83C550/DS87C550 SPECIAL FUNCTION REGISTERS 
+SFR Map 
+
+                --------- 4 Bytes ----------
+                ----    ----    ----    ----
+        80      PORT0   SP      DPL     DPH         83
+        84      DPL1    DPH1    DPS     PCON        87
+        88      TCON    TMOD    TL0     TL1         8B
+        8C      TH0     TH1     CKCON               8F
+        90      PORT1   RCON                        93
+        94                                          97
+        98      SCON0   SBUF0                       9B
+        9C                              PMR         9F
+        A0      PORT2   SADDR0  SADDR1              A3
+        A4                                          A7
+        A8      IE      CMPL0   CMPL1   CMPL2       AB
+        AC      CPTL0   CPTL1   CPTL2   CPTL3       AF
+        B0      PORT3           ADCON1  ADCON2      B3
+        B4      ADMSB   ADLSD   WINHI   WINLO       B7
+        B8      IP      SADEN0  SADEN1              BB
+        BC                      T2CON   T2MOD       BF
+        C0      PORT4           ROMSIZE             C3
+        C4      PORT5   STATUS          TA          C7
+        C8      T2IR    CMPH0   CMPH1   CMPH2       CB
+        CC      CPTH0   CPTH1   CPTH2   CPTH3       CF
+        D0      PSW             PW0FG   PW1FG       D3
+        D4      PW2FG   PW3FG   PWMADR              D7
+        D8      SCON1   SBUF1                       DB
+        DC      PWM0    PWM1    PWM2    PWM3        DF
+        E0      ACC     PW01CS  PW23CS  PW01CON     E3
+        E4      PW23CON         RLOADL  RLOADH      E7
+        E8      EIE             T2SEL   CTCON       EB
+        EC      TL2     TH2     SETR    RSTR        EF
+        F0      B       PORT6                       F3
+        F4                                          F7
+        F8      EIP                                 FB
+        FC                              WDCON       FF
+
+        Alternates:
+
+        80      P0                                  83
+        90      P1                                  93
+        98      SCON    SBUF                        9B
+        A0      P2                                  A3
+        B0      P3                                  B3
+        C0      P4                                  C3
+        C4      P5                                  C7
+        F0              PORT6                       F3
+
+
+DS83C550/DS87C550 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Generic 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+PORT0   80      P0.7    P0.6    P0.5    P0.4        83
+        84      P0.3    P0.2    P0.1    P0.0        87
+TCON    88      TCON.0  TCON.1  TCON.2  TCON.3      8B
+        8C      TCON.4  TCON.5  TCON.6  TCON.7      8F
+PORT1   90      P1.0    P1.1    P1.2    P1.3        93
+        94      P1.4    P1.5    P1.6    P1.7        97
+SCON0   98      SCON0.0 SCON0.1 SCON0.2 SCON0.3     9B
+        9C      SCON0.4 SCON0.5 SCON0.6 SCON0.7     9F
+PORT2   A0      P2.0    P2.1    P2.2    P2.3        A3
+        A4      P2.4    P2.5    P2.6    P2.7        A7
+IE      A8      IE.0    IE.1    IE.2    IE.3        AB
+        AC      IE.4    IE.5    EI.6    IE.7        AF
+PORT3   B0      P3.0    P3.1    P3.2    P3.3        B3
+        B4      P3.4    P3.5    P3.6    P3.7        B7
+IP      B8      IP.0    IP.1    IP.2    IP.3        BB
+        BC      IP.4    IP.5    IP.6    IP.7        BF
+PORT4   C0      P4.0    P4.1    P4.2    P4.3        C3
+        C4      P4.4    P4.5    P4.6    P4.7        C7
+T2IR    C8      T2IR.0  T2IR.1  T2IR.2  T2IR.3      CB
+        CC      T2IR.4  T2IR.5  T2IR.6  T2IR.7      CF
+PSW     D0      PSW.0   PSW.1   PSW.2   PSW.3       D3
+        D4      PSW.4   PSW.5   PSW.6   PSW.7       D7
+SCON1   D8      SCON1.0 SCON1.1 SCON1.2 SCON1.3     DB
+        DC      SCON1.4 SCON1.5 SCON1.6 SCON1.7     DF
+ACC     E0      ACC.0   ACC.1   ACC.2   ACC.3       E3
+        E4      ACC.4   ACC.5   ACC.6   ACC.7       E7
+EIE     E8      EIE.0   EIE.1   EIE.2   EIE.3       EB
+        EC      EIE.4   EIE.5   EIE.6   EIE.7       EF
+B       F0      B.0     B.1     B.2     B.3         F3
+        F4      B.4     B.5     B.6     B.7         F7
+EIP     F8      EIP.0   EIP.1   EIP.2   EIP.3       FB
+        FC      EIP.4   EIP.5   EIP.6   EIP.7       FF
+
+                Alternates:
+
+PORT0   80      PORT0.7 PORT0.6 PORT0.5 PORT0.4     83
+        84      PORT0.3 PORT0.2 PORT0.1 PORT0.0     87
+PORT1   90      PORT1.0 PORT1.1 PORT1.2 PORT1.3     93
+        94      PORT1.4 PORT1.5 PORT1.6 PORT1.7     97
+SCON    98      SCON.0  SCON.1  SCON.2  SCON.3      9B
+        9C      SCON.4  SCON.5  SCON.6  SCON.7      9F
+PORT2   A0      PORT2.0 PORT2.1 PORT2.2 PORT2.3     A3
+        A4      PORT2.4 PORT2.5 PORT2.6 PORT2.7     A7
+PORT3   B0      PORT3.0 PORT3.1 PORT3.2 PORT3.3     B3
+        B4      PORT3.4 PORT3.5 PORT3.6 PORT3.7     B7
+PORT4   C0      PORT4.0 PORT4.1 PORT4.2 PORT4.3     C3
+        C4      PORT4.4 PORT4.5 PORT4.6 PORT4.7     C7
+
+
+DS83C550/DS87C550 SPECIAL FUNCTION REGISTERS 
+Bit Addressable Registers:  Specific 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+        80                                          83
+        84                                          87
+TCON    88      IT0     IE0     IT1     IE1         8B
+        8C      TR0     TF0     TR1     TF1         8F
+        90                                          93
+        94                                          97
+SCON0   98      RI_0    TI_0    RB8_0   TB8_0       9B
+        9C      REN_0   SM2_0   SM1_0   SMO_0       9F
+        A0                                          A3
+        A4                                          A7
+IE      A8      EX0     ET0     EX1     ET1         AB
+        AC      ES0     ET2     ES1     EA          AF
+        B0                                          B3
+        B4                                          B7
+IP      B8      PX0     PT0     PX1     PT1         BB
+        BC      PS0     PS1     PAD                 BF
+PORT4   C0      CMSR0   CMSR1   CMSR2   CMSR3       C3
+        C4      CMSR4   CMSR5   CMT0    CMT1        C7
+T2IR    C8      CF0     CF1     CF2     CF3         CB
+        CC      CM0F    CM1F    CM2F                CF
+PSW     D0      P       FL      OV      RS0         D3
+        D4      RS1     F0      AC      CY          D7
+SCON1   D8      RI_1    TI_1    RB8_1   TB8_1       DB
+        DC      REN_1   SM2_1   SM1_1   SMO_1       DF
+        E0                                          E3
+        E4                                          E7
+EIE     E8      EX2     EX3     EX4     EX5         EB
+        EC      ECM0    ECM1    ECM2    ET2         EF
+        F0                                          F3
+        F4                                          F7
+EIP     F8      PX2     PX3     PX4     PX5         FB
+        FC      PCM0    PCM1    PCM2    PT2         FF
+
+        Alternates:
+
+SCON    98      RI      TI      RB8     TB8         9B
+        9C      REN     SM2     SM1     SMO         9F
+SCON    98                                          9B
+        9C                              FE          9F
+SCON0   98                                          9B
+        9C                              FE_0        9F
+T2IR    C8      IE2     IE3     IE4     IE5         CB
+        CC                                          CF
+SCON1   D8                                          DB
+        DC                              FE_1        DF
+EIE     E8      EC0     EC1     EC2     EC3         EB
+        EC                                          EF
+EIP     F8      PC0     PC1     PC2     PC3         FB
+        FC                                          FF
+
+
+DS83C550/DS87C550 SPECIAL FUNCTION REGISTERS 
+Optional Symbols:  Control Bits 
+
+                ---------- 4 BITS ----------
+                ----    ----    ----    ----
+                0x80    0x40    0x20    0x10
+                0x08    0x04    0x02    0x10
+                ----    ----    ----    ----
+DPS     0x80    ID1     ID0     TSL                 0x10
+        0x08                            SEL         0x01
+PCON    0x80    SMOD_0  SMOD0                       0x10
+        0x08    GF1     GF0     STOP    IDLE        0x01
+TMOD    0x80    T1GATE  T1C_T   T1M1    T1M0        0x10
+        0x08    T0GATE  T0C_T   T0M1    T0M0        0x01
+CKCON   0x80    WD1     WD0     T2M     T1M         0x10
+        0x08    T0M     MD2     MD1     MD0         0x01
+RCON    0x80                                        0x10
+        0x08    CKRDY   RGMD    RGSL    BGS         0x01
+PMR     0x80    CD1     CD0     SWB     CTM         0x10
+        0x08    4X_2X   ALEOFF  DEM1    DEM0        0x01
+ADCON1  0x80   STRT_BSY EOC     CONT_SS ADEX        0x10
+        0x08    WCQ     WCM     ADON    WCIO        0x01
+ADCON2  0x80    OUTCF   MUX2    MUX1    MUX0        0x10
+        0x08    APS3    APS2    APS1    APS0        0x01
+T2CON   0x80    TF2     EXF2    RCLK    TCLK        0x10
+        0x08    EXEN2   TR2     CT2     CPRL2       0x01
+T2MOD   0x80                                        0x10
+        0x08                    T2OE    DCEN        0x01
+PORT5   0x80    ADC7    ADC6    ADC5    ADC4        0x10
+        0x08    ADC3    ADC2    ADC1    ADC0        0x01
+ROMSIZE 0x80                                        0x10
+        0x08            RMS2    RMS1    RMS0        0x01
+STATUS  0x80    PIP     HIP     LIP     XTUP        0x10
+        0x08    SPTA1   SPRA1   SPTA0   SPRA0       0x01
+PWMADR  0x80    ADRS                                0x10
+        0x08                    PWE1    PWE0        0x01
+PW01CS  0x80    PW0S2   PW0S1   PW0S0   PW0EN       0x10
+        0x08    PW1S2   PW1S1   PW1S0   PW1EN       0x01
+PW23CS  0x80    PW2S2   PW2S1   PW2S0   PW2EN       0x10
+        0x08    PW3S2   PW3S1   PW3S0   PW3EN       0x01
+PW01CON 0x80    PW0F    PW0DC   PW0OE   PW0T_C      0x10
+        0x08    PW1F    PW1DC   PW1OE   PW1T_C      0x01
+PW23CON 0x80    PW2F    PW2DC   PW2OE   PW2T_C      0x10
+        0x08    PW3F    PW3DC   PW3OE   PW3T_C      0x01
+T2SEL   0x80    TF2S    TF2BS           TF2B        0x10
+        0x08                    T2P1    T2P0        0x01
+CTCON   0x80    _CT3    CT3     _CT2    CT2         0x10
+        0x08    _CT1    CT1     _CT0    CT0         0x01
+SETR    0x80    TGFF1   TGFF0   CMS5    CMS4       0x10
+        0x08    CMS3    CMS2    CMS1    CMS0        0x01
+RSTR    0x80    CMTE1   CMTE0   CMR5    CMR4        0x10
+        0x08    CMR3    CMR2    CMR1    CMR0        0x01
+PORT6   0x80    STADC           PWMC1   PWMC0       0x10
+        0x08    PWMO3   PWMO2   PWMO1   PWMO0       0x01
+WDCON   0x80    SMOD_1  POR     EPF1    PF1         0x10
+        0x08    WDIF    WTRF    EWT     RWT         0x01
+
+        Alternates:
+
+PCON    0x80    SMOD                                0x10
+        0x08                                        0x01
+T2CON   0x80                                        0x10
+        0x08                    C_T2    _RL2        0x01
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

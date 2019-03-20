@@ -1,0 +1,6 @@
+*\ *
+*.o
+*.exe
+binutils/ranlib
+as-5.?.?/asxmak/*/build/*
+as-5.?.?/asxmak/*/exe/*

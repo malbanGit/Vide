@@ -1,0 +1,58 @@
+	.sbttl	System Definitions
+
+	; These absolute addresses are used to access the various
+	; i/o devices in the system.
+
+					; BYTE read/write
+	sys$clk		==	0x7F00	; system clock
+					; <7>	- clock ready
+					; <6>	- clock interrupt enable
+	sys$wait	==	0x7F00	; acquisition inhibit
+					; <5>	- !(external inhibit)
+	sys$id		==	0x7F00	; system code number
+					; <3:0>	- communication channel
+
+					; BYTE read/write
+	clr$clk		==	0x7F01	; clear clock interrupt / ready
+
+					; WORD read/write
+	acq$dac		==	0x7F02	; LED driver pulse amplitude DAC
+					; <11:0>
+
+					; BYTE read/write
+	acq$slct	==	0x7F04	; acquisition select
+					; <7:0>	- selection code / mode
+					; <7>	- enable LED pulsing
+					; <5> = 0	- enable channel
+					;	<4:0>	- select 1 of the 32
+					;		  input channnels
+					;		  and corresponding
+					;		  pulsing channels
+					; <5> = 1	- enable temperature
+					;	<4>	- enable pulsing
+					;	<3:0>	- don't care
+
+					; WORD read only
+	acq$wait	==	0x7F06	; acquisition inhibit
+					; <15>	- external inhibit
+					; WORD read only
+	acq$adc		==	0x7F06	; pulse height acquisition ADC
+					; <9:0>
+
+					; BYTE read/write
+	sys$ser0	==	0x7F08	; 6850 serial port #0
+
+					; BYTE read/write
+	sys$ser1	==	0x7F0A	; 6850 serial port #1
+
+					; BYTE read/write
+	sys$ser2	==	0x7F0C	; 6850 serial port #2
+
+
+					; BYTE read/write
+	sys$led		==	0x7F20	; LED control and status registers
+					; 32 LED control and status registers
+					; begin at this address
+					; <1>	-	green LED control
+					; <0>	-	red   LED control
+

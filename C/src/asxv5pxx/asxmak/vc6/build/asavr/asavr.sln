@@ -1,0 +1,10 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{059D6162-CD51-11D0-AE1F-00A0C90FFFC3}") = "asavr", "asavr.dsp", "{D44BBB77-A4D2-4F5F-8605-7E20BA6D11EF}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

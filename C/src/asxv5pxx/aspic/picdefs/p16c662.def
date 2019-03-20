@@ -1,0 +1,186 @@
+        .LIST
+; P16C662.INC  Standard Header File, Version 1.01    Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC16C662 microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.  
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PIC16C662
+;       2. LIST directive in the source file
+;               LIST   P=PIC16C662
+;       3. Processor Type entry in the MPASM full-screen interface
+
+;==========================================================================
+;
+;       Revision History
+;
+;==========================================================================
+
+;Rev:   Date:    Reason:
+
+;1.00   11/12/96 Initial Release
+;1.01   12/18/96 Modified per review
+
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __16C662
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+W                            =:     0x0000
+F                            =:     0x0001
+
+;----- Register Files------------------------------------------------------
+
+INDF                         =:     0x0000
+TMR0                         =:     0x0001
+PCL                          =:     0x0002
+STATUS                       =:     0x0003
+FSR                          =:     0x0004
+PORTA                        =:     0x0005
+PORTB                        =:     0x0006
+PORTC					     =:     0x0007
+PORTD					     =:     0x0008
+PORTE                        =:     0x0009
+PCLATH                       =:     0x000A
+INTCON                       =:     0x000B
+PIR1                         =:     0x000C
+
+CMCON                        =:     0x001F
+
+OPTION_REG                   =:     0x0081
+
+TRISA                        =:     0x0085
+TRISB                        =:     0x0086
+TRISC			    		 =:     0x0087
+TRISD                        =:     0x0088
+TRISE                        =:     0x0089
+PIE1                         =:     0x008C
+
+PCON                         =:     0x008E
+
+VRCON                        =:     0x009F
+
+;----- STATUS Bits --------------------------------------------------------
+
+IRP                          =:     0x0007
+RP1                          =:     0x0006
+RP0                          =:     0x0005
+NOT_TO                       =:     0x0004
+NOT_PD                       =:     0x0003
+Z                            =:     0x0002
+DC                           =:     0x0001
+C                            =:     0x0000
+
+;----- INTCON Bits --------------------------------------------------------
+
+GIE                          =:     0x0007
+PEIE                         =:     0x0006
+T0IE                         =:     0x0005
+INTE                         =:     0x0004
+RBIE                         =:     0x0003
+T0IF                         =:     0x0002
+INTF                         =:     0x0001
+RBIF                         =:     0x0000
+
+;----- PIR1 Bits ----------------------------------------------------------
+
+PSPIF					     =:     0x0007
+CMIF                         =:     0x0006
+
+;----- CMCON Bits ---------------------------------------------------------
+
+C2OUT                        =:     0x0007
+C1OUT                        =:     0x0006
+CIS                          =:     0x0003
+CM2                          =:     0x0002
+CM1                          =:     0x0001
+CM0                          =:     0x0000
+
+;----- OPTION Bits --------------------------------------------------------
+
+NOT_RBPU                     =:     0x0007
+INTEDG                       =:     0x0006
+T0CS                         =:     0x0005
+T0SE                         =:     0x0004
+PSA                          =:     0x0003
+PS2                          =:     0x0002
+PS1                          =:     0x0001
+PS0                          =:     0x0000
+
+;----- PIE1 Bits ----------------------------------------------------------
+
+PSPIE			     =:     0x0007
+CMIE                         =:     0x0006
+
+;----- PCON Bits ----------------------------------------------------------
+
+MPEEN					     =:     0x0007
+NOT_PER                      =:     0x0002
+NOT_POR                      =:     0x0001
+NOT_BO                       =:     0x0000
+NOT_BOR                      =:     0x0000
+
+;----- VRCON Bits ---------------------------------------------------------
+
+VREN                         =:     0x0007
+VROE                         =:     0x0006
+VRR                          =:     0x0005
+VR3                          =:     0x0003
+VR2                          =:     0x0002
+VR1                          =:     0x0001
+VR0                          =:     0x0000
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+        .MAXRAM 0xFF
+        .BADRAM 0x0D:0x1E, 0x8D, 0x8F:0x9E
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;==========================================================================
+
+_CP_ALL                      =:     0x00CF
+_CP_75                       =:     0x15DF
+_CP_50                       =:     0x2AEF
+_CP_OFF                      =:     0x3FFF
+
+_LP_OSC                      =:     0x3FFC
+_XT_OSC                      =:     0x3FFD
+_HS_OSC                      =:     0x3FFE
+_RC_OSC                      =:     0x3FFF
+
+_WDT_ON                      =:     0x3FFF
+_WDT_OFF                     =:     0x3FFB
+
+_PWRTE_OFF                   =:     0x3FFF
+_PWRTE_ON                    =:     0x3FF7
+
+_BODEN_ON                    =:     0x3FFF
+_BODEN_OFF                   =:     0x3FBF
+
+_MPEEN_ON				     =:     0x3FFF
+_MPEEN_OFF                   =:     0x3F7F
+
+        .LIST

@@ -1,0 +1,16 @@
+..\build\asdata.OBJ+
+..\build\asdbg.OBJ+
+..\build\asexpr.OBJ+
+..\build\aslex.OBJ+
+..\build\aslist.OBJ+
+..\build\asmain.OBJ+
+..\build\asmcro.OBJ+
+..\build\asout.OBJ+
+..\build\assubr.OBJ+
+..\build\assym.OBJ+
+..\build\m16adr.OBJ+
+..\build\m16mch.OBJ+
+..\build\m16pst.OBJ
+..\exe\$SCW$.EXE
+NUL
+  

@@ -1,0 +1,49 @@
+# Symantec SC++ generated .dpd file. V: 7200
+..\build\lkarea.OBJ: \
+	..\..\..\linksrc\lkarea.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lkbank.OBJ: \
+	..\..\..\linksrc\lkbank.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lkdata.OBJ: \
+	..\..\..\linksrc\lkdata.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lkeval.OBJ: \
+	..\..\..\linksrc\lkeval.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lkhead.OBJ: \
+	..\..\..\linksrc\lkhead.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lklex.OBJ: \
+	..\..\..\linksrc\lklex.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lklibr.OBJ: \
+	..\..\..\linksrc\lklibr.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lklist.OBJ: \
+	..\..\..\linksrc\lklist.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lkmain.OBJ: \
+	..\..\..\linksrc\lkmain.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lknoice.OBJ: \
+	..\..\..\linksrc\lknoice.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lkout.OBJ: \
+	..\..\..\linksrc\lkout.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lkrloc.OBJ: \
+	..\..\..\linksrc\lkrloc.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lksdcdb.OBJ: \
+	..\..\..\linksrc\lksdcdb.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lksym.OBJ: \
+	..\..\..\linksrc\lksym.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lkrloc3.OBJ: \
+	..\..\..\linksrc\lkrloc3.c \
+	..\..\..\LINKSRC\aslink.h 
+..\build\lkrloc4.OBJ: \
+	..\..\..\linksrc\lkrloc4.c \
+	..\..\..\LINKSRC\aslink.h 

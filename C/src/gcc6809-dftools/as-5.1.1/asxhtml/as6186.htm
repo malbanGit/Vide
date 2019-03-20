@@ -1,0 +1,359 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>AS61860  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+ACKNOWLEDGMENT 
+
+
+     Thanks  to  Edgar  Puehringer  for  his contribution of the
+AS61860 cross assembler.  
+
+        Edgar Peuhringer
+        edgar_pue at yahoo dot com
+
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+61860 REGISTER SET 
+     
+The  SC61860  from  Sharp has 96 bytes of internal RAM which are
+used as registers and hardware stack.  The last  four  bytes  of
+the  internal  RAM  are  special  purpose registers (I/O, timers
+...).  Here is a list of the 61860 registers:  
+
+        Reg     Address         Common use
+        ---     -------         ----------
+        i, j    0, 1            Length of block operations
+        a, b    2, 3            Accumulator       
+        xl, xh  4, 5            Pointer for read operations
+        yl, yh  6, 7            Pointer for write operations
+        k - n   8 - 0x0b        General purpose (counters ...)
+          -     0x0c - 0x5b     Stack
+        ia      0x5c            Inport A
+        ib      0x5d            Inport B
+        fo      0x5e            Outport F
+        cout    0x5f            Control port
+
+
+     Other  parts  of  the  61860 are the 16 bit program counter
+(pc) and 16 bit data pointer (dp).  The ALU has a carry flag (c)
+and  a  zero  flag  (z).   There is an internal register d which
+can't be accessed with machine instructions.  It is filled  from
+i or j when executing block operations.  
+
+     In  addition  there  are  three 7 bit registers p, q, and r
+which are used to address the  internal  RAM  (r  is  the  stack
+pointer, p and q are used for block operations).  
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+PROCESSOR SPECIFIC DIRECTIVES 
+
+     The  AS61860 cross assembler has two (2) processor specific
+assembler directives which are used for the etc mnemonic  (which
+is a kind of a built-in switch/case statement):  
+
+        .default        A 16 bit address (same as .dw)
+        .case           One byte followed by a 16 bit address
+
+Here is an example how this should be used (cut from a lst
+file):
+
+   022B 7A 05 02 18         614         PTC     0x05,   CONT16
+   022F 69                  615         DTC
+   0230 4C 01 25            616         .CASE   0x4C,   SLOADI
+   0233 4D 01 2F            617         .CASE   0x4D,   SMERGI
+   0236 51 01 D2            618         .CASE   0x51,   QUITI   
+   0239 53 00 CD            619         .CASE   0x53,   LLISTI
+   023C 56 01 D5            620         .CASE   0x56,   VERI
+   023F 01 D1               621         .DEFAULT        CONT9
+
+</PRE></B></H4>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+61860 INSTRUCTION SET 
+
+     The following tables list all 61860 family mnemonics recog-
+nized by the AS61860 assembler.  Most of the mnemonics are  con-
+verted  into  8  bit  machine instructions with no argument or a
+one- or two-byte argument.  There are some exceptions for this: 
+
+        Mnemonic        Description
+        --------        -----------
+        jp              2 bit instruction, 6 bit argument
+        cal             3 bit instruction, 13 bit argument
+        ptc *)          1 byte instruction, 3 byte argument
+        dtc *)          1 byte instruction, n bytes argument
+ 
+        *) Not mentioned in the CPU specification from Sharp
+
+
+Load Immediate Register 
+
+        LII n           (n --> I)
+        LIJ n
+        LIA n
+        LIB n
+        LIP n
+        LIQ n
+        LIDP nm
+        LIDL n          (DL is the low byte of DP)
+        LP              (One byte version of LIP)
+        RA              (Same as LIA 0, but only one byte)
+        CLRA            (synonym for RA)
+
+
+Load Accumulator 
+
+        LDP             (P --> A)
+        LDQ
+        LDR
+        LDM             ((P) --> A)
+        LDD             ((DP) --> A)
+
+
+Store Accumulator 
+
+        STP             (A --> P)
+        STQ
+        STR
+        STD             (A --> (DP))
+
+
+Move Data 
+
+        MVDM            ((P) --> (DP))
+        MVMD            ((DP) --> (P))
+
+
+Exchange Data 
+
+        EXAB            (A <--> B)
+        EXAM            (A <--> (P))
+
+
+Stack Operations 
+
+        PUSH            (R - 1 --> R, A --> (R))
+        POP             ((R) --> A, R + 1 --> R)
+        LEAVE           (0 --> (R))
+
+
+Block Move Data 
+
+        MVW             ((Q) --> (P), I+1 bytes)
+        MVB             ((Q) --> (P), J+1 bytes)
+        MVWD            ((DP) --> (P), I+1 bytes)
+        MVBD            ((DP) --> (P), J+1 bytes)
+        DATA            ((B,A) --> (P), I+1 bytes,
+                        reads CPU ROM also)
+
+
+Block Exchange Data 
+
+        EXW             ((Q) <--> (P), I+1 bytes)
+        EXB             ((Q) <--> (P), J+1 bytes)
+        EXWD            ((DP) <--> (P), I+1 bytes)
+        EXBD            ((DP) <--> (P), J+1 bytes)
+
+
+Increment and Decrement 
+
+        INCP            (P + 1 --> P)
+        DECP
+        INCI
+        DECI
+        INCJ
+        DECJ
+        INCA
+        DECA
+        INCB
+        DECB
+        INCK
+        DECK
+        INCL
+        DECL
+        IX              (X + 1 --> X, X --> DP)
+        DX
+        IY
+        DY
+        INCM *)
+        DECM *)
+        INCN *)
+        DECN *)
+
+        *) Not mentioned in the CPU specification from Sharp
+
+
+Increment/Decrement with Load/Store 
+
+        IXL             (Same as IX plus LDD)
+        DXL
+        IYS             (Same as IY plus STD)
+        DYS
+
+
+Fill 
+
+        FILM            (A --> (P), I+1 bytes)
+        FILD            (A --> (DP), I+1 bytes)
+
+
+Addition and Subtraction 
+
+        ADIA n          (A + n --> A)
+        SBIA n
+        ADIM n          ((P) + n --> (P))
+        SBIM n
+        ADM n           ((P) + A --> (P))
+        SBM n
+        ADCM n          ((P) + A --> (P), with carry)
+        SBCM
+        ADB             (like ADM, but 16 bit)
+        SBB
+        ADN             (like ADM, BCD addition, I+1 bytes)
+        SBN
+        ADW             ((P) + (Q) --> (P), BCD, I+1 bytes)
+        SBW
+
+
+Shift Operations 
+
+        SRW             (shift I+1 bytes in (P) 4 bits right)
+        SLW
+        SR              (shift A 1 bit, with carry)
+        SL
+        SWP             (exchange low and high nibble of A)
+
+
+Boolean Operations 
+
+        ANIA n          (A & n --> A)
+        ORIA n
+        ANIM n          ((P) & n --> (P))
+        ORIM n
+        ANID n          ((DP) & n --> (DP))
+        ORID n
+        ANMA            ((P) & A --> (P))
+        ORMA
+
+
+Compare 
+
+        CPIA n          (A - n --> c,z)
+        CPIM n          ((P) - n --> c,z)
+        CPMA            ((P) - A --> c,z)
+        TSIA n          (A & n --> z)
+        TSIM n          ((P) & n --> z)
+        TSID n          ((DP) & n --> z)
+        TSIP            ((P) & A --> z)
+
+
+CPU Control 
+
+        SC              (Set carry)
+        RC
+        NOPW            (no op)
+        NOPT
+        WAIT n          (wait 6+n cycles)
+        WAITJ           (wait 5+4*I cycles)
+        CUP             (synonym for WAITJ)
+
+
+Absolute Jumps 
+
+        JP nm
+        JPZ nm          (on zero)
+        JPNZ nm
+        JPC nm
+        JPNC nm
+        PTC/DTC         (see 'Processor Specific Directives')
+        PTJ/DTJ         (synonym for PTD/DTC)
+        CPCAL/DTLRA     (synonym for PTC/DTC)
+        CASE1/CASE2     (synonym for PTC/DTC)
+        SETT/JST        (synonym for PTC/DTC)
+
+
+Relative Jumps 
+
+     These  operations  handle a jump relative to PC forward and
+back with  a  maximum  distance  of  255  byte.   The  assembler
+resolves 16 bit  addresses to 8 bit  relative  adresses.  If the
+target address is to far away, an error will be generated.  Note
+that relative jumps need 1 byte less than absolute jumps.  
+
+        JRP nm
+        JRZP nm
+        JRNZP nm        (jump relative non zero plus direction)
+        JRCP nm
+        JRNCP nm
+        JRM nm
+        JRZM nm
+        JRNZM nm
+        JRCM nm         (jump relative on carry minus direction)
+        JRNCM nm
+        LOOP nm         (decrements (R) and makes a JRNCM)
+
+
+Calls 
+
+        CALL nm
+        CAL nm          (nm must be <= 0x1fff,
+                        1 byte less code than CALL)
+        RTN
+
+
+Input and output 
+
+        INA             (IA --> A)
+        INB
+        OUTA
+        OUTB
+        OUTF            (A --> FO)
+        OUTC            (control port)
+        TEST n          (timers, pins & n --> z)
+
+
+Unknown Commands 
+
+        READ            ((PC+1) -> A)
+        READM           ((PC+1) -> (P))
+        WRIT            (???)
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

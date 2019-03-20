@@ -1,125 +1,72 @@
-                              1 
-                              2 ;;; gcc for m6809 : Feb 15 2016 21:40:10
-                              3 ;;; 4.3.6 (gcc6809)
-                              4 ;;; ABI version 1
-                              5 ;;; -mint8
-                              6 	.module	vec_rum_0xf1.c
-                              7 ;----- asm -----
-                              8 	.bank page_f1 (BASE=0xf14c,SIZE=0x00b4)
-                              9 	.area .0xf1 (OVR,BANK=page_f1)
-                             10 	
-                             11 ;--- end asm ---
-                             12 	.globl ___Init_VIA
-                             13 	.area	.0xf1
-   0000                      14 ___Init_VIA:
-   0000 00 00                15 	.word	0	;skip space 24
-   0002 00 00                16 	.word	0	;skip space 22
-   0004 00 00                17 	.word	0	;skip space 20
-   0006 00 00                18 	.word	0	;skip space 18
-   0008 00 00                19 	.word	0	;skip space 16
-   000A 00 00                20 	.word	0	;skip space 14
-   000C 00 00                21 	.word	0	;skip space 12
-   000E 00 00                22 	.word	0	;skip space 10
-   0010 00 00                23 	.word	0	;skip space 8
-   0012 00 00                24 	.word	0	;skip space 6
-   0014 00 00                25 	.word	0	;skip space 4
-   0016 00 00                26 	.word	0	;skip space 2
-                             27 	.globl ___Init_OS_RAM
-   0018                      28 ___Init_OS_RAM:
-   0018 00 00                29 	.word	0	;skip space 39
-   001A 00 00                30 	.word	0	;skip space 37
-   001C 00 00                31 	.word	0	;skip space 35
-   001E 00 00                32 	.word	0	;skip space 33
-   0020 00 00                33 	.word	0	;skip space 31
-   0022 00 00                34 	.word	0	;skip space 29
-   0024 00 00                35 	.word	0	;skip space 27
-   0026 00 00                36 	.word	0	;skip space 25
-   0028 00 00                37 	.word	0	;skip space 23
-   002A 00 00                38 	.word	0	;skip space 21
-   002C 00 00                39 	.word	0	;skip space 19
-   002E 00 00                40 	.word	0	;skip space 17
-   0030 00 00                41 	.word	0	;skip space 15
-   0032 00 00                42 	.word	0	;skip space 13
-   0034 00 00                43 	.word	0	;skip space 11
-   0036 00 00                44 	.word	0	;skip space 9
-   0038 00 00                45 	.word	0	;skip space 7
-   003A 00 00                46 	.word	0	;skip space 5
-   003C 00 00                47 	.word	0	;skip space 3
-   003E 00                   48 	.byte	0	;skip space
-                             49 	.globl ___Init_OS
-   003F                      50 ___Init_OS:
-   003F 00 00                51 	.word	0	;skip space 7
-   0041 00 00                52 	.word	0	;skip space 5
-   0043 00 00                53 	.word	0	;skip space 3
-   0045 00                   54 	.byte	0	;skip space
-                             55 	.globl ___Wait_Recal
-   0046                      56 ___Wait_Recal:
-   0046 00 00                57 	.word	0	;skip space 24
-   0048 00 00                58 	.word	0	;skip space 22
-   004A 00 00                59 	.word	0	;skip space 20
-   004C 00 00                60 	.word	0	;skip space 18
-   004E 00 00                61 	.word	0	;skip space 16
-   0050 00 00                62 	.word	0	;skip space 14
-   0052 00 00                63 	.word	0	;skip space 12
-   0054 00 00                64 	.word	0	;skip space 10
-   0056 00 00                65 	.word	0	;skip space 8
-   0058 00 00                66 	.word	0	;skip space 6
-   005A 00 00                67 	.word	0	;skip space 4
-   005C 00 00                68 	.word	0	;skip space 2
-                             69 	.globl ___DP_to_D0
-   005E                      70 ___DP_to_D0:
-   005E 00 00                71 	.word	0	;skip space 5
-   0060 00 00                72 	.word	0	;skip space 3
-   0062 00                   73 	.byte	0	;skip space
-                             74 	.globl ___DP_to_C8
-   0063                      75 ___DP_to_C8:
-   0063 00 00                76 	.word	0	;skip space 5
-   0065 00 00                77 	.word	0	;skip space 3
-   0067 00                   78 	.byte	0	;skip space
-                             79 	.globl ___Read_Btns_Mask
-   0068                      80 ___Read_Btns_Mask:
-   0068 00 00                81 	.word	0	;skip space 6
-   006A 00 00                82 	.word	0	;skip space 4
-   006C 00 00                83 	.word	0	;skip space 2
-                             84 	.globl ___Read_Btns
-   006E                      85 ___Read_Btns:
-   006E 00 00                86 	.word	0	;skip space 59
-   0070 00 00                87 	.word	0	;skip space 57
-   0072 00 00                88 	.word	0	;skip space 55
-   0074 00 00                89 	.word	0	;skip space 53
-   0076 00 00                90 	.word	0	;skip space 51
-   0078 00 00                91 	.word	0	;skip space 49
-   007A 00 00                92 	.word	0	;skip space 47
-   007C 00 00                93 	.word	0	;skip space 45
-   007E 00 00                94 	.word	0	;skip space 43
-   0080 00 00                95 	.word	0	;skip space 41
-   0082 00 00                96 	.word	0	;skip space 39
-   0084 00 00                97 	.word	0	;skip space 37
-   0086 00 00                98 	.word	0	;skip space 35
-   0088 00 00                99 	.word	0	;skip space 33
-   008A 00 00               100 	.word	0	;skip space 31
-   008C 00 00               101 	.word	0	;skip space 29
-   008E 00 00               102 	.word	0	;skip space 27
-   0090 00 00               103 	.word	0	;skip space 25
-   0092 00 00               104 	.word	0	;skip space 23
-   0094 00 00               105 	.word	0	;skip space 21
-   0096 00 00               106 	.word	0	;skip space 19
-   0098 00 00               107 	.word	0	;skip space 17
-   009A 00 00               108 	.word	0	;skip space 15
-   009C 00 00               109 	.word	0	;skip space 13
-   009E 00 00               110 	.word	0	;skip space 11
-   00A0 00 00               111 	.word	0	;skip space 9
-   00A2 00 00               112 	.word	0	;skip space 7
-   00A4 00 00               113 	.word	0	;skip space 5
-   00A6 00 00               114 	.word	0	;skip space 3
-   00A8 00                  115 	.byte	0	;skip space
-                            116 	.globl ___Joy_Analog
-   00A9                     117 ___Joy_Analog:
-   00A9 00 00               118 	.word	0	;skip space 3
-   00AB 00                  119 	.byte	0	;skip space
-                            120 	.globl ___Joy_Digital
-   00AC                     121 ___Joy_Digital:
-   00AC 00                  122 	.byte	0	;skip space
+                              1 ;;; gcc for m6809 : Mar 11 2019 13:34:05
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O2
+                              5 	.module	vec_rum_0xf1.c
+                              6 ;----- asm -----
+                              7 	.bank page_f1 (BASE=0xf14c,SIZE=0x00b4)
+                              8 	.area .0xf1 (OVR,BANK=page_f1)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	___Init_VIA
+                             12 	.area	.0xf1
+   0000                      13 ___Init_VIA:
+   0000 00 00 00 00 00 00    14 	.word	0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+                             15 	.globl	___Init_OS_RAM
+   0018                      16 ___Init_OS_RAM:
+   0018 00 00 00 00 00 00    17 	.word	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00
+   0038 00 00 00 00 00 00    18 	.word	0,0,0
+   003E 00                   19 	.byte	0
+                             20 	.globl	___Init_OS
+   003F                      21 ___Init_OS:
+   003F 00 00 00 00 00 00    22 	.word	0,0,0
+   0045 00                   23 	.byte	0
+                             24 	.globl	___Wait_Recal
+   0046                      25 ___Wait_Recal:
+   0046 00 00 00 00 00 00    26 	.word	0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+                             27 	.globl	___DP_to_D0
+   005E                      28 ___DP_to_D0:
+   005E 00 00 00 00          29 	.word	0,0
+   0062 00                   30 	.byte	0
+                             31 	.globl	___DP_to_C8
+   0063                      32 ___DP_to_C8:
+   0063 00 00 00 00          33 	.word	0,0
+   0067 00                   34 	.byte	0
+                             35 	.globl	___Read_Btns_Mask
+   0068                      36 ___Read_Btns_Mask:
+   0068 00 00 00 00 00 00    37 	.word	0,0,0
+                             38 	.globl	___Read_Btns
+   006E                      39 ___Read_Btns:
+   006E 00 00 00 00 00 00    40 	.word	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00
+   008E 00 00 00 00 00 00    41 	.word	0,0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00
+   00A8 00                   42 	.byte	0
+                             43 	.globl	___Joy_Analog
+   00A9                      44 ___Joy_Analog:
+   00A9 00 00                45 	.word	0
+   00AB 00                   46 	.byte	0
+                             47 	.globl	___Joy_Digital
+   00AC                      48 ___Joy_Digital:
+   00AC 00                   49 	.byte	0
 ASxxxx Assembler V05.00  (Motorola 6809), page 1.
 Hexidecimal [16-Bits]
 

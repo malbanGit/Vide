@@ -1,0 +1,14 @@
+82569
+R:\asxv5pxx\asxmak\symantec\build\s19os9.prj
+s19os9.OPN
+novcs
+s19os9.DEF
+6
+1155493976
+0 0 0 0 0 "..\..\..\S19OS9\s19os9.c"
+0 -1 0 0 0 "..\..\..\ASXXSRC\asxxxx.h"
+0 0 0 0 0 "s19os9.DEF"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdlib.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\stdio.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\setjmp.h"
+0 -1 0 0 0 "C:\SC\INCLUDE\string.h"

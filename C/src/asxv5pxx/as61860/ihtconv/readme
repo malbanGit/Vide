@@ -1,0 +1,59 @@
+Intel Hex to WAV file and Basic file converter
+==============================================
+
+Version: 0.8
+Author:  Edgar Puehringer
+Date:    2003.04.17
+
+These tools were made to get the output of the
+ASXXXX/ASLINK assembler/linker into some old
+Sharp pocket computers. Most of the models
+PC-12XX, PC-13XX and PC-14XX are supported.
+
+'ihx2wav' converts to a WAV file. You can transfer
+the resulting file to your pocket computer using
+the tape interface connected to your sound card. 
+
+usage: ihx2wav [-old] [-o wavfile] [ihxfile]
+
+The '-old' parameter must be specified for some
+older models of the PC-12XX series.
+
+'ihx2bas' converts to a Basic file. You can transfer
+the resulting file to your pocket computer using
+a serial interface (if the pocket has one ...) or
+type it in PRO mode.
+
+usage: ihx2bas [-compact] [-nostub] [-o basfile] [ihxfile]
+
+By default there is a little loader program added to
+the DATA lines. If you don't need it, use the parameter
+'-nostub'. The '-compact' parameter makes ASCII DATA lines;
+they need less space but the time for poking them into
+the memory increases.
+
+Building an Executeable
+-----------------------
+
+You need GNU make and a C compiler. Just make the
+directory containing 'Makefile' the current directory
+and type 'make'.
+
+Should work on any platform (I used Linux with gcc v2.96)
+
+Copying
+-------
+
+GNU public licence, see 'COPYING' for details
+
+Thanks to
+---------
+
+Yagshi (http://www.ctrl.titech.ac.jp/~hkoba/pocketcom/index.html)
+  for his Yagshi's SC61860 assembler which showed me how to create
+  WAV files for Sharp pocket computers
+
+Alan R. Baldwin (http://shop-pdp.kent.edu/ashtml/asxxxx.htm)
+  for ASxxxx Assemblers  and ASLINK Relocating Linker; I added
+  an assembler for the SC61860 CPU (CPU of many Sharp pocket
+  computers) 

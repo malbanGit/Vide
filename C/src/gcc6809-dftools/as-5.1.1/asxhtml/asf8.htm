@@ -1,0 +1,196 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT="Welcome"></A>
+
+<H2>ASF8  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4><B><PRE>
+   The ASF8 assembler supports the F8 and 3870 processor cores.  
+
+
+F8 REGISTERS 
+
+   The  following  is a list of register designations recognized
+by the ASF8 assembler:  
+
+        r0-r11  -       Registers
+
+        j       -       Scratch Pad Register r9
+
+        hu      -       MSB of register H the
+                          Data Counter Buffer Register
+                          Scratch Pad Register r10
+        hl      -       LSB of register H the
+                          Data Counter Buffer Register
+                          Scratch Pad Register r11
+
+        ku      -       MSB of register K the
+                          Stack Buffer Register
+        kl      -       LSB of register K the
+                          Stack Buffer Register
+
+        qu      -       MSB of register Q a
+                          Buffer Register for the
+                          Data Counter or Program Counter
+        ql      -       LSB of register Q a
+                          Buffer Register for the
+                          Data Counter or Program Counter
+
+        a       -       Accumulator
+
+        is      -       Scratch Pad Address Register (ISAR)
+
+        w       -       Status Register
+
+        s       -       Register Addressed
+                        by is (unchanged)
+
+        i       -       Register Addressed
+                        by is (incremented)
+
+        d       -       Register Addressed
+                        by is (decremented)
+
+        pc0     -       Program Counter
+        or p0, pc
+
+        pc1     -       Program Counter Buffer or
+        or p1, p        Stack Register
+
+        dc0     -       Data Counter
+        or d0, dc
+
+
+F8 INSTRUCTION SET 
+
+   The  following  list specifies the format for each addressing
+mode supported by ASF8:  
+
+        #nibble         immediate  4-Bit data
+        #byte           immediate  8-Bit data
+        #word           immediate 16-Bit data
+
+        #t3             3-Bit test condition
+                        [Zero Carry Sign]
+
+        #t4             4-Bit test condition
+                        [Overflow Zero Carry Sign]
+
+        r               register r0-r11 addressing and
+                        indirect addressing s, i, and d
+                        j is equivalent to r9
+                        hu (MSB of h) is equivalent to r10
+                        hl (LSB of h) is equivalent to r11
+
+        ku and kl       MSB and LSB of k register
+
+        qu and ql       MSB and LSB of q register
+
+        h, k, or q      16-Bit registers
+        p0, pc0, or pc
+        p1 or p
+        d0, dc0, or dc
+
+        w               status register
+
+        is              Indirect Scratchpad Address Register
+
+        label           call/jmp/branch label
+
+The  terms  nibble, byte, word, t3, t4, and label may all be ex-
+pressions.  
+
+   The  following tables list all F8 mnemonics recognized by the
+ASF8 assembler.  
+
+Accumulator Group Instructions 
+
+        lnk                     ai      #byte
+        ni      #byte           clr
+        ci      #byte           com
+        xi      #byte           inc
+        li      #byte           lis     #nibble
+        oi      #byte           sl      1
+        sl      4               sr      1
+        sr      4
+
+
+ranch Instructions 
+
+        bc      label           bp      label
+        bz      label           bt      #t3,label
+        bm      label           bnc     label
+        bno     label           bnz     label
+        bf      #t4,label       br7     label
+        br      label           jmp     label
+
+
+Memory Reference Instructions 
+
+        am                      amd
+        nm                      cm
+        xm                      lm
+        om                      st
+
+
+Address Register Instructions 
+
+        adc                     pk
+        pi      #word           xdc
+        lr      dc,q            lr      dc,h
+        dci     #word           lr      p0,q
+        lr      p,k             pop
+        lr      q,dc            lr      h,dc
+        lr      k,p
+
+
+Scratchpad Register Instructions 
+
+        as      r               asd     r
+        ds      r
+        lr      a,r
+        lr      a,ku            lr      a,kl
+        lr      a,qu            lr      a,ql
+        lr      r,a
+        lr      ku,a            lr      kl,a
+        lr      qu,a            lr      ql,a
+        ns      r               xs      r
+
+
+Miscellaneous Instructions 
+
+        di                      ei
+        in      #byte           ins     #nibble
+        out     #byte           outs    #nibble
+        lr      is,a            lr      a,is
+        lr      w,j             lr      j,w
+        lisl    #0-#7           lisu    #0-#7
+        nop
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: August 2012</B></P></H6>
+</BODY> 
+</HTML>
+

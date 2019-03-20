@@ -1,0 +1,792 @@
+        .LIST
+; P18C801.INC  Standard Header File, Version 0.01   Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC18C801 microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.  
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PIC18C801
+;       2. LIST directive in the source file
+;               LIST   P=PIC18C801
+;       3. Processor Type entry in the MPASM full-screen interface
+;       4. Setting the processor in the MPLAB Project Dialog
+
+;==========================================================================
+;
+;       Revision History
+;
+;==========================================================================
+; Rev:   Date:         Details:                                        Who:
+; 0.01   11 Oct 2000   Original											nr
+; 0.02 	 09 May 2001   Added Configuration bits	                        nr
+; 0.03   13 Jun 2001   Fixed RAM map and changed config bit labels      MG
+; 0.04	 22 Jun 2001   Fixed OSCCON bits								nr				
+; 0.05	 27 Jun 2001   Fixed LVDCON, IPR2, PIR2, PIE2 bits				nr
+
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __18C801
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;       18Cxxx Family        EQUates
+;==========================================================================
+
+FSR0            =: 0
+FSR1            =: 1
+FSR2            =: 2
+
+FAST            =: 1
+
+W               =: 0
+A               =: 0
+ACCESS          =: 0
+BANKED          =: 1
+
+;==========================================================================
+;       16Cxxx/17Cxxx Substitutions
+;==========================================================================
+
+  .define clrw, "clrf WREG"	; PIC16Cxxx code substitution (WREG is addressable)
+  .define CLRW, "CLRF WREG"	; PIC16Cxxx code substitution (WREG is addressable)
+  .define negw, "negf WREG"	; PIC16Cxxx code substitution (WREG is addressable)
+  .define NEGW, "NEGF WREG"	; PIC16Cxxx code substitution (WREG is addressable)
+  .define movpf, "movff"	; PIC17Cxxx code substitution
+  .define MOVPF, "MOVFF"	; PIC17Cxxx code substitution
+  .define movfp, "movff"	; PIC17Cxxx code substitution
+  .define MOVFP, "MOVFF"	; PIC17Cxxx code substitution
+  .define lcall, "call"		; PIC17Cxxx code substitution
+  .define LCALL, "CALL"		; PIC17Cxxx code substitution
+  .define lgoto, "goto"		; PIC17Cxxx code substitution
+  .define LGOTO, "GOTO"		; PIC17Cxxx code substitution
+  .define DDRA,  "TRISA"	; PIC17Cxxx SFR substitution
+  .define DDRB,  "TRISB"	; PIC17Cxxx SFR substitution
+  .define DDRC,  "TRISC"	; PIC17Cxxx SFR substitution
+  .define DDRD,  "TRISD"	; PIC17Cxxx SFR substitution
+  .define DDRE,  "TRISE"	; PIC17Cxxx SFR substitution
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+;----- Register Files -----------------------------------------------------
+TOSU            =:  0x0FFF
+TOSH            =:  0x0FFE
+TOSL            =:  0x0FFD
+STKPTR          =:  0x0FFC
+PCLATU          =:  0x0FFB
+PCLATH          =:  0x0FFA
+PCL             =:  0x0FF9
+TBLPTRU         =:  0x0FF8
+TBLPTRH         =:  0x0FF7
+TBLPTRL         =:  0x0FF6
+TABLAT          =:  0x0FF5
+PRODH           =:  0x0FF4
+PRODL           =:  0x0FF3
+
+INTCON          =:  0x0FF2
+INTCON1         =:  0x0FF2
+INTCON2         =:  0x0FF1
+INTCON3         =:  0x0FF0
+
+INDF0           =:  0x0FEF
+POSTINC0        =:  0x0FEE
+POSTDEC0        =:  0x0FED
+PREINC0         =:  0x0FEC
+PLUSW0          =:  0x0FEB
+FSR0H           =:  0x0FEA
+FSR0L           =:  0x0FE9
+WREG            =:  0x0FE8
+
+INDF1           =:  0x0FE7
+POSTINC1        =:  0x0FE6
+POSTDEC1        =:  0x0FE5
+PREINC1         =:  0x0FE4
+PLUSW1          =:  0x0FE3
+FSR1H           =:  0x0FE2
+FSR1L           =:  0x0FE1
+BSR             =:  0x0FE0
+
+INDF2           =:  0x0FDF
+POSTINC2        =:  0x0FDE
+POSTDEC2        =:  0x0FDD
+PREINC2         =:  0x0FDC
+PLUSW2          =:  0x0FDB
+FSR2H           =:  0x0FDA
+FSR2L           =:  0x0FD9
+STATUS          =:  0x0FD8
+
+TMR0H           =:  0x0FD7
+TMR0L           =:  0x0FD6
+T0CON           =:  0x0FD5
+
+;RESERVED_0FD4   EQU  0x0FD4
+
+OSCCON          =:  0x0FD3
+LVDCON          =:  0x0FD2
+WDTCON          =:  0x0FD1
+RCON            =:  0x0FD0
+
+TMR1H           =:  0x0FCF
+TMR1L           =:  0x0FCE
+T1CON           =:  0x0FCD
+TMR2            =:  0x0FCC
+PR2             =:  0x0FCB
+T2CON           =:  0x0FCA
+
+SSPBUF          =:  0x0FC9
+SSPADD          =:  0x0FC8
+SSPSTAT         =:  0x0FC7
+SSPCON1         =:  0x0FC6
+SSPCON2         =:  0x0FC5
+
+ADRESH          =:  0x0FC4
+ADRESL          =:  0x0FC3
+ADCON0          =:  0x0FC2
+ADCON1          =:  0x0FC1
+ADCON2          =:  0x0FC0
+
+CCPR1H          =:  0x0FBF
+CCPR1L          =:  0x0FBE
+CCP1CON         =:  0x0FBD
+CCPR2H          =:  0x0FBC
+CCPR2L          =:  0x0FBB
+CCP2CON         =:  0x0FBA
+
+;RESERVED_0FB9   EQU  0x0FB9
+;RESERVED_0FB8   EQU  0x0FB8
+;RESERVED_0FB7   EQU  0x0FB7
+
+;RESERVED_0FB6  EQU  0x0FB6
+;RESERVED_0FB5  EQU  0x0FB5
+;RESERVED_0FB4  EQU  0x0FB4
+
+TMR3H           =:  0x0FB3
+TMR3L           =:  0x0FB2
+T3CON           =:  0x0FB1
+
+PSPCON          =:  0x0FB0
+SPBRG           =:  0x0FAF
+RCREG           =:  0x0FAE
+TXREG           =:  0x0FAD
+TXSTA           =:  0x0FAC
+RCSTA           =:  0x0FAB
+
+;RESERVED_0FAA   EQU  0x0FAA
+;RESERVED_0FA9   EQU  0x0FA9
+;RESERVED_0FA8   EQU  0x0FA8
+
+CSEL2		=:	0x0FA7
+CSELIO		=:	0x0FA6
+
+;RESERVED_0FA5   EQU  0x0FA5
+;RESERVED_0FA4   EQU  0x0FA4
+;RESERVED_0FA3   EQU  0x0FA3
+
+IPR2            =:  0x0FA2
+PIR2            =:  0x0FA1
+PIE2            =:  0x0FA0
+IPR1            =:  0x0F9F
+PIR1            =:  0x0F9E
+PIE1            =:  0x0F9D
+
+MEMCON          =:  0x0F9C
+
+;RESERVED_0F9B   EQU  0x0F9B
+TRISJ           =:  0x0F9A
+TRISH           =:  0x0F99
+TRISG           =:  0x0F98
+TRISF           =:  0x0F97
+TRISE           =:  0x0F96
+TRISD           =:  0x0F95
+TRISC           =:  0x0F94
+TRISB           =:  0x0F93
+TRISA           =:  0x0F92
+
+DDRJ            =:  0x0F9A
+DDRH            =:  0x0F99
+DDRG            =:  0x0F98
+DDRF            =:  0x0F97
+DDRE            =:  0x0F96
+DDRD            =:  0x0F95
+DDRC            =:  0x0F94
+DDRB            =:  0x0F93
+DDRA            =:  0x0F92
+
+LATJ            =:  0x0F91
+LATH            =:  0x0F90
+LATG            =:  0x0F8F
+LATF            =:  0x0F8E
+LATE            =:  0x0F8D
+LATD            =:  0x0F8C
+LATC            =:  0x0F8B
+LATB            =:  0x0F8A
+LATA            =:  0x0F89
+
+PORTJ           =:     0x0F88
+PORTH           =:     0x0F87
+PORTG           =:     0x0F86
+PORTF           =:     0x0F85
+PORTE           =:     0x0F84
+PORTD           =:     0x0F83
+PORTC           =:     0x0F82
+PORTB           =:     0x0F81
+PORTA           =:     0x0F80
+
+;----- STKPTR Bits --------------------------------------------------------
+STKFUL          =:  0x0007
+STKUNF          =:  0x0006
+STKPTR4         =:  0x0004
+STKPTR3         =:  0x0003
+STKPTR2         =:  0x0002
+STKPTR1         =:  0x0001
+STKPTR0         =:  0x0000
+
+;----- INTCON Bits --------------------------------------------------------
+GIE             =:  0x0007
+GIEH            =:  0x0007
+PEIE            =:  0x0006
+GIEL            =:  0x0006
+TMR0IE          =:  0x0005
+T0IE            =:  0x0005      ; For backward compatibility
+INT0IE          =:  0x0004
+INT0E           =:  0x0004      ; For backward compatibility
+RBIE            =:  0x0003
+TMR0IF          =:  0x0002
+T0IF            =:  0x0002      ; For backward compatibility
+INT0IF          =:  0x0001
+INT0F           =:  0x0001      ; For backward compatibility
+RBIF            =:  0x0000
+
+;----- INTCON2 Bits --------------------------------------------------------
+NOT_RBPU        =:  0x0007
+RBPU            =:  0x0007
+INTEDG0         =:  0x0006
+INTEDG1         =:  0x0005
+INTEDG2         =:  0x0004
+TMR0IP          =:  0x0002
+T0IP            =:  0x0002      ; For compatibility with T0IE and T0IF
+RBIP            =:  0x0000
+
+;----- INTCON3 Bits --------------------------------------------------------
+INT2IP          =:  0x0007
+INT2P           =:  0x0007
+INT1IP          =:  0x0006
+INT1P           =:  0x0006
+INT2IE          =:  0x0004
+INT2E           =:  0x0004
+INT1IE          =:  0x0003
+INT1E           =:  0x0003
+INT2IF          =:  0x0001
+INT2F           =:  0x0001
+INT1IF          =:  0x0000
+INT1F           =:  0x0000
+
+;----- STATUS Bits --------------------------------------------------------
+N               =:  0x0004
+OV              =:  0x0003
+Z               =:  0x0002
+DC              =:  0x0001
+C               =:  0x0000
+
+;----- T0CON Bits ---------------------------------------------------------
+TMR0ON          =:  0x0007
+T08BIT          =:  0x0006
+T0CS            =:  0x0005
+T0SE            =:  0x0004
+PSA             =:  0x0003
+T0PS2           =:  0x0002
+T0PS1           =:  0x0001
+T0PS0           =:  0x0000
+
+;----- OSCCON Bits ---------------------------------------------------------
+LOCK			=:	 0x0003
+PLLEN			=:  0x0002
+SCS1            =:  0x0001
+SCS0            =:  0x0000
+
+;----- LVDCON Bits ---------------------------------------------------------
+IRVST           =:  0x0005
+LVDEN           =:  0x0004
+LVDL3           =:  0x0003
+LVDL2           =:  0x0002
+LVDL1           =:  0x0001
+LVDL0           =:  0x0000
+
+;----- WDTCON Bits ---------------------------------------------------------
+WDPS2		=:  0x0003
+WDPS1		=:  0x0002
+WDPS0		=:  0x0001
+SWDTEN          =:  0x0000
+SWDTE           =:  0x0000
+
+;----- RCON Bits -----------------------------------------------------------
+IPEN            =:  0x0007
+NOT_IPEN        =:  0x0007
+RI              =:  0x0004
+NOT_RI          =:  0x0004
+TO              =:  0x0003
+NOT_TO          =:  0x0003
+PD              =:  0x0002
+NOT_PD          =:  0x0002
+POR             =:  0x0001
+NOT_POR         =:  0x0001
+
+;----- T1CON Bits ---------------------------------------------------------
+RD16            =:  0x0007
+T1CKPS1         =:  0x0005
+T1CKPS0         =:  0x0004
+T1OSCEN         =:  0x0003
+T1SYNC          =:  0x0002
+NOT_T1SYNC      =:  0x0002
+T1INSYNC        =:  0x0002    ; Backward compatibility only
+TMR1CS          =:  0x0001
+TMR1ON          =:  0x0000
+
+;----- T2CON Bits ---------------------------------------------------------
+TOUTPS3         =:  0x0006
+TOUTPS2         =:  0x0005
+TOUTPS1         =:  0x0004
+TOUTPS0         =:  0x0003
+TMR2ON          =:  0x0002
+T2CKPS1         =:  0x0001
+T2CKPS0         =:  0x0000
+
+;----- SSPSTAT Bits -------------------------------------------------------
+SMP             =:  0x0007
+CKE             =:  0x0006
+D               =:  0x0005
+I2C_DAT         =:  0x0005
+NOT_A           =:  0x0005
+NOT_ADDRESS     =:  0x0005
+D_A             =:  0x0005
+DATA_ADDRESS    =:  0x0005
+P               =:  0x0004
+I2C_STOP        =:  0x0004
+S               =:  0x0003
+I2C_START       =:  0x0003
+R               =:  0x0002
+I2C_READ        =:  0x0002
+NOT_W           =:  0x0002
+NOT_WRITE       =:  0x0002
+R_W             =:  0x0002
+READ_WRITE      =:  0x0002
+UA              =:  0x0001
+BF              =:  0x0000
+
+;----- SSPCON1 Bits --------------------------------------------------------
+WCOL            =:  0x0007
+SSPOV           =:  0x0006
+SSPEN           =:  0x0005
+CKP             =:  0x0004
+SSPM3           =:  0x0003
+SSPM2           =:  0x0002
+SSPM1           =:  0x0001
+SSPM0           =:  0x0000
+
+;----- SSPCON2 Bits --------------------------------------------------------
+GCEN            =:  0x0007
+ACKSTAT         =:  0x0006
+ACKDT           =:  0x0005
+ACKEN           =:  0x0004
+RCEN            =:  0x0003
+PEN             =:  0x0002
+RSEN            =:  0x0001
+SEN             =:  0x0000
+
+;----- ADCON0 Bits --------------------------------------------------------
+CHS3            =:  0x0005
+CHS2            =:  0x0004
+CHS1            =:  0x0003
+CHS0            =:  0x0002
+GO              =:  0x0001
+NOT_DONE        =:  0x0001
+DONE            =:  0x0001
+GO_DONE         =:  0x0001
+ADON            =:  0x0000
+
+;----- ADCON1 Bits --------------------------------------------------------
+VCFG1           =:  0x0005
+VCFG0           =:  0x0004
+PCFG3           =:  0x0003
+PCFG2           =:  0x0002
+PCFG1           =:  0x0001
+PCFG0           =:  0x0000
+
+;----- ADCON2 Bits --------------------------------------------------------
+ADFM            =:  0x0007
+ADCS2           =:  0x0002
+ADCS1           =:  0x0001
+ADCS0           =:  0x0000
+
+;----- CCP1CON Bits -------------------------------------------------------
+DC1B1           =:  0x0005
+CCP1X           =:  0x0005      ; For backward compatibility
+DC1B0           =:  0x0004
+CCP1Y           =:  0x0004      ; For backward compatibility
+CCP1M3          =:  0x0003
+CCP1M2          =:  0x0002
+CCP1M1          =:  0x0001
+CCP1M0          =:  0x0000
+
+;----- CCP2CON Bits -------------------------------------------------------
+DC2B1           =:  0x0005
+CCP2X           =:  0x0005      ; For backward compatibility
+DCCPX           =:  0x0005
+DC2B0           =:  0x0004
+CCP2Y           =:  0x0004      ; For backward compatibility
+CCP2M3          =:  0x0003
+CCP2M2          =:  0x0002
+CCP2M1          =:  0x0001
+CCP2M0          =:  0x0000
+
+;----- T3CON Bits ---------------------------------------------------------
+RD16            =:  0x0007
+T3CCP2          =:  0x0006
+T3CKPS1         =:  0x0005
+T3CKPS0         =:  0x0004
+T3CCP1          =:  0x0003
+T3SYNC          =:  0x0002
+NOT_T3SYNC      =:  0x0002
+T3INSYNC        =:  0x0002    ; Backward compatibility only
+TMR3CS          =:  0x0001
+TMR3ON          =:  0x0000
+
+;----- PSPCON Bits ---------------------------------------------------------
+CMLK1		=:  0x0001
+CMLK0		=:  0x0000
+
+;----- TXSTA Bits -------------------------------------------------------
+CSRC            =:  0x0007
+TX9             =:  0x0006
+TXEN            =:  0x0005
+SYNC            =:  0x0004
+BRGH            =:  0x0002
+TRMT            =:  0x0001
+TX9D            =:  0x0000
+
+;----- RCSTA Bits -------------------------------------------------------
+SPEN            =:  0x0007
+RX9             =:  0x0006
+SREN            =:  0x0005
+CREN            =:  0x0004
+ADEN            =:  0x0003
+FERR            =:  0x0002
+OERR            =:  0x0001
+RX9D            =:  0x0000
+
+;----- IPR2 Bits ----------------------------------------------------------
+BCLIP           =:  0x0003
+LVDIP           =:  0x0002
+TMR3IP          =:  0x0001
+CCP2IP          =:  0x0000
+
+;----- PIR2 Bits ----------------------------------------------------------
+BCLIF           =:  0x0003
+LVDIF           =:  0x0002
+TMR3IF          =:  0x0001
+CCP2IF          =:  0x0000
+
+;----- PIE2 Bits ----------------------------------------------------------
+BCLIE           =:  0x0003
+LVDIE           =:  0x0002
+TMR3IE          =:  0x0001
+CCP2IE          =:  0x0000
+
+;----- IPR1 Bits ----------------------------------------------------------
+ADIP            =:  0x0006
+RCIP            =:  0x0005
+TXIP            =:  0x0004
+SSPIP           =:  0x0003
+CCP1IP          =:  0x0002
+TMR2IP          =:  0x0001
+TMR1IP          =:  0x0000
+
+;----- PIR1 Bits ----------------------------------------------------------
+ADIF            =:  0x0006
+RCIF            =:  0x0005
+TXIF            =:  0x0004
+SSPIF           =:  0x0003
+CCP1IF          =:  0x0002
+TMR2IF          =:  0x0001
+TMR1IF          =:  0x0000
+
+;----- PIE1 Bits ----------------------------------------------------------
+ADIE            =:  0x0006
+RCIE            =:  0x0005
+TXIE            =:  0x0004
+SSPIE           =:  0x0003
+CCP1IE          =:  0x0002
+TMR2IE          =:  0x0001
+TMR1IE          =:  0x0000
+
+;----- MEMCON Bits ----------------------------------------------------------
+EBDIS           =:  0x0007
+PGRM		=:  0x0006
+WAIT1           =:  0x0005
+WAIT0           =:  0x0004
+WM1             =:  0x0001
+WM0             =:  0x0000
+
+;==========================================================================
+;
+;       I/O Pin Name Definitions
+;
+;==========================================================================
+
+;----- PORTA ------------------------------------------------------------------
+RA0             =:  0
+AN0             =:  0
+RA1             =:  1
+AN1             =:  1
+RA2             =:  2
+AN2             =:  2
+VREFN           =:  2
+RA3             =:  3
+AN3             =:  3
+VREFP           =:  3
+RA4             =:  4
+T0CKI           =:  4
+RA5             =:  5
+AN4             =:  5
+SS              =:  5
+LVDIN           =:  5
+
+
+;----- PORTB ------------------------------------------------------------------
+RB0             =:  0
+INT0            =:  0
+RB1             =:  1
+INT1            =:  1
+RB2             =:  2
+INT2            =:  2
+RB3             =:  3
+CCP2            =:  3
+RB4             =:  4
+RB5             =:  5
+RB6             =:  6
+RB7             =:  7
+
+;----- PORTC ------------------------------------------------------------------
+RC0             =:  0
+T1OSO           =:  0
+T1CKI           =:  0
+RC1             =:  1
+T1OSI           =:  1
+RC2             =:  2
+CCP1            =:  2
+RC3             =:  3
+SCK             =:  3
+SCL             =:  3
+RC4             =:  4
+SDI             =:  4
+SDA             =:  4
+RC5             =:  5
+SDO             =:  5
+RC6             =:  6
+TX              =:  6
+CK              =:  6
+RC7             =:  7
+RX              =:  7
+;****DT              EQU  7      ;*** Not Available due to conflict with
+                                 ;***    Define Table (DT) directive
+
+;----- PORTD ------------------------------------------------------------------
+RD0             =:  0
+AD0		=:  0
+RD1             =:  1
+AD1             =:  1
+RD2             =:  2
+AD2             =:  2
+RD3             =:  3
+AD3             =:  3
+RD4             =:  4
+AD4             =:  4
+RD5             =:  5
+AD5             =:  5
+RD6             =:  6
+AD6             =:  6
+RD7             =:  7
+AD7             =:  7
+
+;----- PORTE ------------------------------------------------------------------
+RE0             =:  0
+AD8             =:  0
+RE1             =:  1
+AD9             =:  1
+RE2             =:  2
+AD10            =:  2
+RE3             =:  3
+AD11            =:  3
+RE4             =:  4
+AD12            =:  4
+RE5             =:  5
+AD13            =:  5
+RE6             =:  6
+AD14            =:  6
+RE7             =:  7
+AD15            =:  7
+
+;----- PORTF ------------------------------------------------------------------
+RF0             =:  0
+AN5             =:  0
+RF1             =:  1
+AN6             =:  1
+RF2             =:  2
+AN7             =:  2
+RF3             =:  3
+CSIO            =:  3
+RF4             =:  4
+CS2             =:  4
+RF5             =:  5
+CS1             =:  5
+RF6             =:  6
+LB              =:  6
+RF7             =:  7
+UB              =:  7
+
+;----- PORTG ------------------------------------------------------------------
+RG0             =:  0
+ALE             =:  0
+RG1             =:  1
+OE              =:  1
+RG2             =:  2
+WRL             =:  2
+RG3             =:  3
+WRH             =:  3
+RG4             =:  4
+BA0             =:  4
+
+;----- PORTH ------------------------------------------------------------------
+RH0             =:  0
+A16		=:  0
+RH1		=:  1
+A17		=:  1
+RH2		=:  2
+A18		=:  2
+RH3		=:  3
+A19		=:  3
+RH4		=:  4
+AN8		=:  4
+RH5		=:  5
+AN9		=:  5
+RH6		=:  6
+AN10		=:  6
+RH7		=:  7
+AN11		=:  7
+
+;----- PORTJ ------------------------------------------------------------------
+RJ0             =:  0
+D0		=:  0
+RJ1		=:  1
+D1		=:  1
+RJ2		=:  2
+D2		=:  2
+RJ3		=:  3
+D3		=:  3
+RJ4		=:  4
+D4		=:  4
+RJ5		=:  5
+D5		=:  5
+RJ6		=:  6
+D6		=:  6
+RJ7		=:  7
+D7		=:  7
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+       .MAXRAM 0xFFF
+       .BADRAM 0x400:0xF7F, 0xF9B, 0xFA3:0xFA5
+       .BADRAM 0xFA8:0xFAA, 0xFB4:0xFB9, 0xFD4
+        
+;==========================================================================
+;
+;       Configuration Bits
+;
+;     Data Sheet    Include File                  Address
+;     CONFIG1H    = Configuration Byte 1H         300001h
+;     CONFIG2L    = Configuration Byte 2L         300002h
+;     CONFIG2H    = Configuration Byte 2H         300003h
+;     CONFIG4L    = Configuration Byte 4L         300006h
+;
+;==========================================================================
+
+;Configuration Byte 1H Options
+_RC_OSC_1H        =:  0xFF
+_HS_OSC_1H        =:  0xFE	; Default mode. 4x PLL enabled in S/W
+_EC_OSC_1H        =:  0xFD    ; External Clock w/OSC2 output divide by 4
+_LP_OSC_1H        =:  0xFC    ; Oscillator type
+
+;Configuration Byte 2L Options
+_BW_16_BIT_2L	  =:  0xFF	; Default bus width
+_BW_8_BIT_2L	  =:  0xBF	; 
+_PWRT_OFF_2L      =:  0xFF    ; Disable Power-Up Timer
+_PWRT_ON_2L       =:  0xFE	; Enable Power-up Timer
+
+;Configuration Byte 2H Options
+_WDT_ON_2H        =:  0xFF    ; Watch Dog Timer enable
+_WDT_OFF_2H       =:  0xFE
+_WDTPS_128_2H     =:  0xFF    ; Watch Dog Timer PostScaler count
+_WDTPS_64_2H      =:  0xFD
+_WDTPS_32_2H      =:  0xFB
+_WDTPS_16_2H      =:  0xF9
+_WDTPS_8_2H       =:  0xF7
+_WDTPS_4_2H       =:  0xF5
+_WDTPS_2_2H       =:  0xF3
+_WDTPS_1_2H       =:  0xF1
+
+;Configuration Byte 4L Options
+_STVR_ON_4L       =:  0xFF    ; Stack over/underflow Reset enable
+_STVR_OFF_4L      =:  0xFE
+
+; To use the Configuration Bits, place the following lines in your source code
+;  in the following format, and change the configuration value to the desired 
+;  setting (such as _HS_OSC_1H).  These are currently commented out here
+;  and each __CONFIG line should have the preceding semicolon removed when
+;  pasted into your source code.
+
+;Program _CONFIG1H
+;               __CONFIG    _CONFIG1H, _RC_OSC_1H
+
+;Program _CONFIG2L
+;               __CONFIG    _CONFIG2L, _BW_16_BIT_2L & _PWRT_OFF_2L
+
+;Program _CONFIG2H
+;               __CONFIG    _CONFIG2H, _WDT_ON_2H & _WDTPS_128_2H
+
+;Program _CONFIG4L
+;               __CONFIG    _CONFIG4L, _STVR_ON_4L
+
+;  The following is a assignment of address values for all of the configuration
+;  registers for the purpose of table reads
+_CONFIG1H       =:    0x300001
+_CONFIG2L       =:    0x300002
+_CONFIG2H       =:    0x300003
+_CONFIG4L       =:    0x300006
+_DEVID1         =:    0x3FFFFE
+_DEVID2         =:    0x3FFFFF
+
+;Device ID registers hold device ID and revision number and can only be read
+;Device ID Register 1
+;               DEV2, DEV1, DEV0, REV4, REV3, REV2, REV1, REV0
+;Device ID Register 2
+;               DEV10, DEV9, DEV8, DEV7, DEV6, DEV5, DEV4, DEV3
+
+;==========================================================================
+        .LIST

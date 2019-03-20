@@ -533,7 +533,7 @@ __NO_INLINE __NAKED void _Dot_d(const int b __UNUSED, const int a) // 0xF2C3
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Dot_d; BIOS call"
-		:: 	[A] "mi" (a)
+		:: 	[A] "gmi" (a) // CHECK!
 		: "memory", "cc");
 }
 
@@ -825,7 +825,7 @@ __NO_INLINE __NAKED void _Print_Ships_x(const unsigned int b __UNUSED, const uns
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Print_Ships_x; BIOS call"
-		:: 	[A] "mi" (a)
+		:: 	[A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -850,7 +850,7 @@ __NO_INLINE __NAKED void _Print_Ships(const unsigned int b __UNUSED, const unsig
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Print_Ships; BIOS call"
-		:: 	[A] "mi" (a)
+		:: 	[A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -1063,7 +1063,7 @@ __NO_INLINE __NAKED void _Draw_Line_d(const int b __UNUSED, const int a) // 0xF3
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Draw_Line_d; BIOS call"
-		:: 	[A] "mi" (a)
+		:: 	[A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -1120,7 +1120,7 @@ __NO_INLINE __NAKED void _Draw_VL_ab(const unsigned int b __UNUSED, const unsign
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Draw_VL_ab; BIOS call"
-		:: [A] "o" (a)
+		:: [A] "go" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -1365,7 +1365,7 @@ __NO_INLINE __NAKED void _Mov_Draw_VL_ab(const unsigned int b __UNUSED, const un
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Mov_Draw_VL_ab; BIOS call"
-		:: [A] "mi" (a)
+		:: [A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -1447,7 +1447,7 @@ __NO_INLINE __NAKED void _Mov_Draw_VL_d(const int b __UNUSED, const int a) // 0x
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Mov_Draw_VL_d; BIOS call"
-		:: 	[A] "mi" (a)
+		:: 	[A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -2144,7 +2144,7 @@ __NO_INLINE __NAKED void _Clear_x_d(void* const x __UNUSED, const long unsigned 
 		"ldd %[D]\n\t"
 		"jmp ___Clear_x_d; BIOS call"
 		: 
-		: [D] "mi" (d)
+		: [D] "gmi" (d) // CHECK
 		: "memory", "cc", "d");
 }
 
@@ -2237,7 +2237,7 @@ __NO_INLINE __NAKED void _Clear_x_b_a(const unsigned int b __UNUSED, const unsig
 		"lda %[A]\n\t"
 		"jmp ___Clear_x_b_a; BIOS call"
 		: 
-		: [A] "mi" (a)
+		: [A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -2672,7 +2672,7 @@ __NO_INLINE __NAKED void _Add_Score_d(void* const x __UNUSED, const long unsigne
 	asm volatile(
 		"ldd %[D]\n\t"
 		"jmp ___Add_Score_d; BIOS call"
-		:: 	[D] "mi" (d)
+		:: 	[D] "gmi" (d) // CHECK
 		: "memory", "cc");
 }
 
@@ -2780,7 +2780,7 @@ __NO_INLINE __NAKED void _Sound_Byte(const unsigned int b __UNUSED, const unsign
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Sound_Byte; BIOS call"
-		:: [A] "mi" (a)
+		:: [A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -2799,7 +2799,7 @@ __NO_INLINE __NAKED void _Sound_Byte_x(const unsigned int b __UNUSED, const unsi
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Sound_Byte_x; BIOS call"
-		:: 	[A] "mi" (a)
+		:: 	[A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -3188,7 +3188,7 @@ __NO_INLINE __NAKED void _Moveto_d_7F(const int b __UNUSED, const int a) // 0xF2
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Moveto_d_7F; BIOS call"
-		:: 	[A] "mi" (a)
+		:: 	[A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 
@@ -3315,7 +3315,7 @@ __NO_INLINE __NAKED void _Moveto_d(const int b __UNUSED, const int a) // 0xF312
 	asm volatile(
 		"lda %[A]\n\t"
 		"jmp ___Moveto_d; BIOS call"
-		:: [A] "mi" (a)
+		:: [A] "gmi" (a) // CHECK
 		: "memory", "cc");
 }
 

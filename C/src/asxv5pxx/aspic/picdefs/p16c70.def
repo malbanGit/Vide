@@ -1,0 +1,152 @@
+        .LIST
+; P16C70.INC  Standard Header File, Version 1.01    Microchip Technology, Inc.
+        .NLIST
+
+; This header file defines configurations, registers, and other useful bits of
+; information for the PIC16C70 microcontroller.  These names are taken to match 
+; the data sheets as closely as possible.  
+
+; Note that the processor must be selected before this file is 
+; included.  The processor may be selected the following ways:
+
+;       1. Command line switch:
+;               C:\ MPASM MYFILE.ASM /PIC16C70
+;       2. LIST directive in the source file
+;               LIST   P=PIC16C70
+;       3. Processor Type entry in the MPASM full-screen interface
+
+;==========================================================================
+;
+;       Revision History
+;
+;==========================================================================
+
+;Rev:   Date:    Reason:
+
+;1.01   11/28/95 Added NOT_BOR to match revised datasheet
+;1.00   10/31/95 Initial Release
+
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+
+        .IFNDEF __16C70
+           .MSG "Processor-header file mismatch.  Verify selected processor."
+        .ENDIF
+
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
+
+W                            =:     0x0000
+F                            =:     0x0001
+
+;----- Register Files------------------------------------------------------
+
+INDF                         =:     0x0000
+TMR0                         =:     0x0001
+PCL                          =:     0x0002
+STATUS                       =:     0x0003
+FSR                          =:     0x0004
+PORTA                        =:     0x0005
+PORTB                        =:     0x0006
+ADCON0                       =:     0x0008
+ADRES                        =:     0x0009
+PCLATH                       =:     0x000A
+INTCON                       =:     0x000B
+
+OPTION_REG                   =:     0x0081
+TRISA                        =:     0x0085
+TRISB                        =:     0x0086
+PCON                         =:     0x0087
+ADCON1                       =:     0x0088
+
+;----- STATUS Bits --------------------------------------------------------
+
+IRP                          =:     0x0007
+RP1                          =:     0x0006
+RP0                          =:     0x0005
+NOT_TO                       =:     0x0004
+NOT_PD                       =:     0x0003
+Z                            =:     0x0002
+DC                           =:     0x0001
+C                            =:     0x0000
+
+;----- ADCON0 Bits --------------------------------------------------------
+
+ADCS1                        =:     0x0007
+ADCS0                        =:     0x0006
+CHS1                         =:     0x0004
+CHS0                         =:     0x0003
+GO                           =:     0x0002
+NOT_DONE                     =:     0x0002
+GO_DONE                      =:     0x0002
+ADIF                         =:     0x0001
+ADON                         =:     0x0000
+
+;----- INTCON Bits --------------------------------------------------------
+
+GIE                          =:     0x0007
+ADIE                         =:     0x0006
+T0IE                         =:     0x0005
+INTE                         =:     0x0004
+RBIE                         =:     0x0003
+T0IF                         =:     0x0002
+INTF                         =:     0x0001
+RBIF                         =:     0x0000
+
+;----- OPTION Bits --------------------------------------------------------
+
+NOT_RBPU                     =:     0x0007
+INTEDG                       =:     0x0006
+T0CS                         =:     0x0005
+T0SE                         =:     0x0004
+PSA                          =:     0x0003
+PS2                          =:     0x0002
+PS1                          =:     0x0001
+PS0                          =:     0x0000
+
+;----- PCON Bits ----------------------------------------------------------
+
+NOT_POR                      =:     0x0001
+NOT_BO                       =:     0x0000
+NOT_BOR                      =:     0x0000
+
+;----- ADCON1 Bits --------------------------------------------------------
+
+PCFG1                        =:     0x0001
+PCFG0                        =:     0x0000
+
+;==========================================================================
+;
+;       RAM Definition
+;
+;==========================================================================
+
+        .MAXRAM 0xAF
+        .BADRAM 0x07, 0x30:0x7F
+
+;==========================================================================
+;
+;       Configuration Bits
+;
+;==========================================================================
+
+_BODEN_ON                    =:     0x3FFF
+_BODEN_OFF                   =:     0x3FBF
+_CP_ON                       =:     0x004F
+_CP_OFF                      =:     0x3FFF
+_PWRTE_OFF                   =:     0x3FFF
+_PWRTE_ON                    =:     0x3FF7
+_WDT_ON                      =:     0x3FFF
+_WDT_OFF                     =:     0x3FFB
+_LP_OSC                      =:     0x3FFC
+_XT_OSC                      =:     0x3FFD
+_HS_OSC                      =:     0x3FFE
+_RC_OSC                      =:     0x3FFF
+
+        .LIST

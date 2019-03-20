@@ -1,0 +1,400 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY BGCOLOR="#C0C0C0">
+
+<A href="../home.htm">
+<IMG width=343 height=58 border=0 SRC="welcom.gif" ALT = "Welcome"></A>
+
+<H2>ASEZ80  Assembler</H2>
+
+<A NAME = "TOP"> </A> 
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+
+<H4><B><PRE>
+PROCESSOR SPECIFIC DIRECTIVES 
+
+
+   The  ASEZ80 assembler is a port of the ASZ80 assembler.  This
+assembler can process EZ80 code in Z80 and ADL modes in any com-
+bination  within  the  source  file.   The  following  processor
+specific assembler directives specify which mode  the  assembler
+is  to  process  the assembler source code.  The default mode of
+the assembler is Z80.  
+
+  
+
+
+.z80 Directive 
+
+Format:  
+
+        .z80    [n] 
+
+The  assembler is informed by the .z80 directive to assemble the
+subsequent code using the banked 16-Bit addressing  capabilities
+of the EZ80 processor.  The optional argument, n, allows the as-
+sembly mode to be controlled by a varaible.   A  non-zero  value
+for  n  enables  Z80 mode and a zero value enables the ADL mode.
+The default mode of the assembler is Z80.  
+
+
+.adl Directive 
+
+Format:  
+
+        .adl    [n] 
+
+The  assembler is informed by the .adl directive to assemble the
+subsequent code using the full 24-Bit addressing capabilities of
+the EZ80 processor.  The optional argument, n, allows the assem-
+bly mode to be controlled by a varaible.  A non-zero value for n
+enables  ADL  mode  and  a zero value enables the Z80 mode.  The
+default mode of the assembler is Z80.  
+
+
+.msb Directive 
+
+Format:  
+
+        .msb    n 
+
+
+   The  assembler operator '>' selects the upper byte (MSB) when
+included in an assembler instruction.  The normal assembler mode
+is  to select bits <15:8> as the MSB.  The .msb directive allows
+the programmer to specify a particular byte as  the  'MSB'  when
+the address space is larger than 16-bits.  
+
+   For a 24-bit EZ80 address the assembler directive .msb n con-
+figures the assembler to select a particular byte as MSB.  Given
+a  24-bit  address  of  Mmn (M is <23:16>, m is <15:8>, and n is
+<7:0>) the following examples show how to  select  a  particular
+address byte:  
+
+        .msb 1          ;select byte 1 of address
+                        ;<M(2):m(1):n(0)>
+        LD A,>Mmn       ;byte m <15:8> ==>> A
+        ...
+
+        .msb 2          ;select byte 2 of address
+                        ;<M(2):m(1):n(0)>
+        LD A,>Mmn       ;byte M <23:16> ==>> A
+        LD MB,A         ;place in MBASE register
+
+
+
+EZ80 ADDRESSING AND INSTRUCTIONS 
+
+Instruction Symbols 
+
+
+        b          Bit select
+                        (000 = bit 0, 001 = bit 1,
+                         010 = bit 2, 011 = bit 3,
+                         100 = bit 4, 101 = bit 5,
+                         110 = bit 6, 111 = bit 7)
+        cc         condition code C, NC, Z, NZ, P, M, PE, PO
+                   test of single bit in FLAGS register
+        cc'        condition code C, NC, Z, NZ
+                   test of single bit in FLAGS register
+        d          an 8-bit two's complement displacement with
+                   value from -128 to 127.
+        I          Interrupt Page Address Register
+        ir or ir'  8-bit CPU register IXH(IX:[15:8]),
+                   IXL (IX:[7:0], IYH (IY:[15:8]), IYL (IY:[7:0])
+        IX/Y       CPU register IX or IY
+        (IX/Y+d)   A location in memory with address formed by the
+                   sum of the contents of the Index Register, IX
+                   or IY, and the two's complement displacement d.
+        MB         Z80 Memory Mode Base Address Register
+        Mmn        A 24-bit immediate data value
+        (Mmn)      A 24-bit value indicating a location in
+                   memory at this address.
+        mn         A 16-bit immediate data value
+        (mn)       A 16-bit value indicating a location in
+                   memory at this address.
+        n          8-bit immediate data value
+        R          Refresh Counter Register
+        r or r'    8-bit CPU register A, B, C, D, E, H, L
+        rr         16 or 24-bit CPU register BC, DE, HL
+        rxy        16 or 24-bit CPU register BC, DE, HL, IX, IY
+        SP         Stack Pointer, Can indicate either the
+                   StackPointer Short register (SPS) or the
+                   StackPointer Long register (SPL).
+
+        C  -    carry bit set
+        NC -    carry bit clear
+        Z  -    zero bit set
+        NZ -    zero bit clear
+        M  -    sign bit set
+        P  -    sign bit clear
+        PE -    parity even
+        PO -    parity odd
+
+
+        The terms b, d, Mmn, mn, and n may all be expressions.  
+
+
+EZ80 Instructions 
+
+   The  following list of instructions (with explicit addressing
+modes) are available for the EZ80.  
+
+-----------------------------------------------------------------------
+
+        ADC A,(HL)              DEC (HL)                INI
+        ADC A,ir                DEC ir                  INI2
+        ADC A,(IX/Y+d)          DEC IX/Y                INI2R
+        ADC A,n                 DEC (IX/Y+d)
+        ADC A,r                 DEC r                   INIM
+        ADC HL,rr               DEC rr                  INIMR
+        ADC HL,SP               DEC SP
+                                                        INIR
+        ADD A,(HL)              DI                      INIRX
+        ADD A,ir
+        ADD A,(IX/Y+d)          DJNZ d                  JP cc,Mmn
+        ADD A,n                                         JP HL
+        ADD A,r                 EI                      JP IX/Y
+        ADD HL,rr                                       JP Mmn
+        ADD HL,SP               EX AF,AF'
+        ADD IX/Y,rxy            EX DE,HL                JR cc',d
+        ADD IX/Y,SP             EX (SP),HL              JR d
+                                EX (SP),IX/Y
+        AND A,HL                                        LD A,I
+        AND A,ir                EXX                     LD A,(IX/Y+d)
+        AND A,(IX/Y+d)                                  LD A,MB
+        AND A,n                 HALT                    LD A,(Mmn)
+        AND A,r                                         LD A,R
+                                IM n                    LD A,(rr)
+        BIT b,(HL)              IM A,(n)                LD (HL),IX/Y
+        BIT b, (IX/Y+d)         IN r,(BC)               LD (HL),n
+        BIT b,r                                         LD (HL),r
+                                IN0 r,(n)               LD (HL),rr
+        CALL cc,Mmn                                     LD IY,(SP+n)
+        CALL mn                 INC (HL)                LD I,HL
+                                INC ir                  LD I,A
+        CP A,(HL)               INC IX/Y                LD ir,ir'
+        CP A,ir                 INC (IX/Y+d)            LD ir,n
+        CP A,(IX/Y+d)           INC r                   LD ir,r
+        CP A,r                  INC SP                  LD IX/Y,(HL)
+                                                        LD IX/Y,(IX/Y+d)
+        CPD                     IND                     LD IX/Y,Mmn
+        CPDR                    IND2                    LD IX/Y,(Mmn)
+                                IND2R                   LD (IX/Y+d),IX/Y
+        CPI                                             LD (IX/Y+d),n
+        CPIR                    INDM                    LD (IX/Y+d),r
+                                INDMR                   LD (IX/Y+d),rr
+        CPL                                             LD MB,A
+                                INDR                    LD (Mmn),A
+        DAA                     INDRX                   LD (Mmn),IX/Y
+
+-----------------------------------------------------------------------
+
+        LD (Mmn),rr             OTDR                    RL r
+        LD (Mmn),SP             OTDRX
+        LD R,A                                          RLA
+        LD r,(HL)               OTI2R
+        LD r,ir                                         RLC (HL)
+        LD r,(IX/Y+d)           OTIM                    RLC (IX/Y+d)
+        LD r,n                  OTIMR                   RLC r
+        LD r,r'
+        LD rr,(HL)              OTIR                    RLCA
+        LD rr,(IX/Y+d)          OTIRX
+        LD rr,Mmn                                       RLD
+        LD rr,(Mmn)             OUT (BC),r
+        LD (rr),A               OUT (C),r               RR (HL)
+        LD SP,HL                OUT (n),A               RR (IX/Y+d)
+        LD SP,IX/Y                                      RR r
+        LD SP,Mmn               OUTD
+        LD SP,(Mmn)             OUTD2                   RRA
+        
+        LDD                     OUTI                    RRC (HL)
+        LDDR                    OUTI2                   RRC (IX/Y+d)
+                                RL (IX+d)               RRC r
+        LDI                     RL (IY+d
+        LDIR                                            RRCA
+                                PEA IX+d
+        LEA IX/Y,IX+d           PEA IY+d                RRD
+        LEA IX/Y,IY+d
+        LEA rr,IX+d             POP AF                  RSMIX
+        LEA rr,IY+d             POP IX/Y
+                                POP rr                  RST n
+        MLT rr
+        MLT SP                  PUSH AF                 SBC A,(HL)
+                                PUSH IX/Y               SBC A,ir
+        NEG                     PUSH rr                 SBC A,(IX/Y+d)
+                                                        SBC A,n
+        NOP                     RES b,(IX/Y+d)          SBC A,r
+                                RES b,r                 SBC HL,rr
+        OR A,(HL)                                       SBC HL,SP
+        OR A,ir                 RET
+        OR A,(IX/Y+d)           RET cc                  SCF
+        OR A,n
+        OR A,r                  RETI                    SET b,(HL)
+                                                        SET b,(IX/Y+d)
+        OTD2R                   RETN                    SET b,r
+        
+        OTDM                    RL (HL)                 SLA (HL)
+        OTDMR                   RL (IX/Y+d)             SLA (IX/Y+d)
+
+-----------------------------------------------------------------------
+
+        SLA r                   STMIX                   TSTIO n
+        
+        SLP                     SUB A,(HL)              XOR A,(HL)
+                                SUB A,ir                XOR A,ir
+        SRA (HL)                SUB A,(IX/Y+d)          XOR A,(IX/Y+d)
+        SRA (IX/Y+d)            SUB A,n                 XOR A,n
+        SRA r                   SUB A,r                 XOR A,r
+        
+        SRL (HL)                TST A,(HL)
+        SRL (IX/Y+d)            TST A,n
+        SRL r                   TST A,r
+
+
+   The  accumulator  'A' argument is optional in all of the fol-
+lowing instructions:  
+
+        ADC A,...               CP A,...                SUB A,...
+        ADD A,...               OR A,...                TST A,...
+        AND A,...               SBC A,...               XOR A,...
+
+
+   The  following  tables,  organized by instruction type, lists
+all possible EZ80/Z80  mnemonic  extensions  recognized  by  the
+ASEZ80  assembler.   The designation [] refers to a required ad-
+dressing mode argument shown in the table  above.   The  allowed
+mnemonic  suffixes  are  denoted within the enclosing delimiters
+().  Mnemonics specified with illegal  or  unrecognized  suffixs
+will be flagged with q or a errors.  
+
+
+Arithmetic Instructions 
+
+        adc (.l, .s)    [],[]
+        add (.l, .s)    [],[]
+        cp  (.l, .s)    [],[]
+        daa
+        dec (.l, .s)    []
+        inc (.l, .s)    []
+        mlt (.l, .s)    []
+        neg
+        sbc (.l, .s)    [],[]
+        sub (.l, .s)    [],[]
+
+ 
+Bit Manipulation Instructions 
+
+        bit (.l, .s)    [],[]
+        res (.l, .s)    [],[]
+        set (.l, .s)    [],[]
+
+
+Block Transfer and Compare Instructions 
+
+        cpd (.l, .s)            cpdr (.l, .s)
+        cpi (.l, .s)            cpir (.l, .s)
+        ldd (.l, .s)            lddr (.l, .s)
+        ldi (.l, .s)            ldir (.l, .s)
+
+
+Exchange Instructions 
+
+        ex (.l, .s)     [],[]
+        exx
+
+
+Input/Output Instructions 
+
+        in      [],[]           in0     [],[]
+        ind   (.l, .s)          indr  (.l, .s)
+        indx  (.l, .s)
+        ind2  (.l, .s)          ind2r (.l, .s)
+        indm  (.l, .s)          indmr (.l, .s)
+        ini   (.l, .s)          inir  (.l, .s)
+        inim  (.l, .s)          inimr (.l, .s)
+        otdm  (.l, .s)          otdmr (.l, .s)
+        otdrx (.l, .s)
+        otim  (.l, .s)          otimr (.l, .s)
+        otirx (.l, .s)
+        out   (.l, .s)  [],[]
+        out0  (.l, .s)  [],[]
+        outd  (.l, .s)          otdr  (.l, .s)
+        outd2 (.l, .s)          otdr2 (.l, .s)
+        outi  (.l, .s)          otir  (.l, .s)
+        outi2 (.l, .s)          oti2r (.l, .s)
+        tstio   []
+
+
+Load Instructions 
+
+        ld   (.l, .s, .il, .is, .lil, .sis)     [],[]
+        lea  (.l, .s)   []      pea  (.l, .s)   []
+        pop  (.l, .s)   []      push (.l, .s)   []
+
+
+Logical Instructions 
+
+        and (.l, .s)    [],[]
+        cpl (.l, .s)
+        or  (.l, .s)    [],[]
+        tst (.l, .s)    [],[]
+        xor (.l, .s)    [],[]
+
+
+Processor Control Instructions 
+
+        ccf             di              ei
+        halt            im              nop
+        rsmix           stmix
+        scf             slp
+
+
+Program Flow Instructions 
+
+        call (.il, .is)         []
+        call (.il, .is)         CC,[]
+        djnz    []
+        jp   (.l, .s, .lil, .sis)       []
+        jp   (.l, .s, .lil, .sis)       CC,[]
+        jr      []
+        jr      CC,[]
+        ret  (.l)
+        ret  (.l)       CC
+        reti (.l)
+        retn (.l)
+        rst  (.l, .s)   []
+
+
+Shift and Rotate Instructions 
+
+        rl  (.l, .s)    []      rla
+        rlc (.l, .s)    []      rlca
+        rld                     rrd
+        rr  (.l, .s)    []      rra
+        rrc (.1, .s)    []      rrca
+        sla (.l, .s)    []
+        sra (.l, .s)    []
+        srl (.l, .s)    []
+
+</PRE></B></H4>
+<H5><A HREF="asxdoc.htm#TOP"> Go to the Documentation Index</A></H5>
+
+<IMG width=576 height=5 border=0 SRC="rnbow.gif">
+
+<H4>
+<P><A HREF="asxxxx.htm#JUMP">
+<IMG width=32 height=32 border=0 SRC="spcshp.gif" ALIGN=bottom></A>
+<B>...  Exit the ASxxxx Documentation</B></A></P>
+
+<P><A href="../home.htm">
+<IMG width=32 height=32 border=0 SRC="home.gif" ALIGN=bottom></A>
+<B>...  Home Page</B></P>
+</H4>
+
+<H6><P><B>Last Updated: April 2009</B></P></H6>
+</BODY> 
+</HTML>

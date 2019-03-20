@@ -1,0 +1,209 @@
+	.sbttl	Port Data Structure
+
+	;  This data area provides the definitions of all
+	; variables and buffers used by the terminal ports.
+	;
+	;  These definitions will be offsets from the user
+	; stack register u.  The dp register will also be
+	; loaded to allow direct access to the first 256
+	; locations of the area.
+
+	.area	PORTDATA	(ABS,OVR)
+
+	.org	0
+
+portbgn	==	.
+
+lclstk::	.blkb	2	; local user stack address
+				; this allows register u
+				; to be reloaded by:
+				; ldu	*lclstk
+
+	; port I/O routine variables
+
+ser$port::	.blkb	2	; acia address of status register
+		.blkb	2	; acia address of rcvr/xmtr register
+	;
+	; 6850 ACIA address offsets
+
+	dlstat	==  ser$port	; data link status register (ro)
+	dlcsr	==  ser$port	; data link control register (wo)
+	dlrcv	==  ser$port+2	; receive data register (ro)
+	dltrn	==  ser$port+2	; transmitter data register (wo)
+				; These values are offsets from
+				; the port base address
+				; the MC6850 address is [dlxxx,u]
+
+bfstat::	.blkb	1	; buffers status
+	dl	==	1	; bit 0 - data link
+	scn	==	4	; bit 2 - scan
+	;
+	;	port link buffer pointers
+	;
+dlcntr::	.blkb	1	; characters in buffer
+dlqntr::	.blkb	2	; character pointer for output
+dlpntr::	.blkb	2	; character pointer for input
+dlend::		.blkb	2	; end of buffer address
+	;
+	;	scan buffer pointers
+	;
+scntr::		.blkb	1	; characters in bufffer
+scqntr::	.blkb	2	; character pointer for output
+scpntr::	.blkb	2	; character pointer for input
+scend::		.blkb	2	; end of buffer address
+
+d.csr::		.blkb	1	; 6850 csr copy
+	;
+	;	'link' protocol status
+	;
+d.stat::	.blkb	1	; 'link' control status
+	;
+	;	7-	xoff'd(1)/else(0) (data from host)
+	;	6-	xoff'd(1)/else(0) (data to host)
+	;	0-	xon(^q)/xoff(^s) enabled(1)/disabled(0)
+	;
+$dxonf::	.blkb	1	; 'link' flag character
+	$xon	==	'Q & 0x1F
+	$xoff	==	'S & 0x1F
+
+	;	$s loader variables
+
+$scntr::	.blkb	0d1	; character counter
+$schksm::	.blkb	0d1	; running checksum
+$svalu::	.blkb	0d2	; binary value of hex
+$srbc::		.blkb	0d1	; running byte count
+$sladdr::	.blkb	0d2	; load address
+
+	;	list processor variables
+
+lsbuff::	.blkb	0d9	; character buffer
+lstcnt::	.blkb	0d1	; chars in lsbuff
+lpntr::		.blkb	0d2	; pointer to chars
+lstat::		.blkb	0d1	; list processor status
+				;	7- single character mode
+				;	6- list scan
+				;	5- build mode
+				;	4- special single character mode
+				;
+format::	.blkb	0d1	; integer format length
+gosub::		.blkb	0d2	; address of process
+char::		.blkb	0d1	; current character
+pchar::		.blkb	0d1	; previous character
+schflg::	.blkb	0d1	; seen character flag
+				;
+rstat0::	.blkb	0d1	; unit status
+
+	;	evaln variables
+
+	ndigit	==	6
+nsign::		.blkb	0d1	; sign of number
+number::	.blkb	ndigit	; 16-bit result / character buffer
+numcntr::	.blkb	1	; character counter
+bincntr::	.blkb	1	; character counter
+
+	; Ascii <--> Integer Conversion Routines
+
+i$ndgt::	.blkb	1	; digits in conversion
+i$dcnt::	.blkb	1	; counter / result byte
+i$zero::	.blkb	1	; leading zero suppressing flag
+i$data::	.blkb	2	; temporary for data
+
+	; screen status register
+
+scrn$sts::	.blkb	2	; screen status register
+	; ms byte	bit	<7>	screen active
+	;		bit	<6>	clear screen flag
+	;		bit	<5>	set cursor flag
+	;		bit	<4>	unused
+	;		bits	<3:0>	screen type
+	; ls byte	bits	<7:0>	channel number
+
+slc$optp::	.blkb	2	; select screen option position
+scrn$pos::	.blkb	2	; screen cursor position
+
+s$state::	.blkb	1	; screen state
+o$state::	.blkb	1	; options state
+
+s$string::	.blkb	0d16	; screen input string
+s$strlen::	.blkb	1	; string length
+
+				; screen options array
+optarray::	.blkb	SCRNBT-SCRNTP+1
+opt$posn::	.blkb	2	; option position
+
+	; format buffer routine variables
+
+fmtrow::	.blkb	1	; format buffer row
+fmtcol::	.blkb	1	; format buffer column
+findex::	.blkb	2	; address of character in format buffer
+rflag::		.blkb	1	; normal/reverse video flag
+
+	; output buffer routine variables
+
+cstate::	.blkb	1	; current state of syscin translator
+ostate::	.blkb	1	; current state of output buffer scanner
+index::		.blkb	1	; current output scanner index
+first::		.blkb	1	; first changed character in line
+count::		.blkb	1	; number of changed characters in line
+outz::		.blkb	1	; current screen video mode
+savez::		.blkb	1	; saved screen video mode
+
+	; temporaries
+
+tempv1::	.blkb	2	; just some temporary variables
+tempv2::	.blkb	2	; for general use
+tempv3::	.blkb	2
+tempv4::	.blkb	2
+
+	; HV Port Queue
+
+que$bufr::	.blkb	0d64	; 32 element queue
+que$timr::	.blkb	2	; queue element time out timer
+que$wait::	.blkb	2	; queue sequence wait counter
+q$gosub::	.blkb	2	; dispatch address
+que$inp::	.blkb	1	; input pointer
+que$oup::	.blkb	1	; output pointer
+que$cntr::	.blkb	1	; queued elements counter
+que$chnl::	.blkb	1	; current channel for this process
+
+	; HV4032A sequencer variables
+
+hvc$gosub::	.blkb	2	; return address
+hvc$pntr::	.blkb	2	; string pointer
+hvc$strng::	.blkb	0d16	; string buffer
+hvc$cntr::	.blkb	1	; counter
+hvc$loop::	.blkb	1	; loop counter
+hvc$char::	.blkb	1	; last sent character
+hvc$csts::	.blkb	1	; channel readout status
+hvc$fseq::	.blkb	1	; hvc failing channel scanner state
+hvc$fchn::	.blkb	1	; hvc failing channel
+hvc$sseq::	.blkb	1	; hvc status scanner state
+
+
+	.org	0d256
+
+scbuf::		.blkb	0d256	; scan buffer area
+	sclen	==	0d256
+	scmpty	==	0d32
+	scfull	==	0d192
+	scvful	==	0d224
+
+dlbuf::		.blkb	0d256	; host link character buffer
+	dllen	==	0d256	; 256 bytes
+	dlmpty	==	0d32
+	dlfull	==	0d128
+	dlvful	==	0d192
+
+bufrend ==	.
+
+bufralloc ==	bufrend - portbgn
+
+	scrnsize	=	(SCRNBT-SCRNTP+1)*SCRNW
+
+fmtbuf::	.blkb	scrnsize	; format buffer allocation
+outbuf::	.blkb	scrnsize	; output buffer allocation
+
+portend	==	.
+
+portalloc ==	portend - portbgn
+
