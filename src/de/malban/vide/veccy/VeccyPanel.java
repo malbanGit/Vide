@@ -34,13 +34,10 @@ import de.malban.gui.CSAMainFrame;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.Scaler;
 import de.malban.gui.Stateable;
-import de.malban.gui.components.CSAInternalFrame;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
-import de.malban.gui.dialogs.JOptionPaneDialog;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
-import de.malban.util.KeyboardListener;
 import de.malban.vide.VideConfig;
 import de.malban.vide.assy.Asmj;
 import de.malban.vide.dissy.DASM6809;
@@ -49,7 +46,6 @@ import de.malban.vide.script.ImportFrame;
 import de.malban.vide.veccy.gtest.HLines;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vedi.VediPanel;
-import de.malban.vide.vedi.panels.GetRadiusValuePanel;
 import de.malban.vide.vedi.raster.VectorJPanel;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.*;
@@ -69,7 +65,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -738,6 +733,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jCheckBoxextendedList = new javax.swing.JCheckBox();
         jButtonDraw_syncList1 = new javax.swing.JButton();
         jCheckBox3ds = new javax.swing.JCheckBox();
+        jCheckBox16 = new javax.swing.JCheckBox();
         jPanel30 = new javax.swing.JPanel();
         jButtonMov_Draw_VLc_aAnim = new javax.swing.JButton();
         jButtonDraw_VLcAnim = new javax.swing.JButton();
@@ -811,6 +807,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel69 = new javax.swing.JLabel();
         jCheckBoxNoInitialMove = new javax.swing.JCheckBox();
         jButtonBuildSmartList2 = new javax.swing.JButton();
+        jTextField12 = new javax.swing.JTextField();
+        jLabel76 = new javax.swing.JLabel();
         jPanel36 = new javax.swing.JPanel();
         jCheckBoxRunnable2 = new javax.swing.JCheckBox();
         jButtonAssembleSM = new javax.swing.JButton();
@@ -826,6 +824,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel75 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
         jCheckBox11 = new javax.swing.JCheckBox();
+        jCheckBoxCompileForVB = new javax.swing.JCheckBox();
+        jCheckBox13 = new javax.swing.JCheckBox();
+        jCheckBox14 = new javax.swing.JCheckBox();
+        jCheckBox15 = new javax.swing.JCheckBox();
         jPanel28 = new javax.swing.JPanel();
         jCheckBoxSameIntensity = new javax.swing.JCheckBox();
         jCheckBoxSamePattern = new javax.swing.JCheckBox();
@@ -856,6 +858,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
         jLabel54 = new javax.swing.JLabel();
+        jTextFieldstart1 = new javax.swing.JTextField();
+        jButtonFileSelect2 = new javax.swing.JButton();
+        jLabel77 = new javax.swing.JLabel();
+        jLabel78 = new javax.swing.JLabel();
+        jTextFieldstart2 = new javax.swing.JTextField();
+        jButtonFileSelect3 = new javax.swing.JButton();
         jLabelMaxY = new javax.swing.JLabel();
         jLabelY0 = new javax.swing.JLabel();
         jLabelMinY = new javax.swing.JLabel();
@@ -2403,7 +2411,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox1)
@@ -2592,7 +2600,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addComponent(jTextFieldTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 149, Short.MAX_VALUE))
+                .addGap(0, 184, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("object angle", jPanel8);
@@ -2830,7 +2838,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButton2dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 90, Short.MAX_VALUE))
+                .addGap(0, 125, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("axis angles", jPanel7);
@@ -3004,7 +3012,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3222,6 +3230,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jCheckBox3ds.setToolTipText("If not checked \"3ds\" lists are created, if checked non 3ds lists.");
 
+        jCheckBox16.setText("keep position (Draw_VLp only)");
+        jCheckBox16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox16ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
@@ -3261,6 +3276,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jTextFieldLabelListname, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxextendedList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel29Layout.createSequentialGroup()
+                .addComponent(jCheckBox16, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3294,7 +3312,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonDraw_syncList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextFieldResync, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jCheckBox16))
         );
 
         jPanel30.setBorder(javax.swing.BorderFactory.createTitledBorder("Animation/Scenario"));
@@ -3443,7 +3462,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonDraw_syncListAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextFieldResyncAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jCheckBoxRunnable.setText("runnable");
@@ -3575,8 +3594,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jRadioButton6))
                 .addGap(12, 12, 12))
             .addGroup(jPanel19Layout.createSequentialGroup()
-                .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
+                .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -3775,7 +3794,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addContainerGap(333, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("user export", jPanel20);
@@ -3856,7 +3875,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonLoad4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("other", jPanel40);
@@ -3918,6 +3937,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel69.setText("jump on last move");
         jLabel69.setToolTipText("if last entry is a move/start move - add a stack jump address");
 
+        jCheckBoxNoInitialMove.setSelected(true);
         jCheckBoxNoInitialMove.setText("no positioning move");
 
         jButtonBuildSmartList2.setText("build scenario list");
@@ -3931,18 +3951,27 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
+        jTextField12.setText("SMVB_");
+
+        jLabel76.setText("function");
+        jLabel76.setToolTipText("header to a smart draw function collection");
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel27Layout.createSequentialGroup()
-                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel27Layout.createSequentialGroup()
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel27Layout.createSequentialGroup()
+                        .addComponent(jLabel76)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel27Layout.createSequentialGroup()
                         .addComponent(jLabel67)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextFieldLabelFactorName, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButtonBuildSmartList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel27Layout.createSequentialGroup()
+                    .addComponent(jButtonBuildSmartList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel27Layout.createSequentialGroup()
                         .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel63)
                             .addComponent(jLabel64)
@@ -3956,19 +3985,19 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel27Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel27Layout.createSequentialGroup()
                         .addComponent(jLabel66)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextFieldLabelListname2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButtonBuildSmartList1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel68)
-                    .addGroup(jPanel27Layout.createSequentialGroup()
+                    .addComponent(jButtonBuildSmartList1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel68, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel27Layout.createSequentialGroup()
                         .addComponent(jCheckBoxStackJump)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel69, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jTextFieldLabelStackJumpName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBoxNoInitialMove)
-                    .addComponent(jButtonBuildSmartList2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextFieldLabelStackJumpName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBoxNoInitialMove, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonBuildSmartList2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6))
         );
         jPanel27Layout.setVerticalGroup(
@@ -4002,7 +4031,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButtonBuildSmartList1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonBuildSmartList2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jCheckBoxStackJump)
                     .addComponent(jLabel69))
@@ -4012,6 +4041,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jTextFieldLabelStackJumpName, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jCheckBoxNoInitialMove)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel76))
                 .addContainerGap())
         );
 
@@ -4045,6 +4078,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTextAreaResultSM.setRows(5);
         jScrollPane8.setViewportView(jTextAreaResultSM);
 
+        jCheckBox9.setSelected(true);
         jCheckBox9.setText("eq difs");
         jCheckBox9.setToolTipText("if length are divided - equalize the devides (gets rids of \"dots\")");
 
@@ -4126,11 +4160,33 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jLabel73)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(jScrollPane8)
+                .addGap(1, 1, 1))
         );
 
         jCheckBox11.setText("old smart list");
+        jCheckBox11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox11ActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxCompileForVB.setSelected(true);
+        jCheckBoxCompileForVB.setText("vb smart list");
+        jCheckBoxCompileForVB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCompileForVBActionPerformed(evt);
+            }
+        });
+
+        jCheckBox13.setSelected(true);
+        jCheckBox13.setText("rts 2");
+
+        jCheckBox14.setText("no SHIFT");
+        jCheckBox14.setToolTipText("generate for usage without VIA SHIFT reg");
+
+        jCheckBox15.setText("low y");
+        jCheckBox15.setToolTipText("Test whether Y is \"very\" negative, if so - use different draw routine.");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -4144,8 +4200,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jCheckBox11)
-                        .addContainerGap())))
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addComponent(jCheckBoxCompileForVB)
+                                .addGap(42, 42, 42)
+                                .addComponent(jCheckBox13)
+                                .addGap(36, 36, 36)
+                                .addComponent(jCheckBox14)
+                                .addGap(35, 35, 35)
+                                .addComponent(jCheckBox15))
+                            .addComponent(jCheckBox11))
+                        .addContainerGap(277, Short.MAX_VALUE))))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4154,10 +4219,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox11)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBoxCompileForVB)
+                            .addComponent(jCheckBox13)
+                            .addComponent(jCheckBox14)
+                            .addComponent(jCheckBox15))))
                 .addContainerGap())
         );
 
@@ -4171,7 +4241,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane8)
+            .addComponent(jTabbedPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 395, Short.MAX_VALUE)
         );
 
         jTabbedPane5.addTab("export", jPanel26);
@@ -4267,6 +4337,32 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel54.setForeground(new java.awt.Color(102, 102, 102));
         jLabel54.setText("than all exports are disabled");
 
+        jTextFieldstart1.setEnabled(false);
+
+        jButtonFileSelect2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect2.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect2ActionPerformed(evt);
+            }
+        });
+
+        jLabel77.setText("set working VList directory");
+        jLabel77.setEnabled(false);
+
+        jLabel78.setText("set working anim directory");
+        jLabel78.setEnabled(false);
+
+        jTextFieldstart2.setEnabled(false);
+
+        jButtonFileSelect3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect3.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
         jPanel28Layout.setHorizontalGroup(
@@ -4315,8 +4411,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jTextFieldZMax, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                        .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(0, 0, 0))
+                        .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextFieldstart1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonFileSelect2))
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel77))
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addComponent(jTextFieldstart2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonFileSelect3))
+                    .addComponent(jLabel78)))
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4383,7 +4494,19 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel42)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel54)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addGap(5, 5, 5)
+                .addComponent(jLabel77)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonFileSelect2)
+                    .addComponent(jTextFieldstart1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel78)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonFileSelect3)
+                    .addComponent(jTextFieldstart2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         jTabbedPane5.addTab("vectorlist status", jPanel28);
@@ -4701,7 +4824,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabelMode.setForeground(new java.awt.Color(51, 51, 255));
         jLabelMode.setText("SET");
 
-        jCheckBox12.setToolTipText("TF :-)");
+        jCheckBox12.setToolTipText("TF :-) [send generated sources directly to VecFever - if available]");
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
@@ -4752,11 +4875,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButtonRedo)
                         .addComponent(jButtonUndo))))
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel31Layout.createSequentialGroup()
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonSelectAll, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox12, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(0, 0, 0))
+            .addComponent(jButtonSelectAll, javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jCheckBox12, javax.swing.GroupLayout.Alignment.LEADING)
         );
 
         jButtonSingleEditor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/application_get.png"))); // NOI18N
@@ -6631,7 +6751,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         }
         else
         {
-            String text = vl.createASMDraw_VLp(name, jCheckBoxAddFactor.isSelected());
+            String text = vl.createASMDraw_VLp(name, jCheckBoxAddFactor.isSelected(), jCheckBox16.isSelected());
             if (jCheckBoxAddFactor.isSelected())
             {
                 text = "BLOW_UP EQU 1\n\n"+text;
@@ -6756,7 +6876,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonDraw_VLcAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VLcAnimActionPerformed
         String name = jTextFieldAnimName.getText();
-        if (!currentAnimation.isAnimation) return;
+     //   if (!currentAnimation.isAnimation) return;
         if (name.trim().length() == 0) 
         {
             if (currentAnimation.isAnimation)
@@ -6803,7 +6923,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButtonDraw_VLcAnimActionPerformed
 
     private void jButtonDraw_VLpAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VLpAnimActionPerformed
-        if (!currentAnimation.isAnimation) return;
+//        if (!currentAnimation.isAnimation) return;
         String name = jTextFieldAnimName.getText();
         if (name.trim().length() == 0) 
         {
@@ -8195,6 +8315,34 @@ public class VeccyPanel extends javax.swing.JPanel implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField11ActionPerformed
 
+    private void jCheckBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox11ActionPerformed
+
+    private void jCheckBoxCompileForVBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCompileForVBActionPerformed
+        jCheckBox13.setEnabled(jCheckBoxCompileForVB.isSelected());
+    }//GEN-LAST:event_jCheckBoxCompileForVBActionPerformed
+    String lastDir =Global.mainPathPrefix;
+
+    private void jButtonFileSelect2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect2ActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+//        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        fc.setCurrentDirectory(new java.io.File(lastDir));
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String name = fc.getSelectedFile().getAbsolutePath();
+        jTextFieldstart1.setText(name);
+        lastDir = fc.getCurrentDirectory().toString();
+    }//GEN-LAST:event_jButtonFileSelect2ActionPerformed
+
+    private void jButtonFileSelect3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonFileSelect3ActionPerformed
+
+    private void jCheckBox16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox16ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox16ActionPerformed
+
   
     
     void checkAssemblerButtonSM()
@@ -8729,6 +8877,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonExpandDimensionYZ;
     private javax.swing.JButton jButtonExport;
     private javax.swing.JButton jButtonExport1;
+    private javax.swing.JButton jButtonFileSelect2;
+    private javax.swing.JButton jButtonFileSelect3;
     private javax.swing.JButton jButtonFillGaps;
     private javax.swing.JButton jButtonFitByteRange;
     private javax.swing.JButton jButtonFitByteRange1;
@@ -8787,6 +8937,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox10;
     private javax.swing.JCheckBox jCheckBox11;
     private javax.swing.JCheckBox jCheckBox12;
+    private javax.swing.JCheckBox jCheckBox13;
+    private javax.swing.JCheckBox jCheckBox14;
+    private javax.swing.JCheckBox jCheckBox15;
+    private javax.swing.JCheckBox jCheckBox16;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox2dOnly;
     private javax.swing.JCheckBox jCheckBox3;
@@ -8806,6 +8960,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBoxAvoidMoreThan2;
     private javax.swing.JCheckBox jCheckBoxByteFrame;
     private javax.swing.JCheckBox jCheckBoxCStyle;
+    private javax.swing.JCheckBox jCheckBoxCompileForVB;
     private javax.swing.JCheckBox jCheckBoxContinue;
     private javax.swing.JCheckBox jCheckBoxDisplayAxis;
     private javax.swing.JCheckBox jCheckBoxDragVectors;
@@ -8917,6 +9072,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
+    private javax.swing.JLabel jLabel76;
+    private javax.swing.JLabel jLabel77;
+    private javax.swing.JLabel jLabel78;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelAnim;
@@ -9045,6 +9203,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -9105,6 +9264,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextFieldZMax;
     private javax.swing.JTextField jTextFieldZMaxLength;
     private javax.swing.JTextField jTextFieldZMin;
+    private javax.swing.JTextField jTextFieldstart1;
+    private javax.swing.JTextField jTextFieldstart2;
     private javax.swing.JToggleButton jToggleButtonPlayAnim;
     private de.malban.graphics.Single3dDisplayPanel single3dDisplayPanel;
     private de.malban.graphics.Single3dDisplayPanel single3dDisplayPanel1;
@@ -9273,8 +9434,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
     {
         // export Anims
         jButtonMov_Draw_VLc_aAnim.setEnabled(true);
-        jButtonDraw_VLcAnim.setEnabled(currentAnimation.isAnimation);
-        jButtonDraw_VLpAnim.setEnabled(currentAnimation.isAnimation);
+        jButtonDraw_VLcAnim.setEnabled(true);
+        jButtonDraw_VLpAnim.setEnabled(true);
         jButtonDraw_VL_modeAnim.setEnabled(true);
         jButtonAnimCodeGen.setEnabled(true);
 
@@ -10200,6 +10361,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     
     void fillStatus()
     {
+        
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         jTextFieldVectorCount.setText(""+vl.size());
         jTextFieldVectorCount.setToolTipText(""+vl.getMoveCount()+" move vectors");
@@ -10276,7 +10438,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jButtonDraw_VL_mode.setEnabled(false);
         }
 
-        
+        checkAnimExportButtons();
         
     }
     void pathsAsScenario()
@@ -11345,23 +11507,39 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         if (jCheckBoxIntensity.isSelected()) // intensity
         {
-            b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi(SM_setIntensity), lo(SM_setIntensity)"+"\n");
+            b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi("+functionPrefix+"setIntensity), lo("+functionPrefix+"setIntensity)"+"\n");
         }
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         
-        if (useOldSmartlist)
+        if (compileForVB)
         {
-            boolean didAddJump = doSmartListOutput_Org(b,jCheckBoxFactor.isSelected(), vl, -1);
+            boolean didAddJump = doSmartListOutputVB(b,jCheckBoxFactor.isSelected(), vl, -1);
             if (!didAddJump)
-                b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi(SM_lastDraw_rts), lo(SM_lastDraw_rts)"+"\n");
+            {
+                if (jCheckBox13.isSelected())
+                    if (lastWasMove)
+                       b.append("\tdb  $00, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
+                    else
+                       b.append("\tdb  $fe, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
+                else
+                    b.append("\tdb  $40, $00,  $00, hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
+            }
         }
         else
         {
-            boolean didAddJump = doSmartListOutput(b,jCheckBoxFactor.isSelected(), vl, -1);
-            if (!didAddJump)
-                b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi(SM_lastDraw_rts), lo(SM_lastDraw_rts)"+"\n");
+            if (useOldSmartlist)
+            {
+                boolean didAddJump = doSmartListOutput_Org(b,jCheckBoxFactor.isSelected(), vl, -1);
+                if (!didAddJump)
+                    b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
+            }
+            else
+            {
+                boolean didAddJump = doSmartListOutput(b,jCheckBoxFactor.isSelected(), vl, -1);
+                if (!didAddJump)
+                    b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
+            }
         }
-        
         
         
         
@@ -11401,11 +11579,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         {
             boolean addLine = true;
             boolean tryBacklogging = false;
-            if (line.contains("hi(SM_continue_d), lo(SM_continue_d)"))
+            if (line.contains("hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)"))
             {
                 addLine = false;
                 backlog.add(line);
-                if (backlog.size() == 7) 
+                if (backlog.size() == MAX_EQUAL_TYPE) 
                 {
                     tryBacklogging = true;
                 }
@@ -11418,106 +11596,25 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 {
                     b.append(backlog.get(0)).append("\n");
                 }
-                else if (backlog.size() == 2)
+                else if (backlog.size() > 1)
                 {
-                    String l1 = backlog.get(0); 
-                    String l2 = backlog.get(1); 
-                    l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d2), lo(SM_continue_d2)");
-                    l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    b.append(l1).append("\n");
-                    b.append(l2).append("\n");
+                    for (int i=0; i<backlog.size(); i++)
+                    {
+                        String l = backlog.get(i);
+                        if (i==0)
+                        {
+                            if (useOldSmartlist)
+                                l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)", "hi("+functionPrefix+"continue_d"+(backlog.size())+"), lo("+functionPrefix+"continue_d"+(backlog.size())+")");
+                            else
+                                l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)", "hi("+functionPrefix+"continue_d"+(backlog.size()-1)+"), lo("+functionPrefix+"continue_d"+(backlog.size()-1)+")");
+                        }
+                        else
+                        {
+                            l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
+                        }
+                        b.append(l).append("\n");
+                    }
                 }
-                else if (backlog.size() == 3)
-                {
-                    String l1 = backlog.get(0); 
-                    String l2 = backlog.get(1); 
-                    String l3 = backlog.get(2); 
-                    l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d3), lo(SM_continue_d3)");
-                    l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    b.append(l1).append("\n");
-                    b.append(l2).append("\n");
-                    b.append(l3).append("\n");
-                }
-                else if (backlog.size() == 4)
-                {
-                    String l1 = backlog.get(0); 
-                    String l2 = backlog.get(1); 
-                    String l3 = backlog.get(2); 
-                    String l4 = backlog.get(3); 
-                    l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d4), lo(SM_continue_d4)");
-                    l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l4 = de.malban.util.UtilityString.replace(l4, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    b.append(l1).append("\n");
-                    b.append(l2).append("\n");
-                    b.append(l3).append("\n");
-                    b.append(l4).append("\n");
-                }
-                else if (backlog.size() == 5)
-                {
-                    String l1 = backlog.get(0); 
-                    String l2 = backlog.get(1); 
-                    String l3 = backlog.get(2); 
-                    String l4 = backlog.get(3); 
-                    String l5 = backlog.get(4); 
-                    l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d5), lo(SM_continue_d5)");
-                    l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l4 = de.malban.util.UtilityString.replace(l4, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l5 = de.malban.util.UtilityString.replace(l5, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    b.append(l1).append("\n");
-                    b.append(l2).append("\n");
-                    b.append(l3).append("\n");
-                    b.append(l4).append("\n");
-                    b.append(l5).append("\n");
-                }
-                else if (backlog.size() == 6)
-                {
-                    String l1 = backlog.get(0); 
-                    String l2 = backlog.get(1); 
-                    String l3 = backlog.get(2); 
-                    String l4 = backlog.get(3); 
-                    String l5 = backlog.get(4); 
-                    String l6 = backlog.get(5); 
-                    l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d6), lo(SM_continue_d6)");
-                    l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l4 = de.malban.util.UtilityString.replace(l4, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l5 = de.malban.util.UtilityString.replace(l5, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l6 = de.malban.util.UtilityString.replace(l6, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    b.append(l1).append("\n");
-                    b.append(l2).append("\n");
-                    b.append(l3).append("\n");
-                    b.append(l4).append("\n");
-                    b.append(l5).append("\n");
-                    b.append(l6).append("\n");
-                }
-                else if (backlog.size() == 7)
-                {
-                    String l1 = backlog.get(0); 
-                    String l2 = backlog.get(1); 
-                    String l3 = backlog.get(2); 
-                    String l4 = backlog.get(3); 
-                    String l5 = backlog.get(4); 
-                    String l6 = backlog.get(5); 
-                    String l7 = backlog.get(6); 
-                    l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d7), lo(SM_continue_d7)");
-                    l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l4 = de.malban.util.UtilityString.replace(l4, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l5 = de.malban.util.UtilityString.replace(l5, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l6 = de.malban.util.UtilityString.replace(l6, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    l7 = de.malban.util.UtilityString.replace(l7, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                    b.append(l1).append("\n");
-                    b.append(l2).append("\n");
-                    b.append(l3).append("\n");
-                    b.append(l4).append("\n");
-                    b.append(l5).append("\n");
-                    b.append(l6).append("\n");
-                    b.append(l7).append("\n");
-                }
-
                 backlog.clear();
             }
 
@@ -11534,104 +11631,24 @@ public class VeccyPanel extends javax.swing.JPanel implements
             {
                 b.append(backlog.get(0)).append("\n");
             }
-            else if (backlog.size() == 2)
+            else if (backlog.size() > 1)
             {
-                String l1 = backlog.get(0); 
-                String l2 = backlog.get(1); 
-                l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d2), lo(SM_continue_d2)");
-                l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                b.append(l1).append("\n");
-                b.append(l2).append("\n");
-            }
-            else if (backlog.size() == 3)
-            {
-                String l1 = backlog.get(0); 
-                String l2 = backlog.get(1); 
-                String l3 = backlog.get(2); 
-                l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d3), lo(SM_continue_d3)");
-                l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                b.append(l1).append("\n");
-                b.append(l2).append("\n");
-                b.append(l3).append("\n");
-            }
-            else if (backlog.size() == 4)
-            {
-                String l1 = backlog.get(0); 
-                String l2 = backlog.get(1); 
-                String l3 = backlog.get(2); 
-                String l4 = backlog.get(3); 
-                l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d4), lo(SM_continue_d4)");
-                l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l4 = de.malban.util.UtilityString.replace(l4, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                b.append(l1).append("\n");
-                b.append(l2).append("\n");
-                b.append(l3).append("\n");
-                b.append(l4).append("\n");
-            }
-            else if (backlog.size() == 5)
-            {
-                String l1 = backlog.get(0); 
-                String l2 = backlog.get(1); 
-                String l3 = backlog.get(2); 
-                String l4 = backlog.get(3); 
-                String l5 = backlog.get(4); 
-                l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d5), lo(SM_continue_d5)");
-                l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l4 = de.malban.util.UtilityString.replace(l4, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l5 = de.malban.util.UtilityString.replace(l5, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                b.append(l1).append("\n");
-                b.append(l2).append("\n");
-                b.append(l3).append("\n");
-                b.append(l4).append("\n");
-                b.append(l5).append("\n");
-            }
-            else if (backlog.size() == 6)
-            {
-                String l1 = backlog.get(0); 
-                String l2 = backlog.get(1); 
-                String l3 = backlog.get(2); 
-                String l4 = backlog.get(3); 
-                String l5 = backlog.get(4); 
-                String l6 = backlog.get(5); 
-                l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d6), lo(SM_continue_d6)");
-                l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l4 = de.malban.util.UtilityString.replace(l4, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l5 = de.malban.util.UtilityString.replace(l5, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l6 = de.malban.util.UtilityString.replace(l6, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                b.append(l1).append("\n");
-                b.append(l2).append("\n");
-                b.append(l3).append("\n");
-                b.append(l4).append("\n");
-                b.append(l5).append("\n");
-                b.append(l6).append("\n");
-            }
-            else if (backlog.size() == 7)
-            {
-                String l1 = backlog.get(0); 
-                String l2 = backlog.get(1); 
-                String l3 = backlog.get(2); 
-                String l4 = backlog.get(3); 
-                String l5 = backlog.get(4); 
-                String l6 = backlog.get(5); 
-                String l7 = backlog.get(6); 
-                l1 = de.malban.util.UtilityString.replace(l1, "hi(SM_continue_d), lo(SM_continue_d)", "hi(SM_continue_d7), lo(SM_continue_d7)");
-                l2 = de.malban.util.UtilityString.replace(l2, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l3 = de.malban.util.UtilityString.replace(l3, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l4 = de.malban.util.UtilityString.replace(l4, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l5 = de.malban.util.UtilityString.replace(l5, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l6 = de.malban.util.UtilityString.replace(l6, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                l7 = de.malban.util.UtilityString.replace(l7, ", hi(SM_continue_d), lo(SM_continue_d)", "");
-                b.append(l1).append("\n");
-                b.append(l2).append("\n");
-                b.append(l3).append("\n");
-                b.append(l4).append("\n");
-                b.append(l5).append("\n");
-                b.append(l6).append("\n");
-                b.append(l7).append("\n");
+                for (int i=0; i<backlog.size(); i++)
+                {
+                    String l = backlog.get(i);
+                    if (i==0)
+                    {
+                        if (useOldSmartlist)
+                            l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)", "hi("+functionPrefix+"continue_d"+(backlog.size())+"), lo("+functionPrefix+"continue_d"+(backlog.size())+")");
+                        else
+                            l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)", "hi("+functionPrefix+"continue_d"+(backlog.size()-1)+"), lo("+functionPrefix+"continue_d"+(backlog.size()-1)+")");
+                    }
+                    else
+                    {
+                        l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
+                    }
+                    b.append(l).append("\n");
+                }
             }
             backlog.clear();
         }
@@ -11673,19 +11690,35 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
             if (jCheckBoxIntensity.isSelected()) // intensity
             {
-                b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi(SM_setIntensity), lo(SM_setIntensity)"+"\n");
+                b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi("+functionPrefix+"setIntensity), lo("+functionPrefix+"setIntensity)"+"\n");
             }
-            if (useOldSmartlist)
+            if (compileForVB)
             {
-                boolean printFinal = doSmartListOutput_Org(b,jCheckBoxFactor.isSelected(), vl, count);
+                boolean printFinal = doSmartListOutputVB(b,jCheckBoxFactor.isSelected(), vl, count);
                 if (!printFinal)
-                    b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi(SM_lastDraw_rts), lo(SM_lastDraw_rts)"+"\n");
+                    if (jCheckBox13.isSelected())
+                        if (lastWasMove)
+                           b.append("\tdb  $00, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
+                        else
+                           b.append("\tdb  $fe, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
+                    else
+                        b.append("\tdb  $40, $00,  $00, hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
             }
             else
             {
-                boolean printFinal = doSmartListOutput(b,jCheckBoxFactor.isSelected(), vl, count);
-                if (!printFinal)
-                    b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi(SM_lastDraw_rts), lo(SM_lastDraw_rts)"+"\n");
+
+                if (useOldSmartlist)
+                {
+                    boolean printFinal = doSmartListOutput_Org(b,jCheckBoxFactor.isSelected(), vl, count);
+                    if (!printFinal)
+                        b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
+                }
+                else
+                {
+                    boolean printFinal = doSmartListOutput(b,jCheckBoxFactor.isSelected(), vl, count);
+                    if (!printFinal)
+                        b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
+                }
             }
                 
             /*** ***/
@@ -11756,23 +11789,38 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
             if (jCheckBoxIntensity.isSelected()) // intensity
             {
-                b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi(SM_setIntensity), lo(SM_setIntensity)"+"\n");
+                b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi("+functionPrefix+"setIntensity), lo("+functionPrefix+"setIntensity)"+"\n");
             }
             
-            
-            if (useOldSmartlist)
+            if (compileForVB)
             {
-                boolean printFinal = doSmartListOutput_Org(b,jCheckBoxFactor.isSelected(), vl, count);
+                boolean printFinal = doSmartListOutputVB(b,jCheckBoxFactor.isSelected(), vl, count);
                 if (!printFinal)
-                    b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi(SM_lastDraw_rts), lo(SM_lastDraw_rts)"+"\n");
+                    if (jCheckBox13.isSelected())
+                        if (lastWasMove)
+                           b.append("\tdb  $00, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
+                        else
+                           b.append("\tdb  $fe, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
+                    else
+                        b.append("\tdb  $40, $00,  $00, hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
             }
             else
             {
-                boolean printFinal = doSmartListOutput(b,jCheckBoxFactor.isSelected(), vl, count);
-                if (!printFinal)
-                    b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi(SM_lastDraw_rts), lo(SM_lastDraw_rts)"+"\n");
-            }
-            
+
+                if (useOldSmartlist)
+                {
+                    boolean printFinal = doSmartListOutput_Org(b,jCheckBoxFactor.isSelected(), vl, count);
+                    if (!printFinal)
+                        b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
+                }
+                else
+                {
+                    boolean printFinal = doSmartListOutput(b,jCheckBoxFactor.isSelected(), vl, count);
+                    if (!printFinal)
+                        b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
+                }
+            }            
+
             
             /*** ***/
             
@@ -12017,19 +12065,19 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     if (v.x == 0)
                     {
                         if (!skipMove)
-                            b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_continue_d_double_x0), lo(SM_continue_d_double_x0)"+"\n");
+                            b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_double_x0), lo("+functionPrefix+"continue_d_double_x0)"+"\n");
                     }
                     else
                     {
                         if (v.y == 0)
                         {
                             if (!skipMove)
-                                b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_continue_d_double_y0), lo(SM_continue_d_double_y0)"+"\n");
+                                b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_double_y0), lo("+functionPrefix+"continue_d_double_y0)"+"\n");
                         }
                         else
                         {
                             if (!skipMove)
-                                b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_continue_d_double), lo(SM_continue_d_double)"+"\n");
+                                b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_double), lo("+functionPrefix+"continue_d_double)"+"\n");
                         }
                     }
                 }
@@ -12039,11 +12087,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     listIndex++;
                     if (v.isVisible)
                     {
-                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_startDraw_d_double"+stackJumpAdd1Local+"), lo(SM_startDraw_d_double"+stackJumpAdd1Local+")"+stackJumpAdd2Local+"\n");
+                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startDraw_d_double"+stackJumpAdd1Local+"), lo("+functionPrefix+"startDraw_d_double"+stackJumpAdd1Local+")"+stackJumpAdd2Local+"\n");
                     }
                     else
                     {
-                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_startMove_d_double"+stackJumpAdd1Local+"), lo(SM_startMove_d_double"+stackJumpAdd1Local+")"+stackJumpAdd2Local+"\n");
+                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startMove_d_double"+stackJumpAdd1Local+"), lo("+functionPrefix+"startMove_d_double"+stackJumpAdd1Local+")"+stackJumpAdd2Local+"\n");
                     }
                     doStackJump = localStackJump;
                 }
@@ -12064,8 +12112,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     if (lastVisible)
                     {
                         done = true;
-                        b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi(SM_draw_only_XChanges), lo(SM_draw_only_XChanges)"+"; y was "+db(v.y)+"\n");
-//                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_draw_only_XChanges), lo(SM_draw_only_XChanges)"+"\n");
+                        b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"draw_only_XChanges), lo("+functionPrefix+"draw_only_XChanges)"+"; y was "+db(v.y)+"\n");
+//                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"draw_only_XChanges), lo("+functionPrefix+"draw_only_XChanges)"+"\n");
                     }
                 }
                 else
@@ -12073,8 +12121,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     if (!lastVisible)
                     {
                         done = true;
-                        b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi(SM_draw_only_XChanges), lo(SM_draw_only_XChanges)"+"; y was "+db(v.y)+"\n");
-//                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_draw_only_XChanges), lo(SM_draw_only_XChanges)"+"\n");
+                        b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"draw_only_XChanges), lo("+functionPrefix+"draw_only_XChanges)"+"; y was "+db(v.y)+"\n");
+//                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"draw_only_XChanges), lo("+functionPrefix+"draw_only_XChanges)"+"\n");
                     }
                 }
             }
@@ -12092,7 +12140,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 {
                     if (!skipMove)
                     {
-                        b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi(SM_continue_yEqx), lo(SM_continue_yEqx)"+"; y was "+db(v.y)+"\n");
+                        b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_yEqx), lo("+functionPrefix+"continue_yEqx)"+"; y was "+db(v.y)+"\n");
                         done = true;
                     }
                 }
@@ -12111,7 +12159,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 {
                     if (!skipMove)
                     {
-                        b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi(SM_continue_newY_eq_oldX), lo(SM_continue_newY_eq_oldX)"+"; y was "+db(v.y)+"\n");
+                        b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_newY_eq_oldX), lo("+functionPrefix+"continue_newY_eq_oldX)"+"; y was "+db(v.y)+"\n");
                         done = true;
                     }
                 }
@@ -12133,11 +12181,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     {
                         if (stackJumpAdd1.length()!=0)
                         {
-                            b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_continue_d_x0"+stackJumpAdd1+"), lo(SM_continue_d_x0"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
+                            b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_x0"+stackJumpAdd1+"), lo("+functionPrefix+"continue_d_x0"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                         }
                         else
                         {
-                            b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_continue_d_x0), lo(SM_continue_d_x0)"+"\n");
+                            b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_x0), lo("+functionPrefix+"continue_d_x0)"+"\n");
                         }
                         done = true;
                     }
@@ -12146,12 +12194,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 {
                     if (v.isVisible)
                     {
-                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_startDraw_d_x0), lo(SM_startDraw_d_x0)"+"\n");
+                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startDraw_d_x0), lo("+functionPrefix+"startDraw_d_x0)"+"\n");
                         done = true;
                     }
                     else
                     {
-                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_startMove_d_x0"+stackJumpAdd1+"), lo(SM_startMove_d_x0"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
+                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startMove_d_x0"+stackJumpAdd1+"), lo("+functionPrefix+"startMove_d_x0"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                         done = true;
                     }
                 }
@@ -12170,7 +12218,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 {
                     if (!skipMove)
                     {
-                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_continue_d_y0), lo(SM_continue_d_y0)"+"\n");
+                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_y0), lo("+functionPrefix+"continue_d_y0)"+"\n");
                         done = true;
                     }
                 }
@@ -12178,12 +12226,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 {
                     if (v.isVisible)
                     {
-                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_startDraw_d_y0), lo(SM_startDraw_d_y0)"+"\n");
+                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startDraw_d_y0), lo("+functionPrefix+"startDraw_d_y0)"+"\n");
                         done = true;
                     }
                     else
                     {
-                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_startMove_d_y0"+stackJumpAdd1+"), lo(SM_startMove_d_y0"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
+                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startMove_d_y0"+stackJumpAdd1+"), lo("+functionPrefix+"startMove_d_y0"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                         done = true;
                     }
                 }
@@ -12202,24 +12250,24 @@ public class VeccyPanel extends javax.swing.JPanel implements
             {
                 if (lastVisible)
                 {
-                    b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_continue_d), lo(SM_continue_d)"+"\n");
+                    b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)"+"\n");
                 }
                 else
                 {
-                    b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_startDraw_d"+stackJumpAdd1+"), lo(SM_startDraw_d"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
+                    b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startDraw_d"+stackJumpAdd1+"), lo("+functionPrefix+"startDraw_d"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                 }
             }
             else
             {
                 if (lastVisible)
                 {
-                    b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_startMove_d"+stackJumpAdd1+"), lo(SM_startMove_d"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
+                    b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startMove_d"+stackJumpAdd1+"), lo("+functionPrefix+"startMove_d"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                 }
                 else
                 {
                     if (!skipMove)
                     {
-                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi(SM_continue_d), lo(SM_continue_d)"+"\n");
+                        b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)"+"\n");
                     }
                 }
             }
@@ -12279,9 +12327,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         final int V_Y_SAME_OLDX = 1024;
         final int V_START_SEQUENCE =2048; // value in scount
         final int V_CONTINNUE_SEQUENCE =4096;
+        final int V_HIGH_NEGATIVE_Y =8192;
+
 
 	
-	final int V_ALLTYPES = V_START_DRAW+V_START_MOVE+V_CONTINUE+V_STACKJUMP+V_SAME_X+V_SAME_Y+V_VISIBLE+V_WAS_DIVIDED+V_CHANGE_INTENSITY+V_LAST+V_Y_SAME_OLDX+V_START_SEQUENCE+V_CONTINNUE_SEQUENCE;
+	final int V_ALLTYPES = V_START_DRAW+V_START_MOVE+V_CONTINUE+V_STACKJUMP+V_SAME_X+V_SAME_Y+V_VISIBLE+V_WAS_DIVIDED+V_CHANGE_INTENSITY+V_LAST+V_Y_SAME_OLDX+V_START_SEQUENCE+V_CONTINNUE_SEQUENCE+V_HIGH_NEGATIVE_Y;
 	
 	boolean divideEqually = false;
 	boolean doIntensities = false;
@@ -12290,8 +12340,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
 	int intensitySteps = 0x5;
 	String factorStringNew = "";
         boolean useOldSmartlist = false;
+        boolean compileForVB = false;
         int usedScale = 9;
         int currentIntensity;
+        String functionPrefix = "SM_";
+        boolean noShift = false;
+        int MAX_EQUAL_TYPE = 7;
+        boolean lastWasMove = true;
+        boolean testLowY = false;
         void getParameters()
         {
             divideEqually = jCheckBox9.isSelected();
@@ -12305,7 +12361,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
             useOldSmartlist = jCheckBox11.isSelected();
             usedScale  = DASM6809.toNumber(jTextField2.getText());
             currentIntensity = intensityMax;
-
+            compileForVB = jCheckBoxCompileForVB.isSelected();
+            functionPrefix = jTextField12.getText();
+            noShift = jCheckBox14.isSelected();
+            MAX_EQUAL_TYPE = 7;
+            lastWasMove = true;
+            testLowY = jCheckBox15.isSelected();
         }
         
         
@@ -12342,31 +12403,93 @@ public class VeccyPanel extends javax.swing.JPanel implements
         // don't add 0 moves!
         if ((aX == 0) && (aY==0)) return;
         int max = aX>aY?aX:aY;
-        if (max<127)
+        if (max<=127)
         {
             sList.add(sv);
             return;
         }
-        SmartVector sv1 = new SmartVector();
-        sv1.type = sv.type;
-        sv1.relY = sv.relY/2;
-        sv1.relX = sv.relX/2;
-        sv1.type = sv1.type | V_WAS_DIVIDED;
-        SmartVector sv2 = new SmartVector();
-        sv2.type = sv1.type;
-        if (divideEqually)
+        
+        if (max/2 <=127)
         {
-            sv2.relY = sv1.relY;
-            sv2.relX = sv1.relX;
+            SmartVector sv1 = new SmartVector();
+            sv1.type = sv.type;
+            sv1.relY = sv.relY/2;
+            sv1.relX = sv.relX/2;
+            sv1.type = sv1.type | V_WAS_DIVIDED;
+            SmartVector sv2 = new SmartVector();
+            sv2.type = sv1.type;
+            if (divideEqually)
+            {
+                sv2.relY = sv1.relY;
+                sv2.relX = sv1.relX;
+            }
+            else
+            {
+                sv2.relY = sv.relY-sv1.relY;
+                sv2.relX = sv.relX-sv1.relX;
+            }
+
+            addToList2(sList, sv1);
+            addToList2(sList, sv2);
+            return;
         }
-        else
+        if (max/3 <=127)
         {
-            sv2.relY = sv.relY-sv1.relY;
-            sv2.relX = sv.relX-sv1.relX;
+            SmartVector sv1 = new SmartVector();
+            SmartVector sv2 = new SmartVector();
+            SmartVector sv3 = new SmartVector();
+            sv1.type = sv.type;
+            sv1.relY = sv.relY/3;
+            sv1.relX = sv.relX/3;
+            sv1.type = sv1.type | V_WAS_DIVIDED;
+
+            sv2.type = sv1.type;
+            sv3.type = sv1.type;
+            if (divideEqually)
+            {
+                sv2.relY = sv1.relY;
+                sv2.relX = sv1.relX;
+                sv3.relY = sv1.relY;
+                sv3.relX = sv1.relX;
+            }
+            else
+            {
+                sv2.relY = sv.relY/3;
+                sv2.relX = sv.relY/3;
+                
+                sv3.relY = sv.relY-sv1.relY-sv2.relY;
+                sv3.relX = sv.relX-sv1.relX-sv2.relX;
+            }
+
+            addToList2(sList, sv1);
+            addToList2(sList, sv2);
+            addToList2(sList, sv3);
+            return;
         }
- 
-        addToList2(sList, sv1);
-        addToList2(sList, sv2);
+//        if (max/4 <=127)
+        {
+            SmartVector sv1 = new SmartVector();
+            sv1.type = sv.type;
+            sv1.relY = sv.relY/2;
+            sv1.relX = sv.relX/2;
+            sv1.type = sv1.type | V_WAS_DIVIDED;
+            SmartVector sv2 = new SmartVector();
+            sv2.type = sv1.type;
+            if (divideEqually)
+            {
+                sv2.relY = sv1.relY;
+                sv2.relX = sv1.relX;
+            }
+            else
+            {
+                sv2.relY = sv.relY-sv1.relY;
+                sv2.relX = sv.relX-sv1.relX;
+            }
+
+            addToList2(sList, sv1);
+            addToList2(sList, sv2);
+            return;
+        }
     }
     class SmartVector
     {
@@ -12381,7 +12504,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     boolean doNewStackJump  = false;
     // returns true if a stackjump happened
+    boolean doSmartListOutputVB(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count)
+    {
+        return doSmartListOutput_( b,  hasFactor,  vl,  count, true);
+    }
     boolean doSmartListOutput(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count)
+    {
+        return doSmartListOutput_( b,  hasFactor,  vl,  count, false);
+    }
+    boolean doSmartListOutput_(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count, boolean vb)
     {
 		// list of delta vectors
         ArrayList<SmartVector> sList = new ArrayList<SmartVector>();
@@ -12392,7 +12523,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (jCheckBoxFactor.isSelected())
             if (hasFactor) factorString =jTextFieldLabelFactorName.getText()+"*";
         
-        // first  step build a relative vector koordinate list from
+        // first  step build a relative vector coordinate list from
         // current vector list
         // list in SVectors
         boolean isInitialMove = true;
@@ -12462,6 +12593,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 int nextX = 256; // impossible values
                 int nextY = 256;
                 boolean thisVisibility = (v.type & V_VISIBLE) == V_VISIBLE;
+                
                 boolean nextVisible = thisVisibility; // default current
                 if (listIndex+1<sList.size())
                 {
@@ -12488,9 +12620,18 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         if (sList.size()>0)
         {
-            // first first is continue move
-            sList.get(0).type = sList.get(0).type | V_CONTINUE;
-            sList.get(0).type = sList.get(0).type & (V_ALLTYPES - V_VISIBLE);
+            // first first is continue move/ or start draw
+            boolean thisVisibility = (sList.get(0).type & V_VISIBLE) == V_VISIBLE;
+            if (thisVisibility)
+            {
+                sList.get(0).type = sList.get(0).type | V_START_DRAW;
+                sList.get(0).type = sList.get(0).type & (V_ALLTYPES - V_CONTINUE);
+            }
+            else
+            {
+                sList.get(0).type = sList.get(0).type | V_CONTINUE;
+                sList.get(0).type = sList.get(0).type & (V_ALLTYPES - V_START_DRAW);
+            }
             sList.get(sList.size()-1).type = sList.get(sList.size()-1).type | V_LAST;
         }
 
@@ -12498,6 +12639,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
         {
             SmartVector v = sList.get(listIndex);
 
+            if (testLowY)
+            {
+                if (v.relY < -100)
+                {
+                    v.type = v.type | V_HIGH_NEGATIVE_Y;
+                }
+            }
+            
             int nextX = 256; // impossible values
             int nextY = 256;
             boolean thisVisibility = (v.type & V_VISIBLE) == V_VISIBLE;
@@ -12508,6 +12657,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 nextY = sList.get(listIndex+1).relY;
                 nextVisible = (sList.get(listIndex+1).type & V_VISIBLE)== V_VISIBLE;
             }
+
             if (nextVisible != thisVisibility)
             {
                 if (nextVisible)
@@ -12580,9 +12730,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 
                 // also remove same as old X
                 // since X is changed while doing a new intensity
-                
                 v.type = v.type & (V_ALLTYPES - V_Y_SAME_OLDX);
-
             }
         }
 
@@ -12596,6 +12744,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             // not relevant
             thisType = thisType | V_SAME_X;
             thisType = thisType | V_SAME_Y;
+            thisType = thisType | V_LAST;
             thisType = thisType | V_Y_SAME_OLDX;
             thisType = thisType | V_WAS_DIVIDED;
             int sequence = 1;
@@ -12604,9 +12753,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 while (listIndex+sequence<sList.size())
                 {
                     int nextType = sList.get(listIndex+sequence).type;
+                    
+                    if ((nextType & V_HIGH_NEGATIVE_Y) == V_HIGH_NEGATIVE_Y) break;
                     // not relevant
                     nextType = nextType | V_SAME_X;
                     nextType = nextType | V_SAME_Y;
+                    nextType = nextType | V_LAST;
                     nextType = nextType | V_Y_SAME_OLDX;
                     nextType = nextType | V_WAS_DIVIDED;
                     if (sList.get(listIndex+sequence).count != 1)
@@ -12616,7 +12768,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     if (nextType == thisType)
                     {
                         sequence++;
-                        if (sequence==7) 
+                        if (sequence==MAX_EQUAL_TYPE) 
                             break;
                         continue;
                     }
@@ -12642,7 +12794,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         for (; listIndex<sList.size(); listIndex++)
         {
             SmartVector v = sList.get(listIndex);
-            b.append(genOutput(v, count));
+            b.append(genOutput(v, count, vb));
         }
 
 
@@ -12650,13 +12802,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
         // WAIT2 WAIT3 WAIT4 ...
 
         // perhaps a "good" RTS with every possibly smartlist?
-
         String fin = testForDoubleContinue(b.toString());
         b.replace(0, b.length(), fin);
         
         return doNewStackJump;
     }
-    String genOutput(SmartVector v, int count)
+    String genOutput(SmartVector v, int count, boolean vb)
     {
         String stackJumpAdd1 = "";
         String stackJumpAdd2 = "";
@@ -12664,13 +12815,24 @@ public class VeccyPanel extends javax.swing.JPanel implements
         boolean doneARound = false;
         int equalVectorCount = v.count;
         int initialEqualCount = equalVectorCount;
+        
+        String delayInfo = "";
+        if (testLowY)
+        {
+            if ((v.type & V_HIGH_NEGATIVE_Y) == V_HIGH_NEGATIVE_Y)
+            {
+                delayInfo = "_yd4";
+            }
+        }
+
+        
         while (equalVectorCount>0)
         {
             if (!doneARound)
             {
                 if ((v.type & V_CHANGE_INTENSITY) == V_CHANGE_INTENSITY)
                 {
-                    ret += "\tdb "+db(v.intensity)+ ", "+0 + ", hi(SM_Shift0_Intensity), lo(SM_Shift0_Intensity)\n";
+                    ret += "\tdb "+db(v.intensity)+ ", "+0+ ", "+0 + ", hi("+functionPrefix+"LightOff_Intensity), lo("+functionPrefix+"LightOff_Intensity)\n";
                 }
             }
             
@@ -12731,17 +12893,19 @@ public class VeccyPanel extends javax.swing.JPanel implements
             String drawType ="";
             if ((v.type & V_START_MOVE) == V_START_MOVE)
             {
-                drawType = "startMove";
+                drawType = "startMove"+delayInfo;
             }
             else if ((v.type & V_START_DRAW) == V_START_DRAW)
             {
-                drawType = "startDraw";
+                drawType = "startDraw"+delayInfo;
             }
             else if ((v.type & V_CONTINUE) == V_CONTINUE)
             {
-                drawType = "continue";
+                drawType = "continue"+delayInfo;
             }
-
+            String vbAdd = "";
+            if (vb)
+                vbAdd = ", $01";
             boolean done = false;
             if (initialEqualCount == 1)
             {
@@ -12755,22 +12919,37 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 }
                 else if ((v.type & V_Y_SAME_OLDX) == V_Y_SAME_OLDX)
                 {
-                    ret += "\tdb "+factorStringNew+0+ ", "+factorStringNew +db(v.relX) + ", hi(SM_"+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo(SM_"+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+"\n";
+                    if (drawType.indexOf("startDraw")>=0)
+                    {
+                        if (noShift)
+                            ret += "\tdb $ee"+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now $ee\n";
+                        else
+                            ret += "\tdb SHITREG_POKE_VALUE"+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now SHIFT\n";
+                    }
+                    else if (drawType.indexOf("startMove")>=0)
+                    {
+                        if (noShift)
+                            ret += "\tdb  $ce"+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now $ce\n";
+                        else
+                            ret += "\tdb  $00"+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now 0\n";
+                    }
+                    else
+                        ret += "\tdb "+factorStringNew +db(v.relY)+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y is "+db(v.relY)+"\n";
                     done = true;
                 }
                 else if (v.relX == v.relY)
                 {
-                    ret += "\tdb "+0+ ", "+factorStringNew +db(v.relX) + ", hi(SM_"+drawType+"_yEqx"+countAdd+stackJumpAdd1+"), lo(SM_"+drawType+"_yEqx"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"\n";
+                    ret += "\tdb "+factorStringNew +db(v.relY)+vbAdd+ ", "+factorStringNew +db(v.relX) +  ", hi("+functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y is "+db(v.relY)+"\n";
                     done = true;
                 }
-                else if (v.relX == 0)
+                else if ((v.relX == 0) && (!vb))
                 {
-                    ret += "\tdb "+factorStringNew+db(v.relY)+ ", "+factorStringNew +db(v.relX) + ", hi(SM_"+drawType+"_x0"+countAdd+stackJumpAdd1+"), lo(SM_"+drawType+"_x0"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
+                    ret += "\tdb "+factorStringNew+db(v.relY) + vbAdd+ ", "+factorStringNew +db(v.relX)  + ", hi("+functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
                     done = true;
                 }
-                else if (v.relY == 0)
+                else if ((v.relY == 0) && (!vb))
                 {
-                    ret += "\tdb "+factorStringNew+db(v.relY)+ ", "+factorStringNew +db(v.relX) + ", hi(SM_"+drawType+"_y0"+countAdd+stackJumpAdd1+"), lo(SM_"+drawType+"_y0"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
+                    ret += "\tdb "+factorStringNew+db(v.relY) + vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
                     done = true;
                 }
                 else if ((v.type & V_SAME_Y) == V_SAME_Y)
@@ -12779,22 +12958,42 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     {
                         if (drawType.indexOf("startMove")>=0)
                         {
-                            ret += "\tdb 0, $ce , hi(SM_"+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo(SM_"+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
+                            if (noShift)
+                                ret += "\tdb  $ce"+vbAdd +", $ce , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"; y now $CE\n";
+                            else
+                                ret += "\tdb  $00"+vbAdd +", $ce , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
                         }
                         else if (drawType.indexOf("startDraw")>=0)
                         {
-                            ret += "\tdb 0, $ee , hi(SM_"+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo(SM_"+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
+                            if (noShift)
+                                ret += "\tdb  $ee"+vbAdd +", $ee , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+", y now $ee\n";
+                            else
+                                ret += "\tdb  SHITREG_POKE_VALUE"+vbAdd +", $ee , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+", y now SHIFTREG\n";
                         }
                         else
                         {
-                            ret += "\tdb 0, 1 , hi(SM_"+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo(SM_"+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
+                            ret += "\tdb  $00"+vbAdd +", $01 , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
                         }
-                        
                         done = true;
                     }
                     else
                     {
-                        ret += "\tdb "+1+ ", "+factorStringNew +db(v.relX) + ", hi(SM_"+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo(SM_"+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"\n";
+                        if (drawType.contains("startDraw"))
+                        {
+                            if (noShift)
+                                ret += "\tdb  $ee" + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+", now $ee\n";
+                            else
+                                ret += "\tdb  SHITREG_POKE_VALUE" + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+", now SHIFT Poke\n";
+                        }
+                        else if (drawType.contains("startMove"))
+                        {
+                            if (noShift)
+                                ret += "\tdb  $ce" + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+", now $ce\n";
+                            else
+                                ret += "\tdb  $00" + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+", now 0\n";
+                        }
+                        else 
+                            ret += "\tdb "+factorStringNew +db(v.relY) + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y is "+db(v.relY)+"\n";
                         done = true;
                     }
                 }
@@ -12803,11 +13002,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
             {
                 if ((v.type & V_CONTINNUE_SEQUENCE) == V_CONTINNUE_SEQUENCE)
                 {
-                    ret += "\tdb "+factorStringNew+db(v.relY)+ ", "+factorStringNew +db(v.relX) + "\n";
+                    ret += "\tdb "+factorStringNew+db(v.relY)+ vbAdd +", "+factorStringNew +db(v.relX) + "\n";
                 }
                 else
                 {
-                    ret += "\tdb "+factorStringNew+db(v.relY)+ ", "+factorStringNew +db(v.relX) + ", hi(SM_"+drawType+""+countAdd+stackJumpAdd1+"), lo(SM_"+drawType+""+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
+                    ret += "\tdb "+factorStringNew+db(v.relY)+ vbAdd +", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
                 }
                 
             }
@@ -12827,6 +13026,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     v.type = v.type | V_CONTINUE;
                 }
             }
+            if ((v.type & V_START_DRAW) == V_START_DRAW)
+                lastWasMove = false;
+            if ((v.type & V_START_MOVE) == V_START_MOVE)
+                lastWasMove = true;
             doneARound = true;
         }
 
@@ -12839,7 +13042,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
 	final int V_WAS_DIVIDED = 128;
 	final int V_CHANGE_INTENSITY = 256;
 	final int V_LAST = 512;    
-
+shift0+
+    
     
     */	
 	

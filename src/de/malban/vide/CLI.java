@@ -191,8 +191,8 @@ public class CLI {
         }
         if (CLI.activeCommandsMap.get("-bi") != null) 
         {
-            String fn = de.malban.util.Utility.makeAbsolut(CLI.activeCommandsMap.get("-bi").getValue());
-            fn = de.malban.util.Utility.makeRelative(fn);
+            String fn = de.malban.util.Utility.makeVideAbsolute(CLI.activeCommandsMap.get("-bi").getValue());
+            fn = de.malban.util.Utility.makeVideAbsolute(fn);
             if (new File(fn).exists()) config.startFile = fn;
         }
         if (CLI.activeCommandsMap.get("-gc") != null) 

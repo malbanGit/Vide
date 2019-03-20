@@ -23,6 +23,7 @@ package de.malban.vide.assy;
 Labels are identifies while building a SourceLine Object (in the cosnstructor
 */
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
@@ -101,11 +102,14 @@ public class Asmj {
     }
             
     static ArrayList<ReplacementFileList> allReplacements=new ArrayList<ReplacementFileList>();
-    public static void resetReplacements()
+    public static void resetReplacements(String prefix)
     {
         allReplacements=new ArrayList<ReplacementFileList>();
+        replacementPrefix = prefix;
+        if (!replacementPrefix.endsWith(File.separator))replacementPrefix+=File.separator;
     }
-    
+    private static String  replacementPrefix= Global.mainPathPrefix;
+
     // name change of bin files from the outside
     public static void binFileRename(String org, String banked)
     {
@@ -157,7 +161,7 @@ public class Asmj {
                         log.addLog("Replacement done (at $"+String.format("%04X", r.address)+"): '"+r.replacementVarName+"', from $"+String.format("%04X", org)+" to $"+String.format("%04X", (value&0xffff)), INFO);
                     }
                 }
-                
+               
                 //save bin
                 de.malban.util.UtilityFiles.writeBinFile(asmR.binFileName, data, false);
             }
@@ -169,11 +173,13 @@ public class Asmj {
     }
     public static int getReplacementValue(String varName, String listName)
     {
+        
         HashMap<String, Integer> matchList = matchFiles.get(listName);
         if (matchList == null)
         {
             matchList = new HashMap<String, Integer>();
-            Vector<String> matches = de.malban.util.UtilityString.readTextFileToString(new File(listName));
+            
+            Vector<String> matches = de.malban.util.UtilityString.readTextFileToString(new File(replacementPrefix+listName));
             for (int i=0; i<matches.size(); i++)
             {
                 String l = matches.elementAt(i);
@@ -224,7 +230,9 @@ public class Asmj {
                 b.append("\n");
             } 
 	}
-        de.malban.util.UtilityFiles.createTextFile(rList.replacementFileName, b.toString());
+        
+        String fName = replacementPrefix+rList.replacementFileName;
+        de.malban.util.UtilityFiles.createTextFile(fName, b.toString());
     }
     // return true is this name denotes something that needs replacing
     // REPLACE_1_2_enemyPlayerControlledRightBehaviour_varFrom1_0
@@ -920,6 +928,7 @@ public class Asmj {
         }
         exitReplacement(symtab);
     }
+
 
     private void include( LineContext ctx, String filename ) throws IOException
     {

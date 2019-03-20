@@ -206,7 +206,7 @@ public class DownloaderPanel extends javax.swing.JPanel {
                     {
                         String fullPath = fc.getSelectedFile().getAbsolutePath();
                         lastImagePath = fc.getSelectedFile().getParent();
-                        bla.setText(de.malban.util.Utility.makeRelative(fullPath));
+                        bla.setText(de.malban.util.Utility.makeVideRelative(fullPath));
                     }
                 }
             });
@@ -728,7 +728,7 @@ public class DownloaderPanel extends javax.swing.JPanel {
                     {
                         String fullPath = fc.getSelectedFile().getAbsolutePath();
                         lastImagePath = fc.getSelectedFile().getParent();
-                        bla.setText(de.malban.util.Utility.makeRelative(fullPath));
+                        bla.setText(de.malban.util.Utility.makeVideRelative(fullPath));
                     }
             }
         });
@@ -792,7 +792,7 @@ public class DownloaderPanel extends javax.swing.JPanel {
         {
             String fullPath = fc.getSelectedFile().getAbsolutePath();
             lastImagePath = fc.getSelectedFile().getParent();
-            jTextField6.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextField6.setText(de.malban.util.Utility.makeVideRelative(fullPath));
         }
     }//GEN-LAST:event_jButtonFileSelect5ActionPerformed
 

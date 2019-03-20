@@ -574,7 +574,8 @@ public class VideConfig  implements Serializable{
         {
             String loadfilename2 = de.malban.util.UtilityString.replace(name, "vsv", "vs2");
             String completeName = Global.mainPathPrefix+"serialize"+File.separator+loadfilename2;
-            if (!(new File(completeName).exists())) name = "default.vsv";
+            if (!(new File(completeName).exists())) 
+                name = "default.vsv";
         }
         catch (Throwable e) {} // for gui builder
         
@@ -760,7 +761,10 @@ public class VideConfig  implements Serializable{
             {
                 if (themeFile.length()!=0)
                 {
-                    File file = new File(de.malban.util.UtilityFiles.convertSeperator(themeFile));
+                    String themeFileToLoad = de.malban.util.Utility.makeVideAbsolute(themeFile);
+                    
+                    
+                    File file = new File(de.malban.util.UtilityFiles.convertSeperator(themeFileToLoad));
                     if (file.exists())
                     {
                         Global.linkColor = linkColor;

@@ -3541,6 +3541,20 @@ public class DissiPanel extends javax.swing.JPanel  implements
         
         initOldBreakPoints();
         
+        if (getMemory().highestUserRAM != -1)
+        {
+            // add stack breakpoint
+            Breakpoint bp = new Breakpoint();
+            bp.targetAddress = getMemory().highestUserRAM;
+            bp.name = "stack lower equal ";
+            bp.targetType = Breakpoint.BP_TARGET_CPU;
+            bp.targetSubType = Breakpoint.BP_SUBTARGET_CPU_S;
+            bp.type = Breakpoint.BP_MULTI | Breakpoint.BP_COMPARE;
+            boolean added = currentDissi.vecxPanel.breakpointCPUToggle(bp);
+            if (added) printMessage("Breakpoint for stack added.", MESSAGE_INFO);
+            else printMessage("Breakpoint for stack removed.", MESSAGE_INFO);
+        }
+        
         return ret;
     }    
     public boolean isInit()
@@ -4964,6 +4978,26 @@ public class DissiPanel extends javax.swing.JPanel  implements
                         boolean added = currentDissi.vecxPanel.breakpointAddressToggle(bp);
                         if (added) printMessage("Breakpoint for non zero integrators added.", MESSAGE_INFO);
                         else printMessage("Breakpoint for non zero  integrators removed.", MESSAGE_INFO);
+                        break;
+                    }
+                }                
+                else if (param1.toLowerCase().contains("STACK".toLowerCase()))
+                {
+                    Breakpoint bp = new Breakpoint();
+                    
+                    String param2 = param[2];
+                    num = DASM6809.toNumber(param2);
+
+                    if (num != 0)
+                    {
+                        bp.targetAddress = num;
+                        bp.name = "stack lower equal ";
+                        bp.targetType = Breakpoint.BP_TARGET_CPU;
+                        bp.targetSubType = Breakpoint.BP_SUBTARGET_CPU_S;
+                        bp.type = Breakpoint.BP_MULTI | Breakpoint.BP_COMPARE;
+                        boolean added = currentDissi.vecxPanel.breakpointCPUToggle(bp);
+                        if (added) printMessage("Breakpoint for stack added.", MESSAGE_INFO);
+                        else printMessage("Breakpoint for stack removed.", MESSAGE_INFO);
                         break;
                     }
                 }                

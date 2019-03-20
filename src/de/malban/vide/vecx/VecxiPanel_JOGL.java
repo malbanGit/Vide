@@ -159,6 +159,7 @@ import de.malban.Global;
 import de.malban.config.Configuration;
 //import de.malban.graphics.ScreenGrabber;
 import de.malban.graphics.SingleVectorPanel;
+import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Scaler;
 import de.malban.gui.panels.LogPanel;
 import de.malban.jogl.JOGLSupport;
@@ -185,6 +186,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.SwingUtilities;
 /*
 import org.jcodec.common.Codec;
 import org.jcodec.common.MuxerTrack;
@@ -1330,48 +1332,77 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
     }
     synchronized protected void setup(GLAutoDrawable glautodrawable, int width, int height ) 
     {
-        vectrexVectors = new vector_t[2][MAX_RAY_VECTORS];
-        for (int i=0;i<MAX_RAY_VECTORS; i++)
+        try
         {
-            vectrexVectors[0][i] = new vector_t();
-            vectrexVectors[1][i] = new vector_t();
+            vectrexVectors = new vector_t[2][MAX_RAY_VECTORS];
+            for (int i=0;i<MAX_RAY_VECTORS; i++)
+            {
+                vectrexVectors[0][i] = new vector_t();
+                vectrexVectors[1][i] = new vector_t();
+            }
+            currentRayAdd=0;
+            currentRayDisplay=1;
+            rayAddPos = 0;
+            rayCount = 0;
+            rayInit = true;
+
+
+            gl2Width = width;
+            gl2Height = height;
+            scaleWidth = (float) (((double)gl2Width)/((double)config.ALG_MAX_X));
+            scaleHeight = (float) (((double)gl2Height)/((double)config.ALG_MAX_Y));
+
+            GL2 gl2 = glautodrawable.getGL().getGL2();
+            JOGLSupport.dumpInfos(gl2);
+
+            gl2.glDisable( GL2.GL_LINE_SMOOTH );
+            gl2.glDisable( GL2.GL_POLYGON_SMOOTH );
+            gl2.glDisable( GL2.GL_POINT_SMOOTH);
+            gl2.glDisable(GL2.GL_MULTISAMPLE );
+
+            gl2.glEnable(GL2.GL_TEXTURE_2D);
+            gl2.glActiveTexture(GL2.GL_TEXTURE0 );
+
+            initBuffers(gl2);
+
+            if (!shadersInitialized)
+                initShader(gl2, Global.mainPathPrefix+"theme/shaders/default.vs", Global.mainPathPrefix+"theme/shaders/default.fs");
+            if (!blurShadersInitialized)
+                initBlurShader(gl2, Global.mainPathPrefix+"theme/shaders/blurShader.vs", Global.mainPathPrefix+"theme/shaders/blurShader.fs");
+            if (!overlayInitialized)
+                initOverlay(gl2);
+            initChassis(gl2);
+            initFramebuffer(gl2);
+            initMSAAFramebuffer(gl2);
+            if (animator != null)
+            {
+                animator.start(); // start the animation loop             
+            }
         }
-        currentRayAdd=0;
-        currentRayDisplay=1;
-        rayAddPos = 0;
-        rayCount = 0;
-        rayInit = true;
+        catch (Throwable e)
+        {
+            log.addLog("ERROR while handling JOGL!", ERROR);
+            log.addLog(e, ERROR);
+            log.addLog("Reverting to JAVA output!", ERROR);
 
-        
-        gl2Width = width;
-        gl2Height = height;
-        scaleWidth = (float) (((double)gl2Width)/((double)config.ALG_MAX_X));
-        scaleHeight = (float) (((double)gl2Height)/((double)config.ALG_MAX_Y));
-
-        GL2 gl2 = glautodrawable.getGL().getGL2();
-        JOGLSupport.dumpInfos(gl2);
-
-        gl2.glDisable( GL2.GL_LINE_SMOOTH );
-        gl2.glDisable( GL2.GL_POLYGON_SMOOTH );
-        gl2.glDisable( GL2.GL_POINT_SMOOTH);
-        gl2.glDisable(GL2.GL_MULTISAMPLE );
-        
-        gl2.glEnable(GL2.GL_TEXTURE_2D);
-        gl2.glActiveTexture(GL2.GL_TEXTURE0 );
-        
-        initBuffers(gl2);
-        
-        if (!shadersInitialized)
-            initShader(gl2, Global.mainPathPrefix+"theme/shaders/default.vs", Global.mainPathPrefix+"theme/shaders/default.fs");
-        if (!blurShadersInitialized)
-            initBlurShader(gl2, Global.mainPathPrefix+"theme/shaders/blurShader.vs", Global.mainPathPrefix+"theme/shaders/blurShader.fs");
-        if (!overlayInitialized)
-            initOverlay(gl2);
-        initChassis(gl2);
-        initFramebuffer(gl2);
-        initMSAAFramebuffer(gl2);
-        if (animator != null)
-            animator.start(); // start the animation loop 
+            log.addLog("GL should support: ", ERROR);
+            try
+            {
+                log.addLog(JOGLSupport.dumpInfos(glautodrawable.getGL().getGL2()), ERROR);
+            }
+            catch (Throwable ex) {}
+            
+            SwingUtilities.invokeLater(new Runnable()
+            {
+                public void run()
+                {
+                    config.tryJOGL = false;
+                    ArrayList<Object> allVecxis = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).getPanels(VecXPanel.class);
+                    for (Object p : allVecxis) ((VecXPanel)p).changeDisplay();
+                }
+            });
+            
+        }
     }
     
     void deinitBuffers(GL2 gl2)

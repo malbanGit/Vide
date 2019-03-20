@@ -452,7 +452,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
             return;
         }
         GFXVectorList vl = singleVectorPanel.getForegroundVectorList();
-        returnText = vl.createASMDraw_VLp(name, false);
+        returnText = vl.createASMDraw_VLp(name, false, false);
         
     }//GEN-LAST:event_jButtonDraw_VLpActionPerformed
 

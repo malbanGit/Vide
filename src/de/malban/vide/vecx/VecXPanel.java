@@ -24,7 +24,6 @@ import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.ShowErrorDialog;
 import de.malban.gui.panels.LogPanel;
 import de.malban.jogl.JOGLSupport;
-import static de.malban.util.Utility.makeGlobalAbsolute;
 
 
 import de.malban.vide.ControllerConfig;
@@ -82,6 +81,7 @@ import de.malban.vide.vecx.panels.VIAJPanel;
 import de.malban.vide.vecx.panels.VarJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
+import de.malban.vide.vedi.DebugInfoC;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
@@ -523,6 +523,7 @@ public class VecXPanel extends javax.swing.JPanel
     
     private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
         updatefinished = true;
+        usedCDebug = null;
 
         if (evt != null)
         {
@@ -2229,6 +2230,7 @@ waitAMoment = false;
         }
         return breakpointAddressToggleImpl(bp);
     }
+    
 
     public boolean breakpointAddressToggleImpl(Breakpoint bp)
     {
@@ -2307,6 +2309,16 @@ waitAMoment = false;
         if (breaki != null) breaki.updateValues(true);
         return b;
     }
+    public boolean breakpointCPUToggle(Breakpoint bp)
+    {
+        boolean b = vecx.breakpointCPUToggle(bp);
+        if (breaki != null) breaki.updateValues(true);
+        return b;
+    }
+    
+    
+    
+    
 
     public void breakpointRemove(Breakpoint bp)
     {
@@ -2421,9 +2433,17 @@ waitAMoment = false;
     {
         return vecx.getLastWaitRecalTest();
     }
-    public void setTrackingAddress(int start,int end)
+    public void setTrackingAddress(int start,int end, int bank)
     {
-        vecx.setTrackingAddress( start, end);
+        vecx.setTrackingAddress( start, end, bank);
+    }
+    public void resetAllTimeLowStack()
+    {
+        vecx.resetAllTimeLowStack();
+    }
+    public int getAllTimeLowStack()
+    {
+        return vecx.getAllTimeLowStack();
     }
     
     public CartridgeProperties getCurrentCartProp()
@@ -2431,6 +2451,16 @@ waitAMoment = false;
         if (vecx == null) return null;
         if (vecx.cart == null) return null;
         return vecx.cart.currentCardProp;
+    }
+    DebugInfoC toSetCDebug = null;
+    DebugInfoC usedCDebug = null;
+    public DebugInfoC getUsedCDebugInfo()
+    {
+        return usedCDebug;
+    }
+    public void setNextStartCDebugInfo(DebugInfoC cDebug)
+    {
+        toSetCDebug = cDebug;
     }
     public void startCartridge(final CartridgeProperties cartProp, int runType)
     {
@@ -2441,7 +2471,7 @@ waitAMoment = false;
         
         if (cartProp.getFullFilename().size()>0)
         {
-            String name = makeGlobalAbsolute(de.malban.util.UtilityFiles.convertSeperator(cartProp.getFullFilename().elementAt(0)));
+            String name = de.malban.util.Utility.makeVideAbsolute(de.malban.util.UtilityFiles.convertSeperator(cartProp.getFullFilename().elementAt(0)));
             jTextFieldstart.setText(name);
             lastOpenedDir = name;
         }
@@ -2451,12 +2481,14 @@ waitAMoment = false;
         {
             public void run()
             {
+                // cDebug info only used once and ONCE only!
+                usedCDebug = toSetCDebug;
+                toSetCDebug = null;
                 boolean loaded = false;
                 if (startTypeRun != START_TYPE_INJECT)
                     loaded = vecx.init(cartProp);
                 else
                     loaded = vecx.inject(cartProp);
-                
                 if (!loaded)
                 {
                     SwingUtilities.invokeLater(new Runnable()

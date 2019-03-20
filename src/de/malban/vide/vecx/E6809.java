@@ -18,7 +18,7 @@ public class E6809 extends E6809State implements E6809Statics
 {
     transient E6809Access vecx=null;
     transient Profiler profiler = null;
-
+    public transient int lowestStackValue = 65536;
     /* Some times bad things happen...
       Artmaster for example, uses an IRQ to check for lightpen (handler at: 0x7ce)
       The handler discards all stack information and exists the interrupt by "RTS", so
@@ -77,7 +77,12 @@ public class E6809 extends E6809State implements E6809Statics
         if (r==0) reg_x = v;
         else if (r==1) reg_y = v;
         else if (r==2) reg_u.intValue = v;
-        else reg_s.intValue = v;
+        else 
+        {
+            reg_s.intValue = v;
+            if (v<lowestStackValue) lowestStackValue = v;
+        } 
+            
     }
 
     /* obtain a particular condition code. returns 0 or 1. */
@@ -1167,6 +1172,7 @@ void exgtfr_write (int reg, int data)
             break;
         case 0x4:
             reg_s.intValue = data;
+            if (data<lowestStackValue) lowestStackValue = data;
             break;
         case 0x5:
             reg_pc = data;
@@ -1223,6 +1229,7 @@ public void e6809_reset ()
     reg_y = 0;
     reg_u.intValue = 0;
     reg_s.intValue = 0;
+    lowestStackValue = 65536;
 
     reg_a = 0;
     reg_b = 0;
@@ -1256,6 +1263,8 @@ int e6809_sstep (int irq_i, int irq_f)
             {
                 reg_cc = (reg_cc & ~FLAG_E);
                 inst_psh (0x81, reg_s, reg_u, cycles);
+                if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
+
                 if (profiler != null)
                 {
                     profiler.addContext(read16 (0xfff6), reg_s.intValue+1, reg_pc & 0xffff, orgPC & 0xffff);
@@ -1291,6 +1300,7 @@ int e6809_sstep (int irq_i, int irq_f)
                 reg_cc = (reg_cc | FLAG_E);
                 int olds = reg_s.intValue;
                 inst_psh (0xff, reg_s, reg_u, cycles);
+                if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
                 
                 if (profiler != null)
                 {
@@ -1326,7 +1336,6 @@ int e6809_sstep (int irq_i, int irq_f)
     switch (op) 
     {
         /* page 0 instructions */
-            
             /* neg, nega, negb */
         case 0x00:
             ea = ea_direct ();
@@ -2727,6 +2736,8 @@ dataBUS = reg_b;
         case 0x17:
             r = pc_read16 ();
             push16 (reg_s, reg_pc);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
+            
             synchronized (callStack)
             {
                 callStack.add(reg_pc & 0xffff);
@@ -2739,6 +2750,7 @@ dataBUS = reg_b;
         case 0x8d:
             r = pc_read8 ();
             push16 (reg_s, reg_pc);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             synchronized (callStack)
             {
                 callStack.add(reg_pc & 0xffff);
@@ -2755,6 +2767,7 @@ dataBUS = reg_b;
         case 0x9d:
             ea = ea_direct ();
             push16 (reg_s, reg_pc);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             synchronized (callStack)
             {
                 callStack.add(reg_pc & 0xffff);
@@ -2770,6 +2783,7 @@ dataBUS = reg_b;
         case 0xad:
             ea = ea_indexed (cycles);
             push16 (reg_s, reg_pc);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             synchronized (callStack)
             {
                 callStack.add(reg_pc & 0xffff);
@@ -2786,6 +2800,7 @@ dataBUS = reg_b;
             ea = ea_extended ();
 
             push16 (reg_s, reg_pc);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             synchronized (callStack)
             {
                 callStack.add(reg_pc & 0xffff);
@@ -2815,6 +2830,7 @@ dataBUS = reg_b;
             /* leas */
         case 0x32:
             reg_s.intValue = ea_indexed (cycles);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             vecx.vectrexNonCPUStep(4);
             cycles.intValue += 4;
             break;
@@ -2827,12 +2843,14 @@ dataBUS = reg_b;
             /* pshs */
         case 0x34:
             inst_psh (pc_read8 (), reg_s, reg_u, cycles);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             vecx.vectrexNonCPUStep(5);
             cycles.intValue += 5;
             break;
             /* puls */
         case 0x35:
             inst_pul (pc_read8 (), reg_s, reg_u, cycles);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             cycles.intValue += 5;
             vecx.vectrexNonCPUStep(5);
             break;
@@ -2845,12 +2863,14 @@ dataBUS = reg_b;
             /* pulu */
         case 0x37:
             inst_pul (pc_read8 (), reg_u, reg_s, cycles);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             cycles.intValue += 5;
             vecx.vectrexNonCPUStep(5);
             break;
             /* rts */
         case 0x39:
             reg_pc = pull16 (reg_s);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             synchronized (callStack)
             {
                 if (callStack.size()>0) callStack.remove(callStack.size()-1);
@@ -2887,12 +2907,14 @@ dataBUS = reg_b;
             /* exg */
         case 0x1e:
             inst_exg ();
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             vecx.vectrexNonCPUStep(8);
             cycles.intValue += 8;
             break;
             /* tfr */
         case 0x1f:
             inst_tfr ();
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             vecx.vectrexNonCPUStep(6);
             cycles.intValue += 6;
             break;
@@ -2907,6 +2929,7 @@ dataBUS = reg_b;
             {
                 inst_pul (0x80, reg_s, reg_u, cycles);
             }
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             
             vecx.vectrexNonCPUStep(3);
             cycles.intValue += 3;
@@ -2919,6 +2942,7 @@ dataBUS = reg_b;
             set_cc (FLAG_F, true);
             reg_pc = read16 (0xfffa);
             vecx.vectrexNonCPUStep(7);
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
             cycles.intValue += 7;
             break;
             /* sync */
@@ -2972,6 +2996,7 @@ reg_cc &= tmp;
             irq_status = IRQ_CWAI;
             vecx.vectrexNonCPUStep(4);
             cycles.intValue += 4;
+            if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
   
             break;
             
@@ -3150,6 +3175,7 @@ reg_cc &= tmp;
                     reg_s.intValue = pc_read16 ();
                     vecx.vectrexNonCPUStep(3);
                     inst_tst16 (reg_s.intValue);
+                    if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
                     vecx.vectrexNonCPUStep(1);
                     cycles.intValue += 4;
                     resetCallstack();
@@ -3158,6 +3184,7 @@ reg_cc &= tmp;
                     ea = ea_direct ();
                     vecx.vectrexNonCPUStep(5);
                     reg_s.intValue = read16 (ea);
+                    if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
                     vecx.vectrexNonCPUStep(1);
                     inst_tst16 (reg_s.intValue);
                     cycles.intValue += 6;
@@ -3166,6 +3193,7 @@ reg_cc &= tmp;
                 case 0xee:
                     ea = ea_indexed (cycles);
                     reg_s.intValue = read16 (ea);
+                    if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
                     vecx.vectrexNonCPUStep(5);
                     inst_tst16 (reg_s.intValue);
                     vecx.vectrexNonCPUStep(1);
@@ -3175,6 +3203,7 @@ reg_cc &= tmp;
                 case 0xfe:
                     ea = ea_extended ();
                     reg_s.intValue = read16 (ea);
+                    if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
                     vecx.vectrexNonCPUStep(6);
                     inst_tst16 (reg_s.intValue);
                     vecx.vectrexNonCPUStep(1);
@@ -3210,6 +3239,7 @@ reg_cc &= tmp;
                 case 0x3f:
                     set_cc (FLAG_E, true);
                     inst_psh (0xff, reg_s, reg_u, cycles);
+                    if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
                     reg_pc = read16 (0xfff4);
                     vecx.vectrexNonCPUStep(8);
                     cycles.intValue += 8;
@@ -3286,6 +3316,7 @@ reg_cc &= tmp;
                 case 0x3f:
                     set_cc (FLAG_E, true);
                     inst_psh (0xff, reg_s, reg_u, cycles);
+                    if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
                     reg_pc = read16 (0xfff2);
                     vecx.vectrexNonCPUStep(8);
                     cycles.intValue += 8;

@@ -11,28 +11,49 @@
 
 package de.malban.config;
 
+import com.javamex.classmexer.MemoryUtil;
+import static com.javamex.classmexer.MemoryUtil.VisibilityFilter.ALL;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.ImageCache;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.ImageCacheWatchFrame;
+import de.malban.gui.TimingTriggerer;
+import de.malban.gui.TriggerCallback;
 import de.malban.sound.PlayClip;
+import de.malban.vide.vecx.VecX;
+import de.malban.vide.vecx.VecXPanel;
+import de.malban.vide.vecx.VecXState;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.lang.instrument.Instrumentation;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import javax.swing.table.AbstractTableModel;
 /**
  *
  * @author Malban
  */
 public class ConfigurationPanel extends javax.swing.JPanel implements Windowable{
 
+    private boolean USE_CLASSMEX = false;
     private int mClassSetting=0;
 
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
 
     @Override
-    public void closing(){}
+    public void closing()
+    {
+        if (USE_CLASSMEX)
+        {
+            deinitObjects();
+            deinitUpdater();
+        }
+    }
+    
     @Override
     public void setParentWindow(CSAView jpv)
     {
@@ -76,6 +97,12 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
     {
         initComponents();
         setAllFromCurrent();
+        jScrollPane1.setVisible(USE_CLASSMEX);
+        if (USE_CLASSMEX)
+        {
+            initTable();
+            initUpdater();
+        }
     }
 
     private void setAllFromCurrent() /* allneeded*/
@@ -165,6 +192,8 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
         jLabel31 = new javax.swing.JLabel();
         jButtonCacheWatch = new javax.swing.JButton();
         jCheckBoxCacheActive = new javax.swing.JCheckBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jButtonSave = new javax.swing.JButton();
 
         jTabbedPane1.setName("jTabbedPane1"); // NOI18N
@@ -398,6 +427,23 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
             }
         });
 
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        jTable1.setAutoCreateRowSorter(true);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.setName("jTable1"); // NOI18N
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -405,33 +451,36 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel31, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldHintsCache, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldScriptCache, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jTextFieldFXCache1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextFieldImageCache, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonHintsCache)
-                    .addComponent(jButtonScriptCache)
-                    .addComponent(jButtonFXCache)
-                    .addComponent(jButtonImageCache))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18)
-                    .addComponent(jCheckBoxScriptCache)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButtonCacheWatch)
-                        .addGap(37, 37, 37)
-                        .addComponent(jCheckBoxCacheActive)))
-                .addContainerGap(360, Short.MAX_VALUE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel31, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldHintsCache, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldScriptCache, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextFieldFXCache1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldImageCache, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonHintsCache)
+                            .addComponent(jButtonScriptCache)
+                            .addComponent(jButtonFXCache)
+                            .addComponent(jButtonImageCache))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18)
+                            .addComponent(jCheckBoxScriptCache)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jButtonCacheWatch)
+                                .addGap(37, 37, 37)
+                                .addComponent(jCheckBoxCacheActive))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(327, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,7 +509,9 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
                     .addComponent(jLabel31)
                     .addComponent(jButtonHintsCache)
                     .addComponent(jTextFieldHintsCache, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(475, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(191, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cache & Co", jPanel6);
@@ -580,7 +631,9 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextFieldClasses;
     private javax.swing.JTextField jTextFieldDebugLevel;
     private javax.swing.JTextField jTextFieldFXCache1;
@@ -671,4 +724,155 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
         C.setFullScrrenResString(buildStringForMode(getDisplayModeForString(C.getFullScrrenResString())));
     }
     public void deIconified()  {}
+    
+    class SizeableObject
+    {
+        String name="";
+        long size = 0;
+        Object o = null;
+    }
+
+    ArrayList<SizeableObject> sobjects = new ArrayList<SizeableObject>();
+    void initTable()
+    {
+        SizeableObjectTableModel model = new SizeableObjectTableModel();
+        jTable1.setModel(model);
+        
+        initObjects();
+    }
+
+    public static int POLL_RESOLUTION = 1000; // each 1000 milliseconds -> 1 times per second
+    private static int pollResultion = POLL_RESOLUTION;
+    static TimingTriggerer timer;
+    boolean doTimer = false;
+    TriggerCallback triggerCallback = new TriggerCallback()
+    {
+        public void doIt(int state, Object o)
+        {
+            if (doTimer)
+            {
+                updateTableValues();
+                timer.addTrigger(triggerCallback, pollResultion, 0, null);
+            }
+        }
+    };
+    void initUpdater()
+    {
+        doTimer = true;
+        timer = TimingTriggerer.getTimer();
+        timer.addTrigger(triggerCallback, pollResultion, 0, null);
+        
+    }
+    void deinitUpdater()
+    {
+        doTimer = false;
+    }
+    
+    void deinitObjects()
+    {
+        if (sobjects != null)
+            sobjects.clear();
+    }
+    
+    void initObjects()
+    {
+        CSAMainFrame main = Configuration.getConfiguration().getMainFrame();
+        deinitObjects();
+        
+        SizeableObject so = new SizeableObject();
+        so.name = main.getClass().getName();
+        so.o = main;
+        so.size = MemoryUtil.deepMemoryUsageOf(so.o, ALL);
+        sobjects.add(so);
+        
+        VecXPanel v = main.checkVecxy();
+        if (v != null)
+        {
+            VecXState vs = v.getVecXState();
+            if (vs != null)
+            {
+                if (vs instanceof VecX)
+                {
+                    VecX vecx = (VecX)vs;
+                    so = new SizeableObject();
+                    so.name = vecx.getClass().getName();
+                    so.o = vecx;
+                    so.size = MemoryUtil.deepMemoryUsageOf(so.o, ALL);
+                    sobjects.add(so);
+                }
+            }
+        }
+        jTable1.tableChanged(null);
+        SizeableObjectTableModel model = (SizeableObjectTableModel)jTable1.getModel();
+        for (int i=0; i< model.getColumnCount(); i++)
+        {
+            jTable1.getColumnModel().getColumn(i).setPreferredWidth(model.getColWidth(i));                
+        }
+        updateTableValues();
+    }
+    void updateTableValues()
+    {
+        synchronized(sobjects)
+        {
+            for (SizeableObject so:sobjects)
+            {
+                so.size = MemoryUtil.deepMemoryUsageOf(so.o, ALL);
+            }
+        }
+        jTable1.repaint();
+    }
+    String getSizeAsString(long s)
+    {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance();
+        return formatter.format(s);
+    }
+    public class SizeableObjectTableModel extends AbstractTableModel
+    {
+        public int getRowCount()
+        {
+            return sobjects.size();
+        }
+        public int getColumnCount()
+        {
+            return 2;
+        }
+        public Object getValueAt(int row, int col)
+        {
+            if (col == 0) 
+            {
+                return sobjects.get(row).name;
+            }
+            if (col == 1)
+            {
+                return getSizeAsString(sobjects.get(row).size);
+            }
+            return "";
+        }
+        public String getColumnName(int column) {
+            if (column == 0) return "object";
+            if (column == 1) return "size";
+            return "";
+        }
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            return String.class;
+        }
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+        public int getColWidth(int col)
+        {
+            if (col == 0) return 200;
+            if (col == 1) return 20;
+            return 20;
+        }
+        /*
+        public Color getBackground(int col)
+        {
+            if (col == 0) return config.tableAddress;
+            return null; // default
+        }
+*/
+    }    
 }

@@ -1,3 +1,16 @@
+check CLI 
+
+- tool: added tool to "build" Video movies from "extreme vectrex" fata files. The builds can be played on a vecFever
+- tool: to build "Wav" player for vecFever
+
+
+
+http://nerdnoiseradio.blogspot.com/2015/04/geekspeak-u-real-psg-square-vs-fm-fake.html
+https://github.com/maxim-zhao/pcmenc
+
+
+
+
 On mac retina displays, vecxi only uses 1/4 of the window size (even when using shift-p). It would be nice to have a setting to expand this to use the full window...
 
 ATTENTION!

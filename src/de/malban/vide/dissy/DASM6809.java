@@ -2604,6 +2604,19 @@ public class DASM6809 extends DASMStatics {
     {
         line = line.trim();
         
+        // if found than a stack breakpoint is added!
+        if (line.toUpperCase().startsWith("HIGHEST_USED_RAM"))
+        {
+            String s[] = line.split(" ");
+            s = removeEmpty(s);
+            if (s.length>1)
+            {
+                String address = s[1]; 
+                myMemory.highestUserRAM = toNumber(address);
+            }
+        }
+                
+        
         if (line.toUpperCase().startsWith("C_INFO_BLOCK"))
         {
             // C_INFO_BLOCK $053C "/Users/chrissalo/NetBeansProjects/Vide/projects/LodeRunner/source/LRUNNER.c "FN_END 154 " VIA_port_a = y; "

@@ -58,8 +58,8 @@ public class C6809FileMaster
     {
         inUpdate++;
         
-        String oldkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(oldFileName)).toLowerCase();
-        String newkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFileName)).toLowerCase();
+        String oldkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(oldFileName)).toLowerCase();
+        String newkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(newFileName)).toLowerCase();
         
         
         
@@ -91,7 +91,7 @@ public class C6809FileMaster
         if (inUpdate>0) return;
         inUpdate++;
         inReset=true;
-        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(filename)).toLowerCase();
+        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(filename)).toLowerCase();
         allFileMap.remove(key);
         handleFile(filename, text);
         inReset=false;
@@ -167,7 +167,7 @@ public class C6809FileMaster
     {
         if (_fullname.contains(Global.mainPathPrefix))
             _fullname = de .malban.util.UtilityString.replace(_fullname, Global.mainPathPrefix, "");
-        String key = de.malban.util.Utility.makeAbsolut(Global.mainPathPrefix+de.malban.util.UtilityFiles.convertSeperator(_fullname)).toLowerCase();
+        String key = de.malban.util.Utility.makeVideAbsolute(Global.mainPathPrefix+de.malban.util.UtilityFiles.convertSeperator(_fullname)).toLowerCase();
         C6809File fileInfo = allFileMap.get(key);
         if (fileInfo != null) return fileInfo;
         fileInfo = new C6809File(this);

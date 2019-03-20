@@ -74,9 +74,9 @@ public class VectrexJoyport
         {
             if (vecx != null)
             {
-                if (vecx.displayer != null)
+                if (vecx.getDisplayer() != null)
                 {
-                    vecx.displayer.setJoyportDevice(port, null);
+                    vecx.getDisplayer().setJoyportDevice(port, null);
                 }
             }
             return; // unplug

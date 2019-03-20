@@ -206,7 +206,7 @@ public class StoryboardElement extends Single3dDisplayPanel
             ok = ok & XMLSupport.addElement(s, "pause", pause);
 
             ok = ok & XMLSupport.addElement(s, "drawType", drawType);
-            ok = ok & XMLSupport.addElement(s, "listName", de.malban.util.Utility.makeRelative(listName));
+            ok = ok & XMLSupport.addElement(s, "listName", de.malban.util.Utility.makeVideRelative(listName));
             ok = ok & XMLSupport.addElement(s, "delay", delay);
 
             ok = ok & XMLSupport.addElement(s, "vectrexdelay", vectrexdelay);

@@ -653,9 +653,12 @@ log.addLog("unkown:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
 log.addLog("Token:\n"+de.malban.util.Utility.getStackTrace(ex), INFO);
 log.addLog("lastToken:\n"+lastToken, INFO);
                         ex.printStackTrace();
-                        VediPanel.setInScan(false);
-//                        doc.initVediId();
-                        return;
+//                        VediPanel.setInScan(false);
+// //                        doc.initVediId();
+//                        return;
+
+//Ignore errors of Lexer
+
                     }
                 }
             }

@@ -278,10 +278,10 @@ jCheckBoxMenuItem1.setVisible(false);
         {
             if (config.startFile.trim().length() != 0)
             {
-                File file = new File(Global.mainPathPrefix+config.startFile);
+                File file = new File(de.malban.util.UtilityFiles.convertSeperator(Global.mainPathPrefix+config.startFile));
                 if (file.exists())
                 {
-                    startFile = Global.mainPathPrefix+config.startFile;
+                    startFile = de.malban.util.UtilityFiles.convertSeperator(Global.mainPathPrefix+config.startFile);
                 }
             }
         }
@@ -2116,7 +2116,7 @@ getMainPanel().remove(starter);
         catch (Throwable e)
         {
             Configuration.getConfiguration().getDebugEntity().addLog("Deserialize not possible for: "+fileName, INFO);
-//            Configuration.getConfiguration().getDebugEntity().addLog(e, ERROR);
+            Configuration.getConfiguration().getDebugEntity().addLog(e, ERROR);
         }
         return null;
     }    

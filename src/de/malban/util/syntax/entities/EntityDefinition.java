@@ -454,7 +454,10 @@ public class EntityDefinition
     }
     private int includePos(String line)
     {
-        return searchPos(line.toLowerCase(), "include", HALF_PURE);
+        int pos = searchPos(line.toLowerCase(), "include", HALF_PURE);
+        if ((!line.contains("\"") ) && (!line.contains("'") ))
+            return -1;
+        return pos;
     }
     private int macroPos(String line)
     {

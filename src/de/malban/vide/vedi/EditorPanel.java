@@ -216,7 +216,8 @@ public class EditorPanel extends EditorPanelFoundation
         }
         catch (Throwable e)
         {
-            
+    LogPanel slog = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+            slog.addLog(e);
         }
         return null;
     }
@@ -856,8 +857,10 @@ log.addLog("Attrib:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
                 ArrayList<String> possibleWord = getPossibleWords(starter);
                 //Rectangle pos = jTextPane1.modelToView(startPos);
 
-                Rectangle2D pos = jTextPane1.modelToView2D(startPos);
                 
+// JAVA10                Rectangle2D pos = jTextPane1.modelToView2D(startPos);
+                Rectangle pos = jTextPane1.modelToView(startPos);
+
                 
                 int x1 = (int) pos.getX();
                 int x2 = parent.getEditorPos().x;
@@ -943,10 +946,12 @@ e.printStackTrace();
     private void jTextPane1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane1MousePressed
 
         if (isBasic) return;
-        //Point pt = new Point(evt.getX(), evt.getY());
-        Point2D.Float pt = new Point2D.Float(evt.getX(), evt.getY());
-        //int pos = jTextPane1.viewToModel(pt);
-        int pos = jTextPane1.viewToModel2D(pt);
+        Point pt = new Point(evt.getX(), evt.getY());
+    // JAVA10    Point2D.Float pt = new Point2D.Float(evt.getX(), evt.getY());
+        int pos = jTextPane1.viewToModel(pt);
+    // JAVA10    int pos = jTextPane1.viewToModel2D(pt);
+        
+      
         
         boolean shift = ((evt.getModifiersEx()& SHIFT_DOWN_MASK) == SHIFT_DOWN_MASK);
 
@@ -1078,11 +1083,11 @@ e.printStackTrace();
     private void jTextPane2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane2MousePressed
         if (isBasic) return;
         
-        Point2D.Float pt = new Point2D.Float(evt.getX(), evt.getY());
-        int pos = jTextPane2.viewToModel2D(pt);
+// JAVA10        Point2D.Float pt = new Point2D.Float(evt.getX(), evt.getY());
+// JAVA10        int pos = jTextPane2.viewToModel2D(pt);
         
-//        Point pt = new Point(evt.getX(), evt.getY());
-//        int pos = jTextPane2.viewToModel(pt);
+        Point pt = new Point(evt.getX(), evt.getY());
+        int pos = jTextPane2.viewToModel(pt);
 
         int line = getLineOfPos(jTextPane2, pos); // starts at 0
         if (line == -1)

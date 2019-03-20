@@ -58,7 +58,7 @@ public class FileChooserCellEditor extends DefaultCellEditor implements TableCel
                     fileChooser.setSelectedFile(new File(file));
                 if (fileChooser.showOpenDialog(button) == JFileChooser.APPROVE_OPTION) {
                     file = fileChooser.getSelectedFile().getAbsolutePath();
-                    file = de.malban.util.Utility.makeRelative(file);
+                    file = de.malban.util.Utility.makeVideRelative(file);
                 }
                 fireEditingStopped();
             }

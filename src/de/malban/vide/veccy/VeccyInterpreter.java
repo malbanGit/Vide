@@ -518,6 +518,7 @@ public class VeccyInterpreter {
             {
                 if (vl.size() != 0)
                 {
+                    v.setRelativ(relative);
                     v.start = vl.get(vl.size()-1).end;
                     v.start_connect = vl.get(vl.size()-1);
                     v.uid_start_connect = vl.get(vl.size()-1).uid;

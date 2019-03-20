@@ -566,7 +566,8 @@ public class GFXVectorAnimation
         table.append("};\n");
         return source.toString()+"\n"+table.toString();        
     }    
-    
+
+
     public String createASMDraw_VLp(String name, boolean factor)
     {
         if (!isDraw_VLp()) return "";
@@ -582,7 +583,7 @@ public class GFXVectorAnimation
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
-            String asm = vl.createASMDraw_VLp(name+"_"+count, factor);
+            String asm = vl.createASMDraw_VLp(name+"_"+count, factor, false);
             if (asm.length() == 0)
             {
                 log.addLog("Anim: createASMDraw_VLp failed, VL("+count+") returned error!", WARN);

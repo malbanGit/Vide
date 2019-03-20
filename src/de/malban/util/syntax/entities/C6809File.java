@@ -251,7 +251,7 @@ public class C6809File
                 newFilename+=entity.name;
                 if (master.inReset)
                 {
-                    String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFilename)).toLowerCase();
+                    String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(newFilename)).toLowerCase();
                     master.allFileMap.remove(key);
                 }
                 
@@ -275,7 +275,7 @@ public class C6809File
                     
                 if (master.inReset)
                 {
-                    String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFilename)).toLowerCase();
+                    String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(newFilename)).toLowerCase();
                     master.allFileMap.remove(key);
                 }
                 // todo circumvent circlular includes

@@ -26,6 +26,7 @@ import javax.swing.JTextPane;
  */
 public class ASM6809File
 {
+   
     ASM6809FileMaster master;
     public static final int ENTITY_UNCHANGED = 0;
     public static final int ENTITY_CHANGED = 1;
@@ -369,7 +370,7 @@ public class ASM6809File
                 newFilename+=entity.name;
                 if (master.inReset)
                 {
-                    String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFilename)).toLowerCase();
+                    String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(newFilename)).toLowerCase();
                     master.allFileMap.remove(key);
                 }
                 // todo circumvent circlular includes

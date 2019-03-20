@@ -1133,7 +1133,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
         lastPath = fc.getSelectedFile().getAbsolutePath();
         
-        String relPath = de.malban.util.Utility.makeRelative(lastPath);
+        String relPath = de.malban.util.Utility.makeVideRelative(lastPath);
 //        String fileNameOnly = Paths.get(relPath).getFileName().toString();
 //        currentSampleFile = pathOnly+File.separator+fileNameOnly; 
         setSample(relPath);

@@ -2902,10 +2902,22 @@ public class CLexer implements Lexer {
             return null;
           } 
           else {
-              
-System.out.println("ERROR: "+ yytext()+ " pos : "+zzMarkedPos);              
-              
-            zzScanError(ZZ_NO_MATCH);
+//            zzScanError(ZZ_NO_MATCH);
+
+
+
+// C lexer error  bei BUG beispiel!
+// #define OP /
+// return 1 (current) character with ERROR token, instead of exception
+                System.out.println("Token CLexer: ERROR: "+ yytext()+ " pos : "+zzMarkedPos);              
+                lastToken = CToken.ERROR_IDENTIFIER;
+                String text = new String( zzBuffer, zzStartRead, zzMarkedPos-zzStartRead );
+                CToken t = (new CToken(lastToken,text,yyline,yychar,yychar+1,MIDDLE_OF_LINE));
+
+                zzMarkedPos= zzStartRead+1;
+                zzCurrentPos++;
+                return t;
+
           }
       }
     }

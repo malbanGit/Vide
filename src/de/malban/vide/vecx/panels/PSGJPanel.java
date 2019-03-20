@@ -1475,7 +1475,7 @@ jLabel81.setToolTipText(tt);
         if (files != null)
         {
             String fullPath = fc.getSelectedFile().getAbsolutePath();
-            jTextField2.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextField2.setText(de.malban.util.Utility.makeVideRelative(fullPath));
         }
     }//GEN-LAST:event_jButtonFileSelect3ActionPerformed
 

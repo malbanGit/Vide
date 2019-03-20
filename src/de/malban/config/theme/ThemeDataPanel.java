@@ -230,7 +230,7 @@ public class ThemeDataPanel extends javax.swing.JPanel {
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
         String fullPath = fc.getSelectedFile().getPath();
-        fullPath = de.malban.util.Utility.makeRelative(fullPath);
+        fullPath = de.malban.util.Utility.makeVideRelative(fullPath);
 
         // Configuration.getConfiguration().setBackImagePath(fullPath);
         jTextFieldAIImagePath.setText(fullPath);

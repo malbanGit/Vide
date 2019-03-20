@@ -55,8 +55,8 @@ public class ASM6809FileMaster
     {
         inUpdate++;
         
-        String oldkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(oldFileName)).toLowerCase();
-        String newkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFileName)).toLowerCase();
+        String oldkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(oldFileName)).toLowerCase();
+        String newkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(newFileName)).toLowerCase();
         
         
         
@@ -88,7 +88,7 @@ public class ASM6809FileMaster
         if (inUpdate>0) return;
         inUpdate++;
         inReset=true;
-        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(filename)).toLowerCase();
+        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(filename)).toLowerCase();
         allFileMap.remove(key);
         handleFile(filename, text);
         inReset=false;
@@ -142,7 +142,7 @@ public class ASM6809FileMaster
             
             // I know this is "bad", but what the heck,... don't bother tp check for \r\n \r ... myself
             JTextPane jTextPane1 = new JTextPane();
-            FileReader fr = new FileReader(filename);
+            FileReader fr = new FileReader(de.malban.util.Utility.makeVideAbsolute(filename));
             jTextPane1.read(fr, null);
             fr.close();
             String text = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength());
@@ -164,7 +164,7 @@ public class ASM6809FileMaster
         if (_fullname.contains(Global.mainPathPrefix))
             _fullname = de .malban.util.UtilityString.replace(_fullname, Global.mainPathPrefix, "");
         
-        String key = de.malban.util.Utility.makeAbsolut(Global.mainPathPrefix+de.malban.util.UtilityFiles.convertSeperator(_fullname)).toLowerCase();
+        String key = de.malban.util.Utility.makeVideAbsolute(Global.mainPathPrefix+de.malban.util.UtilityFiles.convertSeperator(_fullname)).toLowerCase();
         ASM6809File fileInfo = allFileMap.get(key);
         if (fileInfo != null) return fileInfo;
         fileInfo = new ASM6809File(this);

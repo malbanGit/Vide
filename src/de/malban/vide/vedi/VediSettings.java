@@ -72,14 +72,14 @@ public class VediSettings implements Serializable
 
     public void setOpenPosition(String fn, int pos)
     {
-        fn = de.malban.util.Utility.ensureRelative(fn);
+        fn = de.malban.util.Utility.makeVideRelative(fn);
         EditorFileSettings set = getOpen(fn);
         if (set != null) set.position = pos;
     }
         
     public EditorFileSettings getOpen(String fn)
     {
-        fn = de.malban.util.Utility.ensureRelative(fn);
+        fn = de.malban.util.Utility.makeVideRelative(fn);
         for (EditorFileSettings set: currentOpenFiles)
         {
             if (set.filename.toLowerCase().equals(fn.toLowerCase())) return set;
@@ -88,7 +88,7 @@ public class VediSettings implements Serializable
     }
     public EditorFileSettings getRecent(String fn)
     {
-        fn = de.malban.util.Utility.ensureRelative(fn);
+        fn = de.malban.util.Utility.makeVideRelative(fn);
         for (EditorFileSettings set: recentOpenFiles)
         {
             if (set.filename.toLowerCase().equals(fn.toLowerCase())) return set;
@@ -107,7 +107,7 @@ public class VediSettings implements Serializable
     
     public EditorFileSettings addOpen(String fn, int pos)
     {
-        fn = de.malban.util.Utility.ensureRelative(fn);
+        fn = de.malban.util.Utility.makeVideRelative(fn);
         EditorFileSettings edi = getOpen(fn);
         if (edi == null) 
         {
@@ -123,7 +123,7 @@ addRecent(fn, pos);
     }
     public EditorFileSettings addRecent(String fn, int pos)
     {
-        fn = de.malban.util.Utility.ensureRelative(fn);
+        fn = de.malban.util.Utility.makeVideRelative(fn);
         EditorFileSettings edi = getOpen(fn);
         if (edi == null) 
         {
@@ -137,7 +137,7 @@ addRecent(fn, pos);
     
     public boolean removeOpen(String fn)
     {
-        fn = de.malban.util.Utility.ensureRelative(fn);
+        fn = de.malban.util.Utility.makeVideRelative(fn);
         for (EditorFileSettings set: currentOpenFiles)
         {
             if (set.filename.equals(fn)) 
@@ -150,7 +150,7 @@ addRecent(fn, pos);
     }
     public boolean removeRecent(String fn)
     {
-        fn = de.malban.util.Utility.ensureRelative(fn);
+        fn = de.malban.util.Utility.makeVideRelative(fn);
         for (EditorFileSettings set: recentOpenFiles)
         {
             if (set.filename.equals(fn)) 
@@ -180,23 +180,23 @@ addRecent(fn, pos);
     {
         currentProject = new P(n,c, p);
     }
-    public void relativePaths()
+    public void adjustOS()
     {
         if (currentProject != null)
         {
-            currentProject.mFullPath = de.malban.util.Utility.ensureRelative(currentProject.mFullPath);
+            currentProject.mFullPath = de.malban.util.UtilityFiles.convertSeperator(currentProject.mFullPath);
         }
         for (P p: recentProject)
         {
-            p.mFullPath = de.malban.util.Utility.ensureRelative(p.mFullPath);
+            p.mFullPath = de.malban.util.UtilityFiles.convertSeperator(p.mFullPath);
         }
         for (EditorFileSettings set: currentOpenFiles)
         {
-            set.filename = de.malban.util.Utility.ensureRelative(set.filename);
+            set.filename = de.malban.util.UtilityFiles.convertSeperator(set.filename);
         }
         for (EditorFileSettings set: recentOpenFiles)
         {
-            set.filename = de.malban.util.Utility.ensureRelative(set.filename);
+            set.filename = de.malban.util.UtilityFiles.convertSeperator(set.filename);
         }
         
         Set entries = bookmarks.entrySet();
@@ -205,7 +205,35 @@ addRecent(fn, pos);
         {
             Map.Entry entry = (Map.Entry) it.next();
             Bookmark value = (Bookmark) entry.getValue();
-            value.fullFilename = de.malban.util.Utility.ensureRelative(value.fullFilename);
+            value.fullFilename = de.malban.util.UtilityFiles.convertSeperator(value.fullFilename);
+        }        
+    }
+    public void relativePaths()
+    {
+        if (currentProject != null)
+        {
+            currentProject.mFullPath = de.malban.util.Utility.makeVideRelative(currentProject.mFullPath);
+        }
+        for (P p: recentProject)
+        {
+            p.mFullPath = de.malban.util.Utility.makeVideRelative(p.mFullPath);
+        }
+        for (EditorFileSettings set: currentOpenFiles)
+        {
+            set.filename = de.malban.util.Utility.makeVideRelative(set.filename);
+        }
+        for (EditorFileSettings set: recentOpenFiles)
+        {
+            set.filename = de.malban.util.Utility.makeVideRelative(set.filename);
+        }
+        
+        Set entries = bookmarks.entrySet();
+        Iterator it = entries.iterator();
+        while (it.hasNext())
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            Bookmark value = (Bookmark) entry.getValue();
+            value.fullFilename = de.malban.util.Utility.makeVideRelative(value.fullFilename);
         }
     
     

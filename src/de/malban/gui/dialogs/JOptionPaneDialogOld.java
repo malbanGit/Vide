@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author malban
  */
-public class JOptionPaneDialog 
+public class JOptionPaneDialogOld
 {
     static int returnValue;
     public static int show(JOptionPane c)

@@ -24,6 +24,7 @@ public class Memory {
 
     int maxBank = 1;
     int currentBank = 0;
+    int highestUserRAM = -1;
     
     class OneBank
     {

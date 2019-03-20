@@ -235,7 +235,7 @@ public class ColorReduceJPanel extends javax.swing.JPanel implements Windowable{
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
         String fullPath = fc.getSelectedFile().getAbsolutePath();
-        jTextFieldImageSource.setText(de.malban.util.Utility.makeRelative(fullPath));
+        jTextFieldImageSource.setText(de.malban.util.Utility.makeVideRelative(fullPath));
         setImage();
         inSetting++;
         jSliderSourceScale.setValue(6);

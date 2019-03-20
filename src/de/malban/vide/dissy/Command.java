@@ -53,7 +53,7 @@ public class Command
         new Command(D_CMD_CYCLES_MEASURE, "CountCycles", "cc", 0,0,"\"CountCycles $xxxx $yyyy\"\tnext time pc executed $xxxx it starts counting cycles \n\t\t\tand prints out the count after $yyyy is executed(only in currently emulated bank!) ",""),
         new Command(D_CMD_PRINT, "Print", "p", 1,1,"\"Print $xxxx|$label [8|16]\"\tprint content of an address or label, \n\t\t\t8 as 8bit (default), 16 as 16bit",""),
         new Command(D_CMD_WATCH, "Watch", "w", 1,1,"\"Watch $xxxx|$label [0|1|2|3|4|5 x]\"\twatch content of an address or label, \n\t\t\t0 - binary\n\t\t\t1 - byte\n\t\t\t2 - word\n\t\t\t3 - string\n\t\t\t4 - byte pair\n\t\t\t5,x - byte sequence",""),
-        new Command(D_CMD_BREAKPOINT, "Breakpoint", "b", 1,0,"\"Breakpoint $xxxx\"\t\ttoggle breakpoint to address\n\t\t\tROM\n\t\t\tPC\n\t\t\tNZ [,compareValue]\n\t\t\tbankswitch\n\t\t\tVIA_ORB $0-7 (bit )\n\t\t\tWEIRD_AUX (!= $80 & != $98)","SPACE"),
+        new Command(D_CMD_BREAKPOINT, "Breakpoint", "b", 1,0,"\"Breakpoint $xxxx\"\t\ttoggle breakpoint to address\n\t\t\tROM\n\t\t\tPC\n\t\t\tNZ [,compareValue]\n\t\t\tSTACK, compareValue\n\t\t\tbankswitch\n\t\t\tVIA_ORB $0-7 (bit )\n\t\t\tWEIRD_AUX (!= $80 & != $98)","SPACE"),
         new Command(D_CMD_BREAKPOINT_RESET, "ClearBreakpoint", "cb", 0,0,"\"ClearBreakpoint\"\tclears all breakpoints",""),
         new Command(D_CMD_LABEL_RESET, "LabelReset", "lr", 0,0,"\"LabelReset\"\t\tResets all automatically build labels",""),
         new Command(D_CMD_INFO, "Info", "i", 0,0,"\"Info\"\t\t\tPrint information about current cartridge",""),

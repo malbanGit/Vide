@@ -126,7 +126,7 @@ public class ModalInternalFrame extends JDialog
     // setFrameIcon(i);
     init( title,  rootPane,  desktop, pane);
   }
-/*
+
   public ModalInternalFrame(String title, JRootPane
       rootPane, Component desktop, JOptionPane pane) {
     super(Configuration.getConfiguration().getMainFrame(), title, true);
@@ -141,8 +141,7 @@ public class ModalInternalFrame extends JDialog
     setBounds((rootSize.width - size.width) / 2, (rootSize.height - size.height) / 2, size.width, size.height);
     desktop.validate();
   }
-  */
-  
+
   Container cpane=null;
 
   boolean isSystemDialog = false;

@@ -1,6 +1,5 @@
 package de.malban.vide.vedi.project;
 
-import static de.malban.util.Utility.makeGlobalAbsolute;
 import java.io.File;
 import javax.swing.JOptionPane;
 import java.util.*;
@@ -41,14 +40,14 @@ public class  FilePropertiesPool
 	{
             java.io.File f;
             if (pathName==null)
-                f = new java.io.File(makeGlobalAbsolute(mFileName));
+                f = new java.io.File(de.malban.util.Utility.makeVideAbsolute("xml"+File.separator+mFileName));
             else
-                f = new java.io.File(makeGlobalAbsolute(pathName)+File.separator+mFileName);
+                f = new java.io.File(de.malban.util.Utility.makeVideAbsolute(pathName)+File.separator+mFileName);
             if (!f.exists()) return false;
             if (pathName == null)
                 mFileProperties = FileProperties.getHashMapFromXML(mFileName);
             else
-                mFileProperties = FileProperties.getHashMapFromXML(mFileName, makeGlobalAbsolute(pathName));
+                mFileProperties = FileProperties.getHashMapFromXML(mFileName, de.malban.util.Utility.makeVideAbsolute(pathName));
             return true;
 	}
 	public void save()
@@ -56,7 +55,13 @@ public class  FilePropertiesPool
             if (pathName==null)
 		FileProperties.saveCollectionAsXML(mFileName, mFileProperties.values());
             else
-		FileProperties.saveCollectionAsXML(de.malban.Global.mainPathPrefix+pathName, mFileName, mFileProperties.values());
+            {
+                if (de.malban.util.Utility.isFilenameRelative(pathName))
+                    FileProperties.saveCollectionAsXML(de.malban.Global.mainPathPrefix+pathName, mFileName, mFileProperties.values());
+                else
+                    FileProperties.saveCollectionAsXML(pathName, mFileName, mFileProperties.values());
+                
+            }
             buildKlassenMap();
 	}
 	public void remove(FileProperties st)

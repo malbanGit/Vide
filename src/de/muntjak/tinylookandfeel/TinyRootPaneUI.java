@@ -1104,7 +1104,9 @@ public class TinyRootPaneUI extends BasicRootPaneUI implements FocusListener {
 		public void mouseDragged(MouseEvent ev) {
 			Window w = (Window)ev.getSource();
 			Point pt = ev.getPoint();
-
+try
+{
+    
 			if(isMovingWindow) {
 				Point windowPt = w.getLocationOnScreen();
 
@@ -1169,6 +1171,11 @@ public class TinyRootPaneUI extends BasicRootPaneUI implements FocusListener {
 					}
 				}
 			}
+                        }
+ catch (Throwable e)
+ {
+     System.out.println("CATCH IN MUNTJAC");
+ }
 		}
 
 		public void mouseEntered(MouseEvent ev) {

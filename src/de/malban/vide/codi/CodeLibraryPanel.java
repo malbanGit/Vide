@@ -9,7 +9,6 @@ import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
-import static de.malban.util.Utility.makeGlobalAbsolute;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
 import de.malban.vide.VideConfig;
@@ -27,7 +26,6 @@ import de.malban.vide.vedi.EditorListener;
 import de.malban.vide.vedi.VEdiFoundationPanel;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_LIST;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_MESSAGE_ERROR;
-import static de.malban.vide.vedi.VediPanel.convertSeperator;
 import de.malban.vide.vedi.project.ProjectProperties;
 import de.malban.vide.vedi.project.ProjectPropertiesPool;
 import java.io.File;
@@ -1007,7 +1005,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         {
             if (file.getName().contains("ProjectProperty.xml"))
             {
-                String ppath = de.malban.util.Utility.ensureRelative(file.getParent());
+                String ppath = de.malban.util.Utility.makeVideRelative(file.getParent());
                 if (ppath.length()!=0)ppath+=File.separator;
                 ProjectPropertiesPool pool = new ProjectPropertiesPool(ppath, file.getName());
                 ProjectProperties project =  pool.get(file.getName().substring(0,file.getName().length()- ("ProjectProperty.xml").length()));
@@ -1061,9 +1059,11 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                         {
                             Path p = Paths.get(treeName);
                             String dir = p.getParent().toString();
-                            project.projectPrefix = dir;
+                            project.projectPrefix = de.malban.util.Utility.makeVideRelative(dir);
+//                            project.projectPrefix = dir;
                         }
-                        filenameASM = project.projectPrefix+File.separator+filenameASM;
+                        
+                        filenameASM = de.malban.util.Utility.makeVideAbsolute(project.projectPrefix)+File.separator+filenameASM;
                         
                         
                         File test = new File(filenameASM);
@@ -1205,7 +1205,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 filename = filename.substring(0,li);
             filename = filename+"_"+(b) + ".bin";
 
-            File test = new File(makeGlobalAbsolute(filename));
+            File test = new File(de.malban.util.Utility.makeVideAbsolute(filename));
             if (!test.exists())
             {
                 cart.getFullFilename().add("");

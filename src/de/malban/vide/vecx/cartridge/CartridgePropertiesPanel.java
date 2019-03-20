@@ -106,7 +106,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             if (columnIndex == 1)
             {
                 String path = aValue.toString();
-                path = de.malban.util.Utility.makeRelative(path);
+                path = de.malban.util.Utility.makeVideRelative(path);
                 mCartridgeProperties.mFullFilename.setElementAt(path, rowIndex);
             }
         }
@@ -2061,7 +2061,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
         {
             String fullPath = fc.getSelectedFile().getAbsolutePath();
             lastImagePath = fullPath;
-            jTextFieldPath2.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath2.setText(de.malban.util.Utility.makeVideRelative(fullPath));
             singleImagePanel3.setImage(jTextFieldPath2.getText(), true);
         }
 
@@ -2084,7 +2084,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
         if (files != null) 
         {
             String fullPath = fc.getSelectedFile().getAbsolutePath();
-            jTextFieldPath4.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath4.setText(de.malban.util.Utility.makeVideRelative(fullPath));
         }
         try 
         {
@@ -2121,7 +2121,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             String fullPath = fc.getSelectedFile().getAbsolutePath();
             lastImagePath = fullPath;
 
-            jTextFieldPath5.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath5.setText(de.malban.util.Utility.makeVideRelative(fullPath));
             singleImagePanel1.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath5.getText()));
             singleImagePanel1.scaleToFit();
         }
@@ -2148,7 +2148,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             String fullPath = fc.getSelectedFile().getAbsolutePath();
             lastImagePath = fullPath;
 
-            jTextFieldPath6.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath6.setText(de.malban.util.Utility.makeVideRelative(fullPath));
             singleImagePanel2.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath6.getText()));
             singleImagePanel2.scaleToFit();
         }
@@ -2171,7 +2171,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
         if (files != null) 
         {
             String fullPath = fc.getSelectedFile().getAbsolutePath();
-            jTextFieldPath7.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath7.setText(de.malban.util.Utility.makeVideRelative(fullPath));
         }
         try 
         {
@@ -2226,7 +2226,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
         if (files != null) 
         {
             String fullPath = fc.getSelectedFile().getAbsolutePath();
-            jTextFieldPath9.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath9.setText(de.malban.util.Utility.makeVideRelative(fullPath));
         }
     }//GEN-LAST:event_jButtonFileSelect9ActionPerformed
 
@@ -2363,7 +2363,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             String fullPath = fc.getSelectedFile().getAbsolutePath();
             lastImagePath = fullPath;
 
-            jTextFieldPath10.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath10.setText(de.malban.util.Utility.makeVideRelative(fullPath));
             singleImagePanel4.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath10.getText()));
             singleImagePanel4.scaleToFit();
         }
@@ -2390,7 +2390,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             String fullPath = fc.getSelectedFile().getAbsolutePath();
             lastImagePath = fullPath;
 
-            jTextFieldPath11.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath11.setText(de.malban.util.Utility.makeVideRelative(fullPath));
             singleImagePanel5.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath11.getText()));
             singleImagePanel5.scaleToFit();
         }
@@ -2456,7 +2456,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
         if (files != null) 
         {
             String fullPath = fc.getSelectedFile().getAbsolutePath();
-            jTextFieldPath12.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath12.setText(de.malban.util.Utility.makeVideRelative(fullPath));
         }        
     }//GEN-LAST:event_jButtonFileSelect15ActionPerformed
 

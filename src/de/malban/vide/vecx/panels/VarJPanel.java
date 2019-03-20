@@ -84,6 +84,7 @@ public class VarJPanel extends javax.swing.JPanel implements
     {
         if (vecxPanel == null) return;
         if (memory == null) return;
+        onlyUserRam = jCheckBox1.isSelected();
         variables = new ArrayList<MemoryInformation>();
         int start = 0;
         int end = 65536;
@@ -164,6 +165,8 @@ public class VarJPanel extends javax.swing.JPanel implements
      */
     public VarJPanel() {
         initComponents();
+        onlyUserRam = jCheckBox1.isSelected();
+
         VariablesTableModel model = new VariablesTableModel();
         jTable1.setModel(model);
         
@@ -184,22 +187,57 @@ public class VarJPanel extends javax.swing.JPanel implements
             {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
 
+                
+                
                 if (table.getModel() instanceof VariablesTableModel)
                 {
                     VariablesTableModel model = (VariablesTableModel)table.getModel();
 
+//back groud of address
+//        a) current stack
+//        b) lowest stack
+                    boolean backgroundDone = false;
+                    if (vecxPanel!=null)
+                    {
+                        int address = DASM6809.toNumber(model.getValueAt(row, 0).toString());
+                        int currentStack = vecxPanel.getSReg();
+                        int lowestStack = vecxPanel.get6809().lowestStackValue;
+                        int allTimeLow = vecxPanel.getAllTimeLowStack();
+                        
+                        if (address == allTimeLow)
+                        {
+                            setBackground(Color.RED);
+                            backgroundDone = true;
+                        }
+                        else if (address == lowestStack)
+                        {
+                            setBackground(Color.PINK);
+                            backgroundDone = true;
+                        }
+                        else if (address == currentStack)
+                        {
+                            setBackground(Color.BLUE);
+                            backgroundDone = true;
+                        }
+                        else     
+                            setBackground(table.getBackground());                        
+                    }
+                    
                     if (isSelected)
                     {
-                        setBackground(table.getSelectionBackground());
+                        if (!backgroundDone)
+                            setBackground(table.getSelectionBackground());
                         setForeground(table.getSelectionForeground());
                     }
                     else
                     {
                         Color back = model.getBackground(col);
                         if (back != null)
-                            setBackground(back);
+                            if (!backgroundDone)
+                                setBackground(back);
                         else
-                            setBackground(table.getBackground());
+                            if (!backgroundDone)
+                                setBackground(table.getBackground());
                         setForeground(table.getForeground());
                     }
                 }
@@ -372,6 +410,7 @@ public class VarJPanel extends javax.swing.JPanel implements
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jCheckBox1.setSelected(true);
         jCheckBox1.setText("only user RAM (from $c880)");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -388,6 +427,7 @@ public class VarJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBoxShowAllRAM.setSelected(true);
         jCheckBoxShowAllRAM.setText("show all RAM");
         jCheckBoxShowAllRAM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -395,6 +435,7 @@ public class VarJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBoxHideBIOSNames.setSelected(true);
         jCheckBoxHideBIOSNames.setText("hide BIOS names");
         jCheckBoxHideBIOSNames.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -416,7 +457,7 @@ public class VarJPanel extends javax.swing.JPanel implements
                 .addComponent(jCheckBoxHideBIOSNames)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonAddVariable))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,7 +475,6 @@ public class VarJPanel extends javax.swing.JPanel implements
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        onlyUserRam = jCheckBox1.isSelected();
         initVariables();
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 

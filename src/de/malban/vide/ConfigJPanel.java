@@ -4904,6 +4904,11 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jLabel10.setText("Tinylaf theme");
 
         jTextField7.setPreferredSize(new java.awt.Dimension(6, 21));
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
+            }
+        });
 
         jButtonLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
         jButtonLoad.setToolTipText("load vectorlist");
@@ -6452,12 +6457,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         config.scanForVectorLists = jCheckBoxScanForVectorLists.isSelected();
     }//GEN-LAST:event_jCheckBoxScanForVectorListsActionPerformed
 
-    String lastPath="theme";
+    String lastPath="";
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         fc.setMultiSelectionEnabled(false);
         if (lastPath.length()==0)
         {
+            lastPath=Global.mainPathPrefix+"theme";
+            fc.setCurrentDirectory(new java.io.File(lastPath));
         }
         else
         {
@@ -6479,7 +6486,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             // needs to be invoked for all windows.
             Global.initLAF();
             
-            String rel = de.malban.util.Utility.makeRelative(fc.getSelectedFile().toString());
+            String rel = de.malban.util.Utility.makeVideRelative(fc.getSelectedFile().toString());
             
             jTextField7.setText(rel);
             config.themeFile = rel;
@@ -6702,7 +6709,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
         String name = fc.getSelectedFile().getAbsolutePath();
-        name = de.malban.util.Utility.makeRelative(name);
+        name = de.malban.util.Utility.makeVideRelative(name);
         jTextFieldstart.setText(name);
         config.startFile = name;
     }//GEN-LAST:event_jButtonFileSelect1ActionPerformed
@@ -7654,6 +7661,11 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private void jCheckBox67ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox67ActionPerformed
         config.displayModeWriting = jCheckBox67.isSelected();
     }//GEN-LAST:event_jCheckBox67ActionPerformed
+
+    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+            config.themeFile = jTextField7.getText();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField7ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

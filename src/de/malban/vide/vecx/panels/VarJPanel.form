@@ -129,7 +129,7 @@
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jButtonAddVariable" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+          <Component id="jScrollPane1" pref="593" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -224,6 +224,7 @@
     </Container>
     <Component class="javax.swing.JCheckBox" name="jCheckBox1">
       <Properties>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="only user RAM (from $c880)"/>
       </Properties>
       <Events>
@@ -246,6 +247,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxShowAllRAM">
       <Properties>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="show all RAM"/>
       </Properties>
       <Events>
@@ -254,6 +256,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxHideBIOSNames">
       <Properties>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="hide BIOS names"/>
       </Properties>
       <Events>

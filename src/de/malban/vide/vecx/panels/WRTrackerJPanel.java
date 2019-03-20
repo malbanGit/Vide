@@ -56,6 +56,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     {
         int start;
         int end;
+        int bank;
         String name;
         public String toString()
         {
@@ -104,6 +105,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
             if (ti.name.trim().length() == 0) return false;
             ti.start = DASM6809.toNumber(jTextField3.getText());
             ti.end = DASM6809.toNumber(jTextField4.getText());
+            ti.bank = DASM6809.toNumber(jTextField7.getText());
 
             for (int i=0; i< persistentInfo.size(); i++)
             {
@@ -297,6 +299,7 @@ jTextField6.setToolTipText(tt);
         jTextField4 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jTextField7 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jButtonDelete = new javax.swing.JButton();
         jButtonSave = new javax.swing.JButton();
@@ -332,9 +335,10 @@ jTextField6.setToolTipText(tt);
             }
         });
 
-        jLabel3.setText("address to track");
+        jLabel3.setText("addresses");
 
         jTextField4.setText("$F192");
+        jTextField4.setToolTipText("lower address");
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
@@ -342,11 +346,20 @@ jTextField6.setToolTipText(tt);
         });
 
         jTextField3.setText("$F1A2");
+        jTextField3.setToolTipText("higher address");
 
         jButton1.setText("reset");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTextField7.setText("0");
+        jTextField7.setToolTipText("bank");
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
             }
         });
 
@@ -357,8 +370,10 @@ jTextField6.setToolTipText(tt);
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
+                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
@@ -373,7 +388,8 @@ jTextField6.setToolTipText(tt);
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jButtonDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
@@ -535,8 +551,10 @@ jTextField6.setToolTipText(tt);
 	}  
         int start = DASM6809.toNumber(jTextField3.getText());
         int end = DASM6809.toNumber(jTextField4.getText());
+        int bank = DASM6809.toNumber(jTextField7.getText());
+        vecxPanel.resetAllTimeLowStack();
         
-        vecxPanel.setTrackingAddress(start, end);
+        vecxPanel.setTrackingAddress(start, end, bank);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
@@ -558,6 +576,9 @@ jTextField6.setToolTipText(tt);
         jTextField5.setText(info.name);
         jTextField3.setText("$"+String.format("%04X",info.start&0xffff));
         jTextField4.setText("$"+String.format("%04X",info.end&0xffff));
+        
+        jTextField7.setText(""+info.bank);
+        
         // reset
         jButton1ActionPerformed(null);        
     }//GEN-LAST:event_jComboBox1ActionPerformed
@@ -585,6 +606,10 @@ jTextField6.setToolTipText(tt);
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCurrentActionPerformed
 
+    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField7ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -605,6 +630,7 @@ jTextField6.setToolTipText(tt);
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextFieldCurrent;
     private javax.swing.JToggleButton jToggleButton4;
     // End of variables declaration//GEN-END:variables

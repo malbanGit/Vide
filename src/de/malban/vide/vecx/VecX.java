@@ -133,7 +133,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     // this way it is
     // easier to keep consistency while load and save/state
     public VideConfig config = VideConfig.getConfig();
-    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+    private LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // timer is count down in 1/1500000 steps
     // meaning each processor cycle is one step...
     
@@ -194,7 +194,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 vectrexVectors[i] = new vector_t();
         }
     }
-
+// following public
+// so I can inspect memory usage
+    
     transient E8910 e8910 = null;
     transient E6809 e6809 = null;
 
@@ -203,16 +205,18 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     transient static int SS_RING_BUFFER_SIZE = 30000;
     transient int ringSSWalkStep = 0; // if I step back, what is the position of the step back?
     transient int ringSSBufferNext = 0;
-    transient CompleteState[] goSSBackRingBuffer = new CompleteState[SS_RING_BUFFER_SIZE];
-
+    public transient CompleteState[] goSSBackRingBuffer = new CompleteState[SS_RING_BUFFER_SIZE];
+    
+    
     transient static int FRAME_RING_BUFFER_SIZE = 1000;
     transient int ringFrameWalkStep = 0; // if I step back, what is the position of the step back?
     transient int ringFrameBufferNext = 0;
-    transient CompleteState[] goFrameBackRingBuffer = new CompleteState[FRAME_RING_BUFFER_SIZE];
+    public transient CompleteState[] goFrameBackRingBuffer = new CompleteState[FRAME_RING_BUFFER_SIZE];
     
     transient static int WAIT_RECAL_BUFFER_SIZE = 500;
     transient int waitRecalBufferNext = 0;
     transient boolean waitRecalActive = true;
+    transient int testBank = 0;
     transient int testAddressFirst = 0xF1A2;
     transient int testAddressSecond = 0xF192;
     transient long lastTestTicks = 0;
@@ -224,7 +228,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
      
     // dummy displayer, which does nothing!
     public transient DisplayerInterface displayer = new DisplayerDummy();
-        
     
     transient VectrexDisplayVectors[] vectorDisplay = new VectrexDisplayVectors[2];
     transient int displayedNext = 0;
@@ -236,6 +239,51 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
     ArrayList<TimerItem> timerHeap = new ArrayList<TimerItem>();
 
+    
+    
+ 
+    int pb6_pulseCounter = 0;
+    
+    long lastAddLine = 0;
+    double intensityDriftNow = 1;
+    boolean toManyvectors = false;
+
+    int nonCPUStepsDone = 0;
+    ArrayList<Breakpoint> tmp = new ArrayList<Breakpoint>();
+    boolean syncImpulse = false;
+    long lastSyncCycles = 0;
+    long soundCycles = 0;
+    static int UID_ = 1;
+    static int uid = UID_++;    
+    volatile boolean debugging = false;
+    boolean stop = false;
+    // for speed measurement    
+    long cyclesDone=0;
+    boolean thisWaitRecal = false;
+    long lastWaitRecal=0;
+    long lastRecordCycle = 0;
+
+    // is a "fast" interupt initiated (from device port 0 Button 4)
+    // only == 0 or !=0 is relevant
+    int firq;
+
+    public boolean recording = false;
+    int recordingType = REC_YM;
+    boolean recordingIsAddress = true;
+    int recordingAddress = 0;
+    String recordingFilename = "";
+    ArrayList<byte[]> recordData;
+
+    
+    static final int WR_UNKOWN = 0;
+    static final int WR_FIRST_FOUND = 1;
+    int wrStatus = WR_UNKOWN;
+    public transient int allTimeLow = 65536;
+    
+    ArrayList<TimerItem> timerRemoveList = new ArrayList<TimerItem>();
+    ArrayList<VecX.TimerItem> timerItemListClone = new ArrayList<TimerItem>();
+    long noiseCycles = 0;
+    
     
     void timerAddItem(int when, int value, ValuePointer destination, int t)
     {
@@ -1156,8 +1204,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         }
         return pb6;
     }    
- 
-    int pb6_pulseCounter = 0;
+    
     /* perform a single cycle worth of via emulation.
      * via_sstep0 is the first postion of the emulation.
      */
@@ -1413,9 +1460,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     {
         alg_addline ( x0,  y0,  x1,  y1,  color, false, speed,  left,  right);
     }
-    long lastAddLine = 0;
-    double intensityDriftNow = 1;
-    boolean toManyvectors = false;
+    
     void alg_addline (int x0, int y0, int x1, int y1, int color, boolean midChange, int speed, int left, int right)
     {
         
@@ -1538,6 +1583,10 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         if (cart != null)
             cart.setCyclesRunning(n);
     }
+    public DisplayerInterface getDisplayer()
+    {
+        return displayer;
+    }
     
     public void vectrexNonCPUStepDontAdd(int cycles)
     {
@@ -1586,20 +1635,6 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         stop = true;
     }
 
-    int nonCPUStepsDone = 0;
-    ArrayList<Breakpoint> tmp = new ArrayList<Breakpoint>();
-    boolean syncImpulse = false;
-    long lastSyncCycles = 0;
-    long soundCycles = 0;
-    static int UID_ = 1;
-    static int uid = UID_++;    
-    volatile boolean debugging = false;
-    boolean stop = false;
-    // for speed measurement    
-    long cyclesDone=0;
-    boolean thisWaitRecal = false;
-    long lastWaitRecal=0;
-    long lastRecordCycle = 0;
     int vecx_emu(long cyclesOrg)
     {
         stop = false;
@@ -1645,7 +1680,6 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
             
             int oldAdr = e6809.reg_pc%65536;
             icycles = e6809.e6809_sstep(via_ifr & 0x80, firq);
-//            icycles = e6809.e6809_sstep_opt(via_ifr & 0x80, firq);
     
             firq = 0;
             if (config.codeScanActive) 
@@ -2099,7 +2133,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         */
         joyport[0].deinit();
         joyport[1].deinit();
-        romName = filenameRom;
+        romName = de.malban.util.UtilityFiles.convertSeperator(filenameRom);
         if (checkForCartridge)
         {
             CartridgeProperties cartProp = CartridgePropertiesPanel.getCartridgeProp(filenameRom);
@@ -2116,7 +2150,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
                         if (f1.size()<=0) loadit = false;
                         else
                         {
-                            String f2 = f1.elementAt(0);
+                            String f2 = de.malban.util.UtilityFiles.convertSeperator(f1.elementAt(0));
                             loadit = (filenameRom.contains(f2));
                         }
                     }
@@ -2523,8 +2557,6 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         return -1;
     }  
     
-    ArrayList<TimerItem> timerRemoveList = new ArrayList<TimerItem>();
-    ArrayList<VecX.TimerItem> timerItemListClone = new ArrayList<TimerItem>();
     void timerDoStep()
     {
         ticksRunning++;
@@ -2765,7 +2797,6 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     }
 
     /* perform a single cycle worth of analog emulation */
-    long noiseCycles = 0;
     void analogStep()
     {
         if (((via_orb & 0x01) == 0) && ((alg_sel.intValue & 0x06) == 0x02))
@@ -3256,19 +3287,27 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
             alg_curr_y = config.ALG_MAX_Y/2;
     }
     
-    static final int WR_UNKOWN = 0;
-    static final int WR_FIRST_FOUND = 1;
-    int wrStatus = WR_UNKOWN;
-    
+    public void resetAllTimeLowStack()
+    {
+        e6809.lowestStackValue = e6809.reg_s.intValue;
+        allTimeLow = e6809.reg_s.intValue;
+    }
+    public int getAllTimeLowStack()
+    {
+        return allTimeLow;
+    }
     void checkWaitRecal()
     {
-        if (e6809.reg_pc == testAddressFirst) 
+        
+        
+        
+        if ((e6809.reg_pc == testAddressFirst) && (cart.getCurrentBank() == testBank))
         {
             lastTestTicks = ticksRunning;
             wrStatus = WR_FIRST_FOUND;
             return;
         }
-        if (e6809.reg_pc == testAddressSecond) 
+        if ((e6809.reg_pc == testAddressSecond) && (cart.getCurrentBank() == testBank))
         {
             if (wrStatus == WR_FIRST_FOUND)
             {
@@ -3277,8 +3316,9 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
                 waitRecalBufferNext = (waitRecalBufferNext+1) %WAIT_RECAL_BUFFER_SIZE;
                 wrStatus = WR_UNKOWN;
                 trackyCount++;
-                if (cycles>30000)trackyAbove++;
-
+                if (cycles>30000) trackyAbove++;
+                if (allTimeLow>e6809.lowestStackValue) allTimeLow = e6809.lowestStackValue;
+                e6809.lowestStackValue = e6809.reg_s.intValue;
                 
                 if (config.doProfile)
                 {
@@ -3293,10 +3333,11 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
             }
         }
     }
-    void setTrackingAddress(int start,int end)
+    void setTrackingAddress(int start,int end, int bank)
     {
         testAddressFirst = start;
         testAddressSecond = end;
+        testBank = bank;
     }
     
     
@@ -3383,6 +3424,22 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
                     {
                         bp.compareValue-=cycles;
                         if (bp.compareValue<=0)
+                        {
+                            if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                            {
+                                tmp.add(bp);
+                            }
+                            activeBreakpoint.add(bp);
+                            if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                        }
+                    }
+                }
+                if (bp.targetSubType  == Breakpoint.BP_SUBTARGET_CPU_S)
+                {
+                    
+                    if ((bp.type & Breakpoint.BP_COMPARE) == Breakpoint.BP_COMPARE)
+                    {
+                        if (e6809.reg_s.intValue<=bp.targetAddress)
                         {
                             if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
                             {
@@ -3687,6 +3744,21 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         cpuBreakpoints.add(bp);
         return true;
     }
+    public boolean breakpointCPUToggle(Breakpoint bp)
+    {
+        ArrayList<Breakpoint> cpuBreakpoints = breakpoints[bp.targetType];
+
+        for (Breakpoint bpAvailable: cpuBreakpoints)
+        {
+            if (bpAvailable.equals(bp))
+            {
+                cpuBreakpoints.remove(bpAvailable);
+                return false;
+            }
+        }
+        cpuBreakpoints.add(bp);
+        return true;
+    }
     
     // true on add
     protected boolean toggleViaBreakpoint(Breakpoint bp)
@@ -3816,12 +3888,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         return false;
     }
         
-    public boolean recording = false;
-    int recordingType = REC_YM;
-    boolean recordingIsAddress = true;
-    int recordingAddress = 0;
-    String recordingFilename = "";
-    ArrayList<byte[]> recordData;
+
     public void startRecord(String filename, int type, boolean isAddress , int address)
     {
         if (recording) return;
@@ -3867,7 +3934,8 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
                 OutputStream output = null;
                 try 
                 {
-                    output = new BufferedOutputStream(new FileOutputStream(recordingFilename));
+                    String outAbs = de.malban.util.Utility.makeVideAbsolute(recordingFilename);
+                    output = new BufferedOutputStream(new FileOutputStream(outAbs));
                     if (recordingType == REC_DATA)
                     {
                         for (int i=0; i<recordData.size(); i++)
@@ -4034,9 +4102,9 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     }
     public void addSoundRecord()
     {
+        if (recordData == null) return;
         synchronized(recordData)
         {
-            if (recordData == null) return;
             byte[] psgData = new byte[16];
             
             int lastReg13 = 256;
@@ -4065,9 +4133,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     }
     
     
-    // is a "fast" interupt initiated (from device port 0 Button 4)
-    // only == 0 or !=0 is relevant
-    int firq;
+
     // accessed from devices in port 0
     public void setFIRQ(boolean lineState)
     {

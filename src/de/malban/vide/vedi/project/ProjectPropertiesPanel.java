@@ -101,7 +101,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                 if (mProjectProperties.mBankMainFiles == null) return ;
                 if (mProjectProperties.mBankMainFiles.size()<= rowIndex) return ;
                 String path = aValue.toString();
-                String malRel = de.malban.util.Utility.ensureRelative(path);
+                String malRel = de.malban.util.Utility.makeVideRelative(path);
                         
                 String repl = mProjectProperties.projectPrefix+File.separator;
                 path = de.malban.util.UtilityString.replace(path, repl, "");
@@ -479,7 +479,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         mProjectProperties.mAuthor = jTextFieldAuthor.getText();
         mProjectProperties.mDescription = jTextAreaDescription.getText();
         mProjectProperties.mDirectoryName = "";
-        mProjectProperties.mOldPath = de.malban.util.Utility.makeRelative(jTextFieldPath.getText());
+        mProjectProperties.mOldPath = de.malban.util.Utility.makeVideRelative(jTextFieldPath.getText());
 
         mProjectProperties.mProjectName = jTextFieldProjectName.getText();
         mProjectProperties.mMainFile = jTextFieldMainFile.getText();
@@ -1430,7 +1430,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         if (pp.length() >0 ) pp += File.separator;
         pp += mProjectProperties.getProjectName();
         
-        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, mProjectProperties.mProjectName, "", "ProjectPropertiesPanel", pp);
+        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, mProjectProperties.mProjectName, "", "ProjectPropertiesPanel", de.malban.util.Utility.makeVideAbsolute(pp));
         sdp.setSelected(mProjectProperties.mProjectPreScriptClass, mProjectProperties.mProjectPreScriptName, ed);
         modal = new ModalInternalFrame("Scripter", frame.getRootPane(), frame, sdp, "done");
         modal.setVisible(true);        

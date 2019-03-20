@@ -1329,7 +1329,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
                 }
             }
         }
-        loadName = de.malban.util.Utility.makeRelative(loadName);
+        loadName = de.malban.util.Utility.makeVideRelative(loadName);
         jTextFieldAnimationName.setText(loadName);
                 
         currentElement.listName = loadName;

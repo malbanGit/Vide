@@ -135,10 +135,7 @@ public class SourceLine {
             }
             
             // comment completeLine
-            
-            
-            
-            String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(fname)).toLowerCase(); 
+            String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(fname)).toLowerCase(); 
             if (commentRecognizer != null &&  commentRecognizer.recognizes(s) ) 
             { 
                 fullLineComment = line.trim().substring(1).trim();

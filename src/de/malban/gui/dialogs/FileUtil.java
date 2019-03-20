@@ -16,6 +16,7 @@ import de.malban.config.Configuration;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.panels.LogPanel;
 import de.malban.util.UtilityString;
+import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import de.malban.vide.vecx.cartridge.VFCompress;
 import de.malban.vide.vedi.sound.SampleJPanel;
@@ -169,6 +170,9 @@ public class FileUtil extends javax.swing.JPanel {
         jButtonFileSelect12 = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
         jTextFieldstart10 = new javax.swing.JTextField();
+        jLabel41 = new javax.swing.JLabel();
+        jButton16 = new javax.swing.JButton();
+        jLabel42 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
@@ -1168,10 +1172,25 @@ public class FileUtil extends javax.swing.JPanel {
             }
         });
 
-        jLabel31.setText("file");
+        jLabel31.setText("VB smartList changes");
         jLabel31.setName("jLabel31"); // NOI18N
 
         jTextFieldstart10.setName("jTextFieldstart10"); // NOI18N
+
+        jLabel41.setText("Ok");
+        jLabel41.setName("jLabel41"); // NOI18N
+
+        jButton16.setText("process");
+        jButton16.setName("jButton16"); // NOI18N
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+
+        jLabel42.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel42.setText("output file -> + \".asm\"");
+        jLabel42.setName("jLabel42"); // NOI18N
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -1179,23 +1198,36 @@ public class FileUtil extends javax.swing.JPanel {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel31)
-                .addGap(27, 27, 27)
-                .addComponent(jTextFieldstart10, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonFileSelect12)
-                .addContainerGap(425, Short.MAX_VALUE))
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel31)
+                        .addGap(27, 27, 27)
+                        .addComponent(jTextFieldstart10, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonFileSelect12))
+                    .addComponent(jLabel42))
+                .addGap(115, 115, 115)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel41)
+                    .addComponent(jButton16))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonFileSelect12)
-                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldstart10, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(553, Short.MAX_VALUE))
+                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButtonFileSelect12, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldstart10, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(526, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("4", jPanel14);
@@ -1932,6 +1964,8 @@ public class FileUtil extends javax.swing.JPanel {
     private void jButtonFileSelect12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect12ActionPerformed
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("asm", "asm");
+        fc.setFileFilter(filter);
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != JFileChooser.APPROVE_OPTION) return;
         String name = fc.getSelectedFile().getAbsolutePath();
@@ -1950,7 +1984,7 @@ public class FileUtil extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonFileSelect13ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        SampleJPanel sPanel = new SampleJPanel(de.malban.util.Utility.makeRelative(jTextFieldstart11.getText()));
+        SampleJPanel sPanel = new SampleJPanel(de.malban.util.Utility.makeVideRelative(jTextFieldstart11.getText()));
         sPanel.setVectrexValues(10000, 8, 1);
         byte[] samples = sPanel.convertToVectrex(false);
 
@@ -2173,6 +2207,187 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
         }
     }//GEN-LAST:event_jButton15ActionPerformed
 
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+
+        String line="";
+        String f="";
+        String s="";
+
+        jLabel41.setVisible(false);
+        try
+        {
+            String file1 = jTextFieldstart10.getText();
+            Vector<String> strings = de.malban.util.UtilityString.readTextFileToString(new File(file1));
+            StringBuilder b = new StringBuilder();
+            boolean inList = false;
+
+
+
+            for (int i=0; i< strings.size(); i++)
+            {
+                line = strings.elementAt(i);
+                if ((line.contains("hi(")) && (line.contains("lo(")))
+                {
+                    inList = true;
+                    // interesting line!
+                                        
+                }
+                if (!inList)
+                {
+                    // append as is
+                    b.append(line).append("\n");
+                    continue;
+                }
+                else
+                {
+
+                    // assume starting with DB
+                    // assume two values
+                    // assume rest after two values hi/lo text(s)
+                    f = getFirstValue(line).trim();
+                    s = getSecondValue(line).trim();
+                    
+                    if (f.length()==0)
+                    {
+                        System.out.println("No first value found in line "+i+": "+line);
+                        b.append(line).append("\n");
+                        continue;
+                    }
+                    if (s.length()==0)
+                    {
+                        System.out.println("No second value found in line "+i+": "+line);
+                        b.append(line).append("\n");
+                        continue;
+                    }
+                    
+                    
+                    int f_int = DASM6809.toNumber(f);
+                    int s_int = DASM6809.toNumber(s);
+
+                    if (f_int>256) 
+                        f_int = f_int -65536;
+                    if (s_int>256)
+                        s_int = s_int -65536;
+                    
+                    double multiplier = 9.0/7.0;
+                    double f_double = f_int * multiplier;
+                    double s_double = s_int * multiplier;
+                    
+                    int f_int2 = (int)Math.round(f_double);
+                    int s_int2 = (int)Math.round(s_double);
+                    boolean overflow = false;
+                    String overflowMessage ="";
+                    if (f_int2>127) 
+                    {
+                        overflowMessage += "; f should be: "+String.format("%03X", (f_int2));
+                        f_int2 = 127;
+                        overflow = true;
+                    }
+                    if (f_int2<-128) 
+                    {
+                        overflowMessage += "; f should be: "+String.format("%03X", (f_int2));
+                        f_int2 = -128;
+                        overflow = true;
+                    }
+                    if (s_int2>127) 
+                    {
+                        overflowMessage += "; s should be: "+String.format("%03X", (s_int2));
+                        s_int2 = 127;
+                        overflow = true;
+                    }
+                    if (s_int2<-128) 
+                    {
+                        overflowMessage += "; s should be: "+String.format("%03X", (s_int2));
+                        s_int2 = -128;
+                        overflow = true;
+                    }
+                    if (overflow)
+                        System.out.println("Overflow in line "+i+": "+line);
+                    line = replaceFunctionCalls(line);
+                    String f2 = "$"+String.format("%02X", (f_int2&0xff));
+                    String s2 = "$01, $"+String.format("%02X", (s_int2&0xff));
+                    
+                    if ((f_int2&0xff)>127)
+                    {
+                        f2 = "-$"+String.format("%02X", Math.abs((f_int2&0xff)-256) );
+                    }
+                    if ((s_int2&0xff)>127)
+                    {
+                        f2 = "-$"+String.format("%02X", Math.abs((s_int2&0xff)-256) );
+                    }
+                    
+                    line = de.malban.util.UtilityString.replaceFirst(line, f, f2);
+                    line = de.malban.util.UtilityString.replaceFirst(line, s, s2);
+                    if (overflow)
+                    {
+                        line = line+"\tOVERFLOW "+overflowMessage;
+                    }
+                    b.append(line).append("\n");
+                }
+                
+                if (line .contains("lastDraw_"))
+                {
+                    inList = false;
+                }
+                if (line .contains("_sj)"))
+                {
+                    inList = false;
+                }
+                
+            }
+            
+            
+            de.malban.util.UtilityFiles.createTextFile(file1+".asm", b.toString());
+            jLabel41.setText("Ok");
+            jLabel41.setVisible(true);
+            jLabel41.setForeground(Color.green);
+        }
+        catch (Throwable e)
+        {
+            jLabel41.setText("error");
+            jLabel41.setVisible(true);
+            jLabel41.setForeground(Color.red);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton16ActionPerformed
+    String replaceFunctionCalls(String line)
+    {
+        // todo
+        return line;
+    }
+    
+    // assuming line like:
+    // 	db  $00,  $66, hi(SM_startDraw_d_y0), lo(SM_startDraw_d_y0)
+    String getFirstValue(String line)
+    {
+        String ret = "";
+        int p = line.indexOf("$");
+        if (p>0)
+        {
+            if (line.charAt(p-1) == '-')
+                return line.substring(p-1,p+3);
+            return line.substring(p,p+3);
+        }
+        return "";
+    }
+    // minus one to get SIGN!
+    String getSecondValue(String line)
+    {
+        String ret = "";
+        int p = line.indexOf("$");
+        if (p>0)
+        {
+            p = line.indexOf("$", p+1);
+            if (p>0)
+            {
+                if (line.charAt(p-1) == '-')
+                    return line.substring(p-1,p+3);
+                return line.substring(p,p+3);
+            }
+        }
+        return "";
+    }
+    
     String spacesUpTo(String to, int fillPos, String p1)
     {
         to = to +p1;
@@ -2237,6 +2452,7 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -2293,6 +2509,8 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

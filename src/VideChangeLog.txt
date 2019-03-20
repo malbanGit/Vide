@@ -1,19 +1,52 @@
------------------
-Version 2.?
+
+20th of March 2019
+Version 2.50
 new:
 - vecci added settings to scale x,y,z seperately
 - vecci: added centerline tracing via external tool "autotrace"
 - vecci: load lists to VecFever directly
 - new SmartList creation (can also still switch to old)
-- tool: added tool to "build" Video moves from "extreme vectrex" fata files. The builds can be played on a vecFever
+- tool: added tool to "build" Video movies from "extreme vectrex" fata files. The builds can be played on a vecFever
 - tool: to build "Wav" player for vecFever
+- WR: now also uses bank bank information
+- reverted Vedi back to Java 1.8 and distributed now as "native packaging"
+- added additional stack tracking
+  stack is shown in Vari: 
+  - current stack: blue background
+  - current WR low: pink background
+  - all time low stack: red background (is reset with tracki reset)
+- added breakpoint for stack, 
+  e.g. > B stack $c9a2
+  means break when register S contains a value lower equal to $c9a2
+- for "C": the highest used memory address is evaluated (via MAP file)
+  and put into the generated CNT file with e.g.
+  "HIGHEST_USED_RAM $C9A2"
+  (only when debugging is enabled)
+  Than dissi will also generate automatically a breakpoint of the above kind for that address, 
+  -> a stack overflow check!
+  Also a comment is added to the RAM address like:
+  "COMMENT $C9A2 not used RAM onword..." - so that you can discern that address easily in VARI
+
 bugs:
-- tinylaf and Java 10 seem to have problems when iconifying the window. Iconify disabled
+- tinylaf and Java 10 seem to have problems when iconifying the window. Iconify disabled (and removed again by switching back to Java 1.8)
 - C debugging was not working, when a function parameter had a pointer to a struct -> hopefully corrected
 - corrected Pattern draw from vecci (mode)
 - changed all modal dialogs in Vide from "desktop internal modal" to "system modal" since the previous implementation caused problems
-  (Freezes) on some machines
+  (Freezes) on some machines (Java 10 problem -> but System modal was not set to desktop internal modal again.
 - found a vectrex which has a T1 offset of 2 cycles -> all smartlist maximum scale without additional NOPS changed from 9 -> 7 :-(
+- some bugfixes for "C" debugging
+- exchanged all "C" compilers with builds made from the git repository at: https://gitlab.com/dfffffff/gcc6809
+  which has some changes/bugfixes
+  "internal" sources changed a bit but the user "should" not notice anything different.
+  If one uses extended ASM commands from "C", some constraint my throw a depricated warning.
+  In some example case Peer did, he had to change a constraint from "mi" to "gmi".
+  All gcc compilers are now static builds (Win also), Windows gcc differentiates now also between 32bit and 64bit.
+  Compile instructions and sources for gcc are included for all supported OS
+- corrected many sources to be compilable under Linux (small and capital letters in filenames)
+- if the lexer for syntax scanning encounters an exception, the syntax scanning is no longer exited with an exception
+  (and the whole document "srcewed", instead the lexer "ignores" one byte, and generates an ERROR token, so the rest of the
+  document is further correctly scanned.
+
 -----------------
 27th of December 2018
 Version 2.11

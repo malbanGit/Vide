@@ -2731,7 +2731,19 @@ public class M6809Lexer implements Lexer {
             }
           case 120: break;
           default:
-            zzScanError(ZZ_NO_MATCH);
+            //zzScanError(ZZ_NO_MATCH);
+            
+// return 1 (current) character with ERROR token, instead of exception
+                System.out.println("Token M6809Lexer: ERROR: "+ yytext()+ " pos : "+zzMarkedPos);              
+                lastToken = M6809Token.ERROR_IDENTIFIER;
+                String text = new String( zzBuffer, zzStartRead, zzMarkedPos-zzStartRead );
+                M6809Token t = (new M6809Token(lastToken,text,yyline,yychar,yychar+1,YYINITIAL));
+
+                zzMarkedPos= zzStartRead+1;
+                zzCurrentPos++;
+                return t;
+            
+            
         }
       }
     }

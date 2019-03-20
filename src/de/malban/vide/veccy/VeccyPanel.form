@@ -2306,7 +2306,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane1" pref="328" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane1" pref="345" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -2658,7 +2658,7 @@
                                                   </Group>
                                               </Group>
                                           </Group>
-                                          <EmptySpace min="0" pref="149" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="184" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -2998,7 +2998,7 @@
                                           <Component id="jButton2dAxis" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jButton3dAxis" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="90" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="125" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -3214,7 +3214,7 @@
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jScrollPane3" pref="309" max="32767" attributes="0"/>
+                                                  <Component id="jScrollPane3" pref="344" max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
@@ -3569,7 +3569,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTabbedPane8" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTabbedPane8" alignment="0" pref="395" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -3629,7 +3629,7 @@
                                 </DimensionLayout>
                                 <DimensionLayout dim="1">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                                   <Component id="jCheckBoxAddFactor" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -3651,8 +3651,8 @@
                                           <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="jPanel29" max="32767" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                          <Component id="jPanel29" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jPanel30" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -3689,7 +3689,7 @@
                                   <Layout>
                                     <DimensionLayout dim="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="jButtonDraw_VL_mode" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
                                                   <Component id="jButtonDraw_VLp" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
@@ -3733,6 +3733,10 @@
                                                       <Component id="jCheckBoxextendedList" max="32767" attributes="0"/>
                                                   </Group>
                                               </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jCheckBox16" min="-2" pref="295" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -3778,6 +3782,7 @@
                                                   </Group>
                                               </Group>
                                               <EmptySpace max="32767" attributes="0"/>
+                                              <Component id="jCheckBox16" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -3960,6 +3965,14 @@
                                         <Property name="toolTipText" type="java.lang.String" value="If not checked &quot;3ds&quot; lists are created, if checked non 3ds lists."/>
                                       </Properties>
                                     </Component>
+                                    <Component class="javax.swing.JCheckBox" name="jCheckBox16">
+                                      <Properties>
+                                        <Property name="text" type="java.lang.String" value="keep position (Draw_VLp only)"/>
+                                      </Properties>
+                                      <Events>
+                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox16ActionPerformed"/>
+                                      </Events>
+                                    </Component>
                                   </SubComponents>
                                 </Container>
                                 <Container class="javax.swing.JPanel" name="jPanel30">
@@ -4050,7 +4063,7 @@
                                                       <Component id="jTextFieldResyncAnim" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
-                                              <EmptySpace pref="17" max="32767" attributes="0"/>
+                                              <EmptySpace pref="35" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -4616,7 +4629,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jButtonExport" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="298" max="32767" attributes="0"/>
+                                          <EmptySpace pref="333" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4698,7 +4711,7 @@
                                               <Component id="jButtonLoad4" alignment="0" max="32767" attributes="0"/>
                                               <Component id="jLabel60" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace pref="206" max="32767" attributes="0"/>
+                                          <EmptySpace pref="241" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4788,10 +4801,21 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jPanel36" max="32767" attributes="0"/>
-                                              <Group type="102" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox11" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="102" attributes="0">
+                                                          <Component id="jCheckBoxCompileForVB" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                                          <Component id="jCheckBox13" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                                          <Component id="jCheckBox14" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                                          <Component id="jCheckBox15" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Component id="jCheckBox11" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace pref="277" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -4804,13 +4828,19 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jPanel27" max="32767" attributes="0"/>
                                               <Group type="102" attributes="0">
-                                                  <Component id="jPanel36" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jPanel36" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="jCheckBox11" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="jCheckBoxCompileForVB" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jCheckBox13" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jCheckBox14" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jCheckBox15" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                           </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4821,8 +4851,13 @@
                                   <Layout>
                                     <DimensionLayout dim="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="jLabel76" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="32767" attributes="0"/>
+                                                      <Component id="jTextField12" min="-2" pref="86" max="-2" attributes="0"/>
+                                                  </Group>
                                                   <Group type="102" alignment="1" attributes="0">
                                                       <Component id="jLabel67" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="32767" attributes="0"/>
@@ -4853,14 +4888,14 @@
                                                       <Component id="jTextFieldLabelListname2" min="-2" pref="94" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Component id="jButtonBuildSmartList1" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="jLabel68" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel68" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Component id="jCheckBoxStackJump" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jLabel69" max="32767" attributes="0"/>
                                                   </Group>
                                                   <Component id="jTextFieldLabelStackJumpName" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="jCheckBoxNoInitialMove" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBoxNoInitialMove" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jButtonBuildSmartList2" alignment="0" max="32767" attributes="0"/>
                                               </Group>
                                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
@@ -4904,7 +4939,7 @@
                                               <Component id="jButtonBuildSmartList1" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jButtonBuildSmartList2" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
+                                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="1" attributes="0">
                                                   <Component id="jCheckBoxStackJump" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jLabel69" min="-2" max="-2" attributes="0"/>
@@ -4915,6 +4950,11 @@
                                               <Component id="jTextFieldLabelStackJumpName" min="-2" pref="21" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                               <Component id="jCheckBoxNoInitialMove" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="jTextField12" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel76" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              </Group>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -5039,6 +5079,7 @@
                                     </Component>
                                     <Component class="javax.swing.JCheckBox" name="jCheckBoxNoInitialMove">
                                       <Properties>
+                                        <Property name="selected" type="boolean" value="true"/>
                                         <Property name="text" type="java.lang.String" value="no positioning move"/>
                                       </Properties>
                                     </Component>
@@ -5057,6 +5098,17 @@
                                       <Events>
                                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBuildSmartList2ActionPerformed"/>
                                       </Events>
+                                    </Component>
+                                    <Component class="javax.swing.JTextField" name="jTextField12">
+                                      <Properties>
+                                        <Property name="text" type="java.lang.String" value="SMVB_"/>
+                                      </Properties>
+                                    </Component>
+                                    <Component class="javax.swing.JLabel" name="jLabel76">
+                                      <Properties>
+                                        <Property name="text" type="java.lang.String" value="function"/>
+                                        <Property name="toolTipText" type="java.lang.String" value="header to a smart draw function collection"/>
+                                      </Properties>
                                     </Component>
                                   </SubComponents>
                                 </Container>
@@ -5126,8 +5178,8 @@
                                                   </Group>
                                               </Group>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="jScrollPane8" pref="268" max="32767" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                              <Component id="jScrollPane8" max="32767" attributes="0"/>
+                                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -5189,6 +5241,7 @@
                                     </Container>
                                     <Component class="javax.swing.JCheckBox" name="jCheckBox9">
                                       <Properties>
+                                        <Property name="selected" type="boolean" value="true"/>
                                         <Property name="text" type="java.lang.String" value="eq difs"/>
                                         <Property name="toolTipText" type="java.lang.String" value="if length are divided - equalize the devides (gets rids of &quot;dots&quot;)"/>
                                       </Properties>
@@ -5240,6 +5293,36 @@
                                 <Component class="javax.swing.JCheckBox" name="jCheckBox11">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="old smart list"/>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox11ActionPerformed"/>
+                                  </Events>
+                                </Component>
+                                <Component class="javax.swing.JCheckBox" name="jCheckBoxCompileForVB">
+                                  <Properties>
+                                    <Property name="selected" type="boolean" value="true"/>
+                                    <Property name="text" type="java.lang.String" value="vb smart list"/>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxCompileForVBActionPerformed"/>
+                                  </Events>
+                                </Component>
+                                <Component class="javax.swing.JCheckBox" name="jCheckBox13">
+                                  <Properties>
+                                    <Property name="selected" type="boolean" value="true"/>
+                                    <Property name="text" type="java.lang.String" value="rts 2"/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JCheckBox" name="jCheckBox14">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="no SHIFT"/>
+                                    <Property name="toolTipText" type="java.lang.String" value="generate for usage without VIA SHIFT reg"/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JCheckBox" name="jCheckBox15">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="low y"/>
+                                    <Property name="toolTipText" type="java.lang.String" value="Test whether Y is &quot;very&quot; negative, if so - use different draw routine."/>
                                   </Properties>
                                 </Component>
                               </SubComponents>
@@ -5315,7 +5398,27 @@
                                           <Component id="jLabel54" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jTextFieldstart1" min="-2" pref="180" max="-2" attributes="1"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jButtonFileSelect2" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabel77" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jTextFieldstart2" min="-2" pref="180" max="-2" attributes="1"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jButtonFileSelect3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jLabel78" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5399,7 +5502,21 @@
                                   <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel54" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="112" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                  <Component id="jLabel77" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jButtonFileSelect2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldstart1" alignment="0" min="-2" pref="21" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jLabel78" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jButtonFileSelect3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldstart2" alignment="0" min="-2" pref="21" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="46" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5610,6 +5727,54 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="than all exports are disabled"/>
                           </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="jTextFieldstart1">
+                          <Properties>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="jButtonFileSelect2">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/de/malban/vide/images/folder_go.png"/>
+                            </Property>
+                            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                              <Insets value="[0, 1, 0, -1]"/>
+                            </Property>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonFileSelect2ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel77">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="set working VList directory"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel78">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="set working anim directory"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="jTextFieldstart2">
+                          <Properties>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="jButtonFileSelect3">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/de/malban/vide/images/folder_go.png"/>
+                            </Property>
+                            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                              <Insets value="[0, 1, 0, -1]"/>
+                            </Property>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonFileSelect3ActionPerformed"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -6037,13 +6202,8 @@
                               </Group>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jButtonSelectAll" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jCheckBox12" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jButtonSelectAll" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jCheckBox12" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -6218,7 +6378,7 @@
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox12">
                   <Properties>
-                    <Property name="toolTipText" type="java.lang.String" value="TF :-)"/>
+                    <Property name="toolTipText" type="java.lang.String" value="TF :-) [send generated sources directly to VecFever - if available]"/>
                   </Properties>
                 </Component>
               </SubComponents>

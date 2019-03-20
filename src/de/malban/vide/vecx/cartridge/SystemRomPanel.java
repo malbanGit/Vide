@@ -496,7 +496,7 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
         {
             String fullPath = fc.getSelectedFile().getAbsolutePath();
             lastImagePath = fullPath;
-            jTextFieldPath2.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldPath2.setText(de.malban.util.Utility.makeVideRelative(fullPath));
         }
     }//GEN-LAST:event_jButtonFileSelect3ActionPerformed
 

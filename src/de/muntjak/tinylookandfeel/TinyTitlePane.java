@@ -413,8 +413,9 @@ private Image getWindowIcon(Window window) {
         Frame frame = getFrame();
 
         if(frame != null) {
-//            frame.setState(Frame.ICONIFIED);
-//            frame.setExtendedState(frame.getExtendedState() | Frame.ICONIFIED);
+// JAVA10 comment out on "some" macs
+            frame.setState(Frame.ICONIFIED);
+            frame.setExtendedState(frame.getExtendedState() | Frame.ICONIFIED);
         }
     }
 

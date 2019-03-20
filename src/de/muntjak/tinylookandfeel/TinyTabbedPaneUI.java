@@ -386,7 +386,15 @@ public class TinyTabbedPaneUI extends BasicTabbedPaneUI {
 
 		drawXpContentBorder(g, x, y, w, h);
 
+                try
+                {
 		super.paint(g, c);
+                    
+                }
+                catch (Throwable e)
+                {
+                    
+                }
 	}
 
 	private void drawXpContentBorder(Graphics g, int x, int y, int w, int h) {

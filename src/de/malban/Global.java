@@ -7,6 +7,7 @@ package de.malban;
 import de.malban.config.Configuration;
 import de.malban.config.Logable;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.dialogs.ShowWarningDialog;
 import de.malban.gui.panels.LogPanel;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
@@ -16,15 +17,21 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import static java.lang.System.exit;
 import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
+
+
+
 
 /**
  *
@@ -67,9 +74,70 @@ public class Global {
               }
             }
           );
+        Map<String, String> env = System.getenv();
+        String VideHome = env.get("VIDE_HOME");
+        String home = "";
+        if (VideHome != null)
+        {
+            home = "";
+            
+            home = new File(de.malban.util.UtilityFiles.convertSeperator(VideHome)).getAbsolutePath();
+            if (!home.endsWith(File.separator))
+                home = home + File.separator;
+            mainPathPrefix = home;
+//            System.out.println("VIDE_HOME found end read to: "+mainPathPrefix);
+        }
+        else
+        {
+            // search current dir for "vide" sub dirs
+            // if not found step one "up"
+            boolean found = false;
+            String currentDir = "."+File.separator;
+            try
+            {
+            currentDir = new File(currentDir).getCanonicalPath();
+            }
+            catch (Throwable e) { }
+            if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
+            while (!found)
+            {
+//            System.out.println("Searching vide home in: "+currentDir);
+                File t = new File(currentDir+"serialize");
+                if (t.exists())
+                {
+                    t = new File(currentDir+"cartridges");
+                    if (t.exists())
+                    {
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    String oldDir=currentDir;
+                    try
+                    {
+                    currentDir = new File(currentDir+"..").getCanonicalPath();
+                    }
+                    catch (Throwable e) { }
+                    
+                    if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
+                    if (currentDir.equals(oldDir)) break;
+                }
+            }
+            if (!found)
+            {
+                // scream!
+                JOptionPane.showMessageDialog(null, "Vide could not find its home directory and will not run correctly!\nPlease set the environment variable VIDE_HOME!" ,"Vide problem",  JOptionPane.INFORMATION_MESSAGE);
+                exit (1);
+            }
+            home = new File(de.malban.util.UtilityFiles.convertSeperator(currentDir)).getAbsolutePath();
+            if (!home.endsWith(File.separator))
+                home = home + File.separator;
+            mainPathPrefix = home;
+//            System.out.println("Vide determined home at: "+mainPathPrefix);
+        }
         
-        
-        mainPathPrefix = getProgramDirectory()+File.separator;
+//        mainPathPrefix = getProgramDirectory()+File.separator;
         OSNAME = System.getProperty("os.name").toLowerCase();
         if (OSNAME.startsWith("mac"))
         {

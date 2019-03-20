@@ -5,21 +5,15 @@
  */
 package de.malban;
 
-import com.sun.tools.javac.resources.legacy;
 import static de.malban.Global.initLAF;
 import de.malban.jogl.JOGLSupport;
 import de.malban.config.Configuration;
-import de.malban.config.Logable;
 import de.malban.event.EventSupport;
 import de.malban.gui.CSAMainFrame;
-import de.malban.gui.dialogs.ShowErrorDialog;
-import de.malban.gui.dialogs.ShowWarningDialog;
-import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.input.SystemController;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.CLI;
-import de.malban.vide.dissy.DASM6809;
 import java.awt.Toolkit;
 
 import javax.swing.JDialog;
@@ -41,13 +35,14 @@ public class VideMain {
                      System.getProperty("java.vm.info") + ")";
         String javaVersion1 = System.getProperty("java.version") + " " +
                      System.getProperty("java.vendor");
-        String javaDir = "Home: "+System.getProperty("java.home");
+        String javaDir = "Java Home: "+System.getProperty("java.home");
          
         
         
         Configuration.getConfiguration().getDebugEntity().addLog("Running on: "+javaVersion1, INFO);
         Configuration.getConfiguration().getDebugEntity().addLog(""+javaVersion2, INFO);
         Configuration.getConfiguration().getDebugEntity().addLog(""+javaDir, INFO);
+        Configuration.getConfiguration().getDebugEntity().addLog("VIDE_HOME = "+Global.mainPathPrefix, INFO);
 
         
         Global g = new Global();
@@ -81,7 +76,7 @@ public class VideMain {
                 CSAMainFrame mainFrame = new CSAMainFrame();
                 mainFrame.setVisible(true);
                 
-                
+                /*
                 String javaVersion = System.getProperty("java.version");
                 String[] splitter = javaVersion.split("\\.");
                 if (splitter.length == 0)
@@ -102,7 +97,7 @@ public class VideMain {
                         }
                     }
                 }
-                
+                */
                 
             }
         });

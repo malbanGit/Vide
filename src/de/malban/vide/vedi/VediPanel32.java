@@ -17,7 +17,6 @@ import de.malban.gui.HotKey;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
-import de.malban.gui.dialogs.JOptionPaneDialog;
 import de.malban.gui.dialogs.QuickHelpTopFrame;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
@@ -428,11 +427,11 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         Path path = Paths.get(fullPathname);
         name = path.getFileName().toString();
         
-        String settingsRel = de.malban.util.Utility.makeRelative(fullPathname);
-        String settingsAbs = de.malban.util.Utility.makeAbsolut(fullPathname);
+        String settingsRel = de.malban.util.Utility.makeVideRelative(fullPathname);
+        String settingsAbs = de.malban.util.Utility.makeVideAbsolute(fullPathname);
         if (!convertSeperator(fullPathname).toLowerCase().contains(Global.mainPathPrefix.toLowerCase()))
         {
-            settingsAbs = de.malban.util.Utility.makeAbsolut(Global.mainPathPrefix+fullPathname);
+            settingsAbs = de.malban.util.Utility.makeVideAbsolute(Global.mainPathPrefix+fullPathname);
         }
         
         if (addToSettings)
@@ -1563,8 +1562,14 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         if (newFile.exists())
         {
             // todo, make this CSA Fullscreen conform!
-            JOptionPane pane = new JOptionPane("The file already exists, do you really want\nto create a new file?\n\nAll previous data will be lost!", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-            int answer = JOptionPaneDialog.show(pane);
+//            JOptionPane pane = new JOptionPane("The file already exists, do you really want\nto create a new file?\n\nAll previous data will be lost!", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+//            int answer = JOptionPaneDialog.show(pane);
+
+                int answer = JOptionPane.showOptionDialog(Configuration.getConfiguration().getMainFrame(), 
+                "The file already exists, do you really want\nto create a new file?\n\nAll previous data will be lost!",
+                "File exists",
+                JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, null, null);
+
             if (answer == JOptionPane.YES_OPTION)
                 System.out.println("YES");
             else
@@ -1641,7 +1646,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         if (test.exists())
         {
             
-            pathOnly = de.malban.util.Utility.makeRelative(pathOnly);
+            pathOnly = de.malban.util.Utility.makeVideRelative(pathOnly);
             FilePropertiesPool pool = new FilePropertiesPool(pathOnly+File.separator, test.getName());
             FileProperties fileProperties =  pool.get(filenameOnly);
             if (fileProperties!=null)
@@ -1689,7 +1694,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         if (test.exists())
         {
             String pathOnly = test.getParent().toString();
-            pathOnly = de.malban.util.Utility.makeRelative(pathOnly);  
+            pathOnly = de.malban.util.Utility.makeVideRelative(pathOnly);  
             if (pathOnly.length()!=0) pathOnly+=File.separator;
             FilePropertiesPool pool = new FilePropertiesPool(pathOnly, test.getName());
 
@@ -2568,7 +2573,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             File test = new File(start+ filenameBaseOnly+"FileProperty.xml");
             if (test.exists())
             {
-                String rel = de.malban.util.Utility.makeRelative(start);
+                String rel = de.malban.util.Utility.makeVideRelative(start);
                 if (rel.length()>0) rel = rel + File.separator;
                 FilePropertiesPool pool = new FilePropertiesPool(rel, filenameBaseOnly+"FileProperty.xml");
                 FileProperties fileProperties =  pool.get(filenameOnly);
@@ -2601,7 +2606,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                         nfilenameBaseOnly = nfilenameOnly;                    
                     
                     fileProperties.mName = nfilenameOnly;
-                    fileProperties.setFilename(de.malban.util.Utility.makeRelative(npathFull));
+                    fileProperties.setFilename(de.malban.util.Utility.makeVideRelative(npathFull));
                     fileProperties.setTyp(ntype);
                     pool.put(fileProperties);
                     pool.save();
@@ -2688,7 +2693,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             String pathOnly = test.getParent().toString();
             if (pathOnly.length()!=0) pathOnly+=File.separator;
             
-            String relOnly = de.malban.util.Utility.ensureRelative(pathOnly);
+            String relOnly = de.malban.util.Utility.makeVideRelative(pathOnly);
             if (relOnly.length()!=0) relOnly+=File.separator;
             
             FilePropertiesPool pool = new FilePropertiesPool(relOnly, test.getName());

@@ -2951,7 +2951,7 @@ public class ImageSourceEdit extends javax.swing.JPanel implements
             path+=extension;
             if (count == 1) path = name;
 
-            jTextFieldImageSource.setText(de.malban.util.Utility.makeRelative(path));
+            jTextFieldImageSource.setText(de.malban.util.Utility.makeVideRelative(path));
             setImage();
 
             if (jCheckBoxUseFileSizes.isSelected())
@@ -2992,7 +2992,7 @@ public class ImageSourceEdit extends javax.swing.JPanel implements
             String fullPath = fc.getSelectedFile().getAbsolutePath();
             lastImagePath = fullPath;
             
-            jTextFieldImageSource.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldImageSource.setText(de.malban.util.Utility.makeVideRelative(fullPath));
             setImage();
             inSetting++;
             jSliderSourceScale.setValue(6);
@@ -5853,7 +5853,7 @@ else System.out.println(" -> not found");
             currentNotice = bdata.notice;
 
             String fullPath = bdata.fileName;
-            jTextFieldImageSource.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldImageSource.setText(de.malban.util.Utility.makeVideRelative(fullPath));
             setImage();
             inSetting++;
 
@@ -6495,7 +6495,7 @@ else System.out.println(" -> not found");
         {
             String fullPath = files[i].getAbsolutePath();
             lastImagePath = fullPath;
-            jTextFieldImageSource.setText(de.malban.util.Utility.makeRelative(fullPath));
+            jTextFieldImageSource.setText(de.malban.util.Utility.makeVideRelative(fullPath));
             setImage();
             
             if (jCheckBoxUseFileSizes.isSelected())

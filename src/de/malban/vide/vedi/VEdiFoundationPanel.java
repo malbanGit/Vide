@@ -327,6 +327,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         {
             s = (VediSettings) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+getSettingsName());
             settings = s;
+            settings.adjustOS();
             if (settings == null) return false;
         }
         catch (Throwable e)

@@ -1644,6 +1644,7 @@ public class GFXVectorList {
         
         for (int i=1; i< list.size()-1; i++)
         {
+            
             GFXVector v = list.get(i);
             if (!v.isRelativ()) return false;
         }
@@ -2877,13 +2878,29 @@ public class GFXVectorList {
     }
     // if highbyte in a pattern is cleared
     // it is FORCED set!
-    public String createASMDraw_VLp(String name, boolean factor)
+    public String createASMDraw_VLp(String name, boolean factor,boolean keepPosition)
     {
         if (!isDraw_VLp()) return "";
         StringBuilder s = new StringBuilder();
         
         s.append(name).append(":\n");
         GFXVectorList vl = this;
+        if (keepPosition)
+        {
+            if (vl.list.size()>0)
+            {
+                GFXVector v = vl.list.get(0);
+                if ((((int)v.start.x()) != 0) || (((int)v.start.y()) != 0))
+                {
+                    s.append(" "+GFXVectorList.getDB()+" ").append(hexU(0)).append(", ");
+                    GFXVector vDummy = new GFXVector();
+                    vDummy.end = v.start;
+
+                    s.append(getRelativeCoordString(vDummy, factor));
+                    s.append(" ; pattern, y, x\n");
+                }
+            }
+        }
         for (GFXVector v : vl.list)
         {
             boolean warn = false;

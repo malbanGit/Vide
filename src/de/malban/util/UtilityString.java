@@ -116,6 +116,53 @@ public class UtilityString
      *
      * </PRE>
      */
+    static public String replaceFirst(String name, String search, String with) 
+    {
+        // bad!
+        if (name == null)
+        {
+                return name;
+        }
+
+        if ((search == null) || (search.length() == 0)) {
+                return name;
+        }
+
+        if (with == null)
+        {
+                with = "";
+        }
+
+        int startSearch = 0;
+        if (name.substring(startSearch).indexOf(search) != -1) 
+        {
+            boolean wholeWord = true;
+            int p = name.substring(startSearch).indexOf(search);
+
+            String n1 = new String();
+            String n2 = new String();
+            try 
+            {
+                // build first part of the return-String
+                n1 = name.substring(0, startSearch+p);
+            } 
+            catch (StringIndexOutOfBoundsException ex) 
+            {
+            }
+
+            try 
+            {
+                // build first part of the return-String
+                n2 = name.substring(startSearch+p + search.length());
+            } 
+            catch (StringIndexOutOfBoundsException ex) 
+            {
+            }
+            // build complete return-String
+            name = n1 + with + n2;
+        }
+        return name;
+    }
     static public String replace(String name, String search, String with) 
     {
         return replace( name,  search,  with, false); 

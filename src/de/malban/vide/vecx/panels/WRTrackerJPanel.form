@@ -78,8 +78,10 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jToggleButton4" min="-2" pref="20" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="jLabel3" pref="112" max="32767" attributes="0"/>
+                      <Component id="jLabel3" min="-2" pref="86" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Component id="jTextField7" min="-2" pref="20" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jTextField4" pref="64" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jTextField3" pref="64" max="32767" attributes="0"/>
@@ -97,6 +99,7 @@
                       <Component id="jTextField4" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="jTextField3" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="jButton1" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                      <Component id="jTextField7" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -122,12 +125,13 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="address to track"/>
+                <Property name="text" type="java.lang.String" value="addresses"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField4">
               <Properties>
                 <Property name="text" type="java.lang.String" value="$F192"/>
+                <Property name="toolTipText" type="java.lang.String" value="lower address"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField4ActionPerformed"/>
@@ -136,6 +140,7 @@
             <Component class="javax.swing.JTextField" name="jTextField3">
               <Properties>
                 <Property name="text" type="java.lang.String" value="$F1A2"/>
+                <Property name="toolTipText" type="java.lang.String" value="higher address"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton1">
@@ -144,6 +149,15 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextField7">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="0"/>
+                <Property name="toolTipText" type="java.lang.String" value="bank"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField7ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
