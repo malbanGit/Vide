@@ -969,7 +969,7 @@ SineTable:
 
 
 ;Music_RAM_Size = 400                  ;Reserve memory for music player
- include "Thrust_music.asm"
+ include "Thrust_Music.asm"
 
 
 ;-----------------

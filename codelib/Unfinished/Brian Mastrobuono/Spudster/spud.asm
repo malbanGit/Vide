@@ -8,7 +8,7 @@
 ; best viewed with vim :set ts=4  (www.vim.org)
 	title "Spudster's Revenge"
 ;		BIOS ROUTINES and other crap
-	include "vectrex.i"
+	include "VECTREX.I"
 ;	include "vecvox.i"
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;			VARIABLES

@@ -1,0 +1,5261 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_b
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $F9F4 Char_Table
+LABEL $FBD4 Char_Table_End
+LABEL $C880 state
+EQU $00 STATE_MENU
+EQU $01 STATE_INTRO
+EQU $02 STATE_INGAME
+EQU $03 STATE_GAMEOVER
+EQU $04 STATE_WON
+LABEL $C881 lifes
+LABEL $C882 level
+COMMENT_LABEL $C882 level ... 0-4
+LABEL $C883 shield
+LABEL $C884 score
+LABEL $C885 button_up
+LABEL $C886 sprites_for_var
+LABEL $C887 sprites_for_var_var
+LABEL $C888 sprites_tmp_type
+LABEL $C889 sprites_tmp_move
+LABEL $C88A soundeffect
+LABEL $C88B fbackground
+LABEL $C88C str_score
+COMMENT_LABEL $C88C position y,x,+6bytes!
+LABEL $C9A2 button_upcounter
+COMMENT_LABEL $C9A2 $C882+16
+LABEL $C893 debug_value
+COMMENT_LABEL $C893 2bytes: byte y, byte x
+EQU $08 STRIPE_SIZE
+EQU $00 STRIPE_X
+EQU $01 STRIPE_XX
+EQU $02 STRIPE_TYPE
+EQU $03 STRIPE_TYPESUB
+EQU $04 STRIPE_RELEASEX
+EQU $05 STRIPE_RELEASEY
+EQU $06 STRIPE_ARG0
+EQU $07 STRIPE_ARG1
+EQU $0B STRIPES_AMOUNT
+COMMENT_LABEL $0B amount of stripes 10
+EQU $14 STRIPES_SIZE
+COMMENT_LABEL $14 size of stripe  20
+EQU $0A STRIPES_SPAWNAT
+COMMENT_LABEL $0A STRIPES_AMOUNT-1
+LABEL $F8FF COLLTEST
+COMMENT_LABEL $F8FF Collision detection
+LABEL $C894 collisionAyx
+COMMENT_LABEL $C894 2bytes: byte y, byte x
+LABEL $C897 collisionByx
+COMMENT_LABEL $C897 2bytes: byte y, byte x
+LABEL $C89B bigbossReleased
+COMMENT_LABEL $C89B 0: not yet 1: release 2: killed > end of game�
+LABEL $C89C bigbossBehaviour
+LABEL $C89D bigbossDefeated
+LABEL $C8A0 counter_ms
+LABEL $C8A1 counter_sec
+LABEL $C8A2 counter_min
+LABEL $C8A3 spritesmove
+LABEL $C8A4 level_segment
+COMMENT_LABEL $C8A4 *10
+LABEL $C8A5 level_segment_offset
+COMMENT_LABEL $C8A5 0-9
+LABEL $C8A6 level_positionx
+LABEL $C8A7 level_positionxx
+LABEL $C8A8 level_positiony
+LABEL $C8A9 joystick_direction
+LABEL $C8AA anim_flag
+LABEL $C8AB scrolling_flag
+LABEL $C8AC spawn_flag
+LABEL $C8AD message_counter
+LABEL $C8AE message_index
+LABEL $C8AF temp
+LABEL $C8B0 temptemp
+LABEL $C8B1 spawn_more_counter
+COMMENT_LABEL $C8B1 x=1bytes, y=1byted > n*2 sprites[i]
+LABEL $C8B2 spawn_offset
+COMMENT_LABEL $C8B2 x=1bytes, y=1byted > n*2 sprites[i]
+LABEL $C8B3 display_textcounter
+LABEL $C8B4 display_textindex
+LABEL $C8B5 spritesnr
+COMMENT_LABEL $C8B5 nr 12
+LABEL $C8B6 spritesyx
+COMMENT_LABEL $C8B6 x=1bytes, y=1byted > n*2 sprites[i]
+LABEL $C8B6 PLAYERY
+LABEL $C8B7 PLAYERX
+EQU $00 SPRITE_PLAYER
+EQU $05 SPRITE_EXPLOSION
+EQU $00 OBJ_TYPE_PLAYER
+EQU $01 OBJ_TYPE_SHOOT
+EQU $02 OBJ_TYPE_EXTRA
+EQU $03 OBJ_TYPE_ENEMY
+EQU $04 OBJ_TYPE_EXPLOSION
+EQU $05 OBJ_TYPE_BACKGR
+EQU $06 OBJ_TYPE_MESSAGE
+EQU $07 OBJ_TYPE_NEWLEVEL
+EQU $08 OBJ_TYPE_WON
+EQU $09 OBJ_TYPE_HIDEBACK
+EQU $0A OBJ_TYPE_SHOWBACK
+EQU $0C OBJ_SIZE
+EQU $00 OBJ_Y
+EQU $01 OBJ_X
+EQU $02 OBJ_STATE
+EQU $03 OBJ_TYPE
+EQU $04 OBJ_TYPESUB
+EQU $05 OBJ_PARAM
+EQU $06 OBJ_MOVE
+EQU $07 OBJ_ANIM
+EQU $08 OBJ_HEIGHT
+EQU $09 OBJ_WIDTH
+EQU $0A OBJ_PARAMEXT
+EQU $0B OBJ_HITS
+LABEL $C9A9 rendered_level
+COMMENT_LABEL $C9A9 x=1bytes, y=1byted > n*2 sprites[i]
+LABEL $CA15 rendered_level_right
+COMMENT_LABEL $CA15 x=1bytes, y=1byted > n*2 sprites[i]
+LABEL $CA8A sfx_pointer
+LABEL $CA9E sfx_status
+LABEL $0053 sprites_reset
+LABEL $008E not_shoot_range
+LABEL $000D MOVE_UPSHOOT
+LABEL $00AD not_explosion
+LABEL $00C8 no_enemy
+LABEL $00D9 no_sprites_reset
+LABEL $000D ENEMY_SINUS
+LABEL $0016 ENEMY_PINGPONG
+LABEL $000A ENEMY_DOWN
+LABEL $000B ENEMY_FASTDOWN
+LABEL $0001 EFFECT_TITLE
+LABEL $017B main
+LABEL $022E no_soundeffect
+LABEL $018E no_music_title
+LABEL $0229 music_start_now
+EQU $02 EFFECT_MENU
+LABEL $01A1 no_music_menu
+EQU $03 EFFECT_GAME
+LABEL $01AB no_music_game
+EQU $04 EFFECT_GAMEOVER
+LABEL $01C0 no_music_gameover
+LABEL $1E99 sfx4
+EQU $05 EFFECT_EXPLOSION
+LABEL $01D5 no_music_explosion
+LABEL $1D2B sfx1
+EQU $06 EFFECT_HIT
+LABEL $01EA no_music_hit
+LABEL $1E1B sfx2
+EQU $07 EFFECT_SHOOT
+LABEL $01FF no_music_shoot
+EQU $08 EFFECT_DIE
+LABEL $0214 no_music_die
+EQU $09 EFFECT_NEXT
+LABEL $0229 no_music_levelup
+LABEL $038C no_buttons_pressed
+LABEL $0391 buttons_pressed_done
+LABEL $02F8 press_state_menu
+LABEL $02E8 sprites_mechanics_find_clearall
+COMMENT_LABEL $02E8 This is the label at the start of the loop
+LABEL $0353 no_ingame_button
+LABEL $0308 sprites_mechanics_findshootx
+COMMENT_LABEL $0308 This is the label at the start of the loop
+LABEL $0342 active_notinteresting
+LABEL $036E press_state_gameover
+LABEL $0364 buttons_pressed_done_on
+LABEL $0389 press_state_won
+LABEL $037F buttons_pressed_done_on_won
+LABEL $0406 joystick_done
+LABEL $03D7 no_x_movement
+LABEL $03C0 left_move
+LABEL $03A9 right_move
+LABEL $03BE bigger_than_right
+LABEL $03D5 lower_than_left
+LABEL $0406 no_y_movement
+LABEL $03F2 down_move
+LABEL $03DE up_move
+LABEL $03F0 bigger_than_up
+LABEL $0404 lower_than_down
+COMMENT_LABEL $0404 otherwise up
+LABEL $041B display_sprites
+LABEL $06E5 no_display_top
+LABEL $042A sprites_display
+COMMENT_LABEL $042A This is the label at the start of the loop
+LABEL $0561 sprites_display_next
+LABEL $000C ENEMY_BOSS
+COMMENT_LABEL $000C ENDBOSS
+LABEL $0443 render_boss
+LABEL $044B render_no_boss
+LABEL $0468 no_player_display
+LABEL $12F9 grafix_player
+LABEL $0465 no_shield_atthemoment
+LABEL $131D grafix_player_shield
+LABEL $053C no_enemy_display
+LABEL $0472 no_sprite_display
+LABEL $1539 grafix_explosion
+COMMENT_LABEL $1539 logo vw 10
+LABEL $0486 no_shoot_display
+LABEL $1341 grafix_shoot_laser
+LABEL $0023 ENEMY_SHOOT
+LABEL $049D no_enemy_shoot
+LABEL $136E grafix_enemy_shoot
+LABEL $053C subtype_done
+LABEL $04A9 no_enemy_down
+LABEL $146A grafix_enemy_down
+LABEL $04B5 no_enemy_fastdown
+LABEL $14B2 grafix_fastdownenemy
+LABEL $0010 ENEMY_DOWNSEARCH
+LABEL $04C1 no_enemy_downsearch
+LABEL $14D6 grafix_downsearch
+LABEL $001F ENEMY_MISSILE
+LABEL $04CD no_enemy_missile
+LABEL $13FE grafix_enemymissile
+LABEL $04D9 no_enemy_boss
+LABEL $1392 grafix_enemyboss
+LABEL $0014 ENEMY_LEFT
+LABEL $04E5 no_enemy_left
+LABEL $1446 grafix_enemyleftright
+LABEL $0015 ENEMY_RIGHT
+LABEL $04F1 no_enemy_right
+LABEL $04FD no_ENEMY_SINUS
+LABEL $148E grafix_enemy_sin
+COMMENT_LABEL $148E sinus!
+LABEL $003C ENEMY_DIAG
+LABEL $0509 no_ENEMY_DIAG
+LABEL $1422 grafix_enemydiag
+LABEL $000E ENEMY_STAY
+LABEL $0515 no_ENEMY_STAY
+LABEL $13B6 grafix_enemy_stay
+LABEL $000F ENEMY_STAYSHOOT
+LABEL $0521 no_ENEMY_STAYSHOOT
+LABEL $13DA grafix_enemy_stayshoot
+LABEL $0532 no_ENEMY_PINGPONG
+LABEL $1503 grafix_enemy_ship
+LABEL $0545 no_anim_1
+LABEL $054E no_anim_2
+LABEL $0556 no_anim_3
+LABEL $055E no_anim_4
+LABEL $055E no_animations
+LABEL $0571 no_sprites_display
+LABEL $06E5 no_background_renderings_here
+LABEL $161A leveldata
+COMMENT_LABEL $161A 12 stripes void
+LABEL $05D5 no_count_segments
+LABEL $059B count_segments
+LABEL $05AB version1
+LABEL $05C3 multi_step
+LABEL $05CB multi_big_step
+LABEL $05B3 single_step
+LABEL $05D1 steps_done
+LABEL $05D1 version2
+LABEL $0603 level_for
+LABEL $0632 no_sphere_simulation
+LABEL $0611 simulation_sphere_01
+LABEL $0617 simulation_sphere_02
+LABEL $061D simulation_sphere_03
+LABEL $0632 simulation_sphere_2
+LABEL $0626 simulation_sphere_0
+LABEL $062C simulation_sphere_1
+LABEL $0659 no_background_rendering
+LABEL $06A1 no_shadow1
+LABEL $06C9 no_shadow2
+LABEL $06F7 not_state_gameover
+LABEL $0F64 mechanics_done
+LABEL $070B no_other_spriteamount
+LABEL $0767 no_counter_activity
+LABEL $073D no_stepforward
+LABEL $0747 no_message_counter
+LABEL $075B no_new_segment
+LABEL $077A no_shield_x
+LABEL $096C no_spawning
+LABEL $0795 count_segments_tmp_spawn
+LABEL $078E count_segments_tmp_spawnxx
+LABEL $096C no_enemy_to_spawn
+LABEL $07BA no_messages
+LABEL $07CB no_won
+LABEL $07D7 no_hide
+LABEL $07E3 no_show
+LABEL $0803 no_newlevel
+LABEL $07F3 sprites_mechanics_find_clear
+COMMENT_LABEL $07F3 This is the label at the start of the loop
+LABEL $080A do_the_spawnings
+LABEL $0816 spawn_for
+LABEL $0821 sprites_mechanics_findshootxx
+COMMENT_LABEL $0821 This is the label at the start of the loop
+LABEL $095A active_notinterestingxx
+LABEL $084B no_release_aty
+EQU $28 ENEMY_APPEAR
+LABEL $087E no_spawn_enemypingpong
+LABEL $0003 MOVE_LEFT_PINGPONG
+LABEL $094B template_done
+LABEL $088F no_spawn_enemysinus
+LABEL $001F MOVE_SINUSSQUARE
+LABEL $08A4 no_spawn_enemydiag
+LABEL $0010 MOVE_DIAG
+LABEL $08B5 no_spawn_enemystay
+LABEL $0000 MOVE_STAY
+LABEL $08CA no_spawn_enemystayshoot
+LABEL $08DB no_spawn_movedown
+LABEL $000B MOVE_DOWN
+LABEL $08EC no_spawn_movefastdown
+LABEL $0011 MOVE_FASTDOWN
+LABEL $08FD no_spawn_movedownsearch
+LABEL $0012 MOVE_DOWNSEARCH
+LABEL $090E no_spawn_missile
+LABEL $0029 MOVE_MISSILE
+LABEL $0929 no_spawn_moveup
+LABEL $0013 MOVE_BOSS
+LABEL $093A no_spawn_moveleft
+LABEL $0001 MOVE_LEFT
+LABEL $094B no_spawn_moveright
+LABEL $0002 MOVE_RIGHT
+LABEL $094B no_enemytyp_sinus_atall
+LABEL $094B no_template
+LABEL $0965 spawn_next
+LABEL $096C no_count_segments_tmp_spawn
+EQU $04 MOVE_RIGHT_PINGPONG
+EQU $0E MOVE_SINUS
+EQU $0F MOVE_UP
+EQU $0F MOVE_SLOWUP
+EQU $43 MOVE_DIAGINV
+EQU $44 MOVE_DIAGUP
+EQU $45 MOVE_DIAGUPINV
+LABEL $0975 sprites_mechanics
+COMMENT_LABEL $0975 This is the label at the start of the loop
+LABEL $0994 no_left_only
+LABEL $0994 no_moveleft_toplayer
+LABEL $09B4 no_left_pingpong
+LABEL $09A6 no_left_ping_param
+LABEL $09DB no_right_only
+LABEL $09CD no_moveright_toplayer
+LABEL $09FB no_right_pingpong
+LABEL $09ED no_right_ping_param
+LABEL $0AFD no_move_boss
+LABEL $0A0E no_bossgodown
+LABEL $0A1D boss_stay
+LABEL $0AFD bigspawn_nobehavior
+LABEL $0A30 no_bigboss_to_search_b
+LABEL $0A39 no_bigboss_to_search_l
+LABEL $0A48 do_bigboss_behavior
+LABEL $0A56 bigno_resetbehaviour
+LABEL $0A76 big_dobehaviour
+LABEL $0A97 bigspawn_loop
+COMMENT_LABEL $0A97 This is the label at the start of the loop
+LABEL $0AF2 bigspawn_activenointerest
+LABEL $0ADA big_nopingpong
+LABEL $0AEF big_nodown
+LABEL $0AF9 bigspawn_activedone
+LABEL $0B09 no_down_to
+LABEL $0B15 no_down_to_fast
+LABEL $0B3C no_downsearch_to
+LABEL $0B73 no_missile_to
+LABEL $0B33 no_downsearch_to_search_b
+LABEL $0B3C no_downsearch_to_search_l
+LABEL $0B56 no_missile_to_search_b
+LABEL $0B5F no_missile_to_search_l
+LABEL $0B6A no_missile_to_search_by
+LABEL $0B73 no_missile_to_search_ly
+LABEL $0B8F no_movestay
+LABEL $0B8F no_stay
+LABEL $0B9B no_up_slow
+LABEL $0BBD no_up_to_top
+LABEL $0BB3 no_enofrange
+LABEL $0BE3 no_diag
+LABEL $0BDB no_diagrange
+LABEL $0C07 no_diaginv
+LABEL $0BFF no_diaginvrange
+LABEL $0C07 no_diagonale_movements
+LABEL $0C10 move_sinussquare_x
+LABEL $0C31 no_move_sinussquare
+LABEL $0C20 no_move_sinussquare_0
+LABEL $0C29 no_move_sinussquare_1
+LABEL $0C31 no_move_sinussquare_2
+LABEL $0C81 no_move_sinus
+LABEL $0C53 no_move_sinus2
+LABEL $0C4B no_move_sinus_end2
+LABEL $0C6D no_move_sinus_end
+LABEL $15FC sinus_movement
+LABEL $0CF2 no_behavior_stayshoot
+LABEL $0C90 behavior_shoot
+LABEL $0CB3 sprites_mechanics_find_diag
+COMMENT_LABEL $0CB3 This is the label at the start of the loop
+LABEL $0CE9 active_notinteresting_diag
+LABEL $0CE2 no_stayshoot_left
+LABEL $0CF0 active_notinterestingdone_diag
+LABEL $0CF2 end_of_movement
+LABEL $0D0E no_left_pingpong_scrolling
+LABEL $0D0E under_thehorizont
+LABEL $0D23 count_segments_tmp
+LABEL $0D2A no_count_segments_tmp
+LABEL $0D41 level_for_playfield
+LABEL $0D86 no_stripe_2
+LABEL $0D70 playground_player_left_2
+LABEL $0D86 playground_player_right_2
+LABEL $0D86 no_player_version_2
+LABEL $0D95 no_playground
+LABEL $0F64 no_collsion_atall
+LABEL $0DA9 sprites_mechanics_collisions
+LABEL $0DB4 sprites_mechanics_col
+LABEL $0F50 not_the_same
+LABEL $0F4E no_collissionfound
+LABEL $0E87 no_col_player_enemy
+LABEL $0E84 no_gameover
+LABEL $0F2B no_deathhit
+LABEL $0F4E no_col_shoot_enemy
+LABEL $0EA0 collision_shootshoot
+LABEL $0EA3 no_collision_shootshoot
+LABEL $0ED5 not_killedtheboss
+LABEL $0F07 no_shield_sound
+LABEL $0F1C enemy_shootleft
+LABEL $0F28 no_enemyshoot_left
+LABEL $0F4E death_end
+LABEL $0F50 not_active
+LABEL $0F50 no_mechanic_forfor
+LABEL $0F5B no_mechanic_for
+LABEL $0F64 no_collsisions
+LABEL $0FA1 no_anim
+LABEL $0F84 anim_thesprites
+LABEL $0F9A no_set_anim_back
+LABEL $0FCE sprites_for_debug_done
+LABEL $0FB4 sprites_for_debug
+COMMENT_LABEL $0FB4 This is the label at the start of the loop
+LABEL $0FFA debug_rect
+LABEL $1530 grafix_quad
+COMMENT_LABEL $1530 logo vw 10
+LABEL $1019 no_hardcore_debug
+LABEL $100B do_it_again_sam
+LABEL $1012 no_no_no
+LABEL $1035 no_spritesdebug
+LABEL $10C7 state_menu
+LABEL $1A7F string_menu_play
+LABEL $1A8B string_menu_code
+LABEL $1AA3 string_menu_credits
+EQU -$0A offset_titlescreen
+EQU $0A offsetmonster_titlescreen
+LABEL $155D logo
+LABEL $15BC grafix_monster
+LABEL $1077 default_logo
+LABEL $15E7 grafix_won
+LABEL $10C4 no_eyes
+LABEL $15CB grafix_eye0
+LABEL $110B state_done
+LABEL $10E4 state_won
+LABEL $1ABA string_won
+LABEL $10E1 no_won_text
+LABEL $1AD3 string_pressbutton
+LABEL $10EB state_intro
+LABEL $10F2 state_ingame
+LABEL $1ADC string_gameover
+LABEL $1109 no_gameover_text
+LABEL $110B state_gameover
+LABEL $110B no_textes
+LABEL $114C no_messagetoshow
+LABEL $1AFF str_level0
+LABEL $111F no_message_index_1
+LABEL $1B18 str_level1
+LABEL $1126 no_message_index_2
+LABEL $1B31 str_level2
+LABEL $112D no_message_index_3
+LABEL $1B4A str_level3
+LABEL $1134 no_message_index_4
+LABEL $1B62 str_level4
+LABEL $113B no_message_index_5
+LABEL $1B7A str_level5
+LABEL $1142 no_message_index_6
+LABEL $1B92 str_level6
+LABEL $1149 no_message_index_7
+LABEL $1BAB str_level7
+LABEL $1258 no_score
+LABEL $115D scores_display
+LABEL $1195 not_score_actual
+LABEL $11A2 no_score_display
+LABEL $11AF biggerthan100
+LABEL $11BF biggerthan90
+LABEL $123F under10
+LABEL $11CF biggerthan80
+LABEL $11DF biggerthan70
+LABEL $11EF biggerthan60
+LABEL $11FF biggerthan50
+LABEL $120F biggerthan40
+LABEL $121F biggerthan30
+LABEL $122F biggerthan20
+LABEL $123F biggerthan10
+LABEL $1258 not_menu_state
+LABEL $125E nosoundingame
+LABEL $1269 nofxtodo
+LABEL $126C sfx_doframe
+LABEL $127B sfx_checktonefreq
+LABEL $12E8 sfx_endofeffect
+LABEL $1293 sfx_checknoisefreq
+LABEL $12A2 sfx_checkvolume
+LABEL $12AB sfx_checktonedisable
+LABEL $12BD sfx_enabletone
+LABEL $12B1 sfx_disabletone
+LABEL $12C7 sfx_checknoisedisable
+LABEL $12D9 sfx_enablenoise
+LABEL $12CD sfx_disablenoise
+LABEL $12E3 sfx_nextframe
+EQU $02 rect_size
+EQU $05 rect_player_mul
+EQU $05 rect_player_div
+LABEL $1341 grafix_shoot
+EQU $02 rect_size_shoot
+LABEL $1392 grafix_bigboss
+EQU $08 grbigboss_size
+EQU $04 rect_size_stay
+EQU $04 rect_sizedialog
+LABEL $1446 grafix_enemy_1
+LABEL $0002 rect_size_fast
+EQU $03 rect_size_fastdown
+LABEL $0003 rect_size_pong
+LABEL $15D2 grafix_eye1
+LABEL $15D9 grafix_eye2
+LABEL $15E0 grafix_eye3
+LABEL $160B strange_movement
+LABEL $1A6A string_title
+LABEL $1AF3 string_title_short
+LABEL $1BC4 music_title
+LABEL $1CEF music_bonbon
+LABEL $1CF9 music_shoot
+LABEL $1D07 music_explosion
+LABEL $1D13 music_die
+LABEL $1D1F music_levelup
+LABEL $1E77 sfx3
+LABEL $1EAE weirdos
+LABEL $1EC6 weirdos_end
+LABEL $1EC6 death_sound
+LABEL $1ED8 frog_home_sound
+LABEL $1EFE girl_got_sound
+LABEL $1F10 level_done_sound
+LABEL $1F8E triller1
+LABEL $1F98 triller2
+LABEL $1FA2 frog_jump
+LABEL $1FB0 ta_ta_ta1
+LABEL $1FCA ta_ta_ta2
+LABEL $1FEC *
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 vecZ 2o16 BY LA1N.CH
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 OLDSCHOOL VECTOR/WIREFRAME SHOOTEMUP IN THE MOOD OF 1984
+COMMENT_LINE $0000 SCROLLING UP GAME IN THE TRADITION OF RIVER RAID, XEVIOUS, XENON 2
+COMMENT_LINE $0000 VARIOUS ANIMATED ENEMIES ALL DESIGNED WITH ONLY 4 LINES AND THE
+COMMENT_LINE $0000 BIG BOSS vecZ WAITING FOR YOU AT THE END.
+COMMENT_LINE $0000 rene.bauer@zhdk.ch
+COMMENT_LINE $0000 @ixistenz
+COMMENT_LINE $0000 bin/sourcecode: http://www.la1n.ch/vecz/
+COMMENT_LINE $0000 rom (soon): http://www.madtronix.com
+COMMENT_LINE $0000 GREETINGS TO ABAGAMES FOR THE OPENGL/VECTOR WORKS LIKE GUNROAR,
+COMMENT_LINE $0000 TUKIMI-FIGHTERS ETC. NICE WORK
+COMMENT_LINE $0000 GREETINGS TO RICHARDH FOR HIS MULTICARDS (THANKS!)
+COMMENT_LINE $0000 GREETINGS TO JEFF MINTER STILL BEEING THERE
+COMMENT_LINE $0000 GREETINGS TO BAUDSURFER SORRY STILL ON GAME THING BUT CALLING BACK
+COMMENT_LINE $0000 CREDITS FOR RIVER RAID, XEVIOUS, R-TYPE, XENON, ZYNAPS, XENON II,
+COMMENT_LINE $0000 GUNROAR IKARUGA
+COMMENT_LINE $0000 MECHANICS:
+COMMENT_LINE $0000 SIMPLE ENTER THE VECZ AND TRY TO DESTROY ITS EMPIRE!
+COMMENT_LINE $0000 AND OF COURSE: IT IS NOT ABOUT SHOOTEMUP ALL - IT IS ABOUT SURVIVE AND
+COMMENT_LINE $0000 SHOOTEMUP IS ONLY ONE TACTIC!
+COMMENT_LINE $0000 YOU WILL FIND OLDER PROJECTS OF LA1N AT HTTP://WWW.LA1N.CH
+COMMENT_LINE $0000 OR LOOK FOR OUR GAMEART/ARTGAMES AT HTTP://WWW.AND-OR.CH
+COMMENT_LINE $0000 REMARK:
+COMMENT_LINE $0000 IT IS CLEAR NOW WHY ALMOST THE MOST SHOOTERS ON VECTREX ARE HORIZONTAL SHOOTERS:
+COMMENT_LINE $0000 YOU NEED (A LOT) LESS LINES FOR THE WHOLE SCREEN THAN VERTICAL SHOOTERS
+COMMENT_LINE $0000 TESTED:
+COMMENT_LINE $0000 - PARAJVEv0.7
+COMMENT_LINE $0000 - VECTREX WITH MULTICARD
+COMMENT_LINE $0000 WORKING PROCESS: THE GAME WAS MADE DURING LOOKING WHILE CODING/COMPILING
+COMMENT_LINE $0000 A LOT OF THE TRASH MOVIES COMING OUT ON ITUNES - IF YOU WOULD FIND SOME
+COMMENT_LINE $0000 PARALLES WITH THIS MOVIE TRASH - COULD BE .-)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 COMPILE
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 AS09-DOS.EXE -w200 -h0 -l  -o  -mcti C:\ASMDASM\AS09_142\vecz.asm
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 VERSIONS
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 TODOS
+COMMENT_LINE $0000 MUSIC
+COMMENT_LINE $0000 HISTORY
+COMMENT_LINE $0000 j. romero in the dark labyrinth
+COMMENT_LINE $0000 0.84	added some snd-effects (ay/ym)
+COMMENT_LINE $0000 0.831	some leveldesign
+COMMENT_LINE $0000 0.83	speed up iteration over level_segment s
+COMMENT_LINE $0000 0.822 updated gui positions
+COMMENT_LINE $0000 0.821 leveldesign
+COMMENT_LINE $0000 0.82	updated level editor
+COMMENT_LINE $0000 0.81	polishing won-state
+COMMENT_LINE $0000 0.8	added a big boss
+COMMENT_LINE $0000 0.79  more graphics - real challenge work with only 4 lines a sprite
+COMMENT_LINE $0000 0.78  speed up again ...  > back again (problems with ...) > 	inc		level_segment_offset
+COMMENT_LINE $0000 0.77  turned on shadow again (problem: new vectrex is brighter much brighter)
+COMMENT_LINE $0000 0.76	level ...
+COMMENT_LINE $0000 0.75	working on intensity (backside potenti for intensity)
+COMMENT_LINE $0000 0.74  sound effects
+COMMENT_LINE $0000 0.73	faster than light (only every 3rd frame > detect collisions)
+COMMENT_LINE $0000 0.72  hide/show background
+COMMENT_LINE $0000 0.71 	clean up some rom data (not used titles)
+COMMENT_LINE $0000 0.7	new animations
+COMMENT_LINE $0000 0.63  new spaceship for player
+COMMENT_LINE $0000 0.62  first implementation of won
+COMMENT_LINE $0000 0.61  bug fix (game over > back to menu)
+COMMENT_LINE $0000 0.60	created a level editor processing in & first export
+COMMENT_LINE $0000 0.58  more title graphics
+COMMENT_LINE $0000 0.57	new game over (button problem)
+COMMENT_LINE $0000 0.56  more levels
+COMMENT_LINE $0000 0.55  new logo (made with illustrator & processing tool)
+COMMENT_LINE $0000 0.54	shooting enemies (base stations - five eyes .-)
+COMMENT_LINE $0000 0.53  new leveldesign
+COMMENT_LINE $0000 0.52  release x enemies
+COMMENT_LINE $0000 0.51  optimization: http://www.playvectrex.com/designit/chrissalo/optimization.htm
+COMMENT_LINE $0000 0.50  pref for stripes_amount
+COMMENT_LINE $0000 0.49	change in structure: display top
+COMMENT_LINE $0000 0.48	new enemies
+COMMENT_LINE $0000 0.47	add type - appearat
+COMMENT_LINE $0000 0.46  add explosions and explosion animation [20150116]
+COMMENT_LINE $0000 0.45	add message/comment system [20150112]
+COMMENT_LINE $0000 0.4	implementation anim system [20150111]
+COMMENT_LINE $0000 0.3	implemented spawn system [20150107]
+COMMENT_LINE $0000 0.21	problems with scrolling
+COMMENT_LINE $0000 0.2	background system
+COMMENT_LINE $0000 0.1 	new object system
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ARCHITECTURE
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 STRIPES (stored in #leveldata)
+COMMENT_LINE $0000 - 1: A
+COMMENT_LINE $0000 - 2: B
+COMMENT_LINE $0000 - 3: C
+COMMENT_LINE $0000 Important 'variables'
+COMMENT_LINE $0000 - level_segment (<!!!! starting at )
+COMMENT_LINE $0000 - Position in the levelY (level_segment): Ex. 2
+COMMENT_LINE $0000 - Counting down stripesize (level_segment_offset)
+COMMENT_LINE $0000 - Stripe: |----> <-----|
+COMMENT_LINE $0000 (level_positionx	/level_positionxx	/ level_positiony
+COMMENT_LINE $0000 - Scrolling to next pixelline (scrolling_flag)
+COMMENT_LINE $0000 - Time to spawn (spawn_flag)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 FOR THE REST OF US (PROGRAMMERS)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 lda a,x ; position x from a [a]
+COMMENT_LINE $0000 adda b ?
+COMMENT_LINE $0000 add a,b ?
+COMMENT_LINE $0000 Code is horrible, sorry. 90% of the code could be
+COMMENT_LINE $0000 made much simpler. No entry for coders heaven .-)
+COMMENT_LINE $0000 Infos about vectrec: http://www.vectrex.de
+COMMENT_LINE $0000 Read:
+COMMENT_LINE $0000 Most important commands (LD,ST, Tables(Index)
+COMMENT_LINE $0000 http://www.playvectrex.com/designit/christumber/tutorial.htm#Indexed%20Addressing%20and%20Tables
+COMMENT_LINE $0000 most important commands
+COMMENT_LINE $0000 constants: equ { #, RAM: $c0f8 }
+COMMENT_LINE $0000 load: ld[a|b|x|y] {8BIT: #3,RAM: $c0f8} > lld
+COMMENT_LINE $0000 load index: lda 4,x | lda ,x+| lda,x++
+COMMENT_LINE $0000 lea change pointer! leax 10,x / add 10 bytes in the pointer
+COMMENT_LINE $0000 store: st[a|b|x|y] {#3,RAM: $c0f8}
+COMMENT_LINE $0000 transfer tfr [a|b|x|y] [a|b|x|y] (copy a to b)
+COMMENT_LINE $0000 Memory (RAM/ROM etc)
+COMMENT_LINE $0000 http://www.playvectrex.com/designit/chrissalo/memorymap.htm
+COMMENT_LINE $0000 CodeSnipped:
+COMMENT_LINE $0000 http://pelikonepeijoonit.net/files/vec/coders.html
+COMMENT_LINE $0000 BIOS & description
+COMMENT_LINE $0000 http://www.playvectrex.com/designit/chrissalo/bios.htm
+COMMENT_LINE $0000 ALL IN ONE
+COMMENT_LINE $0000 http://www.electronics.dit.ie/staff/ypanarin/Lecture%20Notes/K235-1/04%20Assembly%206800%20A.pdf
+COMMENT_LINE $0000 http://www.maddes.net/m6809pm/appendix_a.htm
+COMMENT_LINE $0000 All functions
+COMMENT_LINE $0000 http://vectrexmuseum.com/share/coder/html/bios.htm#F511
+COMMENT_LINE $0000 Draw
+COMMENT_LINE $0000 ^ -Y
+COMMENT_LINE $0000 |
+COMMENT_LINE $0000 |
+COMMENT_LINE $0000 X-<---------->X+
+COMMENT_LINE $0000 |
+COMMENT_LINE $0000 |
+COMMENT_LINE $0000 \ +Y
+COMMENT_LINE $0000 http://www.playvectrex.com/designit/chrissalo/linedrawing.htm
+COMMENT_LINE $0000 "Print"
+COMMENT_LINE $0000 http://vectrexprogramming.blogspot.co.uk/2014/11/converting-byte-value-to-ascii-in-6809.html
+COMMENT_LINE $0000 Drawing Tool
+COMMENT_LINE $0000 http://www.vectorzoa.com/vecdraw/vecdraw.html
+COMMENT_LINE $0000 Collision Detection
+COMMENT_LINE $0000 http://pelikonepeijoonit.net/files/vec/coleman.as9
+COMMENT_LINE $0000 Joystick
+COMMENT_LINE $0000 http://vectrexmuseum.com/share/coder/html/joystick1.asm
+COMMENT_LINE $0000 Sound
+COMMENT_LINE $0000 http://www.playvectrex.com/designit/chrissalo/soundplaying.htm
+COMMENT_LINE $0000 Sound effects
+COMMENT_LINE $0000 http://vectrexmuseum.com/share/coder/other/TEXT/SOUND/SOUND.TXT
+COMMENT_LINE $0000 Audio-Processor: AY (General Instruments) > Licenses Yamaha (YM (Intellivision, MSX) > Tracker ~�Atari ST)
+COMMENT_LINE $0000 http://vectorgaming.proboards.com/thread/312/vectrex-sound-programming?page=1
+COMMENT_LINE $0000 http://en.wikipedia.org/wiki/General_Instrument_AY-3-8910
+COMMENT_LINE $0000 Random +Example
+COMMENT_LINE $0000 http://vectrexmuseum.com/share/coder/html/bios.htm#F511
+COMMENT_LINE $0000 StartUP
+COMMENT_LINE $0000 http://vectorgaming.proboards.com/thread/992/vectrex-programming-tutorial-tools-tech
+COMMENT_LINE $0000 Forum
+COMMENT_LINE $0000 http://vectrexprogramming.blogspot.co.uk
+COMMENT_LINE $0000 Add Hardware:
+COMMENT_LINE $0000 3D-Imager, Pen: http://vectrexmuseum.com/share/coder/
+COMMENT_LINE $0000 INTERESTING: LDA [$C880] ( LDD ( VALUE($C880) ) )
+COMMENT_LINE $0000 MOST IMPORTANT:
+COMMENT_LINE $0000 - leax
+COMMENT_LINE $0000 - TFR: Transfer (a->b)
+COMMENT_LINE $0000 TIPS:
+COMMENT_LINE $0000 LDA #$05
+COMMENT_LINE $0000 STA volcano
+COMMENT_LINE $0000 .
+COMMENT_LINE $0000 .
+COMMENT_LINE $0000 LDX #$C880      ;Set register X to #$C880
+COMMENT_LINE $0000 LDA volcano,X   ;LoaD register A with the value stored in the memory location
+COMMENT_LINE $0000 ;which is the sum of the value in register X and the value
+COMMENT_LINE $0000 ;in memory location volcano
+COMMENT $0000 vectrex function includes
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 CONSTANTTS (everything memory addresses, values, constants)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 state
+COMMENT_LINE $0000 0: menu
+COMMENT_LINE $0000 1: intro
+COMMENT_LINE $0000 2: ingame
+COMMENT_LINE $0000 3: gameover
+COMMENT_LINE $0000 4: won
+COMMENT_LINE $0000 lifes
+COMMENT_LINE $0000 temps
+COMMENT_LINE $0000 temps for etc
+COMMENT_LINE $0000 1 or 0 (show borders ...)
+COMMENT_LINE $0000 score as string - 10 bytes
+COMMENT_LINE $0000 button up counter
+COMMENT_LINE $0000 debug
+COMMENT_LINE $0000 STRIPE TABLE INDEX (levelX)
+COMMENT_LINE $0000 [x,y] {newtype,newtypesub, newx,newy, arg1,arg2}
+COMMENT_LINE $0000 STRIPE_DISPLAY_SIZE
+COMMENT_LINE $0000 SPAWN
+COMMENT_LINE $0000 collision things
+COMMENT_LINE $0000 big boss specials
+COMMENT_LINE $0000 bigbossDefeated
+COMMENT_LINE $0000 time
+COMMENT_LINE $0000 level
+COMMENT_LINE $0000 SEG2 (10px)
+COMMENT_LINE $0000 SEG1 (10px)
+COMMENT_LINE $0000 level_position
+COMMENT_LINE $0000 joystick_direction
+COMMENT_LINE $0000 anim
+COMMENT_LINE $0000 scroll
+COMMENT_LINE $0000 release (release it ...)
+COMMENT_LINE $0000 messages
+COMMENT_LINE $0000 temp
+COMMENT_LINE $0000 display text
+COMMENT_LINE $0000 sprites
+COMMENT_LINE $0000 table for everything ...
+COMMENT_LINE $0000 special sprites
+COMMENT_LINE $0000 0: player
+COMMENT_LINE $0000 5: explosion
+COMMENT_LINE $0000 sprite-object
+COMMENT_LINE $0000 12-bytes for:
+COMMENT_LINE $0000 [ 0] y
+COMMENT_LINE $0000 [ 1] x
+COMMENT_LINE $0000 [ 2] state: 0/1 ...
+COMMENT_LINE $0000 [ 3] ***
+COMMENT_LINE $0000 [ 4] type
+COMMENT_LINE $0000 0: player-objects
+COMMENT_LINE $0000 1: shoot
+COMMENT_LINE $0000 2: extra-objects
+COMMENT_LINE $0000 3: enemy-object
+COMMENT_LINE $0000 4: obsticals(?)
+COMMENT_LINE $0000 5: background
+COMMENT_LINE $0000 used in the levelx table
+COMMENT_LINE $0000 [ 5] param
+COMMENT_LINE $0000 [ 6] move
+COMMENT_LINE $0000 [ 7] anim
+COMMENT_LINE $0000 [ 8] height
+COMMENT_LINE $0000 [ 9] with
+COMMENT_LINE $0000 [10] intensity*
+COMMENT_LINE $0000 [11] hits
+COMMENT_LINE $0000 * not used
+COMMENT_LINE $0000 INDEX
+COMMENT_LINE $0000 sprite 0 > the player!
+COMMENT_LINE $0000 sprite x > x*7bytes...
+COMMENT_LINE $0000 spritesyx    13*12 = +add
+COMMENT_LINE $0000 spawn_more_counter
+COMMENT_LINE $0000 spawn_offset  equ $C882+47+241 ; x=1bytes, y=1byted > n*2 sprites[i]
+COMMENT_LINE $0000 rendered level
+COMMENT_LINE $0000 variables for the soundeffects
+COMMENT_LINE $0000 problems with this routine and mem
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 INIT
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B music from the rom
+COMMENT $000D height, width, rel y, rel x
+COMMENT_LINE $0011 (from 0,0)
+COMMENT $0011 some game information,
+COMMENT $0020 end of game header
+COMMENT_LINE $0021 ***************************************************************************
+COMMENT_LINE $0021 CODE SECTION
+COMMENT_LINE $0021 ***************************************************************************
+COMMENT_LINE $0021 INIT
+COMMENT_LINE $0021 start cartridge
+COMMENT_LINE $0021 init
+FORCE_SYMBOL $0021 STATE_MENU
+FORCE_SYMBOL $0023 state
+FORCE_NO_SYMBOL $0026
+FORCE_SYMBOL $0028 level
+FORCE_NO_SYMBOL $002B
+FORCE_SYMBOL $002D message_counter
+FORCE_NO_SYMBOL $0030
+FORCE_SYMBOL $0032 message_index
+COMMENT $0035 42
+FORCE_NO_SYMBOL $0035
+COMMENT_LINE $0037 sta		 highscore
+FORCE_NO_SYMBOL $0037
+FORCE_SYMBOL $0039 score
+COMMENT $003C 12
+FORCE_NO_SYMBOL $003C
+FORCE_SYMBOL $003E spritesnr
+COMMENT_LINE $0041 visual presets
+FORCE_SYMBOL $0041 Intensity_3F
+COMMENT_LINE $0044 tmp
+COMMENT_LINE $0044 soundeffect
+FORCE_NO_SYMBOL $0044
+FORCE_SYMBOL $0046 soundeffect
+COMMENT_LINE $0049 reset all sprites
+FORCE_NO_SYMBOL $0049
+FORCE_SYMBOL $004B sprites_for_var
+FORCE_SYMBOL $004E spritesyx
+COMMENT_LINE $0055 lda     #0
+COMMENT_LINE $0055 code
+FORCE_NO_SYMBOL $0055
+COMMENT_LINE $0057 defaults
+FORCE_SYMBOL $0057 OBJ_Y
+FORCE_NO_SYMBOL $0059
+FORCE_SYMBOL $005B OBJ_X
+COMMENT_LINE $005D set to 0
+FORCE_NO_SYMBOL $005D
+COMMENT $005F state
+FORCE_SYMBOL $005F OBJ_STATE
+FORCE_NO_SYMBOL $0061
+FORCE_NO_SYMBOL $0063
+FORCE_NO_SYMBOL $0065
+FORCE_NO_SYMBOL $0067
+FORCE_NO_SYMBOL $0069
+FORCE_NO_SYMBOL $006B
+FORCE_NO_SYMBOL $006D
+FORCE_NO_SYMBOL $006F
+FORCE_SYMBOL $0071 OBJ_ANIM
+COMMENT_LINE $0073 types
+COMMENT_LINE $0073 4xshoots > 3 only
+COMMENT_LINE $0073 +4 = type
+FORCE_SYMBOL $0073 sprites_for_var
+FORCE_NO_SYMBOL $0076
+COMMENT $0078 /1-5
+COMMENT $007A 5 default
+FORCE_NO_SYMBOL $007A
+FORCE_NO_SYMBOL $0080
+FORCE_NO_SYMBOL $0082
+FORCE_SYMBOL $0084 OBJ_STATE
+FORCE_NO_SYMBOL $0086
+FORCE_NO_SYMBOL $0088
+COMMENT $008A up to top ...
+FORCE_SYMBOL $008A MOVE_UPSHOOT
+FORCE_SYMBOL $008C OBJ_MOVE
+COMMENT_LINE $008E 1/1 - shoot
+COMMENT_LINE $008E ldb		#0
+COMMENT_LINE $008E stb		1,x
+COMMENT_LINE $008E 4xshoots
+COMMENT_LINE $008E +4 = type
+FORCE_SYMBOL $008E sprites_for_var
+FORCE_NO_SYMBOL $0091
+FORCE_SYMBOL $0097 OBJ_X
+COMMENT $0099 status ...
+FORCE_NO_SYMBOL $0099
+FORCE_SYMBOL $009B OBJ_STATE
+FORCE_SYMBOL $009D SPRITE_EXPLOSION
+FORCE_SYMBOL $009F OBJ_TYPE
+FORCE_NO_SYMBOL $00A1
+FORCE_SYMBOL $00A3 OBJ_TYPESUB
+FORCE_NO_SYMBOL $00A5
+FORCE_SYMBOL $00A7 OBJ_MOVE
+COMMENT $00A9 up to top ...
+FORCE_NO_SYMBOL $00A9
+FORCE_SYMBOL $00AB OBJ_HITS
+COMMENT_LINE $00AD 1/1 - shoot
+COMMENT_LINE $00AD ldb		#0
+COMMENT_LINE $00AD stb		1,x
+COMMENT_LINE $00AD rest enemies
+FORCE_SYMBOL $00AD sprites_for_var
+FORCE_NO_SYMBOL $00B0
+COMMENT $00B4 status ...
+FORCE_NO_SYMBOL $00B4
+FORCE_SYMBOL $00B6 OBJ_STATE
+FORCE_NO_SYMBOL $00B8
+FORCE_SYMBOL $00BA OBJ_TYPE
+FORCE_NO_SYMBOL $00BC
+FORCE_SYMBOL $00BE OBJ_TYPESUB
+COMMENT_LINE $00C0 ldb		#10
+COMMENT_LINE $00C0 stb		1,x
+COMMENT $00C0 left ...
+FORCE_NO_SYMBOL $00C0
+FORCE_SYMBOL $00C2 OBJ_MOVE
+FORCE_NO_SYMBOL $00C4
+FORCE_SYMBOL $00C6 OBJ_HITS
+COMMENT_LINE $00C8 /code
+COMMENT $00C8 restore x
+COMMENT_LINE $00CA +12 bytes
+FORCE_NO_SYMBOL $00CA
+COMMENT_LINE $00CC lda sprites_for_var,x
+FORCE_SYMBOL $00CC sprites_for_var
+FORCE_SYMBOL $00CF sprites_for_var
+COMMENT $00D2 12-1!!
+FORCE_NO_SYMBOL $00D2
+FORCE_SYMBOL $00D6 sprites_reset
+COMMENT_LINE $00D9 define some examples
+FORCE_SYMBOL $00D9 ENEMY_SINUS
+FORCE_SYMBOL $00DE ENEMY_PINGPONG
+FORCE_SYMBOL $00E3 ENEMY_DOWN
+FORCE_SYMBOL $00E8 ENEMY_FASTDOWN
+FORCE_NO_SYMBOL $00ED
+COMMENT_LINE $00F2 reset
+FORCE_SYMBOL $00F2 level_segment
+FORCE_NO_SYMBOL $00F5
+FORCE_NO_SYMBOL $00F7
+FORCE_SYMBOL $00F9 level_segment_offset
+FORCE_NO_SYMBOL $00FC
+FORCE_NO_SYMBOL $00FE
+FORCE_SYMBOL $0100 scrolling_flag
+FORCE_SYMBOL $0103 spawn_flag
+COMMENT_LINE $0106 reset level (display)
+FORCE_SYMBOL $0106 rendered_level
+FORCE_NO_SYMBOL $0109
+FORCE_NO_SYMBOL $010B
+FORCE_NO_SYMBOL $010D
+FORCE_NO_SYMBOL $010F
+FORCE_NO_SYMBOL $0111
+FORCE_NO_SYMBOL $0113
+FORCE_NO_SYMBOL $0115
+FORCE_NO_SYMBOL $0117
+COMMENT_LINE $0119 handmade
+COMMENT_LINE $0119 = up player
+FORCE_NO_SYMBOL $0119
+FORCE_NO_SYMBOL $011E
+COMMENT_LINE $0123 reset score
+FORCE_NO_SYMBOL $0123
+FORCE_SYMBOL $0125 str_score
+FORCE_NO_SYMBOL $0128
+FORCE_NO_SYMBOL $012D
+FORCE_NO_SYMBOL $0132
+FORCE_NO_SYMBOL $0137
+FORCE_NO_SYMBOL $013C
+FORCE_NO_SYMBOL $0146
+COMMENT_LINE $014C button
+FORCE_NO_SYMBOL $014C
+FORCE_SYMBOL $014E button_up
+FORCE_NO_SYMBOL $0151
+FORCE_SYMBOL $0153 button_upcounter
+COMMENT_LINE $0156 init music
+COMMENT $0156 one means, we are about to
+FORCE_NO_SYMBOL $0156
+COMMENT $0158 store it in appropriate RAM
+FORCE_SYMBOL $0158 Vec_Music_Flag
+FORCE_SYMBOL $015B EFFECT_TITLE
+FORCE_SYMBOL $015D soundeffect
+COMMENT_LINE $0160 init joysticks etc
+COMMENT $0160 these set up the joystick
+FORCE_NO_SYMBOL $0160
+COMMENT $0162 enquiries
+FORCE_SYMBOL $0162 Vec_Joy_Mux_1_X
+COMMENT $0165 allowing only all directions
+FORCE_NO_SYMBOL $0165
+COMMENT $0167 for joystick one
+FORCE_SYMBOL $0167 Vec_Joy_Mux_1_Y
+COMMENT $016A this setting up saves a few
+FORCE_NO_SYMBOL $016A
+COMMENT $016C hundred cycles
+FORCE_SYMBOL $016C Vec_Joy_Mux_2_X
+COMMENT $016F don't miss it, if you don't
+FORCE_SYMBOL $016F Vec_Joy_Mux_2_Y
+COMMENT_LINE $0172 need the second joystick!
+COMMENT_LINE $0172 sndeffects
+COMMENT $0172 init sfx vars
+FORCE_NO_SYMBOL $0172
+FORCE_SYMBOL $0175 sfx_pointer
+FORCE_SYMBOL $0178 sfx_status
+COMMENT_LINE $017B ***************************************************************************
+COMMENT_LINE $017B MAINLOOP
+COMMENT_LINE $017B ***************************************************************************
+COMMENT_LINE $017B here the cartridge program starts off
+COMMENT_LINE $017B debug: 0
+COMMENT_LINE $017B lda		#0
+COMMENT_LINE $017B sta		debug_value
+COMMENT_LINE $017B ***************************************************************************
+COMMENT_LINE $017B INGAME: SOUNDEFFECTS
+COMMENT_LINE $017B ***************************************************************************
+COMMENT_LINE $017B sound/music effect system
+COMMENT_LINE $017B musixs & effects
+COMMENT_LINE $017B music1: standard short bling
+COMMENT_LINE $017B music2: some jap. sound
+COMMENT_LINE $017B music3: "marschmusik"
+COMMENT_LINE $017B music4: t�t�tt�tt�t�t
+COMMENT_LINE $017B music5: d�dod�d�
+COMMENT_LINE $017B music6: d�lololo�l�
+COMMENT_LINE $017B music7: midage
+COMMENT_LINE $017B music8: positive some notes(short)
+COMMENT_LINE $017B music9: tatarutataturuta
+COMMENT_LINE $017B musica: dito
+COMMENT_LINE $017B musicb: bad end sound (short)
+COMMENT_LINE $017B musicc: positve short notes (short)
+COMMENT_LINE $017B musicd: tttttt��t
+COMMENT_LINE $017B waiting sound effects (only ingame!)
+COMMENT_LINE $017B do only these soundeffects ingame
+COMMENT_LINE $017B soundeffect
+COMMENT_LINE $017B 1: title
+COMMENT_LINE $017B 2: menu
+COMMENT_LINE $017B 3: game
+COMMENT_LINE $017B 4: gameover
+COMMENT_LINE $017B 5: explosion
+COMMENT_LINE $017B 6: hit
+COMMENT_LINE $017B 7: shoot
+COMMENT_LINE $017B 8: die
+COMMENT_LINE $017B 9: next
+COMMENT_LINE $017B play soundeffects
+FORCE_SYMBOL $017B soundeffect
+FORCE_NO_SYMBOL $017E
+COMMENT_LINE $0184 default sound effect
+COMMENT_LINE $0184 music
+FORCE_SYMBOL $0184 soundeffect
+FORCE_SYMBOL $0187 EFFECT_TITLE
+COMMENT_LINE $018B version 1 (as music notes)
+COMMENT_LINE $018B jsr     DP_to_C8                ; DP to RAM
+COMMENT_LINE $018B ldu     #music3                 ; get some music, here music1
+COMMENT_LINE $018B jsr     Init_Music_chk          ; and init new notes
+FORCE_SYMBOL $018B music_start_now
+COMMENT_LINE $018E music menu
+FORCE_SYMBOL $018E soundeffect
+FORCE_SYMBOL $0191 EFFECT_MENU
+COMMENT_LINE $0195 version 1 (as music notes)
+COMMENT $0195 DP to RAM
+FORCE_SYMBOL $0195 DP_to_C8
+COMMENT $0198 get some music, here music1
+FORCE_SYMBOL $0198 music8
+COMMENT_LINE $019B ldu     #music_title                 ; get some music, here music1
+COMMENT $019B and init new notes
+FORCE_SYMBOL $019B Init_Music_chk
+FORCE_SYMBOL $019E music_start_now
+COMMENT_LINE $01A1 music game
+FORCE_SYMBOL $01A1 soundeffect
+FORCE_SYMBOL $01A4 EFFECT_GAME
+COMMENT_LINE $01A8 version 1 (as music notes)
+COMMENT_LINE $01A8 jsr     DP_to_C8                ; DP to RAM
+COMMENT_LINE $01A8 ldu     #music8                 ; get some music, here music1
+COMMENT_LINE $01A8 jsr     Init_Music_chk          ; and init new notes
+FORCE_SYMBOL $01A8 music_start_now
+COMMENT_LINE $01AB music gameover
+FORCE_SYMBOL $01AB soundeffect
+FORCE_SYMBOL $01AE EFFECT_GAMEOVER
+COMMENT_LINE $01B2 version 1 (as music notes)
+COMMENT_LINE $01B2 jsr     DP_to_C8                ; DP to RAM
+COMMENT_LINE $01B2 ldu     #musicb                 ; get some music, here music1
+COMMENT_LINE $01B2 jsr     Init_Music_chk          ; and init new notes
+COMMENT_LINE $01B2 version 2
+COMMENT $01B2 play
+FORCE_SYMBOL $01B2 sfx4
+FORCE_SYMBOL $01B5 sfx_pointer
+FORCE_NO_SYMBOL $01B8
+FORCE_SYMBOL $01BA sfx_status
+FORCE_SYMBOL $01BD music_start_now
+COMMENT_LINE $01C0 music bonbon
+FORCE_SYMBOL $01C0 soundeffect
+FORCE_SYMBOL $01C3 EFFECT_EXPLOSION
+COMMENT_LINE $01C7 version 1 (as music notes)
+COMMENT_LINE $01C7 jsr     DP_to_C8                ; DP to RAM
+COMMENT_LINE $01C7 ldu     #music_explosion                 ; get some music, here music1
+COMMENT_LINE $01C7 ldu		#death_sound
+COMMENT_LINE $01C7 jsr     Init_Music_chk          ; and init new notes
+COMMENT_LINE $01C7 version 2
+COMMENT $01C7 play
+FORCE_SYMBOL $01C7 sfx1
+FORCE_SYMBOL $01CA sfx_pointer
+FORCE_NO_SYMBOL $01CD
+FORCE_SYMBOL $01CF sfx_status
+FORCE_SYMBOL $01D2 music_start_now
+COMMENT_LINE $01D5 music bonbon
+FORCE_SYMBOL $01D5 soundeffect
+FORCE_SYMBOL $01D8 EFFECT_HIT
+COMMENT_LINE $01DC version 1 (as music notes)
+COMMENT_LINE $01DC jsr     DP_to_C8                ; DP to RAM
+COMMENT_LINE $01DC ldu     #music_explosion                 ; get some music, here music1
+COMMENT_LINE $01DC ldu		#death_sound
+COMMENT_LINE $01DC jsr     Init_Music_chk          ; and init new notes
+COMMENT_LINE $01DC version 2
+COMMENT $01DC play
+FORCE_SYMBOL $01DC sfx2
+FORCE_SYMBOL $01DF sfx_pointer
+FORCE_NO_SYMBOL $01E2
+FORCE_SYMBOL $01E4 sfx_status
+FORCE_SYMBOL $01E7 music_start_now
+COMMENT_LINE $01EA music shoot
+FORCE_SYMBOL $01EA soundeffect
+FORCE_SYMBOL $01ED EFFECT_SHOOT
+COMMENT_LINE $01F1 version 1 (as music notes)
+COMMENT_LINE $01F1 jsr     DP_to_C8                ; DP to RAM
+COMMENT_LINE $01F1 ldu     #music_shoot                 ; get some music, here music1
+COMMENT_LINE $01F1 jsr     Init_Music_chk          ; and init new notes
+COMMENT_LINE $01F1 version 2
+COMMENT $01F1 play
+FORCE_SYMBOL $01F1 sfx4
+FORCE_SYMBOL $01F4 sfx_pointer
+FORCE_NO_SYMBOL $01F7
+FORCE_SYMBOL $01F9 sfx_status
+FORCE_SYMBOL $01FC music_start_now
+COMMENT_LINE $01FF music bonbon
+FORCE_SYMBOL $01FF soundeffect
+FORCE_SYMBOL $0202 EFFECT_DIE
+COMMENT_LINE $0206 version 1 (as music notes)
+COMMENT_LINE $0206 jsr     DP_to_C8                ; DP to RAM
+COMMENT_LINE $0206 ldu     #music_die                 ; get some music, here music1
+COMMENT_LINE $0206 jsr     Init_Music_chk          ; and init new notes
+COMMENT_LINE $0206 version 2
+COMMENT $0206 play
+FORCE_SYMBOL $0206 sfx2
+FORCE_SYMBOL $0209 sfx_pointer
+FORCE_NO_SYMBOL $020C
+FORCE_SYMBOL $020E sfx_status
+FORCE_SYMBOL $0211 music_start_now
+COMMENT_LINE $0214 levelup / new text
+FORCE_SYMBOL $0214 soundeffect
+FORCE_SYMBOL $0217 EFFECT_NEXT
+COMMENT_LINE $021B version 1 (as music notes)
+COMMENT_LINE $021B jsr     DP_to_C8                ; DP to RAM
+COMMENT_LINE $021B ldu     #music8                 ; get some music, here music1
+COMMENT_LINE $021B jsr     Init_Music_chk          ; and init new notes
+COMMENT_LINE $021B version 2
+COMMENT $021B play
+FORCE_SYMBOL $021B sfx2
+FORCE_SYMBOL $021E sfx_pointer
+FORCE_NO_SYMBOL $0221
+FORCE_SYMBOL $0223 sfx_status
+FORCE_SYMBOL $0226 music_start_now
+COMMENT_LINE $0229 restart
+FORCE_NO_SYMBOL $0229
+FORCE_SYMBOL $022B soundeffect
+COMMENT_LINE $022E todo: more complex
+COMMENT_LINE $022E is a routine playing? doit
+COMMENT_LINE $022E ***************************************************************************
+COMMENT_LINE $022E INGAME: WAIT FOR RECAL
+COMMENT_LINE $022E ***************************************************************************
+COMMENT_LINE $022E wait recal ..
+COMMENT $022E Vectrex BIOS recalibration
+FORCE_SYMBOL $022E Wait_Recal
+COMMENT $0231 Sets the intensity of the
+FORCE_SYMBOL $0231 Intensity_3F
+COMMENT_LINE $0234 vector beam to $5f
+COMMENT $0234 delay for 30 cycles
+FORCE_SYMBOL $0234 Delay_3
+COMMENT_LINE $0237 scale
+COMMENT $0237 load 50
+FORCE_NO_SYMBOL $0237
+COMMENT $0239 load 50
+FORCE_NO_SYMBOL $0239
+COMMENT_LINE $023B lda     #155                     ; load 50
+COMMENT_LINE $023B lda     #160                     ; load 50
+COMMENT $023B 50 as scaling
+FORCE_SYMBOL $023B VIA_t1_cnt_lo
+COMMENT_LINE $023D ***************************************************************************
+COMMENT_LINE $023D INGAME: PLAYER CONTROL JOYSTICK (DIRECTIONS & BUTTONS)
+COMMENT_LINE $023D ***************************************************************************
+COMMENT_LINE $023D player control / buttons
+COMMENT $023D get button status
+FORCE_SYMBOL $023D Read_Btns
+COMMENT $0240 get the current state of all
+FORCE_SYMBOL $0240 Vec_Btn_State
+COMMENT $0243 is a button pressed?
+FORCE_NO_SYMBOL $0243
+COMMENT $0245 no, than go on
+COMMENT_LINE $0249 button down
+FORCE_SYMBOL $0249 button_up
+FORCE_NO_SYMBOL $024C
+COMMENT_LINE $0252 start game
+COMMENT_LINE $0252 ldu     #string_joystick_right
+COMMENT_LINE $0252 jsr     Print_Str_yx
+FORCE_SYMBOL $0252 state
+FORCE_NO_SYMBOL $0255
+COMMENT_LINE $025B menu
+FORCE_SYMBOL $025B STATE_INGAME
+FORCE_SYMBOL $025D state
+COMMENT_LINE $0260 message
+FORCE_NO_SYMBOL $0260
+FORCE_SYMBOL $0262 message_counter
+FORCE_NO_SYMBOL $0265
+FORCE_SYMBOL $0267 message_index
+COMMENT_LINE $026A start game
+FORCE_NO_SYMBOL $026A
+FORCE_SYMBOL $026C lifes
+COMMENT $026F 12
+FORCE_NO_SYMBOL $026F
+FORCE_SYMBOL $0271 spritesnr
+COMMENT_LINE $0274 shield
+FORCE_NO_SYMBOL $0274
+FORCE_SYMBOL $0276 shield
+COMMENT_LINE $0279 border
+COMMENT $0279 border
+FORCE_NO_SYMBOL $0279
+FORCE_SYMBOL $027B fbackground
+COMMENT_LINE $027E level
+FORCE_NO_SYMBOL $027E
+FORCE_SYMBOL $0280 level
+FORCE_NO_SYMBOL $0283
+FORCE_SYMBOL $0285 score
+FORCE_NO_SYMBOL $0288
+FORCE_SYMBOL $028A button_up
+FORCE_NO_SYMBOL $028D
+COMMENT_LINE $028F really start the game now ...
+COMMENT_LINE $0298 play music (set flag to wait for music)
+COMMENT $0298 one means, we are about to
+FORCE_NO_SYMBOL $0298
+COMMENT $029A store it in appropriate RAM
+FORCE_SYMBOL $029A Vec_Music_Flag
+FORCE_SYMBOL $029D EFFECT_TITLE
+FORCE_SYMBOL $029F soundeffect
+COMMENT_LINE $02A2 move demo sprites
+FORCE_NO_SYMBOL $02A7
+COMMENT_LINE $02AC offsets
+COMMENT_LINE $02AC reset
+FORCE_SYMBOL $02AC level_segment
+FORCE_NO_SYMBOL $02AF
+FORCE_NO_SYMBOL $02B1
+FORCE_NO_SYMBOL $02B3
+FORCE_SYMBOL $02B5 level_segment_offset
+FORCE_NO_SYMBOL $02B8
+FORCE_NO_SYMBOL $02BA
+COMMENT_LINE $02BC level
+FORCE_NO_SYMBOL $02BC
+FORCE_SYMBOL $02BE level
+FORCE_NO_SYMBOL $02C1
+FORCE_SYMBOL $02C3 counter_ms
+FORCE_SYMBOL $02C6 counter_sec
+FORCE_SYMBOL $02C9 counter_min
+FORCE_SYMBOL $02CC bigbossReleased
+FORCE_SYMBOL $02CF bigbossDefeated
+COMMENT_LINE $02D2 button_upcounter
+FORCE_NO_SYMBOL $02D2
+FORCE_SYMBOL $02D4 button_upcounter
+COMMENT_LINE $02D7 update ...
+FORCE_NO_SYMBOL $02D7
+COMMENT_LINE $02DC clear all
+FORCE_NO_SYMBOL $02DE
+COMMENT $02E0 variable with a value of 5
+FORCE_SYMBOL $02E0 sprites_for_var
+FORCE_SYMBOL $02E3 spritesyx
+COMMENT $02E6 6*12 (player + 4 x shoot + explosion)
+FORCE_NO_SYMBOL $02E6
+FORCE_NO_SYMBOL $02E8
+FORCE_SYMBOL $02EA OBJ_STATE
+FORCE_NO_SYMBOL $02EC
+COMMENT $02EE Subtract the loop_variable by 1
+FORCE_SYMBOL $02EE sprites_for_var
+COMMENT $02F1 If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $02F5 / clear all
+FORCE_SYMBOL $02F5 buttons_pressed_done
+COMMENT_LINE $02F8 ingame shoot
+COMMENT_LINE $02F8 shoot!
+FORCE_SYMBOL $02F8 state
+FORCE_SYMBOL $02FB STATE_INGAME
+COMMENT_LINE $02FF find the first free shoot
+FORCE_SYMBOL $02FF spritesnr
+COMMENT $0302 variable with a value of 5
+FORCE_SYMBOL $0302 sprites_for_var
+FORCE_SYMBOL $0305 spritesyx
+COMMENT $0308 store x
+COMMENT_LINE $030A code
+COMMENT_LINE $030A not active
+FORCE_NO_SYMBOL $030A
+FORCE_NO_SYMBOL $030C
+COMMENT_LINE $0310 find shoot!
+FORCE_NO_SYMBOL $0310
+FORCE_NO_SYMBOL $0312
+COMMENT_LINE $0316 activate!
+FORCE_NO_SYMBOL $0316
+FORCE_NO_SYMBOL $0318
+COMMENT_LINE $031A shootx=playerx
+FORCE_SYMBOL $031A spritesyx
+FORCE_NO_SYMBOL $031D
+FORCE_NO_SYMBOL $031F
+COMMENT_LINE $0324 suba	10
+FORCE_NO_SYMBOL $0324
+COMMENT_LINE $0326 param range
+COMMENT $0326 ...
+FORCE_NO_SYMBOL $0326
+FORCE_SYMBOL $0328 OBJ_PARAM
+FORCE_NO_SYMBOL $032A
+FORCE_SYMBOL $032C OBJ_PARAMEXT
+COMMENT_LINE $032E break the for
+COMMENT $032E restore x
+FORCE_NO_SYMBOL $0330
+FORCE_SYMBOL $0332 button_up
+COMMENT_LINE $0335 play shoot now!!
+COMMENT $0335 one means, we are about to
+FORCE_NO_SYMBOL $0335
+COMMENT $0337 store it in appropriate RAM
+FORCE_SYMBOL $0337 Vec_Music_Flag
+FORCE_SYMBOL $033A EFFECT_SHOOT
+FORCE_SYMBOL $033C soundeffect
+FORCE_SYMBOL $033F buttons_pressed_done
+COMMENT_LINE $0342 /code
+COMMENT $0342 restore x
+FORCE_NO_SYMBOL $0344
+COMMENT_LINE $0346 for
+COMMENT $0346 Subtract the loop_variable by 1
+FORCE_SYMBOL $0346 sprites_for_var
+COMMENT $0349 If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $034B / find
+FORCE_NO_SYMBOL $034B
+FORCE_SYMBOL $034D button_up
+FORCE_SYMBOL $0350 buttons_pressed_done
+COMMENT_LINE $0353 gameover > menu
+FORCE_SYMBOL $0353 state
+FORCE_SYMBOL $0356 STATE_GAMEOVER
+COMMENT_LINE $035A lda		#0
+COMMENT_LINE $035A sta		button_up
+COMMENT_LINE $035A shield ok?
+FORCE_SYMBOL $035A button_upcounter
+FORCE_NO_SYMBOL $035D
+FORCE_SYMBOL $0361 buttons_pressed_done
+COMMENT_LINE $0364 menu
+FORCE_SYMBOL $0364 STATE_MENU
+FORCE_SYMBOL $0366 state
+FORCE_NO_SYMBOL $0369
+FORCE_SYMBOL $036B button_up
+COMMENT_LINE $036E gamewon > menu
+FORCE_SYMBOL $036E state
+FORCE_SYMBOL $0371 STATE_WON
+COMMENT_LINE $0375 lda		#0
+COMMENT_LINE $0375 sta		button_up
+COMMENT_LINE $0375 shield ok?
+FORCE_SYMBOL $0375 button_upcounter
+FORCE_NO_SYMBOL $0378
+FORCE_SYMBOL $037C buttons_pressed_done
+COMMENT_LINE $037F menu
+FORCE_SYMBOL $037F STATE_MENU
+FORCE_SYMBOL $0381 state
+FORCE_NO_SYMBOL $0384
+FORCE_SYMBOL $0386 button_up
+FORCE_SYMBOL $0389 buttons_pressed_done
+FORCE_NO_SYMBOL $038C
+FORCE_SYMBOL $038E button_up
+COMMENT_LINE $0391 player control / joystick
+COMMENT_LINE $0391 movement x
+FORCE_SYMBOL $0391 state
+FORCE_SYMBOL $0394 STATE_INGAME
+COMMENT_LINE $039A sprites
+FORCE_NO_SYMBOL $039A
+FORCE_SYMBOL $039C spritesmove
+COMMENT_LINE $039F joystick stuff
+FORCE_SYMBOL $039F Joy_Digital
+FORCE_SYMBOL $03A2 Vec_Joy_1_X
+COMMENT $03A7 if negative, than left
+FORCE_NO_SYMBOL $03B5
+FORCE_NO_SYMBOL $03B9
+COMMENT $03BE goto x done
+COMMENT $03D5 goto x done
+COMMENT_LINE $03D7 movement y
+COMMENT $03D7 load joystick 1 position
+FORCE_SYMBOL $03D7 Vec_Joy_1_Y
+COMMENT $03DA if zero, than no y position
+COMMENT $03DC if negative, than down
+FORCE_SYMBOL $03DE spritesyx
+FORCE_SYMBOL $03E1 spritesyx
+FORCE_SYMBOL $03E4 spritesyx
+FORCE_NO_SYMBOL $03E7
+FORCE_NO_SYMBOL $03EB
+FORCE_SYMBOL $03ED spritesyx
+COMMENT $03F0 goto y done
+FORCE_SYMBOL $03F2 spritesyx
+FORCE_SYMBOL $03F5 spritesyx
+FORCE_SYMBOL $03F8 spritesyx
+FORCE_SYMBOL $0401 spritesyx
+COMMENT $0404 goto y done
+COMMENT_LINE $0406 ***************************************************************************
+COMMENT_LINE $0406 INGAME: DISPLAY TOP
+COMMENT_LINE $0406 ***************************************************************************
+FORCE_SYMBOL $0406 state
+COMMENT_LINE $0409 GAME OVER
+FORCE_SYMBOL $0409 STATE_GAMEOVER
+COMMENT_LINE $040F GAME WON
+FORCE_SYMBOL $040F STATE_WON
+COMMENT_LINE $0415 INGAME
+FORCE_SYMBOL $0415 STATE_INGAME
+COMMENT_LINE $041B ***************************************************************************
+COMMENT_LINE $041B INGAME: DISPLAY SPRITES
+COMMENT_LINE $041B ***************************************************************************
+COMMENT_LINE $041B jmp 	no_sprites_display
+COMMENT_LINE $041B anim
+FORCE_SYMBOL $041B spritesyx
+FORCE_SYMBOL $041E spritesnr
+COMMENT $0421 variable with a value of 5
+FORCE_SYMBOL $0421 sprites_for_var
+FORCE_SYMBOL $0424 spritesyx
+FORCE_SYMBOL $0427 spritesyx
+COMMENT $042A store x
+COMMENT_LINE $042C active?
+FORCE_SYMBOL $042C OBJ_STATE
+FORCE_NO_SYMBOL $042E
+COMMENT_LINE $0434 code
+COMMENT_LINE $0434 for display: move enemy boss
+FORCE_SYMBOL $0434 OBJ_TYPESUB
+FORCE_SYMBOL $0436 ENEMY_BOSS
+COMMENT_LINE $043C default
+COMMENT $043C y-pos
+FORCE_SYMBOL $043C OBJ_Y
+COMMENT $043E x-pos
+FORCE_SYMBOL $043E OBJ_X
+FORCE_SYMBOL $0440 render_no_boss
+COMMENT $0443 y-pos
+FORCE_SYMBOL $0443 OBJ_Y
+COMMENT $0445 x-pos
+FORCE_SYMBOL $0445 OBJ_X
+FORCE_NO_SYMBOL $0447
+FORCE_NO_SYMBOL $0449
+COMMENT_LINE $044B OFFSET?
+FORCE_SYMBOL $044B Moveto_d
+COMMENT_LINE $044E ldx     #grafix_player ; default grafixs
+COMMENT_LINE $044E store x was changed!
+COMMENT_LINE $0452 restore x
+COMMENT_LINE $0452 the types
+FORCE_SYMBOL $0452 OBJ_TYPE
+COMMENT_LINE $0454 type: player / shoot
+COMMENT_LINE $0454 player
+FORCE_SYMBOL $0454 OBJ_TYPE_PLAYER
+COMMENT_LINE $0458 version 1.0
+COMMENT $0458 default grafixs
+FORCE_SYMBOL $0458 grafix_player
+COMMENT_LINE $045B start game
+FORCE_SYMBOL $045B shield
+FORCE_NO_SYMBOL $045E
+FORCE_SYMBOL $0462 grafix_player_shield
+FORCE_SYMBOL $0465 no_enemy_display
+COMMENT_LINE $0468 explosion
+FORCE_SYMBOL $0468 SPRITE_EXPLOSION
+COMMENT_LINE $046C version 1.0
+COMMENT $046C default grafixs
+FORCE_SYMBOL $046C grafix_explosion
+FORCE_SYMBOL $046F no_enemy_display
+COMMENT_LINE $0472 shoot
+COMMENT_LINE $0472 debug
+FORCE_SYMBOL $0472 no_shoot_display
+FORCE_SYMBOL $0475 OBJ_TYPE_SHOOT
+COMMENT_LINE $0479 version 1.0
+COMMENT_LINE $0479 ldx     #grafix_shoot ; default grafixs
+COMMENT $0479 default grafixs
+FORCE_SYMBOL $0479 grafix_shoot_laser
+COMMENT_LINE $047C only dottes
+FORCE_NO_SYMBOL $047C
+FORCE_NO_SYMBOL $047E
+FORCE_SYMBOL $0480 Dot_d
+FORCE_SYMBOL $0483 sprites_display_next
+COMMENT_LINE $0486 shoot
+COMMENT_LINE $0486 ldx     #grafix_shoot
+FORCE_SYMBOL $0486 grafix_shoot_laser
+COMMENT_LINE $0489 type: enemy
+FORCE_SYMBOL $0489 OBJ_TYPE
+FORCE_SYMBOL $048B OBJ_TYPE_ENEMY
+COMMENT_LINE $0491 ENEMY_SHOOT
+FORCE_SYMBOL $0491 OBJ_TYPESUB
+FORCE_SYMBOL $0493 ENEMY_SHOOT
+FORCE_SYMBOL $0497 grafix_enemy_shoot
+FORCE_SYMBOL $049A subtype_done
+COMMENT_LINE $049D ENEMY_DOWN
+FORCE_SYMBOL $049D OBJ_TYPESUB
+FORCE_SYMBOL $049F ENEMY_DOWN
+FORCE_SYMBOL $04A3 grafix_enemy_down
+FORCE_SYMBOL $04A6 subtype_done
+COMMENT_LINE $04A9 ENEMY_DOWN_FAST
+FORCE_SYMBOL $04A9 OBJ_TYPESUB
+FORCE_SYMBOL $04AB ENEMY_FASTDOWN
+FORCE_SYMBOL $04AF grafix_fastdownenemy
+FORCE_SYMBOL $04B2 subtype_done
+COMMENT_LINE $04B5 ENEMY_DOWNSEARCH
+FORCE_SYMBOL $04B5 OBJ_TYPESUB
+FORCE_SYMBOL $04B7 ENEMY_DOWNSEARCH
+FORCE_SYMBOL $04BB grafix_downsearch
+FORCE_SYMBOL $04BE subtype_done
+COMMENT_LINE $04C1 ENEMY_MISSILE
+FORCE_SYMBOL $04C1 OBJ_TYPESUB
+FORCE_SYMBOL $04C3 ENEMY_MISSILE
+FORCE_SYMBOL $04C7 grafix_enemymissile
+FORCE_SYMBOL $04CA subtype_done
+COMMENT_LINE $04CD ENEMY_BOSS = ENDBOSS
+FORCE_SYMBOL $04CD OBJ_TYPESUB
+COMMENT $04CF ENDBOSS
+FORCE_SYMBOL $04CF ENEMY_BOSS
+FORCE_SYMBOL $04D3 grafix_enemyboss
+FORCE_SYMBOL $04D6 subtype_done
+COMMENT_LINE $04D9 ENEMY_LEFT
+FORCE_SYMBOL $04D9 OBJ_TYPESUB
+FORCE_SYMBOL $04DB ENEMY_LEFT
+FORCE_SYMBOL $04DF grafix_enemyleftright
+FORCE_SYMBOL $04E2 subtype_done
+COMMENT_LINE $04E5 ENEMY_RIGHT
+FORCE_SYMBOL $04E5 OBJ_TYPESUB
+FORCE_SYMBOL $04E7 ENEMY_RIGHT
+FORCE_SYMBOL $04EB grafix_enemyleftright
+FORCE_SYMBOL $04EE subtype_done
+COMMENT_LINE $04F1 ENEMY_SINUS
+FORCE_SYMBOL $04F1 OBJ_TYPESUB
+FORCE_SYMBOL $04F3 ENEMY_SINUS
+FORCE_SYMBOL $04F7 grafix_enemy_sin
+FORCE_SYMBOL $04FA subtype_done
+COMMENT_LINE $04FD ENEMY_DIAG
+FORCE_SYMBOL $04FD OBJ_TYPESUB
+FORCE_SYMBOL $04FF ENEMY_DIAG
+FORCE_SYMBOL $0503 grafix_enemydiag
+FORCE_SYMBOL $0506 subtype_done
+COMMENT_LINE $0509 ENEMY_STAY
+FORCE_SYMBOL $0509 OBJ_TYPESUB
+FORCE_SYMBOL $050B ENEMY_STAY
+FORCE_SYMBOL $050F grafix_enemy_stay
+FORCE_SYMBOL $0512 subtype_done
+COMMENT_LINE $0515 ENEMY_STAYSHOOT
+FORCE_SYMBOL $0515 OBJ_TYPESUB
+FORCE_SYMBOL $0517 ENEMY_STAYSHOOT
+FORCE_SYMBOL $051B grafix_enemy_stayshoot
+FORCE_SYMBOL $051E subtype_done
+COMMENT_LINE $0521 ENEMY_PINGPONG
+FORCE_SYMBOL $0521 OBJ_TYPESUB
+FORCE_SYMBOL $0523 ENEMY_PINGPONG
+FORCE_SYMBOL $0527 grafix_enemy_ship
+FORCE_NO_SYMBOL $052A
+FORCE_SYMBOL $052C debug_value
+FORCE_SYMBOL $052F subtype_done
+COMMENT_LINE $0532 default
+FORCE_NO_SYMBOL $0532
+FORCE_SYMBOL $0534 OBJ_TYPESUB
+FORCE_SYMBOL $0536 debug_value
+FORCE_SYMBOL $0539 grafix_enemy_sin
+COMMENT_LINE $053C add the anims!
+COMMENT_LINE $053C draw it now
+COMMENT_LINE $053C ***************************************************************************
+COMMENT_LINE $053C INGAME: DISPLAY SPRITES ANIM SPRITES
+COMMENT_LINE $053C ***************************************************************************
+COMMENT_LINE $053C jmp 	no_animations
+COMMENT_LINE $053C anim now?
+COMMENT_LINE $053C leax	9,x
+COMMENT_LINE $053C anim 0 default
+COMMENT_LINE $053C anim 1
+FORCE_SYMBOL $053C OBJ_ANIM
+FORCE_NO_SYMBOL $053E
+FORCE_NO_SYMBOL $0542
+COMMENT_LINE $0545 anim 2
+FORCE_SYMBOL $0545 OBJ_ANIM
+FORCE_NO_SYMBOL $0547
+FORCE_NO_SYMBOL $054B
+COMMENT_LINE $054E anim 3
+FORCE_SYMBOL $054E OBJ_ANIM
+FORCE_NO_SYMBOL $0550
+FORCE_NO_SYMBOL $0554
+COMMENT_LINE $0556 anim 4
+FORCE_SYMBOL $0556 OBJ_ANIM
+FORCE_NO_SYMBOL $0558
+FORCE_NO_SYMBOL $055C
+COMMENT_LINE $055E version 1.0
+FORCE_SYMBOL $055E Draw_VLc
+COMMENT_LINE $0561 jump back to zero/zero
+COMMENT_LINE $0561 jsr 	Reset0Ref  ; reset to 0,0
+COMMENT_LINE $0561 /code
+FORCE_SYMBOL $0561 Reset0Ref
+COMMENT_LINE $0564 puls
+COMMENT $0564 restore x
+FORCE_NO_SYMBOL $0566
+FORCE_NO_SYMBOL $0568
+COMMENT $056A Subtract the loop_variable by 1
+FORCE_SYMBOL $056A sprites_for_var
+COMMENT $056D If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $0571 ***************************************************************************
+COMMENT_LINE $0571 INGAME: DISPLAY BACKGROUNDS
+COMMENT_LINE $0571 ***************************************************************************
+COMMENT_LINE $0571 jmp 	no_background_renderings_here
+COMMENT_LINE $0571 jmp 	no_background_rendering
+FORCE_SYMBOL $0571 fbackground
+FORCE_NO_SYMBOL $0574
+COMMENT $057A y
+FORCE_NO_SYMBOL $057A
+COMMENT $057C x
+FORCE_NO_SYMBOL $057C
+FORCE_SYMBOL $057E level_positiony
+FORCE_SYMBOL $0581 level_positionx
+FORCE_SYMBOL $0584 level_positionxx
+COMMENT_LINE $0587 ------------------------
+FORCE_NO_SYMBOL $0587
+FORCE_SYMBOL $0589 sprites_tmp_type
+FORCE_SYMBOL $058C sprites_tmp_move
+COMMENT_LINE $058F prepare the level
+FORCE_SYMBOL $058F leveldata
+COMMENT_LINE $0592 add level_segment
+FORCE_SYMBOL $0592 level_segment
+FORCE_NO_SYMBOL $0596
+COMMENT_LINE $059B counting up levelsegements / scrolling up
+COMMENT_LINE $059B index counting down
+COMMENT_LINE $059B version 1
+COMMENT_LINE $059B temp coord.
+FORCE_SYMBOL $059B version1
+FORCE_NO_SYMBOL $059E
+FORCE_SYMBOL $05A0 sprites_tmp_type
+FORCE_NO_SYMBOL $05A3
+FORCE_SYMBOL $05A5 sprites_tmp_move
+FORCE_SYMBOL $05A8 STRIPE_SIZE
+COMMENT_LINE $05AB version 2
+COMMENT_LINE $05AB temp coord.
+COMMENT_LINE $05AB jmp 	version2
+COMMENT_LINE $05AB <7
+FORCE_NO_SYMBOL $05AB
+FORCE_NO_SYMBOL $05AF
+COMMENT_LINE $05B3 --1
+FORCE_NO_SYMBOL $05B3
+FORCE_SYMBOL $05B5 sprites_tmp_type
+FORCE_NO_SYMBOL $05B8
+FORCE_SYMBOL $05BA sprites_tmp_move
+FORCE_SYMBOL $05BD STRIPE_SIZE
+COMMENT_LINE $05BF --a
+FORCE_SYMBOL $05C0 steps_done
+COMMENT_LINE $05C3 --10
+COMMENT_LINE $05C6 a = a - 5
+FORCE_NO_SYMBOL $05C6
+FORCE_SYMBOL $05C8 steps_done
+COMMENT_LINE $05CB --30
+COMMENT_LINE $05CF a = a - 5
+FORCE_NO_SYMBOL $05CF
+COMMENT_LINE $05D1 count segments
+FORCE_NO_SYMBOL $05D1
+COMMENT_LINE $05D5 ------------------------
+COMMENT_LINE $05D5 render
+FORCE_SYMBOL $05D5 rendered_level
+FORCE_SYMBOL $05D8 rendered_level_right
+COMMENT_LINE $05DC db length
+COMMENT $05DC number points
+FORCE_NO_SYMBOL $05DE
+FORCE_NO_SYMBOL $05E0
+FORCE_NO_SYMBOL $05E2
+FORCE_NO_SYMBOL $05E4
+COMMENT_LINE $05E6 add first = it is the last
+COMMENT_LINE $05E6 point 1 >
+COMMENT_LINE $05E6 2. point > ...
+FORCE_NO_SYMBOL $05E6
+FORCE_NO_SYMBOL $05E8
+FORCE_NO_SYMBOL $05EA
+FORCE_SYMBOL $05EC sprites_tmp_type
+FORCE_NO_SYMBOL $05EF
+FORCE_SYMBOL $05F1 level_positionx
+FORCE_SYMBOL $05F4 sprites_tmp_move
+FORCE_NO_SYMBOL $05F7
+FORCE_SYMBOL $05F9 level_positionxx
+COMMENT_LINE $05FC for (i=0;i<..
+FORCE_NO_SYMBOL $05FC
+FORCE_SYMBOL $05FE sprites_for_var
+FORCE_NO_SYMBOL $0601
+COMMENT_LINE $0603 rom-table: y,x1,x2,e,e1
+COMMENT_LINE $0603 y,x1
+COMMENT_LINE $0603 ----------------------------
+COMMENT_LINE $0603 stripe size
+COMMENT_LINE $0603 ----------------------------
+FORCE_SYMBOL $0603 STRIPES_SIZE
+COMMENT_LINE $0605 -------------------------
+COMMENT_LINE $0605 sphere simulation
+COMMENT_LINE $0605 -------------------------
+FORCE_SYMBOL $0605 no_sphere_simulation
+COMMENT_LINE $0608 smaller on top > sphere simulation
+COMMENT_LINE $0608 sphere simulation (fake)
+FORCE_SYMBOL $0608 sprites_for_var
+COMMENT_LINE $060B \_
+FORCE_SYMBOL $060B STRIPES_SIZE
+FORCE_NO_SYMBOL $060F
+FORCE_NO_SYMBOL $0615
+FORCE_NO_SYMBOL $061B
+COMMENT_LINE $061D ----
+COMMENT_LINE $061D _/
+FORCE_SYMBOL $061D simulation_sphere_2
+FORCE_NO_SYMBOL $0620
+FORCE_NO_SYMBOL $0624
+FORCE_NO_SYMBOL $0626
+FORCE_NO_SYMBOL $062A
+FORCE_NO_SYMBOL $062C
+FORCE_NO_SYMBOL $0630
+COMMENT_LINE $0632 / ------------------------
+COMMENT_LINE $0632 / sphere simulation
+COMMENT_LINE $0632 / -------------------------
+COMMENT_LINE $0632 debug
+COMMENT_LINE $0632 lda		#10
+FORCE_NO_SYMBOL $0632
+FORCE_NO_SYMBOL $0634
+COMMENT_LINE $0636 relative x
+FORCE_NO_SYMBOL $0636
+FORCE_SYMBOL $0638 level_positionx
+FORCE_NO_SYMBOL $063B
+FORCE_NO_SYMBOL $063D
+FORCE_SYMBOL $063F level_positionx
+COMMENT_LINE $0642 relative xx
+FORCE_NO_SYMBOL $0642
+FORCE_SYMBOL $0644 level_positionxx
+FORCE_NO_SYMBOL $0647
+FORCE_NO_SYMBOL $0649
+FORCE_SYMBOL $064B level_positionxx
+COMMENT_LINE $064E add 5 ...
+FORCE_SYMBOL $064E STRIPE_SIZE
+FORCE_NO_SYMBOL $0650
+FORCE_NO_SYMBOL $0652
+COMMENT_LINE $0654 for_
+FORCE_SYMBOL $0654 sprites_for_var
+COMMENT_LINE $0659 display
+FORCE_SYMBOL $0659 Intensity_3F
+COMMENT $065C reset to 0,0
+FORCE_SYMBOL $065C Reset0Ref
+FORCE_SYMBOL $0661 level_segment_offset
+FORCE_NO_SYMBOL $0664
+COMMENT_LINE $0666 version 2.0
+FORCE_SYMBOL $0666 sprites_tmp_type
+COMMENT_LINE $0669 patch
+FORCE_SYMBOL $0669 Moveto_d
+FORCE_SYMBOL $066C Delay_3
+FORCE_SYMBOL $066F rendered_level
+FORCE_SYMBOL $0672 Draw_VLc
+COMMENT $0675 reset to 0,0
+FORCE_SYMBOL $0675 Reset0Ref
+COMMENT_LINE $0678 jump back to zero/zero
+COMMENT_LINE $0678 shadow
+FORCE_SYMBOL $0678 no_shadow1
+FORCE_SYMBOL $067B Intensity_1F
+COMMENT $067E load 50
+FORCE_NO_SYMBOL $067E
+COMMENT $0680 50 as scaling
+FORCE_SYMBOL $0680 VIA_t1_cnt_lo
+FORCE_SYMBOL $0684 level_segment_offset
+COMMENT_LINE $0687 version 2.0
+FORCE_SYMBOL $0687 sprites_tmp_type
+FORCE_NO_SYMBOL $068A
+COMMENT_LINE $068C version 1.0 offset
+COMMENT $068C jsr     Moveto_d
+FORCE_SYMBOL $068E Moveto_d
+COMMENT_LINE $0691 jsr     Delay_3
+FORCE_SYMBOL $0691 rendered_level
+FORCE_SYMBOL $0694 Draw_VLc
+COMMENT $0697 reset to 0,0
+FORCE_SYMBOL $0697 Reset0Ref
+COMMENT $069A load 50
+FORCE_NO_SYMBOL $069A
+COMMENT $069C 50 as scaling
+FORCE_SYMBOL $069C VIA_t1_cnt_lo
+FORCE_SYMBOL $069E Intensity_3F
+COMMENT_LINE $06A1 jump back to zero/zero
+COMMENT_LINE $06A1 shadow
+COMMENT_LINE $06A1 jmp		no_shadow2
+FORCE_SYMBOL $06A1 Intensity_1F
+COMMENT $06A4 load 50
+FORCE_NO_SYMBOL $06A4
+COMMENT $06A6 50 as scaling
+FORCE_SYMBOL $06A6 VIA_t1_cnt_lo
+FORCE_SYMBOL $06AA level_segment_offset
+FORCE_NO_SYMBOL $06AD
+COMMENT_LINE $06AF jsr     Moveto_d
+COMMENT_LINE $06AF version 1.0
+FORCE_NO_SYMBOL $06AF
+COMMENT_LINE $06B1 version 2.0
+FORCE_SYMBOL $06B1 sprites_tmp_move
+FORCE_NO_SYMBOL $06B4
+FORCE_SYMBOL $06B6 Moveto_d
+COMMENT_LINE $06B9 jsr     Delay_3
+FORCE_SYMBOL $06B9 rendered_level_right
+FORCE_SYMBOL $06BC Draw_VLc
+COMMENT $06BF reset to 0,0
+FORCE_SYMBOL $06BF Reset0Ref
+COMMENT $06C2 load 50
+FORCE_NO_SYMBOL $06C2
+COMMENT $06C4 50 as scaling
+FORCE_SYMBOL $06C4 VIA_t1_cnt_lo
+FORCE_SYMBOL $06C6 Intensity_3F
+COMMENT_LINE $06C9 jump back to zero/zero
+COMMENT $06C9 y + 110
+FORCE_SYMBOL $06CB level_segment_offset
+COMMENT_LINE $06CE version 1.0
+FORCE_NO_SYMBOL $06CE
+COMMENT_LINE $06D0 version 2.0
+FORCE_SYMBOL $06D0 sprites_tmp_move
+COMMENT_LINE $06D3 subb	#3
+FORCE_SYMBOL $06D3 Moveto_d
+FORCE_SYMBOL $06D6 Delay_3
+COMMENT_LINE $06D9 draw it now
+FORCE_SYMBOL $06D9 rendered_level_right
+FORCE_SYMBOL $06DC Draw_VLc
+COMMENT $06DF reset to 0,0
+FORCE_SYMBOL $06DF Reset0Ref
+COMMENT_LINE $06E2 jump back to zero/zero
+FORCE_SYMBOL $06E2 Intensity_3F
+COMMENT_LINE $06E5 ***************************************************************************
+COMMENT_LINE $06E5 GAMEOVER: COUNT DOWN PRESSED
+COMMENT_LINE $06E5 ***************************************************************************
+FORCE_SYMBOL $06E5 state
+COMMENT_LINE $06E8 cmpb	#STATE_GAMEOVER
+COMMENT_LINE $06E8 lbeq	not_state_gameover
+FORCE_SYMBOL $06E8 button_upcounter
+FORCE_SYMBOL $06EB button_upcounter
+COMMENT_LINE $06EE stb		score
+FORCE_NO_SYMBOL $06EE
+FORCE_NO_SYMBOL $06F2
+FORCE_SYMBOL $06F4 button_upcounter
+COMMENT_LINE $06F7 ***************************************************************************
+COMMENT_LINE $06F7 INGAME: MECHANICS MOVE SPRITES
+COMMENT_LINE $06F7 ***************************************************************************
+COMMENT_LINE $06F7 ***************************************************************************
+COMMENT_LINE $06F7 INGAME: INGAME MECHANICS
+COMMENT_LINE $06F7 ***************************************************************************
+COMMENT_LINE $06F7 colissions mechanics only ingame
+FORCE_SYMBOL $06F7 state
+FORCE_SYMBOL $06FA STATE_INGAME
+COMMENT_LINE $0700 level management
+COMMENT_LINE $0700 add counter for
+COMMENT_LINE $0700 check for amount of sprites
+FORCE_NO_SYMBOL $0700
+FORCE_SYMBOL $0702 fbackground
+FORCE_NO_SYMBOL $0705
+FORCE_NO_SYMBOL $0709
+FORCE_SYMBOL $070B spritesnr
+COMMENT_LINE $070E flags
+FORCE_NO_SYMBOL $070E
+COMMENT $0710 scroll flag = 0
+FORCE_SYMBOL $0710 scrolling_flag
+COMMENT $0713 spawn flag = 0
+FORCE_SYMBOL $0713 spawn_flag
+COMMENT $0716 anim flag = 0
+FORCE_SYMBOL $0716 anim_flag
+COMMENT_LINE $0719 ***************************************************************************
+COMMENT_LINE $0719 INGAME: LEVELUP? WAIT
+COMMENT_LINE $0719 ***************************************************************************
+COMMENT_LINE $0719 counter_ms
+FORCE_SYMBOL $0719 counter_ms
+FORCE_SYMBOL $071C counter_ms
+FORCE_NO_SYMBOL $071F
+FORCE_NO_SYMBOL $0723
+FORCE_SYMBOL $0725 counter_ms
+COMMENT_LINE $0728 counter_sec
+FORCE_SYMBOL $0728 counter_sec
+COMMENT_LINE $072B scroll_flag
+FORCE_NO_SYMBOL $072B
+FORCE_SYMBOL $072D scrolling_flag
+FORCE_SYMBOL $0730 anim_flag
+FORCE_SYMBOL $0733 bigbossReleased
+FORCE_NO_SYMBOL $0736
+COMMENT_LINE $073A more level updates
+FORCE_SYMBOL $073A level_segment_offset
+COMMENT_LINE $073D inc		level_segment_offset
+COMMENT_LINE $073D message counter
+FORCE_SYMBOL $073D message_counter
+FORCE_NO_SYMBOL $0740
+FORCE_SYMBOL $0744 message_counter
+COMMENT_LINE $0747 levelsegments
+FORCE_SYMBOL $0747 level_segment_offset
+FORCE_SYMBOL $074A STRIPES_SIZE
+FORCE_NO_SYMBOL $074E
+FORCE_SYMBOL $0750 level_segment_offset
+COMMENT_LINE $0753 new segment
+FORCE_SYMBOL $0753 level_segment
+COMMENT_LINE $0756 release_flag
+FORCE_NO_SYMBOL $0756
+FORCE_SYMBOL $0758 spawn_flag
+COMMENT_LINE $075B check new objects!!!
+FORCE_SYMBOL $075B counter_sec
+FORCE_NO_SYMBOL $075E
+FORCE_NO_SYMBOL $0762
+FORCE_SYMBOL $0764 counter_sec
+COMMENT_LINE $0767 counter_min
+COMMENT_LINE $0767 inc 	counter_min
+COMMENT_LINE $0767 lda		counter_min
+COMMENT_LINE $0767 cmpa	#120
+COMMENT_LINE $0767 blt	no_counter_activity
+COMMENT_LINE $0767 level
+COMMENT_LINE $0767 debug
+COMMENT_LINE $0767 lda		spawn_flag
+COMMENT_LINE $0767 sta		debug_value
+COMMENT_LINE $0767 ***************************************************************************
+COMMENT_LINE $0767 INGAME: SPAWN OBJECTS
+COMMENT_LINE $0767 ***************************************************************************
+COMMENT_LINE $0767 release objects
+COMMENT_LINE $0767 jmp 	no_spawning
+COMMENT_LINE $0767 spawn_flag
+COMMENT_LINE $0767 shield
+FORCE_SYMBOL $0767 anim_flag
+FORCE_NO_SYMBOL $076A
+FORCE_SYMBOL $0770 shield
+FORCE_NO_SYMBOL $0773
+FORCE_SYMBOL $0777 shield
+COMMENT_LINE $077A spawn flag
+FORCE_SYMBOL $077A spawn_flag
+FORCE_NO_SYMBOL $077D
+COMMENT_LINE $0783 let's spawn here ...
+COMMENT_LINE $0783 go five strikes up
+FORCE_SYMBOL $0783 leveldata
+COMMENT_LINE $0786 debug
+COMMENT_LINE $0786 jmp		count_segments_tmp_spawn
+COMMENT_LINE $0786 add level_segment
+FORCE_SYMBOL $0786 level_segment
+FORCE_NO_SYMBOL $0789
+FORCE_SYMBOL $078E STRIPE_SIZE
+FORCE_NO_SYMBOL $0791
+COMMENT_LINE $0795 do now the the spawnings!
+COMMENT_LINE $0795 add 9 x ----
+COMMENT $0795 10 x 8 (10 stripes)
+COMMENT_LINE $0798 > change coordinates
+COMMENT_LINE $0798 temp coord.
+COMMENT_LINE $0798 create spawns etc now!
+COMMENT $0798 new enemy in the level table?
+FORCE_SYMBOL $0798 STRIPE_TYPE
+FORCE_NO_SYMBOL $079A
+COMMENT $079C active_notinterestingxx
+COMMENT_LINE $07A0 debug
+COMMENT_LINE $07A0 ldb		3,u
+COMMENT_LINE $07A0 stb		debug_value
+COMMENT_LINE $07A0 specials ----------------------------
+COMMENT_LINE $07A0 message
+COMMENT $07A0 status 0!!!
+FORCE_SYMBOL $07A0 OBJ_TYPE_MESSAGE
+FORCE_SYMBOL $07A4 level
+FORCE_NO_SYMBOL $07A7
+FORCE_SYMBOL $07A9 message_counter
+COMMENT_LINE $07AC lda		#2 ; MESSAGE
+COMMENT_LINE $07AC sta		message_index
+FORCE_SYMBOL $07AC message_index
+FORCE_SYMBOL $07AF message_index
+COMMENT_LINE $07B2 play sound
+COMMENT_LINE $07B2 lda     #1                      ; one means, we are about to
+COMMENT_LINE $07B2 sta     Vec_Music_Flag          ; store it in appropriate RAM
+FORCE_SYMBOL $07B2 EFFECT_NEXT
+FORCE_SYMBOL $07B4 soundeffect
+COMMENT_LINE $07B7 add 21 bytes
+FORCE_SYMBOL $07B7 no_enemy_to_spawn
+COMMENT_LINE $07BA won - a special stripe action
+COMMENT $07BA status 0!!!
+FORCE_SYMBOL $07BA OBJ_TYPE_WON
+FORCE_SYMBOL $07BE STATE_WON
+FORCE_SYMBOL $07C0 state
+COMMENT_LINE $07C3 sta		score
+COMMENT_LINE $07C3 sta ...
+FORCE_NO_SYMBOL $07C3
+FORCE_SYMBOL $07C5 button_upcounter
+FORCE_SYMBOL $07C8 no_enemy_to_spawn
+COMMENT_LINE $07CB background
+COMMENT_LINE $07CB hide back
+COMMENT $07CB status 0!!!
+FORCE_SYMBOL $07CB OBJ_TYPE_HIDEBACK
+FORCE_NO_SYMBOL $07CF
+FORCE_SYMBOL $07D1 fbackground
+FORCE_SYMBOL $07D4 no_enemy_to_spawn
+COMMENT_LINE $07D7 background
+COMMENT_LINE $07D7 show back
+COMMENT $07D7 status 0!!!
+FORCE_SYMBOL $07D7 OBJ_TYPE_SHOWBACK
+FORCE_NO_SYMBOL $07DB
+FORCE_SYMBOL $07DD fbackground
+FORCE_SYMBOL $07E0 no_enemy_to_spawn
+COMMENT_LINE $07E3 new level
+COMMENT $07E3 status 0!!!
+FORCE_SYMBOL $07E3 OBJ_TYPE_NEWLEVEL
+COMMENT_LINE $07E7 clear sprites now ...
+COMMENT_LINE $07E7 clear all
+FORCE_NO_SYMBOL $07E9
+COMMENT $07EB variable with a value of 5
+FORCE_SYMBOL $07EB sprites_for_var
+FORCE_SYMBOL $07EE spritesyx
+COMMENT $07F1 6*12 (player + 4 x shoot + explosion)
+FORCE_NO_SYMBOL $07F1
+FORCE_NO_SYMBOL $07F3
+FORCE_SYMBOL $07F5 OBJ_STATE
+FORCE_NO_SYMBOL $07F7
+COMMENT $07F9 Subtract the loop_variable by 1
+FORCE_SYMBOL $07F9 sprites_for_var
+COMMENT $07FC If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $0800 / clear all
+FORCE_SYMBOL $0800 no_enemy_to_spawn
+COMMENT_LINE $0803 end of game! won
+COMMENT_LINE $0803 cmpa	#OBJ_TYPE_WON ; status 0!!!
+COMMENT_LINE $0803 bne     no_end_ofgame
+COMMENT_LINE $0803 lda		#STATE_WON
+COMMENT_LINE $0803 sta		state
+COMMENT_LINE $0803 sta		score
+COMMENT_LINE $0803 jmp		no_enemy_to_spawn
+COMMENT_LINE $0803 no_end_ofgame:
+COMMENT_LINE $0803 enemies
+COMMENT $0803 status 0!!!
+FORCE_SYMBOL $0803 OBJ_TYPE_ENEMY
+FORCE_SYMBOL $0807 no_enemy_to_spawn
+COMMENT_LINE $080A ++score
+COMMENT_LINE $080A inc		score
+COMMENT_LINE $080A SPAWN AMOUNT
+COMMENT_LINE $080A 1-3 times? offset
+COMMENT_LINE $080A STRIPE_ARG0
+COMMENT_LINE $080A 0-3 ; show
+COMMENT_LINE $080A lda 	#2 ; ADD 1
+FORCE_SYMBOL $080A STRIPE_ARG0
+FORCE_NO_SYMBOL $080C
+FORCE_SYMBOL $080E spawn_more_counter
+FORCE_NO_SYMBOL $0811
+FORCE_SYMBOL $0813 spawn_offset
+COMMENT_LINE $0816 find the first object
+FORCE_NO_SYMBOL $0816
+COMMENT $0818 variable with a value of 5
+FORCE_SYMBOL $0818 sprites_for_var
+FORCE_SYMBOL $081B spritesyx
+COMMENT $081E 6*12 (player + 4 x shoot + explosion)
+FORCE_NO_SYMBOL $081E
+COMMENT $0821 store x
+COMMENT_LINE $0823 not active
+FORCE_SYMBOL $0823 OBJ_STATE
+FORCE_NO_SYMBOL $0825
+COMMENT_LINE $082B [stripe]x,xx,[object]ot,ots,ox
+COMMENT_LINE $082B ACTIVATE  !
+COMMENT_LINE $082B status
+FORCE_NO_SYMBOL $082B
+FORCE_SYMBOL $082D OBJ_STATE
+COMMENT_LINE $082F Type
+FORCE_NO_SYMBOL $082F
+FORCE_SYMBOL $0831 OBJ_TYPE
+COMMENT_LINE $0833 TypeSub
+FORCE_SYMBOL $0833 STRIPE_TYPESUB
+FORCE_NO_SYMBOL $0835
+COMMENT_LINE $0837 lda		#ENEMY_SINUS
+FORCE_SYMBOL $0837 OBJ_TYPESUB
+COMMENT_LINE $0839 default moving
+FORCE_NO_SYMBOL $0839
+FORCE_SYMBOL $083B OBJ_MOVE
+COMMENT_LINE $083D typesub: ...
+COMMENT_LINE $083D sta		debug_value
+COMMENT_LINE $083D Y
+COMMENT $083D -107+11*20 = 220-107
+FORCE_NO_SYMBOL $083D
+COMMENT_LINE $083F lda		#-107+(STRIPES_SPAWNAT+1)*STRIPE_SIZE
+COMMENT_LINE $083F adda 	STRIPE_ARG1,u
+FORCE_SYMBOL $083F OBJ_Y
+COMMENT_LINE $0841 Y (!=0)
+COMMENT $0841 STRIPE_RELEASEY
+FORCE_SYMBOL $0841 STRIPE_RELEASEY
+FORCE_NO_SYMBOL $0843
+FORCE_SYMBOL $0847 STRIPE_ARG0
+FORCE_SYMBOL $0849 OBJ_Y
+COMMENT_LINE $084B lda		#0
+COMMENT_LINE $084B sta		OBJ_Y,x
+COMMENT_LINE $084B add release here!
+COMMENT_LINE $084B explosion ...
+COMMENT_LINE $084B X
+FORCE_SYMBOL $084B STRIPE_RELEASEX
+COMMENT_LINE $084D ADD OFFSET
+FORCE_SYMBOL $084D spawn_offset
+FORCE_SYMBOL $0850 OBJ_X
+COMMENT_LINE $0852 fill in the correct values
+COMMENT_LINE $0852 movement [6] >
+FORCE_NO_SYMBOL $0852
+FORCE_SYMBOL $0854 OBJ_MOVE
+COMMENT_LINE $0856 anim
+FORCE_NO_SYMBOL $0856
+FORCE_SYMBOL $0858 spawn_more_counter
+FORCE_SYMBOL $085B OBJ_ANIM
+COMMENT_LINE $085D hits 2 hits!!!
+FORCE_NO_SYMBOL $085D
+FORCE_SYMBOL $085F OBJ_HITS
+COMMENT_LINE $0861 PARAM ...
+FORCE_NO_SYMBOL $0861
+FORCE_SYMBOL $0863 OBJ_PARAM
+FORCE_NO_SYMBOL $0865
+FORCE_SYMBOL $0867 OBJ_PARAMEXT
+COMMENT_LINE $0869 ------------------------------------
+COMMENT_LINE $0869 enemies! generate the correct prefs!!
+COMMENT_LINE $0869 ------------------------------------
+COMMENT_LINE $0869 0 - stands still (1x)
+COMMENT_LINE $0869 1 - mine (1x)
+COMMENT_LINE $0869 2 - bridge (10x)
+COMMENT_LINE $0869 35 - enemy shoot (never or 127x)
+COMMENT_LINE $0869 10 - down (1x)
+COMMENT_LINE $0869 11 - fast down (1x)
+COMMENT_LINE $0869 12 - up
+COMMENT_LINE $0869 13 - sinus!
+COMMENT_LINE $0869 diag
+COMMENT_LINE $0869 16 - sinus!
+COMMENT_LINE $0869 20 - from left
+COMMENT_LINE $0869 STAY
+COMMENT_LINE $0869 SHOOT
+COMMENT_LINE $0869 21 - from right
+COMMENT_LINE $0869 22 - pingpong
+COMMENT_LINE $0869 30 - shoot
+COMMENT_LINE $0869 31 - missile
+COMMENT_LINE $0869 32
+COMMENT_LINE $0869 22 - pingpong
+COMMENT_LINE $0869 40 - CREATE A SPRITE
+COMMENT_LINE $0869 RESET PARAM
+FORCE_NO_SYMBOL $0869
+FORCE_SYMBOL $086B OBJ_PARAM
+COMMENT_LINE $086D NO TEMPLATE
+COMMENT_LINE $086D jmp 	no_template
+COMMENT_LINE $086D ENEMY_PINGPONG
+FORCE_SYMBOL $086D OBJ_TYPESUB
+COMMENT $086F ENEMY_TYP1
+FORCE_SYMBOL $086F ENEMY_PINGPONG
+FORCE_SYMBOL $0873 MOVE_LEFT_PINGPONG
+FORCE_SYMBOL $0875 OBJ_MOVE
+COMMENT_LINE $0877 10 hits!!!
+FORCE_NO_SYMBOL $0877
+FORCE_SYMBOL $0879 OBJ_HITS
+FORCE_SYMBOL $087B template_done
+COMMENT_LINE $087E ENEMY_SINUS
+COMMENT_LINE $087E jmp		no_enemytyp_sinus_atall
+FORCE_SYMBOL $087E OBJ_TYPESUB
+FORCE_SYMBOL $0880 ENEMY_SINUS
+COMMENT_LINE $0884 settings ...
+FORCE_SYMBOL $0884 MOVE_SINUSSQUARE
+FORCE_SYMBOL $0886 OBJ_MOVE
+COMMENT_LINE $0888 10 hits!!!
+FORCE_NO_SYMBOL $0888
+FORCE_SYMBOL $088A OBJ_HITS
+FORCE_SYMBOL $088C template_done
+COMMENT_LINE $088F ENEMY_DIAG
+COMMENT_LINE $088F jmp		no_enemytyp_sinus_atall
+FORCE_SYMBOL $088F OBJ_TYPESUB
+FORCE_SYMBOL $0891 ENEMY_DIAG
+COMMENT_LINE $0895 settings ...
+FORCE_SYMBOL $0895 MOVE_DIAG
+FORCE_SYMBOL $0897 OBJ_MOVE
+FORCE_NO_SYMBOL $0899
+FORCE_SYMBOL $089B OBJ_PARAM
+COMMENT_LINE $089D 10 hits!!!
+FORCE_NO_SYMBOL $089D
+FORCE_SYMBOL $089F OBJ_HITS
+FORCE_SYMBOL $08A1 template_done
+COMMENT_LINE $08A4 ENEMY_STAY
+COMMENT_LINE $08A4 jmp		no_enemytyp_sinus_atall
+FORCE_SYMBOL $08A4 OBJ_TYPESUB
+FORCE_SYMBOL $08A6 ENEMY_STAY
+COMMENT_LINE $08AA settings ...
+FORCE_SYMBOL $08AA MOVE_STAY
+FORCE_SYMBOL $08AC OBJ_MOVE
+COMMENT_LINE $08AE 10 hits!!!
+FORCE_NO_SYMBOL $08AE
+FORCE_SYMBOL $08B0 OBJ_HITS
+FORCE_SYMBOL $08B2 template_done
+COMMENT_LINE $08B5 ENEMY_STAYSHOOT
+COMMENT_LINE $08B5 jmp		no_enemytyp_sinus_atall
+FORCE_SYMBOL $08B5 OBJ_TYPESUB
+FORCE_SYMBOL $08B7 ENEMY_STAYSHOOT
+COMMENT_LINE $08BB settings ...
+FORCE_NO_SYMBOL $08BB
+FORCE_SYMBOL $08BD OBJ_PARAM
+FORCE_SYMBOL $08BF MOVE_STAY
+FORCE_SYMBOL $08C1 OBJ_MOVE
+COMMENT_LINE $08C3 10 hits!!!
+FORCE_NO_SYMBOL $08C3
+FORCE_SYMBOL $08C5 OBJ_HITS
+FORCE_SYMBOL $08C7 template_done
+COMMENT_LINE $08CA ENEMY_DOWN
+COMMENT_LINE $08CA jmp		no_enemytyp_sinus
+FORCE_SYMBOL $08CA OBJ_TYPESUB
+FORCE_SYMBOL $08CC ENEMY_DOWN
+COMMENT_LINE $08D0 setting  s ...
+FORCE_SYMBOL $08D0 MOVE_DOWN
+FORCE_SYMBOL $08D2 OBJ_MOVE
+COMMENT_LINE $08D4 10 hits!!!
+FORCE_NO_SYMBOL $08D4
+FORCE_SYMBOL $08D6 OBJ_HITS
+FORCE_SYMBOL $08D8 template_done
+COMMENT_LINE $08DB ENEMY_FASTDOWN
+FORCE_SYMBOL $08DB OBJ_TYPESUB
+FORCE_SYMBOL $08DD ENEMY_FASTDOWN
+COMMENT_LINE $08E1 setting  s ...
+FORCE_SYMBOL $08E1 MOVE_FASTDOWN
+FORCE_SYMBOL $08E3 OBJ_MOVE
+COMMENT_LINE $08E5 10 hits!!!
+FORCE_NO_SYMBOL $08E5
+FORCE_SYMBOL $08E7 OBJ_HITS
+FORCE_SYMBOL $08E9 template_done
+COMMENT_LINE $08EC ENEMY_DOWNSEARCH
+COMMENT_LINE $08EC jmp		no_enemytyp_sinus
+FORCE_SYMBOL $08EC OBJ_TYPESUB
+FORCE_SYMBOL $08EE ENEMY_DOWNSEARCH
+COMMENT_LINE $08F2 setting  s ...
+FORCE_SYMBOL $08F2 MOVE_DOWNSEARCH
+FORCE_SYMBOL $08F4 OBJ_MOVE
+COMMENT_LINE $08F6 10 hits!!!
+FORCE_NO_SYMBOL $08F6
+FORCE_SYMBOL $08F8 OBJ_HITS
+FORCE_SYMBOL $08FA template_done
+COMMENT_LINE $08FD ENEMY_MISSILE
+FORCE_SYMBOL $08FD OBJ_TYPESUB
+FORCE_SYMBOL $08FF ENEMY_MISSILE
+COMMENT_LINE $0903 setting  s ...
+FORCE_SYMBOL $0903 MOVE_MISSILE
+FORCE_SYMBOL $0905 OBJ_MOVE
+FORCE_NO_SYMBOL $0907
+FORCE_SYMBOL $0909 OBJ_HITS
+FORCE_SYMBOL $090B template_done
+COMMENT_LINE $090E ENEMY_BOSS ENDBOSS
+FORCE_SYMBOL $090E OBJ_TYPESUB
+COMMENT $0910 ENDBOSS
+FORCE_SYMBOL $0910 ENEMY_BOSS
+COMMENT_LINE $0914 setting  s ...
+FORCE_SYMBOL $0914 MOVE_BOSS
+FORCE_SYMBOL $0916 OBJ_MOVE
+COMMENT_LINE $0918 10 hits!!!
+FORCE_NO_SYMBOL $0918
+FORCE_SYMBOL $091A OBJ_HITS
+COMMENT_LINE $091C behaviour to 0
+FORCE_NO_SYMBOL $091C
+FORCE_SYMBOL $091E bigbossBehaviour
+COMMENT_LINE $0921 bigbossReleased
+FORCE_NO_SYMBOL $0921
+FORCE_SYMBOL $0923 bigbossReleased
+FORCE_SYMBOL $0926 template_done
+COMMENT_LINE $0929 ENEMY_LEFT
+FORCE_SYMBOL $0929 OBJ_TYPESUB
+FORCE_SYMBOL $092B ENEMY_LEFT
+COMMENT_LINE $092F setting  s ...
+FORCE_SYMBOL $092F MOVE_LEFT
+FORCE_SYMBOL $0931 OBJ_MOVE
+COMMENT_LINE $0933 10 hits!!!
+FORCE_NO_SYMBOL $0933
+FORCE_SYMBOL $0935 OBJ_HITS
+FORCE_SYMBOL $0937 template_done
+COMMENT_LINE $093A ENEMY_RIGHT
+FORCE_SYMBOL $093A OBJ_TYPESUB
+FORCE_SYMBOL $093C ENEMY_RIGHT
+COMMENT_LINE $0940 setting  s ...
+FORCE_SYMBOL $0940 MOVE_RIGHT
+FORCE_SYMBOL $0942 OBJ_MOVE
+COMMENT_LINE $0944 10 hits!!!
+FORCE_NO_SYMBOL $0944
+FORCE_SYMBOL $0946 OBJ_HITS
+FORCE_SYMBOL $0948 template_done
+COMMENT_LINE $094B offset
+FORCE_SYMBOL $094B spawn_offset
+COMMENT_LINE $094E adda	#15
+FORCE_NO_SYMBOL $094E
+FORCE_SYMBOL $0950 STRIPE_ARG1
+FORCE_SYMBOL $0952 spawn_offset
+COMMENT_LINE $0955 ;***************************************************************************
+COMMENT_LINE $0955 ...
+COMMENT $0955 restore x (alternative)
+FORCE_SYMBOL $0957 spawn_next
+COMMENT_LINE $095A /code
+COMMENT $095A restore x (alternative)
+FORCE_NO_SYMBOL $095C
+COMMENT_LINE $095E for
+COMMENT $095E Subtract the loop_variable by 1
+FORCE_SYMBOL $095E sprites_for_var
+COMMENT $0961 If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $0965 / find
+COMMENT_LINE $0965 /spawn_for
+FORCE_SYMBOL $0965 spawn_more_counter
+COMMENT_LINE $096C / search new enemy !!!!!!!!!!!!!!!!!!!!!!
+COMMENT_LINE $096C ***************************************************************************
+COMMENT_LINE $096C INGAME: INGAME MECHANICS SPRITES MOVEMENT
+COMMENT_LINE $096C ***************************************************************************
+COMMENT_LINE $096C MOVE ETC
+COMMENT_LINE $096C MOVEMENTS OBJ[6]
+COMMENT_LINE $096C 0 player (controlled by controller)
+COMMENT_LINE $096C ATTENTION: REAL MOVEMENT (here swaped!)
+COMMENT_LINE $096C ^ -Y
+COMMENT_LINE $096C |
+COMMENT_LINE $096C |
+COMMENT_LINE $096C X-<---------->X+
+COMMENT_LINE $096C |
+COMMENT_LINE $096C |
+COMMENT_LINE $096C \ +Y
+COMMENT_LINE $096C 0 = stay
+COMMENT_LINE $096C 1 < left (only)
+COMMENT_LINE $096C 2 > right (only)
+COMMENT_LINE $096C 3 < left (ping pong) ; via param!
+COMMENT_LINE $096C 4 > right (ping pong) ; via param!
+COMMENT_LINE $096C 5 < left (ping pong down)
+COMMENT_LINE $096C 6 > right (ping pong down)
+COMMENT_LINE $096C 7 < left (ping pong up)
+COMMENT_LINE $096C 8 > right (ping pong down)
+COMMENT_LINE $096C 10  stay still *
+COMMENT_LINE $096C 11 down
+COMMENT_LINE $096C 12 up *
+COMMENT_LINE $096C 13 up (shoot ...) stops on top !!
+COMMENT_LINE $096C 14 down with sinus!
+COMMENT_LINE $096C 15 slow up
+COMMENT_LINE $096C SQUARE
+COMMENT_LINE $096C up ... inv
+COMMENT_LINE $096C 20 follow player
+COMMENT_LINE $096C 21 follow player nearer than 50
+COMMENT_LINE $096C 30 ..
+COMMENT_LINE $096C * not yet implemented
+FORCE_SYMBOL $096C spritesnr
+COMMENT_LINE $096F lda	#12
+COMMENT $096F variable with a value of 5
+FORCE_SYMBOL $096F sprites_for_var
+FORCE_SYMBOL $0972 spritesyx
+COMMENT $0975 store x
+COMMENT_LINE $0977 active?
+COMMENT_LINE $0977 movetype - types ----
+COMMENT_LINE $0977 movetype: obj[6]
+COMMENT_LINE $0977 movement: player 0
+COMMENT_LINE $0977 movement: 1-10
+COMMENT_LINE $0977 move: left_only
+FORCE_SYMBOL $0977 OBJ_MOVE
+FORCE_SYMBOL $0979 MOVE_LEFT
+COMMENT_LINE $097D x=x-1
+FORCE_SYMBOL $097D OBJ_X
+FORCE_NO_SYMBOL $097F
+FORCE_SYMBOL $0981 OBJ_X
+COMMENT_LINE $0983 playerx
+FORCE_SYMBOL $0983 PLAYERX
+FORCE_NO_SYMBOL $0988
+FORCE_SYMBOL $098A OBJ_X
+FORCE_SYMBOL $098C ENEMY_SHOOT
+FORCE_SYMBOL $098E OBJ_TYPESUB
+FORCE_SYMBOL $0990 MOVE_DOWN
+FORCE_SYMBOL $0992 OBJ_MOVE
+COMMENT_LINE $0994 move: left_pingpong
+FORCE_SYMBOL $0994 OBJ_MOVE
+FORCE_SYMBOL $0996 MOVE_LEFT_PINGPONG
+COMMENT_LINE $099A via param
+FORCE_SYMBOL $099A OBJ_PARAM
+FORCE_SYMBOL $099C OBJ_PARAM
+FORCE_NO_SYMBOL $099E
+FORCE_SYMBOL $09A2 MOVE_RIGHT_PINGPONG
+FORCE_NO_SYMBOL $09A4
+COMMENT_LINE $09A6 x=x-1
+FORCE_SYMBOL $09A6 OBJ_X
+FORCE_NO_SYMBOL $09A8
+FORCE_SYMBOL $09AA OBJ_X
+FORCE_NO_SYMBOL $09B0
+FORCE_NO_SYMBOL $09B2
+COMMENT_LINE $09B4 move: right_only
+FORCE_SYMBOL $09B4 OBJ_MOVE
+FORCE_SYMBOL $09B6 MOVE_RIGHT
+COMMENT_LINE $09BA playerx
+FORCE_SYMBOL $09BA OBJ_X
+FORCE_SYMBOL $09BC PLAYERX
+FORCE_NO_SYMBOL $09C1
+FORCE_SYMBOL $09C3 OBJ_X
+FORCE_SYMBOL $09C5 ENEMY_SHOOT
+FORCE_SYMBOL $09C7 OBJ_TYPESUB
+FORCE_SYMBOL $09C9 MOVE_DOWN
+FORCE_SYMBOL $09CB OBJ_MOVE
+COMMENT_LINE $09CD x=x-1
+FORCE_SYMBOL $09CD OBJ_X
+FORCE_NO_SYMBOL $09CF
+FORCE_SYMBOL $09D1 OBJ_X
+FORCE_NO_SYMBOL $09D3
+FORCE_NO_SYMBOL $09D7
+FORCE_SYMBOL $09D9 OBJ_STATE
+COMMENT_LINE $09DB move: right_only
+FORCE_SYMBOL $09DB OBJ_MOVE
+FORCE_SYMBOL $09DD MOVE_RIGHT_PINGPONG
+COMMENT_LINE $09E1 via param
+FORCE_SYMBOL $09E1 OBJ_PARAM
+FORCE_SYMBOL $09E3 OBJ_PARAM
+FORCE_NO_SYMBOL $09E5
+FORCE_SYMBOL $09E9 MOVE_LEFT_PINGPONG
+FORCE_NO_SYMBOL $09EB
+COMMENT_LINE $09ED x=x+1
+FORCE_SYMBOL $09ED OBJ_X
+FORCE_NO_SYMBOL $09EF
+COMMENT_LINE $09F1 addb	#1
+FORCE_SYMBOL $09F1 OBJ_X
+FORCE_NO_SYMBOL $09F3
+FORCE_NO_SYMBOL $09F7
+FORCE_NO_SYMBOL $09F9
+COMMENT_LINE $09FB MOVE ENEMY_BOSS
+COMMENT_LINE $09FB move-enemy
+FORCE_SYMBOL $09FB OBJ_MOVE
+FORCE_SYMBOL $09FD MOVE_BOSS
+COMMENT_LINE $0A03 move down at the beginning
+FORCE_SYMBOL $0A04 OBJ_Y
+FORCE_NO_SYMBOL $0A06
+FORCE_NO_SYMBOL $0A0A
+FORCE_SYMBOL $0A0C OBJ_Y
+COMMENT_LINE $0A0E only move on scrolling up
+FORCE_SYMBOL $0A0E scrolling_flag
+FORCE_NO_SYMBOL $0A11
+COMMENT_LINE $0A17 y=y+1
+FORCE_SYMBOL $0A17 OBJ_Y
+FORCE_NO_SYMBOL $0A19
+FORCE_SYMBOL $0A1B OBJ_Y
+COMMENT_LINE $0A1D no_move_boss
+COMMENT_LINE $0A1D active big boss?
+FORCE_SYMBOL $0A1D OBJ_STATE
+FORCE_NO_SYMBOL $0A1F
+COMMENT_LINE $0A25 boss follows the player
+COMMENT_LINE $0A25 bigbossTargetX
+COMMENT_LINE $0A25 store position
+COMMENT_LINE $0A25 lda		OBJ_X,x
+COMMENT_LINE $0A25 sta bigbossTargetX
+COMMENT_LINE $0A25 follow for x (or)
+COMMENT_LINE $0A25 search player x ...
+FORCE_SYMBOL $0A25 OBJ_X
+FORCE_SYMBOL $0A27 PLAYERX
+FORCE_NO_SYMBOL $0A2C
+FORCE_SYMBOL $0A2E OBJ_X
+FORCE_SYMBOL $0A30 PLAYERX
+FORCE_NO_SYMBOL $0A35
+FORCE_SYMBOL $0A37 OBJ_X
+COMMENT_LINE $0A39 shooten
+COMMENT_LINE $0A39 jmp bigspawn_nobehavior
+COMMENT_LINE $0A39 behaviour - update counter
+FORCE_SYMBOL $0A39 bigbossBehaviour
+FORCE_NO_SYMBOL $0A3C
+FORCE_SYMBOL $0A3E bigbossBehaviour
+COMMENT_LINE $0A43 reset
+FORCE_NO_SYMBOL $0A43
+FORCE_SYMBOL $0A45 bigbossBehaviour
+COMMENT_LINE $0A48 spawn a sprite now
+COMMENT_LINE $0A48 spawn here
+COMMENT_LINE $0A48 inc param
+FORCE_SYMBOL $0A48 OBJ_PARAM
+FORCE_SYMBOL $0A4A OBJ_PARAM
+FORCE_NO_SYMBOL $0A4C
+FORCE_NO_SYMBOL $0A52
+FORCE_SYMBOL $0A54 OBJ_PARAM
+COMMENT_LINE $0A56 behaviours!
+FORCE_SYMBOL $0A56 OBJ_PARAM
+COMMENT $0A58 // store param
+FORCE_SYMBOL $0A58 temptemp
+FORCE_NO_SYMBOL $0A5B
+FORCE_NO_SYMBOL $0A61
+FORCE_NO_SYMBOL $0A67
+FORCE_NO_SYMBOL $0A6D
+FORCE_SYMBOL $0A73 bigspawn_nobehavior
+COMMENT_LINE $0A76 spawn now
+COMMENT_LINE $0A76 param
+FORCE_SYMBOL $0A76 OBJ_PARAM
+COMMENT $0A78 // store param
+FORCE_SYMBOL $0A78 temptemp
+COMMENT_LINE $0A7B y
+FORCE_SYMBOL $0A7B OBJ_Y
+FORCE_SYMBOL $0A7D sprites_tmp_move
+COMMENT_LINE $0A80 y
+FORCE_SYMBOL $0A80 OBJ_Y
+FORCE_SYMBOL $0A82 sprites_tmp_move
+COMMENT_LINE $0A85 x
+FORCE_SYMBOL $0A85 OBJ_X
+FORCE_SYMBOL $0A87 sprites_tmp_type
+COMMENT_LINE $0A8A shoot now
+COMMENT_LINE $0A8C for ...
+COMMENT $0A8C inner counter ... (for (for)) > use own counter!
+FORCE_NO_SYMBOL $0A8C
+COMMENT $0A8E variable with a value of 5
+FORCE_SYMBOL $0A8E sprites_for_var_var
+FORCE_SYMBOL $0A91 spritesyx
+COMMENT $0A94 6*12 (player + 4 x shoot + explosion)
+FORCE_NO_SYMBOL $0A94
+COMMENT_LINE $0A97 pshs    x ; store x
+COMMENT_LINE $0A97 code
+COMMENT_LINE $0A97 not active
+FORCE_SYMBOL $0A97 OBJ_STATE
+FORCE_NO_SYMBOL $0A99
+COMMENT_LINE $0A9D defaults
+COMMENT_LINE $0A9D activate!
+FORCE_NO_SYMBOL $0A9D
+FORCE_SYMBOL $0A9F OBJ_STATE
+COMMENT_LINE $0AA1 type
+FORCE_SYMBOL $0AA1 OBJ_TYPE_ENEMY
+FORCE_SYMBOL $0AA3 OBJ_TYPE
+COMMENT_LINE $0AA5 typesub
+FORCE_SYMBOL $0AA5 ENEMY_SHOOT
+FORCE_SYMBOL $0AA7 OBJ_TYPESUB
+COMMENT_LINE $0AA9 param
+FORCE_NO_SYMBOL $0AA9
+FORCE_SYMBOL $0AAB OBJ_PARAM
+COMMENT_LINE $0AAD hits
+FORCE_NO_SYMBOL $0AAD
+FORCE_SYMBOL $0AAF OBJ_HITS
+COMMENT_LINE $0AB1 x/y
+FORCE_SYMBOL $0AB1 sprites_tmp_move
+FORCE_SYMBOL $0AB4 OBJ_Y
+FORCE_SYMBOL $0AB6 sprites_tmp_type
+FORCE_SYMBOL $0AB9 OBJ_X
+FORCE_SYMBOL $0ABB MOVE_FASTDOWN
+FORCE_SYMBOL $0ABD OBJ_MOVE
+FORCE_NO_SYMBOL $0ABF
+FORCE_SYMBOL $0AC1 OBJ_HITS
+COMMENT_LINE $0AC3 default
+FORCE_NO_SYMBOL $0AC3
+FORCE_SYMBOL $0AC5 OBJ_ANIM
+COMMENT_LINE $0AC7 specials
+COMMENT_LINE $0AC7 some special shoots
+FORCE_SYMBOL $0AC7 temptemp
+FORCE_NO_SYMBOL $0ACA
+FORCE_SYMBOL $0ACE ENEMY_FASTDOWN
+FORCE_SYMBOL $0AD0 OBJ_TYPESUB
+FORCE_SYMBOL $0AD2 MOVE_FASTDOWN
+FORCE_SYMBOL $0AD4 OBJ_MOVE
+FORCE_NO_SYMBOL $0AD6
+FORCE_SYMBOL $0AD8 OBJ_HITS
+COMMENT_LINE $0ADA some special shoots
+FORCE_SYMBOL $0ADA temptemp
+FORCE_NO_SYMBOL $0ADD
+FORCE_SYMBOL $0AE1 ENEMY_DOWN
+FORCE_SYMBOL $0AE3 OBJ_TYPESUB
+FORCE_SYMBOL $0AE5 MOVE_DOWN
+FORCE_SYMBOL $0AE7 OBJ_MOVE
+FORCE_NO_SYMBOL $0AE9
+FORCE_SYMBOL $0AEB OBJ_HITS
+FORCE_NO_SYMBOL $0AED
+COMMENT_LINE $0AEF end done
+FORCE_SYMBOL $0AEF bigspawn_activedone
+COMMENT_LINE $0AF2 /code
+COMMENT_LINE $0AF2 puls 	x ; restore x
+FORCE_NO_SYMBOL $0AF2
+COMMENT_LINE $0AF4 for
+COMMENT $0AF4 Subtract the loop_variable by 1
+FORCE_SYMBOL $0AF4 sprites_for_var_var
+COMMENT $0AF7 If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $0AF9 / find
+COMMENT_LINE $0AF9 push x
+COMMENT_LINE $0AF9 UP
+COMMENT_LINE $0AFB PARAM
+FORCE_SYMBOL $0AFB OBJ_PARAM
+COMMENT_LINE $0AFD jmp 	end_of_movement
+COMMENT_LINE $0AFD movement: 10-20
+COMMENT_LINE $0AFD move-down
+FORCE_SYMBOL $0AFD OBJ_MOVE
+FORCE_SYMBOL $0AFF MOVE_DOWN
+COMMENT_LINE $0B03 y=y+1
+FORCE_SYMBOL $0B03 OBJ_Y
+FORCE_NO_SYMBOL $0B05
+FORCE_SYMBOL $0B07 OBJ_Y
+COMMENT_LINE $0B09 move-down-fast
+FORCE_SYMBOL $0B09 OBJ_MOVE
+FORCE_SYMBOL $0B0B MOVE_FASTDOWN
+COMMENT_LINE $0B0F y=y+1
+FORCE_SYMBOL $0B0F OBJ_Y
+FORCE_NO_SYMBOL $0B11
+FORCE_SYMBOL $0B13 OBJ_Y
+COMMENT_LINE $0B15 move-down-search
+FORCE_SYMBOL $0B15 OBJ_MOVE
+FORCE_SYMBOL $0B17 MOVE_DOWNSEARCH
+COMMENT_LINE $0B1B y=y+1
+FORCE_SYMBOL $0B1B OBJ_Y
+FORCE_NO_SYMBOL $0B1D
+FORCE_SYMBOL $0B1F OBJ_Y
+COMMENT_LINE $0B21 search player ...
+COMMENT_LINE $0B21 lda		anim_flag
+COMMENT_LINE $0B21 cmpa	#0
+COMMENT_LINE $0B21 bne		no_downsearch_to
+FORCE_SYMBOL $0B21 level_segment_offset
+FORCE_NO_SYMBOL $0B24
+FORCE_SYMBOL $0B28 OBJ_X
+FORCE_SYMBOL $0B2A PLAYERX
+FORCE_NO_SYMBOL $0B2F
+FORCE_SYMBOL $0B31 OBJ_X
+FORCE_SYMBOL $0B33 PLAYERX
+FORCE_NO_SYMBOL $0B38
+FORCE_SYMBOL $0B3A OBJ_X
+COMMENT_LINE $0B3C move-missile
+FORCE_SYMBOL $0B3C level_segment_offset
+FORCE_NO_SYMBOL $0B3F
+COMMENT_LINE $0B43 lda		level_segment_offset
+COMMENT_LINE $0B43 cmpa	#5
+COMMENT_LINE $0B43 blt 	no_missile_to
+FORCE_SYMBOL $0B43 OBJ_MOVE
+FORCE_SYMBOL $0B45 MOVE_MISSILE
+FORCE_SYMBOL $0B49 OBJ_Y
+COMMENT_LINE $0B4B search player x ...
+FORCE_SYMBOL $0B4B OBJ_X
+FORCE_SYMBOL $0B4D PLAYERX
+FORCE_NO_SYMBOL $0B52
+FORCE_SYMBOL $0B54 OBJ_X
+FORCE_SYMBOL $0B56 PLAYERX
+FORCE_NO_SYMBOL $0B5B
+FORCE_SYMBOL $0B5D OBJ_X
+COMMENT_LINE $0B5F search player x ...
+FORCE_SYMBOL $0B5F OBJ_Y
+FORCE_SYMBOL $0B61 PLAYERY
+FORCE_NO_SYMBOL $0B66
+FORCE_SYMBOL $0B68 OBJ_Y
+FORCE_SYMBOL $0B6A PLAYERY
+FORCE_NO_SYMBOL $0B6F
+FORCE_SYMBOL $0B71 OBJ_Y
+COMMENT_LINE $0B73 STAYSHOOT
+FORCE_SYMBOL $0B73 OBJ_TYPESUB
+FORCE_SYMBOL $0B75 ENEMY_STAYSHOOT
+FORCE_SYMBOL $0B79 bigbossReleased
+FORCE_NO_SYMBOL $0B7C
+FORCE_SYMBOL $0B80 scrolling_flag
+FORCE_NO_SYMBOL $0B83
+COMMENT_LINE $0B89 y=y+1
+FORCE_SYMBOL $0B89 OBJ_Y
+FORCE_NO_SYMBOL $0B8B
+FORCE_SYMBOL $0B8D OBJ_Y
+COMMENT_LINE $0B8F move-up-slow
+FORCE_SYMBOL $0B8F OBJ_MOVE
+FORCE_SYMBOL $0B91 MOVE_SLOWUP
+COMMENT_LINE $0B95 y=y+1
+FORCE_SYMBOL $0B95 OBJ_Y
+FORCE_NO_SYMBOL $0B97
+FORCE_SYMBOL $0B99 OBJ_Y
+COMMENT_LINE $0B9B move-up-top
+FORCE_SYMBOL $0B9B OBJ_MOVE
+FORCE_SYMBOL $0B9D MOVE_UPSHOOT
+COMMENT_LINE $0BA1 x=x+1
+FORCE_SYMBOL $0BA1 OBJ_Y
+FORCE_NO_SYMBOL $0BA3
+FORCE_SYMBOL $0BA5 OBJ_Y
+COMMENT_LINE $0BA7 check the param (go down)
+FORCE_SYMBOL $0BA7 OBJ_PARAM
+FORCE_SYMBOL $0BA9 OBJ_PARAM
+FORCE_NO_SYMBOL $0BAB
+FORCE_NO_SYMBOL $0BAF
+FORCE_SYMBOL $0BB1 OBJ_STATE
+COMMENT_LINE $0BB3 deactivate?
+COMMENT_LINE $0BB3 Y>-128
+FORCE_SYMBOL $0BB3 OBJ_Y
+COMMENT_LINE $0BB9 to zero ...
+FORCE_NO_SYMBOL $0BB9
+FORCE_SYMBOL $0BBB OBJ_STATE
+COMMENT_LINE $0BBD ---------------
+COMMENT_LINE $0BBD MOVEMENTS
+COMMENT_LINE $0BBD ---------------
+COMMENT_LINE $0BBD jmp 	no_diagonale_movements
+COMMENT_LINE $0BBD MOVE: MOVE_DIAG
+FORCE_SYMBOL $0BBD OBJ_MOVE
+FORCE_SYMBOL $0BBF MOVE_DIAG
+COMMENT_LINE $0BC3 x=x+1
+FORCE_SYMBOL $0BC3 OBJ_Y
+FORCE_NO_SYMBOL $0BC5
+FORCE_SYMBOL $0BC7 OBJ_Y
+FORCE_SYMBOL $0BC9 OBJ_X
+FORCE_NO_SYMBOL $0BCB
+FORCE_SYMBOL $0BCD OBJ_X
+COMMENT_LINE $0BCF check the param (go down)
+FORCE_SYMBOL $0BCF OBJ_PARAM
+FORCE_SYMBOL $0BD1 OBJ_PARAM
+FORCE_NO_SYMBOL $0BD3
+FORCE_NO_SYMBOL $0BD7
+FORCE_SYMBOL $0BD9 OBJ_STATE
+COMMENT_LINE $0BDB deactivate?
+COMMENT_LINE $0BDB ; Y>-128
+FORCE_SYMBOL $0BDB OBJ_X
+COMMENT_LINE $0BE1 ; to zero ...
+FORCE_NO_SYMBOL $0BE1
+COMMENT_LINE $0BE3 stb		OBJ_STATE,x
+COMMENT_LINE $0BE3 jmp 	no_diagonale_movements
+COMMENT_LINE $0BE3 MOVE: DIAGINV
+FORCE_SYMBOL $0BE3 OBJ_MOVE
+FORCE_SYMBOL $0BE5 MOVE_DIAGINV
+COMMENT_LINE $0BE9 x=x+1
+FORCE_SYMBOL $0BE9 OBJ_Y
+FORCE_NO_SYMBOL $0BEB
+FORCE_SYMBOL $0BED OBJ_Y
+FORCE_SYMBOL $0BEF OBJ_X
+FORCE_NO_SYMBOL $0BF1
+FORCE_SYMBOL $0BF3 OBJ_X
+COMMENT_LINE $0BF5 check the param (go down)
+FORCE_SYMBOL $0BF5 OBJ_PARAM
+FORCE_SYMBOL $0BF7 OBJ_PARAM
+FORCE_NO_SYMBOL $0BF9
+FORCE_NO_SYMBOL $0BFD
+COMMENT_LINE $0BFF stb		OBJ_STATE,x
+COMMENT_LINE $0BFF deactivate?
+COMMENT_LINE $0BFF ; Y>-128
+FORCE_SYMBOL $0BFF OBJ_X
+FORCE_NO_SYMBOL $0C01
+COMMENT_LINE $0C05 ; to zero ...
+FORCE_NO_SYMBOL $0C05
+COMMENT_LINE $0C07 stb		OBJ_STATE,x
+COMMENT_LINE $0C07 move-sinussquare
+COMMENT_LINE $0C07 jmp		no_move_sinussquare
+FORCE_SYMBOL $0C07 OBJ_MOVE
+FORCE_SYMBOL $0C09 MOVE_SINUSSQUARE
+FORCE_SYMBOL $0C0D no_move_sinussquare
+FORCE_SYMBOL $0C11 OBJ_Y
+FORCE_SYMBOL $0C13 OBJ_PARAM
+FORCE_SYMBOL $0C15 OBJ_PARAM
+FORCE_NO_SYMBOL $0C17
+FORCE_SYMBOL $0C1B OBJ_X
+FORCE_SYMBOL $0C1D no_move_sinussquare
+FORCE_NO_SYMBOL $0C20
+FORCE_SYMBOL $0C24 OBJ_X
+FORCE_SYMBOL $0C26 no_move_sinussquare
+FORCE_NO_SYMBOL $0C29
+FORCE_NO_SYMBOL $0C2D
+FORCE_SYMBOL $0C2F OBJ_PARAM
+COMMENT_LINE $0C31 MOVE: SINUS
+COMMENT_LINE $0C31 version 2.0
+FORCE_SYMBOL $0C31 no_move_sinus
+COMMENT_LINE $0C34 debug
+FORCE_SYMBOL $0C34 MOVE_SINUS
+COMMENT_LINE $0C38 inc param
+COMMENT_LINE $0C38 inc		OBJ_Y,x
+COMMENT_LINE $0C38 inc		OBJ_X,x
+FORCE_SYMBOL $0C38 spawn_flag
+FORCE_NO_SYMBOL $0C3B
+FORCE_SYMBOL $0C3F OBJ_PARAM
+FORCE_SYMBOL $0C41 OBJ_PARAM
+FORCE_NO_SYMBOL $0C43
+FORCE_NO_SYMBOL $0C47
+FORCE_SYMBOL $0C49 OBJ_PARAM
+FORCE_SYMBOL $0C4B OBJ_X
+FORCE_SYMBOL $0C4D OBJ_PARAM
+FORCE_NO_SYMBOL $0C4F
+FORCE_SYMBOL $0C51 OBJ_X
+COMMENT_LINE $0C53 table version
+COMMENT_LINE $0C53 version 1.0
+FORCE_SYMBOL $0C53 no_move_sinus
+COMMENT_LINE $0C56 debug
+COMMENT_LINE $0C56 MOVE SINUS
+FORCE_SYMBOL $0C56 MOVE_SINUS
+COMMENT_LINE $0C5A inc param
+COMMENT_LINE $0C5A inc		OBJ_Y,x
+COMMENT_LINE $0C5A inc		OBJ_X,x
+FORCE_SYMBOL $0C5A scrolling_flag
+FORCE_NO_SYMBOL $0C5D
+FORCE_SYMBOL $0C61 OBJ_PARAM
+FORCE_SYMBOL $0C63 OBJ_PARAM
+FORCE_NO_SYMBOL $0C65
+FORCE_NO_SYMBOL $0C69
+FORCE_SYMBOL $0C6B OBJ_PARAM
+FORCE_SYMBOL $0C6D OBJ_PARAM
+FORCE_SYMBOL $0C6F temp
+FORCE_SYMBOL $0C72 OBJ_X
+FORCE_SYMBOL $0C76 sinus_movement
+FORCE_SYMBOL $0C79 temp
+FORCE_SYMBOL $0C7F OBJ_X
+COMMENT_LINE $0C81 / MOVE SINUS
+COMMENT_LINE $0C81 behavior stayshoot
+COMMENT_LINE $0C81 MOVE: STAY SHOOT
+FORCE_SYMBOL $0C81 OBJ_STATE
+FORCE_NO_SYMBOL $0C83
+FORCE_SYMBOL $0C87 OBJ_TYPESUB
+FORCE_SYMBOL $0C89 ENEMY_STAYSHOOT
+FORCE_SYMBOL $0C8D no_behavior_stayshoot
+COMMENT_LINE $0C90 inc param
+FORCE_SYMBOL $0C90 OBJ_PARAM
+FORCE_SYMBOL $0C92 OBJ_PARAM
+FORCE_NO_SYMBOL $0C94
+FORCE_NO_SYMBOL $0C98
+FORCE_SYMBOL $0C9A OBJ_PARAM
+COMMENT_LINE $0C9C y
+FORCE_SYMBOL $0C9C OBJ_Y
+FORCE_SYMBOL $0C9E sprites_tmp_move
+COMMENT_LINE $0CA1 x
+FORCE_SYMBOL $0CA1 OBJ_X
+FORCE_SYMBOL $0CA3 sprites_tmp_type
+COMMENT_LINE $0CA6 shoot now
+COMMENT_LINE $0CA6 jmp		no_behavior_stayshoot
+COMMENT_LINE $0CA6 push x
+COMMENT_LINE $0CA6 DOWN
+COMMENT_LINE $0CA8 for ...
+FORCE_NO_SYMBOL $0CA8
+COMMENT $0CAA variable with a value of 5
+FORCE_SYMBOL $0CAA sprites_for_var_var
+FORCE_SYMBOL $0CAD spritesyx
+COMMENT $0CB0 6*12 (player + 4 x shoot + explosion)
+FORCE_NO_SYMBOL $0CB0
+COMMENT_LINE $0CB3 pshs    x ; store x
+COMMENT_LINE $0CB3 code
+COMMENT_LINE $0CB3 not active
+FORCE_SYMBOL $0CB3 OBJ_STATE
+FORCE_NO_SYMBOL $0CB5
+COMMENT_LINE $0CB9 activate!
+FORCE_NO_SYMBOL $0CB9
+FORCE_SYMBOL $0CBB OBJ_STATE
+COMMENT_LINE $0CBD type
+FORCE_SYMBOL $0CBD OBJ_TYPE_ENEMY
+FORCE_SYMBOL $0CBF OBJ_TYPE
+COMMENT_LINE $0CC1 typesub
+FORCE_SYMBOL $0CC1 ENEMY_DIAG
+FORCE_SYMBOL $0CC3 OBJ_TYPESUB
+FORCE_NO_SYMBOL $0CC5
+FORCE_SYMBOL $0CC7 OBJ_HITS
+COMMENT_LINE $0CC9 hits
+FORCE_SYMBOL $0CC9 sprites_tmp_move
+FORCE_SYMBOL $0CCC OBJ_Y
+FORCE_SYMBOL $0CCE sprites_tmp_type
+FORCE_SYMBOL $0CD1 OBJ_X
+FORCE_SYMBOL $0CD3 MOVE_DIAG
+FORCE_SYMBOL $0CD5 OBJ_MOVE
+FORCE_SYMBOL $0CD7 sprites_tmp_type
+FORCE_NO_SYMBOL $0CDA
+FORCE_SYMBOL $0CDE MOVE_DIAGINV
+FORCE_SYMBOL $0CE0 OBJ_MOVE
+COMMENT_LINE $0CE2 param
+FORCE_NO_SYMBOL $0CE2
+FORCE_SYMBOL $0CE4 OBJ_PARAM
+COMMENT_LINE $0CE6 left or right ...
+COMMENT_LINE $0CE6 break the for
+COMMENT_LINE $0CE6 puls 	x ; restore x
+FORCE_SYMBOL $0CE6 active_notinterestingdone_diag
+COMMENT_LINE $0CE9 /code
+COMMENT_LINE $0CE9 puls 	x ; restore x
+FORCE_NO_SYMBOL $0CE9
+COMMENT_LINE $0CEB for
+COMMENT $0CEB Subtract the loop_variable by 1
+FORCE_SYMBOL $0CEB sprites_for_var_var
+COMMENT $0CEE If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $0CF0 / find
+COMMENT_LINE $0CF0 push x
+COMMENT_LINE $0CF0 UP
+COMMENT_LINE $0CF2 / MOVE STAY SHOOT
+COMMENT_LINE $0CF2 -------------------------
+COMMENT_LINE $0CF2 go down
+COMMENT_LINE $0CF2 / under the screen?
+COMMENT_LINE $0CF2 -------------------------
+COMMENT_LINE $0CF2 go down
+COMMENT_LINE $0CF2 MOVE: END OF SCREEN
+COMMENT_LINE $0CF2 > 5
+COMMENT_LINE $0CF2 go down
+FORCE_SYMBOL $0CF2 sprites_for_var
+FORCE_NO_SYMBOL $0CF5
+FORCE_SYMBOL $0CF9 scrolling_flag
+FORCE_NO_SYMBOL $0CFC
+FORCE_SYMBOL $0D00 OBJ_Y
+FORCE_NO_SYMBOL $0D02
+FORCE_SYMBOL $0D04 OBJ_Y
+COMMENT_LINE $0D06 check going over the edge
+FORCE_NO_SYMBOL $0D0A
+FORCE_SYMBOL $0D0C OBJ_STATE
+COMMENT_LINE $0D0E / MOVE: END OF SCREEN
+COMMENT_LINE $0D0E go down
+COMMENT_LINE $0D0E /code
+COMMENT $0D0E restore x
+FORCE_NO_SYMBOL $0D10
+COMMENT_LINE $0D12 for
+COMMENT $0D12 Subtract the loop_variable by 1
+FORCE_SYMBOL $0D12 sprites_for_var
+COMMENT $0D15 If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $0D19 ***************************************************************************
+COMMENT_LINE $0D19 INGAME: GAMEMECHANICS  PLAYGROUND  (LEFT/RIGHT BORDERS)
+COMMENT_LINE $0D19 ***************************************************************************
+COMMENT_LINE $0D19 jmp		no_playground
+COMMENT_LINE $0D19 prepare the level
+FORCE_SYMBOL $0D19 leveldata
+COMMENT_LINE $0D1C debug
+COMMENT_LINE $0D1C jmp		no_count_segments_tmp
+COMMENT_LINE $0D1C add level_segment
+FORCE_SYMBOL $0D1C level_segment
+COMMENT_LINE $0D1F deca
+FORCE_NO_SYMBOL $0D1F
+COMMENT_LINE $0D23 inca
+COMMENT_LINE $0D23 temp coord.
+FORCE_SYMBOL $0D23 STRIPE_SIZE
+FORCE_NO_SYMBOL $0D26
+COMMENT_LINE $0D2A ------------------------
+FORCE_SYMBOL $0D2C level_positionx
+FORCE_NO_SYMBOL $0D2F
+FORCE_SYMBOL $0D31 level_positionxx
+COMMENT_LINE $0D34 create
+FORCE_SYMBOL $0D36 sprites_for_var
+COMMENT_LINE $0D39 y-position ...
+FORCE_SYMBOL $0D3B level_segment_offset
+FORCE_SYMBOL $0D3E level_positiony
+COMMENT_LINE $0D41 x1< <x2
+FORCE_NO_SYMBOL $0D41
+FORCE_SYMBOL $0D43 level_positionx
+FORCE_NO_SYMBOL $0D46
+FORCE_SYMBOL $0D48 level_positionxx
+COMMENT_LINE $0D4B player -------
+COMMENT_LINE $0D4B version 2.0
+COMMENT_LINE $0D4B jmp		no_player_version_2
+FORCE_SYMBOL $0D4B spritesyx
+FORCE_SYMBOL $0D4E level_positiony
+FORCE_SYMBOL $0D55 level_positiony
+COMMENT_LINE $0D5A set to left side
+COMMENT_LINE $0D5A debug
+COMMENT_LINE $0D5A lda		sprites_for_var
+COMMENT_LINE $0D5A sta		spritesyx+1
+COMMENT_LINE $0D5A debug: store to highscore
+COMMENT_LINE $0D5A lda		sprites_for_var
+COMMENT_LINE $0D5A sta		debug_value
+COMMENT_LINE $0D5A player left & playground
+FORCE_SYMBOL $0D5A PLAYERX
+FORCE_SYMBOL $0D5D level_positionx
+FORCE_SYMBOL $0D62 PLAYERX
+FORCE_NO_SYMBOL $0D65
+FORCE_SYMBOL $0D67 PLAYERX
+COMMENT_LINE $0D6A ++score
+FORCE_SYMBOL $0D6A score
+COMMENT_LINE $0D6D adda	#1
+FORCE_SYMBOL $0D6D score
+COMMENT_LINE $0D70 player right & playground
+FORCE_SYMBOL $0D70 PLAYERX
+COMMENT_LINE $0D73 ; suba		#20 ; user offset
+FORCE_SYMBOL $0D73 level_positionxx
+FORCE_SYMBOL $0D78 PLAYERX
+FORCE_NO_SYMBOL $0D7B
+FORCE_SYMBOL $0D7D PLAYERX
+COMMENT_LINE $0D80 ++score
+FORCE_SYMBOL $0D80 score
+COMMENT_LINE $0D83 adda	#1
+FORCE_SYMBOL $0D83 score
+COMMENT_LINE $0D86 new table y-absolute,x1,x2,e,1
+FORCE_SYMBOL $0D86 level_positiony
+FORCE_SYMBOL $0D89 STRIPES_SIZE
+FORCE_SYMBOL $0D8B level_positiony
+COMMENT_LINE $0D8E add 5 ...
+FORCE_SYMBOL $0D8E STRIPE_SIZE
+COMMENT_LINE $0D90 for_
+FORCE_SYMBOL $0D90 sprites_for_var
+COMMENT_LINE $0D95 ***************************************************************************
+COMMENT_LINE $0D95 INGAME: GAMEMECHANICS PLAYGROUND
+COMMENT_LINE $0D95 ***************************************************************************
+COMMENT_LINE $0D95 ***************************************************************************
+COMMENT_LINE $0D95 INGAME: INGAME MECHANICS COLLISIONS
+COMMENT_LINE $0D95 ***************************************************************************
+COMMENT_LINE $0D95 jmp no_collsisions
+FORCE_SYMBOL $0D95 counter_ms
+FORCE_NO_SYMBOL $0D98
+COMMENT_LINE $0D9E test object x > loop col over y!
+COMMENT_LINE $0D9E for x / for y
+FORCE_SYMBOL $0D9E spritesyx
+FORCE_NO_SYMBOL $0DA1
+FORCE_SYMBOL $0DA3 spritesnr
+FORCE_SYMBOL $0DA6 sprites_for_var
+COMMENT_LINE $0DA9 for x------------
+COMMENT_LINE $0DA9 for x / for y
+FORCE_SYMBOL $0DA9 spritesyx
+FORCE_NO_SYMBOL $0DAC
+FORCE_SYMBOL $0DAE spritesnr
+FORCE_SYMBOL $0DB1 sprites_for_var_var
+COMMENT_LINE $0DB4 for x------------
+COMMENT_LINE $0DB6 A!=B
+COMMENT_LINE $0DB6 never the same ..
+FORCE_SYMBOL $0DB6 sprites_for_var
+FORCE_SYMBOL $0DB9 sprites_for_var_var
+FORCE_NO_SYMBOL $0DBC
+COMMENT_LINE $0DC2 A active!
+FORCE_NO_SYMBOL $0DC2
+FORCE_NO_SYMBOL $0DC4
+COMMENT_LINE $0DCA B active!
+FORCE_NO_SYMBOL $0DCA
+FORCE_NO_SYMBOL $0DCC
+COMMENT_LINE $0DD2 NO EXPLOSION! SPRITE 5!
+FORCE_SYMBOL $0DD2 OBJ_TYPE
+FORCE_SYMBOL $0DD4 OBJ_TYPE_EXPLOSION
+COMMENT_LINE $0DDA COLLISION
+COMMENT_LINE $0DDA A (y,x)
+FORCE_NO_SYMBOL $0DDA
+FORCE_SYMBOL $0DDC collisionAyx
+FORCE_NO_SYMBOL $0DDF
+COMMENT_LINE $0DE4 B (y,x)
+COMMENT_LINE $0DE4 test the player
+FORCE_SYMBOL $0DE4 spritesyx
+FORCE_SYMBOL $0DE7 collisionByx
+FORCE_NO_SYMBOL $0DF0
+FORCE_SYMBOL $0DF2 collisionByx
+FORCE_NO_SYMBOL $0DF5
+COMMENT_LINE $0DFA Do collision
+COMMENT_LINE $0DFA store x
+COMMENT_LINE $0DFC SPECIAL SIZES! BIGBOSS
+COMMENT_LINE $0DFC lda		OBJ_TYPESUB,x
+COMMENT_LINE $0DFC cmpa	#ENEMY_BOSS
+COMMENT_LINE $0DFC lbeq		col_bigboss
+COMMENT $0DFC Y/X Coordinates of object A
+FORCE_SYMBOL $0DFC collisionAyx
+COMMENT $0DFF Y/X Coordinates of object B
+FORCE_SYMBOL $0DFF collisionByx
+COMMENT_LINE $0E03 default
+COMMENT $0E03 (Height of object #1 + Height of object #2)/2
+FORCE_NO_SYMBOL $0E03
+COMMENT $0E05 (Width of object #1 + Width of object #2)/2 Thanks to Alex H.
+FORCE_NO_SYMBOL $0E05
+COMMENT_LINE $0E07 jmp al_col_bigboss
+COMMENT_LINE $0E07 col_bigboss:
+COMMENT_LINE $0E07 ldx     collisionAyx        ; Y/X Coordinates of object A
+COMMENT_LINE $0E07 ldy     collisionByx        ; Y/X Coordinates of object B
+COMMENT_LINE $0E07 lda	#12		;
+COMMENT_LINE $0E07 ldb	#12		;
+COMMENT_LINE $0E07 al_col_bigboss:
+COMMENT_LINE $0E07 / SPECIAL SIZES! BIGBOSS
+COMMENT $0E07 Check for collision
+FORCE_SYMBOL $0E07 COLLTEST
+COMMENT $0E0A Branch to 'alldone' if no collision  bcs would branch if collision
+COMMENT_LINE $0E0E restore x
+COMMENT_LINE $0E12 collision --------------------------
+COMMENT_LINE $0E12 lda		1,u
+COMMENT_LINE $0E12 inca
+COMMENT_LINE $0E12 sta		1,u
+COMMENT_LINE $0E12 -------------------------------
+COMMENT_LINE $0E12 collision: player & enemy
+COMMENT_LINE $0E12 -------------------------------
+FORCE_NO_SYMBOL $0E12
+FORCE_NO_SYMBOL $0E14
+FORCE_NO_SYMBOL $0E18
+FORCE_NO_SYMBOL $0E1A
+COMMENT_LINE $0E1E only if shield ==0 !
+FORCE_SYMBOL $0E1E shield
+FORCE_NO_SYMBOL $0E21
+COMMENT_LINE $0E25 ++score
+FORCE_SYMBOL $0E25 score
+COMMENT_LINE $0E28 adda	#1
+FORCE_SYMBOL $0E28 score
+COMMENT_LINE $0E2B move right
+FORCE_NO_SYMBOL $0E2B
+COMMENT_LINE $0E2D inca
+FORCE_NO_SYMBOL $0E2D
+COMMENT_LINE $0E2F sta 0
+FORCE_NO_SYMBOL $0E2F
+FORCE_NO_SYMBOL $0E31
+FORCE_SYMBOL $0E33 lifes
+COMMENT_LINE $0E36 shield
+FORCE_NO_SYMBOL $0E36
+FORCE_SYMBOL $0E38 shield
+COMMENT_LINE $0E3B destroy other
+FORCE_NO_SYMBOL $0E3B
+FORCE_SYMBOL $0E3D OBJ_STATE
+COMMENT_LINE $0E3F explosion!
+FORCE_NO_SYMBOL $0E3F
+FORCE_SYMBOL $0E44 PLAYERY
+FORCE_SYMBOL $0E4A PLAYERX
+FORCE_NO_SYMBOL $0E50
+COMMENT $0E52 anim!!!
+FORCE_SYMBOL $0E55 MOVE_STAY
+COMMENT $0E57 anim!!!
+COMMENT_LINE $0E5A sound die
+COMMENT_LINE $0E5A sound
+COMMENT $0E5A one means, we are about to
+FORCE_NO_SYMBOL $0E5A
+COMMENT $0E5C store it in appropriate RAM
+FORCE_SYMBOL $0E5C Vec_Music_Flag
+FORCE_SYMBOL $0E5F EFFECT_DIE
+FORCE_SYMBOL $0E61 soundeffect
+COMMENT_LINE $0E64 game over
+FORCE_SYMBOL $0E64 lifes
+FORCE_NO_SYMBOL $0E67
+FORCE_SYMBOL $0E6B STATE_GAMEOVER
+FORCE_SYMBOL $0E6D state
+COMMENT_LINE $0E70 OBJ_STATE,x
+FORCE_NO_SYMBOL $0E70
+COMMENT_LINE $0E75 sta ...
+FORCE_NO_SYMBOL $0E75
+FORCE_SYMBOL $0E77 button_upcounter
+COMMENT_LINE $0E7A sound
+COMMENT $0E7A one means, we are about to
+FORCE_NO_SYMBOL $0E7A
+COMMENT $0E7C store it in appropriate RAM
+FORCE_SYMBOL $0E7C Vec_Music_Flag
+FORCE_SYMBOL $0E7F EFFECT_GAMEOVER
+FORCE_SYMBOL $0E81 soundeffect
+COMMENT_LINE $0E84 end of the story
+FORCE_SYMBOL $0E84 no_deathhit
+COMMENT_LINE $0E87 ---------------------------
+COMMENT_LINE $0E87 collision: shoot & enemy
+COMMENT_LINE $0E87 ---------------------------
+FORCE_NO_SYMBOL $0E87
+FORCE_NO_SYMBOL $0E89
+FORCE_NO_SYMBOL $0E8F
+FORCE_NO_SYMBOL $0E91
+COMMENT_LINE $0E97 no collision shoot & enemy shoot!
+FORCE_SYMBOL $0E97 OBJ_TYPESUB
+COMMENT_LINE $0E99 shoot&shoot
+FORCE_SYMBOL $0E99 ENEMY_SHOOT
+COMMENT_LINE $0E9B cmpa	#35
+FORCE_SYMBOL $0E9D no_collision_shootshoot
+FORCE_SYMBOL $0EA0 no_col_shoot_enemy
+COMMENT_LINE $0EA3 go left
+FORCE_NO_SYMBOL $0EA3
+FORCE_NO_SYMBOL $0EA6
+COMMENT_LINE $0EA8 deactivate shoot
+FORCE_NO_SYMBOL $0EA8
+COMMENT_LINE $0EAA sta		OBJ_STATE,u
+COMMENT_LINE $0EAA sta		OBJ_ANIM,x
+COMMENT_LINE $0EAA lda		#OBJ_TYPE_EXPLOSION
+COMMENT_LINE $0EAA sta		OBJ_TYPE,x
+COMMENT_LINE $0EAA fast forward in anim on hit!
+FORCE_SYMBOL $0EAA OBJ_ANIM
+COMMENT_LINE $0EAC inc		OBJ_ANIM,x
+COMMENT_LINE $0EAC inc		OBJ_ANIM,x
+COMMENT_LINE $0EAC lda		#0
+COMMENT_LINE $0EAC sta		OBJ_ANIM,x
+COMMENT_LINE $0EAC lda		OBJ_Y,x
+COMMENT_LINE $0EAC adda	#3
+COMMENT_LINE $0EAC sta		OBJ_Y,x
+COMMENT_LINE $0EAC shoot&enemy
+COMMENT_LINE $0EAC deactive enemy
+COMMENT_LINE $0EAC hits ...
+FORCE_SYMBOL $0EAC OBJ_HITS
+FORCE_SYMBOL $0EAE OBJ_HITS
+FORCE_NO_SYMBOL $0EB0
+COMMENT_LINE $0EB4 deactive enemy ...
+FORCE_NO_SYMBOL $0EB4
+FORCE_SYMBOL $0EB6 OBJ_STATE
+COMMENT_LINE $0EB8 killed the boss?
+COMMENT_LINE $0EB8 game won?
+FORCE_SYMBOL $0EB8 OBJ_TYPESUB
+FORCE_SYMBOL $0EBA ENEMY_BOSS
+COMMENT_LINE $0EBE state won!
+FORCE_SYMBOL $0EBE STATE_WON
+FORCE_SYMBOL $0EC0 state
+COMMENT_LINE $0EC3 add some score
+FORCE_SYMBOL $0EC3 score
+FORCE_NO_SYMBOL $0EC6
+FORCE_SYMBOL $0EC8 score
+COMMENT_LINE $0ECB big boss defeated
+FORCE_NO_SYMBOL $0ECB
+FORCE_SYMBOL $0ECD bigbossDefeated
+COMMENT_LINE $0ED0 wait
+FORCE_NO_SYMBOL $0ED0
+FORCE_SYMBOL $0ED2 button_upcounter
+COMMENT_LINE $0ED5 add score
+FORCE_SYMBOL $0ED5 score
+FORCE_NO_SYMBOL $0ED8
+FORCE_SYMBOL $0EDA score
+COMMENT_LINE $0EDD special scores
+COMMENT_LINE $0EDD -------------------------------
+COMMENT_LINE $0EDD explosion ...
+COMMENT_LINE $0EDD -------------------------------
+COMMENT_LINE $0EDD OBJ_TYPE_EXPLOSION
+COMMENT_LINE $0EDD sprite 5 is the explosion ...
+FORCE_NO_SYMBOL $0EDD
+FORCE_SYMBOL $0EE2 OBJ_Y
+FORCE_SYMBOL $0EE7 OBJ_X
+FORCE_NO_SYMBOL $0EEC
+COMMENT $0EEE anim!!!
+FORCE_SYMBOL $0EF1 MOVE_SLOWUP
+COMMENT $0EF3 anim!!!
+COMMENT_LINE $0EF6 play music (set flag to wait for music)
+FORCE_SYMBOL $0EF6 shield
+FORCE_NO_SYMBOL $0EF9
+COMMENT $0EFD one means, we are about to
+FORCE_NO_SYMBOL $0EFD
+COMMENT $0EFF store it in appropriate RAM
+FORCE_SYMBOL $0EFF Vec_Music_Flag
+FORCE_SYMBOL $0F02 EFFECT_EXPLOSION
+FORCE_SYMBOL $0F04 soundeffect
+COMMENT_LINE $0F07 / EXPLOSION
+COMMENT_LINE $0F07 some turn into enemy shoots!
+FORCE_SYMBOL $0F07 OBJ_TYPESUB
+FORCE_SYMBOL $0F09 ENEMY_STAYSHOOT
+FORCE_SYMBOL $0F0D ENEMY_STAY
+FORCE_SYMBOL $0F11 ENEMY_PINGPONG
+COMMENT_LINE $0F15 cmpa	#ENEMY_FASTDOWN
+COMMENT_LINE $0F15 beq		enemy_shootleft
+FORCE_SYMBOL $0F15 ENEMY_DOWN
+FORCE_SYMBOL $0F19 no_enemyshoot_left
+FORCE_NO_SYMBOL $0F1C
+FORCE_SYMBOL $0F1E OBJ_STATE
+FORCE_SYMBOL $0F20 ENEMY_SHOOT
+FORCE_SYMBOL $0F22 OBJ_TYPESUB
+FORCE_SYMBOL $0F24 MOVE_FASTDOWN
+FORCE_SYMBOL $0F26 OBJ_MOVE
+COMMENT_LINE $0F28 / EXPLOSION (...)
+COMMENT_LINE $0F28 ; some turn into enemy shoots!
+COMMENT_LINE $0F28 lda		OBJ_TYPESUB,x
+COMMENT_LINE $0F28 cmpa	#ENEMY_PINGPONG
+COMMENT_LINE $0F28 beq		enemy_shootleft
+COMMENT_LINE $0F28 cmpa	#ENEMY_FASTDOWN
+COMMENT_LINE $0F28 beq		enemy_shootleft
+COMMENT_LINE $0F28 cmpa	#ENEMY_DOWN
+COMMENT_LINE $0F28 beq		enemy_shootleft
+COMMENT_LINE $0F28 jmp		no_enemyshoot_left
+COMMENT_LINE $0F28 enemy_shootleft:
+COMMENT_LINE $0F28 lda		#1
+COMMENT_LINE $0F28 sta		OBJ_STATE,x
+COMMENT_LINE $0F28 lda		#ENEMY_SHOOT
+COMMENT_LINE $0F28 sta 	OBJ_TYPESUB,x
+COMMENT_LINE $0F28 lda		#MOVE_FASTDOWN
+COMMENT_LINE $0F28 sta		OBJ_MOVE,x
+COMMENT_LINE $0F28 no_enemyshoot_left:
+COMMENT_LINE $0F28 end of the story
+FORCE_SYMBOL $0F28 death_end
+COMMENT_LINE $0F2B -------------------------------
+COMMENT_LINE $0F2B explosion ...
+COMMENT_LINE $0F2B -------------------------------
+COMMENT_LINE $0F2B OBJ_TYPE_EXPLOSION
+COMMENT_LINE $0F2B sprite 5 is the explosion ...
+FORCE_NO_SYMBOL $0F2B
+FORCE_SYMBOL $0F30 OBJ_Y
+FORCE_SYMBOL $0F35 OBJ_X
+FORCE_NO_SYMBOL $0F3A
+COMMENT $0F3C anim!!!
+FORCE_SYMBOL $0F3F MOVE_STAY
+COMMENT $0F41 anim!!!
+COMMENT_LINE $0F44 play music (set flag to wait for music)
+COMMENT $0F44 one means, we are about to
+FORCE_NO_SYMBOL $0F44
+COMMENT $0F46 store it in appropriate RAM
+FORCE_SYMBOL $0F46 Vec_Music_Flag
+FORCE_SYMBOL $0F49 EFFECT_HIT
+FORCE_SYMBOL $0F4B soundeffect
+COMMENT_LINE $0F4E / collision --------------------------
+COMMENT_LINE $0F50 / /A!=B
+COMMENT_LINE $0F50 / not active
+COMMENT_LINE $0F50 /for y
+COMMENT_LINE $0F50 /for x
+FORCE_NO_SYMBOL $0F52
+COMMENT_LINE $0F54 ; for
+FORCE_SYMBOL $0F54 sprites_for_var_var
+COMMENT_LINE $0F5B /for x
+FORCE_NO_SYMBOL $0F5B
+COMMENT_LINE $0F5D for
+FORCE_SYMBOL $0F5D sprites_for_var
+COMMENT_LINE $0F64 lda		anim_flag
+COMMENT_LINE $0F64 sta		debug_value
+COMMENT_LINE $0F64 ***************************************************************************
+COMMENT_LINE $0F64 INGAME: ANIM
+COMMENT_LINE $0F64 ***************************************************************************
+COMMENT_LINE $0F64 jmp		no_anim
+COMMENT_LINE $0F64 debug
+COMMENT_LINE $0F64 animation?
+FORCE_SYMBOL $0F64 state
+FORCE_SYMBOL $0F67 STATE_GAMEOVER
+FORCE_SYMBOL $0F6B state
+FORCE_SYMBOL $0F6E STATE_WON
+COMMENT_LINE $0F72 start to animate
+FORCE_SYMBOL $0F72 anim_flag
+FORCE_NO_SYMBOL $0F75
+FORCE_NO_SYMBOL $0F79
+FORCE_SYMBOL $0F7B spritesnr
+FORCE_SYMBOL $0F7E spritesyx
+FORCE_SYMBOL $0F81 sprites_for_var
+COMMENT_LINE $0F84 code
+FORCE_SYMBOL $0F84 OBJ_ANIM
+FORCE_SYMBOL $0F86 OBJ_ANIM
+FORCE_NO_SYMBOL $0F88
+FORCE_NO_SYMBOL $0F8C
+FORCE_SYMBOL $0F8E OBJ_ANIM
+COMMENT_LINE $0F90 special explosion
+COMMENT_LINE $0F90 stop object
+FORCE_SYMBOL $0F90 OBJ_TYPE
+FORCE_SYMBOL $0F92 SPRITE_EXPLOSION
+FORCE_NO_SYMBOL $0F96
+FORCE_SYMBOL $0F98 OBJ_STATE
+COMMENT_LINE $0F9A /code
+FORCE_NO_SYMBOL $0F9A
+COMMENT_LINE $0F9C for
+COMMENT $0F9C Subtract the loop_variable by 1
+FORCE_SYMBOL $0F9C sprites_for_var
+COMMENT $0F9F If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $0FA1 ***************************************************************************
+COMMENT_LINE $0FA1 INGAME: DISPLAYS
+COMMENT_LINE $0FA1 ***************************************************************************
+COMMENT_LINE $0FA1 ***************************************************************************
+COMMENT_LINE $0FA1 INGAME: DEBUG SPRITES AS POINTS
+COMMENT_LINE $0FA1 ***************************************************************************
+COMMENT_LINE $0FA1 debug display sprite points
+FORCE_SYMBOL $0FA1 sprites_for_debug_done
+COMMENT $0FA4 load 50
+FORCE_NO_SYMBOL $0FA4
+COMMENT $0FA6 50 as scaling
+FORCE_SYMBOL $0FA6 VIA_t1_cnt_lo
+COMMENT_LINE $0FA8 intensity
+FORCE_SYMBOL $0FA8 Intensity_3F
+COMMENT_LINE $0FAB show all dots here!
+COMMENT_LINE $0FAB for (i=4;i>=0;i--)
+FORCE_SYMBOL $0FAB spritesnr
+COMMENT_LINE $0FAE lda	#12
+COMMENT $0FAE variable with a value of 5
+FORCE_SYMBOL $0FAE sprites_for_var
+FORCE_SYMBOL $0FB1 spritesyx
+COMMENT $0FB4 store x
+COMMENT $0FB6 load A with 6, dots - 1
+FORCE_NO_SYMBOL $0FB6
+COMMENT $0FB8 set it as counter for dots
+FORCE_SYMBOL $0FB8 Vec_Misc_Count
+COMMENT_LINE $0FBB version 1.0
+COMMENT_LINE $0FBB jsr     Dot_List                ; Plot a series of dots
+COMMENT_LINE $0FBB version 2.0
+FORCE_NO_SYMBOL $0FBB
+FORCE_NO_SYMBOL $0FBD
+FORCE_SYMBOL $0FBF Dot_d
+COMMENT $0FC2 reset to 0,0
+FORCE_SYMBOL $0FC2 Reset0Ref
+COMMENT_LINE $0FC5 attention Dot_List is changing flags and register!!!
+COMMENT $0FC5 restore x
+FORCE_NO_SYMBOL $0FC7
+COMMENT $0FC9 Subtract the loop_variable by 1
+FORCE_SYMBOL $0FC9 sprites_for_var
+COMMENT $0FCC If the loop variable is not Zero, jump to loop_start
+COMMENT_LINE $0FCE ***************************************************************************
+COMMENT_LINE $0FCE INGAME: DEBUG RECT
+COMMENT_LINE $0FCE ***************************************************************************
+COMMENT_LINE $0FCE debug test rectangle
+FORCE_SYMBOL $0FCE debug_rect
+FORCE_SYMBOL $0FD1 Intensity_3F
+FORCE_NO_SYMBOL $0FD4
+FORCE_NO_SYMBOL $0FD6
+FORCE_SYMBOL $0FD8 Moveto_d
+FORCE_SYMBOL $0FDB grafix_quad
+FORCE_SYMBOL $0FDE Draw_VLc
+COMMENT $0FE1 reset to 0,0
+FORCE_SYMBOL $0FE1 Reset0Ref
+COMMENT_LINE $0FE4 move to 0 0
+COMMENT_LINE $0FE4 lda     #-110                      ; to 0 (y)
+COMMENT_LINE $0FE4 ldb     #0                      ; to 0 (x)
+COMMENT_LINE $0FE4 jsr     Moveto_d                ; move the vector beam the
+FORCE_SYMBOL $0FE4 Delay_3
+FORCE_SYMBOL $0FE7 Intensity_3F
+FORCE_NO_SYMBOL $0FEA
+FORCE_NO_SYMBOL $0FEC
+FORCE_SYMBOL $0FEE Moveto_d
+FORCE_SYMBOL $0FF1 grafix_quad
+FORCE_SYMBOL $0FF4 Draw_VLc
+COMMENT $0FF7 reset to 0,0
+FORCE_SYMBOL $0FF7 Reset0Ref
+COMMENT_LINE $0FFA HARDCORE: DEBUG
+COMMENT_LINE $0FFA reset all sprites
+FORCE_SYMBOL $0FFA no_hardcore_debug
+FORCE_NO_SYMBOL $0FFD
+FORCE_SYMBOL $0FFF spritesnr
+FORCE_SYMBOL $1002 sprites_for_var
+FORCE_SYMBOL $1005 spritesyx
+FORCE_NO_SYMBOL $1008
+COMMENT_LINE $100B ldb		4,x
+FORCE_SYMBOL $100B sprites_for_var
+FORCE_NO_SYMBOL $100E
+FORCE_NO_SYMBOL $1010
+COMMENT_LINE $1012 /code
+COMMENT_LINE $1012 +12 bytes
+FORCE_NO_SYMBOL $1012
+COMMENT_LINE $1014 lda sprites_for_var,x
+FORCE_SYMBOL $1014 sprites_for_var
+COMMENT_LINE $1019 ***************************************************************************
+COMMENT_LINE $1019 INGAME: DEBUG DISPLAY SPRITES
+COMMENT_LINE $1019 ***************************************************************************
+FORCE_SYMBOL $1019 no_spritesdebug
+FORCE_SYMBOL $101C ENEMY_SINUS
+FORCE_SYMBOL $1021 ENEMY_PINGPONG
+FORCE_SYMBOL $1026 ENEMY_DOWN
+FORCE_SYMBOL $102B ENEMY_FASTDOWN
+FORCE_SYMBOL $1030 ENEMY_LEFT
+COMMENT_LINE $1035 ***************************************************************************
+COMMENT_LINE $1035 MENU/GAMEOVER: DISPLAY TEXT
+COMMENT_LINE $1035 ***************************************************************************
+COMMENT_LINE $1035 jmp		no_textes
+COMMENT_LINE $1035 display texts: title, ingame comments
+FORCE_SYMBOL $1035 state
+COMMENT_LINE $1038 menu
+FORCE_SYMBOL $1038 STATE_MENU
+COMMENT_LINE $103E check for playing music
+COMMENT_LINE $103E TST	Vec_Music_Flag	; Loop if music is still playing
+COMMENT_LINE $103E BNE	menumusic_notplaying
+COMMENT_LINE $103E jmp	menumusic_playing
+COMMENT_LINE $103E menumusic_notplaying:
+COMMENT_LINE $103E JSR	DP_to_D0
+COMMENT_LINE $103E jsr     DP_to_C8                ; DP to RAM
+COMMENT_LINE $103E ldu     #music8                 ; get some music, here music1
+COMMENT_LINE $103E jsr     Init_Music_chk          ; and init new notes
+COMMENT_LINE $103E jsr	Wait_Recal ;	Wait for the next frame
+COMMENT_LINE $103E jsr	Do_Sound ;	Play the sound
+COMMENT_LINE $103E menumusic_playing:
+COMMENT_LINE $103E ldu     #string_title
+COMMENT_LINE $103E jsr     Print_Str_yx
+COMMENT_LINE $103E play
+FORCE_SYMBOL $103E string_menu_play
+FORCE_SYMBOL $1041 Print_Str_yx
+COMMENT_LINE $1044 code
+FORCE_SYMBOL $1044 string_menu_code
+FORCE_SYMBOL $1047 Print_Str_yx
+COMMENT_LINE $104A credits
+FORCE_SYMBOL $104A string_menu_credits
+FORCE_SYMBOL $104D Print_Str_yx
+COMMENT_LINE $1050 info
+COMMENT_LINE $1050 ldu     #string_menu_info
+COMMENT_LINE $1050 jsr     Print_Str_yx
+COMMENT $1050 reset to 0,0
+FORCE_SYMBOL $1050 Reset0Ref
+COMMENT_LINE $1053 movement
+COMMENT_LINE $1053 inc 	sprites_tmp_type
+COMMENT_LINE $1053 sprites_tmp_move equ $C882+7
+COMMENT_LINE $1053 lda		sprites_tmp_type
+COMMENT_LINE $1053 cmpa	#40
+COMMENT_LINE $1053 bgt		go_down
+COMMENT_LINE $1053 lda		#0
+COMMENT_LINE $1053 sta		sprites_tmp_type
+COMMENT_LINE $1053 go_down
+COMMENT_LINE $1053 logo
+COMMENT $1053 y-pos
+COMMENT_LINE $1055 adda	sprites_tmp_type
+COMMENT $1055 x-pos
+COMMENT_LINE $1057 OFFSET?
+FORCE_SYMBOL $1057 Moveto_d
+FORCE_SYMBOL $105A logo
+FORCE_SYMBOL $105D Draw_VLc
+COMMENT $1060 reset to 0,0
+FORCE_SYMBOL $1060 Reset0Ref
+COMMENT_LINE $1063 mouth ..
+COMMENT_LINE $1063 ;	db -47,-125
+COMMENT $1063 y-pos
+COMMENT $1065 x-pos
+FORCE_SYMBOL $1067 Moveto_d
+COMMENT_LINE $106A logo mouth ...
+FORCE_SYMBOL $106A grafix_monster
+FORCE_SYMBOL $106D bigbossDefeated
+FORCE_NO_SYMBOL $1070
+FORCE_SYMBOL $1074 grafix_won
+FORCE_SYMBOL $1077 Draw_VLc
+COMMENT $107A reset to 0,0
+FORCE_SYMBOL $107A Reset0Ref
+COMMENT_LINE $107D mouth shadow
+COMMENT_LINE $107D lda		#-109-offset_titlescreen-offsetmonster_titlescreen ; y-pos
+COMMENT_LINE $107D ldb		#-102 ; x-pos
+COMMENT_LINE $107D jsr     Moveto_d
+COMMENT_LINE $107D ldx		#grafix_monster
+COMMENT_LINE $107D jsr     Draw_VLc
+COMMENT_LINE $107D jsr 	Reset0Ref  ; reset to 0,0
+COMMENT_LINE $107D eyes
+FORCE_SYMBOL $107D bigbossDefeated
+FORCE_NO_SYMBOL $1080
+COMMENT_LINE $1084 the eyes!!
+COMMENT_LINE $1084 db -10,-74
+COMMENT $1084 y-pos
+COMMENT $1086 x-pos
+FORCE_SYMBOL $1088 Moveto_d
+FORCE_SYMBOL $108B grafix_eye0
+FORCE_SYMBOL $108E Draw_VLc
+COMMENT $1091 reset to 0,0
+FORCE_SYMBOL $1091 Reset0Ref
+COMMENT_LINE $1094 db 6,-39
+COMMENT $1094 y-pos
+COMMENT $1096 x-pos
+FORCE_SYMBOL $1098 Moveto_d
+FORCE_SYMBOL $109E Draw_VLc
+COMMENT $10A1 reset to 0,0
+FORCE_SYMBOL $10A1 Reset0Ref
+COMMENT_LINE $10A4 ; db 17,-31
+COMMENT $10A4 y-pos
+COMMENT $10A6 x-pos
+FORCE_SYMBOL $10A8 Moveto_d
+FORCE_SYMBOL $10AE Draw_VLc
+COMMENT $10B1 reset to 0,0
+FORCE_SYMBOL $10B1 Reset0Ref
+COMMENT_LINE $10B4 db -33,-79
+COMMENT $10B4 y-pos
+COMMENT $10B6 x-pos
+FORCE_SYMBOL $10B8 Moveto_d
+FORCE_SYMBOL $10BE Draw_VLc
+COMMENT $10C1 reset to 0,0
+FORCE_SYMBOL $10C1 Reset0Ref
+COMMENT_LINE $10C7 display: state_won
+FORCE_SYMBOL $10C7 state
+FORCE_SYMBOL $10CA STATE_WON
+FORCE_SYMBOL $10CE string_won
+FORCE_SYMBOL $10D1 Print_Str_yx
+COMMENT_LINE $10D4 text
+FORCE_SYMBOL $10D4 button_upcounter
+FORCE_NO_SYMBOL $10D7
+FORCE_SYMBOL $10DB string_pressbutton
+FORCE_SYMBOL $10DE Print_Str_yx
+COMMENT_LINE $10E1 jsr 	Reset0Ref  ; reset to 0,0
+COMMENT_LINE $10E1 offset_wonscreen 		equ -10
+COMMENT_LINE $10E1 offsetmonster_wonscreen equ 10
+COMMENT_LINE $10E1 logo
+COMMENT_LINE $10E1 lda		#50-offset_wonscreen ; y-pos
+COMMENT_LINE $10E1 ;adda	sprites_tmp_type
+COMMENT_LINE $10E1 ldb		#-110 ; x-pos
+COMMENT_LINE $10E1 ; OFFSET?
+COMMENT_LINE $10E1 jsr     Moveto_d
+COMMENT_LINE $10E1 ldx		#logo
+COMMENT_LINE $10E1 jsr     Draw_VLc
+COMMENT_LINE $10E1 jsr 	Reset0Ref  ; reset to 0,0
+COMMENT_LINE $10E1 mouth ..
+COMMENT_LINE $10E1 ; ;	db -47,-125
+COMMENT_LINE $10E1 lda		#-104-offset_wonscreen-offsetmonster_wonscreen ; y-pos
+COMMENT_LINE $10E1 ldb		#-94 ; x-pos
+COMMENT_LINE $10E1 jsr     Moveto_d
+COMMENT_LINE $10E1 ldx		#grafix_won ; #grafix_monster
+COMMENT_LINE $10E1 jsr     Draw_VLc
+COMMENT_LINE $10E1 jsr 	Reset0Ref  ; reset to 0,0
+COMMENT_LINE $10E1 add ...
+COMMENT_LINE $10E1 ;	db -47,-125
+COMMENT_LINE $10E1 lda		#9-offset_wonscreen-offsetmonster_wonscreen ; y-pos
+COMMENT_LINE $10E1 ldb		#-118 ; x-pos
+COMMENT_LINE $10E1 jsr     Moveto_d
+COMMENT_LINE $10E1 ldx		#grafix_won
+COMMENT_LINE $10E1 jsr     Draw_VLc
+COMMENT_LINE $10E1 jsr 	Reset0Ref  ; reset to 0,0
+COMMENT_LINE $10E4 / DISPLAY: WON
+COMMENT_LINE $10E4 intro
+FORCE_SYMBOL $10E4 STATE_INTRO
+COMMENT_LINE $10E8 ldu     #string_explanation
+COMMENT_LINE $10E8 jsr     Print_Str_yx
+COMMENT_LINE $10E8 ldu     #string_explanation_ext
+COMMENT_LINE $10E8 jsr     Print_Str_yx
+COMMENT_LINE $10EB ingame
+FORCE_SYMBOL $10EB STATE_INGAME
+COMMENT_LINE $10EF ldu     #string_ingame
+COMMENT_LINE $10EF jsr     Print_Str_yx
+COMMENT_LINE $10F2 gameover
+FORCE_SYMBOL $10F2 STATE_GAMEOVER
+FORCE_SYMBOL $10F6 string_gameover
+FORCE_SYMBOL $10F9 Print_Str_yx
+COMMENT_LINE $10FC text
+FORCE_SYMBOL $10FC button_upcounter
+FORCE_NO_SYMBOL $10FF
+FORCE_SYMBOL $1103 string_pressbutton
+FORCE_SYMBOL $1106 Print_Str_yx
+COMMENT_LINE $110B ***************************************************************************
+COMMENT_LINE $110B INGAME/MENU: DISPLAY MESSAGES
+COMMENT_LINE $110B ***************************************************************************
+COMMENT_LINE $110B debug
+COMMENT_LINE $110B lda		message_counter
+COMMENT_LINE $110B sta 	debug_value
+COMMENT_LINE $110B display messages
+FORCE_SYMBOL $110B message_counter
+FORCE_NO_SYMBOL $110E
+COMMENT_LINE $1112 lda	 	message_index
+FORCE_SYMBOL $1112 str_level0
+COMMENT_LINE $1115 leau	message_index,u
+FORCE_SYMBOL $1115 message_index
+FORCE_NO_SYMBOL $1118
+FORCE_SYMBOL $111C str_level1
+FORCE_NO_SYMBOL $111F
+FORCE_SYMBOL $1123 str_level2
+FORCE_NO_SYMBOL $1126
+FORCE_SYMBOL $112A str_level3
+FORCE_NO_SYMBOL $112D
+FORCE_SYMBOL $1131 str_level4
+FORCE_NO_SYMBOL $1134
+FORCE_SYMBOL $1138 str_level5
+FORCE_NO_SYMBOL $113B
+FORCE_SYMBOL $113F str_level6
+FORCE_NO_SYMBOL $1142
+FORCE_SYMBOL $1146 str_level7
+FORCE_SYMBOL $1149 Print_Str_yx
+COMMENT_LINE $114C ***************************************************************************
+COMMENT_LINE $114C INGAME/MENU: DISPLAY SCORE AND HIGHSCORE
+COMMENT_LINE $114C ***************************************************************************
+COMMENT_LINE $114C jmp 	no_score
+COMMENT_LINE $114C actual scores
+COMMENT_LINE $114C sorry dirty as hell! no chance for coder heaven .-)
+COMMENT_LINE $114C new highscore?
+FORCE_SYMBOL $114C score
+COMMENT_LINE $114F lda		button_upcounter
+COMMENT_LINE $114F cmpa	highscore
+COMMENT_LINE $114F blt		no_new_highscore
+COMMENT_LINE $114F ; sta		highscore
+COMMENT_LINE $114F no_new_highscore:
+FORCE_SYMBOL $114F state
+FORCE_SYMBOL $1152 STATE_MENU
+COMMENT_LINE $1158 scores
+FORCE_NO_SYMBOL $1158
+FORCE_SYMBOL $115A sprites_for_var
+COMMENT_LINE $115D clear string
+FORCE_NO_SYMBOL $115D
+FORCE_NO_SYMBOL $116B
+FORCE_NO_SYMBOL $1170
+FORCE_SYMBOL $1172 lifes
+FORCE_NO_SYMBOL $1178
+COMMENT_LINE $117E score
+FORCE_SYMBOL $117E sprites_for_var
+FORCE_NO_SYMBOL $1181
+COMMENT_LINE $1185 score
+FORCE_NO_SYMBOL $1185
+FORCE_SYMBOL $1187 str_score
+FORCE_NO_SYMBOL $118A
+FORCE_SYMBOL $118F score
+FORCE_SYMBOL $1192 no_score_display
+COMMENT_LINE $1195 highscore
+FORCE_NO_SYMBOL $1195
+FORCE_SYMBOL $1197 str_score
+FORCE_NO_SYMBOL $119A
+COMMENT_LINE $119F lda		highscore
+COMMENT_LINE $119F debug
+COMMENT_LINE $119F lda		counter_sec
+COMMENT_LINE $119F lda		level
+FORCE_SYMBOL $119F debug_value
+COMMENT_LINE $11A2 debug
+COMMENT_LINE $11A2 ldx		#spritesyx
+COMMENT_LINE $11A2 leax	12,x
+COMMENT_LINE $11A2 lda		2,x
+COMMENT_LINE $11A2 display score
+COMMENT_LINE $11A2 100
+FORCE_NO_SYMBOL $11A2
+FORCE_NO_SYMBOL $11A6
+COMMENT_LINE $11A8 1xx
+COMMENT $11A8 max 100
+FORCE_NO_SYMBOL $11A8
+COMMENT $11AA 0
+FORCE_NO_SYMBOL $11AA
+COMMENT_LINE $11AF 00,10,20,30,40,50,60,70,80
+COMMENT_LINE $11AF 90
+FORCE_NO_SYMBOL $11AF
+FORCE_NO_SYMBOL $11B3
+COMMENT_LINE $11B5 .9x
+FORCE_NO_SYMBOL $11B5
+COMMENT $11B7 0
+FORCE_NO_SYMBOL $11B7
+FORCE_SYMBOL $11BC under10
+COMMENT_LINE $11BF 80
+FORCE_NO_SYMBOL $11BF
+FORCE_NO_SYMBOL $11C3
+COMMENT_LINE $11C5 .9x
+FORCE_NO_SYMBOL $11C5
+COMMENT $11C7 0
+FORCE_NO_SYMBOL $11C7
+FORCE_SYMBOL $11CC under10
+COMMENT_LINE $11CF 70
+FORCE_NO_SYMBOL $11CF
+FORCE_NO_SYMBOL $11D3
+COMMENT_LINE $11D5 .9x
+FORCE_NO_SYMBOL $11D5
+COMMENT $11D7 0
+FORCE_NO_SYMBOL $11D7
+FORCE_SYMBOL $11DC under10
+COMMENT_LINE $11DF 60
+FORCE_NO_SYMBOL $11DF
+FORCE_NO_SYMBOL $11E3
+COMMENT_LINE $11E5 .9x
+FORCE_NO_SYMBOL $11E5
+COMMENT $11E7 0
+FORCE_NO_SYMBOL $11E7
+FORCE_SYMBOL $11EC under10
+COMMENT_LINE $11EF 50
+FORCE_NO_SYMBOL $11EF
+FORCE_NO_SYMBOL $11F3
+COMMENT_LINE $11F5 .9x
+FORCE_NO_SYMBOL $11F5
+COMMENT $11F7 0
+FORCE_NO_SYMBOL $11F7
+FORCE_SYMBOL $11FC under10
+COMMENT_LINE $11FF 40
+FORCE_NO_SYMBOL $11FF
+FORCE_NO_SYMBOL $1203
+COMMENT_LINE $1205 .9x
+FORCE_NO_SYMBOL $1205
+COMMENT $1207 0
+FORCE_NO_SYMBOL $1207
+FORCE_SYMBOL $120C under10
+COMMENT_LINE $120F 30
+FORCE_NO_SYMBOL $120F
+FORCE_NO_SYMBOL $1213
+COMMENT_LINE $1215 .9x
+FORCE_NO_SYMBOL $1215
+COMMENT $1217 0
+FORCE_NO_SYMBOL $1217
+FORCE_SYMBOL $121C under10
+COMMENT_LINE $121F 20
+FORCE_NO_SYMBOL $121F
+FORCE_NO_SYMBOL $1223
+COMMENT_LINE $1225 .9x
+FORCE_NO_SYMBOL $1225
+COMMENT $1227 0
+FORCE_NO_SYMBOL $1227
+FORCE_SYMBOL $122C under10
+COMMENT_LINE $122F 10
+FORCE_NO_SYMBOL $122F
+FORCE_NO_SYMBOL $1233
+COMMENT_LINE $1235 .9x
+FORCE_NO_SYMBOL $1235
+COMMENT $1237 0
+FORCE_NO_SYMBOL $1237
+FORCE_SYMBOL $123C under10
+COMMENT $123F 0
+FORCE_NO_SYMBOL $123F
+COMMENT_LINE $1244 show score
+FORCE_SYMBOL $1244 str_score
+FORCE_SYMBOL $1247 Print_Str_yx
+COMMENT_LINE $124A / score
+FORCE_SYMBOL $124A sprites_for_var
+COMMENT_LINE $1251 show title not menu
+FORCE_SYMBOL $1251 state
+FORCE_NO_SYMBOL $1254
+COMMENT_LINE $1258 title
+COMMENT_LINE $1258 ldu     #string_title_short
+COMMENT_LINE $1258 jsr     Print_Str_yx
+COMMENT_LINE $1258 ***************************************************************************
+COMMENT_LINE $1258 UPDATE SOUND
+COMMENT_LINE $1258 ***************************************************************************
+COMMENT_LINE $1258 music - do the sound
+FORCE_SYMBOL $1258 state
+COMMENT_LINE $125B cmpa 	#STATE_MENU
+COMMENT_LINE $125B bne  	nosoundingame
+COMMENT_LINE $125B jsr     Init_Music_chk          ; and init new notes
+COMMENT $125B ROM function that does the
+FORCE_SYMBOL $125B Do_Sound
+COMMENT_LINE $125E soundeffects
+FORCE_SYMBOL $125E state
+COMMENT_LINE $1261 cmpa 	#STATE_MENU
+COMMENT_LINE $1261 beq  	nofxtodo
+COMMENT_LINE $1261 play soundeffects
+COMMENT_LINE $1261 ; via ay/ym (if there are!)
+COMMENT $1261 check if sfx to play
+FORCE_SYMBOL $1261 sfx_status
+FORCE_SYMBOL $1266 sfx_doframe
+COMMENT_LINE $1269 ***************************************************************************
+COMMENT_LINE $1269 LOOP
+COMMENT_LINE $1269 ***************************************************************************
+COMMENT_LINE $1269 gameloop
+COMMENT $1269 and repeat forever
+COMMENT_LINE $126C ***************************************************************************
+COMMENT_LINE $126C END OF MAIN
+COMMENT_LINE $126C ***************************************************************************
+COMMENT_LINE $126C SOUND EFFECTS
+COMMENT_LINE $126C http://vectorgaming.proboards.com/thread/312/vectrex-sound-programming?page=3
+COMMENT $126C get current frame pointer
+FORCE_SYMBOL $126C sfx_pointer
+FORCE_NO_SYMBOL $126F
+COMMENT $1271 check first flag byte D0
+FORCE_NO_SYMBOL $1271
+COMMENT $1273 no match - continue to process frame
+FORCE_NO_SYMBOL $1275
+COMMENT $1277 check second flag byte 20
+FORCE_NO_SYMBOL $1277
+COMMENT $1279 match - end of effect found so stop playing
+COMMENT $127B init Y as pointer to next data or flag byte
+FORCE_NO_SYMBOL $127B
+COMMENT $127D check if need to set tone freq
+FORCE_NO_SYMBOL $127D
+COMMENT $127F if bit 5 of B is set
+FORCE_NO_SYMBOL $127F
+COMMENT $1281 skip as no tone freq data
+COMMENT $1283 get next data byte and copy to tone freq reg4
+FORCE_NO_SYMBOL $1283
+FORCE_NO_SYMBOL $1285
+COMMENT $1287 set tone freq
+FORCE_SYMBOL $1287 Sound_Byte
+COMMENT $128A get next data byte and copy to tone freq reg5
+FORCE_NO_SYMBOL $128A
+FORCE_NO_SYMBOL $128C
+COMMENT $128E set tone freq
+FORCE_SYMBOL $128E Sound_Byte
+COMMENT $1291 increment pointer to next data/flag byte
+FORCE_NO_SYMBOL $1291
+COMMENT $1293 check if need to set noise freq
+FORCE_NO_SYMBOL $1293
+COMMENT $1295 if bit 6 of B is only set
+FORCE_NO_SYMBOL $1295
+COMMENT $1297 skip as no noise freq data
+COMMENT $1299 get next data byte and copy to noise freq reg
+FORCE_NO_SYMBOL $1299
+FORCE_NO_SYMBOL $129B
+COMMENT $129D set noise freq
+FORCE_SYMBOL $129D Sound_Byte
+COMMENT $12A0 increment pointer to next flag byte
+FORCE_NO_SYMBOL $12A0
+COMMENT $12A2 set volume on channel 3
+FORCE_NO_SYMBOL $12A2
+COMMENT $12A4 get volume from bits 0-3
+FORCE_NO_SYMBOL $12A4
+COMMENT $12A6 set reg10
+FORCE_NO_SYMBOL $12A6
+COMMENT $12A8 Set volume
+FORCE_SYMBOL $12A8 Sound_Byte
+COMMENT $12AB check disable tone channel 3
+FORCE_NO_SYMBOL $12AB
+COMMENT $12AD if bit 4 of B is set disable the tone
+FORCE_NO_SYMBOL $12AD
+COMMENT $12B1 set bit2 in reg7
+FORCE_NO_SYMBOL $12B1
+FORCE_NO_SYMBOL $12B4
+FORCE_NO_SYMBOL $12B6
+COMMENT $12B8 disable tone
+FORCE_SYMBOL $12B8 Sound_Byte
+COMMENT $12BD clear bit2 in reg7
+FORCE_NO_SYMBOL $12BD
+FORCE_NO_SYMBOL $12C0
+FORCE_NO_SYMBOL $12C2
+COMMENT $12C4 enable tone
+FORCE_SYMBOL $12C4 Sound_Byte
+COMMENT $12C7 check disable noise
+FORCE_NO_SYMBOL $12C7
+COMMENT $12C9 if bit7 of B is set disable noise
+FORCE_NO_SYMBOL $12C9
+COMMENT $12CD set bit5 in reg7
+FORCE_NO_SYMBOL $12CD
+FORCE_NO_SYMBOL $12D0
+FORCE_NO_SYMBOL $12D2
+COMMENT $12D4 disable noise
+FORCE_SYMBOL $12D4 Sound_Byte
+COMMENT $12D9 clear bit5 in reg 7
+FORCE_NO_SYMBOL $12D9
+FORCE_NO_SYMBOL $12DC
+FORCE_NO_SYMBOL $12DE
+COMMENT $12E0 enable noise
+FORCE_SYMBOL $12E0 Sound_Byte
+COMMENT $12E3 update frame pointer to next flag byte in Y
+FORCE_SYMBOL $12E3 sfx_pointer
+COMMENT $12E8 set volume off channel 3
+FORCE_NO_SYMBOL $12E8
+COMMENT $12EA set reg1sf0
+FORCE_NO_SYMBOL $12EA
+COMMENT $12EC Set volume
+FORCE_SYMBOL $12EC Sound_Byte
+COMMENT $12EF reset sfx
+FORCE_NO_SYMBOL $12EF
+FORCE_SYMBOL $12F2 sfx_pointer
+FORCE_SYMBOL $12F5 sfx_status
+COMMENT_LINE $12F9 ***************************************************************************
+COMMENT_LINE $12F9 DATA SECTION EP ROM!!! READ ONLY!!!
+COMMENT_LINE $12F9 ***************************************************************************
+COMMENT_LINE $12F9 ***************************************************************************
+COMMENT_LINE $12F9 DATA SECTION (EPROM): GRAPHICS
+COMMENT_LINE $12F9 ***************************************************************************
+COMMENT_LINE $12F9 graphics
+COMMENT_LINE $12F9 raster 10x10!
+COMMENT_LINE $12F9 player
+COMMENT_LINE $12F9 4/2
+COMMENT_LINE $12F9 db 3
+COMMENT_LINE $12F9 db 11,4
+COMMENT_LINE $12F9 db -17,7
+COMMENT_LINE $12F9 db 7,-7
+COMMENT_LINE $12F9 db 6,0
+COMMENT_LINE $12F9 avatar / ship / avatar
+COMMENT_LINE $1302 org
+COMMENT_LINE $131D player shield
+COMMENT_LINE $131D anim0-4
+COMMENT_LINE $1326 org
+COMMENT_LINE $1341 shoots * not used
+COMMENT_LINE $1341 version 1
+COMMENT_LINE $1341 version 2
+COMMENT_LINE $136E enemy shoot
+COMMENT_LINE $136E ENEMY_SHOOT
+COMMENT_LINE $1392 boss grafix ...
+COMMENT_LINE $1392 ^
+COMMENT_LINE $1392 /\/
+COMMENT_LINE $1392 /\/\
+COMMENT_LINE $1392 size = 9*8 = 72
+COMMENT_LINE $13B6 grafix_enemy_stay
+COMMENT_LINE $13DA grafix_enemy_stayshoot
+COMMENT_LINE $13FE grafix_enemy_missile
+COMMENT_LINE $13FE ---------------------PART 0--Ebene_1--------------
+COMMENT_LINE $1407 ---------------------PART 1--base_2_--------------
+COMMENT_LINE $1410 ---------------------PART 2--base_1_--------------
+COMMENT_LINE $1422 grafix_enemydiag
+COMMENT_LINE $1446 enemy: twin
+COMMENT_LINE $1446 _
+COMMENT_LINE $1446 | |
+COMMENT_LINE $1446 |
+COMMENT_LINE $146A used?
+COMMENT_LINE $146A ____
+COMMENT_LINE $146A \  /
+COMMENT_LINE $148E enemy: twin
+COMMENT_LINE $148E _
+COMMENT_LINE $148E | |
+COMMENT_LINE $148E -
+COMMENT_LINE $14B2 _
+COMMENT_LINE $14B2 | |
+COMMENT_LINE $14B2 �_�
+COMMENT_LINE $14B2 |
+COMMENT_LINE $14B2 ---
+COMMENT_LINE $14B2 || ||
+COMMENT_LINE $14B2 |_|
+COMMENT_LINE $14B2 | |
+COMMENT_LINE $14B2 | |
+COMMENT_LINE $14B2 cool sprite big boss
+COMMENT_LINE $14B2 db 	3
+COMMENT_LINE $14B2 db	 9*rect_size,4*rect_size
+COMMENT_LINE $14B2 db	 -9*rect_size,-2*rect_size
+COMMENT_LINE $14B2 db	 5*rect_size,-2*rect_size
+COMMENT_LINE $14B2 db	 -5*rect_size,4*rect_size
+COMMENT_LINE $14FA der stier
+COMMENT_LINE $1503 /\ ping pong
+COMMENT_LINE $1503 submarine
+COMMENT_LINE $1503 _|_____
+COMMENT_LINE $1503 |_____\
+COMMENT_LINE $1527 boat
+COMMENT_LINE $1527 _|______
+COMMENT_LINE $1527 |_____/
+COMMENT_LINE $1530 demo
+COMMENT_LINE $1539 explosion
+COMMENT_LINE $155D titlescreen
+COMMENT_LINE $155D logo
+COMMENT_LINE $15BC the monster with the open mound!
+COMMENT_LINE $15BC position:
+COMMENT_LINE $15BC db -104,-98
+COMMENT_LINE $15CB eyes
+COMMENT_LINE $15CB position:
+COMMENT_LINE $15CB db -10,-74
+COMMENT_LINE $15D9 db 17,-31
+COMMENT_LINE $15E0 db -33,-79
+COMMENT_LINE $15E7 game won
+COMMENT_LINE $15E7 position_5:
+COMMENT_LINE $15E7 db -102,-105
+COMMENT_LINE $15FC ***************************************************************************
+COMMENT_LINE $15FC DATA SECTION (EPROM): LEVELS
+COMMENT_LINE $15FC ***************************************************************************
+COMMENT_LINE $15FC [-110  110]
+COMMENT_LINE $15FC ENDTAG: 0,0
+COMMENT_LINE $15FC ***************************************************************************
+COMMENT_LINE $15FC PREDEFINED MOVEMENTS
+COMMENT_LINE $15FC ***************************************************************************
+COMMENT_LINE $160B another movement
+COMMENT_LINE $161A ***************************************************************************
+COMMENT_LINE $161A PREDEFINED LEVELS
+COMMENT_LINE $161A ***************************************************************************
+COMMENT_LINE $161A generate with an external tool ...
+COMMENT_LINE $161A add position_offset/direction ...
+COMMENT_LINE $161A [x,y] {newtype,newtypesub, newx,newy, how_many_sprites+1 , spwawn_offset  }
+COMMENT_LINE $161A attention add on:
+COMMENT_LINE $161A newtype:
+COMMENT_LINE $161A 6: text []
+COMMENT_LINE $161A 7: next level (kill all sprites!)
+COMMENT_LINE $161A VecZLevelEditor: level exported
+COMMENT_LINE $1A6A ***************************************************************************
+COMMENT_LINE $1A6A DATA SECTION (EPROM): TEXTS
+COMMENT_LINE $1A6A ***************************************************************************
+COMMENT_LINE $1A6A texts	& display text
+COMMENT_LINE $1A6A string title (-115)
+COMMENT_LINE $1AFF ---------------------------------------------------
+COMMENT_LINE $1AFF level strings
+COMMENT_LINE $1AFF ---------------------------------------------------
+COMMENT_LINE $1AFF "--------------------"
+COMMENT_LINE $1BC4 ***************************************************************************
+COMMENT_LINE $1BC4 DATA SECTION (EPROM): SOUNDs
+COMMENT_LINE $1BC4 ***************************************************************************
+COMMENT_LINE $1BC4 http://vectrexmuseum.com/share/coder/other/TEXT/SOUND/ADSR_ROM.TXT
+COMMENT_LINE $1BC4 http://www.playvectrex.com/designit/chrissalo/soundplaying.htm
+COMMENT_LINE $1BC4 http://vectrexmuseum.com/share/coder/html/soundplaying.htm
+COMMENT_LINE $1BC4 example: http://www.playvectrex.com/designit/chrissalo/sound2.asm
+COMMENT_LINE $1BC4 MUSIC-TRACKER: ArkosTracker
+COMMENT_LINE $1BC4 AY-CHIP SOUNDCHIP
+COMMENT_LINE $1BC4 > AYFX Editor SOUNDTOOL
+COMMENT_LINE $1BC4 https://www.youtube.com/watch?v=XI6aW2QSUXw
+COMMENT_LINE $1BC4 0*128+1, 12  ;  (channel*128) + note, length
+COMMENT_LINE $1BC4 1*128+1, 12  ;  (channel*128) + note, length
+COMMENT_LINE $1BC4 19, $80
+COMMENT_LINE $1BC4 channel 0: explosion
+COMMENT_LINE $1BC4 channel 1: shoot
+COMMENT_LINE $1BC4 channel 2: music
+COMMENT $1BC4 ADSR and twang address tables, in Vectrex ROM
+COMMENT $1BC8 ;;;;;;;
+COMMENT $1BCA first byte is a note, to be
+COMMENT $1BCC found in vectrex rom, is a
+COMMENT $1BCE 64 byte table...
+COMMENT $1BD0 last byte is length of note
+COMMENT $1BDE ;;;;;;;
+COMMENT $1BE6 ;;;;;;;
+COMMENT $1BF4 ;;;;;;;
+COMMENT $1C00 ;;;;;;;
+COMMENT $1C04 a 128 means the next byte is
+COMMENT $1C08 a note for the next channel
+COMMENT $1C0C channel...
+COMMENT $1C10 ;;;;;;;
+COMMENT $1C20 ;;;;;;;
+COMMENT $1C30 ;;;;;;;
+COMMENT $1C3E ;;;;;;;
+COMMENT $1C4E ;;;;;;;
+COMMENT $1C5E ;;;;;;;
+COMMENT $1C6E ;;;;;;;
+COMMENT $1C7A ;;;;;;;
+COMMENT $1C89 ;;;;;;;
+COMMENT $1C97 ;;;;;;;
+COMMENT $1CA6 ;;;;;;;
+COMMENT $1CB2 ;;;;;;;
+COMMENT $1CC1 ;;;;;;;
+COMMENT $1CD1 ;;;;;;;
+COMMENT $1CE1 ;;;;;;;
+COMMENT $1CED $80 is end marker for music
+COMMENT_LINE $1CEF (high byte set)
+COMMENT_LINE $1CEF instrument &
+COMMENT_LINE $1CEF fdb	$FEE8, $FEB6            ; ADSR and twang address tables, in Vectrex ROM
+COMMENT $1CEF ADSR and twang address tables, in Vectrex ROM
+COMMENT $1CF5 ;;;;;;;
+COMMENT $1CF7 $80 is end marker for music
+COMMENT_LINE $1CF9 version 1.0
+COMMENT_LINE $1CF9 instrument &
+COMMENT_LINE $1CF9 fdb	$FEE8, $FEB6            ; ADSR and twang address tables, in Vectrex ROM
+COMMENT $1CF9 ADSR and twang address tables, in Vectrex ROM
+COMMENT $1CFF ;;;;;;;
+COMMENT $1D03 ;;;;;;;
+COMMENT $1D05 $80 is end marker for music
+COMMENT_LINE $1D07 instrument &
+COMMENT_LINE $1D07 fdb	$FEE8, $FEB6            ; ADSR and twang address tables, in Vectrex ROM
+COMMENT $1D07 ADSR and twang address tables, in Vectrex ROM
+COMMENT $1D0D ;;;;;;;
+COMMENT $1D0F ;;;;;;;
+COMMENT $1D11 $80 is end marker for music
+COMMENT_LINE $1D13 instrument &
+COMMENT_LINE $1D13 fdb	$FEE8, $FEB6            ; ADSR and twang address tables, in Vectrex ROM
+COMMENT $1D13 ADSR and twang address tables, in Vectrex ROM
+COMMENT $1D19 ;;;;;;;
+COMMENT $1D1D $80 is end marker for music
+COMMENT_LINE $1D1F instrument &
+COMMENT_LINE $1D1F fdb	$FEE8, $FEB6            ; ADSR and twang address tables, in Vectrex ROM
+COMMENT $1D1F ADSR and twang address tables, in Vectrex ROM
+COMMENT $1D25 ;;;;;;;
+COMMENT $1D29 $80 is end marker for music
+COMMENT_LINE $1D2B taken sound effects
+COMMENT_LINE $1EAE from frogger
+COMMENT_LINE $1EAE ***************************************************************************
+COMMENT $1EAE piano
+COMMENT $1EB2 minestorm
+COMMENT $1EB6 psychadelic :-), a missread address, but what the heck
+COMMENT_LINE $1EBA it sounds weird!!!
+COMMENT $1EBA well, another one of those
+COMMENT $1EBE video game beep
+COMMENT $1EC2 organ with echo
+COMMENT_LINE $1EC6 ***************************************************************************
+COMMENT_LINE $1ED8 ***************************************************************************
+COMMENT $1EFC $FF is end marker for music
+COMMENT_LINE $1EFE ***************************************************************************
+COMMENT_LINE $1F10 ***************************************************************************
+COMMENT $1F10 ADSR and twang address tables, in Vectrex ROM
+COMMENT $1F18 ;;;;;;;
+COMMENT $1F1C a 128 means the next byte is a note for the
+COMMENT $1F20 next channel...
+COMMENT $1F28 ;;;;;;;
+COMMENT $1F38 ;;;;;;;
+COMMENT $1F48 ;;;;;;;
+COMMENT $1F56 ;;;;;;;
+COMMENT $1F66 ;;;;;;;
+COMMENT $1F76 ;;;;;;;
+COMMENT $1F86 ;;;;;;;
+COMMENT $1F8C $FF is end marker for music
+COMMENT_LINE $1F8E (high byte set)
+COMMENT_LINE $1F8E ***************************************************************************
+COMMENT_LINE $1F98 ***************************************************************************
+COMMENT_LINE $1FA2 ***************************************************************************
+COMMENT_LINE $1FB0 ***************************************************************************
+COMMENT_LINE $1FCA ***************************************************************************
+RANGE $0000-$1FEA DP $D0
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$0020 CHAR_DATA 15
+RANGE $0020-$0021 DB_DATA 1
+RANGE $0021-$12F9 CODE
+RANGE $12F9-$12FA DB_DATA 1
+RANGE $12FA-$12FC DB_DATA 2
+RANGE $12FC-$12FE DB_DATA 2
+RANGE $12FE-$1300 DB_DATA 2
+RANGE $1300-$1302 DB_DATA 2
+RANGE $1302-$1303 DB_DATA 1
+RANGE $1303-$1305 DB_DATA 2
+RANGE $1305-$1307 DB_DATA 2
+RANGE $1307-$1309 DB_DATA 2
+RANGE $1309-$130B DB_DATA 2
+RANGE $130B-$130C DB_DATA 1
+RANGE $130C-$130E DB_DATA 2
+RANGE $130E-$1310 DB_DATA 2
+RANGE $1310-$1312 DB_DATA 2
+RANGE $1312-$1314 DB_DATA 2
+RANGE $1314-$1315 DB_DATA 1
+RANGE $1315-$1317 DB_DATA 2
+RANGE $1317-$1319 DB_DATA 2
+RANGE $1319-$131B DB_DATA 2
+RANGE $131B-$131D DB_DATA 2
+RANGE $131D-$131E DB_DATA 1
+RANGE $131E-$1320 DB_DATA 2
+RANGE $1320-$1322 DB_DATA 2
+RANGE $1322-$1324 DB_DATA 2
+RANGE $1324-$1326 DB_DATA 2
+RANGE $1326-$1327 DB_DATA 1
+RANGE $1327-$1329 DB_DATA 2
+RANGE $1329-$132B DB_DATA 2
+RANGE $132B-$132D DB_DATA 2
+RANGE $132D-$132F DB_DATA 2
+RANGE $132F-$1330 DB_DATA 1
+RANGE $1330-$1332 DB_DATA 2
+RANGE $1332-$1334 DB_DATA 2
+RANGE $1334-$1336 DB_DATA 2
+RANGE $1336-$1338 DB_DATA 2
+RANGE $1338-$1339 DB_DATA 1
+RANGE $1339-$133B DB_DATA 2
+RANGE $133B-$133D DB_DATA 2
+RANGE $133D-$133F DB_DATA 2
+RANGE $133F-$1341 DB_DATA 2
+RANGE $1341-$1342 DB_DATA 1
+RANGE $1342-$1344 DB_DATA 2
+RANGE $1344-$1346 DB_DATA 2
+RANGE $1346-$1348 DB_DATA 2
+RANGE $1348-$134A DB_DATA 2
+RANGE $134A-$134B DB_DATA 1
+RANGE $134B-$134D DB_DATA 2
+RANGE $134D-$134F DB_DATA 2
+RANGE $134F-$1351 DB_DATA 2
+RANGE $1351-$1353 DB_DATA 2
+RANGE $1353-$1354 DB_DATA 1
+RANGE $1354-$1356 DB_DATA 2
+RANGE $1356-$1358 DB_DATA 2
+RANGE $1358-$135A DB_DATA 2
+RANGE $135A-$135C DB_DATA 2
+RANGE $135C-$135D DB_DATA 1
+RANGE $135D-$135F DB_DATA 2
+RANGE $135F-$1361 DB_DATA 2
+RANGE $1361-$1363 DB_DATA 2
+RANGE $1363-$1365 DB_DATA 2
+RANGE $1365-$1366 DB_DATA 1
+RANGE $1366-$1368 DB_DATA 2
+RANGE $1368-$136A DB_DATA 2
+RANGE $136A-$136C DB_DATA 2
+RANGE $136C-$136E DB_DATA 2
+RANGE $136E-$136F DB_DATA 1
+RANGE $136F-$1371 DB_DATA 2
+RANGE $1371-$1373 DB_DATA 2
+RANGE $1373-$1375 DB_DATA 2
+RANGE $1375-$1377 DB_DATA 2
+RANGE $1377-$1378 DB_DATA 1
+RANGE $1378-$137A DB_DATA 2
+RANGE $137A-$137C DB_DATA 2
+RANGE $137C-$137E DB_DATA 2
+RANGE $137E-$1380 DB_DATA 2
+RANGE $1380-$1381 DB_DATA 1
+RANGE $1381-$1383 DB_DATA 2
+RANGE $1383-$1385 DB_DATA 2
+RANGE $1385-$1387 DB_DATA 2
+RANGE $1387-$1389 DB_DATA 2
+RANGE $1389-$138A DB_DATA 1
+RANGE $138A-$138C DB_DATA 2
+RANGE $138C-$138E DB_DATA 2
+RANGE $138E-$1390 DB_DATA 2
+RANGE $1390-$1392 DB_DATA 2
+RANGE $1392-$1393 DB_DATA 1
+RANGE $1393-$1395 DB_DATA 2
+RANGE $1395-$1397 DB_DATA 2
+RANGE $1397-$1399 DB_DATA 2
+RANGE $1399-$139B DB_DATA 2
+RANGE $139B-$139C DB_DATA 1
+RANGE $139C-$139E DB_DATA 2
+RANGE $139E-$13A0 DB_DATA 2
+RANGE $13A0-$13A2 DB_DATA 2
+RANGE $13A2-$13A4 DB_DATA 2
+RANGE $13A4-$13A5 DB_DATA 1
+RANGE $13A5-$13A7 DB_DATA 2
+RANGE $13A7-$13A9 DB_DATA 2
+RANGE $13A9-$13AB DB_DATA 2
+RANGE $13AB-$13AD DB_DATA 2
+RANGE $13AD-$13AE DB_DATA 1
+RANGE $13AE-$13B0 DB_DATA 2
+RANGE $13B0-$13B2 DB_DATA 2
+RANGE $13B2-$13B4 DB_DATA 2
+RANGE $13B4-$13B6 DB_DATA 2
+RANGE $13B6-$13B7 DB_DATA 1
+RANGE $13B7-$13B9 DB_DATA 2
+RANGE $13B9-$13BB DB_DATA 2
+RANGE $13BB-$13BD DB_DATA 2
+RANGE $13BD-$13BF DB_DATA 2
+RANGE $13BF-$13C0 DB_DATA 1
+RANGE $13C0-$13C2 DB_DATA 2
+RANGE $13C2-$13C4 DB_DATA 2
+RANGE $13C4-$13C6 DB_DATA 2
+RANGE $13C6-$13C8 DB_DATA 2
+RANGE $13C8-$13C9 DB_DATA 1
+RANGE $13C9-$13CB DB_DATA 2
+RANGE $13CB-$13CD DB_DATA 2
+RANGE $13CD-$13CF DB_DATA 2
+RANGE $13CF-$13D1 DB_DATA 2
+RANGE $13D1-$13D2 DB_DATA 1
+RANGE $13D2-$13D4 DB_DATA 2
+RANGE $13D4-$13D6 DB_DATA 2
+RANGE $13D6-$13D8 DB_DATA 2
+RANGE $13D8-$13DA DB_DATA 2
+RANGE $13DA-$13DB DB_DATA 1
+RANGE $13DB-$13DD DB_DATA 2
+RANGE $13DD-$13DF DB_DATA 2
+RANGE $13DF-$13E1 DB_DATA 2
+RANGE $13E1-$13E3 DB_DATA 2
+RANGE $13E3-$13E4 DB_DATA 1
+RANGE $13E4-$13E6 DB_DATA 2
+RANGE $13E6-$13E8 DB_DATA 2
+RANGE $13E8-$13EA DB_DATA 2
+RANGE $13EA-$13EC DB_DATA 2
+RANGE $13EC-$13ED DB_DATA 1
+RANGE $13ED-$13EF DB_DATA 2
+RANGE $13EF-$13F1 DB_DATA 2
+RANGE $13F1-$13F3 DB_DATA 2
+RANGE $13F3-$13F5 DB_DATA 2
+RANGE $13F5-$13F6 DB_DATA 1
+RANGE $13F6-$13F8 DB_DATA 2
+RANGE $13F8-$13FA DB_DATA 2
+RANGE $13FA-$13FC DB_DATA 2
+RANGE $13FC-$13FE DB_DATA 2
+RANGE $13FE-$13FF DB_DATA 1
+RANGE $13FF-$1401 DB_DATA 2
+RANGE $1401-$1403 DB_DATA 2
+RANGE $1403-$1405 DB_DATA 2
+RANGE $1405-$1407 DB_DATA 2
+RANGE $1407-$1408 DB_DATA 1
+RANGE $1408-$140A DB_DATA 2
+RANGE $140A-$140C DB_DATA 2
+RANGE $140C-$140E DB_DATA 2
+RANGE $140E-$1410 DB_DATA 2
+RANGE $1410-$1411 DB_DATA 1
+RANGE $1411-$1413 DB_DATA 2
+RANGE $1413-$1415 DB_DATA 2
+RANGE $1415-$1417 DB_DATA 2
+RANGE $1417-$1419 DB_DATA 2
+RANGE $1419-$141A DB_DATA 1
+RANGE $141A-$141C DB_DATA 2
+RANGE $141C-$141E DB_DATA 2
+RANGE $141E-$1420 DB_DATA 2
+RANGE $1420-$1422 DB_DATA 2
+RANGE $1422-$1423 DB_DATA 1
+RANGE $1423-$1425 DB_DATA 2
+RANGE $1425-$1427 DB_DATA 2
+RANGE $1427-$1429 DB_DATA 2
+RANGE $1429-$142B DB_DATA 2
+RANGE $142B-$142C DB_DATA 1
+RANGE $142C-$142E DB_DATA 2
+RANGE $142E-$1430 DB_DATA 2
+RANGE $1430-$1432 DB_DATA 2
+RANGE $1432-$1434 DB_DATA 2
+RANGE $1434-$1435 DB_DATA 1
+RANGE $1435-$1437 DB_DATA 2
+RANGE $1437-$1439 DB_DATA 2
+RANGE $1439-$143B DB_DATA 2
+RANGE $143B-$143D DB_DATA 2
+RANGE $143D-$143E DB_DATA 1
+RANGE $143E-$1440 DB_DATA 2
+RANGE $1440-$1442 DB_DATA 2
+RANGE $1442-$1444 DB_DATA 2
+RANGE $1444-$1446 DB_DATA 2
+RANGE $1446-$1447 DB_DATA 1
+RANGE $1447-$1449 DB_DATA 2
+RANGE $1449-$144B DB_DATA 2
+RANGE $144B-$144D DB_DATA 2
+RANGE $144D-$144F DB_DATA 2
+RANGE $144F-$1450 DB_DATA 1
+RANGE $1450-$1452 DB_DATA 2
+RANGE $1452-$1454 DB_DATA 2
+RANGE $1454-$1456 DB_DATA 2
+RANGE $1456-$1458 DB_DATA 2
+RANGE $1458-$1459 DB_DATA 1
+RANGE $1459-$145B DB_DATA 2
+RANGE $145B-$145D DB_DATA 2
+RANGE $145D-$145F DB_DATA 2
+RANGE $145F-$1461 DB_DATA 2
+RANGE $1461-$1462 DB_DATA 1
+RANGE $1462-$1464 DB_DATA 2
+RANGE $1464-$1466 DB_DATA 2
+RANGE $1466-$1468 DB_DATA 2
+RANGE $1468-$146A DB_DATA 2
+RANGE $146A-$146B DB_DATA 1
+RANGE $146B-$146D DB_DATA 2
+RANGE $146D-$146F DB_DATA 2
+RANGE $146F-$1471 DB_DATA 2
+RANGE $1471-$1473 DB_DATA 2
+RANGE $1473-$1474 DB_DATA 1
+RANGE $1474-$1476 DB_DATA 2
+RANGE $1476-$1478 DB_DATA 2
+RANGE $1478-$147A DB_DATA 2
+RANGE $147A-$147C DB_DATA 2
+RANGE $147C-$147D DB_DATA 1
+RANGE $147D-$147F DB_DATA 2
+RANGE $147F-$1481 DB_DATA 2
+RANGE $1481-$1483 DB_DATA 2
+RANGE $1483-$1485 DB_DATA 2
+RANGE $1485-$1486 DB_DATA 1
+RANGE $1486-$1488 DB_DATA 2
+RANGE $1488-$148A DB_DATA 2
+RANGE $148A-$148C DB_DATA 2
+RANGE $148C-$148E DB_DATA 2
+RANGE $148E-$148F DB_DATA 1
+RANGE $148F-$1491 DB_DATA 2
+RANGE $1491-$1493 DB_DATA 2
+RANGE $1493-$1495 DB_DATA 2
+RANGE $1495-$1497 DB_DATA 2
+RANGE $1497-$1498 DB_DATA 1
+RANGE $1498-$149A DB_DATA 2
+RANGE $149A-$149C DB_DATA 2
+RANGE $149C-$149E DB_DATA 2
+RANGE $149E-$14A0 DB_DATA 2
+RANGE $14A0-$14A1 DB_DATA 1
+RANGE $14A1-$14A3 DB_DATA 2
+RANGE $14A3-$14A5 DB_DATA 2
+RANGE $14A5-$14A7 DB_DATA 2
+RANGE $14A7-$14A9 DB_DATA 2
+RANGE $14A9-$14AA DB_DATA 1
+RANGE $14AA-$14AC DB_DATA 2
+RANGE $14AC-$14AE DB_DATA 2
+RANGE $14AE-$14B0 DB_DATA 2
+RANGE $14B0-$14B2 DB_DATA 2
+RANGE $14B2-$14B3 DB_DATA 1
+RANGE $14B3-$14B5 DB_DATA 2
+RANGE $14B5-$14B7 DB_DATA 2
+RANGE $14B7-$14B9 DB_DATA 2
+RANGE $14B9-$14BB DB_DATA 2
+RANGE $14BB-$14BC DB_DATA 1
+RANGE $14BC-$14BE DB_DATA 2
+RANGE $14BE-$14C0 DB_DATA 2
+RANGE $14C0-$14C2 DB_DATA 2
+RANGE $14C2-$14C4 DB_DATA 2
+RANGE $14C4-$14C5 DB_DATA 1
+RANGE $14C5-$14C7 DB_DATA 2
+RANGE $14C7-$14C9 DB_DATA 2
+RANGE $14C9-$14CB DB_DATA 2
+RANGE $14CB-$14CD DB_DATA 2
+RANGE $14CD-$14CE DB_DATA 1
+RANGE $14CE-$14D0 DB_DATA 2
+RANGE $14D0-$14D2 DB_DATA 2
+RANGE $14D2-$14D4 DB_DATA 2
+RANGE $14D4-$14D6 DB_DATA 2
+RANGE $14D6-$14D7 DB_DATA 1
+RANGE $14D7-$14D9 DB_DATA 2
+RANGE $14D9-$14DB DB_DATA 2
+RANGE $14DB-$14DD DB_DATA 2
+RANGE $14DD-$14DF DB_DATA 2
+RANGE $14DF-$14E0 DB_DATA 1
+RANGE $14E0-$14E2 DB_DATA 2
+RANGE $14E2-$14E4 DB_DATA 2
+RANGE $14E4-$14E6 DB_DATA 2
+RANGE $14E6-$14E8 DB_DATA 2
+RANGE $14E8-$14E9 DB_DATA 1
+RANGE $14E9-$14EB DB_DATA 2
+RANGE $14EB-$14ED DB_DATA 2
+RANGE $14ED-$14EF DB_DATA 2
+RANGE $14EF-$14F1 DB_DATA 2
+RANGE $14F1-$14F2 DB_DATA 1
+RANGE $14F2-$14F4 DB_DATA 2
+RANGE $14F4-$14F6 DB_DATA 2
+RANGE $14F6-$14F8 DB_DATA 2
+RANGE $14F8-$14FA DB_DATA 2
+RANGE $14FA-$14FB DB_DATA 1
+RANGE $14FB-$14FD DB_DATA 2
+RANGE $14FD-$14FF DB_DATA 2
+RANGE $14FF-$1501 DB_DATA 2
+RANGE $1501-$1503 DB_DATA 2
+RANGE $1503-$1504 DB_DATA 1
+RANGE $1504-$1506 DB_DATA 2
+RANGE $1506-$1508 DB_DATA 2
+RANGE $1508-$150A DB_DATA 2
+RANGE $150A-$150C DB_DATA 2
+RANGE $150C-$150D DB_DATA 1
+RANGE $150D-$150F DB_DATA 2
+RANGE $150F-$1511 DB_DATA 2
+RANGE $1511-$1513 DB_DATA 2
+RANGE $1513-$1515 DB_DATA 2
+RANGE $1515-$1516 DB_DATA 1
+RANGE $1516-$1518 DB_DATA 2
+RANGE $1518-$151A DB_DATA 2
+RANGE $151A-$151C DB_DATA 2
+RANGE $151C-$151E DB_DATA 2
+RANGE $151E-$151F DB_DATA 1
+RANGE $151F-$1521 DB_DATA 2
+RANGE $1521-$1523 DB_DATA 2
+RANGE $1523-$1525 DB_DATA 2
+RANGE $1525-$1527 DB_DATA 2
+RANGE $1527-$1528 DB_DATA 1
+RANGE $1528-$152A DB_DATA 2
+RANGE $152A-$152C DB_DATA 2
+RANGE $152C-$152E DB_DATA 2
+RANGE $152E-$1530 DB_DATA 2
+RANGE $1530-$1531 DB_DATA 1
+RANGE $1531-$1533 DB_DATA 2
+RANGE $1533-$1535 DB_DATA 2
+RANGE $1535-$1537 DB_DATA 2
+RANGE $1537-$1539 DB_DATA 2
+RANGE $1539-$153A DB_DATA 1
+RANGE $153A-$153C DB_DATA 2
+RANGE $153C-$153E DB_DATA 2
+RANGE $153E-$1540 DB_DATA 2
+RANGE $1540-$1542 DB_DATA 2
+RANGE $1542-$1543 DB_DATA 1
+RANGE $1543-$1545 DB_DATA 2
+RANGE $1545-$1547 DB_DATA 2
+RANGE $1547-$1549 DB_DATA 2
+RANGE $1549-$154B DB_DATA 2
+RANGE $154B-$154C DB_DATA 1
+RANGE $154C-$154E DB_DATA 2
+RANGE $154E-$1550 DB_DATA 2
+RANGE $1550-$1552 DB_DATA 2
+RANGE $1552-$1554 DB_DATA 2
+RANGE $1554-$1555 DB_DATA 1
+RANGE $1555-$1557 DB_DATA 2
+RANGE $1557-$1559 DB_DATA 2
+RANGE $1559-$155B DB_DATA 2
+RANGE $155B-$155D DB_DATA 2
+RANGE $155D-$155E DB_DATA 1
+RANGE $155E-$1560 DB_DATA 2
+RANGE $1560-$1562 DB_DATA 2
+RANGE $1562-$1564 DB_DATA 2
+RANGE $1564-$1566 DB_DATA 2
+RANGE $1566-$1568 DB_DATA 2
+RANGE $1568-$156A DB_DATA 2
+RANGE $156A-$156C DB_DATA 2
+RANGE $156C-$156E DB_DATA 2
+RANGE $156E-$1570 DB_DATA 2
+RANGE $1570-$1572 DB_DATA 2
+RANGE $1572-$1574 DB_DATA 2
+RANGE $1574-$1576 DB_DATA 2
+RANGE $1576-$1578 DB_DATA 2
+RANGE $1578-$157A DB_DATA 2
+RANGE $157A-$157C DB_DATA 2
+RANGE $157C-$157E DB_DATA 2
+RANGE $157E-$1580 DB_DATA 2
+RANGE $1580-$1582 DB_DATA 2
+RANGE $1582-$1584 DB_DATA 2
+RANGE $1584-$1586 DB_DATA 2
+RANGE $1586-$1588 DB_DATA 2
+RANGE $1588-$158A DB_DATA 2
+RANGE $158A-$158C DB_DATA 2
+RANGE $158C-$158E DB_DATA 2
+RANGE $158E-$1590 DB_DATA 2
+RANGE $1590-$1592 DB_DATA 2
+RANGE $1592-$1594 DB_DATA 2
+RANGE $1594-$1596 DB_DATA 2
+RANGE $1596-$1598 DB_DATA 2
+RANGE $1598-$159A DB_DATA 2
+RANGE $159A-$159C DB_DATA 2
+RANGE $159C-$159E DB_DATA 2
+RANGE $159E-$15A0 DB_DATA 2
+RANGE $15A0-$15A2 DB_DATA 2
+RANGE $15A2-$15A4 DB_DATA 2
+RANGE $15A4-$15A6 DB_DATA 2
+RANGE $15A6-$15A8 DB_DATA 2
+RANGE $15A8-$15AA DB_DATA 2
+RANGE $15AA-$15AC DB_DATA 2
+RANGE $15AC-$15AE DB_DATA 2
+RANGE $15AE-$15B0 DB_DATA 2
+RANGE $15B0-$15B2 DB_DATA 2
+RANGE $15B2-$15B4 DB_DATA 2
+RANGE $15B4-$15B6 DB_DATA 2
+RANGE $15B6-$15B8 DB_DATA 2
+RANGE $15B8-$15BA DB_DATA 2
+RANGE $15BA-$15BC DB_DATA 2
+RANGE $15BC-$15BD DB_DATA 1
+RANGE $15BD-$15BF DB_DATA 2
+RANGE $15BF-$15C1 DB_DATA 2
+RANGE $15C1-$15C3 DB_DATA 2
+RANGE $15C3-$15C5 DB_DATA 2
+RANGE $15C5-$15C7 DB_DATA 2
+RANGE $15C7-$15C9 DB_DATA 2
+RANGE $15C9-$15CB DB_DATA 2
+RANGE $15CB-$15CC DB_DATA 1
+RANGE $15CC-$15CE DB_DATA 2
+RANGE $15CE-$15D0 DB_DATA 2
+RANGE $15D0-$15D2 DB_DATA 2
+RANGE $15D2-$15D3 DB_DATA 1
+RANGE $15D3-$15D5 DB_DATA 2
+RANGE $15D5-$15D7 DB_DATA 2
+RANGE $15D7-$15D9 DB_DATA 2
+RANGE $15D9-$15DA DB_DATA 1
+RANGE $15DA-$15DC DB_DATA 2
+RANGE $15DC-$15DE DB_DATA 2
+RANGE $15DE-$15E0 DB_DATA 2
+RANGE $15E0-$15E1 DB_DATA 1
+RANGE $15E1-$15E3 DB_DATA 2
+RANGE $15E3-$15E5 DB_DATA 2
+RANGE $15E5-$15E7 DB_DATA 2
+RANGE $15E7-$15E8 DB_DATA 1
+RANGE $15E8-$15EA DB_DATA 2
+RANGE $15EA-$15EC DB_DATA 2
+RANGE $15EC-$15EE DB_DATA 2
+RANGE $15EE-$15F0 DB_DATA 2
+RANGE $15F0-$15F2 DB_DATA 2
+RANGE $15F2-$15F4 DB_DATA 2
+RANGE $15F4-$15F6 DB_DATA 2
+RANGE $15F6-$15F8 DB_DATA 2
+RANGE $15F8-$15FA DB_DATA 2
+RANGE $15FA-$15FC DB_DATA 2
+RANGE $15FC-$160B DB_DATA 15
+RANGE $160B-$161A DB_DATA 15
+RANGE $161A-$1622 DB_DATA 8
+RANGE $1622-$162A DB_DATA 8
+RANGE $162A-$1632 DB_DATA 8
+RANGE $1632-$163A DB_DATA 8
+RANGE $163A-$1642 DB_DATA 8
+RANGE $1642-$164A DB_DATA 8
+RANGE $164A-$1652 DB_DATA 8
+RANGE $1652-$165A DB_DATA 8
+RANGE $165A-$1662 DB_DATA 8
+RANGE $1662-$166A DB_DATA 8
+RANGE $166A-$1672 DB_DATA 8
+RANGE $1672-$167A DB_DATA 8
+RANGE $167A-$1682 DB_DATA 8
+RANGE $1682-$168A DB_DATA 8
+RANGE $168A-$1692 DB_DATA 8
+RANGE $1692-$169A DB_DATA 8
+RANGE $169A-$16A2 DB_DATA 8
+RANGE $16A2-$16AA DB_DATA 8
+RANGE $16AA-$16B2 DB_DATA 8
+RANGE $16B2-$16BA DB_DATA 8
+RANGE $16BA-$16C2 DB_DATA 8
+RANGE $16C2-$16CA DB_DATA 8
+RANGE $16CA-$16D2 DB_DATA 8
+RANGE $16D2-$16DA DB_DATA 8
+RANGE $16DA-$16E2 DB_DATA 8
+RANGE $16E2-$16EA DB_DATA 8
+RANGE $16EA-$16F2 DB_DATA 8
+RANGE $16F2-$16FA DB_DATA 8
+RANGE $16FA-$1702 DB_DATA 8
+RANGE $1702-$170A DB_DATA 8
+RANGE $170A-$1712 DB_DATA 8
+RANGE $1712-$171A DB_DATA 8
+RANGE $171A-$1722 DB_DATA 8
+RANGE $1722-$172A DB_DATA 8
+RANGE $172A-$1732 DB_DATA 8
+RANGE $1732-$173A DB_DATA 8
+RANGE $173A-$1742 DB_DATA 8
+RANGE $1742-$174A DB_DATA 8
+RANGE $174A-$1752 DB_DATA 8
+RANGE $1752-$175A DB_DATA 8
+RANGE $175A-$1762 DB_DATA 8
+RANGE $1762-$176A DB_DATA 8
+RANGE $176A-$1772 DB_DATA 8
+RANGE $1772-$177A DB_DATA 8
+RANGE $177A-$1782 DB_DATA 8
+RANGE $1782-$178A DB_DATA 8
+RANGE $178A-$1792 DB_DATA 8
+RANGE $1792-$179A DB_DATA 8
+RANGE $179A-$17A2 DB_DATA 8
+RANGE $17A2-$17AA DB_DATA 8
+RANGE $17AA-$17B2 DB_DATA 8
+RANGE $17B2-$17BA DB_DATA 8
+RANGE $17BA-$17C2 DB_DATA 8
+RANGE $17C2-$17CA DB_DATA 8
+RANGE $17CA-$17D2 DB_DATA 8
+RANGE $17D2-$17DA DB_DATA 8
+RANGE $17DA-$17E2 DB_DATA 8
+RANGE $17E2-$17EA DB_DATA 8
+RANGE $17EA-$17F2 DB_DATA 8
+RANGE $17F2-$17FA DB_DATA 8
+RANGE $17FA-$1802 DB_DATA 8
+RANGE $1802-$180A DB_DATA 8
+RANGE $180A-$1812 DB_DATA 8
+RANGE $1812-$181A DB_DATA 8
+RANGE $181A-$1822 DB_DATA 8
+RANGE $1822-$182A DB_DATA 8
+RANGE $182A-$1832 DB_DATA 8
+RANGE $1832-$183A DB_DATA 8
+RANGE $183A-$1842 DB_DATA 8
+RANGE $1842-$184A DB_DATA 8
+RANGE $184A-$1852 DB_DATA 8
+RANGE $1852-$185A DB_DATA 8
+RANGE $185A-$1862 DB_DATA 8
+RANGE $1862-$186A DB_DATA 8
+RANGE $186A-$1872 DB_DATA 8
+RANGE $1872-$187A DB_DATA 8
+RANGE $187A-$1882 DB_DATA 8
+RANGE $1882-$188A DB_DATA 8
+RANGE $188A-$1892 DB_DATA 8
+RANGE $1892-$189A DB_DATA 8
+RANGE $189A-$18A2 DB_DATA 8
+RANGE $18A2-$18AA DB_DATA 8
+RANGE $18AA-$18B2 DB_DATA 8
+RANGE $18B2-$18BA DB_DATA 8
+RANGE $18BA-$18C2 DB_DATA 8
+RANGE $18C2-$18CA DB_DATA 8
+RANGE $18CA-$18D2 DB_DATA 8
+RANGE $18D2-$18DA DB_DATA 8
+RANGE $18DA-$18E2 DB_DATA 8
+RANGE $18E2-$18EA DB_DATA 8
+RANGE $18EA-$18F2 DB_DATA 8
+RANGE $18F2-$18FA DB_DATA 8
+RANGE $18FA-$1902 DB_DATA 8
+RANGE $1902-$190A DB_DATA 8
+RANGE $190A-$1912 DB_DATA 8
+RANGE $1912-$191A DB_DATA 8
+RANGE $191A-$1922 DB_DATA 8
+RANGE $1922-$192A DB_DATA 8
+RANGE $192A-$1932 DB_DATA 8
+RANGE $1932-$193A DB_DATA 8
+RANGE $193A-$1942 DB_DATA 8
+RANGE $1942-$194A DB_DATA 8
+RANGE $194A-$1952 DB_DATA 8
+RANGE $1952-$195A DB_DATA 8
+RANGE $195A-$1962 DB_DATA 8
+RANGE $1962-$196A DB_DATA 8
+RANGE $196A-$1972 DB_DATA 8
+RANGE $1972-$197A DB_DATA 8
+RANGE $197A-$1982 DB_DATA 8
+RANGE $1982-$198A DB_DATA 8
+RANGE $198A-$1992 DB_DATA 8
+RANGE $1992-$199A DB_DATA 8
+RANGE $199A-$19A2 DB_DATA 8
+RANGE $19A2-$19AA DB_DATA 8
+RANGE $19AA-$19B2 DB_DATA 8
+RANGE $19B2-$19BA DB_DATA 8
+RANGE $19BA-$19C2 DB_DATA 8
+RANGE $19C2-$19CA DB_DATA 8
+RANGE $19CA-$19D2 DB_DATA 8
+RANGE $19D2-$19DA DB_DATA 8
+RANGE $19DA-$19E2 DB_DATA 8
+RANGE $19E2-$19EA DB_DATA 8
+RANGE $19EA-$19F2 DB_DATA 8
+RANGE $19F2-$19FA DB_DATA 8
+RANGE $19FA-$1A02 DB_DATA 8
+RANGE $1A02-$1A0A DB_DATA 8
+RANGE $1A0A-$1A12 DB_DATA 8
+RANGE $1A12-$1A1A DB_DATA 8
+RANGE $1A1A-$1A22 DB_DATA 8
+RANGE $1A22-$1A2A DB_DATA 8
+RANGE $1A2A-$1A32 DB_DATA 8
+RANGE $1A32-$1A3A DB_DATA 8
+RANGE $1A3A-$1A42 DB_DATA 8
+RANGE $1A42-$1A4A DB_DATA 8
+RANGE $1A4A-$1A52 DB_DATA 8
+RANGE $1A52-$1A5A DB_DATA 8
+RANGE $1A5A-$1A62 DB_DATA 8
+RANGE $1A62-$1A6A DB_DATA 8
+RANGE $1A6A-$1A7F DB_DATA 21
+RANGE $1A7F-$1A8B DB_DATA 12
+RANGE $1A8B-$1AA3 DB_DATA 24
+RANGE $1AA3-$1ABA DB_DATA 23
+RANGE $1ABA-$1AD3 DB_DATA 25
+RANGE $1AD3-$1ADC DB_DATA 9
+RANGE $1ADC-$1AF3 DB_DATA 23
+RANGE $1AF3-$1AFF DB_DATA 12
+RANGE $1AFF-$1B18 DB_DATA 25
+RANGE $1B18-$1B31 DB_DATA 25
+RANGE $1B31-$1B4A DB_DATA 25
+RANGE $1B4A-$1B62 DB_DATA 24
+RANGE $1B62-$1B7A DB_DATA 24
+RANGE $1B7A-$1B92 DB_DATA 24
+RANGE $1B92-$1BAB DB_DATA 25
+RANGE $1BAB-$1BC4 DB_DATA 25
+RANGE $1BC4-$1BC8 DW_DATA 2
+RANGE $1BC8-$1BCA DB_DATA 2
+RANGE $1BCA-$1BCC DB_DATA 2
+RANGE $1BCC-$1BCE DB_DATA 2
+RANGE $1BCE-$1BD0 DB_DATA 2
+RANGE $1BD0-$1BD2 DB_DATA 2
+RANGE $1BD2-$1BD4 DB_DATA 2
+RANGE $1BD4-$1BD6 DB_DATA 2
+RANGE $1BD6-$1BD8 DB_DATA 2
+RANGE $1BD8-$1BDA DB_DATA 2
+RANGE $1BDA-$1BDC DB_DATA 2
+RANGE $1BDC-$1BDE DB_DATA 2
+RANGE $1BDE-$1BE0 DB_DATA 2
+RANGE $1BE0-$1BE2 DB_DATA 2
+RANGE $1BE2-$1BE4 DB_DATA 2
+RANGE $1BE4-$1BE6 DB_DATA 2
+RANGE $1BE6-$1BE8 DB_DATA 2
+RANGE $1BE8-$1BEA DB_DATA 2
+RANGE $1BEA-$1BEC DB_DATA 2
+RANGE $1BEC-$1BEE DB_DATA 2
+RANGE $1BEE-$1BF0 DB_DATA 2
+RANGE $1BF0-$1BF2 DB_DATA 2
+RANGE $1BF2-$1BF4 DB_DATA 2
+RANGE $1BF4-$1BF6 DB_DATA 2
+RANGE $1BF6-$1BF8 DB_DATA 2
+RANGE $1BF8-$1BFA DB_DATA 2
+RANGE $1BFA-$1BFC DB_DATA 2
+RANGE $1BFC-$1C00 DB_DATA 4
+RANGE $1C00-$1C04 DB_DATA 4
+RANGE $1C04-$1C08 DB_DATA 4
+RANGE $1C08-$1C0C DB_DATA 4
+RANGE $1C0C-$1C10 DB_DATA 4
+RANGE $1C10-$1C14 DB_DATA 4
+RANGE $1C14-$1C18 DB_DATA 4
+RANGE $1C18-$1C1C DB_DATA 4
+RANGE $1C1C-$1C20 DB_DATA 4
+RANGE $1C20-$1C24 DB_DATA 4
+RANGE $1C24-$1C28 DB_DATA 4
+RANGE $1C28-$1C2C DB_DATA 4
+RANGE $1C2C-$1C30 DB_DATA 4
+RANGE $1C30-$1C34 DB_DATA 4
+RANGE $1C34-$1C36 DB_DATA 2
+RANGE $1C36-$1C3A DB_DATA 4
+RANGE $1C3A-$1C3E DB_DATA 4
+RANGE $1C3E-$1C42 DB_DATA 4
+RANGE $1C42-$1C46 DB_DATA 4
+RANGE $1C46-$1C4A DB_DATA 4
+RANGE $1C4A-$1C4E DB_DATA 4
+RANGE $1C4E-$1C52 DB_DATA 4
+RANGE $1C52-$1C56 DB_DATA 4
+RANGE $1C56-$1C5A DB_DATA 4
+RANGE $1C5A-$1C5E DB_DATA 4
+RANGE $1C5E-$1C62 DB_DATA 4
+RANGE $1C62-$1C66 DB_DATA 4
+RANGE $1C66-$1C6A DB_DATA 4
+RANGE $1C6A-$1C6E DB_DATA 4
+RANGE $1C6E-$1C72 DB_DATA 4
+RANGE $1C72-$1C74 DB_DATA 2
+RANGE $1C74-$1C78 DB_DATA 4
+RANGE $1C78-$1C7A DB_DATA 2
+RANGE $1C7A-$1C7E DB_DATA 4
+RANGE $1C7E-$1C81 DB_DATA 3
+RANGE $1C81-$1C85 DB_DATA 4
+RANGE $1C85-$1C89 DB_DATA 4
+RANGE $1C89-$1C8D DB_DATA 4
+RANGE $1C8D-$1C91 DB_DATA 4
+RANGE $1C91-$1C95 DB_DATA 4
+RANGE $1C95-$1C97 DB_DATA 2
+RANGE $1C97-$1C9B DB_DATA 4
+RANGE $1C9B-$1C9E DB_DATA 3
+RANGE $1C9E-$1CA2 DB_DATA 4
+RANGE $1CA2-$1CA6 DB_DATA 4
+RANGE $1CA6-$1CAA DB_DATA 4
+RANGE $1CAA-$1CAC DB_DATA 2
+RANGE $1CAC-$1CB0 DB_DATA 4
+RANGE $1CB0-$1CB2 DB_DATA 2
+RANGE $1CB2-$1CB6 DB_DATA 4
+RANGE $1CB6-$1CB9 DB_DATA 3
+RANGE $1CB9-$1CBD DB_DATA 4
+RANGE $1CBD-$1CC1 DB_DATA 4
+RANGE $1CC1-$1CC5 DB_DATA 4
+RANGE $1CC5-$1CC9 DB_DATA 4
+RANGE $1CC9-$1CCD DB_DATA 4
+RANGE $1CCD-$1CD1 DB_DATA 4
+RANGE $1CD1-$1CD5 DB_DATA 4
+RANGE $1CD5-$1CD9 DB_DATA 4
+RANGE $1CD9-$1CDD DB_DATA 4
+RANGE $1CDD-$1CE1 DB_DATA 4
+RANGE $1CE1-$1CE5 DB_DATA 4
+RANGE $1CE5-$1CE7 DB_DATA 2
+RANGE $1CE7-$1CEB DB_DATA 4
+RANGE $1CEB-$1CED DB_DATA 2
+RANGE $1CED-$1CEF DB_DATA 2
+RANGE $1CEF-$1CF3 DW_DATA 2
+RANGE $1CF3-$1CF5 DB_DATA 2
+RANGE $1CF5-$1CF7 DB_DATA 2
+RANGE $1CF7-$1CF9 DB_DATA 2
+RANGE $1CF9-$1CFD DW_DATA 2
+RANGE $1CFD-$1CFF DB_DATA 2
+RANGE $1CFF-$1D01 DB_DATA 2
+RANGE $1D01-$1D03 DB_DATA 2
+RANGE $1D03-$1D05 DB_DATA 2
+RANGE $1D05-$1D07 DB_DATA 2
+RANGE $1D07-$1D0B DW_DATA 2
+RANGE $1D0B-$1D0D DB_DATA 2
+RANGE $1D0D-$1D0F DB_DATA 2
+RANGE $1D0F-$1D11 DB_DATA 2
+RANGE $1D11-$1D13 DB_DATA 2
+RANGE $1D13-$1D17 DW_DATA 2
+RANGE $1D17-$1D19 DB_DATA 2
+RANGE $1D19-$1D1B DB_DATA 2
+RANGE $1D1B-$1D1D DB_DATA 2
+RANGE $1D1D-$1D1F DB_DATA 2
+RANGE $1D1F-$1D23 DW_DATA 2
+RANGE $1D23-$1D25 DB_DATA 2
+RANGE $1D25-$1D27 DB_DATA 2
+RANGE $1D27-$1D29 DB_DATA 2
+RANGE $1D29-$1D2B DB_DATA 2
+RANGE $1D2B-$1D35 DB_DATA 10
+RANGE $1D35-$1D3F DB_DATA 10
+RANGE $1D3F-$1D49 DB_DATA 10
+RANGE $1D49-$1D53 DB_DATA 10
+RANGE $1D53-$1D5D DB_DATA 10
+RANGE $1D5D-$1D67 DB_DATA 10
+RANGE $1D67-$1D71 DB_DATA 10
+RANGE $1D71-$1D7B DB_DATA 10
+RANGE $1D7B-$1D85 DB_DATA 10
+RANGE $1D85-$1D8F DB_DATA 10
+RANGE $1D8F-$1D99 DB_DATA 10
+RANGE $1D99-$1DA3 DB_DATA 10
+RANGE $1DA3-$1DAD DB_DATA 10
+RANGE $1DAD-$1DB7 DB_DATA 10
+RANGE $1DB7-$1DC1 DB_DATA 10
+RANGE $1DC1-$1DCB DB_DATA 10
+RANGE $1DCB-$1DD5 DB_DATA 10
+RANGE $1DD5-$1DDF DB_DATA 10
+RANGE $1DDF-$1DE9 DB_DATA 10
+RANGE $1DE9-$1DF3 DB_DATA 10
+RANGE $1DF3-$1DFD DB_DATA 10
+RANGE $1DFD-$1E07 DB_DATA 10
+RANGE $1E07-$1E11 DB_DATA 10
+RANGE $1E11-$1E1B DB_DATA 10
+RANGE $1E1B-$1E25 DB_DATA 10
+RANGE $1E25-$1E2F DB_DATA 10
+RANGE $1E2F-$1E39 DB_DATA 10
+RANGE $1E39-$1E43 DB_DATA 10
+RANGE $1E43-$1E4D DB_DATA 10
+RANGE $1E4D-$1E57 DB_DATA 10
+RANGE $1E57-$1E61 DB_DATA 10
+RANGE $1E61-$1E6B DB_DATA 10
+RANGE $1E6B-$1E75 DB_DATA 10
+RANGE $1E75-$1E77 DB_DATA 2
+RANGE $1E77-$1E81 DB_DATA 10
+RANGE $1E81-$1E8B DB_DATA 10
+RANGE $1E8B-$1E95 DB_DATA 10
+RANGE $1E95-$1E99 DB_DATA 4
+RANGE $1E99-$1EA3 DB_DATA 10
+RANGE $1EA3-$1EAD DB_DATA 10
+RANGE $1EAD-$1EAE DB_DATA 1
+RANGE $1EAE-$1EB2 DW_DATA 2
+RANGE $1EB2-$1EB6 DW_DATA 2
+RANGE $1EB6-$1EBA DW_DATA 2
+RANGE $1EBA-$1EBE DW_DATA 2
+RANGE $1EBE-$1EC2 DW_DATA 2
+RANGE $1EC2-$1EC6 DW_DATA 2
+RANGE $1EC6-$1ECA DW_DATA 2
+RANGE $1ECA-$1ECE DB_DATA 4
+RANGE $1ECE-$1ED2 DB_DATA 4
+RANGE $1ED2-$1ED6 DB_DATA 4
+RANGE $1ED6-$1ED8 DB_DATA 2
+RANGE $1ED8-$1EDC DW_DATA 2
+RANGE $1EDC-$1EE0 DB_DATA 4
+RANGE $1EE0-$1EE4 DB_DATA 4
+RANGE $1EE4-$1EE8 DB_DATA 4
+RANGE $1EE8-$1EEC DB_DATA 4
+RANGE $1EEC-$1EF0 DB_DATA 4
+RANGE $1EF0-$1EF4 DB_DATA 4
+RANGE $1EF4-$1EF6 DB_DATA 2
+RANGE $1EF6-$1EFA DB_DATA 4
+RANGE $1EFA-$1EFC DB_DATA 2
+RANGE $1EFC-$1EFE DB_DATA 2
+RANGE $1EFE-$1F02 DW_DATA 2
+RANGE $1F02-$1F06 DB_DATA 4
+RANGE $1F06-$1F0A DB_DATA 4
+RANGE $1F0A-$1F0E DB_DATA 4
+RANGE $1F0E-$1F10 DB_DATA 2
+RANGE $1F10-$1F14 DW_DATA 2
+RANGE $1F14-$1F18 DB_DATA 4
+RANGE $1F18-$1F1C DB_DATA 4
+RANGE $1F1C-$1F20 DB_DATA 4
+RANGE $1F20-$1F24 DB_DATA 4
+RANGE $1F24-$1F28 DB_DATA 4
+RANGE $1F28-$1F2C DB_DATA 4
+RANGE $1F2C-$1F30 DB_DATA 4
+RANGE $1F30-$1F34 DB_DATA 4
+RANGE $1F34-$1F38 DB_DATA 4
+RANGE $1F38-$1F3C DB_DATA 4
+RANGE $1F3C-$1F40 DB_DATA 4
+RANGE $1F40-$1F44 DB_DATA 4
+RANGE $1F44-$1F48 DB_DATA 4
+RANGE $1F48-$1F4C DB_DATA 4
+RANGE $1F4C-$1F4E DB_DATA 2
+RANGE $1F4E-$1F52 DB_DATA 4
+RANGE $1F52-$1F56 DB_DATA 4
+RANGE $1F56-$1F5A DB_DATA 4
+RANGE $1F5A-$1F5E DB_DATA 4
+RANGE $1F5E-$1F62 DB_DATA 4
+RANGE $1F62-$1F66 DB_DATA 4
+RANGE $1F66-$1F6A DB_DATA 4
+RANGE $1F6A-$1F6E DB_DATA 4
+RANGE $1F6E-$1F72 DB_DATA 4
+RANGE $1F72-$1F76 DB_DATA 4
+RANGE $1F76-$1F7A DB_DATA 4
+RANGE $1F7A-$1F7E DB_DATA 4
+RANGE $1F7E-$1F82 DB_DATA 4
+RANGE $1F82-$1F86 DB_DATA 4
+RANGE $1F86-$1F8A DB_DATA 4
+RANGE $1F8A-$1F8C DB_DATA 2
+RANGE $1F8C-$1F8E DB_DATA 2
+RANGE $1F8E-$1F92 DW_DATA 2
+RANGE $1F92-$1F96 DB_DATA 4
+RANGE $1F96-$1F98 DB_DATA 2
+RANGE $1F98-$1F9C DW_DATA 2
+RANGE $1F9C-$1FA0 DB_DATA 4
+RANGE $1FA0-$1FA2 DB_DATA 2
+RANGE $1FA2-$1FA6 DW_DATA 2
+RANGE $1FA6-$1FAA DB_DATA 4
+RANGE $1FAA-$1FAE DB_DATA 4
+RANGE $1FAE-$1FB0 DB_DATA 2
+RANGE $1FB0-$1FB4 DW_DATA 2
+RANGE $1FB4-$1FB8 DB_DATA 4
+RANGE $1FB8-$1FBC DB_DATA 4
+RANGE $1FBC-$1FC0 DB_DATA 4
+RANGE $1FC0-$1FC4 DB_DATA 4
+RANGE $1FC4-$1FC8 DB_DATA 4
+RANGE $1FC8-$1FCA DB_DATA 2
+RANGE $1FCA-$1FCE DW_DATA 2
+RANGE $1FCE-$1FD2 DB_DATA 4
+RANGE $1FD2-$1FD6 DB_DATA 4
+RANGE $1FD6-$1FDA DB_DATA 4
+RANGE $1FDA-$1FDE DB_DATA 4
+RANGE $1FDE-$1FE2 DB_DATA 4
+RANGE $1FE2-$1FE6 DB_DATA 4
+RANGE $1FE6-$1FEA DB_DATA 4
+RANGE $1FEA-$1FEC DB_DATA 2
+

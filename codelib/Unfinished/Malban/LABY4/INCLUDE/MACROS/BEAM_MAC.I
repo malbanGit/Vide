@@ -9,7 +9,7 @@
         if BEAM_I != 1
 
 BEAM_I equ 1
- INCLUDE "include\\VECTREX.I"
+ INCLUDE "INCLUDE/VECTREX.I"
 ;***************************************************************************
 _ZERO_VECTOR_BEAM macro
                  LDB     #$CC

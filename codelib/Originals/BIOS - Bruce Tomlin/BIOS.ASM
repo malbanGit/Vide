@@ -11,6 +11,8 @@
 ; Available at:
 ; http://www.falstaff.demon.co.uk/cross.html
 ;
+ noopt
+
                 CODE
                 ORG     $F000
                 DATA

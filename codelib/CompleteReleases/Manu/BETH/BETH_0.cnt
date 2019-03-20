@@ -1,0 +1,1109 @@
+BANK 0
+EQU $00 
+LABEL $F192 WAITRECAL
+COMMENT_LABEL $F192 BIOS recalibration
+LABEL $F2AB INTENSITY
+COMMENT_LABEL $F2AB Beam brightness
+LABEL $F37A PRINTSTR
+COMMENT_LABEL $F37A String printing
+LABEL $F354 RESET0REF
+COMMENT_LABEL $F354 Beam to the center
+LABEL $F2FC MOVEPEN
+COMMENT_LABEL $F2FC Move beam
+LABEL $F3B7 MOVEDRAW
+COMMENT_LABEL $F3B7 Draw with beam
+LABEL $C82A TXTHEIGHT
+COMMENT_LABEL $C82A Fonttikorkeus
+LABEL $C82B TXTWIDTH
+COMMENT_LABEL $C82B Fonttileveys
+LABEL $F1F8 JOYDIGITAL
+COMMENT_LABEL $F1F8 Reads joystick positions
+LABEL $C81F JOY1XENABLE
+COMMENT_LABEL $C81F Enables joystick 1 X
+LABEL $C820 JOY1YENABLE
+COMMENT_LABEL $C820 Enables joystick 1 Y
+LABEL $C821 JOY2XENABLE
+COMMENT_LABEL $C821 Enables joystick 2 X
+LABEL $C822 JOY2YENABLE
+COMMENT_LABEL $C822 Enables joystick 2 Y
+LABEL $C81B JOY1X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C JOY1Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $F1BA READBUTTONS
+COMMENT_LABEL $F1BA Reads joystick buttons
+LABEL $F8FF OBJHIT
+COMMENT_LABEL $F8FF Checks object collision
+LABEL $C881 alusx
+COMMENT_LABEL $C881 Space ship x position
+LABEL $C882 alusy
+COMMENT_LABEL $C882 Space ship y position
+LABEL $C883 bully
+COMMENT_LABEL $C883 Bullet y position
+LABEL $C884 bullx
+COMMENT_LABEL $C884 Bullet x position
+LABEL $C885 bulloop
+LABEL $C886 fuelx
+COMMENT_LABEL $C886 Fuel meter x position
+LABEL $C887 fueloop
+COMMENT_LABEL $C887 Loop needed to slow down
+LABEL $C888 vihuy
+COMMENT_LABEL $C888 Enemy y position
+LABEL $C889 vihux
+COMMENT_LABEL $C889 Enemy x position
+LABEL $C88A vihuelo
+COMMENT_LABEL $C88A Enemy dead or alive
+LABEL $C88B vihuani
+COMMENT_LABEL $C88B Frame of enemy animation
+LABEL $C890 pojot
+COMMENT_LABEL $C890 Score variable
+LABEL $C892 pojotxt
+COMMENT_LABEL $C892 Score as text, needs
+LABEL $C897 aika
+COMMENT_LABEL $C897 Time variable
+LABEL $C898 aikatxt
+COMMENT_LABEL $C898 Time as text, needs
+LABEL $C89C aikaloop
+COMMENT_LABEL $C89C Loop to slow the timer
+LABEL $C89D lives
+COMMENT_LABEL $C89D Number of lives
+LABEL $0056 kohtu
+LABEL $006F tikku
+LABEL $041E alus
+LABEL $00F7 vready
+COMMENT_LABEL $00F7 Done moving the enemy
+LABEL $00B8 frame2
+LABEL $0528 vihu
+LABEL $00D0 animohi
+LABEL $054A vihu2
+LABEL $00CB fuusix
+LABEL $00DF vxiso
+LABEL $00F2 vihuylos
+LABEL $0105 esso
+LABEL $013C fuelchecked
+COMMENT_LABEL $013C All done with the fuel
+LABEL $0128 tankkaus
+LABEL $0121 nofuel
+LABEL $0137 ffuel
+LABEL $0145 fuellow
+LABEL $016D nowarning
+COMMENT_LABEL $016D Done with fuel warnings
+LABEL $016A fuelout
+LABEL $04E4 tekst6
+LABEL $0570 offdeath
+LABEL $0176 timelow
+LABEL $01AF notwarn
+COMMENT_LABEL $01AF All done with Time
+LABEL $019B timeout
+LABEL $04EE tekst7
+LABEL $04F8 tekst8
+LABEL $0442 reunat
+LABEL $0454 city
+LABEL $048E tekst3
+LABEL $04BB tekst4
+LABEL $0281 twolives
+LABEL $050E lives3
+LABEL $02B6 endlives
+COMMENT_LABEL $02B6 Done with lives
+LABEL $029A onelives
+LABEL $0508 lives2
+LABEL $02B3 nolives
+LABEL $0502 lives1
+LABEL $05AC gameover
+LABEL $02CF aikatulostus
+LABEL $02C8 nolla
+LABEL $051E ftank
+LABEL $0514 pati
+LABEL $0334 butt1
+LABEL $03B2 lovejoy
+LABEL $034F bullet
+LABEL $0384 killnmy
+LABEL $03A4 missnmy
+LABEL $03EA noxmove
+LABEL $03D5 lmove
+LABEL $03C0 rmove
+LABEL $03CE xiso
+LABEL $03EA xready
+LABEL $03E3 xpieni
+LABEL $041B noymove
+LABEL $0406 dmove
+LABEL $03F1 umove
+LABEL $03FF yiso
+LABEL $041B yready
+LABEL $0414 ypieni
+LABEL $05CD overtext
+LABEL $05D7 *
+COMMENT_LINE $0000 #######################################
+COMMENT_LINE $0000 ### Battle Earth Terror Hazard      ###
+COMMENT_LINE $0000 ### Version 0.30 (not final!)       ###
+COMMENT_LINE $0000 ### Last updated 24-07-2000	      ###
+COMMENT_LINE $0000 ### From http://pkp.cjb.net/vec     ###
+COMMENT_LINE $0000 ### Code & comments by man@sci.fi   ###
+COMMENT_LINE $0000 ### Special thanks to marq@iki.fi   ###
+COMMENT_LINE $0000 #######################################
+COMMENT_LINE $0000 Public domain for all Vecfreaks as long
+COMMENT_LINE $0000 as you don't publish this as your own,
+COMMENT_LINE $0000 or use the unfinished game as a base for
+COMMENT_LINE $0000 your game. Just let me finish this first,
+COMMENT_LINE $0000 okay?
+COMMENT_LINE $0000 ############################
+COMMENT_LINE $0000 ### Needed BIOS routines ###
+COMMENT_LINE $0000 ############################
+COMMENT_LINE $0000 ######################
+COMMENT_LINE $0000 ### Used variables ###
+COMMENT_LINE $0000 ######################
+COMMENT_LINE $0000 the fuel meter
+COMMENT_LINE $0000 5 bytes of RAM.
+COMMENT_LINE $0000 5 bytes of RAM.
+COMMENT_LINE $0000 ### Here we go. ###
+COMMENT $0000 All programs start from 0
+COMMENT_LINE $0000 ################################
+COMMENT_LINE $0000 ### The required init block. ###
+COMMENT_LINE $0000 ### Changed a little bit to  ###
+COMMENT_LINE $0000 ### display multiple rows of ###
+COMMENT_LINE $0000 ### information and playing  ###
+COMMENT_LINE $0000 ### a song stored in ROM.    ###
+COMMENT_LINE $0000 ################################
+COMMENT $000A All text ends with $80
+COMMENT $000B Play song "$fe38" from ROM
+COMMENT $000D Width, height, y, x
+COMMENT $0037 Init block ends with $0
+COMMENT_LINE $0039 ########################################################
+COMMENT_LINE $0039 ### Okay, this sets up the joystick checks, and only ###
+COMMENT_LINE $0039 ### allows them for joystick 1, thus saving us a few ###
+COMMENT_LINE $0039 ### hundred cycles. Don't forget to = joystick 2   ###
+COMMENT_LINE $0039 ### to 0, if you don't need it.                      ###
+COMMENT_LINE $0039 ########################################################
+COMMENT $0039 1 is the flag to enable
+FORCE_NO_SYMBOL $0039
+COMMENT $003B joystick 1 X
+FORCE_SYMBOL $003B JOY1XENABLE
+COMMENT $003E 3 is the flag to enable
+FORCE_NO_SYMBOL $003E
+COMMENT $0040 joystick 1 Y
+FORCE_SYMBOL $0040 JOY1YENABLE
+FORCE_NO_SYMBOL $0043
+COMMENT $0045 5 would enable this
+FORCE_SYMBOL $0045 JOY2XENABLE
+COMMENT $0048 7 would enable this
+FORCE_SYMBOL $0048 JOY2YENABLE
+COMMENT_LINE $004B ##############################################
+COMMENT_LINE $004B ### Then setting some values to begin with ###
+COMMENT_LINE $004B ##############################################
+FORCE_NO_SYMBOL $004B
+COMMENT $004E Set score to 0
+FORCE_SYMBOL $004E pojot
+FORCE_NO_SYMBOL $0051
+COMMENT $0053 And lives to 3
+FORCE_SYMBOL $0053 lives
+COMMENT_LINE $0056 ###################################
+COMMENT_LINE $0056 ### We return here after we die ###
+COMMENT_LINE $0056 ### (nice to know, huh?)        ###
+COMMENT_LINE $0056 ###################################
+COMMENT $0056 Set the starting y-coordinate
+COMMENT $0058 of the space ship to -100
+FORCE_SYMBOL $0058 alusy
+COMMENT $005B Set the starting x-coordinate
+COMMENT $005D of the fuel meter to -20
+FORCE_SYMBOL $005D fuelx
+COMMENT $0060 Set the starting y-coordinate
+FORCE_NO_SYMBOL $0060
+COMMENT $0062 of enemy to 80
+FORCE_SYMBOL $0062 vihuy
+COMMENT $0065 Set the life state
+FORCE_NO_SYMBOL $0065
+COMMENT $0067 of enemy to 1
+FORCE_SYMBOL $0067 vihuelo
+FORCE_NO_SYMBOL $006A
+COMMENT $006C And time to 16
+FORCE_SYMBOL $006C aika
+COMMENT_LINE $006F #################################
+COMMENT_LINE $006F ### Here's the actual program ###
+COMMENT_LINE $006F #################################
+COMMENT $006F BIOS recalibration
+FORCE_SYMBOL $006F WAITRECAL
+COMMENT_LINE $0072 ### The space ship
+COMMENT $0072 Beam to the center
+FORCE_SYMBOL $0072 RESET0REF
+FORCE_NO_SYMBOL $0075
+COMMENT $0077 Sets intensity to 127
+FORCE_SYMBOL $0077 INTENSITY
+COMMENT $007A Y - coordinate
+FORCE_SYMBOL $007A alusy
+COMMENT $007D X - coordinate
+FORCE_SYMBOL $007D alusx
+FORCE_SYMBOL $0080 MOVEPEN
+COMMENT $0083 Drawing the space ship
+FORCE_SYMBOL $0083 alus
+COMMENT $0086 Number of vectors
+FORCE_NO_SYMBOL $0086
+COMMENT $0088 Scaling
+FORCE_NO_SYMBOL $0088
+FORCE_SYMBOL $008A MOVEDRAW
+COMMENT_LINE $008D ### The enemy
+COMMENT $008D Is the enemy alive
+FORCE_SYMBOL $008D vihuelo
+COMMENT $0090 if not (lifestate=0)
+FORCE_NO_SYMBOL $0090
+COMMENT $0092 then skip drawing
+COMMENT $0096 Beam to the center
+FORCE_SYMBOL $0096 RESET0REF
+COMMENT $0099 Y
+FORCE_SYMBOL $0099 vihuy
+COMMENT $009C X - coordinate
+FORCE_SYMBOL $009C vihux
+FORCE_SYMBOL $009F MOVEPEN
+COMMENT $00A2 Enemy animation
+FORCE_SYMBOL $00A2 vihuani
+COMMENT $00A5 Every time vihuani
+FORCE_SYMBOL $00A5 vihuani
+COMMENT $00A8 grows to 10, jump
+FORCE_NO_SYMBOL $00A8
+COMMENT $00AA to draw frame2.
+COMMENT $00AC Drawing the enemy
+FORCE_SYMBOL $00AC vihu
+COMMENT $00AF Number of vectors
+FORCE_NO_SYMBOL $00AF
+COMMENT $00B1 Scaling
+FORCE_NO_SYMBOL $00B1
+FORCE_SYMBOL $00B3 MOVEDRAW
+COMMENT $00B8 Drawing enemy frame2
+FORCE_SYMBOL $00B8 vihu2
+COMMENT $00BB Number of vectors
+FORCE_NO_SYMBOL $00BB
+COMMENT $00BD Scaling
+FORCE_NO_SYMBOL $00BD
+FORCE_SYMBOL $00BF MOVEDRAW
+COMMENT $00C2 Drawing frame2 until
+FORCE_SYMBOL $00C2 vihuani
+COMMENT $00C5 vihuani is 20, then
+FORCE_NO_SYMBOL $00C5
+COMMENT $00C7 jumping to fuusix
+COMMENT $00C9 Otherwise continue
+COMMENT $00CB Setting vihuani to 0
+FORCE_NO_SYMBOL $00CB
+FORCE_SYMBOL $00CD vihuani
+COMMENT_LINE $00D0 ###########################################
+COMMENT_LINE $00D0 ### Here we move the enemy and          ###
+COMMENT_LINE $00D0 ### check if it goes too 		  ###
+COMMENT_LINE $00D0 ### much to the right or comes too low. ###
+COMMENT_LINE $00D0 ### If it does, then we make it return  ###
+COMMENT_LINE $00D0 ### to the left or/and up.  		  ###
+COMMENT_LINE $00D0 ###########################################
+COMMENT $00D0 Value of alusx to A
+FORCE_SYMBOL $00D0 vihux
+COMMENT $00D3 Compare A to 116
+FORCE_NO_SYMBOL $00D3
+COMMENT $00D5 If it is >116 -> vxiso
+COMMENT $00D7 Increase vihux
+FORCE_SYMBOL $00D7 vihux
+COMMENT $00DA Increase it again, I'm
+FORCE_SYMBOL $00DA vihux
+COMMENT_LINE $00DD too lazy to make a loop
+COMMENT_LINE $00DD for two times.
+COMMENT_LINE $00DD (makes enemy go faster)
+COMMENT $00DD Jump to vready
+COMMENT $00DF Load 118 to A
+COMMENT $00E1 Store A to alusx
+FORCE_SYMBOL $00E1 vihux
+COMMENT_LINE $00E4 (moves enemy to left edge)
+COMMENT $00E4 Compare enemy Y
+FORCE_SYMBOL $00E4 vihuy
+COMMENT $00E7 to 0.
+FORCE_NO_SYMBOL $00E7
+COMMENT $00E9 If 0 -> vihuylos
+COMMENT $00EB if not, make enemy
+COMMENT $00ED go down more.
+FORCE_SYMBOL $00ED vihuy
+COMMENT $00F2 Move enemy up
+FORCE_NO_SYMBOL $00F2
+COMMENT $00F4 Set vihuy to 80
+FORCE_SYMBOL $00F4 vihuy
+COMMENT_LINE $00F7 #################################################
+COMMENT_LINE $00F7 ### Next we mess with the fuel tank operation ###
+COMMENT_LINE $00F7 ### making sure the 'meter' don't go too low  ###
+COMMENT_LINE $00F7 ### or too high. Also making it go down if    ###
+COMMENT_LINE $00F7 ### ship is in the air and go up if the ship  ###
+COMMENT_LINE $00F7 ### is on the ground. 		        ###
+COMMENT_LINE $00F7 #################################################
+COMMENT $00F7 This loop makes
+FORCE_SYMBOL $00F7 fueloop
+COMMENT $00FA sure that the fuel
+FORCE_SYMBOL $00FA fueloop
+COMMENT $00FD level goes down only
+FORCE_NO_SYMBOL $00FD
+COMMENT $00FF every 5 cycles
+COMMENT $0103 (goes too fast otherwise)
+FORCE_NO_SYMBOL $0105
+COMMENT $0107 Fueloop back to 0
+FORCE_SYMBOL $0107 fueloop
+COMMENT $010A If ship is on the ground
+FORCE_SYMBOL $010A alusy
+COMMENT $010D then jump to give more fuel
+COMMENT $010F If alusy=-100 -> tankkaus
+COMMENT_LINE $0113 If not then
+COMMENT $0113 check if fuel tank
+FORCE_SYMBOL $0113 fuelx
+COMMENT $0116 is empty
+COMMENT $0118 if yes -> nofuel
+COMMENT $011C Ship is in the air
+FORCE_SYMBOL $011C fuelx
+COMMENT_LINE $011F use fuel, minimum -80
+COMMENT $0121 If fuel is gone
+COMMENT $0123 don't let the meter
+FORCE_SYMBOL $0123 fuelx
+COMMENT $0126 go any lower
+COMMENT_LINE $0128 Ship is landed,
+COMMENT $0128 more fuel
+FORCE_SYMBOL $0128 fuelx
+COMMENT $012B more, more!!
+FORCE_SYMBOL $012B fuelx
+FORCE_SYMBOL $012E fuelx
+COMMENT $0131 -21 is the maximum
+COMMENT $0133 If tank full -> ffuel
+COMMENT_LINE $0135 bgt = branch if greater
+COMMENT $0137 If tank is full, don't
+COMMENT $0139 let the meter go higher
+FORCE_SYMBOL $0139 fuelx
+COMMENT_LINE $013C #############################################
+COMMENT_LINE $013C ### Fuel low and fuel out - warnings      ###
+COMMENT_LINE $013C ### and what happens if the fuel runs out ###
+COMMENT_LINE $013C #############################################
+COMMENT $013C Check if the fuel
+FORCE_SYMBOL $013C fuelx
+COMMENT $013F meter is at 'half full'
+COMMENT $0141 if yes -> fuellow
+COMMENT $0143 if not -> nowarning
+COMMENT $0145 Beam to the center
+FORCE_SYMBOL $0145 RESET0REF
+FORCE_NO_SYMBOL $0148
+COMMENT $014A Intensity to 80
+FORCE_SYMBOL $014A INTENSITY
+COMMENT $014D Height
+COMMENT $014F Width
+FORCE_NO_SYMBOL $014F
+FORCE_SYMBOL $0151 TXTHEIGHT
+FORCE_SYMBOL $0154 TXTWIDTH
+COMMENT $0157 Check if fuel is out
+FORCE_SYMBOL $0157 fuelx
+COMMENT $015A If fuel is out
+COMMENT $015C jump to -> fuelout
+COMMENT $015E Y
+FORCE_NO_SYMBOL $015E
+COMMENT $0160 X
+COMMENT $0162 "FUEL LOW!"
+FORCE_SYMBOL $0162 tekst6
+FORCE_SYMBOL $0165 PRINTSTR
+COMMENT $016A Fuel out -> offdeath
+COMMENT_LINE $016D ### Time low - warning
+COMMENT $016D Load aika to A
+FORCE_SYMBOL $016D aika
+COMMENT $0170 If time is less than 6
+FORCE_NO_SYMBOL $0170
+COMMENT $0172 then warn
+COMMENT $0174 if not -> notwarn
+COMMENT $0176 Beam to the center
+FORCE_SYMBOL $0176 RESET0REF
+FORCE_NO_SYMBOL $0179
+COMMENT $017B Intensity to 80
+FORCE_SYMBOL $017B INTENSITY
+COMMENT $017E Height
+COMMENT $0180 Width
+FORCE_NO_SYMBOL $0180
+FORCE_SYMBOL $0182 TXTHEIGHT
+FORCE_SYMBOL $0185 TXTWIDTH
+FORCE_SYMBOL $0188 aika
+COMMENT $018B If time is 0
+FORCE_NO_SYMBOL $018B
+COMMENT $018D go to -> timeout
+COMMENT $018F Y
+FORCE_NO_SYMBOL $018F
+COMMENT $0191 X
+COMMENT $0193 "TIME LOW!"
+FORCE_SYMBOL $0193 tekst7
+FORCE_SYMBOL $0196 PRINTSTR
+COMMENT $019B Y
+FORCE_NO_SYMBOL $019B
+COMMENT $019D X
+COMMENT $019F "TIME OUT!"
+FORCE_SYMBOL $019F tekst8
+FORCE_SYMBOL $01A2 PRINTSTR
+COMMENT $01A5 If time has run out
+FORCE_SYMBOL $01A5 lives
+COMMENT $01A8 take one life and
+COMMENT $01A9 jump back to "kohtu"
+FORCE_SYMBOL $01A9 lives
+COMMENT_LINE $01AF Warner Company
+COMMENT_LINE $01AF ###################################
+COMMENT_LINE $01AF ### Let's draw a frame the area ###
+COMMENT_LINE $01AF ### Don't know how the Vectrex  ###
+COMMENT_LINE $01AF ### likes this, but looks much  ###
+COMMENT_LINE $01AF ### nicer to me and serves a    ###
+COMMENT_LINE $01AF ### purpose as well.		  ###
+COMMENT_LINE $01AF ###################################
+COMMENT $01AF Beam to the center
+FORCE_SYMBOL $01AF RESET0REF
+FORCE_NO_SYMBOL $01B2
+COMMENT $01B4 Intensity to 60
+FORCE_SYMBOL $01B4 INTENSITY
+COMMENT $01B7 Y
+FORCE_NO_SYMBOL $01B7
+COMMENT $01B9 X
+FORCE_NO_SYMBOL $01B9
+FORCE_SYMBOL $01BB MOVEPEN
+COMMENT $01BE Drawing the edges
+FORCE_SYMBOL $01BE reunat
+COMMENT $01C1 Vectors
+FORCE_NO_SYMBOL $01C1
+COMMENT $01C3 Scaling
+FORCE_NO_SYMBOL $01C3
+FORCE_SYMBOL $01C5 MOVEDRAW
+COMMENT_LINE $01C8 ##########################
+COMMENT_LINE $01C8 ### And some landscape ###
+COMMENT_LINE $01C8 ### Getting artistic   ###
+COMMENT_LINE $01C8 ### here are we? 	 ###
+COMMENT_LINE $01C8 ##########################
+COMMENT $01C8 Beam to the center
+FORCE_SYMBOL $01C8 RESET0REF
+FORCE_NO_SYMBOL $01CB
+COMMENT $01CD Intensity to 30
+FORCE_SYMBOL $01CD INTENSITY
+COMMENT $01D0 Y
+COMMENT $01D2 X
+FORCE_SYMBOL $01D4 MOVEPEN
+COMMENT $01D7 Drawing the edges
+FORCE_SYMBOL $01D7 city
+COMMENT $01DA Vectors
+FORCE_NO_SYMBOL $01DA
+COMMENT $01DC Scaling
+FORCE_NO_SYMBOL $01DC
+FORCE_SYMBOL $01DE MOVEDRAW
+COMMENT_LINE $01E1 ###################################
+COMMENT_LINE $01E1 ### Name of the game to the top ###
+COMMENT_LINE $01E1 ###################################
+COMMENT $01E1 Beam to the center
+FORCE_SYMBOL $01E1 RESET0REF
+FORCE_NO_SYMBOL $01E4
+COMMENT $01E6 Intensity to 100
+FORCE_SYMBOL $01E6 INTENSITY
+COMMENT $01E9 Height
+COMMENT $01EB Width
+FORCE_NO_SYMBOL $01EB
+FORCE_SYMBOL $01ED TXTHEIGHT
+FORCE_SYMBOL $01F0 TXTWIDTH
+COMMENT $01F3 Y
+FORCE_NO_SYMBOL $01F3
+COMMENT $01F5 X
+COMMENT $01F7 read the text
+FORCE_SYMBOL $01F7 tekst3
+FORCE_SYMBOL $01FA PRINTSTR
+COMMENT_LINE $01FD #########################################
+COMMENT_LINE $01FD ### Displaying and handling the SCORE ###
+COMMENT_LINE $01FD ### now I know there's a BIOS routine ###
+COMMENT_LINE $01FD ### for this, and I'll probably       ###
+COMMENT_LINE $01FD ### change it here sometime, but for  ###
+COMMENT_LINE $01FD ### now, here's how it works. Marq    ###
+COMMENT_LINE $01FD ### helped me a lot with this one.    ###
+COMMENT_LINE $01FD #########################################
+COMMENT $01FD Beam to the center
+FORCE_SYMBOL $01FD RESET0REF
+FORCE_NO_SYMBOL $0200
+COMMENT $0202 Intensity to 100
+FORCE_SYMBOL $0202 INTENSITY
+COMMENT $0205 Height
+COMMENT $0207 Width
+FORCE_NO_SYMBOL $0207
+FORCE_SYMBOL $0209 TXTHEIGHT
+FORCE_SYMBOL $020C TXTWIDTH
+COMMENT $020F Y
+COMMENT $0211 X
+COMMENT $0213 Get the text "FUEL SCORE"
+FORCE_SYMBOL $0213 tekst4
+FORCE_SYMBOL $0216 PRINTSTR
+COMMENT $021B Moves beam to 0,0
+FORCE_SYMBOL $021B MOVEPEN
+COMMENT_LINE $021E ######################################################
+COMMENT_LINE $021E ### Converting the counter to a string 	            ###
+COMMENT_LINE $021E ### located at 'pojotxt'		            ###
+COMMENT_LINE $021E ### Okay, this is mostly done by Marq, so not much ###
+COMMENT_LINE $021E ### commenting here yet. (Except in Finnish)       ###
+COMMENT_LINE $021E ######################################################
+COMMENT $021E Sanan ylempi tavu
+FORCE_SYMBOL $021E pojot
+COMMENT $0223 Tavun ylempi puolitavu
+COMMENT $0227 numero+'0'=numero ASCIIna
+FORCE_NO_SYMBOL $0227
+FORCE_SYMBOL $0229 pojotxt
+COMMENT $022C Alempi puolitavu
+FORCE_NO_SYMBOL $022C
+FORCE_NO_SYMBOL $022E
+COMMENT $0233 Sanan alempi tavu
+COMMENT $0238 Tavun ylempi puolitavu
+FORCE_NO_SYMBOL $023C
+COMMENT $0241 Alempi puolitavu
+FORCE_NO_SYMBOL $0241
+FORCE_NO_SYMBOL $0243
+COMMENT $0248 The end
+FORCE_NO_SYMBOL $0248
+COMMENT $024D Displaying the string
+FORCE_NO_SYMBOL $0251
+FORCE_SYMBOL $0253 pojotxt
+FORCE_SYMBOL $0256 PRINTSTR
+COMMENT_LINE $0259 ###############################################
+COMMENT_LINE $0259 ### Ok, then we handle displaying the lives ###
+COMMENT_LINE $0259 ### There's probably better ways for this   ###
+COMMENT_LINE $0259 ### too, but here's how I solved it.	      ###
+COMMENT_LINE $0259 ### One thing I learned with this : never   ###
+COMMENT_LINE $0259 ### give label a name starting with a       ###
+COMMENT_LINE $0259 ### number. Just wont work. At least not    ###
+COMMENT_LINE $0259 ### with the assembler I'm using.           ###
+COMMENT_LINE $0259 ###############################################
+COMMENT $0259 Beam to the center
+FORCE_SYMBOL $0259 RESET0REF
+FORCE_NO_SYMBOL $025C
+COMMENT $025E Intensity to 100
+FORCE_SYMBOL $025E INTENSITY
+COMMENT $0261 Height
+COMMENT $0263 Width
+FORCE_NO_SYMBOL $0263
+FORCE_SYMBOL $0265 TXTHEIGHT
+FORCE_SYMBOL $0268 TXTWIDTH
+COMMENT $026B Check if the number
+FORCE_SYMBOL $026B lives
+COMMENT $026E of lives is 3,
+FORCE_NO_SYMBOL $026E
+COMMENT $0270 if not -> twolives
+COMMENT $0274 Y
+COMMENT $0276 X
+FORCE_NO_SYMBOL $0276
+COMMENT $0278 3 lives
+FORCE_SYMBOL $0278 lives3
+FORCE_SYMBOL $027B PRINTSTR
+COMMENT $0281 Check if the number
+FORCE_SYMBOL $0281 lives
+COMMENT $0284 of lives is 2
+FORCE_NO_SYMBOL $0284
+COMMENT $0286 if not -> onelives
+COMMENT $028A Beam to the center
+FORCE_SYMBOL $028A RESET0REF
+COMMENT $028D Y
+COMMENT $028F X
+FORCE_NO_SYMBOL $028F
+COMMENT $0291 2 lives
+FORCE_SYMBOL $0291 lives2
+FORCE_SYMBOL $0294 PRINTSTR
+COMMENT $029A Check if the number
+FORCE_SYMBOL $029A lives
+COMMENT $029D of lives is 1
+FORCE_NO_SYMBOL $029D
+COMMENT $029F if not -> nolives
+COMMENT $02A3 Beam to the center
+FORCE_SYMBOL $02A3 RESET0REF
+COMMENT $02A6 Y
+COMMENT $02A8 X
+FORCE_NO_SYMBOL $02A8
+COMMENT $02AA 1 lives
+FORCE_SYMBOL $02AA lives1
+FORCE_SYMBOL $02AD PRINTSTR
+COMMENT $02B3 No lives -> gameover
+COMMENT_LINE $02B6 ###############################
+COMMENT_LINE $02B6 ### Now handling the timer  ###
+COMMENT_LINE $02B6 ### in the top right corner ###
+COMMENT_LINE $02B6 ### again based on Marq's   ###
+COMMENT_LINE $02B6 ### code, so not much       ###
+COMMENT_LINE $02B6 ### commenting yet.	      ###
+COMMENT_LINE $02B6 ###############################
+COMMENT $02B6 Loop to make the timer
+FORCE_SYMBOL $02B6 aikaloop
+COMMENT $02B9 go down only on every
+FORCE_SYMBOL $02B9 aikaloop
+COMMENT $02BC 50th cycle.
+FORCE_NO_SYMBOL $02BC
+FORCE_SYMBOL $02C0 aika
+COMMENT $02C5 BCD decreases like this
+FORCE_NO_SYMBOL $02C5
+FORCE_SYMBOL $02C8 aika
+FORCE_SYMBOL $02CC aikaloop
+COMMENT_LINE $02CF ########################################
+COMMENT_LINE $02CF ### Converting time variable to a    ###
+COMMENT_LINE $02CF ### corresponding string. Just like  ###
+COMMENT_LINE $02CF ### old times. (Like with the score) ###
+COMMENT_LINE $02CF ########################################
+FORCE_SYMBOL $02CF aika
+FORCE_NO_SYMBOL $02D8
+FORCE_SYMBOL $02DA aikatxt
+FORCE_NO_SYMBOL $02DD
+FORCE_NO_SYMBOL $02DF
+COMMENT $02E4 Ends here
+FORCE_NO_SYMBOL $02E4
+COMMENT $02E9 Displaying the time
+COMMENT $02ED Height
+COMMENT $02EF Width
+FORCE_NO_SYMBOL $02EF
+FORCE_SYMBOL $02F1 TXTHEIGHT
+FORCE_SYMBOL $02F4 TXTWIDTH
+COMMENT $02F7 Y
+FORCE_NO_SYMBOL $02F7
+COMMENT $02F9 X
+FORCE_NO_SYMBOL $02F9
+FORCE_SYMBOL $02FB aikatxt
+FORCE_SYMBOL $02FE PRINTSTR
+COMMENT_LINE $0301 ##############################
+COMMENT_LINE $0301 ### Drawing the fuel meter ###
+COMMENT_LINE $0301 ##############################
+COMMENT $0301 Beam to the center
+FORCE_SYMBOL $0301 RESET0REF
+FORCE_NO_SYMBOL $0304
+COMMENT $0306 Intensity to 30
+FORCE_SYMBOL $0306 INTENSITY
+COMMENT $0309 Y
+COMMENT $030B X
+FORCE_SYMBOL $030D MOVEPEN
+FORCE_SYMBOL $0310 ftank
+COMMENT $0313 Vectors
+FORCE_NO_SYMBOL $0313
+COMMENT $0315 Scaling
+FORCE_NO_SYMBOL $0315
+FORCE_SYMBOL $0317 MOVEDRAW
+COMMENT $031A Beam to the center
+FORCE_SYMBOL $031A RESET0REF
+FORCE_NO_SYMBOL $031D
+COMMENT $031F Intensity to 30
+FORCE_SYMBOL $031F INTENSITY
+COMMENT $0322 Y
+COMMENT $0324 X
+FORCE_SYMBOL $0324 fuelx
+FORCE_SYMBOL $0327 MOVEPEN
+FORCE_SYMBOL $032A pati
+COMMENT $032D Vectors
+FORCE_NO_SYMBOL $032D
+COMMENT $032F Scaling
+FORCE_NO_SYMBOL $032F
+FORCE_SYMBOL $0331 MOVEDRAW
+COMMENT_LINE $0334 #########################
+COMMENT_LINE $0334 ### Reads the buttons ###
+COMMENT_LINE $0334 #########################
+FORCE_SYMBOL $0334 READBUTTONS
+COMMENT $0337 Compares a to 0
+FORCE_NO_SYMBOL $0337
+COMMENT $0339 If it was 0 -> lovejoy
+COMMENT_LINE $033D Otherwise
+COMMENT $033D Tests for button 1
+FORCE_NO_SYMBOL $033D
+COMMENT $033F If it wasn't button 1
+COMMENT_LINE $0343 If it was button 1 ->
+COMMENT $0343 Load ship y position
+FORCE_SYMBOL $0343 alusy
+COMMENT $0346 to bullet y position
+FORCE_SYMBOL $0346 bully
+COMMENT $0349 and ship x position
+FORCE_SYMBOL $0349 alusx
+COMMENT $034C to bullet x position
+FORCE_SYMBOL $034C bullx
+COMMENT_LINE $034F So the bullet leaves
+COMMENT_LINE $034F from the tip of the
+COMMENT_LINE $034F ship.
+COMMENT $034F Beam to the center
+FORCE_SYMBOL $034F RESET0REF
+FORCE_NO_SYMBOL $0352
+COMMENT $0354 Intensity to 127
+FORCE_SYMBOL $0354 INTENSITY
+COMMENT $0357 Y
+FORCE_SYMBOL $0357 bully
+COMMENT $035A X
+FORCE_SYMBOL $035A bullx
+FORCE_SYMBOL $035D MOVEPEN
+COMMENT $0360 Drawing the bullet
+FORCE_SYMBOL $0360 pati
+COMMENT $0363 Vectors
+FORCE_NO_SYMBOL $0363
+COMMENT $0365 Scaling
+FORCE_NO_SYMBOL $0365
+FORCE_SYMBOL $0367 MOVEDRAW
+COMMENT $036A Value of bully to A
+FORCE_SYMBOL $036A bully
+COMMENT $036D Add bullet y with 5
+FORCE_NO_SYMBOL $036D
+FORCE_SYMBOL $036F bully
+COMMENT_LINE $0372 ################################################
+COMMENT_LINE $0372 ### Trying to find out if enemy has been hit ###
+COMMENT_LINE $0372 ### Gotta love that OBJHIT routine.	       ###
+COMMENT_LINE $0372 ### Thanks to Marq for some useful tips.     ###
+COMMENT_LINE $0372 ################################################
+COMMENT $0372 loads both y and x to Y
+FORCE_SYMBOL $0372 vihuy
+COMMENT_LINE $0376 because they're stored in
+COMMENT_LINE $0376 that order in the RAM
+COMMENT $0376 loads both y and x to X
+FORCE_SYMBOL $0376 bully
+COMMENT $0379 enemy height/2
+FORCE_NO_SYMBOL $0379
+COMMENT $037B enemy width/2
+FORCE_NO_SYMBOL $037B
+FORCE_SYMBOL $037D OBJHIT
+COMMENT $0380 if hit -> killnmy
+COMMENT $0382 if not -> missnmy
+COMMENT $0384 Set the life status
+FORCE_NO_SYMBOL $0384
+COMMENT $0386 of enemy to 0
+FORCE_SYMBOL $0386 vihuelo
+COMMENT $0389 Set the coordinates
+COMMENT $038B of enemy out of
+FORCE_SYMBOL $038B vihuy
+COMMENT $038E bullets reach, so
+COMMENT $0390 you can't get more
+FORCE_SYMBOL $0390 vihux
+COMMENT_LINE $0393 points by shooting
+COMMENT_LINE $0393 at an empty spot.
+COMMENT_LINE $0393 ##########################################
+COMMENT_LINE $0393 ### Again by Marq. You know the drill. ###
+COMMENT_LINE $0393 ### adding to the BCD-score counter    ###
+COMMENT_LINE $0393 ### (max 9999) 			 ###
+COMMENT_LINE $0393 ##########################################
+COMMENT $0396 add 10 points
+FORCE_NO_SYMBOL $0396
+FORCE_SYMBOL $039B pojot
+FORCE_NO_SYMBOL $039E
+FORCE_SYMBOL $03A1 pojot
+COMMENT_LINE $03A4 ######################################
+COMMENT_LINE $03A4 ### If enemy was missed, draw more ###
+COMMENT_LINE $03A4 ### bullets until enemy is hit or  ###
+COMMENT_LINE $03A4 ### 10 bullets has been drawn.     ###
+COMMENT_LINE $03A4 ### I think I might change the     ###
+COMMENT_LINE $03A4 ### 'laser' later though. Would    ###
+COMMENT_LINE $03A4 ### like to know how it looks like ###
+COMMENT_LINE $03A4 ### on a real Vectrex.             ###
+COMMENT_LINE $03A4 ######################################
+COMMENT $03A4 Grow loop
+FORCE_SYMBOL $03A4 bulloop
+FORCE_SYMBOL $03A7 bulloop
+COMMENT $03AA Has loop reached 10
+FORCE_NO_SYMBOL $03AA
+COMMENT $03AC No, draw again
+COMMENT $03AE Yes, set to 0
+FORCE_SYMBOL $03AF bulloop
+COMMENT_LINE $03B2 ##########################
+COMMENT_LINE $03B2 ### Reads the joystick ###
+COMMENT_LINE $03B2 ##########################
+COMMENT $03B2 Reads joystick
+FORCE_SYMBOL $03B2 JOYDIGITAL
+COMMENT $03B5 Joy 1 X position to A
+FORCE_SYMBOL $03B5 JOY1X
+COMMENT $03B8 If 0 -> jump to noxmove
+COMMENT $03BC If negative -> lmove
+COMMENT_LINE $03C0 #################################################
+COMMENT_LINE $03C0 ### If something else (positive)		###
+COMMENT_LINE $03C0 ### the joystick has been moved right. Right. ###
+COMMENT_LINE $03C0 ### Limiting the maximum x-value to 0 	###
+COMMENT_LINE $03C0 #################################################
+COMMENT $03C0 Value of alusx to A
+FORCE_SYMBOL $03C0 alusx
+COMMENT $03C3 Compare A to 118
+FORCE_NO_SYMBOL $03C3
+COMMENT $03C5 If it is 118 -> xiso
+COMMENT $03C9 Increase alusx
+FORCE_SYMBOL $03C9 alusx
+COMMENT $03CC Jump to xready
+COMMENT $03CE Load 118 to A
+FORCE_NO_SYMBOL $03CE
+COMMENT $03D0 Store A to alusx
+FORCE_SYMBOL $03D0 alusx
+COMMENT $03D3 Jump to xready
+COMMENT_LINE $03D5 ############################################
+COMMENT_LINE $03D5 ### Joystick has been moved left.	   ###
+COMMENT_LINE $03D5 ### Limiting the minimum y-value to -118 ###
+COMMENT_LINE $03D5 ############################################
+COMMENT $03D5 Value of alusx to A
+FORCE_SYMBOL $03D5 alusx
+COMMENT $03D8 Compare A to -118
+COMMENT $03DA If it is -118 -> xpieni
+COMMENT $03DE Decrease alusx
+FORCE_SYMBOL $03DE alusx
+COMMENT $03E1 Jump to xready
+COMMENT $03E3 Load -118 to A
+COMMENT $03E5 Store A to alusx
+FORCE_SYMBOL $03E5 alusx
+COMMENT $03E8 Jump to xready
+COMMENT_LINE $03EA #################################################
+COMMENT_LINE $03EA ### Joystick hasn't been moved left or right. ###
+COMMENT_LINE $03EA ### Kept this here in case I need it later.   ###
+COMMENT_LINE $03EA #################################################
+COMMENT_LINE $03EA #############################################
+COMMENT_LINE $03EA ### Done with checking if the joystick    ###
+COMMENT_LINE $03EA ### was moved left or right, now checking ###
+COMMENT_LINE $03EA ### if it was moved up or down.	    ###
+COMMENT_LINE $03EA #############################################
+COMMENT $03EA Joy 1 Y position to A
+FORCE_SYMBOL $03EA JOY1Y
+COMMENT $03ED If 0 -> jump to noymove
+COMMENT $03EF If negative -> dmove
+COMMENT_LINE $03F1 #########################################
+COMMENT_LINE $03F1 ### If something else (positive)      ###
+COMMENT_LINE $03F1 ### the joystick has been moved up.	###
+COMMENT_LINE $03F1 ### Limiting the maximum y-value to 0 ###
+COMMENT_LINE $03F1 #########################################
+COMMENT $03F1 Value of alusy to A
+FORCE_SYMBOL $03F1 alusy
+COMMENT $03F4 Compare A to 0
+FORCE_NO_SYMBOL $03F4
+COMMENT $03F6 If it is 0 -> yiso
+COMMENT_LINE $03FA If it's not 0, then
+COMMENT $03FA Increase alusy
+FORCE_SYMBOL $03FA alusy
+COMMENT $03FD Jump to yready
+COMMENT $03FF Load 126 to A
+FORCE_NO_SYMBOL $03FF
+COMMENT $0401 Store A to alusy
+FORCE_SYMBOL $0401 alusy
+COMMENT_LINE $0406 ############################################
+COMMENT_LINE $0406 ### Joystick has been moved down.	   ###
+COMMENT_LINE $0406 ### Limiting the minimum y-value to -100 ###
+COMMENT_LINE $0406 ############################################
+COMMENT $0406 Value of alusy to A
+FORCE_SYMBOL $0406 alusy
+COMMENT $0409 Compare A to -100
+COMMENT $040B If it is -100 -> ypieni
+COMMENT $040F Decrease alusy
+FORCE_SYMBOL $040F alusy
+COMMENT $0412 Jump to yready
+COMMENT $0414 Load -100 to A
+COMMENT $0416 Store A to alusy
+FORCE_SYMBOL $0416 alusy
+COMMENT $0419 Jump to yready
+COMMENT_LINE $041B #################################################
+COMMENT_LINE $041B ### When making the limits (ie. how far)      ###
+COMMENT_LINE $041B ### the ship can go, you have to count in     ###
+COMMENT_LINE $041B ### the size of the ship. Best way to do this ###
+COMMENT_LINE $041B ### is to try it out. Ships 'hot spot' is     ###
+COMMENT_LINE $041B ### where the first vector starts from.       ###
+COMMENT_LINE $041B #################################################
+COMMENT_LINE $041B ###############################################
+COMMENT_LINE $041B ### Joystick hasn't been moved up or down.  ###
+COMMENT_LINE $041B ### Kept this here in case I need it later. ###
+COMMENT_LINE $041B ###############################################
+COMMENT_LINE $041B ##################################################
+COMMENT_LINE $041B ### Done with checking if the joystick has     ###
+COMMENT_LINE $041B ### been moved up or down - so let's go        ###
+COMMENT_LINE $041B ### back to the beginning and check all again. ###
+COMMENT_LINE $041B ##################################################
+COMMENT $041B Repeat
+COMMENT_LINE $041E #################################################
+COMMENT_LINE $041E ### You need LBRA, because BRA is too short a ###
+COMMENT_LINE $041E ### jump to jump to the beginning all the way ###
+COMMENT_LINE $041E ### from here.			        ###
+COMMENT_LINE $041E #################################################
+COMMENT_LINE $041E ################################################
+COMMENT_LINE $041E ### Then all the coordinates that are needed ###
+COMMENT_LINE $041E ################################################
+COMMENT $041E Tip of the ship
+COMMENT_LINE $0420 also the 'hot spot'
+COMMENT $0442 The frames
+COMMENT $0454 Landscape
+COMMENT $0514 Bullet
+COMMENT $051E Fuel tank
+COMMENT $0528 Enemy
+COMMENT $052A frame #1
+COMMENT $054A Enemy
+COMMENT $054C frame #2
+COMMENT_LINE $0570 ###########################
+COMMENT_LINE $0570 ### Reason for death :  ###
+COMMENT_LINE $0570 ### You ran out of fuel ###
+COMMENT_LINE $0570 ### (Now that's a nasty ###
+COMMENT_LINE $0570 ### way to go.)         ###
+COMMENT_LINE $0570 ###########################
+COMMENT $0570 If fuel runs out
+FORCE_SYMBOL $0570 lives
+COMMENT $0573 take one life and
+COMMENT $0574 display the text
+FORCE_SYMBOL $0574 lives
+COMMENT $0577 BIOS recalibration
+FORCE_SYMBOL $0577 WAITRECAL
+COMMENT $057A Beam to the center
+FORCE_SYMBOL $057A RESET0REF
+FORCE_NO_SYMBOL $057D
+COMMENT $057F Intensity to 127
+FORCE_SYMBOL $057F INTENSITY
+COMMENT $0582 Height
+COMMENT $0584 Width
+FORCE_NO_SYMBOL $0584
+FORCE_SYMBOL $0586 TXTHEIGHT
+FORCE_SYMBOL $0589 TXTWIDTH
+COMMENT $058C Y
+FORCE_NO_SYMBOL $058C
+COMMENT $058E X
+COMMENT $0590 Get the text
+FORCE_SYMBOL $0593 PRINTSTR
+COMMENT $0596 Keep looping it
+COMMENT_LINE $0598 Ok then I need to get it delay that for a while
+COMMENT_LINE $0598 after which it should jump to :
+COMMENT_LINE $0598 lbra	kohtu		; "kohtu"
+COMMENT_LINE $05AC ###############################
+COMMENT_LINE $05AC ### A very simple Game Over ###
+COMMENT_LINE $05AC ### screen for now.         ###
+COMMENT_LINE $05AC ###############################
+COMMENT $05AC BIOS recalibration
+FORCE_SYMBOL $05AC WAITRECAL
+COMMENT $05AF Beam to the center
+FORCE_SYMBOL $05AF RESET0REF
+FORCE_NO_SYMBOL $05B2
+COMMENT $05B4 Intensity to 127
+FORCE_SYMBOL $05B4 INTENSITY
+COMMENT $05B7 Height
+COMMENT $05B9 Width
+FORCE_NO_SYMBOL $05B9
+FORCE_SYMBOL $05BB TXTHEIGHT
+FORCE_SYMBOL $05BE TXTWIDTH
+COMMENT $05C1 Y
+FORCE_NO_SYMBOL $05C1
+COMMENT $05C3 X
+COMMENT $05C5 Get the text
+FORCE_SYMBOL $05C8 PRINTSTR
+COMMENT $05CB Keep looping it
+COMMENT_LINE $05D7 ##################################
+COMMENT_LINE $05D7 ### Th-th-th-that's all folks! ###
+COMMENT_LINE $05D7 ##################################
+COMMENT_LINE $05D7 ### Makes me feel proud when   ###
+COMMENT_LINE $05D7 ### I add this to the end :    ###
+COMMENT_LINE $05D7 ##################################
+COMMENT_LINE $05D7 ###   (c) man@sci.fi 2000	 ###
+COMMENT_LINE $05D7 ##################################
+RANGE $0000-$05D7 DP $D0
+RANGE $0000-$0002 DB_DATA 2
+RANGE $0002-$000A CHAR_DATA 8
+RANGE $000A-$000B DB_DATA 1
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$0017 CHAR_DATA 6
+RANGE $0017-$001C DB_DATA 5
+RANGE $001C-$0021 CHAR_DATA 5
+RANGE $0021-$0026 DB_DATA 5
+RANGE $0026-$002C CHAR_DATA 6
+RANGE $002C-$0031 DB_DATA 5
+RANGE $0031-$0037 CHAR_DATA 6
+RANGE $0037-$0039 DB_DATA 2
+RANGE $0039-$041E CODE
+RANGE $041E-$0420 DB_DATA 2
+RANGE $0420-$0422 DB_DATA 2
+RANGE $0422-$0424 DB_DATA 2
+RANGE $0424-$0426 DB_DATA 2
+RANGE $0426-$0428 DB_DATA 2
+RANGE $0428-$042A DB_DATA 2
+RANGE $042A-$042C DB_DATA 2
+RANGE $042C-$042E DB_DATA 2
+RANGE $042E-$0430 DB_DATA 2
+RANGE $0430-$0432 DB_DATA 2
+RANGE $0432-$0434 DB_DATA 2
+RANGE $0434-$0436 DB_DATA 2
+RANGE $0436-$0438 DB_DATA 2
+RANGE $0438-$043A DB_DATA 2
+RANGE $043A-$043C DB_DATA 2
+RANGE $043C-$043E DB_DATA 2
+RANGE $043E-$0440 DB_DATA 2
+RANGE $0440-$0442 DB_DATA 2
+RANGE $0442-$0444 DB_DATA 2
+RANGE $0444-$0446 DB_DATA 2
+RANGE $0446-$0448 DB_DATA 2
+RANGE $0448-$044A DB_DATA 2
+RANGE $044A-$044C DB_DATA 2
+RANGE $044C-$044E DB_DATA 2
+RANGE $044E-$0450 DB_DATA 2
+RANGE $0450-$0452 DB_DATA 2
+RANGE $0452-$0454 DB_DATA 2
+RANGE $0454-$0456 DB_DATA 2
+RANGE $0456-$0458 DB_DATA 2
+RANGE $0458-$045A DB_DATA 2
+RANGE $045A-$045C DB_DATA 2
+RANGE $045C-$045E DB_DATA 2
+RANGE $045E-$0460 DB_DATA 2
+RANGE $0460-$0462 DB_DATA 2
+RANGE $0462-$0464 DB_DATA 2
+RANGE $0464-$0466 DB_DATA 2
+RANGE $0466-$0468 DB_DATA 2
+RANGE $0468-$046A DB_DATA 2
+RANGE $046A-$046C DB_DATA 2
+RANGE $046C-$046E DB_DATA 2
+RANGE $046E-$0470 DB_DATA 2
+RANGE $0470-$0472 DB_DATA 2
+RANGE $0472-$0474 DB_DATA 2
+RANGE $0474-$0476 DB_DATA 2
+RANGE $0476-$0478 DB_DATA 2
+RANGE $0478-$047A DB_DATA 2
+RANGE $047A-$047C DB_DATA 2
+RANGE $047C-$047E DB_DATA 2
+RANGE $047E-$0480 DB_DATA 2
+RANGE $0480-$0482 DB_DATA 2
+RANGE $0482-$0484 DB_DATA 2
+RANGE $0484-$0486 DB_DATA 2
+RANGE $0486-$0488 DB_DATA 2
+RANGE $0488-$048A DB_DATA 2
+RANGE $048A-$048C DB_DATA 2
+RANGE $048C-$048E DB_DATA 2
+RANGE $048E-$04BA CHAR_DATA 44
+RANGE $04BA-$04BB DB_DATA 1
+RANGE $04BB-$04E3 CHAR_DATA 40
+RANGE $04E3-$04E4 DB_DATA 1
+RANGE $04E4-$04ED CHAR_DATA 9
+RANGE $04ED-$04EE DB_DATA 1
+RANGE $04EE-$04F7 CHAR_DATA 9
+RANGE $04F7-$04F8 DB_DATA 1
+RANGE $04F8-$0501 CHAR_DATA 9
+RANGE $0501-$0502 DB_DATA 1
+RANGE $0502-$0507 CHAR_DATA 5
+RANGE $0507-$0508 DB_DATA 1
+RANGE $0508-$050D CHAR_DATA 5
+RANGE $050D-$050E DB_DATA 1
+RANGE $050E-$0513 CHAR_DATA 5
+RANGE $0513-$0514 DB_DATA 1
+RANGE $0514-$0516 DB_DATA 2
+RANGE $0516-$0518 DB_DATA 2
+RANGE $0518-$051A DB_DATA 2
+RANGE $051A-$051C DB_DATA 2
+RANGE $051C-$051E DB_DATA 2
+RANGE $051E-$0520 DB_DATA 2
+RANGE $0520-$0522 DB_DATA 2
+RANGE $0522-$0524 DB_DATA 2
+RANGE $0524-$0526 DB_DATA 2
+RANGE $0526-$0528 DB_DATA 2
+RANGE $0528-$052A DB_DATA 2
+RANGE $052A-$052C DB_DATA 2
+RANGE $052C-$052E DB_DATA 2
+RANGE $052E-$0530 DB_DATA 2
+RANGE $0530-$0532 DB_DATA 2
+RANGE $0532-$0534 DB_DATA 2
+RANGE $0534-$0536 DB_DATA 2
+RANGE $0536-$0538 DB_DATA 2
+RANGE $0538-$053A DB_DATA 2
+RANGE $053A-$053C DB_DATA 2
+RANGE $053C-$053E DB_DATA 2
+RANGE $053E-$0540 DB_DATA 2
+RANGE $0540-$0542 DB_DATA 2
+RANGE $0542-$0544 DB_DATA 2
+RANGE $0544-$0546 DB_DATA 2
+RANGE $0546-$0548 DB_DATA 2
+RANGE $0548-$054A DB_DATA 2
+RANGE $054A-$054C DB_DATA 2
+RANGE $054C-$054E DB_DATA 2
+RANGE $054E-$0550 DB_DATA 2
+RANGE $0550-$0552 DB_DATA 2
+RANGE $0552-$0554 DB_DATA 2
+RANGE $0554-$0556 DB_DATA 2
+RANGE $0556-$0558 DB_DATA 2
+RANGE $0558-$055A DB_DATA 2
+RANGE $055A-$055C DB_DATA 2
+RANGE $055C-$055E DB_DATA 2
+RANGE $055E-$0560 DB_DATA 2
+RANGE $0560-$0562 DB_DATA 2
+RANGE $0562-$0564 DB_DATA 2
+RANGE $0564-$0566 DB_DATA 2
+RANGE $0566-$0568 DB_DATA 2
+RANGE $0568-$056A DB_DATA 2
+RANGE $056A-$056C DB_DATA 2
+RANGE $056C-$056E DB_DATA 2
+RANGE $056E-$0570 DB_DATA 2
+RANGE $0570-$0598 CODE
+RANGE $0598-$05AB CHAR_DATA 19
+RANGE $05AB-$05AC DB_DATA 1
+RANGE $05AC-$05CD CODE
+RANGE $05CD-$05D6 CHAR_DATA 9
+RANGE $05D6-$05D7 DB_DATA 1
+

@@ -114,7 +114,7 @@ SWITCH_TO_BLINK		EQU	100
         FCB     $80,$0
 
         JMP     l_RndStart
-        INCLUDE "print.i"          ;replecement for bios print func
+        INCLUDE "PRINT.I"          ;replecement for bios print func
         INCLUDE "MyMacros.I"       ;replecement for bios print func
 l_RndStart:
         JSR   s_RndInit                         ;general initialization

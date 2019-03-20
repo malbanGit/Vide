@@ -17,7 +17,7 @@
 * Art Master
 
 
-       include "taft.i"
+       include "TAFT.I"
        noopt
        direct -1
        org   $0000;

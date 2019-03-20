@@ -1,0 +1,344 @@
+Karl Quappe 
+===========
+
+Contents of the package
+-----------------------
+The Vectrex version is provided as a downloadable zip file, which contains following files:
+
+- Karl_Quappe.bin 
+  Vectrex compatible binary, playable on vectrex or an emulator.
+  This binary has all code for "permanency" enabled. To use this binary with a 
+  VecFlash or VecMulti (or otherwise using PB6) device hold any button
+  pressed during startup to skip the corresponding code) - otherwise
+  the device will cause errors and the game won't start.
+  
+- Karl_Quappe_np.bin 
+  Vectrex compatible binary, playable on vectrex or an emulator.
+  This binary has all code for "permanency" disabled. Even using 
+  a VecFever device - this version does not save options or highscores.
+
+- KarlQuappe.txt
+  This readme
+
+- KarlQuappe  (directory)
+  The sourcecode to the game. For further information look at the readme inside that
+  folder.
+
+Getting started
+------------
+a) Insert the cartridge and power up your vectrex
+or
+b) put the binary (corresponding to your "flash" card) onto the card. Insert the card and 
+   power up your vectrex.
+
+Permanency
+----------
+The game was developed to allow highscores and options to be saved to attached "devices".
+Supported devices are:
+- One wire eprom DS2431A
+  A cartridge with such a device connected to the PB6 pin of the cartridge port can be used
+  to store highscores and options.
+  The device will be automatically recognized.
+- VecFever
+  If the game is run from a VecFever cartridge, options and highscores can be saved to that device.
+  The device is automatically recognized.
+
+The auto detection code needs to access the PB6 pin of the cartridge port. Since some available
+multicard implementations also use PB6 to communicate, this feature may cause trouble if 
+Karl_Quappe is run form such devices (namely VecFlash and VecMulti - but maybe others).
+
+There are ways to circumvent these problems:
+a) use the binary "Karl_Quappe_np.bin" - this has all PB6 communication disabled
+b) while the game is started press any button until "Karl_Quappe" is displayed (the circling title).
+   If the cartridge is started with a button pressed, all PB6 access is circumvented.
+c) in case of the VecMulti you can also "double" the "Karl_Quappe.bin" ROM - so that it is
+   64kB instead of 32kB. The VecMulti actually supports bankswitching and on access of PB6 it
+   switches the 32kB bank to an "empty" bank. To accomodate that - double the ROM.
+
+Copyright
+---------
+The game Karl_Quappe for Vectrex is released as public domain.
+
+The source code is also public domain - in so far that I am able to (see accompanying Readme).
+
+You are explicitly allowed to look at the code and reuse it or even learn from it.
+You are explicitly allowed to make copies of the game and spread it. You can put it onto multicard 
+collections or even distribute it as a package on its own.
+
+Please do not abuse this generous gesture.
+
+Instruction
+-----------  
+
+Introduction
+............
+
+Karl needs to get home quickly!
+
+His way home is encumbered with dangers. 
+
+First he must cross a highway - avoid cars, 
+trucks and other vehicles.
+
+Than he must cross a rapid river to finally reach 
+his home.Mortal enemies try to enhance their diet with 
+fresh frog-meat, can you outsmart them?
+
+Rumors have it, there is even a (frog-)damsel in 
+distress, can you rescue her?
+
+Starting Karl Quappe
+....................
+
+Cartridge
+- Make sure your Vectrex is switched off.
+- If you have a Karl Quappe Cartridge, insert it into
+  the Vectrex Cartridge port. 
+- Turn your Vectrex on.
+
+VecMulti
+- select Karl Quappe in your VecMulti
+- start it
+
+VecFlash - or possibly other mutli carts
+- select Karl Quappe
+- start it
+- after the initial bootup screen of vectrex keep any 
+  of the buttons 1-4 pressed to skip over code, which 
+  interferes with PB6 based bankswitching multi-cards.
+
+
+Title screen
+............
+While the title is displayed you can the buttons of 
+joystick 1 to procede to different sections.
+
+BUTTON 1
+Starts the game with the current selected options.
+
+BUTTON 2
+Displays the current high scores. Using the Joystick 
+(left/right) displays either the competition or the 
+hardcore high scores.
+
+BUTTON 3
+Immediatly enters the next attract mode "level".
+(The attract mode will be entered automatically after
+the title screen has been displayed a certain amount 
+of time)
+
+BUTTON 4
+Enters the options menu.
+
+Options
+.......
+
+While the title screen is displayed, press button 4 to
+enter the options screen.
+You can navigate the menu using the joystick (up/down). 
+
+To alter an option use either joystick (left/right) or 
+press any button.
+
+To leave the menu enable the "BACK" entry and press any 
+button. 
+If you are using a VecFever, pressing button 4 while on
+"BACK" entry will exit to the VecFever menu
+(thus pressing 4 and 4 while the title is displayed
+ sends you back to VecFever).
+
+In the options menu you can chose the following entries:
+
+- number of players
+- game mode
+- music on/off
+- level (for training mode)
+- reset storage
+
+
+PLAYERS
+Chose the number of players (one or two). 
+If you select a two player game the game mode
+automatically switches to "COMPETITION", since only that 
+mode supports a two player game.
+Two players play alternately after each live.
+
+GAME MODE
+There are three different game modes.
+
+COMPETITION
+is the default game mode. 
+- high scores can be achieved and saved to the cartridge
+- 1 and 2 player games are possible
+- each player has 5 lives
+- every 10,000 points a new live is awarded
+- the game always starts at level 1
+
+TRAINING
+- high scores are not supported
+- only 1 player games are possible
+- each player has 5 lives
+- every 10,000 points a new live is awarded
+- game can be continued after final death (score is reset)
+- the game starts at level 1
+- after once reaching 40,000 points in COMPETITION mode
+  you can enter freely what level you would like to train
+
+HARDCORE
+- special hardcore high scores can be achieved and 
+  saved to the cartridge
+- only 1 player games are possible
+- each player has 1 live
+- no extra live is awarded
+- no in game specials can be found
+
+MUSIC ON/OFF
+An option to switch of the music. This applies to
+both ingame music and title music.
+
+LEVEL
+Once you achieve a score of 40,000 points or higher in 
+COMPETITION mode. You can enter a start level for your
+TRAINING mode games.
+
+RESET STORAGE
+The Cartridge memory can be erased.
+This resets the cartridge memory to its default values,
+with no highscore and all options are reseted.
+
+This also resets (if applicable) VecFever storage.
+
+BACK
+will exit to the title screen.
+If you are using a VecFever pressing button 4 
+will exit to the VecFever menu.
+
+Gameplay
+........
+Using the joystick you can move Karl across the screen.
+
+The player must guide Karl his home. First Karl must cross a road 
+where he has to find his way over street occupied by different 
+vehicles. Touching such a vehicle is fatal.
+
+After an intermediate pause in the middle of the screen, Karl has
+to cross a river using a series of different objcts like logs 
+and turtles or even crocodiles he can jump on.
+
+And finally reach his home. 
+(5 different homes per level)
+
+Hazzards and Helpers
+
+Street
+Touching any part of any of the following car
+is instant death to Karl.
+
+- Caterpillar
+- Race cards
+- Speedcar
+- Car
+- Van
+
+Water
+These object in general can be jumped upon.
+
+- Log
+  Save to be used for transport.
+- Turtle
+  Beware, some turtles dive. If a turtle dives while 
+  Karl is on its back, Karl drowns.
+- Crocodile
+  You can jump on the back of a crocodile and use it 
+  as transport. But beware, if you go to close to 
+  its mouth you will become dinner!
+- Otter
+  Otters may swim in the water. Beware! Otters are known
+  to snatch unaware frogs of right of the edge of a log!
+- Girls
+  There are rumors that there might be girls lingering
+  near the water, waiting for a suitable mate. If you
+  happen to see a girl - jump for it!  
+  
+Home
+Different objects can be inside a home.
+- Fly
+Flies are food - you get 200 bonus points.
+
+- Crocodile
+The crcodile wants to eat you. Once the full head of 
+a crocodile is visible in a home - it becomes a death trap!
+
+- Occupants
+If a home is already occupied by a "brother", you can not
+enter it any longer, doing so anyway will result in deatch.
+
+Others
+- Snake
+For a snake frogs are delicious diet. If Karl happens to be
+near a snakes mouth - he will be eaten!
+
+Scoring
+- each jump forward (up) 10 points (backwards -10 points)
+- finish a level befor the timer runs out, the timer rest 
+  gives bonus scores (10 points per tick)
+- reach home with a girl carried (200 points)
+- catch a fly in the home (200 points)
+- complete a level (500 points)
+- ...  
+  
+Possible deaths
+- running out of time
+- get run over by a vehicle
+- drown in the water
+- get drowned by a turtle dive
+- getting carried out of bounds
+- missing your home
+- trying to enter an already occupied home
+- get eaten by a snake
+- get eaten by a crocodile in the water
+- get eaten by a crocodile in your home
+- get eaten by an otter
+
+
+Emulation
+---------
+The game KarlQuappe uses some features that are not emulated by all emulators.
+The best emulation known can be viewed using Vide.
+
+The graphics using e.g. ParaJVE look broken. The game functions normally though.
+
+Thanks
+------
+
+VTK
+For his support and enthusiam throughout the development phase of the game.
+Also - your testing really helped to shape the
+outcome of KarlQuappe.
+
+Thomas Sontowski
+For his tips and his wonderfull VecFever device. It is a pleasure to use it as a development
+tool!
+
+George  Anastasiadis
+Also your enthusiasm, testing and spreading word over to you greek colleagues.
+
+Jacek Selanski
+For additional testing and refining some of the graphics.
+
+Me - Malban :-)
+For building Vide - it is a fantastic development tool for vectrex. 
+It's a little bit hard to get into - but at least I didn't have any difficulties at all.
+The support for VecFever and the possible trial/error rapid prototyping/development 
+opportunities - I do not want to miss. 
+Also Vecci (which is even harder to get into) allows very efficient vector drawings and 
+placing them into the code.
+[I do not even mention the YM, SFX and the new Arkos Tracker/player stuff]
+
+More Info
+---------
+There is a blog concering all things "Vide":
+vide.malban.de
+
+If you would like to have more information about "vectrex" in general - and its homebrew "scene"
+go the the "Vide" homepage and look under the section "links".

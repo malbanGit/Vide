@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="105mm"
+   height="148mm"
+   viewBox="0 0 372.04725 524.40945"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="Manual20.svg">
+  <defs
+     id="defs4">
+    <clipPath
+       id="clipPath4171"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4173"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4177"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4179"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4213"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4215"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4219"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4221"
+         d="m 98,842 0,-841.0551777 399.5444,0 L 497.5444,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4225"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4227"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <filter
+       y="-0.25"
+       height="1.5"
+       inkscape:menu-tooltip="Darkens the edge with an inner blur and adds a flexible glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:label="Dark And Glow"
+       style="color-interpolation-filters:sRGB"
+       id="filter5098">
+      <feGaussianBlur
+         stdDeviation="5"
+         result="result6"
+         id="feGaussianBlur5100" />
+      <feComposite
+         result="result8"
+         in="SourceGraphic"
+         operator="atop"
+         in2="result6"
+         id="feComposite5102" />
+      <feComposite
+         result="result9"
+         operator="over"
+         in2="SourceAlpha"
+         in="result8"
+         id="feComposite5104" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         result="result10"
+         id="feColorMatrix5106" />
+      <feBlend
+         in="result10"
+         mode="normal"
+         in2="result6"
+         id="feBlend5108" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.3726563"
+     inkscape:cx="-80.583911"
+     inkscape:cy="246.17787"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1600"
+     inkscape:window-height="1199"
+     inkscape:window-x="683"
+     inkscape:window-y="69"
+     inkscape:window-maximized="0"
+     showborder="false"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4346" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-527.95276)"
+     style="display:inline">
+    <rect
+       style="fill:#010101;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5088"
+       width="372.04724"
+       height="524.40942"
+       x="0"
+       y="527.95276" />
+    <g
+       id="g4165"
+       transform="matrix(0,-0.14718605,-0.14718605,0,241.43905,606.36053)" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Ebene 2"
+     style="display:none"
+     transform="translate(0,-42.519685)" />
+  <g
+     inkscape:label="Ebene 2 Kopie"
+     id="g5615"
+     inkscape:groupmode="layer"
+     sodipodi:insensitive="true"
+     style="display:none"
+     transform="translate(0,-42.519685)" />
+</svg>

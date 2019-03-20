@@ -76,8 +76,8 @@
 ; Available at:
 ; http://www.falstaff.demon.co.uk/cross.html
 ;
-                INCLUDE "include\\VECTREX.I" ; vectrex function includes
-                INCLUDE "include\\macros\\beam_mac.I" ; vectrex function includes
+                INCLUDE "INCLUDE/VECTREX.I" ; vectrex function includes
+                INCLUDE "INCLUDE/MACROS/BEAM_MAC.I" ; vectrex function includes
 
 ; This is the single most important variable...
 ; for different sample frequency, THIS must be adjusted...

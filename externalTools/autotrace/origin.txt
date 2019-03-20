@@ -1,0 +1,10 @@
+http://autotrace.sourceforge.net/
+
+Version
+	0.31.1
+Author
+	Martin Weber
+
+License:
+    GNU GENERAL PUBLIC LICENSE Version 2
+	

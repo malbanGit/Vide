@@ -1,8 +1,8 @@
- INCLUDE "include\\macros\\div_mac.i"
+ INCLUDE "INCLUDE/MACROS/DIV_MAC.I"
 
 SPEED           EQU $9    ; speed of 'walker'
                           ; (the bigger the number, the faster one walks)
-LIGHT           EQU $20   ; 7f - light + current_z_pos Åer round - LIGHT
+LIGHT           EQU $20   ; 7f - light + current_z_pos ÔøΩer round - LIGHT
                           ; (the smaller the number, the further one can look)
 LAB_SCALE       EQU $80   ; size of maze
                           ; (the bigger the number, the bigger the maze)

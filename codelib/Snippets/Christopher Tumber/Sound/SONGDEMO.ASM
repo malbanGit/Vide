@@ -48,7 +48,7 @@
 ; http://www.falstaff.demon.co.uk/cross.html
 ;****************************************************************************
 
-                INCLUDE "VECTREX.I"        ; vectrex function includes
+                INCLUDE "vectrex.i"        ; vectrex function includes
 
 BIOS_music_data         EQU     $FC8D      ; here are the BIOS notes...
 

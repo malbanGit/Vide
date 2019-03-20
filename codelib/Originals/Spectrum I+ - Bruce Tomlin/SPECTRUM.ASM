@@ -10,7 +10,7 @@
 ; Available at:
 ; http://www.falstaff.demon.co.uk/cross.html
 ;
- include "vectrex.i"
+ include "VECTREX.I"
                      direct -1              ; disable use of dpr
 
 D0000   FCC     "g GCE 1982"

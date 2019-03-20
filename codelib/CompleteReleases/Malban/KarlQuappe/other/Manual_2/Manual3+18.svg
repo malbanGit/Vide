@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 1052.3622 744.09448"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="Manual3+18.svg">
+  <defs
+     id="defs4">
+    <clipPath
+       id="clipPath4171"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4173"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4177"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4179"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4213"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4215"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4219"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4221"
+         d="m 98,842 0,-841.0551777 399.5444,0 L 497.5444,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4225"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4227"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <filter
+       y="-0.25"
+       height="1.5"
+       inkscape:menu-tooltip="Darkens the edge with an inner blur and adds a flexible glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:label="Dark And Glow"
+       style="color-interpolation-filters:sRGB"
+       id="filter5098">
+      <feGaussianBlur
+         stdDeviation="5"
+         result="result6"
+         id="feGaussianBlur5100" />
+      <feComposite
+         result="result8"
+         in="SourceGraphic"
+         operator="atop"
+         in2="result6"
+         id="feComposite5102" />
+      <feComposite
+         result="result9"
+         operator="over"
+         in2="SourceAlpha"
+         in="result8"
+         id="feComposite5104" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         result="result10"
+         id="feColorMatrix5106" />
+      <feBlend
+         in="result10"
+         mode="normal"
+         in2="result6"
+         id="feBlend5108" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.0253124"
+     inkscape:cx="498.44462"
+     inkscape:cy="372.04724"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1726"
+     inkscape:window-height="1135"
+     inkscape:window-x="723"
+     inkscape:window-y="215"
+     inkscape:window-maximized="0"
+     showborder="true"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4346" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-308.26773)"
+     style="display:inline">
+    <g
+       id="g4165"
+       transform="matrix(0,-0.14718605,-0.14718605,0,241.43905,606.36053)" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.02782547px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 152.8622,361.41729 0,654.98361 0,0 0,0 0,0"
+       id="path4205"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.02782547px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 896.95669,361.41729 0,654.98361 0,0 0,0 0,0"
+       id="path4205-1"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 70.866142,942.0197 c 919.999998,0 919.999998,0 919.999998,0 l 0,0"
+       id="path4247"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 70.866142,417.61025 c 919.999998,0 919.999998,0 919.999998,0 l 0,0"
+       id="path4247-9"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.02782547px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 524.90945,361.41729 0,654.98361 0,0 0,0 0,0"
+       id="path4205-13"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.54330707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4177"
+       width="790"
+       height="570"
+       x="132.92593"
+       y="394.25189" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Ebene 1,5"
+     sodipodi:insensitive="true"
+     style="display:none">
+    <rect
+       style="opacity:1;fill:#010101;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.54330707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4311"
+       width="800"
+       height="580"
+       x="120"
+       y="84.094482" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Ebene 2"
+     style="display:inline"
+     transform="translate(0,177.16535)">
+    <g
+       id="g4396"
+       transform="matrix(1,0,0,1.0002919,0,-0.12793442)">
+      <rect
+         y="-48.698666"
+         x="165.15353"
+         height="19.848625"
+         width="339.06009"
+         id="rect4561"
+         style="display:inline;fill:#000000;fill-opacity:0.39402986;fill-rule:evenodd;stroke:none;stroke-width:2.7579999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         style="font-variant:normal;font-weight:normal;font-size:10px;font-family:Swis721LtBT;-inkscape-font-specification:Swis721LtBT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text18559"
+         x="336.14557"
+         y="438.34265">
+        <tspan
+           x="336.14557"
+           y="438.34265"
+           id="tspan18561">17</tspan>
+      </text>
+    </g>
+    <g
+       id="g4447"
+       transform="translate(34.135938,97.531252)">
+      <path
+         inkscape:connector-curvature="0"
+         id="path7502"
+         d="m 578.22487,265.1029 c 24.36405,0 24.36405,0 24.36405,0 l 24.36404,0 24.36404,0 24.36404,0 14.61842,0 0,19.49123 -24.36404,9.74562 -24.36404,-14.61842 -24.36404,9.74561 -24.36404,-14.61842 -14.61843,9.74561 z"
+         style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.62745098" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path7506"
+         d="m 582.61333,249.71825 0,-9.74562 14.61842,9.74562 24.36404,-9.74562 4.87281,4.87281 -14.61843,4.87281 19.49124,4.87281 0,19.49123 -19.49124,4.87281 14.61843,4.8728 -4.87281,4.87281 -24.36404,-9.74561 -14.61842,9.74561 0,-9.74561 9.74561,-9.74562 0,-9.74562 z"
+         style="display:inline;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.62745098" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path7007"
+         d="m 732.9573,314.24053 23.15075,-13.89047 -4.63016,-9.2603 23.15078,4.6302 -4.63016,-9.2603 18.52062,23.15067 23.15075,-4.63007 0,18.52057 -23.15075,-4.6302 -18.52062,23.1508 4.63016,-9.2603 -23.15078,4.6301 4.63016,-9.2603 z"
+         style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.62745098" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text7577"
+         y="-130.23055"
+         x="522.51874"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="-130.23055"
+           x="522.51874"
+           id="tspan7579"
+           sodipodi:role="line">Karl needs to get home quickly!</tspan><tspan
+           id="tspan7581"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="-108.35555"
+           x="522.51874"
+           sodipodi:role="line" /><tspan
+           id="tspan7601"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="-86.480545"
+           x="522.51874"
+           sodipodi:role="line">On his way he will have to avoid many  </tspan><tspan
+           id="tspan7611"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="-64.605545"
+           x="522.51874"
+           sodipodi:role="line">dangers. </tspan><tspan
+           id="tspan7583"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="-42.730545"
+           x="522.51874"
+           sodipodi:role="line">First he must cross a highway, avoiding </tspan><tspan
+           id="tspan7589"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="-20.855545"
+           x="522.51874"
+           sodipodi:role="line">cars, trucks and other motor vehicles.</tspan><tspan
+           id="tspan7591"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="1.019455"
+           x="522.51874"
+           sodipodi:role="line">Than he must cross a rapid river to </tspan><tspan
+           id="tspan7593"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="22.894455"
+           x="522.51874"
+           sodipodi:role="line">finally reach his home.</tspan><tspan
+           id="tspan7595"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="44.769455"
+           x="522.51874"
+           sodipodi:role="line" /><tspan
+           id="tspan7599"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="66.644455"
+           x="522.51874"
+           sodipodi:role="line">His mortal enemies will be out in force, </tspan><tspan
+           id="tspan4178"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="88.519455"
+           x="522.51874"
+           sodipodi:role="line">keen to enhance their diets with fresh</tspan><tspan
+           id="tspan4180"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="110.39445"
+           x="522.51874"
+           sodipodi:role="line">frog-meat. Can you outsmart them?</tspan><tspan
+           id="tspan7605"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="132.26945"
+           x="522.51874"
+           sodipodi:role="line" /><tspan
+           id="tspan7607"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="154.14445"
+           x="522.51874"
+           sodipodi:role="line">Rumor has it that even Karl's girlfriend</tspan><tspan
+           id="tspan4182"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="176.01945"
+           x="522.51874"
+           sodipodi:role="line">is lost out on the river somewhere.</tspan><tspan
+           id="tspan7609"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="197.89445"
+           x="522.51874"
+           sodipodi:role="line">Can you rescue her and ensure that </tspan><tspan
+           id="tspan4184"
+           style="font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'.HeitiUI GB18030PUA';-inkscape-font-specification:'.HeitiUI GB18030PUA, Thin';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="219.76945"
+           x="522.51874"
+           sodipodi:role="line">you both get home safely?  </tspan></text>
+    </g>
+  </g>
+</svg>

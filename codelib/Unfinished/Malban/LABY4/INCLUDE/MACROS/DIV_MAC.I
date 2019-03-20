@@ -2,7 +2,7 @@
 ;
  if DIVIDE_I != 1
 
- include "include\\macros\\6809_mac.i"
+ include "INCLUDE\\MACROS\\6809_MAC.I"
 
 DIVIDE_I equ 1
 

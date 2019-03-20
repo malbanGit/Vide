@@ -1,0 +1,2395 @@
+BANK 0
+EQU $00 
+LABEL $F000 start_of_OS_ROM
+LABEL $F101 gce_copyright_string
+LABEL $F10C vectrex_string
+LABEL $F14C init_PIA_chip
+LABEL $F164 initialize_OS_RAM
+LABEL $F18B reinit
+LABEL $F192 waitrecal
+LABEL $F1A2 set_refresh
+LABEL $F1AA dptoD0
+LABEL $F1AF dptoC8
+LABEL $F1B4 read_switches
+LABEL $F1BA read_switches2
+LABEL $F1F8 read_jstick
+LABEL $F256 byte_2_sound_chip
+LABEL $F259 byte_2_sound_chip2
+LABEL $F272 clear_sound_chip
+LABEL $F27D copy_bytes_2_sound_chip
+LABEL $F289 do_sound
+LABEL $F29D intensity_to_1F
+LABEL $F2A1 intensity_to_3F
+LABEL $F2A5 intensity_to_5F
+LABEL $F2A9 intensity_to_7F
+LABEL $F2AB intensity_to_a
+LABEL $F2BE dotixb
+LABEL $F2C1 dotix
+LABEL $F2C3 dot_at_d
+LABEL $F2C5 dot_at_current_position
+LABEL $F2D5 dot_list
+LABEL $F2DE dotix_then_reset
+LABEL $F2F2 move_pen7F_no_inc
+LABEL $F2FC move_pen7F_to_d
+LABEL $F308 move_penFF
+LABEL $F30C move_pen7F
+LABEL $F30E set_scale_factor
+LABEL $F310 move_pen
+LABEL $F312 move_pen_d
+LABEL $F34A set_dp_and_reset0ref
+LABEL $F34F check0ref
+LABEL $F354 reset0ref
+LABEL $F373 print_1_string
+LABEL $F378 print_with_dft_hw
+LABEL $F37A print_at_d
+LABEL $F385 printu
+LABEL $F38A printu2
+LABEL $F38C printu3
+LABEL $F391 print_b_minus_a
+LABEL $F393 print_b_minus_a2
+LABEL $F3AD move_then_draw_VL_with_count1
+LABEL $F3B1 move_then_draw_VL_with_count2
+LABEL $F3B5 move_then_draw_VL_with_count3
+LABEL $F3B7 move_then_draw_VL_with_count4
+LABEL $F3B9 move_then_draw_VL_with_count6
+LABEL $F3BC move_then_draw_VL_with_count5
+LABEL $F3CE draw_VL_with_count4
+LABEL $F3D2 draw_VL_with_count3
+LABEL $F3D6 draw_VL_with_count2
+LABEL $F3D8 draw_VL_with_count6
+LABEL $F3DA draw_VL_with_count5
+LABEL $F3DD draw_VL_with_count1
+LABEL $F3DF draw_to_d
+LABEL $F404 drawl1_scale_FF
+LABEL $F408 drawl1_scale_7F
+LABEL $F40C drawl1
+LABEL $F40E drawl1b
+LABEL $F410 next_pt
+LABEL $F434 dwp_with_count
+LABEL $F437 draw_with_pattern
+LABEL $F46E drawl2
+LABEL $F495 display_string
+LABEL $F511 get_random_a2
+LABEL $F517 get_random_a
+LABEL $F533 init_music_buf
+LABEL $F53F clear_blockxb
+LABEL $F542 clear_C8_ram
+LABEL $F545 clear_256_bytes
+LABEL $F548 clear_block
+LABEL $F550 clear_block_to_0x80
+LABEL $F552 clear_block_to_a
+LABEL $F55A decrement_counters_C82E_C830
+LABEL $F55E decrement_counters_C82E_C833
+LABEL $F56D delay_b_3
+LABEL $F571 delay_b_2
+LABEL $F575 delay_b_1
+LABEL $F579 delay_b_0
+LABEL $F57A start_b_delay
+LABEL $F57E get_bit_mask
+LABEL $F584 get_absolute_value_of_ab
+LABEL $F593 convert_rise_run_to_angle
+LABEL $F5D9 get_2nd_index_pair
+LABEL $F5DB get_1st_index_pair
+LABEL $F5EF get_rotation_index_pairs
+LABEL $F5FF convert_abs_angle_to_rise_run
+LABEL $F601 convert_angle_to_rise_run
+LABEL $F610 rotate_vector_list2
+LABEL $F61F rotate_vector_list1
+LABEL $F637 transform_next_point
+LABEL $F65B xform_1
+LABEL $F65D xform_1a
+LABEL $F661 xform_2
+LABEL $F663 xform_2a
+LABEL $F67F move_block
+LABEL $F683 move_block2
+LABEL $F687 init_sound
+LABEL $F68D init_sound2
+LABEL $F7A9 get_players_game
+LABEL $F82C handle_buttons
+LABEL $F835 display_option_string
+LABEL $F84F set_dft_score
+LABEL $F85E convert_a_to_bcd_and_add
+LABEL $F87C add_d_to_x_in_bcd
+LABEL $F8C7 compare_scores
+LABEL $F8D8 check_4_new_hi_score
+LABEL $F8E5 modify_target_and_check_4_hit1
+LABEL $F8F3 modify_target_and_check_4_hit2
+LABEL $F8FF check_bullet_for_hit
+LABEL $F903 check_bullet_for_hit2
+LABEL $F92E generate_explosion_sound
+LABEL $F794 player_string
+LABEL $F79F game_string
+LABEL $F9DC bit_masks
+LABEL $F9E4 music_stuff1
+LABEL $F9EA music_stuff2
+LABEL $F9F4 character_table
+LABEL $FC24 angle_data1
+LABEL $FC2C angle_data2
+LABEL $FC6D rotation_pair_table
+LABEL $FC8D music_routine_data
+LABEL $FD0D intro_music_block
+LABEL $FD1D berzerk_music_block
+LABEL $FD69 music_header1a
+LABEL $FD79 music_header2b
+LABEL $FEB6 music_header2a
+LABEL $FEE8 music_header1b
+LABEL $F3BC move_to_pt
+LABEL $0DFC star_castle_music
+EQU $1E star_castle
+LABEL $0047 restart_game
+LABEL $0036 P0036
+LABEL $0FA4 author
+LABEL $0093 P0093
+LABEL $0090 P0090
+LABEL $00AE P00AE
+LABEL $0BD1 change_player
+LABEL $00D3 P00D3
+LABEL $00E1 P00E1
+LABEL $0488 P0488
+LABEL $0114 P0114
+LABEL $0E1F star_cruiser1
+LABEL $0137 P0137
+LABEL $0E31 star_cruiser2
+LABEL $013D P013D
+LABEL $0190 P0190
+LABEL $0169 P0169
+LABEL $018E P018E
+LABEL $018B P018B
+LABEL $0179 P0179
+LABEL $0F55 explosion_star
+LABEL $01C4 P01C4
+LABEL $0257 P0257
+LABEL $0E47 energy_cannon
+LABEL $01EC P01EC
+LABEL $01E3 P01E3
+LABEL $01D9 P01D9
+LABEL $01F2 P01F2
+LABEL $0212 P0212
+LABEL $0219 P0219
+LABEL $0234 P0234
+LABEL $0251 P0251
+LABEL $0F86 explosion_dots
+LABEL $02D7 P02D7
+LABEL $029C P029C
+LABEL $02D4 P02D4
+LABEL $0E61 fireball
+LABEL $02BE P02BE
+LABEL $02D1 P02D1
+LABEL $0382 P0382
+LABEL $0F33 ring
+LABEL $0C4C draw_1_ring
+LABEL $031F P031F
+LABEL $0E73 energy_bomb_VL_table
+LABEL $0346 P0346
+LABEL $040A P040A
+LABEL $0397 P0397
+LABEL $0366 P0366
+LABEL $037D P037D
+LABEL $0394 P0394
+LABEL $0380 P0380
+LABEL $0393 P0393
+LABEL $03AE P03AE
+LABEL $03B8 P03B8
+LABEL $03C9 P03C9
+LABEL $03EB P03EB
+LABEL $03F2 P03F2
+LABEL $03FA P03FA
+LABEL $0404 P0404
+LABEL $0447 P0447
+LABEL $0421 P0421
+LABEL $0FD4 game_over
+LABEL $0FE0 player1
+LABEL $043A P043A
+LABEL $0FEB player2
+LABEL $04C7 display_scores
+LABEL $046A P046A
+LABEL $0463 P0463
+LABEL $047B P047B
+LABEL $0FD6 game_over2
+LABEL $04A7 P04A7
+LABEL $04B9 P04B9
+LABEL $0507 display_player1_score
+LABEL $04DD display_player2_score
+LABEL $0C0F init_ship_count_buffer
+LABEL $0C20 fill_ship_count_buffer
+LABEL $0531 P0531
+LABEL $0C88 make_game_sounds
+LABEL $054E P054E
+LABEL $054C P054C
+LABEL $055E P055E
+LABEL $0569 P0569
+LABEL $0567 P0567
+LABEL $056C P056C
+LABEL $05A7 P05A7
+LABEL $0682 P0682
+LABEL $058F P058F
+LABEL $05A1 P05A1
+LABEL $05B3 P05B3
+LABEL $05B9 P05B9
+LABEL $05FE P05FE
+LABEL $05C5 P05C5
+LABEL $05D1 P05D1
+LABEL $0C31 mult_rise_run_by_9
+LABEL $0621 P0621
+LABEL $0618 P0618
+LABEL $0629 P0629
+LABEL $0680 P0680
+LABEL $0C33 mult_rise_run_by_a
+LABEL $06F8 P06F8
+LABEL $069A P069A
+LABEL $06C5 P06C5
+LABEL $069F P069F
+LABEL $06B0 P06B0
+LABEL $06BD P06BD
+LABEL $06C7 P06C7
+LABEL $06F1 P06F1
+LABEL $070F P070F
+LABEL $0722 P0722
+LABEL $071E P071E
+LABEL $072E P072E
+LABEL $0912 P0912
+LABEL $08C2 P08C2
+LABEL $08E2 P08E2
+LABEL $0762 P0762
+LABEL $079A P079A
+LABEL $0796 P0796
+LABEL $07BB P07BB
+LABEL $07C8 P07C8
+LABEL $07E2 P07E2
+LABEL $07D8 P07D8
+LABEL $07E0 P07E0
+LABEL $084C P084C
+LABEL $0848 P0848
+LABEL $0843 P0843
+LABEL $0908 P0908
+LABEL $0855 P0855
+LABEL $08B0 P08B0
+LABEL $08E8 P08E8
+LABEL $08EF P08EF
+LABEL $0902 P0902
+LABEL $0A40 P0A40
+LABEL $0929 P0929
+LABEL $093D P093D
+LABEL $0A2B P0A2B
+LABEL $0983 P0983
+LABEL $0976 P0976
+LABEL $0C77 update_players_score
+LABEL $0A85 P0A85
+LABEL $0989 P0989
+LABEL $09A0 P09A0
+LABEL $09AD P09AD
+LABEL $09C1 P09C1
+LABEL $0A29 P0A29
+LABEL $0A02 P0A02
+LABEL $0A08 P0A08
+LABEL $0A0D P0A0D
+LABEL $0A4B P0A4B
+LABEL $0BA6 init_ring_scale_factors
+LABEL $0A60 P0A60
+LABEL $0A67 P0A67
+LABEL $0A6F P0A6F
+LABEL $0AD1 P0AD1
+LABEL $0AB7 P0AB7
+LABEL $0AC4 P0AC4
+LABEL $0AE0 P0AE0
+LABEL $0B0C P0B0C
+LABEL $0B1F P0B1F
+LABEL $0B17 P0B17
+LABEL $0B1D P0B1D
+LABEL $0B35 P0B35
+LABEL $0B8F P0B8F
+LABEL $0B48 P0B48
+LABEL $0BA3 P0BA3
+LABEL $0B9C P0B9C
+LABEL $0BA1 P0BA1
+LABEL $0BE3 P0BE3
+LABEL $0BFD prepare_for_backup
+LABEL $0C0D P0C0D
+LABEL $0C0E P0C0E
+LABEL $0C1F P0C1F
+LABEL $0C2A P0C2A
+LABEL $0C3A P0C3A
+LABEL $0C4B P0C4B
+LABEL $0C54 P0C54
+LABEL $0C69 P0C69
+LABEL $0C83 P0C83
+LABEL $0CD9 P0CD9
+LABEL $0CAB P0CAB
+LABEL $0CD1 P0CD1
+LABEL $0CBF P0CBF
+LABEL $0CC7 P0CC7
+LABEL $0CE0 S0CE0
+LABEL $0D18 P0D18
+LABEL $0D33 P0D33
+LABEL $0D4C P0D4C
+LABEL $0D46 P0D46
+LABEL $0D42 P0D42
+LABEL $0D93 P0D93
+LABEL $0D54 P0D54
+LABEL $0D60 P0D60
+LABEL $0D6C P0D6C
+LABEL $0DB7 P0DB7
+LABEL $0D81 P0D81
+LABEL $0D7F P0D7F
+LABEL $0D85 P0D85
+LABEL $0DB6 P0DB6
+LABEL $0DBF P0DBF
+LABEL $0DC7 P0DC7
+LABEL $0DE2 explosion_sound_data
+LABEL $0DEE S0DEE
+LABEL $0DF6 S0DF6
+LABEL $0E83 S0E83
+LABEL $0E99 E99
+LABEL $0EAF EAF
+LABEL $0EC5 EC5
+LABEL $0EDB EDB
+LABEL $0EF1 EF1
+LABEL $0F07 F07
+LABEL $0F1D F1D
+LABEL $0F45 S0F45
+LABEL $1000 *
+COMMENT_LINE $0000 can be assembled correctly now
+COMMENT_LINE $0000 compatibilty added by Malban
+COMMENT_LINE $0000 assenmble with comand line:
+COMMENT_LINE $0000 .\ass\as09.exe -w200 -h0 -l -mcti starcast.asm >error
+COMMENT_LINE $0000 used the 6809 assembler:
+COMMENT_LINE $0000 as09 [1.11].
+COMMENT_LINE $0000 Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+COMMENT_LINE $0000 Available at:
+COMMENT_LINE $0000 http://www.falstaff.demon.co.uk/cross.html
+COMMENT_LINE $0000 a bug in starcastle? search for: "malban <BUG?>"
+COMMENT_LINE $0000 This work was originally done by Fred Taft (fred@hp-pcd.cv.hp.com).
+COMMENT_LINE $0000 Please forward any comments, corrections or additions back to Fred.
+COMMENT_LINE $0000 Star Castle
+COMMENT_LINE $0000 bios routines
+COMMENT_LINE $0000 bios data
+COMMENT $000D * height
+COMMENT $000E * width
+COMMENT $000F * rel y
+COMMENT $0010 * rel x
+COMMENT $001E * The following block of code is
+FORCE_NO_SYMBOL $001E
+COMMENT $0021 * called only the first time the
+COMMENT $0023 * game is powered up, and only if
+FORCE_SYMBOL $0023 dptoD0
+COMMENT $0026 * buttons 1,2 & 4 are all
+FORCE_SYMBOL $0026 read_switches2
+COMMENT $0029 * simultaneously pressed.  This
+FORCE_NO_SYMBOL $0029
+COMMENT $002C * code will display the name of the
+FORCE_NO_SYMBOL $002C
+COMMENT $002E * programmer, until either the
+COMMENT $0030 * counter at C88A decrements to 0
+FORCE_NO_SYMBOL $0030
+COMMENT $0033 * or the buttons are no longer
+FORCE_NO_SYMBOL $0033
+COMMENT $0036 * pressed.
+FORCE_SYMBOL $0036 author
+FORCE_SYMBOL $0039 printu2
+FORCE_SYMBOL $003C waitrecal
+FORCE_SYMBOL $003F intensity_to_5F
+FORCE_NO_SYMBOL $0042
+COMMENT_LINE $0047 Initialize variables, and = the users score string
+COMMENT_LINE $0047 to its default values.
+COMMENT $0047 * Initialize RAM area. /
+FORCE_NO_SYMBOL $0047
+FORCE_SYMBOL $004A clear_256_bytes
+FORCE_SYMBOL $004D dptoC8
+COMMENT $0050 * Set player 1's ship count.
+FORCE_NO_SYMBOL $0050
+FORCE_NO_SYMBOL $0052
+COMMENT $0054 * Init player 1's score string.
+FORCE_NO_SYMBOL $0054
+FORCE_SYMBOL $0057 set_dft_score
+COMMENT $005A * Init player 2's score string.
+FORCE_NO_SYMBOL $005A
+FORCE_SYMBOL $005D set_dft_score
+COMMENT_LINE $0060 Fill in the user's data area to its initial values.
+COMMENT $0060 * Address of user 2's data area.
+FORCE_NO_SYMBOL $0060
+FORCE_NO_SYMBOL $0063
+COMMENT $0065 * Set player 2 state to "inactive".
+FORCE_NO_SYMBOL $0067
+COMMENT $006A * Set initial (y,x) location.
+FORCE_NO_SYMBOL $006C
+COMMENT $006E * Set initial cruiser rotation.
+COMMENT $0070 * Address of user 1's data area.
+FORCE_NO_SYMBOL $0070
+FORCE_NO_SYMBOL $0073
+COMMENT $0076 * Set initial (y,x) location.
+FORCE_NO_SYMBOL $0078
+COMMENT $007A * Set initial cruiser rotation.
+COMMENT_LINE $007C Ask user for the game #, and number of players.
+COMMENT $007C * Set initial ring rotation deltas.
+FORCE_NO_SYMBOL $007C
+FORCE_NO_SYMBOL $007F
+COMMENT $0082 *At first, allow 2 games & 2 players.
+FORCE_NO_SYMBOL $0082
+FORCE_NO_SYMBOL $0085
+FORCE_NO_SYMBOL $0087
+FORCE_SYMBOL $0089 get_players_game
+COMMENT $008C * Check which game was selected.
+FORCE_NO_SYMBOL $008C
+COMMENT $0090 * Game 2;use slower rotation deltas.
+FORCE_NO_SYMBOL $0090
+FORCE_NO_SYMBOL $0093
+COMMENT $0095 * If 2 players were selected, then
+FORCE_NO_SYMBOL $0095
+COMMENT $0097 * allow the user to select one of 3
+COMMENT $0099 * 2 person games.
+FORCE_NO_SYMBOL $0099
+COMMENT $009B * Init ship count for player 2.
+FORCE_NO_SYMBOL $009B
+COMMENT $009D * Allow 3 games.
+FORCE_NO_SYMBOL $009D
+FORCE_SYMBOL $00A0 get_players_game
+FORCE_NO_SYMBOL $00A3
+COMMENT $00A5 * Determine if 2 person, simultaneous
+FORCE_NO_SYMBOL $00A5
+COMMENT $00A7 * play was chosen; i.e. if game 3 was
+FORCE_NO_SYMBOL $00A7
+COMMENT $00A9 * selected.
+COMMENT $00AC * Flag simultaneous play.
+FORCE_NO_SYMBOL $00AC
+FORCE_NO_SYMBOL $00AE
+COMMENT $00B0 * Address of player 1 bullet buffer.
+FORCE_NO_SYMBOL $00B0
+FORCE_NO_SYMBOL $00B3
+COMMENT $00B5 * Address of player 2 bullet buffer.
+FORCE_NO_SYMBOL $00B5
+FORCE_NO_SYMBOL $00B8
+FORCE_NO_SYMBOL $00BA
+FORCE_NO_SYMBOL $00BC
+FORCE_NO_SYMBOL $00BF
+COMMENT $00C1 * Backup both players info data areas.
+FORCE_NO_SYMBOL $00C1
+FORCE_SYMBOL $00C3 change_player
+FORCE_NO_SYMBOL $00C6
+FORCE_NO_SYMBOL $00C8
+FORCE_NO_SYMBOL $00CB
+FORCE_SYMBOL $00CE change_player
+FORCE_NO_SYMBOL $00D1
+FORCE_SYMBOL $00D3 waitrecal
+FORCE_SYMBOL $00D6 do_sound
+COMMENT $00D9 * Set the button mask required
+FORCE_NO_SYMBOL $00D9
+COMMENT $00DB * by the read_switches routine.
+FORCE_NO_SYMBOL $00DB
+FORCE_SYMBOL $00E1 read_switches
+FORCE_SYMBOL $00E4 read_jstick
+FORCE_SYMBOL $00E7 intensity_to_3F
+COMMENT $00EA * Check if the game is over.
+FORCE_NO_SYMBOL $00EA
+COMMENT_LINE $00F1 If player 1 is still alive, then transform his star
+COMMENT_LINE $00F1 cruiser, and draw it.
+FORCE_NO_SYMBOL $00F1
+COMMENT $00F5 * Check if player 1 is alive.
+COMMENT $00F9 * Get cruiser's rotation value.
+COMMENT $00FB * Load the number of points (9).
+FORCE_NO_SYMBOL $00FB
+COMMENT $00FD * Addr of cruiser 1's V list.
+FORCE_SYMBOL $00FD star_cruiser1
+COMMENT $0100 * Addr of transformation buffer.
+FORCE_NO_SYMBOL $0100
+FORCE_SYMBOL $0103 rotate_vector_list2
+COMMENT $0106 * Location of player 1's cruiser.
+FORCE_SYMBOL $0108 move_pen7F_to_d
+COMMENT $010B * (number of pts, scale factor).
+FORCE_NO_SYMBOL $010B
+FORCE_NO_SYMBOL $010E
+FORCE_SYMBOL $0111 move_then_draw_VL_with_count4
+COMMENT_LINE $0114 If player 2 is still alive, then transform his star
+COMMENT_LINE $0114 cruiser, and draw it.
+FORCE_NO_SYMBOL $0114
+COMMENT $0118 * Check if player 2 is alive.
+COMMENT $011C * Get cruiser's rotation value.
+COMMENT $011E * Load the number of points (11).
+FORCE_NO_SYMBOL $011E
+COMMENT $0120 * Addr of cruiser 2's V list.
+FORCE_SYMBOL $0120 star_cruiser2
+COMMENT $0123 * Addr of transformation buffer.
+FORCE_NO_SYMBOL $0123
+FORCE_SYMBOL $0126 rotate_vector_list2
+COMMENT $0129 * Location of player 2's cruiser.
+FORCE_SYMBOL $012B move_pen7F_to_d
+COMMENT $012E * (number of pts, scale factor).
+FORCE_NO_SYMBOL $012E
+FORCE_NO_SYMBOL $0131
+FORCE_SYMBOL $0134 move_then_draw_VL_with_count4
+COMMENT_LINE $0137 Update the position of all active bullets.
+FORCE_SYMBOL $0137 intensity_to_7F
+COMMENT $013A * Address of bullet buffer.
+FORCE_NO_SYMBOL $013A
+COMMENT $013D * Check if bullet is active.
+FORCE_NO_SYMBOL $013D
+COMMENT $013F * Bullet is inactive, so skip.
+COMMENT $0141 * Bullet is exploding.
+COMMENT $0143 * Decrement life span, and continue
+FORCE_NO_SYMBOL $0143
+COMMENT $0145 * only if bullet is still 'alive'.
+COMMENT $0147 * Get original y position.
+FORCE_NO_SYMBOL $0147
+COMMENT $014B * Add the delta to it.
+FORCE_NO_SYMBOL $014B
+COMMENT $014F * Update bullet's y position.
+FORCE_NO_SYMBOL $014F
+COMMENT $0151 * Get original x position.
+FORCE_NO_SYMBOL $0151
+COMMENT $0153 * Add the delta to it.
+FORCE_NO_SYMBOL $0153
+COMMENT $0155 * Update bullet's x position.
+FORCE_NO_SYMBOL $0155
+COMMENT $0159 * Draw a dot at the bullet's new
+FORCE_NO_SYMBOL $0159
+COMMENT $015B * position.
+FORCE_NO_SYMBOL $015B
+FORCE_NO_SYMBOL $015D
+FORCE_SYMBOL $015F dotix
+FORCE_SYMBOL $0162 reset0ref
+COMMENT_LINE $0169 Bullet is exploding; so draw an explosion pattern
+COMMENT $0169 * Move to bullets position.
+FORCE_NO_SYMBOL $0169
+FORCE_SYMBOL $016B move_pen7F_to_d
+FORCE_NO_SYMBOL $016E
+COMMENT $0170 * Increment the explosion scale
+FORCE_NO_SYMBOL $0170
+COMMENT $0172 * factor.
+FORCE_NO_SYMBOL $0172
+COMMENT $0179 * Use the upper nibble of this
+COMMENT $017A * value as the scale factor.
+FORCE_NO_SYMBOL $017D
+FORCE_SYMBOL $0181 explosion_star
+COMMENT $0184 * Draw the explosion pattern.
+FORCE_SYMBOL $0184 drawl2
+FORCE_SYMBOL $018B reset0ref
+COMMENT $018E * Flag that bullet is now inactive.
+FORCE_NO_SYMBOL $018E
+COMMENT $0190 * Advance ptr to next bullet, and
+FORCE_NO_SYMBOL $0190
+COMMENT $0192 * continue, if not at end of buffer.
+FORCE_NO_SYMBOL $0192
+COMMENT_LINE $0197 Transform and draw the energy cannon
+COMMENT $0197 * Skip next block if energy cannon
+FORCE_NO_SYMBOL $0197
+COMMENT $019A * has exploded, or a new screen is
+COMMENT $019C * being set up.
+FORCE_NO_SYMBOL $019C
+FORCE_SYMBOL $01A3 intensity_to_3F
+COMMENT $01A6 * Transform the energy cannon's
+FORCE_NO_SYMBOL $01A6
+COMMENT $01A9 * vector list.
+FORCE_NO_SYMBOL $01A9
+FORCE_SYMBOL $01AB energy_cannon
+FORCE_NO_SYMBOL $01AE
+FORCE_SYMBOL $01B1 rotate_vector_list2
+FORCE_NO_SYMBOL $01B4
+FORCE_NO_SYMBOL $01B6
+COMMENT $01B8 * Move to the origin, and then draw
+FORCE_NO_SYMBOL $01B8
+COMMENT $01BB * the transformed energy cannon.
+FORCE_NO_SYMBOL $01BB
+FORCE_SYMBOL $01BE move_then_draw_VL_with_count4
+FORCE_SYMBOL $01C1 P0257
+COMMENT_LINE $01C4 Draw the energy cannon exploding
+FORCE_NO_SYMBOL $01C4
+FORCE_NO_SYMBOL $01C8
+FORCE_NO_SYMBOL $01CA
+COMMENT $01CC * Increment the scale factor used
+FORCE_NO_SYMBOL $01CC
+COMMENT $01CF * when drawing the explosion pattern.
+FORCE_NO_SYMBOL $01CF
+FORCE_NO_SYMBOL $01D1
+FORCE_NO_SYMBOL $01D9
+FORCE_SYMBOL $01DB explosion_star
+COMMENT $01DE * Draw the explosion pattern.
+FORCE_SYMBOL $01DE drawl2
+COMMENT_LINE $01E3 Flag that the explosion is over
+FORCE_NO_SYMBOL $01E3
+FORCE_NO_SYMBOL $01E6
+FORCE_SYMBOL $01E9 reset0ref
+COMMENT_LINE $01EC Collapse the 3 walls inward
+FORCE_NO_SYMBOL $01EC
+FORCE_NO_SYMBOL $01EF
+COMMENT $01F2 * When a rings scale factor reaches
+FORCE_NO_SYMBOL $01F2
+COMMENT $01F4 * 4, flag that the ring has completely
+FORCE_NO_SYMBOL $01F4
+COMMENT $01F6 * collapsed, by incrementing C882.
+FORCE_NO_SYMBOL $01F8
+FORCE_NO_SYMBOL $01FB
+COMMENT $01FF * Now clear all the patterns for this
+COMMENT $0201 * ring, so it will disappear.
+FORCE_NO_SYMBOL $0201
+FORCE_NO_SYMBOL $0203
+FORCE_SYMBOL $0205 clear_blockxb
+FORCE_NO_SYMBOL $0208
+FORCE_NO_SYMBOL $020B
+FORCE_SYMBOL $020D clear_blockxb
+COMMENT $0212 * Decrement the scale factor used
+FORCE_NO_SYMBOL $0212
+COMMENT $0215 * to draw this ring.
+FORCE_NO_SYMBOL $0215
+FORCE_NO_SYMBOL $0217
+COMMENT $0219 * Go onto the next ring.
+FORCE_NO_SYMBOL $0219
+FORCE_NO_SYMBOL $021B
+COMMENT_LINE $0220 See if all 3 rings have finally collapsed inward
+COMMENT $0220 * If all 3 rings have collapsed,
+FORCE_NO_SYMBOL $0220
+COMMENT $0223 * then force an explosion sound,
+FORCE_NO_SYMBOL $0223
+COMMENT $0225 * and have another explosion
+COMMENT $0227 * pattern displayed.
+FORCE_NO_SYMBOL $0227
+FORCE_NO_SYMBOL $022C
+FORCE_NO_SYMBOL $022F
+FORCE_NO_SYMBOL $0231
+COMMENT $0234 * Calculate the scale factor to use
+FORCE_NO_SYMBOL $0234
+COMMENT $0237 * when drawing the explosion pattern.
+FORCE_NO_SYMBOL $0237
+FORCE_NO_SYMBOL $0239
+FORCE_NO_SYMBOL $023E
+FORCE_NO_SYMBOL $0240
+FORCE_NO_SYMBOL $0242
+FORCE_NO_SYMBOL $0244
+FORCE_NO_SYMBOL $0246
+FORCE_SYMBOL $0249 explosion_dots
+COMMENT $024C * Draw the explosion pattern.
+FORCE_SYMBOL $024C dot_list
+COMMENT_LINE $0251 Flag that the level was cleared
+FORCE_NO_SYMBOL $0251
+FORCE_NO_SYMBOL $0254
+COMMENT_LINE $0257 Process the fireball, if active
+FORCE_SYMBOL $0257 intensity_to_3F
+FORCE_NO_SYMBOL $025A
+COMMENT $025D * Fireball not active.
+COMMENT $0261 * Fireball exploding.
+COMMENT $0263 * Fireball moving.
+FORCE_NO_SYMBOL $0263
+FORCE_NO_SYMBOL $0266
+COMMENT $0268 * Force a fireball sound.
+FORCE_NO_SYMBOL $0268
+FORCE_NO_SYMBOL $026B
+COMMENT $026E * Update y position of fireball,
+COMMENT $0270 * and check to see if it went off
+FORCE_NO_SYMBOL $0270
+COMMENT $0273 * the screen.
+FORCE_NO_SYMBOL $0277
+COMMENT $027A * Update x position of fireball,
+FORCE_NO_SYMBOL $027A
+COMMENT $027D * and check to see if it went off
+FORCE_NO_SYMBOL $027D
+COMMENT $0280 * the screen.
+FORCE_NO_SYMBOL $0282
+COMMENT $0285 * Move to fireball's position.
+FORCE_NO_SYMBOL $0285
+FORCE_SYMBOL $0288 move_pen7F_to_d
+FORCE_NO_SYMBOL $028B
+COMMENT $028D * Draw the fireball.
+FORCE_NO_SYMBOL $028D
+FORCE_SYMBOL $0291 fireball
+FORCE_SYMBOL $0294 move_then_draw_VL_with_count4
+COMMENT $0297 * Increment the scale factor.
+FORCE_NO_SYMBOL $0297
+COMMENT_LINE $029C Process the exploding firebal
+COMMENT $029C * Move to fireball's position.
+FORCE_NO_SYMBOL $029C
+FORCE_SYMBOL $029F move_pen7F_to_d
+FORCE_NO_SYMBOL $02A2
+COMMENT $02A5 * Increment explosion's scale factor.
+FORCE_NO_SYMBOL $02A5
+FORCE_NO_SYMBOL $02A7
+COMMENT $02AF * Set scale factor.
+FORCE_NO_SYMBOL $02AF
+FORCE_NO_SYMBOL $02B1
+FORCE_NO_SYMBOL $02B3
+FORCE_SYMBOL $02B6 explosion_dots
+COMMENT $02B9 * Draw the explostion pattern.
+FORCE_SYMBOL $02B9 dot_list
+COMMENT_LINE $02BE Clean up after the fireball explosion has finished
+FORCE_SYMBOL $02BE reset0ref
+COMMENT $02C1 * Clear explosion scale factor.
+FORCE_NO_SYMBOL $02C1
+COMMENT $02C4 * If both player 1 & 2 are out
+FORCE_NO_SYMBOL $02C4
+COMMENT $02C7 * of cruisers, then set the
+FORCE_NO_SYMBOL $02C7
+COMMENT $02CA * 'game over' flag (C88D).
+FORCE_NO_SYMBOL $02CC
+COMMENT_LINE $02D1 Get ready for the next player
+FORCE_SYMBOL $02D1 P0382
+COMMENT $02D4 * Disable the fireball.
+FORCE_NO_SYMBOL $02D4
+COMMENT_LINE $02D7 Transform the 3 rotating rings
+COMMENT $02D7 * Number of vectors (9).
+FORCE_NO_SYMBOL $02D7
+COMMENT $02D9 * Ring 1's rotation value.
+FORCE_NO_SYMBOL $02D9
+COMMENT $02DC * Ptr to ring vector list.
+FORCE_SYMBOL $02DC ring
+COMMENT $02DF * Ptr to xformation buffer.
+FORCE_NO_SYMBOL $02DF
+FORCE_SYMBOL $02E2 rotate_vector_list2
+COMMENT $02E5 * Number of vectors (9).
+FORCE_NO_SYMBOL $02E5
+COMMENT $02E7 * Ring 2's rotation value.
+FORCE_NO_SYMBOL $02E7
+COMMENT $02EA * Ptr to ring vector list.
+FORCE_SYMBOL $02EA ring
+FORCE_SYMBOL $02ED rotate_vector_list2
+COMMENT $02F0 * Number of vectors (9).
+FORCE_NO_SYMBOL $02F0
+COMMENT $02F2 * Ring 3's rotation value.
+FORCE_NO_SYMBOL $02F2
+COMMENT $02F5 * Ptr to ring vector list.
+FORCE_SYMBOL $02F5 ring
+FORCE_SYMBOL $02F8 rotate_vector_list2
+COMMENT_LINE $02FB Draw the 3 rotating rings
+COMMENT $02FB * Ptr to scales & line patterns.
+FORCE_NO_SYMBOL $02FB
+COMMENT $02FE * Ptr to transformation buffer.
+FORCE_NO_SYMBOL $02FE
+COMMENT $0301 * Draw ring 1.
+FORCE_SYMBOL $0301 draw_1_ring
+COMMENT $0304 * Draw ring 2.
+FORCE_SYMBOL $0304 draw_1_ring
+COMMENT $0307 * Draw ring 3.
+FORCE_SYMBOL $0307 draw_1_ring
+FORCE_SYMBOL $030A intensity_to_7F
+COMMENT $030D * Hi-lite rings hit with 1 bullet.
+FORCE_NO_SYMBOL $030D
+COMMENT $0310 * Draw ring 1.
+FORCE_SYMBOL $0310 draw_1_ring
+COMMENT $0313 * Draw ring 2.
+FORCE_SYMBOL $0313 draw_1_ring
+COMMENT $0316 * Draw ring 3.
+FORCE_SYMBOL $0316 draw_1_ring
+FORCE_SYMBOL $0319 intensity_to_3F
+COMMENT_LINE $031C START OF ENERGY BOMB PROCESSING LOOP
+COMMENT_LINE $031C Process energy bombs
+COMMENT $031C * Addr of energy bomb buffer.
+FORCE_NO_SYMBOL $031C
+FORCE_SYMBOL $031F get_random_a
+COMMENT $0322 * Randomly select 1 of 8 vector
+FORCE_NO_SYMBOL $0322
+FORCE_SYMBOL $0324 energy_bomb_VL_table
+COMMENT $0327 * lists to be used when drawing
+COMMENT $0328 * this energy bomb.
+COMMENT $032A * See if we should draw energy bomb
+COMMENT $032C * or an explosion pattern.
+FORCE_NO_SYMBOL $032C
+COMMENT $0331 * Energy bomb is not in use.
+FORCE_NO_SYMBOL $0335
+COMMENT $0337 * Energy bomb is still on a ring.
+COMMENT_LINE $0339 Energy bomb is moving; draw its vector list
+COMMENT $0339 * Move to position of energy bomb.
+FORCE_SYMBOL $033B move_pen7F_to_d
+FORCE_NO_SYMBOL $033E
+COMMENT $0340 * Draw the energy bomb.
+FORCE_SYMBOL $0340 drawl1b
+FORCE_SYMBOL $0343 P040A
+COMMENT_LINE $0346 Draw an explosion pattern at position of energy bomb
+COMMENT $0346 * Move to position of energy bomb.
+FORCE_SYMBOL $0348 move_pen7F_to_d
+COMMENT $034D * Increment explosion scale factor
+FORCE_NO_SYMBOL $034D
+COMMENT $034F * and stop when it overflows.
+COMMENT $0356 * Set the scale factor.
+FORCE_NO_SYMBOL $0356
+FORCE_NO_SYMBOL $0358
+COMMENT $035A * Number of dots to draw.
+FORCE_NO_SYMBOL $035A
+FORCE_SYMBOL $035D explosion_dots
+COMMENT $0360 * Draw the explosion dots.
+FORCE_SYMBOL $0360 dot_list
+FORCE_SYMBOL $0363 P040A
+COMMENT_LINE $0366 Clean up after an energy bomb explosion
+FORCE_SYMBOL $0366 reset0ref
+COMMENT $036B * Flag that this slot is no longer
+FORCE_NO_SYMBOL $036B
+COMMENT $036D * in use.
+FORCE_NO_SYMBOL $036F
+COMMENT $0372 * See if either player has any
+FORCE_NO_SYMBOL $0372
+COMMENT $0375 * cruisers left.
+FORCE_NO_SYMBOL $0377
+COMMENT $037A * Flag that game is over.
+FORCE_SYMBOL $037A P040A
+COMMENT_LINE $037D See if "PLAYER X" string needs to be displayed
+FORCE_SYMBOL $037D P0394
+COMMENT $0382 * If a 2 person, non-simultaneous
+FORCE_NO_SYMBOL $0382
+COMMENT $0385 * game is being played, then force
+COMMENT $0387 * the "PLAYER X" string to be shown by
+FORCE_NO_SYMBOL $0387
+COMMENT $038A * setting the 'change player' counter
+COMMENT $038D * Set 'change player' loop counter.
+FORCE_NO_SYMBOL $038D
+FORCE_NO_SYMBOL $0390
+FORCE_SYMBOL $0394 P040A
+COMMENT_LINE $0397 Draw the energy bomb on one of the rings
+COMMENT $0397 * Temporarily disable reset of 0ref.
+FORCE_NO_SYMBOL $0397
+COMMENT $039A * Save pointer to vector list.
+FORCE_NO_SYMBOL $039A
+FORCE_NO_SYMBOL $039D
+FORCE_NO_SYMBOL $039F
+COMMENT $03A1 * Addr of ring line patterns.
+FORCE_NO_SYMBOL $03A1
+COMMENT $03A5 * Addr of xformed ring vectors.
+FORCE_NO_SYMBOL $03A5
+COMMENT $03A9 * Use lower 4 bits of the bomb state
+COMMENT $03AA * to determine which ring the bomb
+COMMENT $03AB * is on, & then point 'y' to the
+FORCE_NO_SYMBOL $03AB
+COMMENT $03AE * patterns for the ring, and 'x'
+COMMENT $03B0 * to the vector list for the ring.
+FORCE_NO_SYMBOL $03B0
+FORCE_NO_SYMBOL $03B2
+COMMENT $03B8 * Use the ring's scale factor.
+FORCE_NO_SYMBOL $03B8
+FORCE_NO_SYMBOL $03BA
+FORCE_NO_SYMBOL $03BC
+COMMENT $03BF * Determine which ring section to
+COMMENT $03C1 * put the energy bomb on.
+FORCE_NO_SYMBOL $03C1
+FORCE_NO_SYMBOL $03C3
+FORCE_NO_SYMBOL $03C6
+FORCE_SYMBOL $03C9 move_to_pt
+COMMENT $03CC * Move to starting point for section.
+FORCE_NO_SYMBOL $03CC
+FORCE_NO_SYMBOL $03D1
+COMMENT $03D5 * Now, move to center of section.
+FORCE_NO_SYMBOL $03D5
+FORCE_SYMBOL $03D7 move_to_pt
+FORCE_NO_SYMBOL $03DA
+COMMENT $03DD * Draw the energy bomb here.
+FORCE_NO_SYMBOL $03DD
+FORCE_NO_SYMBOL $03E0
+FORCE_SYMBOL $03E2 drawl1b
+FORCE_NO_SYMBOL $03E5
+FORCE_NO_SYMBOL $03E8
+COMMENT $03EB * Now, determine what the (y,x)
+COMMENT $03EC * position is of this energy bomb.
+FORCE_NO_SYMBOL $03EE
+FORCE_NO_SYMBOL $03F2
+FORCE_NO_SYMBOL $03F4
+FORCE_NO_SYMBOL $03F8
+FORCE_NO_SYMBOL $03FA
+FORCE_NO_SYMBOL $03FF
+FORCE_SYMBOL $0401 convert_abs_angle_to_rise_run
+COMMENT $0404 * Save the calculated position.
+FORCE_NO_SYMBOL $0406
+COMMENT $040A * Process the next energy bomb
+FORCE_NO_SYMBOL $040A
+COMMENT $040D * entry, until no more left.
+FORCE_NO_SYMBOL $040D
+COMMENT_LINE $0415 END OF THE ENERGY BOMB PROCESSING LOOP
+FORCE_SYMBOL $0415 intensity_to_7F
+FORCE_NO_SYMBOL $0418
+FORCE_NO_SYMBOL $041D
+COMMENT_LINE $0421 Display "GAME OVER PLAYER 1/2"
+COMMENT $0421 * Set height & width of string.
+FORCE_NO_SYMBOL $0421
+FORCE_NO_SYMBOL $0424
+FORCE_SYMBOL $0427 game_over
+FORCE_SYMBOL $042A print_with_dft_hw
+FORCE_SYMBOL $042D player1
+COMMENT $0430 * Determine if player 1 or 2.
+FORCE_NO_SYMBOL $0430
+FORCE_SYMBOL $0437 player2
+FORCE_SYMBOL $043A print_with_dft_hw
+FORCE_NO_SYMBOL $043D
+COMMENT_LINE $0447 Prepare for the next player to start playing
+COMMENT $0447 * Skip if energy cannon exploding.
+FORCE_NO_SYMBOL $0447
+COMMENT $044C * Display "PLAYER X" only if (while)
+FORCE_NO_SYMBOL $044C
+COMMENT $044F * loop counter != 0.
+FORCE_NO_SYMBOL $0451
+COMMENT $0455 * Backup dead players info.
+FORCE_SYMBOL $0455 change_player
+FORCE_NO_SYMBOL $0458
+COMMENT $045B * Get pointer to data area for
+FORCE_NO_SYMBOL $045B
+COMMENT $045E * the next player.
+FORCE_NO_SYMBOL $0460
+COMMENT $0463 * If new player has no ships, then go
+COMMENT $0465 * back to the user who just died.
+FORCE_SYMBOL $0467 change_player
+FORCE_NO_SYMBOL $046A
+COMMENT $046D * Display "PLAYER X" string.
+FORCE_NO_SYMBOL $046D
+FORCE_SYMBOL $0470 player1
+FORCE_NO_SYMBOL $0473
+FORCE_SYMBOL $0478 player2
+FORCE_SYMBOL $047B print_with_dft_hw
+FORCE_NO_SYMBOL $047E
+COMMENT $0481 * Decr the 'change player'
+COMMENT $0483 * counter.  Stop displaying "PLAYER X"
+FORCE_NO_SYMBOL $0483
+COMMENT $0486 * string when it decrs to 0.
+COMMENT_LINE $0488 Display "GAME OVER" & see if user wants a new game
+FORCE_SYMBOL $0488 intensity_to_7F
+COMMENT $048B * Set height & width of string.
+FORCE_NO_SYMBOL $048B
+FORCE_NO_SYMBOL $048E
+FORCE_SYMBOL $0491 game_over2
+COMMENT $0494 * Position for displaying string.
+FORCE_NO_SYMBOL $0494
+FORCE_SYMBOL $0497 move_pen7F_to_d
+FORCE_SYMBOL $049A display_string
+COMMENT $049D * Force both players scores to
+FORCE_NO_SYMBOL $049D
+COMMENT $04A0 * be displayed.
+FORCE_NO_SYMBOL $04A2
+FORCE_NO_SYMBOL $04A4
+FORCE_NO_SYMBOL $04A7
+FORCE_NO_SYMBOL $04AC
+COMMENT $04AF * Restart new game if either button
+FORCE_NO_SYMBOL $04AF
+COMMENT $04B2 * 1, 2 or 3 is pressed on either
+FORCE_NO_SYMBOL $04B2
+COMMENT $04B4 * console.
+FORCE_SYMBOL $04B6 restart_game
+COMMENT_LINE $04B9 If a new game is not eventually started, go to OS ROM
+FORCE_NO_SYMBOL $04B9
+COMMENT $04BC * Everyother pass thru loop
+COMMENT $04BD * decr counter; if it goes
+COMMENT $04BF * to 0, then pass control
+FORCE_NO_SYMBOL $04BF
+COMMENT $04C2 * back to OS ROM.
+FORCE_SYMBOL $04C4 start_of_OS_ROM
+COMMENT_LINE $04C7 Display the individual or simultaneous player scores
+COMMENT $04C7 * Set height & width of string.
+FORCE_NO_SYMBOL $04C7
+FORCE_NO_SYMBOL $04CA
+COMMENT $04CD * Determine if both player's scores
+FORCE_NO_SYMBOL $04CD
+COMMENT $04D0 * are to be displayed
+COMMENT $04D2 * (simul play) or if only a single
+FORCE_NO_SYMBOL $04D2
+COMMENT $04D5 * players score is to be displayed.
+COMMENT $04D8 * C8DC says who's turn it is.
+FORCE_NO_SYMBOL $04D8
+COMMENT_LINE $04DD Display player 2's score
+COMMENT $04DD * Position of score string.
+FORCE_NO_SYMBOL $04DD
+FORCE_SYMBOL $04E0 move_pen7F_to_d
+COMMENT $04E3 * Addr of player 2's score string.
+FORCE_NO_SYMBOL $04E3
+FORCE_SYMBOL $04E6 display_string
+COMMENT_LINE $04E9 Display player 2's ship count
+FORCE_SYMBOL $04E9 init_ship_count_buffer
+COMMENT $04EC * Get the ship count.
+FORCE_NO_SYMBOL $04EC
+FORCE_SYMBOL $04EF fill_ship_count_buffer
+COMMENT $04F2 * Addr of ship count buffer.
+FORCE_NO_SYMBOL $04F2
+COMMENT $04F5 * Height & width to use.
+FORCE_NO_SYMBOL $04F5
+FORCE_NO_SYMBOL $04F8
+COMMENT $04FB * Position for displaying.
+FORCE_NO_SYMBOL $04FB
+FORCE_SYMBOL $04FE print_at_d
+COMMENT $0501 * Display player 1's score only if
+FORCE_NO_SYMBOL $0501
+COMMENT $0504 * game is over, or simultaneous play.
+COMMENT_LINE $0507 Display player 1's score
+COMMENT $0507 * Position for displaying.
+FORCE_NO_SYMBOL $0507
+FORCE_SYMBOL $050A move_pen7F_to_d
+COMMENT $050D * Addr of player 1's score string.
+FORCE_NO_SYMBOL $050D
+COMMENT $0510 * Height & width to use.
+FORCE_NO_SYMBOL $0510
+FORCE_NO_SYMBOL $0513
+FORCE_SYMBOL $0516 display_string
+COMMENT_LINE $0519 Display player 1's ship count
+FORCE_SYMBOL $0519 init_ship_count_buffer
+COMMENT $051C * Get the ship count.
+FORCE_NO_SYMBOL $051C
+FORCE_SYMBOL $051F fill_ship_count_buffer
+COMMENT $0522 * Addr of ship count buffer.
+FORCE_NO_SYMBOL $0522
+COMMENT $0525 * Height & width to use.
+FORCE_NO_SYMBOL $0525
+FORCE_NO_SYMBOL $0528
+COMMENT $052B * Position for displaying.
+FORCE_NO_SYMBOL $052B
+FORCE_SYMBOL $052E print_at_d
+COMMENT_LINE $0531 Make game sounds
+FORCE_SYMBOL $0531 dptoC8
+FORCE_SYMBOL $0534 make_game_sounds
+COMMENT_LINE $0537 Don't process joystick or buttons if game is over
+FORCE_NO_SYMBOL $0537
+COMMENT_LINE $053D Read joystick and buttons, for player 1
+FORCE_NO_SYMBOL $053D
+COMMENT $0540 * Get console 1 button states.
+FORCE_NO_SYMBOL $0540
+COMMENT $0542 * Get joystick 1 state.
+FORCE_NO_SYMBOL $0542
+COMMENT $0548 * Convert joystick movements
+FORCE_NO_SYMBOL $0548
+COMMENT $054A * into button presses, to make
+COMMENT $054C * processing easier.
+FORCE_NO_SYMBOL $054C
+COMMENT $054E * Save user 1's button states.
+COMMENT_LINE $0550 Read joystick and buttons, for player 2
+COMMENT $0550 * Get console 1 button states.
+FORCE_NO_SYMBOL $0550
+COMMENT $0552 * Get joystick 1 state.
+FORCE_NO_SYMBOL $0552
+FORCE_NO_SYMBOL $0554
+COMMENT $0556 * If simultaneous play, then use
+COMMENT $0558 * the buttons on console 2 and
+COMMENT $0559 * and read the joystick state on
+COMMENT $055A * console 2 also.
+FORCE_NO_SYMBOL $055C
+COMMENT $0561 * Convert joystick movements to
+COMMENT $0563 * button presses, to help make
+FORCE_NO_SYMBOL $0563
+COMMENT $0565 * processing easier.
+FORCE_NO_SYMBOL $0567
+COMMENT $0569 * Save player 2's button states.
+FORCE_NO_SYMBOL $0569
+COMMENT_LINE $056C Once a player is dead, delay awhile before restarting him
+COMMENT $0570 * Check the user's ship count.
+COMMENT $0576 * Reset player's data area once
+COMMENT $0578 * the restart counter goes to 0.
+FORCE_NO_SYMBOL $0580
+FORCE_NO_SYMBOL $0586
+FORCE_NO_SYMBOL $0588
+FORCE_NO_SYMBOL $058A
+FORCE_SYMBOL $058C P0682
+COMMENT_LINE $058F Reset the data area for this user
+COMMENT $0591 * Player 1 initial position.
+FORCE_NO_SYMBOL $0591
+COMMENT $0594 * Player 1 rotation value.
+FORCE_NO_SYMBOL $0594
+COMMENT $0596 * Is this player 2?
+FORCE_NO_SYMBOL $0596
+COMMENT $059C * Player 2 initial position.
+FORCE_NO_SYMBOL $059C
+COMMENT $059F * Player 2 rotation value.
+FORCE_NO_SYMBOL $059F
+COMMENT $05A1 * Set cruiser's position.
+COMMENT $05A3 * Set cruiser's rotation.
+FORCE_NO_SYMBOL $05A7
+COMMENT_LINE $05AB Process the button states now
+COMMENT_LINE $05AB Check for rotate left command
+COMMENT $05AD * If button 1 was pressed, then
+FORCE_NO_SYMBOL $05AD
+COMMENT $05AF * rotate the cruiser to the left.
+COMMENT_LINE $05B3 Check for rotate right command
+COMMENT $05B3 * If button 2 was pressed, then
+FORCE_NO_SYMBOL $05B3
+COMMENT $05B5 * rotate the cruiser to the right.
+COMMENT_LINE $05B9 Check for a bullet fire request
+COMMENT $05B9 * If button 4 was pressed, then
+FORCE_NO_SYMBOL $05B9
+COMMENT $05BB * search the bullet buffer for an
+COMMENT $05BD * available spot.
+FORCE_NO_SYMBOL $05BD
+FORCE_NO_SYMBOL $05BF
+COMMENT $05C1 * Ignore, if energy cannon destroyed.
+FORCE_NO_SYMBOL $05C3
+COMMENT $05C5 * Find an available spot in buffer.
+FORCE_NO_SYMBOL $05C5
+FORCE_NO_SYMBOL $05C9
+FORCE_NO_SYMBOL $05CB
+FORCE_NO_SYMBOL $05D1
+FORCE_NO_SYMBOL $05D3
+FORCE_NO_SYMBOL $05D5
+COMMENT $05D7 * Use ship's y position as bullet's
+COMMENT $05D9 * initial y position.
+FORCE_NO_SYMBOL $05D9
+COMMENT $05DB * Use ship's x position as bullet's
+COMMENT $05DD * initial x position.
+FORCE_NO_SYMBOL $05DD
+COMMENT $05DF * Calculate rise & run for the bullet.
+FORCE_NO_SYMBOL $05E1
+FORCE_SYMBOL $05E3 convert_angle_to_rise_run
+FORCE_NO_SYMBOL $05E6
+FORCE_NO_SYMBOL $05E8
+FORCE_SYMBOL $05EA mult_rise_run_by_9
+COMMENT $05ED * Save the rise.
+FORCE_NO_SYMBOL $05ED
+FORCE_NO_SYMBOL $05EF
+FORCE_SYMBOL $05F1 mult_rise_run_by_9
+COMMENT $05F4 * Save the run.
+FORCE_NO_SYMBOL $05F4
+FORCE_NO_SYMBOL $05F6
+COMMENT $05F8 * Set bullet's life span value.
+FORCE_NO_SYMBOL $05F8
+COMMENT $05FA * Flag that buffer spot is in use.
+FORCE_NO_SYMBOL $05FA
+COMMENT_LINE $05FC Check for a thrust request
+COMMENT $05FE * If button 3 was pressed, then
+FORCE_NO_SYMBOL $05FE
+COMMENT $0600 * update the cruiser's velocity, and
+COMMENT $0602 * update the cruiser's position.
+FORCE_NO_SYMBOL $0602
+FORCE_NO_SYMBOL $0604
+COMMENT $0606 * Force a ship movement sound.
+FORCE_NO_SYMBOL $0606
+FORCE_NO_SYMBOL $060A
+COMMENT $060E * Increment cruisers velocity.
+FORCE_NO_SYMBOL $0610
+COMMENT $0618 * Calulate new rise & run values.
+FORCE_NO_SYMBOL $061A
+FORCE_SYMBOL $061C convert_angle_to_rise_run
+COMMENT $0621 * Decrement velocity every so ofter.
+FORCE_NO_SYMBOL $0621
+FORCE_NO_SYMBOL $0623
+COMMENT_LINE $0629 Modify cruiser position, if velocity > 0
+COMMENT $0629 * Calculate new y position.
+FORCE_SYMBOL $0630 mult_rise_run_by_a
+COMMENT $0633 * Multiply velocity* rise, and
+COMMENT $0635 * add it to old y position.
+FORCE_NO_SYMBOL $0637
+COMMENT $063B * Save new y position.
+COMMENT $063D * Calculate new x position.
+FORCE_SYMBOL $0642 mult_rise_run_by_a
+COMMENT $0645 * Multiply velocity* run, and
+COMMENT $0647 * add it to old x position.
+FORCE_NO_SYMBOL $0647
+COMMENT $0649 * Save new x position.
+COMMENT_LINE $064B See if the cruiser is trying to enter the ring area
+FORCE_SYMBOL $064D get_absolute_value_of_ab
+FORCE_NO_SYMBOL $0650
+COMMENT $0652 * Calculate x*x + y*y.
+FORCE_NO_SYMBOL $0652
+FORCE_NO_SYMBOL $0655
+FORCE_NO_SYMBOL $0657
+FORCE_NO_SYMBOL $0659
+COMMENT $065C * Compare absolute ship position
+FORCE_NO_SYMBOL $065C
+COMMENT $065E * to the outer ring dimensions.
+FORCE_NO_SYMBOL $065E
+COMMENT_LINE $0664 Cruise has attempted to enter ring area; turn it around
+COMMENT $0664 * Calc angle of cruiser from origin.
+FORCE_SYMBOL $0666 convert_rise_run_to_angle
+COMMENT $0669 * Convert angle to Vectrex reference.
+FORCE_NO_SYMBOL $0669
+COMMENT $066B * Set new angle for cruiser.
+FORCE_NO_SYMBOL $066D
+FORCE_SYMBOL $066F convert_angle_to_rise_run
+COMMENT $0672 * Save rise & run deltas.
+FORCE_NO_SYMBOL $0674
+COMMENT $0676 * Force velocity to 6.
+FORCE_NO_SYMBOL $0678
+COMMENT $067A * Force a sound.
+FORCE_NO_SYMBOL $067A
+FORCE_NO_SYMBOL $067C
+COMMENT_LINE $0680 Force ships velocity to 0
+COMMENT_LINE $0682 See if the fireball has hit a star cruiser
+FORCE_NO_SYMBOL $0688
+COMMENT $068C * Fireball position.
+FORCE_NO_SYMBOL $068C
+COMMENT $068F * Use scale* 2 as the size
+FORCE_NO_SYMBOL $068F
+COMMENT $0691 * of the fireball.
+FORCE_NO_SYMBOL $0691
+FORCE_SYMBOL $0695 check_bullet_for_hit
+COMMENT_LINE $069A Check to see if an energy bomb has hit a star cruiser
+COMMENT $069C * Addr of energy bomb buffer.
+FORCE_NO_SYMBOL $069C
+FORCE_NO_SYMBOL $06A1
+COMMENT $06A5 * Position of energy bomb.
+FORCE_NO_SYMBOL $06A8
+FORCE_SYMBOL $06AB check_bullet_for_hit
+COMMENT $06AE * Branch, if a hit.
+COMMENT $06B0 * Check next energy bomb.
+FORCE_NO_SYMBOL $06B0
+COMMENT $06B3 * Stop, when last bomb checked.
+FORCE_NO_SYMBOL $06B3
+COMMENT_LINE $06BD Star cruiser was hit by an energy bomb
+FORCE_NO_SYMBOL $06BD
+COMMENT $06C5 * Force explosion at fireball (y,x).
+FORCE_NO_SYMBOL $06C5
+COMMENT $06C7 * Flag player as dead.
+FORCE_NO_SYMBOL $06C9
+COMMENT $06CB * Force an explosion sound.
+FORCE_NO_SYMBOL $06CB
+FORCE_NO_SYMBOL $06CD
+FORCE_NO_SYMBOL $06CF
+FORCE_NO_SYMBOL $06D1
+COMMENT $06D3 * Set the restart timer.
+COMMENT $06D5 * Decrement players cruiser count.
+COMMENT $06D9 * Game over for this player, so see
+COMMENT $06DB * if his score is a new hi score.
+FORCE_NO_SYMBOL $06DB
+FORCE_NO_SYMBOL $06DD
+FORCE_SYMBOL $06E0 check_4_new_hi_score
+FORCE_NO_SYMBOL $06E5
+COMMENT $06E7 * If neither player has any cruisers
+COMMENT $06E9 * left, then flag that the game is
+FORCE_NO_SYMBOL $06E9
+COMMENT $06EB * over.
+FORCE_NO_SYMBOL $06EB
+FORCE_NO_SYMBOL $06EF
+COMMENT $06F1 * Clear out users bullet buffer.
+FORCE_NO_SYMBOL $06F1
+FORCE_NO_SYMBOL $06F3
+FORCE_SYMBOL $06F5 clear_blockxb
+COMMENT $06F8 * Process next player.
+FORCE_NO_SYMBOL $06F8
+FORCE_NO_SYMBOL $06FB
+COMMENT_LINE $0703 START OF ENERGY BOMB STATE AND POSITION PROCESSING LOOP
+COMMENT_LINE $0703 Update the position and states of all energy bombs
+FORCE_NO_SYMBOL $0703
+COMMENT $0705 * Determine which player has the
+FORCE_NO_SYMBOL $0705
+COMMENT $0707 * slower ring rotation delta.
+FORCE_NO_SYMBOL $0707
+COMMENT $0709 * Save it in C895.
+FORCE_NO_SYMBOL $0709
+FORCE_NO_SYMBOL $070D
+COMMENT $070F * If not simultaneous play, then
+FORCE_NO_SYMBOL $070F
+COMMENT $0711 * determine who the next player is
+COMMENT $0712 * and set up his restart counter.
+FORCE_NO_SYMBOL $0714
+FORCE_NO_SYMBOL $0717
+FORCE_NO_SYMBOL $071B
+COMMENT $071E * Restart counter is = here.
+FORCE_NO_SYMBOL $071E
+FORCE_NO_SYMBOL $0722
+COMMENT $0725 * Make sure the game is not in
+FORCE_NO_SYMBOL $0725
+COMMENT $0727 * the middle of setting up a
+FORCE_NO_SYMBOL $0727
+COMMENT $0729 * new level.
+FORCE_SYMBOL $072B P0912
+COMMENT_LINE $072E Determine state of energy bomb, and handle accordingly
+COMMENT $0730 * Bomb is not in use.
+FORCE_NO_SYMBOL $0734
+COMMENT $0736 * Bomb is still on a ring.
+COMMENT_LINE $073A Energy bomb is moving; so draw it towards a cruiser
+FORCE_NO_SYMBOL $073E
+COMMENT $0740 * Determine the delta between player
+FORCE_NO_SYMBOL $0740
+COMMENT $0742 * 1's cruiser, and the energy bomb.
+FORCE_NO_SYMBOL $0744
+FORCE_NO_SYMBOL $0746
+FORCE_NO_SYMBOL $0748
+COMMENT $074A * Determine the delta between player
+FORCE_NO_SYMBOL $074A
+COMMENT $074C * 2's cruiser, and the energy bomb.
+FORCE_NO_SYMBOL $074E
+FORCE_NO_SYMBOL $0750
+FORCE_NO_SYMBOL $0752
+COMMENT $0754 * If both players are dead, then
+FORCE_NO_SYMBOL $0754
+COMMENT $0756 * draw the energy bomb back towards
+FORCE_NO_SYMBOL $0756
+COMMENT $0758 * the rings.
+FORCE_NO_SYMBOL $075A
+FORCE_NO_SYMBOL $075E
+COMMENT_LINE $0762 The following block is for simultaneous play only
+COMMENT_LINE $0762 Determine which cruiser is closer to the energy bomb
+COMMENT $0763 * See if player 1 is alive.
+FORCE_NO_SYMBOL $0765
+COMMENT $0767 * See if player 2 is alive.
+FORCE_NO_SYMBOL $0769
+FORCE_SYMBOL $076B get_absolute_value_of_ab
+FORCE_NO_SYMBOL $076E
+FORCE_NO_SYMBOL $0770
+FORCE_NO_SYMBOL $0773
+FORCE_NO_SYMBOL $0775
+FORCE_NO_SYMBOL $0777
+FORCE_NO_SYMBOL $077A
+FORCE_NO_SYMBOL $077C
+FORCE_NO_SYMBOL $077E
+FORCE_SYMBOL $0780 get_absolute_value_of_ab
+FORCE_NO_SYMBOL $0783
+FORCE_NO_SYMBOL $0785
+FORCE_NO_SYMBOL $0788
+FORCE_NO_SYMBOL $078A
+FORCE_NO_SYMBOL $078C
+FORCE_NO_SYMBOL $078F
+FORCE_NO_SYMBOL $0791
+COMMENT $0796 * Use player 2's position.
+FORCE_NO_SYMBOL $0796
+FORCE_NO_SYMBOL $0798
+COMMENT_LINE $079A Determine the angle between energy bomb & cruiser
+FORCE_NO_SYMBOL $079A
+FORCE_SYMBOL $079C convert_rise_run_to_angle
+FORCE_NO_SYMBOL $079F
+FORCE_NO_SYMBOL $07A3
+FORCE_NO_SYMBOL $07A5
+FORCE_NO_SYMBOL $07A7
+FORCE_SYMBOL $07A9 get_absolute_value_of_ab
+FORCE_NO_SYMBOL $07AC
+FORCE_NO_SYMBOL $07AE
+FORCE_NO_SYMBOL $07B0
+FORCE_NO_SYMBOL $07B3
+FORCE_NO_SYMBOL $07B5
+FORCE_NO_SYMBOL $07B9
+COMMENT_LINE $07BB If small delta, then aim bomb at cruiser
+FORCE_NO_SYMBOL $07BB
+COMMENT $07BE * If delta is < ring rotation,
+FORCE_NO_SYMBOL $07BE
+COMMENT $07C0 * set energy bombs angle of travel
+COMMENT $07C2 * equal to delta angle.
+FORCE_NO_SYMBOL $07C2
+COMMENT_LINE $07C8 If large delta, then gradually draw bomb towards cruiser
+FORCE_NO_SYMBOL $07C8
+COMMENT $07CA * If delta is > ring rotation,
+FORCE_NO_SYMBOL $07CA
+COMMENT $07CC * draw the energy bomb towards
+COMMENT $07CE * the cruiser, by modifying its
+COMMENT $07D0 * angle of travel by +- the ring
+FORCE_NO_SYMBOL $07D0
+COMMENT $07D3 * rotation delta.
+FORCE_NO_SYMBOL $07D3
+FORCE_NO_SYMBOL $07DA
+FORCE_NO_SYMBOL $07DD
+COMMENT_LINE $07E2 Now, update position, and position delta for the bomb
+FORCE_NO_SYMBOL $07E2
+FORCE_NO_SYMBOL $07E8
+COMMENT $07EA * Calculate rise & run.
+FORCE_SYMBOL $07EC convert_abs_angle_to_rise_run
+COMMENT $07F1 * Scale rise & run by ring rotation
+FORCE_NO_SYMBOL $07F1
+COMMENT $07F4 * value; as ring rotates faster, the
+COMMENT $07F5 * energy bombs will also travel
+COMMENT $07F6 * faster.
+FORCE_NO_SYMBOL $07F8
+FORCE_SYMBOL $07FA mult_rise_run_by_a
+COMMENT $07FD * Update the x position, and check
+COMMENT $07FF * for screen wrap.
+FORCE_NO_SYMBOL $07FF
+FORCE_NO_SYMBOL $0807
+FORCE_SYMBOL $080B mult_rise_run_by_a
+COMMENT $080E * Update the y position, and check
+COMMENT $0810 * for screen wrap.
+FORCE_NO_SYMBOL $0812
+COMMENT_LINE $081C If bomb is back in ring area, then reattach it
+FORCE_SYMBOL $081E get_absolute_value_of_ab
+FORCE_NO_SYMBOL $0821
+FORCE_NO_SYMBOL $0823
+FORCE_NO_SYMBOL $0826
+FORCE_NO_SYMBOL $0828
+FORCE_NO_SYMBOL $082A
+FORCE_NO_SYMBOL $082D
+FORCE_NO_SYMBOL $082F
+COMMENT $0831 * See if the bomb is within the
+FORCE_NO_SYMBOL $0831
+COMMENT $0835 * confines of the center ring area.
+FORCE_NO_SYMBOL $0837
+COMMENT $0839 * If bomb is still moving, then make
+COMMENT $083B * a sound, and decrement it's life
+FORCE_NO_SYMBOL $083B
+COMMENT $083D * span counter.
+FORCE_NO_SYMBOL $083D
+FORCE_NO_SYMBOL $083F
+COMMENT $0841 * Flag that bomb is still moving.
+FORCE_NO_SYMBOL $0841
+FORCE_SYMBOL $0845 P0908
+COMMENT_LINE $0848 Flag that bomb is no longer in use; lifespan expired
+FORCE_NO_SYMBOL $0848
+COMMENT_LINE $084C Determine which ring to attach energy bomb to
+FORCE_NO_SYMBOL $084C
+FORCE_NO_SYMBOL $084F
+FORCE_NO_SYMBOL $0853
+COMMENT $0855 * Determine if the energy bomb is
+FORCE_NO_SYMBOL $0855
+COMMENT $0857 * within the confines of the ring
+COMMENT $0858 * being checked.
+FORCE_NO_SYMBOL $085B
+FORCE_NO_SYMBOL $0860
+FORCE_NO_SYMBOL $0862
+FORCE_NO_SYMBOL $0867
+COMMENT_LINE $086C Determine which ring section to energy attach bomb to
+FORCE_SYMBOL $086E convert_rise_run_to_angle
+FORCE_NO_SYMBOL $0871
+FORCE_NO_SYMBOL $0875
+FORCE_NO_SYMBOL $0879
+COMMENT_LINE $087E Determine if this section still exists.
+FORCE_NO_SYMBOL $087E
+COMMENT_LINE $0889 See if any other bomb is already on this section
+FORCE_NO_SYMBOL $0889
+FORCE_NO_SYMBOL $088B
+FORCE_NO_SYMBOL $088D
+COMMENT $088F * Check bomb 1.
+FORCE_NO_SYMBOL $088F
+FORCE_NO_SYMBOL $0892
+FORCE_NO_SYMBOL $0894
+COMMENT $0898 * Check bomb 2.
+FORCE_NO_SYMBOL $0898
+FORCE_NO_SYMBOL $089B
+FORCE_NO_SYMBOL $089D
+COMMENT $08A1 * Check bomb 3.
+FORCE_NO_SYMBOL $08A1
+FORCE_NO_SYMBOL $08A4
+FORCE_NO_SYMBOL $08A6
+COMMENT $08AA * Available; place bomb here.
+FORCE_NO_SYMBOL $08AC
+COMMENT_LINE $08B0 Section not available or occupied, so check next ring
+FORCE_NO_SYMBOL $08B0
+FORCE_NO_SYMBOL $08B2
+FORCE_NO_SYMBOL $08B4
+FORCE_NO_SYMBOL $08B6
+FORCE_NO_SYMBOL $08B8
+FORCE_NO_SYMBOL $08BA
+COMMENT_LINE $08C2 See if we need to start up another energy bomb
+FORCE_NO_SYMBOL $08C4
+COMMENT $08C8 * Decrement reseed counter.
+FORCE_NO_SYMBOL $08C8
+COMMENT $08CA * Restart new bomb when it goes to 0.
+FORCE_NO_SYMBOL $08CC
+COMMENT $08D0 * Reset the reseed counter.
+FORCE_NO_SYMBOL $08D0
+FORCE_NO_SYMBOL $08D2
+COMMENT $08D4 * Flag bomb state as 'moving'.
+FORCE_NO_SYMBOL $08D6
+COMMENT $08D8 * Use energy cannons angle.
+COMMENT $08DC * Start bomb from origin.
+COMMENT $08DE * Clear lifespan.
+FORCE_NO_SYMBOL $08DE
+COMMENT_LINE $08E2 See if time to force energy bomb off a ring
+FORCE_NO_SYMBOL $08E2
+COMMENT $08E5 * Use state/8 to determine which
+COMMENT $08E6 * ring energy bomb is attached to.
+FORCE_NO_SYMBOL $08EA
+COMMENT $08EF * If the ring no longer exists, or if
+FORCE_NO_SYMBOL $08EF
+COMMENT $08F1 * the 'time to move' counter has gone
+FORCE_NO_SYMBOL $08F1
+COMMENT $08F4 * to 0, then force the energy bomb to
+COMMENT $08F6 * start moving outwards, until it
+FORCE_NO_SYMBOL $08F6
+COMMENT $08F8 * hits a cruiser, or comes within the
+COMMENT $08FA * confines of another ring.
+COMMENT $08FE * Update 'time to move' counter.
+COMMENT $0904 * Force energy bomb to start moving.
+FORCE_NO_SYMBOL $0904
+COMMENT $0908 * Advance pointer to next energy
+FORCE_NO_SYMBOL $0908
+COMMENT $090B * bomb.  Stop when last on processed.
+FORCE_NO_SYMBOL $090B
+COMMENT_LINE $0912 END OF ENERGY BOMB STATE & POSITION PROCESSING LOOP
+COMMENT_LINE $0912 Determin the confines of a given ring
+COMMENT $0912 * Ptr to ring line patterns.
+FORCE_NO_SYMBOL $0912
+COMMENT $0916 * Addr of ring 1 rotation value.
+FORCE_NO_SYMBOL $0916
+FORCE_NO_SYMBOL $0919
+FORCE_NO_SYMBOL $091B
+FORCE_NO_SYMBOL $091D
+FORCE_NO_SYMBOL $0923
+FORCE_NO_SYMBOL $0925
+FORCE_NO_SYMBOL $0927
+FORCE_NO_SYMBOL $0929
+FORCE_NO_SYMBOL $092F
+FORCE_NO_SYMBOL $0931
+FORCE_NO_SYMBOL $0933
+FORCE_NO_SYMBOL $0938
+COMMENT_LINE $093A Check each bullet for a hit on the energy cannon
+COMMENT $093A * Addr of player 1's bullet buffer.
+FORCE_NO_SYMBOL $093A
+COMMENT $093D * See if bullet is active.
+FORCE_NO_SYMBOL $093D
+COMMENT $0945 * Bullet's position.
+FORCE_NO_SYMBOL $0945
+COMMENT $0947 * Energy cannon's position.
+FORCE_NO_SYMBOL $0947
+COMMENT $094B * Size of energy cannon.
+FORCE_NO_SYMBOL $094B
+FORCE_SYMBOL $094E check_bullet_for_hit
+COMMENT_LINE $0955 Energy cannon destroyed by a bullet
+COMMENT $0955 * Energy cannon destroyed.
+FORCE_NO_SYMBOL $0955
+COMMENT $0957 * Disable energy bomb 1.
+FORCE_NO_SYMBOL $0957
+COMMENT $095A * Disable energy bomb 2.
+FORCE_NO_SYMBOL $095A
+COMMENT $095D * Disable energy bomb 3.
+FORCE_NO_SYMBOL $095D
+FORCE_NO_SYMBOL $0960
+COMMENT $0962 * Force an explosion sound.
+FORCE_NO_SYMBOL $0962
+FORCE_NO_SYMBOL $0964
+FORCE_NO_SYMBOL $0966
+COMMENT $0968 * Flag energy cannon is exploding.
+FORCE_NO_SYMBOL $0968
+COMMENT $096A * Flag that bullet no longer in use.
+FORCE_NO_SYMBOL $096A
+COMMENT $096C * Slightly increase ring rotation
+FORCE_NO_SYMBOL $096C
+COMMENT $096F * value.
+FORCE_NO_SYMBOL $096F
+FORCE_NO_SYMBOL $0973
+COMMENT $0976 * Score a cannon hit for the player.
+FORCE_NO_SYMBOL $0976
+FORCE_SYMBOL $0979 update_players_score
+COMMENT $097E * Give the player another cruiser.
+FORCE_SYMBOL $0980 P0A85
+COMMENT_LINE $0983 See if the bullet hit one of the energy bombs
+COMMENT $0985 * Addr of energy bomb buffer.
+FORCE_NO_SYMBOL $0985
+FORCE_NO_SYMBOL $098B
+COMMENT $0991 * Position of bullet.
+FORCE_NO_SYMBOL $0991
+COMMENT $0993 * Position of energy bomb.
+COMMENT $0996 * Size of energy bomb.
+FORCE_NO_SYMBOL $0996
+FORCE_SYMBOL $0999 check_bullet_for_hit
+COMMENT $09A0 * Check next energy bomb.
+FORCE_NO_SYMBOL $09A0
+FORCE_NO_SYMBOL $09A3
+COMMENT_LINE $09AD Energy bomb was destroyed by a bullet
+FORCE_NO_SYMBOL $09AD
+COMMENT $09AF * Flag bullet no longer in use.
+FORCE_NO_SYMBOL $09B1
+COMMENT $09B3 * Force an explosion sound.
+FORCE_NO_SYMBOL $09B3
+FORCE_NO_SYMBOL $09B5
+FORCE_NO_SYMBOL $09B7
+COMMENT $09B9 * Force an explosion pattern to be
+FORCE_NO_SYMBOL $09B9
+COMMENT $09BB * displayed at bullet's position.
+FORCE_NO_SYMBOL $09BB
+COMMENT_LINE $09C1 See if the bullet hit a wall section
+FORCE_NO_SYMBOL $09C1
+FORCE_SYMBOL $09C3 get_absolute_value_of_ab
+FORCE_NO_SYMBOL $09C6
+COMMENT $09C8 * See if the bullet is within the
+COMMENT $09CA * confines of a ring.
+FORCE_NO_SYMBOL $09CB
+FORCE_NO_SYMBOL $09CD
+FORCE_NO_SYMBOL $09CF
+FORCE_NO_SYMBOL $09D2
+FORCE_NO_SYMBOL $09D4
+FORCE_NO_SYMBOL $09D9
+COMMENT_LINE $09DE Determine which section of the wall we are at
+COMMENT $09DE * Bullet position.
+FORCE_NO_SYMBOL $09DE
+FORCE_SYMBOL $09E0 convert_rise_run_to_angle
+FORCE_NO_SYMBOL $09E3
+FORCE_NO_SYMBOL $09E7
+FORCE_NO_SYMBOL $09EB
+COMMENT_LINE $09F0 Determine if this section exists or is already destroyed
+FORCE_NO_SYMBOL $09F0
+COMMENT_LINE $09F9 Add value of wall section to players score
+COMMENT $09FB * Addr of ring pattern arrays.
+FORCE_NO_SYMBOL $09FB
+COMMENT $09FE * Value of outer wall section.
+FORCE_NO_SYMBOL $09FE
+FORCE_NO_SYMBOL $0A00
+COMMENT $0A02 * This loop calculates the value
+FORCE_NO_SYMBOL $0A02
+COMMENT $0A04 * of the wall section hit.
+FORCE_NO_SYMBOL $0A06
+FORCE_NO_SYMBOL $0A08
+FORCE_NO_SYMBOL $0A0A
+FORCE_SYMBOL $0A10 update_players_score
+COMMENT $0A15 * Flag bullet no longer in use.
+FORCE_NO_SYMBOL $0A15
+COMMENT $0A17 * Clear pattern for section hit(0 hit).
+COMMENT $0A19 * Clr/set pattern 4 section hit(1 hit).
+FORCE_NO_SYMBOL $0A1D
+COMMENT $0A1F * Section destroyed, so force an
+FORCE_NO_SYMBOL $0A1F
+COMMENT $0A21 * explosion sound. (hit 2 times)
+FORCE_NO_SYMBOL $0A21
+FORCE_NO_SYMBOL $0A23
+FORCE_NO_SYMBOL $0A25
+FORCE_NO_SYMBOL $0A27
+COMMENT $0A2B * Advance ptr to next bullet.
+FORCE_NO_SYMBOL $0A2B
+COMMENT $0A2D * Stop when last bullet processed.
+FORCE_NO_SYMBOL $0A2D
+COMMENT $0A35 * Get ptr to next ring's patterns.
+FORCE_NO_SYMBOL $0A35
+COMMENT $0A37 * Get ptr to next ring's rotation.
+FORCE_NO_SYMBOL $0A37
+COMMENT $0A39 * Stop when last ring processed.
+FORCE_NO_SYMBOL $0A39
+COMMENT_LINE $0A40 A certain amount of time after the energy cannon was
+COMMENT_LINE $0A40 destroyed, reset the ring scale/pattern structure
+FORCE_NO_SYMBOL $0A40
+FORCE_NO_SYMBOL $0A42
+FORCE_SYMBOL $0A48 init_ring_scale_factors
+COMMENT_LINE $0A4B See if we need to expand the inner walls
+COMMENT $0A4B * Search the scale/pattern array,
+FORCE_NO_SYMBOL $0A4B
+COMMENT $0A4E * and find out which entry is for
+FORCE_NO_SYMBOL $0A4E
+COMMENT $0A50 * the outermost wall; it will have
+FORCE_NO_SYMBOL $0A50
+COMMENT $0A52 * a scale factor of $1E.  The 'x'
+COMMENT $0A54 * register will point to the entry
+FORCE_NO_SYMBOL $0A54
+COMMENT $0A56 * once it is found.
+FORCE_NO_SYMBOL $0A56
+FORCE_NO_SYMBOL $0A5A
+FORCE_NO_SYMBOL $0A5C
+COMMENT $0A60 * Skip over the scale factor and the
+FORCE_NO_SYMBOL $0A60
+COMMENT $0A62 * first line pattern for this ring.
+FORCE_NO_SYMBOL $0A62
+FORCE_NO_SYMBOL $0A65
+COMMENT $0A67 * This loop counts the number of
+COMMENT $0A69 * visible sections still left on
+COMMENT $0A6B * the outermost ring.  The number
+COMMENT $0A6D * of visible sections is saved in
+FORCE_NO_SYMBOL $0A6D
+COMMENT $0A6F * C891.
+COMMENT $0A72 * See if any sections were left.
+FORCE_NO_SYMBOL $0A72
+COMMENT $0A74 * Branch, if sections are still left.
+COMMENT $0A76 * Set up a new scale factor for this
+FORCE_NO_SYMBOL $0A76
+COMMENT $0A78 * ring (6), and make it the inner
+COMMENT $0A7A * most ring.
+COMMENT $0A7C * Reset all the line patterns for
+FORCE_NO_SYMBOL $0A7C
+COMMENT $0A7E * this ring to $FF.
+FORCE_NO_SYMBOL $0A7E
+FORCE_SYMBOL $0A80 clear_block_to_a
+COMMENT $0A83 * Set the 'wall expanding' flag.
+FORCE_NO_SYMBOL $0A83
+COMMENT_LINE $0A85 Update rotation value, so each ring rotates faster
+FORCE_NO_SYMBOL $0A85
+COMMENT $0A88 * Update rotation for ring 1.
+FORCE_NO_SYMBOL $0A88
+FORCE_NO_SYMBOL $0A8A
+FORCE_NO_SYMBOL $0A8C
+COMMENT $0A91 * Update rotation for ring 2.
+FORCE_NO_SYMBOL $0A91
+FORCE_NO_SYMBOL $0A93
+FORCE_NO_SYMBOL $0A95
+COMMENT $0A9A * Update rotation for ring 3.
+FORCE_NO_SYMBOL $0A9A
+FORCE_NO_SYMBOL $0A9C
+COMMENT $0A9E * Expand rings everyother pass.
+FORCE_NO_SYMBOL $0A9E
+COMMENT_LINE $0AA3 Continue expanding rings, if necessary
+COMMENT $0AA3 * If the 'expanding wall' flag
+FORCE_NO_SYMBOL $0AA3
+COMMENT $0AA5 * (C8EC) is set, then increment the
+COMMENT $0AA7 * scale factor for each of the 3
+FORCE_NO_SYMBOL $0AA7
+COMMENT $0AA9 * rings, until the outermost one
+FORCE_NO_SYMBOL $0AA9
+COMMENT $0AAC * has a scale actor of $1E; at
+FORCE_NO_SYMBOL $0AAC
+COMMENT $0AAE * that point, clear the 'expanding
+FORCE_NO_SYMBOL $0AAE
+COMMENT $0AB1 * wall' flag.
+FORCE_NO_SYMBOL $0AB1
+FORCE_NO_SYMBOL $0AB5
+COMMENT $0AB7 * Increment the scale for the
+FORCE_NO_SYMBOL $0AB7
+COMMENT $0AB9 * next ring.
+FORCE_NO_SYMBOL $0AB9
+FORCE_NO_SYMBOL $0ABB
+FORCE_NO_SYMBOL $0ABE
+COMMENT $0AC2 * Clear the 'expanding walls' flag.
+FORCE_NO_SYMBOL $0AC2
+COMMENT $0AC4 * Increment the scale for the
+FORCE_NO_SYMBOL $0AC4
+COMMENT $0AC6 * next ring.
+FORCE_NO_SYMBOL $0AC6
+FORCE_NO_SYMBOL $0AC8
+FORCE_NO_SYMBOL $0ACB
+COMMENT $0ACF * Clear the 'expanding walls' flag.
+FORCE_NO_SYMBOL $0ACF
+COMMENT $0AD1 * Don't continue, if the energy cannon
+FORCE_NO_SYMBOL $0AD1
+COMMENT $0AD3 * is being destroyed, or a new screen
+COMMENT $0AD7 * is being displayed.
+FORCE_NO_SYMBOL $0AD7
+FORCE_NO_SYMBOL $0ADB
+FORCE_SYMBOL $0ADD P00D3
+COMMENT_LINE $0AE0 Have the energy cannon track one of the cruiser
+COMMENT $0AE0 * Player 1 cruiser position.
+FORCE_NO_SYMBOL $0AE0
+FORCE_SYMBOL $0AE2 convert_rise_run_to_angle
+FORCE_NO_SYMBOL $0AE5
+COMMENT $0AE7 * Player 2 cruiser position.
+FORCE_NO_SYMBOL $0AE7
+FORCE_SYMBOL $0AE9 convert_rise_run_to_angle
+FORCE_NO_SYMBOL $0AEC
+COMMENT $0AEE * Determine angle delta between
+FORCE_NO_SYMBOL $0AEE
+COMMENT $0AF0 * cannon and cruiser 1.
+FORCE_NO_SYMBOL $0AF0
+FORCE_NO_SYMBOL $0AF2
+FORCE_NO_SYMBOL $0AF4
+FORCE_NO_SYMBOL $0AF6
+COMMENT $0AF8 * Determine angle delta between
+FORCE_NO_SYMBOL $0AF8
+COMMENT $0AFA * cannon and cruiser 2.
+FORCE_NO_SYMBOL $0AFA
+FORCE_NO_SYMBOL $0AFC
+FORCE_NO_SYMBOL $0AFE
+COMMENT $0B00 * If game is over, then just rotate
+FORCE_NO_SYMBOL $0B00
+COMMENT $0B02 * cannon around.
+FORCE_NO_SYMBOL $0B02
+FORCE_NO_SYMBOL $0B06
+FORCE_NO_SYMBOL $0B08
+COMMENT_LINE $0B0C Determine which cruiser to track
+COMMENT $0B0C * One player is dead, so determine
+COMMENT $0B0D * which one is still alive, so we
+COMMENT $0B0F * can track him.
+FORCE_NO_SYMBOL $0B0F
+FORCE_NO_SYMBOL $0B13
+FORCE_NO_SYMBOL $0B17
+FORCE_NO_SYMBOL $0B19
+FORCE_NO_SYMBOL $0B1D
+COMMENT_LINE $0B1F Determine how to track one of the cruiser
+FORCE_NO_SYMBOL $0B1F
+FORCE_NO_SYMBOL $0B21
+FORCE_SYMBOL $0B23 get_absolute_value_of_ab
+FORCE_NO_SYMBOL $0B26
+FORCE_NO_SYMBOL $0B28
+FORCE_NO_SYMBOL $0B2A
+FORCE_NO_SYMBOL $0B2D
+FORCE_NO_SYMBOL $0B2F
+FORCE_NO_SYMBOL $0B33
+COMMENT_LINE $0B35 Determine speed at which to track the cruiser
+COMMENT $0B35 * Ring rotation delta.
+FORCE_NO_SYMBOL $0B35
+FORCE_NO_SYMBOL $0B38
+FORCE_NO_SYMBOL $0B3C
+COMMENT $0B3E * Small delta; so track quickly.
+FORCE_NO_SYMBOL $0B3E
+FORCE_NO_SYMBOL $0B40
+COMMENT_LINE $0B42 See if opening exists in the 3 rings in front of cannon
+COMMENT $0B42 * Addr of ring pattern array.
+FORCE_NO_SYMBOL $0B42
+COMMENT $0B45 * Addr of ring 1 rotation value.
+FORCE_NO_SYMBOL $0B45
+FORCE_NO_SYMBOL $0B48
+COMMENT $0B4E * Determine which segment of the
+FORCE_NO_SYMBOL $0B4E
+COMMENT $0B50 * ring is faced by the cannon.
+FORCE_NO_SYMBOL $0B50
+COMMENT $0B56 * If both patterns are 0, then the
+FORCE_NO_SYMBOL $0B56
+COMMENT $0B59 * segment is open.
+COMMENT $0B5D * No opening exists.
+COMMENT $0B5F * Opening exists in this ring; go
+FORCE_NO_SYMBOL $0B5F
+COMMENT $0B61 * check the next one also.
+FORCE_NO_SYMBOL $0B61
+COMMENT_LINE $0B66 Fire a fireball at one of the star cruisers
+FORCE_NO_SYMBOL $0B66
+COMMENT $0B68 * See if fireball is already in use.
+FORCE_NO_SYMBOL $0B6A
+COMMENT $0B6E * Set initial y position to 0.
+FORCE_NO_SYMBOL $0B6E
+COMMENT $0B70 * Set initial x position to 0.
+FORCE_NO_SYMBOL $0B70
+FORCE_NO_SYMBOL $0B72
+FORCE_NO_SYMBOL $0B74
+FORCE_SYMBOL $0B76 convert_abs_angle_to_rise_run
+FORCE_NO_SYMBOL $0B79
+FORCE_NO_SYMBOL $0B7B
+FORCE_SYMBOL $0B7D mult_rise_run_by_9
+COMMENT $0B80 * Save rise value.
+FORCE_NO_SYMBOL $0B80
+FORCE_NO_SYMBOL $0B82
+FORCE_SYMBOL $0B84 mult_rise_run_by_9
+COMMENT $0B87 * Save run value.
+FORCE_NO_SYMBOL $0B87
+FORCE_NO_SYMBOL $0B89
+COMMENT $0B8B * Set initial scale factor.
+FORCE_NO_SYMBOL $0B8B
+COMMENT_LINE $0B8F Slowly turn energy cannon, to track a cruiser
+FORCE_NO_SYMBOL $0B8F
+COMMENT $0B91 * If the delta between the cannon
+FORCE_NO_SYMBOL $0B91
+COMMENT $0B93 * and the cruiser is > the ring
+COMMENT $0B95 * rotation delta, then update the
+FORCE_NO_SYMBOL $0B95
+COMMENT $0B97 * cannons angle by the ring rotation
+FORCE_NO_SYMBOL $0B97
+COMMENT $0B9A * delta only; as this increases, so
+COMMENT $0B9C * will the tracking speed of the
+FORCE_NO_SYMBOL $0B9C
+COMMENT $0B9E * energy cannon.
+FORCE_NO_SYMBOL $0B9E
+FORCE_NO_SYMBOL $0BA1
+FORCE_SYMBOL $0BA3 P00D3
+COMMENT_LINE $0BA6 init_ring_scale_factors()
+COMMENT_LINE $0BA6 This routine clears the scale/pattern buffer used
+COMMENT_LINE $0BA6 to describe the 3 rings, and then sets the initial
+COMMENT_LINE $0BA6 scale factors ($0E, $16, $1E) for each of the rings.
+COMMENT_LINE $0BA6 The pattern buffer is 60 bytes long (6 x 10 bytes),
+COMMENT_LINE $0BA6 and uses RAM locations C8F3-C92F.  The first 3 entries
+COMMENT_LINE $0BA6 describe those ring sections which have no hits on them,
+COMMENT_LINE $0BA6 while the second 3 entries describe those ring sections
+COMMENT_LINE $0BA6 which have 1 hit on them (and are thus hi-lited).
+COMMENT_LINE $0BA6 The format of the pattern buffer is as follows:
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 1, no hits]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 2, no hits]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 3, no hits]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 1, 1 hit]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 2, 1 hit]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>      [Ring 3, 1 hit]
+COMMENT $0BA6 * Clear the pattern buffer.
+FORCE_NO_SYMBOL $0BA6
+FORCE_NO_SYMBOL $0BA9
+FORCE_SYMBOL $0BAB clear_blockxb
+FORCE_NO_SYMBOL $0BAE
+COMMENT $0BB1 * Set ring 1's scale factor.
+FORCE_NO_SYMBOL $0BB1
+FORCE_NO_SYMBOL $0BB4
+FORCE_NO_SYMBOL $0BB6
+FORCE_NO_SYMBOL $0BB9
+COMMENT $0BBB * Set ring 2's scale factor.
+FORCE_NO_SYMBOL $0BBB
+FORCE_NO_SYMBOL $0BBE
+FORCE_NO_SYMBOL $0BC0
+FORCE_NO_SYMBOL $0BC3
+COMMENT $0BC5 * Set ring 3's scale factor.
+FORCE_NO_SYMBOL $0BC5
+FORCE_NO_SYMBOL $0BC8
+FORCE_NO_SYMBOL $0BCA
+FORCE_NO_SYMBOL $0BCD
+COMMENT_LINE $0BD1 change_player()
+COMMENT_LINE $0BD1 This routine is called after a players cruiser has
+COMMENT_LINE $0BD1 been destroyed.  It will disable of of the energy
+COMMENT_LINE $0BD1 bombs and bullets.  It will also save a copy of the
+COMMENT_LINE $0BD1 dead players game information in his backup area.
+COMMENT_LINE $0BD1 Lastly, it will switch the active player indicator
+COMMENT_LINE $0BD1 (C8DC), and copy the other players game info out
+COMMENT_LINE $0BD1 of his backup area and into the active player area.
+COMMENT_LINE $0BD1 The info backed up and restored is the ring patterns
+COMMENT_LINE $0BD1 and rotation values.
+FORCE_NO_SYMBOL $0BD1
+COMMENT $0BD3 * Disable energy bomb 1
+FORCE_NO_SYMBOL $0BD3
+COMMENT $0BD6 * Disable energy bomb 2
+FORCE_NO_SYMBOL $0BD6
+COMMENT $0BD9 * Disable energy bomb 3
+FORCE_NO_SYMBOL $0BD9
+COMMENT $0BDC * Re-init ring patterns, if energy
+FORCE_NO_SYMBOL $0BDC
+COMMENT $0BDF * cannon was destroyed.
+FORCE_NO_SYMBOL $0BE3
+COMMENT $0BE6 * Clear the bullet buffer.
+FORCE_NO_SYMBOL $0BE6
+FORCE_NO_SYMBOL $0BE9
+FORCE_SYMBOL $0BEB clear_blockxb
+COMMENT $0BF0 * Save next player indicator.
+FORCE_NO_SYMBOL $0BF0
+FORCE_SYMBOL $0BF3 move_block2
+FORCE_SYMBOL $0BFA move_block2
+COMMENT_LINE $0BFD prepare_for_backup()
+COMMENT_LINE $0BFD This procedure initializes the 'a' register with the
+COMMENT_LINE $0BFD count of the number of bytes to backup, the 'u' register
+COMMENT_LINE $0BFD with the address of the active players ring pattern array,
+COMMENT_LINE $0BFD and the 'x' register with the address of the backup area
+COMMENT_LINE $0BFD associated with the player being backed up; C8DC indicates
+COMMENT_LINE $0BFD which player is being backed up.
+COMMENT $0BFD * Load 'u' w/ ptr to ring patterns.
+FORCE_NO_SYMBOL $0BFD
+FORCE_NO_SYMBOL $0C00
+FORCE_NO_SYMBOL $0C03
+FORCE_NO_SYMBOL $0C05
+FORCE_NO_SYMBOL $0C0A
+COMMENT $0C0D * Switch flag to show other user
+COMMENT $0C0E * is now active.
+COMMENT_LINE $0C0F init_ship_count_buffer()
+COMMENT_LINE $0C0F Initialize the buffer used to display the number of
+COMMENT_LINE $0C0F ships left for a user to the following:
+COMMENT_LINE $0C0F "   ",$80,$80,$80,$80,$80,$80,$80
+COMMENT_LINE $0C0F The buffer starts at C932
+FORCE_NO_SYMBOL $0C0F
+FORCE_NO_SYMBOL $0C12
+FORCE_SYMBOL $0C14 clear_block_to_0x80
+FORCE_NO_SYMBOL $0C17
+FORCE_NO_SYMBOL $0C19
+FORCE_NO_SYMBOL $0C1B
+FORCE_NO_SYMBOL $0C1D
+COMMENT_LINE $0C20 fill_ship_count_buffer()
+COMMENT_LINE $0C20 Fill the ship count buffer with a little spaceship
+COMMENT_LINE $0C20 figure, one for each ship the user has left.  If he
+COMMENT_LINE $0C20 has more than 9 ships left, then display "X" instead
+COMMENT_LINE $0C20 of the spaceship.
+COMMENT_LINE $0C20 At entry:
+COMMENT_LINE $0C20 'a' = number of ships.
+COMMENT $0C20 * Code for small spaceship figure.
+FORCE_NO_SYMBOL $0C20
+FORCE_NO_SYMBOL $0C22
+FORCE_NO_SYMBOL $0C26
+COMMENT $0C28 * Use "X" instead.
+FORCE_NO_SYMBOL $0C28
+COMMENT $0C2D * Fill the buffer.
+COMMENT_LINE $0C31 mult_rise_run_by_9()
+COMMENT_LINE $0C31 mult_rise_run_by_a()
+COMMENT_LINE $0C31 This routine takes a rise or run value (in 'b')
+COMMENT_LINE $0C31 and either multiples it by 9 or by the value in
+COMMENT_LINE $0C31 the 'a' register.
+COMMENT_LINE $0C31 At entry:
+COMMENT_LINE $0C31 'b' = rise or run value.
+COMMENT_LINE $0C31 'a' = multiplier (for mult_rise_run_by_a only).
+COMMENT_LINE $0C31 At exit:
+COMMENT_LINE $0C31 'd' contains the result of the multiplication,
+COMMENT_LINE $0C31 and so does C880.
+FORCE_NO_SYMBOL $0C31
+FORCE_NO_SYMBOL $0C33
+COMMENT $0C38 * Keep track if value is negative.
+FORCE_NO_SYMBOL $0C38
+FORCE_SYMBOL $0C3A get_absolute_value_of_ab
+FORCE_NO_SYMBOL $0C3E
+FORCE_NO_SYMBOL $0C40
+COMMENT $0C44 * If the rise/run value was negative
+COMMENT $0C45 * then take twos complement, to make
+COMMENT $0C46 * the result negative also.
+FORCE_NO_SYMBOL $0C46
+FORCE_NO_SYMBOL $0C49
+COMMENT_LINE $0C4C draw_1_ring()
+COMMENT_LINE $0C4C This routine will draw one of the 3 rings (castle walls).
+COMMENT_LINE $0C4C At entry:
+COMMENT_LINE $0C4C 'x' points to (y,x) vector list for this ring.
+COMMENT_LINE $0C4C 'u' points to scale/pattern buffer for this ring.
+COMMENT_LINE $0C4C Drawing will cease when a pattern > 0 is encountered.
+FORCE_NO_SYMBOL $0C4C
+FORCE_NO_SYMBOL $0C4E
+COMMENT $0C50 * Grab the scale factor.
+FORCE_NO_SYMBOL $0C52
+COMMENT $0C54 * Grab the vector endpoint.
+FORCE_NO_SYMBOL $0C54
+FORCE_NO_SYMBOL $0C56
+FORCE_NO_SYMBOL $0C58
+COMMENT $0C5A * Grab the line pattern to use.
+FORCE_NO_SYMBOL $0C5C
+FORCE_NO_SYMBOL $0C5E
+FORCE_NO_SYMBOL $0C60
+FORCE_NO_SYMBOL $0C62
+FORCE_NO_SYMBOL $0C64
+FORCE_NO_SYMBOL $0C66
+FORCE_NO_SYMBOL $0C69
+FORCE_NO_SYMBOL $0C6E
+COMMENT $0C70 * Stop, when end of pattern list is
+FORCE_NO_SYMBOL $0C70
+COMMENT $0C72 * reached (pattern > 0).
+FORCE_SYMBOL $0C74 check0ref
+COMMENT_LINE $0C77 update_players_score()
+COMMENT_LINE $0C77 This routine takes a value, and adds it to the
+COMMENT_LINE $0C77 appropriate user's score string.
+COMMENT_LINE $0C77 At entry:
+COMMENT_LINE $0C77 'd' contains the BCD value to be added to a score.
+COMMENT_LINE $0C77 'u' points to bullet entry which scored a hit.
+COMMENT_LINE $0C77 The address of the bullet entry is used to determine
+COMMENT_LINE $0C77 whether to add the BCD value to player 1 or 2's score.
+FORCE_NO_SYMBOL $0C77
+COMMENT $0C7A * Determine which player to credit
+FORCE_NO_SYMBOL $0C7A
+COMMENT $0C7E * with the hit.
+FORCE_NO_SYMBOL $0C80
+COMMENT $0C83 * Get addr of player's score string.
+FORCE_NO_SYMBOL $0C83
+FORCE_SYMBOL $0C85 add_d_to_x_in_bcd
+COMMENT_LINE $0C88 make_game_sounds()
+COMMENT_LINE $0C88 This routine is responsible for making all of the
+COMMENT_LINE $0C88 sound associated with the game.  It uses a bit mask
+COMMENT_LINE $0C88 in C890 to decide which sounds to make at any given
+COMMENT_LINE $0C88 moment.
+FORCE_SYMBOL $0C88 init_music_buf
+FORCE_NO_SYMBOL $0C8B
+FORCE_NO_SYMBOL $0C8D
+FORCE_NO_SYMBOL $0C91
+FORCE_NO_SYMBOL $0C94
+FORCE_NO_SYMBOL $0C97
+FORCE_NO_SYMBOL $0C99
+FORCE_NO_SYMBOL $0C9B
+FORCE_NO_SYMBOL $0C9D
+FORCE_NO_SYMBOL $0C9F
+FORCE_NO_SYMBOL $0CA1
+FORCE_NO_SYMBOL $0CA5
+FORCE_NO_SYMBOL $0CA7
+FORCE_NO_SYMBOL $0CA9
+FORCE_NO_SYMBOL $0CAB
+FORCE_NO_SYMBOL $0CAD
+FORCE_NO_SYMBOL $0CB3
+FORCE_NO_SYMBOL $0CB5
+FORCE_NO_SYMBOL $0CB7
+FORCE_NO_SYMBOL $0CBB
+FORCE_NO_SYMBOL $0CBF
+FORCE_NO_SYMBOL $0CC1
+FORCE_NO_SYMBOL $0CC3
+FORCE_NO_SYMBOL $0CC5
+COMMENT $0CC7 * (UNKNOWN JUMP)
+FORCE_NO_SYMBOL $0CC7
+FORCE_NO_SYMBOL $0CC9
+FORCE_NO_SYMBOL $0CCD
+FORCE_NO_SYMBOL $0CCF
+FORCE_NO_SYMBOL $0CD1
+FORCE_NO_SYMBOL $0CD3
+FORCE_NO_SYMBOL $0CD5
+FORCE_NO_SYMBOL $0CD9
+FORCE_NO_SYMBOL $0CDB
+FORCE_NO_SYMBOL $0CDD
+COMMENT_LINE $0CE0 Table of sound routine addresses, and data
+COMMENT_LINE $0CE0 2 byte subroutine address.
+COMMENT_LINE $0CE0 5 bytes of data.
+FORCE_NO_SYMBOL $0D18
+FORCE_NO_SYMBOL $0D1A
+FORCE_NO_SYMBOL $0D1E
+FORCE_NO_SYMBOL $0D21
+FORCE_NO_SYMBOL $0D23
+FORCE_NO_SYMBOL $0D28
+FORCE_NO_SYMBOL $0D2D
+FORCE_NO_SYMBOL $0D33
+FORCE_NO_SYMBOL $0D36
+FORCE_NO_SYMBOL $0D3B
+FORCE_NO_SYMBOL $0D3D
+FORCE_NO_SYMBOL $0D48
+FORCE_NO_SYMBOL $0D4A
+FORCE_NO_SYMBOL $0D4C
+FORCE_NO_SYMBOL $0D4E
+FORCE_NO_SYMBOL $0D55
+FORCE_NO_SYMBOL $0D57
+FORCE_NO_SYMBOL $0D5C
+FORCE_NO_SYMBOL $0D60
+FORCE_NO_SYMBOL $0D62
+FORCE_NO_SYMBOL $0D64
+FORCE_NO_SYMBOL $0D68
+FORCE_NO_SYMBOL $0D6C
+FORCE_NO_SYMBOL $0D6E
+FORCE_NO_SYMBOL $0D72
+FORCE_NO_SYMBOL $0D74
+FORCE_NO_SYMBOL $0D78
+FORCE_NO_SYMBOL $0D7C
+FORCE_NO_SYMBOL $0D7F
+FORCE_NO_SYMBOL $0D81
+FORCE_NO_SYMBOL $0D85
+FORCE_NO_SYMBOL $0D87
+FORCE_NO_SYMBOL $0D8C
+FORCE_NO_SYMBOL $0D8E
+FORCE_NO_SYMBOL $0D91
+FORCE_NO_SYMBOL $0D93
+FORCE_NO_SYMBOL $0D96
+FORCE_NO_SYMBOL $0D98
+FORCE_NO_SYMBOL $0D9A
+FORCE_NO_SYMBOL $0D9F
+FORCE_NO_SYMBOL $0DA3
+FORCE_NO_SYMBOL $0DA5
+FORCE_NO_SYMBOL $0DA7
+FORCE_NO_SYMBOL $0DAA
+FORCE_NO_SYMBOL $0DAE
+FORCE_NO_SYMBOL $0DB2
+FORCE_NO_SYMBOL $0DB4
+FORCE_NO_SYMBOL $0DB7
+FORCE_NO_SYMBOL $0DBA
+FORCE_NO_SYMBOL $0DBC
+FORCE_NO_SYMBOL $0DBF
+FORCE_NO_SYMBOL $0DC1
+FORCE_NO_SYMBOL $0DC5
+FORCE_NO_SYMBOL $0DC9
+FORCE_NO_SYMBOL $0DCB
+FORCE_NO_SYMBOL $0DCD
+COMMENT $0DCF <--I original $0dde
+FORCE_NO_SYMBOL $0DCF
+COMMENT_LINE $0DD2 ldu   #explosion_sound_data;$0DDE;             <--I original $0dde
+COMMENT $0DD2 I seems to be wrong,
+COMMENT $0DD3 I a bug in starcastle?
+COMMENT $0DD4 I
+COMMENT $0DD6 I
+FORCE_SYMBOL $0DD6 generate_explosion_sound
+COMMENT $0DD9 I
+FORCE_NO_SYMBOL $0DD9
+COMMENT $0DDB I
+COMMENT $0DDD between this instruction is $0dde  <--I   malban <BUG?>
+FORCE_NO_SYMBOL $0DDD
+COMMENT_LINE $0DE2 Data describing the explosion sounds
+COMMENT_LINE $0DE2 malban: here is $0de2
+COMMENT_LINE $0E1F Vector list for player 1's star cruiser
+COMMENT_LINE $0E31 Vector list for player 2's star cruiser
+COMMENT_LINE $0E47 Vector list for the energy cannon
+COMMENT_LINE $0E73 Table of pointers to vector lists, having the
+COMMENT_LINE $0E73 following format:
+COMMENT_LINE $0E73 line pattern, rel y, rel x,
+COMMENT_LINE $0E73 line pattern, rel y, rel x,
+COMMENT_LINE $0E73 .
+COMMENT_LINE $0E73 .
+COMMENT_LINE $0E73 $01
+COMMENT_LINE $0E73 These look like they are vector lists for the energy
+COMMENT_LINE $0E73 bombs.  By displaying these various patterns, you
+COMMENT_LINE $0E73 get the impression that the bomb is twinkling.
+COMMENT_LINE $0F33 Vector list for a ring (castle wall)
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$000E DB_DATA 1
+RANGE $000E-$000F DB_DATA 1
+RANGE $000F-$0010 DB_DATA 1
+RANGE $0010-$0011 DB_DATA 1
+RANGE $0011-$001E CHAR_DATA 13
+RANGE $001E-$0CE0 CODE
+RANGE $0CE0-$0CE2 DW_DATA 1
+RANGE $0CE2-$0CE7 DB_DATA 5
+RANGE $0CE7-$0CE9 DW_DATA 1
+RANGE $0CE9-$0CEE DB_DATA 5
+RANGE $0CEE-$0CF0 DW_DATA 1
+RANGE $0CF0-$0CF5 DB_DATA 5
+RANGE $0CF5-$0CF7 DW_DATA 1
+RANGE $0CF7-$0CFC DB_DATA 5
+RANGE $0CFC-$0CFE DW_DATA 1
+RANGE $0CFE-$0D03 DB_DATA 5
+RANGE $0D03-$0D05 DW_DATA 1
+RANGE $0D05-$0D0A DB_DATA 5
+RANGE $0D0A-$0D0C DW_DATA 1
+RANGE $0D0C-$0D11 DB_DATA 5
+RANGE $0D11-$0D13 DW_DATA 1
+RANGE $0D13-$0D18 DB_DATA 5
+RANGE $0D18-$0DE2 CODE
+RANGE $0DE2-$0DE6 DB_DATA 4
+RANGE $0DE6-$0DEA DB_DATA 4
+RANGE $0DEA-$0DEE DB_DATA 4
+RANGE $0DEE-$0DEF DB_DATA 1
+RANGE $0DEF-$0DF0 DB_DATA 1
+RANGE $0DF0-$0DF1 DB_DATA 1
+RANGE $0DF1-$0DF2 DB_DATA 1
+RANGE $0DF2-$0DF3 DB_DATA 1
+RANGE $0DF3-$0DF4 DB_DATA 1
+RANGE $0DF4-$0DF5 DB_DATA 1
+RANGE $0DF5-$0DF6 DB_DATA 1
+RANGE $0DF6-$0DF7 DB_DATA 1
+RANGE $0DF7-$0DF8 DB_DATA 1
+RANGE $0DF8-$0DF9 DB_DATA 1
+RANGE $0DF9-$0DFA DB_DATA 1
+RANGE $0DFA-$0DFB DB_DATA 1
+RANGE $0DFB-$0DFC DB_DATA 1
+RANGE $0DFC-$0DFE DW_DATA 1
+RANGE $0DFE-$0E00 DW_DATA 1
+RANGE $0E00-$0E01 DB_DATA 1
+RANGE $0E01-$0E02 DB_DATA 1
+RANGE $0E02-$0E03 DB_DATA 1
+RANGE $0E03-$0E04 DB_DATA 1
+RANGE $0E04-$0E05 DB_DATA 1
+RANGE $0E05-$0E06 DB_DATA 1
+RANGE $0E06-$0E07 DB_DATA 1
+RANGE $0E07-$0E08 DB_DATA 1
+RANGE $0E08-$0E09 DB_DATA 1
+RANGE $0E09-$0E0A DB_DATA 1
+RANGE $0E0A-$0E0B DB_DATA 1
+RANGE $0E0B-$0E0C DB_DATA 1
+RANGE $0E0C-$0E0D DB_DATA 1
+RANGE $0E0D-$0E0E DB_DATA 1
+RANGE $0E0E-$0E0F DB_DATA 1
+RANGE $0E0F-$0E10 DB_DATA 1
+RANGE $0E10-$0E11 DB_DATA 1
+RANGE $0E11-$0E12 DB_DATA 1
+RANGE $0E12-$0E13 DB_DATA 1
+RANGE $0E13-$0E14 DB_DATA 1
+RANGE $0E14-$0E15 DB_DATA 1
+RANGE $0E15-$0E16 DB_DATA 1
+RANGE $0E16-$0E17 DB_DATA 1
+RANGE $0E17-$0E18 DB_DATA 1
+RANGE $0E18-$0E19 DB_DATA 1
+RANGE $0E19-$0E1A DB_DATA 1
+RANGE $0E1A-$0E1B DB_DATA 1
+RANGE $0E1B-$0E1C DB_DATA 1
+RANGE $0E1C-$0E1D DB_DATA 1
+RANGE $0E1D-$0E1E DB_DATA 1
+RANGE $0E1E-$0E1F DB_DATA 1
+RANGE $0E1F-$0E21 DB_DATA 2
+RANGE $0E21-$0E23 DB_DATA 2
+RANGE $0E23-$0E25 DB_DATA 2
+RANGE $0E25-$0E27 DB_DATA 2
+RANGE $0E27-$0E29 DB_DATA 2
+RANGE $0E29-$0E2B DB_DATA 2
+RANGE $0E2B-$0E2D DB_DATA 2
+RANGE $0E2D-$0E2F DB_DATA 2
+RANGE $0E2F-$0E31 DB_DATA 2
+RANGE $0E31-$0E33 DB_DATA 2
+RANGE $0E33-$0E35 DB_DATA 2
+RANGE $0E35-$0E37 DB_DATA 2
+RANGE $0E37-$0E39 DB_DATA 2
+RANGE $0E39-$0E3B DB_DATA 2
+RANGE $0E3B-$0E3D DB_DATA 2
+RANGE $0E3D-$0E3F DB_DATA 2
+RANGE $0E3F-$0E41 DB_DATA 2
+RANGE $0E41-$0E43 DB_DATA 2
+RANGE $0E43-$0E45 DB_DATA 2
+RANGE $0E45-$0E47 DB_DATA 2
+RANGE $0E47-$0E49 DB_DATA 2
+RANGE $0E49-$0E4B DB_DATA 2
+RANGE $0E4B-$0E4D DB_DATA 2
+RANGE $0E4D-$0E4F DB_DATA 2
+RANGE $0E4F-$0E51 DB_DATA 2
+RANGE $0E51-$0E53 DB_DATA 2
+RANGE $0E53-$0E55 DB_DATA 2
+RANGE $0E55-$0E57 DB_DATA 2
+RANGE $0E57-$0E59 DB_DATA 2
+RANGE $0E59-$0E5B DB_DATA 2
+RANGE $0E5B-$0E5D DB_DATA 2
+RANGE $0E5D-$0E5F DB_DATA 2
+RANGE $0E5F-$0E61 DB_DATA 2
+RANGE $0E61-$0E63 DB_DATA 2
+RANGE $0E63-$0E65 DB_DATA 2
+RANGE $0E65-$0E67 DB_DATA 2
+RANGE $0E67-$0E69 DB_DATA 2
+RANGE $0E69-$0E6B DB_DATA 2
+RANGE $0E6B-$0E6D DB_DATA 2
+RANGE $0E6D-$0E6F DB_DATA 2
+RANGE $0E6F-$0E71 DB_DATA 2
+RANGE $0E71-$0E73 DB_DATA 2
+RANGE $0E73-$0E75 DW_DATA 1
+RANGE $0E75-$0E77 DW_DATA 1
+RANGE $0E77-$0E79 DW_DATA 1
+RANGE $0E79-$0E7B DW_DATA 1
+RANGE $0E7B-$0E7D DW_DATA 1
+RANGE $0E7D-$0E7F DW_DATA 1
+RANGE $0E7F-$0E81 DW_DATA 1
+RANGE $0E81-$0E83 DW_DATA 1
+RANGE $0E83-$0E86 DB_DATA 3
+RANGE $0E86-$0E89 DB_DATA 3
+RANGE $0E89-$0E8C DB_DATA 3
+RANGE $0E8C-$0E8F DB_DATA 3
+RANGE $0E8F-$0E92 DB_DATA 3
+RANGE $0E92-$0E95 DB_DATA 3
+RANGE $0E95-$0E98 DB_DATA 3
+RANGE $0E98-$0E99 DB_DATA 1
+RANGE $0E99-$0E9C DB_DATA 3
+RANGE $0E9C-$0E9F DB_DATA 3
+RANGE $0E9F-$0EA2 DB_DATA 3
+RANGE $0EA2-$0EA5 DB_DATA 3
+RANGE $0EA5-$0EA8 DB_DATA 3
+RANGE $0EA8-$0EAB DB_DATA 3
+RANGE $0EAB-$0EAE DB_DATA 3
+RANGE $0EAE-$0EAF DB_DATA 1
+RANGE $0EAF-$0EB2 DB_DATA 3
+RANGE $0EB2-$0EB5 DB_DATA 3
+RANGE $0EB5-$0EB8 DB_DATA 3
+RANGE $0EB8-$0EBB DB_DATA 3
+RANGE $0EBB-$0EBE DB_DATA 3
+RANGE $0EBE-$0EC1 DB_DATA 3
+RANGE $0EC1-$0EC4 DB_DATA 3
+RANGE $0EC4-$0EC5 DB_DATA 1
+RANGE $0EC5-$0EC8 DB_DATA 3
+RANGE $0EC8-$0ECB DB_DATA 3
+RANGE $0ECB-$0ECE DB_DATA 3
+RANGE $0ECE-$0ED1 DB_DATA 3
+RANGE $0ED1-$0ED4 DB_DATA 3
+RANGE $0ED4-$0ED7 DB_DATA 3
+RANGE $0ED7-$0EDA DB_DATA 3
+RANGE $0EDA-$0EDB DB_DATA 1
+RANGE $0EDB-$0EDE DB_DATA 3
+RANGE $0EDE-$0EE1 DB_DATA 3
+RANGE $0EE1-$0EE4 DB_DATA 3
+RANGE $0EE4-$0EE7 DB_DATA 3
+RANGE $0EE7-$0EEA DB_DATA 3
+RANGE $0EEA-$0EED DB_DATA 3
+RANGE $0EED-$0EF0 DB_DATA 3
+RANGE $0EF0-$0EF1 DB_DATA 1
+RANGE $0EF1-$0EF4 DB_DATA 3
+RANGE $0EF4-$0EF7 DB_DATA 3
+RANGE $0EF7-$0EFA DB_DATA 3
+RANGE $0EFA-$0EFD DB_DATA 3
+RANGE $0EFD-$0F00 DB_DATA 3
+RANGE $0F00-$0F03 DB_DATA 3
+RANGE $0F03-$0F06 DB_DATA 3
+RANGE $0F06-$0F07 DB_DATA 1
+RANGE $0F07-$0F0A DB_DATA 3
+RANGE $0F0A-$0F0D DB_DATA 3
+RANGE $0F0D-$0F10 DB_DATA 3
+RANGE $0F10-$0F13 DB_DATA 3
+RANGE $0F13-$0F16 DB_DATA 3
+RANGE $0F16-$0F19 DB_DATA 3
+RANGE $0F19-$0F1C DB_DATA 3
+RANGE $0F1C-$0F1D DB_DATA 1
+RANGE $0F1D-$0F20 DB_DATA 3
+RANGE $0F20-$0F23 DB_DATA 3
+RANGE $0F23-$0F26 DB_DATA 3
+RANGE $0F26-$0F29 DB_DATA 3
+RANGE $0F29-$0F2C DB_DATA 3
+RANGE $0F2C-$0F2F DB_DATA 3
+RANGE $0F2F-$0F32 DB_DATA 3
+RANGE $0F32-$0F33 DB_DATA 1
+RANGE $0F33-$0F35 DB_DATA 2
+RANGE $0F35-$0F37 DB_DATA 2
+RANGE $0F37-$0F39 DB_DATA 2
+RANGE $0F39-$0F3B DB_DATA 2
+RANGE $0F3B-$0F3D DB_DATA 2
+RANGE $0F3D-$0F3F DB_DATA 2
+RANGE $0F3F-$0F41 DB_DATA 2
+RANGE $0F41-$0F43 DB_DATA 2
+RANGE $0F43-$0F45 DB_DATA 2
+RANGE $0F45-$0F46 DB_DATA 1
+RANGE $0F46-$0F47 DB_DATA 1
+RANGE $0F47-$0F48 DB_DATA 1
+RANGE $0F48-$0F49 DB_DATA 1
+RANGE $0F49-$0F4A DB_DATA 1
+RANGE $0F4A-$0F4B DB_DATA 1
+RANGE $0F4B-$0F4C DB_DATA 1
+RANGE $0F4C-$0F4D DB_DATA 1
+RANGE $0F4D-$0F4E DB_DATA 1
+RANGE $0F4E-$0F4F DB_DATA 1
+RANGE $0F4F-$0F50 DB_DATA 1
+RANGE $0F50-$0F51 DB_DATA 1
+RANGE $0F51-$0F52 DB_DATA 1
+RANGE $0F52-$0F53 DB_DATA 1
+RANGE $0F53-$0F54 DB_DATA 1
+RANGE $0F54-$0F55 DB_DATA 1
+RANGE $0F55-$0F58 DB_DATA 3
+RANGE $0F58-$0F5B DB_DATA 3
+RANGE $0F5B-$0F5E DB_DATA 3
+RANGE $0F5E-$0F61 DB_DATA 3
+RANGE $0F61-$0F64 DB_DATA 3
+RANGE $0F64-$0F67 DB_DATA 3
+RANGE $0F67-$0F6A DB_DATA 3
+RANGE $0F6A-$0F6D DB_DATA 3
+RANGE $0F6D-$0F70 DB_DATA 3
+RANGE $0F70-$0F73 DB_DATA 3
+RANGE $0F73-$0F76 DB_DATA 3
+RANGE $0F76-$0F79 DB_DATA 3
+RANGE $0F79-$0F7C DB_DATA 3
+RANGE $0F7C-$0F7F DB_DATA 3
+RANGE $0F7F-$0F82 DB_DATA 3
+RANGE $0F82-$0F85 DB_DATA 3
+RANGE $0F85-$0F86 DB_DATA 1
+RANGE $0F86-$0F88 DB_DATA 2
+RANGE $0F88-$0F8A DB_DATA 2
+RANGE $0F8A-$0F8C DB_DATA 2
+RANGE $0F8C-$0F8E DB_DATA 2
+RANGE $0F8E-$0F90 DB_DATA 2
+RANGE $0F90-$0F92 DB_DATA 2
+RANGE $0F92-$0F94 DB_DATA 2
+RANGE $0F94-$0F96 DB_DATA 2
+RANGE $0F96-$0F98 DB_DATA 2
+RANGE $0F98-$0F9A DB_DATA 2
+RANGE $0F9A-$0F9C DB_DATA 2
+RANGE $0F9C-$0F9E DB_DATA 2
+RANGE $0F9E-$0FA0 DB_DATA 2
+RANGE $0FA0-$0FA2 DB_DATA 2
+RANGE $0FA2-$0FA4 DB_DATA 2
+RANGE $0FA4-$0FA5 DB_DATA 1
+RANGE $0FA5-$0FA6 DB_DATA 1
+RANGE $0FA6-$0FB4 CHAR_DATA 14
+RANGE $0FB4-$0FB5 DB_DATA 1
+RANGE $0FB5-$0FB6 DB_DATA 1
+RANGE $0FB6-$0FC6 CHAR_DATA 16
+RANGE $0FC6-$0FC7 DB_DATA 1
+RANGE $0FC7-$0FC8 DB_DATA 1
+RANGE $0FC8-$0FD4 CHAR_DATA 12
+RANGE $0FD4-$0FD5 DB_DATA 1
+RANGE $0FD5-$0FD6 DB_DATA 1
+RANGE $0FD6-$0FE0 CHAR_DATA 10
+RANGE $0FE0-$0FE1 DB_DATA 1
+RANGE $0FE1-$0FE2 DB_DATA 1
+RANGE $0FE2-$0FEB CHAR_DATA 9
+RANGE $0FEB-$0FEC DB_DATA 1
+RANGE $0FEC-$0FED DB_DATA 1
+RANGE $0FED-$0FF6 CHAR_DATA 9
+RANGE $0FF6-$0FF7 DB_DATA 1
+RANGE $0FF7-$0FF8 DB_DATA 1
+RANGE $0FF8-$0FF9 DB_DATA 1
+RANGE $0FF9-$0FFA DB_DATA 1
+RANGE $0FFA-$0FFB DB_DATA 1
+RANGE $0FFB-$0FFC DB_DATA 1
+RANGE $0FFC-$0FFD DB_DATA 1
+RANGE $0FFD-$0FFE DB_DATA 1
+RANGE $0FFE-$0FFF DB_DATA 1
+RANGE $0FFF-$1000 DB_DATA 1
+

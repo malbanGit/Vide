@@ -13,27 +13,27 @@ sample_buffer:
         DB 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0      ;
         DB 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0      ;
 turning_sample_start:
-                INCLUDE "data\\turning.DB"
+                INCLUDE "DATA/TURNING.DB"
 turning_sample_end:
 turning_sample_length   EQU (turning_sample_end - turning_sample_start)
 ;***************************************************************************
 west_sample_start:
-                INCLUDE "data\\WEST.DB"
+                INCLUDE "DATA/WEST.DB"
 west_sample_end:
 west_sample_length   EQU (west_sample_end - west_sample_start)
 ;***************************************************************************
 east_sample_start:
-                INCLUDE "data\\east.DB"
+                INCLUDE "DATA/EAST.DB"
 east_sample_end:
 east_sample_length   EQU (east_sample_end - east_sample_start)
 ;***************************************************************************
 north_sample_start:
-                INCLUDE "data\\north.DB"
+                INCLUDE "DATA/NORTH.DB"
 north_sample_end:
 north_sample_length   EQU (north_sample_end - north_sample_start)
 ;***************************************************************************
 south_sample_start:
-                INCLUDE "data\\south.DB"
+                INCLUDE "DATA/SOUTH.DB"
 south_sample_end:
 south_sample_length   EQU (south_sample_end - south_sample_start)
 ;***************************************************************************

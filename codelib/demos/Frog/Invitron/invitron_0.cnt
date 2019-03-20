@@ -242,7 +242,7 @@ LABEL $F2F2 Moveto_x_7F
 LABEL $F2FC Moveto_d_7F
 LABEL $F308 Moveto_ix_FF
 LABEL $F30C Moveto_ix_7F
-LABEL $F30E Moveto_ix_a
+LABEL $F30E Moveto_ix_b
 LABEL $F310 Moveto_ix
 LABEL $F312 Moveto_d
 LABEL $F34A Reset0Ref_D0

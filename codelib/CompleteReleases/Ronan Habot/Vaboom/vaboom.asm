@@ -248,7 +248,7 @@ ym_data_start:
         FCB     $80,$0
 entry_point:
         JMP     start
-        INCLUDE "print.i"            ;replecement for bios print func
+        INCLUDE "PRINT.I"            ;replecement for bios print func
         INCLUDE "MyMacros.I"         ;replecement for bios print func
 start:
         JSR   init                              ;general initialization

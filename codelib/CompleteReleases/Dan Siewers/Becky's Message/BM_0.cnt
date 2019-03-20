@@ -932,7 +932,6 @@ COMMENT_LINE $0000 Magic Init Block
 FORCE_SYMBOL $0022 Number_Barrels_Jumped
 FORCE_SYMBOL $0025 Mario_Got_The_Girl
 FORCE_SYMBOL $0028 Setup
-FORCE_SYMBOL $002B Intro
 FORCE_SYMBOL $002E Wait_Recal
 FORCE_SYMBOL $0031 Clear_Sound
 FORCE_SYMBOL $0034 Heartbeat_Sign
@@ -1080,7 +1079,6 @@ COMMENT $01CE get state of button 3
 COMMENT $01D1 not pressed, keep waiting
 FORCE_SYMBOL $01D5 Setup
 FORCE_SYMBOL $01D8 Mario_Got_The_Girl
-FORCE_SYMBOL $01DD Mario_Wins
 FORCE_SYMBOL $01E0 Main_Screen
 COMMENT $01E3 is Mario dead?
 FORCE_SYMBOL $01E3 Mario_Dead
@@ -1090,7 +1088,6 @@ FORCE_SYMBOL $01F0 When_Sprites_Collide
 FORCE_SYMBOL $01F3 Wait_Recal
 FORCE_SYMBOL $01F8 Crash_Over_Barrel
 FORCE_SYMBOL $01FB Back_To_Intro
-FORCE_SYMBOL $0200 Intro
 FORCE_SYMBOL $0203 Bottom_Floor
 FORCE_SYMBOL $0206 Draw_Vectors
 FORCE_SYMBOL $0209 Second_Floor
@@ -1306,8 +1303,6 @@ COMMENT $0412 he's going right
 FORCE_NO_SYMBOL $0414
 COMMENT $0416 he's going up
 FORCE_NO_SYMBOL $041A
-FORCE_SYMBOL $0420 Draw_Mario
-FORCE_SYMBOL $0423 Run_Nowhere
 FORCE_SYMBOL $0426 Mario_Floor
 COMMENT $0429 are we on floor 1?
 FORCE_NO_SYMBOL $0429
@@ -1318,31 +1313,26 @@ FORCE_NO_SYMBOL $0431
 COMMENT $0435 are we on floor 4?
 FORCE_NO_SYMBOL $0435
 COMMENT $0439 nope we must be on a ladder
-FORCE_SYMBOL $0439 Draw_Mario
 COMMENT $043C Floor 1, set angle to 90 degrees
 FORCE_NO_SYMBOL $043C
 FORCE_SYMBOL $043E Angle_Temp
 COMMENT $0441 set the end of floor variable
 FORCE_SYMBOL $0443 End_Of_Floor
-FORCE_SYMBOL $0446 Run_To_The_Right_Left
 COMMENT $0449 Floor 1, set angle to 90 degrees
 FORCE_NO_SYMBOL $0449
 FORCE_SYMBOL $044B Angle_Temp
 COMMENT $044E set the end of floor variable
 FORCE_SYMBOL $0450 End_Of_Floor
-FORCE_SYMBOL $0453 Run_To_The_Right_Left
 COMMENT $0456 Floor 1, set angle to 90 degrees
 FORCE_NO_SYMBOL $0456
 FORCE_SYMBOL $0458 Angle_Temp
 COMMENT $045B set the end of floor variable
 FORCE_SYMBOL $045D End_Of_Floor
-FORCE_SYMBOL $0460 Run_To_The_Right_Left
 COMMENT $0463 Floor 1, set angle to 90 degrees
 FORCE_NO_SYMBOL $0463
 FORCE_SYMBOL $0465 Angle_Temp
 COMMENT $0468 set the end of floor variable
 FORCE_SYMBOL $046A End_Of_Floor
-FORCE_SYMBOL $046D Run_To_The_Right_Left
 FORCE_SYMBOL $0470 Mario_Floor
 COMMENT $0473 are we on floor 1?
 FORCE_NO_SYMBOL $0473
@@ -1351,35 +1341,30 @@ FORCE_NO_SYMBOL $0477
 FORCE_NO_SYMBOL $047B
 FORCE_NO_SYMBOL $047F
 COMMENT $0483 nope try next floor
-FORCE_SYMBOL $0483 Draw_Mario
 COMMENT $0486 yes, floor 1, set angle to 90 degrees
 FORCE_NO_SYMBOL $0486
 FORCE_SYMBOL $0488 Angle_Temp
 COMMENT $048B set the end of floor variable
 FORCE_NO_SYMBOL $048B
 FORCE_SYMBOL $048D End_Of_Floor
-FORCE_SYMBOL $0490 Run_To_The_Right_Left
 COMMENT $0493 yes, floor 2, set angle to xx degrees
 FORCE_NO_SYMBOL $0493
 FORCE_SYMBOL $0495 Angle_Temp
 COMMENT $0498 set the end of floor variable
 FORCE_NO_SYMBOL $0498
 FORCE_SYMBOL $049A End_Of_Floor
-FORCE_SYMBOL $049D Run_To_The_Right_Left
 COMMENT $04A0 yes, floor 3, set angle to xx degrees
 FORCE_NO_SYMBOL $04A0
 FORCE_SYMBOL $04A2 Angle_Temp
 COMMENT $04A5 set the end of floor variable
 FORCE_NO_SYMBOL $04A5
 FORCE_SYMBOL $04A7 End_Of_Floor
-FORCE_SYMBOL $04AA Run_To_The_Right_Left
 COMMENT $04AD yes, floor 2, set angle to xx degrees
 FORCE_NO_SYMBOL $04AD
 FORCE_SYMBOL $04AF Angle_Temp
 COMMENT $04B2 set the end of floor variable
 FORCE_NO_SYMBOL $04B2
 FORCE_SYMBOL $04B4 End_Of_Floor
-FORCE_SYMBOL $04B7 Run_To_The_Right_Left
 FORCE_SYMBOL $04BA Mario_Floor
 COMMENT $04BD are we on floor 4?
 FORCE_NO_SYMBOL $04BD
@@ -1395,7 +1380,6 @@ FORCE_NO_SYMBOL $04D3
 COMMENT $04D5 yes
 FORCE_NO_SYMBOL $04D7
 FORCE_NO_SYMBOL $04DB
-FORCE_SYMBOL $04DF Draw_Mario
 FORCE_SYMBOL $04E2 Mario_Pos_X
 COMMENT $04E5 are we left of the ladder?
 FORCE_NO_SYMBOL $04E5
@@ -1409,7 +1393,6 @@ FORCE_SYMBOL $04F3 Mario_Floor
 FORCE_NO_SYMBOL $04F6
 FORCE_SYMBOL $04F8 Angle_Temp
 FORCE_SYMBOL $04FD End_Of_Floor
-FORCE_SYMBOL $0500 Run_Up
 FORCE_SYMBOL $0503 Mario_Pos_X
 COMMENT $0506 are we left of the ladder?
 COMMENT $0508 yep so Mario stays on the ground
@@ -1422,7 +1405,6 @@ FORCE_NO_SYMBOL $0517
 FORCE_SYMBOL $0519 Angle_Temp
 FORCE_NO_SYMBOL $051C
 FORCE_SYMBOL $051E End_Of_Floor
-FORCE_SYMBOL $0521 Run_Up
 FORCE_SYMBOL $0524 Mario_Pos_X
 COMMENT $0527 are we left of the ladder?
 FORCE_NO_SYMBOL $0527
@@ -1437,7 +1419,6 @@ FORCE_NO_SYMBOL $0538
 FORCE_SYMBOL $053A Angle_Temp
 FORCE_NO_SYMBOL $053D
 FORCE_SYMBOL $053F End_Of_Floor
-FORCE_SYMBOL $0542 Run_Up
 FORCE_SYMBOL $0545 All_Barrels_Cleared
 FORCE_SYMBOL $054C Mario_Pos_X
 COMMENT $054F are we left of the ladder?
@@ -1451,7 +1432,6 @@ FORCE_NO_SYMBOL $0560
 FORCE_SYMBOL $0562 Angle_Temp
 FORCE_NO_SYMBOL $0565
 FORCE_SYMBOL $0567 End_Of_Floor
-FORCE_SYMBOL $056A Run_Up
 FORCE_SYMBOL $056D Mario_Floor
 FORCE_NO_SYMBOL $0570
 COMMENT $0576 are we on ladder 1?
@@ -1473,7 +1453,6 @@ COMMENT $058C yes we are
 COMMENT $058E are we on floor 4?
 FORCE_NO_SYMBOL $058E
 COMMENT $0590 yes we are
-FORCE_SYMBOL $0592 Draw_Mario
 FORCE_SYMBOL $0595 Mario_Pos_X
 COMMENT $0598 are we standing above ladder 2?
 FORCE_NO_SYMBOL $0598
@@ -1484,7 +1463,6 @@ FORCE_SYMBOL $05A6 Mario_Floor
 FORCE_NO_SYMBOL $05A9
 FORCE_SYMBOL $05AB Angle_Temp
 FORCE_SYMBOL $05B0 End_Of_Floor
-FORCE_SYMBOL $05B3 Run_Down
 FORCE_SYMBOL $05B6 Mario_Pos_X
 COMMENT $05B9 are we standing above ladder 3?
 COMMENT $05C5 yes, let's go down
@@ -1493,7 +1471,6 @@ FORCE_SYMBOL $05C7 Mario_Floor
 FORCE_NO_SYMBOL $05CA
 FORCE_SYMBOL $05CC Angle_Temp
 FORCE_SYMBOL $05D1 End_Of_Floor
-FORCE_SYMBOL $05D4 Run_Down
 FORCE_SYMBOL $05D7 Mario_Pos_X
 COMMENT $05DA are we standing above ladder 3?
 FORCE_NO_SYMBOL $05DA
@@ -1505,7 +1482,6 @@ FORCE_NO_SYMBOL $05EB
 FORCE_SYMBOL $05ED Angle_Temp
 FORCE_NO_SYMBOL $05F0
 FORCE_SYMBOL $05F2 End_Of_Floor
-FORCE_SYMBOL $05F5 Run_Down
 FORCE_SYMBOL $05F8 Mario_Pos_X
 COMMENT $05FB are we standing above ladder 3?
 COMMENT $0607 yes, let's go down
@@ -1515,9 +1491,7 @@ FORCE_NO_SYMBOL $060C
 FORCE_SYMBOL $060E Angle_Temp
 FORCE_NO_SYMBOL $0611
 FORCE_SYMBOL $0613 End_Of_Floor
-FORCE_SYMBOL $0616 Run_Down
 FORCE_SYMBOL $0619 Mario_Move
-FORCE_SYMBOL $061C Draw_Mario
 FORCE_SYMBOL $061F Mario_Pos_X
 COMMENT $0622 reached end of floor?
 FORCE_SYMBOL $0622 End_Of_Floor
@@ -1554,7 +1528,6 @@ FORCE_SYMBOL $066E DP_to_D0
 FORCE_SYMBOL $0671 Mario_Pos_X
 COMMENT $0677 let's go see what to do about Mario's legs
 FORCE_SYMBOL $0677 Mario_Move_Legs
-FORCE_SYMBOL $067A Draw_Mario
 COMMENT $067D save Y Position for Legs routine
 FORCE_SYMBOL $067D Mario_Pos_Y
 FORCE_SYMBOL $0683 DP_to_C8
@@ -1588,7 +1561,6 @@ FORCE_SYMBOL $06CA Mario_Move_Legs
 FORCE_NO_SYMBOL $06CD
 FORCE_SYMBOL $06D0 Temp_Rise
 FORCE_SYMBOL $06D3 Temp_Run
-FORCE_SYMBOL $06D6 Draw_Mario
 COMMENT $06D9 save Y position for Legs routine
 FORCE_SYMBOL $06D9 Mario_Pos_Y
 FORCE_SYMBOL $06DF DP_to_C8
@@ -1621,7 +1593,6 @@ FORCE_SYMBOL $071F Mario_Move_Legs
 FORCE_NO_SYMBOL $0722
 FORCE_SYMBOL $0725 Temp_Rise
 FORCE_SYMBOL $0728 Temp_Run
-FORCE_SYMBOL $072B Draw_Mario
 COMMENT $072E this routine makes sure that game timing
 FORCE_SYMBOL $072E Mario_Pos_X
 COMMENT $0731 remains constant when Mario stands still
@@ -1652,7 +1623,6 @@ FORCE_SYMBOL $0766 Mario_Save_X
 FORCE_SYMBOL $0769 Mario_Pos_X
 FORCE_SYMBOL $076C Mario_Save_Y
 FORCE_SYMBOL $076F Mario_Pos_Y
-FORCE_SYMBOL $0772 Draw_Mario
 COMMENT $0775 are we jumping?
 FORCE_SYMBOL $0775 Mario_Jump
 COMMENT $077A yes, show Mario jumping
@@ -1802,7 +1772,6 @@ FORCE_SYMBOL $08F8 Barrel_Count
 FORCE_SYMBOL $08FB Barrel_Count
 FORCE_SYMBOL $08FE Barrel_Move_Count
 FORCE_SYMBOL $0901 Barrel_Move_Count
-FORCE_SYMBOL $0904 Draw_Ceck_Last_Barrel
 FORCE_SYMBOL $0907 Barrel_Move_Count
 COMMENT $090A what floor is this barrel on?
 FORCE_SYMBOL $090A Barrel1_Floor
@@ -1813,7 +1782,6 @@ FORCE_NO_SYMBOL $0917
 FORCE_SYMBOL $0919 Angle_Temp
 COMMENT $091C set the end of floor variable
 FORCE_SYMBOL $091E End_Of_Floor
-FORCE_SYMBOL $0921 Barrel_To_The_Left
 COMMENT $0924 floor 3, set angle to xx degrees
 FORCE_NO_SYMBOL $0924
 FORCE_SYMBOL $0926 Angle_Temp
@@ -1823,7 +1791,6 @@ COMMENT $092E load the ladder positions
 FORCE_SYMBOL $0930 Ladder_Temp1
 FORCE_SYMBOL $0935 Ladder_Temp2
 FORCE_SYMBOL $093A Ladder_Temp3
-FORCE_SYMBOL $093D Barrel_To_The_Left
 FORCE_SYMBOL $0940 Barrel_Move_Count
 COMMENT $0943 what floor is this barrel on?
 FORCE_SYMBOL $0943 Barrel1_Floor
@@ -1842,7 +1809,6 @@ FORCE_NO_SYMBOL $095F
 FORCE_SYMBOL $0961 Ladder_Temp2
 FORCE_NO_SYMBOL $0964
 FORCE_SYMBOL $0966 Ladder_Temp3
-FORCE_SYMBOL $0969 Barrel_To_The_Right
 COMMENT $096C yes, floor 4, set angle to 90 degrees
 FORCE_NO_SYMBOL $096C
 FORCE_SYMBOL $096E Angle_Temp
@@ -1856,7 +1822,6 @@ FORCE_NO_SYMBOL $097B
 FORCE_SYMBOL $097D Ladder_Temp2
 FORCE_NO_SYMBOL $0980
 FORCE_SYMBOL $0982 Ladder_Temp3
-FORCE_SYMBOL $0985 Barrel_To_The_Right
 FORCE_SYMBOL $0988 Barrel_Move_Count
 COMMENT $098B what floor is this barrel on?
 FORCE_SYMBOL $098B Barrel1_Floor
@@ -1872,11 +1837,9 @@ FORCE_SYMBOL $09AA Add_Barrel
 FORCE_NO_SYMBOL $09AF
 FORCE_NO_SYMBOL $09B3
 FORCE_SYMBOL $09B5 Barrel1_Add
-FORCE_SYMBOL $09BA Draw_Ceck_Last_Barrel
 FORCE_NO_SYMBOL $09BD
 FORCE_SYMBOL $09BF Angle_Temp
 FORCE_SYMBOL $09C4 End_Of_Floor
-FORCE_SYMBOL $09C7 Barrel_Go_Down
 FORCE_NO_SYMBOL $09CA
 FORCE_SYMBOL $09CC Angle_Temp
 COMMENT $09CF barrel going down ladder?
@@ -1885,7 +1848,6 @@ FORCE_SYMBOL $09D2 Barrel_Move_Count
 COMMENT $09D7 nope
 COMMENT $09D9 yep
 FORCE_SYMBOL $09DF End_Of_Floor
-FORCE_SYMBOL $09E2 Barrel_Go_Down
 FORCE_NO_SYMBOL $09E5
 FORCE_SYMBOL $09E7 Angle_Temp
 COMMENT $09EA barrel going down ladder?
@@ -1896,7 +1858,6 @@ COMMENT $09F4 yep
 FORCE_NO_SYMBOL $09F4
 FORCE_NO_SYMBOL $09F8
 FORCE_SYMBOL $09FA End_Of_Floor
-FORCE_SYMBOL $09FD Barrel_Go_Down
 COMMENT $0A00 Get current position of barrel
 FORCE_SYMBOL $0A00 Barrel1_Pos_X
 FORCE_SYMBOL $0A03 Barrel_Count
@@ -1910,7 +1871,6 @@ COMMENT $0A14 clear the ladder flag
 FORCE_SYMBOL $0A14 Barrel_On_Ladder1
 FORCE_SYMBOL $0A17 Barrel_Move_Count
 COMMENT $0A1C yep, we're done here
-FORCE_SYMBOL $0A1C Barrel_Left_Reset
 COMMENT $0A1F what floor is the barrel on?
 FORCE_SYMBOL $0A1F Barrel1_Floor
 FORCE_SYMBOL $0A22 Barrel_Move_Count
@@ -1970,11 +1930,9 @@ FORCE_SYMBOL $0AB6 Temp_Rise
 FORCE_SYMBOL $0AB9 Temp_Run
 FORCE_SYMBOL $0ABC DP_to_D0
 FORCE_SYMBOL $0ABF Y_Axis_Adjust
-FORCE_SYMBOL $0AC2 Draw_Barrel
 FORCE_SYMBOL $0AC5 Barrel1_Move
 FORCE_SYMBOL $0AC8 Barrel_Move_Count
 FORCE_NO_SYMBOL $0ACB
-FORCE_SYMBOL $0ACF Draw_Barrel
 FORCE_SYMBOL $0AD2 Barrel_Move_Count
 FORCE_SYMBOL $0AD7 Barrel1_Move
 FORCE_SYMBOL $0ADE Barrel1_Add
@@ -2037,12 +1995,10 @@ FORCE_NO_SYMBOL $0B7A
 FORCE_SYMBOL $0B7D Temp_Rise
 FORCE_SYMBOL $0B80 Temp_Run
 FORCE_SYMBOL $0B83 DP_to_D0
-FORCE_SYMBOL $0B86 Draw_Barrel
 FORCE_SYMBOL $0B89 Barrel1_Move
 FORCE_SYMBOL $0B8C Barrel_Move_Count
 COMMENT $0B8F set barrel's move flag to "down"
 FORCE_NO_SYMBOL $0B8F
-FORCE_SYMBOL $0B93 Draw_Barrel
 FORCE_SYMBOL $0B96 Barrel1_Pos_Y
 FORCE_SYMBOL $0B99 Barrel_Count
 FORCE_NO_SYMBOL $0B9D
@@ -2135,8 +2091,6 @@ FORCE_NO_SYMBOL $0C82
 COMMENT $0C86 yes, back to main loop
 FORCE_SYMBOL $0C86 Barrel_Count
 FORCE_SYMBOL $0C89 Barrel_Move_Count
-FORCE_SYMBOL $0C8C Make_Sound
-FORCE_SYMBOL $0C8F Barrels_Start
 FORCE_SYMBOL $0C92 Mario_Pos_Y
 FORCE_NO_SYMBOL $0C95
 FORCE_SYMBOL $0C97 Mario_Pos_X
@@ -2167,7 +2121,6 @@ FORCE_SYMBOL $0CEF Number_Barrels_Jumped
 FORCE_NO_SYMBOL $0CF2
 FORCE_NO_SYMBOL $0CF6
 FORCE_SYMBOL $0CF8 Number_Barrels_Jumped
-FORCE_SYMBOL $0CFB Crash_Over_Barrel
 FORCE_NO_SYMBOL $0CFE
 FORCE_SYMBOL $0D00 Mult_Count
 COMMENT $0D06 /* Keep track if value is negative. */
@@ -2196,7 +2149,6 @@ FORCE_SYMBOL $0D49 Sound_Jump_Init
 FORCE_SYMBOL $0D4C Sound_Init_Temp
 FORCE_SYMBOL $0D4F Sound_Mario_Jump
 FORCE_SYMBOL $0D52 Sound_Temp
-FORCE_SYMBOL $0D55 Make_Sound_Main
 FORCE_SYMBOL $0D58 Sound_Counter
 COMMENT $0D5C sound still in progress?
 FORCE_SYMBOL $0D5C Sound_Counter
@@ -2377,7 +2329,6 @@ FORCE_SYMBOL $0F3E Mario_Pos_X
 FORCE_NO_SYMBOL $0F43
 FORCE_NO_SYMBOL $0F45
 FORCE_SYMBOL $0F47 Obj_Hit
-FORCE_SYMBOL $0F4C Crash_Over_Barrel_1
 COMMENT $0F4F stop sounds
 FORCE_SYMBOL $0F4F Clear_Sound
 FORCE_NO_SYMBOL $0F52
@@ -2576,7 +2527,6 @@ FORCE_SYMBOL $117E Angle_Temp
 FORCE_SYMBOL $1183 Barrel1_Pos_X
 FORCE_SYMBOL $1186 Barrel1_Pos_X
 FORCE_SYMBOL $118D Angle_Temp
-FORCE_SYMBOL $1190 Mario_Wins_Loop
 FORCE_SYMBOL $1193 Recal_Count
 FORCE_SYMBOL $1196 Recal_Count
 FORCE_NO_SYMBOL $1199
@@ -2642,6 +2592,7 @@ COMMENT_LINE $1E57 cmpa	#$00
 COMMENT_LINE $1E57 bne	Repeat_Print
 COMMENT_LINE $1E57 clra
 COMMENT_LINE $1E57 sta	counter
+RANGE $0000-$1E57 DP $D0
 RANGE $0000-$0002 DB_DATA 2
 RANGE $0002-$000A CHAR_DATA 8
 RANGE $000A-$000B DB_DATA 1

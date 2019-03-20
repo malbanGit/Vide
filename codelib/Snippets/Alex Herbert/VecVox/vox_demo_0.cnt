@@ -1,0 +1,331 @@
+BANK 0
+EQU $00 
+LABEL $D000 CNTRL
+LABEL $D001 DAC
+LABEL $D003 DDAC
+LABEL $D004 T1LOLC
+LABEL $D00B ACNTRL
+LABEL $D00D IFLAG
+LABEL $F192 FRWAIT
+LABEL $F1BA INPUT
+LABEL $C811 EDGE
+LABEL $0314 null_music
+EQU $0E main
+LABEL $02E6 vox_init
+EQU $11 main_loop
+LABEL $02F7 vox_speak
+EQU $1D check_button1
+LABEL $0029 check_button2
+LABEL $004D demo_string1
+LABEL $C880 vox_addr
+LABEL $0035 check_button3
+LABEL $0174 demo_string2
+LABEL $0041 check_button4
+LABEL $01A6 demo_string3
+LABEL $0213 demo_string4
+LABEL $00FF VOX_TERM
+COMMENT_LABEL $00FF speech string terminator
+LABEL $9C00 SER_BITTIME
+COMMENT_LABEL $9C00 $009c = 156 cycles = 9615 baud
+LABEL $027C ser_txbyte
+LABEL $02D7 ser_txbit
+LABEL $02A9 sertx_loop
+LABEL $02B7 ser_tx1
+LABEL $02AD ser_tx0
+LABEL $02BD sertx_next
+LABEL $02D9 sertxbit_loop
+LABEL $00EF VOX_DATAMASK
+COMMENT_LABEL $00EF bit mask for data line
+EQU $20 VOX_STATUSMASK
+COMMENT_LABEL $20 bit mask for status line
+LABEL $02F0 vox_init2
+LABEL $0312 vox_silence
+LABEL $0311 vox_exit
+LABEL $031A *
+COMMENT_LINE $0000 VOX_DEMO
+COMMENT_LINE $0000 VecVox demo/example program
+COMMENT_LINE $0000 Copyright (c) Alex Herbert 2004
+COMMENT_LINE $0000 Memory segments
+COMMENT_LINE $0000 6522 registers
+COMMENT_LINE $0000 Executive ROM routines
+COMMENT_LINE $0000 Executive variables
+COMMENT_LINE $0000 Cartridge header
+COMMENT_LINE $000E Program execution starts here...
+COMMENT $000E VecVox: initialize variables
+FORCE_SYMBOL $000E vox_init
+COMMENT_LINE $0011 (must be called once at start)
+COMMENT $0011 sync to frame timer
+FORCE_SYMBOL $0011 FRWAIT
+COMMENT $0014 read joystick buttons
+FORCE_SYMBOL $0014 INPUT
+COMMENT $0017 VecVox: output speech data
+FORCE_SYMBOL $0017 vox_speak
+COMMENT_LINE $001A (must be called in main loop,
+COMMENT_LINE $001A once per frame, after reading
+COMMENT_LINE $001A joystick buttons.)
+COMMENT $001A get button edges
+FORCE_SYMBOL $001A EDGE
+COMMENT $001D button 1 pressed?
+FORCE_NO_SYMBOL $001D
+COMMENT $001F if not, check button 2
+FORCE_SYMBOL $0021 demo_string1
+COMMENT $0024 start speaking demo_string1
+FORCE_SYMBOL $0024 vox_addr
+COMMENT $0029 button 2 pressed?
+FORCE_NO_SYMBOL $0029
+COMMENT $002B if not, check button 3
+FORCE_SYMBOL $002D demo_string2
+COMMENT $0030 start speaking demo_string2
+FORCE_SYMBOL $0030 vox_addr
+COMMENT $0035 button 3 pressed?
+FORCE_NO_SYMBOL $0035
+COMMENT $0037 if not, check button 4
+FORCE_SYMBOL $0039 demo_string3
+COMMENT $003C start speaking demo_string3
+FORCE_SYMBOL $003C vox_addr
+COMMENT $0041 button 4 pressed?
+FORCE_NO_SYMBOL $0041
+COMMENT $0043 if not, then loop
+FORCE_SYMBOL $0045 demo_string4
+COMMENT $0048 start speaking demo_string4
+FORCE_SYMBOL $0048 vox_addr
+COMMENT_LINE $004D Speech strings
+COMMENT_LINE $027C Include the VecVox driver
+COMMENT_LINE $027C VECVOX.I
+COMMENT_LINE $027C Copyright (c) 2004 Alex Herbert
+COMMENT_LINE $027C Include the serial driver
+COMMENT_LINE $027C SER_JI.I - Serial Output on Joystick port, Inverted
+COMMENT_LINE $027C Copyright (c) Alex Herbert 2002
+COMMENT_LINE $027C This code assumes that the following constant have been declared.
+COMMENT_LINE $027C If not... un-comment them!
+COMMENT_LINE $027C CNTRL   equ     $d000
+COMMENT_LINE $027C DAC     equ     $d001
+COMMENT_LINE $027C DDAC    equ     $d003
+COMMENT_LINE $027C T1LOLC  equ     $d004
+COMMENT_LINE $027C ACNTRL  equ     $d00b
+COMMENT_LINE $027C IFLAG   equ     $d00d
+COMMENT_LINE $027C Baud rate setting
+COMMENT_LINE $027C Subroutines
+COMMENT $027C assume dp = $d0
+COMMENT_LINE $027C ser_txbyte
+COMMENT_LINE $027C ----------
+COMMENT_LINE $027C Function:
+COMMENT_LINE $027C transmit byte serially (8n1, inverted) via joystick ports.
+COMMENT_LINE $027C On entry:
+COMMENT_LINE $027C a = byte to transmit
+COMMENT_LINE $027C dp = $d0
+COMMENT_LINE $027C On exit:
+COMMENT_LINE $027C d,cc = corrupted
+COMMENT_LINE $027C Stack usage:
+COMMENT_LINE $027C 5 bytes (7 if you include the return address)
+COMMENT $027C put data on stack
+FORCE_NO_SYMBOL $027E
+COMMENT $0281 select PSG register 7
+FORCE_SYMBOL $0281 CNTRL
+FORCE_NO_SYMBOL $0283
+COMMENT $0286 T1 mode = free-run, no output on RAMP (PB7)
+FORCE_SYMBOL $0286 ACNTRL
+COMMENT $0288 latch PSG register
+FORCE_SYMBOL $0288 CNTRL
+FORCE_SYMBOL $028A SER_BITTIME
+COMMENT $028D set and start timer (T1)
+FORCE_SYMBOL $028D T1LOLC
+FORCE_NO_SYMBOL $028F
+COMMENT $0292 6522 I/O port data direction = input
+FORCE_SYMBOL $0292 DDAC
+COMMENT $0294 enable PSG reading
+FORCE_SYMBOL $0294 CNTRL
+COMMENT $0296 loop counter (here for timing)
+FORCE_NO_SYMBOL $0296
+COMMENT $0298 read PSG register 7
+FORCE_SYMBOL $0298 DAC
+COMMENT $029A save PSG R7 and loop counter on stack
+FORCE_NO_SYMBOL $029C
+COMMENT $029E store data for PSG write
+FORCE_SYMBOL $029E DAC
+FORCE_NO_SYMBOL $02A0
+COMMENT $02A3 disable PSG reading
+FORCE_SYMBOL $02A3 CNTRL
+COMMENT $02A5 6522 I/O direction = output
+FORCE_SYMBOL $02A5 DDAC
+COMMENT $02A7 transmit start bit [0]
+COMMENT $02A9 shift next data bit into carry
+FORCE_NO_SYMBOL $02A9
+FORCE_NO_SYMBOL $02AD
+FORCE_NO_SYMBOL $02AF
+COMMENT $02B1 store data for PSG write
+FORCE_SYMBOL $02B1 DAC
+COMMENT $02B3 transmit data bit [0]
+FORCE_NO_SYMBOL $02B7
+COMMENT $02B9 store data for PSG write
+FORCE_SYMBOL $02B9 DAC
+COMMENT $02BB transmit data bit [1]
+COMMENT $02BD decrement loop counter
+FORCE_NO_SYMBOL $02BD
+COMMENT $02BF loop if more bits to send
+FORCE_NO_SYMBOL $02C1
+COMMENT $02C3 store data for PSG write
+FORCE_SYMBOL $02C3 DAC
+COMMENT $02C5 tansmit stop bit [1]
+FORCE_NO_SYMBOL $02C7
+COMMENT $02C9 T1 = single-shot, no output on RAMP (PB7)
+FORCE_SYMBOL $02C9 ACNTRL
+FORCE_NO_SYMBOL $02CB
+COMMENT $02CE force T1 timeout
+FORCE_SYMBOL $02CE T1LOLC
+FORCE_NO_SYMBOL $02D0
+COMMENT $02D2 T1 = single-shot, RAMP output (PB7) enabled
+FORCE_SYMBOL $02D2 ACNTRL
+COMMENT $02D4 restore stack
+FORCE_NO_SYMBOL $02D4
+FORCE_NO_SYMBOL $02D7
+COMMENT $02D9 test T1 interrupt flag
+FORCE_SYMBOL $02D9 IFLAG
+COMMENT $02DB loop until T1 timeout
+FORCE_NO_SYMBOL $02DD
+COMMENT $02DF enable PSG register write
+FORCE_SYMBOL $02DF CNTRL
+COMMENT $02E1 latch data
+FORCE_SYMBOL $02E1 CNTRL
+COMMENT $02E3 clear T1 interrupt flag
+FORCE_SYMBOL $02E3 T1LOLC
+COMMENT_LINE $02E6 Constants
+COMMENT_LINE $02E6 Variables
+COMMENT_LINE $02E6 These routines require 2 bytes of RAM for the following variable:
+COMMENT_LINE $02E6 vox_addr - 16-bit pointer to next byte in speech string.
+COMMENT_LINE $02E6 You may wish to comment out the following lines and declare vox_addr
+COMMENT_LINE $02E6 elsewhere in your code.
+COMMENT_LINE $C882 Subroutines
+COMMENT_LINE $02E6 vox_init
+COMMENT_LINE $02E6 --------
+COMMENT_LINE $02E6 Function:
+COMMENT_LINE $02E6 Prepare joystick port for serial transmission and initialize
+COMMENT_LINE $02E6 speech string pointer.
+COMMENT_LINE $02E6 Usage:
+COMMENT_LINE $02E6 Call vox_init once at the start of your program.
+COMMENT_LINE $02E6 Note:
+COMMENT_LINE $02E6 This routine writes $ef to PSG register 14 by calling Exec ROM
+COMMENT_LINE $02E6 routine WRREG ($f256).  This is to mask serial output from all
+COMMENT_LINE $02E6 joystick pins except the data line. (Port 2, pin 1.)
+COMMENT_LINE $02E6 Care should be taken to not overwrite this register.  (There's
+COMMENT_LINE $02E6 normally no reason to do so.)
+COMMENT_LINE $02E6 Caution:
+COMMENT_LINE $02E6 The dp register will be = to $d0.
+FORCE_NO_SYMBOL $02E6
+COMMENT $02E8 dp = $d0
+COMMENT $02ED WRREG (write data mask to PSG reg 14)
+FORCE_NO_SYMBOL $02ED
+FORCE_SYMBOL $02F0 vox_silence
+COMMENT $02F3 point to 'silence' speech string
+FORCE_SYMBOL $02F3 vox_addr
+COMMENT_LINE $02F7 vox_speak
+COMMENT_LINE $02F7 ---------
+COMMENT_LINE $02F7 Function:
+COMMENT_LINE $02F7 Sends speech data to the VecVox.
+COMMENT_LINE $02F7 Usage:
+COMMENT_LINE $02F7 Call vox_speak once per frame. (I.e. stick it in your main loop)
+COMMENT_LINE $02F7 See note below.
+COMMENT_LINE $02F7 Then, just store the start address of a speech string in
+COMMENT_LINE $02F7 vox_addr when you want the VecVox to speak, and let this
+COMMENT_LINE $02F7 routine do the work!
+COMMENT_LINE $02F7 To abort speech in progress, point vox_addr at vox_silence or
+COMMENT_LINE $02F7 call vox_init2 (which does exactly that).
+COMMENT_LINE $02F7 Note:
+COMMENT_LINE $02F7 1. This subroutine requires that the current joystick button
+COMMENT_LINE $02F7 status is held at RAM address $c80f (TRIGGR).  This is usually
+COMMENT_LINE $02F7 = by calling the Executive ROM routine INPUT (a.k.a.
+COMMENT_LINE $02F7 read_switches2) at $F1BA.
+COMMENT_LINE $02F7 2. Speech strings should be terminated with VOX_TERM. ($ff)
+COMMENT_LINE $02F7 Caution:
+COMMENT_LINE $02F7 Contents of the dp register may (or may not) be = to $d0.
+COMMENT $02F7 get joystick buttons (TRIGGR)
+FORCE_NO_SYMBOL $02F7
+COMMENT $02FA mask "buffer full" status
+FORCE_SYMBOL $02FA VOX_STATUSMASK
+COMMENT $02FC exit if no room in buffer
+COMMENT $02FE get speech pointer
+FORCE_SYMBOL $02FE vox_addr
+COMMENT $0301 read next byte
+COMMENT $0303 end of string?
+FORCE_SYMBOL $0303 VOX_TERM
+COMMENT $0305 ...if so, exit
+COMMENT $0307 store speech pointer
+FORCE_SYMBOL $0307 vox_addr
+FORCE_NO_SYMBOL $030A
+COMMENT $030C direct page = $d0
+COMMENT $030E send byte
+FORCE_SYMBOL $030E ser_txbyte
+COMMENT_LINE $0312 Silence string
+COMMENT_LINE $0312 Initial speech string.  Point vox_addr here to abort speech
+COMMENT_LINE $0312 in progress.
+COMMENT_LINE $0314 Title music
+RANGE $0000-$02E6 DP $D0
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$000E DB_DATA 1
+RANGE $000E-$004D CODE
+RANGE $004D-$005A DB_DATA 13
+RANGE $005A-$0063 DB_DATA 9
+RANGE $0063-$0067 DB_DATA 4
+RANGE $0067-$0073 DB_DATA 12
+RANGE $0073-$007F DB_DATA 12
+RANGE $007F-$008B DB_DATA 12
+RANGE $008B-$0098 DB_DATA 13
+RANGE $0098-$00A1 DB_DATA 9
+RANGE $00A1-$00AD DB_DATA 12
+RANGE $00AD-$00B6 DB_DATA 9
+RANGE $00B6-$00C2 DB_DATA 12
+RANGE $00C2-$00CE DB_DATA 12
+RANGE $00CE-$00D9 DB_DATA 11
+RANGE $00D9-$00E3 DB_DATA 10
+RANGE $00E3-$00EF DB_DATA 12
+RANGE $00EF-$00FA DB_DATA 11
+RANGE $00FA-$0106 DB_DATA 12
+RANGE $0106-$010F DB_DATA 9
+RANGE $010F-$011B DB_DATA 12
+RANGE $011B-$0121 DB_DATA 6
+RANGE $0121-$012C DB_DATA 11
+RANGE $012C-$0136 DB_DATA 10
+RANGE $0136-$0140 DB_DATA 10
+RANGE $0140-$014A DB_DATA 10
+RANGE $014A-$0155 DB_DATA 11
+RANGE $0155-$015F DB_DATA 10
+RANGE $015F-$016B DB_DATA 12
+RANGE $016B-$0173 DB_DATA 8
+RANGE $0173-$0174 DB_DATA 1
+RANGE $0174-$017F DB_DATA 11
+RANGE $017F-$0182 DB_DATA 3
+RANGE $0182-$018E DB_DATA 12
+RANGE $018E-$0197 DB_DATA 9
+RANGE $0197-$01A0 DB_DATA 9
+RANGE $01A0-$01A5 DB_DATA 5
+RANGE $01A5-$01A6 DB_DATA 1
+RANGE $01A6-$01B1 DB_DATA 11
+RANGE $01B1-$01B9 DB_DATA 8
+RANGE $01B9-$01C0 DB_DATA 7
+RANGE $01C0-$01CA DB_DATA 10
+RANGE $01CA-$01D2 DB_DATA 8
+RANGE $01D2-$01DA DB_DATA 8
+RANGE $01DA-$01E3 DB_DATA 9
+RANGE $01E3-$01EB DB_DATA 8
+RANGE $01EB-$01F4 DB_DATA 9
+RANGE $01F4-$01FC DB_DATA 8
+RANGE $01FC-$0206 DB_DATA 10
+RANGE $0206-$0212 DB_DATA 12
+RANGE $0212-$0213 DB_DATA 1
+RANGE $0213-$021E DB_DATA 11
+RANGE $021E-$022B DB_DATA 13
+RANGE $022B-$0238 DB_DATA 13
+RANGE $0238-$0244 DB_DATA 12
+RANGE $0244-$0250 DB_DATA 12
+RANGE $0250-$025D DB_DATA 13
+RANGE $025D-$026A DB_DATA 13
+RANGE $026A-$0276 DB_DATA 12
+RANGE $0276-$027B DB_DATA 5
+RANGE $027B-$027C DB_DATA 1
+RANGE $027C-$0312 CODE
+RANGE $0312-$0314 DB_DATA 2
+RANGE $0314-$0316 DW_DATA 1
+RANGE $0316-$0318 DW_DATA 1
+RANGE $0318-$031A DB_DATA 2
+

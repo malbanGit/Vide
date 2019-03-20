@@ -2908,7 +2908,7 @@ _copy_end3                      EQU _band_list_end
 ;***************************************************************************
 _copy_start4:
 _yankee:
-                INCLUDE "yankee.i"
+                INCLUDE "YANKEE.I"
 _copy_end4:
 ;***************************************************************************
 ; stupid assembler, these defines must be made after the above

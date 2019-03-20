@@ -6,7 +6,7 @@
 ;----------------------------------------
 
   opt   ;optimizations on
-  include "def.asm"
+  include "DEF.ASM"
   code
   org 0
 

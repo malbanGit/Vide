@@ -2,8 +2,8 @@
 
 
 ; Macro
- INCLUDE "include\\macros\\div_mac.i"
- INCLUDE "include\\macros\\util_mac.i"
+ INCLUDE "INCLUDE\\MACROS\\DIV_MAC.I"
+ INCLUDE "INCLUDE\\MACROS\\UTIL_MAC.I"
 
 
 

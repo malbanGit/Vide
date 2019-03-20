@@ -242,7 +242,7 @@ LABEL $F2F2 Moveto_x_7F
 LABEL $F2FC Moveto_d_7F
 LABEL $F308 Moveto_ix_FF
 LABEL $F30C Moveto_ix_7F
-LABEL $F30E Moveto_ix_a
+LABEL $F30E Moveto_ix_b
 LABEL $F310 Moveto_ix
 LABEL $F312 Moveto_d
 LABEL $F34A Reset0Ref_D0
@@ -342,9 +342,8 @@ LABEL $F601 Rise_Run_Y
 LABEL $F603 Rise_Run_Len
 LABEL $F610 Rot_VL_ab
 LABEL $F616 Rot_VL
-LABEL $F61F Rot_VL_Mode_a
-LABEL $F62B Rot_VL_Mode
-LABEL $F637 Rot_VL_dft
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
 LABEL $F65B Xform_Run_a
 LABEL $F65D Xform_Run
 LABEL $F661 Xform_Rise_a
@@ -379,6 +378,8 @@ LABEL $FF44 musica
 LABEL $FF62 musicb
 LABEL $FF7A musicc
 LABEL $FF8F musicd
+LABEL $F9F4 Char_Table
+LABEL $FBD4 Char_Table_End
 EQU $01 BEAM_I
 EQU -$01 NO_MONSTER
 COMMENT_LABEL -$01 default value for no monster displayed
@@ -560,7 +561,7 @@ LABEL $2189 SONG_DATA
 LABEL $0BAE init_ym_sound
 LABEL $17A5 maze1
 LABEL $0580 init_level
-LABEL $0040 main_loop_1
+EQU $40 main_loop_1
 EQU $46 digit_is_not_playing
 LABEL $1677 handle_input
 LABEL $0078 digi_is_playing
@@ -1087,7 +1088,7 @@ LABEL $31BD south_sample_start
 LABEL $3536 south_sample_end
 LABEL $0379 south_sample_length
 EQU $10 GOBLINE_SIZE
-LABEL $3662 *
+LABEL $3664 *
 EQU $2B *xfer
 COMMENT_LINE $0000 magic - slow, fast, dizzy
 COMMENT_LINE $0000 magic map,
@@ -1111,12 +1112,9 @@ COMMENT_LINE $0000 levitate, go thru wall...
 COMMENT_LINE $0000 labyrinth that is open to all sides (wrapping)
 COMMENT_LINE $0000 torches, candles, lamp
 COMMENT $0000 vectrex function includes
-COMMENT_LINE $0000 this file is part of vectrex frogger, written by Malban
-COMMENT_LINE $0000 in March-April 1998
-COMMENT_LINE $0000 all stuff contained here is public domain (?)
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
-COMMENT_LINE $0000 it was written by Bruce Tomlin, slightly changed by Malban                ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
 COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
@@ -1172,204 +1170,22 @@ COMMENT_LINE $0000 4 CB1 interrupt enable
 COMMENT_LINE $0000 5 timer 2 interrupt enable
 COMMENT_LINE $0000 6 timer 1 interrupt enable
 COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
 COMMENT $0000 vectrex function includes
 COMMENT_LINE $0000 all stuff contained here is public domain (?)
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0000 this file contains makro definitions of vectrex BIOS functions, these are ;
 COMMENT_LINE $0000 exact clones of the BIOS functions                                        ;
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-COMMENT_LINE $0000 this file is part of vectrex frogger, written by Malban
-COMMENT_LINE $0000 in March-April 1998
-COMMENT_LINE $0000 all stuff contained here is public domain (?)
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
-COMMENT_LINE $0000 it was written by Bruce Tomlin, slightly changed by Malban                ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-COMMENT $0000 Shadow of sound chip registers (15 bytes)
-COMMENT $0000 Current state of all joystick buttons
-COMMENT $0000 Previous state of all joystick buttons
-COMMENT $0000 Current toggle state of all buttons
-COMMENT $0000 Current toggle state of stick 1 button 1
-COMMENT $0000 Current toggle state of stick 1 button 2
-COMMENT $0000 Current toggle state of stick 1 button 3
-COMMENT $0000 Current toggle state of stick 1 button 4
-COMMENT $0000 Current toggle state of stick 2 button 1
-COMMENT $0000 Current toggle state of stick 2 button 2
-COMMENT $0000 Current toggle state of stick 2 button 3
-COMMENT $0000 Current toggle state of stick 2 button 4
-COMMENT $0000 Joystick A/D resolution ($80=min $00=max)
-COMMENT $0000 Joystick 1 left/right
-COMMENT $0000 Joystick 1 up/down
-COMMENT $0000 Joystick 2 left/right
-COMMENT $0000 Joystick 2 up/down
-COMMENT $0000 Joystick enable/mux flags (4 bytes)
-COMMENT $0000 Joystick 1 X enable/mux flag (=1)
-COMMENT $0000 Joystick 1 Y enable/mux flag (=3)
-COMMENT $0000 Joystick 2 X enable/mux flag (=5)
-COMMENT $0000 Joystick 2 Y enable/mux flag (=7)
-COMMENT $0000 Misc counter/flag byte, zero when not in use
-COMMENT $0000 Check0Ref enable flag
-COMMENT $0000 Loop counter word (incremented in Wait_Recal)
-COMMENT $0000 Default brightness
-COMMENT $0000 Dot dwell time?
-COMMENT $0000 Dot pattern (bits)
-COMMENT $0000 Default text height and width
-COMMENT $0000 Default text height
-COMMENT $0000 Default text width
-COMMENT $0000 Temporary string pointer for Print_Str
-COMMENT $0000 Six bytes of counters
-COMMENT $0000 First  counter byte
-COMMENT $0000 Second counter byte
-COMMENT $0000 Third  counter byte
-COMMENT $0000 Fourth counter byte
-COMMENT $0000 Fifth  counter byte
-COMMENT $0000 Sixth  counter byte
-COMMENT $0000 Temp storage word for rise/run
-COMMENT $0000 Angle for rise/run and rotation calculations
-COMMENT $0000 Index pair for run
-COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
-COMMENT $0000 Index pair for rise
-COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
-COMMENT $0000 length for rise/run
-COMMENT_LINE $0000 $C83C   ;temp byte
-COMMENT $0000 Refresh time (divided by 1.5MHz)
-COMMENT $0000 Refresh time low byte
-COMMENT $0000 Refresh time high byte
-COMMENT $0000 Music work buffer (14 bytes, backwards?)
-COMMENT $0000 register 10
-COMMENT_LINE $0000 $C843   ;        register 9
-COMMENT_LINE $0000 $C844   ;        register 8
-COMMENT $0000 register 7
-COMMENT $0000 register 6
-COMMENT $0000 register 5
-COMMENT_LINE $0000 $C848   ;        register 4
-COMMENT_LINE $0000 $C849   ;        register 3
-COMMENT_LINE $0000 $C84A   ;        register 2
-COMMENT $0000 register 1
-COMMENT_LINE $0000 $C84C   ;        register 0
-COMMENT $0000 Pointer to note-to-frequency table (normally $FC8D)
-COMMENT $0000 Maximum number of players for Select_Game
-COMMENT $0000 Maximum number of games for Select_Game
-COMMENT $0000 Storage for first music header word (ADSR table)
-COMMENT $0000 Storage for second music header word ('twang' table)
-COMMENT $0000 Music data pointer
-COMMENT $0000 Used by Explosion_Snd - bit for first channel used?
-COMMENT $0000 Used by Explosion_Snd - bits for all channels used?
-COMMENT $0000 Current sound channel number for Init_Music
-COMMENT $0000 Music active flag ($00=off $01=start $80=on)
-COMMENT $0000 Duration counter for Init_Music
-COMMENT $0000 3 word 'twang' table used by Init_Music
-COMMENT $0000 Four bytes copied from Explosion_Snd's U-reg parameters
-COMMENT $0000 Used by Explosion_Snd - channel number in use?
-COMMENT $0000 Used by Explosion_Snd - bit for second channel used?
-COMMENT $0000 ADSR timers for each sound channel (3 bytes)
-COMMENT $0000 Storage for base frequency of each channel (3 words)
-COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
-COMMENT $0000 Explosion_Snd initialization flag?
-COMMENT_LINE $0000 $C868...$C876   ;Unused?
-COMMENT $0000 Used by Explosion_Snd
-COMMENT_LINE $0000 $C878   ;Unused?
-COMMENT $0000 Number of players selected in Select_Game
-COMMENT $0000 Game number selected in Select_Game
-COMMENT $0000 Pointer to 3-byte random number seed (=$C87D)
-COMMENT $0000 Default 3-byte random number seed
-COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
-COMMENT $0000 Default top-of-stack
-COMMENT $0000 High score storage (7 bytes)
-COMMENT $0000 SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $0000 SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $0000 FIRQ interrupt vector (3 bytes)
-COMMENT $0000 IRQ interrupt vector (3 bytes)
-COMMENT $0000 SWI/NMI interrupt vector (3 bytes)
-COMMENT $0000 SWI/NMI interrupt vector (3 bytes)
-COMMENT $0000 Cold start flag (warm start if = $7321)
-COMMENT $0000 VIA port B data I/O register
-COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
-COMMENT_LINE $0000 1 mux sel 0
-COMMENT_LINE $0000 2 mux sel 1
-COMMENT_LINE $0000 3 sound BC1
-COMMENT_LINE $0000 4 sound BDIR
-COMMENT_LINE $0000 5 comparator input
-COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
-COMMENT_LINE $0000 7 /RAMP
-COMMENT $0000 VIA port A data I/O register (handshaking)
-COMMENT $0000 VIA port B data direction register (0=input 1=output)
-COMMENT $0000 VIA port A data direction register (0=input 1=output)
-COMMENT $0000 VIA timer 1 count register lo (scale factor)
-COMMENT $0000 VIA timer 1 count register hi
-COMMENT $0000 VIA timer 1 latch register lo
-COMMENT $0000 VIA timer 1 latch register hi
-COMMENT $0000 VIA timer 2 count/latch register lo (refresh)
-COMMENT $0000 VIA timer 2 count/latch register hi
-COMMENT $0000 VIA shift register
-COMMENT $0000 VIA auxiliary control register
-COMMENT_LINE $0000 0 PA latch enable
-COMMENT_LINE $0000 1 PB latch enable
-COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
-COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
-COMMENT_LINE $0000 4 /
-COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
-COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
-COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
-COMMENT $0000 VIA control register
-COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
-COMMENT_LINE $0000 1 \
-COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
-COMMENT_LINE $0000 3 /
-COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
-COMMENT_LINE $0000 5 \
-COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
-COMMENT_LINE $0000 7 /
-COMMENT $0000 VIA interrupt flags register
-COMMENT_LINE $0000 bit                             cleared by
-COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
-COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
-COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
-COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
-COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
-COMMENT $0000 VIA interrupt enable register
-COMMENT_LINE $0000 0 CA2 interrupt enable
-COMMENT_LINE $0000 1 CA1 interrupt enable
-COMMENT_LINE $0000 2 shift register interrupt enable
-COMMENT_LINE $0000 3 CB2 interrupt enable
-COMMENT_LINE $0000 4 CB1 interrupt enable
-COMMENT_LINE $0000 5 timer 2 interrupt enable
-COMMENT_LINE $0000 6 timer 1 interrupt enable
-COMMENT_LINE $0000 7 IER set/clear control
-COMMENT $0000 VIA port A data I/O register (no handshaking)
-COMMENT $0000 count y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 count scale y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 count y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 count scale y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 pattern y x pattern y x ... $01
-COMMENT $0000 pattern y x pattern y x ... $01
-COMMENT $0000 scale pattern y x pattern y x ... $01
-COMMENT $0000 pattern y x pattern y x ... $01
-COMMENT $0000 pattern y x pattern y x ... $01
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 mode y x mode y x ... $01
-COMMENT $0000 never used by GCE carts?
-COMMENT $0000 30 cycles
-COMMENT $0000 25 cycles
-COMMENT $0000 20 cycles
-COMMENT $0000 12 cycles
-COMMENT $0000 5*B + 10 cycles
-COMMENT $0000 5 cycles
 COMMENT_LINE $0000 ***************************************************************************
 COMMENT $0000 /BLANK low and /ZERO low
 COMMENT_LINE $0000 ***************************************************************************
@@ -1501,198 +1317,10 @@ COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT $0000 well start of our ram space
 COMMENT $C880 vectrex function includes
-COMMENT_LINE $C880 this file is part of vectrex frogger, written by Malban
-COMMENT_LINE $C880 in March-April 1998
-COMMENT_LINE $C880 all stuff contained here is public domain (?)
 COMMENT_LINE $C880 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $C880 this file contains includes for vectrex BIOS functions and variables      ;
-COMMENT_LINE $C880 it was written by Bruce Tomlin, slightly changed by Malban                ;
+COMMENT_LINE $C880 it was written by Bruce Tomlin, slighte changed by Malban                 ;
 COMMENT_LINE $C880 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-COMMENT $C880 Shadow of sound chip registers (15 bytes)
-COMMENT $C880 Current state of all joystick buttons
-COMMENT $C880 Previous state of all joystick buttons
-COMMENT $C880 Current toggle state of all buttons
-COMMENT $C880 Current toggle state of stick 1 button 1
-COMMENT $C880 Current toggle state of stick 1 button 2
-COMMENT $C880 Current toggle state of stick 1 button 3
-COMMENT $C880 Current toggle state of stick 1 button 4
-COMMENT $C880 Current toggle state of stick 2 button 1
-COMMENT $C880 Current toggle state of stick 2 button 2
-COMMENT $C880 Current toggle state of stick 2 button 3
-COMMENT $C880 Current toggle state of stick 2 button 4
-COMMENT $C880 Joystick A/D resolution ($80=min $00=max)
-COMMENT $C880 Joystick 1 left/right
-COMMENT $C880 Joystick 1 up/down
-COMMENT $C880 Joystick 2 left/right
-COMMENT $C880 Joystick 2 up/down
-COMMENT $C880 Joystick enable/mux flags (4 bytes)
-COMMENT $C880 Joystick 1 X enable/mux flag (=1)
-COMMENT $C880 Joystick 1 Y enable/mux flag (=3)
-COMMENT $C880 Joystick 2 X enable/mux flag (=5)
-COMMENT $C880 Joystick 2 Y enable/mux flag (=7)
-COMMENT $C880 Misc counter/flag byte, zero when not in use
-COMMENT $C880 Check0Ref enable flag
-COMMENT $C880 Loop counter word (incremented in Wait_Recal)
-COMMENT $C880 Default brightness
-COMMENT $C880 Dot dwell time?
-COMMENT $C880 Dot pattern (bits)
-COMMENT $C880 Default text height and width
-COMMENT $C880 Default text height
-COMMENT $C880 Default text width
-COMMENT $C880 Temporary string pointer for Print_Str
-COMMENT $C880 Six bytes of counters
-COMMENT $C880 First  counter byte
-COMMENT $C880 Second counter byte
-COMMENT $C880 Third  counter byte
-COMMENT $C880 Fourth counter byte
-COMMENT $C880 Fifth  counter byte
-COMMENT $C880 Sixth  counter byte
-COMMENT $C880 Temp storage word for rise/run
-COMMENT $C880 Angle for rise/run and rotation calculations
-COMMENT $C880 Index pair for run
-COMMENT_LINE $C880 $C839   ;Pointer to copyright string during startup
-COMMENT $C880 Index pair for rise
-COMMENT_LINE $C880 $C83B   ;High score cold-start flag (=0 if valid)
-COMMENT $C880 length for rise/run
-COMMENT_LINE $C880 $C83C   ;temp byte
-COMMENT $C880 Refresh time (divided by 1.5MHz)
-COMMENT $C880 Refresh time low byte
-COMMENT $C880 Refresh time high byte
-COMMENT $C880 Music work buffer (14 bytes, backwards?)
-COMMENT $C880 register 10
-COMMENT_LINE $C880 $C843   ;        register 9
-COMMENT_LINE $C880 $C844   ;        register 8
-COMMENT $C880 register 7
-COMMENT $C880 register 6
-COMMENT $C880 register 5
-COMMENT_LINE $C880 $C848   ;        register 4
-COMMENT_LINE $C880 $C849   ;        register 3
-COMMENT_LINE $C880 $C84A   ;        register 2
-COMMENT $C880 register 1
-COMMENT_LINE $C880 $C84C   ;        register 0
-COMMENT $C880 Pointer to note-to-frequency table (normally $FC8D)
-COMMENT $C880 Maximum number of players for Select_Game
-COMMENT $C880 Maximum number of games for Select_Game
-COMMENT $C880 Storage for first music header word (ADSR table)
-COMMENT $C880 Storage for second music header word ('twang' table)
-COMMENT $C880 Music data pointer
-COMMENT $C880 Used by Explosion_Snd - bit for first channel used?
-COMMENT $C880 Used by Explosion_Snd - bits for all channels used?
-COMMENT $C880 Current sound channel number for Init_Music
-COMMENT $C880 Music active flag ($00=off $01=start $80=on)
-COMMENT $C880 Duration counter for Init_Music
-COMMENT $C880 3 word 'twang' table used by Init_Music
-COMMENT $C880 Four bytes copied from Explosion_Snd's U-reg parameters
-COMMENT $C880 Used by Explosion_Snd - channel number in use?
-COMMENT $C880 Used by Explosion_Snd - bit for second channel used?
-COMMENT $C880 ADSR timers for each sound channel (3 bytes)
-COMMENT $C880 Storage for base frequency of each channel (3 words)
-COMMENT_LINE $C880 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
-COMMENT $C880 Explosion_Snd initialization flag?
-COMMENT_LINE $C880 $C868...$C876   ;Unused?
-COMMENT $C880 Used by Explosion_Snd
-COMMENT_LINE $C880 $C878   ;Unused?
-COMMENT $C880 Number of players selected in Select_Game
-COMMENT $C880 Game number selected in Select_Game
-COMMENT $C880 Pointer to 3-byte random number seed (=$C87D)
-COMMENT $C880 Default 3-byte random number seed
-COMMENT_LINE $C880 $C880 - $CBEA is user RAM  ;
-COMMENT $C880 Default top-of-stack
-COMMENT $C880 High score storage (7 bytes)
-COMMENT $C880 SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $C880 SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $C880 FIRQ interrupt vector (3 bytes)
-COMMENT $C880 IRQ interrupt vector (3 bytes)
-COMMENT $C880 SWI/NMI interrupt vector (3 bytes)
-COMMENT $C880 SWI/NMI interrupt vector (3 bytes)
-COMMENT $C880 Cold start flag (warm start if = $7321)
-COMMENT $C880 VIA port B data I/O register
-COMMENT_LINE $C880 0 sample/hold (0=enable  mux 1=disable mux)
-COMMENT_LINE $C880 1 mux sel 0
-COMMENT_LINE $C880 2 mux sel 1
-COMMENT_LINE $C880 3 sound BC1
-COMMENT_LINE $C880 4 sound BDIR
-COMMENT_LINE $C880 5 comparator input
-COMMENT_LINE $C880 6 external device (slot pin 35) initialized to input
-COMMENT_LINE $C880 7 /RAMP
-COMMENT $C880 VIA port A data I/O register (handshaking)
-COMMENT $C880 VIA port B data direction register (0=input 1=output)
-COMMENT $C880 VIA port A data direction register (0=input 1=output)
-COMMENT $C880 VIA timer 1 count register lo (scale factor)
-COMMENT $C880 VIA timer 1 count register hi
-COMMENT $C880 VIA timer 1 latch register lo
-COMMENT $C880 VIA timer 1 latch register hi
-COMMENT $C880 VIA timer 2 count/latch register lo (refresh)
-COMMENT $C880 VIA timer 2 count/latch register hi
-COMMENT $C880 VIA shift register
-COMMENT $C880 VIA auxiliary control register
-COMMENT_LINE $C880 0 PA latch enable
-COMMENT_LINE $C880 1 PB latch enable
-COMMENT_LINE $C880 2 \                     110=output to CB2 under control of phase 2 clock
-COMMENT_LINE $C880 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
-COMMENT_LINE $C880 4 /
-COMMENT_LINE $C880 5 0=t2 one shot                 1=t2 free running
-COMMENT_LINE $C880 6 0=t1 one shot                 1=t1 free running
-COMMENT_LINE $C880 7 0=t1 disable PB7 output       1=t1 enable PB7 output
-COMMENT $C880 VIA control register
-COMMENT_LINE $C880 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
-COMMENT_LINE $C880 1 \
-COMMENT_LINE $C880 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
-COMMENT_LINE $C880 3 /
-COMMENT_LINE $C880 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
-COMMENT_LINE $C880 5 \
-COMMENT_LINE $C880 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
-COMMENT_LINE $C880 7 /
-COMMENT $C880 VIA interrupt flags register
-COMMENT_LINE $C880 bit                             cleared by
-COMMENT_LINE $C880 0 CA2 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $C880 1 CA1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $C880 2 shift register interrupt flag reading or writing shift register
-COMMENT_LINE $C880 3 CB2 interrupt flag            reading or writing port B I/O
-COMMENT_LINE $C880 4 CB1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $C880 5 timer 2 interrupt flag        read t2 low or write t2 high
-COMMENT_LINE $C880 6 timer 1 interrupt flag        read t1 count low or write t1 high
-COMMENT_LINE $C880 7 IRQ status flag               write logic 0 to IER or IFR bit
-COMMENT $C880 VIA interrupt enable register
-COMMENT_LINE $C880 0 CA2 interrupt enable
-COMMENT_LINE $C880 1 CA1 interrupt enable
-COMMENT_LINE $C880 2 shift register interrupt enable
-COMMENT_LINE $C880 3 CB2 interrupt enable
-COMMENT_LINE $C880 4 CB1 interrupt enable
-COMMENT_LINE $C880 5 timer 2 interrupt enable
-COMMENT_LINE $C880 6 timer 1 interrupt enable
-COMMENT_LINE $C880 7 IER set/clear control
-COMMENT $C880 VIA port A data I/O register (no handshaking)
-COMMENT $C880 count y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 count scale y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 count y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 count scale y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 pattern y x pattern y x ... $01
-COMMENT $C880 pattern y x pattern y x ... $01
-COMMENT $C880 scale pattern y x pattern y x ... $01
-COMMENT $C880 pattern y x pattern y x ... $01
-COMMENT $C880 pattern y x pattern y x ... $01
-COMMENT $C880 y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 y x y x ...
-COMMENT $C880 mode y x mode y x ... $01
-COMMENT $C880 never used by GCE carts?
-COMMENT $C880 30 cycles
-COMMENT $C880 25 cycles
-COMMENT $C880 20 cycles
-COMMENT $C880 12 cycles
-COMMENT $C880 5*B + 10 cycles
-COMMENT $C880 5 cycles
 COMMENT_LINE $0000 Macro
 COMMENT_LINE $C880 all stuff contained here is public domain (?)
 COMMENT_LINE $C880 ***************************************************************************
@@ -1761,198 +1389,10 @@ COMMENT_LINE $C906 Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Softwar
 COMMENT_LINE $C906 Available at:
 COMMENT_LINE $C906 http://www.falstaff.demon.co.uk/cross.html
 COMMENT $C906 vectrex function includes
-COMMENT_LINE $C906 this file is part of vectrex frogger, written by Malban
-COMMENT_LINE $C906 in March-April 1998
-COMMENT_LINE $C906 all stuff contained here is public domain (?)
 COMMENT_LINE $C906 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $C906 this file contains includes for vectrex BIOS functions and variables      ;
-COMMENT_LINE $C906 it was written by Bruce Tomlin, slightly changed by Malban                ;
+COMMENT_LINE $C906 it was written by Bruce Tomlin, slighte changed by Malban                 ;
 COMMENT_LINE $C906 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-COMMENT $C906 Shadow of sound chip registers (15 bytes)
-COMMENT $C906 Current state of all joystick buttons
-COMMENT $C906 Previous state of all joystick buttons
-COMMENT $C906 Current toggle state of all buttons
-COMMENT $C906 Current toggle state of stick 1 button 1
-COMMENT $C906 Current toggle state of stick 1 button 2
-COMMENT $C906 Current toggle state of stick 1 button 3
-COMMENT $C906 Current toggle state of stick 1 button 4
-COMMENT $C906 Current toggle state of stick 2 button 1
-COMMENT $C906 Current toggle state of stick 2 button 2
-COMMENT $C906 Current toggle state of stick 2 button 3
-COMMENT $C906 Current toggle state of stick 2 button 4
-COMMENT $C906 Joystick A/D resolution ($80=min $00=max)
-COMMENT $C906 Joystick 1 left/right
-COMMENT $C906 Joystick 1 up/down
-COMMENT $C906 Joystick 2 left/right
-COMMENT $C906 Joystick 2 up/down
-COMMENT $C906 Joystick enable/mux flags (4 bytes)
-COMMENT $C906 Joystick 1 X enable/mux flag (=1)
-COMMENT $C906 Joystick 1 Y enable/mux flag (=3)
-COMMENT $C906 Joystick 2 X enable/mux flag (=5)
-COMMENT $C906 Joystick 2 Y enable/mux flag (=7)
-COMMENT $C906 Misc counter/flag byte, zero when not in use
-COMMENT $C906 Check0Ref enable flag
-COMMENT $C906 Loop counter word (incremented in Wait_Recal)
-COMMENT $C906 Default brightness
-COMMENT $C906 Dot dwell time?
-COMMENT $C906 Dot pattern (bits)
-COMMENT $C906 Default text height and width
-COMMENT $C906 Default text height
-COMMENT $C906 Default text width
-COMMENT $C906 Temporary string pointer for Print_Str
-COMMENT $C906 Six bytes of counters
-COMMENT $C906 First  counter byte
-COMMENT $C906 Second counter byte
-COMMENT $C906 Third  counter byte
-COMMENT $C906 Fourth counter byte
-COMMENT $C906 Fifth  counter byte
-COMMENT $C906 Sixth  counter byte
-COMMENT $C906 Temp storage word for rise/run
-COMMENT $C906 Angle for rise/run and rotation calculations
-COMMENT $C906 Index pair for run
-COMMENT_LINE $C906 $C839   ;Pointer to copyright string during startup
-COMMENT $C906 Index pair for rise
-COMMENT_LINE $C906 $C83B   ;High score cold-start flag (=0 if valid)
-COMMENT $C906 length for rise/run
-COMMENT_LINE $C906 $C83C   ;temp byte
-COMMENT $C906 Refresh time (divided by 1.5MHz)
-COMMENT $C906 Refresh time low byte
-COMMENT $C906 Refresh time high byte
-COMMENT $C906 Music work buffer (14 bytes, backwards?)
-COMMENT $C906 register 10
-COMMENT_LINE $C906 $C843   ;        register 9
-COMMENT_LINE $C906 $C844   ;        register 8
-COMMENT $C906 register 7
-COMMENT $C906 register 6
-COMMENT $C906 register 5
-COMMENT_LINE $C906 $C848   ;        register 4
-COMMENT_LINE $C906 $C849   ;        register 3
-COMMENT_LINE $C906 $C84A   ;        register 2
-COMMENT $C906 register 1
-COMMENT_LINE $C906 $C84C   ;        register 0
-COMMENT $C906 Pointer to note-to-frequency table (normally $FC8D)
-COMMENT $C906 Maximum number of players for Select_Game
-COMMENT $C906 Maximum number of games for Select_Game
-COMMENT $C906 Storage for first music header word (ADSR table)
-COMMENT $C906 Storage for second music header word ('twang' table)
-COMMENT $C906 Music data pointer
-COMMENT $C906 Used by Explosion_Snd - bit for first channel used?
-COMMENT $C906 Used by Explosion_Snd - bits for all channels used?
-COMMENT $C906 Current sound channel number for Init_Music
-COMMENT $C906 Music active flag ($00=off $01=start $80=on)
-COMMENT $C906 Duration counter for Init_Music
-COMMENT $C906 3 word 'twang' table used by Init_Music
-COMMENT $C906 Four bytes copied from Explosion_Snd's U-reg parameters
-COMMENT $C906 Used by Explosion_Snd - channel number in use?
-COMMENT $C906 Used by Explosion_Snd - bit for second channel used?
-COMMENT $C906 ADSR timers for each sound channel (3 bytes)
-COMMENT $C906 Storage for base frequency of each channel (3 words)
-COMMENT_LINE $C906 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
-COMMENT $C906 Explosion_Snd initialization flag?
-COMMENT_LINE $C906 $C868...$C876   ;Unused?
-COMMENT $C906 Used by Explosion_Snd
-COMMENT_LINE $C906 $C878   ;Unused?
-COMMENT $C906 Number of players selected in Select_Game
-COMMENT $C906 Game number selected in Select_Game
-COMMENT $C906 Pointer to 3-byte random number seed (=$C87D)
-COMMENT $C906 Default 3-byte random number seed
-COMMENT_LINE $C906 $C880 - $CBEA is user RAM  ;
-COMMENT $C906 Default top-of-stack
-COMMENT $C906 High score storage (7 bytes)
-COMMENT $C906 SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $C906 SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $C906 FIRQ interrupt vector (3 bytes)
-COMMENT $C906 IRQ interrupt vector (3 bytes)
-COMMENT $C906 SWI/NMI interrupt vector (3 bytes)
-COMMENT $C906 SWI/NMI interrupt vector (3 bytes)
-COMMENT $C906 Cold start flag (warm start if = $7321)
-COMMENT $C906 VIA port B data I/O register
-COMMENT_LINE $C906 0 sample/hold (0=enable  mux 1=disable mux)
-COMMENT_LINE $C906 1 mux sel 0
-COMMENT_LINE $C906 2 mux sel 1
-COMMENT_LINE $C906 3 sound BC1
-COMMENT_LINE $C906 4 sound BDIR
-COMMENT_LINE $C906 5 comparator input
-COMMENT_LINE $C906 6 external device (slot pin 35) initialized to input
-COMMENT_LINE $C906 7 /RAMP
-COMMENT $C906 VIA port A data I/O register (handshaking)
-COMMENT $C906 VIA port B data direction register (0=input 1=output)
-COMMENT $C906 VIA port A data direction register (0=input 1=output)
-COMMENT $C906 VIA timer 1 count register lo (scale factor)
-COMMENT $C906 VIA timer 1 count register hi
-COMMENT $C906 VIA timer 1 latch register lo
-COMMENT $C906 VIA timer 1 latch register hi
-COMMENT $C906 VIA timer 2 count/latch register lo (refresh)
-COMMENT $C906 VIA timer 2 count/latch register hi
-COMMENT $C906 VIA shift register
-COMMENT $C906 VIA auxiliary control register
-COMMENT_LINE $C906 0 PA latch enable
-COMMENT_LINE $C906 1 PB latch enable
-COMMENT_LINE $C906 2 \                     110=output to CB2 under control of phase 2 clock
-COMMENT_LINE $C906 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
-COMMENT_LINE $C906 4 /
-COMMENT_LINE $C906 5 0=t2 one shot                 1=t2 free running
-COMMENT_LINE $C906 6 0=t1 one shot                 1=t1 free running
-COMMENT_LINE $C906 7 0=t1 disable PB7 output       1=t1 enable PB7 output
-COMMENT $C906 VIA control register
-COMMENT_LINE $C906 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
-COMMENT_LINE $C906 1 \
-COMMENT_LINE $C906 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
-COMMENT_LINE $C906 3 /
-COMMENT_LINE $C906 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
-COMMENT_LINE $C906 5 \
-COMMENT_LINE $C906 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
-COMMENT_LINE $C906 7 /
-COMMENT $C906 VIA interrupt flags register
-COMMENT_LINE $C906 bit                             cleared by
-COMMENT_LINE $C906 0 CA2 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $C906 1 CA1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $C906 2 shift register interrupt flag reading or writing shift register
-COMMENT_LINE $C906 3 CB2 interrupt flag            reading or writing port B I/O
-COMMENT_LINE $C906 4 CB1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $C906 5 timer 2 interrupt flag        read t2 low or write t2 high
-COMMENT_LINE $C906 6 timer 1 interrupt flag        read t1 count low or write t1 high
-COMMENT_LINE $C906 7 IRQ status flag               write logic 0 to IER or IFR bit
-COMMENT $C906 VIA interrupt enable register
-COMMENT_LINE $C906 0 CA2 interrupt enable
-COMMENT_LINE $C906 1 CA1 interrupt enable
-COMMENT_LINE $C906 2 shift register interrupt enable
-COMMENT_LINE $C906 3 CB2 interrupt enable
-COMMENT_LINE $C906 4 CB1 interrupt enable
-COMMENT_LINE $C906 5 timer 2 interrupt enable
-COMMENT_LINE $C906 6 timer 1 interrupt enable
-COMMENT_LINE $C906 7 IER set/clear control
-COMMENT $C906 VIA port A data I/O register (no handshaking)
-COMMENT $C906 count y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 count scale y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 count y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 count scale y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 pattern y x pattern y x ... $01
-COMMENT $C906 pattern y x pattern y x ... $01
-COMMENT $C906 scale pattern y x pattern y x ... $01
-COMMENT $C906 pattern y x pattern y x ... $01
-COMMENT $C906 pattern y x pattern y x ... $01
-COMMENT $C906 y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 y x y x ...
-COMMENT $C906 mode y x mode y x ... $01
-COMMENT $C906 never used by GCE carts?
-COMMENT $C906 30 cycles
-COMMENT $C906 25 cycles
-COMMENT $C906 20 cycles
-COMMENT $C906 12 cycles
-COMMENT $C906 5*B + 10 cycles
-COMMENT $C906 5 cycles
 COMMENT_LINE $C9AC Plays digitized sound, while displaying vectors
 COMMENT_LINE $C9AC This is a second version, DIFFERENT than last one, might be more
 COMMENT_LINE $C9AC efficient!
@@ -2019,422 +1459,16 @@ COMMENT_LINE $C9AC Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Softwar
 COMMENT_LINE $C9AC Available at:
 COMMENT_LINE $C9AC http://www.falstaff.demon.co.uk/cross.html
 COMMENT $C9AC vectrex function includes
-COMMENT_LINE $C9AC this file is part of vectrex frogger, written by Malban
-COMMENT_LINE $C9AC in March-April 1998
-COMMENT_LINE $C9AC all stuff contained here is public domain (?)
 COMMENT_LINE $C9AC ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $C9AC this file contains includes for vectrex BIOS functions and variables      ;
-COMMENT_LINE $C9AC it was written by Bruce Tomlin, slightly changed by Malban                ;
+COMMENT_LINE $C9AC it was written by Bruce Tomlin, slighte changed by Malban                 ;
 COMMENT_LINE $C9AC ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-COMMENT $C9AC Shadow of sound chip registers (15 bytes)
-COMMENT $C9AC Current state of all joystick buttons
-COMMENT $C9AC Previous state of all joystick buttons
-COMMENT $C9AC Current toggle state of all buttons
-COMMENT $C9AC Current toggle state of stick 1 button 1
-COMMENT $C9AC Current toggle state of stick 1 button 2
-COMMENT $C9AC Current toggle state of stick 1 button 3
-COMMENT $C9AC Current toggle state of stick 1 button 4
-COMMENT $C9AC Current toggle state of stick 2 button 1
-COMMENT $C9AC Current toggle state of stick 2 button 2
-COMMENT $C9AC Current toggle state of stick 2 button 3
-COMMENT $C9AC Current toggle state of stick 2 button 4
-COMMENT $C9AC Joystick A/D resolution ($80=min $00=max)
-COMMENT $C9AC Joystick 1 left/right
-COMMENT $C9AC Joystick 1 up/down
-COMMENT $C9AC Joystick 2 left/right
-COMMENT $C9AC Joystick 2 up/down
-COMMENT $C9AC Joystick enable/mux flags (4 bytes)
-COMMENT $C9AC Joystick 1 X enable/mux flag (=1)
-COMMENT $C9AC Joystick 1 Y enable/mux flag (=3)
-COMMENT $C9AC Joystick 2 X enable/mux flag (=5)
-COMMENT $C9AC Joystick 2 Y enable/mux flag (=7)
-COMMENT $C9AC Misc counter/flag byte, zero when not in use
-COMMENT $C9AC Check0Ref enable flag
-COMMENT $C9AC Loop counter word (incremented in Wait_Recal)
-COMMENT $C9AC Default brightness
-COMMENT $C9AC Dot dwell time?
-COMMENT $C9AC Dot pattern (bits)
-COMMENT $C9AC Default text height and width
-COMMENT $C9AC Default text height
-COMMENT $C9AC Default text width
-COMMENT $C9AC Temporary string pointer for Print_Str
-COMMENT $C9AC Six bytes of counters
-COMMENT $C9AC First  counter byte
-COMMENT $C9AC Second counter byte
-COMMENT $C9AC Third  counter byte
-COMMENT $C9AC Fourth counter byte
-COMMENT $C9AC Fifth  counter byte
-COMMENT $C9AC Sixth  counter byte
-COMMENT $C9AC Temp storage word for rise/run
-COMMENT $C9AC Angle for rise/run and rotation calculations
-COMMENT $C9AC Index pair for run
-COMMENT_LINE $C9AC $C839   ;Pointer to copyright string during startup
-COMMENT $C9AC Index pair for rise
-COMMENT_LINE $C9AC $C83B   ;High score cold-start flag (=0 if valid)
-COMMENT $C9AC length for rise/run
-COMMENT_LINE $C9AC $C83C   ;temp byte
-COMMENT $C9AC Refresh time (divided by 1.5MHz)
-COMMENT $C9AC Refresh time low byte
-COMMENT $C9AC Refresh time high byte
-COMMENT $C9AC Music work buffer (14 bytes, backwards?)
-COMMENT $C9AC register 10
-COMMENT_LINE $C9AC $C843   ;        register 9
-COMMENT_LINE $C9AC $C844   ;        register 8
-COMMENT $C9AC register 7
-COMMENT $C9AC register 6
-COMMENT $C9AC register 5
-COMMENT_LINE $C9AC $C848   ;        register 4
-COMMENT_LINE $C9AC $C849   ;        register 3
-COMMENT_LINE $C9AC $C84A   ;        register 2
-COMMENT $C9AC register 1
-COMMENT_LINE $C9AC $C84C   ;        register 0
-COMMENT $C9AC Pointer to note-to-frequency table (normally $FC8D)
-COMMENT $C9AC Maximum number of players for Select_Game
-COMMENT $C9AC Maximum number of games for Select_Game
-COMMENT $C9AC Storage for first music header word (ADSR table)
-COMMENT $C9AC Storage for second music header word ('twang' table)
-COMMENT $C9AC Music data pointer
-COMMENT $C9AC Used by Explosion_Snd - bit for first channel used?
-COMMENT $C9AC Used by Explosion_Snd - bits for all channels used?
-COMMENT $C9AC Current sound channel number for Init_Music
-COMMENT $C9AC Music active flag ($00=off $01=start $80=on)
-COMMENT $C9AC Duration counter for Init_Music
-COMMENT $C9AC 3 word 'twang' table used by Init_Music
-COMMENT $C9AC Four bytes copied from Explosion_Snd's U-reg parameters
-COMMENT $C9AC Used by Explosion_Snd - channel number in use?
-COMMENT $C9AC Used by Explosion_Snd - bit for second channel used?
-COMMENT $C9AC ADSR timers for each sound channel (3 bytes)
-COMMENT $C9AC Storage for base frequency of each channel (3 words)
-COMMENT_LINE $C9AC $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
-COMMENT $C9AC Explosion_Snd initialization flag?
-COMMENT_LINE $C9AC $C868...$C876   ;Unused?
-COMMENT $C9AC Used by Explosion_Snd
-COMMENT_LINE $C9AC $C878   ;Unused?
-COMMENT $C9AC Number of players selected in Select_Game
-COMMENT $C9AC Game number selected in Select_Game
-COMMENT $C9AC Pointer to 3-byte random number seed (=$C87D)
-COMMENT $C9AC Default 3-byte random number seed
-COMMENT_LINE $C9AC $C880 - $CBEA is user RAM  ;
-COMMENT $C9AC Default top-of-stack
-COMMENT $C9AC High score storage (7 bytes)
-COMMENT $C9AC SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $C9AC SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $C9AC FIRQ interrupt vector (3 bytes)
-COMMENT $C9AC IRQ interrupt vector (3 bytes)
-COMMENT $C9AC SWI/NMI interrupt vector (3 bytes)
-COMMENT $C9AC SWI/NMI interrupt vector (3 bytes)
-COMMENT $C9AC Cold start flag (warm start if = $7321)
-COMMENT $C9AC VIA port B data I/O register
-COMMENT_LINE $C9AC 0 sample/hold (0=enable  mux 1=disable mux)
-COMMENT_LINE $C9AC 1 mux sel 0
-COMMENT_LINE $C9AC 2 mux sel 1
-COMMENT_LINE $C9AC 3 sound BC1
-COMMENT_LINE $C9AC 4 sound BDIR
-COMMENT_LINE $C9AC 5 comparator input
-COMMENT_LINE $C9AC 6 external device (slot pin 35) initialized to input
-COMMENT_LINE $C9AC 7 /RAMP
-COMMENT $C9AC VIA port A data I/O register (handshaking)
-COMMENT $C9AC VIA port B data direction register (0=input 1=output)
-COMMENT $C9AC VIA port A data direction register (0=input 1=output)
-COMMENT $C9AC VIA timer 1 count register lo (scale factor)
-COMMENT $C9AC VIA timer 1 count register hi
-COMMENT $C9AC VIA timer 1 latch register lo
-COMMENT $C9AC VIA timer 1 latch register hi
-COMMENT $C9AC VIA timer 2 count/latch register lo (refresh)
-COMMENT $C9AC VIA timer 2 count/latch register hi
-COMMENT $C9AC VIA shift register
-COMMENT $C9AC VIA auxiliary control register
-COMMENT_LINE $C9AC 0 PA latch enable
-COMMENT_LINE $C9AC 1 PB latch enable
-COMMENT_LINE $C9AC 2 \                     110=output to CB2 under control of phase 2 clock
-COMMENT_LINE $C9AC 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
-COMMENT_LINE $C9AC 4 /
-COMMENT_LINE $C9AC 5 0=t2 one shot                 1=t2 free running
-COMMENT_LINE $C9AC 6 0=t1 one shot                 1=t1 free running
-COMMENT_LINE $C9AC 7 0=t1 disable PB7 output       1=t1 enable PB7 output
-COMMENT $C9AC VIA control register
-COMMENT_LINE $C9AC 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
-COMMENT_LINE $C9AC 1 \
-COMMENT_LINE $C9AC 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
-COMMENT_LINE $C9AC 3 /
-COMMENT_LINE $C9AC 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
-COMMENT_LINE $C9AC 5 \
-COMMENT_LINE $C9AC 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
-COMMENT_LINE $C9AC 7 /
-COMMENT $C9AC VIA interrupt flags register
-COMMENT_LINE $C9AC bit                             cleared by
-COMMENT_LINE $C9AC 0 CA2 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $C9AC 1 CA1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $C9AC 2 shift register interrupt flag reading or writing shift register
-COMMENT_LINE $C9AC 3 CB2 interrupt flag            reading or writing port B I/O
-COMMENT_LINE $C9AC 4 CB1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $C9AC 5 timer 2 interrupt flag        read t2 low or write t2 high
-COMMENT_LINE $C9AC 6 timer 1 interrupt flag        read t1 count low or write t1 high
-COMMENT_LINE $C9AC 7 IRQ status flag               write logic 0 to IER or IFR bit
-COMMENT $C9AC VIA interrupt enable register
-COMMENT_LINE $C9AC 0 CA2 interrupt enable
-COMMENT_LINE $C9AC 1 CA1 interrupt enable
-COMMENT_LINE $C9AC 2 shift register interrupt enable
-COMMENT_LINE $C9AC 3 CB2 interrupt enable
-COMMENT_LINE $C9AC 4 CB1 interrupt enable
-COMMENT_LINE $C9AC 5 timer 2 interrupt enable
-COMMENT_LINE $C9AC 6 timer 1 interrupt enable
-COMMENT_LINE $C9AC 7 IER set/clear control
-COMMENT $C9AC VIA port A data I/O register (no handshaking)
-COMMENT $C9AC count y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC count scale y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC count y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC count scale y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC pattern y x pattern y x ... $01
-COMMENT $C9AC pattern y x pattern y x ... $01
-COMMENT $C9AC scale pattern y x pattern y x ... $01
-COMMENT $C9AC pattern y x pattern y x ... $01
-COMMENT $C9AC pattern y x pattern y x ... $01
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC y x y x ...
-COMMENT $C9AC mode y x mode y x ... $01
-COMMENT $C9AC never used by GCE carts?
-COMMENT $C9AC 30 cycles
-COMMENT $C9AC 25 cycles
-COMMENT $C9AC 20 cycles
-COMMENT $C9AC 12 cycles
-COMMENT $C9AC 5*B + 10 cycles
-COMMENT $C9AC 5 cycles
 COMMENT $C9AC vectrex function includes
 COMMENT_LINE $C9AC all stuff contained here is public domain (?)
 COMMENT_LINE $C9AC ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $C9AC this file contains makro definitions of vectrex BIOS functions, these are ;
 COMMENT_LINE $C9AC exact clones of the BIOS functions                                        ;
 COMMENT_LINE $C9AC ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-COMMENT_LINE $0000 this file is part of vectrex frogger, written by Malban
-COMMENT_LINE $0000 in March-April 1998
-COMMENT_LINE $0000 all stuff contained here is public domain (?)
-COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
-COMMENT_LINE $0000 it was written by Bruce Tomlin, slightly changed by Malban                ;
-COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-COMMENT $0000 Shadow of sound chip registers (15 bytes)
-COMMENT $0000 Current state of all joystick buttons
-COMMENT $0000 Previous state of all joystick buttons
-COMMENT $0000 Current toggle state of all buttons
-COMMENT $0000 Current toggle state of stick 1 button 1
-COMMENT $0000 Current toggle state of stick 1 button 2
-COMMENT $0000 Current toggle state of stick 1 button 3
-COMMENT $0000 Current toggle state of stick 1 button 4
-COMMENT $0000 Current toggle state of stick 2 button 1
-COMMENT $0000 Current toggle state of stick 2 button 2
-COMMENT $0000 Current toggle state of stick 2 button 3
-COMMENT $0000 Current toggle state of stick 2 button 4
-COMMENT $0000 Joystick A/D resolution ($80=min $00=max)
-COMMENT $0000 Joystick 1 left/right
-COMMENT $0000 Joystick 1 up/down
-COMMENT $0000 Joystick 2 left/right
-COMMENT $0000 Joystick 2 up/down
-COMMENT $0000 Joystick enable/mux flags (4 bytes)
-COMMENT $0000 Joystick 1 X enable/mux flag (=1)
-COMMENT $0000 Joystick 1 Y enable/mux flag (=3)
-COMMENT $0000 Joystick 2 X enable/mux flag (=5)
-COMMENT $0000 Joystick 2 Y enable/mux flag (=7)
-COMMENT $0000 Misc counter/flag byte, zero when not in use
-COMMENT $0000 Check0Ref enable flag
-COMMENT $0000 Loop counter word (incremented in Wait_Recal)
-COMMENT $0000 Default brightness
-COMMENT $0000 Dot dwell time?
-COMMENT $0000 Dot pattern (bits)
-COMMENT $0000 Default text height and width
-COMMENT $0000 Default text height
-COMMENT $0000 Default text width
-COMMENT $0000 Temporary string pointer for Print_Str
-COMMENT $0000 Six bytes of counters
-COMMENT $0000 First  counter byte
-COMMENT $0000 Second counter byte
-COMMENT $0000 Third  counter byte
-COMMENT $0000 Fourth counter byte
-COMMENT $0000 Fifth  counter byte
-COMMENT $0000 Sixth  counter byte
-COMMENT $0000 Temp storage word for rise/run
-COMMENT $0000 Angle for rise/run and rotation calculations
-COMMENT $0000 Index pair for run
-COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
-COMMENT $0000 Index pair for rise
-COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
-COMMENT $0000 length for rise/run
-COMMENT_LINE $0000 $C83C   ;temp byte
-COMMENT $0000 Refresh time (divided by 1.5MHz)
-COMMENT $0000 Refresh time low byte
-COMMENT $0000 Refresh time high byte
-COMMENT $0000 Music work buffer (14 bytes, backwards?)
-COMMENT $0000 register 10
-COMMENT_LINE $0000 $C843   ;        register 9
-COMMENT_LINE $0000 $C844   ;        register 8
-COMMENT $0000 register 7
-COMMENT $0000 register 6
-COMMENT $0000 register 5
-COMMENT_LINE $0000 $C848   ;        register 4
-COMMENT_LINE $0000 $C849   ;        register 3
-COMMENT_LINE $0000 $C84A   ;        register 2
-COMMENT $0000 register 1
-COMMENT_LINE $0000 $C84C   ;        register 0
-COMMENT $0000 Pointer to note-to-frequency table (normally $FC8D)
-COMMENT $0000 Maximum number of players for Select_Game
-COMMENT $0000 Maximum number of games for Select_Game
-COMMENT $0000 Storage for first music header word (ADSR table)
-COMMENT $0000 Storage for second music header word ('twang' table)
-COMMENT $0000 Music data pointer
-COMMENT $0000 Used by Explosion_Snd - bit for first channel used?
-COMMENT $0000 Used by Explosion_Snd - bits for all channels used?
-COMMENT $0000 Current sound channel number for Init_Music
-COMMENT $0000 Music active flag ($00=off $01=start $80=on)
-COMMENT $0000 Duration counter for Init_Music
-COMMENT $0000 3 word 'twang' table used by Init_Music
-COMMENT $0000 Four bytes copied from Explosion_Snd's U-reg parameters
-COMMENT $0000 Used by Explosion_Snd - channel number in use?
-COMMENT $0000 Used by Explosion_Snd - bit for second channel used?
-COMMENT $0000 ADSR timers for each sound channel (3 bytes)
-COMMENT $0000 Storage for base frequency of each channel (3 words)
-COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
-COMMENT $0000 Explosion_Snd initialization flag?
-COMMENT_LINE $0000 $C868...$C876   ;Unused?
-COMMENT $0000 Used by Explosion_Snd
-COMMENT_LINE $0000 $C878   ;Unused?
-COMMENT $0000 Number of players selected in Select_Game
-COMMENT $0000 Game number selected in Select_Game
-COMMENT $0000 Pointer to 3-byte random number seed (=$C87D)
-COMMENT $0000 Default 3-byte random number seed
-COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
-COMMENT $0000 Default top-of-stack
-COMMENT $0000 High score storage (7 bytes)
-COMMENT $0000 SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $0000 SWI2/SWI3 interrupt vector (3 bytes)
-COMMENT $0000 FIRQ interrupt vector (3 bytes)
-COMMENT $0000 IRQ interrupt vector (3 bytes)
-COMMENT $0000 SWI/NMI interrupt vector (3 bytes)
-COMMENT $0000 SWI/NMI interrupt vector (3 bytes)
-COMMENT $0000 Cold start flag (warm start if = $7321)
-COMMENT $0000 VIA port B data I/O register
-COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
-COMMENT_LINE $0000 1 mux sel 0
-COMMENT_LINE $0000 2 mux sel 1
-COMMENT_LINE $0000 3 sound BC1
-COMMENT_LINE $0000 4 sound BDIR
-COMMENT_LINE $0000 5 comparator input
-COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
-COMMENT_LINE $0000 7 /RAMP
-COMMENT $0000 VIA port A data I/O register (handshaking)
-COMMENT $0000 VIA port B data direction register (0=input 1=output)
-COMMENT $0000 VIA port A data direction register (0=input 1=output)
-COMMENT $0000 VIA timer 1 count register lo (scale factor)
-COMMENT $0000 VIA timer 1 count register hi
-COMMENT $0000 VIA timer 1 latch register lo
-COMMENT $0000 VIA timer 1 latch register hi
-COMMENT $0000 VIA timer 2 count/latch register lo (refresh)
-COMMENT $0000 VIA timer 2 count/latch register hi
-COMMENT $0000 VIA shift register
-COMMENT $0000 VIA auxiliary control register
-COMMENT_LINE $0000 0 PA latch enable
-COMMENT_LINE $0000 1 PB latch enable
-COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
-COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
-COMMENT_LINE $0000 4 /
-COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
-COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
-COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
-COMMENT $0000 VIA control register
-COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
-COMMENT_LINE $0000 1 \
-COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
-COMMENT_LINE $0000 3 /
-COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
-COMMENT_LINE $0000 5 \
-COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
-COMMENT_LINE $0000 7 /
-COMMENT $0000 VIA interrupt flags register
-COMMENT_LINE $0000 bit                             cleared by
-COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
-COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
-COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
-COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
-COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
-COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
-COMMENT $0000 VIA interrupt enable register
-COMMENT_LINE $0000 0 CA2 interrupt enable
-COMMENT_LINE $0000 1 CA1 interrupt enable
-COMMENT_LINE $0000 2 shift register interrupt enable
-COMMENT_LINE $0000 3 CB2 interrupt enable
-COMMENT_LINE $0000 4 CB1 interrupt enable
-COMMENT_LINE $0000 5 timer 2 interrupt enable
-COMMENT_LINE $0000 6 timer 1 interrupt enable
-COMMENT_LINE $0000 7 IER set/clear control
-COMMENT $0000 VIA port A data I/O register (no handshaking)
-COMMENT $0000 count y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 count scale y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 count y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 count scale y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 pattern y x pattern y x ... $01
-COMMENT $0000 pattern y x pattern y x ... $01
-COMMENT $0000 scale pattern y x pattern y x ... $01
-COMMENT $0000 pattern y x pattern y x ... $01
-COMMENT $0000 pattern y x pattern y x ... $01
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 y x y x ...
-COMMENT $0000 mode y x mode y x ... $01
-COMMENT $0000 never used by GCE carts?
-COMMENT $0000 30 cycles
-COMMENT $0000 25 cycles
-COMMENT $0000 20 cycles
-COMMENT $0000 12 cycles
-COMMENT $0000 5*B + 10 cycles
-COMMENT $0000 5 cycles
-COMMENT_LINE $0000 ***************************************************************************
-COMMENT $0000 /BLANK low and /ZERO low
-COMMENT_LINE $0000 ***************************************************************************
-COMMENT_LINE $0000 like BIOS, but Macro
-COMMENT $0000 Store intensity in D/A
-COMMENT $0000 Save intensity in $C827
-COMMENT $0000 mux disabled channel 2
-COMMENT $0000 mux enabled channel 2
-COMMENT $0000 do it again just because ?
-COMMENT $0000 turn off mux
-COMMENT_LINE $0000 ***************************************************************************
-COMMENT_LINE $0000 like BIOS, but Macro
-COMMENT_LINE $0000 ***************************************************************************
-COMMENT_LINE $0000 optimzed
-COMMENT $0000 Store intensity in D/A
-COMMENT $0000 mux disabled channel 2
-COMMENT $0000 mux enabled channel 2
-COMMENT $0000 turn off mux
-COMMENT_LINE $0000 ***************************************************************************
-COMMENT_LINE $0000 optimzed
-COMMENT_LINE $0000 ***************************************************************************
-COMMENT $0000 move to time 1 lo, this means scaling
-COMMENT $0000 move to time 1 lo, this means scaling
-COMMENT_LINE $0000 ***************************************************************************
-COMMENT $0000 scale for placing first point
-COMMENT_LINE $0000 ***************************************************************************
 COMMENT_LINE $0000 This is the single most important variable...
 COMMENT_LINE $0000 for different sample frequency, THIS must be adjusted...
 COMMENT_LINE $0000 140 for 8KHz samples
@@ -2819,13 +1853,6 @@ COMMENT $C9B2 current position in sample structure
 COMMENT $C9B4 this is the start position of the sample, since we play it backwards
 COMMENT $C9B6 start position of samples
 COMMENT_LINE $C9BA all stuff contained here is public domain (?)
-COMMENT_LINE $0000 ***************************************************************************
-COMMENT $0000 done
-COMMENT_LINE $0000 ***************************************************************************
-COMMENT $0000 this divides d by 64
-COMMENT $0000 result in A
-COMMENT $0000 done
-COMMENT_LINE $0000 ***************************************************************************
 COMMENT_LINE $C9BA (the bigger the number, the faster one walks)
 COMMENT_LINE $C9BA (the smaller the number, the further one can look)
 COMMENT_LINE $C9BA (the bigger the number, the bigger the maze)
@@ -2952,7 +1979,8 @@ COMMENT $002A end of game header
 COMMENT_LINE $002B ***************************************************************************
 COMMENT_LINE $002B here the cartridge program starts off
 COMMENT $002B pretty for optimizing to use a makro :-)
-COMMENT_LINE $002D ***************************************************************************
+FORCE_SYMBOL $002B new_game
+COMMENT_LINE $002E ***************************************************************************
 COMMENT $002E initialize game variables
 FORCE_SYMBOL $002E init_vars
 COMMENT $0031 startup screen
@@ -3279,7 +2307,6 @@ FORCE_NO_SYMBOL $0252
 FORCE_SYMBOL $0254 V_MONSTER_MOVEMENT_AXIS_TEMP
 FORCE_SYMBOL $0257 V_MONSTER_MOVEMENT_AXIS
 FORCE_SYMBOL $025A C_MONSTER_SIZE
-FORCE_SYMBOL $025C next_monster
 COMMENT_LINE $025F ;;;;;;;;;;;;;
 COMMENT_LINE $025F test whether there is a current display monster
 FORCE_SYMBOL $025F V_MONSTER_POSITION
@@ -3496,13 +2523,11 @@ FORCE_SYMBOL $0455 map_worker
 FORCE_SYMBOL $0458 _xo
 FORCE_SYMBOL $045F map_worker
 FORCE_SYMBOL $0464 map_worker
-FORCE_SYMBOL $046C draw_next_line
 COMMENT $046F get button status once, since only
 FORCE_SYMBOL $046F Read_Btns
 COMMENT $0472 is a button pressed?
 FORCE_NO_SYMBOL $0472
 COMMENT $0474 go back to main loop
-FORCE_SYMBOL $0478 main_loop_1
 COMMENT_LINE $047B ***************************************************************************
 FORCE_SYMBOL $047B pos_y
 FORCE_SYMBOL $047E map_bits
@@ -3812,7 +2837,6 @@ COMMENT $06DE build vector from X2 and Y2
 FORCE_SYMBOL $06DE v2
 COMMENT $06E0 store it to list
 COMMENT $06E2 do next
-FORCE_SYMBOL $06E2 do_next_vector_vlp
 COMMENT_LINE $06E5 ***************************************************************************
 COMMENT_LINE $06E5 D = clipping place (in scale of added strengths of vector X positions)
 COMMENT_LINE $06E5 X = Vector list
@@ -4030,7 +3054,6 @@ FORCE_SYMBOL $0824 clip_line_counter
 FORCE_SYMBOL $0826 clip_line_counter
 FORCE_SYMBOL $0828 clip_line_counter
 COMMENT $082A do next
-FORCE_SYMBOL $082A do_next_vector_vlpd
 COMMENT_LINE $082D ***************************************************************************
 COMMENT_LINE $082D D = clipping place (in scale of added strengths of vector X positions)
 COMMENT_LINE $082D X = Vector list
@@ -4205,7 +3228,6 @@ COMMENT $0923 build vector from X2 and Y2
 FORCE_SYMBOL $0923 v2
 COMMENT $0925 store it to list
 COMMENT $0927 do next
-FORCE_SYMBOL $0927 do_next_vector_vlpr
 COMMENT_LINE $092A ***************************************************************************
 COMMENT_LINE $092A D = clipping place (in scale of added strengths of vector X positions)
 COMMENT_LINE $092A X = Vector list
@@ -4425,7 +3447,6 @@ FORCE_SYMBOL $0A6E clip_line_counter
 FORCE_SYMBOL $0A70 clip_line_counter
 FORCE_SYMBOL $0A72 clip_line_counter
 COMMENT $0A74 do next
-FORCE_SYMBOL $0A74 do_next_vector_vlprd
 COMMENT_LINE $0A77 ***************************************************************************
 COMMENT $0A77 following code uses d0
 COMMENT_LINE $0A77 ***************************************************************************
@@ -4608,7 +3629,6 @@ FORCE_SYMBOL $0BA3 temp3
 FORCE_SYMBOL $0BA6 temp
 COMMENT_LINE $0BAB now the current counter should be set
 COMMENT_LINE $0BAB we still need to dechifer the following byte...
-FORCE_SYMBOL $0BAB dechifer
 FORCE_SYMBOL $0BAE ym_data_start
 FORCE_SYMBOL $0BB4 Clear_x_d
 FORCE_NO_SYMBOL $0BBA
@@ -5329,7 +4349,6 @@ COMMENT $0FBB our own position
 FORCE_SYMBOL $0FBB maze_draw_y
 COMMENT $0FBE any offsets from above added
 FORCE_SYMBOL $0FBE tmp0
-FORCE_SYMBOL $0FC7 halving_done
 COMMENT $0FCA is it to small?
 COMMENT_LINE $0FCE to small means the combined offsets
 COMMENT_LINE $0FCE are bigger than one maze square
@@ -5507,7 +4526,6 @@ FORCE_SYMBOL $111A LIGHT
 FORCE_SYMBOL $111E maze_intensity
 FORCE_SYMBOL $1121 scale_step
 FORCE_NO_SYMBOL $1124
-FORCE_SYMBOL $1126 next_maze
 COMMENT_LINE $112A ***************************************************************************
 COMMENT $112A following code uses d0
 FORCE_SYMBOL $112A helper_first
@@ -5785,7 +4803,6 @@ COMMENT $12EF our own position
 FORCE_SYMBOL $12EF maze_draw_y
 COMMENT $12F2 any offsets from above added
 FORCE_SYMBOL $12F2 tmp0
-FORCE_SYMBOL $12FB halving_done_digit
 COMMENT $12FE is it to small?
 COMMENT_LINE $1302 to small means the combined offsets
 COMMENT_LINE $1302 are bigger than one maze square
@@ -5990,7 +5007,6 @@ FORCE_NO_SYMBOL $1403
 FORCE_SYMBOL $1405 V_MONSTER_OFFSET_X
 FORCE_SYMBOL $1408 move_to_d_digit
 FORCE_SYMBOL $140B Draw_VLp_digit
-FORCE_SYMBOL $140E finish_current_maze_digit
 COMMENT $1411 x pointer to monster level list
 FORCE_SYMBOL $1411 V_MONSTER_POINTER
 COMMENT $1414 load pointer to current graphic
@@ -6143,7 +5159,6 @@ FORCE_SYMBOL $14B7 LIGHT
 FORCE_SYMBOL $14BB maze_intensity
 FORCE_SYMBOL $14BE scale_step
 FORCE_NO_SYMBOL $14C1
-FORCE_SYMBOL $14C3 next_maze_digit
 COMMENT_LINE $14C7 ***************************************************************************
 FORCE_SYMBOL $14C7 pos_offset_x
 FORCE_SYMBOL $14CB move_offset_y
@@ -7072,25 +6087,25 @@ COMMENT_LINE $3562 Size is 16 so ALL X are power of 2
 COMMENT_LINE $3562 64 is highest :-(
 COMMENT_LINE $3562 middle offset list for goblin_pic1
 COMMENT_LINE $3664 ***************************************************************************
-RANGE $0000-$055A DP $D0
-RANGE $055A-$0579 DP $C8
-RANGE $0579-$05F2 DP $D0
-RANGE $05F2-$0634 DP $C8
-RANGE $0634-$0634 DP $D0
-RANGE $0634-$06E3 DP $C8
-RANGE $06E3-$06EA DP $D0
-RANGE $06EA-$0753 DP $C8
-RANGE $0753-$0753 DP $D0
-RANGE $0753-$082B DP $C8
-RANGE $082B-$0832 DP $D0
-RANGE $0832-$0874 DP $C8
-RANGE $0874-$0874 DP $D0
-RANGE $0874-$0928 DP $C8
-RANGE $0928-$092F DP $D0
-RANGE $092F-$0998 DP $C8
-RANGE $0998-$0998 DP $D0
-RANGE $0998-$0A75 DP $C8
-RANGE $0A75-$3662 DP $D0
+RANGE $0000-$055C DP $D0
+RANGE $055C-$057B DP $C8
+RANGE $057B-$05F4 DP $D0
+RANGE $05F4-$0636 DP $C8
+RANGE $0636-$0636 DP $D0
+RANGE $0636-$06E5 DP $C8
+RANGE $06E5-$06EC DP $D0
+RANGE $06EC-$0755 DP $C8
+RANGE $0755-$0755 DP $D0
+RANGE $0755-$082D DP $C8
+RANGE $082D-$0834 DP $D0
+RANGE $0834-$0876 DP $C8
+RANGE $0876-$0876 DP $D0
+RANGE $0876-$092A DP $C8
+RANGE $092A-$0931 DP $D0
+RANGE $0931-$099A DP $C8
+RANGE $099A-$099A DP $D0
+RANGE $099A-$0A77 DP $C8
+RANGE $0A77-$3664 DP $D0
 RANGE $0000-$000B CHAR_DATA 11
 RANGE $000B-$000D DW_DATA 1
 RANGE $000D-$0011 DB_DATA 4
@@ -7098,9 +6113,7 @@ RANGE $0011-$001F CHAR_DATA 14
 RANGE $001F-$0023 DB_DATA 4
 RANGE $0023-$002A CHAR_DATA 7
 RANGE $002A-$002B DB_DATA 1
-RANGE $002B-$002D CODE
-RANGE $002E-$03A7 CODE
-RANGE $03A8-$1596 CODE
+RANGE $002B-$1596 CODE
 RANGE $1596-$1597 DB_DATA 1
 RANGE $1597-$1598 DB_DATA 1
 RANGE $1598-$159B DB_DATA 3

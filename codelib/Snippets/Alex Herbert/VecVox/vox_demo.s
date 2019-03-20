@@ -198,7 +198,7 @@ demo_string4
 ; Include the VecVox driver
 ;
 
-        include "VECVOX.I"
+        include "vecvox.i"
 
 
 ;

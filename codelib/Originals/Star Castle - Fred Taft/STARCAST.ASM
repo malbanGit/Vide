@@ -17,7 +17,7 @@
 * Please forward any comments, corrections or additions back to Fred.
 * Star Castle
 
-       include "taft.i"
+       include "TAFT.I"
 move_to_pt equ $f3bc
 
        org $0000;

@@ -1,0 +1,1300 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_b
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $F9F4 Char_Table
+LABEL $FBD4 Char_Table_End
+LABEL $C88F house_chr
+COMMENT_LABEL $C88F House as text, 3 bytes of RAM.
+LABEL $C893 score_chr
+COMMENT_LABEL $C893 Score as text, 5 bytes of RAM.
+LABEL $C898 hi_score_chr
+COMMENT_LABEL $C898 Hi Score as text, 5 bytes of RAM.
+LABEL $C89D hi_score
+COMMENT_LABEL $C89D Hi score 2 bytes
+EQU $25 intro_loop
+LABEL $049F start_string
+EQU $39 init
+LABEL $C880 batX
+COMMENT_LABEL $C880 set the bat X position
+LABEL $C881 X_hit_box
+COMMENT_LABEL $C881 stores the X hit position (for hit check loops)
+LABEL $C882 ballX
+COMMENT_LABEL $C882 set the ball X position
+LABEL $C883 ballY
+COMMENT_LABEL $C883 set the ball Y position
+LABEL $C884 ballX_d
+COMMENT_LABEL $C884 set the ball X direction
+LABEL $C885 ballY_d
+COMMENT_LABEL $C885 set the ball X direction
+LABEL $C886 NMEx
+COMMENT_LABEL $C886 set the enemy X position
+LABEL $C887 NMEy
+COMMENT_LABEL $C887 set the enemy Y position
+LABEL $C888 houseX
+COMMENT_LABEL $C888 set the house X position
+LABEL $C889 bat_hit
+COMMENT_LABEL $C889 location used for bat hit count
+LABEL $C88A offset
+COMMENT_LABEL $C88A general location used to reset vector positions to 0
+LABEL $C88B loop
+COMMENT_LABEL $C88B general location used for looping
+LABEL $C88C house
+COMMENT_LABEL $C88C location used to store lives count
+LABEL $C88D score
+COMMENT_LABEL $C88D location used to store score count
+LABEL $0082 main
+LABEL $0306 show_scores
+LABEL $01D2 showNME
+COMMENT_LABEL $01D2 first things to be drawn
+LABEL $00AB showBall
+COMMENT_LABEL $00AB Reset Absolute Position (0,0) & draw bat
+LABEL $00DD showBat
+COMMENT_LABEL $00DD Reset Absolute Position (0,0) & draw bat
+LABEL $025D showHouse
+COMMENT_LABEL $025D Reset Absolute Position (0,0) & draw bat
+LABEL $0112 checkButtons
+LABEL $011E checkStick
+LABEL $01E9 moveNME
+LABEL $0143 moveBall
+LABEL $0172 checkBallBounce
+LABEL $01A7 checkBatHit
+LABEL $028D checkMNEHit
+LABEL $02C3 checkHouseHit
+LABEL $0444 ball_list
+LABEL $011D but_end
+LABEL $012A joy_end
+LABEL $0137 moveLeft
+LABEL $012B moveRight
+LABEL $0136 x_top
+LABEL $0142 x_bot
+LABEL $0153 x_go_right
+LABEL $015A end_ball_X_move
+LABEL $016A y_go_right
+LABEL $0171 end_ball_Y_move
+LABEL $0180 x_check_lower
+LABEL $018C y_check_high
+LABEL $019A y_check_lower
+LABEL $01A6 no_y_change
+LABEL $01D1 end_hit
+LABEL $01B9 x_hit_loop
+LABEL $01C9 no_x_hit
+LABEL $0455 nme_list
+LABEL $01FD nme_x_move_2
+LABEL $0211 nme_x_move3
+LABEL $0234 no_nme_x_move
+LABEL $022C nme_x_down
+LABEL $0248 nme_y_move_2
+LABEL $025C no_nme_y_move
+LABEL $0476 house_list
+LABEL $02C2 end_hit_nme
+LABEL $02A0 x_hit_loop_nme
+LABEL $02BA no_x_hit_nme
+LABEL $03AA addtenpoints
+LABEL $02E7 no_Hit
+LABEL $02E8 move_house
+LABEL $02F8 reset_enemy
+LABEL $035C house_to_text
+LABEL $0490 hi_score_string
+LABEL $0481 lives_string
+LABEL $0379 score_to_text
+LABEL $0489 nme_hit_string
+LABEL $03BC dead
+LABEL $0409 high_score_check
+LABEL $03BF but_loop
+LABEL $049A dead_string
+LABEL $0443 no_change
+EQU $01 ball_size
+EQU $05 nme_size
+EQU $03 house_size
+LABEL $04B2 *
+LABEL $0082 *xfer
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 Test program, for trying out things
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 DEFINE SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 vectrex function includes
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT $0000 cartridge name...
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 HEADER SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B music from the rom
+COMMENT $000D height, width, rel y, rel x
+COMMENT_LINE $0011 (from 0,0)
+COMMENT $0011 some game information,
+COMMENT_LINE $001F ending with $80
+COMMENT $001F end of game header
+COMMENT_LINE $0020 ***************************************************************************
+COMMENT_LINE $0020 CODE SECTION
+COMMENT_LINE $0020 ***************************************************************************
+COMMENT_LINE $0020 start cartridge
+COMMENT $0020 setup the joystick
+FORCE_NO_SYMBOL $0020
+FORCE_SYMBOL $0022 Vec_Joy_Mux_1_X
+COMMENT_LINE $0025 ****************************************************************************
+COMMENT $0025 set intensity & show press button message
+FORCE_SYMBOL $0025 Intensity_7F
+COMMENT $0028 load from string address
+FORCE_SYMBOL $0028 start_string
+COMMENT $002B Text position relative Y
+FORCE_NO_SYMBOL $002B
+COMMENT $002D Text position relative X
+COMMENT $002F Vectrex BIOS print routine
+FORCE_SYMBOL $002F Print_Str_d
+COMMENT $0032 get button status
+FORCE_SYMBOL $0032 Read_Btns
+COMMENT $0035 is a button pressed?
+FORCE_NO_SYMBOL $0035
+COMMENT $0037 if not loop
+COMMENT_LINE $0039 ****************************************************************************
+FORCE_SYMBOL $0039 batX
+FORCE_NO_SYMBOL $003C
+FORCE_SYMBOL $003E X_hit_box
+FORCE_NO_SYMBOL $0041
+FORCE_SYMBOL $0043 ballX
+FORCE_NO_SYMBOL $0046
+FORCE_SYMBOL $0048 ballY
+FORCE_NO_SYMBOL $004B
+FORCE_SYMBOL $004D ballX_d
+FORCE_NO_SYMBOL $0050
+FORCE_SYMBOL $0052 ballY_d
+FORCE_NO_SYMBOL $0055
+FORCE_SYMBOL $0057 NMEx
+FORCE_NO_SYMBOL $005A
+FORCE_SYMBOL $005C NMEy
+FORCE_SYMBOL $0061 houseX
+FORCE_NO_SYMBOL $0064
+FORCE_SYMBOL $0066 bat_hit
+FORCE_NO_SYMBOL $0069
+FORCE_SYMBOL $006B offset
+FORCE_NO_SYMBOL $006E
+FORCE_SYMBOL $0070 loop
+FORCE_NO_SYMBOL $0073
+FORCE_SYMBOL $0075 house
+COMMENT $0078 two bytes of RAM
+FORCE_NO_SYMBOL $0078
+FORCE_SYMBOL $007A score
+FORCE_NO_SYMBOL $007D
+COMMENT $007F stored to $C88E
+COMMENT_LINE $0082 ***************************************************************************
+COMMENT_LINE $0082 ***************************************************************************
+COMMENT $0082 Vectrex BIOS recalibration
+FORCE_SYMBOL $0082 Wait_Recal
+COMMENT $0085 jump to display scores
+FORCE_SYMBOL $0085 show_scores
+COMMENT $0088 jump to show enemy subroutean
+FORCE_SYMBOL $0088 showNME
+COMMENT $008B branch to show ball subroutean
+COMMENT $008D branch to show bat subroutean
+COMMENT $008F jump to show house subroutean
+FORCE_SYMBOL $008F showHouse
+COMMENT $0092 branch to check buttons subroutean
+COMMENT $0094 jump to check joystick subroutean
+FORCE_SYMBOL $0094 checkStick
+COMMENT $0097 jump to move enemy subroutean
+FORCE_SYMBOL $0097 moveNME
+COMMENT $009A jump to move ball subroutean
+FORCE_SYMBOL $009A moveBall
+COMMENT $009D jump to check bounce subroutean
+FORCE_SYMBOL $009D checkBallBounce
+COMMENT $00A0 jump to check for bat hit sudroutean
+FORCE_SYMBOL $00A0 checkBatHit
+COMMENT $00A3 jump to check for enemy hit subroutean
+FORCE_SYMBOL $00A3 checkMNEHit
+COMMENT $00A6 jump to check for house capture subroutean
+FORCE_SYMBOL $00A6 checkHouseHit
+COMMENT $00A9 and repeat forever
+COMMENT_LINE $00AB ***************************************************************************
+COMMENT_LINE $00AB ***************************************************************************
+COMMENT $00AB load the ball y position to A
+FORCE_SYMBOL $00AB NMEy
+COMMENT $00AE Store to the offset mem location
+FORCE_SYMBOL $00AE offset
+COMMENT $00B1 Negate the contents of the mem location
+FORCE_SYMBOL $00B1 offset
+COMMENT $00B4 load A with the contents of the mem location
+FORCE_SYMBOL $00B4 offset
+COMMENT $00B7 load the ball x position to B
+FORCE_SYMBOL $00B7 NMEx
+COMMENT $00BA Store to the offset mem location
+FORCE_SYMBOL $00BA offset
+COMMENT $00BD Negate the contents of the mem location
+FORCE_SYMBOL $00BD offset
+COMMENT $00C0 load B with the contents of the mem location
+FORCE_SYMBOL $00C0 offset
+COMMENT $00C3 move vector back to (0,0)
+FORCE_SYMBOL $00C3 Moveto_d
+COMMENT $00C6 ball y position
+FORCE_SYMBOL $00C6 ballY
+COMMENT $00C9 ball x position
+FORCE_SYMBOL $00C9 ballX
+COMMENT $00CC move vector
+FORCE_SYMBOL $00CC Moveto_d
+COMMENT $00CF Set intensity to $7f
+FORCE_SYMBOL $00CF Intensity_7F
+COMMENT $00D2 to 0 (y)
+FORCE_NO_SYMBOL $00D2
+COMMENT $00D4 to 0 (x)
+FORCE_NO_SYMBOL $00D4
+COMMENT $00D6 load the address of the to be drawn vector list to X
+FORCE_SYMBOL $00D6 ball_list
+COMMENT $00D9 draw the line now
+FORCE_SYMBOL $00D9 Draw_VLc
+COMMENT_LINE $00DD ***************************************************************************
+COMMENT $00DD load the ball y position to A
+FORCE_SYMBOL $00DD ballY
+COMMENT $00E0 Store to the offset mem location
+FORCE_SYMBOL $00E0 offset
+COMMENT $00E3 Negate the contents of the mem location
+FORCE_SYMBOL $00E3 offset
+COMMENT $00E6 load A with the contents of the mem location
+FORCE_SYMBOL $00E6 offset
+COMMENT $00E9 load the ball x position to B
+FORCE_SYMBOL $00E9 ballX
+COMMENT $00EC Store to the offset mem location
+FORCE_SYMBOL $00EC offset
+COMMENT $00EF Negate the contents of the mem location
+FORCE_SYMBOL $00EF offset
+COMMENT $00F2 load B with the contents of the mem location
+FORCE_SYMBOL $00F2 offset
+COMMENT $00F5 move vector back to (0,0)
+FORCE_SYMBOL $00F5 Moveto_d
+COMMENT $00F8 to -100 (y)
+COMMENT $00FA to contents of mem location (x)
+FORCE_SYMBOL $00FA batX
+COMMENT $00FD move vector
+FORCE_SYMBOL $00FD Moveto_d
+COMMENT $0100 Set intensity to $5f
+FORCE_SYMBOL $0100 Intensity_5F
+COMMENT $0103 to 0 (y)
+FORCE_NO_SYMBOL $0103
+COMMENT $0105 to 50 (x)
+FORCE_NO_SYMBOL $0105
+COMMENT $0107 draw the line now
+FORCE_SYMBOL $0107 Draw_Line_d
+COMMENT $010A to 0 (y)
+FORCE_NO_SYMBOL $010A
+COMMENT $010C to 50 (x)
+COMMENT $010E move vector (put plot point to begining of bat)
+FORCE_SYMBOL $010E Moveto_d
+COMMENT_LINE $0112 ***************************************************************************
+COMMENT $0112 get button status
+FORCE_SYMBOL $0112 Read_Btns
+COMMENT $0115 is a button pressed?
+FORCE_NO_SYMBOL $0115
+COMMENT $0117 if not jump to return
+COMMENT $0119 test for button 1 1
+FORCE_NO_SYMBOL $0119
+COMMENT $011B if not pressed jump and return
+COMMENT_LINE $011D JMP     test                   ; jump to test if pressed
+COMMENT_LINE $011E ***************************************************************************
+COMMENT $011E read joystick positions
+FORCE_SYMBOL $011E Joy_Digital
+COMMENT $0121 load joystick 1 position X to A
+FORCE_SYMBOL $0121 Vec_Joy_1_X
+COMMENT $0124 if zero dont move the x position
+COMMENT $0126 if negative move left
+COMMENT $0128 otherwise move right
+COMMENT_LINE $012B ***************************************************************************
+COMMENT $012B read mem contents to A reg
+FORCE_SYMBOL $012B batX
+COMMENT $012E compare with right high end
+FORCE_NO_SYMBOL $012E
+COMMENT $0130 jump to return if at top
+COMMENT $0132 increas the A reg
+COMMENT $0133 store A reg value to mem
+FORCE_SYMBOL $0133 batX
+COMMENT_LINE $0137 ***************************************************************************
+COMMENT $0137 read mem contents to A reg
+FORCE_SYMBOL $0137 batX
+COMMENT $013A compare with left low end
+COMMENT $013C jump to return if at bottom
+COMMENT $013E decrement the A reg
+COMMENT $013F store A reg value to mem
+FORCE_SYMBOL $013F batX
+COMMENT_LINE $0143 ***************************************************************************
+COMMENT $0143 load A with X direction of ball
+FORCE_SYMBOL $0143 ballX_d
+COMMENT $0146 check direction
+FORCE_NO_SYMBOL $0146
+COMMENT $0148 go right (increment) if true
+COMMENT $014A if not get ball x position to A
+FORCE_SYMBOL $014A ballX
+COMMENT $014D decrement A register
+COMMENT $014E store contents of A
+FORCE_SYMBOL $014E ballX
+COMMENT $0153 get ball x position to A
+FORCE_SYMBOL $0153 ballX
+COMMENT $0156 increment A register
+COMMENT $0157 store contents of A
+FORCE_SYMBOL $0157 ballX
+COMMENT $015A load A with Y direction of ball
+FORCE_SYMBOL $015A ballY_d
+COMMENT $015D check direction
+FORCE_NO_SYMBOL $015D
+COMMENT $015F go right (increment) if true
+COMMENT $0161 if not get ball Y position to A
+FORCE_SYMBOL $0161 ballY
+COMMENT $0164 decrement A register
+COMMENT $0165 store contents of A
+FORCE_SYMBOL $0165 ballY
+COMMENT $016A get ball Y position to A
+FORCE_SYMBOL $016A ballY
+COMMENT $016D increment A register
+COMMENT $016E store contents of A
+FORCE_SYMBOL $016E ballY
+COMMENT_LINE $0172 ***************************************************************************
+COMMENT $0172 load A with ball x position
+FORCE_SYMBOL $0172 ballX
+COMMENT $0175 compaire A with high value
+FORCE_NO_SYMBOL $0175
+COMMENT $0177 jump if not equal
+COMMENT $0179 otherwise load A with -One
+COMMENT $017B store A to ball x direction
+FORCE_SYMBOL $017B ballX_d
+COMMENT $017E branch over ball x lower check
+COMMENT $0180 load A with ball x position
+FORCE_SYMBOL $0180 ballX
+COMMENT $0183 compaire A with low value
+COMMENT $0185 jump if not equal
+COMMENT $0187 otherwise load A with One
+FORCE_NO_SYMBOL $0187
+COMMENT $0189 store A to ball x direction
+FORCE_SYMBOL $0189 ballX_d
+COMMENT $018C load A with ball y position
+FORCE_SYMBOL $018C ballY
+COMMENT $018F compaire A with high value
+FORCE_NO_SYMBOL $018F
+COMMENT $0191 jump if not equal
+COMMENT $0193 otherwise load A with -One
+COMMENT $0195 store A to ball y direction
+FORCE_SYMBOL $0195 ballY_d
+COMMENT $0198 branch over ball y lower check
+COMMENT $019A load A with ball y position
+FORCE_SYMBOL $019A ballY
+COMMENT $019D compaire A with low value
+COMMENT $019F jump if not equal
+COMMENT $01A1 otherwise load A with One
+FORCE_NO_SYMBOL $01A1
+COMMENT $01A3 store A to ball y direction
+FORCE_SYMBOL $01A3 ballY_d
+COMMENT_LINE $01A7 ***************************************************************************
+COMMENT $01A7 get Y position of ball
+FORCE_SYMBOL $01A7 ballY
+COMMENT $01AA see if it matches the bat Y pos
+COMMENT $01AC jump to end if not equal
+COMMENT_LINE $01AE compare from bat x position to + 50 for a 'hit' (length of bat)
+COMMENT $01AE load 50 to A for loop counter
+FORCE_NO_SYMBOL $01AE
+COMMENT $01B0 store 50 to loop counter
+FORCE_SYMBOL $01B0 loop
+COMMENT $01B3 load A with the X bat position
+FORCE_SYMBOL $01B3 batX
+COMMENT $01B6 store the X bat position to the hit pos
+FORCE_SYMBOL $01B6 X_hit_box
+COMMENT $01B9 get X position of ball
+FORCE_SYMBOL $01B9 ballX
+COMMENT $01BC see if it matches the bat X hit pos
+FORCE_SYMBOL $01BC X_hit_box
+COMMENT $01BF jump if not equal
+COMMENT $01C1 change Y bounce direction
+FORCE_SYMBOL $01C1 ballY_d
+COMMENT $01C4 increase bat hit count
+FORCE_SYMBOL $01C4 bat_hit
+COMMENT $01C7 jump to end, as hit has happened
+COMMENT $01C9 increase contents of the hit counter
+FORCE_SYMBOL $01C9 X_hit_box
+COMMENT $01CC decreas contents of the loop counter
+FORCE_SYMBOL $01CC loop
+COMMENT $01CF jump to start of loop if not 0
+COMMENT_LINE $01D2 ***************************************************************************
+COMMENT $01D2 (y) pos
+FORCE_SYMBOL $01D2 NMEy
+COMMENT $01D5 (x) pos
+FORCE_SYMBOL $01D5 NMEx
+COMMENT $01D8 move vector
+FORCE_SYMBOL $01D8 Moveto_d
+COMMENT $01DB Set intensity to $7f
+FORCE_SYMBOL $01DB Intensity_7F
+COMMENT $01DE to 0 (y)
+FORCE_NO_SYMBOL $01DE
+COMMENT $01E0 to 0 (x)
+FORCE_NO_SYMBOL $01E0
+COMMENT $01E2 load the vector list to X
+FORCE_SYMBOL $01E2 nme_list
+COMMENT $01E5 draw the line now
+FORCE_SYMBOL $01E5 Draw_VLc
+COMMENT_LINE $01E9 ***************************************************************************
+COMMENT_LINE $01E9 randome x move up
+COMMENT $01E9 get random number to A
+FORCE_SYMBOL $01E9 Random
+COMMENT $01EC only the 2 lower bits are needed
+FORCE_NO_SYMBOL $01EC
+COMMENT $01EE one in three chance of moving
+FORCE_NO_SYMBOL $01EE
+COMMENT $01F0 branch if not equal
+COMMENT $01F2 load A with enemy x position
+FORCE_SYMBOL $01F2 NMEx
+COMMENT $01F5 increase A register by One
+COMMENT $01F6 compaire A register with 127 (hi end)
+FORCE_NO_SYMBOL $01F6
+COMMENT $01F8 branch if euqal
+COMMENT $01FA store the A register to enemy x pos
+FORCE_SYMBOL $01FA NMEx
+COMMENT_LINE $01FD randome x move down
+COMMENT $01FD get random number to A
+FORCE_SYMBOL $01FD Random
+COMMENT $0200 only the 2 lower bits are needed
+FORCE_NO_SYMBOL $0200
+COMMENT $0202 one in three chance of moving
+FORCE_NO_SYMBOL $0202
+COMMENT $0204 branch if not equal
+COMMENT $0206 load A with enemy x position
+FORCE_SYMBOL $0206 NMEx
+COMMENT $0209 decrease A register by One
+COMMENT $020A compaire A register with -127 (low end)
+COMMENT $020C branch if equal
+COMMENT $020E store the A register to enemy x pos
+FORCE_SYMBOL $020E NMEx
+COMMENT_LINE $0211 conditional x move up or down
+COMMENT $0211 get random number to A
+FORCE_SYMBOL $0211 Random
+COMMENT $0214 only the 3 lower bits are needed
+FORCE_NO_SYMBOL $0214
+COMMENT $0216 one in seven chance of moving
+FORCE_NO_SYMBOL $0216
+COMMENT $0218 branch if not equal
+COMMENT $021A load A with enemy x position
+FORCE_SYMBOL $021A NMEx
+COMMENT $021D compaire A with house location
+FORCE_SYMBOL $021D houseX
+COMMENT $0220 branch if A is greater than house x
+COMMENT $0222 decrease the value of A
+COMMENT $0223 compaire A register with -127 (low end)
+FORCE_NO_SYMBOL $0223
+COMMENT $0225 branch if equal
+COMMENT $0227 store the A register to enemy x pos
+FORCE_SYMBOL $0227 NMEx
+COMMENT $022A brach to no_nme_x_move
+COMMENT $022C increase the value of A
+COMMENT $022D compaire A register with 127 (hi end)
+COMMENT $022F branch if euqal
+COMMENT $0231 store the A register to enemy x pos
+FORCE_SYMBOL $0231 NMEx
+COMMENT $0234 get random number to A
+FORCE_SYMBOL $0234 Random
+COMMENT $0237 the 3 lower bits are needed
+FORCE_NO_SYMBOL $0237
+COMMENT $0239 one in seven chance of moving
+FORCE_NO_SYMBOL $0239
+COMMENT $023B branch if not equal
+COMMENT $023D load A with enemy y position
+FORCE_SYMBOL $023D NMEy
+COMMENT $0240 increase A register by One
+COMMENT $0241 compaire A register with 110 (hi end)
+FORCE_NO_SYMBOL $0241
+COMMENT $0243 branch if equal
+COMMENT $0245 store the A register to enemy y pos
+FORCE_SYMBOL $0245 NMEy
+COMMENT $0248 get random number to A
+FORCE_SYMBOL $0248 Random
+COMMENT $024B only the 2 lower bits are needed
+FORCE_NO_SYMBOL $024B
+COMMENT $024D one in three chance of moving
+FORCE_NO_SYMBOL $024D
+COMMENT $024F branch if not equal
+COMMENT $0251 load A with enemy y position
+FORCE_SYMBOL $0251 NMEy
+COMMENT $0254 decrease A register by One
+COMMENT $0255 compaire A register with -117 (low end)
+COMMENT $0257 branch if equal
+COMMENT $0259 store the A register to enemy y pos
+FORCE_SYMBOL $0259 NMEy
+COMMENT_LINE $025D ***************************************************************************
+COMMENT $025D load the bat y position to A
+COMMENT $025F Store to the offset mem location
+FORCE_SYMBOL $025F offset
+COMMENT $0262 Negate the contents of the mem location
+FORCE_SYMBOL $0262 offset
+COMMENT $0265 load A with the contents of the mem location
+FORCE_SYMBOL $0265 offset
+COMMENT $0268 load the bat x position to B
+FORCE_SYMBOL $0268 batX
+COMMENT $026B Store to the offset mem location
+FORCE_SYMBOL $026B offset
+COMMENT $026E Negate the contents of the mem location
+FORCE_SYMBOL $026E offset
+COMMENT $0271 load B with the contents of the mem location
+FORCE_SYMBOL $0271 offset
+COMMENT $0274 move vector back to (0,0)
+FORCE_SYMBOL $0274 Moveto_d
+COMMENT $0277 house y position
+COMMENT $0279 to 0 (x)
+FORCE_SYMBOL $0279 houseX
+COMMENT $027C move vector
+FORCE_SYMBOL $027C Moveto_d
+COMMENT $027F Set intensity
+FORCE_SYMBOL $027F Intensity_3F
+COMMENT $0282 to 0 (y)
+FORCE_NO_SYMBOL $0282
+COMMENT $0284 to house position (x)
+FORCE_NO_SYMBOL $0284
+COMMENT $0286 load the vector list to X
+FORCE_SYMBOL $0286 house_list
+COMMENT $0289 draw the house data
+FORCE_SYMBOL $0289 Draw_VLc
+COMMENT_LINE $028D ***************************************************************************
+COMMENT $028D get Y position of ball
+FORCE_SYMBOL $028D ballY
+COMMENT $0290 see if it matches the enemy Y pos
+FORCE_SYMBOL $0290 NMEy
+COMMENT $0293 jump to end if not equal
+COMMENT_LINE $0295 compare from enemy x position to + 14 for a 'hit' (20pxl length of enemy)
+COMMENT $0295 load A for loop counter
+FORCE_NO_SYMBOL $0295
+COMMENT $0297 store A to loop counter
+FORCE_SYMBOL $0297 loop
+COMMENT $029A load A with the X enemy position
+FORCE_SYMBOL $029A NMEx
+COMMENT $029D store the X bat position to the hit pos
+FORCE_SYMBOL $029D X_hit_box
+COMMENT $02A0 get X position of ball
+FORCE_SYMBOL $02A0 ballX
+COMMENT $02A3 see if it matches the X hit box pos
+FORCE_SYMBOL $02A3 X_hit_box
+COMMENT $02A6 jump if not equal
+COMMENT $02A8 load 120 to A
+FORCE_NO_SYMBOL $02A8
+COMMENT $02AA Store A to NMEy memory location
+FORCE_SYMBOL $02AA NMEy
+COMMENT $02AD get random stored in A
+FORCE_SYMBOL $02AD Random
+COMMENT $02B0 change random number to plot position
+COMMENT $02B2 store A to enemy x location
+FORCE_SYMBOL $02B2 NMEx
+COMMENT $02B5 add to score
+FORCE_SYMBOL $02B5 addtenpoints
+COMMENT $02B8 jump to end, as hit has happened
+COMMENT $02BA increase contents of the hit counter
+FORCE_SYMBOL $02BA X_hit_box
+COMMENT $02BD decreas contents of the loop counter
+FORCE_SYMBOL $02BD loop
+COMMENT $02C0 jump to start of loop if not 0
+COMMENT_LINE $02C3 ***************************************************************************
+COMMENT_LINE $02C3 check for enemy hit
+COMMENT $02C3 load contents of enemy y to A
+FORCE_SYMBOL $02C3 NMEy
+COMMENT $02C6 compaire this with enemy bottom pos
+COMMENT $02C8 branch to end if no match
+COMMENT $02CA load contents of enemy x to A
+FORCE_SYMBOL $02CA NMEx
+COMMENT $02CD compaire this with house x position
+FORCE_SYMBOL $02CD houseX
+COMMENT $02D0 branch to end if no match
+COMMENT $02D2 branch to move house subroutean
+COMMENT $02D4 branch to move enemy subroutean
+COMMENT_LINE $02D6 check for ball hit
+COMMENT $02D6 load contents of ball y to A
+FORCE_SYMBOL $02D6 ballY
+COMMENT $02D9 compaire this with house y  pos
+COMMENT $02DB branch to end if no match
+COMMENT $02DD load contents of ball x to A
+FORCE_SYMBOL $02DD ballX
+COMMENT $02E0 compaire this with house x position
+FORCE_SYMBOL $02E0 houseX
+COMMENT $02E3 branch to end if no match
+COMMENT $02E5 branch to move house subroutean
+COMMENT $02E8 get random number and store in A
+FORCE_SYMBOL $02E8 Random
+COMMENT $02EB change random number to plot position
+COMMENT $02ED store A value to house x position
+FORCE_SYMBOL $02ED houseX
+COMMENT $02F0 load A with the contents of house
+FORCE_SYMBOL $02F0 house
+COMMENT $02F3 decrease A by one
+COMMENT $02F4 store A to house location (houses left)
+FORCE_SYMBOL $02F4 house
+COMMENT $02F8 load 120 to A
+FORCE_NO_SYMBOL $02F8
+COMMENT $02FA Store A to NMEy memory location
+FORCE_SYMBOL $02FA NMEy
+COMMENT $02FD get random stored in A
+FORCE_SYMBOL $02FD Random
+COMMENT $0300 change random number to plot position
+COMMENT $0302 store A to enemy x location
+FORCE_SYMBOL $0302 NMEx
+COMMENT_LINE $0306 ***************************************************************************
+COMMENT $0306 set intensity for TEXT string
+FORCE_SYMBOL $0306 Intensity_1F
+COMMENT $0309 sub to convert house value to text
+FORCE_SYMBOL $0309 house_to_text
+COMMENT $030C load house string to U
+FORCE_SYMBOL $030C hi_score_string
+COMMENT $030F text Y
+FORCE_NO_SYMBOL $030F
+COMMENT $0311 text X
+COMMENT $0313 Vectrex BIOS print routine
+FORCE_SYMBOL $0313 Print_Str_d
+COMMENT $0316 load from string address
+FORCE_SYMBOL $0316 hi_score_chr
+COMMENT $0319 Text position relative Y
+FORCE_NO_SYMBOL $0319
+COMMENT $031B Text position relative X
+COMMENT $031D Vectrex BIOS print routine
+FORCE_SYMBOL $031D Print_Str_d
+COMMENT $0320 set intensity for TEXT string
+FORCE_SYMBOL $0320 Intensity_5F
+COMMENT $0323 sub to convert house value to text
+FORCE_SYMBOL $0323 house_to_text
+COMMENT $0326 load house string to U
+FORCE_SYMBOL $0326 house_chr
+COMMENT $0329 text Y
+COMMENT $032B text X
+COMMENT $032D Vectrex BIOS print routine
+FORCE_SYMBOL $032D Print_Str_d
+COMMENT $0330 load from string address
+FORCE_SYMBOL $0330 lives_string
+COMMENT $0333 Text position relative Y
+COMMENT $0335 Text position relative X
+COMMENT $0337 Vectrex BIOS print routine
+FORCE_SYMBOL $0337 Print_Str_d
+COMMENT $033A set intensity for TEXT string
+FORCE_SYMBOL $033A Intensity_3F
+COMMENT $033D sub to convert score value to text
+FORCE_SYMBOL $033D score_to_text
+COMMENT $0340 load score string to U
+FORCE_SYMBOL $0340 score_chr
+COMMENT $0343 text Y
+COMMENT $0345 text X
+COMMENT $0347 Vectrex BIOS print routine
+FORCE_SYMBOL $0347 Print_Str_d
+COMMENT $034A load from string address
+FORCE_SYMBOL $034A nme_hit_string
+COMMENT $034D Text position relative Y
+COMMENT $034F Text position relative X
+COMMENT $0351 Vectrex BIOS print routine
+FORCE_SYMBOL $0351 Print_Str_d
+COMMENT_LINE $0354 check for dead
+FORCE_SYMBOL $0354 house
+FORCE_NO_SYMBOL $0357
+COMMENT_LINE $035C ***************************************************************************
+COMMENT $035C High byte of the word
+FORCE_SYMBOL $035C house
+COMMENT $0360 move hi to lo reg
+COMMENT $0362 High nibble of the byte
+COMMENT $0366 Number to ASCII value
+FORCE_NO_SYMBOL $0366
+COMMENT $0368 to hi byte of text
+FORCE_SYMBOL $0368 house_chr
+COMMENT $036B Low nibble
+FORCE_NO_SYMBOL $036B
+COMMENT $036D Number to ASCII value
+FORCE_NO_SYMBOL $036D
+COMMENT $036F to low byte of text
+COMMENT_LINE $0372 and a line end to the end
+COMMENT $0372 end of string
+FORCE_NO_SYMBOL $0372
+COMMENT_LINE $0379 ***************************************************************************
+COMMENT $0379 High byte of the word
+FORCE_SYMBOL $0379 score
+COMMENT $037C move hi to lo reg
+COMMENT $037E High nibble of the byte
+COMMENT $0382 Number to ASCII value
+FORCE_NO_SYMBOL $0382
+COMMENT $0384 to hi byte of text
+FORCE_SYMBOL $0384 score_chr
+COMMENT $0387 Low nibble
+FORCE_NO_SYMBOL $0387
+COMMENT $0389 Number to ASCII value
+FORCE_NO_SYMBOL $0389
+COMMENT $038B to low byte of text
+COMMENT_LINE $038E next address byte
+COMMENT $038E Low byte of the word
+COMMENT $0391 move hi to lo reg
+COMMENT $0393 High nibble of the byte
+COMMENT $0397 Number to ASCII value
+FORCE_NO_SYMBOL $0397
+COMMENT $039C Low nibble
+FORCE_NO_SYMBOL $039C
+COMMENT $039E Number to ASCII value
+FORCE_NO_SYMBOL $039E
+COMMENT_LINE $03A3 add an end of string line at the end
+COMMENT $03A3 end of string
+FORCE_NO_SYMBOL $03A3
+COMMENT_LINE $03AA ***************************************************************************
+COMMENT $03AD Add 10 points
+FORCE_NO_SYMBOL $03AD
+FORCE_SYMBOL $03B2 score
+FORCE_NO_SYMBOL $03B5
+FORCE_SYMBOL $03B8 score
+COMMENT_LINE $03BC ***************************************************************************
+COMMENT $03BC check for new hi-score
+FORCE_SYMBOL $03BC high_score_check
+COMMENT $03BF set intensity
+FORCE_SYMBOL $03BF Intensity_7F
+COMMENT $03C2 load from string address
+FORCE_SYMBOL $03C2 dead_string
+COMMENT $03C5 Text position relative Y
+FORCE_NO_SYMBOL $03C5
+COMMENT $03C7 Text position relative X
+COMMENT $03C9 Vectrex BIOS print routine
+FORCE_SYMBOL $03C9 Print_Str_d
+COMMENT $03CC load from string address
+FORCE_SYMBOL $03CC hi_score_string
+COMMENT $03CF Text position relative Y
+FORCE_NO_SYMBOL $03CF
+COMMENT $03D1 Text position relative X
+COMMENT $03D3 Vectrex BIOS print routine
+FORCE_SYMBOL $03D3 Print_Str_d
+COMMENT $03D6 load from string address
+FORCE_SYMBOL $03D6 hi_score_chr
+COMMENT $03D9 Text position relative Y
+FORCE_NO_SYMBOL $03D9
+COMMENT $03DB Text position relative X
+FORCE_NO_SYMBOL $03DB
+COMMENT $03DD Vectrex BIOS print routine
+FORCE_SYMBOL $03DD Print_Str_d
+COMMENT $03E0 load & show last score
+FORCE_SYMBOL $03E0 nme_hit_string
+FORCE_SYMBOL $03E7 Print_Str_d
+FORCE_SYMBOL $03EA score_chr
+FORCE_NO_SYMBOL $03EF
+FORCE_SYMBOL $03F1 Print_Str_d
+COMMENT $03F4 load from string address
+FORCE_SYMBOL $03F4 start_string
+COMMENT $03F7 Text position relative Y
+FORCE_NO_SYMBOL $03F7
+COMMENT $03F9 Text position relative X
+COMMENT $03FB Vectrex BIOS print routine
+FORCE_SYMBOL $03FB Print_Str_d
+COMMENT $03FE get button status
+FORCE_SYMBOL $03FE Read_Btns
+COMMENT $0401 is a button pressed?
+FORCE_NO_SYMBOL $0401
+COMMENT $0403 if not loop
+COMMENT $0405 restart if button press
+COMMENT_LINE $0409 ***************************************************************************
+COMMENT $0409 Get the (high part of) current hi-score
+FORCE_SYMBOL $0409 hi_score
+COMMENT $040C compaire hi-score (A) with score
+FORCE_SYMBOL $040C score
+COMMENT $040F branch if hi-score is greater than score
+COMMENT $0411 If high not greater check low part
+COMMENT $0414 compaire hi-score (low part) with score
+COMMENT $0417 branch if hi-score is greater than score
+COMMENT $0419 If not load the current score to A
+FORCE_SYMBOL $0419 score
+COMMENT $041C and store it as the new hi-score
+FORCE_SYMBOL $041C hi_score
+FORCE_SYMBOL $0425 score_chr
+FORCE_SYMBOL $0428 hi_score_chr
+COMMENT $042B These lines are executed if
+COMMENT $042E the last score is more than the
+COMMENT $0431 hi score.
+COMMENT $0437 They copy the score string values
+COMMENT $043A into the hi-score string values.
+COMMENT_LINE $0444 ***************************************************************************
+COMMENT_LINE $0444 Data definition
+COMMENT_LINE $0444 ***************************************************************************
+COMMENT $0481 string data
+COMMENT $0488 end of string
+COMMENT $0489 string data
+COMMENT $048F end of string
+COMMENT $0490 string data
+COMMENT $0499 end of string
+COMMENT $049A string data
+COMMENT $049E end of string
+COMMENT $049F string data
+COMMENT $04B1 end of string
+COMMENT_LINE $04B2 ***************************************************************************
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$001F CHAR_DATA 14
+RANGE $001F-$0020 DB_DATA 1
+RANGE $0020-$0444 CODE
+RANGE $0444-$0445 DB_DATA 1
+RANGE $0445-$0447 DB_DATA 2
+RANGE $0447-$0449 DB_DATA 2
+RANGE $0449-$044B DB_DATA 2
+RANGE $044B-$044D DB_DATA 2
+RANGE $044D-$044F DB_DATA 2
+RANGE $044F-$0451 DB_DATA 2
+RANGE $0451-$0453 DB_DATA 2
+RANGE $0453-$0455 DB_DATA 2
+RANGE $0455-$0456 DB_DATA 1
+RANGE $0456-$0458 DB_DATA 2
+RANGE $0458-$045A DB_DATA 2
+RANGE $045A-$045C DB_DATA 2
+RANGE $045C-$045E DB_DATA 2
+RANGE $045E-$0460 DB_DATA 2
+RANGE $0460-$0462 DB_DATA 2
+RANGE $0462-$0464 DB_DATA 2
+RANGE $0464-$0466 DB_DATA 2
+RANGE $0466-$0468 DB_DATA 2
+RANGE $0468-$046A DB_DATA 2
+RANGE $046A-$046C DB_DATA 2
+RANGE $046C-$046E DB_DATA 2
+RANGE $046E-$0470 DB_DATA 2
+RANGE $0470-$0472 DB_DATA 2
+RANGE $0472-$0474 DB_DATA 2
+RANGE $0474-$0476 DB_DATA 2
+RANGE $0476-$0477 DB_DATA 1
+RANGE $0477-$0479 DB_DATA 2
+RANGE $0479-$047B DB_DATA 2
+RANGE $047B-$047D DB_DATA 2
+RANGE $047D-$047F DB_DATA 2
+RANGE $047F-$0481 DB_DATA 2
+RANGE $0481-$0488 CHAR_DATA 7
+RANGE $0488-$0489 DB_DATA 1
+RANGE $0489-$048F CHAR_DATA 6
+RANGE $048F-$0490 DB_DATA 1
+RANGE $0490-$0499 CHAR_DATA 9
+RANGE $0499-$049A DB_DATA 1
+RANGE $049A-$049E CHAR_DATA 4
+RANGE $049E-$049F DB_DATA 1
+RANGE $049F-$04B1 CHAR_DATA 18
+RANGE $04B1-$04B2 DB_DATA 1
+

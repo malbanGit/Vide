@@ -18,7 +18,7 @@
 *
 * Mine Storm
 
-      include "taft.i"
+      include "TAFT.I"
       direct -1
       noopt
       org $E000

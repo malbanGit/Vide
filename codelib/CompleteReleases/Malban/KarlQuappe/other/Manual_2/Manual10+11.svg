@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 1052.3622 744.09448"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="Manual10+11.svg">
+  <defs
+     id="defs4">
+    <clipPath
+       id="clipPath4171"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4173"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4177"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4179"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4213"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4215"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4219"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4221"
+         d="m 98,842 0,-841.0551777 399.5444,0 L 497.5444,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4225"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4227"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <filter
+       y="-0.25"
+       height="1.5"
+       inkscape:menu-tooltip="Darkens the edge with an inner blur and adds a flexible glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:label="Dark And Glow"
+       style="color-interpolation-filters:sRGB"
+       id="filter5098">
+      <feGaussianBlur
+         stdDeviation="5"
+         result="result6"
+         id="feGaussianBlur5100" />
+      <feComposite
+         result="result8"
+         in="SourceGraphic"
+         operator="atop"
+         in2="result6"
+         id="feComposite5102" />
+      <feComposite
+         result="result9"
+         operator="over"
+         in2="SourceAlpha"
+         in="result8"
+         id="feComposite5104" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         result="result10"
+         id="feColorMatrix5106" />
+      <feBlend
+         in="result10"
+         mode="normal"
+         in2="result6"
+         id="feBlend5108" />
+    </filter>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker17530"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path17532"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker17632"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path17634"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path15592"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="481.38425"
+     inkscape:cy="336.33377"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1726"
+     inkscape:window-height="1135"
+     inkscape:window-x="728"
+     inkscape:window-y="109"
+     inkscape:window-maximized="0"
+     showborder="true"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4346" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-308.26773)"
+     style="display:inline">
+    <g
+       id="g4165"
+       transform="matrix(0,-0.14718605,-0.14718605,0,241.43905,606.36053)" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.02782547px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 152.8622,361.41729 0,654.98361 0,0 0,0 0,0"
+       id="path4205"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.02782547px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 896.95669,361.41729 0,654.98361 0,0 0,0 0,0"
+       id="path4205-1"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 70.866142,942.0197 c 919.999998,0 919.999998,0 919.999998,0 l 0,0"
+       id="path4247"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 70.866142,417.61025 c 919.999998,0 919.999998,0 919.999998,0 l 0,0"
+       id="path4247-9"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.02782547px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 524.90945,361.41729 0,654.98361 0,0 0,0 0,0"
+       id="path4205-13"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.54330707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4177"
+       width="790"
+       height="570"
+       x="129"
+       y="395.36221" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Ebene 1,5"
+     sodipodi:insensitive="true"
+     style="display:none">
+    <rect
+       style="opacity:1;fill:#010101;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.54330707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4311"
+       width="800"
+       height="580"
+       x="120"
+       y="84.094482" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Ebene 2"
+     style="display:inline"
+     transform="translate(0,177.16535)">
+    <rect
+       style="display:inline;fill:#000000;fill-opacity:0.39402986;fill-rule:evenodd;stroke:none;stroke-width:2.7579999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4561"
+       width="339.06009"
+       height="19.848625"
+       x="165.15353"
+       y="-48.698666" />
+    <text
+       y="438.34265"
+       x="336.14557"
+       id="text18559"
+       style="font-variant:normal;font-weight:normal;font-size:10px;font-family:Swis721LtBT;-inkscape-font-specification:Swis721LtBT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none">
+      <tspan
+         id="tspan18561"
+         y="438.34265"
+         x="336.14557">9</tspan>
+    </text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text19921"
+       y="-34.867619"
+       x="173.31125"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Verdana;-inkscape-font-specification:'Verdana, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1"
+         y="-34.867619"
+         x="173.31125"
+         id="tspan19923"
+         sodipodi:role="line">Options</tspan></text>
+    <text
+       sodipodi:linespacing="110%"
+       id="text21340"
+       y="-4.0585065"
+       x="175.36688"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         id="tspan4324-6"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang HK';-inkscape-font-specification:'PingFang HK, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+         y="-4.0585065"
+         x="175.36688"
+         sodipodi:role="line">Players</tspan><tspan
+         id="tspan4390-2"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="13.435001"
+         x="175.36688"
+         sodipodi:role="line">Chose the number of players (one or two). </tspan><tspan
+         id="tspan4206"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="30.622501"
+         x="175.36688"
+         sodipodi:role="line">If you select a two player game the game mode</tspan><tspan
+         id="tspan4208"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="47.810001"
+         x="175.36688"
+         sodipodi:role="line">automatically switches to COMPETITION, </tspan><tspan
+         id="tspan4210"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="64.997505"
+         x="175.36688"
+         sodipodi:role="line">since only that mode supports a two player game.</tspan><tspan
+         id="tspan4463"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="82.185005"
+         x="175.36688"
+         sodipodi:role="line">Two players play alternately after each life.</tspan></text>
+    <path
+       sodipodi:open="true"
+       d="m 179.52129,146.83699 a 2.8142583,2.8144593 0 0 1 -3.78535,1.20738 2.8142583,2.8144593 0 0 1 -1.22011,-3.78152 2.8142583,2.8144593 0 0 1 3.77709,-1.23299 2.8142583,2.8144593 0 0 1 1.24569,3.77316"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="145.54144"
+       sodipodi:cx="177.02292"
+       sodipodi:type="arc"
+       id="path18422"
+       style="fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:open="true"
+       d="m 179.52129,275.41054 a 2.8142583,2.8144593 0 0 1 -3.78535,1.20737 2.8142583,2.8144593 0 0 1 -1.22011,-3.78151 2.8142583,2.8144593 0 0 1 3.77709,-1.23299 2.8142583,2.8144593 0 0 1 1.24569,3.77315"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="274.11499"
+       sodipodi:cx="177.02292"
+       sodipodi:type="arc"
+       id="path18422-3"
+       style="fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       sodipodi:linespacing="110%"
+       id="text21340-8"
+       y="107.9415"
+       x="175.28209"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         id="tspan4231-0"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang HK';-inkscape-font-specification:'PingFang HK, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+         y="107.9415"
+         x="175.28209"
+         sodipodi:role="line">Game Mode</tspan><tspan
+         id="tspan4463-0"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="125.43501"
+         x="175.28209"
+         sodipodi:role="line">There are three different game modes.</tspan></text>
+    <text
+       sodipodi:linespacing="110%"
+       id="text21340-8-8"
+       y="149.9415"
+       x="175.75511"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         id="tspan4415-9-2"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="149.9415"
+         x="175.75511"
+         sodipodi:role="line">   COMPETITION</tspan><tspan
+         id="tspan4417-6-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="167.129"
+         x="175.75511"
+         sodipodi:role="line">   is the default game mode. </tspan><tspan
+         id="tspan4419-1-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="184.3165"
+         x="175.75511"
+         sodipodi:role="line">   - high scores can be achieved</tspan><tspan
+         id="tspan4421-4-0"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="201.504"
+         x="175.75511"
+         sodipodi:role="line">   - 1 and 2 player games are possible</tspan><tspan
+         id="tspan4423-8-6"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="218.6915"
+         x="175.75511"
+         sodipodi:role="line">   - each game starts with 5 lives</tspan><tspan
+         id="tspan4425-3-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="235.879"
+         x="175.75511"
+         sodipodi:role="line">   - for every 10,000 points a new life is awarded</tspan><tspan
+         id="tspan4463-0-0"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="253.0665"
+         x="175.75511"
+         sodipodi:role="line">   - the game always starts at level 1</tspan></text>
+    <text
+       sodipodi:linespacing="110%"
+       id="text21340-8-8-8"
+       y="277.9415"
+       x="175.75511"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         id="tspan4431-6-9-1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="277.9415"
+         x="175.75511"
+         sodipodi:role="line">   TRAINING</tspan><tspan
+         id="tspan4433-8-6-6"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="295.129"
+         x="175.75511"
+         sodipodi:role="line">   - high scores are not supported</tspan><tspan
+         id="tspan4435-7-6-2"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="312.3165"
+         x="175.75511"
+         sodipodi:role="line">   - only 1 player games are possible</tspan><tspan
+         id="tspan4437-7-5-6"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="329.504"
+         x="175.75511"
+         sodipodi:role="line">   - each game starts with 5 lives</tspan><tspan
+         id="tspan4439-4-3-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="346.6915"
+         x="175.75511"
+         sodipodi:role="line">   - every 10,000 points a new life is awarded</tspan><tspan
+         id="tspan4441-9-0-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="363.879"
+         x="175.75511"
+         sodipodi:role="line">   - a game can be continued after the last live is lost</tspan><tspan
+         id="tspan4443-9-2-9"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="381.0665"
+         x="175.75511"
+         sodipodi:role="line">   - the training level can be chosen (after once </tspan><tspan
+         id="tspan4447-3-9-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="398.254"
+         x="175.75511"
+         sodipodi:role="line">     scoring 30,000 points in COMPETITION mode)</tspan><tspan
+         id="tspan4483-1-4-2"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="415.4415"
+         x="175.75511"
+         sodipodi:role="line" /><tspan
+         id="tspan4449-3-8-9"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="432.629"
+         x="175.75511"
+         sodipodi:role="line" /><tspan
+         id="tspan4463-0-0-9"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="449.8165"
+         x="175.75511"
+         sodipodi:role="line" /></text>
+    <g
+       id="g6892"
+       transform="translate(12.661414,3.2838168)">
+      <rect
+         y="-51.982471"
+         x="531.94489"
+         height="19.848625"
+         width="339.06009"
+         id="rect4561-5"
+         style="display:inline;fill:#000000;fill-opacity:0.39402986;fill-rule:evenodd;stroke:none;stroke-width:2.7579999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         y="435.05884"
+         x="702.93689"
+         id="text18559-9"
+         style="font-variant:normal;font-weight:normal;font-size:10px;font-family:Swis721LtBT;-inkscape-font-specification:Swis721LtBT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none">
+        <tspan
+           id="tspan18561-0"
+           y="435.05884"
+           x="702.93689">10</tspan>
+      </text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text19921-0"
+         y="-38.151455"
+         x="540.1026"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Verdana;-inkscape-font-specification:'Verdana, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1"
+           y="-38.151455"
+           x="540.1026"
+           id="tspan19923-0"
+           sodipodi:role="line">Options</tspan></text>
+      <text
+         sodipodi:linespacing="110%"
+         id="text21340-2"
+         y="-7.3421297"
+         x="542.1582"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan4483"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="-7.3421297"
+           x="542.1582"
+           sodipodi:role="line">   HARDCORE</tspan><tspan
+           id="tspan4378"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="9.8453703"
+           x="542.1582"
+           sodipodi:role="line">   - high scores can be achieved </tspan><tspan
+           id="tspan4380"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="27.032871"
+           x="542.1582"
+           sodipodi:role="line">     (a unique set)</tspan><tspan
+           id="tspan4382"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="44.220371"
+           x="542.1582"
+           sodipodi:role="line">   - only 1 player games are possible</tspan><tspan
+           id="tspan4384"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="61.407871"
+           x="542.1582"
+           sodipodi:role="line">   - the player has only 1 life</tspan><tspan
+           id="tspan4386"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="78.595375"
+           x="542.1582"
+           sodipodi:role="line">   - no extra lives are awarded</tspan><tspan
+           id="tspan4217"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="95.782875"
+           x="542.1582"
+           sodipodi:role="line">   - no in-game specials can be found</tspan></text>
+      <path
+         sodipodi:open="true"
+         d="m 546.31264,-9.5328365 a 2.8142583,2.8144593 0 0 1 -3.78535,1.2073776 2.8142583,2.8144593 0 0 1 -1.22011,-3.7815111 2.8142583,2.8144593 0 0 1 3.77709,-1.232996 2.8142583,2.8144593 0 0 1 1.24569,3.7731573"
+         sodipodi:end="0.4648033"
+         sodipodi:start="0.47835286"
+         sodipodi:ry="2.8144593"
+         sodipodi:rx="2.8142583"
+         sodipodi:cy="-10.828382"
+         sodipodi:cx="543.81427"
+         sodipodi:type="arc"
+         id="path18422-2"
+         style="fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="110%"
+         id="text21340-2-5"
+         y="121.65787"
+         x="542.19604"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan4500-2"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+           y="121.65787"
+           x="542.19604"
+           sodipodi:role="line">MUSIC ON/OFF</tspan><tspan
+           id="tspan4456-8"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="139.15138"
+           x="542.19604"
+           sodipodi:role="line">An option to switch off the music. This applies to</tspan><tspan
+           id="tspan4217-0"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="156.33888"
+           x="542.19604"
+           sodipodi:role="line">both in-game and title music.</tspan></text>
+      <text
+         sodipodi:linespacing="110%"
+         id="text21340-2-5-0"
+         y="181.65787"
+         x="542.0282"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan4462-3-3"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+           y="181.65787"
+           x="542.0282"
+           sodipodi:role="line">LEVEL</tspan><tspan
+           id="tspan4466-3-0"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="199.15138"
+           x="542.0282"
+           sodipodi:role="line">Once a score of 30,000 or higher is achieved in </tspan><tspan
+           id="tspan4468-1-7"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="216.33888"
+           x="542.0282"
+           sodipodi:role="line">COMPETITION mode,  you can select a start level </tspan><tspan
+           id="tspan4217-0-2"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="233.52638"
+           x="542.0282"
+           sodipodi:role="line">for TRAINING mode games (joystick 1 left/right).</tspan></text>
+      <text
+         sodipodi:linespacing="110%"
+         id="text21340-2-5-0-4"
+         y="260.65787"
+         x="542.44629"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan4474-6-1-1"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+           y="260.65787"
+           x="542.44629"
+           sodipodi:role="line">RESET STORAGE</tspan><tspan
+           id="tspan4478-4-7-0"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="278.15137"
+           x="542.44629"
+           sodipodi:role="line">The cartridge memory can be erased.</tspan><tspan
+           id="tspan4480-1-3-3"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="295.33887"
+           x="542.44629"
+           sodipodi:role="line">This resets the cartridge memory to its default </tspan><tspan
+           id="tspan4482-7-5-2"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="312.52637"
+           x="542.44629"
+           sodipodi:role="line">values, with no high scores and all options reset.</tspan><tspan
+           id="tspan4217-0-2-0"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="329.71387"
+           x="542.44629"
+           sodipodi:role="line">This also resets (if applicable) VecFever storage. </tspan></text>
+      <text
+         sodipodi:linespacing="110%"
+         id="text21340-2-5-0-4-3"
+         y="355.65787"
+         x="542.4234"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan4490-1-4-0-9"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+           y="355.65787"
+           x="542.4234"
+           sodipodi:role="line">BACK</tspan><tspan
+           id="tspan4494-3-0-5-4"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="373.15137"
+           x="542.4234"
+           sodipodi:role="line">Will exit to the title screen.</tspan><tspan
+           id="tspan4498-7-9-3-6"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="390.33887"
+           x="542.4234"
+           sodipodi:role="line">If using a VecFever pressing button 4 will exit to </tspan><tspan
+           id="tspan4217-0-2-0-8"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="407.52637"
+           x="542.4234"
+           sodipodi:role="line">the VecFever menu.</tspan></text>
+    </g>
+  </g>
+</svg>

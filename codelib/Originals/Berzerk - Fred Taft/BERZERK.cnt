@@ -1,0 +1,3507 @@
+BANK 0
+EQU $00 
+LABEL $F000 start_of_OS_ROM
+LABEL $F101 gce_copyright_string
+LABEL $F10C vectrex_string
+LABEL $F14C init_PIA_chip
+LABEL $F164 initialize_OS_RAM
+LABEL $F18B reinit
+LABEL $F192 waitrecal
+LABEL $F1A2 set_refresh
+LABEL $F1AA dptoD0
+LABEL $F1AF dptoC8
+LABEL $F1B4 read_switches
+LABEL $F1BA read_switches2
+LABEL $F1F8 read_jstick
+LABEL $F256 byte_2_sound_chip
+LABEL $F259 byte_2_sound_chip2
+LABEL $F272 clear_sound_chip
+LABEL $F27D copy_bytes_2_sound_chip
+LABEL $F289 do_sound
+LABEL $F29D intensity_to_1F
+LABEL $F2A1 intensity_to_3F
+LABEL $F2A5 intensity_to_5F
+LABEL $F2A9 intensity_to_7F
+LABEL $F2AB intensity_to_a
+LABEL $F2BE dotixb
+LABEL $F2C1 dotix
+LABEL $F2C3 dot_at_d
+LABEL $F2C5 dot_at_current_position
+LABEL $F2D5 dot_list
+LABEL $F2DE dotix_then_reset
+LABEL $F2F2 move_pen7F_no_inc
+LABEL $F2FC move_pen7F_to_d
+LABEL $F308 move_penFF
+LABEL $F30C move_pen7F
+LABEL $F30E set_scale_factor
+LABEL $F310 move_pen
+LABEL $F312 move_pen_d
+LABEL $F34A set_dp_and_reset0ref
+LABEL $F34F check0ref
+LABEL $F354 reset0ref
+LABEL $F373 print_1_string
+LABEL $F378 print_with_dft_hw
+LABEL $F37A print_at_d
+LABEL $F385 printu
+LABEL $F38A printu2
+LABEL $F38C printu3
+LABEL $F391 print_b_minus_a
+LABEL $F393 print_b_minus_a2
+LABEL $F3AD move_then_draw_VL_with_count1
+LABEL $F3B1 move_then_draw_VL_with_count2
+LABEL $F3B5 move_then_draw_VL_with_count3
+LABEL $F3B7 move_then_draw_VL_with_count4
+LABEL $F3B9 move_then_draw_VL_with_count6
+LABEL $F3BC move_then_draw_VL_with_count5
+LABEL $F3CE draw_VL_with_count4
+LABEL $F3D2 draw_VL_with_count3
+LABEL $F3D6 draw_VL_with_count2
+LABEL $F3D8 draw_VL_with_count6
+LABEL $F3DA draw_VL_with_count5
+LABEL $F3DD draw_VL_with_count1
+LABEL $F3DF draw_to_d
+LABEL $F404 drawl1_scale_FF
+LABEL $F408 drawl1_scale_7F
+LABEL $F40C drawl1
+LABEL $F40E drawl1b
+LABEL $F410 next_pt
+LABEL $F434 dwp_with_count
+LABEL $F437 draw_with_pattern
+LABEL $F46E drawl2
+LABEL $F495 display_string
+LABEL $F511 get_random_a2
+LABEL $F517 get_random_a
+LABEL $F533 init_music_buf
+LABEL $F53F clear_blockxb
+LABEL $F542 clear_C8_ram
+LABEL $F545 clear_256_bytes
+LABEL $F548 clear_block
+LABEL $F550 clear_block_to_0x80
+LABEL $F552 clear_block_to_a
+LABEL $F55A decrement_counters_C82E_C830
+LABEL $F55E decrement_counters_C82E_C833
+LABEL $F56D delay_b_3
+LABEL $F571 delay_b_2
+LABEL $F575 delay_b_1
+LABEL $F579 delay_b_0
+LABEL $F57A start_b_delay
+LABEL $F57E get_bit_mask
+LABEL $F584 get_absolute_value_of_ab
+LABEL $F593 convert_rise_run_to_angle
+LABEL $F5D9 get_2nd_index_pair
+LABEL $F5DB get_1st_index_pair
+LABEL $F5EF get_rotation_index_pairs
+LABEL $F5FF convert_abs_angle_to_rise_run
+LABEL $F601 convert_angle_to_rise_run
+LABEL $F610 rotate_vector_list2
+LABEL $F61F rotate_vector_list1
+LABEL $F637 transform_next_point
+LABEL $F65B xform_1
+LABEL $F65D xform_1a
+LABEL $F661 xform_2
+LABEL $F663 xform_2a
+LABEL $F67F move_block
+LABEL $F683 move_block2
+LABEL $F687 init_sound
+LABEL $F68D init_sound2
+LABEL $F7A9 get_players_game
+LABEL $F82C handle_buttons
+LABEL $F835 display_option_string
+LABEL $F84F set_dft_score
+LABEL $F85E convert_a_to_bcd_and_add
+LABEL $F87C add_d_to_x_in_bcd
+LABEL $F8C7 compare_scores
+LABEL $F8D8 check_4_new_hi_score
+LABEL $F8E5 modify_target_and_check_4_hit1
+LABEL $F8F3 modify_target_and_check_4_hit2
+LABEL $F8FF check_bullet_for_hit
+LABEL $F903 check_bullet_for_hit2
+LABEL $F92E generate_explosion_sound
+LABEL $F794 player_string
+LABEL $F79F game_string
+LABEL $F9DC bit_masks
+LABEL $F9E4 music_stuff1
+LABEL $F9EA music_stuff2
+LABEL $F9F4 character_table
+LABEL $FC24 angle_data1
+LABEL $FC2C angle_data2
+LABEL $FC6D rotation_pair_table
+LABEL $FC8D music_routine_data
+LABEL $FD0D intro_music_block
+LABEL $FD1D berzerk_music_block
+LABEL $FD69 music_header1a
+LABEL $FD79 music_header2b
+LABEL $FEB6 music_header2a
+LABEL $FEE8 music_header1b
+LABEL $001A start
+EQU $2E RestartBerzerk
+LABEL $003A P003A
+LABEL $0040 P0040
+LABEL $0060 P0060
+LABEL $0066 StartNewTurn
+LABEL $0EF6 DetermineMazeWalls
+LABEL $0315 DisplayLives
+LABEL $0086 LoopWhileDisplayingMaze
+LABEL $0D41 DoUnknownSoundMucking
+LABEL $0096 P0096
+LABEL $0486 DrawMaze
+LABEL $00B5 P00B5
+LABEL $00AF EnterNextMaze
+LABEL $00D7 P00D7
+LABEL $0A2D SkillLevelCutoffs
+LABEL $00DC P00DC
+LABEL $00E7 P00E7
+LABEL $00F5 P00F5
+LABEL $00FC P00FC
+LABEL $0104 P0104
+LABEL $0CE6 RobotStartingPositionTable
+LABEL $010E P010E
+LABEL $014C P014C
+LABEL $0120 P0120
+LABEL $0146 P0146
+LABEL $017B P017B
+LABEL $017F P017F
+LABEL $0198 MainJumpTable
+LABEL $01B4 PlayerIsAlive
+LABEL $0976 PlayerHasLeftMaze
+LABEL $036B PlayerHasDied
+LABEL $019E MakeSoundThenGotoMainLoop
+LABEL $01A4 P01A4
+LABEL $01B0 P01B0
+LABEL $01BF ProcessJoystickAndButtons
+LABEL $0212 DoNotUpdatePlayerMovement
+LABEL $01C8 P01C8
+LABEL $01CC P01CC
+LABEL $01D4 P01D4
+LABEL $01D8 P01D8
+LABEL $0203 NoBtnsPressed
+LABEL $0939 CalculateUpdatedPosition
+LABEL $0333 FireBullet
+LABEL $021C CheckIfFiring
+LABEL $0243 CheckForPlayerLeavingQuadrant
+LABEL $022D NotFiringButMoving
+LABEL $0A3C ArmsShootingIndicesTable
+LABEL $0F98 MapPointToQnMakeRel
+COMMENT_LABEL $0F98 MapPointToQuadrantAndMakeRelative
+LABEL $0EEA PlayerThresholds
+LABEL $0EC7 CheckForQuadrantEdgeCrossing
+LABEL $02A8 NoContactWithWalls
+LABEL $0264 P0264
+LABEL $029B PlayerHitWall
+LABEL $0292 ExitMaze
+LABEL $0274 P0274
+LABEL $0284 P0284
+LABEL $0825 ProcessAndUpdateBullets
+LABEL $064A ProcessAndUpdateRobots
+LABEL $02CC CheckForExtraLifeBonus
+LABEL $02BA P02BA
+LABEL $02C4 P02C4
+LABEL $02E6 CheckForClearedLevelBonus
+LABEL $0312 P0312
+LABEL $02FD P02FD
+LABEL $0300 P0300
+LABEL $0326 P0326
+LABEL $031F P031F
+LABEL $0EEE BulletThresholds
+LABEL $0369 P0369
+LABEL $0D0B PlayerFriedIntensities
+LABEL $039A P039A
+LABEL $0774 CheckForOttoStart
+LABEL $03D9 P03D9
+LABEL $03D0 P03D0
+LABEL $03E6 LoopWaitingForRestart
+LABEL $03FF DisplayHighScore
+LABEL $0CDE AuthorsInitials
+LABEL $046D HighScoreString
+LABEL $0632 DisplayBothPlayersScore
+LABEL $047C HumanoidStringPositions
+LABEL $045C HumanoidString
+LABEL $0453 P0453
+LABEL $044D P044D
+LABEL $0B0B OutsideMazeWallData
+LABEL $049E P049E
+LABEL $08C7 DrawWithPossibleScrolling
+LABEL $0B1B InnerWallPositionTable
+LABEL $04BC P04BC
+LABEL $0B3B InnerWallVectorTable
+LABEL $0AE9 BlockedDoorVectorTable
+LABEL $04DB DisplayBonusString
+LABEL $04F7 DrawActivePieces
+LABEL $0AE1 BonusString
+LABEL $0510 P0510
+LABEL $0516 DrawActiveBullets
+LABEL $051C P051C
+LABEL $0532 DrawAliveRobots
+LABEL $052B P052B
+LABEL $05E7 DrawThePlayer
+LABEL $053E P053E
+LABEL $0544 P0544
+LABEL $05BE P05BE
+LABEL $0599 DrawRobotDisappearing
+LABEL $0A67 RobotExtremitiesVectorTable
+LABEL $0619 DrawRobotRightHalf
+LABEL $0614 DrawRobotLeftHalf
+LABEL $058F P058F
+LABEL $05C6 P05C6
+LABEL $05A5 P05A5
+LABEL $0B99 OttoVectors
+LABEL $0613 P0613
+LABEL $09EF DrawPlayerFunction
+LABEL $0B5E RobotLeftHalf
+LABEL $061C P061C
+LABEL $0B43 RobotRightHalf
+LABEL $0649 P0649
+LABEL $0654 P0654
+LABEL $0669 P0669
+LABEL $0666 P0666
+LABEL $067F P067F
+LABEL $0F65 DetermineDirectionToMove
+LABEL $0695 PrepareToFire
+LABEL $06C6 RobotMoving
+LABEL $06A7 RobotFiring
+LABEL $070C CheckForRobotContactWithWall
+LABEL $06FF MoveInCurrentDirection
+LABEL $06F4 AttemptToAvoidWalls
+LABEL $0724 CheckForRobotCollision
+LABEL $0EE6 RobotThresholds
+LABEL $080F CreditPlayerWithDeadRobot
+LABEL $072B P072B
+LABEL $074D GetNextRobotPtr
+LABEL $0D35 RobotContactBounds
+LABEL $0D1B CheckForContact
+LABEL $0D39 PlayerContactBounds
+LABEL $07ED P07ED
+LABEL $079B P079B
+LABEL $0799 P0799
+LABEL $07A7 P07A7
+LABEL $07EE OttoBounceOffsets
+LABEL $07CE CheckForRobotHitByOtto
+LABEL $07D9 P07D9
+LABEL $07E7 P07E7
+LABEL $08C6 P08C6
+LABEL $0830 P0830
+LABEL $08B6 P08B6
+LABEL $083E P083E
+LABEL $0863 P0863
+LABEL $0EF2 BulletToWallThresholds
+LABEL $086D P086D
+LABEL $0874 P0874
+LABEL $088C P088C
+LABEL $0D3D PlayerContactBounds2
+LABEL $08B2 P08B2
+LABEL $08E6 P08E6
+LABEL $0936 DoNoDrawing
+LABEL $08F7 P08F7
+LABEL $0913 P0913
+LABEL $0924 P0924
+LABEL $0952 AddVelocityToEndpoints
+LABEL $094A P094A
+LABEL $094E P094E
+LABEL $095B P095B
+LABEL $0960 P0960
+LABEL $096D P096D
+LABEL $0972 P0972
+LABEL $0986 P0986
+LABEL $09B2 P09B2
+LABEL $098E P098E
+LABEL $09A0 P09A0
+LABEL $0996 P0996
+LABEL $09DE SaveScrollingDeltas
+LABEL $09AC P09AC
+LABEL $09C2 P09C2
+LABEL $09BE P09BE
+LABEL $09D9 P09D9
+LABEL $0BCD PlayersBody
+LABEL $0A15 PlayerStandingStill
+LABEL $0A47 PlayerLegsVectorTable
+LABEL $0A51 PlayerMovingArmsVectorTable
+LABEL $0C5B StationaryLegs
+LABEL $0A55 PlayerArmsVectorTable
+LABEL $0A28 PlayerNotShooting
+LABEL $0BE4 LegsRunningRight1
+LABEL $0BFD LegsRunningRight2
+LABEL $0C16 LegsRunningLeft1
+LABEL $0C2F LegsRunningLeft2
+LABEL $0CB8 MovingArms1
+LABEL $0CCB MovingArms2
+LABEL $0C48 NeutralArms
+LABEL $0C71 ShootingLeft
+LABEL $0C68 ShootingRight
+LABEL $0C7A ShootingUp
+LABEL $0C90 ShootingUpperLeft
+LABEL $0CA4 ShootingUpperRight
+LABEL $0C85 ShootingDown
+LABEL $0C9B ShootingLowerLeft
+LABEL $0CAF ShootingLowerRight
+LABEL $0A7D RobotStandingStill
+LABEL $0AA5 RobotMovingLeft
+LABEL $0A91 RobotMovingRight
+LABEL $0AB9 RobotMovingUp
+LABEL $0ACD RobotMovingDown
+LABEL $0B50 RobotRightLeg1
+LABEL $0B5C RobotRightFoot
+LABEL $0B6B RobotLeftLeg1
+LABEL $0B77 RobotLeftFoot
+LABEL $0B79 RobotEyeBoxCentered
+LABEL $0B83 RobotEyeBoxRight
+LABEL $0B97 RobotEyeBoxInvisible
+LABEL $0B8D RobotEyeBoxLeft
+LABEL $0B54 RobotRightLeg2
+LABEL $0B6F RobotLeftLeg2
+LABEL $0B58 RobotRightLeg3
+LABEL $0B73 RobotLeftLeg3
+LABEL $0AFB RightDoorVectors
+LABEL $0AFF LeftDoorVectors
+LABEL $0B07 BottomDoorVectors
+LABEL $0B03 TopDoorVectors
+LABEL $0B2B UpperLeftWall
+LABEL $0B2F LowerLeftWall
+LABEL $0B33 LowerRightWall
+LABEL $0B37 UpperRightWall
+LABEL $0CFC DefaultMazeWallsPerQuadrant
+LABEL $0D32 P0D32
+LABEL $0D54 P0D54
+LABEL $0DF2 P0DF2
+LABEL $0D56 P0D56
+LABEL $0D62 P0D62
+LABEL $0DEB P0DEB
+LABEL $0D69 P0D69
+LABEL $0E32 P0E32
+LABEL $0D77 P0D77
+LABEL $0E22 P0E22
+LABEL $0D85 P0D85
+LABEL $0DB2 P0DB2
+LABEL $0D8C P0D8C
+LABEL $0DC3 P0DC3
+LABEL $0D9A P0D9A
+LABEL $0E56 DoUnknownSoundMucking3
+LABEL $0DA1 P0DA1
+LABEL $0E6A DoUnknownSoundMucking4
+LABEL $0DAA P0DAA
+LABEL $0EAB P0EAB
+LABEL $0DB1 P0DB1
+LABEL $0E99 P0E99
+LABEL $0DD8 P0DD8
+LABEL $0DDA P0DDA
+LABEL $0DE2 P0DE2
+LABEL $0DE8 P0DE8
+LABEL $0DFF P0DFF
+LABEL $0E04 P0E04
+LABEL $0E0F P0E0F
+LABEL $0E41 DoUnknownSoundMucking2
+LABEL $0E4E P0E4E
+LABEL $0E53 P0E53
+LABEL $0E7F P0E7F
+LABEL $0E86 P0E86
+LABEL $0EBC P0EBC
+LABEL $0ED0 P0ED0
+LABEL $0ED6 P0ED6
+LABEL $0EDF P0EDF
+LABEL $0EE5 P0EE5
+LABEL $0F0C P0F0C
+LABEL $0F23 P0F23
+LABEL $0F53 P0F53
+LABEL $0F35 P0F35
+LABEL $0F47 P0F47
+LABEL $0F5E P0F5E
+LABEL $0F7A P0F7A
+LABEL $0F7E P0F7E
+LABEL $0F80 P0F80
+LABEL $0F92 P0F92
+LABEL $0F95 P0F95
+LABEL $0FA3 P0FA3
+LABEL $0FA9 P0FA9
+LABEL $0FBF P0FBF
+LABEL $0FD3 RelativeOffsetConversionTable
+LABEL $1000 *
+COMMENT_LINE $0000 can be assembled correctly now
+COMMENT_LINE $0000 compatibilty added by Malban
+COMMENT_LINE $0000 assenmble with comand line:
+COMMENT_LINE $0000 .\ass\as09.exe -w200 -h0 -l -mcti berzerk.asm >error
+COMMENT_LINE $0000 used the 6809 assembler:
+COMMENT_LINE $0000 as09 [1.11].
+COMMENT_LINE $0000 Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+COMMENT_LINE $0000 Available at:
+COMMENT_LINE $0000 http://www.falstaff.demon.co.uk/cross.html
+COMMENT_LINE $0000 This work was originally done by Fred Taft (fred@hp-pcd.cv.hp.com).
+COMMENT_LINE $0000 Please forward any comments, corrections or additions back to Fred.
+COMMENT_LINE $0000 Berzerk
+COMMENT_LINE $0000 *****************************************************************************
+COMMENT_LINE $0000 The following are possible bugs discovered in this code:
+COMMENT_LINE $0000 DisplayBonusString
+COMMENT_LINE $0000 When checking to see if the bonus strings should be displayed,
+COMMENT_LINE $0000 the 'ble' command really should be a 'blt'!!  This explains why
+COMMENT_LINE $0000 when a player clears a maze containing 10 robots, the bonus
+COMMENT_LINE $0000 string was not displayed.  In this case the bonus string is
+COMMENT_LINE $0000 "   100", and this fails the above check!
+COMMENT_LINE $0000 DisplayLives
+COMMENT_LINE $0000 There is no check to see if the C8D8 buffer is overrun (this
+COMMENT_LINE $0000 is the buffer used to display the number of lives a player has);
+COMMENT_LINE $0000 what is the intended size of this buffer?
+COMMENT_LINE $0000 FireBullet
+COMMENT_LINE $0000 There seems to be the potential to overwrite the stack when
+COMMENT_LINE $0000 firing bullets.  The array of bullet entries can grow very
+COMMENT_LINE $0000 quickly as a player gets better, since robots can fire more
+COMMENT_LINE $0000 bullets (and fire them more quickly).  The end of the array
+COMMENT_LINE $0000 only gets moved back when the last bullet hits something and
+COMMENT_LINE $0000 becomes inactive.  It would be better to modify FireBullet()
+COMMENT_LINE $0000 to only allow a certain number of bullets (or to do a better
+COMMENT_LINE $0000 job of compacting the array).
+COMMENT_LINE $0000 *****************************************************************************
+COMMENT_LINE $0000 The following is the memory map for Berzerk RAM usage:
+COMMENT_LINE $0000 C880-C881     Points to player structure for the current player.
+COMMENT_LINE $0000 C882          Number of players: 0 = 1 player, 1 = 2 players
+COMMENT_LINE $0000 C883          Controls maximum number of bullets a robot can fire in a
+COMMENT_LINE $0000 burst; takes a big jump when user's score surpasses 10,000
+COMMENT_LINE $0000 points.
+COMMENT_LINE $0000 C884          Velocity factor used when firing robot's bullets.
+COMMENT_LINE $0000 C885          Work memory and loop counter.
+COMMENT_LINE $0000 C886          Flag; don't draw player if = < 0
+COMMENT_LINE $0000 C88F-C890     Player's position
+COMMENT_LINE $0000 C891          Work memory
+COMMENT_LINE $0000 C892          Work memory
+COMMENT_LINE $0000 C893-C894     Otto's position (y,x)
+COMMENT_LINE $0000 C895-C896     Player's position (starting position); used to seed Otto's
+COMMENT_LINE $0000 initial position.
+COMMENT_LINE $0000 C897          Counter; controls bouncing offset for Otto's 'y' position
+COMMENT_LINE $0000 C898          Otto's movement velocity
+COMMENT_LINE $0000 C899          After a point is mapped into a quadrant number, this contains
+COMMENT_LINE $0000 the bitmask describing which walls are present in that
+COMMENT_LINE $0000 quadrant:
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 Quadrant has Bottom Wall-----^
+COMMENT_LINE $0000 Quadrant has Top Wall------------^
+COMMENT_LINE $0000 Quadrant has Right Wall--------------^
+COMMENT_LINE $0000 Quadrant has Left Wall-------------------^
+COMMENT_LINE $0000 C89A          Quadrant into which a point falls:
+COMMENT_LINE $0000 -100 -60 -20 +20 +60 +100
+COMMENT_LINE $0000 +---+---+---+---+---+ +96
+COMMENT_LINE $0000 | 0 | 1 | 2 | 3 | 4 |
+COMMENT_LINE $0000 +---o---o---o---o---+ +32
+COMMENT_LINE $0000 | 5 | 6 | 7 | 8 | 9 |
+COMMENT_LINE $0000 +---o---o---o---o---+ -32
+COMMENT_LINE $0000 |10 |11 |12 |13 |14 |
+COMMENT_LINE $0000 +---+---+---+---+---+ -96
+COMMENT_LINE $0000 C89B-C89C     After a point is mapped into a quadrant number, this contains
+COMMENT_LINE $0000 the point as a relative offset from the lower left corner
+COMMENT_LINE $0000 of the quadrant.
+COMMENT_LINE $0000 C89D          Work memory/counter
+COMMENT_LINE $0000 C89E-C89F     During game, work memory; usually contains a position (y,x).
+COMMENT_LINE $0000 After a game, C89F is a semaphore causing author's initials
+COMMENT_LINE $0000 to be displayed;also used as a counter
+COMMENT_LINE $0000 C8A1          Work memory and loop counter.
+COMMENT_LINE $0000 C8A2          Work memory and loop counter.
+COMMENT_LINE $0000 C8A7          Delay (placed in the robot's structure) between how often
+COMMENT_LINE $0000 a robot is updated (moved, fire, etc); 0 = no delay.
+COMMENT_LINE $0000 C8A8          Used while populating a level with robots; if the random
+COMMENT_LINE $0000 number is < C8A8, then a robot is placed in the maze.
+COMMENT_LINE $0000 C8A9          Used during robot processing.
+COMMENT_LINE $0000 C8AA          Used during robot processing.
+COMMENT_LINE $0000 C8AB-C8B2     Array of byte-long offsets, telling which walls are to be
+COMMENT_LINE $0000 drawn from each of the 8 possible starting points within
+COMMENT_LINE $0000 the maze (0=up, 2=down, 4=to right, 6=to left).  The 8
+COMMENT_LINE $0000 possible starting points are shown below:
+COMMENT_LINE $0000 -100 -60 -20 +20 +60 +100
+COMMENT_LINE $0000 +---+---+---+---+---+ +96
+COMMENT_LINE $0000 |                   |
+COMMENT_LINE $0000 +   o   o   o   o   + +32
+COMMENT_LINE $0000 |                   |
+COMMENT_LINE $0000 +   o   o   o   o   + -32
+COMMENT_LINE $0000 |                   |
+COMMENT_LINE $0000 +---+---+---+---+---+ -96
+COMMENT_LINE $0000 C8B5-C8C3     Array of masks (1 per quadrant) indicating which walls are
+COMMENT_LINE $0000 present in the quadrant.  The mask values are:
+COMMENT_LINE $0000 $01 = left wall
+COMMENT_LINE $0000 $02 = right wall
+COMMENT_LINE $0000 $04 = top wall
+COMMENT_LINE $0000 $08 = bottom wall
+COMMENT_LINE $0000 C8B5 refers to quadrant 0, C8B6 to quadrant 1, etc.
+COMMENT_LINE $0000 C8C5          Jump table index based on the player's current state:
+COMMENT_LINE $0000 0 = player is alive
+COMMENT_LINE $0000 2 = player has left the maze
+COMMENT_LINE $0000 4 = player has died
+COMMENT_LINE $0000 C8C6          Indicates if one of the maze doors should be closed off:
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 | 0 | 0 | 0 | T | B | L | R | 0 |
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 Block Top Door--^
+COMMENT_LINE $0000 Block Bottom Door---^
+COMMENT_LINE $0000 Block Left Door---------^
+COMMENT_LINE $0000 Block Right Door------------^
+COMMENT_LINE $0000 C8C7          Number of robots initially seeded into the maze
+COMMENT_LINE $0000 C8C8          Number of robots still alive
+COMMENT_LINE $0000 C8C9-C8CA     Indirect jump pointer
+COMMENT_LINE $0000 C8CB          Intensity value used by DrawWithPossibleScrolling()
+COMMENT_LINE $0000 C8CC          Index of the last bullet in use
+COMMENT_LINE $0000 C8CD          Cleared in one place, then never again used.
+COMMENT_LINE $0000 C8CE          Indicates state of player's legs:
+COMMENT_LINE $0000 0 = player is standing still
+COMMENT_LINE $0000 2 = player is running right (wide legs)
+COMMENT_LINE $0000 4 = player is running right (close legs)
+COMMENT_LINE $0000 6 = player is running left (close legs)
+COMMENT_LINE $0000 8 = player is running left (wide legs)
+COMMENT_LINE $0000 C8CF          Indicates the state of the player's arms:
+COMMENT_LINE $0000 When player is running:
+COMMENT_LINE $0000 $00 = arms moving to the right
+COMMENT_LINE $0000 $02 = arms moving to the left
+COMMENT_LINE $0000 When player is standing still:
+COMMENT_LINE $0000 $00 = arms neutral
+COMMENT_LINE $0000 $02 = arms shooting left
+COMMENT_LINE $0000 $04 = arms shooting right
+COMMENT_LINE $0000 $06 = arms shooting up
+COMMENT_LINE $0000 $08 = arms shooting 45 degrees upper left
+COMMENT_LINE $0000 $0A = arms shooting 45 degrees upper right
+COMMENT_LINE $0000 $0C = arms shooting down
+COMMENT_LINE $0000 $0E = arms shooting 45 degrees lower left
+COMMENT_LINE $0000 $10 = arms shooting 45 degrees lower right
+COMMENT_LINE $0000 C8D0          Intensity used when drawing a 'fried' player
+COMMENT_LINE $0000 C8D1-C8D7     Bonus score string buffer
+COMMENT_LINE $0000 C8D8-????     Buffer used when displaying number of lives a player has.
+COMMENT_LINE $0000 C8DE          'y' delta between 2 points, as determined by
+COMMENT_LINE $0000 DetermineDirectionToMove()
+COMMENT_LINE $0000 C8DF          'x' delta between 2 points, as determined by
+COMMENT_LINE $0000 DetermineDirectionToMove()
+COMMENT_LINE $0000 C8E0          Used during scrolling; used to calculate 'y' delta
+COMMENT_LINE $0000 C8E1          Used during scrolling; used to calculate 'x' delta
+COMMENT_LINE $0000 C8E2-C8E3     Used during scrolling; delta added to 'y' drawing point
+COMMENT_LINE $0000 C8E4-C8E5     Used during scrolling; delta added to 'x' drawing point
+COMMENT_LINE $0000 C8E6          Used during scrolling; 0 if scrolling in a + direction (right
+COMMENT_LINE $0000 or up), $80 if scrolling in a - direction (down or left)
+COMMENT_LINE $0000 C8E7-C8E8     Work memory (used by DetermineDirectionToMove)
+COMMENT_LINE $0000 C8E9          Loop counter
+COMMENT_LINE $0000 C8EA          Mask showing joystick position and fire button state:
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 | 0 | 0 | B | L | D | U | R | L |
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 Button Pressed--^
+COMMENT_LINE $0000 Joystick Left-------^---------------^
+COMMENT_LINE $0000 Joystick Down-----------^
+COMMENT_LINE $0000 Joystick Up-----------------^
+COMMENT_LINE $0000 Joystick Right------------------^
+COMMENT_LINE $0000 C8EB          Direction current object is traveling (work memory):
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 | 0 | 0 | 0 | L | D | U | R | L |
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 Joystick Left-------^---------------^
+COMMENT_LINE $0000 Joystick Down-----------^
+COMMENT_LINE $0000 Joystick Up-----------------^
+COMMENT_LINE $0000 Joystick Right------------------^
+COMMENT_LINE $0000 C900-C90D     Player 1 structure
+COMMENT_LINE $0000 C90E-C91B     Player 2 structure
+COMMENT_LINE $0000 byte    meaning
+COMMENT_LINE $0000 ----    -------
+COMMENT_LINE $0000 0-6     player's score
+COMMENT_LINE $0000 7       unused
+COMMENT_LINE $0000 8       number of lives
+COMMENT_LINE $0000 9       Flag specifying if 5000 point bonus was given
+COMMENT_LINE $0000 10      player's y position
+COMMENT_LINE $0000 11      player's x position
+COMMENT_LINE $0000 12-13   unused
+COMMENT_LINE $0000 C91C-C973     Array of robot structures (11 entries)
+COMMENT_LINE $0000 byte    meaning
+COMMENT_LINE $0000 ----    -------
+COMMENT_LINE $0000 0       robot's y position.
+COMMENT_LINE $0000 1       robot's x position.
+COMMENT_LINE $0000 2       flag: $80 = alive, 0 = gone, $0F = just killed
+COMMENT_LINE $0000 3       direction of travel(0-10); indexes into extremities tbl
+COMMENT_LINE $0000 4       Eye box to draw (0, 2, 4, 6)
+COMMENT_LINE $0000 5       Delay before robot starts shooting (0-7)
+COMMENT_LINE $0000 6       # of bullets robot can fire in a burst
+COMMENT_LINE $0000 7       Delay between processing a robot (moving, firing, etc)
+COMMENT_LINE $0000 C974-????     Array of bullet structures
+COMMENT_LINE $0000 byte    meaning
+COMMENT_LINE $0000 ----    -------
+COMMENT_LINE $0000 0       y position of bullet's tail
+COMMENT_LINE $0000 1       x position of bullet's tail
+COMMENT_LINE $0000 2       y delta between bullet's head and tail
+COMMENT_LINE $0000 3       x delta between bullet's head and tail
+COMMENT_LINE $0000 4       y position of bullet's head
+COMMENT_LINE $0000 5       x position of bullet's head
+COMMENT_LINE $0000 6       velocity factor
+COMMENT_LINE $0000 7       direction of travel; anded w/ $F0 when hits something
+COMMENT_LINE $0000 *****************************************************************************
+COMMENT_LINE $0000 bios routines
+COMMENT_LINE $0000 bios data
+COMMENT $000D * height
+COMMENT $000E * width
+COMMENT $000F * rel y
+COMMENT $0010 * rel x
+COMMENT_LINE $001A Get the number of players: 1 or 2.
+COMMENT_LINE $001A C882 will be = to 0 for 1 player, and 1 for 2 players.
+FORCE_NO_SYMBOL $001A
+FORCE_SYMBOL $001D get_players_game
+FORCE_NO_SYMBOL $0020
+FORCE_NO_SYMBOL $0023
+COMMENT_LINE $0025 Disable 2 of the 4 joystick mask registers; the other
+COMMENT_LINE $0025 2 are enabled automatically by the ExecRom.
+FORCE_NO_SYMBOL $0025
+FORCE_NO_SYMBOL $0027
+FORCE_SYMBOL $0029 init_music_buf
+FORCE_NO_SYMBOL $002C
+COMMENT_LINE $002E Initialize the 2 player's structures.
+COMMENT_LINE $002E Player 1 is C900-C90D, player 2 is C90E-C91B.
+COMMENT_LINE $002E The player's scores will be initialized, their
+COMMENT_LINE $002E number of lives = (3), and their initial positions
+COMMENT_LINE $002E set.
+FORCE_SYMBOL $002E dptoC8
+FORCE_NO_SYMBOL $0031
+FORCE_NO_SYMBOL $0033
+FORCE_NO_SYMBOL $0035
+FORCE_NO_SYMBOL $0038
+FORCE_NO_SYMBOL $003A
+COMMENT $003C * Set number of lives
+FORCE_NO_SYMBOL $003C
+COMMENT $003E * Clear 'bonus given' flag
+FORCE_NO_SYMBOL $003E
+COMMENT $0040 * Set default score
+FORCE_SYMBOL $0040 set_dft_score
+FORCE_NO_SYMBOL $0043
+FORCE_NO_SYMBOL $0046
+FORCE_NO_SYMBOL $004A
+FORCE_NO_SYMBOL $004D
+COMMENT $0050 * Set starting position
+FORCE_NO_SYMBOL $0050
+FORCE_NO_SYMBOL $0052
+FORCE_NO_SYMBOL $0055
+COMMENT $0058 * Set starting position
+FORCE_NO_SYMBOL $0058
+COMMENT_LINE $005A Set initial robot attributes
+FORCE_NO_SYMBOL $005A
+COMMENT $005C * Robot seeding threshold
+FORCE_NO_SYMBOL $005C
+FORCE_NO_SYMBOL $005E
+COMMENT $0060 * Set robot processing delay
+FORCE_NO_SYMBOL $0060
+COMMENT $0062 * Start robot bullets with
+FORCE_NO_SYMBOL $0062
+COMMENT $0064 * a low velocity factor
+FORCE_NO_SYMBOL $0064
+COMMENT_LINE $0066 This block takes care of setting up for the next turn,
+COMMENT_LINE $0066 after a player has died.  It determines how the maze
+COMMENT_LINE $0066 will look, displays the maze, the scores and the number
+COMMENT_LINE $0066 of lives, and then does some music mucking.
+COMMENT $0066 * Set loop counter
+FORCE_NO_SYMBOL $0066
+FORCE_NO_SYMBOL $0068
+COMMENT $006A * Initialize game RAM
+FORCE_NO_SYMBOL $006A
+FORCE_NO_SYMBOL $006D
+FORCE_SYMBOL $006F clear_blockxb
+FORCE_SYMBOL $0072 DetermineMazeWalls
+COMMENT $0075 * Initialize the bonus string
+FORCE_NO_SYMBOL $0075
+FORCE_SYMBOL $0078 set_dft_score
+COMMENT $007B * Save the player's position
+FORCE_NO_SYMBOL $007B
+FORCE_NO_SYMBOL $007D
+FORCE_NO_SYMBOL $007F
+COMMENT $0081 * Display # of lives left
+FORCE_NO_SYMBOL $0081
+FORCE_SYMBOL $0083 DisplayLives
+COMMENT_LINE $0086 Display the maze, but not the player or the robots,
+COMMENT_LINE $0086 and do some sound mucking; loop here for a while,
+COMMENT_LINE $0086 before proceeding.
+FORCE_NO_SYMBOL $0086
+FORCE_SYMBOL $0088 DoUnknownSoundMucking
+FORCE_SYMBOL $008B init_sound
+FORCE_NO_SYMBOL $008E
+FORCE_NO_SYMBOL $0090
+FORCE_NO_SYMBOL $0094
+FORCE_SYMBOL $0096 waitrecal
+FORCE_SYMBOL $0099 DrawMaze
+FORCE_SYMBOL $009C do_sound
+FORCE_SYMBOL $009F dptoC8
+FORCE_NO_SYMBOL $00A2
+COMMENT_LINE $00A6 Remove one of the player's lives, to take into account
+COMMENT_LINE $00A6 the life he is using now.
+COMMENT $00A6 * Points to active player struct
+FORCE_NO_SYMBOL $00A6
+FORCE_NO_SYMBOL $00A8
+FORCE_SYMBOL $00AA init_music_buf
+FORCE_SYMBOL $00AF dptoC8
+FORCE_SYMBOL $00B2 DetermineMazeWalls
+FORCE_NO_SYMBOL $00B5
+FORCE_NO_SYMBOL $00B7
+FORCE_NO_SYMBOL $00B9
+FORCE_NO_SYMBOL $00BB
+COMMENT $00BD * Save the player's position
+FORCE_NO_SYMBOL $00BD
+FORCE_NO_SYMBOL $00BF
+FORCE_NO_SYMBOL $00C1
+FORCE_NO_SYMBOL $00C4
+FORCE_SYMBOL $00C6 clear_blockxb
+FORCE_NO_SYMBOL $00C9
+FORCE_NO_SYMBOL $00CB
+COMMENT_LINE $00CD Based on the player's score, = the level of difficulty.
+COMMENT_LINE $00CD If the score >= 10,000, then bump the difficulty by alot.
+COMMENT_LINE $00CD After that, compare the 'thousands' portion of the score
+COMMENT_LINE $00CD against the cutoff values in the table, and further bump
+COMMENT_LINE $00CD for each cutoff value surpassed.
+COMMENT $00CD * Check if score >= 10,000
+FORCE_NO_SYMBOL $00CD
+FORCE_NO_SYMBOL $00CF
+COMMENT $00D3 * It is, so increase difficulty
+FORCE_NO_SYMBOL $00D3
+FORCE_NO_SYMBOL $00D5
+COMMENT $00D7 * Check the cutoff values
+FORCE_NO_SYMBOL $00D7
+FORCE_SYMBOL $00D9 SkillLevelCutoffs
+FORCE_NO_SYMBOL $00DC
+FORCE_NO_SYMBOL $00DE
+COMMENT_LINE $00E7 Initialize the bonus score string.
+FORCE_NO_SYMBOL $00E7
+FORCE_SYMBOL $00EA set_dft_score
+COMMENT_LINE $00ED Do some processing based on the difficulty value calculated
+COMMENT_LINE $00ED earlier (set the robot's bullet velocity and the robot
+COMMENT_LINE $00ED processing delay).  Lastly, clear out the bullet structure.
+COMMENT $00ED * Max # of robot bullets
+FORCE_NO_SYMBOL $00ED
+FORCE_NO_SYMBOL $00EF
+COMMENT $00F3 * Robot bullet velocity factor
+FORCE_NO_SYMBOL $00F3
+FORCE_NO_SYMBOL $00F6
+COMMENT $00FC * Robot processing delay
+FORCE_NO_SYMBOL $00FC
+COMMENT $00FE * Init the bullet structure
+FORCE_NO_SYMBOL $00FE
+FORCE_SYMBOL $0101 clear_256_bytes
+COMMENT_LINE $0104 This seeds the robot structure array.  It attempts to
+COMMENT_LINE $0104 'activate' a random number of robots.  If it fails to
+COMMENT_LINE $0104 seed any robots, then it tries over again.
+COMMENT_LINE $0104 The robot array is an array of structures, located
+COMMENT_LINE $0104 at C91C-C973; there are 11 entries, each 8 bytes long.
+COMMENT_LINE $0104 C8C7 keeps track of the number of robots initially
+COMMENT_LINE $0104 seeded; C8C8 keeps track of the number of robots still
+COMMENT_LINE $0104 alive.  A robot is seeded only if the generated random
+COMMENT_LINE $0104 number is less than a pre-calculated threshold value.
+FORCE_NO_SYMBOL $0104
+FORCE_NO_SYMBOL $0106
+FORCE_SYMBOL $0108 RobotStartingPositionTable
+FORCE_NO_SYMBOL $010B
+FORCE_SYMBOL $010E get_random_a
+COMMENT $0111 * Should we seed this robot?
+FORCE_NO_SYMBOL $0111
+COMMENT $0115 * Bump the robot count
+FORCE_NO_SYMBOL $0115
+FORCE_NO_SYMBOL $0117
+COMMENT $0119 * Flag the robot as alive
+FORCE_NO_SYMBOL $0119
+FORCE_SYMBOL $011B get_random_a
+FORCE_NO_SYMBOL $011E
+FORCE_NO_SYMBOL $0120
+FORCE_NO_SYMBOL $0122
+FORCE_NO_SYMBOL $0124
+COMMENT $0126 * Set the y starting position
+FORCE_NO_SYMBOL $0126
+FORCE_SYMBOL $0128 get_random_a
+FORCE_NO_SYMBOL $012B
+FORCE_NO_SYMBOL $012D
+FORCE_NO_SYMBOL $012F
+COMMENT $0131 * Set the x starting position
+FORCE_NO_SYMBOL $0131
+FORCE_NO_SYMBOL $0133
+FORCE_NO_SYMBOL $0135
+FORCE_SYMBOL $0137 get_random_a
+FORCE_NO_SYMBOL $013A
+FORCE_NO_SYMBOL $013C
+FORCE_NO_SYMBOL $013E
+FORCE_NO_SYMBOL $0140
+FORCE_NO_SYMBOL $0144
+FORCE_NO_SYMBOL $0146
+FORCE_NO_SYMBOL $0148
+COMMENT $014A * Change ptr to the next robot
+FORCE_NO_SYMBOL $014A
+FORCE_NO_SYMBOL $014C
+FORCE_NO_SYMBOL $0151
+FORCE_NO_SYMBOL $0155
+COMMENT_LINE $0157 Set value used during robot seeding
+FORCE_NO_SYMBOL $0159
+FORCE_NO_SYMBOL $015C
+COMMENT_LINE $015E Initialize Otto information
+FORCE_NO_SYMBOL $015E
+COMMENT $0160 * Set Otto's initial position
+FORCE_NO_SYMBOL $0160
+COMMENT $0162 * Set Otto's initial position
+FORCE_NO_SYMBOL $0162
+FORCE_NO_SYMBOL $0164
+FORCE_NO_SYMBOL $0166
+FORCE_NO_SYMBOL $0168
+COMMENT $016A * Set Otto's sound loop counter
+FORCE_NO_SYMBOL $016A
+FORCE_NO_SYMBOL $016C
+COMMENT $016E * Set Otto's initial velocity
+FORCE_NO_SYMBOL $016E
+COMMENT_LINE $0170 Set up some counters
+FORCE_NO_SYMBOL $0170
+FORCE_NO_SYMBOL $0172
+FORCE_NO_SYMBOL $0178
+FORCE_NO_SYMBOL $017B
+COMMENT_LINE $017D Main processing loop
+COMMENT $017D * Set jump idx to 'player is alive'
+FORCE_NO_SYMBOL $017D
+FORCE_SYMBOL $017F waitrecal
+FORCE_SYMBOL $0182 read_jstick
+FORCE_SYMBOL $0185 read_switches2
+FORCE_SYMBOL $0188 do_sound
+FORCE_SYMBOL $018B DrawMaze
+FORCE_SYMBOL $018E dptoC8
+FORCE_SYMBOL $0191 MainJumpTable
+FORCE_NO_SYMBOL $0194
+COMMENT $0196 * (UNKNOWN JUMP)
+FORCE_NO_SYMBOL $019E
+FORCE_NO_SYMBOL $01A2
+FORCE_SYMBOL $01A4 init_sound
+FORCE_SYMBOL $01A7 DoUnknownSoundMucking
+FORCE_NO_SYMBOL $01AA
+FORCE_NO_SYMBOL $01B0
+COMMENT_LINE $01B4 This is one of the 'indirect jump' functions.  It is the
+COMMENT_LINE $01B4 active jump function while the player is alive.  It uses
+COMMENT_LINE $01B4 the state of the buttons and the joystick to decide how
+COMMENT_LINE $01B4 to draw the player.  It also attempts to detect whenever
+COMMENT_LINE $01B4 the player leaves a quadrant, to determine if the player
+COMMENT_LINE $01B4 has left the maze, or run into a wall.
+FORCE_NO_SYMBOL $01B4
+FORCE_NO_SYMBOL $01B7
+FORCE_NO_SYMBOL $01BB
+COMMENT_LINE $01BF Based on the joystick and button values, the 'b' register
+COMMENT_LINE $01BF is = to the following mask:
+COMMENT_LINE $01BF ---------------------------------
+COMMENT_LINE $01BF | 0 | 0 | B | L | D | U | R | L |
+COMMENT_LINE $01BF ---------------------------------
+COMMENT_LINE $01BF Button Pressed--^
+COMMENT_LINE $01BF Joystick Left-------^---------------^
+COMMENT_LINE $01BF Joystick Down-----------^
+COMMENT_LINE $01BF Joystick Up-----------------^
+COMMENT_LINE $01BF Joystick Right------------------^
+COMMENT $01C0 * Get joystick up/down setting
+FORCE_NO_SYMBOL $01C0
+COMMENT $01C2 * 0=u/d neutral, -=down, +=up
+COMMENT $01C4 * Down
+FORCE_NO_SYMBOL $01C4
+COMMENT $01CA * Up
+FORCE_NO_SYMBOL $01CA
+COMMENT $01CC * Get joystick left/right setting
+FORCE_NO_SYMBOL $01CC
+COMMENT $01CE * 0=l/r neutral, -=left, +=right)
+COMMENT $01D0 * Left
+FORCE_NO_SYMBOL $01D0
+COMMENT $01D6 * Right
+FORCE_NO_SYMBOL $01D6
+COMMENT $01D8 * Load button states
+FORCE_NO_SYMBOL $01D8
+COMMENT $01DC * Button pressed, but if joystick is
+FORCE_NO_SYMBOL $01DC
+COMMENT $01DE * neutral, then do nothing.
+FORCE_NO_SYMBOL $01DE
+COMMENT_LINE $01E2 The joystick is not in the neutral position, and a button
+COMMENT_LINE $01E2 is pressed, so the player is firing.
+COMMENT $01E2 * Save the joystick/button mask
+FORCE_NO_SYMBOL $01E2
+FORCE_NO_SYMBOL $01E4
+FORCE_NO_SYMBOL $01E6
+FORCE_NO_SYMBOL $01E8
+COMMENT $01EA * Save just the joystick mask
+FORCE_NO_SYMBOL $01EA
+FORCE_NO_SYMBOL $01EC
+FORCE_SYMBOL $01EE CalculateUpdatedPosition
+FORCE_NO_SYMBOL $01F1
+FORCE_NO_SYMBOL $01F3
+FORCE_NO_SYMBOL $01F6
+FORCE_SYMBOL $01F8 FireBullet
+FORCE_NO_SYMBOL $01FB
+FORCE_NO_SYMBOL $01FD
+FORCE_NO_SYMBOL $01FF
+COMMENT $0203 * Save the joystick/button mask
+FORCE_NO_SYMBOL $0203
+FORCE_NO_SYMBOL $0205
+FORCE_NO_SYMBOL $0207
+FORCE_NO_SYMBOL $020B
+FORCE_SYMBOL $020D CalculateUpdatedPosition
+FORCE_NO_SYMBOL $0210
+COMMENT_LINE $0212 If none of the buttons are pressed, and if the joystick
+COMMENT_LINE $0212 is in neutral, then reset the players arms and legs to
+COMMENT_LINE $0212 the 'neutral' position.
+FORCE_NO_SYMBOL $0212
+FORCE_NO_SYMBOL $0216
+FORCE_NO_SYMBOL $0218
+COMMENT_LINE $021C If a button was pressed, then we know the player was
+COMMENT_LINE $021C firing, so we can force his legs to the neutral position,
+COMMENT_LINE $021C and can = his arms to be shooting in the appropriate
+COMMENT_LINE $021C direction.
+FORCE_NO_SYMBOL $021C
+COMMENT $0220 * Force player to stand still
+FORCE_NO_SYMBOL $0220
+FORCE_SYMBOL $0222 ArmsShootingIndicesTable
+FORCE_NO_SYMBOL $0225
+COMMENT $0229 * Set player's arms accordingly
+FORCE_NO_SYMBOL $0229
+COMMENT_LINE $022D We know that the player is on the move.  We will therefore
+COMMENT_LINE $022D make his arms swing left and right, and we will draw his
+COMMENT_LINE $022D legs so it appears he is running in the desired direction.
+COMMENT_LINE $022D The timing for changing the arms and legs is controlled by
+COMMENT_LINE $022D bit $08 of C826, which is a counter controlled by the
+COMMENT_LINE $022D Exec Rom.
+COMMENT_LINE $022D For the arms:
+COMMENT_LINE $022D 0 = 'arms to the right'
+COMMENT_LINE $022D 2 = 'arms to the left'
+COMMENT_LINE $022D For the legs:
+COMMENT_LINE $022D 2 = 'running right with wide legs'
+COMMENT_LINE $022D 4 = 'running right with close legs'
+COMMENT_LINE $022D 6 = 'running left with wide legs'
+COMMENT_LINE $022D 8 = 'running left with close legs'
+COMMENT $022D * a = joystick/button mask
+FORCE_NO_SYMBOL $022D
+FORCE_NO_SYMBOL $0231
+FORCE_NO_SYMBOL $0233
+COMMENT $0235 * Get a value of 0 or 2, to control
+COMMENT $0237 * which arms get drawn.
+FORCE_NO_SYMBOL $0239
+COMMENT $023B * Get a value of 2, 4, 6 or 8, to
+COMMENT $023D * control which legs get drawn.
+FORCE_NO_SYMBOL $023F
+FORCE_NO_SYMBOL $0241
+COMMENT_LINE $0243 Take the player's position, and map it into:
+COMMENT_LINE $0243 1) the quadrant the player is in (C89A),
+COMMENT_LINE $0243 2) the relative position within that quadrant (C89B-C89C)
+COMMENT_LINE $0243 3) the bitmask indicating which walls are present for
+COMMENT_LINE $0243 the quadrant (C899).
+COMMENT_LINE $0243 If it is determined that there was contact with a wall,
+COMMENT_LINE $0243 then do some special checks to see if the wall was really
+COMMENT_LINE $0243 a door; if it was a door, and the door was not blocked off,
+COMMENT_LINE $0243 then exit to the next maze.
+FORCE_NO_SYMBOL $0243
+COMMENT $0245 MapPointToQuadrantAndMakeRelative;
+FORCE_SYMBOL $0245 MapPointToQnMakeRel
+FORCE_SYMBOL $0248 PlayerThresholds
+FORCE_SYMBOL $024B CheckForQuadrantEdgeCrossing
+FORCE_NO_SYMBOL $024E
+COMMENT_LINE $0252 Check for passing out the top door
+FORCE_NO_SYMBOL $0252
+COMMENT $0254 * If quad 2, check for up door
+FORCE_NO_SYMBOL $0254
+COMMENT $0258 * Check if door is blocked
+FORCE_NO_SYMBOL $0258
+FORCE_NO_SYMBOL $025A
+COMMENT $025E * Top wall (door) passed thru?
+FORCE_NO_SYMBOL $025E
+COMMENT_LINE $0264 Check for passing out the left door
+COMMENT $0264 * If quad 5, check for left door
+FORCE_NO_SYMBOL $0264
+FORCE_NO_SYMBOL $0268
+COMMENT $026A * Check if door is blocked
+FORCE_NO_SYMBOL $026A
+COMMENT $026E * Left wall (door) passed thru ?
+FORCE_NO_SYMBOL $026E
+COMMENT_LINE $0274 Check for passing out the right door
+COMMENT $0274 * If quad 9, check for right door
+FORCE_NO_SYMBOL $0274
+FORCE_NO_SYMBOL $0278
+COMMENT $027A * Check if door is blocked
+FORCE_NO_SYMBOL $027A
+COMMENT $027E * Right wall (door) passed thru ?
+FORCE_NO_SYMBOL $027E
+COMMENT_LINE $0284 Check for passing out the bottom door
+COMMENT $0284 * If quad 12, check for bottom door
+FORCE_NO_SYMBOL $0284
+FORCE_NO_SYMBOL $0288
+COMMENT $028A * Check if door is blocked
+FORCE_NO_SYMBOL $028A
+COMMENT $028E * Bottom wall (door) passed thru ?
+FORCE_NO_SYMBOL $028E
+COMMENT_LINE $0292 The player has successfully exited from the maze; change
+COMMENT_LINE $0292 the jump index so that the code is called which scrolls
+COMMENT_LINE $0292 the maze off the display.
+FORCE_NO_SYMBOL $0292
+FORCE_NO_SYMBOL $0294
+FORCE_NO_SYMBOL $0296
+FORCE_SYMBOL $0298 MakeSoundThenGotoMainLoop
+COMMENT_LINE $029B The player died by walking into a wall; change the
+COMMENT_LINE $029B jump index so that the code which shows the player being
+COMMENT_LINE $029B fried, is called.
+FORCE_NO_SYMBOL $029B
+FORCE_NO_SYMBOL $029D
+FORCE_NO_SYMBOL $029F
+FORCE_NO_SYMBOL $02A1
+FORCE_NO_SYMBOL $02A3
+FORCE_SYMBOL $02A5 MakeSoundThenGotoMainLoop
+COMMENT_LINE $02A8 The player did not make contact with any walls, so all
+COMMENT_LINE $02A8 is well.  Starting at the end of the bullet array, work
+COMMENT_LINE $02A8 back until we find an active bullet, then update the
+COMMENT_LINE $02A8 bullet counter in C8CC.
+FORCE_SYMBOL $02A8 ProcessAndUpdateBullets
+FORCE_SYMBOL $02AB ProcessAndUpdateRobots
+FORCE_NO_SYMBOL $02AE
+FORCE_NO_SYMBOL $02B3
+COMMENT $02B6 * Start at the end of the bullet
+FORCE_NO_SYMBOL $02B6
+COMMENT $02B9 * array.
+FORCE_NO_SYMBOL $02BA
+FORCE_NO_SYMBOL $02BC
+FORCE_NO_SYMBOL $02C0
+FORCE_NO_SYMBOL $02C4
+COMMENT_LINE $02CC Display the number lives the player has, and then check
+COMMENT_LINE $02CC to see if the player has earned an extra life (awarded
+COMMENT_LINE $02CC for each 5000 points); if so, then award the extra life,
+COMMENT_LINE $02CC and play a little tune.  The bonus check happens by
+COMMENT_LINE $02CC comparing the thousands digit of the score to ascii '5'.
+FORCE_NO_SYMBOL $02CC
+FORCE_NO_SYMBOL $02CE
+COMMENT $02D2 * Semaphore; only do once
+FORCE_NO_SYMBOL $02D2
+COMMENT $02D6 * "5"
+FORCE_NO_SYMBOL $02D6
+FORCE_NO_SYMBOL $02D8
+COMMENT $02DC * Award the extra life
+FORCE_NO_SYMBOL $02DC
+COMMENT $02DE * Set the semaphore
+FORCE_NO_SYMBOL $02DE
+COMMENT $02E0 * Play a tune
+FORCE_NO_SYMBOL $02E0
+FORCE_SYMBOL $02E3 init_sound2
+COMMENT_LINE $02E6 Check to see if the player has cleared out all of
+COMMENT_LINE $02E6 the robots; if so, then award a bonus, and display
+COMMENT_LINE $02E6 the bonus string.  Some fancy manipulation is done
+COMMENT_LINE $02E6 to convert the integer into a BCD string value.
+COMMENT $02E6 * Any robots left?
+FORCE_NO_SYMBOL $02E6
+COMMENT $02EA * All robots have been cleared out
+FORCE_NO_SYMBOL $02EA
+FORCE_NO_SYMBOL $02EC
+COMMENT $02F0 * Increment Otto's velocity
+FORCE_NO_SYMBOL $02F0
+COMMENT $02F3 * Get the starting count of robots
+FORCE_NO_SYMBOL $02F3
+FORCE_NO_SYMBOL $02F5
+COMMENT $02F9 * Handle counts >= 10 specially
+FORCE_NO_SYMBOL $02F9
+FORCE_NO_SYMBOL $02FB
+COMMENT $02FD * Convert to BCD string value
+COMMENT $0305 * Add bonus to player's score
+FORCE_SYMBOL $0307 add_d_to_x_in_bcd
+COMMENT $030C * Place value into the bonus string
+FORCE_NO_SYMBOL $030C
+FORCE_SYMBOL $030F add_d_to_x_in_bcd
+FORCE_SYMBOL $0312 MakeSoundThenGotoMainLoop
+COMMENT_LINE $0315 DisplayLives()
+COMMENT_LINE $0315 Entry:
+COMMENT_LINE $0315 a = number of lives
+COMMENT_LINE $0315 Displays a string of 'little men', one for each live
+COMMENT_LINE $0315 the user has.  The buffer into which the string is
+COMMENT_LINE $0315 placed starts at C8D8.
+COMMENT_LINE $0315 BUG ALERT: there is no check to see if the C8D8 buffer
+COMMENT_LINE $0315 is overrun; what is the intended size of this
+COMMENT_LINE $0315 buffer?
+COMMENT $0316 * String buffer
+FORCE_NO_SYMBOL $0316
+FORCE_NO_SYMBOL $0319
+COMMENT $031D * 'little man' icon
+FORCE_NO_SYMBOL $031D
+FORCE_NO_SYMBOL $0322
+FORCE_NO_SYMBOL $0326
+COMMENT $0328 * Terminate string with 2 spaces
+COMMENT $032A * and $80.
+FORCE_NO_SYMBOL $032E
+COMMENT_LINE $0333 FireBullet()
+COMMENT_LINE $0333 This function attempts to fire a bullet from the indicated
+COMMENT_LINE $0333 position, using the specified velocity.  However, if the
+COMMENT_LINE $0333 bullet would immediately hit a wall, then it is not fired.
+COMMENT_LINE $0333 Entry:
+COMMENT_LINE $0333 b = bullet's velocity factor (a value indicating how
+COMMENT_LINE $0333 often the bullet's position is updated for each
+COMMENT_LINE $0333 pass).
+COMMENT_LINE $0333 x = Bullet's starting position.
+COMMENT_LINE $0333 C8EB = direction of travel for the bullet.
+FORCE_NO_SYMBOL $0333
+FORCE_NO_SYMBOL $0337
+COMMENT $0339 MapPointToQuadrantAndMakeRelative;
+FORCE_SYMBOL $0339 MapPointToQnMakeRel
+FORCE_SYMBOL $033C BulletThresholds
+FORCE_SYMBOL $033F CheckForQuadrantEdgeCrossing
+COMMENT $0342 * Don't fire if bullet will
+COMMENT $0344 * immediately hit a wall.
+FORCE_NO_SYMBOL $0344
+COMMENT $0348 * Point to the next available bullet
+FORCE_NO_SYMBOL $0348
+FORCE_NO_SYMBOL $034A
+FORCE_NO_SYMBOL $034D
+FORCE_NO_SYMBOL $0352
+COMMENT $0354 * Store bullet's direction
+FORCE_NO_SYMBOL $0354
+FORCE_NO_SYMBOL $0356
+COMMENT $0358 * Store velocity factor
+FORCE_NO_SYMBOL $0358
+FORCE_NO_SYMBOL $035A
+COMMENT $035C * Set bullet's tail position
+FORCE_NO_SYMBOL $035C
+FORCE_NO_SYMBOL $035E
+FORCE_NO_SYMBOL $0360
+FORCE_SYMBOL $0362 CalculateUpdatedPosition
+COMMENT $0365 * Set bullet's head position
+FORCE_NO_SYMBOL $0365
+COMMENT $0367 * Increment the bullet count
+FORCE_NO_SYMBOL $0367
+COMMENT_LINE $036B This is one of the 'indirect jump' functions.  It is the
+COMMENT_LINE $036B active jump function when the player gets killed.  It
+COMMENT_LINE $036B will cause the player to be drawn with a variety of
+COMMENT_LINE $036B intensities (simulating electrocution), and will update
+COMMENT_LINE $036B the current high score, if necessary.  It then resets
+COMMENT_LINE $036B the starting positions for the players, and tries to
+COMMENT_LINE $036B determine whose turn it is next.  If there are two
+COMMENT_LINE $036B players, then it tries to switch to the other player,
+COMMENT_LINE $036B unless that player has 0 lives left; in that case, it
+COMMENT_LINE $036B will stick with the current player, unless he, too, has
+COMMENT_LINE $036B 0 lives left, at which point the game ends, and it
+COMMENT_LINE $036B waits for either the user to press a button to restart
+COMMENT_LINE $036B the game, or a timeout to elapse (to cold start the
+COMMENT_LINE $036B system).
+FORCE_NO_SYMBOL $036B
+FORCE_NO_SYMBOL $036D
+FORCE_SYMBOL $036F ProcessAndUpdateRobots
+FORCE_SYMBOL $0372 ProcessAndUpdateBullets
+FORCE_NO_SYMBOL $0375
+FORCE_NO_SYMBOL $0377
+FORCE_SYMBOL $0379 PlayerFriedIntensities
+COMMENT $037E * Save off next intensity value
+FORCE_NO_SYMBOL $037E
+FORCE_NO_SYMBOL $0380
+FORCE_NO_SYMBOL $0386
+FORCE_NO_SYMBOL $0388
+COMMENT $038A * Check for new high score
+FORCE_NO_SYMBOL $038A
+FORCE_NO_SYMBOL $038C
+FORCE_SYMBOL $038F check_4_new_hi_score
+COMMENT_LINE $0392 Loop, doing some music mucking
+FORCE_NO_SYMBOL $0392
+FORCE_NO_SYMBOL $0394
+FORCE_NO_SYMBOL $0396
+FORCE_NO_SYMBOL $0398
+FORCE_SYMBOL $039A CheckForOttoStart
+FORCE_SYMBOL $039D DoUnknownSoundMucking
+FORCE_SYMBOL $03A0 waitrecal
+FORCE_SYMBOL $03A3 DrawMaze
+FORCE_SYMBOL $03A6 do_sound
+FORCE_SYMBOL $03A9 dptoC8
+FORCE_NO_SYMBOL $03AC
+COMMENT_LINE $03B0 Reset player's starting positions
+COMMENT $03B0 * Player 1
+FORCE_NO_SYMBOL $03B0
+FORCE_NO_SYMBOL $03B3
+FORCE_NO_SYMBOL $03B6
+COMMENT $03B8 * Player 2
+FORCE_NO_SYMBOL $03B8
+FORCE_NO_SYMBOL $03BB
+FORCE_NO_SYMBOL $03BE
+COMMENT_LINE $03C0 Determine whose turn it is
+COMMENT $03C0 * Start with no door blocked
+FORCE_NO_SYMBOL $03C0
+COMMENT $03C2 * Two player game?
+FORCE_NO_SYMBOL $03C2
+COMMENT $03C6 * Yes
+FORCE_NO_SYMBOL $03C6
+COMMENT $03C9 * Is player 2 the active player?
+FORCE_NO_SYMBOL $03C9
+COMMENT $03CD * No, so change to player 2
+FORCE_NO_SYMBOL $03CD
+COMMENT $03D0 * Does this player have any lives?
+FORCE_NO_SYMBOL $03D0
+COMMENT $03D4 * Yep; so let this player play
+FORCE_NO_SYMBOL $03D4
+FORCE_SYMBOL $03D6 StartNewTurn
+COMMENT $03D9 * Nope; so see if original player
+FORCE_NO_SYMBOL $03D9
+COMMENT $03DB * had any lives left.
+FORCE_NO_SYMBOL $03DB
+COMMENT_LINE $03E1 The game is over; loop waiting for next game
+COMMENT $03E1 * Clear the Easter Egg semaphore
+FORCE_NO_SYMBOL $03E1
+COMMENT $03E3 * How long to wait for restart
+FORCE_NO_SYMBOL $03E3
+FORCE_NO_SYMBOL $03E6
+FORCE_SYMBOL $03E8 DoUnknownSoundMucking
+FORCE_SYMBOL $03EB waitrecal
+FORCE_SYMBOL $03EE intensity_to_5F
+FORCE_SYMBOL $03F1 do_sound
+FORCE_NO_SYMBOL $03F4
+COMMENT_LINE $03F9 Display the Easter Egg
+FORCE_SYMBOL $03F9 AuthorsInitials
+FORCE_SYMBOL $03FC print_1_string
+COMMENT_LINE $03FF Display the current high score, along with the scores
+COMMENT_LINE $03FF for players 1 and 2.
+FORCE_SYMBOL $03FF HighScoreString
+FORCE_SYMBOL $0402 print_1_string
+COMMENT $0405 * height & width
+FORCE_NO_SYMBOL $0405
+COMMENT $0408 * rel y & rel x
+FORCE_NO_SYMBOL $0408
+FORCE_SYMBOL $040B print_at_d
+FORCE_SYMBOL $040E DisplayBothPlayersScore
+COMMENT_LINE $0411 Display "Got You Humanoid" 4 times.
+FORCE_SYMBOL $0411 HumanoidStringPositions
+FORCE_NO_SYMBOL $0417
+FORCE_SYMBOL $041C HumanoidString
+FORCE_SYMBOL $0421 print_at_d
+FORCE_SYMBOL $0428 print_at_d
+FORCE_SYMBOL $042F print_at_d
+FORCE_SYMBOL $0436 print_at_d
+COMMENT_LINE $0439 If only buttons 1, 3 and 4 are pressed, toggle the
+COMMENT_LINE $0439 flag (C89F) which will cause the author's initials
+COMMENT_LINE $0439 to be displayed (Easter Egg).  Otherwise, if any buttons
+COMMENT_LINE $0439 are pressed, then restart the game.  If no buttons are
+COMMENT_LINE $0439 pressed, then eventually (after a predetermined
+COMMENT_LINE $0439 amount of time), jump back to the start of the
+COMMENT_LINE $0439 Exec Rom.  Note that if the Easter Egg gets enabled,
+COMMENT_LINE $0439 then pressing buttons will not restart a new game;
+COMMENT_LINE $0439 you must wait for the timeout to expire.
+FORCE_SYMBOL $0439 read_switches2
+FORCE_SYMBOL $043C dptoC8
+COMMENT $043F * Bypass if Easter Egg active
+FORCE_NO_SYMBOL $043F
+COMMENT $0443 * Button states
+FORCE_NO_SYMBOL $0443
+COMMENT $0445 * Mask for buttons 1, 3 and 4
+FORCE_NO_SYMBOL $0445
+COMMENT $0449 * Turn on the Easter egg
+FORCE_NO_SYMBOL $0449
+COMMENT $044D * Button states
+FORCE_NO_SYMBOL $044D
+COMMENT $0453 * Decrement timer
+FORCE_NO_SYMBOL $0453
+FORCE_SYMBOL $0459 start_of_OS_ROM
+COMMENT $046D * height
+COMMENT $046E * width
+COMMENT $046F * rel y
+COMMENT $0470 * rel x
+COMMENT $047C * rel y
+COMMENT $047D * rel x
+COMMENT $047E * rel y
+COMMENT $047F * rel x
+COMMENT $0480 * rel y
+COMMENT $0481 * rel x
+COMMENT $0482 * rel y
+COMMENT $0483 * rel x
+COMMENT $0484 * rel y
+COMMENT $0485 * rel x
+COMMENT_LINE $0486 Draw the outer and inner maze walls, and if necessary,
+COMMENT_LINE $0486 block off one of the maze doors.
+FORCE_NO_SYMBOL $0486
+FORCE_SYMBOL $0489 intensity_to_5F
+FORCE_SYMBOL $048C draw_VL_with_count1
+COMMENT $048F * Indirect jump pointer
+FORCE_NO_SYMBOL $048F
+FORCE_NO_SYMBOL $0492
+COMMENT $0494 * Drawing intensity
+FORCE_NO_SYMBOL $0494
+COMMENT_LINE $0497 Draw 4 sets of vectors making up outer maze walls
+FORCE_NO_SYMBOL $0497
+COMMENT $0499 * Loop counter
+FORCE_SYMBOL $049B OutsideMazeWallData
+COMMENT $049E * Vector count - 1
+FORCE_NO_SYMBOL $049E
+FORCE_NO_SYMBOL $04A0
+COMMENT $04A3 * Pointer to vector table
+FORCE_NO_SYMBOL $04A3
+FORCE_SYMBOL $04A5 DrawWithPossibleScrolling
+COMMENT $04A8 * Process to next wall
+FORCE_NO_SYMBOL $04A8
+COMMENT_LINE $04AE Draw the 8 inner walls
+FORCE_NO_SYMBOL $04AE
+FORCE_NO_SYMBOL $04B1
+COMMENT $04B3 * Loop counter
+COMMENT $04B5 * Array of wall indicies
+FORCE_NO_SYMBOL $04B5
+FORCE_SYMBOL $04B9 InnerWallPositionTable
+FORCE_SYMBOL $04BE InnerWallVectorTable
+FORCE_SYMBOL $04C2 DrawWithPossibleScrolling
+COMMENT $04C5 * Process next segment
+FORCE_NO_SYMBOL $04C5
+COMMENT_LINE $04CB Block off one door, if signaled to do so
+FORCE_SYMBOL $04CB BlockedDoorVectorTable
+COMMENT $04CE * Door to block, if any
+FORCE_NO_SYMBOL $04CE
+FORCE_NO_SYMBOL $04D5
+FORCE_SYMBOL $04D8 DrawWithPossibleScrolling
+COMMENT_LINE $04DB If the player killed all of the robots, then display
+COMMENT_LINE $04DB a message telling them they got a bonus.  We can tell
+COMMENT_LINE $04DB if we need to display the bonus string, by checking to
+COMMENT_LINE $04DB to see if the second digit in the bonus string is not '0'
+COMMENT_LINE $04DB ("    x0" is the default, where 'x' is initially = to
+COMMENT_LINE $04DB a space, but will be a digit when the bonus string has
+COMMENT_LINE $04DB been assigned a value).
+COMMENT_LINE $04DB BUG ALERT: when the above check occurs, the 'ble' command
+COMMENT_LINE $04DB really should be a 'blt'!!  This explains why
+COMMENT_LINE $04DB when a player clears a maze containing 10
+COMMENT_LINE $04DB robots, the bonus string was not displayed.
+COMMENT_LINE $04DB In this case the bonus string is "   100",
+COMMENT_LINE $04DB and this fails the above check!
+FORCE_NO_SYMBOL $04DB
+COMMENT $04DE * Set height & width
+FORCE_NO_SYMBOL $04DE
+FORCE_NO_SYMBOL $04E1
+FORCE_NO_SYMBOL $04E4
+FORCE_SYMBOL $04E8 BonusString
+FORCE_SYMBOL $04EB print_with_dft_hw
+COMMENT $04EE * rel y & rel x
+FORCE_NO_SYMBOL $04EE
+COMMENT $04F1 * Bonus score buffer
+FORCE_NO_SYMBOL $04F1
+FORCE_SYMBOL $04F4 print_at_d
+COMMENT_LINE $04F7 Display both player's scores, and depending upon the
+COMMENT_LINE $04F7 active player, display the number of lives for that
+COMMENT_LINE $04F7 player.
+FORCE_SYMBOL $04F7 DisplayBothPlayersScore
+COMMENT $04FA * Set height & width
+FORCE_NO_SYMBOL $04FA
+FORCE_NO_SYMBOL $04FD
+COMMENT $0500 * Display # of lives
+FORCE_NO_SYMBOL $0500
+FORCE_NO_SYMBOL $0503
+COMMENT $0508 * Player 2 rel y & rel x
+FORCE_NO_SYMBOL $0508
+FORCE_SYMBOL $050B print_at_d
+COMMENT $0510 * Player 1 rel y & rel x
+FORCE_NO_SYMBOL $0510
+FORCE_SYMBOL $0513 print_at_d
+COMMENT_LINE $0516 Draw all active bullets
+COMMENT $0516 * Bullet array
+FORCE_NO_SYMBOL $0516
+COMMENT $0519 * Bullet count
+FORCE_NO_SYMBOL $0519
+FORCE_NO_SYMBOL $0520
+FORCE_NO_SYMBOL $0522
+COMMENT $0526 * Ptr to vector list
+FORCE_NO_SYMBOL $0526
+FORCE_SYMBOL $0528 DrawWithPossibleScrolling
+FORCE_NO_SYMBOL $052B
+COMMENT_LINE $0532 Draw All robots.  When drawing the robot, it is drawn
+COMMENT_LINE $0532 in two halves; first the right half, and then the left
+COMMENT_LINE $0532 half.  When each half is drawn, that half of the body
+COMMENT_LINE $0532 outline is drawn, and then the extremities are drawn
+COMMENT_LINE $0532 (legs and feet).  The extremities are dependent upon
+COMMENT_LINE $0532 whether the robot is moving or standing still (searching
+COMMENT_LINE $0532 for the player).  The last thing drawn is the robot's
+COMMENT_LINE $0532 eye box; this, too, is dependent upon whether the robot
+COMMENT_LINE $0532 moving or standing still.  When moving, the eye box is
+COMMENT_LINE $0532 aimed in the direction of movement (exception is down,
+COMMENT_LINE $0532 in which case no eye box is displayed).  When the robot
+COMMENT_LINE $0532 is searching for the player, the eye box will shuffle
+COMMENT_LINE $0532 through all of the available positions.
+COMMENT $0532 * Number of robots
+FORCE_NO_SYMBOL $0532
+COMMENT $053B * Robot structure
+FORCE_NO_SYMBOL $053B
+FORCE_NO_SYMBOL $053E
+FORCE_NO_SYMBOL $0542
+FORCE_NO_SYMBOL $0544
+FORCE_NO_SYMBOL $054C
+FORCE_NO_SYMBOL $054F
+COMMENT $0551 * Set drawing intensity
+FORCE_NO_SYMBOL $0551
+FORCE_SYMBOL $0554 RobotExtremitiesVectorTable
+FORCE_NO_SYMBOL $0558
+COMMENT $055B * Get correct robot extremities
+FORCE_SYMBOL $055E DrawRobotRightHalf
+COMMENT $0561 * Set drawing function
+FORCE_NO_SYMBOL $0561
+FORCE_SYMBOL $0564 DrawWithPossibleScrolling
+COMMENT $0567 * Get correct robot extremities
+FORCE_NO_SYMBOL $0567
+FORCE_SYMBOL $0569 DrawRobotLeftHalf
+COMMENT $056C * Set drawing function
+FORCE_NO_SYMBOL $056C
+FORCE_SYMBOL $056F DrawWithPossibleScrolling
+FORCE_NO_SYMBOL $0572
+FORCE_NO_SYMBOL $0574
+FORCE_SYMBOL $0577 move_then_draw_VL_with_count5
+COMMENT $057A * Set drawing function
+FORCE_NO_SYMBOL $057A
+COMMENT $057D * Vector count - 1
+FORCE_NO_SYMBOL $057D
+FORCE_NO_SYMBOL $057F
+COMMENT $0582 * Get correct eye box to draw
+FORCE_NO_SYMBOL $0582
+FORCE_NO_SYMBOL $0584
+FORCE_NO_SYMBOL $0588
+COMMENT $058C * Draw eye box
+FORCE_SYMBOL $058C DrawWithPossibleScrolling
+FORCE_NO_SYMBOL $058F
+COMMENT_LINE $0599 When a robot is killed, it is replaced by a cloud of
+COMMENT_LINE $0599 random dots.
+FORCE_SYMBOL $0599 get_random_a
+FORCE_NO_SYMBOL $05A1
+COMMENT $05A5 * Get the robot's position
+FORCE_NO_SYMBOL $05A5
+FORCE_SYMBOL $05A7 move_pen7F_to_d
+FORCE_NO_SYMBOL $05AC
+FORCE_NO_SYMBOL $05B0
+COMMENT $05B2 * Draw random dot
+FORCE_SYMBOL $05B2 dot_at_d
+FORCE_SYMBOL $05B5 reset0ref
+COMMENT $05BC * Prepare for next pass
+FORCE_NO_SYMBOL $05BC
+COMMENT_LINE $05BE Process next robot structure
+FORCE_NO_SYMBOL $05BE
+COMMENT_LINE $05C6 If the player has been in the maze for a certain amount
+COMMENT_LINE $05C6 of time, then it's time to bring out 'Otto'!
+FORCE_NO_SYMBOL $05C6
+FORCE_NO_SYMBOL $05CB
+FORCE_NO_SYMBOL $05D0
+FORCE_NO_SYMBOL $05D3
+COMMENT $05D5 * Drawing intensity
+FORCE_NO_SYMBOL $05D5
+FORCE_SYMBOL $05D8 next_pt
+COMMENT $05DB * Drawing function
+FORCE_NO_SYMBOL $05DB
+FORCE_SYMBOL $05DE OttoVectors
+COMMENT $05E1 * Otto's position
+FORCE_NO_SYMBOL $05E1
+FORCE_SYMBOL $05E4 DrawWithPossibleScrolling
+COMMENT_LINE $05E7 Unless C886 < 0, draw the player.  If the player is in
+COMMENT_LINE $05E7 the middle of getting fried, then redraw the player again,
+COMMENT_LINE $05E7 using a higher intensity.
+COMMENT $05E7 * Should player be drawn?
+FORCE_NO_SYMBOL $05E7
+FORCE_SYMBOL $05EC DrawPlayerFunction
+COMMENT $05EF * Drawing function
+FORCE_NO_SYMBOL $05EF
+FORCE_NO_SYMBOL $05F2
+COMMENT $05F4 * Drawin intensity
+FORCE_NO_SYMBOL $05F4
+COMMENT $05F7 * Player's position
+FORCE_NO_SYMBOL $05F7
+COMMENT $05FA * Draw the player
+FORCE_SYMBOL $05FA DrawWithPossibleScrolling
+FORCE_SYMBOL $05FD reset0ref
+COMMENT $0600 * See if player is being fried
+FORCE_NO_SYMBOL $0600
+FORCE_NO_SYMBOL $0603
+COMMENT $0607 * Being fried
+FORCE_NO_SYMBOL $0607
+COMMENT $060A * Set higher drawing intensity
+FORCE_NO_SYMBOL $060A
+COMMENT $060D * Draw player again
+FORCE_SYMBOL $060D DrawWithPossibleScrolling
+FORCE_SYMBOL $0610 reset0ref
+COMMENT_LINE $0614 DrawRobotLeftHalf()
+COMMENT_LINE $0614 DrawRobotRightHalf()
+COMMENT_LINE $0614 These functions draw the indicated half of a robot.
+COMMENT_LINE $0614 Entry:
+COMMENT_LINE $0614 y = Ptr to robot extremity table
+COMMENT_LINE $0614 u = Ptr to robot structure
+FORCE_SYMBOL $0614 RobotLeftHalf
+FORCE_SYMBOL $0619 RobotRightHalf
+FORCE_SYMBOL $061C move_then_draw_VL_with_count1
+FORCE_NO_SYMBOL $061F
+FORCE_NO_SYMBOL $0621
+COMMENT $0623 * Robot legs
+COMMENT $0625 * Vector count - 1
+FORCE_NO_SYMBOL $0625
+FORCE_SYMBOL $0627 draw_VL_with_count5
+COMMENT $062A * Robot foot
+FORCE_NO_SYMBOL $062A
+FORCE_SYMBOL $062C draw_VL_with_count1
+FORCE_SYMBOL $062F reset0ref
+COMMENT_LINE $0632 DisplayBothPlayersScore()
+COMMENT_LINE $0632 This displays player 1's score, and if 2 players are
+COMMENT_LINE $0632 playing, then player 2's score also.
+COMMENT $0632 * rel y & rel x
+FORCE_NO_SYMBOL $0632
+COMMENT $0635 * player 1 structure
+FORCE_NO_SYMBOL $0635
+FORCE_SYMBOL $0638 print_at_d
+COMMENT $063B * 2 players?
+FORCE_NO_SYMBOL $063B
+COMMENT $0640 * rel y & rel x
+FORCE_NO_SYMBOL $0640
+COMMENT $0643 * player 2 structue
+FORCE_NO_SYMBOL $0643
+FORCE_SYMBOL $0646 print_at_d
+COMMENT_LINE $064A ProcessAndUpdateRobots()
+COMMENT_LINE $064A This function loops through each of the robots, and
+COMMENT_LINE $064A determines where the robot is relative to the player,
+COMMENT_LINE $064A and will alter the robot's position (based on some
+COMMENT_LINE $064A criteria), and will determine if it is safe to fire
+COMMENT_LINE $064A at the player.  It also checks to see if the robot has
+COMMENT_LINE $064A hit a wall, collided with another robot or collided with
+COMMENT_LINE $064A the player.  Lastly, it updates Otto's position, if
+COMMENT_LINE $064A necessary, and checks to see if Otto has collided with
+COMMENT_LINE $064A the player.
+COMMENT_LINE $064A The robot will only fire if either it is 90 degrees or
+COMMENT_LINE $064A 45 degrees from the player; 45 degrees occurs when
+COMMENT_LINE $064A |x delta| == |y delta|.
+COMMENT_LINE $064A As the robot is moving, if it is in a different quad
+COMMENT_LINE $064A from the player, then it will only update it's position
+COMMENT_LINE $064A (in an attempt to avoid running into walls) when it is
+COMMENT_LINE $064A not in the center of the quadrant.
+COMMENT $064A * Check if any robots are left
+FORCE_NO_SYMBOL $064A
+FORCE_NO_SYMBOL $0650
+FORCE_NO_SYMBOL $0652
+COMMENT $0654 * Ptr to robot array
+FORCE_NO_SYMBOL $0654
+FORCE_NO_SYMBOL $0659
+FORCE_NO_SYMBOL $065B
+FORCE_NO_SYMBOL $065F
+FORCE_SYMBOL $0663 CheckForOttoStart
+FORCE_NO_SYMBOL $0666
+FORCE_NO_SYMBOL $0669
+COMMENT $066B * Skip this robot if he is dead or
+FORCE_NO_SYMBOL $066B
+COMMENT $066D * not displayed.
+FORCE_NO_SYMBOL $066F
+COMMENT $0671 * Check processing delay
+FORCE_NO_SYMBOL $0675
+COMMENT $0677 * Reset the processing delay value
+FORCE_NO_SYMBOL $0677
+COMMENT $0679 * See if the robot can now start
+FORCE_NO_SYMBOL $0679
+COMMENT $067B * shooting.
+FORCE_NO_SYMBOL $067D
+COMMENT $067F * Update to display next eye box
+FORCE_NO_SYMBOL $067F
+COMMENT $0681 * Where is robot relative to player?
+FORCE_NO_SYMBOL $0681
+FORCE_SYMBOL $0683 DetermineDirectionToMove
+COMMENT $0686 * Do they line up in at least 1 dim?
+FORCE_NO_SYMBOL $0686
+COMMENT $0688 * Yes
+COMMENT $068A * No, so see if the x and y deltas
+FORCE_NO_SYMBOL $068A
+COMMENT $068C * are the same; i.e. 45 degrees.
+FORCE_NO_SYMBOL $068C
+FORCE_NO_SYMBOL $0691
+COMMENT_LINE $0695 Only fire if the robot's delay counter has decremented
+COMMENT_LINE $0695 to 0.  Once all bullets have been spent, reset the counter
+COMMENT_LINE $0695 and the bullet count.  Robots have a delay, which controls
+COMMENT_LINE $0695 how often they can fire, along with a bullet counter, which
+COMMENT_LINE $0695 controls how many bullets they can fire in a burst.
+COMMENT $0695 * Check if shooting delay expired
+FORCE_NO_SYMBOL $0695
+COMMENT $0697 * Nope
+COMMENT $0699 * Dec robot's bullet burst counter
+FORCE_NO_SYMBOL $0699
+COMMENT $069D * Fired all we can for now.
+FORCE_NO_SYMBOL $069D
+COMMENT $069F * Reset bullet burst counter
+FORCE_NO_SYMBOL $069F
+FORCE_NO_SYMBOL $06A1
+COMMENT $06A3 * Reset shooting delay
+FORCE_NO_SYMBOL $06A3
+COMMENT_LINE $06A7 The robot is firing.  Determine the starting position for
+COMMENT_LINE $06A7 the bullet, the direction and the velocity.  Lastly, make
+COMMENT_LINE $06A7 a sound.
+FORCE_NO_SYMBOL $06A7
+FORCE_NO_SYMBOL $06A9
+COMMENT $06AB * Save direction to fire bullet
+FORCE_NO_SYMBOL $06AB
+COMMENT $06AD * Determine starting position for
+FORCE_NO_SYMBOL $06AD
+COMMENT $06AF * bullet; a little away from robot
+FORCE_NO_SYMBOL $06AF
+FORCE_SYMBOL $06B1 CalculateUpdatedPosition
+FORCE_NO_SYMBOL $06B4
+COMMENT $06B6 * Starting position
+FORCE_NO_SYMBOL $06B6
+COMMENT $06B9 * Velocity factor
+FORCE_NO_SYMBOL $06B9
+FORCE_SYMBOL $06BB FireBullet
+COMMENT $06BE * Make a sound
+FORCE_NO_SYMBOL $06BE
+FORCE_NO_SYMBOL $06C0
+FORCE_NO_SYMBOL $06C2
+COMMENT_LINE $06C6 The robot is moving, and not firing.  Update the robot's
+COMMENT_LINE $06C6 extremities, based upon the direction of movement.  If
+COMMENT_LINE $06C6 the robot is in a different quadrant than the player,
+COMMENT_LINE $06C6 then attempt to avoid walls in the quadrant, only if the
+COMMENT_LINE $06C6 robot is not in the center of the quadrant.  Usually, the
+COMMENT_LINE $06C6 robot's direction of travel is determined by trying to
+COMMENT_LINE $06C6 avoid walls in the quadrant.
+FORCE_NO_SYMBOL $06C6
+COMMENT $06C8 * Set robot's extremities
+FORCE_NO_SYMBOL $06C8
+COMMENT $06CA * Get player's quadrant
+FORCE_NO_SYMBOL $06CA
+COMMENT $06CC MapPointToQuadrantAndMakeRelative;
+FORCE_SYMBOL $06CC MapPointToQnMakeRel
+FORCE_NO_SYMBOL $06CF
+COMMENT $06D3 * Get robot's quadrant
+FORCE_NO_SYMBOL $06D3
+COMMENT $06D5 MapPointToQuadrantAndMakeRelative;
+FORCE_SYMBOL $06D5 MapPointToQnMakeRel
+COMMENT $06DA * In same quadrant?
+FORCE_NO_SYMBOL $06DA
+COMMENT $06DC * yes
+COMMENT $06DE * In different quadrants
+FORCE_NO_SYMBOL $06DE
+COMMENT $06E0 * Avoid walls, if not in quad center
+FORCE_NO_SYMBOL $06E0
+FORCE_NO_SYMBOL $06E4
+FORCE_NO_SYMBOL $06E8
+FORCE_NO_SYMBOL $06EA
+FORCE_NO_SYMBOL $06EE
+COMMENT_LINE $06F4 Take the mask indicating which walls are present in this
+COMMENT_LINE $06F4 quadrant, and complement it, to determine the direction
+COMMENT_LINE $06F4 to move to avoid the walls.  If the resulting direction
+COMMENT_LINE $06F4 is 0, then the robot is completely enclosed.
+COMMENT $06F4 * Wall mask for quadrant
+FORCE_NO_SYMBOL $06F4
+FORCE_NO_SYMBOL $06F7
+COMMENT $06F9 * Update robot's direction of travel
+FORCE_NO_SYMBOL $06F9
+FORCE_NO_SYMBOL $06FB
+COMMENT $06FD * Enclosed room
+COMMENT_LINE $06FF Don't update the robot's direction of travel, but
+COMMENT_LINE $06FF instead, just keep moving it in its current direction.
+COMMENT $06FF * Get current position
+FORCE_NO_SYMBOL $06FF
+COMMENT $0701 * Set velocity factor
+FORCE_NO_SYMBOL $0701
+COMMENT $0703 * Get current direction
+FORCE_NO_SYMBOL $0703
+FORCE_SYMBOL $0705 CalculateUpdatedPosition
+COMMENT $0708 * Update robot's position
+FORCE_NO_SYMBOL $0708
+COMMENT $070A * Update eye box index
+FORCE_NO_SYMBOL $070A
+COMMENT_LINE $070C See if the robot has run into a wall
+COMMENT $070C * Skip if the robot is already dead
+FORCE_NO_SYMBOL $070C
+COMMENT $0710 * Robot's position
+FORCE_NO_SYMBOL $0710
+COMMENT $0712 MapPointToQuadrantAndMakeRelative;
+FORCE_SYMBOL $0712 MapPointToQnMakeRel
+FORCE_SYMBOL $0715 RobotThresholds
+FORCE_SYMBOL $0718 CheckForQuadrantEdgeCrossing
+COMMENT $071B * Contact?
+FORCE_NO_SYMBOL $071B
+FORCE_SYMBOL $0721 CreditPlayerWithDeadRobot
+COMMENT_LINE $0724 See if the robot has run into another robot.
+FORCE_NO_SYMBOL $0724
+FORCE_NO_SYMBOL $0727
+FORCE_NO_SYMBOL $0729
+FORCE_NO_SYMBOL $072B
+COMMENT $072D * Don't compare against yourself
+FORCE_NO_SYMBOL $072D
+COMMENT $0732 * Skip if next robot is dead
+FORCE_NO_SYMBOL $0732
+COMMENT $0736 * Skip if current robot is now dead
+FORCE_NO_SYMBOL $0736
+FORCE_SYMBOL $073A RobotContactBounds
+FORCE_SYMBOL $073E CheckForContact
+COMMENT $0741 * Contact?
+FORCE_SYMBOL $0743 CreditPlayerWithDeadRobot
+FORCE_SYMBOL $0748 CreditPlayerWithDeadRobot
+COMMENT $074D * Get pointer to next robot
+FORCE_NO_SYMBOL $074D
+FORCE_NO_SYMBOL $074F
+COMMENT_LINE $0753 See if robot collided with the player
+FORCE_NO_SYMBOL $0753
+COMMENT $0755 * Skip if robot is dead
+FORCE_NO_SYMBOL $0757
+FORCE_NO_SYMBOL $0759
+FORCE_SYMBOL $075C PlayerContactBounds
+FORCE_SYMBOL $0760 CheckForContact
+FORCE_SYMBOL $0767 CreditPlayerWithDeadRobot
+COMMENT $076A * Tag player as dead
+FORCE_NO_SYMBOL $076A
+FORCE_NO_SYMBOL $076C
+FORCE_NO_SYMBOL $076E
+FORCE_NO_SYMBOL $0770
+COMMENT $0772 * Make some sound
+FORCE_NO_SYMBOL $0772
+COMMENT_LINE $0774 Wait for counters to expire, before starting Otto
+FORCE_NO_SYMBOL $0774
+FORCE_NO_SYMBOL $0778
+FORCE_NO_SYMBOL $077C
+FORCE_NO_SYMBOL $077E
+COMMENT_LINE $0782 Determine Otto's position and direction, do some
+COMMENT_LINE $0782 occassional sound mucking, and then see if Otto collided
+COMMENT_LINE $0782 with the player.
+COMMENT $0782 * Determine Otto's travel direction
+FORCE_NO_SYMBOL $0782
+FORCE_SYMBOL $0784 DetermineDirectionToMove
+COMMENT $0787 * Otto's position
+FORCE_NO_SYMBOL $0787
+COMMENT $078A * Otto's velocity
+FORCE_NO_SYMBOL $078A
+FORCE_SYMBOL $078C CalculateUpdatedPosition
+COMMENT $078F * Update Otto's position
+FORCE_NO_SYMBOL $078F
+COMMENT $0791 * Since Otto bounces up and down,
+FORCE_NO_SYMBOL $0791
+COMMENT $0793 * determine how to offset his 'y'
+FORCE_NO_SYMBOL $0793
+COMMENT $0795 * position.
+FORCE_NO_SYMBOL $0797
+FORCE_NO_SYMBOL $0799
+FORCE_NO_SYMBOL $079B
+FORCE_NO_SYMBOL $079D
+FORCE_NO_SYMBOL $07A1
+COMMENT $07A3 * Make some sound
+FORCE_NO_SYMBOL $07A3
+FORCE_NO_SYMBOL $07A5
+COMMENT $07A7 * Make Otto bounce up and down
+FORCE_NO_SYMBOL $07A7
+FORCE_SYMBOL $07A9 OttoBounceOffsets
+FORCE_NO_SYMBOL $07AE
+COMMENT $07B0 * Update Otto's position
+FORCE_NO_SYMBOL $07B0
+COMMENT $07B2 * Is player still alive?
+FORCE_NO_SYMBOL $07B2
+COMMENT $07B6 * Otto and player collide?
+FORCE_NO_SYMBOL $07B6
+FORCE_SYMBOL $07B9 PlayerContactBounds
+FORCE_SYMBOL $07BD CheckForContact
+COMMENT $07C2 * Increment Otto's velocity
+FORCE_NO_SYMBOL $07C2
+FORCE_NO_SYMBOL $07C4
+FORCE_NO_SYMBOL $07C6
+COMMENT $07C8 * Make a sound
+FORCE_NO_SYMBOL $07C8
+FORCE_NO_SYMBOL $07CA
+COMMENT $07CC * Tag player as dead
+FORCE_NO_SYMBOL $07CC
+COMMENT_LINE $07CE Kill off any robots which collide with Otto
+COMMENT $07CE * Addr of robot array
+FORCE_NO_SYMBOL $07CE
+COMMENT $07D1 * Number of array entries
+FORCE_NO_SYMBOL $07D1
+COMMENT $07D3 * Loop counter
+FORCE_NO_SYMBOL $07D3
+COMMENT $07D5 * 'Accuracy' table
+FORCE_SYMBOL $07D5 RobotContactBounds
+COMMENT $07D9 * Make sure robot is alive
+FORCE_NO_SYMBOL $07D9
+COMMENT $07DD * Get Otto's position
+FORCE_NO_SYMBOL $07DD
+FORCE_SYMBOL $07DF CheckForContact
+FORCE_SYMBOL $07E4 CreditPlayerWithDeadRobot
+FORCE_NO_SYMBOL $07E7
+FORCE_NO_SYMBOL $07E9
+COMMENT_LINE $080F CreditPlayerWithDeadRobot()
+COMMENT_LINE $080F This function decrements the number of active robots
+COMMENT_LINE $080F (C8C8), marks the robot as dead, and credits the player
+COMMENT_LINE $080F with 50 points.
+COMMENT_LINE $080F Entry:
+COMMENT_LINE $080F x = pointer to dead robot structure.
+FORCE_NO_SYMBOL $080F
+FORCE_NO_SYMBOL $0811
+FORCE_NO_SYMBOL $0813
+FORCE_NO_SYMBOL $0815
+FORCE_NO_SYMBOL $0817
+FORCE_NO_SYMBOL $081B
+FORCE_NO_SYMBOL $081D
+FORCE_SYMBOL $0820 add_d_to_x_in_bcd
+COMMENT_LINE $0825 ProcessAndUpdateBullets()
+COMMENT_LINE $0825 This function updates the head and tail of each bullet,
+COMMENT_LINE $0825 and checks to see if a bullet has run into a wall,
+COMMENT_LINE $0825 hit a robot, or hit the player.  A bullet's position
+COMMENT_LINE $0825 is updated multiple times, based on its velocity setting;
+COMMENT_LINE $0825 a higher velocity setting causes a bullet to be updated
+COMMENT_LINE $0825 more often.  A bullet is a short vector made up of a
+COMMENT_LINE $0825 head and a tail.
+COMMENT $0825 * Number of bullets
+FORCE_NO_SYMBOL $0825
+COMMENT $082B * Set loop counter
+FORCE_NO_SYMBOL $082B
+FORCE_NO_SYMBOL $082D
+FORCE_NO_SYMBOL $0830
+COMMENT $0832 * Skip if bullet is not active
+FORCE_NO_SYMBOL $0832
+COMMENT $0838 * Get the direction of travel
+FORCE_NO_SYMBOL $0838
+FORCE_NO_SYMBOL $083A
+COMMENT $083C * Use velocity as loop counter
+FORCE_NO_SYMBOL $083C
+COMMENT $083E * Direction of travel
+FORCE_NO_SYMBOL $083E
+COMMENT $0840 * Velocity
+FORCE_NO_SYMBOL $0840
+COMMENT $0842 * Current tail position
+FORCE_NO_SYMBOL $0842
+FORCE_SYMBOL $0844 CalculateUpdatedPosition
+COMMENT $0847 * Update bullet's tail position
+FORCE_NO_SYMBOL $0847
+COMMENT $0849 * Direction of travel
+FORCE_NO_SYMBOL $0849
+COMMENT $084B * Velocity
+FORCE_NO_SYMBOL $084B
+COMMENT $084D * Current head position
+FORCE_NO_SYMBOL $084D
+FORCE_SYMBOL $084F CalculateUpdatedPosition
+COMMENT $0852 * Update bullet's head position
+FORCE_NO_SYMBOL $0852
+COMMENT_LINE $0854 See if bullet collided with a wall
+COMMENT $0854 * Bullet's head position
+FORCE_NO_SYMBOL $0854
+COMMENT $0856 MapPointToQuadrantAndMakeRelative;
+FORCE_SYMBOL $0856 MapPointToQnMakeRel
+FORCE_NO_SYMBOL $0859
+FORCE_SYMBOL $085D BulletToWallThresholds
+FORCE_SYMBOL $0860 CheckForQuadrantEdgeCrossing
+COMMENT $0863 * Contact with wall?
+FORCE_NO_SYMBOL $0863
+FORCE_NO_SYMBOL $0867
+FORCE_NO_SYMBOL $0869
+COMMENT $086B * Flag bullet as hitting something
+FORCE_NO_SYMBOL $086B
+COMMENT_LINE $086D See if bullet hit any of the robots
+FORCE_NO_SYMBOL $086D
+FORCE_NO_SYMBOL $0870
+FORCE_NO_SYMBOL $0872
+COMMENT $0874 * Skip robot if already dead
+FORCE_NO_SYMBOL $0874
+FORCE_SYMBOL $0878 RobotContactBounds
+COMMENT $087C * Position of bullet's head
+FORCE_NO_SYMBOL $087C
+FORCE_SYMBOL $087E CheckForContact
+FORCE_SYMBOL $0883 CreditPlayerWithDeadRobot
+COMMENT $0886 * Flag bullet as hitting something
+FORCE_NO_SYMBOL $0886
+FORCE_NO_SYMBOL $0888
+FORCE_NO_SYMBOL $088A
+FORCE_NO_SYMBOL $088C
+FORCE_NO_SYMBOL $088E
+COMMENT_LINE $0892 See if bullet hit the player
+COMMENT $0892 * Position of bullet's head
+FORCE_NO_SYMBOL $0892
+COMMENT $0894 * Check for contact with player ?
+FORCE_NO_SYMBOL $0894
+FORCE_SYMBOL $0897 PlayerContactBounds2
+FORCE_SYMBOL $089B CheckForContact
+COMMENT $08A0 * Do nothing if player is already
+FORCE_NO_SYMBOL $08A0
+COMMENT $08A2 * dead or has left the maze.
+FORCE_NO_SYMBOL $08A4
+COMMENT $08A6 * Make a sound
+FORCE_NO_SYMBOL $08A6
+FORCE_NO_SYMBOL $08A8
+COMMENT $08AA * Flag player as dead
+FORCE_NO_SYMBOL $08AA
+FORCE_NO_SYMBOL $08AC
+COMMENT $08AE * Flag bullet as hitting something
+FORCE_NO_SYMBOL $08AE
+FORCE_NO_SYMBOL $08B0
+COMMENT_LINE $08B2 Keep processing this bullet, based on its velocity
+FORCE_NO_SYMBOL $08B2
+COMMENT_LINE $08B6 Update the delta between the head and tail of bullet
+FORCE_NO_SYMBOL $08B6
+FORCE_NO_SYMBOL $08B8
+FORCE_NO_SYMBOL $08BA
+FORCE_NO_SYMBOL $08BC
+COMMENT_LINE $08BE Loop until all bullets have been processed
+FORCE_NO_SYMBOL $08BE
+FORCE_NO_SYMBOL $08C0
+COMMENT_LINE $08C7 DrawWithPossibleScrolling()
+COMMENT_LINE $08C7 This function draws an object at its scrolled position,
+COMMENT_LINE $08C7 until the starting point for the object being drawn
+COMMENT_LINE $08C7 scrolls off, at which point, the object is no longer
+COMMENT_LINE $08C7 drawn.  The scrolling offsets are incremented each time
+COMMENT_LINE $08C7 PlayerHasLeftMaze() is called.  Most of the code below
+COMMENT_LINE $08C7 is trying to determine if the starting point has
+COMMENT_LINE $08C7 scrolled off in the expected direction.
+COMMENT_LINE $08C7 Entry:
+COMMENT_LINE $08C7 x = ptr to vector list (for generic draw functions)
+COMMENT_LINE $08C7 u = ptr to drawing position
+COMMENT_LINE $08C7 C8C9 = drawing function to call
+FORCE_SYMBOL $08C7 dptoC8
+FORCE_NO_SYMBOL $08CA
+FORCE_NO_SYMBOL $08CD
+COMMENT $08CF * starting y pos + scrolling offset
+FORCE_NO_SYMBOL $08CF
+FORCE_NO_SYMBOL $08D6
+FORCE_NO_SYMBOL $08DA
+FORCE_NO_SYMBOL $08DE
+FORCE_NO_SYMBOL $08E0
+FORCE_NO_SYMBOL $08E9
+FORCE_NO_SYMBOL $08ED
+FORCE_NO_SYMBOL $08F1
+FORCE_NO_SYMBOL $08F3
+FORCE_NO_SYMBOL $08F7
+FORCE_NO_SYMBOL $08FA
+COMMENT $08FC * starting x pos + scrolling offset
+FORCE_NO_SYMBOL $08FC
+FORCE_NO_SYMBOL $0903
+FORCE_NO_SYMBOL $0907
+FORCE_NO_SYMBOL $090B
+FORCE_NO_SYMBOL $090D
+FORCE_NO_SYMBOL $0916
+FORCE_NO_SYMBOL $091A
+FORCE_NO_SYMBOL $091E
+FORCE_NO_SYMBOL $0920
+FORCE_SYMBOL $0924 dptoD0
+COMMENT $0927 * Goto modified drawing origin
+FORCE_NO_SYMBOL $0927
+FORCE_SYMBOL $092A move_pen7F_to_d
+COMMENT $092D * Set drawing intensity
+FORCE_NO_SYMBOL $092D
+FORCE_NO_SYMBOL $0930
+COMMENT $0932 * Jump to drawing function
+FORCE_NO_SYMBOL $0932
+FORCE_SYMBOL $0936 dptoD0
+COMMENT_LINE $0939 CalculateUpdatedPosition()
+COMMENT_LINE $0939 This function updates a position, based upon a direction
+COMMENT_LINE $0939 of travel, and a velocity setting.  The velocity is
+COMMENT_LINE $0939 broken up into a rise and a run value, and added to the
+COMMENT_LINE $0939 incoming position.
+COMMENT_LINE $0939 Entry:
+COMMENT_LINE $0939 b = direction of travel
+COMMENT_LINE $0939 a = velocity setting
+COMMENT_LINE $0939 x = pointer to a position
+COMMENT_LINE $0939 Exit:
+COMMENT_LINE $0939 d = updated position (y,x)
+FORCE_NO_SYMBOL $0939
+FORCE_NO_SYMBOL $093D
+COMMENT_LINE $0941 Break up velocity into rise and run components
+FORCE_NO_SYMBOL $0943
+COMMENT $0952 * Save adjusted velocity
+FORCE_NO_SYMBOL $0952
+FORCE_NO_SYMBOL $0954
+COMMENT $0958 * Going left; - velocity
+FORCE_NO_SYMBOL $095B
+COMMENT $095D * Going right; + velocity
+COMMENT $095F * No movement in x direction
+COMMENT $0960 * Update the x position
+FORCE_NO_SYMBOL $0960
+COMMENT $0964 * Reload adjusted velocity
+FORCE_NO_SYMBOL $0964
+FORCE_NO_SYMBOL $0966
+COMMENT $096A * Going down; - velocity
+FORCE_NO_SYMBOL $096D
+COMMENT $096F * Going up; + velocity
+COMMENT $0971 * No movement in y direction
+COMMENT $0972 * Update the y position
+FORCE_NO_SYMBOL $0972
+COMMENT_LINE $0976 This is one of the 'indirect jump' functions.  It is the
+COMMENT_LINE $0976 active jump function when the player successfully leaves
+COMMENT_LINE $0976 a maze.  When the player exits from a door in the maze,
+COMMENT_LINE $0976 the maze will then scroll off in the opposite direction;
+COMMENT_LINE $0976 i.e. If the player exits through the left door, the maze
+COMMENT_LINE $0976 will scroll off to the right.  Each time this function
+COMMENT_LINE $0976 is called, it will bump the scrolling deltas; this
+COMMENT_LINE $0976 continues until scrolling is complete.  It also sets
+COMMENT_LINE $0976 the player's starting position in the next maze; if the
+COMMENT_LINE $0976 player exited from the left, then he will start at the
+COMMENT_LINE $0976 right edge of the next maze, and the door through which
+COMMENT_LINE $0976 he exited will be blocked.
+FORCE_NO_SYMBOL $0976
+FORCE_NO_SYMBOL $0978
+COMMENT $097A * Determine door player exited thru
+FORCE_NO_SYMBOL $097A
+FORCE_NO_SYMBOL $097C
+COMMENT $0980 * Left door, so scroll right
+FORCE_NO_SYMBOL $0980
+FORCE_NO_SYMBOL $0982
+FORCE_NO_SYMBOL $0986
+COMMENT $098A * Right door, so scroll left
+FORCE_NO_SYMBOL $098A
+FORCE_NO_SYMBOL $098E
+COMMENT $0992 * Top door, so scroll down
+FORCE_NO_SYMBOL $0992
+FORCE_NO_SYMBOL $0996
+COMMENT $099A * Bottom door, so scroll up
+FORCE_NO_SYMBOL $099A
+FORCE_NO_SYMBOL $099C
+COMMENT_LINE $09A0 This block checks to see if we have finished scrolling,
+COMMENT_LINE $09A0 and if so, prepares us for entering the next maze.
+COMMENT_LINE $09A0 It will also = the player's starting position in the
+COMMENT_LINE $09A0 next maze.
+FORCE_NO_SYMBOL $09A2
+COMMENT $09A4 * Exited thru right door?
+FORCE_NO_SYMBOL $09A6
+COMMENT $09A8 * Yes; start at left edge
+FORCE_NO_SYMBOL $09A8
+COMMENT $09AC * Exited thru top door
+FORCE_NO_SYMBOL $09AC
+COMMENT $09AE * Start at bottom
+FORCE_NO_SYMBOL $09AE
+COMMENT $09B4 * Exited thru bottom door?
+FORCE_NO_SYMBOL $09B4
+COMMENT $09B8 * Yes; start at top edge
+FORCE_NO_SYMBOL $09B8
+FORCE_NO_SYMBOL $09BA
+COMMENT $09BE * Exited thru left door
+FORCE_NO_SYMBOL $09BE
+COMMENT $09C0 * Start at right edge
+FORCE_NO_SYMBOL $09C0
+FORCE_NO_SYMBOL $09C2
+COMMENT $09C4 * Update player's position
+FORCE_NO_SYMBOL $09C4
+COMMENT $09C6 * This tells the exit door
+FORCE_NO_SYMBOL $09C6
+FORCE_NO_SYMBOL $09C8
+COMMENT $09CB * Block door player exited thru
+FORCE_NO_SYMBOL $09CB
+FORCE_NO_SYMBOL $09CD
+COMMENT $09CF * Set a loop counter
+FORCE_NO_SYMBOL $09CF
+COMMENT $09D1 * Reset the threshold used to
+FORCE_NO_SYMBOL $09D1
+COMMENT $09D3 * determine if a robot is placed in
+FORCE_NO_SYMBOL $09D3
+COMMENT $09D5 * the maze.
+FORCE_NO_SYMBOL $09D7
+FORCE_NO_SYMBOL $09D9
+FORCE_SYMBOL $09DB EnterNextMaze
+COMMENT_LINE $09DE This block saves the x and y delta values, which are
+COMMENT_LINE $09DE then used by the drawing function, to offset all
+COMMENT_LINE $09DE drawing origins.
+FORCE_NO_SYMBOL $09DE
+COMMENT $09E3 * Save 16-bit y delta
+FORCE_NO_SYMBOL $09E3
+FORCE_NO_SYMBOL $09E5
+COMMENT $09EA * Save 16-bit x delta
+FORCE_NO_SYMBOL $09EA
+FORCE_SYMBOL $09EC MakeSoundThenGotoMainLoop
+COMMENT_LINE $09EF DrawPlayerFunction()
+COMMENT_LINE $09EF This function draws the player's body, and then the
+COMMENT_LINE $09EF arms and legs; the types of arms and legs is dependent
+COMMENT_LINE $09EF upon whether the player is standing still, running
+COMMENT_LINE $09EF or shooting.  (C8CE) is the index indicating movement,
+COMMENT_LINE $09EF while (C8CF) is the index indicating arm position
+COMMENT_LINE $09EF (running, standing still or shooting).
+FORCE_NO_SYMBOL $09EF
+COMMENT $09F2 * Draw the player's body
+FORCE_NO_SYMBOL $09F2
+FORCE_SYMBOL $09F4 PlayersBody
+FORCE_SYMBOL $09F7 draw_VL_with_count5
+COMMENT $09FA * Running or standing still?
+FORCE_NO_SYMBOL $09FA
+FORCE_SYMBOL $09FF PlayerLegsVectorTable
+FORCE_SYMBOL $0A04 next_pt
+FORCE_SYMBOL $0A07 PlayerMovingArmsVectorTable
+FORCE_NO_SYMBOL $0A0A
+FORCE_NO_SYMBOL $0A0F
+FORCE_SYMBOL $0A12 next_pt
+COMMENT $0A15 * Draw legs standing still
+FORCE_SYMBOL $0A15 StationaryLegs
+FORCE_SYMBOL $0A18 move_then_draw_VL_with_count1
+FORCE_SYMBOL $0A1B PlayerArmsVectorTable
+FORCE_NO_SYMBOL $0A1E
+COMMENT $0A23 * Player is shooting
+FORCE_SYMBOL $0A25 move_then_draw_VL_with_count1
+COMMENT $0A28 * Draw arms at side
+FORCE_NO_SYMBOL $0A28
+FORCE_SYMBOL $0A2A next_pt
+COMMENT_LINE $0A2D Whenever the player's score passes certain cutoff level,
+COMMENT_LINE $0A2D the game becomes more challenging.  The cutoff levels are:
+COMMENT_LINE $0A2D 3000, 15000, 30000, 45000, 50000, 60000 and 75000
+COMMENT $0A2D * " 3"
+COMMENT $0A2F * "15"
+COMMENT $0A31 * "30"
+COMMENT $0A33 * "45"
+COMMENT $0A35 * "50"
+COMMENT $0A37 * "60"
+COMMENT $0A39 * "75"
+COMMENT_LINE $0A3C This table is used to fill in the player's arm
+COMMENT_LINE $0A3C movement value (C8CF), when standing still.  The
+COMMENT_LINE $0A3C value is obtained from this array, by indexing into
+COMMENT_LINE $0A3C it using the joystick state:
+COMMENT_LINE $0A3C ---------------------------------
+COMMENT_LINE $0A3C | 0 | 0 | B | L | D | U | R | L |
+COMMENT_LINE $0A3C ---------------------------------
+COMMENT_LINE $0A3C Button Pressed--^
+COMMENT_LINE $0A3C Joystick Left-------^---------------^
+COMMENT_LINE $0A3C Joystick Down-----------^
+COMMENT_LINE $0A3C Joystick Up-----------------^
+COMMENT_LINE $0A3C Joystick Right------------------^
+COMMENT $0A3C * idx = $00; Invalid setting
+COMMENT $0A3D * idx = $01; shooting left
+COMMENT $0A3E * idx = $02; shooting right
+COMMENT $0A3F * idx = $03; Invalid setting
+COMMENT $0A40 * idx = $04; shooting up
+COMMENT $0A41 * idx = $05; shooting upper left
+COMMENT $0A42 * idx = $06; shooting upper right
+COMMENT $0A43 * idx = $07; Invalid setting
+COMMENT $0A44 * idx = $08; shooting down
+COMMENT $0A45 * idx = $09; shooting lower left
+COMMENT $0A46 * idx = $0A; shooting lower right
+COMMENT_LINE $0A47 As the player runs, the legs either move in a left or
+COMMENT_LINE $0A47 right direction.  The value in C8CE is used to index
+COMMENT_LINE $0A47 into this table.
+COMMENT_LINE $0A51 As the player moves, his arms swing back and forth.
+COMMENT_LINE $0A51 The value in C8CF is used to index into this table.
+COMMENT_LINE $0A55 When a player is standing still, they are either shooting
+COMMENT_LINE $0A55 or not shooting.  The value in C8CF is used to index into
+COMMENT_LINE $0A55 this table.
+COMMENT_LINE $0A67 Depending upon what a robot is doing, his extremities
+COMMENT_LINE $0A67 (legs and eye boxes) may be drawn differently.  Each
+COMMENT_LINE $0A67 entry in this table points to another structure, which
+COMMENT_LINE $0A67 defines how the extremities should be drawn.  Each robot
+COMMENT_LINE $0A67 structure has a field which is used to index into this
+COMMENT_LINE $0A67 table.
+COMMENT_LINE $0A7D Each of the following 5 structures describe how the
+COMMENT_LINE $0A7D extremities should be drawn for a robot, while in a
+COMMENT_LINE $0A7D particular state.  The structure is defined as follows:
+COMMENT_LINE $0A7D {
+COMMENT_LINE $0A7D ptr to first right leg vector list
+COMMENT_LINE $0A7D ptr to second right leg vector list
+COMMENT_LINE $0A7D ptr to right foot vector list
+COMMENT_LINE $0A7D ptr to first left leg vector list
+COMMENT_LINE $0A7D ptr to second left leg vector list
+COMMENT_LINE $0A7D ptr to left foot vector list
+COMMENT_LINE $0A7D ptr to eye box 1 vector list
+COMMENT_LINE $0A7D ptr to eye box 2 vector list
+COMMENT_LINE $0A7D ptr to eye box 3 vector list
+COMMENT_LINE $0A7D ptr to eye box 4 vector list
+COMMENT_LINE $0A7D }
+COMMENT_LINE $0A7D As the robot is drawn, it will cycle through the 2
+COMMENT_LINE $0A7D right leg and 2 left leg vector list; it will also
+COMMENT_LINE $0A7D cycle through the 4 eye box vector lists.  In some
+COMMENT_LINE $0A7D cases, values will be the same; this implies that no
+COMMENT_LINE $0A7D motion is occurring (i.e. if the robot is not moving,
+COMMENT_LINE $0A7D then the legs shouldn't be moving either).
+COMMENT_LINE $0A7D When a robot is moving left, the eye box and both feet
+COMMENT_LINE $0A7D point to the left.  When the robot is moving right, then
+COMMENT_LINE $0A7D the eye box and both feed point right.  When the robot
+COMMENT_LINE $0A7D is moving up, then the eye box points up.  When the robot
+COMMENT_LINE $0A7D moves down, no eye box is displayed.  When the robot is
+COMMENT_LINE $0A7D standing still, the eye box will appear to rotate.
+COMMENT $0AE1 * rel y
+COMMENT $0AE2 * rel x
+COMMENT_LINE $0AE9 As the player gets better, the game will start to
+COMMENT_LINE $0AE9 block off one of the maze doors.  The value in C8C6
+COMMENT_LINE $0AE9 is used to index into this array, when the value > 0.
+COMMENT_LINE $0AE9 The value in C8C6 has the following format:
+COMMENT_LINE $0AE9 ---------------------------------
+COMMENT_LINE $0AE9 | 0 | 0 | 0 | T | B | L | R | 0 |
+COMMENT_LINE $0AE9 ---------------------------------
+COMMENT_LINE $0AE9 Block Top Door------^
+COMMENT_LINE $0AE9 Block Bottom Door-------^
+COMMENT_LINE $0AE9 Block Left Door-------------^
+COMMENT_LINE $0AE9 Block Right Door----------------^
+COMMENT $0AE9 * idx = 0; Invalid
+COMMENT $0AEB * idx = 2
+COMMENT $0AED * idx = 4
+COMMENT $0AEF * idx = 6; Invalid
+COMMENT $0AF1 * idx = 8
+COMMENT $0AF3 * idx = 10; Invalid
+COMMENT $0AF5 * idx = 12; Invalid
+COMMENT $0AF7 * idx = 14; Invalid
+COMMENT $0AF9 * idx = 16
+COMMENT_LINE $0AFB Each of the following tables contain the relative (y,x)
+COMMENT_LINE $0AFB point to move to, followed by the (y,x) point to draw to.
+COMMENT $0AFB * move to absolute y
+COMMENT $0AFC * move to absolute x
+COMMENT $0AFD * vector rel y
+COMMENT $0AFE * vector rel x
+COMMENT $0AFF * move to absolute y
+COMMENT $0B00 * move to absolute x
+COMMENT $0B01 * vector rel y
+COMMENT $0B02 * vector rel x
+COMMENT $0B03 * move to absolute y
+COMMENT $0B04 * move to absolute x
+COMMENT $0B05 * vector rel y
+COMMENT $0B06 * vector rel x
+COMMENT $0B07 * move to absolute y
+COMMENT $0B08 * move to absolute x
+COMMENT $0B09 * vector rel y
+COMMENT $0B0A * vector rel x
+COMMENT_LINE $0B0B This structure contains 4 entries; 1 for each of the
+COMMENT_LINE $0B0B sections of outer wall which must be drawn.  Each
+COMMENT_LINE $0B0B entry contains an absolute (y,x) position, to which
+COMMENT_LINE $0B0B the pen should be moved before doing any drawing, and
+COMMENT_LINE $0B0B a pointer to the appropriate vector list.
+COMMENT $0B0B * absolute y
+COMMENT $0B0C * absolute x
+COMMENT $0B0F * absolute y
+COMMENT $0B10 * absolute x
+COMMENT $0B13 * absolute y
+COMMENT $0B14 * absolute x
+COMMENT $0B17 * absolute y
+COMMENT $0B18 * absolute x
+COMMENT_LINE $0B1B The following is a table of 8 (y,x) points, which
+COMMENT_LINE $0B1B represent the starting points for all interior maze
+COMMENT_LINE $0B1B walls.  The maze is divided into 15 quadrants, and
+COMMENT_LINE $0B1B these points represent the points where 4 quadrants
+COMMENT_LINE $0B1B meet (as indicated by the '+' character:
+COMMENT_LINE $0B1B -100 -60 -20 +20 +60 +100
+COMMENT_LINE $0B1B --------------------- +96
+COMMENT_LINE $0B1B | 0 | 1 | 2 | 3 | 4 |
+COMMENT_LINE $0B1B ----+---+---+---+---- +32
+COMMENT_LINE $0B1B | 5 | 6 | 7 | 8 | 9 |
+COMMENT_LINE $0B1B ----+---+---+---+---- -32
+COMMENT_LINE $0B1B |10 |11 |12 |13 |14 |
+COMMENT_LINE $0B1B --------------------- -96
+COMMENT_LINE $0B2B The following 4 structures contain the (y,x) points
+COMMENT_LINE $0B2B needed to draw 2 of the outer maze walls.
+COMMENT_LINE $0B3B The following is a table of 4 single vectors, each
+COMMENT_LINE $0B3B representing a posible vector which might be drawn
+COMMENT_LINE $0B3B as an inner wall.  From any one of the inner points,
+COMMENT_LINE $0B3B a wall could be drawn:
+COMMENT_LINE $0B3B 1) upward
+COMMENT_LINE $0B3B 2) downward
+COMMENT_LINE $0B3B 3) to the right
+COMMENT_LINE $0B3B 4) to the left
+COMMENT_LINE $0B3B When drawing the maze, the 8 byte array C8AB-C8B2
+COMMENT_LINE $0B3B (which contains one entry for each of the 8 possible
+COMMENT_LINE $0B3B inner wall positions) indicates which of the segments
+COMMENT_LINE $0B3B should be drawn; the index is either 0, 2, 4 or 6.
+COMMENT $0B3B * Draw upward from point
+COMMENT $0B3D * Draw downward from point
+COMMENT $0B3F * Draw right from point
+COMMENT $0B41 * Draw left from point
+COMMENT_LINE $0B43 Vector list comprising right half of the robot's body.
+COMMENT $0B43 * vector count - 1
+COMMENT $0B44 * rel y
+COMMENT $0B45 * rel x
+COMMENT_LINE $0B5E Vector list comprising left half of the robot's body.
+COMMENT $0B5E * vector count - 1
+COMMENT $0B5F * rel y
+COMMENT $0B60 * rel x
+COMMENT $0CDE * height
+COMMENT $0CDF * width
+COMMENT $0CE0 * y
+COMMENT $0CE1 * x
+COMMENT_LINE $0CE6 This contains the starting positions for
+COMMENT_LINE $0CE6 robots; a random number is used to index into this
+COMMENT_LINE $0CE6 table.  It is formated as (y, x) pairs.
+COMMENT_LINE $0CFC By default, certain quadrants within the maze*always*
+COMMENT_LINE $0CFC have certain walls present; i.e. any of the outside
+COMMENT_LINE $0CFC quadrants.  This maze contains the default 'wall mask'
+COMMENT_LINE $0CFC values, which are used to seed the array C8B5-C8C3.
+COMMENT_LINE $0CFC That array is then further modified as the interior
+COMMENT_LINE $0CFC walls are added.  The mask values have the following
+COMMENT_LINE $0CFC meaning:
+COMMENT_LINE $0CFC ---------------------------------
+COMMENT_LINE $0CFC | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0CFC ---------------------------------
+COMMENT_LINE $0CFC Quadrant has Bottom Wall-----^
+COMMENT_LINE $0CFC Quadrant has Top Wall------------^
+COMMENT_LINE $0CFC Quadrant has Right Wall--------------^
+COMMENT_LINE $0CFC Quadrant has Left Wall-------------------^
+COMMENT_LINE $0CFC The quadrants are defined as follows:
+COMMENT_LINE $0CFC ---------------------
+COMMENT_LINE $0CFC | 0 | 1 | 2 | 3 | 4 |
+COMMENT_LINE $0CFC ----+---+---+---+----
+COMMENT_LINE $0CFC | 5 | 6 | 7 | 8 | 9 |
+COMMENT_LINE $0CFC ----+---+---+---+----
+COMMENT_LINE $0CFC |10 |11 |12 |13 |14 |
+COMMENT_LINE $0CFC ---------------------
+COMMENT $0CFC * left and top walls
+COMMENT $0CFD * top wall
+COMMENT $0CFE * top wall
+COMMENT $0CFF * top wall
+COMMENT $0D00 * top and right walls
+COMMENT $0D01 * left wall
+COMMENT $0D02 * no walls
+COMMENT $0D03 * no walls
+COMMENT $0D04 * no walls
+COMMENT $0D05 * right wall
+COMMENT $0D06 * bottom and left wall
+COMMENT $0D07 * bottom wall
+COMMENT $0D08 * bottom wall
+COMMENT $0D09 * bottom wall
+COMMENT $0D0A * bottom and right walls
+COMMENT_LINE $0D1B CheckForContact()
+COMMENT_LINE $0D1B This function checks to see if two objects have come
+COMMENT_LINE $0D1B into contact (such as a bullet and a robot, a bullet
+COMMENT_LINE $0D1B and the player, or a robot and the player.  The 2
+COMMENT_LINE $0D1B objects do not need to come into exact contact, but
+COMMENT_LINE $0D1B rather, they only need to come within a prespecified
+COMMENT_LINE $0D1B distance.
+COMMENT_LINE $0D1B Entry:
+COMMENT_LINE $0D1B x = ptr to object to which contact is being checked.
+COMMENT_LINE $0D1B a = y position to check for contact with object.
+COMMENT_LINE $0D1B b = x position to check for contact with object.
+COMMENT_LINE $0D1B y = ptr to table telling how close contact must be.
+COMMENT_LINE $0D1B Exit:
+COMMENT_LINE $0D1B The carry bit will be = if contact was made.
+FORCE_NO_SYMBOL $0D1B
+FORCE_NO_SYMBOL $0D1D
+FORCE_NO_SYMBOL $0D1F
+FORCE_NO_SYMBOL $0D23
+FORCE_NO_SYMBOL $0D27
+FORCE_NO_SYMBOL $0D2B
+FORCE_NO_SYMBOL $0D2F
+FORCE_NO_SYMBOL $0D32
+COMMENT_LINE $0D35 The following 3 tables define the bounding box around
+COMMENT_LINE $0D35 some figure (robot, player).  It is used to determine
+COMMENT_LINE $0D35 when something has hit the figure.  Each table contains
+COMMENT_LINE $0D35 the following values:
+COMMENT_LINE $0D35 + y delta
+COMMENT_LINE $0D35 - y delta
+COMMENT_LINE $0D35 + x delta
+COMMENT_LINE $0D35 - x delta
+COMMENT_LINE $0D41 This function appears to do some random mucking relating
+COMMENT_LINE $0D41 to sound.
+FORCE_NO_SYMBOL $0D41
+FORCE_NO_SYMBOL $0D43
+FORCE_NO_SYMBOL $0D45
+FORCE_NO_SYMBOL $0D47
+FORCE_NO_SYMBOL $0D49
+FORCE_NO_SYMBOL $0D4B
+FORCE_NO_SYMBOL $0D4D
+FORCE_SYMBOL $0D51 P0DF2
+FORCE_NO_SYMBOL $0D54
+FORCE_NO_SYMBOL $0D58
+FORCE_NO_SYMBOL $0D5B
+FORCE_NO_SYMBOL $0D5D
+FORCE_SYMBOL $0D5F P0DEB
+FORCE_NO_SYMBOL $0D62
+FORCE_SYMBOL $0D66 P0E32
+FORCE_NO_SYMBOL $0D69
+FORCE_NO_SYMBOL $0D6D
+FORCE_NO_SYMBOL $0D70
+FORCE_NO_SYMBOL $0D72
+FORCE_SYMBOL $0D74 P0E22
+FORCE_NO_SYMBOL $0D77
+FORCE_NO_SYMBOL $0D7B
+FORCE_NO_SYMBOL $0D7E
+FORCE_NO_SYMBOL $0D80
+FORCE_SYMBOL $0D82 P0DB2
+FORCE_NO_SYMBOL $0D85
+FORCE_SYMBOL $0D89 P0DC3
+FORCE_NO_SYMBOL $0D8C
+FORCE_NO_SYMBOL $0D90
+FORCE_NO_SYMBOL $0D93
+FORCE_NO_SYMBOL $0D95
+FORCE_SYMBOL $0D97 DoUnknownSoundMucking3
+FORCE_NO_SYMBOL $0D9A
+FORCE_SYMBOL $0D9E DoUnknownSoundMucking4
+FORCE_NO_SYMBOL $0DA1
+FORCE_NO_SYMBOL $0DA3
+FORCE_SYMBOL $0DA7 P0EAB
+FORCE_NO_SYMBOL $0DAA
+FORCE_SYMBOL $0DAE P0E99
+FORCE_NO_SYMBOL $0DB2
+FORCE_NO_SYMBOL $0DB5
+FORCE_NO_SYMBOL $0DB7
+FORCE_NO_SYMBOL $0DBA
+FORCE_NO_SYMBOL $0DBC
+FORCE_NO_SYMBOL $0DBF
+FORCE_NO_SYMBOL $0DC3
+FORCE_NO_SYMBOL $0DC5
+FORCE_NO_SYMBOL $0DC8
+FORCE_NO_SYMBOL $0DCA
+FORCE_NO_SYMBOL $0DCC
+FORCE_NO_SYMBOL $0DCF
+FORCE_NO_SYMBOL $0DD1
+FORCE_NO_SYMBOL $0DD3
+FORCE_NO_SYMBOL $0DD6
+FORCE_NO_SYMBOL $0DD8
+FORCE_NO_SYMBOL $0DDA
+FORCE_NO_SYMBOL $0DDE
+FORCE_NO_SYMBOL $0DE2
+FORCE_NO_SYMBOL $0DE4
+FORCE_NO_SYMBOL $0DE6
+FORCE_NO_SYMBOL $0DE8
+FORCE_NO_SYMBOL $0DEB
+FORCE_NO_SYMBOL $0DEE
+FORCE_NO_SYMBOL $0DF0
+FORCE_NO_SYMBOL $0DF2
+FORCE_NO_SYMBOL $0DF4
+FORCE_NO_SYMBOL $0DF8
+FORCE_NO_SYMBOL $0DFA
+FORCE_NO_SYMBOL $0DFF
+FORCE_NO_SYMBOL $0E01
+FORCE_NO_SYMBOL $0E04
+FORCE_NO_SYMBOL $0E06
+FORCE_NO_SYMBOL $0E09
+FORCE_NO_SYMBOL $0E0D
+FORCE_NO_SYMBOL $0E0F
+FORCE_NO_SYMBOL $0E11
+FORCE_NO_SYMBOL $0E14
+FORCE_NO_SYMBOL $0E16
+FORCE_NO_SYMBOL $0E18
+FORCE_NO_SYMBOL $0E1B
+FORCE_NO_SYMBOL $0E1D
+FORCE_SYMBOL $0E1F P0DDA
+FORCE_NO_SYMBOL $0E22
+FORCE_NO_SYMBOL $0E25
+FORCE_NO_SYMBOL $0E27
+FORCE_NO_SYMBOL $0E2A
+FORCE_NO_SYMBOL $0E2C
+FORCE_NO_SYMBOL $0E2F
+FORCE_NO_SYMBOL $0E32
+FORCE_NO_SYMBOL $0E37
+FORCE_NO_SYMBOL $0E3C
+FORCE_SYMBOL $0E3E P0DDA
+COMMENT_LINE $0E41 This function appears to do some random mucking relating
+COMMENT_LINE $0E41 to sound.
+FORCE_NO_SYMBOL $0E41
+FORCE_NO_SYMBOL $0E43
+FORCE_NO_SYMBOL $0E47
+FORCE_NO_SYMBOL $0E49
+FORCE_NO_SYMBOL $0E4E
+FORCE_NO_SYMBOL $0E50
+FORCE_NO_SYMBOL $0E53
+COMMENT_LINE $0E56 This function appears to do some random mucking relating
+COMMENT_LINE $0E56 to sound.
+FORCE_NO_SYMBOL $0E56
+FORCE_NO_SYMBOL $0E58
+FORCE_NO_SYMBOL $0E5A
+FORCE_NO_SYMBOL $0E5D
+FORCE_NO_SYMBOL $0E5F
+FORCE_NO_SYMBOL $0E62
+FORCE_NO_SYMBOL $0E64
+FORCE_NO_SYMBOL $0E67
+COMMENT_LINE $0E6A This function appears to do some random mucking relating
+COMMENT_LINE $0E6A to sound.
+FORCE_NO_SYMBOL $0E6A
+FORCE_NO_SYMBOL $0E6E
+FORCE_NO_SYMBOL $0E70
+FORCE_NO_SYMBOL $0E74
+FORCE_NO_SYMBOL $0E76
+FORCE_NO_SYMBOL $0E78
+FORCE_NO_SYMBOL $0E7B
+FORCE_NO_SYMBOL $0E7F
+FORCE_NO_SYMBOL $0E81
+FORCE_NO_SYMBOL $0E84
+FORCE_NO_SYMBOL $0E86
+FORCE_NO_SYMBOL $0E88
+FORCE_NO_SYMBOL $0E8B
+FORCE_NO_SYMBOL $0E8D
+FORCE_NO_SYMBOL $0E8F
+FORCE_NO_SYMBOL $0E92
+FORCE_NO_SYMBOL $0E94
+FORCE_SYMBOL $0E96 P0DDA
+FORCE_NO_SYMBOL $0E99
+FORCE_NO_SYMBOL $0E9B
+FORCE_NO_SYMBOL $0E9D
+FORCE_NO_SYMBOL $0E9F
+FORCE_NO_SYMBOL $0EA1
+FORCE_NO_SYMBOL $0EA4
+FORCE_NO_SYMBOL $0EA6
+FORCE_NO_SYMBOL $0EA9
+FORCE_NO_SYMBOL $0EAB
+FORCE_NO_SYMBOL $0EAD
+FORCE_NO_SYMBOL $0EB1
+FORCE_NO_SYMBOL $0EB5
+FORCE_NO_SYMBOL $0EB7
+FORCE_NO_SYMBOL $0EBA
+FORCE_NO_SYMBOL $0EBC
+FORCE_NO_SYMBOL $0EC0
+FORCE_NO_SYMBOL $0EC2
+FORCE_SYMBOL $0EC4 P0DDA
+COMMENT_LINE $0EC7 CheckForQuadrantEdgeCrossing()
+COMMENT_LINE $0EC7 This function determines whether an object has crossed
+COMMENT_LINE $0EC7 over the edge of a quadrant; this helps to determine
+COMMENT_LINE $0EC7 when a player runs into a wall, or exits through an
+COMMENT_LINE $0EC7 open door.  It returns a mask, which indicates which
+COMMENT_LINE $0EC7 edge (or edges) have been crossed.
+COMMENT_LINE $0EC7 Entry:
+COMMENT_LINE $0EC7 d = a point in the quadrant, relative to the lower left
+COMMENT_LINE $0EC7 corner of the quadrant.
+COMMENT_LINE $0EC7 x = pointer to a table of boundary conditions, which
+COMMENT_LINE $0EC7 tell how close the point must be to the actual
+COMMENT_LINE $0EC7 edge, to consider an edge crossing as having
+COMMENT_LINE $0EC7 occurred (these offsets are relative to the lower
+COMMENT_LINE $0EC7 left corner of the quadrant).  The values in this
+COMMENT_LINE $0EC7 table are:
+COMMENT_LINE $0EC7 yLeft, yRight, xLeft, xRight
+COMMENT_LINE $0EC7 Exit:
+COMMENT_LINE $0EC7 b = mask (having the following meaning):
+COMMENT_LINE $0EC7 ---------------------------------
+COMMENT_LINE $0EC7 | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0EC7 ---------------------------------
+COMMENT_LINE $0EC7 Bottom Edge Crossing----^
+COMMENT_LINE $0EC7 Top Edge Crossing-----------^
+COMMENT_LINE $0EC7 Right Edge Crossing-------------^
+COMMENT_LINE $0EC7 Left Edge Crossing------------------^
+FORCE_NO_SYMBOL $0EC8
+FORCE_NO_SYMBOL $0ECC
+FORCE_NO_SYMBOL $0ED0
+FORCE_NO_SYMBOL $0ED4
+FORCE_NO_SYMBOL $0ED6
+FORCE_NO_SYMBOL $0ED8
+FORCE_NO_SYMBOL $0EDC
+FORCE_NO_SYMBOL $0EDF
+FORCE_NO_SYMBOL $0EE3
+COMMENT_LINE $0EE6 The following are all threshold tables, used when
+COMMENT_LINE $0EE6 calling CheckForQuadrantEdgeContact(); a different
+COMMENT_LINE $0EE6 table is used, depending upon what object is represented
+COMMENT_LINE $0EE6 by the point (a robot, the player, a bullet, etc).
+COMMENT_LINE $0EE6 Quadrants are all 40 wide x 64 high.
+COMMENT_LINE $0EE6 Each of the tables is composed of the following values:
+COMMENT_LINE $0EE6 y left threshold
+COMMENT_LINE $0EE6 y right threshold
+COMMENT_LINE $0EE6 x left threshold
+COMMENT_LINE $0EE6 x right threshold
+COMMENT_LINE $0EF6 DetermineMazeWalls()
+COMMENT_LINE $0EF6 This function calculates the 8 walls (and the optional
+COMMENT_LINE $0EF6 door) which are present in a maze.  The maze has 8
+COMMENT_LINE $0EF6 internal points from which a wall can start, and fromright
+COMMENT_LINE $0EF6 each point, the wall can go either upwards, downwards,
+COMMENT_LINE $0EF6 to the right or to the left.  The array at C8AB will be
+COMMENT_LINE $0EF6 filled with an integer index telling which walls are to
+COMMENT_LINE $0EF6 be drawn (0=up, 2=down, 4=to right, 6=to left).  The
+COMMENT_LINE $0EF6 array at C8B5 is a collection of bitmasks, indicating
+COMMENT_LINE $0EF6 which walls are present for each quadrant (there is one
+COMMENT_LINE $0EF6 entry in the array per quadrant).  The mask has the
+COMMENT_LINE $0EF6 following format:
+COMMENT_LINE $0EF6 ---------------------------------
+COMMENT_LINE $0EF6 | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0EF6 ---------------------------------
+COMMENT_LINE $0EF6 Quadrant has Bottom Wall-----^
+COMMENT_LINE $0EF6 Quadrant has Top Wall------------^
+COMMENT_LINE $0EF6 Quadrant has Right Wall--------------^
+COMMENT_LINE $0EF6 Quadrant has Left Wall-------------------^
+FORCE_NO_SYMBOL $0EF6
+FORCE_SYMBOL $0EF8 DefaultMazeWallsPerQuadrant
+FORCE_NO_SYMBOL $0EFB
+FORCE_NO_SYMBOL $0EFE
+FORCE_SYMBOL $0F00 move_block2
+FORCE_NO_SYMBOL $0F03
+FORCE_NO_SYMBOL $0F05
+FORCE_NO_SYMBOL $0F07
+FORCE_NO_SYMBOL $0F09
+FORCE_SYMBOL $0F0C get_random_a
+FORCE_NO_SYMBOL $0F0F
+FORCE_NO_SYMBOL $0F11
+COMMENT $0F15 * Draw to the left from point
+FORCE_NO_SYMBOL $0F15
+COMMENT $0F17 * This quad has a bottom wall, and
+FORCE_NO_SYMBOL $0F17
+FORCE_NO_SYMBOL $0F19
+FORCE_NO_SYMBOL $0F1B
+COMMENT $0F1D * the quad below it has a top wall
+FORCE_NO_SYMBOL $0F1D
+FORCE_NO_SYMBOL $0F1F
+FORCE_NO_SYMBOL $0F23
+COMMENT $0F27 * Draw to the right from point
+FORCE_NO_SYMBOL $0F27
+COMMENT $0F29 * Next quad has a bottom wall, and
+FORCE_NO_SYMBOL $0F29
+FORCE_NO_SYMBOL $0F2B
+FORCE_NO_SYMBOL $0F2D
+COMMENT $0F2F * Quad below it has a top wall
+FORCE_NO_SYMBOL $0F2F
+FORCE_NO_SYMBOL $0F31
+FORCE_NO_SYMBOL $0F35
+COMMENT $0F39 * Draw downwards from point
+FORCE_NO_SYMBOL $0F39
+COMMENT $0F3B * Quad below has a right wall, and
+FORCE_NO_SYMBOL $0F3B
+FORCE_NO_SYMBOL $0F3D
+FORCE_NO_SYMBOL $0F3F
+COMMENT $0F41 * quad next to it has a left wall
+FORCE_NO_SYMBOL $0F41
+FORCE_NO_SYMBOL $0F43
+COMMENT $0F47 * Draw upwards from point
+FORCE_NO_SYMBOL $0F47
+COMMENT $0F49 * This quad has a right wall, and
+FORCE_NO_SYMBOL $0F49
+FORCE_NO_SYMBOL $0F4B
+FORCE_NO_SYMBOL $0F4D
+COMMENT $0F4F * quad next to it has a left wall
+FORCE_NO_SYMBOL $0F4F
+FORCE_NO_SYMBOL $0F51
+COMMENT $0F54 * Save the wall index
+FORCE_NO_SYMBOL $0F56
+FORCE_NO_SYMBOL $0F58
+FORCE_NO_SYMBOL $0F5C
+FORCE_NO_SYMBOL $0F5E
+FORCE_NO_SYMBOL $0F60
+COMMENT_LINE $0F65 DetermineDirectionToMove()
+COMMENT_LINE $0F65 This function takes a point, and returns a mask
+COMMENT_LINE $0F65 indicating the direction the point must travel, in
+COMMENT_LINE $0F65 in order to reach the player.  It also returns the
+COMMENT_LINE $0F65 distance (rise and run) describing how far away the
+COMMENT_LINE $0F65 point is from the player.
+COMMENT_LINE $0F65 Entry:
+COMMENT_LINE $0F65 a = y position
+COMMENT_LINE $0F65 b = x position
+COMMENT_LINE $0F65 Exit:
+COMMENT_LINE $0F65 C8DE: y distance between point and player.
+COMMENT_LINE $0F65 C8DF: x distance between point and player.
+COMMENT_LINE $0F65 b = mask, indicating desired direction of travel
+COMMENT_LINE $0F65 ---------------------------------
+COMMENT_LINE $0F65 | 0 | 0 | x | 0 | x | x | x | x |
+COMMENT_LINE $0F65 ---------------------------------
+COMMENT_LINE $0F65 x and/or y is same --^
+COMMENT_LINE $0F65 Down ------------------------^
+COMMENT_LINE $0F65 Up ------------------------------^
+COMMENT_LINE $0F65 Right -------------------------------^
+COMMENT_LINE $0F65 Left ------------------------------------^
+FORCE_NO_SYMBOL $0F65
+FORCE_NO_SYMBOL $0F67
+FORCE_NO_SYMBOL $0F69
+FORCE_NO_SYMBOL $0F6B
+FORCE_NO_SYMBOL $0F6D
+FORCE_NO_SYMBOL $0F70
+FORCE_NO_SYMBOL $0F76
+FORCE_NO_SYMBOL $0F7A
+FORCE_NO_SYMBOL $0F7E
+FORCE_NO_SYMBOL $0F81
+FORCE_NO_SYMBOL $0F83
+FORCE_NO_SYMBOL $0F85
+FORCE_NO_SYMBOL $0F87
+FORCE_NO_SYMBOL $0F89
+FORCE_NO_SYMBOL $0F8F
+FORCE_NO_SYMBOL $0F92
+FORCE_NO_SYMBOL $0F95
+COMMENT_LINE $0F98 MapPointToQnMakeRel ;MapPointToQuadrantAndMakeRelative()
+COMMENT_LINE $0F98 This function takes a point, and determines which of
+COMMENT_LINE $0F98 15 quadrants it falls into.  It also maps the point
+COMMENT_LINE $0F98 so that it is relative to the lower left corner of the
+COMMENT_LINE $0F98 quadrant, and returns the bitmask indicating which walls
+COMMENT_LINE $0F98 are defined for this quadrant.
+COMMENT_LINE $0F98 Entry:
+COMMENT_LINE $0F98 d = (y,x) position
+COMMENT_LINE $0F98 Exit:
+COMMENT_LINE $0F98 C89A = quadrant (0 - 15)
+COMMENT_LINE $0F98 C899 = wall bitmask
+COMMENT_LINE $0F98 C89B-C89C = point, relative to lower left quad corner
+COMMENT_LINE $0F98 d = point, relative to lower left quad corner
+COMMENT_LINE $0F98 where the bitmask has the following format:
+COMMENT_LINE $0F98 ---------------------------------
+COMMENT_LINE $0F98 | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0F98 ---------------------------------
+COMMENT_LINE $0F98 Quadrant has Bottom Wall-----^
+COMMENT_LINE $0F98 Quadrant has Top Wall------------^
+COMMENT_LINE $0F98 Quadrant has Right Wall--------------^
+COMMENT_LINE $0F98 Quadrant has Left Wall-------------------^
+COMMENT_LINE $0F98 and the quadrants are defined as follows:
+COMMENT_LINE $0F98 -100 -60 -20 +20 +60 +100
+COMMENT_LINE $0F98 --------------------- +96
+COMMENT_LINE $0F98 | 0 | 1 | 2 | 3 | 4 |
+COMMENT_LINE $0F98 ----+---+---+---+---- +32
+COMMENT_LINE $0F98 | 5 | 6 | 7 | 8 | 9 |
+COMMENT_LINE $0F98 ----+---+---+---+---- -32
+COMMENT_LINE $0F98 |10 |11 |12 |13 |14 |
+COMMENT_LINE $0F98 --------------------- -96
+FORCE_NO_SYMBOL $0F98
+COMMENT $0F9B * -32
+FORCE_NO_SYMBOL $0F9B
+FORCE_NO_SYMBOL $0F9F
+COMMENT $0FA3 * 32
+FORCE_NO_SYMBOL $0FA3
+FORCE_NO_SYMBOL $0FA7
+FORCE_NO_SYMBOL $0FA9
+COMMENT $0FAB * -60
+FORCE_NO_SYMBOL $0FAB
+COMMENT $0FB0 * -20
+FORCE_NO_SYMBOL $0FB0
+COMMENT $0FB5 * 20
+FORCE_NO_SYMBOL $0FB5
+COMMENT $0FBA * 60
+FORCE_NO_SYMBOL $0FBA
+COMMENT $0FBF * Save the quadrant number
+FORCE_NO_SYMBOL $0FBF
+FORCE_NO_SYMBOL $0FC1
+COMMENT $0FC6 * Save the wall bitmask
+FORCE_NO_SYMBOL $0FC6
+FORCE_SYMBOL $0FC8 RelativeOffsetConversionTable
+FORCE_NO_SYMBOL $0FCE
+COMMENT $0FD0 * Make into a relative point
+FORCE_NO_SYMBOL $0FD0
+COMMENT $0FD3 * Quad 0 y
+COMMENT $0FD4 * Quad 0 x
+COMMENT $0FD5 * Quad 1 y
+COMMENT $0FD6 * Quad 1 x
+COMMENT $0FD7 * Quad 2 y
+COMMENT $0FD8 * Quad 2 x
+COMMENT $0FD9 * Quad 3 y
+COMMENT $0FDA * Quad 3 x
+COMMENT $0FDB * Quad 4 y
+COMMENT $0FDC * Quad 4 x
+COMMENT $0FDD * Quad 5 y
+COMMENT $0FDE * Quad 5 x
+COMMENT $0FDF * Quad 6 y
+COMMENT $0FE0 * Quad 6 x
+COMMENT $0FE1 * Quad 7 y
+COMMENT $0FE2 * Quad 7 x
+COMMENT $0FE3 * Quad 8 y
+COMMENT $0FE4 * Quad 8 x
+COMMENT $0FE5 * Quad 9 y
+COMMENT $0FE6 * Quad 9 x
+COMMENT $0FE7 * Quad 10 y
+COMMENT $0FE8 * Quad 10 x
+COMMENT $0FE9 * Quad 11 y
+COMMENT $0FEA * Quad 11 x
+COMMENT $0FEB * Quad 12 y
+COMMENT $0FEC * Quad 12 x
+COMMENT $0FED * Quad 13 y
+COMMENT $0FEE * Quad 13 x
+COMMENT $0FEF * Quad 14 y
+COMMENT $0FF0 * Quad 14 x
+COMMENT_LINE $0FF1 These appear to be unused bytes
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$000E DB_DATA 1
+RANGE $000E-$000F DB_DATA 1
+RANGE $000F-$0010 DB_DATA 1
+RANGE $0010-$0011 DB_DATA 1
+RANGE $0011-$001A CHAR_DATA 9
+RANGE $001A-$0198 CODE
+RANGE $0198-$019A DW_DATA 1
+RANGE $019A-$019C DW_DATA 1
+RANGE $019C-$019E DW_DATA 1
+RANGE $019E-$045C CODE
+RANGE $045C-$0460 CHAR_DATA 4
+RANGE $0460-$0464 CHAR_DATA 4
+RANGE $0464-$046D CHAR_DATA 9
+RANGE $046D-$046E DB_DATA 1
+RANGE $046E-$046F DB_DATA 1
+RANGE $046F-$0470 DB_DATA 1
+RANGE $0470-$0471 DB_DATA 1
+RANGE $0471-$047C CHAR_DATA 11
+RANGE $047C-$047D DB_DATA 1
+RANGE $047D-$047E DB_DATA 1
+RANGE $047E-$047F DB_DATA 1
+RANGE $047F-$0480 DB_DATA 1
+RANGE $0480-$0481 DB_DATA 1
+RANGE $0481-$0482 DB_DATA 1
+RANGE $0482-$0483 DB_DATA 1
+RANGE $0483-$0484 DB_DATA 1
+RANGE $0484-$0485 DB_DATA 1
+RANGE $0485-$0486 DB_DATA 1
+RANGE $0486-$07EE CODE
+RANGE $07EE-$07EF DB_DATA 1
+RANGE $07EF-$07F0 DB_DATA 1
+RANGE $07F0-$07F1 DB_DATA 1
+RANGE $07F1-$07F2 DB_DATA 1
+RANGE $07F2-$07F3 DB_DATA 1
+RANGE $07F3-$07F4 DB_DATA 1
+RANGE $07F4-$07F5 DB_DATA 1
+RANGE $07F5-$07F6 DB_DATA 1
+RANGE $07F6-$07F7 DB_DATA 1
+RANGE $07F7-$07F8 DB_DATA 1
+RANGE $07F8-$07F9 DB_DATA 1
+RANGE $07F9-$07FA DB_DATA 1
+RANGE $07FA-$07FB DB_DATA 1
+RANGE $07FB-$07FC DB_DATA 1
+RANGE $07FC-$07FD DB_DATA 1
+RANGE $07FD-$07FE DB_DATA 1
+RANGE $07FE-$07FF DB_DATA 1
+RANGE $07FF-$0800 DB_DATA 1
+RANGE $0800-$0801 DB_DATA 1
+RANGE $0801-$0802 DB_DATA 1
+RANGE $0802-$0803 DB_DATA 1
+RANGE $0803-$0804 DB_DATA 1
+RANGE $0804-$0805 DB_DATA 1
+RANGE $0805-$0806 DB_DATA 1
+RANGE $0806-$0807 DB_DATA 1
+RANGE $0807-$0808 DB_DATA 1
+RANGE $0808-$0809 DB_DATA 1
+RANGE $0809-$080A DB_DATA 1
+RANGE $080A-$080B DB_DATA 1
+RANGE $080B-$080C DB_DATA 1
+RANGE $080C-$080D DB_DATA 1
+RANGE $080D-$080E DB_DATA 1
+RANGE $080E-$080F DB_DATA 1
+RANGE $080F-$0A2D CODE
+RANGE $0A2D-$0A2F DW_DATA 1
+RANGE $0A2F-$0A31 DW_DATA 1
+RANGE $0A31-$0A33 DW_DATA 1
+RANGE $0A33-$0A35 DW_DATA 1
+RANGE $0A35-$0A37 DW_DATA 1
+RANGE $0A37-$0A39 DW_DATA 1
+RANGE $0A39-$0A3B DW_DATA 1
+RANGE $0A3B-$0A3C DB_DATA 1
+RANGE $0A3C-$0A3D DB_DATA 1
+RANGE $0A3D-$0A3E DB_DATA 1
+RANGE $0A3E-$0A3F DB_DATA 1
+RANGE $0A3F-$0A40 DB_DATA 1
+RANGE $0A40-$0A41 DB_DATA 1
+RANGE $0A41-$0A42 DB_DATA 1
+RANGE $0A42-$0A43 DB_DATA 1
+RANGE $0A43-$0A44 DB_DATA 1
+RANGE $0A44-$0A45 DB_DATA 1
+RANGE $0A45-$0A46 DB_DATA 1
+RANGE $0A46-$0A47 DB_DATA 1
+RANGE $0A47-$0A49 DW_DATA 1
+RANGE $0A49-$0A4B DW_DATA 1
+RANGE $0A4B-$0A4D DW_DATA 1
+RANGE $0A4D-$0A4F DW_DATA 1
+RANGE $0A4F-$0A51 DW_DATA 1
+RANGE $0A51-$0A53 DW_DATA 1
+RANGE $0A53-$0A55 DW_DATA 1
+RANGE $0A55-$0A57 DW_DATA 1
+RANGE $0A57-$0A59 DW_DATA 1
+RANGE $0A59-$0A5B DW_DATA 1
+RANGE $0A5B-$0A5D DW_DATA 1
+RANGE $0A5D-$0A5F DW_DATA 1
+RANGE $0A5F-$0A61 DW_DATA 1
+RANGE $0A61-$0A63 DW_DATA 1
+RANGE $0A63-$0A65 DW_DATA 1
+RANGE $0A65-$0A67 DW_DATA 1
+RANGE $0A67-$0A69 DW_DATA 1
+RANGE $0A69-$0A6B DW_DATA 1
+RANGE $0A6B-$0A6D DW_DATA 1
+RANGE $0A6D-$0A6F DW_DATA 1
+RANGE $0A6F-$0A71 DW_DATA 1
+RANGE $0A71-$0A73 DW_DATA 1
+RANGE $0A73-$0A75 DW_DATA 1
+RANGE $0A75-$0A77 DW_DATA 1
+RANGE $0A77-$0A79 DW_DATA 1
+RANGE $0A79-$0A7B DW_DATA 1
+RANGE $0A7B-$0A7D DW_DATA 1
+RANGE $0A7D-$0A7F DW_DATA 1
+RANGE $0A7F-$0A81 DW_DATA 1
+RANGE $0A81-$0A83 DW_DATA 1
+RANGE $0A83-$0A85 DW_DATA 1
+RANGE $0A85-$0A87 DW_DATA 1
+RANGE $0A87-$0A89 DW_DATA 1
+RANGE $0A89-$0A8B DW_DATA 1
+RANGE $0A8B-$0A8D DW_DATA 1
+RANGE $0A8D-$0A8F DW_DATA 1
+RANGE $0A8F-$0A91 DW_DATA 1
+RANGE $0A91-$0A93 DW_DATA 1
+RANGE $0A93-$0A95 DW_DATA 1
+RANGE $0A95-$0A97 DW_DATA 1
+RANGE $0A97-$0A99 DW_DATA 1
+RANGE $0A99-$0A9B DW_DATA 1
+RANGE $0A9B-$0A9D DW_DATA 1
+RANGE $0A9D-$0A9F DW_DATA 1
+RANGE $0A9F-$0AA1 DW_DATA 1
+RANGE $0AA1-$0AA3 DW_DATA 1
+RANGE $0AA3-$0AA5 DW_DATA 1
+RANGE $0AA5-$0AA7 DW_DATA 1
+RANGE $0AA7-$0AA9 DW_DATA 1
+RANGE $0AA9-$0AAB DW_DATA 1
+RANGE $0AAB-$0AAD DW_DATA 1
+RANGE $0AAD-$0AAF DW_DATA 1
+RANGE $0AAF-$0AB1 DW_DATA 1
+RANGE $0AB1-$0AB3 DW_DATA 1
+RANGE $0AB3-$0AB5 DW_DATA 1
+RANGE $0AB5-$0AB7 DW_DATA 1
+RANGE $0AB7-$0AB9 DW_DATA 1
+RANGE $0AB9-$0ABB DW_DATA 1
+RANGE $0ABB-$0ABD DW_DATA 1
+RANGE $0ABD-$0ABF DW_DATA 1
+RANGE $0ABF-$0AC1 DW_DATA 1
+RANGE $0AC1-$0AC3 DW_DATA 1
+RANGE $0AC3-$0AC5 DW_DATA 1
+RANGE $0AC5-$0AC7 DW_DATA 1
+RANGE $0AC7-$0AC9 DW_DATA 1
+RANGE $0AC9-$0ACB DW_DATA 1
+RANGE $0ACB-$0ACD DW_DATA 1
+RANGE $0ACD-$0ACF DW_DATA 1
+RANGE $0ACF-$0AD1 DW_DATA 1
+RANGE $0AD1-$0AD3 DW_DATA 1
+RANGE $0AD3-$0AD5 DW_DATA 1
+RANGE $0AD5-$0AD7 DW_DATA 1
+RANGE $0AD7-$0AD9 DW_DATA 1
+RANGE $0AD9-$0ADB DW_DATA 1
+RANGE $0ADB-$0ADD DW_DATA 1
+RANGE $0ADD-$0ADF DW_DATA 1
+RANGE $0ADF-$0AE1 DW_DATA 1
+RANGE $0AE1-$0AE2 DB_DATA 1
+RANGE $0AE2-$0AE3 DB_DATA 1
+RANGE $0AE3-$0AE9 CHAR_DATA 6
+RANGE $0AE9-$0AEB DW_DATA 1
+RANGE $0AEB-$0AED DW_DATA 1
+RANGE $0AED-$0AEF DW_DATA 1
+RANGE $0AEF-$0AF1 DW_DATA 1
+RANGE $0AF1-$0AF3 DW_DATA 1
+RANGE $0AF3-$0AF5 DW_DATA 1
+RANGE $0AF5-$0AF7 DW_DATA 1
+RANGE $0AF7-$0AF9 DW_DATA 1
+RANGE $0AF9-$0AFB DW_DATA 1
+RANGE $0AFB-$0AFC DB_DATA 1
+RANGE $0AFC-$0AFD DB_DATA 1
+RANGE $0AFD-$0AFE DB_DATA 1
+RANGE $0AFE-$0AFF DB_DATA 1
+RANGE $0AFF-$0B00 DB_DATA 1
+RANGE $0B00-$0B01 DB_DATA 1
+RANGE $0B01-$0B02 DB_DATA 1
+RANGE $0B02-$0B03 DB_DATA 1
+RANGE $0B03-$0B04 DB_DATA 1
+RANGE $0B04-$0B05 DB_DATA 1
+RANGE $0B05-$0B06 DB_DATA 1
+RANGE $0B06-$0B07 DB_DATA 1
+RANGE $0B07-$0B08 DB_DATA 1
+RANGE $0B08-$0B09 DB_DATA 1
+RANGE $0B09-$0B0A DB_DATA 1
+RANGE $0B0A-$0B0B DB_DATA 1
+RANGE $0B0B-$0B0C DB_DATA 1
+RANGE $0B0C-$0B0D DB_DATA 1
+RANGE $0B0D-$0B0F DW_DATA 1
+RANGE $0B0F-$0B10 DB_DATA 1
+RANGE $0B10-$0B11 DB_DATA 1
+RANGE $0B11-$0B13 DW_DATA 1
+RANGE $0B13-$0B14 DB_DATA 1
+RANGE $0B14-$0B15 DB_DATA 1
+RANGE $0B15-$0B17 DW_DATA 1
+RANGE $0B17-$0B18 DB_DATA 1
+RANGE $0B18-$0B19 DB_DATA 1
+RANGE $0B19-$0B1B DW_DATA 1
+RANGE $0B1B-$0B1C DB_DATA 1
+RANGE $0B1C-$0B1D DB_DATA 1
+RANGE $0B1D-$0B1E DB_DATA 1
+RANGE $0B1E-$0B1F DB_DATA 1
+RANGE $0B1F-$0B20 DB_DATA 1
+RANGE $0B20-$0B21 DB_DATA 1
+RANGE $0B21-$0B22 DB_DATA 1
+RANGE $0B22-$0B23 DB_DATA 1
+RANGE $0B23-$0B24 DB_DATA 1
+RANGE $0B24-$0B25 DB_DATA 1
+RANGE $0B25-$0B26 DB_DATA 1
+RANGE $0B26-$0B27 DB_DATA 1
+RANGE $0B27-$0B28 DB_DATA 1
+RANGE $0B28-$0B29 DB_DATA 1
+RANGE $0B29-$0B2A DB_DATA 1
+RANGE $0B2A-$0B2B DB_DATA 1
+RANGE $0B2B-$0B2C DB_DATA 1
+RANGE $0B2C-$0B2D DB_DATA 1
+RANGE $0B2D-$0B2E DB_DATA 1
+RANGE $0B2E-$0B2F DB_DATA 1
+RANGE $0B2F-$0B30 DB_DATA 1
+RANGE $0B30-$0B31 DB_DATA 1
+RANGE $0B31-$0B32 DB_DATA 1
+RANGE $0B32-$0B33 DB_DATA 1
+RANGE $0B33-$0B34 DB_DATA 1
+RANGE $0B34-$0B35 DB_DATA 1
+RANGE $0B35-$0B36 DB_DATA 1
+RANGE $0B36-$0B37 DB_DATA 1
+RANGE $0B37-$0B38 DB_DATA 1
+RANGE $0B38-$0B39 DB_DATA 1
+RANGE $0B39-$0B3A DB_DATA 1
+RANGE $0B3A-$0B3B DB_DATA 1
+RANGE $0B3B-$0B3C DB_DATA 1
+RANGE $0B3C-$0B3D DB_DATA 1
+RANGE $0B3D-$0B3E DB_DATA 1
+RANGE $0B3E-$0B3F DB_DATA 1
+RANGE $0B3F-$0B40 DB_DATA 1
+RANGE $0B40-$0B41 DB_DATA 1
+RANGE $0B41-$0B42 DB_DATA 1
+RANGE $0B42-$0B43 DB_DATA 1
+RANGE $0B43-$0B44 DB_DATA 1
+RANGE $0B44-$0B45 DB_DATA 1
+RANGE $0B45-$0B46 DB_DATA 1
+RANGE $0B46-$0B47 DB_DATA 1
+RANGE $0B47-$0B48 DB_DATA 1
+RANGE $0B48-$0B49 DB_DATA 1
+RANGE $0B49-$0B4A DB_DATA 1
+RANGE $0B4A-$0B4B DB_DATA 1
+RANGE $0B4B-$0B4C DB_DATA 1
+RANGE $0B4C-$0B4D DB_DATA 1
+RANGE $0B4D-$0B4E DB_DATA 1
+RANGE $0B4E-$0B4F DB_DATA 1
+RANGE $0B4F-$0B50 DB_DATA 1
+RANGE $0B50-$0B51 DB_DATA 1
+RANGE $0B51-$0B52 DB_DATA 1
+RANGE $0B52-$0B53 DB_DATA 1
+RANGE $0B53-$0B54 DB_DATA 1
+RANGE $0B54-$0B55 DB_DATA 1
+RANGE $0B55-$0B56 DB_DATA 1
+RANGE $0B56-$0B57 DB_DATA 1
+RANGE $0B57-$0B58 DB_DATA 1
+RANGE $0B58-$0B59 DB_DATA 1
+RANGE $0B59-$0B5A DB_DATA 1
+RANGE $0B5A-$0B5B DB_DATA 1
+RANGE $0B5B-$0B5C DB_DATA 1
+RANGE $0B5C-$0B5D DB_DATA 1
+RANGE $0B5D-$0B5E DB_DATA 1
+RANGE $0B5E-$0B5F DB_DATA 1
+RANGE $0B5F-$0B60 DB_DATA 1
+RANGE $0B60-$0B61 DB_DATA 1
+RANGE $0B61-$0B62 DB_DATA 1
+RANGE $0B62-$0B63 DB_DATA 1
+RANGE $0B63-$0B64 DB_DATA 1
+RANGE $0B64-$0B65 DB_DATA 1
+RANGE $0B65-$0B66 DB_DATA 1
+RANGE $0B66-$0B67 DB_DATA 1
+RANGE $0B67-$0B68 DB_DATA 1
+RANGE $0B68-$0B69 DB_DATA 1
+RANGE $0B69-$0B6A DB_DATA 1
+RANGE $0B6A-$0B6B DB_DATA 1
+RANGE $0B6B-$0B6C DB_DATA 1
+RANGE $0B6C-$0B6D DB_DATA 1
+RANGE $0B6D-$0B6E DB_DATA 1
+RANGE $0B6E-$0B6F DB_DATA 1
+RANGE $0B6F-$0B70 DB_DATA 1
+RANGE $0B70-$0B71 DB_DATA 1
+RANGE $0B71-$0B72 DB_DATA 1
+RANGE $0B72-$0B73 DB_DATA 1
+RANGE $0B73-$0B74 DB_DATA 1
+RANGE $0B74-$0B75 DB_DATA 1
+RANGE $0B75-$0B76 DB_DATA 1
+RANGE $0B76-$0B77 DB_DATA 1
+RANGE $0B77-$0B78 DB_DATA 1
+RANGE $0B78-$0B79 DB_DATA 1
+RANGE $0B79-$0B7A DB_DATA 1
+RANGE $0B7A-$0B7B DB_DATA 1
+RANGE $0B7B-$0B7C DB_DATA 1
+RANGE $0B7C-$0B7D DB_DATA 1
+RANGE $0B7D-$0B7E DB_DATA 1
+RANGE $0B7E-$0B7F DB_DATA 1
+RANGE $0B7F-$0B80 DB_DATA 1
+RANGE $0B80-$0B81 DB_DATA 1
+RANGE $0B81-$0B82 DB_DATA 1
+RANGE $0B82-$0B83 DB_DATA 1
+RANGE $0B83-$0B84 DB_DATA 1
+RANGE $0B84-$0B85 DB_DATA 1
+RANGE $0B85-$0B86 DB_DATA 1
+RANGE $0B86-$0B87 DB_DATA 1
+RANGE $0B87-$0B88 DB_DATA 1
+RANGE $0B88-$0B89 DB_DATA 1
+RANGE $0B89-$0B8A DB_DATA 1
+RANGE $0B8A-$0B8B DB_DATA 1
+RANGE $0B8B-$0B8C DB_DATA 1
+RANGE $0B8C-$0B8D DB_DATA 1
+RANGE $0B8D-$0B8E DB_DATA 1
+RANGE $0B8E-$0B8F DB_DATA 1
+RANGE $0B8F-$0B90 DB_DATA 1
+RANGE $0B90-$0B91 DB_DATA 1
+RANGE $0B91-$0B92 DB_DATA 1
+RANGE $0B92-$0B93 DB_DATA 1
+RANGE $0B93-$0B94 DB_DATA 1
+RANGE $0B94-$0B95 DB_DATA 1
+RANGE $0B95-$0B96 DB_DATA 1
+RANGE $0B96-$0B97 DB_DATA 1
+RANGE $0B97-$0B98 DB_DATA 1
+RANGE $0B98-$0B99 DB_DATA 1
+RANGE $0B99-$0B9A DB_DATA 1
+RANGE $0B9A-$0B9B DB_DATA 1
+RANGE $0B9B-$0B9C DB_DATA 1
+RANGE $0B9C-$0B9D DB_DATA 1
+RANGE $0B9D-$0B9E DB_DATA 1
+RANGE $0B9E-$0B9F DB_DATA 1
+RANGE $0B9F-$0BA0 DB_DATA 1
+RANGE $0BA0-$0BA1 DB_DATA 1
+RANGE $0BA1-$0BA2 DB_DATA 1
+RANGE $0BA2-$0BA3 DB_DATA 1
+RANGE $0BA3-$0BA4 DB_DATA 1
+RANGE $0BA4-$0BA5 DB_DATA 1
+RANGE $0BA5-$0BA6 DB_DATA 1
+RANGE $0BA6-$0BA7 DB_DATA 1
+RANGE $0BA7-$0BA8 DB_DATA 1
+RANGE $0BA8-$0BA9 DB_DATA 1
+RANGE $0BA9-$0BAA DB_DATA 1
+RANGE $0BAA-$0BAB DB_DATA 1
+RANGE $0BAB-$0BAC DB_DATA 1
+RANGE $0BAC-$0BAD DB_DATA 1
+RANGE $0BAD-$0BAE DB_DATA 1
+RANGE $0BAE-$0BAF DB_DATA 1
+RANGE $0BAF-$0BB0 DB_DATA 1
+RANGE $0BB0-$0BB1 DB_DATA 1
+RANGE $0BB1-$0BB2 DB_DATA 1
+RANGE $0BB2-$0BB3 DB_DATA 1
+RANGE $0BB3-$0BB4 DB_DATA 1
+RANGE $0BB4-$0BB5 DB_DATA 1
+RANGE $0BB5-$0BB6 DB_DATA 1
+RANGE $0BB6-$0BB7 DB_DATA 1
+RANGE $0BB7-$0BB8 DB_DATA 1
+RANGE $0BB8-$0BB9 DB_DATA 1
+RANGE $0BB9-$0BBA DB_DATA 1
+RANGE $0BBA-$0BBB DB_DATA 1
+RANGE $0BBB-$0BBC DB_DATA 1
+RANGE $0BBC-$0BBD DB_DATA 1
+RANGE $0BBD-$0BBE DB_DATA 1
+RANGE $0BBE-$0BBF DB_DATA 1
+RANGE $0BBF-$0BC0 DB_DATA 1
+RANGE $0BC0-$0BC1 DB_DATA 1
+RANGE $0BC1-$0BC2 DB_DATA 1
+RANGE $0BC2-$0BC3 DB_DATA 1
+RANGE $0BC3-$0BC4 DB_DATA 1
+RANGE $0BC4-$0BC5 DB_DATA 1
+RANGE $0BC5-$0BC6 DB_DATA 1
+RANGE $0BC6-$0BC7 DB_DATA 1
+RANGE $0BC7-$0BC8 DB_DATA 1
+RANGE $0BC8-$0BC9 DB_DATA 1
+RANGE $0BC9-$0BCA DB_DATA 1
+RANGE $0BCA-$0BCB DB_DATA 1
+RANGE $0BCB-$0BCC DB_DATA 1
+RANGE $0BCC-$0BCD DB_DATA 1
+RANGE $0BCD-$0BCE DB_DATA 1
+RANGE $0BCE-$0BCF DB_DATA 1
+RANGE $0BCF-$0BD0 DB_DATA 1
+RANGE $0BD0-$0BD1 DB_DATA 1
+RANGE $0BD1-$0BD2 DB_DATA 1
+RANGE $0BD2-$0BD3 DB_DATA 1
+RANGE $0BD3-$0BD4 DB_DATA 1
+RANGE $0BD4-$0BD5 DB_DATA 1
+RANGE $0BD5-$0BD6 DB_DATA 1
+RANGE $0BD6-$0BD7 DB_DATA 1
+RANGE $0BD7-$0BD8 DB_DATA 1
+RANGE $0BD8-$0BD9 DB_DATA 1
+RANGE $0BD9-$0BDA DB_DATA 1
+RANGE $0BDA-$0BDB DB_DATA 1
+RANGE $0BDB-$0BDC DB_DATA 1
+RANGE $0BDC-$0BDD DB_DATA 1
+RANGE $0BDD-$0BDE DB_DATA 1
+RANGE $0BDE-$0BDF DB_DATA 1
+RANGE $0BDF-$0BE0 DB_DATA 1
+RANGE $0BE0-$0BE1 DB_DATA 1
+RANGE $0BE1-$0BE2 DB_DATA 1
+RANGE $0BE2-$0BE3 DB_DATA 1
+RANGE $0BE3-$0BE4 DB_DATA 1
+RANGE $0BE4-$0BE5 DB_DATA 1
+RANGE $0BE5-$0BE6 DB_DATA 1
+RANGE $0BE6-$0BE7 DB_DATA 1
+RANGE $0BE7-$0BE8 DB_DATA 1
+RANGE $0BE8-$0BE9 DB_DATA 1
+RANGE $0BE9-$0BEA DB_DATA 1
+RANGE $0BEA-$0BEB DB_DATA 1
+RANGE $0BEB-$0BEC DB_DATA 1
+RANGE $0BEC-$0BED DB_DATA 1
+RANGE $0BED-$0BEE DB_DATA 1
+RANGE $0BEE-$0BEF DB_DATA 1
+RANGE $0BEF-$0BF0 DB_DATA 1
+RANGE $0BF0-$0BF1 DB_DATA 1
+RANGE $0BF1-$0BF2 DB_DATA 1
+RANGE $0BF2-$0BF3 DB_DATA 1
+RANGE $0BF3-$0BF4 DB_DATA 1
+RANGE $0BF4-$0BF5 DB_DATA 1
+RANGE $0BF5-$0BF6 DB_DATA 1
+RANGE $0BF6-$0BF7 DB_DATA 1
+RANGE $0BF7-$0BF8 DB_DATA 1
+RANGE $0BF8-$0BF9 DB_DATA 1
+RANGE $0BF9-$0BFA DB_DATA 1
+RANGE $0BFA-$0BFB DB_DATA 1
+RANGE $0BFB-$0BFC DB_DATA 1
+RANGE $0BFC-$0BFD DB_DATA 1
+RANGE $0BFD-$0BFE DB_DATA 1
+RANGE $0BFE-$0BFF DB_DATA 1
+RANGE $0BFF-$0C00 DB_DATA 1
+RANGE $0C00-$0C01 DB_DATA 1
+RANGE $0C01-$0C02 DB_DATA 1
+RANGE $0C02-$0C03 DB_DATA 1
+RANGE $0C03-$0C04 DB_DATA 1
+RANGE $0C04-$0C05 DB_DATA 1
+RANGE $0C05-$0C06 DB_DATA 1
+RANGE $0C06-$0C07 DB_DATA 1
+RANGE $0C07-$0C08 DB_DATA 1
+RANGE $0C08-$0C09 DB_DATA 1
+RANGE $0C09-$0C0A DB_DATA 1
+RANGE $0C0A-$0C0B DB_DATA 1
+RANGE $0C0B-$0C0C DB_DATA 1
+RANGE $0C0C-$0C0D DB_DATA 1
+RANGE $0C0D-$0C0E DB_DATA 1
+RANGE $0C0E-$0C0F DB_DATA 1
+RANGE $0C0F-$0C10 DB_DATA 1
+RANGE $0C10-$0C11 DB_DATA 1
+RANGE $0C11-$0C12 DB_DATA 1
+RANGE $0C12-$0C13 DB_DATA 1
+RANGE $0C13-$0C14 DB_DATA 1
+RANGE $0C14-$0C15 DB_DATA 1
+RANGE $0C15-$0C16 DB_DATA 1
+RANGE $0C16-$0C17 DB_DATA 1
+RANGE $0C17-$0C18 DB_DATA 1
+RANGE $0C18-$0C19 DB_DATA 1
+RANGE $0C19-$0C1A DB_DATA 1
+RANGE $0C1A-$0C1B DB_DATA 1
+RANGE $0C1B-$0C1C DB_DATA 1
+RANGE $0C1C-$0C1D DB_DATA 1
+RANGE $0C1D-$0C1E DB_DATA 1
+RANGE $0C1E-$0C1F DB_DATA 1
+RANGE $0C1F-$0C20 DB_DATA 1
+RANGE $0C20-$0C21 DB_DATA 1
+RANGE $0C21-$0C22 DB_DATA 1
+RANGE $0C22-$0C23 DB_DATA 1
+RANGE $0C23-$0C24 DB_DATA 1
+RANGE $0C24-$0C25 DB_DATA 1
+RANGE $0C25-$0C26 DB_DATA 1
+RANGE $0C26-$0C27 DB_DATA 1
+RANGE $0C27-$0C28 DB_DATA 1
+RANGE $0C28-$0C29 DB_DATA 1
+RANGE $0C29-$0C2A DB_DATA 1
+RANGE $0C2A-$0C2B DB_DATA 1
+RANGE $0C2B-$0C2C DB_DATA 1
+RANGE $0C2C-$0C2D DB_DATA 1
+RANGE $0C2D-$0C2E DB_DATA 1
+RANGE $0C2E-$0C2F DB_DATA 1
+RANGE $0C2F-$0C30 DB_DATA 1
+RANGE $0C30-$0C31 DB_DATA 1
+RANGE $0C31-$0C32 DB_DATA 1
+RANGE $0C32-$0C33 DB_DATA 1
+RANGE $0C33-$0C34 DB_DATA 1
+RANGE $0C34-$0C35 DB_DATA 1
+RANGE $0C35-$0C36 DB_DATA 1
+RANGE $0C36-$0C37 DB_DATA 1
+RANGE $0C37-$0C38 DB_DATA 1
+RANGE $0C38-$0C39 DB_DATA 1
+RANGE $0C39-$0C3A DB_DATA 1
+RANGE $0C3A-$0C3B DB_DATA 1
+RANGE $0C3B-$0C3C DB_DATA 1
+RANGE $0C3C-$0C3D DB_DATA 1
+RANGE $0C3D-$0C3E DB_DATA 1
+RANGE $0C3E-$0C3F DB_DATA 1
+RANGE $0C3F-$0C40 DB_DATA 1
+RANGE $0C40-$0C41 DB_DATA 1
+RANGE $0C41-$0C42 DB_DATA 1
+RANGE $0C42-$0C43 DB_DATA 1
+RANGE $0C43-$0C44 DB_DATA 1
+RANGE $0C44-$0C45 DB_DATA 1
+RANGE $0C45-$0C46 DB_DATA 1
+RANGE $0C46-$0C47 DB_DATA 1
+RANGE $0C47-$0C48 DB_DATA 1
+RANGE $0C48-$0C49 DB_DATA 1
+RANGE $0C49-$0C4A DB_DATA 1
+RANGE $0C4A-$0C4B DB_DATA 1
+RANGE $0C4B-$0C4C DB_DATA 1
+RANGE $0C4C-$0C4D DB_DATA 1
+RANGE $0C4D-$0C4E DB_DATA 1
+RANGE $0C4E-$0C4F DB_DATA 1
+RANGE $0C4F-$0C50 DB_DATA 1
+RANGE $0C50-$0C51 DB_DATA 1
+RANGE $0C51-$0C52 DB_DATA 1
+RANGE $0C52-$0C53 DB_DATA 1
+RANGE $0C53-$0C54 DB_DATA 1
+RANGE $0C54-$0C55 DB_DATA 1
+RANGE $0C55-$0C56 DB_DATA 1
+RANGE $0C56-$0C57 DB_DATA 1
+RANGE $0C57-$0C58 DB_DATA 1
+RANGE $0C58-$0C59 DB_DATA 1
+RANGE $0C59-$0C5A DB_DATA 1
+RANGE $0C5A-$0C5B DB_DATA 1
+RANGE $0C5B-$0C5C DB_DATA 1
+RANGE $0C5C-$0C5D DB_DATA 1
+RANGE $0C5D-$0C5E DB_DATA 1
+RANGE $0C5E-$0C5F DB_DATA 1
+RANGE $0C5F-$0C60 DB_DATA 1
+RANGE $0C60-$0C61 DB_DATA 1
+RANGE $0C61-$0C62 DB_DATA 1
+RANGE $0C62-$0C63 DB_DATA 1
+RANGE $0C63-$0C64 DB_DATA 1
+RANGE $0C64-$0C65 DB_DATA 1
+RANGE $0C65-$0C66 DB_DATA 1
+RANGE $0C66-$0C67 DB_DATA 1
+RANGE $0C67-$0C68 DB_DATA 1
+RANGE $0C68-$0C69 DB_DATA 1
+RANGE $0C69-$0C6A DB_DATA 1
+RANGE $0C6A-$0C6B DB_DATA 1
+RANGE $0C6B-$0C6C DB_DATA 1
+RANGE $0C6C-$0C6D DB_DATA 1
+RANGE $0C6D-$0C6E DB_DATA 1
+RANGE $0C6E-$0C6F DB_DATA 1
+RANGE $0C6F-$0C70 DB_DATA 1
+RANGE $0C70-$0C71 DB_DATA 1
+RANGE $0C71-$0C72 DB_DATA 1
+RANGE $0C72-$0C73 DB_DATA 1
+RANGE $0C73-$0C74 DB_DATA 1
+RANGE $0C74-$0C75 DB_DATA 1
+RANGE $0C75-$0C76 DB_DATA 1
+RANGE $0C76-$0C77 DB_DATA 1
+RANGE $0C77-$0C78 DB_DATA 1
+RANGE $0C78-$0C79 DB_DATA 1
+RANGE $0C79-$0C7A DB_DATA 1
+RANGE $0C7A-$0C7B DB_DATA 1
+RANGE $0C7B-$0C7C DB_DATA 1
+RANGE $0C7C-$0C7D DB_DATA 1
+RANGE $0C7D-$0C7E DB_DATA 1
+RANGE $0C7E-$0C7F DB_DATA 1
+RANGE $0C7F-$0C80 DB_DATA 1
+RANGE $0C80-$0C81 DB_DATA 1
+RANGE $0C81-$0C82 DB_DATA 1
+RANGE $0C82-$0C83 DB_DATA 1
+RANGE $0C83-$0C84 DB_DATA 1
+RANGE $0C84-$0C85 DB_DATA 1
+RANGE $0C85-$0C86 DB_DATA 1
+RANGE $0C86-$0C87 DB_DATA 1
+RANGE $0C87-$0C88 DB_DATA 1
+RANGE $0C88-$0C89 DB_DATA 1
+RANGE $0C89-$0C8A DB_DATA 1
+RANGE $0C8A-$0C8B DB_DATA 1
+RANGE $0C8B-$0C8C DB_DATA 1
+RANGE $0C8C-$0C8D DB_DATA 1
+RANGE $0C8D-$0C8E DB_DATA 1
+RANGE $0C8E-$0C8F DB_DATA 1
+RANGE $0C8F-$0C90 DB_DATA 1
+RANGE $0C90-$0C91 DB_DATA 1
+RANGE $0C91-$0C92 DB_DATA 1
+RANGE $0C92-$0C93 DB_DATA 1
+RANGE $0C93-$0C94 DB_DATA 1
+RANGE $0C94-$0C95 DB_DATA 1
+RANGE $0C95-$0C96 DB_DATA 1
+RANGE $0C96-$0C97 DB_DATA 1
+RANGE $0C97-$0C98 DB_DATA 1
+RANGE $0C98-$0C99 DB_DATA 1
+RANGE $0C99-$0C9A DB_DATA 1
+RANGE $0C9A-$0C9B DB_DATA 1
+RANGE $0C9B-$0C9C DB_DATA 1
+RANGE $0C9C-$0C9D DB_DATA 1
+RANGE $0C9D-$0C9E DB_DATA 1
+RANGE $0C9E-$0C9F DB_DATA 1
+RANGE $0C9F-$0CA0 DB_DATA 1
+RANGE $0CA0-$0CA1 DB_DATA 1
+RANGE $0CA1-$0CA2 DB_DATA 1
+RANGE $0CA2-$0CA3 DB_DATA 1
+RANGE $0CA3-$0CA4 DB_DATA 1
+RANGE $0CA4-$0CA5 DB_DATA 1
+RANGE $0CA5-$0CA6 DB_DATA 1
+RANGE $0CA6-$0CA7 DB_DATA 1
+RANGE $0CA7-$0CA8 DB_DATA 1
+RANGE $0CA8-$0CA9 DB_DATA 1
+RANGE $0CA9-$0CAA DB_DATA 1
+RANGE $0CAA-$0CAB DB_DATA 1
+RANGE $0CAB-$0CAC DB_DATA 1
+RANGE $0CAC-$0CAD DB_DATA 1
+RANGE $0CAD-$0CAE DB_DATA 1
+RANGE $0CAE-$0CAF DB_DATA 1
+RANGE $0CAF-$0CB0 DB_DATA 1
+RANGE $0CB0-$0CB1 DB_DATA 1
+RANGE $0CB1-$0CB2 DB_DATA 1
+RANGE $0CB2-$0CB3 DB_DATA 1
+RANGE $0CB3-$0CB4 DB_DATA 1
+RANGE $0CB4-$0CB5 DB_DATA 1
+RANGE $0CB5-$0CB6 DB_DATA 1
+RANGE $0CB6-$0CB7 DB_DATA 1
+RANGE $0CB7-$0CB8 DB_DATA 1
+RANGE $0CB8-$0CB9 DB_DATA 1
+RANGE $0CB9-$0CBA DB_DATA 1
+RANGE $0CBA-$0CBB DB_DATA 1
+RANGE $0CBB-$0CBC DB_DATA 1
+RANGE $0CBC-$0CBD DB_DATA 1
+RANGE $0CBD-$0CBE DB_DATA 1
+RANGE $0CBE-$0CBF DB_DATA 1
+RANGE $0CBF-$0CC0 DB_DATA 1
+RANGE $0CC0-$0CC1 DB_DATA 1
+RANGE $0CC1-$0CC2 DB_DATA 1
+RANGE $0CC2-$0CC3 DB_DATA 1
+RANGE $0CC3-$0CC4 DB_DATA 1
+RANGE $0CC4-$0CC5 DB_DATA 1
+RANGE $0CC5-$0CC6 DB_DATA 1
+RANGE $0CC6-$0CC7 DB_DATA 1
+RANGE $0CC7-$0CC8 DB_DATA 1
+RANGE $0CC8-$0CC9 DB_DATA 1
+RANGE $0CC9-$0CCA DB_DATA 1
+RANGE $0CCA-$0CCB DB_DATA 1
+RANGE $0CCB-$0CCC DB_DATA 1
+RANGE $0CCC-$0CCD DB_DATA 1
+RANGE $0CCD-$0CCE DB_DATA 1
+RANGE $0CCE-$0CCF DB_DATA 1
+RANGE $0CCF-$0CD0 DB_DATA 1
+RANGE $0CD0-$0CD1 DB_DATA 1
+RANGE $0CD1-$0CD2 DB_DATA 1
+RANGE $0CD2-$0CD3 DB_DATA 1
+RANGE $0CD3-$0CD4 DB_DATA 1
+RANGE $0CD4-$0CD5 DB_DATA 1
+RANGE $0CD5-$0CD6 DB_DATA 1
+RANGE $0CD6-$0CD7 DB_DATA 1
+RANGE $0CD7-$0CD8 DB_DATA 1
+RANGE $0CD8-$0CD9 DB_DATA 1
+RANGE $0CD9-$0CDA DB_DATA 1
+RANGE $0CDA-$0CDB DB_DATA 1
+RANGE $0CDB-$0CDC DB_DATA 1
+RANGE $0CDC-$0CDD DB_DATA 1
+RANGE $0CDD-$0CDE DB_DATA 1
+RANGE $0CDE-$0CDF DB_DATA 1
+RANGE $0CDF-$0CE0 DB_DATA 1
+RANGE $0CE0-$0CE1 DB_DATA 1
+RANGE $0CE1-$0CE2 DB_DATA 1
+RANGE $0CE2-$0CE6 CHAR_DATA 4
+RANGE $0CE6-$0CE7 DB_DATA 1
+RANGE $0CE7-$0CE8 DB_DATA 1
+RANGE $0CE8-$0CE9 DB_DATA 1
+RANGE $0CE9-$0CEA DB_DATA 1
+RANGE $0CEA-$0CEB DB_DATA 1
+RANGE $0CEB-$0CEC DB_DATA 1
+RANGE $0CEC-$0CED DB_DATA 1
+RANGE $0CED-$0CEE DB_DATA 1
+RANGE $0CEE-$0CEF DB_DATA 1
+RANGE $0CEF-$0CF0 DB_DATA 1
+RANGE $0CF0-$0CF1 DB_DATA 1
+RANGE $0CF1-$0CF2 DB_DATA 1
+RANGE $0CF2-$0CF3 DB_DATA 1
+RANGE $0CF3-$0CF4 DB_DATA 1
+RANGE $0CF4-$0CF5 DB_DATA 1
+RANGE $0CF5-$0CF6 DB_DATA 1
+RANGE $0CF6-$0CF7 DB_DATA 1
+RANGE $0CF7-$0CF8 DB_DATA 1
+RANGE $0CF8-$0CF9 DB_DATA 1
+RANGE $0CF9-$0CFA DB_DATA 1
+RANGE $0CFA-$0CFB DB_DATA 1
+RANGE $0CFB-$0CFC DB_DATA 1
+RANGE $0CFC-$0CFD DB_DATA 1
+RANGE $0CFD-$0CFE DB_DATA 1
+RANGE $0CFE-$0CFF DB_DATA 1
+RANGE $0CFF-$0D00 DB_DATA 1
+RANGE $0D00-$0D01 DB_DATA 1
+RANGE $0D01-$0D02 DB_DATA 1
+RANGE $0D02-$0D03 DB_DATA 1
+RANGE $0D03-$0D04 DB_DATA 1
+RANGE $0D04-$0D05 DB_DATA 1
+RANGE $0D05-$0D06 DB_DATA 1
+RANGE $0D06-$0D07 DB_DATA 1
+RANGE $0D07-$0D08 DB_DATA 1
+RANGE $0D08-$0D09 DB_DATA 1
+RANGE $0D09-$0D0A DB_DATA 1
+RANGE $0D0A-$0D0B DB_DATA 1
+RANGE $0D0B-$0D0C DB_DATA 1
+RANGE $0D0C-$0D0D DB_DATA 1
+RANGE $0D0D-$0D0E DB_DATA 1
+RANGE $0D0E-$0D0F DB_DATA 1
+RANGE $0D0F-$0D10 DB_DATA 1
+RANGE $0D10-$0D11 DB_DATA 1
+RANGE $0D11-$0D12 DB_DATA 1
+RANGE $0D12-$0D13 DB_DATA 1
+RANGE $0D13-$0D14 DB_DATA 1
+RANGE $0D14-$0D15 DB_DATA 1
+RANGE $0D15-$0D16 DB_DATA 1
+RANGE $0D16-$0D17 DB_DATA 1
+RANGE $0D17-$0D18 DB_DATA 1
+RANGE $0D18-$0D19 DB_DATA 1
+RANGE $0D19-$0D1A DB_DATA 1
+RANGE $0D1A-$0D1B DB_DATA 1
+RANGE $0D1B-$0D35 CODE
+RANGE $0D35-$0D36 DB_DATA 1
+RANGE $0D36-$0D37 DB_DATA 1
+RANGE $0D37-$0D38 DB_DATA 1
+RANGE $0D38-$0D39 DB_DATA 1
+RANGE $0D39-$0D3A DB_DATA 1
+RANGE $0D3A-$0D3B DB_DATA 1
+RANGE $0D3B-$0D3C DB_DATA 1
+RANGE $0D3C-$0D3D DB_DATA 1
+RANGE $0D3D-$0D3E DB_DATA 1
+RANGE $0D3E-$0D3F DB_DATA 1
+RANGE $0D3F-$0D40 DB_DATA 1
+RANGE $0D40-$0D41 DB_DATA 1
+RANGE $0D41-$0EE6 CODE
+RANGE $0EE6-$0EE7 DB_DATA 1
+RANGE $0EE7-$0EE8 DB_DATA 1
+RANGE $0EE8-$0EE9 DB_DATA 1
+RANGE $0EE9-$0EEA DB_DATA 1
+RANGE $0EEA-$0EEB DB_DATA 1
+RANGE $0EEB-$0EEC DB_DATA 1
+RANGE $0EEC-$0EED DB_DATA 1
+RANGE $0EED-$0EEE DB_DATA 1
+RANGE $0EEE-$0EEF DB_DATA 1
+RANGE $0EEF-$0EF0 DB_DATA 1
+RANGE $0EF0-$0EF1 DB_DATA 1
+RANGE $0EF1-$0EF2 DB_DATA 1
+RANGE $0EF2-$0EF3 DB_DATA 1
+RANGE $0EF3-$0EF4 DB_DATA 1
+RANGE $0EF4-$0EF5 DB_DATA 1
+RANGE $0EF5-$0EF6 DB_DATA 1
+RANGE $0EF6-$0FD3 CODE
+RANGE $0FD3-$0FD4 DB_DATA 1
+RANGE $0FD4-$0FD5 DB_DATA 1
+RANGE $0FD5-$0FD6 DB_DATA 1
+RANGE $0FD6-$0FD7 DB_DATA 1
+RANGE $0FD7-$0FD8 DB_DATA 1
+RANGE $0FD8-$0FD9 DB_DATA 1
+RANGE $0FD9-$0FDA DB_DATA 1
+RANGE $0FDA-$0FDB DB_DATA 1
+RANGE $0FDB-$0FDC DB_DATA 1
+RANGE $0FDC-$0FDD DB_DATA 1
+RANGE $0FDD-$0FDE DB_DATA 1
+RANGE $0FDE-$0FDF DB_DATA 1
+RANGE $0FDF-$0FE0 DB_DATA 1
+RANGE $0FE0-$0FE1 DB_DATA 1
+RANGE $0FE1-$0FE2 DB_DATA 1
+RANGE $0FE2-$0FE3 DB_DATA 1
+RANGE $0FE3-$0FE4 DB_DATA 1
+RANGE $0FE4-$0FE5 DB_DATA 1
+RANGE $0FE5-$0FE6 DB_DATA 1
+RANGE $0FE6-$0FE7 DB_DATA 1
+RANGE $0FE7-$0FE8 DB_DATA 1
+RANGE $0FE8-$0FE9 DB_DATA 1
+RANGE $0FE9-$0FEA DB_DATA 1
+RANGE $0FEA-$0FEB DB_DATA 1
+RANGE $0FEB-$0FEC DB_DATA 1
+RANGE $0FEC-$0FED DB_DATA 1
+RANGE $0FED-$0FEE DB_DATA 1
+RANGE $0FEE-$0FEF DB_DATA 1
+RANGE $0FEF-$0FF0 DB_DATA 1
+RANGE $0FF0-$0FF1 DB_DATA 1
+RANGE $0FF1-$0FF2 DB_DATA 1
+RANGE $0FF2-$0FF3 DB_DATA 1
+RANGE $0FF3-$0FF4 DB_DATA 1
+RANGE $0FF4-$0FF5 DB_DATA 1
+RANGE $0FF5-$0FF6 DB_DATA 1
+RANGE $0FF6-$0FF7 DB_DATA 1
+RANGE $0FF7-$0FF8 DB_DATA 1
+RANGE $0FF8-$0FF9 DB_DATA 1
+RANGE $0FF9-$0FFA DB_DATA 1
+RANGE $0FFA-$0FFB DB_DATA 1
+RANGE $0FFB-$0FFC DB_DATA 1
+RANGE $0FFC-$0FFD DB_DATA 1
+RANGE $0FFD-$0FFE DB_DATA 1
+RANGE $0FFE-$0FFF DB_DATA 1
+RANGE $0FFF-$1000 DB_DATA 1
+

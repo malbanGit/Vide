@@ -1,0 +1,1425 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_b
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $F9F4 Char_Table
+LABEL $FBD4 Char_Table_End
+LABEL $FC8D BIOS_music_data
+COMMENT_LABEL $FC8D here are the BIOS notes...
+EQU $00 NOTES
+COMMENT_LABEL $00 2 (lengths...)
+EQU $02 VOICE
+COMMENT_LABEL $02 1
+EQU $03 WHOLE_ADSR
+COMMENT_LABEL $03 2
+EQU $05 HALF_ADSR
+COMMENT_LABEL $05 2
+EQU $07 QUARTER_ADSR
+COMMENT_LABEL $07 2
+EQU $09 EIGHTH_ADSR
+COMMENT_LABEL $09 2
+EQU $0B SIXTEENTH_ADSR
+COMMENT_LABEL $0B 2
+EQU $00 MUSIC
+COMMENT_LABEL $00 2 (pointer to the above ROM structure)
+EQU $02 POS
+COMMENT_LABEL $02 2
+EQU $04 COUNT
+COMMENT_LABEL $04 1
+EQU $05 DUR
+COMMENT_LABEL $05 1
+EQU $01 NOTE_DURATION
+EQU $00 WHOLE_NOTE
+EQU $01 HALF_NOTE
+EQU $02 QUARTER_NOTE
+EQU $03 EIGHTH_NOTE
+EQU $04 SIXTEENTH_NOTE
+EQU $07 VOLUME_BASE
+COMMENT_LABEL $07 actually it should be eight,
+LABEL $C84F voice1_ram_structur
+LABEL $C855 voice2_ram_structur
+LABEL $C85B voice3_ram_structur
+LABEL $0396 music
+LABEL $0044 setup_intro_mus
+EQU $21 main
+LABEL $006F play_voice
+EQU $3F whole_dur
+LABEL $039C music_structure_voice1
+LABEL $03A9 music_structure_voice2
+LABEL $03B6 music_structure_voice3
+LABEL $01B9 hold_voice
+LABEL $0087 not_restart
+LABEL $00CA not_rest
+COMMENT_LABEL $00CA here we are sure not to have a
+LABEL $00B7 not_restart3
+LABEL $00A4 not_restart2
+LABEL $0091 not_restart1
+COMMENT_LABEL $0091 ok... lets do the voice 1 kind ...
+LABEL $00D4 not_rest1
+COMMENT_LABEL $00D4 ok... lets do the voice 1 kind ...
+LABEL $01A6 cont
+LABEL $00F0 not_rest2
+LABEL $010C not_rest3
+LABEL $0127 tone1
+LABEL $0152 tone2
+LABEL $017D tone3
+LABEL $01C5 not_whole
+LABEL $01DF do_volume
+LABEL $01CD not_half
+LABEL $01D5 not_quarter
+LABEL $01DD not_eighth
+LABEL $01EB ins1_w_ADSR
+LABEL $0205 ins1_h_ADSR
+LABEL $0215 ins1_q_ADSR
+LABEL $021D ins1_e_ADSR
+LABEL $0221 ins1_s_ADSR
+LABEL $0223 ins2_w_ADSR
+LABEL $023D ins2_h_ADSR
+LABEL $024D ins2_q_ADSR
+LABEL $0255 ins2_e_ADSR
+LABEL $0259 ins2_s_ADSR
+LABEL $025B ins3_w_ADSR
+LABEL $0275 ins3_h_ADSR
+LABEL $0285 ins3_q_ADSR
+LABEL $028D ins3_e_ADSR
+LABEL $0291 ins3_s_ADSR
+LABEL $0293 intro_song3
+LABEL $0296 intro_song2
+LABEL $0315 intro_song1
+LABEL $03C3 *
+COMMENT_LINE $0000 Song Demo
+COMMENT_LINE $0000 by Christopher L. Tumber
+COMMENT_LINE $0000 Last update: July 1, 1998
+COMMENT_LINE $0000 Plays a "song" using three voices. This is my new and improved song
+COMMENT_LINE $0000 playing routine. I'll post full instructions and docs later. A compiled
+COMMENT_LINE $0000 version will show up on my web site shortly.
+COMMENT_LINE $0000 ****************************************************************************
+COMMENT_LINE $0000 Section from Christopher Salomon...
+COMMENT_LINE $0000 Random thought:
+COMMENT_LINE $0000 one thought might be to put the duration within the music structure...
+COMMENT_LINE $0000 this way each voice could have different durations...
+COMMENT_LINE $0000 I dunno what that could be used for... but well...
+COMMENT_LINE $0000 this version was changed to fit the below assembler,
+COMMENT_LINE $0000 also some documentation added...
+COMMENT_LINE $0000 actually pretty much changed, the whole data structure and the
+COMMENT_LINE $0000 function itself looks a bit different, though I can asure you, that
+COMMENT_LINE $0000 the core is the same, even if it looks different.
+COMMENT_LINE $0000 the main difference is, it uses no only one function to play a voice
+COMMENT_LINE $0000 instead of three, and it doesn't use any user RAM anymore (though BIOS RAM)
+COMMENT_LINE $0000 some data neccessary for the music must now be handled in the ROM area,
+COMMENT_LINE $0000 but only the static stuff...
+COMMENT_LINE $0000 as far as my changes are concerned this program is public domain, but
+COMMENT_LINE $0000 the original version was done by Christopher L. Tumber, though he
+COMMENT_LINE $0000 didn't put any copyright notices in his source, I guess he would
+COMMENT_LINE $0000 mind if this was alltogether put in the public domain.
+COMMENT_LINE $0000 so... if you use this source in any way, please give him some credit at
+COMMENT_LINE $0000 least...
+COMMENT_LINE $0000 the mentioned changes were done by: Christopher Salomon, August 1998
+COMMENT_LINE $0000 comments and vectrex talk are welcome
+COMMENT_LINE $0000 my email: chrissalo@aol.com
+COMMENT_LINE $0000 followin command line was used to assemble:
+COMMENT_LINE $0000 C:>as09.exe -h0 -l -cti songdemo.asm >error
+COMMENT_LINE $0000 I used the 6809 assembler:
+COMMENT_LINE $0000 as09 [1.11].
+COMMENT_LINE $0000 Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+COMMENT_LINE $0000 Available at:
+COMMENT_LINE $0000 http://www.falstaff.demon.co.uk/cross.html
+COMMENT_LINE $0000 ****************************************************************************
+COMMENT $0000 vectrex function includes
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Song structure to save RAM for loss in ROM, this structure must be used in
+COMMENT_LINE $0000 the ROM area of your vectrex program
+COMMENT_LINE $0000 Song structure in RAM
+COMMENT_LINE $0000 Duration comes in the music data 1 after the actual note...
+COMMENT_LINE $0000 some defines for readability...
+COMMENT_LINE $0000 but we add the current voice to
+COMMENT_LINE $0000 it, and we start at 1, so
+COMMENT_LINE $0000 7 + 1 is the BASE = 8...
+COMMENT_LINE $0000 silly me :-)
+COMMENT_LINE $0000 since we use our own sound routine, the BIOS RAM locations for
+COMMENT_LINE $0000 sound are not used... we might as well use these locations for
+COMMENT_LINE $0000 our data, so we don't waste 'our'-own RAM...
+COMMENT_LINE $0000 here a mirror table for easier conversion...
+COMMENT_LINE $0000 ****************************************************************************
+COMMENT_LINE $0000 start of vectrex memory with cartridge name...
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B our own SHORT intro music
+COMMENT $000D hight, width, rel y, rel x (from 0,0)
+COMMENT $0011 some information, ending with $80
+COMMENT $001D end of header
+COMMENT_LINE $001E here the cartridge program starts off
+COMMENT_LINE $001E ****************************************************************************
+COMMENT $001E initialize our music structures
+FORCE_SYMBOL $001E setup_intro_mus
+COMMENT $0021 This is equivalent to jsr dptoD0
+FORCE_NO_SYMBOL $0021
+COMMENT $0023 But inlined
+COMMENT $0025 Reset the CRT (not really neccessary for
+FORCE_SYMBOL $0025 Wait_Recal
+COMMENT_LINE $0028 only playing music...)
+COMMENT_LINE $0028 now we start each voice with the appropriate music-
+COMMENT_LINE $0028 structure loaded in Y (might have been U... what the heck)
+FORCE_SYMBOL $0028 voice1_ram_structur
+FORCE_SYMBOL $002C play_voice
+FORCE_SYMBOL $002F voice2_ram_structur
+FORCE_SYMBOL $0033 play_voice
+FORCE_SYMBOL $0036 voice3_ram_structur
+FORCE_SYMBOL $003A play_voice
+COMMENT_LINE $003D go on forever...
+COMMENT_LINE $003F ****************************************************************************
+COMMENT_LINE $003F as a matter of fact, the durations can also be in the ROM section,
+COMMENT_LINE $003F since for one game, we probably only have one = of length's
+COMMENT_LINE $003F these are durations of notes, whole is a (well) whole note... and so on :-)
+COMMENT_LINE $003F one thought might be to put the duration within the music structure...
+COMMENT_LINE $003F this way each voice could have different durations...
+COMMENT_LINE $003F I dunno what that could be used for... but well...
+COMMENT $003F duration of a full note
+COMMENT $0040 duration of a half note
+COMMENT $0041 duration of a quarter note
+COMMENT $0042 duration of a eighth note
+COMMENT $0043 duration of a sixteenth note
+COMMENT_LINE $0044 ****************************************************************************
+COMMENT_LINE $0044 this is our routine to initialize the structures in vectrex RAM
+COMMENT_LINE $0044 here we initialize all three voices...
+COMMENT_LINE $0044 initialize voice 1
+COMMENT $0044 load music structur address
+FORCE_SYMBOL $0044 voice1_ram_structur
+COMMENT_LINE $0047 of voice 1 (ram)
+COMMENT $0047 load music structure (rom)
+FORCE_SYMBOL $0047 music_structure_voice1
+COMMENT $004A store it in RAM as relevant
+FORCE_SYMBOL $004A MUSIC
+COMMENT_LINE $004C music structure for voice 1
+COMMENT $004C load the notes of music 1
+FORCE_NO_SYMBOL $004C
+COMMENT_LINE $004E to D
+COMMENT $004E store it as the beginning
+FORCE_SYMBOL $004E POS
+COMMENT_LINE $0050 position
+COMMENT $0050 and set the count to zero
+FORCE_SYMBOL $0050 COUNT
+COMMENT_LINE $0052 initialize voice 2
+COMMENT $0052 load music structur address
+FORCE_SYMBOL $0052 voice2_ram_structur
+COMMENT_LINE $0055 of voice 2 (ram)
+COMMENT $0055 load music structure (rom)
+FORCE_SYMBOL $0055 music_structure_voice2
+COMMENT $0058 store it in RAM as relevant
+FORCE_SYMBOL $0058 MUSIC
+COMMENT_LINE $005A music structure for voice 2
+COMMENT $005A load the notes of music 2
+FORCE_NO_SYMBOL $005A
+COMMENT_LINE $005C to D
+COMMENT $005C store it as the beginning
+FORCE_SYMBOL $005C POS
+COMMENT_LINE $005E position
+COMMENT $005E and set the count to zero
+FORCE_SYMBOL $005E COUNT
+COMMENT_LINE $0060 initialize voice 3
+COMMENT $0060 load music structur address
+FORCE_SYMBOL $0060 voice3_ram_structur
+COMMENT_LINE $0063 of voice 3 (ram)
+COMMENT $0063 load music structure (rom)
+FORCE_SYMBOL $0063 music_structure_voice3
+COMMENT $0066 store it in RAM as relevant
+FORCE_SYMBOL $0066 MUSIC
+COMMENT_LINE $0068 music structure for voice 3
+COMMENT $0068 load the notes of music 3
+FORCE_NO_SYMBOL $0068
+COMMENT_LINE $006A to D
+COMMENT $006A store it as the beginning
+FORCE_SYMBOL $006A POS
+COMMENT_LINE $006C position
+COMMENT $006C and set the count to zero
+FORCE_SYMBOL $006C COUNT
+COMMENT_LINE $006F ****************************************************************************
+COMMENT_LINE $006F here are some makro definitions  to make the main music routine a
+COMMENT_LINE $006F bit more readable...
+COMMENT_LINE $006F well the makros are not that well readable... sorry...
+COMMENT_LINE $006F the paramters were neccessary to use the makros for each
+COMMENT_LINE $006F of the three voices, they usually represent some bits in the
+COMMENT_LINE $006F PSG registers (or just a label for jump...)
+COMMENT_LINE $006F ----------------------------------------------------------------------------
+COMMENT_LINE $006F checking whether we play a note or be silent...
+COMMENT_LINE $006F go out of makro on note... silence is 'played' here...
+COMMENT $0000 name of macro
+COMMENT $0000 in A is the note, that was loaded
+COMMENT_LINE $0000 from the position, a 128 means this is a rest
+COMMENT_LINE $0000 note, silence follows...
+COMMENT $0000 if no rest... jump (parameter of makro...)
+COMMENT_LINE $0000 no we will be silent with this
+COMMENT_LINE $0000 voice :-)
+COMMENT $0000 Register (shadow) 7 of the PSG:
+COMMENT_LINE $0000 Register R7 is a multi functional
+COMMENT_LINE $0000 Enable register which controls the
+COMMENT_LINE $0000 three Noise/Tone Mixers and the general
+COMMENT_LINE $0000 purpose I/O Port.
+COMMENT $0000 Pulse on Voice (parameter of makro...)
+COMMENT $0000 No noise on Voice (parameter of makro...)
+COMMENT $0000 to register 7 of PSG (shadow)
+COMMENT $0000 store B to register A in soundchip (shadow)
+COMMENT $0000 end of macro
+COMMENT_LINE $0000 ----------------------------------------------------------------------------
+COMMENT_LINE $0000 checking whether the note is noise or tone...
+COMMENT_LINE $0000 go out of makro on tone... noise is played here...
+COMMENT $0000 name of macro
+COMMENT $0000 is the 6 bit set? (checking
+COMMENT_LINE $0000 whether tone or noise)
+COMMENT $0000 if bit 6 not set... then jump
+COMMENT_LINE $0000 (parameter of makro...)
+COMMENT $0000 otherwise we will play noise...
+COMMENT_LINE $0000 load the frequency of the note...
+COMMENT $0000 that means we discard some of
+COMMENT_LINE $0000 the frequency (AND $1F)
+COMMENT $0000 Noise Generator Control Register of PSG
+COMMENT $0000 store B to register A in soundchip (shadow)
+COMMENT $0000 Register (shadow) 7 of the PSG:
+COMMENT_LINE $0000 Register R7 is a multi functional
+COMMENT_LINE $0000 Enable register which controls the
+COMMENT_LINE $0000 three Noise/Tone Mixers and the general
+COMMENT_LINE $0000 purpose I/O Port.
+COMMENT $0000 No Pulse on Voice (parameter of makro...)
+COMMENT $0000 Noise on Voice (parameter of makro...)
+COMMENT $0000 to register 7 of PSG (shadow)
+COMMENT $0000 store B to register A in soundchip (shadow)
+COMMENT $0000 end of macro
+COMMENT_LINE $0000 ----------------------------------------------------------------------------
+COMMENT_LINE $0000 this makro playes a note (tone)
+COMMENT $0000 name of macro
+COMMENT $0000 load the frequency of the note...
+COMMENT $0000 multiply it by two
+COMMENT $0000 load address of BIOS data area
+COMMENT_LINE $0000 for notes
+COMMENT $0000 and look information of frequncy
+COMMENT_LINE $0000 up in the BIOS data area
+COMMENT $0000 load the coarse tune register number
+COMMENT_LINE $0000 for the voice to A (parameter of makro...)
+COMMENT $0000 and write the found frequency to
+COMMENT_LINE $0000 that register of PSG (shadow)
+COMMENT $0000 load the position in the piece of
+COMMENT_LINE $0000 music we are playing to X
+COMMENT $0000 and get the note again
+COMMENT_LINE $0000 hmmm, might have done a push above...
+COMMENT_LINE $0000 might have saved some cycles :-)
+COMMENT_LINE $0000 doesn't really matter here
+COMMENT $0000 find the place in the BIOS Data again
+COMMENT $0000 this time the second half of the frequency...
+COMMENT $0000 what was that address of the BIOS
+COMMENT_LINE $0000 music data again?
+COMMENT $0000 ah, well, we load the fine tune frequency
+COMMENT_LINE $0000 to reg B
+COMMENT $0000 and to A we load the fine tune register number
+COMMENT_LINE $0000 of the voice we are playing (parameter of makro...)
+COMMENT $0000 get it to the PSG (shadow)
+COMMENT $0000 Register (shadow) 7 of the PSG:
+COMMENT_LINE $0000 Register R7 is a multi functional
+COMMENT_LINE $0000 Enable register which controls the
+COMMENT_LINE $0000 three Noise/Tone Mixers and the general
+COMMENT_LINE $0000 purpose I/O Port.
+COMMENT $0000 Pulse on Voice
+COMMENT $0000 No noise on Voice
+COMMENT $0000 to register 7 of PSG (shadow)
+COMMENT $0000 store B to register A in soundchip (shadow)
+COMMENT $0000 end of macro
+COMMENT_LINE $0000 ----------------------------------------------------------------------------
+COMMENT_LINE $0000 OK...
+COMMENT_LINE $0000 this is it... the one and only play_voice function :-)
+COMMENT_LINE $0000 in Y is the pointer to the music structure
+COMMENT_LINE $0000 Y is a pointer to RAM:
+COMMENT_LINE $0000 RAM:
+COMMENT_LINE $0000 pointer to music structure (ROM) 2 bytes
+COMMENT_LINE $0000 position (2 bytes)
+COMMENT_LINE $0000 counter (1 byte)
+COMMENT_LINE $0000 (see structure at the top of the file and in the ini routine)
+COMMENT $006F load the ROM structure address to
+FORCE_SYMBOL $006F MUSIC
+COMMENT_LINE $0071 U (first thing in the RAM structure)
+COMMENT $0071 load the counter of this note
+FORCE_SYMBOL $0071 COUNT
+COMMENT $0073 if not zero... there is no need
+COMMENT_LINE $0077 to play a new note... so jump
+COMMENT_LINE $0077 to hold_voice
+COMMENT $0077 otherwise load the position in the
+FORCE_SYMBOL $0077 POS
+COMMENT_LINE $0079 music piece to register X
+COMMENT $0079 load the note we find there to A
+FORCE_NO_SYMBOL $0079
+COMMENT $007B if it is $ff we are done...
+FORCE_NO_SYMBOL $007B
+COMMENT $007D otherwise we go on playing (jump to not_restart)
+COMMENT $007F we load the first position of the
+FORCE_SYMBOL $007F NOTES
+COMMENT_LINE $0081 piece of music to X
+COMMENT $0081 and (re) store it to the position pointer
+FORCE_SYMBOL $0081 POS
+COMMENT $0083 load the note we find there...
+FORCE_NO_SYMBOL $0083
+COMMENT $0085 and go on playing it...
+COMMENT $0087 let's check what voice
+FORCE_SYMBOL $0087 VOICE
+COMMENT $0089 we should use for this song, 3?
+FORCE_NO_SYMBOL $0089
+COMMENT $008B yep, than jump there
+COMMENT $008D 2?
+FORCE_NO_SYMBOL $008D
+COMMENT $008F yep, than jump there...
+COMMENT_LINE $0091 here not_restart voice 1
+COMMENT $0091 (look at the makro for info)
+COMMENT $0091 in A is the note, that was loaded
+FORCE_NO_SYMBOL $0091
+COMMENT_LINE $0093 from the position, a 128 means this is a rest
+COMMENT_LINE $0093 note, silence follows...
+COMMENT $0093 if no rest... jump (parameter of makro...)
+COMMENT_LINE $0095 no we will be silent with this
+COMMENT_LINE $0095 voice :-)
+COMMENT $0095 Register (shadow) 7 of the PSG:
+COMMENT_LINE $0098 Register R7 is a multi functional
+COMMENT_LINE $0098 Enable register which controls the
+COMMENT_LINE $0098 three Noise/Tone Mixers and the general
+COMMENT_LINE $0098 purpose I/O Port.
+COMMENT $0098 Pulse on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $0098
+COMMENT $009A No noise on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $009A
+COMMENT $009C to register 7 of PSG (shadow)
+FORCE_NO_SYMBOL $009C
+COMMENT $009E store B to register A in soundchip (shadow)
+FORCE_SYMBOL $009E Sound_Byte
+COMMENT $00A1 and go on...
+FORCE_SYMBOL $00A1 cont
+COMMENT $00A4 (look at the makro for info)
+COMMENT $00A4 in A is the note, that was loaded
+FORCE_NO_SYMBOL $00A4
+COMMENT_LINE $00A6 from the position, a 128 means this is a rest
+COMMENT_LINE $00A6 note, silence follows...
+COMMENT $00A6 if no rest... jump (parameter of makro...)
+COMMENT_LINE $00A8 no we will be silent with this
+COMMENT_LINE $00A8 voice :-)
+COMMENT $00A8 Register (shadow) 7 of the PSG:
+COMMENT_LINE $00AB Register R7 is a multi functional
+COMMENT_LINE $00AB Enable register which controls the
+COMMENT_LINE $00AB three Noise/Tone Mixers and the general
+COMMENT_LINE $00AB purpose I/O Port.
+COMMENT $00AB Pulse on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $00AB
+COMMENT $00AD No noise on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $00AD
+COMMENT $00AF to register 7 of PSG (shadow)
+FORCE_NO_SYMBOL $00AF
+COMMENT $00B1 store B to register A in soundchip (shadow)
+FORCE_SYMBOL $00B1 Sound_Byte
+COMMENT $00B4 and go on...
+FORCE_SYMBOL $00B4 cont
+COMMENT $00B7 (look at the makro for info)
+COMMENT $00B7 in A is the note, that was loaded
+FORCE_NO_SYMBOL $00B7
+COMMENT_LINE $00B9 from the position, a 128 means this is a rest
+COMMENT_LINE $00B9 note, silence follows...
+COMMENT $00B9 if no rest... jump (parameter of makro...)
+COMMENT_LINE $00BB no we will be silent with this
+COMMENT_LINE $00BB voice :-)
+COMMENT $00BB Register (shadow) 7 of the PSG:
+COMMENT_LINE $00BE Register R7 is a multi functional
+COMMENT_LINE $00BE Enable register which controls the
+COMMENT_LINE $00BE three Noise/Tone Mixers and the general
+COMMENT_LINE $00BE purpose I/O Port.
+COMMENT $00BE Pulse on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $00BE
+COMMENT $00C0 No noise on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $00C0
+COMMENT $00C2 to register 7 of PSG (shadow)
+FORCE_NO_SYMBOL $00C2
+COMMENT $00C4 store B to register A in soundchip (shadow)
+FORCE_SYMBOL $00C4 Sound_Byte
+COMMENT $00C7 and go on...
+FORCE_SYMBOL $00C7 cont
+COMMENT_LINE $00CA note 'hangover' :-)
+COMMENT $00CA but we must check for the same as
+FORCE_SYMBOL $00CA VOICE
+COMMENT $00CC above... 3?
+FORCE_NO_SYMBOL $00CC
+COMMENT $00CE yep, than jump there
+COMMENT $00D0 2?
+FORCE_NO_SYMBOL $00D0
+COMMENT $00D2 yep, than jump there...
+COMMENT_LINE $00D4 here not restart voice 1
+COMMENT $00D4 (look at the makro for info)
+COMMENT $00D4 is the 6 bit set? (checking
+FORCE_NO_SYMBOL $00D4
+COMMENT_LINE $00D6 whether tone or noise)
+COMMENT $00D6 if bit 6 not set... then jump
+COMMENT_LINE $00D8 (parameter of makro...)
+COMMENT $00D8 otherwise we will play noise...
+FORCE_NO_SYMBOL $00D8
+COMMENT_LINE $00DA load the frequency of the note...
+COMMENT $00DA that means we discard some of
+FORCE_NO_SYMBOL $00DA
+COMMENT_LINE $00DC the frequency (AND $1F)
+COMMENT $00DC Noise Generator Control Register of PSG
+FORCE_NO_SYMBOL $00DC
+COMMENT $00DE store B to register A in soundchip (shadow)
+FORCE_SYMBOL $00DE Sound_Byte
+COMMENT $00E1 Register (shadow) 7 of the PSG:
+COMMENT_LINE $00E4 Register R7 is a multi functional
+COMMENT_LINE $00E4 Enable register which controls the
+COMMENT_LINE $00E4 three Noise/Tone Mixers and the general
+COMMENT_LINE $00E4 purpose I/O Port.
+COMMENT $00E4 No Pulse on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $00E4
+COMMENT $00E6 Noise on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $00E6
+COMMENT $00E8 to register 7 of PSG (shadow)
+FORCE_NO_SYMBOL $00E8
+COMMENT $00EA store B to register A in soundchip (shadow)
+FORCE_SYMBOL $00EA Sound_Byte
+COMMENT $00ED and go on...
+FORCE_SYMBOL $00ED cont
+COMMENT $00F0 (look at the makro for info)
+COMMENT $00F0 is the 6 bit set? (checking
+FORCE_NO_SYMBOL $00F0
+COMMENT_LINE $00F2 whether tone or noise)
+COMMENT $00F2 if bit 6 not set... then jump
+COMMENT_LINE $00F4 (parameter of makro...)
+COMMENT $00F4 otherwise we will play noise...
+FORCE_NO_SYMBOL $00F4
+COMMENT_LINE $00F6 load the frequency of the note...
+COMMENT $00F6 that means we discard some of
+FORCE_NO_SYMBOL $00F6
+COMMENT_LINE $00F8 the frequency (AND $1F)
+COMMENT $00F8 Noise Generator Control Register of PSG
+FORCE_NO_SYMBOL $00F8
+COMMENT $00FA store B to register A in soundchip (shadow)
+FORCE_SYMBOL $00FA Sound_Byte
+COMMENT $00FD Register (shadow) 7 of the PSG:
+COMMENT_LINE $0100 Register R7 is a multi functional
+COMMENT_LINE $0100 Enable register which controls the
+COMMENT_LINE $0100 three Noise/Tone Mixers and the general
+COMMENT_LINE $0100 purpose I/O Port.
+COMMENT $0100 No Pulse on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $0100
+COMMENT $0102 Noise on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $0102
+COMMENT $0104 to register 7 of PSG (shadow)
+FORCE_NO_SYMBOL $0104
+COMMENT $0106 store B to register A in soundchip (shadow)
+FORCE_SYMBOL $0106 Sound_Byte
+COMMENT $0109 and go on...
+FORCE_SYMBOL $0109 cont
+COMMENT $010C (look at the makro for info)
+COMMENT $010C is the 6 bit set? (checking
+FORCE_NO_SYMBOL $010C
+COMMENT_LINE $010E whether tone or noise)
+COMMENT $010E if bit 6 not set... then jump
+COMMENT_LINE $0110 (parameter of makro...)
+COMMENT $0110 otherwise we will play noise...
+FORCE_NO_SYMBOL $0110
+COMMENT_LINE $0112 load the frequency of the note...
+COMMENT $0112 that means we discard some of
+FORCE_NO_SYMBOL $0112
+COMMENT_LINE $0114 the frequency (AND $1F)
+COMMENT $0114 Noise Generator Control Register of PSG
+FORCE_NO_SYMBOL $0114
+COMMENT $0116 store B to register A in soundchip (shadow)
+FORCE_SYMBOL $0116 Sound_Byte
+COMMENT $0119 Register (shadow) 7 of the PSG:
+COMMENT_LINE $011C Register R7 is a multi functional
+COMMENT_LINE $011C Enable register which controls the
+COMMENT_LINE $011C three Noise/Tone Mixers and the general
+COMMENT_LINE $011C purpose I/O Port.
+COMMENT $011C No Pulse on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $011C
+COMMENT $011E Noise on Voice (parameter of makro...)
+FORCE_NO_SYMBOL $011E
+COMMENT $0120 to register 7 of PSG (shadow)
+FORCE_NO_SYMBOL $0120
+COMMENT $0122 store B to register A in soundchip (shadow)
+FORCE_SYMBOL $0122 Sound_Byte
+COMMENT $0125 and go on...
+COMMENT $0127 (look at the makro for info)
+COMMENT $0127 load the frequency of the note...
+FORCE_NO_SYMBOL $0127
+COMMENT $0129 multiply it by two
+COMMENT $012A load address of BIOS data area
+FORCE_SYMBOL $012A BIOS_music_data
+COMMENT_LINE $012D for notes
+COMMENT $012D and look information of frequncy
+COMMENT_LINE $012F up in the BIOS data area
+COMMENT $012F load the coarse tune register number
+FORCE_NO_SYMBOL $012F
+COMMENT_LINE $0131 for the voice to A (parameter of makro...)
+COMMENT $0131 and write the found frequency to
+FORCE_SYMBOL $0131 Sound_Byte
+COMMENT_LINE $0134 that register of PSG (shadow)
+COMMENT $0134 load the position in the piece of
+FORCE_SYMBOL $0134 POS
+COMMENT_LINE $0136 music we are playing to X
+COMMENT $0136 and get the note again
+FORCE_NO_SYMBOL $0136
+COMMENT_LINE $0138 hmmm, might have done a push above...
+COMMENT_LINE $0138 might have saved some cycles :-)
+COMMENT_LINE $0138 doesn't really matter here
+COMMENT $0138 find the place in the BIOS Data again
+COMMENT $0139 this time the second half of the frequency...
+COMMENT $013A what was that address of the BIOS
+FORCE_SYMBOL $013A BIOS_music_data
+COMMENT_LINE $013D music data again?
+COMMENT $013D ah, well, we load the fine tune frequency
+COMMENT_LINE $013F to reg B
+COMMENT $013F and to A we load the fine tune register number
+FORCE_NO_SYMBOL $013F
+COMMENT_LINE $0141 of the voice we are playing (parameter of makro...)
+COMMENT $0141 get it to the PSG (shadow)
+FORCE_SYMBOL $0141 Sound_Byte
+COMMENT $0144 Register (shadow) 7 of the PSG:
+COMMENT_LINE $0147 Register R7 is a multi functional
+COMMENT_LINE $0147 Enable register which controls the
+COMMENT_LINE $0147 three Noise/Tone Mixers and the general
+COMMENT_LINE $0147 purpose I/O Port.
+COMMENT $0147 Pulse on Voice
+FORCE_NO_SYMBOL $0147
+COMMENT $0149 No noise on Voice
+FORCE_NO_SYMBOL $0149
+COMMENT $014B to register 7 of PSG (shadow)
+FORCE_NO_SYMBOL $014B
+COMMENT $014D store B to register A in soundchip (shadow)
+FORCE_SYMBOL $014D Sound_Byte
+COMMENT $0150 and go on...
+COMMENT $0152 (look at the makro for info)
+COMMENT $0152 load the frequency of the note...
+FORCE_NO_SYMBOL $0152
+COMMENT $0154 multiply it by two
+COMMENT $0155 load address of BIOS data area
+FORCE_SYMBOL $0155 BIOS_music_data
+COMMENT_LINE $0158 for notes
+COMMENT $0158 and look information of frequncy
+COMMENT_LINE $015A up in the BIOS data area
+COMMENT $015A load the coarse tune register number
+FORCE_NO_SYMBOL $015A
+COMMENT_LINE $015C for the voice to A (parameter of makro...)
+COMMENT $015C and write the found frequency to
+FORCE_SYMBOL $015C Sound_Byte
+COMMENT_LINE $015F that register of PSG (shadow)
+COMMENT $015F load the position in the piece of
+FORCE_SYMBOL $015F POS
+COMMENT_LINE $0161 music we are playing to X
+COMMENT $0161 and get the note again
+FORCE_NO_SYMBOL $0161
+COMMENT_LINE $0163 hmmm, might have done a push above...
+COMMENT_LINE $0163 might have saved some cycles :-)
+COMMENT_LINE $0163 doesn't really matter here
+COMMENT $0163 find the place in the BIOS Data again
+COMMENT $0164 this time the second half of the frequency...
+COMMENT $0165 what was that address of the BIOS
+FORCE_SYMBOL $0165 BIOS_music_data
+COMMENT_LINE $0168 music data again?
+COMMENT $0168 ah, well, we load the fine tune frequency
+COMMENT_LINE $016A to reg B
+COMMENT $016A and to A we load the fine tune register number
+FORCE_NO_SYMBOL $016A
+COMMENT_LINE $016C of the voice we are playing (parameter of makro...)
+COMMENT $016C get it to the PSG (shadow)
+FORCE_SYMBOL $016C Sound_Byte
+COMMENT $016F Register (shadow) 7 of the PSG:
+COMMENT_LINE $0172 Register R7 is a multi functional
+COMMENT_LINE $0172 Enable register which controls the
+COMMENT_LINE $0172 three Noise/Tone Mixers and the general
+COMMENT_LINE $0172 purpose I/O Port.
+COMMENT $0172 Pulse on Voice
+FORCE_NO_SYMBOL $0172
+COMMENT $0174 No noise on Voice
+FORCE_NO_SYMBOL $0174
+COMMENT $0176 to register 7 of PSG (shadow)
+FORCE_NO_SYMBOL $0176
+COMMENT $0178 store B to register A in soundchip (shadow)
+FORCE_SYMBOL $0178 Sound_Byte
+COMMENT $017B and go on...
+COMMENT $017D (look at the makro for info)
+COMMENT $017D load the frequency of the note...
+FORCE_NO_SYMBOL $017D
+COMMENT $017F multiply it by two
+COMMENT $0180 load address of BIOS data area
+FORCE_SYMBOL $0180 BIOS_music_data
+COMMENT_LINE $0183 for notes
+COMMENT $0183 and look information of frequncy
+COMMENT_LINE $0185 up in the BIOS data area
+COMMENT $0185 load the coarse tune register number
+FORCE_NO_SYMBOL $0185
+COMMENT_LINE $0187 for the voice to A (parameter of makro...)
+COMMENT $0187 and write the found frequency to
+FORCE_SYMBOL $0187 Sound_Byte
+COMMENT_LINE $018A that register of PSG (shadow)
+COMMENT $018A load the position in the piece of
+FORCE_SYMBOL $018A POS
+COMMENT_LINE $018C music we are playing to X
+COMMENT $018C and get the note again
+FORCE_NO_SYMBOL $018C
+COMMENT_LINE $018E hmmm, might have done a push above...
+COMMENT_LINE $018E might have saved some cycles :-)
+COMMENT_LINE $018E doesn't really matter here
+COMMENT $018E find the place in the BIOS Data again
+COMMENT $018F this time the second half of the frequency...
+COMMENT $0190 what was that address of the BIOS
+FORCE_SYMBOL $0190 BIOS_music_data
+COMMENT_LINE $0193 music data again?
+COMMENT $0193 ah, well, we load the fine tune frequency
+COMMENT_LINE $0195 to reg B
+COMMENT $0195 and to A we load the fine tune register number
+FORCE_NO_SYMBOL $0195
+COMMENT_LINE $0197 of the voice we are playing (parameter of makro...)
+COMMENT $0197 get it to the PSG (shadow)
+FORCE_SYMBOL $0197 Sound_Byte
+COMMENT $019A Register (shadow) 7 of the PSG:
+COMMENT_LINE $019D Register R7 is a multi functional
+COMMENT_LINE $019D Enable register which controls the
+COMMENT_LINE $019D three Noise/Tone Mixers and the general
+COMMENT_LINE $019D purpose I/O Port.
+COMMENT $019D Pulse on Voice
+FORCE_NO_SYMBOL $019D
+COMMENT $019F No noise on Voice
+FORCE_NO_SYMBOL $019F
+COMMENT $01A1 to register 7 of PSG (shadow)
+FORCE_NO_SYMBOL $01A1
+COMMENT $01A3 store B to register A in soundchip (shadow)
+FORCE_SYMBOL $01A3 Sound_Byte
+COMMENT $01A6 get the just played note
+FORCE_SYMBOL $01A6 POS
+COMMENT_LINE $01A8 (again!!!, perhaps a third time!)
+COMMENT $01A8 and load the duration of the note
+FORCE_SYMBOL $01A8 NOTE_DURATION
+COMMENT $01AA and store it, so that the duration
+FORCE_SYMBOL $01AA DUR
+COMMENT_LINE $01AC is known for the ADSR table...
+COMMENT $01AC load the address of the duration
+FORCE_SYMBOL $01AC whole_dur
+COMMENT $01AF and load the actual number of
+COMMENT_LINE $01B1 'rounds' for this duration to last
+COMMENT_LINE $01B1 if NOTE_DURATION is 0, than it
+COMMENT_LINE $01B1 is a full duration, which will
+COMMENT_LINE $01B1 be read from
+COMMENT_LINE $01B1 #whole_dur + 0, which is in this
+COMMENT_LINE $01B1 example 32...
+COMMENT_LINE $01B1 othere durations go respectivly...
+COMMENT $01B1 put that into our 'round'-counter
+FORCE_SYMBOL $01B1 COUNT
+COMMENT $01B3 load (maybe for the fourth time)
+FORCE_SYMBOL $01B3 POS
+COMMENT_LINE $01B5 our position in the note table of the
+COMMENT_LINE $01B5 piece of music
+COMMENT $01B5 and add 2 to it... pointing after that
+FORCE_NO_SYMBOL $01B5
+COMMENT_LINE $01B7 to the next note in the list
+COMMENT $01B7 and store it back...
+FORCE_SYMBOL $01B7 POS
+COMMENT_LINE $01B9 here we allways come when going into this routine...
+COMMENT $01B9 reduce our 'round' counter by 1
+FORCE_SYMBOL $01B9 COUNT
+COMMENT $01BB load our current duration
+FORCE_SYMBOL $01BB DUR
+COMMENT_LINE $01BD and check which duration we have,
+COMMENT_LINE $01BD that we can use the correct
+COMMENT_LINE $01BD ADSR table...
+COMMENT $01BD is it a whole note?
+FORCE_SYMBOL $01BD WHOLE_NOTE
+COMMENT $01BF no?, than jump
+COMMENT $01C1 yep, use the appropriate ADSR
+FORCE_SYMBOL $01C1 WHOLE_ADSR
+COMMENT_LINE $01C3 table than and...
+COMMENT $01C3 go on
+COMMENT $01C5 is it a half note?
+FORCE_SYMBOL $01C5 HALF_NOTE
+COMMENT $01C7 no?, than jump
+COMMENT $01C9 yep, use the appropriate ADSR
+FORCE_SYMBOL $01C9 HALF_ADSR
+COMMENT_LINE $01CB table than and...
+COMMENT $01CB go on
+COMMENT $01CD is it a quarter note?
+FORCE_SYMBOL $01CD QUARTER_NOTE
+COMMENT $01CF no?, than jump
+COMMENT $01D1 yep, use the appropriate ADSR
+FORCE_SYMBOL $01D1 QUARTER_ADSR
+COMMENT_LINE $01D3 table than and...
+COMMENT $01D3 go on
+COMMENT $01D5 is it a eighth note?
+FORCE_SYMBOL $01D5 EIGHTH_NOTE
+COMMENT $01D7 no?, than jump
+COMMENT $01D9 yep, use the appropriate ADSR
+FORCE_SYMBOL $01D9 EIGHTH_ADSR
+COMMENT_LINE $01DB table than and...
+COMMENT $01DB go on
+COMMENT $01DD well, only the sixteenth is left...
+FORCE_SYMBOL $01DD SIXTEENTH_ADSR
+COMMENT_LINE $01DF so we use the sixteenth ADSR table...
+COMMENT_LINE $01DF in X is now a pointer to the correct ADSR table for our
+COMMENT_LINE $01DF current duration
+COMMENT $01DF hm, what was our count again?
+FORCE_SYMBOL $01DF COUNT
+COMMENT $01E1 use the count'th value in the
+COMMENT_LINE $01E3 ADSR table as our current volume...
+COMMENT_LINE $01E3 in B is the volume we want to use...
+COMMENT $01E3 ahem, look at the define section
+FORCE_SYMBOL $01E3 VOLUME_BASE
+COMMENT $01E5 adding the VOICE we are playing
+FORCE_SYMBOL $01E5 VOICE
+COMMENT_LINE $01E7 gives us the correct PSG register
+COMMENT_LINE $01E7 for setting the volume...
+COMMENT $01E7 store B to register A in soundchip (shadow)
+FORCE_SYMBOL $01E7 Sound_Byte
+COMMENT $01EA done!
+COMMENT_LINE $01EB ****************************************************************************
+COMMENT_LINE $01EB ****************************************************************************
+COMMENT_LINE $01EB ADSR tables for different durations of notes and for each
+COMMENT_LINE $01EB voice (they are reusable, but for show here they are different...)
+COMMENT_LINE $0293 ****************************************************************************
+COMMENT_LINE $0293 song of voice 3... a "hum"
+COMMENT_LINE $0296 ****************************************************************************
+COMMENT_LINE $0296 song of voice 2... from bottom to top
+COMMENT_LINE $0315 ****************************************************************************
+COMMENT_LINE $0315 song of voice 1... from top to bottom
+COMMENT_LINE $0396 ****************************************************************************
+COMMENT_LINE $0396 our vectrex intro music... very short indeed :-)
+COMMENT_LINE $039C ****************************************************************************
+COMMENT_LINE $039C and our ROM music structures... so we spare ourselfs
+COMMENT_LINE $039C some of the runtime-initialization... and RAM...
+COMMENT $039C pointer to the notes
+COMMENT $039E what voice is to be used
+COMMENT $039F ADSR envelope table for whole notes
+COMMENT $03A1 ADSR envelope table for half notes
+COMMENT $03A3 ADSR envelope table for quarter notes
+COMMENT $03A5 ADSR envelope table for eighth notes
+COMMENT $03A7 ADSR envelope table for sixteenth notes
+COMMENT $03A9 pointer to the notes
+COMMENT $03AB what voice is to be used
+COMMENT $03AC ADSR envelope table for whole notes
+COMMENT $03AE ADSR envelope table for half notes
+COMMENT $03B0 ADSR envelope table for quarter notes
+COMMENT $03B2 ADSR envelope table for eighth notes
+COMMENT $03B4 ADSR envelope table for sixteenth notes
+COMMENT $03B6 pointer to the notes
+COMMENT $03B8 what voice is to be used
+COMMENT $03B9 ADSR envelope table for whole notes
+COMMENT $03BB ADSR envelope table for half notes
+COMMENT $03BD ADSR envelope table for quarter notes
+COMMENT $03BF ADSR envelope table for eighth notes
+COMMENT $03C1 ADSR envelope table for sixteenth notes
+RANGE $0000-$03C3 DP $D0
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$001D CHAR_DATA 12
+RANGE $001D-$001E DB_DATA 1
+RANGE $001E-$003F CODE
+RANGE $003F-$0040 DB_DATA 1
+RANGE $0040-$0041 DB_DATA 1
+RANGE $0041-$0042 DB_DATA 1
+RANGE $0042-$0043 DB_DATA 1
+RANGE $0043-$0044 DB_DATA 1
+RANGE $0044-$01EB CODE
+RANGE $01EB-$0205 DB_DATA 26
+RANGE $0205-$0215 DB_DATA 16
+RANGE $0215-$021D DB_DATA 8
+RANGE $021D-$0221 DB_DATA 4
+RANGE $0221-$0223 DB_DATA 2
+RANGE $0223-$023D DB_DATA 26
+RANGE $023D-$024D DB_DATA 16
+RANGE $024D-$0255 DB_DATA 8
+RANGE $0255-$0259 DB_DATA 4
+RANGE $0259-$025B DB_DATA 2
+RANGE $025B-$0275 DB_DATA 26
+RANGE $0275-$0285 DB_DATA 16
+RANGE $0285-$028D DB_DATA 8
+RANGE $028D-$0291 DB_DATA 4
+RANGE $0291-$0293 DB_DATA 2
+RANGE $0293-$0295 DB_DATA 2
+RANGE $0295-$0296 DB_DATA 1
+RANGE $0296-$0298 DB_DATA 2
+RANGE $0298-$029A DB_DATA 2
+RANGE $029A-$029C DB_DATA 2
+RANGE $029C-$029E DB_DATA 2
+RANGE $029E-$02A0 DB_DATA 2
+RANGE $02A0-$02A2 DB_DATA 2
+RANGE $02A2-$02A4 DB_DATA 2
+RANGE $02A4-$02A6 DB_DATA 2
+RANGE $02A6-$02A8 DB_DATA 2
+RANGE $02A8-$02AA DB_DATA 2
+RANGE $02AA-$02AC DB_DATA 2
+RANGE $02AC-$02AE DB_DATA 2
+RANGE $02AE-$02B0 DB_DATA 2
+RANGE $02B0-$02B2 DB_DATA 2
+RANGE $02B2-$02B4 DB_DATA 2
+RANGE $02B4-$02B6 DB_DATA 2
+RANGE $02B6-$02B8 DB_DATA 2
+RANGE $02B8-$02BA DB_DATA 2
+RANGE $02BA-$02BC DB_DATA 2
+RANGE $02BC-$02BE DB_DATA 2
+RANGE $02BE-$02C0 DB_DATA 2
+RANGE $02C0-$02C2 DB_DATA 2
+RANGE $02C2-$02C4 DB_DATA 2
+RANGE $02C4-$02C6 DB_DATA 2
+RANGE $02C6-$02C8 DB_DATA 2
+RANGE $02C8-$02CA DB_DATA 2
+RANGE $02CA-$02CC DB_DATA 2
+RANGE $02CC-$02CE DB_DATA 2
+RANGE $02CE-$02D0 DB_DATA 2
+RANGE $02D0-$02D2 DB_DATA 2
+RANGE $02D2-$02D4 DB_DATA 2
+RANGE $02D4-$02D6 DB_DATA 2
+RANGE $02D6-$02D8 DB_DATA 2
+RANGE $02D8-$02DA DB_DATA 2
+RANGE $02DA-$02DC DB_DATA 2
+RANGE $02DC-$02DE DB_DATA 2
+RANGE $02DE-$02E0 DB_DATA 2
+RANGE $02E0-$02E2 DB_DATA 2
+RANGE $02E2-$02E4 DB_DATA 2
+RANGE $02E4-$02E6 DB_DATA 2
+RANGE $02E6-$02E8 DB_DATA 2
+RANGE $02E8-$02EA DB_DATA 2
+RANGE $02EA-$02EC DB_DATA 2
+RANGE $02EC-$02EE DB_DATA 2
+RANGE $02EE-$02F0 DB_DATA 2
+RANGE $02F0-$02F2 DB_DATA 2
+RANGE $02F2-$02F4 DB_DATA 2
+RANGE $02F4-$02F6 DB_DATA 2
+RANGE $02F6-$02F8 DB_DATA 2
+RANGE $02F8-$02FA DB_DATA 2
+RANGE $02FA-$02FC DB_DATA 2
+RANGE $02FC-$02FE DB_DATA 2
+RANGE $02FE-$0300 DB_DATA 2
+RANGE $0300-$0302 DB_DATA 2
+RANGE $0302-$0304 DB_DATA 2
+RANGE $0304-$0306 DB_DATA 2
+RANGE $0306-$0308 DB_DATA 2
+RANGE $0308-$030A DB_DATA 2
+RANGE $030A-$030C DB_DATA 2
+RANGE $030C-$030E DB_DATA 2
+RANGE $030E-$0310 DB_DATA 2
+RANGE $0310-$0312 DB_DATA 2
+RANGE $0312-$0314 DB_DATA 2
+RANGE $0314-$0315 DB_DATA 1
+RANGE $0315-$0317 DB_DATA 2
+RANGE $0317-$0319 DB_DATA 2
+RANGE $0319-$031B DB_DATA 2
+RANGE $031B-$031D DB_DATA 2
+RANGE $031D-$031F DB_DATA 2
+RANGE $031F-$0321 DB_DATA 2
+RANGE $0321-$0323 DB_DATA 2
+RANGE $0323-$0325 DB_DATA 2
+RANGE $0325-$0327 DB_DATA 2
+RANGE $0327-$0329 DB_DATA 2
+RANGE $0329-$032B DB_DATA 2
+RANGE $032B-$032D DB_DATA 2
+RANGE $032D-$032F DB_DATA 2
+RANGE $032F-$0331 DB_DATA 2
+RANGE $0331-$0333 DB_DATA 2
+RANGE $0333-$0335 DB_DATA 2
+RANGE $0335-$0337 DB_DATA 2
+RANGE $0337-$0339 DB_DATA 2
+RANGE $0339-$033B DB_DATA 2
+RANGE $033B-$033D DB_DATA 2
+RANGE $033D-$033F DB_DATA 2
+RANGE $033F-$0341 DB_DATA 2
+RANGE $0341-$0343 DB_DATA 2
+RANGE $0343-$0345 DB_DATA 2
+RANGE $0345-$0347 DB_DATA 2
+RANGE $0347-$0349 DB_DATA 2
+RANGE $0349-$034B DB_DATA 2
+RANGE $034B-$034D DB_DATA 2
+RANGE $034D-$034F DB_DATA 2
+RANGE $034F-$0351 DB_DATA 2
+RANGE $0351-$0353 DB_DATA 2
+RANGE $0353-$0355 DB_DATA 2
+RANGE $0355-$0357 DB_DATA 2
+RANGE $0357-$0359 DB_DATA 2
+RANGE $0359-$035B DB_DATA 2
+RANGE $035B-$035D DB_DATA 2
+RANGE $035D-$035F DB_DATA 2
+RANGE $035F-$0361 DB_DATA 2
+RANGE $0361-$0363 DB_DATA 2
+RANGE $0363-$0365 DB_DATA 2
+RANGE $0365-$0367 DB_DATA 2
+RANGE $0367-$0369 DB_DATA 2
+RANGE $0369-$036B DB_DATA 2
+RANGE $036B-$036D DB_DATA 2
+RANGE $036D-$036F DB_DATA 2
+RANGE $036F-$0371 DB_DATA 2
+RANGE $0371-$0373 DB_DATA 2
+RANGE $0373-$0375 DB_DATA 2
+RANGE $0375-$0377 DB_DATA 2
+RANGE $0377-$0379 DB_DATA 2
+RANGE $0379-$037B DB_DATA 2
+RANGE $037B-$037D DB_DATA 2
+RANGE $037D-$037F DB_DATA 2
+RANGE $037F-$0381 DB_DATA 2
+RANGE $0381-$0383 DB_DATA 2
+RANGE $0383-$0385 DB_DATA 2
+RANGE $0385-$0387 DB_DATA 2
+RANGE $0387-$0389 DB_DATA 2
+RANGE $0389-$038B DB_DATA 2
+RANGE $038B-$038D DB_DATA 2
+RANGE $038D-$038F DB_DATA 2
+RANGE $038F-$0391 DB_DATA 2
+RANGE $0391-$0393 DB_DATA 2
+RANGE $0393-$0395 DB_DATA 2
+RANGE $0395-$0396 DB_DATA 1
+RANGE $0396-$039A DW_DATA 2
+RANGE $039A-$039C DB_DATA 2
+RANGE $039C-$039E DW_DATA 1
+RANGE $039E-$039F DB_DATA 1
+RANGE $039F-$03A1 DW_DATA 1
+RANGE $03A1-$03A3 DW_DATA 1
+RANGE $03A3-$03A5 DW_DATA 1
+RANGE $03A5-$03A7 DW_DATA 1
+RANGE $03A7-$03A9 DW_DATA 1
+RANGE $03A9-$03AB DW_DATA 1
+RANGE $03AB-$03AC DB_DATA 1
+RANGE $03AC-$03AE DW_DATA 1
+RANGE $03AE-$03B0 DW_DATA 1
+RANGE $03B0-$03B2 DW_DATA 1
+RANGE $03B2-$03B4 DW_DATA 1
+RANGE $03B4-$03B6 DW_DATA 1
+RANGE $03B6-$03B8 DW_DATA 1
+RANGE $03B8-$03B9 DB_DATA 1
+RANGE $03B9-$03BB DW_DATA 1
+RANGE $03BB-$03BD DW_DATA 1
+RANGE $03BD-$03BF DW_DATA 1
+RANGE $03BF-$03C1 DW_DATA 1
+RANGE $03C1-$03C3 DW_DATA 1
+

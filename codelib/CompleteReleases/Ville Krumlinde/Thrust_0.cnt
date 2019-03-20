@@ -2100,9 +2100,6 @@ COMMENT_LINE $0000 PF33B: lda   #0x04
 COMMENT_LINE $0000 PF341: deca
 COMMENT_LINE $0000 bne   PF341
 COMMENT_LINE $0000 move pen to d
-COMMENT_LINE $0000 inline convert ab to abs
-COMMENT_LINE $0000 the following is just to calc how long to wait for finish
-COMMENT $0000 end inline
 COMMENT_LINE $0000 From vectrex.txt
 COMMENT_LINE $0000 "(WARNING! high intensity and long Vec_Dot_Dwell might result in a burn in on
 COMMENT_LINE $0000 your vectrex monitor, be carefull while experimenting with this!)"
@@ -2110,7 +2107,6 @@ COMMENT_LINE $0000 ldb   #dot_dwell         ;dot_dwell is a value for how long t
 COMMENT_LINE $0000 PF2CC: decb                     ;dwell is not the same as intensity
 COMMENT_LINE $0000 bne   PF2CC
 COMMENT $0000 removed in 1.01
-COMMENT_LINE $0000 sty ,s      ;crash
 COMMENT_LINE $0000 System Executive Entry Points
 COMMENT_LINE $0000 System RAM locations
 COMMENT_LINE $0000 *****************************
@@ -3181,8 +3177,6 @@ COMMENT_LINE $07F5 PF33B: lda   #0x04
 COMMENT_LINE $07F5 PF341: deca
 COMMENT_LINE $07F5 bne   PF341
 FORCE_SYMBOL $07F5 LocalB2
-COMMENT $07F7 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $07F7 sta   $C827
 FORCE_NO_SYMBOL $07F7
 FORCE_NO_SYMBOL $07F9
 FORCE_NO_SYMBOL $07FC
@@ -3224,8 +3218,6 @@ FORCE_NO_SYMBOL $0840
 FORCE_SYMBOL $0842 LocalB2
 FORCE_SYMBOL $0844 LocalB1
 FORCE_NO_SYMBOL $0846
-COMMENT $0848 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $0848 sta   $C827
 FORCE_NO_SYMBOL $0848
 FORCE_NO_SYMBOL $084A
 FORCE_NO_SYMBOL $084D
@@ -3327,7 +3319,6 @@ FORCE_SYMBOL $0904 FxGetScreenCoords
 FORCE_SYMBOL $0909 reset0ref
 COMMENT $090C if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $090C
-COMMENT_LINE $090E sta   $C827
 FORCE_NO_SYMBOL $090E
 FORCE_NO_SYMBOL $0910
 FORCE_NO_SYMBOL $0913
@@ -3340,7 +3331,6 @@ FORCE_SYMBOL $0922 Pattern
 FORCE_SYMBOL $0925 DrawScale
 FORCE_SYMBOL $0927 LoopCounterLow
 FORCE_NO_SYMBOL $092A
-COMMENT $0933 if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $0933
 FORCE_SYMBOL $0937 FxMoveDrawPattern
 COMMENT_LINE $093A Draw dots rising from the fuelcell
@@ -3381,8 +3371,6 @@ FORCE_SYMBOL $097E rot_vec_list2
 FORCE_SYMBOL $0981 reset0ref
 FORCE_SYMBOL $0984 LocalB1
 FORCE_NO_SYMBOL $0986
-COMMENT $0988 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $0988 sta   $C827
 FORCE_NO_SYMBOL $0988
 FORCE_NO_SYMBOL $098A
 FORCE_NO_SYMBOL $098D
@@ -3690,7 +3678,6 @@ FORCE_SYMBOL $0CFD DemoMode
 COMMENT $0D01 read input from recorded demo data
 FORCE_SYMBOL $0D01 Ship_DemoControl
 FORCE_SYMBOL $0D08 LocalInput
-COMMENT_LINE $0D0A Unused instruction signal VecxMod to sample user input.
 COMMENT $0D0A lock thrust, button 4
 FORCE_SYMBOL $0D0A GameMode
 FORCE_SYMBOL $0D0C HardGame
@@ -3905,7 +3892,6 @@ COMMENT $0F6B Set pen position to value of d register
 FORCE_SYMBOL $0F6B move_pen7f_to_d
 COMMENT $0F6E if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $0F6E
-COMMENT_LINE $0F70 sta   $C827
 FORCE_NO_SYMBOL $0F70
 FORCE_NO_SYMBOL $0F72
 FORCE_NO_SYMBOL $0F75
@@ -3923,8 +3909,6 @@ FORCE_SYMBOL $0F89 LoopCounterLow
 COMMENT_LINE $0F8C asra
 FORCE_NO_SYMBOL $0F8F
 COMMENT_LINE $0F91 adda #40
-COMMENT $0F91 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $0F91 sta   $C827
 FORCE_NO_SYMBOL $0F91
 FORCE_NO_SYMBOL $0F93
 FORCE_NO_SYMBOL $0F96
@@ -3957,8 +3941,6 @@ COMMENT $0FB9 draw shield
 FORCE_NO_SYMBOL $0FB9
 FORCE_SYMBOL $0FBB LoopCounterLow
 FORCE_NO_SYMBOL $0FBE
-COMMENT $0FC4 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $0FC4 sta   $C827
 FORCE_NO_SYMBOL $0FC4
 FORCE_NO_SYMBOL $0FC6
 FORCE_NO_SYMBOL $0FC9
@@ -3987,7 +3969,6 @@ COMMENT $100B Reset pen
 FORCE_SYMBOL $100B reset0ref
 COMMENT $100E if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $100E
-COMMENT_LINE $1010 sta   $C827
 FORCE_NO_SYMBOL $1010
 FORCE_NO_SYMBOL $1012
 FORCE_NO_SYMBOL $1015
@@ -3998,7 +3979,6 @@ COMMENT $101B Set pen position to value of d register
 FORCE_SYMBOL $101B move_pen7f_to_d
 FORCE_SYMBOL $101E LoopCounterLow
 FORCE_NO_SYMBOL $1029
-COMMENT $102B if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $102B
 FORCE_NO_SYMBOL $102D
 FORCE_SYMBOL $102F Pattern
@@ -4009,7 +3989,6 @@ FORCE_SYMBOL $1039 GameFlags1
 FORCE_SYMBOL $103C HasOrbFlag
 COMMENT $1040 if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $1040
-COMMENT_LINE $1042 sta   $C827
 FORCE_NO_SYMBOL $1042
 FORCE_NO_SYMBOL $1044
 FORCE_NO_SYMBOL $1047
@@ -4048,7 +4027,6 @@ FORCE_SYMBOL $10A9 PullFlag
 COMMENT $10AD Draw tractor beam from ship to orb-platform
 COMMENT $10AD if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $10AD
-COMMENT_LINE $10AF sta   $C827
 FORCE_NO_SYMBOL $10AF
 FORCE_NO_SYMBOL $10B1
 FORCE_NO_SYMBOL $10B4
@@ -4242,21 +4220,6 @@ FORCE_NO_SYMBOL $1A1C
 FORCE_NO_SYMBOL $1A20
 FORCE_SYMBOL $1A22 FrameCounter
 FORCE_SYMBOL $1A24 FrameCounter
-COMMENT_LINE $1A26 Atari 2600 code
-COMMENT $1A26 3
-COMMENT $1A26 2�
-COMMENT $1A26 2         reset Cnt3
-COMMENT $1A26 2
-COMMENT $1A26 2         increase Cnt3
-COMMENT $1A26 3
-COMMENT $1A26 2
-COMMENT $1A26 2�
-COMMENT $1A26 2         reset Cnt64
-COMMENT $1A26 2
-COMMENT $1A26 2         increase Cnt64
-COMMENT $1A26 2
-COMMENT $1A26 3
-COMMENT $1A26 3 = 28-32
 COMMENT_LINE $1A27 *****************
 COMMENT $1A27 no display in demomode
 FORCE_SYMBOL $1A27 DemoMode
@@ -4601,7 +4564,6 @@ COMMENT_LINE $1DFA *****************
 COMMENT_LINE $1DFA DP must be D0
 COMMENT $1DFC if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $1DFC
-COMMENT_LINE $1DFE sta   $C827
 FORCE_NO_SYMBOL $1DFE
 FORCE_NO_SYMBOL $1E00
 FORCE_NO_SYMBOL $1E03
@@ -4622,7 +4584,6 @@ FORCE_SYMBOL $1E28 GameFlags1
 FORCE_SYMBOL $1E2B HasOrbFlag
 COMMENT $1E2F if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $1E2F
-COMMENT_LINE $1E31 sta   $C827
 FORCE_NO_SYMBOL $1E31
 FORCE_NO_SYMBOL $1E33
 FORCE_NO_SYMBOL $1E36
@@ -4660,8 +4621,6 @@ COMMENT_LINE $1E87 lda #$40
 COMMENT_LINE $1E87 suba LocalW1,s
 FORCE_SYMBOL $1E87 LoopCounterLow
 FORCE_NO_SYMBOL $1E92
-COMMENT $1E94 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $1E94 sta   $C827
 FORCE_NO_SYMBOL $1E94
 FORCE_NO_SYMBOL $1E96
 FORCE_NO_SYMBOL $1E99
@@ -4680,7 +4639,6 @@ FORCE_SYMBOL $1EC2 LoopCounterLow
 FORCE_NO_SYMBOL $1EC5
 COMMENT $1EC9 if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $1EC9
-COMMENT_LINE $1ECB sta   $C827
 FORCE_NO_SYMBOL $1ECB
 FORCE_NO_SYMBOL $1ECD
 FORCE_NO_SYMBOL $1ED0
@@ -4709,7 +4667,6 @@ COMMENT_LINE $0000 5 W is max, add more if needed
 COMMENT_LINE $1F0E DP must be D0
 COMMENT $1F0E if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $1F0E
-COMMENT_LINE $1F10 sta   $C827
 FORCE_NO_SYMBOL $1F10
 FORCE_NO_SYMBOL $1F12
 FORCE_NO_SYMBOL $1F15
@@ -4733,7 +4690,6 @@ COMMENT $1F4B declare buffer
 COMMENT_LINE $1F4B 5 W is max, add more if needed
 COMMENT $1F4D if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $1F4D
-COMMENT_LINE $1F4F sta   $C827
 FORCE_NO_SYMBOL $1F4F
 FORCE_NO_SYMBOL $1F51
 FORCE_NO_SYMBOL $1F54
@@ -4783,7 +4739,6 @@ COMMENT $1FB0 amount to open door
 FORCE_SYMBOL $1FB0 LocalOpen
 COMMENT $1FB2 if argument exists, load into a, otherwise use current a
 FORCE_SYMBOL $1FB2 WallIntensity
-COMMENT_LINE $1FB4 sta   $C827
 FORCE_NO_SYMBOL $1FB4
 FORCE_NO_SYMBOL $1FB6
 FORCE_NO_SYMBOL $1FB9
@@ -4933,8 +4888,6 @@ FORCE_SYMBOL $2141 reset0ref
 COMMENT $2144 if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $2144
 FORCE_NO_SYMBOL $2146
-COMMENT $214A if argument exists, load into a, otherwise use current a
-COMMENT_LINE $214A sta   $C827
 FORCE_NO_SYMBOL $214A
 FORCE_NO_SYMBOL $214C
 FORCE_NO_SYMBOL $214F
@@ -4990,8 +4943,6 @@ FORCE_SYMBOL $21AA reset0ref
 COMMENT $21AD if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $21AD
 FORCE_NO_SYMBOL $21AF
-COMMENT $21B3 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $21B3 sta   $C827
 FORCE_NO_SYMBOL $21B3
 FORCE_NO_SYMBOL $21B5
 FORCE_NO_SYMBOL $21B8
@@ -5028,7 +4979,6 @@ FORCE_NO_SYMBOL $21E7
 FORCE_NO_SYMBOL $21E9
 FORCE_NO_SYMBOL $21EB
 FORCE_NO_SYMBOL $21ED
-COMMENT_LINE $21EF need to wait for long lines (third param=1)
 COMMENT $21EF pen on
 FORCE_NO_SYMBOL $21EF
 FORCE_NO_SYMBOL $21F1
@@ -5037,53 +4987,44 @@ FORCE_NO_SYMBOL $21F8
 FORCE_NO_SYMBOL $21FA
 FORCE_NO_SYMBOL $21FC
 FORCE_NO_SYMBOL $21FE
-COMMENT_LINE $2200 need to wait for long lines (third param=1)
 FORCE_NO_SYMBOL $2203
 FORCE_NO_SYMBOL $2205
 FORCE_NO_SYMBOL $2207
 FORCE_NO_SYMBOL $2209
 FORCE_NO_SYMBOL $220B
-COMMENT_LINE $220D need to wait for long lines (third param=1)
 FORCE_NO_SYMBOL $2210
 FORCE_NO_SYMBOL $2212
 FORCE_NO_SYMBOL $2214
 FORCE_NO_SYMBOL $2216
 FORCE_NO_SYMBOL $2218
-COMMENT_LINE $221A need to wait for long lines (third param=1)
 FORCE_NO_SYMBOL $221D
 FORCE_NO_SYMBOL $221F
 FORCE_NO_SYMBOL $2221
 FORCE_NO_SYMBOL $2223
 FORCE_NO_SYMBOL $2225
-COMMENT_LINE $2227 need to wait for long lines (third param=1)
 FORCE_NO_SYMBOL $222A
 FORCE_NO_SYMBOL $222C
 FORCE_NO_SYMBOL $222E
 FORCE_NO_SYMBOL $2230
 FORCE_NO_SYMBOL $2232
-COMMENT_LINE $2234 need to wait for long lines (third param=1)
 FORCE_NO_SYMBOL $2237
 FORCE_NO_SYMBOL $2239
 FORCE_NO_SYMBOL $223B
 FORCE_NO_SYMBOL $223D
 FORCE_NO_SYMBOL $223F
-COMMENT_LINE $2241 need to wait for long lines (third param=1)
 FORCE_NO_SYMBOL $2244
 FORCE_NO_SYMBOL $2246
 FORCE_NO_SYMBOL $2248
 FORCE_NO_SYMBOL $224A
 FORCE_NO_SYMBOL $224C
-COMMENT_LINE $224E need to wait for long lines (third param=1)
 FORCE_NO_SYMBOL $2251
 FORCE_NO_SYMBOL $2253
 FORCE_NO_SYMBOL $2255
 FORCE_NO_SYMBOL $2257
 FORCE_NO_SYMBOL $2259
-COMMENT_LINE $225B need to wait for long lines (third param=1)
 COMMENT $225B pen off
 FORCE_NO_SYMBOL $225B
 COMMENT_LINE $225E *****************
-COMMENT $225E if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $225E
 COMMENT_LINE $2260 negative y is down, negative x is left
 FORCE_NO_SYMBOL $2263
@@ -5457,7 +5398,6 @@ FORCE_NO_SYMBOL $26AD
 FORCE_NO_SYMBOL $26AF
 COMMENT $26B1 if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $26B1
-COMMENT_LINE $26B3 sta   $C827
 FORCE_NO_SYMBOL $26B3
 FORCE_NO_SYMBOL $26B5
 FORCE_NO_SYMBOL $26B8
@@ -5489,14 +5429,6 @@ COMMENT_LINE $26DD bne   PF2CC
 FORCE_NO_SYMBOL $26DD
 COMMENT_LINE $26DF jsr DrawBulletAtCurrentPosition
 COMMENT_LINE $26E4 *****************
-COMMENT $26E4 offset y
-COMMENT $26E4 offset x
-COMMENT $26E4 CALL: (VOIDmode) _CohenSutherlandClip (11 bytes)
-COMMENT_LINE $26E4 end of drawlist
-COMMENT $26E4 linecount
-COMMENT $26E4 linetype, 0=vert, 1=horiz, 2=slope
-COMMENT $26E4 x0,y0
-COMMENT $26E4 x1,y1
 COMMENT_LINE $0000 *****************
 COMMENT_LINE $26E4 dec Lives, beq GameOver
 COMMENT_LINE $26E4 om Fuel=0, beq GameOver
@@ -5850,8 +5782,6 @@ COMMENT_LINE $2A8A If no landscape, only draw when shield is used
 FORCE_SYMBOL $2A8A GameFlags1
 FORCE_SYMBOL $2A8D ShieldFlag
 COMMENT_LINE $2A9A *****************
-COMMENT $2A9A if argument exists, load into a, otherwise use current a
-COMMENT_LINE $2A9A sta   $C827
 FORCE_NO_SYMBOL $2A9A
 FORCE_NO_SYMBOL $2A9C
 FORCE_NO_SYMBOL $2A9F
@@ -5902,11 +5832,6 @@ FORCE_NO_SYMBOL $2AEC
 FORCE_NO_SYMBOL $2AEE
 COMMENT_LINE $2AF2 nop
 FORCE_NO_SYMBOL $2AF2
-COMMENT_LINE $2AF7 db -1, 127,-127   ;set pen
-COMMENT_LINE $2AF7 db 1,  -50,50     ;draw line
-COMMENT_LINE $2AF7 db -1, -120,-120   ;set pen
-COMMENT_LINE $2AF7 db 1,  25,50     ;draw line
-COMMENT $2AF7 end list
 COMMENT_LINE $0000 *****************
 COMMENT $2AF7 do nothing if already exploding
 FORCE_SYMBOL $2AF7 GameFlags1
@@ -6144,8 +6069,6 @@ FORCE_NO_SYMBOL $2D28
 COMMENT_LINE $2D2C PF33B: lda   #0x04
 COMMENT_LINE $2D2C PF341: deca
 COMMENT_LINE $2D2C bne   PF341
-COMMENT $2D2E if argument exists, load into a, otherwise use current a
-COMMENT_LINE $2D2E sta   $C827
 FORCE_NO_SYMBOL $2D2E
 FORCE_NO_SYMBOL $2D30
 FORCE_NO_SYMBOL $2D33
@@ -6580,19 +6503,15 @@ COMMENT $3AC2 count
 COMMENT $3AC7 count
 COMMENT $3AD0 count
 COMMENT $3AD6 count
-COMMENT $3AD7 left wall
 COMMENT $3AD7 right wall
-COMMENT $3ADC left wall
 COMMENT $3ADC right wall
 COMMENT $3E93 count
 COMMENT $3EB7 count
 COMMENT $3ED8 count
 COMMENT $3EE3 count
 COMMENT $3EE9 count
-COMMENT $3EEA left wall
 COMMENT $3EEA right wall
 COMMENT $3EEF left wall
-COMMENT $3EF1 right wall
 COMMENT $450C count
 COMMENT_LINE $450D 0=NE,1=NW,2=SE,3=SW
 COMMENT $453F count
@@ -6600,27 +6519,21 @@ COMMENT $4548 count
 COMMENT $4553 count
 COMMENT_LINE $4559 **todo horiz pointy -> door
 COMMENT $4559 count
-COMMENT $455A left wall
 COMMENT $455A right wall
 COMMENT $455F left wall
-COMMENT $4561 right wall
 COMMENT $4730 count
 COMMENT $4754 count
 COMMENT $4761 count
 COMMENT $4768 count
 COMMENT $4782 count
 COMMENT $4783 left wall
-COMMENT $4785 right wall
-COMMENT $4788 left wall
 COMMENT $4788 right wall
-COMMENT $478D left wall
 COMMENT $478D right wall
 COMMENT $4B16 count
 COMMENT $4B3F count
 COMMENT $4B44 count
 COMMENT $4B53 count
 COMMENT $4B59 count
-COMMENT $4B5A left wall
 COMMENT $4B5A right wall
 COMMENT $4B5F if Level1Only
 COMMENT $4B5F reset mapping
@@ -6695,7 +6608,6 @@ FORCE_NO_SYMBOL $4CC8
 FORCE_NO_SYMBOL $4CCA
 COMMENT $4CCC if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $4CCC
-COMMENT_LINE $4CCE sta   $C827
 FORCE_NO_SYMBOL $4CCE
 FORCE_NO_SYMBOL $4CD0
 FORCE_NO_SYMBOL $4CD3
@@ -6717,8 +6629,6 @@ COMMENT $4CF3 if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $4CF3
 FORCE_NO_SYMBOL $4CF5
 FORCE_SYMBOL $4CF7 LocalB1
-COMMENT $4CF9 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $4CF9 sta   $C827
 FORCE_NO_SYMBOL $4CF9
 FORCE_NO_SYMBOL $4CFB
 FORCE_NO_SYMBOL $4CFE
@@ -7051,7 +6961,6 @@ FORCE_SYMBOL $53B3 LocalB1
 FORCE_SYMBOL $53B5 reset0ref
 COMMENT $53B8 if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $53B8
-COMMENT_LINE $53BA sta   $C827
 FORCE_NO_SYMBOL $53BA
 FORCE_NO_SYMBOL $53BC
 FORCE_NO_SYMBOL $53BF
@@ -7060,7 +6969,6 @@ FORCE_SYMBOL $53C3 LocalB2
 FORCE_SYMBOL $53C5 SineTable
 FORCE_NO_SYMBOL $53CB
 FORCE_NO_SYMBOL $53CD
-COMMENT $53CF if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $53CF
 FORCE_SYMBOL $53D1 RefuelVectorList
 FORCE_SYMBOL $53D6 FxMoveDrawPattern
@@ -7459,8 +7367,6 @@ FORCE_NO_SYMBOL $562A
 FORCE_NO_SYMBOL $562E
 FORCE_NO_SYMBOL $563B
 FORCE_SYMBOL $563F move_pen7f_to_d
-COMMENT $5644 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $5644 sta   $C827
 FORCE_NO_SYMBOL $5644
 FORCE_NO_SYMBOL $5646
 FORCE_NO_SYMBOL $5649
@@ -7671,7 +7577,6 @@ COMMENT $585C Set pen position to value of d register
 FORCE_SYMBOL $585C move_pen7f_to_d
 COMMENT $585F if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $585F
-COMMENT_LINE $5861 sta   $C827
 FORCE_NO_SYMBOL $5861
 FORCE_NO_SYMBOL $5863
 FORCE_NO_SYMBOL $5866
@@ -7690,8 +7595,6 @@ COMMENT $5883 call rom
 FORCE_SYMBOL $5883 random
 FORCE_NO_SYMBOL $5886
 FORCE_NO_SYMBOL $5888
-COMMENT $588A if argument exists, load into a, otherwise use current a
-COMMENT_LINE $588A sta   $C827
 FORCE_NO_SYMBOL $588A
 FORCE_NO_SYMBOL $588C
 FORCE_NO_SYMBOL $588F
@@ -7714,8 +7617,6 @@ COMMENT_LINE $58A7 vary pattern and intensity for each shot
 FORCE_NO_SYMBOL $58A7
 FORCE_SYMBOL $58AC Pattern
 FORCE_NO_SYMBOL $58AF
-COMMENT $58B1 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $58B1 sta   $C827
 FORCE_NO_SYMBOL $58B1
 FORCE_NO_SYMBOL $58B3
 FORCE_NO_SYMBOL $58B6
@@ -7936,7 +7837,6 @@ COMMENT_LINE $5B89 5 W is max, add more if needed
 COMMENT_LINE $5B8B DP must be D0
 COMMENT $5B8B if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $5B8B
-COMMENT_LINE $5B8D sta   $C827
 FORCE_NO_SYMBOL $5B8D
 FORCE_NO_SYMBOL $5B8F
 FORCE_NO_SYMBOL $5B92
@@ -7981,7 +7881,6 @@ COMMENT $5BEB Reset pen
 FORCE_SYMBOL $5BEB reset0ref
 COMMENT $5BEE if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $5BEE
-COMMENT_LINE $5BF0 sta   $C827
 FORCE_NO_SYMBOL $5BF0
 FORCE_NO_SYMBOL $5BF2
 FORCE_NO_SYMBOL $5BF5
@@ -8150,102 +8049,56 @@ FORCE_SYMBOL $5D7D LocalDist
 FORCE_SYMBOL $5D7F LocalLines
 COMMENT $5D81 write result buffer
 FORCE_SYMBOL $5D81 WalkerDrawList
-COMMENT_LINE $5D86 Avoid extra byte for offsets>$f
-COMMENT_LINE $5D86 Accumulate offset to x, reset offset
 COMMENT $5D86 write top-left coords
 FORCE_SYMBOL $5D86 weWalkerY
 FORCE_SYMBOL $5D8B _off
-COMMENT_LINE $5D8D Avoid extra byte for offsets>$f
-COMMENT_LINE $5D8D Accumulate offset to x, reset offset
 COMMENT $5D8D also store visible base coords for hittests
 FORCE_SYMBOL $5D90 VisibleBaseY
 FORCE_SYMBOL $5D93 weWalkerX
-COMMENT_LINE $5D9A Avoid extra byte for offsets>$f
-COMMENT_LINE $5D9A Accumulate offset to x, reset offset
 COMMENT $5D9A also store visible base coords for hittests
 FORCE_SYMBOL $5D9D VisibleBaseX
 COMMENT_LINE $5DA0 Linecount
 FORCE_NO_SYMBOL $5DA0
 COMMENT_LINE $5DA4 Base top
 FORCE_NO_SYMBOL $5DA4
-COMMENT_LINE $5DAD Avoid extra byte for offsets>$f
-COMMENT_LINE $5DAD Accumulate offset to x, reset offset
-COMMENT_LINE $5DB2 Avoid extra byte for offsets>$f
-COMMENT_LINE $5DB2 Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5DB2
 COMMENT_LINE $5DBB Avoid extra byte for offsets>$f
 COMMENT_LINE $5DBB Accumulate offset to x, reset offset
-COMMENT_LINE $5DC2 Avoid extra byte for offsets>$f
-COMMENT_LINE $5DC2 Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5DC2
 FORCE_SYMBOL $5DC4 _off
-COMMENT_LINE $5DCB Avoid extra byte for offsets>$f
-COMMENT_LINE $5DCB Accumulate offset to x, reset offset
-COMMENT_LINE $5DD0 Avoid extra byte for offsets>$f
-COMMENT_LINE $5DD0 Accumulate offset to x, reset offset
 COMMENT_LINE $0000 Base lower
 FORCE_NO_SYMBOL $5DD0
-COMMENT_LINE $5DD9 Avoid extra byte for offsets>$f
-COMMENT_LINE $5DD9 Accumulate offset to x, reset offset
-COMMENT_LINE $5DDE Avoid extra byte for offsets>$f
-COMMENT_LINE $5DDE Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5DDE
 COMMENT_LINE $5DE7 Avoid extra byte for offsets>$f
 COMMENT_LINE $5DE7 Accumulate offset to x, reset offset
-COMMENT_LINE $5DEE Avoid extra byte for offsets>$f
-COMMENT_LINE $5DEE Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5DEE
 FORCE_SYMBOL $5DF0 _off
-COMMENT_LINE $5DF7 Avoid extra byte for offsets>$f
-COMMENT_LINE $5DF7 Accumulate offset to x, reset offset
-COMMENT_LINE $5DFC Avoid extra byte for offsets>$f
-COMMENT_LINE $5DFC Accumulate offset to x, reset offset
 COMMENT_LINE $0000 Legs
 COMMENT_LINE $5DFC Left leg
 FORCE_NO_SYMBOL $5DFC
-COMMENT_LINE $5E05 Avoid extra byte for offsets>$f
-COMMENT_LINE $5E05 Accumulate offset to x, reset offset
 FORCE_SYMBOL $5E08 LocalDist
-COMMENT_LINE $5E0C Avoid extra byte for offsets>$f
-COMMENT_LINE $5E0C Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5E0C
 FORCE_SYMBOL $5E13 LocalDist
 COMMENT_LINE $5E17 Avoid extra byte for offsets>$f
 COMMENT_LINE $5E17 Accumulate offset to x, reset offset
 FORCE_SYMBOL $5E1C LocalDist
-COMMENT_LINE $5E20 Avoid extra byte for offsets>$f
-COMMENT_LINE $5E20 Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5E20
 FORCE_SYMBOL $5E22 _off
-COMMENT_LINE $5E29 Avoid extra byte for offsets>$f
-COMMENT_LINE $5E29 Accumulate offset to x, reset offset
 FORCE_SYMBOL $5E2C LocalDist
-COMMENT_LINE $5E30 Avoid extra byte for offsets>$f
-COMMENT_LINE $5E30 Accumulate offset to x, reset offset
 COMMENT_LINE $0000 Right leg
 FORCE_NO_SYMBOL $5E30
 FORCE_SYMBOL $5E32 LocalDist
 FORCE_SYMBOL $5E34 LocalDist
 FORCE_NO_SYMBOL $5E36
-COMMENT_LINE $5E3F Avoid extra byte for offsets>$f
-COMMENT_LINE $5E3F Accumulate offset to x, reset offset
 FORCE_SYMBOL $5E42 LocalDist
-COMMENT_LINE $5E46 Avoid extra byte for offsets>$f
-COMMENT_LINE $5E46 Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5E46
 FORCE_SYMBOL $5E4D LocalDist
 COMMENT_LINE $5E51 Avoid extra byte for offsets>$f
 COMMENT_LINE $5E51 Accumulate offset to x, reset offset
 FORCE_SYMBOL $5E56 LocalDist
-COMMENT_LINE $5E5A Avoid extra byte for offsets>$f
-COMMENT_LINE $5E5A Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5E5A
 FORCE_SYMBOL $5E5C _off
-COMMENT_LINE $5E63 Avoid extra byte for offsets>$f
-COMMENT_LINE $5E63 Accumulate offset to x, reset offset
 FORCE_SYMBOL $5E66 LocalDist
-COMMENT_LINE $5E6A Avoid extra byte for offsets>$f
-COMMENT_LINE $5E6A Accumulate offset to x, reset offset
 FORCE_SYMBOL $5E6A LocalLines
 COMMENT $5E6C intensity
 FORCE_SYMBOL $5E6C LocalInt
@@ -8266,24 +8119,16 @@ COMMENT $5E82 add bounce
 FORCE_SYMBOL $5E82 LocalDist
 COMMENT $5E84 add an offset from base top
 FORCE_SYMBOL $5E86 _off
-COMMENT_LINE $5E88 Avoid extra byte for offsets>$f
-COMMENT_LINE $5E88 Accumulate offset to x, reset offset
 FORCE_SYMBOL $5E88 zcHalfHeadH
 COMMENT $5E8A also store visible head center coords for hittests
 FORCE_SYMBOL $5E8A VisibleHeadY
 FORCE_SYMBOL $5E8D weWalkerX
 FORCE_SYMBOL $5E92 WalkerBaseW
-COMMENT_LINE $5E97 Avoid extra byte for offsets>$f
-COMMENT_LINE $5E97 Accumulate offset to x, reset offset
 COMMENT $5E9A also store visible head center coords for hittests
 FORCE_SYMBOL $5E9A VisibleHeadX
 COMMENT_LINE $5E9D Linecount for head
 FORCE_NO_SYMBOL $5E9D
 FORCE_NO_SYMBOL $5EA1
-COMMENT_LINE $5EAA Avoid extra byte for offsets>$f
-COMMENT_LINE $5EAA Accumulate offset to x, reset offset
-COMMENT_LINE $5EAF Avoid extra byte for offsets>$f
-COMMENT_LINE $5EAF Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5EAF
 FORCE_SYMBOL $5EB4 zcHeadH
 FORCE_SYMBOL $5EB6 HeadSlopeH
@@ -8291,27 +8136,15 @@ COMMENT_LINE $5EBA Avoid extra byte for offsets>$f
 COMMENT_LINE $5EBA Accumulate offset to x, reset offset
 FORCE_SYMBOL $5EBC zcHeadH
 FORCE_SYMBOL $5EBE HeadSlopeW
-COMMENT_LINE $5EC2 Avoid extra byte for offsets>$f
-COMMENT_LINE $5EC2 Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5EC2
 FORCE_SYMBOL $5EC4 _off
 FORCE_SYMBOL $5EC6 HeadSlopeW
-COMMENT_LINE $5ECA Avoid extra byte for offsets>$f
-COMMENT_LINE $5ECA Accumulate offset to x, reset offset
 FORCE_SYMBOL $5ECA HeadW
-COMMENT_LINE $5ECE Avoid extra byte for offsets>$f
-COMMENT_LINE $5ECE Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5ECE
 FORCE_SYMBOL $5ED2 HeadW
-COMMENT_LINE $5ED6 Avoid extra byte for offsets>$f
-COMMENT_LINE $5ED6 Accumulate offset to x, reset offset
-COMMENT_LINE $5EDB Avoid extra byte for offsets>$f
-COMMENT_LINE $5EDB Accumulate offset to x, reset offset
 FORCE_NO_SYMBOL $5EDB
 COMMENT_LINE $5EE4 Avoid extra byte for offsets>$f
 COMMENT_LINE $5EE4 Accumulate offset to x, reset offset
-COMMENT_LINE $5EEB Avoid extra byte for offsets>$f
-COMMENT_LINE $5EEB Accumulate offset to x, reset offset
 FORCE_SYMBOL $5EEB LocalLines
 COMMENT $5EED intensity
 FORCE_SYMBOL $5EED LocalInt
@@ -8323,7 +8156,6 @@ COMMENT_LINE $5EF6 5 W is max, add more if needed
 COMMENT_LINE $5EF8 DP must be D0
 COMMENT $5EF8 if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $5EF8
-COMMENT_LINE $5EFA sta   $C827
 FORCE_NO_SYMBOL $5EFA
 FORCE_NO_SYMBOL $5EFC
 FORCE_NO_SYMBOL $5EFF
@@ -8614,7 +8446,6 @@ COMMENT_LINE $620D mMove_pen_d_Quick
 COMMENT_LINE $620D jsr move_pen7f_to_d           ;Set pen position to value of d register
 COMMENT $620D if argument exists, load into a, otherwise use current a
 FORCE_NO_SYMBOL $620D
-COMMENT_LINE $620F sta   $C827
 FORCE_NO_SYMBOL $620F
 FORCE_NO_SYMBOL $6211
 FORCE_NO_SYMBOL $6214
@@ -8661,8 +8492,6 @@ FORCE_NO_SYMBOL $6248
 FORCE_SYMBOL $624C LocalB1
 FORCE_SYMBOL $624E LocalB1
 FORCE_SYMBOL $6252 LocalB1
-COMMENT $6254 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $6254 sta   $C827
 FORCE_NO_SYMBOL $6254
 FORCE_NO_SYMBOL $6256
 FORCE_NO_SYMBOL $6259
@@ -8788,8 +8617,6 @@ FORCE_NO_SYMBOL $62F7
 FORCE_SYMBOL $62F9 ScrollInt
 FORCE_NO_SYMBOL $62FC
 FORCE_SYMBOL $6301 ScrollInt
-COMMENT $6304 if argument exists, load into a, otherwise use current a
-COMMENT_LINE $6304 sta   $C827
 FORCE_NO_SYMBOL $6304
 FORCE_NO_SYMBOL $6306
 FORCE_NO_SYMBOL $6309
@@ -10074,7 +9901,6 @@ FORCE_SYMBOL $7ED2 eeprom_buffer
 COMMENT $7ED5 compare ram to eeprom
 FORCE_SYMBOL $7ED5 ds2430_verify
 COMMENT $7ED9 if different, then update eeprom
-RANGE $0000-$0089 DP $D0
 RANGE $0093-$00FB DP $C8
 RANGE $00FD-$0477 DP $C8
 RANGE $04D8-$0506 DP $C8

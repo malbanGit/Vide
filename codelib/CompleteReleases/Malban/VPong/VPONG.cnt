@@ -1,0 +1,1508 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_b
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $F9F4 Char_Table
+LABEL $FBD4 Char_Table_End
+LABEL $C890 user_ram
+LABEL $C890 music_active
+LABEL $C892 paddle_pos
+LABEL $C892 paddle_y
+LABEL $C893 paddle_x
+LABEL $C894 paddle_speed_y
+LABEL $C895 paddle_speed_x
+LABEL $C896 ball_pos
+LABEL $C896 ball_y
+LABEL $C897 ball_x
+LABEL $C898 ball_speed_y
+LABEL $C899 ball_speed_x
+COMMENT_LABEL $C899 speed like $hl, low for every round
+LABEL $C89A ball_speed_y_hi
+LABEL $C89B ball_speed_x_hi
+LABEL $C89C ball_speed_y_reset
+LABEL $C89D ball_speed_x_reset
+LABEL $C89E ball_available
+COMMENT_LABEL $C89E high for when next round
+LABEL $C89F game_level
+LABEL $C8A0 paddle_check
+LABEL $C8A1 paddle_increase
+LABEL $C8A2 court1_scale2
+LABEL $C8A3 paddle_intensity
+LABEL $C8A4 court1_intensity
+LABEL $C8A5 difficult_counter
+LABEL $C8A6 difficulty
+LABEL $C8A7 game_over_intensity
+LABEL $C8A8 game_over_scaley
+LABEL $C8A9 game_over_scalex
+LABEL $C8AA game_over_ypos
+LABEL $C8AB game_over_xpos
+LABEL $C8AC tmp
+EQU $7F SCREEN_TOP
+LABEL $0080 SCREEN_BOTTOM
+LABEL $0080 SCREEN_LEFT
+EQU $7F SCREEN_RIGHT
+EQU $00 SCREEN_CENTER
+LABEL $F160 NORMAL_TEXT_SIZE
+LABEL $FB30 SCORE_TEXT_SIZE
+EQU $10 LETTER_WIDTH
+EQU $10 LETTER_HIGHT
+EQU $14 PADDLE_WIDTH
+EQU $05 PADDLE_HIGHT
+EQU $5B PADDLE_X_RIGHT
+LABEL $0091 PADDLE_X_LEFT
+LABEL $00F6 PADDLE_INIT_XPOS
+COMMENT_LABEL $00F6 center
+LABEL $0092 PADDLE_INIT_YPOS
+COMMENT_LABEL $0092 bottom of screen plus court1 modification
+LABEL $92F6 PADDLE_INIT_POS
+EQU $02 PADDLE_INIT_SPEED
+EQU $03 PADDLE_INIT_INCREASE
+EQU $7F PADDLE_INTENSITY_INIT
+EQU $70 SIZE_OF_WALL1
+LABEL $0090 COURT1_XPOS
+LABEL $0090 COURT1_YPOS
+LABEL $9090 COURT1_POS
+EQU -$70 COURT1_COMPENSATE
+EQU $7F COURT1_INTENSITY_INIT
+EQU $05 BALL_SIZE
+EQU $6A BALL_INIT_YPOS
+EQU $6A BALL_X_RIGHT
+LABEL $0091 BALL_X_LEFT
+EQU $77 SCORE_YPOS
+LABEL $0088 SCORE_XPOS
+EQU $77 LEVEL_YPOS
+LABEL $00E2 LEVEL_XPOS
+EQU $77 BALLS_YPOS
+EQU $43 BALLS_XPOS
+EQU $0A MAX_SPEED
+EQU $7F PADDLE_SCALE_INIT
+LABEL $00FF COURT1_SCALE_INIT1
+EQU $7F COURT1_SCALE_INIT2
+EQU $05 DIFFICULT_THRESHOLD
+EQU $35 BALLS_PER_GAME
+EQU $2C entry_point
+EQU $2C new_game
+LABEL $03E7 init_screen
+LABEL $0386 init_vars
+EQU $32 main_loop
+LABEL $0429 do_my_sound
+LABEL $0165 draw_court
+LABEL $011D draw_paddle
+LABEL $0191 draw_ball
+LABEL $041C draw_strings
+LABEL $C93B no_balls
+LABEL $0050 game_lost
+EQU $6B game_over_loop1
+LABEL $0440 game_over_string
+LABEL $00A3 no_y_scale_now
+LABEL $00AE use_y
+LABEL $00BC use_x
+LABEL $00D9 game_over_loop2
+LABEL $C914 score_only_string
+LABEL $C91A no_score_string
+LABEL $0152 no_new_pos
+LABEL $013F pos_left
+LABEL $012A pos_right
+LABEL $0152 new_pos_exit
+LABEL $C93E bottom_paddle
+LABEL $C948 court1
+LABEL $019B ball_is_available
+COMMENT_LABEL $019B now start moving + drawing
+LABEL $02FD get_new_ball
+LABEL $01A6 no_y_wait
+LABEL $01B5 y_change_done
+LABEL $01C0 no_x_wait
+LABEL $01CF x_change_done
+LABEL $01E6 check_left
+LABEL $01F8 x_right_ok
+COMMENT_LABEL $01F8 x position is OK
+LABEL $045B PING2
+LABEL $01F8 x_left_ok
+LABEL $0242 check_for_upper_border
+LABEL $0232 allready_lost
+LABEL $025C nothing_happens
+LABEL $0221 paddle_greater_ball
+COMMENT_LABEL $0221 paddle higher ball
+LABEL $0215 paddle_lesser_ball
+COMMENT_LABEL $0215 here paddle smaller than ball
+LABEL $022D paddle_not_there
+LABEL $026C ball_reflected
+LABEL $023D is_roll_over
+LABEL $0236 get_lost
+LABEL $0335 ball_lost
+LABEL $025C draw_ball_on_screen
+LABEL $044A ball
+LABEL $C92A no_level_string
+LABEL $02BB no_difficult_change
+LABEL $02BB no_speed_overflow
+LABEL $02DC no_x_zero_speed
+LABEL $02DC no_x_speed_change
+LABEL $02D7 change_to_plus1
+LABEL $02DC done_speed_change
+LABEL $02EF no_paddle_speed_change
+LABEL $0453 PING1
+LABEL $0329 positiv_x
+LABEL $0463 ball_lost_sound
+LABEL $C949 court1_scale1
+LABEL $0343 lost_loop
+LABEL $C93F bottom_paddle_scale
+LABEL $03AF init_new_ball_vars
+LABEL $046F _copy_start
+LABEL $C910 copy_start
+LABEL $04AF _copy_end
+LABEL $0401 init_screen_loop
+LABEL $0433 game_name
+LABEL $041B exit_init_screen
+COMMENT_LABEL $041B otherwise proceed
+LABEL $C910 score_string
+LABEL $046F _score_string
+LABEL $0473 _score_only_string
+LABEL $0479 _no_score_string
+LABEL $0480 _level_string
+LABEL $0489 _no_level_string
+LABEL $0490 _balls_string
+LABEL $049A _no_balls
+LABEL $049C _string_list_end
+LABEL $049D _bottom_paddle
+LABEL $049E _bottom_paddle_scale
+LABEL $04A7 _court1
+LABEL $04A8 _court1_scale1
+LABEL $C921 level_string
+LABEL $C931 balls_string
+LABEL $04AF *
+EQU $2C *xfer
+COMMENT_LINE $0000 this game was written on 08.02.1998 bye Malban
+COMMENT_LINE $0000 it is public domain
+COMMENT_LINE $0000 comments and vectrex talk are welcome
+COMMENT_LINE $0000 my email: malban@email.de
+COMMENT_LINE $0000 followin command line was used to assemble:
+COMMENT_LINE $0000 C:>as09.exe -h0 -l -cti vpong.asm >error
+COMMENT_LINE $0000 I used the 6809 assembler:
+COMMENT_LINE $0000 as09 [1.11].
+COMMENT_LINE $0000 Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+COMMENT_LINE $0000 Available at:
+COMMENT_LINE $0000 http://www.falstaff.demon.co.uk/cross.html
+COMMENT_LINE $0000 load rom function names...
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 user variable definitions
+COMMENT_LINE $0000 $c890
+COMMENT_LINE $0000 see bottom of file for further addresses!
+COMMENT_LINE $0000 user defines
+COMMENT_LINE $0000 vectrex coordinates use range from -128 to +127
+COMMENT_LINE $0000 these top and bottom values are in scale factor $ff
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 start of vectrex memory with cartridge name...
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B music from the rom
+COMMENT $000D hight, width, rel x, rel y (from 0,0)
+COMMENT $0011 some game information, ending with $80
+COMMENT $001E hight, width, rel x, rel y (from 0,0)
+COMMENT $0022 some game information, ending with $80
+COMMENT $002B end of game header
+COMMENT_LINE $002C ***************************************************************************
+COMMENT_LINE $002C here the cartridge program starts off
+COMMENT $002C startup screen
+FORCE_SYMBOL $002C init_screen
+COMMENT $002F initialize game variables
+FORCE_SYMBOL $002F init_vars
+COMMENT $0032 do own sound stuff
+FORCE_SYMBOL $0032 do_my_sound
+COMMENT $0035 sets dp to d0, and pos at 0, 0
+FORCE_SYMBOL $0035 Wait_Recal
+COMMENT $0038 play sound via rom
+FORCE_SYMBOL $0038 Do_Sound
+COMMENT $003B draw the court
+FORCE_SYMBOL $003B draw_court
+COMMENT_LINE $003E note: the paddle drawing could be optimized,
+COMMENT_LINE $003E since the bottom line of the paddle should
+COMMENT_LINE $003E have the same y position as there would be
+COMMENT_LINE $003E left after drawing the court
+COMMENT_LINE $003E for now the pen position is moved back to zero
+COMMENT_LINE $003E and the paddle is drawn independently
+FORCE_SYMBOL $003E draw_paddle
+FORCE_SYMBOL $0041 draw_ball
+FORCE_SYMBOL $0044 draw_strings
+COMMENT $0047 test for game over
+FORCE_SYMBOL $0047 no_balls
+COMMENT $004A when balls are zero
+COMMENT $004C than game lost
+COMMENT $004E start another round
+COMMENT_LINE $0050 ***************************************************************************
+COMMENT_LINE $0050 do some extro
+COMMENT $0050 clear A
+COMMENT $0051 and store in intensity
+FORCE_SYMBOL $0051 game_over_intensity
+COMMENT $0054 scale x
+FORCE_SYMBOL $0054 game_over_scalex
+COMMENT $0057 scale y
+FORCE_SYMBOL $0057 game_over_scaley
+COMMENT $005A pos y
+FORCE_SYMBOL $005A game_over_ypos
+COMMENT $005D pos x of game over string
+FORCE_SYMBOL $005D game_over_xpos
+COMMENT_LINE $0060 the next instructions initialize a new sound
+COMMENT $0060 load #1
+FORCE_NO_SYMBOL $0060
+COMMENT $0062 set this as marker for music start
+FORCE_SYMBOL $0062 Vec_Music_Flag
+COMMENT $0065 load a music structure
+FORCE_SYMBOL $0065 musicb
+COMMENT $0068 and store it to my own music active pointer
+FORCE_SYMBOL $0068 music_active
+COMMENT_LINE $006B next a do_my_sound and than do sound must be called
+COMMENT $006B do own sound stuff
+FORCE_SYMBOL $006B do_my_sound
+COMMENT $006E sets dp to d0, and pos at 0, 0
+FORCE_SYMBOL $006E Wait_Recal
+COMMENT $0071 do sound stuff
+FORCE_SYMBOL $0071 Do_Sound
+COMMENT_LINE $0074 now print something on screen
+COMMENT $0074 prepare drawing of game over string
+FORCE_SYMBOL $0074 game_over_scaley
+COMMENT $0077 load scaling stuff
+FORCE_SYMBOL $0077 game_over_scalex
+COMMENT $007A poke it to ram location
+FORCE_SYMBOL $007A Vec_Text_HW
+COMMENT $007D load intensity
+FORCE_SYMBOL $007D game_over_intensity
+COMMENT $0080 set it
+FORCE_SYMBOL $0080 Intensity_a
+COMMENT $0083 load position
+FORCE_SYMBOL $0083 game_over_ypos
+COMMENT $0086 to D (A,B) register
+FORCE_SYMBOL $0086 game_over_xpos
+COMMENT $0089 and the address of the string itself
+FORCE_SYMBOL $0089 game_over_string
+COMMENT $008C and draw it
+FORCE_SYMBOL $008C Print_Str_d
+COMMENT_LINE $008F calculate new appearence
+COMMENT $008F increase intensity
+FORCE_SYMBOL $008F game_over_intensity
+COMMENT $0092 three per step
+FORCE_NO_SYMBOL $0092
+COMMENT $0094 store it
+FORCE_SYMBOL $0094 game_over_intensity
+COMMENT $0097 every second step increase
+FORCE_NO_SYMBOL $0097
+COMMENT $0099 y scale of string
+COMMENT $009B load it
+FORCE_SYMBOL $009B game_over_scaley
+COMMENT $009E increase it
+FORCE_NO_SYMBOL $009E
+COMMENT $00A0 save it
+FORCE_SYMBOL $00A0 game_over_scaley
+COMMENT $00A3 now look at the position of the
+FORCE_SYMBOL $00A3 game_over_ypos
+COMMENT $00A6 string, first y pos
+FORCE_NO_SYMBOL $00A6
+COMMENT $00A8 increase it by two, but not to much
+FORCE_NO_SYMBOL $00A8
+COMMENT $00AC maximum at $70
+FORCE_NO_SYMBOL $00AC
+COMMENT $00AE store it
+FORCE_SYMBOL $00AE game_over_ypos
+COMMENT $00B1 likewise treat x pos load it
+FORCE_SYMBOL $00B1 game_over_xpos
+COMMENT $00B4 decrease it
+FORCE_NO_SYMBOL $00B4
+COMMENT $00B6 till -$70
+COMMENT $00BA or use minimum of -$70
+COMMENT $00BC store it
+FORCE_SYMBOL $00BC game_over_xpos
+COMMENT $00BF now do the x scaling
+FORCE_SYMBOL $00BF game_over_scalex
+COMMENT $00C2 every round add 3
+FORCE_NO_SYMBOL $00C2
+COMMENT $00C4 and store it
+FORCE_SYMBOL $00C4 game_over_scalex
+COMMENT $00C7 do all this
+FORCE_SYMBOL $00C7 game_over_intensity
+COMMENT $00CA till intensity is full
+FORCE_NO_SYMBOL $00CA
+COMMENT $00CC do the game loop
+COMMENT $00CE get button status once, since only
+FORCE_SYMBOL $00CE Read_Btns
+COMMENT_LINE $00D1 differences are noticed
+COMMENT $00D1 now do the x scaling
+FORCE_SYMBOL $00D1 game_over_scalex
+COMMENT $00D4 every round add 3
+FORCE_NO_SYMBOL $00D4
+COMMENT $00D6 and store it
+FORCE_SYMBOL $00D6 game_over_scalex
+COMMENT $00D9 do own sound stuff
+FORCE_SYMBOL $00D9 do_my_sound
+COMMENT $00DC sets dp to d0, and pos at 0, 0
+FORCE_SYMBOL $00DC Wait_Recal
+COMMENT $00DF do sound stuff
+FORCE_SYMBOL $00DF Do_Sound
+COMMENT $00E2 draw at full brightness
+FORCE_SYMBOL $00E2 Intensity_7F
+FORCE_SYMBOL $00E5 SCORE_TEXT_SIZE
+COMMENT $00E8 poke it to ram location
+FORCE_SYMBOL $00E8 Vec_Text_HW
+COMMENT $00EB load position
+COMMENT $00ED to D (A,B) register
+FORCE_SYMBOL $00EF score_only_string
+COMMENT $00F2 and draw it
+FORCE_SYMBOL $00F2 Print_Str_d
+COMMENT $00F5 prepare drawing of game over string
+FORCE_SYMBOL $00F5 game_over_scaley
+COMMENT $00F8 load scaling stuff
+FORCE_SYMBOL $00F8 game_over_scalex
+COMMENT $00FB poke it to ram location
+FORCE_SYMBOL $00FB Vec_Text_HW
+COMMENT $00FE load position
+FORCE_SYMBOL $00FE game_over_ypos
+COMMENT $0101 to D (A,B) register
+FORCE_SYMBOL $0101 game_over_xpos
+COMMENT $0104 and the address of the string itself
+FORCE_SYMBOL $0104 game_over_string
+COMMENT $0107 and draw it
+FORCE_SYMBOL $0107 Print_Str_d
+COMMENT $010A get button status
+FORCE_SYMBOL $010A Read_Btns
+COMMENT $010D is a button pressed?
+FORCE_NO_SYMBOL $010D
+COMMENT $010F no, than stay in init_screen_loop
+COMMENT $0111 'OS' high score
+FORCE_SYMBOL $0111 Vec_High_Score
+COMMENT $0114 own last score
+FORCE_SYMBOL $0114 no_score_string
+COMMENT $0117 if own was higher, set 'OS' == own
+FORCE_SYMBOL $0117 New_High_Score
+COMMENT $011A start a new game
+COMMENT_LINE $011D ***************************************************************************
+COMMENT_LINE $011D this routine calculates the new paddle position for only x movement
+COMMENT_LINE $011D expected:dp is allready pointing to d0
+COMMENT_LINE $011D expects coordinates at 0,0
+COMMENT_LINE $011D possibly changes 'paddle_pos'
+COMMENT_LINE $011D nothing is returned
+COMMENT $011D read joystick positions
+FORCE_SYMBOL $011D Joy_Digital
+COMMENT $0120 load old paddle pos to B
+FORCE_SYMBOL $0120 paddle_x
+COMMENT $0123 load joystick 1 position X to A
+FORCE_SYMBOL $0123 Vec_Joy_1_X
+COMMENT $0126 no joystick input available
+COMMENT $0128 joystick moved to left
+COMMENT $012A is it at maximum right position?
+FORCE_SYMBOL $012A PADDLE_X_RIGHT
+COMMENT $012C if so, do nothing
+COMMENT $012E increase position with speed faktor
+FORCE_SYMBOL $012E paddle_speed_x
+COMMENT $0131 and store new position
+FORCE_SYMBOL $0131 paddle_x
+COMMENT $0134 compare it again to right border
+FORCE_SYMBOL $0134 PADDLE_X_RIGHT
+COMMENT $0136 if lower or same (RIGHT) than ok
+COMMENT $0138 otherwise use the right
+FORCE_SYMBOL $0138 PADDLE_X_RIGHT
+COMMENT $013A border as new position
+FORCE_SYMBOL $013A paddle_x
+COMMENT $013D and exit joystick position routine
+COMMENT $013F is it at maximum left position?
+FORCE_SYMBOL $013F PADDLE_X_LEFT
+COMMENT $0141 if so, do nothing
+COMMENT $0143 decrease position with speed faktor
+FORCE_SYMBOL $0143 paddle_speed_x
+COMMENT $0146 and store new position
+FORCE_SYMBOL $0146 paddle_x
+COMMENT $0149 compare it again to left border
+FORCE_SYMBOL $0149 PADDLE_X_LEFT
+COMMENT $014B if higher or same (LEFT) than ok
+COMMENT $014D otherwise use the left
+FORCE_SYMBOL $014D PADDLE_X_LEFT
+COMMENT $014F border as new position
+FORCE_SYMBOL $014F paddle_x
+COMMENT $0152 load current paddle position to D
+FORCE_SYMBOL $0152 paddle_pos
+COMMENT $0155 move to rel position D
+FORCE_SYMBOL $0155 Moveto_d
+COMMENT $0158 load paddle brightness
+FORCE_SYMBOL $0158 paddle_intensity
+COMMENT $015B switch intensity, Joy_Digital destroys this
+FORCE_SYMBOL $015B Intensity_a
+COMMENT $015E address of paddle vector list
+FORCE_SYMBOL $015E bottom_paddle
+COMMENT $0161 Draw vector list
+FORCE_SYMBOL $0161 Draw_VLcs
+COMMENT_LINE $0165 ***************************************************************************
+COMMENT_LINE $0165 this routine draws the outer court
+COMMENT_LINE $0165 expecting dp is allready pointing to d0
+COMMENT_LINE $0165 expects coordinates at 0,0
+COMMENT_LINE $0165 nothing is returned
+COMMENT $0165 load court1 brightness
+FORCE_SYMBOL $0165 court1_intensity
+COMMENT $0168 switch intensity
+FORCE_SYMBOL $0168 Intensity_a
+COMMENT $016B scale for placing firt point
+FORCE_SYMBOL $016B court1_scale2
+COMMENT $016E move to time 1 lo, this means scaling
+FORCE_SYMBOL $016E VIA_t1_cnt_lo
+COMMENT $0170 first coordinate of COURT 1
+FORCE_SYMBOL $0170 COURT1_POS
+COMMENT $0173 move to rel position D
+FORCE_SYMBOL $0173 Moveto_d
+COMMENT $0176 address of court vector list
+FORCE_SYMBOL $0176 court1
+COMMENT $0179 Draw vector list
+FORCE_SYMBOL $0179 Draw_VLcs
+COMMENT $017C compensates the 'open' court
+FORCE_SYMBOL $017C COURT1_COMPENSATE
+COMMENT $017F move to rel position D
+FORCE_SYMBOL $017F Moveto_d
+COMMENT $0182 scale for placing firt point
+FORCE_SYMBOL $0182 court1_scale2
+COMMENT $0185 move to time 1 lo, this means scaling
+FORCE_SYMBOL $0185 VIA_t1_cnt_lo
+COMMENT $0187 goes back to
+FORCE_SYMBOL $0187 COURT1_XPOS
+COMMENT $0189 position
+COMMENT $018A before court
+FORCE_SYMBOL $018A COURT1_YPOS
+COMMENT $018C was drawn
+COMMENT $018D move to rel position D
+FORCE_SYMBOL $018D Moveto_d
+COMMENT_LINE $0191 ***************************************************************************
+COMMENT_LINE $0191 this routine moves the ball and draws it
+COMMENT_LINE $0191 expecting dp is allready pointing to d0
+COMMENT_LINE $0191 expects intensity = to 7f
+COMMENT_LINE $0191 nothing is returned
+COMMENT_LINE $0191 optimization could easily be done e.g. via direct addressing!
+COMMENT $0191 check if there is a ball
+FORCE_SYMBOL $0191 ball_available
+COMMENT $0194 allready in play
+FORCE_SYMBOL $0194 FALSE
+COMMENT $0196 if not
+COMMENT $0198 get a new ball
+FORCE_SYMBOL $0198 get_new_ball
+COMMENT_LINE $019B now we change the y position
+COMMENT $019B load y speed hi counter
+FORCE_SYMBOL $019B ball_speed_y_hi
+COMMENT $019E if zero, change y pos now
+COMMENT $01A0 decreas high counter
+COMMENT $01A1 and store it again
+FORCE_SYMBOL $01A1 ball_speed_y_hi
+COMMENT $01A4 go to where no y change will be done
+COMMENT $01A6 change the y position
+FORCE_SYMBOL $01A6 ball_y
+COMMENT $01A9 with the speed factor
+FORCE_SYMBOL $01A9 ball_speed_y
+COMMENT $01AC and store it back
+FORCE_SYMBOL $01AC ball_y
+COMMENT $01AF reset the
+FORCE_SYMBOL $01AF ball_speed_y_reset
+COMMENT $01B2 high counter
+FORCE_SYMBOL $01B2 ball_speed_y_hi
+COMMENT_LINE $01B5 now we change the x position
+COMMENT $01B5 load x speed hi counter
+FORCE_SYMBOL $01B5 ball_speed_x_hi
+COMMENT $01B8 if zero, change x pos now
+COMMENT $01BA decreas high counter
+COMMENT $01BB and store it again
+FORCE_SYMBOL $01BB ball_speed_x_hi
+COMMENT $01BE go to where no x change will be done
+COMMENT $01C0 change the x position
+FORCE_SYMBOL $01C0 ball_x
+COMMENT $01C3 with the speed factor
+FORCE_SYMBOL $01C3 ball_speed_x
+COMMENT $01C6 and store it back
+FORCE_SYMBOL $01C6 ball_x
+COMMENT $01C9 reset the
+FORCE_SYMBOL $01C9 ball_speed_x_reset
+COMMENT $01CC high counter
+FORCE_SYMBOL $01CC ball_speed_x_hi
+COMMENT_LINE $01CF now we check if the ball bounces off a wall
+COMMENT $01CF in what direction is the ball moving?
+FORCE_SYMBOL $01CF ball_speed_x
+COMMENT $01D2 negative, than we check left border
+COMMENT $01D4 ball right out of bounds?
+FORCE_SYMBOL $01D4 BALL_X_RIGHT
+COMMENT $01D8 yes, than change direction
+FORCE_SYMBOL $01D8 ball_speed_x
+COMMENT_LINE $01DB the next instructions initialize a new sound
+COMMENT $01DB load #1
+FORCE_NO_SYMBOL $01DB
+COMMENT $01DD set this as marker for music start
+FORCE_SYMBOL $01DD Vec_Music_Flag
+COMMENT $01E0 load a music structure
+FORCE_SYMBOL $01E0 PING2
+COMMENT $01E3 and store it to my own music active pointer
+FORCE_SYMBOL $01E3 music_active
+COMMENT_LINE $01E6 next a do_my_sound and than do sound must be called
+COMMENT $01E6 ball left out of bounds?
+FORCE_SYMBOL $01E6 BALL_X_LEFT
+COMMENT $01EA yes, than change direction
+FORCE_SYMBOL $01EA ball_speed_x
+COMMENT_LINE $01ED the next instructions initialize a new sound
+COMMENT $01ED load #1
+FORCE_NO_SYMBOL $01ED
+COMMENT $01EF set this as marker for music start
+FORCE_SYMBOL $01EF Vec_Music_Flag
+COMMENT $01F2 load a music structure
+FORCE_SYMBOL $01F2 PING2
+COMMENT $01F5 and store it to my own music active pointer
+FORCE_SYMBOL $01F5 music_active
+COMMENT_LINE $01F8 next a do_my_sound and than do sound must be called
+COMMENT $01F8 checking for bottom?
+FORCE_SYMBOL $01F8 ball_speed_y
+COMMENT $01FB or upper border?
+COMMENT_LINE $01FD now we check if the ball is hit with paddle (bottom)
+COMMENT $01FD load y position
+FORCE_SYMBOL $01FD ball_y
+COMMENT $0200 is ball allready lost?
+FORCE_SYMBOL $0200 paddle_check
+COMMENT $0203 allready lost?
+FORCE_SYMBOL $0203 FALSE
+COMMENT $0205 yep... than don't check again
+COMMENT $0207 we must look at the bottom edge of the ball
+FORCE_SYMBOL $0207 BALL_SIZE
+COMMENT $0209 compare to paddle y
+FORCE_SYMBOL $0209 PADDLE_INIT_YPOS
+COMMENT $020B if not there, than go on
+COMMENT $020D get the x pos of the paddle
+FORCE_SYMBOL $020D paddle_x
+COMMENT $0210 compare to x of ball
+FORCE_SYMBOL $0210 ball_x
+COMMENT $0213 if paddle higher...
+COMMENT $0215 check if we have hit the ball
+FORCE_SYMBOL $0215 PADDLE_WIDTH
+COMMENT $0217 with the body of the paddle
+FORCE_SYMBOL $0217 ball_x
+COMMENT $021A no!
+COMMENT $021C yep, reflected, change y speed
+FORCE_SYMBOL $021C ball_speed_y
+COMMENT $021F and go on
+COMMENT $0221 take the size of the ball into account
+FORCE_SYMBOL $0221 BALL_SIZE
+COMMENT $0223 and check again
+FORCE_SYMBOL $0223 ball_x
+COMMENT $0226 oops, ball seems lost!
+COMMENT $0228 yep, reflected, change y speed
+FORCE_SYMBOL $0228 ball_speed_y
+COMMENT $022B and go on
+COMMENT $022D this ball is now lost
+FORCE_SYMBOL $022D FALSE
+COMMENT $022F next time we don't check the paddle
+FORCE_SYMBOL $022F paddle_check
+COMMENT $0232 will ball move off the screen?
+FORCE_SYMBOL $0232 SCREEN_BOTTOM
+COMMENT $0234 not yet, than go on
+COMMENT $0236 next time a ball is not available
+FORCE_SYMBOL $0236 ball_available
+COMMENT $0239 ball is now lost
+FORCE_SYMBOL $0239 ball_lost
+COMMENT $023C bye!
+COMMENT $023D test for
+COMMENT $023E rollover otherwise do nothing
+COMMENT $0240 now restart
+COMMENT_LINE $0242 now we check if we are at the upper border
+COMMENT $0242 load y position
+FORCE_SYMBOL $0242 ball_y
+COMMENT $0245 compare upper
+FORCE_SYMBOL $0245 BALL_INIT_YPOS
+COMMENT $0247 if not there, than go on
+COMMENT $0249 otherwise use init position
+FORCE_SYMBOL $0249 BALL_INIT_YPOS
+COMMENT $024B store it
+FORCE_SYMBOL $024B ball_y
+COMMENT $024E and reflect, using opposite y speed
+FORCE_SYMBOL $024E ball_speed_y
+COMMENT_LINE $0251 the next instructions initialize a new sound
+COMMENT $0251 load #1
+FORCE_NO_SYMBOL $0251
+COMMENT $0253 set this as marker for music start
+FORCE_SYMBOL $0253 Vec_Music_Flag
+COMMENT $0256 load a music structure
+FORCE_SYMBOL $0256 PING2
+COMMENT $0259 and store it to my own music active pointer
+FORCE_SYMBOL $0259 music_active
+COMMENT_LINE $025C next a do_my_sound and than do sound must be called
+COMMENT $025C reset screen position
+FORCE_SYMBOL $025C Reset0Ref
+COMMENT $025F load position of ball
+FORCE_SYMBOL $025F ball_pos
+COMMENT $0262 move to rel position D and scale factor 7F
+FORCE_SYMBOL $0262 Moveto_d_7F
+COMMENT $0265 address of ball vector list
+FORCE_SYMBOL $0265 ball
+COMMENT $0268 Draw vector list
+FORCE_SYMBOL $0268 Draw_VLc
+COMMENT $026C load x position of ball again!
+FORCE_SYMBOL $026C ball_x
+COMMENT $026F and get the center of it
+COMMENT $0271 load x position of paddle
+FORCE_SYMBOL $0271 paddle_x
+COMMENT $0274 and get the center of it
+COMMENT $0276 store ball center
+FORCE_SYMBOL $0276 tmp
+COMMENT $0279 in A now the offset of the
+FORCE_SYMBOL $0279 tmp
+COMMENT_LINE $027C ball center to the center of
+COMMENT_LINE $027C the paddle
+COMMENT_LINE $027C should be abs(10)
+COMMENT $027C only a quarter should remain
+COMMENT $027E load difficulty setting
+FORCE_SYMBOL $027E difficulty
+COMMENT $0281 multiply A*B
+COMMENT $0282 and modify the x speed accordingly
+FORCE_SYMBOL $0282 ball_speed_x
+COMMENT $0285 store it
+FORCE_SYMBOL $0285 ball_speed_x
+COMMENT $0288 score 1 for reflecting
+FORCE_NO_SYMBOL $0288
+COMMENT $028A load score address
+FORCE_SYMBOL $028A no_score_string
+COMMENT $028D add to score
+FORCE_SYMBOL $028D Add_Score_a
+COMMENT $0290 score 1 for reflecting
+FORCE_NO_SYMBOL $0290
+COMMENT $0292 load level address
+FORCE_SYMBOL $0292 no_level_string
+COMMENT $0295 add to level
+FORCE_SYMBOL $0295 Add_Score_a
+COMMENT $0298 add to level
+FORCE_SYMBOL $0298 game_level
+COMMENT_LINE $029B let's see if we can make it a bit more difficult!
+COMMENT $029B increase counter
+FORCE_SYMBOL $029B difficult_counter
+COMMENT $029E load it
+FORCE_SYMBOL $029E difficult_counter
+COMMENT $02A1 and check if new difficult level is reached
+FORCE_SYMBOL $02A1 DIFFICULT_THRESHOLD
+COMMENT $02A3 no, not yet
+COMMENT $02A5 difficulty + 1
+FORCE_SYMBOL $02A5 difficulty
+COMMENT $02A8 difficult_counter to zero
+COMMENT $02A9 store it
+FORCE_SYMBOL $02A9 difficult_counter
+COMMENT $02AC y speed one up :-)
+FORCE_SYMBOL $02AC ball_speed_y
+COMMENT $02AF load speed to A
+FORCE_SYMBOL $02AF ball_speed_y
+COMMENT $02B2 check if not too fast
+FORCE_SYMBOL $02B2 MAX_SPEED
+COMMENT $02B4 do nothing
+COMMENT $02B6 store MAX_SPEED
+FORCE_SYMBOL $02B6 MAX_SPEED
+COMMENT $02B8 to ball y speed
+FORCE_SYMBOL $02B8 ball_speed_y
+COMMENT $02BB load x speed
+FORCE_SYMBOL $02BB ball_speed_x
+COMMENT $02BE check for 0 speed
+FORCE_NO_SYMBOL $02BE
+COMMENT $02C0 if none zero do nothing
+COMMENT $02C2 get random
+FORCE_SYMBOL $02C2 Random
+COMMENT $02C5 copy to B
+COMMENT $02C7 look at first bit
+FORCE_NO_SYMBOL $02C7
+COMMENT $02C9 test for zero
+FORCE_NO_SYMBOL $02C9
+COMMENT $02CB do nothing if zero
+COMMENT $02CD positive or negative random?
+COMMENT $02CE or plus
+COMMENT $02D0 -1
+COMMENT $02D2 store x speed
+FORCE_SYMBOL $02D2 ball_speed_x
+COMMENT $02D7 1
+FORCE_NO_SYMBOL $02D7
+COMMENT $02D9 store x speed
+FORCE_SYMBOL $02D9 ball_speed_x
+COMMENT $02DC load y speed of ball
+FORCE_SYMBOL $02DC ball_speed_y
+COMMENT $02DF and see if paddle should be faster
+FORCE_SYMBOL $02DF paddle_increase
+COMMENT $02E2 no, not yet
+COMMENT $02E4 go faster in x
+FORCE_SYMBOL $02E4 paddle_speed_x
+COMMENT $02E7 and new increase threshold
+FORCE_SYMBOL $02E7 paddle_increase
+COMMENT $02EA old plus 2
+FORCE_NO_SYMBOL $02EA
+COMMENT $02EC and store
+FORCE_SYMBOL $02EC paddle_increase
+COMMENT_LINE $02EF the next instructions initialize a new sound
+COMMENT $02EF load #1
+FORCE_NO_SYMBOL $02EF
+COMMENT $02F1 set this as marker for music start
+FORCE_SYMBOL $02F1 Vec_Music_Flag
+COMMENT $02F4 load a music structure
+FORCE_SYMBOL $02F4 PING1
+COMMENT $02F7 and store it to my own music active pointer
+FORCE_SYMBOL $02F7 music_active
+COMMENT_LINE $02FA next a do_my_sound and than do sound must be called
+COMMENT_LINE $02FD ***************************************************************************
+COMMENT_LINE $02FD this routine initiates a new ball
+COMMENT_LINE $02FD not finnished yet
+COMMENT_LINE $02FD nothing is returned
+COMMENT $02FD next time a ball is
+FORCE_SYMBOL $02FD TRUE
+COMMENT $02FF available
+FORCE_SYMBOL $02FF ball_available
+COMMENT $0302 next time we check the paddle
+FORCE_SYMBOL $0302 paddle_check
+COMMENT $0305 start in the middle of screen
+COMMENT $0306 this is the next x position
+FORCE_SYMBOL $0306 ball_x
+COMMENT $0309 start at top of screen
+FORCE_SYMBOL $0309 BALL_INIT_YPOS
+COMMENT $030B this is the next y position
+FORCE_SYMBOL $030B ball_y
+COMMENT $030E ball y speed ; allway negativ, since ball must
+COMMENT_LINE $0310 move down!
+COMMENT $0310 not randomized yet
+FORCE_SYMBOL $0310 ball_speed_y
+COMMENT $0313 hi value for y speed for now
+FORCE_NO_SYMBOL $0313
+COMMENT $0315 allways zero
+FORCE_SYMBOL $0315 ball_speed_y_hi
+COMMENT $0318 as is the reset value
+FORCE_SYMBOL $0318 ball_speed_y_reset
+COMMENT $031B get random number to A
+FORCE_SYMBOL $031B Random
+COMMENT $031E only the 2 lower bits are needed
+FORCE_NO_SYMBOL $031E
+COMMENT $0320 copy it to A
+COMMENT $0322 get random number to A
+FORCE_SYMBOL $0322 Random
+COMMENT $0325 is it positive?
+COMMENT $0326 if so use positiv x speed
+COMMENT $0328 else negative
+COMMENT $0329 now store the speed
+FORCE_SYMBOL $0329 ball_speed_x
+COMMENT $032C hi value for x speed for now
+FORCE_NO_SYMBOL $032C
+COMMENT $032E allways zero
+FORCE_SYMBOL $032E ball_speed_x_hi
+COMMENT $0331 as is the reset value
+FORCE_SYMBOL $0331 ball_speed_x_reset
+COMMENT_LINE $0335 ***************************************************************************
+COMMENT_LINE $0335 the next instructions initialize a new sound
+COMMENT $0335 load #1
+FORCE_NO_SYMBOL $0335
+COMMENT $0337 set this as marker for music start
+FORCE_SYMBOL $0337 Vec_Music_Flag
+COMMENT $033A load a music structure
+FORCE_SYMBOL $033A ball_lost_sound
+COMMENT $033D and store it to my own music active pointer
+FORCE_SYMBOL $033D music_active
+COMMENT_LINE $0340 next a do_my_sound and than do sound must be called
+COMMENT $0340 just for the loop, might do a bra as a jump into the loop
+FORCE_SYMBOL $0340 court1_scale1
+COMMENT $0343 store the last changed court 1 scale factor
+FORCE_SYMBOL $0343 court1_scale1
+COMMENT $0346 do own sound stuff
+FORCE_SYMBOL $0346 do_my_sound
+COMMENT $0349 sets dp to d0, and pos at 0, 0
+FORCE_SYMBOL $0349 Wait_Recal
+COMMENT $034C play sound via rom
+FORCE_SYMBOL $034C Do_Sound
+COMMENT $034F draw the court
+FORCE_SYMBOL $034F draw_court
+COMMENT $0352 draw paddle
+FORCE_SYMBOL $0352 draw_paddle
+COMMENT $0355 draw strings (not scaled, should I?)
+FORCE_SYMBOL $0355 draw_strings
+COMMENT $0358 load scale value2 of court (for positioning)
+FORCE_SYMBOL $0358 court1_scale2
+COMMENT $035B decrease it
+FORCE_NO_SYMBOL $035B
+COMMENT $035D and write it back
+FORCE_SYMBOL $035D court1_scale2
+COMMENT $0360 load scale value of paddle
+FORCE_SYMBOL $0360 bottom_paddle_scale
+COMMENT $0363 decrease it
+FORCE_NO_SYMBOL $0363
+COMMENT $0365 and write it back
+FORCE_SYMBOL $0365 bottom_paddle_scale
+COMMENT $0368 load intensity of court
+FORCE_SYMBOL $0368 court1_intensity
+COMMENT $036B decrease it
+FORCE_NO_SYMBOL $036B
+COMMENT $036D and write it back
+FORCE_SYMBOL $036D court1_intensity
+COMMENT $0370 load intensity of paddle
+FORCE_SYMBOL $0370 paddle_intensity
+COMMENT $0373 decrease it
+FORCE_NO_SYMBOL $0373
+COMMENT $0375 and write it back
+FORCE_SYMBOL $0375 paddle_intensity
+COMMENT $0378 load scale value1 of court (for sizing)
+FORCE_SYMBOL $0378 court1_scale1
+COMMENT $037B decrease it
+FORCE_NO_SYMBOL $037B
+COMMENT $037D and write it back
+COMMENT $037F one ball less
+FORCE_SYMBOL $037F no_balls
+COMMENT $0382 and reinit all destroyed variables
+FORCE_SYMBOL $0382 init_new_ball_vars
+COMMENT_LINE $0386 ***************************************************************************
+COMMENT_LINE $0386 this routine initializes the game variables
+COMMENT_LINE $0386 nothing is expected and nothing is returned
+COMMENT $0386 init OS, should allready been done...
+FORCE_SYMBOL $0386 Init_OS
+COMMENT $0389 my 'ram' address (source)
+FORCE_SYMBOL $0389 _copy_start
+COMMENT $038C copy my 'ram' to vectrex ram (destination)
+FORCE_SYMBOL $038C copy_start
+COMMENT $038F number of bytes to be copied, must be less than $81
+COMMENT $0391 and copy...
+FORCE_SYMBOL $0391 Move_Mem_a
+COMMENT $0394 no ball availabel
+FORCE_SYMBOL $0394 FALSE
+COMMENT $0396 upon startup
+FORCE_SYMBOL $0396 ball_available
+COMMENT $0399 initial game level
+FORCE_NO_SYMBOL $0399
+COMMENT $039B upon startup
+FORCE_SYMBOL $039B game_level
+COMMENT $039E get the address of score string
+FORCE_SYMBOL $039E no_score_string
+COMMENT $03A1 clear score
+FORCE_SYMBOL $03A1 Clear_Score
+COMMENT $03A4 balls 5
+FORCE_SYMBOL $03A4 BALLS_PER_GAME
+COMMENT $03A6 and store five balls
+FORCE_SYMBOL $03A6 no_balls
+COMMENT $03A9 load init values
+FORCE_SYMBOL $03A9 PADDLE_INIT_POS
+COMMENT $03AC and store them...
+FORCE_SYMBOL $03AC paddle_pos
+COMMENT $03AF get level string
+FORCE_SYMBOL $03AF no_level_string
+COMMENT $03B2 clear level string
+FORCE_SYMBOL $03B2 Clear_Score
+COMMENT $03B5 clear level number
+COMMENT $03B6 initial paddle speed x
+FORCE_SYMBOL $03B6 PADDLE_INIT_SPEED
+COMMENT $03B8 and store it
+FORCE_SYMBOL $03B8 paddle_speed_x
+COMMENT $03BB initial paddle speed y
+FORCE_SYMBOL $03BB PADDLE_INIT_SPEED
+COMMENT $03BD and store it
+FORCE_SYMBOL $03BD paddle_speed_y
+COMMENT $03C0 set paddle increase
+FORCE_SYMBOL $03C0 PADDLE_INIT_INCREASE
+COMMENT $03C2 and store
+FORCE_SYMBOL $03C2 paddle_increase
+COMMENT $03C5 init value for court scale 1
+FORCE_SYMBOL $03C5 COURT1_SCALE_INIT1
+COMMENT $03C7 scale for placing first point
+FORCE_SYMBOL $03C7 court1_scale1
+COMMENT $03CA init value for court scale 2
+FORCE_SYMBOL $03CA COURT1_SCALE_INIT2
+COMMENT $03CC scale for court size
+FORCE_SYMBOL $03CC court1_scale2
+COMMENT $03CF init value for paddle size
+FORCE_SYMBOL $03CF PADDLE_SCALE_INIT
+COMMENT $03D1 paddle scale value
+FORCE_SYMBOL $03D1 bottom_paddle_scale
+COMMENT $03D4 set the brightness
+FORCE_SYMBOL $03D4 PADDLE_INTENSITY_INIT
+COMMENT $03D6 of the paddle
+FORCE_SYMBOL $03D6 paddle_intensity
+COMMENT $03D9 set the brightness
+FORCE_SYMBOL $03D9 COURT1_INTENSITY_INIT
+COMMENT $03DB of the court
+FORCE_SYMBOL $03DB court1_intensity
+COMMENT $03DE difficult to zero
+COMMENT $03DF store it
+FORCE_SYMBOL $03DF difficult_counter
+COMMENT $03E2 difficulty to 1
+COMMENT $03E3 store it
+FORCE_SYMBOL $03E3 difficulty
+COMMENT_LINE $03E7 ***************************************************************************
+COMMENT_LINE $03E7 this routine draws the initial screen
+COMMENT_LINE $03E7 with information about the game
+COMMENT_LINE $03E7 nothing is expected and nothing is returned
+COMMENT $03E7 get button status once, since only
+FORCE_SYMBOL $03E7 Read_Btns
+COMMENT_LINE $03EA differences are noticed
+COMMENT $03EA load default text height & width
+FORCE_SYMBOL $03EA NORMAL_TEXT_SIZE
+COMMENT $03ED poke it to ram location
+FORCE_SYMBOL $03ED Vec_Text_HW
+COMMENT $03F0 draw at full brightness
+FORCE_SYMBOL $03F0 Intensity_7F
+COMMENT_LINE $03F3 the next 5 instructions initialize a new sound
+COMMENT $03F3 set DP...
+FORCE_SYMBOL $03F3 DP_to_C8
+COMMENT $03F6 load #1
+FORCE_NO_SYMBOL $03F6
+COMMENT $03F8 set this as marker for music start
+FORCE_SYMBOL $03F8 Vec_Music_Flag
+COMMENT $03FB load a music structure
+FORCE_SYMBOL $03FB music4
+COMMENT $03FE and store it to my own music active pointer
+FORCE_SYMBOL $03FE music_active
+COMMENT_LINE $0401 next a do_my_sound and than do sound must be called
+COMMENT $0401 do own sound stuff
+FORCE_SYMBOL $0401 do_my_sound
+COMMENT $0404 sets dp to d0, and pos at 0, 0
+FORCE_SYMBOL $0404 Wait_Recal
+COMMENT $0407 do sound stuff
+FORCE_SYMBOL $0407 Do_Sound
+COMMENT $040A load text start to U
+FORCE_SYMBOL $040A game_name
+COMMENT_LINE $040D Get A=Y, B=X (D=AB) coordinate
+COMMENT $040D Center Text Y
+COMMENT $040F Center Text X
+COMMENT $0411 Print the string
+FORCE_SYMBOL $0411 Print_Str_d
+COMMENT $0414 get button status
+FORCE_SYMBOL $0414 Read_Btns
+COMMENT $0417 is a button pressed?
+FORCE_NO_SYMBOL $0417
+COMMENT $0419 no, than stay in init_screen_loop
+COMMENT_LINE $041C ***************************************************************************
+COMMENT_LINE $041C expecting dp is allready pointing to d0
+COMMENT_LINE $041C prints 'score', 'hits' and 'balls'
+COMMENT $041C draw at full brightness
+FORCE_SYMBOL $041C Intensity_7F
+COMMENT $041F reset screen position
+FORCE_SYMBOL $041F Reset0Ref
+COMMENT $0422 load text start to U
+FORCE_SYMBOL $0422 score_string
+COMMENT_LINE $0425 Get A=Y, B=X (D=AB) coordinate
+COMMENT $0425 Print the string
+FORCE_SYMBOL $0425 Print_List_hw
+COMMENT_LINE $0429 ***************************************************************************
+COMMENT_LINE $0429 leaves with DP = to C8
+COMMENT_LINE $0429 expects music to be initialized
+COMMENT_LINE $0429 and pointer in music_active
+COMMENT $0429 set DP to C8
+FORCE_SYMBOL $0429 DP_to_C8
+COMMENT $042C get active music
+FORCE_SYMBOL $042C music_active
+COMMENT $042F and init new notes
+FORCE_SYMBOL $042F Init_Music_chk
+COMMENT_LINE $0433 ***************************************************************************
+COMMENT_LINE $044A ***************************************************************************
+COMMENT $044A 4 vectors are drawn
+COMMENT $044B next point relativ (y,x)
+COMMENT $044D next point relativ (y,x)
+COMMENT $044F next point relativ (y,x)
+COMMENT $0451 next point relativ (y,x)
+COMMENT_LINE $0453 ***************************************************************************
+COMMENT_LINE $0453 note: PING1 and PING2 stolen from patriots, hope you don't mind John!
+COMMENT_LINE $045B ***************************************************************************
+COMMENT_LINE $0463 ***************************************************************************
+COMMENT_LINE $046F ***************************************************************************
+COMMENT_LINE $046F entries following must be copied to vectrex ram...
+COMMENT_LINE $046F start of 'my ram'
+COMMENT_LINE $046F ***************************************************************************
+COMMENT_LINE $049D ***************************************************************************
+COMMENT $049D 4 vectors are drawn
+COMMENT $049E 4 size of paddle
+COMMENT $049F next point relativ (y,x)
+COMMENT $04A1 next point relativ (y,x)
+COMMENT $04A3 next point relativ (y,x)
+COMMENT $04A5 next point relativ (y,x)
+COMMENT_LINE $04A7 ***************************************************************************
+COMMENT $04A7 3 vectors are drawn
+COMMENT $04A8 size of court
+COMMENT $04A9 next point relativ (y,x)
+COMMENT $04AB next point relativ (y,x)
+COMMENT $04AD next point relativ (y,x)
+COMMENT_LINE $04AF ***************************************************************************
+COMMENT_LINE $04AF ***************************************************************************
+COMMENT_LINE $04AF stupid assembler, these defines must be made after the above
+COMMENT_LINE $04AF labels
+COMMENT_LINE $04AF ***************************************************************************
+RANGE $0000-$04AF DP $D0
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$001E CHAR_DATA 13
+RANGE $001E-$0022 DB_DATA 4
+RANGE $0022-$002B CHAR_DATA 9
+RANGE $002B-$002C DB_DATA 1
+RANGE $002C-$0433 CODE
+RANGE $0433-$0440 CHAR_DATA 13
+RANGE $0440-$044A CHAR_DATA 10
+RANGE $044A-$044B DB_DATA 1
+RANGE $044B-$044D DB_DATA 2
+RANGE $044D-$044F DB_DATA 2
+RANGE $044F-$0451 DB_DATA 2
+RANGE $0451-$0453 DB_DATA 2
+RANGE $0453-$0455 DW_DATA 1
+RANGE $0455-$0457 DW_DATA 1
+RANGE $0457-$0459 DB_DATA 2
+RANGE $0459-$045B DB_DATA 2
+RANGE $045B-$045D DW_DATA 1
+RANGE $045D-$045F DW_DATA 1
+RANGE $045F-$0461 DB_DATA 2
+RANGE $0461-$0463 DB_DATA 2
+RANGE $0463-$0467 DW_DATA 2
+RANGE $0467-$0469 DB_DATA 2
+RANGE $0469-$046B DB_DATA 2
+RANGE $046B-$046D DB_DATA 2
+RANGE $046D-$046F DB_DATA 2
+RANGE $046F-$0470 DB_DATA 1
+RANGE $0470-$0471 DB_DATA 1
+RANGE $0471-$0473 DB_DATA 2
+RANGE $0473-$0479 CHAR_DATA 6
+RANGE $0479-$0480 CHAR_DATA 7
+RANGE $0480-$0481 DB_DATA 1
+RANGE $0481-$0482 DB_DATA 1
+RANGE $0482-$0484 DB_DATA 2
+RANGE $0484-$0489 CHAR_DATA 5
+RANGE $0489-$0490 CHAR_DATA 7
+RANGE $0490-$0491 DB_DATA 1
+RANGE $0491-$0492 DB_DATA 1
+RANGE $0492-$0494 DB_DATA 2
+RANGE $0494-$049A CHAR_DATA 6
+RANGE $049A-$049C DB_DATA 2
+RANGE $049C-$049D DB_DATA 1
+RANGE $049D-$049E DB_DATA 1
+RANGE $049E-$049F DB_DATA 1
+RANGE $049F-$04A1 DB_DATA 2
+RANGE $04A1-$04A3 DB_DATA 2
+RANGE $04A3-$04A5 DB_DATA 2
+RANGE $04A5-$04A7 DB_DATA 2
+RANGE $04A7-$04A8 DB_DATA 1
+RANGE $04A8-$04A9 DB_DATA 1
+RANGE $04A9-$04AB DB_DATA 2
+RANGE $04AB-$04AD DB_DATA 2
+RANGE $04AD-$04AF DB_DATA 2
+

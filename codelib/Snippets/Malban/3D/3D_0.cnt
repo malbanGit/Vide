@@ -1,0 +1,1062 @@
+BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_b
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $F9F4 Char_Table
+LABEL $FBD4 Char_Table_End
+LABEL $C880 helper
+LABEL $C881 cosx
+LABEL $C882 sinx
+LABEL $C883 cosy
+LABEL $C884 siny
+LABEL $C885 cosz
+LABEL $C886 sinz
+LABEL $C887 angle_x
+LABEL $C888 angle_y
+LABEL $C889 angle_z
+LABEL $C88A allDirs_calc
+LABEL $C88A _0_0_0
+LABEL $C88D _1_0_0
+LABEL $C890 _1_1_0
+LABEL $C893 _1_0_1
+LABEL $C896 _1_1_1
+LABEL $C899 _0_1_0
+LABEL $C89C _0_1_1
+LABEL $C89F _0_0_1
+LABEL $C8A2 _N_1_0
+LABEL $C8A5 _N_0_1
+LABEL $C8A8 _0_N_1
+LABEL $C8AB _N_1_1
+LABEL $C8AE _1_N_1
+LABEL $C8B1 _1_1_N
+EQU $2A INVERS_OFFSET
+LABEL $C8B4 I_0_0_0
+LABEL $C8B7 I_1_0_0
+LABEL $C8BA I_1_1_0
+LABEL $C8BD I_1_0_1
+LABEL $C8C0 I_1_1_1
+LABEL $C8C3 I_0_1_0
+LABEL $C8C6 I_0_1_1
+LABEL $C8C9 I_0_0_1
+LABEL $C8CC I_N_1_0
+LABEL $C8CF I_N_0_1
+LABEL $C8D2 I_0_N_1
+LABEL $C8D5 I_N_1_1
+LABEL $C8D8 I_1_N_1
+LABEL $C8DB I_1_1_N
+LABEL $C8B7 _N_0_0
+LABEL $C8BA _N_N_0
+LABEL $C8BD _N_0_N
+LABEL $C8C0 _N_N_N
+LABEL $C8C3 _0_N_0
+LABEL $C8C6 _0_N_N
+LABEL $C8C9 _0_0_N
+LABEL $C8CC _1_N_0
+LABEL $C8CF _1_0_N
+LABEL $C8D2 _0_1_N
+LABEL $C8D5 _1_N_N
+LABEL $C8D8 _N_1_N
+LABEL $C8DB _N_N_1
+LABEL $C88A _000x
+LABEL $C88B _000y
+LABEL $C88C _000z
+LABEL $C8B4 _000xi
+LABEL $C8B5 _000yi
+LABEL $C8B6 _000zi
+LABEL $C88D _100x
+LABEL $C88E _100y
+LABEL $C88F _100z
+LABEL $C8B7 _100xi
+LABEL $C8B8 _100yi
+LABEL $C8B9 _100zi
+LABEL $C890 _110x
+LABEL $C891 _110y
+LABEL $C892 _110z
+LABEL $C8BA _110xi
+LABEL $C8BB _110yi
+LABEL $C8BC _110zi
+LABEL $C893 _101x
+LABEL $C894 _101y
+LABEL $C895 _101z
+LABEL $C8BD _101xi
+LABEL $C8BE _101yi
+LABEL $C8BF _101zi
+LABEL $C896 _111x
+LABEL $C897 _111y
+LABEL $C898 _111z
+LABEL $C8C0 _111xi
+LABEL $C8C1 _111yi
+LABEL $C8C2 _111zi
+LABEL $C899 _010x
+LABEL $C89A _010y
+LABEL $C89B _010z
+LABEL $C8C3 _010xi
+LABEL $C8C4 _010yi
+LABEL $C8C5 _010zi
+LABEL $C89C _011x
+LABEL $C89D _011y
+LABEL $C89E _011z
+LABEL $C8C6 _011xi
+LABEL $C8C7 _011yi
+LABEL $C8C8 _011zi
+LABEL $C89F _001x
+LABEL $C8A0 _001y
+LABEL $C8A1 _001z
+LABEL $C8C9 _001xi
+LABEL $C8CA _001yi
+LABEL $C8CB _001zi
+LABEL $C8A2 _N10x
+LABEL $C8A3 _N10y
+LABEL $C8A4 _N10z
+LABEL $C8CC _N10xi
+LABEL $C8CD _N10yi
+LABEL $C8CE _N10zi
+LABEL $C8A5 _N01x
+LABEL $C8A6 _N01y
+LABEL $C8A7 _N01z
+LABEL $C8CF _N01xi
+LABEL $C8D0 _N01yi
+LABEL $C8D1 _N01zi
+LABEL $C8A8 _0N1x
+LABEL $C8A9 _0N1y
+LABEL $C8AA _0N1z
+LABEL $C8D2 _0N1xi
+LABEL $C8D3 _0N1yi
+LABEL $C8D4 _0N1zi
+LABEL $C8AB _N11x
+LABEL $C8AC _N11y
+LABEL $C8AD _N11z
+LABEL $C8D5 _N11xi
+LABEL $C8D6 _N11yi
+LABEL $C8D7 _N11zi
+LABEL $C8AE _1N1x
+LABEL $C8AF _1N1y
+LABEL $C8B0 _1N1z
+LABEL $C8D8 _1N1xi
+LABEL $C8D9 _1N1yi
+LABEL $C8DA _1N1zi
+LABEL $C8B1 _11Nx
+LABEL $C8B2 _11Ny
+LABEL $C8B3 _11Nz
+LABEL $C8DB _11Nxi
+LABEL $C8DC _11Nyi
+LABEL $C8DD _11Nzi
+EQU $25 entry_point
+EQU $30 main_loop
+LABEL $0058 init_cube
+LABEL $0311 cubeM
+LABEL $025D draw_3ds
+LABEL $0291 cosinus3d
+LABEL $02D1 sinus3d
+LABEL $0094 mul_Ap3
+LABEL $0098 mul_An_Bp3
+LABEL $009D mul_An_Bn3
+LABEL $009D mul_Ap_Bp3
+LABEL $009E mul_end3
+LABEL $00B4 mul_Ap5
+LABEL $00B8 mul_An_Bp5
+LABEL $00BD mul_An_Bn5
+LABEL $00BD mul_Ap_Bp5
+LABEL $00BE mul_end5
+LABEL $00D4 mul_Ap7
+LABEL $00D8 mul_An_Bp7
+LABEL $00DD mul_An_Bn7
+LABEL $00DD mul_Ap_Bp7
+LABEL $00DE mul_end7
+LABEL $00FB mul_Ap11
+LABEL $00FF mul_An_Bp11
+LABEL $0104 mul_An_Bn11
+LABEL $0104 mul_Ap_Bp11
+LABEL $0105 mul_end11
+LABEL $011B mul_Ap13
+LABEL $011F mul_An_Bp13
+LABEL $0124 mul_An_Bn13
+LABEL $0124 mul_Ap_Bp13
+LABEL $0125 mul_end13
+LABEL $0143 mul_Ap20
+LABEL $0147 mul_An_Bp20
+LABEL $014C mul_An_Bn20
+LABEL $014C mul_Ap_Bp20
+LABEL $014D mul_end20
+LABEL $0163 mul_Ap22
+LABEL $0167 mul_An_Bp22
+LABEL $016C mul_An_Bn22
+LABEL $016C mul_Ap_Bp22
+LABEL $016D mul_end22
+LABEL $0183 mul_Ap24
+LABEL $0187 mul_An_Bp24
+LABEL $018C mul_An_Bn24
+LABEL $018C mul_Ap_Bp24
+LABEL $018D mul_end24
+LABEL $01AB mul_Ap29
+LABEL $01AF mul_An_Bp29
+LABEL $01B4 mul_An_Bn29
+LABEL $01B4 mul_Ap_Bp29
+LABEL $01B5 mul_end29
+LABEL $01CB mul_Ap31
+LABEL $01CF mul_An_Bp31
+LABEL $01D4 mul_An_Bn31
+LABEL $01D4 mul_Ap_Bp31
+LABEL $01D5 mul_end31
+LABEL $01F2 mul_Ap37
+LABEL $01F6 mul_An_Bp37
+LABEL $01FB mul_An_Bn37
+LABEL $01FB mul_Ap_Bp37
+LABEL $01FC mul_end37
+LABEL $0217 mul_Ap40
+LABEL $021B mul_An_Bp40
+LABEL $0220 mul_An_Bn40
+LABEL $0220 mul_Ap_Bp40
+LABEL $0221 mul_end40
+LABEL $022E draw_3d
+LABEL $0230 start
+LABEL $0253 end1
+LABEL $024B wait
+LABEL $0256 end2
+LABEL $0261 starts
+LABEL $0287 end1s
+LABEL $027F waits
+LABEL $028A end2s
+LABEL $00FA CUBE_STRENGTH
+LABEL $035A *
+EQU $25 *xfer
+COMMENT $0000 vectrex function includes
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT $0000 well start of our ram space
+COMMENT $C880 vectrex function includes
+COMMENT_LINE $C880 uses 11 + 27 *3 = 92 bytes RAM space
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 this does:
+COMMENT_LINE $0000 signed multiplication of A and B to D
+COMMENT_LINE $0000 and divides D by 64
+COMMENT_LINE $0000 result is stored in A
+COMMENT $0000 here we can use this as negd
+COMMENT $0000 since the low nibble of b doesn't interest us
+COMMENT $0000 this divides d by 64
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 start of vectrex memory with cartridge name...
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B music from the rom
+COMMENT $000D hight, width, rel y, rel x (from 0,0)
+COMMENT $0011 some game information, ending with $80
+COMMENT $0019 hight, width, rel y, rel x (from 0,0)
+COMMENT $001D some game information, ending with $80
+COMMENT $0024 end of game header
+COMMENT_LINE $0025 ***************************************************************************
+COMMENT_LINE $0025 here the cartridge program starts off
+FORCE_NO_SYMBOL $0025
+FORCE_SYMBOL $0027 angle_x
+FORCE_SYMBOL $002A angle_y
+FORCE_SYMBOL $002D angle_z
+COMMENT $0030 sets dp to d0, and pos at 0, 0
+FORCE_SYMBOL $0030 Wait_Recal
+COMMENT $0033 intensity to $3f, gets destroyed
+FORCE_SYMBOL $0033 Intensity_3F
+COMMENT_LINE $0036 by recalibration
+COMMENT $0036 scale factor
+FORCE_NO_SYMBOL $0036
+COMMENT $0038 move to time 1 lo, this means scaling
+FORCE_SYMBOL $0038 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $003A
+COMMENT $003D and go to position
+FORCE_SYMBOL $003D Moveto_d
+FORCE_SYMBOL $0040 init_cube
+FORCE_SYMBOL $0043 cubeM
+FORCE_SYMBOL $0046 draw_3ds
+FORCE_SYMBOL $0049 angle_x
+FORCE_SYMBOL $004C angle_x
+FORCE_NO_SYMBOL $004F
+FORCE_SYMBOL $0053 angle_x
+COMMENT $0056 go back to main loop
+COMMENT_LINE $0058 ***************************************************************************
+FORCE_SYMBOL $0058 cosinus3d
+FORCE_SYMBOL $005B sinus3d
+FORCE_SYMBOL $005E angle_x
+FORCE_SYMBOL $0063 cosx
+FORCE_SYMBOL $0068 sinx
+FORCE_SYMBOL $006B angle_y
+FORCE_SYMBOL $0070 cosy
+FORCE_SYMBOL $0075 siny
+FORCE_SYMBOL $0078 angle_z
+FORCE_SYMBOL $007D cosz
+FORCE_SYMBOL $0082 sinz
+FORCE_SYMBOL $0085 siny
+FORCE_SYMBOL $0088 sinx
+COMMENT $0099 here we can use this as negd
+COMMENT $009A since the low nibble of b doesn't interest us
+COMMENT $009E this divides d by 64
+FORCE_SYMBOL $00A2 _001x
+FORCE_SYMBOL $00A5 cosz
+FORCE_SYMBOL $00A8 cosx
+COMMENT $00B9 here we can use this as negd
+COMMENT $00BA since the low nibble of b doesn't interest us
+COMMENT $00BE this divides d by 64
+FORCE_SYMBOL $00C2 _001y
+FORCE_SYMBOL $00C5 sinz
+FORCE_SYMBOL $00C8 _001x
+COMMENT $00D9 here we can use this as negd
+COMMENT $00DA since the low nibble of b doesn't interest us
+COMMENT $00DE this divides d by 64
+FORCE_SYMBOL $00E2 _001y
+FORCE_SYMBOL $00E5 _001y
+FORCE_SYMBOL $00E9 _001yi
+FORCE_SYMBOL $00EC cosz
+FORCE_SYMBOL $00EF _001x
+COMMENT $0100 here we can use this as negd
+COMMENT $0101 since the low nibble of b doesn't interest us
+COMMENT $0105 this divides d by 64
+FORCE_SYMBOL $0109 _001x
+FORCE_SYMBOL $010C sinz
+FORCE_SYMBOL $010F cosx
+COMMENT $0120 here we can use this as negd
+COMMENT $0121 since the low nibble of b doesn't interest us
+COMMENT $0125 this divides d by 64
+FORCE_SYMBOL $012A _001x
+FORCE_SYMBOL $012D _001x
+FORCE_SYMBOL $0131 _001xi
+FORCE_SYMBOL $0134 siny
+FORCE_SYMBOL $0137 cosx
+COMMENT $0148 here we can use this as negd
+COMMENT $0149 since the low nibble of b doesn't interest us
+COMMENT $014D this divides d by 64
+FORCE_SYMBOL $0151 _010x
+FORCE_SYMBOL $0154 sinz
+FORCE_SYMBOL $0157 _010x
+COMMENT $0168 here we can use this as negd
+COMMENT $0169 since the low nibble of b doesn't interest us
+COMMENT $016D this divides d by 64
+FORCE_SYMBOL $0171 _010y
+FORCE_SYMBOL $0174 cosz
+FORCE_SYMBOL $0177 sinx
+COMMENT $0188 here we can use this as negd
+COMMENT $0189 since the low nibble of b doesn't interest us
+COMMENT $018D this divides d by 64
+FORCE_SYMBOL $0192 _010y
+FORCE_SYMBOL $0195 _010y
+FORCE_SYMBOL $0199 _010yi
+FORCE_SYMBOL $019C cosz
+FORCE_SYMBOL $019F _010x
+COMMENT $01B0 here we can use this as negd
+COMMENT $01B1 since the low nibble of b doesn't interest us
+COMMENT $01B5 this divides d by 64
+FORCE_SYMBOL $01B9 _010x
+FORCE_SYMBOL $01BC sinz
+FORCE_SYMBOL $01BF sinx
+COMMENT $01D0 here we can use this as negd
+COMMENT $01D1 since the low nibble of b doesn't interest us
+COMMENT $01D5 this divides d by 64
+FORCE_SYMBOL $01D9 _010x
+FORCE_SYMBOL $01DC _010x
+FORCE_SYMBOL $01E0 _010xi
+FORCE_SYMBOL $01E3 sinz
+FORCE_SYMBOL $01E6 cosy
+COMMENT $01F7 here we can use this as negd
+COMMENT $01F8 since the low nibble of b doesn't interest us
+COMMENT $01FC this divides d by 64
+FORCE_SYMBOL $0201 _100y
+FORCE_SYMBOL $0205 _100yi
+FORCE_SYMBOL $0208 cosz
+FORCE_SYMBOL $020B cosy
+COMMENT $021C here we can use this as negd
+COMMENT $021D since the low nibble of b doesn't interest us
+COMMENT $0221 this divides d by 64
+FORCE_SYMBOL $0226 _100x
+FORCE_SYMBOL $022A _100xi
+COMMENT_LINE $022E ***************************************************************************
+COMMENT_LINE $022E expects figure pointer in X
+FORCE_NO_SYMBOL $022E
+FORCE_NO_SYMBOL $0230
+FORCE_NO_SYMBOL $0232
+FORCE_NO_SYMBOL $0234
+FORCE_NO_SYMBOL $0236
+FORCE_NO_SYMBOL $0238
+FORCE_NO_SYMBOL $023A
+FORCE_NO_SYMBOL $023C
+FORCE_NO_SYMBOL $023E
+FORCE_NO_SYMBOL $0240
+FORCE_NO_SYMBOL $0242
+FORCE_NO_SYMBOL $0244
+FORCE_NO_SYMBOL $0248
+FORCE_NO_SYMBOL $024B
+FORCE_NO_SYMBOL $024F
+FORCE_NO_SYMBOL $0253
+FORCE_NO_SYMBOL $0256
+FORCE_NO_SYMBOL $025A
+COMMENT_LINE $025D expects figure pointer in X
+FORCE_NO_SYMBOL $025D
+FORCE_NO_SYMBOL $025F
+FORCE_NO_SYMBOL $0261
+FORCE_NO_SYMBOL $0263
+FORCE_NO_SYMBOL $0265
+FORCE_NO_SYMBOL $0267
+FORCE_NO_SYMBOL $0269
+FORCE_NO_SYMBOL $026B
+FORCE_NO_SYMBOL $026D
+FORCE_NO_SYMBOL $026F
+FORCE_NO_SYMBOL $0271
+FORCE_NO_SYMBOL $0273
+FORCE_NO_SYMBOL $0275
+FORCE_NO_SYMBOL $0277
+FORCE_NO_SYMBOL $027B
+FORCE_NO_SYMBOL $027D
+FORCE_NO_SYMBOL $027F
+FORCE_NO_SYMBOL $0283
+FORCE_NO_SYMBOL $0287
+FORCE_NO_SYMBOL $028A
+FORCE_NO_SYMBOL $028E
+COMMENT_LINE $0291 Cosinus data
+COMMENT $0291 11
+COMMENT $029C 22
+COMMENT $02A7 33
+COMMENT $02B2 44
+COMMENT $02BD 55
+COMMENT_LINE $02D1 Sinus data
+COMMENT $02D1 11
+COMMENT $02DC 22
+COMMENT $02E7 33
+COMMENT $02F2 44
+COMMENT $02FD 55
+COMMENT_LINE $0311 ***************************************************************************
+COMMENT_LINE $035A ***************************************************************************
+RANGE $0000-$035A DP $D0
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$0019 CHAR_DATA 8
+RANGE $0019-$001D DB_DATA 4
+RANGE $001D-$0024 CHAR_DATA 7
+RANGE $0024-$0025 DB_DATA 1
+RANGE $0025-$0291 CODE
+RANGE $0291-$029C DB_DATA 11
+RANGE $029C-$02A7 DB_DATA 11
+RANGE $02A7-$02B2 DB_DATA 11
+RANGE $02B2-$02BD DB_DATA 11
+RANGE $02BD-$02C8 DB_DATA 11
+RANGE $02C8-$02D1 DB_DATA 9
+RANGE $02D1-$02DC DB_DATA 11
+RANGE $02DC-$02E7 DB_DATA 11
+RANGE $02E7-$02F2 DB_DATA 11
+RANGE $02F2-$02FD DB_DATA 11
+RANGE $02FD-$0308 DB_DATA 11
+RANGE $0308-$0311 DB_DATA 9
+RANGE $0311-$0313 DB_DATA 2
+RANGE $0313-$0315 DW_DATA 1
+RANGE $0315-$0317 DB_DATA 2
+RANGE $0317-$0319 DW_DATA 1
+RANGE $0319-$031B DB_DATA 2
+RANGE $031B-$031D DW_DATA 1
+RANGE $031D-$031F DB_DATA 2
+RANGE $031F-$0321 DW_DATA 1
+RANGE $0321-$0323 DB_DATA 2
+RANGE $0323-$0325 DW_DATA 1
+RANGE $0325-$0327 DB_DATA 2
+RANGE $0327-$0329 DW_DATA 1
+RANGE $0329-$032B DB_DATA 2
+RANGE $032B-$032D DW_DATA 1
+RANGE $032D-$032F DB_DATA 2
+RANGE $032F-$0331 DW_DATA 1
+RANGE $0331-$0333 DB_DATA 2
+RANGE $0333-$0335 DW_DATA 1
+RANGE $0335-$0337 DB_DATA 2
+RANGE $0337-$0339 DW_DATA 1
+RANGE $0339-$033B DB_DATA 2
+RANGE $033B-$033D DW_DATA 1
+RANGE $033D-$033F DB_DATA 2
+RANGE $033F-$0341 DW_DATA 1
+RANGE $0341-$0343 DB_DATA 2
+RANGE $0343-$0345 DW_DATA 1
+RANGE $0345-$0347 DB_DATA 2
+RANGE $0347-$0349 DW_DATA 1
+RANGE $0349-$034B DB_DATA 2
+RANGE $034B-$034D DW_DATA 1
+RANGE $034D-$034F DB_DATA 2
+RANGE $034F-$0351 DW_DATA 1
+RANGE $0351-$0353 DB_DATA 2
+RANGE $0353-$0355 DW_DATA 1
+RANGE $0355-$0357 DB_DATA 2
+RANGE $0357-$0359 DW_DATA 1
+RANGE $0359-$035A DB_DATA 1
+

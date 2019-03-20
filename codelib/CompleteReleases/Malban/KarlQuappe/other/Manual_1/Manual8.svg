@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="105mm"
+   height="148mm"
+   viewBox="0 0 372.04725 524.40945"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="Manual8.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path15592"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path15595"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <clipPath
+       id="clipPath4171"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4173"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4177"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4179"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4213"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4215"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4219"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4221"
+         d="m 98,842 0,-841.0551777 399.5444,0 L 497.5444,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4225"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4227"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <filter
+       y="-0.25"
+       height="1.5"
+       inkscape:menu-tooltip="Darkens the edge with an inner blur and adds a flexible glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:label="Dark And Glow"
+       style="color-interpolation-filters:sRGB"
+       id="filter5098">
+      <feGaussianBlur
+         stdDeviation="5"
+         result="result6"
+         id="feGaussianBlur5100" />
+      <feComposite
+         result="result8"
+         in="SourceGraphic"
+         operator="atop"
+         in2="result6"
+         id="feComposite5102" />
+      <feComposite
+         result="result9"
+         operator="over"
+         in2="SourceAlpha"
+         in="result8"
+         id="feComposite5104" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         result="result10"
+         id="feColorMatrix5106" />
+      <feBlend
+         in="result10"
+         mode="normal"
+         in2="result6"
+         id="feBlend5108" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.9412292"
+     inkscape:cx="199.34057"
+     inkscape:cy="316.82205"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer2"
+     showgrid="true"
+     inkscape:window-width="1600"
+     inkscape:window-height="1199"
+     inkscape:window-x="1005"
+     inkscape:window-y="27"
+     inkscape:window-maximized="0"
+     showborder="true"
+     showguides="false"
+     inkscape:showpageshadow="false"
+     borderlayer="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4346" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Ebene 3"
+     style="display:inline"
+     transform="translate(0,-42.519685)">
+    <rect
+       style="display:inline;fill:#000000;fill-opacity:0.39402986;fill-rule:evenodd;stroke:none;stroke-width:2.7579999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4561"
+       width="339.06009"
+       height="19.848625"
+       x="15.944881"
+       y="51.017517" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Ebene 2"
+     style="display:inline"
+     transform="translate(0,-42.519685)">
+    <text
+       y="538.05884"
+       x="186.9369"
+       id="text18559"
+       style="font-variant:normal;font-weight:normal;font-size:10px;font-family:Swis721LtBT;-inkscape-font-specification:Swis721LtBT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none">
+      <tspan
+         id="tspan18561"
+         y="538.05884"
+         x="186.9369">7</tspan>
+    </text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text19921"
+       y="65.668373"
+       x="24.944881"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Verdana;-inkscape-font-specification:'Verdana, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1"
+         y="65.668373"
+         x="24.944881"
+         id="tspan19923"
+         sodipodi:role="line">Title Screen</tspan></text>
+    <text
+       sodipodi:linespacing="110%"
+       id="text21340"
+       y="95.657677"
+       x="26.158224"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         id="tspan4265"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="95.657677"
+         x="26.158224"
+         sodipodi:role="line">While the title is displayed you can use the buttons</tspan><tspan
+         id="tspan4209"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="112.84518"
+         x="26.158224"
+         sodipodi:role="line">of joystick 1 to procede to different sections.</tspan><tspan
+         id="tspan4273"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="130.03268"
+         x="26.158224"
+         sodipodi:role="line" /><tspan
+         id="tspan4275"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+         y="146.91417"
+         x="26.158224"
+         sodipodi:role="line">Button 1</tspan><tspan
+         id="tspan4277"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="164.40768"
+         x="26.158224"
+         sodipodi:role="line">Start the game with the current selected options.</tspan><tspan
+         id="tspan4310"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="181.59518"
+         x="26.158224"
+         sodipodi:role="line" /><tspan
+         id="tspan4328"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+         y="198.47667"
+         x="26.158224"
+         sodipodi:role="line">Button 2</tspan><tspan
+         id="tspan4312"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="215.97018"
+         x="26.158224"
+         sodipodi:role="line">Displays the current high scores. Using joystick 1  </tspan><tspan
+         id="tspan4332"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="233.15768"
+         x="26.158224"
+         sodipodi:role="line">(left/right) displays either the COMPETITION or </tspan><tspan
+         id="tspan4330"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="250.34518"
+         x="26.158224"
+         sodipodi:role="line">the HARDCORE high scores. </tspan><tspan
+         id="tspan4314"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="267.53268"
+         x="26.158224"
+         sodipodi:role="line" /><tspan
+         id="tspan4316"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+         y="284.41418"
+         x="26.158224"
+         sodipodi:role="line">Button 3</tspan><tspan
+         id="tspan4349"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="301.90768"
+         x="26.158224"
+         sodipodi:role="line">Immediately enters the next attract mode &quot;level&quot;</tspan><tspan
+         id="tspan4362"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="319.09518"
+         x="26.158224"
+         sodipodi:role="line">(the attract mode will be entered automatically </tspan><tspan
+         id="tspan4364"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="336.28268"
+         x="26.158224"
+         sodipodi:role="line">after the title screen has been displayed for a certain </tspan><tspan
+         id="tspan4366"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="353.47018"
+         x="26.158224"
+         sodipodi:role="line">amount of time).</tspan><tspan
+         id="tspan4378"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="370.65768"
+         x="26.158224"
+         sodipodi:role="line" /><tspan
+         id="tspan4388"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+         y="387.53918"
+         x="26.158224"
+         sodipodi:role="line">Button 4</tspan><tspan
+         id="tspan4324"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="405.03268"
+         x="26.158224"
+         sodipodi:role="line">Enters the options menu.</tspan><tspan
+         id="tspan4326"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="422.22018"
+         x="26.158224"
+         sodipodi:role="line" /><tspan
+         id="tspan4292"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="439.40768"
+         x="26.158224"
+         sodipodi:role="line" /><tspan
+         id="tspan4294"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="456.59518"
+         x="26.158224"
+         sodipodi:role="line" /><tspan
+         id="tspan21348"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="473.78268"
+         x="26.158224"
+         sodipodi:role="line" /><tspan
+         id="tspan4290"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="490.97018"
+         x="26.158224"
+         sodipodi:role="line" /></text>
+  </g>
+</svg>

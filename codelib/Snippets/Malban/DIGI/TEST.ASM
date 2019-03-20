@@ -509,9 +509,9 @@ frogger_right:
                 DB  0*SPRITE_BLOW_UP, -4*SPRITE_BLOW_UP
 
 sample_start:
- include "left.bin.asm"
- include "right.bin.asm"
- include "frogger.bin.asm"
+ include "LEFT.BIN.asm"
+ include "RIGHT.BIN.asm"
+ include "FROGGER.BIN.asm"
 ; where are the samples?
 ; this must follow after the above 'sample_start' definition!
 ; otherwise the assembler doesn't calculate 'sample_start' properly

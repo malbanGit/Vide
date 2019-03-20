@@ -1,4 +1,61 @@
 BANK 0
+EQU $00 
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
 LABEL $C82A Vec_Text_HW
 COMMENT_LABEL $C82A Default text height and width
 LABEL $C82A Vec_Text_Height
@@ -7,14 +64,135 @@ LABEL $C82B Vec_Text_Width
 COMMENT_LABEL $C82B Default text width
 LABEL $C82C Vec_Str_Ptr
 COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
 LABEL $D000 VIA_port_b
 COMMENT_LABEL $D000 VIA port B data I/O register
 LABEL $D001 VIA_port_a
 COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
 LABEL $D004 VIA_t1_cnt_lo
 COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
 LABEL $D005 VIA_t1_cnt_hi
 COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
 LABEL $D00A VIA_shift_reg
 COMMENT_LABEL $D00A VIA shift register
 LABEL $D00B VIA_aux_cntl
@@ -23,15 +201,183 @@ LABEL $D00C VIA_cntl
 COMMENT_LABEL $D00C VIA control register
 LABEL $D00D VIA_int_flags
 COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
 LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
 LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
 LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_b
+LABEL $F310 Moveto_ix
 LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
 LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
 LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $08EE Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
 LABEL $F56D Delay_3
 COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
 LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
 LABEL $F9F4 Char_Table
 LABEL $FBD4 Char_Table_End
 LABEL $C888 buffer
@@ -40,68 +386,82 @@ COMMENT_LABEL $C888 variable used in own printing routines
 LABEL $C88A print_space
 COMMENT_LABEL $C88A buffer for draw numbers
 EQU $1B main
-LABEL $005C hello_world_string
-LABEL $0080 hello_world_string_bi
-LABEL $04FC my_Print_Str_d
-LABEL $0909 sync_Print_Str_d
-LABEL $00A5 _my_Char_Tableb1
-LABEL $00F5 _my_Char_Tableb2
-LABEL $0145 _my_Char_Tableb3
+LABEL $005B hello_world_string
+LABEL $007F hello_world_string_bi
+LABEL $04E3 my_Print_Str_d
+LABEL $08CE sync_Print_Str_d
+LABEL $00A4 _my_Char_Tableb1
+LABEL $00F4 _my_Char_Tableb2
+LABEL $0144 _my_Char_Tableb3
 LABEL $F9D4 Char_Tablef1
 LABEL $FA74 Char_Tablef2
 LABEL $FB14 Char_Tablef3
 LABEL $FBB4 Char_Tablef4
-LABEL $0085 Char_Tableb1
-LABEL $00D5 Char_Tableb2
-LABEL $0125 Char_Tableb3
-LABEL $01BC LF33D2
-LABEL $01EA LF4C7_14
-LABEL $0226 LF4C7_26
-LABEL $0260 LF4C7_18
-LABEL $029C LF4C7_210
-LABEL $02D6 LF4C7_112
-LABEL $0312 LF4C7_214
-LABEL $034C LF4C7_116
-LABEL $0360 my_Print_Str
-LABEL $0386 LF4C7_119
-LABEL $03C2 LF4C7_221
-LABEL $03FC LF4C7_123
-LABEL $0438 LF4C7_225
-LABEL $0472 LF4C7_127
-LABEL $04AE LF4C7_229
-LABEL $04E8 LF4C7_131
-LABEL $051C LF33D33
-LABEL $054A LF4C7_135
-LABEL $0586 LF4C7_237
-LABEL $05C0 LF4C7_139
-LABEL $05FC LF4C7_241
-LABEL $0636 LF4C7_143
-LABEL $0672 LF4C7_245
-LABEL $06AC LF4C7_147
-LABEL $06C0 Print_List149
-LABEL $06E2 LF33D51
-LABEL $0710 LF4C7_153
-LABEL $074C LF4C7_255
-LABEL $0786 LF4C7_157
-LABEL $07C2 LF4C7_259
-LABEL $07FC LF4C7_161
-LABEL $0838 LF4C7_263
-LABEL $0872 LF4C7_165
-LABEL $08A3 LF3A3_
-LABEL $08D5 test_for_over_999
-LABEL $08E2 not_over_999
-LABEL $08E2 test_for_over_99
-LABEL $08EF not_over_99
-LABEL $08EF test_for_over_9
-LABEL $08FC not_over_9
+LABEL $0084 Char_Tableb1
+LABEL $00D4 Char_Tableb2
+LABEL $0124 Char_Tableb3
+LABEL $0194 my_Print_Str_hwyx
+LABEL $01B3 LF33D2
+LABEL $01C2 LF4A53
+LABEL $01DF LF4C7_14
+LABEL $0219 LF4C7_26
+LABEL $0253 LF4C7_18
+LABEL $028D LF4C7_210
+LABEL $02C7 LF4C7_112
+LABEL $0301 LF4C7_214
+LABEL $033B LF4C7_116
+LABEL $0345 LF50A3
+LABEL $034E my_Print_Str
+LABEL $0357 LF4A518
+LABEL $0374 LF4C7_119
+LABEL $03AE LF4C7_221
+LABEL $03E8 LF4C7_123
+LABEL $0422 LF4C7_225
+LABEL $045C LF4C7_127
+LABEL $0496 LF4C7_229
+LABEL $04D0 LF4C7_131
+LABEL $04DA LF50A18
+LABEL $04FB LF33D33
+LABEL $050A LF4A534
+LABEL $0527 LF4C7_135
+LABEL $0561 LF4C7_237
+LABEL $059B LF4C7_139
+LABEL $05D5 LF4C7_241
+LABEL $060F LF4C7_143
+LABEL $0649 LF4C7_245
+LABEL $0683 LF4C7_147
+LABEL $068D LF50A34
+LABEL $0696 my_Print_List
+LABEL $0696 Print_List149
+LABEL $06B0 LF33D51
+LABEL $06BF LF4A552
+LABEL $06DC LF4C7_153
+LABEL $0716 LF4C7_255
+LABEL $0750 LF4C7_157
+LABEL $078A LF4C7_259
+LABEL $07C4 LF4C7_161
+LABEL $07FE LF4C7_263
+LABEL $0838 LF4C7_165
+LABEL $0842 LF50A52
+LABEL $0852 my_Print_Ships
+LABEL $0868 LF3A3_
+LABEL $087C print_num_d
+LABEL $089A test_for_over_999
+LABEL $08A7 not_over_999
+LABEL $08A7 test_for_over_99
+LABEL $08B4 not_over_99
+LABEL $08B4 test_for_over_9
+LABEL $08C1 not_over_9
 EQU $07 ZERO_DELAY
 COMMENT_LABEL $07 delay 7 counter is exactly 111 cycles delay between zero SETTING and zero unsetting (in moveto_d)
-LABEL $0913 next_line
-LABEL $091D zeroLoop
-LABEL $0956 LF4CB
-LABEL $0952 LF4C7
-LABEL $0986 LF50A
-LABEL $0976 LF4EB
+LABEL $08D8 next_line
+LABEL $08E2 zeroLoop
+LABEL $08F5 LF4A5
+LABEL $091B LF4CB
+LABEL $0917 LF4C7
+LABEL $094B LF50A
+LABEL $093B LF4EB
+LABEL $0952 *
 COMMENT_LINE $0000 ***************************************************************************
 COMMENT_LINE $0000 DEFINE SECTION
 COMMENT_LINE $0000 ***************************************************************************
@@ -165,6 +525,12 @@ COMMENT_LINE $0000 4 CB1 interrupt enable
 COMMENT_LINE $0000 5 timer 2 interrupt enable
 COMMENT_LINE $0000 6 timer 1 interrupt enable
 COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
 COMMENT_LINE $0000 ***************************************************************************
 COMMENT_LINE $0000 Variable / RAM SECTION
 COMMENT_LINE $0000 ***************************************************************************
@@ -188,41 +554,60 @@ COMMENT_LINE $001B CODE SECTION
 COMMENT_LINE $001B ***************************************************************************
 COMMENT_LINE $001B here the cartridge program starts off
 COMMENT $001B Vectrex BIOS recalibration
+FORCE_SYMBOL $001B Wait_Recal
 COMMENT $001E Sets the intensity of the
+FORCE_SYMBOL $001E Intensity_5F
 COMMENT_LINE $0021 vector beam to $5f
+FORCE_NO_SYMBOL $0021
+FORCE_SYMBOL $0023 Vec_Text_Width
+FORCE_SYMBOL $0028 Vec_Text_Height
 COMMENT $002B address of string
+FORCE_SYMBOL $002B hello_world_string
 COMMENT $002E Text position relative Y
+FORCE_NO_SYMBOL $002E
 COMMENT $0030 Text position relative X
 COMMENT $0032 Vectrex BIOS print routine 10486 cycles
+FORCE_SYMBOL $0032 Print_Str_d
+FORCE_SYMBOL $0035 Reset0Ref
+FORCE_SYMBOL $0038 Delay_3
 COMMENT $003B address of string
+FORCE_SYMBOL $003B hello_world_string_bi
 COMMENT $003E Text position relative Y
+FORCE_NO_SYMBOL $003E
 COMMENT $0040 Text position relative X
 COMMENT $0042 Vectrex BIOS print routine 6209 cycles
-COMMENT_LINE $0050 height of string is determined by scale factor!
-COMMENT $0050 address of string
-COMMENT $0053 Text position relative Y
-COMMENT $0055 Text position relative X
-COMMENT $0057 Vectrex BIOS print routine
-COMMENT $005A and repeat forever
-COMMENT_LINE $005C ***************************************************************************
-COMMENT_LINE $005C DATA SECTION
-COMMENT_LINE $005C ***************************************************************************
-COMMENT $005C only capital letters
+FORCE_SYMBOL $0042 my_Print_Str_d
+FORCE_NO_SYMBOL $0045
+FORCE_SYMBOL $0047 VIA_t1_cnt_lo
+FORCE_SYMBOL $0049 Reset0Ref
+FORCE_SYMBOL $004C Delay_3
+COMMENT_LINE $004F height of string is determined by scale factor!
+COMMENT $004F address of string
+FORCE_SYMBOL $004F hello_world_string
+COMMENT $0052 Text position relative Y
+COMMENT $0054 Text position relative X
+COMMENT $0056 Vectrex BIOS print routine
+FORCE_SYMBOL $0056 sync_Print_Str_d
+COMMENT $0059 and repeat forever
+COMMENT_LINE $005B ***************************************************************************
+COMMENT_LINE $005B DATA SECTION
+COMMENT_LINE $005B ***************************************************************************
+COMMENT $005B only capital letters
+COMMENT $007E $80 is end of string
 COMMENT $007F $80 is end of string
-COMMENT $0080 $80 is end of string
-COMMENT $0081 only capital letters
-COMMENT $00A4 $80 is end of string
-COMMENT_LINE $00A5 ***************************************************************************
-COMMENT $00A5 routines for my printing...
+COMMENT $0080 only capital letters
+COMMENT $00A3 $80 is end of string
+COMMENT_LINE $00A4 ***************************************************************************
+COMMENT $00A4 routines for my printing...
 COMMENT $0000 /BLANK low and /ZERO low
 COMMENT_LINE $0000 **************************************************************************
-COMMENT_LINE $0195 expects
-COMMENT_LINE $0195 b = speed
-COMMENT_LINE $0195 first char
-COMMENT_LINE $0195 u pointer to string
-COMMENT_LINE $0195 X pointer to character display table
-COMMENT_LINE $0195 Y speed = to zero
-COMMENT_LINE $0195 ...
+COMMENT_LINE $0194 expects
+COMMENT_LINE $0194 b = speed
+COMMENT_LINE $0194 first char
+COMMENT_LINE $0194 u pointer to string
+COMMENT_LINE $0194 X pointer to character display table
+COMMENT_LINE $0194 Y speed = to zero
+COMMENT_LINE $0194 ...
 COMMENT $0000 Send it to the D/A
 COMMENT $0000 enable RAMP, disable mux
 COMMENT $0000 2 delay needed for drawing
@@ -326,873 +711,1461 @@ COMMENT_LINE $0000 special printstr routines
 COMMENT_LINE $0000 expect
 COMMENT_LINE $0000 strings termitated on both ends with $81
 COMMENT_LINE $0000 ***************************************************************************
-COMMENT $0195 text size
-COMMENT $019A position
-COMMENT_LINE $019C Moveto_d_7F start
-COMMENT_LINE $019F lda  <VIA_t1_lch_lo
-COMMENT_LINE $019F pshs a
-COMMENT_LINE $01C4 puls a
-COMMENT_LINE $01C4 sta  <VIA_t1_cnt_lo
-COMMENT_LINE $01C4 clr <VIA_port_a
-COMMENT_LINE $01C4 ldb #%10000000
-COMMENT_LINE $01C4 stb <VIA_port_b
-COMMENT_LINE $01C4 nop
-COMMENT_LINE $01C4 inc <VIA_port_b
-COMMENT_LINE $01C4 U=String pointer to first $81
-COMMENT $01C6 Clear D/A output
-COMMENT $01C8 Shift reg mode = 110, T1 PB7 enabled
-COMMENT $01CF enable mux, set y to 0 disable ramp
-COMMENT $01D1 disable RAMP, disable mux
-COMMENT $01D5 Get text width
-COMMENT $01DF Send it to the D/A
-COMMENT $01E3 enable RAMP, disable mux
-COMMENT $01E5 2 delay needed for drawing
-COMMENT $01E6 2
-COMMENT $01E7 2
-COMMENT $01E8 3
-COMMENT $01EA 5 Get bitmap from chargen table
-COMMENT $01EC 4 Save in shift register
-COMMENT $01EE Get next character
-COMMENT $01F0 Go back if not terminator
-COMMENT_LINE $01F2 A=$81
-COMMENT $01F2 disable RAMP, disable mux
-COMMENT $01F7 Get text height
-COMMENT_LINE $01FA now move down
-COMMENT $01FA store 'height' to dac (y)
-COMMENT $01FC disable RAMP, enable mux
-COMMENT $01FE disable RAMP, disable mux
-COMMENT $0200 zero dac
-COMMENT_LINE $0202 now only y set, x to zero
-COMMENT $0204 enable RAMP, disable mux
-COMMENT $0208 Get first character
-COMMENT $020A just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0212 enable RAMP, enable mux
-COMMENT_LINE $0214 tricky, cutting y off while
-COMMENT_LINE $0214 integrating, saves one switch of mux
-COMMENT_LINE $0214 still B=$81
-COMMENT $0214 disable RAMP, disable mux
-COMMENT_LINE $0219 now finnished moving down
-COMMENT $0219 negative x speed
-COMMENT $021E enable RAMP, disable mux
-COMMENT $0221 delay needed for drawing
-COMMENT $0226 Get bitmap from chargen table
-COMMENT $0228 Save in shift register
-COMMENT $022A Get next character
-COMMENT $022C Go back if not terminator
-COMMENT_LINE $022E A=$81
-COMMENT $022E disable RAMP, disable mux
-COMMENT $0233 Get text height
-COMMENT_LINE $0236 now move down
-COMMENT $0236 store 'height' to dac (y)
-COMMENT $0238 disable RAMP, enable mux
-COMMENT $023A disable RAMP, disable mux
-COMMENT $023C zero dac
-COMMENT_LINE $023E now only y set, x to zero
-COMMENT $0240 enable RAMP, disable mux
-COMMENT_LINE $0242 here we move down
-COMMENT $0246 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $024E enable RAMP, enable mux
-COMMENT_LINE $0250 tricky, cutting y off while
-COMMENT_LINE $0250 integrating, saves one switch of mux
-COMMENT_LINE $0250 still b=$81
-COMMENT $0250 disable RAMP, disable mux
-COMMENT_LINE $0255 now finnished moving down
-COMMENT $0255 Send it to the D/A
-COMMENT $0259 enable RAMP, disable mux
-COMMENT $025B 2 delay needed for drawing
-COMMENT $025C 2
-COMMENT $025D 2
-COMMENT $025E 3
-COMMENT $0260 5 Get bitmap from chargen table
-COMMENT $0262 4 Save in shift register
-COMMENT $0264 Get next character
-COMMENT $0266 Go back if not terminator
-COMMENT_LINE $0268 A=$81
-COMMENT $0268 disable RAMP, disable mux
-COMMENT $026D Get text height
-COMMENT_LINE $0270 now move down
-COMMENT $0270 store 'height' to dac (y)
-COMMENT $0272 disable RAMP, enable mux
-COMMENT $0274 disable RAMP, disable mux
-COMMENT $0276 zero dac
-COMMENT_LINE $0278 now only y set, x to zero
-COMMENT $027A enable RAMP, disable mux
-COMMENT $027E Get first character
-COMMENT $0280 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0288 enable RAMP, enable mux
-COMMENT_LINE $028A tricky, cutting y off while
-COMMENT_LINE $028A integrating, saves one switch of mux
-COMMENT_LINE $028A still B=$81
-COMMENT $028A disable RAMP, disable mux
-COMMENT_LINE $028F now finnished moving down
-COMMENT $028F negative x speed
-COMMENT $0294 enable RAMP, disable mux
-COMMENT $0297 delay needed for drawing
-COMMENT $029C Get bitmap from chargen table
-COMMENT $029E Save in shift register
-COMMENT $02A0 Get next character
-COMMENT $02A2 Go back if not terminator
-COMMENT_LINE $02A4 A=$81
-COMMENT $02A4 disable RAMP, disable mux
-COMMENT $02A9 Get text height
-COMMENT_LINE $02AC now move down
-COMMENT $02AC store 'height' to dac (y)
-COMMENT $02AE disable RAMP, enable mux
-COMMENT $02B0 disable RAMP, disable mux
-COMMENT $02B2 zero dac
-COMMENT_LINE $02B4 now only y set, x to zero
-COMMENT $02B6 enable RAMP, disable mux
-COMMENT_LINE $02B8 here we move down
-COMMENT $02BC just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $02C4 enable RAMP, enable mux
-COMMENT_LINE $02C6 tricky, cutting y off while
-COMMENT_LINE $02C6 integrating, saves one switch of mux
-COMMENT_LINE $02C6 still b=$81
-COMMENT $02C6 disable RAMP, disable mux
-COMMENT_LINE $02CB now finnished moving down
-COMMENT $02CB Send it to the D/A
-COMMENT $02CF enable RAMP, disable mux
-COMMENT $02D1 2 delay needed for drawing
-COMMENT $02D2 2
-COMMENT $02D3 2
-COMMENT $02D4 3
-COMMENT $02D6 5 Get bitmap from chargen table
-COMMENT $02D8 4 Save in shift register
-COMMENT $02DA Get next character
-COMMENT $02DC Go back if not terminator
-COMMENT_LINE $02DE A=$81
-COMMENT $02DE disable RAMP, disable mux
-COMMENT $02E3 Get text height
-COMMENT_LINE $02E6 now move down
-COMMENT $02E6 store 'height' to dac (y)
-COMMENT $02E8 disable RAMP, enable mux
-COMMENT $02EA disable RAMP, disable mux
-COMMENT $02EC zero dac
-COMMENT_LINE $02EE now only y set, x to zero
-COMMENT $02F0 enable RAMP, disable mux
-COMMENT $02F4 Get first character
-COMMENT $02F6 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $02FE enable RAMP, enable mux
-COMMENT_LINE $0300 tricky, cutting y off while
-COMMENT_LINE $0300 integrating, saves one switch of mux
-COMMENT_LINE $0300 still B=$81
-COMMENT $0300 disable RAMP, disable mux
-COMMENT_LINE $0305 now finnished moving down
-COMMENT $0305 negative x speed
-COMMENT $030A enable RAMP, disable mux
-COMMENT $030D delay needed for drawing
-COMMENT $0312 Get bitmap from chargen table
-COMMENT $0314 Save in shift register
-COMMENT $0316 Get next character
-COMMENT $0318 Go back if not terminator
-COMMENT_LINE $031A A=$81
-COMMENT $031A disable RAMP, disable mux
-COMMENT $031F Get text height
-COMMENT_LINE $0322 now move down
-COMMENT $0322 store 'height' to dac (y)
-COMMENT $0324 disable RAMP, enable mux
-COMMENT $0326 disable RAMP, disable mux
-COMMENT $0328 zero dac
-COMMENT_LINE $032A now only y set, x to zero
-COMMENT $032C enable RAMP, disable mux
-COMMENT_LINE $032E here we move down
-COMMENT $0332 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $033A enable RAMP, enable mux
-COMMENT_LINE $033C tricky, cutting y off while
-COMMENT_LINE $033C integrating, saves one switch of mux
-COMMENT_LINE $033C still b=$81
-COMMENT $033C disable RAMP, disable mux
-COMMENT_LINE $0341 now finnished moving down
-COMMENT $0341 Send it to the D/A
-COMMENT $0345 enable RAMP, disable mux
-COMMENT $0347 delay needed for drawing
-COMMENT $034C Get bitmap from chargen table
-COMMENT $034E Save in shift register
-COMMENT $0350 Get next character
-COMMENT $0352 Go back if not terminator
-COMMENT_LINE $0354 A=$81
-COMMENT $0354 disable RAMP, disable mux
-COMMENT $0358 T1->PB7 enabled
-COMMENT $035C /BLANK low and /ZERO low
-COMMENT_LINE $0360 ***************************************************************************
-COMMENT_LINE $0360 U=String pointer to first $81
-COMMENT $0362 Clear D/A output
-COMMENT $0364 Shift reg mode = 110, T1 PB7 enabled
-COMMENT $036B enable mux, set y to 0 disable ramp
-COMMENT $036D disable RAMP, disable mux
-COMMENT $0371 Get text width
-COMMENT $037B Send it to the D/A
-COMMENT $037F enable RAMP, disable mux
-COMMENT $0381 2 delay needed for drawing
-COMMENT $0382 2
-COMMENT $0383 2
-COMMENT $0384 3
-COMMENT $0386 5 Get bitmap from chargen table
-COMMENT $0388 4 Save in shift register
-COMMENT $038A Get next character
-COMMENT $038C Go back if not terminator
-COMMENT_LINE $038E A=$81
-COMMENT $038E disable RAMP, disable mux
-COMMENT $0393 Get text height
-COMMENT_LINE $0396 now move down
-COMMENT $0396 store 'height' to dac (y)
-COMMENT $0398 disable RAMP, enable mux
-COMMENT $039A disable RAMP, disable mux
-COMMENT $039C zero dac
-COMMENT_LINE $039E now only y set, x to zero
-COMMENT $03A0 enable RAMP, disable mux
-COMMENT $03A4 Get first character
-COMMENT $03A6 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $03AE enable RAMP, enable mux
-COMMENT_LINE $03B0 tricky, cutting y off while
-COMMENT_LINE $03B0 integrating, saves one switch of mux
-COMMENT_LINE $03B0 still B=$81
-COMMENT $03B0 disable RAMP, disable mux
-COMMENT_LINE $03B5 now finnished moving down
-COMMENT $03B5 negative x speed
-COMMENT $03BA enable RAMP, disable mux
-COMMENT $03BD delay needed for drawing
-COMMENT $03C2 Get bitmap from chargen table
-COMMENT $03C4 Save in shift register
-COMMENT $03C6 Get next character
-COMMENT $03C8 Go back if not terminator
-COMMENT_LINE $03CA A=$81
-COMMENT $03CA disable RAMP, disable mux
-COMMENT $03CF Get text height
-COMMENT_LINE $03D2 now move down
-COMMENT $03D2 store 'height' to dac (y)
-COMMENT $03D4 disable RAMP, enable mux
-COMMENT $03D6 disable RAMP, disable mux
-COMMENT $03D8 zero dac
-COMMENT_LINE $03DA now only y set, x to zero
-COMMENT $03DC enable RAMP, disable mux
-COMMENT_LINE $03DE here we move down
-COMMENT $03E2 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $03EA enable RAMP, enable mux
-COMMENT_LINE $03EC tricky, cutting y off while
-COMMENT_LINE $03EC integrating, saves one switch of mux
-COMMENT_LINE $03EC still b=$81
-COMMENT $03EC disable RAMP, disable mux
-COMMENT_LINE $03F1 now finnished moving down
-COMMENT $03F1 Send it to the D/A
-COMMENT $03F5 enable RAMP, disable mux
-COMMENT $03F7 2 delay needed for drawing
-COMMENT $03F8 2
-COMMENT $03F9 2
-COMMENT $03FA 3
-COMMENT $03FC 5 Get bitmap from chargen table
-COMMENT $03FE 4 Save in shift register
-COMMENT $0400 Get next character
-COMMENT $0402 Go back if not terminator
-COMMENT_LINE $0404 A=$81
-COMMENT $0404 disable RAMP, disable mux
-COMMENT $0409 Get text height
-COMMENT_LINE $040C now move down
-COMMENT $040C store 'height' to dac (y)
-COMMENT $040E disable RAMP, enable mux
-COMMENT $0410 disable RAMP, disable mux
-COMMENT $0412 zero dac
-COMMENT_LINE $0414 now only y set, x to zero
-COMMENT $0416 enable RAMP, disable mux
-COMMENT $041A Get first character
-COMMENT $041C just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0424 enable RAMP, enable mux
-COMMENT_LINE $0426 tricky, cutting y off while
-COMMENT_LINE $0426 integrating, saves one switch of mux
-COMMENT_LINE $0426 still B=$81
-COMMENT $0426 disable RAMP, disable mux
-COMMENT_LINE $042B now finnished moving down
-COMMENT $042B negative x speed
-COMMENT $0430 enable RAMP, disable mux
-COMMENT $0433 delay needed for drawing
-COMMENT $0438 Get bitmap from chargen table
-COMMENT $043A Save in shift register
-COMMENT $043C Get next character
-COMMENT $043E Go back if not terminator
-COMMENT_LINE $0440 A=$81
-COMMENT $0440 disable RAMP, disable mux
-COMMENT $0445 Get text height
-COMMENT_LINE $0448 now move down
-COMMENT $0448 store 'height' to dac (y)
-COMMENT $044A disable RAMP, enable mux
+COMMENT $0194 text size
+FORCE_SYMBOL $0196 Vec_Text_HW
+COMMENT $0199 position
+COMMENT_LINE $019B Moveto_d_7F start
+FORCE_SYMBOL $019B VIA_port_a
+COMMENT_LINE $019D lda  <VIA_t1_lch_lo
+COMMENT_LINE $019D pshs a
+FORCE_NO_SYMBOL $019D
+FORCE_SYMBOL $019F VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $01A1
+FORCE_SYMBOL $01A3 VIA_cntl
+FORCE_SYMBOL $01A6 VIA_port_b
+FORCE_SYMBOL $01A8 VIA_shift_reg
+FORCE_SYMBOL $01AA VIA_port_b
+FORCE_SYMBOL $01AC VIA_port_a
+FORCE_SYMBOL $01AE VIA_t1_cnt_hi
+FORCE_NO_SYMBOL $01B0
+FORCE_SYMBOL $01B3 VIA_int_flags
+FORCE_SYMBOL $01B7 VIA_port_a
+COMMENT_LINE $01B9 puls a
+COMMENT_LINE $01B9 sta  <VIA_t1_cnt_lo
+COMMENT_LINE $01B9 clr <VIA_port_a
+COMMENT_LINE $01B9 ldb #%10000000
+COMMENT_LINE $01B9 stb <VIA_port_b
+COMMENT_LINE $01B9 nop
+COMMENT_LINE $01B9 inc <VIA_port_b
+COMMENT_LINE $01B9 U=String pointer to first $81
+FORCE_NO_SYMBOL $01B9
+COMMENT $01BB Clear D/A output
+FORCE_SYMBOL $01BB VIA_port_a
+COMMENT $01BD Shift reg mode = 110, T1 PB7 enabled
+FORCE_SYMBOL $01BD VIA_aux_cntl
+FORCE_SYMBOL $01BF Char_Tablef1
+FORCE_NO_SYMBOL $01C2
+COMMENT $01C4 enable mux, set y to 0 disable ramp
+FORCE_SYMBOL $01C4 VIA_port_b
+COMMENT $01C6 disable RAMP, disable mux
+FORCE_SYMBOL $01C6 VIA_port_b
+COMMENT $01CA Get text width
+FORCE_SYMBOL $01CA Vec_Text_Width
+FORCE_SYMBOL $01CE Vec_Text_Width_neg
+COMMENT $01D4 Send it to the D/A
+FORCE_SYMBOL $01D4 VIA_port_a
+FORCE_NO_SYMBOL $01D6
+COMMENT $01D8 enable RAMP, disable mux
+FORCE_SYMBOL $01D8 VIA_port_b
+COMMENT $01DA 2 delay needed for drawing
+COMMENT $01DB 2
+COMMENT $01DC 2
+COMMENT $01DD 3
+COMMENT $01DF 5 Get bitmap from chargen table
+COMMENT $01E1 4 Save in shift register
+FORCE_SYMBOL $01E1 VIA_shift_reg
+COMMENT $01E3 Get next character
+COMMENT $01E5 Go back if not terminator
+COMMENT_LINE $01E7 A=$81
+COMMENT $01E7 disable RAMP, disable mux
+FORCE_SYMBOL $01E7 VIA_port_b
+FORCE_SYMBOL $01E9 Char_Tableb1
+COMMENT $01EC Get text height
+FORCE_SYMBOL $01EC Vec_Text_Height
+COMMENT_LINE $01EF now move down
+COMMENT $01EF store 'height' to dac (y)
+FORCE_SYMBOL $01EF VIA_port_a
+COMMENT $01F1 disable RAMP, enable mux
+FORCE_SYMBOL $01F1 VIA_port_b
+COMMENT $01F3 disable RAMP, disable mux
+FORCE_SYMBOL $01F3 VIA_port_b
+COMMENT $01F5 zero dac
+FORCE_SYMBOL $01F5 VIA_port_a
+COMMENT_LINE $01F7 now only y set, x to zero
+FORCE_NO_SYMBOL $01F7
+COMMENT $01F9 enable RAMP, disable mux
+FORCE_SYMBOL $01F9 VIA_port_b
+COMMENT $01FD Get first character
+COMMENT $01FF just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0207 enable RAMP, enable mux
+FORCE_SYMBOL $0207 VIA_port_b
+COMMENT_LINE $0209 tricky, cutting y off while
+COMMENT_LINE $0209 integrating, saves one switch of mux
+COMMENT_LINE $0209 still B=$81
+COMMENT $0209 disable RAMP, disable mux
+FORCE_SYMBOL $0209 VIA_port_b
+FORCE_SYMBOL $020B Vec_Text_Width_neg
+COMMENT_LINE $020E now finnished moving down
+COMMENT $020E negative x speed
+FORCE_SYMBOL $020E VIA_port_a
+FORCE_NO_SYMBOL $0210
+COMMENT $0212 enable RAMP, disable mux
+FORCE_SYMBOL $0212 VIA_port_b
+COMMENT $0214 delay needed for drawing
+COMMENT $0219 Get bitmap from chargen table
+COMMENT $021B Save in shift register
+FORCE_SYMBOL $021B VIA_shift_reg
+COMMENT $021D Get next character
+COMMENT $021F Go back if not terminator
+COMMENT_LINE $0221 A=$81
+COMMENT $0221 disable RAMP, disable mux
+FORCE_SYMBOL $0221 VIA_port_b
+FORCE_SYMBOL $0223 Char_Tablef2
+COMMENT $0226 Get text height
+FORCE_SYMBOL $0226 Vec_Text_Height
+COMMENT_LINE $0229 now move down
+COMMENT $0229 store 'height' to dac (y)
+FORCE_SYMBOL $0229 VIA_port_a
+COMMENT $022B disable RAMP, enable mux
+FORCE_SYMBOL $022B VIA_port_b
+COMMENT $022D disable RAMP, disable mux
+FORCE_SYMBOL $022D VIA_port_b
+COMMENT $022F zero dac
+FORCE_SYMBOL $022F VIA_port_a
+COMMENT_LINE $0231 now only y set, x to zero
+FORCE_NO_SYMBOL $0231
+COMMENT $0233 enable RAMP, disable mux
+FORCE_SYMBOL $0233 VIA_port_b
+COMMENT_LINE $0235 here we move down
+COMMENT $0239 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0241 enable RAMP, enable mux
+FORCE_SYMBOL $0241 VIA_port_b
+COMMENT_LINE $0243 tricky, cutting y off while
+COMMENT_LINE $0243 integrating, saves one switch of mux
+COMMENT_LINE $0243 still b=$81
+COMMENT $0243 disable RAMP, disable mux
+FORCE_SYMBOL $0243 VIA_port_b
+FORCE_SYMBOL $0245 Vec_Text_Width
+COMMENT_LINE $0248 now finnished moving down
+COMMENT $0248 Send it to the D/A
+FORCE_SYMBOL $0248 VIA_port_a
+FORCE_NO_SYMBOL $024A
+COMMENT $024C enable RAMP, disable mux
+FORCE_SYMBOL $024C VIA_port_b
+COMMENT $024E 2 delay needed for drawing
+COMMENT $024F 2
+COMMENT $0250 2
+COMMENT $0251 3
+COMMENT $0253 5 Get bitmap from chargen table
+COMMENT $0255 4 Save in shift register
+FORCE_SYMBOL $0255 VIA_shift_reg
+COMMENT $0257 Get next character
+COMMENT $0259 Go back if not terminator
+COMMENT_LINE $025B A=$81
+COMMENT $025B disable RAMP, disable mux
+FORCE_SYMBOL $025B VIA_port_b
+FORCE_SYMBOL $025D Char_Tableb2
+COMMENT $0260 Get text height
+FORCE_SYMBOL $0260 Vec_Text_Height
+COMMENT_LINE $0263 now move down
+COMMENT $0263 store 'height' to dac (y)
+FORCE_SYMBOL $0263 VIA_port_a
+COMMENT $0265 disable RAMP, enable mux
+FORCE_SYMBOL $0265 VIA_port_b
+COMMENT $0267 disable RAMP, disable mux
+FORCE_SYMBOL $0267 VIA_port_b
+COMMENT $0269 zero dac
+FORCE_SYMBOL $0269 VIA_port_a
+COMMENT_LINE $026B now only y set, x to zero
+FORCE_NO_SYMBOL $026B
+COMMENT $026D enable RAMP, disable mux
+FORCE_SYMBOL $026D VIA_port_b
+COMMENT $0271 Get first character
+COMMENT $0273 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $027B enable RAMP, enable mux
+FORCE_SYMBOL $027B VIA_port_b
+COMMENT_LINE $027D tricky, cutting y off while
+COMMENT_LINE $027D integrating, saves one switch of mux
+COMMENT_LINE $027D still B=$81
+COMMENT $027D disable RAMP, disable mux
+FORCE_SYMBOL $027D VIA_port_b
+FORCE_SYMBOL $027F Vec_Text_Width_neg
+COMMENT_LINE $0282 now finnished moving down
+COMMENT $0282 negative x speed
+FORCE_SYMBOL $0282 VIA_port_a
+FORCE_NO_SYMBOL $0284
+COMMENT $0286 enable RAMP, disable mux
+FORCE_SYMBOL $0286 VIA_port_b
+COMMENT $0288 delay needed for drawing
+COMMENT $028D Get bitmap from chargen table
+COMMENT $028F Save in shift register
+FORCE_SYMBOL $028F VIA_shift_reg
+COMMENT $0291 Get next character
+COMMENT $0293 Go back if not terminator
+COMMENT_LINE $0295 A=$81
+COMMENT $0295 disable RAMP, disable mux
+FORCE_SYMBOL $0295 VIA_port_b
+FORCE_SYMBOL $0297 Char_Tablef3
+COMMENT $029A Get text height
+FORCE_SYMBOL $029A Vec_Text_Height
+COMMENT_LINE $029D now move down
+COMMENT $029D store 'height' to dac (y)
+FORCE_SYMBOL $029D VIA_port_a
+COMMENT $029F disable RAMP, enable mux
+FORCE_SYMBOL $029F VIA_port_b
+COMMENT $02A1 disable RAMP, disable mux
+FORCE_SYMBOL $02A1 VIA_port_b
+COMMENT $02A3 zero dac
+FORCE_SYMBOL $02A3 VIA_port_a
+COMMENT_LINE $02A5 now only y set, x to zero
+FORCE_NO_SYMBOL $02A5
+COMMENT $02A7 enable RAMP, disable mux
+FORCE_SYMBOL $02A7 VIA_port_b
+COMMENT_LINE $02A9 here we move down
+COMMENT $02AD just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $02B5 enable RAMP, enable mux
+FORCE_SYMBOL $02B5 VIA_port_b
+COMMENT_LINE $02B7 tricky, cutting y off while
+COMMENT_LINE $02B7 integrating, saves one switch of mux
+COMMENT_LINE $02B7 still b=$81
+COMMENT $02B7 disable RAMP, disable mux
+FORCE_SYMBOL $02B7 VIA_port_b
+FORCE_SYMBOL $02B9 Vec_Text_Width
+COMMENT_LINE $02BC now finnished moving down
+COMMENT $02BC Send it to the D/A
+FORCE_SYMBOL $02BC VIA_port_a
+FORCE_NO_SYMBOL $02BE
+COMMENT $02C0 enable RAMP, disable mux
+FORCE_SYMBOL $02C0 VIA_port_b
+COMMENT $02C2 2 delay needed for drawing
+COMMENT $02C3 2
+COMMENT $02C4 2
+COMMENT $02C5 3
+COMMENT $02C7 5 Get bitmap from chargen table
+COMMENT $02C9 4 Save in shift register
+FORCE_SYMBOL $02C9 VIA_shift_reg
+COMMENT $02CB Get next character
+COMMENT $02CD Go back if not terminator
+COMMENT_LINE $02CF A=$81
+COMMENT $02CF disable RAMP, disable mux
+FORCE_SYMBOL $02CF VIA_port_b
+FORCE_SYMBOL $02D1 Char_Tableb3
+COMMENT $02D4 Get text height
+FORCE_SYMBOL $02D4 Vec_Text_Height
+COMMENT_LINE $02D7 now move down
+COMMENT $02D7 store 'height' to dac (y)
+FORCE_SYMBOL $02D7 VIA_port_a
+COMMENT $02D9 disable RAMP, enable mux
+FORCE_SYMBOL $02D9 VIA_port_b
+COMMENT $02DB disable RAMP, disable mux
+FORCE_SYMBOL $02DB VIA_port_b
+COMMENT $02DD zero dac
+FORCE_SYMBOL $02DD VIA_port_a
+COMMENT_LINE $02DF now only y set, x to zero
+FORCE_NO_SYMBOL $02DF
+COMMENT $02E1 enable RAMP, disable mux
+FORCE_SYMBOL $02E1 VIA_port_b
+COMMENT $02E5 Get first character
+COMMENT $02E7 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $02EF enable RAMP, enable mux
+FORCE_SYMBOL $02EF VIA_port_b
+COMMENT_LINE $02F1 tricky, cutting y off while
+COMMENT_LINE $02F1 integrating, saves one switch of mux
+COMMENT_LINE $02F1 still B=$81
+COMMENT $02F1 disable RAMP, disable mux
+FORCE_SYMBOL $02F1 VIA_port_b
+FORCE_SYMBOL $02F3 Vec_Text_Width_neg
+COMMENT_LINE $02F6 now finnished moving down
+COMMENT $02F6 negative x speed
+FORCE_SYMBOL $02F6 VIA_port_a
+FORCE_NO_SYMBOL $02F8
+COMMENT $02FA enable RAMP, disable mux
+FORCE_SYMBOL $02FA VIA_port_b
+COMMENT $02FC delay needed for drawing
+COMMENT $0301 Get bitmap from chargen table
+COMMENT $0303 Save in shift register
+FORCE_SYMBOL $0303 VIA_shift_reg
+COMMENT $0305 Get next character
+COMMENT $0307 Go back if not terminator
+COMMENT_LINE $0309 A=$81
+COMMENT $0309 disable RAMP, disable mux
+FORCE_SYMBOL $0309 VIA_port_b
+FORCE_SYMBOL $030B Char_Tablef4
+COMMENT $030E Get text height
+FORCE_SYMBOL $030E Vec_Text_Height
+COMMENT_LINE $0311 now move down
+COMMENT $0311 store 'height' to dac (y)
+FORCE_SYMBOL $0311 VIA_port_a
+COMMENT $0313 disable RAMP, enable mux
+FORCE_SYMBOL $0313 VIA_port_b
+COMMENT $0315 disable RAMP, disable mux
+FORCE_SYMBOL $0315 VIA_port_b
+COMMENT $0317 zero dac
+FORCE_SYMBOL $0317 VIA_port_a
+COMMENT_LINE $0319 now only y set, x to zero
+FORCE_NO_SYMBOL $0319
+COMMENT $031B enable RAMP, disable mux
+FORCE_SYMBOL $031B VIA_port_b
+COMMENT_LINE $031D here we move down
+COMMENT $0321 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0329 enable RAMP, enable mux
+FORCE_SYMBOL $0329 VIA_port_b
+COMMENT_LINE $032B tricky, cutting y off while
+COMMENT_LINE $032B integrating, saves one switch of mux
+COMMENT_LINE $032B still b=$81
+COMMENT $032B disable RAMP, disable mux
+FORCE_SYMBOL $032B VIA_port_b
+FORCE_SYMBOL $032D Vec_Text_Width
+COMMENT_LINE $0330 now finnished moving down
+COMMENT $0330 Send it to the D/A
+FORCE_SYMBOL $0330 VIA_port_a
+FORCE_NO_SYMBOL $0332
+COMMENT $0334 enable RAMP, disable mux
+FORCE_SYMBOL $0334 VIA_port_b
+COMMENT $0336 delay needed for drawing
+COMMENT $033B Get bitmap from chargen table
+COMMENT $033D Save in shift register
+FORCE_SYMBOL $033D VIA_shift_reg
+COMMENT $033F Get next character
+COMMENT $0341 Go back if not terminator
+COMMENT_LINE $0343 A=$81
+COMMENT $0343 disable RAMP, disable mux
+FORCE_SYMBOL $0343 VIA_port_b
+FORCE_NO_SYMBOL $0345
+COMMENT $0347 T1->PB7 enabled
+FORCE_SYMBOL $0347 VIA_aux_cntl
+FORCE_NO_SYMBOL $0349
+COMMENT $034B /BLANK low and /ZERO low
+FORCE_SYMBOL $034B VIA_cntl
+COMMENT_LINE $034E ***************************************************************************
+COMMENT_LINE $034E U=String pointer to first $81
+FORCE_NO_SYMBOL $034E
+COMMENT $0350 Clear D/A output
+FORCE_SYMBOL $0350 VIA_port_a
+COMMENT $0352 Shift reg mode = 110, T1 PB7 enabled
+FORCE_SYMBOL $0352 VIA_aux_cntl
+FORCE_SYMBOL $0354 Char_Tablef1
+FORCE_NO_SYMBOL $0357
+COMMENT $0359 enable mux, set y to 0 disable ramp
+FORCE_SYMBOL $0359 VIA_port_b
+COMMENT $035B disable RAMP, disable mux
+FORCE_SYMBOL $035B VIA_port_b
+COMMENT $035F Get text width
+FORCE_SYMBOL $035F Vec_Text_Width
+FORCE_SYMBOL $0363 Vec_Text_Width_neg
+COMMENT $0369 Send it to the D/A
+FORCE_SYMBOL $0369 VIA_port_a
+FORCE_NO_SYMBOL $036B
+COMMENT $036D enable RAMP, disable mux
+FORCE_SYMBOL $036D VIA_port_b
+COMMENT $036F 2 delay needed for drawing
+COMMENT $0370 2
+COMMENT $0371 2
+COMMENT $0372 3
+COMMENT $0374 5 Get bitmap from chargen table
+COMMENT $0376 4 Save in shift register
+FORCE_SYMBOL $0376 VIA_shift_reg
+COMMENT $0378 Get next character
+COMMENT $037A Go back if not terminator
+COMMENT_LINE $037C A=$81
+COMMENT $037C disable RAMP, disable mux
+FORCE_SYMBOL $037C VIA_port_b
+FORCE_SYMBOL $037E Char_Tableb1
+COMMENT $0381 Get text height
+FORCE_SYMBOL $0381 Vec_Text_Height
+COMMENT_LINE $0384 now move down
+COMMENT $0384 store 'height' to dac (y)
+FORCE_SYMBOL $0384 VIA_port_a
+COMMENT $0386 disable RAMP, enable mux
+FORCE_SYMBOL $0386 VIA_port_b
+COMMENT $0388 disable RAMP, disable mux
+FORCE_SYMBOL $0388 VIA_port_b
+COMMENT $038A zero dac
+FORCE_SYMBOL $038A VIA_port_a
+COMMENT_LINE $038C now only y set, x to zero
+FORCE_NO_SYMBOL $038C
+COMMENT $038E enable RAMP, disable mux
+FORCE_SYMBOL $038E VIA_port_b
+COMMENT $0392 Get first character
+COMMENT $0394 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $039C enable RAMP, enable mux
+FORCE_SYMBOL $039C VIA_port_b
+COMMENT_LINE $039E tricky, cutting y off while
+COMMENT_LINE $039E integrating, saves one switch of mux
+COMMENT_LINE $039E still B=$81
+COMMENT $039E disable RAMP, disable mux
+FORCE_SYMBOL $039E VIA_port_b
+FORCE_SYMBOL $03A0 Vec_Text_Width_neg
+COMMENT_LINE $03A3 now finnished moving down
+COMMENT $03A3 negative x speed
+FORCE_SYMBOL $03A3 VIA_port_a
+FORCE_NO_SYMBOL $03A5
+COMMENT $03A7 enable RAMP, disable mux
+FORCE_SYMBOL $03A7 VIA_port_b
+COMMENT $03A9 delay needed for drawing
+COMMENT $03AE Get bitmap from chargen table
+COMMENT $03B0 Save in shift register
+FORCE_SYMBOL $03B0 VIA_shift_reg
+COMMENT $03B2 Get next character
+COMMENT $03B4 Go back if not terminator
+COMMENT_LINE $03B6 A=$81
+COMMENT $03B6 disable RAMP, disable mux
+FORCE_SYMBOL $03B6 VIA_port_b
+FORCE_SYMBOL $03B8 Char_Tablef2
+COMMENT $03BB Get text height
+FORCE_SYMBOL $03BB Vec_Text_Height
+COMMENT_LINE $03BE now move down
+COMMENT $03BE store 'height' to dac (y)
+FORCE_SYMBOL $03BE VIA_port_a
+COMMENT $03C0 disable RAMP, enable mux
+FORCE_SYMBOL $03C0 VIA_port_b
+COMMENT $03C2 disable RAMP, disable mux
+FORCE_SYMBOL $03C2 VIA_port_b
+COMMENT $03C4 zero dac
+FORCE_SYMBOL $03C4 VIA_port_a
+COMMENT_LINE $03C6 now only y set, x to zero
+FORCE_NO_SYMBOL $03C6
+COMMENT $03C8 enable RAMP, disable mux
+FORCE_SYMBOL $03C8 VIA_port_b
+COMMENT_LINE $03CA here we move down
+COMMENT $03CE just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $03D6 enable RAMP, enable mux
+FORCE_SYMBOL $03D6 VIA_port_b
+COMMENT_LINE $03D8 tricky, cutting y off while
+COMMENT_LINE $03D8 integrating, saves one switch of mux
+COMMENT_LINE $03D8 still b=$81
+COMMENT $03D8 disable RAMP, disable mux
+FORCE_SYMBOL $03D8 VIA_port_b
+FORCE_SYMBOL $03DA Vec_Text_Width
+COMMENT_LINE $03DD now finnished moving down
+COMMENT $03DD Send it to the D/A
+FORCE_SYMBOL $03DD VIA_port_a
+FORCE_NO_SYMBOL $03DF
+COMMENT $03E1 enable RAMP, disable mux
+FORCE_SYMBOL $03E1 VIA_port_b
+COMMENT $03E3 2 delay needed for drawing
+COMMENT $03E4 2
+COMMENT $03E5 2
+COMMENT $03E6 3
+COMMENT $03E8 5 Get bitmap from chargen table
+COMMENT $03EA 4 Save in shift register
+FORCE_SYMBOL $03EA VIA_shift_reg
+COMMENT $03EC Get next character
+COMMENT $03EE Go back if not terminator
+COMMENT_LINE $03F0 A=$81
+COMMENT $03F0 disable RAMP, disable mux
+FORCE_SYMBOL $03F0 VIA_port_b
+FORCE_SYMBOL $03F2 Char_Tableb2
+COMMENT $03F5 Get text height
+FORCE_SYMBOL $03F5 Vec_Text_Height
+COMMENT_LINE $03F8 now move down
+COMMENT $03F8 store 'height' to dac (y)
+FORCE_SYMBOL $03F8 VIA_port_a
+COMMENT $03FA disable RAMP, enable mux
+FORCE_SYMBOL $03FA VIA_port_b
+COMMENT $03FC disable RAMP, disable mux
+FORCE_SYMBOL $03FC VIA_port_b
+COMMENT $03FE zero dac
+FORCE_SYMBOL $03FE VIA_port_a
+COMMENT_LINE $0400 now only y set, x to zero
+FORCE_NO_SYMBOL $0400
+COMMENT $0402 enable RAMP, disable mux
+FORCE_SYMBOL $0402 VIA_port_b
+COMMENT $0406 Get first character
+COMMENT $0408 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0410 enable RAMP, enable mux
+FORCE_SYMBOL $0410 VIA_port_b
+COMMENT_LINE $0412 tricky, cutting y off while
+COMMENT_LINE $0412 integrating, saves one switch of mux
+COMMENT_LINE $0412 still B=$81
+COMMENT $0412 disable RAMP, disable mux
+FORCE_SYMBOL $0412 VIA_port_b
+FORCE_SYMBOL $0414 Vec_Text_Width_neg
+COMMENT_LINE $0417 now finnished moving down
+COMMENT $0417 negative x speed
+FORCE_SYMBOL $0417 VIA_port_a
+FORCE_NO_SYMBOL $0419
+COMMENT $041B enable RAMP, disable mux
+FORCE_SYMBOL $041B VIA_port_b
+COMMENT $041D delay needed for drawing
+COMMENT $0422 Get bitmap from chargen table
+COMMENT $0424 Save in shift register
+FORCE_SYMBOL $0424 VIA_shift_reg
+COMMENT $0426 Get next character
+COMMENT $0428 Go back if not terminator
+COMMENT_LINE $042A A=$81
+COMMENT $042A disable RAMP, disable mux
+FORCE_SYMBOL $042A VIA_port_b
+FORCE_SYMBOL $042C Char_Tablef3
+COMMENT $042F Get text height
+FORCE_SYMBOL $042F Vec_Text_Height
+COMMENT_LINE $0432 now move down
+COMMENT $0432 store 'height' to dac (y)
+FORCE_SYMBOL $0432 VIA_port_a
+COMMENT $0434 disable RAMP, enable mux
+FORCE_SYMBOL $0434 VIA_port_b
+COMMENT $0436 disable RAMP, disable mux
+FORCE_SYMBOL $0436 VIA_port_b
+COMMENT $0438 zero dac
+FORCE_SYMBOL $0438 VIA_port_a
+COMMENT_LINE $043A now only y set, x to zero
+FORCE_NO_SYMBOL $043A
+COMMENT $043C enable RAMP, disable mux
+FORCE_SYMBOL $043C VIA_port_b
+COMMENT_LINE $043E here we move down
+COMMENT $0442 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $044A enable RAMP, enable mux
+FORCE_SYMBOL $044A VIA_port_b
+COMMENT_LINE $044C tricky, cutting y off while
+COMMENT_LINE $044C integrating, saves one switch of mux
+COMMENT_LINE $044C still b=$81
 COMMENT $044C disable RAMP, disable mux
-COMMENT $044E zero dac
-COMMENT_LINE $0450 now only y set, x to zero
-COMMENT $0452 enable RAMP, disable mux
-COMMENT_LINE $0454 here we move down
-COMMENT $0458 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0460 enable RAMP, enable mux
-COMMENT_LINE $0462 tricky, cutting y off while
-COMMENT_LINE $0462 integrating, saves one switch of mux
-COMMENT_LINE $0462 still b=$81
-COMMENT $0462 disable RAMP, disable mux
-COMMENT_LINE $0467 now finnished moving down
-COMMENT $0467 Send it to the D/A
-COMMENT $046B enable RAMP, disable mux
-COMMENT $046D 2 delay needed for drawing
-COMMENT $046E 2
-COMMENT $046F 2
-COMMENT $0470 3
-COMMENT $0472 5 Get bitmap from chargen table
-COMMENT $0474 4 Save in shift register
-COMMENT $0476 Get next character
-COMMENT $0478 Go back if not terminator
-COMMENT_LINE $047A A=$81
-COMMENT $047A disable RAMP, disable mux
-COMMENT $047F Get text height
-COMMENT_LINE $0482 now move down
-COMMENT $0482 store 'height' to dac (y)
-COMMENT $0484 disable RAMP, enable mux
+FORCE_SYMBOL $044C VIA_port_b
+FORCE_SYMBOL $044E Vec_Text_Width
+COMMENT_LINE $0451 now finnished moving down
+COMMENT $0451 Send it to the D/A
+FORCE_SYMBOL $0451 VIA_port_a
+FORCE_NO_SYMBOL $0453
+COMMENT $0455 enable RAMP, disable mux
+FORCE_SYMBOL $0455 VIA_port_b
+COMMENT $0457 2 delay needed for drawing
+COMMENT $0458 2
+COMMENT $0459 2
+COMMENT $045A 3
+COMMENT $045C 5 Get bitmap from chargen table
+COMMENT $045E 4 Save in shift register
+FORCE_SYMBOL $045E VIA_shift_reg
+COMMENT $0460 Get next character
+COMMENT $0462 Go back if not terminator
+COMMENT_LINE $0464 A=$81
+COMMENT $0464 disable RAMP, disable mux
+FORCE_SYMBOL $0464 VIA_port_b
+FORCE_SYMBOL $0466 Char_Tableb3
+COMMENT $0469 Get text height
+FORCE_SYMBOL $0469 Vec_Text_Height
+COMMENT_LINE $046C now move down
+COMMENT $046C store 'height' to dac (y)
+FORCE_SYMBOL $046C VIA_port_a
+COMMENT $046E disable RAMP, enable mux
+FORCE_SYMBOL $046E VIA_port_b
+COMMENT $0470 disable RAMP, disable mux
+FORCE_SYMBOL $0470 VIA_port_b
+COMMENT $0472 zero dac
+FORCE_SYMBOL $0472 VIA_port_a
+COMMENT_LINE $0474 now only y set, x to zero
+FORCE_NO_SYMBOL $0474
+COMMENT $0476 enable RAMP, disable mux
+FORCE_SYMBOL $0476 VIA_port_b
+COMMENT $047A Get first character
+COMMENT $047C just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0484 enable RAMP, enable mux
+FORCE_SYMBOL $0484 VIA_port_b
+COMMENT_LINE $0486 tricky, cutting y off while
+COMMENT_LINE $0486 integrating, saves one switch of mux
+COMMENT_LINE $0486 still B=$81
 COMMENT $0486 disable RAMP, disable mux
-COMMENT $0488 zero dac
-COMMENT_LINE $048A now only y set, x to zero
-COMMENT $048C enable RAMP, disable mux
-COMMENT $0490 Get first character
-COMMENT $0492 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $049A enable RAMP, enable mux
-COMMENT_LINE $049C tricky, cutting y off while
-COMMENT_LINE $049C integrating, saves one switch of mux
-COMMENT_LINE $049C still B=$81
-COMMENT $049C disable RAMP, disable mux
-COMMENT_LINE $04A1 now finnished moving down
-COMMENT $04A1 negative x speed
-COMMENT $04A6 enable RAMP, disable mux
-COMMENT $04A9 delay needed for drawing
-COMMENT $04AE Get bitmap from chargen table
-COMMENT $04B0 Save in shift register
-COMMENT $04B2 Get next character
-COMMENT $04B4 Go back if not terminator
-COMMENT_LINE $04B6 A=$81
-COMMENT $04B6 disable RAMP, disable mux
-COMMENT $04BB Get text height
-COMMENT_LINE $04BE now move down
-COMMENT $04BE store 'height' to dac (y)
-COMMENT $04C0 disable RAMP, enable mux
-COMMENT $04C2 disable RAMP, disable mux
-COMMENT $04C4 zero dac
-COMMENT_LINE $04C6 now only y set, x to zero
-COMMENT $04C8 enable RAMP, disable mux
-COMMENT_LINE $04CA here we move down
-COMMENT $04CE just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $04D6 enable RAMP, enable mux
-COMMENT_LINE $04D8 tricky, cutting y off while
-COMMENT_LINE $04D8 integrating, saves one switch of mux
-COMMENT_LINE $04D8 still b=$81
+FORCE_SYMBOL $0486 VIA_port_b
+FORCE_SYMBOL $0488 Vec_Text_Width_neg
+COMMENT_LINE $048B now finnished moving down
+COMMENT $048B negative x speed
+FORCE_SYMBOL $048B VIA_port_a
+FORCE_NO_SYMBOL $048D
+COMMENT $048F enable RAMP, disable mux
+FORCE_SYMBOL $048F VIA_port_b
+COMMENT $0491 delay needed for drawing
+COMMENT $0496 Get bitmap from chargen table
+COMMENT $0498 Save in shift register
+FORCE_SYMBOL $0498 VIA_shift_reg
+COMMENT $049A Get next character
+COMMENT $049C Go back if not terminator
+COMMENT_LINE $049E A=$81
+COMMENT $049E disable RAMP, disable mux
+FORCE_SYMBOL $049E VIA_port_b
+FORCE_SYMBOL $04A0 Char_Tablef4
+COMMENT $04A3 Get text height
+FORCE_SYMBOL $04A3 Vec_Text_Height
+COMMENT_LINE $04A6 now move down
+COMMENT $04A6 store 'height' to dac (y)
+FORCE_SYMBOL $04A6 VIA_port_a
+COMMENT $04A8 disable RAMP, enable mux
+FORCE_SYMBOL $04A8 VIA_port_b
+COMMENT $04AA disable RAMP, disable mux
+FORCE_SYMBOL $04AA VIA_port_b
+COMMENT $04AC zero dac
+FORCE_SYMBOL $04AC VIA_port_a
+COMMENT_LINE $04AE now only y set, x to zero
+FORCE_NO_SYMBOL $04AE
+COMMENT $04B0 enable RAMP, disable mux
+FORCE_SYMBOL $04B0 VIA_port_b
+COMMENT_LINE $04B2 here we move down
+COMMENT $04B6 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $04BE enable RAMP, enable mux
+FORCE_SYMBOL $04BE VIA_port_b
+COMMENT_LINE $04C0 tricky, cutting y off while
+COMMENT_LINE $04C0 integrating, saves one switch of mux
+COMMENT_LINE $04C0 still b=$81
+COMMENT $04C0 disable RAMP, disable mux
+FORCE_SYMBOL $04C0 VIA_port_b
+FORCE_SYMBOL $04C2 Vec_Text_Width
+COMMENT_LINE $04C5 now finnished moving down
+COMMENT $04C5 Send it to the D/A
+FORCE_SYMBOL $04C5 VIA_port_a
+FORCE_NO_SYMBOL $04C7
+COMMENT $04C9 enable RAMP, disable mux
+FORCE_SYMBOL $04C9 VIA_port_b
+COMMENT $04CB delay needed for drawing
+COMMENT $04D0 Get bitmap from chargen table
+COMMENT $04D2 Save in shift register
+FORCE_SYMBOL $04D2 VIA_shift_reg
+COMMENT $04D4 Get next character
+COMMENT $04D6 Go back if not terminator
+COMMENT_LINE $04D8 A=$81
 COMMENT $04D8 disable RAMP, disable mux
-COMMENT_LINE $04DD now finnished moving down
-COMMENT $04DD Send it to the D/A
-COMMENT $04E1 enable RAMP, disable mux
-COMMENT $04E3 delay needed for drawing
-COMMENT $04E8 Get bitmap from chargen table
-COMMENT $04EA Save in shift register
-COMMENT $04EC Get next character
-COMMENT $04EE Go back if not terminator
-COMMENT_LINE $04F0 A=$81
-COMMENT $04F0 disable RAMP, disable mux
-COMMENT $04F4 T1->PB7 enabled
-COMMENT $04F8 /BLANK low and /ZERO low
-COMMENT_LINE $04FC ***************************************************************************
-COMMENT_LINE $04FC Moveto_d_7F start
-COMMENT_LINE $04FF lda  <VIA_t1_lch_lo
-COMMENT_LINE $04FF pshs a
-COMMENT_LINE $0524 puls a
-COMMENT_LINE $0524 sta  <VIA_t1_cnt_lo
-COMMENT_LINE $0524 clr <VIA_port_a
-COMMENT_LINE $0524 ldb #%10000000
-COMMENT_LINE $0524 stb <VIA_port_b
-COMMENT_LINE $0524 nop
-COMMENT_LINE $0524 inc <VIA_port_b
-COMMENT_LINE $0524 U=String pointer to first $81
-COMMENT $0526 Clear D/A output
-COMMENT $0528 Shift reg mode = 110, T1 PB7 enabled
-COMMENT $052F enable mux, set y to 0 disable ramp
-COMMENT $0531 disable RAMP, disable mux
-COMMENT $0535 Get text width
-COMMENT $053F Send it to the D/A
-COMMENT $0543 enable RAMP, disable mux
-COMMENT $0545 2 delay needed for drawing
-COMMENT $0546 2
-COMMENT $0547 2
-COMMENT $0548 3
-COMMENT $054A 5 Get bitmap from chargen table
-COMMENT $054C 4 Save in shift register
-COMMENT $054E Get next character
-COMMENT $0550 Go back if not terminator
-COMMENT_LINE $0552 A=$81
-COMMENT $0552 disable RAMP, disable mux
-COMMENT $0557 Get text height
-COMMENT_LINE $055A now move down
-COMMENT $055A store 'height' to dac (y)
-COMMENT $055C disable RAMP, enable mux
-COMMENT $055E disable RAMP, disable mux
-COMMENT $0560 zero dac
-COMMENT_LINE $0562 now only y set, x to zero
-COMMENT $0564 enable RAMP, disable mux
-COMMENT $0568 Get first character
-COMMENT $056A just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0572 enable RAMP, enable mux
-COMMENT_LINE $0574 tricky, cutting y off while
-COMMENT_LINE $0574 integrating, saves one switch of mux
-COMMENT_LINE $0574 still B=$81
-COMMENT $0574 disable RAMP, disable mux
-COMMENT_LINE $0579 now finnished moving down
-COMMENT $0579 negative x speed
-COMMENT $057E enable RAMP, disable mux
-COMMENT $0581 delay needed for drawing
-COMMENT $0586 Get bitmap from chargen table
-COMMENT $0588 Save in shift register
-COMMENT $058A Get next character
-COMMENT $058C Go back if not terminator
-COMMENT_LINE $058E A=$81
-COMMENT $058E disable RAMP, disable mux
-COMMENT $0593 Get text height
-COMMENT_LINE $0596 now move down
-COMMENT $0596 store 'height' to dac (y)
-COMMENT $0598 disable RAMP, enable mux
-COMMENT $059A disable RAMP, disable mux
-COMMENT $059C zero dac
-COMMENT_LINE $059E now only y set, x to zero
-COMMENT $05A0 enable RAMP, disable mux
-COMMENT_LINE $05A2 here we move down
-COMMENT $05A6 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $05AE enable RAMP, enable mux
-COMMENT_LINE $05B0 tricky, cutting y off while
-COMMENT_LINE $05B0 integrating, saves one switch of mux
-COMMENT_LINE $05B0 still b=$81
-COMMENT $05B0 disable RAMP, disable mux
-COMMENT_LINE $05B5 now finnished moving down
-COMMENT $05B5 Send it to the D/A
-COMMENT $05B9 enable RAMP, disable mux
-COMMENT $05BB 2 delay needed for drawing
-COMMENT $05BC 2
-COMMENT $05BD 2
-COMMENT $05BE 3
-COMMENT $05C0 5 Get bitmap from chargen table
-COMMENT $05C2 4 Save in shift register
-COMMENT $05C4 Get next character
-COMMENT $05C6 Go back if not terminator
-COMMENT_LINE $05C8 A=$81
-COMMENT $05C8 disable RAMP, disable mux
-COMMENT $05CD Get text height
-COMMENT_LINE $05D0 now move down
-COMMENT $05D0 store 'height' to dac (y)
-COMMENT $05D2 disable RAMP, enable mux
-COMMENT $05D4 disable RAMP, disable mux
-COMMENT $05D6 zero dac
-COMMENT_LINE $05D8 now only y set, x to zero
-COMMENT $05DA enable RAMP, disable mux
-COMMENT $05DE Get first character
-COMMENT $05E0 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $05E8 enable RAMP, enable mux
-COMMENT_LINE $05EA tricky, cutting y off while
-COMMENT_LINE $05EA integrating, saves one switch of mux
-COMMENT_LINE $05EA still B=$81
-COMMENT $05EA disable RAMP, disable mux
-COMMENT_LINE $05EF now finnished moving down
-COMMENT $05EF negative x speed
-COMMENT $05F4 enable RAMP, disable mux
-COMMENT $05F7 delay needed for drawing
-COMMENT $05FC Get bitmap from chargen table
-COMMENT $05FE Save in shift register
-COMMENT $0600 Get next character
-COMMENT $0602 Go back if not terminator
-COMMENT_LINE $0604 A=$81
-COMMENT $0604 disable RAMP, disable mux
-COMMENT $0609 Get text height
-COMMENT_LINE $060C now move down
-COMMENT $060C store 'height' to dac (y)
-COMMENT $060E disable RAMP, enable mux
-COMMENT $0610 disable RAMP, disable mux
-COMMENT $0612 zero dac
-COMMENT_LINE $0614 now only y set, x to zero
-COMMENT $0616 enable RAMP, disable mux
-COMMENT_LINE $0618 here we move down
-COMMENT $061C just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0624 enable RAMP, enable mux
-COMMENT_LINE $0626 tricky, cutting y off while
-COMMENT_LINE $0626 integrating, saves one switch of mux
-COMMENT_LINE $0626 still b=$81
-COMMENT $0626 disable RAMP, disable mux
-COMMENT_LINE $062B now finnished moving down
-COMMENT $062B Send it to the D/A
-COMMENT $062F enable RAMP, disable mux
-COMMENT $0631 2 delay needed for drawing
-COMMENT $0632 2
-COMMENT $0633 2
-COMMENT $0634 3
-COMMENT $0636 5 Get bitmap from chargen table
-COMMENT $0638 4 Save in shift register
-COMMENT $063A Get next character
-COMMENT $063C Go back if not terminator
-COMMENT_LINE $063E A=$81
-COMMENT $063E disable RAMP, disable mux
-COMMENT $0643 Get text height
-COMMENT_LINE $0646 now move down
-COMMENT $0646 store 'height' to dac (y)
-COMMENT $0648 disable RAMP, enable mux
-COMMENT $064A disable RAMP, disable mux
-COMMENT $064C zero dac
-COMMENT_LINE $064E now only y set, x to zero
-COMMENT $0650 enable RAMP, disable mux
-COMMENT $0654 Get first character
-COMMENT $0656 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $065E enable RAMP, enable mux
-COMMENT_LINE $0660 tricky, cutting y off while
-COMMENT_LINE $0660 integrating, saves one switch of mux
-COMMENT_LINE $0660 still B=$81
-COMMENT $0660 disable RAMP, disable mux
-COMMENT_LINE $0665 now finnished moving down
-COMMENT $0665 negative x speed
-COMMENT $066A enable RAMP, disable mux
-COMMENT $066D delay needed for drawing
-COMMENT $0672 Get bitmap from chargen table
-COMMENT $0674 Save in shift register
-COMMENT $0676 Get next character
-COMMENT $0678 Go back if not terminator
-COMMENT_LINE $067A A=$81
-COMMENT $067A disable RAMP, disable mux
-COMMENT $067F Get text height
-COMMENT_LINE $0682 now move down
-COMMENT $0682 store 'height' to dac (y)
-COMMENT $0684 disable RAMP, enable mux
-COMMENT $0686 disable RAMP, disable mux
-COMMENT $0688 zero dac
-COMMENT_LINE $068A now only y set, x to zero
-COMMENT $068C enable RAMP, disable mux
-COMMENT_LINE $068E here we move down
-COMMENT $0692 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $069A enable RAMP, enable mux
-COMMENT_LINE $069C tricky, cutting y off while
-COMMENT_LINE $069C integrating, saves one switch of mux
-COMMENT_LINE $069C still b=$81
-COMMENT $069C disable RAMP, disable mux
-COMMENT_LINE $06A1 now finnished moving down
-COMMENT $06A1 Send it to the D/A
-COMMENT $06A5 enable RAMP, disable mux
-COMMENT $06A7 delay needed for drawing
-COMMENT $06AC Get bitmap from chargen table
-COMMENT $06AE Save in shift register
-COMMENT $06B0 Get next character
-COMMENT $06B2 Go back if not terminator
-COMMENT_LINE $06B4 A=$81
-COMMENT $06B4 disable RAMP, disable mux
-COMMENT $06B8 T1->PB7 enabled
-COMMENT $06BC /BLANK low and /ZERO low
-COMMENT_LINE $06C0 ***************************************************************************
-COMMENT_LINE $06C2 Moveto_d_7F start
-COMMENT_LINE $06C5 lda  <VIA_t1_lch_lo
-COMMENT_LINE $06C5 pshs a
-COMMENT_LINE $06EA puls a
-COMMENT_LINE $06EA sta  <VIA_t1_cnt_lo
-COMMENT_LINE $06EA clr <VIA_port_a
-COMMENT_LINE $06EA ldb #%10000000
-COMMENT_LINE $06EA stb <VIA_port_b
-COMMENT_LINE $06EA nop
-COMMENT_LINE $06EA inc <VIA_port_b
-COMMENT_LINE $06EA U=String pointer to first $81
-COMMENT $06EC Clear D/A output
-COMMENT $06EE Shift reg mode = 110, T1 PB7 enabled
-COMMENT $06F5 enable mux, set y to 0 disable ramp
-COMMENT $06F7 disable RAMP, disable mux
-COMMENT $06FB Get text width
-COMMENT $0705 Send it to the D/A
-COMMENT $0709 enable RAMP, disable mux
-COMMENT $070B 2 delay needed for drawing
-COMMENT $070C 2
-COMMENT $070D 2
-COMMENT $070E 3
-COMMENT $0710 5 Get bitmap from chargen table
-COMMENT $0712 4 Save in shift register
-COMMENT $0714 Get next character
-COMMENT $0716 Go back if not terminator
-COMMENT_LINE $0718 A=$81
-COMMENT $0718 disable RAMP, disable mux
-COMMENT $071D Get text height
-COMMENT_LINE $0720 now move down
-COMMENT $0720 store 'height' to dac (y)
-COMMENT $0722 disable RAMP, enable mux
-COMMENT $0724 disable RAMP, disable mux
-COMMENT $0726 zero dac
-COMMENT_LINE $0728 now only y set, x to zero
-COMMENT $072A enable RAMP, disable mux
-COMMENT $072E Get first character
-COMMENT $0730 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0738 enable RAMP, enable mux
-COMMENT_LINE $073A tricky, cutting y off while
-COMMENT_LINE $073A integrating, saves one switch of mux
-COMMENT_LINE $073A still B=$81
-COMMENT $073A disable RAMP, disable mux
-COMMENT_LINE $073F now finnished moving down
-COMMENT $073F negative x speed
-COMMENT $0744 enable RAMP, disable mux
-COMMENT $0747 delay needed for drawing
-COMMENT $074C Get bitmap from chargen table
-COMMENT $074E Save in shift register
-COMMENT $0750 Get next character
-COMMENT $0752 Go back if not terminator
-COMMENT_LINE $0754 A=$81
-COMMENT $0754 disable RAMP, disable mux
-COMMENT $0759 Get text height
-COMMENT_LINE $075C now move down
-COMMENT $075C store 'height' to dac (y)
-COMMENT $075E disable RAMP, enable mux
-COMMENT $0760 disable RAMP, disable mux
-COMMENT $0762 zero dac
-COMMENT_LINE $0764 now only y set, x to zero
-COMMENT $0766 enable RAMP, disable mux
-COMMENT_LINE $0768 here we move down
-COMMENT $076C just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0774 enable RAMP, enable mux
-COMMENT_LINE $0776 tricky, cutting y off while
-COMMENT_LINE $0776 integrating, saves one switch of mux
-COMMENT_LINE $0776 still b=$81
-COMMENT $0776 disable RAMP, disable mux
-COMMENT_LINE $077B now finnished moving down
-COMMENT $077B Send it to the D/A
-COMMENT $077F enable RAMP, disable mux
-COMMENT $0781 2 delay needed for drawing
-COMMENT $0782 2
-COMMENT $0783 2
-COMMENT $0784 3
-COMMENT $0786 5 Get bitmap from chargen table
-COMMENT $0788 4 Save in shift register
-COMMENT $078A Get next character
-COMMENT $078C Go back if not terminator
-COMMENT_LINE $078E A=$81
-COMMENT $078E disable RAMP, disable mux
-COMMENT $0793 Get text height
-COMMENT_LINE $0796 now move down
-COMMENT $0796 store 'height' to dac (y)
-COMMENT $0798 disable RAMP, enable mux
-COMMENT $079A disable RAMP, disable mux
-COMMENT $079C zero dac
-COMMENT_LINE $079E now only y set, x to zero
-COMMENT $07A0 enable RAMP, disable mux
-COMMENT $07A4 Get first character
-COMMENT $07A6 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $07AE enable RAMP, enable mux
-COMMENT_LINE $07B0 tricky, cutting y off while
-COMMENT_LINE $07B0 integrating, saves one switch of mux
-COMMENT_LINE $07B0 still B=$81
-COMMENT $07B0 disable RAMP, disable mux
-COMMENT_LINE $07B5 now finnished moving down
-COMMENT $07B5 negative x speed
-COMMENT $07BA enable RAMP, disable mux
-COMMENT $07BD delay needed for drawing
-COMMENT $07C2 Get bitmap from chargen table
-COMMENT $07C4 Save in shift register
-COMMENT $07C6 Get next character
-COMMENT $07C8 Go back if not terminator
-COMMENT_LINE $07CA A=$81
-COMMENT $07CA disable RAMP, disable mux
-COMMENT $07CF Get text height
-COMMENT_LINE $07D2 now move down
-COMMENT $07D2 store 'height' to dac (y)
-COMMENT $07D4 disable RAMP, enable mux
-COMMENT $07D6 disable RAMP, disable mux
-COMMENT $07D8 zero dac
-COMMENT_LINE $07DA now only y set, x to zero
-COMMENT $07DC enable RAMP, disable mux
-COMMENT_LINE $07DE here we move down
-COMMENT $07E2 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $07EA enable RAMP, enable mux
-COMMENT_LINE $07EC tricky, cutting y off while
-COMMENT_LINE $07EC integrating, saves one switch of mux
-COMMENT_LINE $07EC still b=$81
-COMMENT $07EC disable RAMP, disable mux
-COMMENT_LINE $07F1 now finnished moving down
-COMMENT $07F1 Send it to the D/A
-COMMENT $07F5 enable RAMP, disable mux
-COMMENT $07F7 2 delay needed for drawing
-COMMENT $07F8 2
-COMMENT $07F9 2
-COMMENT $07FA 3
-COMMENT $07FC 5 Get bitmap from chargen table
-COMMENT $07FE 4 Save in shift register
-COMMENT $0800 Get next character
-COMMENT $0802 Go back if not terminator
-COMMENT_LINE $0804 A=$81
-COMMENT $0804 disable RAMP, disable mux
-COMMENT $0809 Get text height
-COMMENT_LINE $080C now move down
-COMMENT $080C store 'height' to dac (y)
-COMMENT $080E disable RAMP, enable mux
-COMMENT $0810 disable RAMP, disable mux
-COMMENT $0812 zero dac
-COMMENT_LINE $0814 now only y set, x to zero
-COMMENT $0816 enable RAMP, disable mux
-COMMENT $081A Get first character
-COMMENT $081C just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0824 enable RAMP, enable mux
-COMMENT_LINE $0826 tricky, cutting y off while
-COMMENT_LINE $0826 integrating, saves one switch of mux
-COMMENT_LINE $0826 still B=$81
-COMMENT $0826 disable RAMP, disable mux
-COMMENT_LINE $082B now finnished moving down
-COMMENT $082B negative x speed
-COMMENT $0830 enable RAMP, disable mux
+FORCE_SYMBOL $04D8 VIA_port_b
+FORCE_NO_SYMBOL $04DA
+COMMENT $04DC T1->PB7 enabled
+FORCE_SYMBOL $04DC VIA_aux_cntl
+FORCE_NO_SYMBOL $04DE
+COMMENT $04E0 /BLANK low and /ZERO low
+FORCE_SYMBOL $04E0 VIA_cntl
+COMMENT_LINE $04E3 ***************************************************************************
+COMMENT_LINE $04E3 Moveto_d_7F start
+FORCE_SYMBOL $04E3 VIA_port_a
+COMMENT_LINE $04E5 lda  <VIA_t1_lch_lo
+COMMENT_LINE $04E5 pshs a
+FORCE_NO_SYMBOL $04E5
+FORCE_SYMBOL $04E7 VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $04E9
+FORCE_SYMBOL $04EB VIA_cntl
+FORCE_SYMBOL $04EE VIA_port_b
+FORCE_SYMBOL $04F0 VIA_shift_reg
+FORCE_SYMBOL $04F2 VIA_port_b
+FORCE_SYMBOL $04F4 VIA_port_a
+FORCE_SYMBOL $04F6 VIA_t1_cnt_hi
+FORCE_NO_SYMBOL $04F8
+FORCE_SYMBOL $04FB VIA_int_flags
+FORCE_SYMBOL $04FF VIA_port_a
+COMMENT_LINE $0501 puls a
+COMMENT_LINE $0501 sta  <VIA_t1_cnt_lo
+COMMENT_LINE $0501 clr <VIA_port_a
+COMMENT_LINE $0501 ldb #%10000000
+COMMENT_LINE $0501 stb <VIA_port_b
+COMMENT_LINE $0501 nop
+COMMENT_LINE $0501 inc <VIA_port_b
+COMMENT_LINE $0501 U=String pointer to first $81
+FORCE_NO_SYMBOL $0501
+COMMENT $0503 Clear D/A output
+FORCE_SYMBOL $0503 VIA_port_a
+COMMENT $0505 Shift reg mode = 110, T1 PB7 enabled
+FORCE_SYMBOL $0505 VIA_aux_cntl
+FORCE_SYMBOL $0507 Char_Tablef1
+FORCE_NO_SYMBOL $050A
+COMMENT $050C enable mux, set y to 0 disable ramp
+FORCE_SYMBOL $050C VIA_port_b
+COMMENT $050E disable RAMP, disable mux
+FORCE_SYMBOL $050E VIA_port_b
+COMMENT $0512 Get text width
+FORCE_SYMBOL $0512 Vec_Text_Width
+FORCE_SYMBOL $0516 Vec_Text_Width_neg
+COMMENT $051C Send it to the D/A
+FORCE_SYMBOL $051C VIA_port_a
+FORCE_NO_SYMBOL $051E
+COMMENT $0520 enable RAMP, disable mux
+FORCE_SYMBOL $0520 VIA_port_b
+COMMENT $0522 2 delay needed for drawing
+COMMENT $0523 2
+COMMENT $0524 2
+COMMENT $0525 3
+COMMENT $0527 5 Get bitmap from chargen table
+COMMENT $0529 4 Save in shift register
+FORCE_SYMBOL $0529 VIA_shift_reg
+COMMENT $052B Get next character
+COMMENT $052D Go back if not terminator
+COMMENT_LINE $052F A=$81
+COMMENT $052F disable RAMP, disable mux
+FORCE_SYMBOL $052F VIA_port_b
+FORCE_SYMBOL $0531 Char_Tableb1
+COMMENT $0534 Get text height
+FORCE_SYMBOL $0534 Vec_Text_Height
+COMMENT_LINE $0537 now move down
+COMMENT $0537 store 'height' to dac (y)
+FORCE_SYMBOL $0537 VIA_port_a
+COMMENT $0539 disable RAMP, enable mux
+FORCE_SYMBOL $0539 VIA_port_b
+COMMENT $053B disable RAMP, disable mux
+FORCE_SYMBOL $053B VIA_port_b
+COMMENT $053D zero dac
+FORCE_SYMBOL $053D VIA_port_a
+COMMENT_LINE $053F now only y set, x to zero
+FORCE_NO_SYMBOL $053F
+COMMENT $0541 enable RAMP, disable mux
+FORCE_SYMBOL $0541 VIA_port_b
+COMMENT $0545 Get first character
+COMMENT $0547 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $054F enable RAMP, enable mux
+FORCE_SYMBOL $054F VIA_port_b
+COMMENT_LINE $0551 tricky, cutting y off while
+COMMENT_LINE $0551 integrating, saves one switch of mux
+COMMENT_LINE $0551 still B=$81
+COMMENT $0551 disable RAMP, disable mux
+FORCE_SYMBOL $0551 VIA_port_b
+FORCE_SYMBOL $0553 Vec_Text_Width_neg
+COMMENT_LINE $0556 now finnished moving down
+COMMENT $0556 negative x speed
+FORCE_SYMBOL $0556 VIA_port_a
+FORCE_NO_SYMBOL $0558
+COMMENT $055A enable RAMP, disable mux
+FORCE_SYMBOL $055A VIA_port_b
+COMMENT $055C delay needed for drawing
+COMMENT $0561 Get bitmap from chargen table
+COMMENT $0563 Save in shift register
+FORCE_SYMBOL $0563 VIA_shift_reg
+COMMENT $0565 Get next character
+COMMENT $0567 Go back if not terminator
+COMMENT_LINE $0569 A=$81
+COMMENT $0569 disable RAMP, disable mux
+FORCE_SYMBOL $0569 VIA_port_b
+FORCE_SYMBOL $056B Char_Tablef2
+COMMENT $056E Get text height
+FORCE_SYMBOL $056E Vec_Text_Height
+COMMENT_LINE $0571 now move down
+COMMENT $0571 store 'height' to dac (y)
+FORCE_SYMBOL $0571 VIA_port_a
+COMMENT $0573 disable RAMP, enable mux
+FORCE_SYMBOL $0573 VIA_port_b
+COMMENT $0575 disable RAMP, disable mux
+FORCE_SYMBOL $0575 VIA_port_b
+COMMENT $0577 zero dac
+FORCE_SYMBOL $0577 VIA_port_a
+COMMENT_LINE $0579 now only y set, x to zero
+FORCE_NO_SYMBOL $0579
+COMMENT $057B enable RAMP, disable mux
+FORCE_SYMBOL $057B VIA_port_b
+COMMENT_LINE $057D here we move down
+COMMENT $0581 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0589 enable RAMP, enable mux
+FORCE_SYMBOL $0589 VIA_port_b
+COMMENT_LINE $058B tricky, cutting y off while
+COMMENT_LINE $058B integrating, saves one switch of mux
+COMMENT_LINE $058B still b=$81
+COMMENT $058B disable RAMP, disable mux
+FORCE_SYMBOL $058B VIA_port_b
+FORCE_SYMBOL $058D Vec_Text_Width
+COMMENT_LINE $0590 now finnished moving down
+COMMENT $0590 Send it to the D/A
+FORCE_SYMBOL $0590 VIA_port_a
+FORCE_NO_SYMBOL $0592
+COMMENT $0594 enable RAMP, disable mux
+FORCE_SYMBOL $0594 VIA_port_b
+COMMENT $0596 2 delay needed for drawing
+COMMENT $0597 2
+COMMENT $0598 2
+COMMENT $0599 3
+COMMENT $059B 5 Get bitmap from chargen table
+COMMENT $059D 4 Save in shift register
+FORCE_SYMBOL $059D VIA_shift_reg
+COMMENT $059F Get next character
+COMMENT $05A1 Go back if not terminator
+COMMENT_LINE $05A3 A=$81
+COMMENT $05A3 disable RAMP, disable mux
+FORCE_SYMBOL $05A3 VIA_port_b
+FORCE_SYMBOL $05A5 Char_Tableb2
+COMMENT $05A8 Get text height
+FORCE_SYMBOL $05A8 Vec_Text_Height
+COMMENT_LINE $05AB now move down
+COMMENT $05AB store 'height' to dac (y)
+FORCE_SYMBOL $05AB VIA_port_a
+COMMENT $05AD disable RAMP, enable mux
+FORCE_SYMBOL $05AD VIA_port_b
+COMMENT $05AF disable RAMP, disable mux
+FORCE_SYMBOL $05AF VIA_port_b
+COMMENT $05B1 zero dac
+FORCE_SYMBOL $05B1 VIA_port_a
+COMMENT_LINE $05B3 now only y set, x to zero
+FORCE_NO_SYMBOL $05B3
+COMMENT $05B5 enable RAMP, disable mux
+FORCE_SYMBOL $05B5 VIA_port_b
+COMMENT $05B9 Get first character
+COMMENT $05BB just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $05C3 enable RAMP, enable mux
+FORCE_SYMBOL $05C3 VIA_port_b
+COMMENT_LINE $05C5 tricky, cutting y off while
+COMMENT_LINE $05C5 integrating, saves one switch of mux
+COMMENT_LINE $05C5 still B=$81
+COMMENT $05C5 disable RAMP, disable mux
+FORCE_SYMBOL $05C5 VIA_port_b
+FORCE_SYMBOL $05C7 Vec_Text_Width_neg
+COMMENT_LINE $05CA now finnished moving down
+COMMENT $05CA negative x speed
+FORCE_SYMBOL $05CA VIA_port_a
+FORCE_NO_SYMBOL $05CC
+COMMENT $05CE enable RAMP, disable mux
+FORCE_SYMBOL $05CE VIA_port_b
+COMMENT $05D0 delay needed for drawing
+COMMENT $05D5 Get bitmap from chargen table
+COMMENT $05D7 Save in shift register
+FORCE_SYMBOL $05D7 VIA_shift_reg
+COMMENT $05D9 Get next character
+COMMENT $05DB Go back if not terminator
+COMMENT_LINE $05DD A=$81
+COMMENT $05DD disable RAMP, disable mux
+FORCE_SYMBOL $05DD VIA_port_b
+FORCE_SYMBOL $05DF Char_Tablef3
+COMMENT $05E2 Get text height
+FORCE_SYMBOL $05E2 Vec_Text_Height
+COMMENT_LINE $05E5 now move down
+COMMENT $05E5 store 'height' to dac (y)
+FORCE_SYMBOL $05E5 VIA_port_a
+COMMENT $05E7 disable RAMP, enable mux
+FORCE_SYMBOL $05E7 VIA_port_b
+COMMENT $05E9 disable RAMP, disable mux
+FORCE_SYMBOL $05E9 VIA_port_b
+COMMENT $05EB zero dac
+FORCE_SYMBOL $05EB VIA_port_a
+COMMENT_LINE $05ED now only y set, x to zero
+FORCE_NO_SYMBOL $05ED
+COMMENT $05EF enable RAMP, disable mux
+FORCE_SYMBOL $05EF VIA_port_b
+COMMENT_LINE $05F1 here we move down
+COMMENT $05F5 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $05FD enable RAMP, enable mux
+FORCE_SYMBOL $05FD VIA_port_b
+COMMENT_LINE $05FF tricky, cutting y off while
+COMMENT_LINE $05FF integrating, saves one switch of mux
+COMMENT_LINE $05FF still b=$81
+COMMENT $05FF disable RAMP, disable mux
+FORCE_SYMBOL $05FF VIA_port_b
+FORCE_SYMBOL $0601 Vec_Text_Width
+COMMENT_LINE $0604 now finnished moving down
+COMMENT $0604 Send it to the D/A
+FORCE_SYMBOL $0604 VIA_port_a
+FORCE_NO_SYMBOL $0606
+COMMENT $0608 enable RAMP, disable mux
+FORCE_SYMBOL $0608 VIA_port_b
+COMMENT $060A 2 delay needed for drawing
+COMMENT $060B 2
+COMMENT $060C 2
+COMMENT $060D 3
+COMMENT $060F 5 Get bitmap from chargen table
+COMMENT $0611 4 Save in shift register
+FORCE_SYMBOL $0611 VIA_shift_reg
+COMMENT $0613 Get next character
+COMMENT $0615 Go back if not terminator
+COMMENT_LINE $0617 A=$81
+COMMENT $0617 disable RAMP, disable mux
+FORCE_SYMBOL $0617 VIA_port_b
+FORCE_SYMBOL $0619 Char_Tableb3
+COMMENT $061C Get text height
+FORCE_SYMBOL $061C Vec_Text_Height
+COMMENT_LINE $061F now move down
+COMMENT $061F store 'height' to dac (y)
+FORCE_SYMBOL $061F VIA_port_a
+COMMENT $0621 disable RAMP, enable mux
+FORCE_SYMBOL $0621 VIA_port_b
+COMMENT $0623 disable RAMP, disable mux
+FORCE_SYMBOL $0623 VIA_port_b
+COMMENT $0625 zero dac
+FORCE_SYMBOL $0625 VIA_port_a
+COMMENT_LINE $0627 now only y set, x to zero
+FORCE_NO_SYMBOL $0627
+COMMENT $0629 enable RAMP, disable mux
+FORCE_SYMBOL $0629 VIA_port_b
+COMMENT $062D Get first character
+COMMENT $062F just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0637 enable RAMP, enable mux
+FORCE_SYMBOL $0637 VIA_port_b
+COMMENT_LINE $0639 tricky, cutting y off while
+COMMENT_LINE $0639 integrating, saves one switch of mux
+COMMENT_LINE $0639 still B=$81
+COMMENT $0639 disable RAMP, disable mux
+FORCE_SYMBOL $0639 VIA_port_b
+FORCE_SYMBOL $063B Vec_Text_Width_neg
+COMMENT_LINE $063E now finnished moving down
+COMMENT $063E negative x speed
+FORCE_SYMBOL $063E VIA_port_a
+FORCE_NO_SYMBOL $0640
+COMMENT $0642 enable RAMP, disable mux
+FORCE_SYMBOL $0642 VIA_port_b
+COMMENT $0644 delay needed for drawing
+COMMENT $0649 Get bitmap from chargen table
+COMMENT $064B Save in shift register
+FORCE_SYMBOL $064B VIA_shift_reg
+COMMENT $064D Get next character
+COMMENT $064F Go back if not terminator
+COMMENT_LINE $0651 A=$81
+COMMENT $0651 disable RAMP, disable mux
+FORCE_SYMBOL $0651 VIA_port_b
+FORCE_SYMBOL $0653 Char_Tablef4
+COMMENT $0656 Get text height
+FORCE_SYMBOL $0656 Vec_Text_Height
+COMMENT_LINE $0659 now move down
+COMMENT $0659 store 'height' to dac (y)
+FORCE_SYMBOL $0659 VIA_port_a
+COMMENT $065B disable RAMP, enable mux
+FORCE_SYMBOL $065B VIA_port_b
+COMMENT $065D disable RAMP, disable mux
+FORCE_SYMBOL $065D VIA_port_b
+COMMENT $065F zero dac
+FORCE_SYMBOL $065F VIA_port_a
+COMMENT_LINE $0661 now only y set, x to zero
+FORCE_NO_SYMBOL $0661
+COMMENT $0663 enable RAMP, disable mux
+FORCE_SYMBOL $0663 VIA_port_b
+COMMENT_LINE $0665 here we move down
+COMMENT $0669 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0671 enable RAMP, enable mux
+FORCE_SYMBOL $0671 VIA_port_b
+COMMENT_LINE $0673 tricky, cutting y off while
+COMMENT_LINE $0673 integrating, saves one switch of mux
+COMMENT_LINE $0673 still b=$81
+COMMENT $0673 disable RAMP, disable mux
+FORCE_SYMBOL $0673 VIA_port_b
+FORCE_SYMBOL $0675 Vec_Text_Width
+COMMENT_LINE $0678 now finnished moving down
+COMMENT $0678 Send it to the D/A
+FORCE_SYMBOL $0678 VIA_port_a
+FORCE_NO_SYMBOL $067A
+COMMENT $067C enable RAMP, disable mux
+FORCE_SYMBOL $067C VIA_port_b
+COMMENT $067E delay needed for drawing
+COMMENT $0683 Get bitmap from chargen table
+COMMENT $0685 Save in shift register
+FORCE_SYMBOL $0685 VIA_shift_reg
+COMMENT $0687 Get next character
+COMMENT $0689 Go back if not terminator
+COMMENT_LINE $068B A=$81
+COMMENT $068B disable RAMP, disable mux
+FORCE_SYMBOL $068B VIA_port_b
+FORCE_NO_SYMBOL $068D
+COMMENT $068F T1->PB7 enabled
+FORCE_SYMBOL $068F VIA_aux_cntl
+FORCE_NO_SYMBOL $0691
+COMMENT $0693 /BLANK low and /ZERO low
+FORCE_SYMBOL $0693 VIA_cntl
+COMMENT_LINE $0696 ***************************************************************************
+COMMENT_LINE $0698 Moveto_d_7F start
+FORCE_SYMBOL $0698 VIA_port_a
+COMMENT_LINE $069A lda  <VIA_t1_lch_lo
+COMMENT_LINE $069A pshs a
+FORCE_NO_SYMBOL $069A
+FORCE_SYMBOL $069C VIA_t1_cnt_lo
+FORCE_NO_SYMBOL $069E
+FORCE_SYMBOL $06A0 VIA_cntl
+FORCE_SYMBOL $06A3 VIA_port_b
+FORCE_SYMBOL $06A5 VIA_shift_reg
+FORCE_SYMBOL $06A7 VIA_port_b
+FORCE_SYMBOL $06A9 VIA_port_a
+FORCE_SYMBOL $06AB VIA_t1_cnt_hi
+FORCE_NO_SYMBOL $06AD
+FORCE_SYMBOL $06B0 VIA_int_flags
+FORCE_SYMBOL $06B4 VIA_port_a
+COMMENT_LINE $06B6 puls a
+COMMENT_LINE $06B6 sta  <VIA_t1_cnt_lo
+COMMENT_LINE $06B6 clr <VIA_port_a
+COMMENT_LINE $06B6 ldb #%10000000
+COMMENT_LINE $06B6 stb <VIA_port_b
+COMMENT_LINE $06B6 nop
+COMMENT_LINE $06B6 inc <VIA_port_b
+COMMENT_LINE $06B6 U=String pointer to first $81
+FORCE_NO_SYMBOL $06B6
+COMMENT $06B8 Clear D/A output
+FORCE_SYMBOL $06B8 VIA_port_a
+COMMENT $06BA Shift reg mode = 110, T1 PB7 enabled
+FORCE_SYMBOL $06BA VIA_aux_cntl
+FORCE_SYMBOL $06BC Char_Tablef1
+FORCE_NO_SYMBOL $06BF
+COMMENT $06C1 enable mux, set y to 0 disable ramp
+FORCE_SYMBOL $06C1 VIA_port_b
+COMMENT $06C3 disable RAMP, disable mux
+FORCE_SYMBOL $06C3 VIA_port_b
+COMMENT $06C7 Get text width
+FORCE_SYMBOL $06C7 Vec_Text_Width
+FORCE_SYMBOL $06CB Vec_Text_Width_neg
+COMMENT $06D1 Send it to the D/A
+FORCE_SYMBOL $06D1 VIA_port_a
+FORCE_NO_SYMBOL $06D3
+COMMENT $06D5 enable RAMP, disable mux
+FORCE_SYMBOL $06D5 VIA_port_b
+COMMENT $06D7 2 delay needed for drawing
+COMMENT $06D8 2
+COMMENT $06D9 2
+COMMENT $06DA 3
+COMMENT $06DC 5 Get bitmap from chargen table
+COMMENT $06DE 4 Save in shift register
+FORCE_SYMBOL $06DE VIA_shift_reg
+COMMENT $06E0 Get next character
+COMMENT $06E2 Go back if not terminator
+COMMENT_LINE $06E4 A=$81
+COMMENT $06E4 disable RAMP, disable mux
+FORCE_SYMBOL $06E4 VIA_port_b
+FORCE_SYMBOL $06E6 Char_Tableb1
+COMMENT $06E9 Get text height
+FORCE_SYMBOL $06E9 Vec_Text_Height
+COMMENT_LINE $06EC now move down
+COMMENT $06EC store 'height' to dac (y)
+FORCE_SYMBOL $06EC VIA_port_a
+COMMENT $06EE disable RAMP, enable mux
+FORCE_SYMBOL $06EE VIA_port_b
+COMMENT $06F0 disable RAMP, disable mux
+FORCE_SYMBOL $06F0 VIA_port_b
+COMMENT $06F2 zero dac
+FORCE_SYMBOL $06F2 VIA_port_a
+COMMENT_LINE $06F4 now only y set, x to zero
+FORCE_NO_SYMBOL $06F4
+COMMENT $06F6 enable RAMP, disable mux
+FORCE_SYMBOL $06F6 VIA_port_b
+COMMENT $06FA Get first character
+COMMENT $06FC just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0704 enable RAMP, enable mux
+FORCE_SYMBOL $0704 VIA_port_b
+COMMENT_LINE $0706 tricky, cutting y off while
+COMMENT_LINE $0706 integrating, saves one switch of mux
+COMMENT_LINE $0706 still B=$81
+COMMENT $0706 disable RAMP, disable mux
+FORCE_SYMBOL $0706 VIA_port_b
+FORCE_SYMBOL $0708 Vec_Text_Width_neg
+COMMENT_LINE $070B now finnished moving down
+COMMENT $070B negative x speed
+FORCE_SYMBOL $070B VIA_port_a
+FORCE_NO_SYMBOL $070D
+COMMENT $070F enable RAMP, disable mux
+FORCE_SYMBOL $070F VIA_port_b
+COMMENT $0711 delay needed for drawing
+COMMENT $0716 Get bitmap from chargen table
+COMMENT $0718 Save in shift register
+FORCE_SYMBOL $0718 VIA_shift_reg
+COMMENT $071A Get next character
+COMMENT $071C Go back if not terminator
+COMMENT_LINE $071E A=$81
+COMMENT $071E disable RAMP, disable mux
+FORCE_SYMBOL $071E VIA_port_b
+FORCE_SYMBOL $0720 Char_Tablef2
+COMMENT $0723 Get text height
+FORCE_SYMBOL $0723 Vec_Text_Height
+COMMENT_LINE $0726 now move down
+COMMENT $0726 store 'height' to dac (y)
+FORCE_SYMBOL $0726 VIA_port_a
+COMMENT $0728 disable RAMP, enable mux
+FORCE_SYMBOL $0728 VIA_port_b
+COMMENT $072A disable RAMP, disable mux
+FORCE_SYMBOL $072A VIA_port_b
+COMMENT $072C zero dac
+FORCE_SYMBOL $072C VIA_port_a
+COMMENT_LINE $072E now only y set, x to zero
+FORCE_NO_SYMBOL $072E
+COMMENT $0730 enable RAMP, disable mux
+FORCE_SYMBOL $0730 VIA_port_b
+COMMENT_LINE $0732 here we move down
+COMMENT $0736 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $073E enable RAMP, enable mux
+FORCE_SYMBOL $073E VIA_port_b
+COMMENT_LINE $0740 tricky, cutting y off while
+COMMENT_LINE $0740 integrating, saves one switch of mux
+COMMENT_LINE $0740 still b=$81
+COMMENT $0740 disable RAMP, disable mux
+FORCE_SYMBOL $0740 VIA_port_b
+FORCE_SYMBOL $0742 Vec_Text_Width
+COMMENT_LINE $0745 now finnished moving down
+COMMENT $0745 Send it to the D/A
+FORCE_SYMBOL $0745 VIA_port_a
+FORCE_NO_SYMBOL $0747
+COMMENT $0749 enable RAMP, disable mux
+FORCE_SYMBOL $0749 VIA_port_b
+COMMENT $074B 2 delay needed for drawing
+COMMENT $074C 2
+COMMENT $074D 2
+COMMENT $074E 3
+COMMENT $0750 5 Get bitmap from chargen table
+COMMENT $0752 4 Save in shift register
+FORCE_SYMBOL $0752 VIA_shift_reg
+COMMENT $0754 Get next character
+COMMENT $0756 Go back if not terminator
+COMMENT_LINE $0758 A=$81
+COMMENT $0758 disable RAMP, disable mux
+FORCE_SYMBOL $0758 VIA_port_b
+FORCE_SYMBOL $075A Char_Tableb2
+COMMENT $075D Get text height
+FORCE_SYMBOL $075D Vec_Text_Height
+COMMENT_LINE $0760 now move down
+COMMENT $0760 store 'height' to dac (y)
+FORCE_SYMBOL $0760 VIA_port_a
+COMMENT $0762 disable RAMP, enable mux
+FORCE_SYMBOL $0762 VIA_port_b
+COMMENT $0764 disable RAMP, disable mux
+FORCE_SYMBOL $0764 VIA_port_b
+COMMENT $0766 zero dac
+FORCE_SYMBOL $0766 VIA_port_a
+COMMENT_LINE $0768 now only y set, x to zero
+FORCE_NO_SYMBOL $0768
+COMMENT $076A enable RAMP, disable mux
+FORCE_SYMBOL $076A VIA_port_b
+COMMENT $076E Get first character
+COMMENT $0770 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0778 enable RAMP, enable mux
+FORCE_SYMBOL $0778 VIA_port_b
+COMMENT_LINE $077A tricky, cutting y off while
+COMMENT_LINE $077A integrating, saves one switch of mux
+COMMENT_LINE $077A still B=$81
+COMMENT $077A disable RAMP, disable mux
+FORCE_SYMBOL $077A VIA_port_b
+FORCE_SYMBOL $077C Vec_Text_Width_neg
+COMMENT_LINE $077F now finnished moving down
+COMMENT $077F negative x speed
+FORCE_SYMBOL $077F VIA_port_a
+FORCE_NO_SYMBOL $0781
+COMMENT $0783 enable RAMP, disable mux
+FORCE_SYMBOL $0783 VIA_port_b
+COMMENT $0785 delay needed for drawing
+COMMENT $078A Get bitmap from chargen table
+COMMENT $078C Save in shift register
+FORCE_SYMBOL $078C VIA_shift_reg
+COMMENT $078E Get next character
+COMMENT $0790 Go back if not terminator
+COMMENT_LINE $0792 A=$81
+COMMENT $0792 disable RAMP, disable mux
+FORCE_SYMBOL $0792 VIA_port_b
+FORCE_SYMBOL $0794 Char_Tablef3
+COMMENT $0797 Get text height
+FORCE_SYMBOL $0797 Vec_Text_Height
+COMMENT_LINE $079A now move down
+COMMENT $079A store 'height' to dac (y)
+FORCE_SYMBOL $079A VIA_port_a
+COMMENT $079C disable RAMP, enable mux
+FORCE_SYMBOL $079C VIA_port_b
+COMMENT $079E disable RAMP, disable mux
+FORCE_SYMBOL $079E VIA_port_b
+COMMENT $07A0 zero dac
+FORCE_SYMBOL $07A0 VIA_port_a
+COMMENT_LINE $07A2 now only y set, x to zero
+FORCE_NO_SYMBOL $07A2
+COMMENT $07A4 enable RAMP, disable mux
+FORCE_SYMBOL $07A4 VIA_port_b
+COMMENT_LINE $07A6 here we move down
+COMMENT $07AA just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $07B2 enable RAMP, enable mux
+FORCE_SYMBOL $07B2 VIA_port_b
+COMMENT_LINE $07B4 tricky, cutting y off while
+COMMENT_LINE $07B4 integrating, saves one switch of mux
+COMMENT_LINE $07B4 still b=$81
+COMMENT $07B4 disable RAMP, disable mux
+FORCE_SYMBOL $07B4 VIA_port_b
+FORCE_SYMBOL $07B6 Vec_Text_Width
+COMMENT_LINE $07B9 now finnished moving down
+COMMENT $07B9 Send it to the D/A
+FORCE_SYMBOL $07B9 VIA_port_a
+FORCE_NO_SYMBOL $07BB
+COMMENT $07BD enable RAMP, disable mux
+FORCE_SYMBOL $07BD VIA_port_b
+COMMENT $07BF 2 delay needed for drawing
+COMMENT $07C0 2
+COMMENT $07C1 2
+COMMENT $07C2 3
+COMMENT $07C4 5 Get bitmap from chargen table
+COMMENT $07C6 4 Save in shift register
+FORCE_SYMBOL $07C6 VIA_shift_reg
+COMMENT $07C8 Get next character
+COMMENT $07CA Go back if not terminator
+COMMENT_LINE $07CC A=$81
+COMMENT $07CC disable RAMP, disable mux
+FORCE_SYMBOL $07CC VIA_port_b
+FORCE_SYMBOL $07CE Char_Tableb3
+COMMENT $07D1 Get text height
+FORCE_SYMBOL $07D1 Vec_Text_Height
+COMMENT_LINE $07D4 now move down
+COMMENT $07D4 store 'height' to dac (y)
+FORCE_SYMBOL $07D4 VIA_port_a
+COMMENT $07D6 disable RAMP, enable mux
+FORCE_SYMBOL $07D6 VIA_port_b
+COMMENT $07D8 disable RAMP, disable mux
+FORCE_SYMBOL $07D8 VIA_port_b
+COMMENT $07DA zero dac
+FORCE_SYMBOL $07DA VIA_port_a
+COMMENT_LINE $07DC now only y set, x to zero
+FORCE_NO_SYMBOL $07DC
+COMMENT $07DE enable RAMP, disable mux
+FORCE_SYMBOL $07DE VIA_port_b
+COMMENT $07E2 Get first character
+COMMENT $07E4 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $07EC enable RAMP, enable mux
+FORCE_SYMBOL $07EC VIA_port_b
+COMMENT_LINE $07EE tricky, cutting y off while
+COMMENT_LINE $07EE integrating, saves one switch of mux
+COMMENT_LINE $07EE still B=$81
+COMMENT $07EE disable RAMP, disable mux
+FORCE_SYMBOL $07EE VIA_port_b
+FORCE_SYMBOL $07F0 Vec_Text_Width_neg
+COMMENT_LINE $07F3 now finnished moving down
+COMMENT $07F3 negative x speed
+FORCE_SYMBOL $07F3 VIA_port_a
+FORCE_NO_SYMBOL $07F5
+COMMENT $07F7 enable RAMP, disable mux
+FORCE_SYMBOL $07F7 VIA_port_b
+COMMENT $07F9 delay needed for drawing
+COMMENT $07FE Get bitmap from chargen table
+COMMENT $0800 Save in shift register
+FORCE_SYMBOL $0800 VIA_shift_reg
+COMMENT $0802 Get next character
+COMMENT $0804 Go back if not terminator
+COMMENT_LINE $0806 A=$81
+COMMENT $0806 disable RAMP, disable mux
+FORCE_SYMBOL $0806 VIA_port_b
+FORCE_SYMBOL $0808 Char_Tablef4
+COMMENT $080B Get text height
+FORCE_SYMBOL $080B Vec_Text_Height
+COMMENT_LINE $080E now move down
+COMMENT $080E store 'height' to dac (y)
+FORCE_SYMBOL $080E VIA_port_a
+COMMENT $0810 disable RAMP, enable mux
+FORCE_SYMBOL $0810 VIA_port_b
+COMMENT $0812 disable RAMP, disable mux
+FORCE_SYMBOL $0812 VIA_port_b
+COMMENT $0814 zero dac
+FORCE_SYMBOL $0814 VIA_port_a
+COMMENT_LINE $0816 now only y set, x to zero
+FORCE_NO_SYMBOL $0816
+COMMENT $0818 enable RAMP, disable mux
+FORCE_SYMBOL $0818 VIA_port_b
+COMMENT_LINE $081A here we move down
+COMMENT $081E just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
+COMMENT $0826 enable RAMP, enable mux
+FORCE_SYMBOL $0826 VIA_port_b
+COMMENT_LINE $0828 tricky, cutting y off while
+COMMENT_LINE $0828 integrating, saves one switch of mux
+COMMENT_LINE $0828 still b=$81
+COMMENT $0828 disable RAMP, disable mux
+FORCE_SYMBOL $0828 VIA_port_b
+FORCE_SYMBOL $082A Vec_Text_Width
+COMMENT_LINE $082D now finnished moving down
+COMMENT $082D Send it to the D/A
+FORCE_SYMBOL $082D VIA_port_a
+FORCE_NO_SYMBOL $082F
+COMMENT $0831 enable RAMP, disable mux
+FORCE_SYMBOL $0831 VIA_port_b
 COMMENT $0833 delay needed for drawing
 COMMENT $0838 Get bitmap from chargen table
 COMMENT $083A Save in shift register
+FORCE_SYMBOL $083A VIA_shift_reg
 COMMENT $083C Get next character
 COMMENT $083E Go back if not terminator
 COMMENT_LINE $0840 A=$81
 COMMENT $0840 disable RAMP, disable mux
-COMMENT $0845 Get text height
-COMMENT_LINE $0848 now move down
-COMMENT $0848 store 'height' to dac (y)
-COMMENT $084A disable RAMP, enable mux
-COMMENT $084C disable RAMP, disable mux
-COMMENT $084E zero dac
-COMMENT_LINE $0850 now only y set, x to zero
-COMMENT $0852 enable RAMP, disable mux
-COMMENT_LINE $0854 here we move down
-COMMENT $0858 just a delay, can be deleted, but with it, text hight is comparable to "normal" string routines
-COMMENT $0860 enable RAMP, enable mux
-COMMENT_LINE $0862 tricky, cutting y off while
-COMMENT_LINE $0862 integrating, saves one switch of mux
-COMMENT_LINE $0862 still b=$81
-COMMENT $0862 disable RAMP, disable mux
-COMMENT_LINE $0867 now finnished moving down
-COMMENT $0867 Send it to the D/A
-COMMENT $086B enable RAMP, disable mux
-COMMENT $086D delay needed for drawing
-COMMENT $0872 Get bitmap from chargen table
-COMMENT $0874 Save in shift register
-COMMENT $0876 Get next character
-COMMENT $0878 Go back if not terminator
-COMMENT_LINE $087A A=$81
-COMMENT $087A disable RAMP, disable mux
-COMMENT $087E T1->PB7 enabled
-COMMENT $0882 /BLANK low and /ZERO low
-COMMENT_LINE $088D ***************************************************************************
-COMMENT $088D Save B-reg
-COMMENT $088F build print struct... with $81 header ... on the stack
-COMMENT $0891 Point U into the stack
-COMMENT $0893 push $81
-COMMENT $0895 load  space
-COMMENT $0897 push space
-COMMENT $0899 Save A-reg = ship symbol
-COMMENT $089B Get back B-reg (no of ships)
-COMMENT $089D If B-reg >9 then
-COMMENT $08A1 load $6C = infinty symbol
-COMMENT $08A3 otherwise make an ascii number
-COMMENT $08A5 load minus
-COMMENT $08A7 Push digit and minus sign
-COMMENT $08A9 end of string...
-COMMENT $08AB push end of string
-COMMENT $08AD Push (y,x) coordinates
-COMMENT $08AF move to position
-COMMENT $08B1 and print it (u points to constructed string structure)
-COMMENT $08B4 print it
-COMMENT_LINE $08B7 ***************************************************************************
-COMMENT $08B7 load address of our BCD conversion buffer
-COMMENT $08C1 get a zero to a register
-COMMENT $08C4 and start clearing the memory for conversion
-COMMENT $08C6 clear 4 bytes (only 3 neccessary)
-COMMENT $08D5 is over 999
-COMMENT $08D9 no, that test for lower
-COMMENT $08DB otherwise subtract 1000
-COMMENT $08DE and increase buffer pointer
-COMMENT $08E0 and test again
-COMMENT $08E2 is over 99
-COMMENT $08E6 no, that test for lower
-COMMENT $08E8 otherwise subtract 100
-COMMENT $08EB and increase buffer pointer
-COMMENT $08ED and test again
-COMMENT $08EF is over 9
-COMMENT $08F3 no, that test for lower
-COMMENT $08F5 otherwise subtract 10
-COMMENT $08F8 and increase buffer pointer
-COMMENT $08FA and test again
-COMMENT $08FE store the number left in b
-COMMENT $0900 end marker and '0'
-COMMENT $0902 and store it at the end
-COMMENT $0904 and store it at the end
-COMMENT_LINE $0909 ***************************************************************************
-COMMENT $0909 routines for my printing...
-COMMENT_LINE $0909 zero delay is needed for zeroing to work correctly
-COMMENT_LINE $0909 depends on the distance of the current integrator position to actual zero point
-COMMENT_LINE $0909 experiment with my vectri:
-COMMENT_LINE $0909 ZERO ing the integrators takes time. Measures at my vectrex show e.g.:
-COMMENT_LINE $0909 If you move the beam with a to x = -127 and y = -127 at diffferent scale values, the time to reach zero:
-COMMENT_LINE $0909 - scale $ff -> zero 110 cycles
-COMMENT_LINE $0909 - scale $7f -> zero 75 cycles
-COMMENT_LINE $0909 - scale $40 -> zero 57 cycles
-COMMENT_LINE $0909 - scale $20 -> zero 53 cycles
-COMMENT_LINE $0909 height of string is determined by scale factor!
-COMMENT_LINE $0909 so is the positioning
-COMMENT_LINE $0909 if you want to seperate the two, you
-COMMENT_LINE $0909 a) have to remove the movetoD function to an own
-COMMENT_LINE $0909 b) position the beam for in string movement (down) with your own moveto function which uses an own scale factor (height)
-COMMENT_LINE $0909 ***************************************************************************
-COMMENT_LINE $0909 put move position on stack put it so, that we can load "d" directly from stack
-COMMENT $090D Save string pointer
-COMMENT $0910 Point to start of chargen bitmaps
-COMMENT_LINE $0913 zero
-COMMENT $0913 zero the integrators
-COMMENT $0915 store zeroing values to cntl
-COMMENT $0917 and wait for zeroing to be actually done
-COMMENT_LINE $0919 reset integrators
-COMMENT $0919 reset integrator offset
-COMMENT_LINE $091D wait that zeroing surely has the desired effect!
-COMMENT $091D while waiting, zero offsets
-COMMENT_LINE $0924 unzero is done by moveto_d
-COMMENT $0929 a→AUX: b→ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)
-COMMENT $092C Clear D/A output
-COMMENT $092E Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode
-COMMENT_LINE $0930 first entry here, ramp is disabled
-COMMENT_LINE $0930 if there was a jump from below
-COMMENT_LINE $0930 ramp will be enabled by next line
-COMMENT $0930 ramp off/on set mux to channel 1
-COMMENT $0932 Enable mux
-COMMENT $0934 both to ORB, both disable ram, mux sel = 0 (y int), a:→enable mux: b:→disable mux
-COMMENT $0937 Wait a moment
-COMMENT $0938 Disable mux
-COMMENT $093A Disable RAMP, set mux to channel 0, disable mux
-COMMENT $093C Enable mux
-COMMENT $093E I think this is a delay only
-COMMENT $0941 disable mux
-COMMENT $0943 Get text width
-COMMENT $0946 Send it to the D/A
-COMMENT $0948 both to ORB, both ENABLE RAMP, a:→ disable mux, b:→ enable mux
-COMMENT $094B Point to start of text string
-COMMENT $094E [4]enable RAMP, disable mux
-COMMENT $0950 [3]
-COMMENT_LINE $0952 one letter is drawn (one row that is) in 18 cycles
-COMMENT_LINE $0952 13 cycles overhead
-COMMENT_LINE $0952 ramp is thus active for #ofLetters*18 + 13 cycles
-COMMENT $0952 [+5]Get bitmap from chargen table
-COMMENT $0954 [+4]rasterout of char bitmap "row" thru shift out in shift register
-COMMENT $0956 [+6]Get next character
-COMMENT $0958 [+3]Go back if not terminator
-COMMENT $095A [2]disable mux, disable ramp
-COMMENT $095C [4]disable RAMP, disable mux
-COMMENT $095E Negate text width to D/A
-COMMENT $0960 enable ramp, disable mux
-COMMENT $0962 enable RAMP, disable mux
-COMMENT $0964 [4]Check for last row
-COMMENT $0967 [3]Branch if last row
-COMMENT $0969 [3]Point to next chargen row
-COMMENT $096C [6]Get string length
-COMMENT $096E [7]
-COMMENT $0971 [2] - 2
-COMMENT $0973 [2] * 2 calculate return "way"
-COMMENT $0974 [3]Delay a moment
-COMMENT $0976 [2]disable RAMP, disable mux
-COMMENT $0978 [2]
-COMMENT $0979 [2]
-COMMENT $097A Delay some more in a loop
-COMMENT $097C disable RAMP, disable mux
-COMMENT $0980 T1→PB7 enabled
-COMMENT $0984 Go back for next scan line
-COMMENT $0988 T1→PB7 enabled
-COMMENT $098A all done, correct stack
-RANGE $0909-$098D DP $D0
-RANGE $0000-$000B DB_DATA
-RANGE $000B-$000D DW_DATA
-RANGE $000D-$001B DB_DATA
-RANGE $001B-$005C CODE
-RANGE $005C-$0195 DB_DATA
-RANGE $0195-$098D CODE
+FORCE_SYMBOL $0840 VIA_port_b
+FORCE_NO_SYMBOL $0842
+COMMENT $0844 T1->PB7 enabled
+FORCE_SYMBOL $0844 VIA_aux_cntl
+FORCE_NO_SYMBOL $0846
+COMMENT $0848 /BLANK low and /ZERO low
+FORCE_SYMBOL $0848 VIA_cntl
+FORCE_NO_SYMBOL $084A
+COMMENT_LINE $0852 ***************************************************************************
+COMMENT $0852 Save B-reg
+COMMENT $0854 build print struct... with $81 header ... on the stack
+FORCE_NO_SYMBOL $0854
+COMMENT $0856 Point U into the stack
+COMMENT $0858 push $81
+COMMENT $085A load  space
+FORCE_NO_SYMBOL $085A
+COMMENT $085C push space
+COMMENT $085E Save A-reg = ship symbol
+COMMENT $0860 Get back B-reg (no of ships)
+COMMENT $0862 If B-reg >9 then
+FORCE_NO_SYMBOL $0862
+COMMENT $0866 load $6C = infinty symbol
+COMMENT $0868 otherwise make an ascii number
+FORCE_NO_SYMBOL $0868
+COMMENT $086A load minus
+COMMENT $086C Push digit and minus sign
+COMMENT $086E end of string...
+FORCE_NO_SYMBOL $086E
+COMMENT $0870 push end of string
+COMMENT $0872 Push (y,x) coordinates
+COMMENT $0874 move to position
+COMMENT $0876 and print it (u points to constructed string structure)
+FORCE_SYMBOL $0876 Moveto_d_7F
+COMMENT $0879 print it
+FORCE_SYMBOL $0879 my_Print_Str
+COMMENT_LINE $087C ***************************************************************************
+COMMENT $087C load address of our BCD conversion buffer
+FORCE_SYMBOL $087C print_space
+FORCE_NO_SYMBOL $0882
+FORCE_NO_SYMBOL $0884
+COMMENT $0886 get a zero to a register
+COMMENT $0889 and start clearing the memory for conversion
+FORCE_NO_SYMBOL $0889
+COMMENT $088B clear 4 bytes (only 3 neccessary)
+FORCE_NO_SYMBOL $088B
+FORCE_NO_SYMBOL $0892
+FORCE_NO_SYMBOL $0898
+COMMENT $089A is over 999
+FORCE_NO_SYMBOL $089A
+COMMENT $089E no, that test for lower
+COMMENT $08A0 otherwise subtract 1000
+FORCE_NO_SYMBOL $08A0
+COMMENT $08A3 and increase buffer pointer
+FORCE_NO_SYMBOL $08A3
+COMMENT $08A5 and test again
+COMMENT $08A7 is over 99
+FORCE_NO_SYMBOL $08A7
+COMMENT $08AB no, that test for lower
+COMMENT $08AD otherwise subtract 100
+FORCE_NO_SYMBOL $08AD
+COMMENT $08B0 and increase buffer pointer
+FORCE_NO_SYMBOL $08B0
+COMMENT $08B2 and test again
+COMMENT $08B4 is over 9
+FORCE_NO_SYMBOL $08B4
+COMMENT $08B8 no, that test for lower
+COMMENT $08BA otherwise subtract 10
+FORCE_NO_SYMBOL $08BA
+COMMENT $08BD and increase buffer pointer
+FORCE_NO_SYMBOL $08BD
+COMMENT $08BF and test again
+COMMENT $08C3 store the number left in b
+FORCE_NO_SYMBOL $08C3
+COMMENT $08C5 end marker and '0'
+FORCE_NO_SYMBOL $08C5
+COMMENT $08C7 and store it at the end
+FORCE_NO_SYMBOL $08C7
+COMMENT $08C9 and store it at the end
+FORCE_NO_SYMBOL $08C9
+FORCE_SYMBOL $08CB my_Print_Str
+COMMENT_LINE $08CE ***************************************************************************
+COMMENT $08CE routines for my printing...
+COMMENT_LINE $08CE zero delay is needed for zeroing to work correctly
+COMMENT_LINE $08CE depends on the distance of the current integrator position to actual zero point
+COMMENT_LINE $08CE experiment with my vectri:
+COMMENT_LINE $08CE ZERO ing the integrators takes time. Measures at my vectrex show e.g.:
+COMMENT_LINE $08CE If you move the beam with a to x = -127 and y = -127 at diffferent scale values, the time to reach zero:
+COMMENT_LINE $08CE - scale $ff -> zero 110 cycles
+COMMENT_LINE $08CE - scale $7f -> zero 75 cycles
+COMMENT_LINE $08CE - scale $40 -> zero 57 cycles
+COMMENT_LINE $08CE - scale $20 -> zero 53 cycles
+COMMENT_LINE $08CE height of string is determined by scale factor!
+COMMENT_LINE $08CE so is the positioning
+COMMENT_LINE $08CE if you want to seperate the two, you
+COMMENT_LINE $08CE a) have to remove the movetoD function to an own
+COMMENT_LINE $08CE b) position the beam for in string movement (down) with your own moveto function which uses an own scale factor (height)
+COMMENT_LINE $08CE ***************************************************************************
+COMMENT_LINE $08CE put move position on stack put it so, that we can load "d" directly from stack
+COMMENT $08D2 Save string pointer
+FORCE_SYMBOL $08D2 Vec_Str_Ptr
+COMMENT $08D5 Point to start of chargen bitmaps
+COMMENT_LINE $08D8 zero
+COMMENT $08D8 zero the integrators
+FORCE_NO_SYMBOL $08D8
+COMMENT $08DA store zeroing values to cntl
+FORCE_SYMBOL $08DA VIA_cntl
+COMMENT $08DC and wait for zeroing to be actually done
+FORCE_SYMBOL $08DC ZERO_DELAY
+COMMENT_LINE $08DE reset integrators
+COMMENT $08DE reset integrator offset
+FORCE_SYMBOL $08DE VIA_port_a
+FORCE_NO_SYMBOL $08E0
+COMMENT_LINE $08E2 wait that zeroing surely has the desired effect!
+COMMENT $08E2 while waiting, zero offsets
+FORCE_SYMBOL $08E2 VIA_port_b
+FORCE_SYMBOL $08E7 VIA_port_b
+COMMENT_LINE $08E9 unzero is done by moveto_d
+FORCE_NO_SYMBOL $08E9
+FORCE_SYMBOL $08EB Moveto_d
+COMMENT $08EE a→AUX: b→ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)
+FORCE_NO_SYMBOL $08EE
+COMMENT $08F1 Clear D/A output
+FORCE_SYMBOL $08F1 VIA_port_a
+COMMENT $08F3 Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode
+FORCE_SYMBOL $08F3 VIA_aux_cntl
+COMMENT_LINE $08F5 first entry here, ramp is disabled
+COMMENT_LINE $08F5 if there was a jump from below
+COMMENT_LINE $08F5 ramp will be enabled by next line
+COMMENT $08F5 ramp off/on set mux to channel 1
+FORCE_SYMBOL $08F5 VIA_port_b
+COMMENT $08F7 Enable mux
+FORCE_SYMBOL $08F7 VIA_port_b
+COMMENT $08F9 both to ORB, both disable ram, mux sel = 0 (y int), a:→enable mux: b:→disable mux
+FORCE_NO_SYMBOL $08F9
+COMMENT $08FC Wait a moment
+COMMENT $08FD Disable mux
+FORCE_SYMBOL $08FD VIA_port_b
+COMMENT $08FF Disable RAMP, set mux to channel 0, disable mux
+FORCE_SYMBOL $08FF VIA_port_b
+COMMENT $0901 Enable mux
+FORCE_SYMBOL $0901 VIA_port_b
+COMMENT $0903 I think this is a delay only
+FORCE_NO_SYMBOL $0903
+COMMENT $0906 disable mux
+FORCE_SYMBOL $0906 VIA_port_b
+COMMENT $0908 Get text width
+FORCE_SYMBOL $0908 Vec_Text_Width
+COMMENT $090B Send it to the D/A
+FORCE_SYMBOL $090B VIA_port_a
+COMMENT $090D both to ORB, both ENABLE RAMP, a:→ disable mux, b:→ enable mux
+FORCE_NO_SYMBOL $090D
+COMMENT $0910 Point to start of text string
+FORCE_SYMBOL $0910 Vec_Str_Ptr
+COMMENT $0913 [4]enable RAMP, disable mux
+FORCE_SYMBOL $0913 VIA_port_b
+COMMENT $0915 [3]
+COMMENT_LINE $0917 one letter is drawn (one row that is) in 18 cycles
+COMMENT_LINE $0917 13 cycles overhead
+COMMENT_LINE $0917 ramp is thus active for #ofLetters*18 + 13 cycles
+COMMENT $0917 [+5]Get bitmap from chargen table
+COMMENT $0919 [+4]rasterout of char bitmap "row" thru shift out in shift register
+FORCE_SYMBOL $0919 VIA_shift_reg
+COMMENT $091B [+6]Get next character
+COMMENT $091D [+3]Go back if not terminator
+COMMENT $091F [2]disable mux, disable ramp
+FORCE_NO_SYMBOL $091F
+COMMENT $0921 [4]disable RAMP, disable mux
+FORCE_SYMBOL $0921 VIA_port_b
+COMMENT $0923 Negate text width to D/A
+FORCE_SYMBOL $0923 VIA_port_a
+COMMENT $0925 enable ramp, disable mux
+FORCE_NO_SYMBOL $0925
+COMMENT $0927 enable RAMP, disable mux
+FORCE_SYMBOL $0927 VIA_port_b
+COMMENT $0929 [4]Check for last row
+COMMENT $092C [3]Branch if last row
+COMMENT $092E [3]Point to next chargen row
+FORCE_NO_SYMBOL $092E
+COMMENT $0931 [6]Get string length
+COMMENT $0933 [7]
+FORCE_SYMBOL $0933 Vec_Str_Ptr
+COMMENT $0936 [2] - 2
+FORCE_NO_SYMBOL $0936
+COMMENT $0938 [2] * 2 calculate return "way"
+COMMENT $0939 [3]Delay a moment
+COMMENT $093B [2]disable RAMP, disable mux
+FORCE_NO_SYMBOL $093B
+COMMENT $093D [2]
+COMMENT $093E [2]
+COMMENT $093F Delay some more in a loop
+COMMENT $0941 disable RAMP, disable mux
+FORCE_SYMBOL $0941 VIA_port_b
+FORCE_NO_SYMBOL $0943
+COMMENT $0945 T1→PB7 enabled
+FORCE_SYMBOL $0945 VIA_aux_cntl
+FORCE_NO_SYMBOL $0947
+COMMENT $0949 Go back for next scan line
+FORCE_NO_SYMBOL $094B
+COMMENT $094D T1→PB7 enabled
+FORCE_SYMBOL $094D VIA_aux_cntl
+COMMENT $094F all done, correct stack
+RANGE $0000-$0952 DP $D0
+RANGE $0000-$000B CHAR_DATA 11
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$001A CHAR_DATA 9
+RANGE $001A-$001B DB_DATA 1
+RANGE $001B-$005B CODE
+RANGE $005B-$007E CHAR_DATA 35
+RANGE $007E-$007F DB_DATA 1
+RANGE $007F-$0080 DB_DATA 1
+RANGE $0080-$00A3 CHAR_DATA 35
+RANGE $00A3-$00A4 DB_DATA 1
+RANGE $00A4-$00B4 DB_DATA 16
+RANGE $00B4-$00C4 DB_DATA 16
+RANGE $00C4-$00D4 DB_DATA 16
+RANGE $00D4-$00E4 DB_DATA 16
+RANGE $00E4-$00F4 DB_DATA 16
+RANGE $00F4-$0104 DB_DATA 16
+RANGE $0104-$0114 DB_DATA 16
+RANGE $0114-$0124 DB_DATA 16
+RANGE $0124-$0134 DB_DATA 16
+RANGE $0134-$0144 DB_DATA 16
+RANGE $0144-$0154 DB_DATA 16
+RANGE $0154-$0164 DB_DATA 16
+RANGE $0164-$0174 DB_DATA 16
+RANGE $0174-$0184 DB_DATA 16
+RANGE $0184-$0194 DB_DATA 16
+RANGE $0194-$0952 CODE
 

@@ -187,7 +187,7 @@
 ; http://www.playvectrex.com/designit/chrissalo/soundplaying.htm
 ; Sound effects
 ; http://vectrexmuseum.com/share/coder/other/TEXT/SOUND/SOUND.TXT
-; Audio-Processor: AY (General Instruments) > Licenses Yamaha (YM (Intellivision, MSX) > Tracker ~ÊAtari ST)
+; Audio-Processor: AY (General Instruments) > Licenses Yamaha (YM (Intellivision, MSX) > Tracker ~ï¿½Atari ST)
 ; http://vectorgaming.proboards.com/thread/312/vectrex-sound-programming?page=1
 ; http://en.wikipedia.org/wiki/General_Instrument_AY-3-8910
 ;
@@ -298,7 +298,7 @@ collisionAyx	equ	$C882+18 ; 2bytes: byte y, byte x
 collisionByx	equ	$C882+21 ; 2bytes: byte y, byte x
 
 ; big boss specials
-bigbossReleased equ $C882+25  ; 0: not yet 1: release 2: killed > end of gameŒ
+bigbossReleased equ $C882+25  ; 0: not yet 1: release 2: killed > end of gameï¿½
 bigbossBehaviour equ $C882+26
 
 ; bigbossDefeated 
@@ -683,16 +683,16 @@ main:
 ; music1: standard short bling
 ; music2: some jap. sound
 ; music3: "marschmusik"
-; music4: tštšttšttštšt
-; music5: dšdodšdš
-; music6: dšlolološlš 
+; music4: tï¿½tï¿½ttï¿½ttï¿½tï¿½t
+; music5: dï¿½dodï¿½dï¿½
+; music6: dï¿½lololoï¿½lï¿½ 
 ; music7: midage
 ; music8: positive some notes(short)
 ; music9: tatarutataturuta
 ; musica: dito
 ; musicb: bad end sound (short)
 ; musicc: positve short notes (short)
-; musicd: ttttttššt
+; musicd: ttttttï¿½ï¿½t
 ;
 
 ; waiting sound effects (only ingame!)
@@ -4799,7 +4799,7 @@ grafix_enemy_sin:  ; sinus!
 
 ;  _
 ; | |
-; ¡_¡ 
+; ï¿½_ï¿½ 
 ;  |
 ; ---
 ;|| ||

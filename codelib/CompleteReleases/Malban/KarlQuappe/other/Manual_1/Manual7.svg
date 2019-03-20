@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="105mm"
+   height="148mm"
+   viewBox="0 0 372.04725 524.40945"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="Manual7.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path15592"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path15595"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <clipPath
+       id="clipPath4171"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4173"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4177"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4179"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4213"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4215"
+         d="M 98,842 98,1 497,1 497,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4219"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4221"
+         d="m 98,842 0,-841.0551777 399.5444,0 L 497.5444,842 98,842 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4225"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4227"
+         d="M 0,0 595,0 595,842 0,842 0,0 Z" />
+    </clipPath>
+    <filter
+       y="-0.25"
+       height="1.5"
+       inkscape:menu-tooltip="Darkens the edge with an inner blur and adds a flexible glow"
+       inkscape:menu="Shadows and Glows"
+       inkscape:label="Dark And Glow"
+       style="color-interpolation-filters:sRGB"
+       id="filter5098">
+      <feGaussianBlur
+         stdDeviation="5"
+         result="result6"
+         id="feGaussianBlur5100" />
+      <feComposite
+         result="result8"
+         in="SourceGraphic"
+         operator="atop"
+         in2="result6"
+         id="feComposite5102" />
+      <feComposite
+         result="result9"
+         operator="over"
+         in2="SourceAlpha"
+         in="result8"
+         id="feComposite5104" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         result="result10"
+         id="feColorMatrix5106" />
+      <feBlend
+         in="result10"
+         mode="normal"
+         in2="result6"
+         id="feBlend5108" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.9412292"
+     inkscape:cx="174.51494"
+     inkscape:cy="291.89628"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer2"
+     showgrid="true"
+     inkscape:window-width="1572"
+     inkscape:window-height="1189"
+     inkscape:window-x="826"
+     inkscape:window-y="104"
+     inkscape:window-maximized="0"
+     showborder="true"
+     showguides="false"
+     inkscape:showpageshadow="false"
+     borderlayer="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4346" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Ebene 3"
+     style="display:inline"
+     transform="translate(0,-42.519685)">
+    <rect
+       style="display:inline;fill:#000000;fill-opacity:0.39402986;fill-rule:evenodd;stroke:none;stroke-width:2.7579999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4561"
+       width="339.06009"
+       height="19.848625"
+       x="15.944881"
+       y="51.017517" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Ebene 2"
+     style="display:inline"
+     transform="translate(0,-42.519685)">
+    <text
+       y="538.05884"
+       x="186.9369"
+       id="text18559"
+       style="font-variant:normal;font-weight:normal;font-size:10px;font-family:Swis721LtBT;-inkscape-font-specification:Swis721LtBT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none">
+      <tspan
+         id="tspan18561"
+         y="538.05884"
+         x="186.9369">6</tspan>
+    </text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text19921"
+       y="64.767998"
+       x="23.963436"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Verdana;-inkscape-font-specification:'Verdana, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1"
+         y="64.767998"
+         x="23.963436"
+         id="tspan19923"
+         sodipodi:role="line">Starting Karl Quappe</tspan></text>
+    <text
+       sodipodi:linespacing="110%"
+       id="text21340"
+       y="95.657677"
+       x="21.188498"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+         y="95.657677"
+         x="21.188498"
+         id="tspan21342"
+         sodipodi:role="line">Cartridge</tspan><tspan
+         id="tspan4265"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="113.15118"
+         x="21.188498"
+         sodipodi:role="line">   Make sure the Vectrex is switched off.</tspan><tspan
+         id="tspan4269"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="130.33868"
+         x="21.188498"
+         sodipodi:role="line">   Insert the Karl Quappe cartridge into the Vectrex </tspan><tspan
+         id="tspan4205"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="147.52618"
+         x="21.188498"
+         sodipodi:role="line">   cartridge port.  </tspan><tspan
+         id="tspan4271"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="164.71368"
+         x="21.188498"
+         sodipodi:role="line">   Turn the Vectrex on.</tspan><tspan
+         id="tspan4273"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="181.90118"
+         x="21.188498"
+         sodipodi:role="line" /><tspan
+         id="tspan4275"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1"
+         y="198.78268"
+         x="21.188498"
+         sodipodi:role="line">VecFever</tspan><tspan
+         id="tspan4277"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="216.27618"
+         x="21.188498"
+         sodipodi:role="line">   Select Karl Quappe from the menu. </tspan><tspan
+         id="tspan4279"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="233.46368"
+         x="21.188498"
+         sodipodi:role="line">   Launch the game.</tspan><tspan
+         id="tspan4281"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="250.65118"
+         x="21.188498"
+         sodipodi:role="line" /><tspan
+         id="tspan4283"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="267.53268"
+         x="21.188498"
+         sodipodi:role="line"><tspan
+           id="tspan4351"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'PingFang TC';-inkscape-font-specification:'PingFang TC, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#828282;fill-opacity:1">VecFlash</tspan><tspan
+           id="tspan4359"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"> (or possibly other multi carts)</tspan></tspan><tspan
+         id="tspan4285"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="285.53415"
+         x="21.188498"
+         sodipodi:role="line">   Select Karl Quappe from the menu.</tspan><tspan
+         id="tspan4287"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="302.72165"
+         x="21.188498"
+         sodipodi:role="line">   Launch the game.</tspan><tspan
+         id="tspan4289"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="319.90915"
+         x="21.188498"
+         sodipodi:role="line">   After the initial bootup screen of Vectrex keep </tspan><tspan
+         id="tspan4203"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="337.09665"
+         x="21.188498"
+         sodipodi:role="line">   any button pressed until the Karl Quappe title </tspan><tspan
+         id="tspan4227"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="354.28415"
+         x="21.188498"
+         sodipodi:role="line">   screen is displayed.</tspan><tspan
+         id="tspan4293"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="368.80777"
+         x="21.188498"
+         sodipodi:role="line">    (to skip over code, which interferes with PB6 based </tspan><tspan
+         id="tspan4310"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="382.55777"
+         x="21.188498"
+         sodipodi:role="line"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           id="tspan4223">      bankswitching multi-cards)</tspan></tspan><tspan
+         id="tspan21348"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.625px;line-height:110.00000238%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="396.30777"
+         x="21.188498"
+         sodipodi:role="line" /></text>
+    <path
+       sodipodi:open="true"
+       d="m 25.342902,110.03863 a 2.8142583,2.8144593 0 0 1 -3.785352,1.20737 2.8142583,2.8144593 0 0 1 -1.220107,-3.78151 2.8142583,2.8144593 0 0 1 3.777086,-1.23299 2.8142583,2.8144593 0 0 1 1.245696,3.77315"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="108.74308"
+       sodipodi:cx="22.844532"
+       sodipodi:type="arc"
+       id="path18422"
+       style="fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:open="true"
+       d="m 25.342902,127.34308 a 2.8142583,2.8144593 0 0 1 -3.785352,1.20738 2.8142583,2.8144593 0 0 1 -1.220107,-3.78151 2.8142583,2.8144593 0 0 1 3.777086,-1.233 2.8142583,2.8144593 0 0 1 1.245696,3.77316"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="126.04754"
+       sodipodi:cx="22.844532"
+       sodipodi:type="arc"
+       id="path18422-1"
+       style="display:inline;fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:open="true"
+       d="m 25.342902,161.49367 a 2.8142583,2.8144593 0 0 1 -3.785352,1.20737 2.8142583,2.8144593 0 0 1 -1.220107,-3.78151 2.8142583,2.8144593 0 0 1 3.777086,-1.23299 2.8142583,2.8144593 0 0 1 1.245696,3.77315"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="160.19812"
+       sodipodi:cx="22.844532"
+       sodipodi:type="arc"
+       id="path18422-7"
+       style="display:inline;fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:open="true"
+       d="m 25.342902,213.70562 a 2.8142583,2.8144593 0 0 1 -3.785352,1.20738 2.8142583,2.8144593 0 0 1 -1.220107,-3.78151 2.8142583,2.8144593 0 0 1 3.777086,-1.23299 2.8142583,2.8144593 0 0 1 1.245696,3.77315"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="212.41008"
+       sodipodi:cx="22.844532"
+       sodipodi:type="arc"
+       id="path18422-2"
+       style="display:inline;fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:open="true"
+       d="m 25.342902,230.55377 a 2.8142583,2.8144593 0 0 1 -3.785352,1.20738 2.8142583,2.8144593 0 0 1 -1.220107,-3.78151 2.8142583,2.8144593 0 0 1 3.777086,-1.233 2.8142583,2.8144593 0 0 1 1.245696,3.77316"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="229.25822"
+       sodipodi:cx="22.844532"
+       sodipodi:type="arc"
+       id="path18422-11"
+       style="display:inline;fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:open="true"
+       d="m 25.342902,282.7657 a 2.8142583,2.8144593 0 0 1 -3.785352,1.20738 2.8142583,2.8144593 0 0 1 -1.220107,-3.78151 2.8142583,2.8144593 0 0 1 3.777086,-1.233 2.8142583,2.8144593 0 0 1 1.245696,3.77316"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="281.47015"
+       sodipodi:cx="22.844532"
+       sodipodi:type="arc"
+       id="path18422-9"
+       style="display:inline;fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:open="true"
+       d="m 25.645654,300.19002 a 2.8142583,2.8144593 0 0 1 -3.785353,1.20737 2.8142583,2.8144593 0 0 1 -1.220106,-3.78151 2.8142583,2.8144593 0 0 1 3.777086,-1.23299 2.8142583,2.8144593 0 0 1 1.245696,3.77315"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="298.89447"
+       sodipodi:cx="23.147284"
+       sodipodi:type="arc"
+       id="path18422-0"
+       style="display:inline;fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:open="true"
+       d="m 25.645654,317.15971 a 2.8142583,2.8144593 0 0 1 -3.785353,1.20738 2.8142583,2.8144593 0 0 1 -1.220106,-3.78151 2.8142583,2.8144593 0 0 1 3.777086,-1.233 2.8142583,2.8144593 0 0 1 1.245696,3.77316"
+       sodipodi:end="0.4648033"
+       sodipodi:start="0.47835286"
+       sodipodi:ry="2.8144593"
+       sodipodi:rx="2.8142583"
+       sodipodi:cy="315.86417"
+       sodipodi:cx="23.147284"
+       sodipodi:type="arc"
+       id="path18422-5"
+       style="display:inline;fill:#a0a0a0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>

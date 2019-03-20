@@ -244,7 +244,7 @@ left_display:
                 ; bei gesamtbreite des monsters = 2 * SQUARE SIZE!,
                 ; dann koennte die X pos als
                 ; clipping gebarucht werden!
-                ; Am einfachsten, einen 0 offset von links einfÅhren!
+                ; Am einfachsten, einen 0 offset von links einfÔøΩhren!
                 LDB     V_MONSTER_OFFSET_X ; these are steps, gotto convert to 2 * square
                                            ; step == square
                 NEGB
@@ -293,7 +293,7 @@ right_display:
                 ; bei gesamtbreite des monsters = 2 * SQUARE SIZE!,
                 ; dann koennte die X pos als
                 ; clipping gebarucht werden!
-                ; Am einfachsten, einen 0 offset von links einfÅhren!
+                ; Am einfachsten, einen 0 offset von links einfÔøΩhren!
                 LDB     V_MONSTER_OFFSET_X ; these are steps, gotto convert to 2* square
                                          ; step == square
                 NEGB
@@ -339,7 +339,7 @@ center_display:
                 ; bei gesamtbreite des monsters = 2 * SQUARE SIZE!,
                 ; dann koennte die X pos als
                 ; clipping gebarucht werden!
-                ; Am einfachsten, einen 0 offset von links einfÅhren!
+                ; Am einfachsten, einen 0 offset von links einfÔøΩhren!
                 LDB     V_MONSTER_OFFSET_X ; these are steps, gotto convert to 2* square
                 CMPB #(-(STEPS/2))
                 BGT no_lower_clip
@@ -641,7 +641,7 @@ left_display_digit:
                 ; bei gesamtbreite des monsters = 2 * SQUARE SIZE!,
                 ; dann koennte die X pos als
                 ; clipping gebarucht werden!
-                ; Am einfachsten, einen 0 offset von links einfÅhren!
+                ; Am einfachsten, einen 0 offset von links einfÔøΩhren!
                 NEXT_DIGIT_BYTE
                 LDB     V_MONSTER_OFFSET_X ; these are steps, gotto convert to 2* square
                                          ; step == square
@@ -690,7 +690,7 @@ right_display_digit:
                 ; bei gesamtbreite des monsters = 2 * SQUARE SIZE!,
                 ; dann koennte die X pos als
                 ; clipping gebarucht werden!
-                ; Am einfachsten, einen 0 offset von links einfÅhren!
+                ; Am einfachsten, einen 0 offset von links einfÔøΩhren!
                 NEXT_DIGIT_BYTE
                 LDB     V_MONSTER_OFFSET_X ; these are steps, gotto convert to 2* square
                                          ; step == square
@@ -738,7 +738,7 @@ center_display_digit:
                 ; bei gesamtbreite des monsters = 2 * SQUARE SIZE!,
                 ; dann koennte die X pos als
                 ; clipping gebarucht werden!
-                ; Am einfachsten, einen 0 offset von links einfÅhren!
+                ; Am einfachsten, einen 0 offset von links einfÔøΩhren!
                 NEXT_DIGIT_BYTE
                 LDB     V_MONSTER_OFFSET_X ; these are steps, gotto convert to 2* square
                 CMPB    #(-(STEPS/2))
@@ -904,4 +904,4 @@ copy_maze_south:
                 RTS
 ;***************************************************************************
 
- include "data\\maze_dat.i"
+ include "DATA\\MAZE_DAT.I"

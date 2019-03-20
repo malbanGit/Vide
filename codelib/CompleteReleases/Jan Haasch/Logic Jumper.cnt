@@ -1,0 +1,1088 @@
+BANK 0
+EQU $00 
+LABEL $F192 WAITRECAL
+LABEL $F2AB INTENSITY
+LABEL $F37A PRINTSTR
+LABEL $F511 RANDOM
+LABEL $F354 RESET0REF
+LABEL $F2FC MOVEPEN
+LABEL $F3B7 MOVEDRAW
+LABEL $F1BA READBUTTONS
+LABEL $F289 DOSOUND
+LABEL $F687 INITMUSICCHK
+LABEL $F1AF DPTOC8
+LABEL $F06C WARMSTART
+LABEL $F378 PRINTSTRYX
+LABEL $F373 PRINTSTRHWYX
+LABEL $C882 posy
+COMMENT_LABEL $C882 y-position der Figur
+LABEL $C883 jumpstate
+COMMENT_LABEL $C883 Status des Sprunges hoch/runter
+LABEL $C884 action
+COMMENT_LABEL $C884 Status der Aktion an/aus
+LABEL $C885 nextl
+COMMENT_LABEL $C885 Zufallszahl für Level 1
+LABEL $C886 activl
+COMMENT_LABEL $C886 aktives Level das im Kasten gezeichnet wird
+LABEL $C887 tmpl
+COMMENT_LABEL $C887 kopie vom aktiven Level
+LABEL $C888 runcount
+COMMENT_LABEL $C888 Durchlaufcounter für Levelbau
+LABEL $C889 levelx
+COMMENT_LABEL $C889 X-Koordinate für den Levelbau
+LABEL $C890 scale
+COMMENT_LABEL $C890 Skalierungsfaktor für Levelbau
+LABEL $C891 randomcount
+COMMENT_LABEL $C891 bestimmt ob neue Zufallszahl generiert werden muss
+LABEL $C892 gameover
+COMMENT_LABEL $C892 Gameoverloop zum Anzeigen des GAME OVER Schriftzuges
+LABEL $C893 speedcount
+COMMENT_LABEL $C893 Counter setzt die Zählschleife time und wird immer schneller
+LABEL $C894 lifecount
+COMMENT_LABEL $C894 Anzahl der Leben sind initial 3
+LABEL $C895 dead
+COMMENT_LABEL $C895 wir sterben nur einmal!
+LABEL $C896 difficulty
+COMMENT_LABEL $C896 Schwierigkeitsgrad, Wert wird mit Randomzahl verundet
+LABEL $C897 levelcount
+COMMENT_LABEL $C897 zeigt das aktuelle Level
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C810 Vec_Prev_Btns
+COMMENT_LABEL $C810 Previous state of all joystick buttons
+LABEL $C811 Vec_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C813 Vec_Button_1_2
+COMMENT_LABEL $C813 Current toggle state of stick 1 button 2
+LABEL $C814 Vec_Button_1_3
+COMMENT_LABEL $C814 Current toggle state of stick 1 button 3
+LABEL $C815 Vec_Button_1_4
+COMMENT_LABEL $C815 Current toggle state of stick 1 button 4
+LABEL $C816 Vec_Button_2_1
+COMMENT_LABEL $C816 Current toggle state of stick 2 button 1
+LABEL $C817 Vec_Button_2_2
+COMMENT_LABEL $C817 Current toggle state of stick 2 button 2
+LABEL $C818 Vec_Button_2_3
+COMMENT_LABEL $C818 Current toggle state of stick 2 button 3
+LABEL $C819 Vec_Button_2_4
+COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81B Vec_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C Vec_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81D Vec_Joy_2_X
+COMMENT_LABEL $C81D Joystick 2 left/right
+LABEL $C81E Vec_Joy_2_Y
+COMMENT_LABEL $C81E Joystick 2 up/down
+LABEL $C81F Vec_Joy_Mux
+COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 Vec_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 Vec_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C823 Vec_Misc_Count
+COMMENT_LABEL $C823 Misc counter/flag byte, zero when not in use
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C831 Vec_Counter_4
+COMMENT_LABEL $C831 Fourth counter byte
+LABEL $C832 Vec_Counter_5
+COMMENT_LABEL $C832 Fifth  counter byte
+LABEL $C833 Vec_Counter_6
+COMMENT_LABEL $C833 Sixth  counter byte
+LABEL $C834 Vec_RiseRun_Tmp
+COMMENT_LABEL $C834 Temp storage word for rise/run
+LABEL $C836 Vec_Angle
+COMMENT_LABEL $C836 Angle for rise/run and rotation calculations
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C839 Vec_Rise_Index
+COMMENT_LABEL $C839 Index pair for rise
+LABEL $C83B Vec_RiseRun_Len
+COMMENT_LABEL $C83B length for rise/run
+LABEL $C83D Vec_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $C83D Vec_Rfrsh_lo
+COMMENT_LABEL $C83D Refresh time low byte
+LABEL $C83E Vec_Rfrsh_hi
+COMMENT_LABEL $C83E Refresh time high byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_Max_Players
+COMMENT_LABEL $C84F Maximum number of players for Select_Game
+LABEL $C850 Vec_Max_Games
+COMMENT_LABEL $C850 Maximum number of games for Select_Game
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C879 Vec_Num_Players
+COMMENT_LABEL $C879 Number of players selected in Select_Game
+LABEL $C87A Vec_Num_Game
+COMMENT_LABEL $C87A Game number selected in Select_Game
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBF2 Vec_SWI3_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF2 Vec_SWI2_Vector
+COMMENT_LABEL $CBF2 SWI2/SWI3 interrupt vector (3 bytes)
+LABEL $CBF5 Vec_FIRQ_Vector
+COMMENT_LABEL $CBF5 FIRQ interrupt vector (3 bytes)
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $CBFB Vec_SWI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFB Vec_NMI_Vector
+COMMENT_LABEL $CBFB SWI/NMI interrupt vector (3 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D006 VIA_t1_lch_lo
+COMMENT_LABEL $D006 VIA timer 1 latch register lo
+LABEL $D007 VIA_t1_lch_hi
+COMMENT_LABEL $D007 VIA timer 1 latch register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $D00F VIA_port_a_nohs
+COMMENT_LABEL $D00F VIA port A data I/O register (no handshaking)
+LABEL $F000 Cold_Start
+LABEL $F06C Warm_Start
+LABEL $F14C Init_VIA
+LABEL $F164 Init_OS_RAM
+LABEL $F18B Init_OS
+LABEL $F192 Wait_Recal
+LABEL $F1A2 Set_Refresh
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F272 Clear_Sound
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F289 Do_Sound
+LABEL $F28C Do_Sound_x
+LABEL $F29D Intensity_1F
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F2C5 Dot_here
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F2E6 Recalibrate
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F308 Moveto_ix_FF
+LABEL $F30C Moveto_ix_7F
+LABEL $F30E Moveto_ix_b
+LABEL $F310 Moveto_ix
+LABEL $F312 Moveto_d
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F354 Reset0Ref
+LABEL $F35B Reset_Pen
+LABEL $F36B Reset0Int
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F37A Print_Str_d
+LABEL $F385 Print_List_hw
+LABEL $F38A Print_List
+LABEL $F38C Print_List_chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3AD Mov_Draw_VLc_a
+COMMENT_LABEL $F3AD count y x y x ...
+LABEL $F3B1 Mov_Draw_VL_b
+COMMENT_LABEL $F3B1 y x y x ...
+LABEL $F3B5 Mov_Draw_VLcs
+COMMENT_LABEL $F3B5 count scale y x y x ...
+LABEL $F3B7 Mov_Draw_VL_ab
+COMMENT_LABEL $F3B7 y x y x ...
+LABEL $F3B9 Mov_Draw_VL_a
+COMMENT_LABEL $F3B9 y x y x ...
+LABEL $F3BC Mov_Draw_VL
+COMMENT_LABEL $F3BC y x y x ...
+LABEL $F3BE Mov_Draw_VL_d
+COMMENT_LABEL $F3BE y x y x ...
+LABEL $F3CE Draw_VLc
+COMMENT_LABEL $F3CE count y x y x ...
+LABEL $F3D2 Draw_VL_b
+COMMENT_LABEL $F3D2 y x y x ...
+LABEL $F3D6 Draw_VLcs
+COMMENT_LABEL $F3D6 count scale y x y x ...
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DA Draw_VL_a
+COMMENT_LABEL $F3DA y x y x ...
+LABEL $F3DD Draw_VL
+COMMENT_LABEL $F3DD y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F404 Draw_VLp_FF
+COMMENT_LABEL $F404 pattern y x pattern y x ... $01
+LABEL $F408 Draw_VLp_7F
+COMMENT_LABEL $F408 pattern y x pattern y x ... $01
+LABEL $F40C Draw_VLp_scale
+COMMENT_LABEL $F40C scale pattern y x pattern y x ... $01
+LABEL $F40E Draw_VLp_b
+COMMENT_LABEL $F40E pattern y x pattern y x ... $01
+LABEL $F410 Draw_VLp
+COMMENT_LABEL $F410 pattern y x pattern y x ... $01
+LABEL $F434 Draw_Pat_VL_a
+COMMENT_LABEL $F434 y x y x ...
+LABEL $F437 Draw_Pat_VL
+COMMENT_LABEL $F437 y x y x ...
+LABEL $F439 Draw_Pat_VL_d
+COMMENT_LABEL $F439 y x y x ...
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F495 Print_Str
+LABEL $F511 Random_3
+LABEL $F517 Random
+LABEL $F533 Init_Music_Buf
+LABEL $F53F Clear_x_b
+LABEL $F542 Clear_C8_RAM
+COMMENT_LABEL $F542 never used by GCE carts?
+LABEL $F545 Clear_x_256
+LABEL $F548 Clear_x_d
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F56D Delay_3
+COMMENT_LABEL $F56D 30 cycles
+LABEL $F571 Delay_2
+COMMENT_LABEL $F571 25 cycles
+LABEL $F575 Delay_1
+COMMENT_LABEL $F575 20 cycles
+LABEL $F579 Delay_0
+COMMENT_LABEL $F579 12 cycles
+LABEL $F57A Delay_b
+COMMENT_LABEL $F57A 5*B + 10 cycles
+LABEL $F57D Delay_RTS
+COMMENT_LABEL $F57D 5 cycles
+LABEL $F57E Bitmask_a
+LABEL $F584 Abs_a_b
+LABEL $F58B Abs_b
+LABEL $F593 Rise_Run_Angle
+LABEL $F5D9 Get_Rise_Idx
+LABEL $F5DB Get_Run_Idx
+LABEL $F5EF Get_Rise_Run
+LABEL $F5FF Rise_Run_X
+LABEL $F601 Rise_Run_Y
+LABEL $F603 Rise_Run_Len
+LABEL $F610 Rot_VL_ab
+LABEL $F616 Rot_VL
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
+LABEL $F65B Xform_Run_a
+LABEL $F65D Xform_Run
+LABEL $F661 Xform_Rise_a
+LABEL $F663 Xform_Rise
+LABEL $F67F Move_Mem_a_1
+LABEL $F683 Move_Mem_a
+LABEL $F687 Init_Music_chk
+LABEL $F68D Init_Music
+LABEL $F692 Init_Music_x
+LABEL $F7A9 Select_Game
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $F87C Add_Score_d
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C7 Compare_Score
+LABEL $F8D8 New_High_Score
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F92E Explosion_Snd
+LABEL $FF9F Draw_Grid_VL
+LABEL $FD0D music1
+LABEL $FD1D music2
+LABEL $FD81 music3
+LABEL $FDD3 music4
+LABEL $FE38 music5
+LABEL $FE76 music6
+LABEL $FEC6 music7
+LABEL $FEF8 music8
+LABEL $FF26 music9
+LABEL $FF44 musica
+LABEL $FF62 musicb
+LABEL $FF7A musicc
+LABEL $FF8F musicd
+LABEL $F9F4 Char_Table
+LABEL $FBD4 Char_Table_End
+EQU $67 main
+EQU $67 main_loop
+LABEL $03D4 PING1
+COMMENT_LABEL $03D4 die Musik ist "geliehen" aus Patriots von "John Dondzilla"
+LABEL $008E leveldiff
+LABEL $00D1 life
+LABEL $00F6 player
+LABEL $0111 field
+LABEL $012B level
+LABEL $01F9 user_action
+LABEL $0261 col
+LABEL $009D ld2
+LABEL $0344 level_1
+LABEL $00D0 leveldiffdone
+LABEL $00B1 ld3
+LABEL $034E level_2
+LABEL $00C5 ld4
+LABEL $0358 level_3
+LABEL $0362 level_4
+LABEL $00E0 li2
+LABEL $033B life_3
+LABEL $00F5 lifedone
+LABEL $00EF li1
+LABEL $0332 life_2
+LABEL $0329 life_1
+LABEL $0378 sfigur
+LABEL $03B2 sfeld
+LABEL $0141 l1
+LABEL $03C8 dline
+LABEL $0161 on
+LABEL $016C l2
+LABEL $03CC hop
+LABEL $01F8 leveldone
+LABEL $01C9 s1
+LABEL $01DA s2
+LABEL $01EB r1
+LABEL $021C jump
+LABEL $0258 no_button
+LABEL $024F false_button
+LABEL $023B jumpdown
+LABEL $024E jumpdone
+LABEL $030A false_button_string
+LABEL $02F7 no_button_string
+LABEL $029E coldone
+LABEL $029F gamelost
+LABEL $02A5 gameoverloop
+LABEL $031A game_over_string
+LABEL $0394 sfigurt1
+LABEL $03A6 sfigurt2
+LABEL $02F4 reset
+LABEL $036C time
+LABEL $036F t1
+LABEL $0371 t2
+LABEL $03DC *
+EQU $67 *xfer
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 The J-GAME by Jan Haasch 2015 @ HU Berlin
+COMMENT_LINE $0000 http://vectrexmuseum.com/share/coder/html/bios.htm#F511 -> Link zu ROM Routinen
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 DEFINE SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ROM Routinen:
+COMMENT_LINE $0000 Einige Variablen:
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Start of vectrex memory with cartridge name...
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 HEADER SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $000A All text ends with $80
+COMMENT $000B Play song "$fe38" from ROM
+COMMENT $000D Width, height
+COMMENT $000F y-position, x-position
+COMMENT $001B Init block ends with $0
+COMMENT_LINE $001D ***************************************************************************
+COMMENT_LINE $001D CODE SECTION
+COMMENT_LINE $001D ***************************************************************************
+COMMENT_LINE $001D Startumgebung setzen
+FORCE_NO_SYMBOL $001D
+COMMENT $001F setze Y-Startkoordinate
+FORCE_SYMBOL $001F posy
+COMMENT $0022 setze Sprungstatus auf 0, d.h. steigen
+FORCE_SYMBOL $0022 jumpstate
+COMMENT $0025 setze action auf 0, d.h. gerade wird nicht gesprungen
+FORCE_SYMBOL $0025 action
+COMMENT $0028 setze den Durchlaufcounter auf 0
+FORCE_SYMBOL $0028 runcount
+COMMENT $002B TempLevel, das gezeichnet wird
+FORCE_SYMBOL $002B tmpl
+COMMENT $002E ActiveLevel das in Temp geladen wird
+FORCE_SYMBOL $002E activl
+COMMENT $0031 Counter für neu zu generierende Zufallszahl
+FORCE_SYMBOL $0031 randomcount
+COMMENT $0034 Schleifenwert für gameoverloop
+FORCE_SYMBOL $0034 gameover
+COMMENT $0037 binärwert für einmaliges sterben
+FORCE_SYMBOL $0037 dead
+FORCE_NO_SYMBOL $003A
+COMMENT $003C gibt die Startgeschwindigkeit an, siehe auch Zeitschleife
+FORCE_SYMBOL $003C speedcount
+FORCE_NO_SYMBOL $003F
+COMMENT $0041 setze die Spielerleben auf 3
+FORCE_SYMBOL $0041 lifecount
+FORCE_NO_SYMBOL $0044
+COMMENT $0046 zeigt die Level von 1 bis 4
+FORCE_SYMBOL $0046 levelcount
+COMMENT $004B setze Levelstart
+FORCE_SYMBOL $004B levelx
+FORCE_NO_SYMBOL $004E
+COMMENT $0050 Schwierigkeitsgrad, steigt pro Level, mehr Hindernisse möglich
+FORCE_SYMBOL $0050 difficulty
+COMMENT $0053 initiale Random Zahlen bestimmen
+FORCE_SYMBOL $0053 RANDOM
+COMMENT $0056 um Level zu vereinfachen, Doppelsprünge vermeiden
+FORCE_SYMBOL $0056 difficulty
+FORCE_SYMBOL $0059 nextl
+COMMENT $005C Skalierung für Levelbau wählen
+FORCE_NO_SYMBOL $005C
+FORCE_SYMBOL $005E scale
+COMMENT_LINE $0061 ROM Routinen für Schrift initialisieren
+COMMENT $0061 HEIGTH, WIDTH (-4, 32)
+FORCE_NO_SYMBOL $0061
+COMMENT $0064 store to BIOS RAM location
+FORCE_SYMBOL $0064 Vec_Text_HW
+COMMENT_LINE $0067 ***************************************************************************
+COMMENT_LINE $0067 MAIN();
+COMMENT_LINE $0067 *** Abspielen des Sounds und rekalibrieren der VECTREX
+FORCE_SYMBOL $0067 DPTOC8
+COMMENT $006A Musiknoten für Sprung laden
+FORCE_SYMBOL $006A PING1
+FORCE_SYMBOL $006D INITMUSICCHK
+COMMENT $0070 max. einmal pro refresh aufrufen!
+FORCE_SYMBOL $0070 WAITRECAL
+COMMENT $0073 Sound abspielen
+FORCE_SYMBOL $0073 DOSOUND
+COMMENT_LINE $0076 *** Level (Schwierigkeitsgrad)
+FORCE_SYMBOL $0076 leveldiff
+COMMENT_LINE $0079 *** Spielerleben
+FORCE_SYMBOL $0079 life
+COMMENT_LINE $007C *** Spielfigur
+FORCE_SYMBOL $007C player
+COMMENT_LINE $007F *** Spielfeld
+FORCE_SYMBOL $007F field
+COMMENT_LINE $0082 *** LEVEL Bau (hier wirds kompliziert!)
+FORCE_SYMBOL $0082 level
+COMMENT_LINE $0085 *** Benutzereingabe lesen, Springen und Sound (siehe auch Buttonhandling)
+FORCE_SYMBOL $0085 user_action
+COMMENT_LINE $0088 *** Kollisionserkennung und Spielende
+FORCE_SYMBOL $0088 col
+COMMENT $008B und zurück zum Anfang
+COMMENT_LINE $008E **************************************************************************
+COMMENT_LINE $008E Subroutinen:
+COMMENT_LINE $008E **************************************************************************
+COMMENT_LINE $008E Levelhöhe
+COMMENT $008E prüfe aktuelles Level
+FORCE_SYMBOL $008E levelcount
+FORCE_NO_SYMBOL $0091
+COMMENT $0095 Schrift anzeigen mit Leben
+FORCE_SYMBOL $0095 level_1
+FORCE_SYMBOL $0098 PRINTSTRYX
+FORCE_SYMBOL $009D levelcount
+FORCE_NO_SYMBOL $00A0
+COMMENT $00A4 difficulty Level 2
+FORCE_NO_SYMBOL $00A4
+FORCE_SYMBOL $00A6 difficulty
+FORCE_SYMBOL $00A9 level_2
+FORCE_SYMBOL $00AC PRINTSTRYX
+FORCE_SYMBOL $00B1 levelcount
+FORCE_NO_SYMBOL $00B4
+COMMENT $00B8 difficulty Level 3
+FORCE_NO_SYMBOL $00B8
+FORCE_SYMBOL $00BA difficulty
+FORCE_SYMBOL $00BD level_3
+FORCE_SYMBOL $00C0 PRINTSTRYX
+FORCE_SYMBOL $00C5 level_4
+FORCE_SYMBOL $00C8 PRINTSTRYX
+COMMENT $00CB difficulty Level 4
+FORCE_NO_SYMBOL $00CB
+FORCE_SYMBOL $00CD difficulty
+COMMENT $00D0 verlassen der Subroutine
+COMMENT_LINE $00D1 Spielerleben
+COMMENT $00D1 prüfe auf Anzahl der verbleibenden
+FORCE_SYMBOL $00D1 lifecount
+COMMENT $00D4 Leben
+FORCE_NO_SYMBOL $00D4
+COMMENT $00D8 Schrift anzeigen mit Leben
+FORCE_SYMBOL $00D8 life_3
+FORCE_SYMBOL $00DB PRINTSTRYX
+FORCE_SYMBOL $00E0 lifecount
+FORCE_NO_SYMBOL $00E3
+FORCE_SYMBOL $00E7 life_2
+FORCE_SYMBOL $00EA PRINTSTRYX
+FORCE_SYMBOL $00EF life_1
+FORCE_SYMBOL $00F2 PRINTSTRYX
+COMMENT $00F5 verlassen der Subroutine
+COMMENT_LINE $00F6 **************************************************************************
+COMMENT_LINE $00F6 Spielfigur
+COMMENT $00F6 Spring zur Mitte
+FORCE_SYMBOL $00F6 RESET0REF
+FORCE_NO_SYMBOL $00F9
+COMMENT $00FB Setze INTENSITY auf 127
+FORCE_SYMBOL $00FB INTENSITY
+COMMENT $00FE Lade Y Koordinate
+FORCE_SYMBOL $00FE posy
+COMMENT $0101 Lade X Koordinate, Figur steht auf -10
+FORCE_SYMBOL $0103 MOVEPEN
+FORCE_SYMBOL $0106 sfigur
+COMMENT $0109 Anzahl der Vektoren
+FORCE_NO_SYMBOL $0109
+COMMENT $010B Scaling
+FORCE_NO_SYMBOL $010B
+FORCE_SYMBOL $010D MOVEDRAW
+COMMENT $0110 verlassen der Subroutine
+COMMENT_LINE $0111 **************************************************************************
+COMMENT_LINE $0111 Spielfeld
+COMMENT $0111 Springe zur Mitte
+FORCE_SYMBOL $0111 RESET0REF
+FORCE_NO_SYMBOL $0114
+FORCE_SYMBOL $0116 INTENSITY
+FORCE_NO_SYMBOL $0119
+FORCE_NO_SYMBOL $011B
+FORCE_SYMBOL $011D MOVEPEN
+FORCE_SYMBOL $0120 sfeld
+COMMENT $0123 Anzahl der Vektoren
+FORCE_NO_SYMBOL $0123
+COMMENT $0125 Skalierung
+FORCE_NO_SYMBOL $0125
+FORCE_SYMBOL $0127 MOVEDRAW
+COMMENT $012A verlassen der Subroutine
+COMMENT_LINE $012B **************************************************************************
+COMMENT_LINE $012B LEVEL (hier wirds kompliziert!)
+COMMENT $012B Springe zur Mitte
+FORCE_SYMBOL $012B RESET0REF
+FORCE_NO_SYMBOL $012E
+COMMENT $0130 Setze Intensity
+FORCE_SYMBOL $0130 INTENSITY
+COMMENT $0133 Y-Koordinate
+FORCE_NO_SYMBOL $0133
+COMMENT $0135 X-Koordinate, dieser Wert wird geschoben
+FORCE_SYMBOL $0135 levelx
+COMMENT $0138 springe zum Start
+FORCE_SYMBOL $0138 MOVEPEN
+COMMENT $013B lade das generierte Stück Level zur
+FORCE_SYMBOL $013B activl
+COMMENT $013E Ausgabe ins TempLevel
+FORCE_SYMBOL $013E tmpl
+COMMENT_LINE $0141 * Level aus Lines und Hops zeichnen (tmpl)
+COMMENT $0141 zeichne immer erst eine gerade Linie
+FORCE_SYMBOL $0141 dline
+FORCE_NO_SYMBOL $0144
+COMMENT $0146 Skalierung
+FORCE_SYMBOL $0146 scale
+FORCE_SYMBOL $0149 MOVEDRAW
+COMMENT $014C prüfe die Bits des Random Bytes
+FORCE_SYMBOL $014C tmpl
+COMMENT $014F ist das erste Bit eine 1
+FORCE_NO_SYMBOL $014F
+COMMENT $0151 wenn ja springe zum Hop
+COMMENT $0153 wenn nicht, dann zeichne eine gerade Linie
+FORCE_SYMBOL $0153 line
+FORCE_NO_SYMBOL $0156
+COMMENT $0158 Skalierung
+FORCE_SYMBOL $0158 scale
+FORCE_SYMBOL $015B MOVEDRAW
+COMMENT $015E springe danach zu abschließenden Linie
+COMMENT $0161 und zeichne ein Hindernis
+FORCE_SYMBOL $0161 hop
+FORCE_NO_SYMBOL $0164
+COMMENT $0166 Skalierung
+FORCE_SYMBOL $0166 scale
+FORCE_SYMBOL $0169 MOVEDRAW
+COMMENT $016C zeichne am Ende immer eine gerade Linie
+FORCE_SYMBOL $016C dline
+FORCE_NO_SYMBOL $016F
+COMMENT $0171 Skalierung
+FORCE_SYMBOL $0171 scale
+FORCE_SYMBOL $0174 MOVEDRAW
+COMMENT_LINE $0177 * Levelcounter für tmpl
+COMMENT $0177 rechts shift um Levelteil zu zeichnen
+FORCE_SYMBOL $0177 tmpl
+COMMENT $017A zähle den Durchlaufzähler bis 8 hoch
+FORCE_SYMBOL $017A runcount
+FORCE_SYMBOL $017D runcount
+FORCE_NO_SYMBOL $0180
+COMMENT $0182 ist 8 nicht erreicht, wird weiter gezeichnet
+COMMENT $0186 wenn 8 erreicht Counter zurück setzen
+FORCE_NO_SYMBOL $0186
+FORCE_SYMBOL $0188 runcount
+COMMENT_LINE $018B * Level Bewegung (levelx)
+COMMENT $018B Level um 1 nach links schieben
+FORCE_SYMBOL $018B levelx
+COMMENT_LINE $018E outcommented by malban
+COMMENT_LINE $018E this is an active iddle counter that waits for abou 50000 cycles
+COMMENT_LINE $018E making the game unplayable and unneccessarily flickery
+COMMENT_LINE $018E sorry Jan - you didn't understand that part of
+COMMENT_LINE $018E vectrex programming
+COMMENT_LINE $018E there are other ways to slow down a player in order
+COMMENT_LINE $018E to adjust difficulty!
+COMMENT_LINE $018E JSR      time                         ; Zeitschleife für Delay aufrufen, ggf. anpassen
+COMMENT $018E prüfe ob Levelteil Level verlassen hat
+FORCE_SYMBOL $018E levelx
+COMMENT $0193 wenn nicht dann springe zum Ende
+COMMENT $0197 wenn doch, verwerfe altes Levelteil und
+COMMENT $0199 springe wieder an den Rand
+FORCE_SYMBOL $0199 levelx
+COMMENT $019C setze deadflag wieder auf 0
+FORCE_NO_SYMBOL $019C
+COMMENT $019E jetzt können wir wieder sterben,
+FORCE_SYMBOL $019E dead
+COMMENT_LINE $01A1 aber nur einmal pro Hindernis!
+COMMENT_LINE $01A1 * neues Levelstück einarbeiten (activl)
+COMMENT $01A1 rechtsshift um Platz für neuen Wert zu schaffen
+FORCE_SYMBOL $01A1 activl
+FORCE_SYMBOL $01A4 activl
+FORCE_NO_SYMBOL $01A7
+FORCE_SYMBOL $01A9 activl
+COMMENT $01AC lade generierte Zufallszahl
+FORCE_SYMBOL $01AC nextl
+COMMENT $01AF lösche alles bis auf höchstwertiges Bit
+FORCE_NO_SYMBOL $01AF
+COMMENT $01B1 lade höchstwertiges Bit ins aktive Level
+FORCE_SYMBOL $01B1 activl
+COMMENT $01B4 speichere das neue aktive Level
+FORCE_SYMBOL $01B4 activl
+COMMENT $01B7 linksshift um nächstes Bit zu erhalten
+FORCE_SYMBOL $01B7 nextl
+COMMENT $01BA Speedcount um das Spiel
+FORCE_SYMBOL $01BA speedcount
+COMMENT $01BD zu beschleungigen, von init Wert bis 1
+FORCE_NO_SYMBOL $01BD
+COMMENT $01BF siehe time
+FORCE_SYMBOL $01C3 speedcount
+COMMENT $01C6 Level noch nicht geschafft, weiter nach unten
+FORCE_SYMBOL $01C9 levelcount
+COMMENT $01CC prüfe ob wir schon in Level 4 sind
+FORCE_NO_SYMBOL $01CC
+COMMENT $01CE wenn ja nichts weiter tun
+COMMENT $01D2 wenn nicht, erhöhe das Level um 1
+FORCE_SYMBOL $01D2 levelcount
+COMMENT $01D5 und setze die Geschwindigkeit wieder auf 40
+FORCE_NO_SYMBOL $01D5
+FORCE_SYMBOL $01D7 speedcount
+COMMENT_LINE $01DA * neue Zufallszahl generieren (nextl)
+COMMENT $01DA wir zählen wieder die Durchläufe
+FORCE_SYMBOL $01DA randomcount
+COMMENT $01DD um nach 8 Bit eine neue Zufallszahl zu generieren
+FORCE_SYMBOL $01DD randomcount
+FORCE_NO_SYMBOL $01E0
+COMMENT $01E2 wenn Grenze noch nicht erreicht zum Ende
+COMMENT $01E6 wenn erreicht, dann zurück setzen
+FORCE_NO_SYMBOL $01E6
+FORCE_SYMBOL $01E8 randomcount
+COMMENT $01EB und neue Zufallszahl wählen
+FORCE_SYMBOL $01EB RANDOM
+COMMENT $01EE Schwierigkeitsgrad einbeziehen
+FORCE_SYMBOL $01EE difficulty
+FORCE_SYMBOL $01F5 nextl
+COMMENT $01F8 verlassen der Subroutine
+COMMENT_LINE $01F9 **************************************************************************
+COMMENT_LINE $01F9 Benutzereingabe lesen, Springen und Sound
+FORCE_SYMBOL $01F9 RESET0REF
+COMMENT $01FC prüfe ob bereits Q gedrückt wurde
+FORCE_SYMBOL $01FC action
+FORCE_NO_SYMBOL $01FF
+COMMENT $0201 wenn ja dann Button nicht testen
+FORCE_SYMBOL $0205 READBUTTONS
+COMMENT $0208 irgendein Button gedrueckt?
+FORCE_NO_SYMBOL $0208
+COMMENT $020A kein Button
+COMMENT $020E wird Button 1 gedrueckt?
+FORCE_NO_SYMBOL $020E
+COMMENT $0210 wenn nicht dann false_button
+COMMENT $0214 wir beginnen action Sprung
+FORCE_SYMBOL $0214 action
+COMMENT_LINE $0217 ab jetzt gibt es kein Zurück mehr!
+COMMENT_LINE $0217 *** Sound initialiseren
+COMMENT $0217 Musikflag schalten für Sprungmusik,
+FORCE_NO_SYMBOL $0217
+COMMENT $0219 damit Musik gespielt wird, siehe Beginn
+FORCE_SYMBOL $0219 Vec_Music_Flag
+COMMENT_LINE $021C der mainloop
+COMMENT_LINE $021C *** Sprung
+COMMENT $021C fallen oder steigen wir?
+FORCE_SYMBOL $021C jumpstate
+COMMENT $021F 0 = wir steigen, 1 = wir fallen
+FORCE_NO_SYMBOL $021F
+COMMENT $0225 hoch springen
+FORCE_SYMBOL $0225 posy
+COMMENT $0228 ein Stück steigen
+FORCE_SYMBOL $0229 posy
+FORCE_SYMBOL $022C posy
+COMMENT $022F Ist Spielfigur schon oben angekommen?
+FORCE_NO_SYMBOL $022F
+COMMENT $0235 Figur ist oben angekommen,
+FORCE_SYMBOL $0235 jumpstate
+COMMENT_LINE $0238 ändere Jumpstate
+COMMENT $0238 springe ans Ende
+COMMENT $023B runter fallen
+FORCE_SYMBOL $023B posy
+COMMENT $023E ein Stück runter fallen
+FORCE_SYMBOL $023E posy
+COMMENT $0241 sind wir unten angekommen?
+FORCE_SYMBOL $0241 posy
+COMMENT $0244 wenn nicht dann ans Ende
+COMMENT $0248 wenn doch, dann Jumpstate = 0
+FORCE_SYMBOL $0248 jumpstate
+COMMENT $024B wir beenden den Sprung und aktivieren
+FORCE_SYMBOL $024B action
+COMMENT_LINE $024E die Eingabe
+COMMENT $024E verlassen der Subroutine
+COMMENT_LINE $024F **************************************************************************
+COMMENT_LINE $024F Buttonhandling:
+COMMENT $024F Falscher Button
+FORCE_SYMBOL $024F false_button_string
+COMMENT $0252 String schreiben
+FORCE_SYMBOL $0252 PRINTSTRYX
+COMMENT $0255 Zum Ende springen
+FORCE_SYMBOL $0258 no_button_string
+FORCE_SYMBOL $025B PRINTSTRYX
+COMMENT $025E Zum Ende springen
+COMMENT_LINE $0261 **************************************************************************
+COMMENT_LINE $0261 Kollisionserkennung
+COMMENT $0261 prüfe auf Hindernis
+FORCE_SYMBOL $0261 activl
+FORCE_NO_SYMBOL $0264
+COMMENT $026A in diesem Bereich können wir
+FORCE_SYMBOL $026A levelx
+COMMENT $026D auf ein Hindernis stoßen
+FORCE_NO_SYMBOL $026D
+COMMENT $026F linke Grenze der Spielfigur
+FORCE_SYMBOL $0273 levelx
+COMMENT $0276 rechte Grenze der Spielfigur
+FORCE_NO_SYMBOL $0276
+COMMENT $027C hoffentlich sind wir hoch genug
+FORCE_SYMBOL $027C posy
+COMMENT $027F wenn nicht verlieren wir ein Leben
+FORCE_NO_SYMBOL $027F
+COMMENT $0285 ein Hindernis kann uns aber nur ein Leben
+FORCE_SYMBOL $0285 dead
+COMMENT $0288 kosten, daher merken wir uns den Tot für
+COMMENT $028C die letzten 20 Durchläufe
+FORCE_NO_SYMBOL $028C
+COMMENT $028E wird weiter oben zurück gesetzt
+FORCE_SYMBOL $028E dead
+COMMENT $0291 Mist, Leben verloren :(
+FORCE_SYMBOL $0291 lifecount
+COMMENT $0294 hoffentlich haben wir noch welche?
+FORCE_SYMBOL $0294 lifecount
+COMMENT $0297 wenn ja geht es weiter
+COMMENT $029B wenn nicht ist an dieser Stelle schluss, GAME OVER
+COMMENT $029E verlassen der Subroutine
+COMMENT_LINE $029F **************************************************************************
+COMMENT_LINE $029F Spielende:
+COMMENT $029F Lösche den Akku
+FORCE_NO_SYMBOL $02A0
+COMMENT $02A2 Lade 1 für neue Musik
+FORCE_SYMBOL $02A2 Vec_Music_Flag
+FORCE_SYMBOL $02A5 DPTOC8
+COMMENT $02A8 lade Musik
+FORCE_SYMBOL $02A8 musicb
+COMMENT $02AB and init new notes
+FORCE_SYMBOL $02AB INITMUSICCHK
+COMMENT $02AE sets dp to d0, and pos at 0, 0
+FORCE_SYMBOL $02AE WAITRECAL
+FORCE_SYMBOL $02B1 DOSOUND
+COMMENT $02B4 zeige GAME OVER Schriftzug
+FORCE_SYMBOL $02B4 game_over_string
+FORCE_SYMBOL $02B7 PRINTSTRHWYX
+COMMENT_LINE $02BA *** Spielfigur Abschiedsbild
+COMMENT $02BA Spring zur Mitte
+FORCE_SYMBOL $02BA RESET0REF
+FORCE_NO_SYMBOL $02BD
+COMMENT $02BF Setze INTENSITY auf 127
+FORCE_SYMBOL $02BF INTENSITY
+COMMENT $02C2 Lade Y Koordinate
+FORCE_NO_SYMBOL $02C2
+COMMENT $02C4 Lade X Koordinate
+FORCE_NO_SYMBOL $02C4
+FORCE_SYMBOL $02C6 MOVEPEN
+FORCE_SYMBOL $02C9 sfigurt1
+COMMENT $02CC Anzahl der Vektoren
+FORCE_NO_SYMBOL $02CC
+COMMENT $02CE Scaling
+FORCE_NO_SYMBOL $02CE
+FORCE_SYMBOL $02D0 MOVEDRAW
+COMMENT $02D3 Spring zur Mitte
+FORCE_SYMBOL $02D3 RESET0REF
+FORCE_NO_SYMBOL $02D6
+COMMENT $02D8 Setze INTENSITY auf 127
+FORCE_SYMBOL $02D8 INTENSITY
+COMMENT $02DB Lade Y Koordinate
+FORCE_NO_SYMBOL $02DB
+COMMENT $02DD Lade X Koordinate
+FORCE_NO_SYMBOL $02DD
+FORCE_SYMBOL $02DF MOVEPEN
+FORCE_SYMBOL $02E2 sfigurt2
+COMMENT $02E5 Anzahl der Vektoren
+FORCE_NO_SYMBOL $02E5
+COMMENT $02E7 Scaling
+FORCE_NO_SYMBOL $02E7
+FORCE_SYMBOL $02E9 MOVEDRAW
+FORCE_SYMBOL $02EC gameover
+FORCE_SYMBOL $02EF gameover
+COMMENT $02F4 Starte die Vectrex neu ohne Reinitialisierung
+FORCE_SYMBOL $02F4 WARMSTART
+COMMENT_LINE $02F7 des OS (nicht schön, vll andere Lösung finden)
+COMMENT_LINE $02F7 ***************************************************************************
+COMMENT_LINE $02F7 Textanzeige:
+COMMENT_LINE $036C ***************************************************************************
+COMMENT_LINE $036C Zeitschleife:
+COMMENT $036C Speedcount beeinflust Levelgeschwindigkeit
+FORCE_SYMBOL $036C speedcount
+COMMENT $036F und damit den Schwierigkeitsgrad
+FORCE_NO_SYMBOL $036F
+COMMENT $0377 verlassen der Subroutine
+COMMENT_LINE $0378 ***************************************************************************
+COMMENT_LINE $0378 Spielfigur:
+COMMENT_LINE $0394 Spielfigur Körper:
+COMMENT_LINE $03A6 Spielfigur Kopf:
+COMMENT_LINE $03B2 Spielfeld:
+COMMENT_LINE $03C4 LEVEL:
+COMMENT_LINE $03D4 ***************************************************************************
+COMMENT_LINE $03D4 Sound
+COMMENT_LINE $03DC ***************************************************************************
+RANGE $0000-$03DC DP $D0
+RANGE $0000-$0002 DB_DATA 2
+RANGE $0002-$000A CHAR_DATA 8
+RANGE $000A-$000B DB_DATA 1
+RANGE $000B-$000D DW_DATA 1
+RANGE $000D-$000F DW_DATA 1
+RANGE $000F-$0011 DW_DATA 1
+RANGE $0011-$001B CHAR_DATA 10
+RANGE $001B-$001D DB_DATA 2
+RANGE $001D-$02F7 CODE
+RANGE $02F7-$030A DB_DATA 19
+RANGE $030A-$031A DB_DATA 16
+RANGE $031A-$0329 DB_DATA 15
+RANGE $0329-$0332 DB_DATA 9
+RANGE $0332-$033B DB_DATA 9
+RANGE $033B-$0344 DB_DATA 9
+RANGE $0344-$034E DB_DATA 10
+RANGE $034E-$0358 DB_DATA 10
+RANGE $0358-$0362 DB_DATA 10
+RANGE $0362-$036C DB_DATA 10
+RANGE $036C-$0378 CODE
+RANGE $0378-$037A DB_DATA 2
+RANGE $037A-$037C DB_DATA 2
+RANGE $037C-$037E DB_DATA 2
+RANGE $037E-$0380 DB_DATA 2
+RANGE $0380-$0382 DB_DATA 2
+RANGE $0382-$0384 DB_DATA 2
+RANGE $0384-$0386 DB_DATA 2
+RANGE $0386-$0388 DB_DATA 2
+RANGE $0388-$038A DB_DATA 2
+RANGE $038A-$038C DB_DATA 2
+RANGE $038C-$038E DB_DATA 2
+RANGE $038E-$0390 DB_DATA 2
+RANGE $0390-$0392 DB_DATA 2
+RANGE $0392-$0394 DB_DATA 2
+RANGE $0394-$0396 DB_DATA 2
+RANGE $0396-$0398 DB_DATA 2
+RANGE $0398-$039A DB_DATA 2
+RANGE $039A-$039C DB_DATA 2
+RANGE $039C-$039E DB_DATA 2
+RANGE $039E-$03A0 DB_DATA 2
+RANGE $03A0-$03A2 DB_DATA 2
+RANGE $03A2-$03A4 DB_DATA 2
+RANGE $03A4-$03A6 DB_DATA 2
+RANGE $03A6-$03A8 DB_DATA 2
+RANGE $03A8-$03AA DB_DATA 2
+RANGE $03AA-$03AC DB_DATA 2
+RANGE $03AC-$03AE DB_DATA 2
+RANGE $03AE-$03B0 DB_DATA 2
+RANGE $03B0-$03B2 DB_DATA 2
+RANGE $03B2-$03B4 DB_DATA 2
+RANGE $03B4-$03B6 DB_DATA 2
+RANGE $03B6-$03B8 DB_DATA 2
+RANGE $03B8-$03BA DB_DATA 2
+RANGE $03BA-$03BC DB_DATA 2
+RANGE $03BC-$03BE DB_DATA 2
+RANGE $03BE-$03C0 DB_DATA 2
+RANGE $03C0-$03C2 DB_DATA 2
+RANGE $03C2-$03C4 DB_DATA 2
+RANGE $03C4-$03C6 DB_DATA 2
+RANGE $03C6-$03C8 DB_DATA 2
+RANGE $03C8-$03CA DB_DATA 2
+RANGE $03CA-$03CC DB_DATA 2
+RANGE $03CC-$03CE DB_DATA 2
+RANGE $03CE-$03D0 DB_DATA 2
+RANGE $03D0-$03D2 DB_DATA 2
+RANGE $03D2-$03D4 DB_DATA 2
+RANGE $03D4-$03D6 DW_DATA 1
+RANGE $03D6-$03D8 DW_DATA 1
+RANGE $03D8-$03DA DB_DATA 2
+RANGE $03DA-$03DC DB_DATA 2
+

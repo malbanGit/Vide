@@ -28,6 +28,14 @@ LABEL $C819 Vec_Button_2_4
 COMMENT_LABEL $C819 Current toggle state of stick 2 button 4
 LABEL $C81A Vec_Joy_Resltn
 COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C88D Vec_Joy_1_X
+COMMENT_LABEL $C88D Joystick 1 left/right
+LABEL $C88E Vec_Joy_1_Y
+COMMENT_LABEL $C88E Joystick 1 up/down
+LABEL $C88F Vec_Joy_2_X
+COMMENT_LABEL $C88F Joystick 2 left/right
+LABEL $C890 Vec_Joy_2_Y
+COMMENT_LABEL $C890 Joystick 2 up/down
 LABEL $C81F Vec_Joy_Mux
 COMMENT_LABEL $C81F Joystick enable/mux flags (4 bytes)
 LABEL $C81F Vec_Joy_Mux_1_X
@@ -236,7 +244,7 @@ LABEL $F2F2 Moveto_x_7F
 LABEL $F2FC Moveto_d_7F
 LABEL $F308 Moveto_ix_FF
 LABEL $F30C Moveto_ix_7F
-LABEL $F30E Moveto_ix_a
+LABEL $F30E Moveto_ix_b
 LABEL $F310 Moveto_ix
 LABEL $F312 Moveto_d
 LABEL $F34A Reset0Ref_D0
@@ -336,9 +344,8 @@ LABEL $F601 Rise_Run_Y
 LABEL $F603 Rise_Run_Len
 LABEL $F610 Rot_VL_ab
 LABEL $F616 Rot_VL
-LABEL $F61F Rot_VL_Mode_a
-LABEL $F62B Rot_VL_Mode
-LABEL $F637 Rot_VL_dft
+LABEL $F61F Rot_VL_Mode
+LABEL $F62B Rot_VL_M_dft
 LABEL $F65B Xform_Run_a
 LABEL $F65D Xform_Run
 LABEL $F661 Xform_Rise_a
@@ -460,13 +467,9 @@ LABEL $C88B last_joy_x
 LABEL $C88B shieldMinorIncrease
 LABEL $C88C last_joy_y
 LABEL $C88C shield_width_adder
-LABEL $C88D Vec_Joy_1_X
 LABEL $C88D shot_add_delay
-LABEL $C88E Vec_Joy_1_Y
 LABEL $C88E shot_addi
-LABEL $C88F Vec_Joy_2_X
 LABEL $C88F X_add_delay
-LABEL $C890 Vec_Joy_2_Y
 LABEL $C890 X_addi
 LABEL $C891 HX_add_delay
 LABEL $C892 Hunter_addi
@@ -3356,10 +3359,6 @@ LABEL $7FF0 vec4Register
 COMMENT_LABEL $7FF0 #isfunction
 LABEL $8000 END_OF_MEM
 LABEL $8103 *
-COMMENT_LINE $0000 ; hey dissi "watch $scrollIntensity 1 0"
-COMMENT_LINE $0000 ; hey dissi "watch $scrollBlink 1 0"
-COMMENT_LINE $0000 ; hey dissi "watch $scrollBlinkAdd 1 0"
-COMMENT_LINE $0000 ; hey dissi "watch $phase_count 1 0"
 COMMENT_LINE $0000 this file is part of Release, written by Malban in 2017
 COMMENT_LINE $0000 bank     1
 COMMENT_LINE $0000 ***************************************************************************
@@ -3383,12 +3382,8 @@ COMMENT_LINE $0000 load vectrex bios routine definitions
 COMMENT $0000 vectrex function includes
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
-COMMENT_LINE $0000 it was written by Bruce Tomlin, slightly changed by Malban                ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
 COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-COMMENT_LINE $0000 Vec_Joy_1_X     EQU     $C81B   ;Joystick 1 left/right
-COMMENT_LINE $0000 Vec_Joy_1_Y     EQU     $C81C   ;Joystick 1 up/down
-COMMENT_LINE $0000 Vec_Joy_2_X     EQU     $C81D   ;Joystick 2 left/right
-COMMENT_LINE $0000 Vec_Joy_2_Y     EQU     $C81E   ;Joystick 2 up/down
 COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
 COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
 COMMENT_LINE $0000 $C83C   ;temp byte
@@ -3443,6 +3438,12 @@ COMMENT_LINE $0000 4 CB1 interrupt enable
 COMMENT_LINE $0000 5 timer 2 interrupt enable
 COMMENT_LINE $0000 6 timer 1 interrupt enable
 COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
+COMMENT_LINE $0000 Rot_VL_ab       EQU     $F610   ;
+COMMENT_LINE $0000 Rot_VL          EQU     $F616   ;
+COMMENT_LINE $0000 Rot_VL_Mode_a   EQU     $F61F   ;
+COMMENT_LINE $0000 Rot_VL_Mode     EQU     $F62B   ;
+COMMENT_LINE $0000 Rot_VL_dft      EQU     $F637   ;
 COMMENT $0000 vectrex function includes
 COMMENT_LINE $0000 this file is part of Release, written by Malban in 2017
 COMMENT_LINE $0000 ***************************************************************************

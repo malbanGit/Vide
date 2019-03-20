@@ -20,12 +20,12 @@
 ; labyrinth that is open to all sides (wrapping)
 ; torches, candles, lamp
 
-                INCLUDE "include\\VECTREX.I" ; vectrex function includes
-                INCLUDE "include\\macros\\beam_mac.I" ; vectrex function includes
-                INCLUDE "include\\macros\\move_mac.i"
-                INCLUDE "include\\macros\\draw_mac.i"
-                INCLUDE "include\\macros\\mult_mac.i"
-                INCLUDE "prg\\tile_mac.i"
+                INCLUDE "INCLUDE/VECTREX.I" ; vectrex function includes
+                INCLUDE "INCLUDE/MACROS/BEAM_MAC.I" ; vectrex function includes
+                INCLUDE "INCLUDE/MACROS/MOVE_MAC.I"
+                INCLUDE "INCLUDE/MACROS/DRAW_MAC.I"
+                INCLUDE "INCLUDE/MACROS/MULT_MAC.I"
+                INCLUDE "PRG/TILE_MAC.I"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Size definitions
@@ -125,11 +125,11 @@ MONSTER_ANIM_STRUCT EQU 1
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                  BSS
                  ORG $c880       ; well start of our ram space
-                 INCLUDE "include\\clip_var.i"
-                 INCLUDE "include\\ym_var.i"
-                 INCLUDE "include\\digi_var.i"
-                 INCLUDE "prg\\maze_var.i"
-                 INCLUDE "prg\\in_var.i"
+                 INCLUDE "INCLUDE/CLIP_VAR.I"
+                 INCLUDE "INCLUDE/YM_VAR.I"
+                 INCLUDE "INCLUDE/DIGI_VAR.I"
+                 INCLUDE "PRG/MAZE_VAR.I"
+                 INCLUDE "PRG/IN_VAR.I"
 
 ;********************************************************************
 ; variables used in map displaying
@@ -1042,11 +1042,11 @@ all_monsters_inserted:
                 RTS
 ;***************************************************************************
                 direct  $D0             ;
-                INCLUDE "include\\clip_prg.i"
-                INCLUDE "include\\ym_prg.i"
-                INCLUDE "include\\digi_prg.i"
-                INCLUDE "prg\\maze_prg.i"
-                INCLUDE "prg\\in_prg.i"
+                INCLUDE "INCLUDE/CLIP_PRG.I"
+                INCLUDE "INCLUDE/YM_PRG.I"
+                INCLUDE "INCLUDE/DIGI_PRG.I"
+                INCLUDE "PRG/MAZE_PRG.I"
+                INCLUDE "PRG/IN_PRG.I"
 ;***************************************************************************
 maze1:
                 DB       "################"
@@ -1105,9 +1105,9 @@ goblin_animation:
                 DW Figure1
                 DW 0            ; end of list
 ;***************************************************************************
-                INCLUDE "data\\tile_dat.i"   ; for map drawing
-                INCLUDE "data\\song.i"       ; ym song
-                INCLUDE "data\\SAMPLES.i"
+                INCLUDE "DATA/TILE_DAT.I"   ; for map drawing
+                INCLUDE "DATA/SONG.I"       ; ym song
+                INCLUDE "DATA/SAMPLES.I"
 ;***************************************************************************
 
 ; goblin
