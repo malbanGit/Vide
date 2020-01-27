@@ -694,7 +694,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jButtonCreate = new javax.swing.JButton();
         jCheckBox26 = new javax.swing.JCheckBox();
 
-        setPreferredSize(new java.awt.Dimension(960, 537));
+        setPreferredSize(new java.awt.Dimension(1180, 800));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -3366,7 +3366,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lister", jPanel9);
@@ -3607,7 +3607,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addComponent(jCheckBoxForce2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxForce3)
-                .addContainerGap(255, Short.MAX_VALUE))
+                .addContainerGap(357, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("more configuration", jPanel11);
@@ -3683,7 +3683,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                     .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addGap(0, 0, 0)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCreate)
@@ -3752,7 +3752,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1)
                                     .addComponent(jScrollPane2)))
                             .addComponent(jButtonAddRow)))
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -4888,7 +4888,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         YMJPanel panel = new YMJPanel(fileName, tl);
         panel.standalone = sa;
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1180, 700, "YMPanel");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1300, 800, "YMPanel");
        
        if (tl instanceof VediPanel32)
        {

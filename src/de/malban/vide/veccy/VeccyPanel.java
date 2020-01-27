@@ -31,6 +31,7 @@ import static de.malban.graphics.Vertex.ARRAY_X;
 import static de.malban.graphics.Vertex.ARRAY_Y;
 import static de.malban.graphics.Vertex.ARRAY_Z;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.Scaler;
 import de.malban.gui.Stateable;
@@ -51,6 +52,7 @@ import de.muntjak.tinylookandfeel.Theme;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -63,6 +65,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.*;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -83,7 +86,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author malban
  */
 public class VeccyPanel extends javax.swing.JPanel implements
-        Windowable, MousePressedListener, MouseReleasedListener, MouseMovedListener, Stateable, VectorChangedListener {
+        Windowable, MousePressedListener, MouseReleasedListener, MouseMovedListener, Stateable, VectorChangedListener 
+{
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public boolean isLoadSettings() { return true; }
 
@@ -277,6 +281,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
      */
     public VeccyPanel() {
         initComponents();
+
+        new HotKey("Delete selected", new AbstractAction() { public void actionPerformed(ActionEvent e) { jMenuItemLineDeleteActionPerformed(null);}}, this);
+        new HotKey("Mode change", new AbstractAction() { public void actionPerformed(ActionEvent e) { cycleMode();}}, this);
+        new HotKey("UndoMac", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonUndoActionPerformed(null);}}, this);
+        new HotKey("RedoMac", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonRedoActionPerformed(null);}}, this);
+        new HotKey("UndoWin", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonUndoActionPerformed(null);}}, this);
+        new HotKey("RedoWin", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonRedoActionPerformed(null);}}, this);
+        
+        new HotKey("SelectAllMac", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonSelectAllActionPerformed(null);}}, this);
+        new HotKey("SelectAllWin", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonSelectAllActionPerformed(null);}}, this);
+        new HotKey("CopyMac", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonCopyActionPerformed(null);}}, this);
+        new HotKey("CopyWin", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonCopyActionPerformed(null);}}, this);
+        new HotKey("PasteMac", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonPasteActionPerformed(null);}}, this);
+        new HotKey("PasteWin", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonPasteActionPerformed(null);}}, this);
+        new HotKey("CutMac", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonCutActionPerformed(null);}}, this);
+        new HotKey("CutWin", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonCutActionPerformed(null);}}, this);
+        
         jCheckBox1.setSelected(SingleVectorPanel.displayLen);
         // not done yet
         
@@ -446,6 +467,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         single3dDisplayPanel1.setAxisAngleZ(0);
         UIManager.addPropertyChangeListener(pListener);
         updateMyUI(); 
+
+
+
+
     }
     VectorJPanel vPanel = null;
     public void deinit()
@@ -828,6 +853,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jCheckBox13 = new javax.swing.JCheckBox();
         jCheckBox14 = new javax.swing.JCheckBox();
         jCheckBox15 = new javax.swing.JCheckBox();
+        jTextField13 = new javax.swing.JTextField();
         jPanel28 = new javax.swing.JPanel();
         jCheckBoxSameIntensity = new javax.swing.JCheckBox();
         jCheckBoxSamePattern = new javax.swing.JCheckBox();
@@ -3952,6 +3978,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jTextField12.setText("SMVB_");
+        jTextField12.setEnabled(false);
+        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField12ActionPerformed(evt);
+            }
+        });
 
         jLabel76.setText("function");
         jLabel76.setToolTipText("header to a smart draw function collection");
@@ -4164,6 +4196,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGap(1, 1, 1))
         );
 
+        jCheckBox11.setSelected(true);
         jCheckBox11.setText("old smart list");
         jCheckBox11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4171,7 +4204,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
-        jCheckBoxCompileForVB.setSelected(true);
         jCheckBoxCompileForVB.setText("vb smart list");
         jCheckBoxCompileForVB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4179,14 +4211,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
-        jCheckBox13.setSelected(true);
         jCheckBox13.setText("rts 2");
+        jCheckBox13.setEnabled(false);
 
         jCheckBox14.setText("no SHIFT");
         jCheckBox14.setToolTipText("generate for usage without VIA SHIFT reg");
 
         jCheckBox15.setText("low y");
         jCheckBox15.setToolTipText("Test whether Y is \"very\" negative, if so - use different draw routine.");
+
+        jTextField13.setText("-150");
+        jTextField13.setToolTipText("Threshold for additional NOP to set y integrators");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -4208,9 +4243,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addGap(36, 36, 36)
                                 .addComponent(jCheckBox14)
                                 .addGap(35, 35, 35)
-                                .addComponent(jCheckBox15))
+                                .addComponent(jCheckBox15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jCheckBox11))
-                        .addContainerGap(277, Short.MAX_VALUE))))
+                        .addContainerGap(240, Short.MAX_VALUE))))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4227,7 +4264,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jCheckBoxCompileForVB)
                             .addComponent(jCheckBox13)
                             .addComponent(jCheckBox14)
-                            .addComponent(jCheckBox15))))
+                            .addComponent(jCheckBox15)
+                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -8315,12 +8353,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField11ActionPerformed
 
+    int inSwitch = 0;
     private void jCheckBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox11ActionPerformed
-        // TODO add your handling code here:
+        if (inSwitch>0) return;
+        inSwitch++;
+        jCheckBoxCompileForVB.setSelected(!jCheckBox11.isSelected());
+        jCheckBox13.setEnabled(jCheckBoxCompileForVB.isSelected());
+        jTextField12.setEnabled(jCheckBoxCompileForVB.isSelected());
+        inSwitch--;
     }//GEN-LAST:event_jCheckBox11ActionPerformed
 
     private void jCheckBoxCompileForVBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCompileForVBActionPerformed
+        if (inSwitch>0) return;
+        inSwitch++;
+        jCheckBox11.setSelected(!jCheckBoxCompileForVB.isSelected());
         jCheckBox13.setEnabled(jCheckBoxCompileForVB.isSelected());
+        jTextField12.setEnabled(jCheckBoxCompileForVB.isSelected());
+        inSwitch--;
     }//GEN-LAST:event_jCheckBoxCompileForVBActionPerformed
     String lastDir =Global.mainPathPrefix;
 
@@ -8342,6 +8391,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jCheckBox16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox16ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox16ActionPerformed
+
+    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField12ActionPerformed
 
   
     
@@ -8441,25 +8494,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         {
             if (!evt.shiftPressed)
             {   
-                if (jRadioButtonSetPoint.isSelected())
-                {
-                    jRadioButtonSelectPoint.setSelected(true);
-                    jRadioButtonSelectPointActionPerformed(null);                                                        
-
-                }
-                else if (jRadioButtonSelectPoint.isSelected())
-                {
-                    jRadioButtonSelectLine.setSelected(true);
-                    jRadioButtonSelectLineActionPerformed(null);                                                        
-
-                }
-                else if (jRadioButtonSelectLine.isSelected())
-                {
-                    jRadioButtonSetPoint.setSelected(true);
-                    jRadioButtonSetPointActionPerformed(null);                                                        
-
-                }
-
+                cycleMode();
             }
             else
             {
@@ -9204,6 +9239,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -10355,6 +10391,27 @@ public class VeccyPanel extends javax.swing.JPanel implements
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
             kp.add(pi);
+            
+            pi = new PatternInfo();
+            pi.name = "Draw_Sync";
+            pi.line1Pattern = "";
+            pi.lineXPattern = "%S %SY %SX";
+            pi.lastLinePattern = "%2";
+            kp.add(pi);            
+            
+            pi = new PatternInfo();
+            pi.name = "Gyrocks Hershey";
+            pi.line1Pattern = "%C0 %I";
+            pi.lineXPattern = "%CX1 %CY1";
+            pi.lastLinePattern = "";
+            kp.add(pi);            
+
+            pi = new PatternInfo();
+            pi.name = "Gyrocks Objects";
+            pi.line1Pattern = "%C0";
+            pi.lineXPattern = "%CX- %CY-";
+            pi.lastLinePattern = "";
+            kp.add(pi);            
         }
         
     }
@@ -11567,6 +11624,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         {
             jTextAreaResultSM.setText(b.toString());
         }
+        updateResult();
         checkAssemblerButtonSM();
     }        
     String testForDoubleContinue(String in)
@@ -11610,7 +11668,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         }
                         else
                         {
-                            l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
+                            if (useOldSmartlist)
+                                l = de.malban.util.UtilityString.replace(l, ", hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
+                            else
+                                l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
                         }
                         b.append(l).append("\n");
                     }
@@ -11645,7 +11706,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     }
                     else
                     {
-                        l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
+                        if (useOldSmartlist)
+                            l = de.malban.util.UtilityString.replace(l, ", hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
+                        else
+                            l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
                     }
                     b.append(l).append("\n");
                 }
@@ -11753,6 +11817,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         {
             jTextAreaResultSM.setText(table.toString());
         }
+        updateResult();
         checkAssemblerButtonSM();        
     }
 
@@ -11789,7 +11854,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
             if (jCheckBoxIntensity.isSelected()) // intensity
             {
-                b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi("+functionPrefix+"setIntensity), lo("+functionPrefix+"setIntensity)"+"\n");
+                if (compileForVB)
+                {
+                    b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0)+ ",  $" +String.format("%02X", 0) + ", hi("+functionPrefix+"setIntensity), lo("+functionPrefix+"setIntensity)"+"\n");
+                }
+                else
+                {
+                    b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi("+functionPrefix+"setIntensity), lo("+functionPrefix+"setIntensity)"+"\n");
+                }
             }
             
             if (compileForVB)
@@ -11855,6 +11927,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         {
             jTextAreaResultSM.setText(table.toString());
         }
+        updateResult();
         checkAssemblerButtonSM();        
     }
 
@@ -12348,6 +12421,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int MAX_EQUAL_TYPE = 7;
         boolean lastWasMove = true;
         boolean testLowY = false;
+        int ythreshold = -80;
         void getParameters()
         {
             divideEqually = jCheckBox9.isSelected();
@@ -12363,10 +12437,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
             currentIntensity = intensityMax;
             compileForVB = jCheckBoxCompileForVB.isSelected();
             functionPrefix = jTextField12.getText();
+            if (!jCheckBoxCompileForVB.isSelected())
+                functionPrefix = "SM_";
             noShift = jCheckBox14.isSelected();
             MAX_EQUAL_TYPE = 7;
             lastWasMove = true;
             testLowY = jCheckBox15.isSelected();
+            ythreshold = DASM6809.toNumber(jTextField13.getText(), true);
         }
         
         
@@ -12634,17 +12711,25 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
             sList.get(sList.size()-1).type = sList.get(sList.size()-1).type | V_LAST;
         }
-
+        
+        int lastYTest = 0;
         for (; listIndex<sList.size(); listIndex++)
         {
             SmartVector v = sList.get(listIndex);
 
             if (testLowY)
             {
-                if (v.relY < -100)
+                if (v.relY - lastYTest< ythreshold)
                 {
                     v.type = v.type | V_HIGH_NEGATIVE_Y;
                 }
+/*
+                if ((lastYTest < 0) && (lastYTest<v.relY))
+                {
+                    v.type = v.type | V_HIGH_NEGATIVE_Y;
+                }
+*/                
+                lastYTest = v.relY;
             }
             
             int nextX = 256; // impossible values
@@ -13047,8 +13132,35 @@ shift0+
     
     */	
 	
-    
+    // update runnable result for parameters given
+    private void updateResult()
+    {
+        if (!jCheckBoxRunnable2.isSelected()) return;
+        if (!jCheckBoxCompileForVB.isSelected()) return;
+        String text = jTextAreaResultSM.getText();
+        text = de.malban.util.UtilityString.replace(text, "SM_", jTextField12.getText());
+        jTextAreaResultSM.setText(text);
+    }
+    private void cycleMode()
+    {
+        if (jRadioButtonSetPoint.isSelected())
+        {
+            jRadioButtonSelectPoint.setSelected(true);
+            jRadioButtonSelectPointActionPerformed(null);                                                        
 
+        }
+        else if (jRadioButtonSelectPoint.isSelected())
+        {
+            jRadioButtonSelectLine.setSelected(true);
+            jRadioButtonSelectLineActionPerformed(null);                                                        
+
+        }
+        else if (jRadioButtonSelectLine.isSelected())
+        {
+            jRadioButtonSetPoint.setSelected(true);
+            jRadioButtonSetPointActionPerformed(null);                                                        
+        }
+    }
 }
 
 

@@ -8,6 +8,7 @@ package de.malban.vide.vecx.cartridge;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import java.io.Serializable;
@@ -728,7 +729,8 @@ public class AT24C02 implements Serializable, CartridgeInternalInterface
                 {
                     log.addLog("ATMEL: WARNING page write exceeds 8",WARN);
                 }
-
+                try
+                {
                 epromData.data[internalAddressPointer] = (byte)transportByte;   
 
                 // inc lower 3 bits only - and roll over
@@ -744,7 +746,11 @@ public class AT24C02 implements Serializable, CartridgeInternalInterface
                 lowLevelState = LOW_GET_BYTE_FROM_VECTREX;    
                 hiLevelState = HI_GET_BYTE_WRITE;    
                 rwMode = RW_WRITE_TO_DEVICE;
-                
+                }
+                catch (Throwable e)
+                {
+                    log.addLog(e,ERROR);
+                }
                 break;
             }
             

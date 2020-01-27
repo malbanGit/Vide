@@ -1,13 +1,9 @@
 package de.malban.vide.script;
 
 
-import de.malban.config.TinyLogInterface;
 import de.malban.util.syntax.Syntax.HighlightedDocument;
 import de.malban.vide.veccy.VeccyPanel;
 import de.malban.vide.codi.CodeLibraryPanel;
-import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_PROJECT_POST;
-import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_VECCY_EXPORT;
-import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_VECCY_IMPORT;
 import de.malban.vide.vedi.VEdiFoundationPanel;
 import de.malban.vide.vedi.VediPanel;
 import java.util.Collection;
@@ -15,7 +11,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
-import javax.swing.SwingUtilities;
 
 public class ScriptDataPanel extends javax.swing.JPanel {
     

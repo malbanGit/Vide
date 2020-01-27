@@ -3941,17 +3941,20 @@ public class GFXVectorList {
                 v1.uid_start_connect = v2.uid_end_connect;
                 v1.start_connect = v2.end_connect;
                 
-                if ((newEnd.start_connect!=null) &&(newEnd.start_connect.uid == v2.uid))
+                if (newEnd != null)
                 {
-                    newEnd.start_connect = v2.start_connect;
-                    newEnd.start = v1.start;
-                    newEnd.uid_start_connect = v2.uid_start_connect;
-                }
-                if ((newEnd.end_connect!=null) &&(newEnd.end_connect.uid == v2.uid))
-                {
-                    newEnd.end_connect = v2.start_connect;
-                    newEnd.end = v1.start;
-                    newEnd.uid_end_connect = v2.uid_start_connect;
+                    if ((newEnd.start_connect!=null) &&(newEnd.start_connect.uid == v2.uid))
+                    {
+                        newEnd.start_connect = v2.start_connect;
+                        newEnd.start = v1.start;
+                        newEnd.uid_start_connect = v2.uid_start_connect;
+                    }
+                    if ((newEnd.end_connect!=null) &&(newEnd.end_connect.uid == v2.uid))
+                    {
+                        newEnd.end_connect = v2.start_connect;
+                        newEnd.end = v1.start;
+                        newEnd.uid_end_connect = v2.uid_start_connect;
+                    }
                 }
                 
             }

@@ -67,6 +67,11 @@ public class Utility
         return isRelative;
 */
     }
+    // backward compatability
+    public static String makeGlobalAbsolute(String relName)
+    {
+        return makeVideAbsolute(relName);
+    }
     
     // rel path given to Vide Home directory
     public static String makeVideAbsolute(String relName)

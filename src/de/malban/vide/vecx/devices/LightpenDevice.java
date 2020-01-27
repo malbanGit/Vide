@@ -7,12 +7,13 @@ package de.malban.vide.vecx.devices;
 
 import de.malban.vide.vecx.VecX;
 import static de.malban.vide.vecx.VecXPanel.DEVICE_LIGHTPEN;
+import java.io.Serializable;
 
 /**
  *
  * @author malban
  */
-public class LightpenDevice extends AbstractDevice
+public class LightpenDevice extends AbstractDevice  implements Serializable
 {
     public static final int LIGHTPEN_OUT_OF_BOUNDS = -100000;
     public int lightpenX = LIGHTPEN_OUT_OF_BOUNDS; 

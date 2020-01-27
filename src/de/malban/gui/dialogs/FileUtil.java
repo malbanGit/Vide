@@ -152,6 +152,10 @@ public class FileUtil extends javax.swing.JPanel {
         jLabel34 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
         jButton13 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel43 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel44 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
         jTextFieldstart9 = new javax.swing.JTextField();
@@ -219,7 +223,7 @@ public class FileUtil extends javax.swing.JPanel {
         jLabel3.setText("pad byte");
         jLabel3.setName("jLabel3"); // NOI18N
 
-        jTextField1.setText("0x00");
+        jTextField1.setText("0xff");
         jTextField1.setName("jTextField1"); // NOI18N
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -955,21 +959,41 @@ public class FileUtil extends javax.swing.JPanel {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "read only ROM", "ROM pls RAM", "VecVever", "ROM + DS2430", "ROM + DS2431", "ROM + xx PB6", "ROM 50k flat (n/a)", "ROM +16k at $8000 (n/a)", "ROM with 2x48k (serial)", "hybrid binary", "ROM 4x48k (serial)" }));
+        jComboBox1.setName("jComboBox1"); // NOI18N
+
+        jLabel43.setText("type");
+        jLabel43.setName("jLabel43"); // NOI18N
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        jComboBox2.setName("jComboBox2"); // NOI18N
+
+        jLabel44.setText("banks");
+        jLabel44.setName("jLabel44"); // NOI18N
+
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addComponent(jLabel29)
-                .addGap(27, 27, 27)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel29)
+                        .addGap(27, 27, 27)
+                        .addComponent(jTextFieldstart8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel43)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addComponent(jTextFieldstart8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonFileSelect10))
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel44)
+                        .addGap(20, 20, 20)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonFileSelect10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel35)
@@ -979,18 +1003,25 @@ public class FileUtil extends javax.swing.JPanel {
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButtonFileSelect10)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldstart8, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9))
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButtonFileSelect10)
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextFieldstart8, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jComboBox1)
+                                .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel44))))
+                .addContainerGap())
         );
 
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("ExtremeVectrex to V4EB"));
@@ -1712,40 +1743,187 @@ public class FileUtil extends javax.swing.JPanel {
             String file1 = jTextFieldstart8.getText();
             Path path = Paths.get(file1);
             byte[] data = Files.readAllBytes(path);
+ 
 
-            VFCompress compressor = new VFCompress();
-            compressor.compressData(data, 1024*32);
-
-            int no_banks = 1;
-            int sizeAll = 4+2+2+no_banks*6+compressor.dzipdata_size;
+            int cart_type = jComboBox1.getSelectedIndex();
+            int additional = 0;
+            if ((cart_type==6) || (cart_type==7)|| (cart_type==8)|| (cart_type==10)) 
+                additional = 16;
             
+            int no_banks = jComboBox2.getSelectedIndex()+1;
+            if (cart_type==8) no_banks = 3;
+            if (cart_type==6) no_banks = 2; // 32k + 16k
+            int sizeAll = 0;
             byte header[] = new byte[sizeAll];
-            
-            
-            int index=0;
-            header[index++] = 'V';          // 0 header
-            header[index++] = '4';
-            header[index++] = 'E';
-            header[index++] = 'B';
-
-            int cart_type = 7;
-            header[index++] = (byte) ((cart_type>> 8)&0xff);      // 4
-            header[index++] = (byte) ((cart_type    )&0xff);
-
-            header[index++] = (byte) ((no_banks>> 8)&0xff);      // 6
-            header[index++] = (byte) ((no_banks    )&0xff);
-
-            header[index++] = (byte) ((compressor.dzipdata_crc>>24)&0xff);   // 8
-            header[index++] = (byte) ((compressor.dzipdata_crc>>16)&0xff);
-            header[index++] = (byte) ((compressor.dzipdata_crc>> 8)&0xff);
-            header[index++] = (byte) ((compressor.dzipdata_crc    )&0xff);
-
-            header[index++] = (byte) ((compressor.dzipdata_size>> 8)&0xff);  // 12
-            header[index++] = (byte) ((compressor.dzipdata_size    )&0xff);
-            for (int i=0; i<compressor.dzipdata_size; i++)
+            if (no_banks==1)
             {
-                header[index++] = compressor.dzipdata[i];
+                VFCompress compressor = new VFCompress();
+                compressor.compressData(data, 1024*(32+additional));
+                sizeAll = 4+2+2+no_banks*6+compressor.dzipdata_size;
+                header = new byte[sizeAll];
+
+
+
+                int index=0;
+                header[index++] = 'V';          // 0 header
+                header[index++] = '4';
+                header[index++] = 'E';
+                header[index++] = 'B';
+
+                header[index++] = (byte) ((cart_type>> 8)&0xff);      // 4
+                header[index++] = (byte) ((cart_type    )&0xff);
+
+                header[index++] = (byte) ((no_banks>> 8)&0xff);      // 6
+                header[index++] = (byte) ((no_banks    )&0xff);
+
+                header[index++] = (byte) ((compressor.dzipdata_crc>>24)&0xff);   // 8
+                header[index++] = (byte) ((compressor.dzipdata_crc>>16)&0xff);
+                header[index++] = (byte) ((compressor.dzipdata_crc>> 8)&0xff);
+                header[index++] = (byte) ((compressor.dzipdata_crc    )&0xff);
+
+                header[index++] = (byte) ((compressor.dzipdata_size>> 8)&0xff);  // 12
+                header[index++] = (byte) ((compressor.dzipdata_size    )&0xff);
+                for (int i=0; i<compressor.dzipdata_size; i++)
+                {
+                    header[index++] = compressor.dzipdata[i];
+                }                
             }
+            else if (no_banks==2) // assuming 6
+            {
+                VFCompress compressor1 = new VFCompress();
+                VFCompress compressor2 = new VFCompress();
+                byte[] data1 = new byte[1024*(32)];
+                byte[] data2 = new byte[1024*(16)];
+                for (int i=0; i<1024*(32);i++ )
+                {
+                    data1[i] = data[i];
+                }
+                for (int i=0; i<1024*(16);i++ )
+                {
+                    data2[i] = data[i+1024*(32)];
+                }
+                
+                
+                compressor1.compressData(data1, 1024*(32));
+                compressor2.compressData(data2, 1024*(16));
+                sizeAll = 4+2+2+no_banks*6+compressor1.dzipdata_size+compressor2.dzipdata_size;
+                header = new byte[sizeAll];
+
+
+
+                int index=0;
+                header[index++] = 'V';          // 0 header
+                header[index++] = '4';
+                header[index++] = 'E';
+                header[index++] = 'B';
+
+                header[index++] = (byte) ((cart_type>> 8)&0xff);      // 4
+                header[index++] = (byte) ((cart_type    )&0xff);
+
+                header[index++] = (byte) ((no_banks>> 8)&0xff);      // 6
+                header[index++] = (byte) ((no_banks    )&0xff);
+
+                header[index++] = (byte) ((compressor1.dzipdata_crc>>24)&0xff);   // 8
+                header[index++] = (byte) ((compressor1.dzipdata_crc>>16)&0xff);
+                header[index++] = (byte) ((compressor1.dzipdata_crc>> 8)&0xff);
+                header[index++] = (byte) ((compressor1.dzipdata_crc    )&0xff);
+
+                header[index++] = (byte) ((compressor1.dzipdata_size>> 8)&0xff);  // 12
+                header[index++] = (byte) ((compressor1.dzipdata_size    )&0xff);
+                
+                header[index++] = (byte) ((compressor2.dzipdata_crc>>24)&0xff);   // 8
+                header[index++] = (byte) ((compressor2.dzipdata_crc>>16)&0xff);
+                header[index++] = (byte) ((compressor2.dzipdata_crc>> 8)&0xff);
+                header[index++] = (byte) ((compressor2.dzipdata_crc    )&0xff);
+
+                header[index++] = (byte) ((compressor2.dzipdata_size>> 8)&0xff);  // 12
+                header[index++] = (byte) ((compressor2.dzipdata_size    )&0xff);
+                for (int i=0; i<compressor1.dzipdata_size; i++)
+                {
+                    header[index++] = compressor1.dzipdata[i];
+                }                                
+                for (int i=0; i<compressor2.dzipdata_size; i++)
+                {
+                    header[index++] = compressor2.dzipdata[i];
+                }                                
+            }
+            else if (no_banks==3) // assume 8
+            {
+                VFCompress compressor1 = new VFCompress();
+                VFCompress compressor2 = new VFCompress();
+                VFCompress compressor3 = new VFCompress();
+                byte[] data1 = new byte[1024*(32)]; // first 32k of bank 0
+                byte[] data2 = new byte[1024*(32)]; // first 32k of bank 1
+                byte[] data3 = new byte[1024*(32)]; // 16k bank 0 + 16k bank 1
+                for (int i=0; i<1024*(32);i++ )
+                {
+                    data1[i] = data[i]; // bank 0, 32k
+                    data2[i] = data[i+1024*64];// bank 1, 32k
+                }
+                for (int i=0; i<1024*(16);i++ )
+                {
+                    data3[i] = data[i+32*1024]; // bank 0, 16k
+                    data3[i+16*1024] = data[i+1024*(64+32)];// bank 1, 16k
+                }
+                
+                
+                compressor1.compressData(data1, 1024*(32));
+                compressor2.compressData(data2, 1024*(32));
+                compressor3.compressData(data3, 1024*(32));
+                sizeAll = 4+2+2+no_banks*6+compressor1.dzipdata_size+compressor2.dzipdata_size+compressor3.dzipdata_size;
+                header = new byte[sizeAll];
+
+                int index=0;
+                header[index++] = 'V';          // 0 header
+                header[index++] = '4';
+                header[index++] = 'E';
+                header[index++] = 'B';
+
+                header[index++] = (byte) ((cart_type>> 8)&0xff);      // 4
+                header[index++] = (byte) ((cart_type    )&0xff);
+
+                header[index++] = (byte) ((no_banks>> 8)&0xff);      // 6
+                header[index++] = (byte) ((no_banks    )&0xff);
+
+                header[index++] = (byte) ((compressor1.dzipdata_crc>>24)&0xff);   // 8
+                header[index++] = (byte) ((compressor1.dzipdata_crc>>16)&0xff);
+                header[index++] = (byte) ((compressor1.dzipdata_crc>> 8)&0xff);
+                header[index++] = (byte) ((compressor1.dzipdata_crc    )&0xff);
+                header[index++] = (byte) ((compressor1.dzipdata_size>> 8)&0xff);  // 12
+                header[index++] = (byte) ((compressor1.dzipdata_size    )&0xff);
+                
+                header[index++] = (byte) ((compressor2.dzipdata_crc>>24)&0xff);   // 8
+                header[index++] = (byte) ((compressor2.dzipdata_crc>>16)&0xff);
+                header[index++] = (byte) ((compressor2.dzipdata_crc>> 8)&0xff);
+                header[index++] = (byte) ((compressor2.dzipdata_crc    )&0xff);
+                header[index++] = (byte) ((compressor2.dzipdata_size>> 8)&0xff);  // 12
+                header[index++] = (byte) ((compressor2.dzipdata_size    )&0xff);
+
+                header[index++] = (byte) ((compressor3.dzipdata_crc>>24)&0xff);   // 8
+                header[index++] = (byte) ((compressor3.dzipdata_crc>>16)&0xff);
+                header[index++] = (byte) ((compressor3.dzipdata_crc>> 8)&0xff);
+                header[index++] = (byte) ((compressor3.dzipdata_crc    )&0xff);
+                header[index++] = (byte) ((compressor3.dzipdata_size>> 8)&0xff);  // 12
+                header[index++] = (byte) ((compressor3.dzipdata_size    )&0xff);
+
+                for (int i=0; i<compressor1.dzipdata_size; i++)
+                {
+                    header[index++] = compressor1.dzipdata[i];
+                }                                
+                for (int i=0; i<compressor2.dzipdata_size; i++)
+                {
+                    header[index++] = compressor2.dzipdata[i];
+                }                                
+                for (int i=0; i<compressor3.dzipdata_size; i++)
+                {
+                    header[index++] = compressor3.dzipdata[i];
+                }                                
+            }
+            else
+            {
+                log.addLog("Only 2 banks supported at the moment!", ERROR);
+            }
+
 
             FileOutputStream output = new FileOutputStream(file1+".v4e", true);
             try 
@@ -2474,6 +2652,8 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JButton jButtonFileSelect7;
     private javax.swing.JButton jButtonFileSelect8;
     private javax.swing.JButton jButtonFileSelect9;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2511,6 +2691,8 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2587,7 +2769,8 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
         {
             result = Integer.parseInt(s, radix);
             if (minus) result *=-1;
-            result = result &(0xffff);
+            if (result != 65536)
+                result = result &(0xffff);
         }
         catch (Throwable ex)
         {

@@ -634,6 +634,8 @@ public class MemoryInformationTableModel extends AbstractTableModel
         }
         if (col == 9) 
         {
+            if (minfo.disType == -2)
+                return "LOADED";
             return MemoryInformation.disTypeString[minfo.disType];
         }
         if (col == 10) 

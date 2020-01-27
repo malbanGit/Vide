@@ -4,6 +4,7 @@ import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
 import de.malban.vide.VideConfig;
 import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_DELETE;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,8 +68,6 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_F5, 0, "Run", "Editor");
             HotKey.addMap(KeyEvent.VK_F6, 0, "Debug", "Editor");
             HotKey.addMap(KeyEvent.VK_F1, 0, "QuickHelp", "Editor");
-            
-            
             
             HotKey.addMap(KeyEvent.VK_R, java.awt.event.KeyEvent.META_DOWN_MASK, "RecolorMac", "Editor");
             HotKey.addMap(KeyEvent.VK_R, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "RecolorWin", "Editor");
@@ -182,7 +181,22 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_Q, 0, "Quit vecxi", "Vecxi");
             
             
+            HotKey.addMap(KeyEvent.VK_M, 0, "Mode change", "Vecci");
+            HotKey.addMap(KeyEvent.VK_DELETE, 0, "Delete selected", "Vecci");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.META_DOWN_MASK ,"UndoMac", "Vecci");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK ,"RedoMac", "Vecci");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"UndoWin", "Vecci");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK,"RedoWin", "Vecci");
+            HotKey.addMap(KeyEvent.VK_C, java.awt.event.KeyEvent.META_DOWN_MASK ,"CopyMac", "Vecci");
+            HotKey.addMap(KeyEvent.VK_V, java.awt.event.KeyEvent.META_DOWN_MASK ,"PasteMac", "Vecci");
+            HotKey.addMap(KeyEvent.VK_C, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"CopyWin", "Vecci");
+            HotKey.addMap(KeyEvent.VK_V, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"PasteWin", "Vecci");
+            HotKey.addMap(KeyEvent.VK_A, java.awt.event.KeyEvent.META_DOWN_MASK ,"SelectAllMac", "Vecci");
+            HotKey.addMap(KeyEvent.VK_A, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"SelectAllWin", "Vecci");
+            HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.META_DOWN_MASK ,"CutMac", "Vecci");
+            HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"CutWin", "Vecci");
             
+           
             
             HotKey.addMap(KeyEvent.VK_F3, 0, "Search next", "Editor");
             HotKey.addMap(KeyEvent.VK_F3, java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "Search previous", "Editor");

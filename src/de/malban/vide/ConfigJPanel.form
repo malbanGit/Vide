@@ -127,7 +127,10 @@
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox67" min="-2" pref="234" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jCheckBoxColorMode" min="-2" pref="234" max="-2" attributes="0"/>
+                                              <Component id="jCheckBox67" min="-2" pref="234" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -173,7 +176,10 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jCheckBox7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jCheckBox49" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jCheckBox49" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxColorMode" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jCheckBox44" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -673,6 +679,14 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox67ActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="jCheckBoxColorMode">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Jason color mode"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxColorModeActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

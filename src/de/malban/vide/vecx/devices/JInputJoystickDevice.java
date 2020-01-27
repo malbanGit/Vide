@@ -72,7 +72,13 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
         Controller controller = SystemController.getController(cConfig.JInputId);
         if (controller == null)
         {
-            deinit();
+            // try reload devices
+            controller = SystemController.getControllerReload(cConfig.JInputId);
+            if (controller == null)
+            {
+                // build dummy device to reconnect?
+            }
+//            deinit();
         }
         eController = new EventController(controller);
         eController.addEventListerner(this);
@@ -85,6 +91,9 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
         JInputJoystickDevice device = new JInputJoystickDevice();
         device.cConfig = c;
         c.initEventMapping();
+        
+        
+        
         return device;
     }
     @Override
@@ -92,12 +101,38 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
     {
         String evenId = e.componentId;
         String vectrexTarget = cConfig.eventMapping.get(evenId);
-        if (vectrexTarget==null) return; // not for me!
-        
-        if (vectrexTarget.equals("1")) joyport.setButton1(!e.currentButtonState, true); 
-        if (vectrexTarget.equals("2")) joyport.setButton2(!e.currentButtonState, true); 
-        if (vectrexTarget.equals("3")) joyport.setButton3(!e.currentButtonState, true); 
-        if (vectrexTarget.equals("4")) joyport.setButton4(!e.currentButtonState, true); 
+        if (vectrexTarget==null) 
+        {
+            if (e.type == 0) // disconnected
+            {
+                Controller controller = SystemController.getControllerReload(cConfig.JInputId);
+                if (controller == null)
+                {
+                    return;// reconnect not successfull;
+                }
+
+                // try reconnect
+                if (eController!=null)
+                {
+                    eController.setRemoved(true);
+                    eController.setActive(false);
+                    eController = null;
+                }
+ 
+                eController = new EventController(controller);
+                eController.addEventListerner(this);
+
+                eController.setActive(true);
+            }
+            return; // not for me!
+        }
+        if (joyportIsInOutputMode)
+        {
+            if (vectrexTarget.equals("1")) joyport.setButton1(!e.currentButtonState, true); 
+            if (vectrexTarget.equals("2")) joyport.setButton2(!e.currentButtonState, true); 
+            if (vectrexTarget.equals("3")) joyport.setButton3(!e.currentButtonState, true); 
+            if (vectrexTarget.equals("4")) joyport.setButton4(!e.currentButtonState, true); 
+        }
         
         
         
@@ -147,7 +182,12 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
                 }
                 else
                 {
-                    joyport.setVertical((int)(e.currentAxisPercent*FACTOR)&0xff, true);
+                    int value =(int) (e.currentAxisPercent*FACTOR);
+                    
+                    if (value == 0) value = 1;
+                    value =(int) (value)&0xff;
+                    
+                    joyport.setVertical((int)(value*(-1))&0xff, true);
                 }
             }
             if (vectrexTarget.equals("horizontal"))  

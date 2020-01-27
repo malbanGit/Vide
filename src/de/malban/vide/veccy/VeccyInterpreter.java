@@ -1,5 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+
+            pi = new PatternInfo();
+            pi.name = "Draw_Sync";
+            pi.line1Pattern = "";
+            pi.lineXPattern = "%S %SY %SX";
+            pi.lastLinePattern = "%2";
+            kp.add(pi);
+
+* To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -27,13 +35,23 @@ public class VeccyInterpreter {
         %C0 count +0[can only be in first line!]
         %C+ count +1[can only be in first line!]
         %C- count -1[can only be in first line!]
+        %SX xcoordinate (relative/or absolut)
+        %SY xcoordinate (relative/or absolut)
         %X xcoordinate (relative)
         %Y xcoordinate (relative)
         %X0 xcoordinate ()
         %Y0 xcoordinate ()
         %X1 xcoordinate ()
         %Y1 xcoordinate ()
+
+        %CX- xcoordinate (continued dot sequence absolut X) -127 MOVE
+        %CY- xcoordinate (continued dot sequence absolut Y) -127 MOVE
+
+        %CX1 xcoordinate (continued dot sequence absolut X) -1 MOVE
+        %CY1 xcoordinate (continued dot sequence absolut Y) -1 MOVE
+
         %P pattern
+        %S sync list pattern
         %B brightness (=intensity)
         %M mode
         not possible %S sync mode
@@ -44,6 +62,7 @@ public class VeccyInterpreter {
         %1 1
         %- >128
         %+ <128
+        %2 ==2
     */
     String line1Pattern=""; // can only be %CX or nothing!
     String lineXPattern=""; // one line must represent ONE vector definition!
@@ -58,6 +77,7 @@ public class VeccyInterpreter {
     String representation = "";
     ArrayList<Byte> dataInterpreted = new ArrayList<Byte>();
     String textOrg="";
+
     
     public VeccyInterpreter()
     {
@@ -79,6 +99,8 @@ public class VeccyInterpreter {
         {
             if (s.trim().startsWith("*")) continue;
             s = de.malban.vide.assy.Comment.removeEndOfLineComment(s);
+            s = de.malban.vide.assy.Comment.removeCEndOfLineComment(s); // //...
+            s = de.malban.vide.assy.Comment.removeC1EndOfLineComment(s); // /*...
             if (s.trim().length()==0) continue;
             newText.append(s+"\n");
         }
@@ -264,6 +286,7 @@ public class VeccyInterpreter {
         if (data.size() == 0) return vl;
         if (pos>= data.size()) return vl;
         
+        
         for (String p : patternLine1)
         {
             if (pos>= data.size()) 
@@ -333,13 +356,27 @@ public class VeccyInterpreter {
         if ((patternLine1.length > 0) && (s.length()>0))
             s.append("\n");
         
-        
+        boolean syncMode = false;
+        int lastAbsX = 0;
+        int lastAbsY = 0;
+        int saveLastAbsY = 0;
+        int saveLastAbsX = 0;
+        boolean startingX = true;
+        boolean startingY = true;
+        int hasNextPattern = 0;
+        int nextPattern = 255;
         while (true)
         {
             boolean breaking=false;
             boolean relative = false;
             boolean finished = false;
+            boolean dontAdd = false;
             GFXVector v = new GFXVector();
+            if (hasNextPattern==2)
+            {
+                v.pattern = nextPattern;
+            }
+            hasNextPattern = 0;
             for (String p : patternLineX)
             {
                 if (pos>=data.size())
@@ -371,6 +408,8 @@ public class VeccyInterpreter {
                             if (b >= 128) finished = true;
                         if (lastLinePattern.contains("%+"))
                             if ((b < 128) && (b>0)) finished = true;
+                        if (lastLinePattern.contains("%2"))
+                            if (b == 2) finished = true;
                         if (finished) 
                         {
                             s.append(hex(b)+"\n");
@@ -394,7 +433,136 @@ public class VeccyInterpreter {
                     int xval = data.get(pos++)&0xff;
                     if (xval>127)xval-=256;
                     v.end.x(xval);
-                    
+                }
+                else if (p.equals("CX-"))
+                {
+                    if (startingX)
+                    {
+                        startingX = false;
+                        s.append(hex(data.get(pos))+" ");
+                        lastAbsX = data.get(pos++);
+                        dontAdd = true;
+                        continue;
+                    }
+                    else
+                    {
+                        s.append(hex(data.get(pos)));
+                        if (data.get(pos) == -127)
+                        {
+                            hasNextPattern++;
+                            nextPattern = 0;
+                            saveLastAbsX = lastAbsX;
+                        }
+                        v.start.x(lastAbsX);
+                        lastAbsX = data.get(pos++);
+                        v.end.x(lastAbsX);
+                    }
+                }
+                else if (p.equals("CY-"))
+                {
+                    if (startingY)
+                    {
+                        startingY = false;
+                        s.append(hex(data.get(pos)));
+                        lastAbsY = data.get(pos++);
+                        dontAdd = true;
+                        continue;
+                    }
+                    else
+                    {
+                        if (data.get(pos) == -127)
+                        {
+                            hasNextPattern++;
+                            nextPattern = 0;
+                            saveLastAbsY = lastAbsY;
+                        }
+                        s.append(hex(data.get(pos)));
+                        v.start.y(lastAbsY);
+                        lastAbsY = data.get(pos++);
+                        v.end.y(lastAbsY);
+                    }
+                }
+                else if (p.equals("CX1"))
+                {
+                    if (startingX)
+                    {
+                        startingX = false;
+                        s.append(hex(data.get(pos))+" ");
+                        lastAbsX = data.get(pos++);
+                        dontAdd = true;
+                        continue;
+                    }
+                    else
+                    {
+                        s.append(hex(data.get(pos)));
+                        if (data.get(pos) == -1)
+                        {
+                            hasNextPattern++;
+                            nextPattern = 0;
+                            saveLastAbsX = lastAbsX;
+                        }
+                        v.start.x(lastAbsX);
+                        lastAbsX = data.get(pos++);
+                        v.end.x(lastAbsX);
+                    }
+                }
+                else if (p.equals("CY1"))
+                {
+                    if (startingY)
+                    {
+                        startingY = false;
+                        s.append(hex(data.get(pos)));
+                        lastAbsY = data.get(pos++);
+                        dontAdd = true;
+                        continue;
+                    }
+                    else
+                    {
+                        if (data.get(pos) == -1)
+                        {
+                            hasNextPattern++;
+                            nextPattern = 0;
+                            saveLastAbsY = lastAbsY;
+                        }
+                        s.append(hex(data.get(pos)));
+                        v.start.y(lastAbsY);
+                        lastAbsY = data.get(pos++);
+                        v.end.y(lastAbsY);
+                    }
+                }
+                
+                
+                else if (p.equals("SY"))
+                {
+                    if (!syncMode)
+                    {
+                        relative = true;
+                        s.append(hex(data.get(pos)));
+                        int yval = data.get(pos++)&0xff;
+                        if (yval>127)yval-=256;
+                        v.end.y(yval);
+                    }
+                    else
+                    {
+                        s.append(hex(data.get(pos)));
+                        v.end.y(data.get(pos++));
+                    }
+                }
+                else if (p.equals("SX"))
+                {
+                    if (!syncMode)
+                    {
+                        relative = true;
+                        s.append(hex(data.get(pos)));
+                        int xval = data.get(pos++)&0xff;
+                        if (xval>127)xval-=256;
+                        v.end.x(xval);
+                    }
+                    else
+                    {
+                        s.append(hex(data.get(pos)));
+                        v.end.x(data.get(pos++));
+                    }
                 }
                 else if (p.equals("Y0"))
                 {
@@ -447,62 +615,31 @@ public class VeccyInterpreter {
                         break;
                     }
                 }
-                /*
-                else if (p.equals("S")) // sync byte pattern 
+				
+                else if (p.equals("S"))
                 {
-                    int mode = data.get(pos++)&0xff;
-                    if (mode == 0)
+                    int sPattern = data.get(pos++)&0xff;
+                    if (sPattern != 1) // same as "P"
                     {
-                        s.append(hex(mode));
-                        v.pattern = 0;
+                        s.append(hex(sPattern));
+                        v.pattern = sPattern;
+                        syncMode = false;
                     }
-                    else if (mode == 255)
+                    else
                     {
-                        s.append(hex(mode));
-                        v.pattern = 255;
-                    }
-                    else if (mode == 1)
-                    {
-                        // ignore lines till pattern = 255
-                        int lineSize = patternLineX.length;
-                        s.append(hex(mode)+"i");
-                        s.append(" ");
-
-                        while (!breaking)
-                        {
-                            for (int i=0; i<lineSize-1; i++)
-                            {
-                                s.append(hex(data.get(pos++)&0xff)+"i");
-                                s.append(" ");
-                            }
-                                s.append("\n");
-                            if (pos>=data.size())
-                            {
-                                breaking = true;
-                                break;
-                            }
-                            mode = data.get(pos++)&0xff;
-                            if (mode == 255)
-                            {
-                                s.append(hex(mode));
-                                break;
-                            }
-                            else
-                            {
-                                s.append(hex(mode)+"i");
-                                s.append(" ");
-                            }
-                        }
-                    }
-                    else if (mode == 2)
-                    {
-                        s.append(hex(mode));
-                        finished = true;
-                        s.append("\n");
-                        break;
+                        syncMode = true;
+                        // sync, that means a vector with absolut 0,0 as start and the given coordinates as end!
+                        s.append(hex(sPattern)+" ");
+                        v.pattern = 0; // move
+                        s.append(hex(0)+" ");
+                        v.start.y(0);
+                        s.append(hex(0));
+                        v.start.x(0);
                     }
                 }
-                */
+				
+				
+                
                 s.append(" ");
             }
             s.append("\n");
@@ -528,8 +665,21 @@ public class VeccyInterpreter {
                     v.end.y(v.end.y() + v.start.y());
                 }
             }
+            if (hasNextPattern == 2)
+            {
+                lastAbsY = saveLastAbsY;
+                lastAbsX = saveLastAbsX;
+                dontAdd = true;
+            }
             
-            vl.add(v);
+            if (!dontAdd)
+            {
+                vl.add(v);
+            }
+            else
+            {
+                dontAdd = false;
+            }
             count--;
             if (count == -1) break; // if no count was available, this break never takes of! This is intended!
             if (pos>=data.size()) break;

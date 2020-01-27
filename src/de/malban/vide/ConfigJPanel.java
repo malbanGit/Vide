@@ -246,6 +246,8 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jCheckBoxDeepSyntaxCheck.setSelected(config.deepSyntaxCheck);
         jTextField18.setText(""+config.deepSyntaxCheckTiming);
         
+        jCheckBoxColorMode.setSelected(config.vectrexColorMode);
+                
         jCheckBoxDeepSyntaxThresholdActive.setSelected(config.deepSyntaxCheckThresholdActive);
         jTextField19.setText(""+config.deepSyntaxCheckThreshold);
 
@@ -573,6 +575,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jCheckBox49 = new javax.swing.JCheckBox();
         jCheckBox44 = new javax.swing.JCheckBox();
         jCheckBox67 = new javax.swing.JCheckBox();
+        jCheckBoxColorMode = new javax.swing.JCheckBox();
         jPanel19 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jSliderRampOff = new javax.swing.JSlider();
@@ -1321,6 +1324,13 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBoxColorMode.setText("Jason color mode");
+        jCheckBoxColorMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxColorModeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
         jPanel20Layout.setHorizontalGroup(
@@ -1369,7 +1379,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                                 .addGap(167, 167, 167))
                             .addGroup(jPanel20Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jCheckBox67, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBoxColorMode, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBox67, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel20Layout.setVerticalGroup(
@@ -1402,7 +1414,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox49)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox49)
+                    .addComponent(jCheckBoxColorMode))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox44)
@@ -7667,6 +7681,10 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField7ActionPerformed
 
+    private void jCheckBoxColorModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxColorModeActionPerformed
+        config.vectrexColorMode = jCheckBoxColorMode.isSelected();
+    }//GEN-LAST:event_jCheckBoxColorModeActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -7791,6 +7809,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JCheckBox jCheckBoxAutoSync;
+    private javax.swing.JCheckBox jCheckBoxColorMode;
     private javax.swing.JCheckBox jCheckBoxDeepSyntaxCheck;
     private javax.swing.JCheckBox jCheckBoxDeepSyntaxThresholdActive;
     private javax.swing.JCheckBox jCheckBoxEfficiency;

@@ -13,7 +13,6 @@ import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.vide.vecx.VecXPanel;
-import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -254,7 +253,7 @@ public class DissiFullPanel extends javax.swing.JPanel  implements
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        String text = dissiPanel1.dis(jTextFieldTileFile.getText(), de.malban.util.UtilityString.Int0(jTextField1.getText()));
+        String text = dissiPanel1.disFull(jTextFieldTileFile.getText(), de.malban.util.UtilityString.Int0(jTextField1.getText()),jCheckBox3.isSelected(), jCheckBox4.isSelected());
         jTextArea1.setText(text);
         dissiPanel1.correctModel();
     }//GEN-LAST:event_jButton1ActionPerformed

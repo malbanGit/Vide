@@ -9,6 +9,7 @@ import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.cartridge.resid.SID.State;
 import de.malban.vide.vecx.devices.Imager3dDevice;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,6 +17,7 @@ import java.io.Serializable;
  */
 public class CompleteState implements Serializable
 {
+    Object additional = null;
     int[] rom=null;
     Cartridge cart=null;
     String romPath = "";

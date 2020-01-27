@@ -19,15 +19,12 @@ import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.cartridge.DS2430A;
 import de.malban.vide.vecx.cartridge.DS2431;
 import de.malban.vide.vecx.cartridge.Microchip11AA010;
-import de.malban.vide.vecx.cartridge.VSID;
 import de.malban.vide.vecx.cartridge.resid.SID.State;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 

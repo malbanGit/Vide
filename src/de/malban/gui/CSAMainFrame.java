@@ -31,6 +31,7 @@ import de.malban.vide.vecx.panels.BreakpointJPanel;
 import de.malban.vide.ConfigJPanel;
 import de.malban.vide.VideConfig;
 import de.malban.vide.codi.CodeLibraryPanel;
+import de.malban.vide.dissy.DissiFullPanel;
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.panels.LabelJPanel;
 import de.malban.vide.vecx.panels.MemoryDumpPanel;
@@ -253,7 +254,7 @@ this.setIconImages(images);
         jMenuItem15.setVisible(false);
 //jMenuItem5.setVisible(false);
 jCheckBoxMenuItem1.setVisible(false);
-        jMenuItemDissy.setVisible(false);
+//        jMenuItemDissy.setVisible(false);
         jMenuItemAssi.setVisible(false);
         mainPanel.removeAll();
         mainPanel.setLayout(new java.awt.BorderLayout());
@@ -516,7 +517,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         toolsMenu.add(jMenuItemVeccy);
 
-        jMenuItemDissy.setText("Dissi");
+        jMenuItemDissy.setText("Dissi (standalone)");
         jMenuItemDissy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemDissyActionPerformed(evt);
@@ -777,13 +778,16 @@ jCheckBoxMenuItem1.setVisible(false);
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItemDissyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDissyActionPerformed
-        Windowable p = getDissi();
+        Windowable p = new DissiFullPanel();
+        addAsWindow(p, 800, 600, "Dissi Standalone  Window");
+        /*
         CSAInternalFrame frame = getInternalFrame(p);
         try
         {
             if (frame.isIcon()) frame.setIcon(false);
         }
         catch (Throwable ex) { }
+        */
     }//GEN-LAST:event_jMenuItemDissyActionPerformed
 
     private void jMenuItemAssiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAssiActionPerformed
@@ -3422,6 +3426,7 @@ getMainPanel().remove(starter);
         CSAInternalFrame frame = new CSAInternalFrame();
         frame.addPanel((JPanel)p);
         frame.setSize(w, h);
+        frame.setPreferredSize(new Dimension(w, h));
         if (!fullDesktopDefault)
             frame.setIconifiable(true);
         

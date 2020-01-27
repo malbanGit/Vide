@@ -14,6 +14,7 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
+import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.vecx.devices.VecSpeechDevice;
 import de.malban.vide.vecx.devices.VecVoiceSamples;
 import de.malban.vide.vecx.devices.VecVoiceSamples.SP0256AL;
@@ -571,6 +572,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
     }//GEN-LAST:event_jCheckBoxAutoPauseActionPerformed
 
     private void jTextAreaInputTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextAreaInputTextKeyReleased
+
         doIt();
     }//GEN-LAST:event_jTextAreaInputTextKeyReleased
 
@@ -643,6 +645,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void jCheckBoxPhrasealatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPhrasealatorActionPerformed
+        loadPhrases();
         doIt();
     }//GEN-LAST:event_jCheckBoxPhrasealatorActionPerformed
 
@@ -746,9 +749,17 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
     {
         String unescape = de.malban.util.UtilityString.replace(mnemonic, "\\", "");
         HashMap<String, String> codeMap = VecVoiceSamples.getCodeMap();
+        if (de.malban.util.UtilityString.isDecNumber(unescape))
+        {
+            return unescape;
+        }
         
         String code = codeMap.get(unescape);
-        if (code == null) return "ERROR";
+        if (code == null) 
+        {
+            return "ERROR";
+        }
+
         int pos = code.indexOf(" x ");
         if (pos != -1)
         {
@@ -832,6 +843,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
     HashMap<String, String> phrasealatorMap = new HashMap<String, String>();
     boolean loadPhrases()
     {
+        if (!jCheckBoxPhrasealator.isSelected()) return true;
         phrasealatorMap = new HashMap<String, String>();
         try
         {
@@ -925,6 +937,8 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
             // check "escapes"
             if (phrase.startsWith("\\"))
             {
+                if (phrase.startsWith("\\$"))
+                    phrase = unhex(phrase);
                 out.add(phrase);
                 continue;
             }
@@ -974,6 +988,8 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
             // check "escapes"
             if (phrase.startsWith("\\"))
             {
+                if (phrase.startsWith("\\$"))
+                    phrase = unhex(phrase);
                 out.add(phrase);
                 continue;
             }
@@ -1005,6 +1021,13 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
         }
         out.add("\\VOX_TERM");
         return out;
+    }
+    String unhex(String phrase)
+    {
+        String ret = "\\";
+        String work = phrase.substring(1);
+        ret = ret + DASM6809.toNumber(work);
+        return ret;
     }
 
     boolean containsLowerCase(String l)

@@ -376,7 +376,13 @@ public class UtilityFiles
     {
         File file = new File(filename);
         long len = file.length();
-        if (len>=upTo) return false;
+        
+        if (len>upTo) return false;
+        if (len==upTo)
+        {
+            copyOneFile(filename, filename+".fil");
+            return true;
+        }
         copyOneFile(filename, filename+".fil");
         byte[] filler = new byte[(int)(upTo-len)];
         for (int i=0;i<upTo-len;i++) filler[i]=fillerByte;

@@ -143,4 +143,15 @@ public class SystemController
         }
         return null;
     }
+    
+    public static Controller getControllerReload(String name)
+    {
+        getCurrentControllers();
+        if (foundControllers == null) return null;
+        for (Controller c: foundControllers)
+        {
+            if (c.getName().equals(name)) return c;
+        }
+        return null;
+    }
 }

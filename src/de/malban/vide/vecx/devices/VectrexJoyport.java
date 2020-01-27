@@ -7,15 +7,14 @@ package de.malban.vide.vecx.devices;
 
 import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.VecX;
-import de.malban.vide.vecx.VecXPanel;
 import static de.malban.vide.vecx.VecXStatics.JOYSTICK_CENTER;
-import de.malban.vide.vecx.devices.JoyportDevice;
+import java.io.Serializable;
 
 /**
  *
  * @author malban
  */
-public class VectrexJoyport 
+public class VectrexJoyport  implements Serializable
 {
     
     int port = 0;
@@ -86,6 +85,7 @@ public class VectrexJoyport
         d.setJoyport(this);
         device = d;
         setInputMode(inputMode);
+        
     }
     
     public void step()

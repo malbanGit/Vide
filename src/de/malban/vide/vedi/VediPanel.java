@@ -192,6 +192,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             if (column == 0) return "line";
             if (column == 1) return "name";
             if (column == 2) return "type";
+          
             return "";
         }
         public Class<?> getColumnClass(int col) {
@@ -1172,8 +1173,8 @@ class TransferableTreeNode implements Transferable {
             }
         }
         
-        
-        EditorPanel edi = new EditorPanel(fullPathname, this, UID);
+
+        EditorPanel edi = new EditorPanel(de.malban.util.Utility.makeVideAbsolute(fullPathname), this, UID);
         edi.setMinimumSize(new Dimension(5,5));
         edi.setAddToSettings(addToSettings);
         if (edi.isInitError()) return null;
@@ -1185,7 +1186,7 @@ class TransferableTreeNode implements Transferable {
         edi.addEditorListener(this);
         jLabel5.setText("");
         if (addToSettings)
-            settings.addOpen(fullPathname,pos);
+            settings.addOpen(de.malban.util.Utility.makeVideAbsolute(fullPathname),pos);
         edi.setParent(this);
         if (pos != 0)
         {
@@ -3554,6 +3555,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             possibleProject = entry.pathAndName.toString();
         }
         else if ( 
+             (entry.name.toLowerCase().endsWith(".md")) ||
              (entry.name.toLowerCase().endsWith(".diz")) ||
              (entry.name.toLowerCase().endsWith(".doc")) ||
              (entry.name.toLowerCase().endsWith(".cc")) ||
@@ -3616,11 +3618,11 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             {
                 if (rowReal != row)
                 {
-                    jMenuItemModi.setEnabled(false);
-                    jMenuItemYM.setEnabled(false);
-                    jMenuItemASFX.setEnabled(false);
-                    jMenuItemRaster.setEnabled(false);
-                    jMenuItemVector.setEnabled(false);
+//                    jMenuItemModi.setEnabled(false);
+//                    jMenuItemYM.setEnabled(false);
+//                    jMenuItemASFX.setEnabled(false);
+//                    jMenuItemRaster.setEnabled(false);
+//                    jMenuItemVector.setEnabled(false);
                     jPopupMenuTree.show(evt.getComponent(), evt.getX(),evt.getY());
                     selectedTreeEntry = null;
 
@@ -3653,7 +3655,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             jMenuItemModi.setEnabled(te.name.toLowerCase().endsWith(".mod"));
           //  jMenuItemModi.setEnabled(true);
             jMenuItemYM.setEnabled(te.name.toLowerCase().endsWith(".ym"));
-            jMenuItemYM.setEnabled(te.name.toLowerCase().endsWith(".afx"));
+//            jMenuItemYM.setEnabled(te.name.toLowerCase().endsWith(".afx"));
 //            jMenuItemYM.setEnabled(true);
             jMenuItemASFX.setEnabled(te.name.toLowerCase().endsWith(".afx"));
             jMenuItemAKS.setEnabled(te.name.toLowerCase().endsWith(".bin"));
@@ -7550,8 +7552,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 String newFilename = de.malban.util.Utility.makeVideAbsolute(cart.getFullFilename().elementAt(0).substring(0,cart.getFullFilename().elementAt(0).length()-1-4));
                 String n1 = de.malban.util.Utility.makeVideAbsolute(cart.getFullFilename().elementAt(0));
                 String n2 = de.malban.util.Utility.makeVideAbsolute(cart.getFullFilename().elementAt(1));
-                de.malban.util.UtilityFiles.padFile(n1, (byte)0, memSize);
-                de.malban.util.UtilityFiles.padFile(n2, (byte)0, memSize);
+                de.malban.util.UtilityFiles.padFile(n1, (byte)0xff, memSize);
+                de.malban.util.UtilityFiles.padFile(n2, (byte)0xff, memSize);
                 n1 += ".fil";
                 n2 += ".fil";
                 de.malban.util.UtilityFiles.concatFiles(n1, n2);
@@ -7568,10 +7570,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 String n2 = de.malban.util.Utility.makeVideAbsolute(cart.getFullFilename().elementAt(1));
                 String n3 = de.malban.util.Utility.makeVideAbsolute(cart.getFullFilename().elementAt(2));
                 String n4 = de.malban.util.Utility.makeVideAbsolute(cart.getFullFilename().elementAt(3));
-                de.malban.util.UtilityFiles.padFile(n1, (byte)0, memSize);
-                de.malban.util.UtilityFiles.padFile(n2, (byte)0, memSize);
-                de.malban.util.UtilityFiles.padFile(n3, (byte)0, memSize);
-                de.malban.util.UtilityFiles.padFile(n4, (byte)0, memSize);
+                de.malban.util.UtilityFiles.padFile(n1, (byte)0xff, memSize);
+                de.malban.util.UtilityFiles.padFile(n2, (byte)0xff, memSize);
+                de.malban.util.UtilityFiles.padFile(n3, (byte)0xff, memSize);
+                de.malban.util.UtilityFiles.padFile(n4, (byte)0xff, memSize);
                 n1 += ".fil";
                 n2 += ".fil";
                 n3 += ".fil";
@@ -7765,7 +7767,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     EntityDefinition entity = (EntityDefinition) entry.getValue();
                     if (entity.getCFile()!=null)
                     {
-                        if (!entity.getCFile().toString().equals(filename)) 
+                        if (!entity.getCFile().toString().toLowerCase().equals(filename.toLowerCase())) 
                             continue;
                     }
                     boolean add = false;
@@ -7802,12 +7804,12 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     EntityDefinition entity = (EntityDefinition) entry.getValue();
                     if (entity.getCFile()!=null)
                     {
-                        if (!entity.getCFile().toString().equals(filename)) 
+                        if (!entity.getCFile().toString().toLowerCase().equals(filename.toLowerCase())) 
                             continue;
                     }
                     else
                     {
-                        if (!entity.getFile().toString().equals(filename)) 
+                        if (!entity.getFile().toString().toLowerCase().equals(filename.toLowerCase())) 
                             continue;
                     }
                     boolean add = false;
@@ -7842,12 +7844,12 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 
                         if (entity.getCFile()!=null)
                         {
-                            if (!entity.getCFile().toString().equals(filename)) 
+                            if (!entity.getCFile().toString().toLowerCase().equals(filename.toLowerCase())) 
                                 continue;
                         }
                         else
                         {
-                            if (!entity.getFile().toString().equals(filename)) 
+                            if (!entity.getFile().toString().toLowerCase().equals(filename.toLowerCase())) 
                                 continue;
                         }
                         
@@ -9951,8 +9953,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         allOptions.add("libgcov.a");
         allOptions.add("-l");
         allOptions.add("as-libgcc.a");
-        allOptions.add("-l");
-        allOptions.add("libgcc.a");
+//        allOptions.add("-l");
+//        allOptions.add("libgcc.a");
         allOptions.add(additional1);
         for (String additional21 : additional2) allOptions.add(additional21);
         for (String additional31 : additional3) allOptions.add(additional31);

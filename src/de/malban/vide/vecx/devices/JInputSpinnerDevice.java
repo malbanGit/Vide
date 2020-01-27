@@ -114,8 +114,11 @@ public class JInputSpinnerDevice  extends AbstractDevice implements ControllerLi
             if (moveDirection==NONE) ;//out = 0;
             if (moveDirection==RIGHT) out = pinMoveRight[out];
             if (moveDirection==LEFT) out = pinMoveLeft[out];
-            joyport.setButton1(!((out&0x01)==0x01), true);
-            joyport.setButton2(!((out&0x02)==0x02), true);
+            if (joyportIsInOutputMode)
+            {
+                joyport.setButton1(!((out&0x01)==0x01), true);
+                joyport.setButton2(!((out&0x02)==0x02), true);
+            }
         }
     }
     

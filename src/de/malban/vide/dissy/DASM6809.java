@@ -1420,7 +1420,11 @@ public class DASM6809 extends DASMStatics {
         memInfo.reset();
         
 
-        if ((memInfo.disType != MemoryInformation.DIS_TYPE_UNKOWN) && (memInfo.disType != MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_GENERAL) )
+        if (
+                   (memInfo.disType != MemoryInformation.DIS_TYPE_UNKOWN) 
+                && (memInfo.disType != MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_GENERAL) 
+                && (memInfo.disType != MemoryInformation.DIS_TYPE_CODE) 
+                && (memInfo.disType != MemoryInformation.DIS_TYPE_LOADED)) 
             return "Memory location known, not disassembled again.";
 
         memInfo.hexDump = DEF.hexPrefix+String.format("%02X", opcode);
@@ -1803,73 +1807,82 @@ public class DASM6809 extends DASMStatics {
     }
     public String disassemble(byte[] data, int romStartAddress, int disassemblyStartAddress, boolean assumeVectrexModule, int bank)
     {
-        
-        String biosName = null;
-        if (new File (config.usedSystemRom).exists())
-        {
-            biosName = new File (config.usedSystemRom).getName();
-        }
-        if (biosName == null)
-        {
-            biosName = "system.img";
-        }
-        
-        String biosNameOnly = biosName.substring(0, biosName.indexOf("."));
-        
+        return disassemble(data, romStartAddress, disassemblyStartAddress, assumeVectrexModule, 0, false);
+    }
+    public String disassemble(byte[] data, int romStartAddress, int disassemblyStartAddress, boolean assumeVectrexModule, int bank, boolean fullMode)
+    {
         myMemory.setBank(bank, true);
         currentCNTScanBank = bank;
-        if (assumeVectrexModule)
+        if (!fullMode)
         {
-            boolean tmp = createLabels;
-            createLabels = false; // stupid labels may be generated, since some data is perhaps dissed
-            try
+            String biosName = null;
+            String tmpFile = de.malban.util.UtilityFiles.convertSeperator(Global.mainPathPrefix+config.usedSystemRom);
+            if (new File (tmpFile).exists())
             {
-                if (config.lstFirst)
+                biosName = new File (tmpFile).getName();
+            }
+            if (biosName == null)
+            {
+                biosName = "system.img";
+            }
+
+            String biosNameOnly = biosName.substring(0, biosName.indexOf("."));
+            
+            
+            if (assumeVectrexModule)
+            {
+                boolean tmp = createLabels;
+                createLabels = false; // stupid labels may be generated, since some data is perhaps dissed
+                try
                 {
-                    boolean done = readLSTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".lst", true);
-                    if (!done)
-                        readCNTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".cnt");
+                    if (config.lstFirst)
+                    {
+                        boolean done = readLSTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".lst", true);
+                        if (!done)
+                            readCNTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".cnt");
+                    }
+                    else 
+                    {
+                        boolean done = readCNTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".cnt");
+                        if (!done)
+                            readLSTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".lst", true);
+                    }
+
+                    Path path = Paths.get(Global.mainPathPrefix+"system"+File.separator+biosName);
+                    byte[] biosData = Files.readAllBytes(path);
+                    disassemble(biosData,0xe000, 0xe000, false, bank);
                 }
-                else 
+                catch (Throwable e)
                 {
-                    boolean done = readCNTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".cnt");
-                    if (!done)
-                        readLSTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".lst", true);
+                    log.addLog("An error occured while loading vectrex bios files.", WARN);
+                    log.addLog("Disassembly will continue without additional BIOS information!", WARN);
+                    log.addLog(de.malban.util.Utility.getStackTrace(e), WARN);
                 }
-                
-                Path path = Paths.get(Global.mainPathPrefix+"system"+File.separator+biosName);
-                byte[] biosData = Files.readAllBytes(path);
-                disassemble(biosData,0xe000, 0xe000, false, bank);
+                createLabels = tmp;
+                for (int m= 0xc800; m<= 0xcbff; m++)
+                {
+                    // todo: fixme 
+                    // special cards like spekturm...
+                    myMemory.memMap.get(m).memType = MEM_TYPE_RAM;
+                }
+                for (int m= 0xD000; m<= 0xD7FF; m++)
+                {
+                    myMemory.memMap.get(m).memType = MEM_TYPE_IO;
+                }
+                for (int m= 0xD800; m<= 0xDFFF; m++)
+                {
+                    myMemory.memMap.get(m).memType = MEM_TYPE_BAD;
+                }
             }
-            catch (Throwable e)
-            {
-                log.addLog("An error occured while loading vectrex bios files.", WARN);
-                log.addLog("Disassembly will continue without additional BIOS information!", WARN);
-                log.addLog(de.malban.util.Utility.getStackTrace(e), WARN);
-            }
-            createLabels = tmp;
-            for (int m= 0xc800; m<= 0xcbff; m++)
-            {
-                // todo: fixme 
-                // special cards like spekturm...
-                myMemory.memMap.get(m).memType = MEM_TYPE_RAM;
-            }
-            for (int m= 0xD000; m<= 0xD7FF; m++)
-            {
-                myMemory.memMap.get(m).memType = MEM_TYPE_IO;
-            }
-            for (int m= 0xD800; m<= 0xDFFF; m++)
-            {
-                myMemory.memMap.get(m).memType = MEM_TYPE_BAD;
-            }
+
+            if (data == null) return "";
+
         }
         
-        if (data == null) return "";
-        
+
         
         // Changed fpr 48k
         int len = data.length;
-//        if (len > 32768) len = 32768;
         if (len > 49152) len = 49152;
         
         
@@ -1890,12 +1903,13 @@ public class DASM6809 extends DASMStatics {
             disassemblyStartAddress = processVectrexHeader();
             if (disassemblyStartAddress==-1) return "";
         }
-
-        doAllKnownMemoryLocations(romStartAddress, romStartAddress+len);
+        if (!fullMode)
+            doAllKnownMemoryLocations(romStartAddress, romStartAddress+len);
         // known memeory locations done
         
         for (int i=disassemblyStartAddress; i< romStartAddress+len; )
         {
+          
             // CHECK Whether current adress should be disassembled
             // or  be printed as data!
             MemoryInformation info = myMemory.memMap.get(i);
@@ -1938,6 +1952,11 @@ public class DASM6809 extends DASMStatics {
             MemoryInformation info = myMemory.memMap.get(i);
             
             if (info.disType == MemoryInformation.DIS_TYPE_UNKOWN)
+            {
+                i += 1;
+                continue;
+            }
+            if (info.disType == MemoryInformation.DIS_TYPE_LOADED)
             {
                 i += 1;
                 continue;
@@ -2044,10 +2063,6 @@ public class DASM6809 extends DASMStatics {
                     myMemory.memMap.get(word).labels.add("_"+String.format("%04X", word));
                     info.disassembledMnemonic = "DW";
                     info.disassembledOperand = myMemory.memMap.get(word).labels.get(0);
-                    
-                    
-//                    info.disassembledMnemonic = "DW";
-//                    info.disassembledOperand = DEF.hexPrefix+String.format("%04X", word);
                 }
                 // disMax not done for word yet 
                 // todo fixme!
@@ -2096,7 +2111,7 @@ public class DASM6809 extends DASMStatics {
                         orgInfo.disassembledOperand += DEF.hexPrefix+"00";
                         break;
                     }
-                    else if ((info.content&0x80) == 0x80)
+                    else if ((info.content&0xff) == 0x80)
                     {
                         orgInfo.disassembledOperand += "\"";
                         mustClose = false;
@@ -2121,7 +2136,7 @@ public class DASM6809 extends DASMStatics {
                 
                 if (orgInfo.length<orgInfo.disTypeCollectionMax)
                 {
-                    if ((myMemory.memMap.get(i+orgInfo.length).content & 0x80) == 0x80)
+                    if ((myMemory.memMap.get(i+orgInfo.length).content & 0xff) == 0x80)
                     {
                         myMemory.memMap.get(i+orgInfo.length).done = true;
                         orgInfo.disassembledOperand += ", "+DEF.hexPrefix+String.format("%02X", (myMemory.memMap.get(i+orgInfo.length).content&0xff));
@@ -2579,6 +2594,7 @@ public class DASM6809 extends DASMStatics {
             {
                 MemoryInformation info = myMemory.buildMemInfo(i);
                 info.disType = MemoryInformation.DIS_TYPE_UNKOWN; // will be disassaembled!
+                info.disType = MemoryInformation.DIS_TYPE_CODE; // will be disassaembled!
                 info.typeWasSet = true;
             }
             if (type.trim().toUpperCase().equals("DP"))

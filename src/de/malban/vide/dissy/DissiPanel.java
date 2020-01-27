@@ -2095,6 +2095,192 @@ public class DissiPanel extends javax.swing.JPanel  implements
         while (posNow++<upTo) s.append(" ");
         return posNow;
     }
+    void outputBIOS()
+    {
+        if (currentDissi.loadedName==null) return;
+        if (currentDissi.loadedName.trim().length()==0) return;
+        
+        {
+            StringBuilder s = new StringBuilder();
+            int start = 0xf000;
+            int end = 0xffff;
+            ArrayList<String> comments;
+            ArrayList<String> labels;
+            HashMap<String, String> doneLabels = new HashMap<String, String>();
+            int dp = 0;
+            int brokenLength = 0;
+            boolean breakable = false;
+            int c = 0;
+            spaceTo(s, c, TAB_MNEMONIC);
+            s.append(" noopt ").append("\n");
+
+            for (int m = start; m<end; )
+            {
+                /*
+                if (m==0x0765)
+                    System.out.println("");
+                */
+                breakable = false;
+                c = 0;
+                MemoryInformation memInfo = getMemory().memMap.get(m);
+                int length = memInfo.length;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_BINARY) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_BYTE) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_CHAR) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_WORD) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_WORD_POINTER) breakable = true;
+
+                if (memInfo.directPageAddress != dp)
+                {
+                    dp = memInfo.directPageAddress;
+                    spaceTo(s, c, TAB_MNEMONIC);
+                    s.append("direct $").append(String.format("%02X",((byte)memInfo.directPageAddress)) ).append("\n");
+                    c=0;
+                }
+                if (memInfo.memType == MEM_TYPE_ROM)
+                {
+                    if (memInfo.disType == DIS_TYPE_UNKOWN) 
+                    {
+                        m++;
+                        continue;
+                    }
+                    comments = memInfo.comments;
+                    labels = memInfo.labels;
+                    if (comments.size()>1)
+                    {
+                        for (int i=1; i<comments.size(); i++)
+                        {
+                            s.append("; ").append(comments.get(i)).append("\n");
+                        }
+                    }
+                    if (labels.size()>0)
+                    {
+                        for (int i=0; i<labels.size(); i++)
+                        {
+                            s.append(labels.get(i)).append(":\n");
+                            doneLabels.put(labels.get(i), labels.get(i));
+                        }
+                    }
+
+                    c=spaceTo(s, c, TAB_MNEMONIC);
+                    s.append(memInfo.disassembledMnemonic);
+                    c+=memInfo.disassembledMnemonic.length();
+
+                    c=spaceTo(s, c, TAB_OP);
+                    s.append(memInfo.disassembledOperand);
+                    c+=memInfo.disassembledOperand.length();
+
+                    if (comments.size()>0)
+                    {
+                        spaceTo(s, c, TAB_COMMENT);
+                        String cc = comments.get(0);
+                        s.append("; ").append(cc);
+                        if (!cc.endsWith("\n"))
+                            s.append("\n");
+                    }
+                    else
+                    {
+                        s.append("\n");
+                    }
+                    m+=length;
+                    if (length==0) m++;
+                }
+                else
+                {
+                    m++;
+                }
+            }
+            StringBuilder s2 = new StringBuilder();
+            for (int m = 0; m<65536; m++)
+            {
+                MemoryInformation memInfo = getMemory().memMap.get(m);
+                labels = memInfo.labels;
+                if (labels.size()>0)
+                {
+                    for (int i=0; i<labels.size(); i++)
+                    {
+                        if (doneLabels.get(labels.get(i)) == null)
+                        {
+                            c=0;
+                            doneLabels.put(labels.get(i), labels.get(i));
+                            s2.append(labels.get(i));
+                            c+=labels.get(i).length();
+                            c=spaceTo(s2, c, TAB_EQU);
+                            s2.append("EQU");
+                            c+=3;
+                            spaceTo(s2, c, TAB_EQU_VALUE);
+                            s2.append(String.format("$%04X",memInfo.address )).append("\n");
+                        }
+                    }
+                }
+                labels = memInfo.immediateLabels;
+                if (labels.size()>0)
+                {
+                    for (int i=0; i<labels.size(); i++)
+                    {
+                        if (doneLabels.get(labels.get(i)) == null)
+                        {
+                            c=0;
+                            doneLabels.put(labels.get(i), labels.get(i));
+                            s2.append(labels.get(i));
+                            c+=labels.get(i).length();
+                            c=spaceTo(s2, c, TAB_EQU);
+                            s2.append("EQU");
+                            c+=3;
+                            spaceTo(s2, c, TAB_EQU_VALUE);
+                            s2.append(String.format("$%04X",memInfo.address )).append("\n");
+                        }
+
+                    }
+                }
+                // and all direct labels!
+                Iterator it = getMemory().directLabels.entrySet().iterator();
+                while (it.hasNext()) 
+                {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    int directPageHi = (Integer) pair.getKey();
+                    HashMap<Integer, MemoryInformation> entries = (HashMap<Integer, MemoryInformation>) pair.getValue();
+
+                    Iterator it2 = entries.entrySet().iterator();
+                    while (it2.hasNext()) 
+                    {
+                        Map.Entry pair2 = (Map.Entry)it2.next();
+                        int directPageLo = (Integer) pair2.getKey();
+                        String directLabel = (String)pair2.getValue();
+                        if (doneLabels.get(directLabel) == null)
+                        {
+                            int value = directPageHi*256+directPageLo;
+                            c=0;
+                            doneLabels.put(directLabel, directLabel);
+                            s2.append(directLabel);
+                            c+=directLabel.length();
+                            c=spaceTo(s2, c, TAB_EQU);
+                            s2.append("EQU");
+                            c+=3;
+                            spaceTo(s2, c, TAB_EQU_VALUE);
+                            s2.append(String.format("$%04X",value )).append("  ; DP accessed\n");
+                        }
+                    }
+                }
+            }
+            s2.append(s);
+            try
+            {
+                String name = currentDissi.loadedName;
+                int li = name.lastIndexOf(".");
+                if (li<0) return;
+                name = name.substring(0,li)+".dasm.asm";
+                PrintWriter out = new PrintWriter(name);
+                out.println(s2.toString());
+                out.close();
+                printMessage("DASM output saved to \""+name+"\"", MESSAGE_INFO);
+            }
+            catch (Throwable e)
+            {
+                printMessage("Error saving DASM file...", MESSAGE_ERR);
+            }        
+        }
+    }
     void outputDASM()
     {
         if (currentDissi.loadedName==null) return;
@@ -2479,8 +2665,13 @@ public class DissiPanel extends javax.swing.JPanel  implements
     private void jButtonDASMOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDASMOutputActionPerformed
         if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
             outputDASMShort();
+        if ((evt != null ) && ((evt.getModifiers() & CTRL_MASK) == CTRL_MASK))
+            outputBIOS();
         else
             outputDASM();
+        
+        
+        
 
     }//GEN-LAST:event_jButtonDASMOutputActionPerformed
 
@@ -3159,6 +3350,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
         int end = 0;
         int start = -1;
         int lastCollection = -1;
+        
+        // first reset "all" data
         for (int row: selected)
         {
             MemoryInformation memInfo = model.getValueAt(row);
@@ -3413,17 +3606,47 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
         
     }
-    
+    boolean fullMode = false;
     // depricated - dont use!
-    String dis(String name, int startAddress)
+    String disFull(String name, int startAddress, boolean assumeVectrex, boolean createUnkownLabels)
     {
+        fullMode = false;
+        currentDissi.dasm.setCreateLabels(config.createUnkownLabels);
+        String ret = "";
         currentDissi.init = false;
         currentDissi.dasm.reset();
         currentDissi.loadedName = name;
         Path path = Paths.get(name);
      
         handleCodeScan();
+        try
+        {
+            byte[] data = Files.readAllBytes(path);
+            
+            ret = currentDissi.dasm.disassemble(data,startAddress, startAddress, assumeVectrex, 0, true);
+        }
+        catch (Throwable e)
+        {
+            System.out.println(de.malban.util.Utility.getStackTrace(e));
+        }
+        
+        correctModel();
+        correctTableWatch();
+        currentDissi.init = true;
+        fullMode = false;
+        fullMode = true;
+        return  ret;
+    }
+    String dis(String name, int startAddress)
+    {
+        fullMode = false;
 
+        currentDissi.init = false;
+        currentDissi.dasm.reset();
+        currentDissi.loadedName = name;
+        Path path = Paths.get(name);
+     
+        handleCodeScan();
         if (config.lstFirst)
         {
             if (!currentDissi.dasm.tryLoadList(name))

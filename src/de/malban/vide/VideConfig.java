@@ -286,6 +286,7 @@ class ConfigStatic2 implements Serializable
    public Color cLinesBack  = new Color(100,100,255);
    public Color cLsinesBack  = new Color(100,100,255);
 
+   public boolean vectrexColorMode = false; 
    public boolean displayModeWriting = true;
 
 }
@@ -329,6 +330,7 @@ public class VideConfig  implements Serializable{
     public boolean codeScanActive = false;
     public boolean ringbufferActive = false;
     public boolean displayModeWriting = true;
+    public boolean vectrexColorMode = false;
 
     public String usedSystemRom="system"+File.separator+"FASTBOOT.IMG";
     public double drift_x = .09; // resolution 0.01
@@ -1221,6 +1223,8 @@ public class VideConfig  implements Serializable{
         to.cLinesFore = from.cLinesFore;
         to.cLsinesBack = from.cLsinesBack;
         to.displayModeWriting = from.displayModeWriting;
+        to.vectrexColorMode = from.vectrexColorMode;
+        
     }
     private void copyFromConfigToStatic(VideConfig from, ConfigStatic2 to)
     {
@@ -1228,6 +1232,7 @@ public class VideConfig  implements Serializable{
         to.cLinesFore = from.cLinesFore;
         to.cLsinesBack = from.cLsinesBack;
         to.displayModeWriting = from.displayModeWriting;
+        to.vectrexColorMode = from.vectrexColorMode;
     }
     
     public static File[] getConfigs()

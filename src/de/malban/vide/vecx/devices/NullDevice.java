@@ -7,12 +7,13 @@ package de.malban.vide.vecx.devices;
 
 import de.malban.vide.vecx.VecX;
 import static de.malban.vide.vecx.VecXPanel.DEVICE_NULL;
+import java.io.Serializable;
 
 /**
  *
  * @author malban
  */
-public class NullDevice extends AbstractDevice
+public class NullDevice extends AbstractDevice implements Serializable
 {
     public int getDeviceID()
     {

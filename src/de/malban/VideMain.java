@@ -13,6 +13,7 @@ import de.malban.gui.CSAMainFrame;
 import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.input.SystemController;
 import de.malban.sound.tinysound.TinySound;
+import de.malban.util.extractor.Extractor;
 import de.malban.vide.CLI;
 import java.awt.Toolkit;
 
@@ -28,7 +29,8 @@ import javax.swing.SwingUtilities;
 public class VideMain {
 
     public static void main(String[] args) {
-
+//Extractor.ensureParaAvailable();
+//        Extractor.extractPara();
         Configuration.getConfiguration().getDebugEntity();
         String javaVersion2 = System.getProperty("java.vm.name") + " (build " +
                      System.getProperty("java.vm.version") + ", " +

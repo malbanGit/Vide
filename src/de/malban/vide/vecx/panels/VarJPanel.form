@@ -224,7 +224,6 @@
     </Container>
     <Component class="javax.swing.JCheckBox" name="jCheckBox1">
       <Properties>
-        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="only user RAM (from $c880)"/>
       </Properties>
       <Events>

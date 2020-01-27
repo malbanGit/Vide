@@ -28,6 +28,8 @@ public class MemoryInformation
     public static final int MEM_TYPE_IO = 2;
     public static final int MEM_TYPE_BAD = 3;
     
+    public static final int DIS_TYPE_LOADED = -2; 
+    public static final int DIS_TYPE_CODE = -1; 
     public static final int DIS_TYPE_UNKOWN = 0; 
     public static final int DIS_TYPE_DATA_BYTE = 1; 
     public static final int DIS_TYPE_DATA_WORD = 2; 
@@ -179,6 +181,8 @@ public class MemoryInformation
     {
         if (disType>=DIS_TYPE_DATA_INSTRUCTION_1_LENGTH)
             disType = DIS_TYPE_DATA_INSTRUCTION_GENERAL;
+        else
+            disType = MemoryInformation.DIS_TYPE_LOADED;
         disassembledMnemonic = "";
         disassembledOperand = "";
         done = false;
@@ -194,7 +198,7 @@ public class MemoryInformation
             mi.isInstructionByte = 0;
             mi.hexDump = "";
             mi.belongsToInstruction = null;
-            mi.disType = MemoryInformation.DIS_TYPE_UNKOWN;
+            mi.disType = MemoryInformation.DIS_TYPE_LOADED;
             
         }
         familyBytes.clear();

@@ -107,7 +107,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="2.5"/>
+        <Property name="text" type="java.lang.String" value="2.5.3beta"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">

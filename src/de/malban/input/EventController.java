@@ -37,7 +37,11 @@ public class EventController
             component = c;
         }
     }
-    
+    boolean isRemoved = false;
+    public void setRemoved(boolean b)
+    {
+        isRemoved = b;
+    }
     private Controller controller;
     boolean isActive = false;
     private boolean isAvailable = true;
@@ -120,7 +124,8 @@ public class EventController
         public void doIt(int state, Object o)
         {
             checkStateChange();
-            timer.addTrigger(triggerCallback, pollResultion, 0, null);
+            if (!isRemoved)
+                timer.addTrigger(triggerCallback, pollResultion, 0, null);
         }
     };
     
@@ -146,6 +151,16 @@ public class EventController
     // if so trigger an event
     private void checkStateChange()
     {
+        if (controller==null) 
+        {
+            ControllerEvent event = new ControllerEvent();
+            isAvailable = false;
+            setActive(false);
+            event.type = CONTROLLER_DISCONNECT;
+            fireControllerChanged(event);
+            return;
+        }
+//            return;
         if( !controller.poll() )
         {
             ControllerEvent event = new ControllerEvent();
@@ -341,6 +356,7 @@ public class EventController
     void init()
     {
         // Go trough all components of the controller.
+        if (getController()==null) return;
         Component[] components = getController().getComponents();
         for(int i=0; i < components.length; i++)
         {

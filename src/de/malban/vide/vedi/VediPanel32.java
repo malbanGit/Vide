@@ -3107,6 +3107,11 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             {
                 fromCard.append((char )d);
             }
+            
+                    if (jEditorLog.getDocument().getLength()>10000)
+                    {
+                        jEditorLog.setText("");
+                    }
 
             if (directMode)
             {

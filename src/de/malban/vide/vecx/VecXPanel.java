@@ -29,6 +29,7 @@ import de.malban.jogl.JOGLSupport;
 import de.malban.vide.ControllerConfig;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.dissy.MemoryInformation;
+import static de.malban.vide.vecx.VecX.SS_RING_BUFFER_SIZE;
 import static de.malban.vide.vecx.VecX.START_TYPE_INJECT;
 import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
 import de.malban.vide.vecx.cartridge.Cartridge;
@@ -259,9 +260,6 @@ public class VecXPanel extends javax.swing.JPanel
         new HotKey("FullScreen/Toggle", new AbstractAction() { public void actionPerformed(ActionEvent e) { toggleFullscreen();}}, this);
 
         new HotKey("Quit vecxi", new AbstractAction() { public void actionPerformed(ActionEvent e) { quitVecxi();}}, this);
-        
-        
-        
     }
     void ringbufferToggle()
     {
@@ -824,14 +822,56 @@ public class VecXPanel extends javax.swing.JPanel
         });                    
     }//GEN-LAST:event_formComponentResized
 
-    private void jButtonSaveStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveStateActionPerformed
+    static class VeryCompleteState implements Serializable
+    {
+        ArrayList<Breakpoint> breakpoints[] = new ArrayList[Breakpoint.BP_TARGET_COUNT];
+        
+        int SS_RING_BUFFER_SIZE = 30000;
+        int ringSSWalkStep = 0; // if I step back, what is the position of the step back?
+        int ringSSBufferNext = 0;
+        CompleteState[] goSSBackRingBuffer;
 
+
+        int FRAME_RING_BUFFER_SIZE = 1000;
+        int ringFrameWalkStep = 0; // if I step back, what is the position of the step back?
+        int ringFrameBufferNext = 0;
+        CompleteState[] goFrameBackRingBuffer;
+    }
+ 
+    private void jButtonSaveStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveStateActionPerformed
+        LocalDateTime ldt = LocalDateTime.now(); 
+        VeryCompleteState vcs = null;
+
+        if (evt != null)
+        {
+            shiftPressed = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
+
+            if (shiftPressed)
+            {
+                vcs = new VeryCompleteState();
+                vcs.breakpoints = vecx.breakpoints;
+                vcs.SS_RING_BUFFER_SIZE = vecx.SS_RING_BUFFER_SIZE;
+                vcs.ringSSWalkStep = vecx.ringSSWalkStep;
+                vcs.ringSSBufferNext = vecx.ringSSBufferNext;
+                vcs.goSSBackRingBuffer = vecx.goSSBackRingBuffer;
+
+                vcs.FRAME_RING_BUFFER_SIZE = vecx.FRAME_RING_BUFFER_SIZE;
+                vcs.ringFrameWalkStep = vecx.ringFrameWalkStep;
+                vcs.ringFrameBufferNext = vecx.ringFrameBufferNext;
+                vcs.goFrameBackRingBuffer = vecx.goFrameBackRingBuffer;
+            }
+        }
+        
+        
         if ((!running)&& (!debuging)) return;
         if (stop) 
         {
             if (debuging)
             {
                 CompleteState state = vecx.getState();
+                state.additional = vcs;
+
+                
                 if (vecx.joyport[0]!=null)
                 {
                     if (vecx.joyport[0].getDevice()!=null)
@@ -851,8 +891,8 @@ public class VecXPanel extends javax.swing.JPanel
                     }
                 }
                 CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
-                LocalDateTime ldt = LocalDateTime.now(); 
                 CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString().replace(':','_')+".ser");
+                state.additional = null;
             }
             return;
         } 
@@ -868,6 +908,7 @@ public class VecXPanel extends javax.swing.JPanel
                 }
             }
             CompleteState state = vecx.getState();
+            state.additional = vcs;
             
             if (vecx.joyport[0]!=null)
             {
@@ -888,12 +929,13 @@ public class VecXPanel extends javax.swing.JPanel
                 }
             }
             CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
-            LocalDateTime ldt = LocalDateTime.now(); 
             CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString()+".ser");
+            state.additional = null;
             cont();
             return;
         }
         CompleteState state = vecx.getState();
+        state.additional = vcs;
         if (vecx.joyport[0]!=null)
         {
             if (vecx.joyport[0].getDevice()!=null)
@@ -913,8 +955,8 @@ public class VecXPanel extends javax.swing.JPanel
             }
         }
         CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
-        LocalDateTime ldt = LocalDateTime.now(); 
         CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString()+".ser");
+        state.additional = null;
 
     }//GEN-LAST:event_jButtonSaveStateActionPerformed
     private void jButtonLoadStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadStateActionPerformed
@@ -975,6 +1017,29 @@ public class VecXPanel extends javax.swing.JPanel
         }
         mClassSetting--;
 
+        
+        if (state.additional != null)
+        {
+            if (state.additional instanceof VeryCompleteState)
+            {
+                VeryCompleteState vcs = (VeryCompleteState) state.additional;
+                vecx.breakpoints = vcs.breakpoints;
+        setAllBreakpoints(vcs.breakpoints);
+
+                vecx.SS_RING_BUFFER_SIZE = vcs.SS_RING_BUFFER_SIZE;
+                vecx.ringSSWalkStep = vcs.ringSSWalkStep;
+                vecx.ringSSBufferNext = vcs.ringSSBufferNext;
+                vecx.goSSBackRingBuffer = vcs.goSSBackRingBuffer;
+                
+                vecx.FRAME_RING_BUFFER_SIZE = vcs.FRAME_RING_BUFFER_SIZE;
+                vecx.ringFrameWalkStep = vcs.ringFrameWalkStep;
+                vecx.ringFrameBufferNext = vcs.ringFrameBufferNext;
+                vecx.goFrameBackRingBuffer = vcs.goFrameBackRingBuffer;
+            }
+        }
+        
+        
+        
         
         jTextFieldstart.setText(vecx.romName);
         overlayImageOrg = null;

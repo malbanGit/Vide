@@ -140,6 +140,105 @@ public class Comment implements LineRecognizer {
             
             return  s.substring(0, s.indexOf(semiString));
         }
+                // returns line without comment
+        public static String removeCEndOfLineComment(String s)
+        {
+            // "YOU'LL NEVER REACH HOME..." ; 15  -77 0xb3
+            // tricky!
+            int posSemicolon = s.substring(0).indexOf("//");
+            if (posSemicolon<0)posSemicolon = Integer.MAX_VALUE;
+            if (posSemicolon==Integer.MAX_VALUE) return s;
+            
+            int posDouble = s.substring(0).indexOf("\"");
+            int posSingle = s.substring(0).indexOf("'");
+            if (posSingle<0)posSingle = Integer.MAX_VALUE;
+            if (posDouble<0)posDouble = Integer.MAX_VALUE;
+            
+            if ((posSemicolon<posDouble) && (posSemicolon<posSingle))
+            {
+                if (posSemicolon == Integer.MAX_VALUE)
+                    return s;
+                return s.substring(0, s.indexOf("//"));
+            }
+            
+            // now, we have a semicolon 
+            // and we have open chars befor it!
+            String wc = s.substring(0); // working copy
+
+            boolean enough = false;
+            do
+            {
+                wc = removeOneQuote(wc);
+                if (wc == null)
+                {
+                    return "";
+                }
+                posDouble = wc.indexOf("\"");
+                posSingle = wc.indexOf("'");
+                posSemicolon = wc.indexOf("//");
+                if (posSemicolon<0)posSemicolon = Integer.MAX_VALUE;
+                if (posSemicolon==Integer.MAX_VALUE) return s;
+                if (posSingle<0)posSingle = Integer.MAX_VALUE;
+                if (posDouble<0)posDouble = Integer.MAX_VALUE;
+                enough = ((posSemicolon<posDouble) && (posSemicolon<posSingle));
+            } while (!enough);
+            // now we have string that contains somewhere a semicolon
+            // and no opening chars befor it
+
+            String semiString = wc.substring(wc.indexOf("//"));
+            
+            return  s.substring(0, s.indexOf(semiString));
+        }
+        
+                // returns line without comment
+        public static String removeC1EndOfLineComment(String s)
+        {
+            // "YOU'LL NEVER REACH HOME..." ; 15  -77 0xb3
+            // tricky!
+            int posSemicolon = s.substring(0).indexOf("/*");
+            if (posSemicolon<0)posSemicolon = Integer.MAX_VALUE;
+            if (posSemicolon==Integer.MAX_VALUE) return s;
+            
+            int posDouble = s.substring(0).indexOf("\"");
+            int posSingle = s.substring(0).indexOf("'");
+            if (posSingle<0)posSingle = Integer.MAX_VALUE;
+            if (posDouble<0)posDouble = Integer.MAX_VALUE;
+            
+            if ((posSemicolon<posDouble) && (posSemicolon<posSingle))
+            {
+                if (posSemicolon == Integer.MAX_VALUE)
+                    return s;
+                return s.substring(0, s.indexOf("/*"));
+            }
+            
+            // now, we have a semicolon 
+            // and we have open chars befor it!
+            String wc = s.substring(0); // working copy
+
+            boolean enough = false;
+            do
+            {
+                wc = removeOneQuote(wc);
+                if (wc == null)
+                {
+                    return "";
+                }
+                posDouble = wc.indexOf("\"");
+                posSingle = wc.indexOf("'");
+                posSemicolon = wc.indexOf("/*");
+                if (posSemicolon<0)posSemicolon = Integer.MAX_VALUE;
+                if (posSemicolon==Integer.MAX_VALUE) return s;
+                if (posSingle<0)posSingle = Integer.MAX_VALUE;
+                if (posDouble<0)posDouble = Integer.MAX_VALUE;
+                enough = ((posSemicolon<posDouble) && (posSemicolon<posSingle));
+            } while (!enough);
+            // now we have string that contains somewhere a semicolon
+            // and no opening chars befor it
+
+            String semiString = wc.substring(wc.indexOf("/*"));
+            
+            return  s.substring(0, s.indexOf(semiString));
+        }
         static String  removeOneQuote(String wc)
         {
             int posDouble = wc.indexOf("\"");

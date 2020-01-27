@@ -5,9 +5,7 @@
  */
 package de.malban.graphics;
 
-import de.malban.util.XMLSupport;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
 /**

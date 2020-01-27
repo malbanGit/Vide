@@ -1,4 +1,37 @@
 
+- vecci: added hotkeys (standard) for delete (del) copy(meta c)/cut(meta x)/paste(meta v) undo(meta z)/redo(meta shift z) selectAll (meta a) and mode switch (M)
+         -> needs new config settings
+         Win -> meta = CTRL
+         Max -> meta = Command
+- vecxi: added "super" save to debug when "SHIFT" is pressed during save (takes quiet some time, depending on the backstep configuration)
+- all: added more debug info to startup and search of VIDE_HOME
+- util: added some vecVefer conversion modes (8)
+- test: for testing purposes added a vectrex color mode (Jason)
+- vecci: added (text-)import filter for synced lists
+- vecci: added import filter for Gyrock lists
+- vecci: added template for smartlist with NO SHIFT REGISTER usage
+- vedi: added "*.md" files to be editable
+
+bug:
+ - dissi: load in dissi different configured disassemblings
+ - vedi: file not found exception when trying to edit file properties
+ - dissi: UNOWN data types were possible in dissi (not disassembled)
+ - dissi: strings could be "closed" with any negative value (instead of only 0x80) - during a string scan!
+ - vedi: include in subdirectories were not parsed correctly (sometimes)
+ - vecci: corrected VBSmartlist generation 
+ - vecxi: analog joystcik  vertical in relative mode had wrong directions
+ - vecxi: better reconnect to joysticks that time out
+ - vedi: lower upper character independency added in label jumping
+ - ym/vedi: ym menu was not enabled correctly
+ - vecxi: soft reset no does not delete/initialize RAM
+ - vecx: joystick buttons must only be set, when PSG regs are in output mode
+
+3rd of April 2019
+Version 2.51
+bugs:
+- smartlist creation was buggy
+- added QI variants of div/mod to C compiler library
+
 20th of March 2019
 Version 2.50
 new:

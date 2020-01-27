@@ -74,21 +74,27 @@ public class Global {
               }
             }
           );
+        StringBuilder b = new StringBuilder();
         Map<String, String> env = System.getenv();
         String VideHome = env.get("VIDE_HOME");
         String home = "";
         if (VideHome != null)
         {
+   //         System.out.println("VIDE_HOME = "+VideHome);
+            b.append("VIDE_HOME = "+VideHome+"\n");
             home = "";
             
             home = new File(de.malban.util.UtilityFiles.convertSeperator(VideHome)).getAbsolutePath();
             if (!home.endsWith(File.separator))
                 home = home + File.separator;
             mainPathPrefix = home;
-//            System.out.println("VIDE_HOME found end read to: "+mainPathPrefix);
+  //          System.out.println("VIDE_HOME found end read to: "+mainPathPrefix);
+            b.append("VIDE_HOME found end read to: "+mainPathPrefix+"\n");
         }
         else
         {
+  //          System.out.println("VIDE_HOME = NOT FOUND! - Scanning directories!");
+            b.append("VIDE_HOME = NOT FOUND! - Scanning directories!"+"\n");
             // search current dir for "vide" sub dirs
             // if not found step one "up"
             boolean found = false;
@@ -101,7 +107,8 @@ public class Global {
             if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
             while (!found)
             {
-//            System.out.println("Searching vide home in: "+currentDir);
+ //           System.out.println("Searching vide home in: "+currentDir);
+            b.append("Searching vide home in: "+currentDir+"\n");
                 File t = new File(currentDir+"serialize");
                 if (t.exists())
                 {
@@ -127,7 +134,7 @@ public class Global {
             if (!found)
             {
                 // scream!
-                JOptionPane.showMessageDialog(null, "Vide could not find its home directory and will not run correctly!\nPlease set the environment variable VIDE_HOME!" ,"Vide problem",  JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Vide could not find its home directory and will not run correctly!\nPlease set the environment variable VIDE_HOME!\n\n" + b.toString() ,"Vide problem",  JOptionPane.INFORMATION_MESSAGE);
                 exit (1);
             }
             home = new File(de.malban.util.UtilityFiles.convertSeperator(currentDir)).getAbsolutePath();
@@ -135,6 +142,7 @@ public class Global {
                 home = home + File.separator;
             mainPathPrefix = home;
 //            System.out.println("Vide determined home at: "+mainPathPrefix);
+            b.append("Vide determined home at: "+mainPathPrefix+"\n");
         }
         
 //        mainPathPrefix = getProgramDirectory()+File.separator;

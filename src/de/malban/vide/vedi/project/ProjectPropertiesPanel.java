@@ -1444,9 +1444,9 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ScriptDataPanel sdp = new ScriptDataPanel();
         ModalInternalFrame modal=null;
-        String pp = convertSeperator(mProjectProperties.getOldPath());
+        String pp = convertSeperator(mProjectProperties.projectPrefix);
         if (pp.length() >0 ) pp += File.separator;
-        pp += mProjectProperties.getProjectName();
+        //pp += mProjectProperties.getProjectName();
         ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, mProjectProperties.mProjectName, "", "ProjectPropertiesPanel", pp);
         sdp.setSelected(mProjectProperties.mProjectPostScriptClass, mProjectProperties.mProjectPostScriptName, ed);
         modal = new ModalInternalFrame("Scripter", frame.getRootPane(), frame, sdp, "done");

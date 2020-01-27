@@ -16,6 +16,20 @@ public class Matrix4x4 {
     double[][] m = new double[4][4];
     
     
+    public Matrix4x4()
+    {
+        for (int x=0; x<4;x++)
+        {
+            for (int y=0; y<4;y++)
+            {
+                if (x==y)
+                    m[x][y] = 1;
+                else
+                    m[x][y] = 0;
+            }
+        }
+    }
+    
     public static Matrix4x4 getTranslocation(double xmove, double ymove, double zmove)
     {
         Matrix4x4 ma = new Matrix4x4();
@@ -31,20 +45,6 @@ public class Matrix4x4 {
         ma.m[1][1] = yscale;
         ma.m[2][2] = zscale;
         return ma;
-    }
-    // variant - transposes the given matrix
-    public void transpose()
-    {
-        double[][] t = new double[4][4];
-        
-        for (int x = 0; x < 4; x++)
-        {
-            for (int y = 0; y < 4; y++)
-            {
-                t[x][y] = m[y][x];
-            }
-        }
-        m = t;
     }
     // angle in Radianse
     public static Matrix4x4 getRotationX(double xangle)
@@ -88,19 +88,19 @@ public class Matrix4x4 {
         Matrix4x4 ma = new Matrix4x4();
         return ma;
     }
-    
-    public Matrix4x4()
+    // variant - transposes the given matrix
+    public void transpose()
     {
-        for (int x=0; x<4;x++)
+        double[][] t = new double[4][4];
+        
+        for (int x = 0; x < 4; x++)
         {
-            for (int y=0; y<4;y++)
+            for (int y = 0; y < 4; y++)
             {
-                if (x==y)
-                    m[x][y] = 1;
-                else
-                    m[x][y] = 0;
+                t[x][y] = m[y][x];
             }
         }
+        m = t;
     }
     
     public void setValue(int x, int y, double value)
@@ -132,7 +132,6 @@ public class Matrix4x4 {
         v.w(w);
         return v;
     }
-    
     // invariant
     public GFXVector multiply(GFXVector v)
     {
@@ -168,7 +167,6 @@ public class Matrix4x4 {
         }
         return n;
     }
-    
     // two 4x4
     // invariant! this * o
     public Matrix4x4 mul(Matrix4x4 o)

@@ -92,7 +92,9 @@ public class Extractor{
           String name = Global.mainPathPrefix+"tmp"+File.separator+"ParaJVE_0.7.0_windows.zip";
           de.malban.util.UtilityFiles.unzip(name, Global.mainPathPrefix+"tmp"+File.separator+"tmp1");
           String packPath = Global.mainPathPrefix+"tmp"+File.separator+"tmp1"+File.separator+"ParaJVE"+File.separator+"data"+File.separator+"packs"+File.separator+"chassis.jvepak";
+           packPath = Global.mainPathPrefix+"tmp"+File.separator+"tmp1"+File.separator+"ParaJVE"+File.separator+"data"+File.separator+"roms"+File.separator+"homebrew"+File.separator+"SSlingTE.bin.jverom";
           String unpackPath = "data"+File.separator+"packs"+File.separator+"chassis.jvepak";
+          unpackPath = Global.mainPathPrefix+"tmp"+File.separator+"SSlingTE.bin.jverom";
           de.malban.util.UtilityFiles.copyOneFile(packPath, unpackPath);
 
           packPath = Global.mainPathPrefix+"tmp"+File.separator+"tmp1"+File.separator+"ParaJVE"+File.separator+"libs"+File.separator+"ParaJVE.jar";
@@ -211,7 +213,7 @@ public class Extractor{
         Global.mainPathPrefix+"data/packs/chassis_joystick_panel.png", Global.mainPathPrefix+"theme/images/chassis_joystick_panel.png"
    };
           
-   private static boolean ensureParaAvailable()
+   public static boolean ensureParaAvailable()
    {
         return DownloaderPanel.saveUrlInternal("http://vectrex.malban.de/ParaJVE_0.7.0_windows.zip", Global.mainPathPrefix+"tmp"+File.separator+"ParaJVE_0.7.0_windows.zip")!=null;
    }

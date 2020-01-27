@@ -14,7 +14,7 @@ public abstract class AbstractDevice implements JoyportDevice
     public static boolean exitSync = false;
     protected volatile VectrexJoyport joyport;
     protected boolean inDeinit = false;
-    
+    protected boolean joyportIsInOutputMode = true;
     @Override
     public void setJoyport(VectrexJoyport j)
     {
@@ -65,6 +65,7 @@ public abstract class AbstractDevice implements JoyportDevice
     @Override
     public void setInputMode(boolean i)
     {
+        joyportIsInOutputMode = !i;
     }
     // ask the device kindly to update button states, since vectrex will read the states soon
     // sending line information to the emulator (Joy)

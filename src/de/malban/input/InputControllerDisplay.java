@@ -346,7 +346,12 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
     private void jComboBox_controllersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_controllersActionPerformed
         if (mClassSetting>0) return;
         // When another controller is selected we have to remove old stuff.
+
+ 
+
         initController();
+ 
+ 
     }//GEN-LAST:event_jComboBox_controllersActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -373,7 +378,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
     void searchControllers()
     {
         mClassSetting++;
-        deinitController();
+        deinitController(); 
         controllers = SystemController.getCurrentControllers();
         jComboBox_controllers.removeAllItems();
         for (Controller c :controllers)
@@ -389,7 +394,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         {
             selectedController.clearEventListerner();
             selectedController.setActive(false);
-        }
+       }
         selectedController = null;
         deinitDisplay();
     }
@@ -731,6 +736,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
     }
     public void setSelectedController(String controllerName)
     {
+        
         for (int i=0; i<jComboBox_controllers.getItemCount(); i++)
         {
             if (jComboBox_controllers.getItemAt(i).toString().equals(controllerName))

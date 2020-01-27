@@ -119,7 +119,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemDissy">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Dissi"/>
+                <Property name="text" type="java.lang.String" value="Dissi (standalone)"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemDissyActionPerformed"/>

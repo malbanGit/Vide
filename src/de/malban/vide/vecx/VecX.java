@@ -101,9 +101,6 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.veccy.VectorListScanner;
 import de.malban.vide.vecx.cartridge.Cartridge;
-import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_ATMEL_EEPROM;
-import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2430A;
-import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2431;
 import de.malban.vide.vecx.devices.Imager3dDevice;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
@@ -946,17 +943,18 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     {
        vecx_reset(true);
     }
-    void vecx_reset(boolean clearBreakpoints)
+    void vecx_reset(boolean hardReset)
     {
         int r;
         if (displayer != null)
             displayer.setLED(0);
 
         /* ram */
-        for (r = 0; r < 1024; r++) 
-        {
-            ram[r] = r & 0xff;
-        }
+        if (hardReset)
+            for (r = 0; r < 1024; r++) 
+            {
+                ram[r] = r & 0xff;
+            }
         
         e8910.reset();
         e8910.setVectrexJoyport(joyport);
@@ -1037,7 +1035,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         fcycles = FCYCLES_INIT;
         cyclesRunning = 0;
 
-        if (clearBreakpoints)
+        if (hardReset)
         {
             if (config.resetBreakpointsOnLoad)
                 clearAllBreakpoints();        
@@ -1552,19 +1550,23 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         }
         if (directDrawActive)
         {
-            directDrawVector = vectorDisplay[displayedNow].vectrexVectors[vectorDisplay[displayedNow].count];
-            vectorDisplay[displayedNow].count++;
-            directDrawVector.x0 = x0;
-            directDrawVector.y0 = y0;
-            directDrawVector.x1 = x1;
-            directDrawVector.y1 = y1;
-            directDrawVector.speed = speed;
-            directDrawVector.midChange = midChange;
+            if (vectorDisplay[displayedNow].count<VECTOR_CNT)
+            {
+                directDrawVector = vectorDisplay[displayedNow].vectrexVectors[vectorDisplay[displayedNow].count];
+                vectorDisplay[displayedNow].count++;
+                directDrawVector.x0 = x0;
+                directDrawVector.y0 = y0;
+                directDrawVector.x1 = x1;
+                directDrawVector.y1 = y1;
+                directDrawVector.speed = speed;
+                directDrawVector.midChange = midChange;
 
-            directDrawVector.color = 127;
-            directDrawVector.imagerColorLeft = left;
-            directDrawVector.imagerColorRight = right;
-            displayer.directDraw(directDrawVector);
+                directDrawVector.color = 127;
+                directDrawVector.imagerColorLeft = left;
+                directDrawVector.imagerColorRight = right;
+                displayer.directDraw(directDrawVector);                
+            }
+
         }
         vectorDisplay[displayedNext].count++;
     }
@@ -2230,6 +2232,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     // caller must ensure, that no
     // concurrent modification is done on the data
     // otherwise an exception will occur!
+            
     public CompleteState getState()
     {
         CompleteState state = new CompleteState();
@@ -2797,8 +2800,502 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     }
 
     /* perform a single cycle worth of analog emulation */
+    void analogStepColor()
+    {
+        if (((via_orb & 0x01) == 0) && ((alg_sel.intValue & 0x06) == 0x02))
+            c_alg_rsh.doStep();
+        
+        
+        
+        intensityDrift++;
+        int sig_dx=0, sig_dy=0; // always the delta from the last vector end position, to the new position
+                                // even when zero is active!
+        if (lastZero != sig_zero.intValue)
+        {
+            if (sig_zero.intValue == 0)
+            {
+                // we start zeroing now
+                zeroRetainX = (((double)(alg_curr_x-(config.ALG_MAX_X/2))) *config.zeroRetainX);
+                zeroRetainY = (((double)(alg_curr_y-(config.ALG_MAX_Y/2))) *config.zeroRetainY);
+            }
+            lastZero = sig_zero.intValue;
+        }
+        else
+        {
+            if (sig_zero.intValue == 0)
+            {
+                zeroRetainX = (((double)(zeroRetainX)) *0.99);
+                zeroRetainY = (((double)(zeroRetainY)) *0.99);
+            }
+        }
+        if (sig_zero.intValue == 0) 
+        {
+            noiseCycles = cyclesRunning;
+            /* need to force the current point to the 'orgin' so just
+             * calculate distance to origin and use that as dx,dy.
+             */
+            // on zero - do not zero immediatly but "degrade" "slowly"
+            int absx = (int)Math.abs(alg_curr_x - (config.ALG_MAX_X / 2));
+            int absy = (int)Math.abs(alg_curr_y - (config.ALG_MAX_Y / 2));
+
+            
+            sig_dx = (int)(((double)(config.ALG_MAX_X / 2 - (int)alg_curr_x))/config.zero_divider);
+            sig_dy = (int)(((double)(config.ALG_MAX_Y / 2 - (int)alg_curr_y))/config.zero_divider);
+            
+        } 
+        //else 
+        // no else anymore, integrating can be done WHILE zeroing (see my discussion in forum Vectrex32)
+        {
+            if (sig_ramp.intValue== 0) 
+            {
+                sig_dx += alg_xsh.intValue;
+                sig_dy += -alg_ysh.intValue;
+                fractionSaveX = alg_xsh.intValue;
+                fractionSaveY = alg_ysh.intValue;
+
+                //fraction = false;
+                if (rampOnFraction)
+                {
+                    rampOnFraction = false;
+                    alg_curr_x -= (int)(((double)alg_xsh.intValue)*(config.rampOnFractionValue));
+                    alg_curr_y -= -(int)(((double)alg_ysh.intValue)*(config.rampOnFractionValue));
+
+                }
+            } 
+            else 
+            {
+                //fraction = false;
+                if (rampOffFraction)
+                {
+                    // with cycle exact programming we are not allowed to use "alg_xsh.intValue" as fraction
+                    // value, because that might have been altered in the last "cycle"
+                    // we must remember the last integration value and 
+                    // use that instead of the current one!
+//                    alg_curr_x += (int)(((double)alg_xsh.intValue)*config.rampOffFractionValue);
+//                    alg_curr_y += -(int)(((double)alg_ysh.intValue)*config.rampOffFractionValue);
+                    rampOffFraction = false;
+                    alg_curr_x += (int)(((double)fractionSaveX)*config.rampOffFractionValue);
+                    alg_curr_y += -(int)(((double)fractionSaveY)*config.rampOffFractionValue);
+
+                    
+                    
+                    if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
+                    {
+                        /* we're vectoring ... current point is still within limits so
+                         * extend the current vector.
+                         */
+                        alg_vector_x1 = (int)alg_curr_x;
+                        alg_vector_y1 = (int)alg_curr_y;
+                    }        
+                }
+            }
+        }
+
+        if (alg_vectoring == 0) 
+        {
+            if (sig_blank.intValue == 1 ) 
+            {
+                // new vector should start
+                // is oob?
+                if (alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y)
+                {
+                    if (imagerMode)
+                    {
+                        if (joyport[1].getDevice() instanceof Imager3dDevice)
+                        {
+                            Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
+                            leftEyeColor = i3d.getLeftColor();
+                            rightEyeColor = i3d.getRightColor();
+                        }
+                    }
+
+                    /* start a new vector */
+                    alg_vectoring = 1;
+
+                    alg_vector_dx = alg_xsh.intValue;
+                    alg_vector_dy = -alg_ysh.intValue;
+
+                    alg_vector_x0 = (int)alg_curr_x+(int)(config.blankOffDelay*alg_vector_dx);
+                    alg_vector_y0 = (int)alg_curr_y+(int)(config.blankOffDelay*alg_vector_dy);
+                    alg_vector_x1 = (int)alg_curr_x;
+                    alg_vector_y1 = (int)alg_curr_y;
+
+                    alg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
+
+                    alg_leftEye = leftEyeColor;
+                    alg_rightEye = rightEyeColor;
+
+                    alg_vector_color = alg_zsh.intValue;
+                    alg_ramping = (sig_ramp.intValue== 0);
+                    if ((alg_ramping) || (sig_zero.intValue == 0))
+                    {
+                        alg_spline_compare_dx = sig_dx;
+                        alg_spline_compare_dy = sig_dy;
+                    }
+                    else
+                    {
+                        alg_spline_compare_dx = Integer.MAX_VALUE;
+                        alg_spline_compare_dy = Integer.MAX_VALUE;
+                    }                    
+                }
+                else
+                {
+// OUT OF BOUNDS                    
+                    // OUT OF BOUNDS VECTOR START
+                }
+            }
+        } 
+        else // vectoring == 1
+        {
+            if (imagerMode)
+            {
+                if (joyport[1].getDevice() instanceof Imager3dDevice)
+                {
+                    Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
+                    leftEyeColor = i3d.getLeftColor();
+                    rightEyeColor = i3d.getRightColor();
+                }
+            }
+            boolean yChanged = (-alg_ysh.intValue != alg_vector_dy) && (sig_ramp.intValue== 0);
+            boolean xChanged = (alg_xsh.intValue != alg_vector_dx) && (sig_ramp.intValue== 0);
+            boolean imagerColorChanged = (imagerMode) && ((leftEyeColor!=alg_leftEye)||(rightEyeColor!=alg_rightEye));
+            
+            /* already drawing a vector ... check if we need to turn it off */
+            if ((sig_blank.intValue == 0))
+            {
+                /* blank just went on, vectoring turns off, and we've got a
+                 * new line.
+                 */
+                
+                if (/*(sig_ramp.intValue== 0)     && */(sig_blank.intValue == 0))     
+                {
+                    // ramping and blank just went enabled
+                    // do a blank off delay
+                    // make the vector a tiny bit longer!(sig_blank.intValue == 0)
+                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1+(int)(config.blankOnDelay*alg_vector_dx), alg_vector_y1+(int)(config.blankOnDelay*alg_vector_dy), alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                }
+                else
+                {
+                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                }
+                alg_vectoring = 0;
+            } 
+            else if (imagerColorChanged || xChanged || yChanged || alg_zsh.intValue != alg_vector_color /*||  (sig_zero.intValue == 0)*/ || ((sig_ramp.intValue== 0) != alg_ramping) ) 
+            {
+                /* the parameters of the vectoring processing has changed.
+                 * so end the current line.
+                 */
+                boolean inLimits = (alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y);
+                
+                
+                if ((alg_ramping) ||  (sig_zero.intValue == 0))
+                {
+                    if ((sig_dx != alg_spline_compare_dx || sig_dy != alg_spline_compare_dy) && (inLimits) && (sig_dy != 0))
+                    {
+                        alg_curved = true;
+                    }
+                }
+                // check if this is just the start of a movement,
+                // discard the first 0 vector if so
+                boolean rampStartCheck =  ((!alg_ramping) && (sig_ramp.intValue== 0));
+                if (!rampStartCheck)
+                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_vector_color, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+
+                /* we continue vectoring with a new set of parameters if the
+                 * current point is not out of limits.
+                 */
+
+                if  (inLimits)
+                {
+                    alg_vector_x0 = (int)alg_curr_x;
+                    alg_vector_y0 = (int)alg_curr_y;
+                    alg_vector_x1 = (int)alg_curr_x;
+                    alg_vector_y1 = (int)alg_curr_y;
+                    if (sig_ramp.intValue==0)
+                    {
+                        alg_vector_dx = alg_xsh.intValue;
+                        alg_vector_dy = -alg_ysh.intValue;
+                    }
+                    else
+                    {
+                        alg_vector_dx = 0;
+                        alg_vector_dy = 0;
+                        alg_curved = false;
+                    }
+                    alg_vector_color = alg_zsh.intValue;
+                    alg_leftEye = leftEyeColor;
+                    alg_rightEye = rightEyeColor;
+                    alg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
+
+                    alg_ramping = (sig_ramp.intValue== 0);
+                    if ((alg_ramping)||  (sig_zero.intValue == 0))
+                    {
+                        alg_spline_compare_dx = sig_dx;
+                        alg_spline_compare_dy = sig_dy;
+                    }
+                    else
+                    {
+                        alg_spline_compare_dx = Integer.MAX_VALUE;
+                        alg_spline_compare_dy = Integer.MAX_VALUE;
+                    }
+                } 
+                else 
+                {
+// OUT OF BOUNDS        
+                    // an active vector was FINISHED OUT OF BOUNDS!
+                    // and a new vector should start                    
+                    alg_vectoring = 0;
+                }
+            }
+            else // alg vectoring == 1, but nothing changed
+            {
+                if ((sig_dx == 0) && (sig_dy == 0))
+                {
+                    // dot dwell realized with a zero movement and a high speed
+                    if (alg_vector_speed<128) alg_vector_speed = 128;
+                    alg_vector_speed += 0x4;
+                }
+            }
+        }
+        
+        // efficiency only active when non zeroing!
+        if ((config.efficiencyEnabled) && (sig_zero.intValue!=0))
+        {
+            double EFFICIENCY_THRESHOLD_X = config.efficiencyThresholdX;
+            double EFFICIENCY_THRESHOLD_Y = config.efficiencyThresholdY;
+            
+            double xTest = alg_curr_x - (config.ALG_MAX_X / 2);
+            double yTest = alg_curr_y - (config.ALG_MAX_Y / 2);
+
+            double xPercent = Math.abs( xTest / (config.ALG_MAX_X / 2) );
+            double yPercent = Math.abs( yTest / (config.ALG_MAX_Y / 2) );
+
+            double xEfficience = 1.0;
+            double yEfficience = 1.0;
+            if (xPercent>EFFICIENCY_THRESHOLD_X)
+            {
+                xEfficience = 1.0-((xPercent)/config.efficiency)*(xPercent-EFFICIENCY_THRESHOLD_X/EFFICIENCY_THRESHOLD_X);
+                
+                if (xEfficience<0.01) xEfficience = 0.01;
+                if (xTest*sig_dx<0)xEfficience = 1/xEfficience;
+            }
+            if (yPercent>EFFICIENCY_THRESHOLD_Y)
+            {
+                yEfficience = 1.0-((yPercent)/config.efficiency)*(yPercent-EFFICIENCY_THRESHOLD_Y/EFFICIENCY_THRESHOLD_Y);
+                if (yEfficience<0.01) yEfficience = 0.01;
+                if (yTest*sig_dy<0)yEfficience = 1/yEfficience;
+            }
+            alg_curr_x += ((double)sig_dx)*xEfficience;
+            alg_curr_y += ((double)sig_dy)*yEfficience;
+
+            // actually do not go negative should be sufficient here!
+            if (sig_dx != 0)
+            alg_curr_x += (config.scaleEfficiency / ((double)sig_dx))*xPercent;
+            if (sig_dy != 0)
+            alg_curr_y += (config.scaleEfficiency /((double)sig_dy))*yPercent;
+        }
+        else
+        {
+            alg_curr_x += sig_dx;
+            alg_curr_y += sig_dy;
+        }        
+            if (sig_ramp.intValue== 0) 
+            {
+        
+            alg_curr_x -= c_alg_rsh.getDigitalValue();
+            alg_curr_y += c_alg_rsh.getDigitalValue();
+//                sig_dx += - alg_rsh.intValue;
+//                sig_dy += + alg_rsh.intValue;
+            }        
+        if (alg_curr_x>100000) alg_curr_x=100000;
+        else if (alg_curr_x<-100000) alg_curr_x=-100000;
+        if (alg_curr_y>100000) alg_curr_y=100000;
+        else if (alg_curr_y<-100000) alg_curr_y=-100000;
+        
+        
+        // drift only when not zeroing
+        if (sig_zero.intValue != 0) 
+        {
+            // drift only, when not integrating - or?
+            if (sig_ramp.intValue != 0)
+            {
+                alg_curr_x-= config.drift_x;
+                alg_curr_y-= config.drift_y;
+            }
+            else
+            {
+                alg_curr_x-= config.drift_x/5.0;
+                alg_curr_y-= config.drift_y/5.0;
+            }
+        }
+        
+        if (config.emulateIntegrationOverflow)
+        {
+            if (Math.abs(sig_dx)>100)
+            {
+                double yOverflow = (  ((double)sig_dx)+((double)sig_dy) ) / config.overflowFactor;
+
+//            alg_curr_x+= xOverflow;
+                alg_curr_y+= yOverflow;
+            }
+        }
+        
+        if (config.noise)
+        {
+            long running = cyclesRunning-noiseCycles;
+            double xnoise;
+            double ynoise;
+
+
+            if (running>2000)
+            {
+                xnoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                ynoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                alg_curr_x -=xnoise/10;
+                alg_curr_y -=ynoise/10;
+            }
+            if (running>5000)
+            {
+                xnoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                ynoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                alg_curr_x -=xnoise/8;
+                alg_curr_y -=ynoise/8;
+            }
+            if (running>10000)
+            {
+                xnoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                ynoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                alg_curr_x -=xnoise/5;
+                alg_curr_y -=ynoise/5;
+            }
+            if (running>15000)
+            {
+                xnoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                ynoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                alg_curr_x -=xnoise/2;
+                alg_curr_y -=ynoise/2;
+            }
+            if (running>25000)
+            {
+                xnoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                ynoise = (0.5 - Global.getRand().nextDouble())*config.noisefactor;
+                alg_curr_x -=xnoise;
+                alg_curr_y -=ynoise;
+            }
+        }
+        
+        
+        
+        if (alg_vectoring == 1)
+        {
+            if( alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
+            {
+                /* we're vectoring ... current point is still within limits so
+                 * extend the current vector.
+                 */
+                alg_vector_x1 = (int)alg_curr_x;
+                alg_vector_y1 = (int)alg_curr_y;
+            }
+            else
+            {
+// OUT OF BOUNDS        
+                // add values that are out of bounds if light is shining!
+            }
+        }
+        if (config.emulateBorders)
+        {
+            boolean inLimits = (alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y);
+            if (!inLimits)
+            {
+                if ((sig_blank.intValue==1) )
+                {
+                    int intensity = (alg_zsh.intValue &0xff);
+                    if (intensityDrift>100000)
+                    {
+                       double degradePercent = (180000000.0-((double)intensityDrift))/180000000.0; // two minutes
+                       if (degradePercent<0) degradePercent = 0;
+                       intensity = (int)(((double)intensity)*degradePercent);
+                    }                    
+                    
+                    int OFFSET_START_DIVISOR = 40;
+                    double leftStart =  -config.ALG_MAX_X/OFFSET_START_DIVISOR;
+                    double rightStart =  config.ALG_MAX_X+config.ALG_MAX_X/OFFSET_START_DIVISOR;
+                    double topStart =   -config.ALG_MAX_Y/OFFSET_START_DIVISOR;
+                    double bottomStart = config.ALG_MAX_Y+config.ALG_MAX_Y/OFFSET_START_DIVISOR;
+                    // left
+                    if (alg_curr_x < leftStart) 
+                    {
+                        int leftCoordinate = (int)(alg_curr_y/((double)config.ALG_MAX_Y) * OVERFLOW_SAMPLE_MAX);
+                        if (leftCoordinate<0) leftCoordinate = 0;
+                        if (leftCoordinate>OVERFLOW_SAMPLE_MAX-1) leftCoordinate = OVERFLOW_SAMPLE_MAX-1;
+                        vectorDisplay[displayedNext].left[leftCoordinate] += intensity;
+                    }
+                    // right
+                    if (alg_curr_x > rightStart) 
+                    {
+                        int rightCoordinate = (int)(alg_curr_y/((double)config.ALG_MAX_Y) * OVERFLOW_SAMPLE_MAX);
+                        if (rightCoordinate<0) rightCoordinate = 0;
+                        if (rightCoordinate>OVERFLOW_SAMPLE_MAX-1) rightCoordinate = OVERFLOW_SAMPLE_MAX-1;
+                        vectorDisplay[displayedNext].right[rightCoordinate] += intensity;
+                    }
+                    // top
+                    if (alg_curr_y < topStart) 
+                    {
+                        int topCoordinate = (int)(alg_curr_x/((double)config.ALG_MAX_X) * OVERFLOW_SAMPLE_MAX);
+                        if (topCoordinate<0) topCoordinate = 0;
+                        if (topCoordinate>OVERFLOW_SAMPLE_MAX-1) topCoordinate = OVERFLOW_SAMPLE_MAX-1;
+                        vectorDisplay[displayedNext].top[topCoordinate] += intensity;
+                    }
+                    // bottom
+                    if (alg_curr_y > bottomStart) 
+                    {
+                        int bottomCoordinate = (int)(alg_curr_x/((double)config.ALG_MAX_X) * OVERFLOW_SAMPLE_MAX);
+                        if (bottomCoordinate<0) bottomCoordinate = 0;
+                        if (bottomCoordinate>OVERFLOW_SAMPLE_MAX-1) bottomCoordinate = OVERFLOW_SAMPLE_MAX-1;
+                        vectorDisplay[displayedNext].bottom[bottomCoordinate] += intensity;
+                    }
+                    
+                }
+                
+            }
+        }
+
+        
+        if (config.useRayGun)
+        {
+            if (alg_oldBlank != 0)
+            {
+                int dwell = Math.max(Math.abs(sig_dx), Math.abs(sig_dy));
+                displayer.rayMove((int)alg_old_x, (int)alg_old_y, (int)alg_curr_x, (int)alg_curr_y, alg_oldzsh, dwell, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+            }
+
+            alg_oldRamp = sig_ramp.intValue;
+            alg_oldZero = sig_zero.intValue;
+            alg_oldBlank = sig_blank.intValue;
+            alg_oldzsh= alg_zsh.intValue;
+
+            alg_old_x = alg_curr_x;
+            alg_old_y = alg_curr_y;
+        }
+        
+        
+        
+        if ((sig_ramp.intValue== 1) || (sig_blank.intValue == 0))
+        {
+            alg_curved = false;
+        }
+        if (Double.isNaN(alg_curr_x)) 
+            alg_curr_x = config.ALG_MAX_X/2;
+        if (Double.isNaN(alg_curr_y)) 
+            alg_curr_y = config.ALG_MAX_Y/2;        
+    }
     void analogStep()
     {
+        if (config.vectrexColorMode)
+        {
+            analogStepColor();
+            return;
+        }
         if (((via_orb & 0x01) == 0) && ((alg_sel.intValue & 0x06) == 0x02))
             c_alg_rsh.doStep();
         
@@ -3298,16 +3795,13 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     }
     void checkWaitRecal()
     {
-        
-        
-        
-        if ((e6809.reg_pc == testAddressFirst) && (cart.getCurrentBank() == testBank))
+        if ((e6809.reg_pc == testAddressFirst) && ((cart.getCurrentBank() == testBank)|| (testAddressFirst>0xc000))  )
         {
             lastTestTicks = ticksRunning;
             wrStatus = WR_FIRST_FOUND;
             return;
         }
-        if ((e6809.reg_pc == testAddressSecond) && (cart.getCurrentBank() == testBank))
+        if ((e6809.reg_pc == testAddressSecond) && ((cart.getCurrentBank() == testBank)|| (testAddressFirst>0xc000)) )
         {
             if (wrStatus == WR_FIRST_FOUND)
             {
@@ -4168,8 +4662,8 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         }
         if (register.equals("d"))
         {
-            e6809.reg_a = value&0xff;
-            e6809.reg_b = (value>>8)&0xff;
+            e6809.reg_b = value&0xff;
+            e6809.reg_a = (value>>8)&0xff;
             return true;
         }
         if (register.equals("x"))

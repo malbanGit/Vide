@@ -3781,7 +3781,7 @@
                                                       <Component id="jTextFieldResync" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
-                                              <EmptySpace max="32767" attributes="0"/>
+                                              <EmptySpace pref="2" max="32767" attributes="0"/>
                                               <Component id="jCheckBox16" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -4812,10 +4812,12 @@
                                                           <Component id="jCheckBox14" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                                           <Component id="jCheckBox15" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Component id="jTextField13" min="-2" pref="52" max="-2" attributes="0"/>
                                                       </Group>
                                                       <Component id="jCheckBox11" min="-2" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <EmptySpace pref="277" max="32767" attributes="0"/>
+                                                  <EmptySpace pref="240" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -4837,6 +4839,7 @@
                                                       <Component id="jCheckBox13" alignment="3" min="-2" max="-2" attributes="0"/>
                                                       <Component id="jCheckBox14" alignment="3" min="-2" max="-2" attributes="0"/>
                                                       <Component id="jCheckBox15" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jTextField13" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -5102,7 +5105,11 @@
                                     <Component class="javax.swing.JTextField" name="jTextField12">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="SMVB_"/>
+                                        <Property name="enabled" type="boolean" value="false"/>
                                       </Properties>
+                                      <Events>
+                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField12ActionPerformed"/>
+                                      </Events>
                                     </Component>
                                     <Component class="javax.swing.JLabel" name="jLabel76">
                                       <Properties>
@@ -5292,6 +5299,7 @@
                                 </Container>
                                 <Component class="javax.swing.JCheckBox" name="jCheckBox11">
                                   <Properties>
+                                    <Property name="selected" type="boolean" value="true"/>
                                     <Property name="text" type="java.lang.String" value="old smart list"/>
                                   </Properties>
                                   <Events>
@@ -5300,7 +5308,6 @@
                                 </Component>
                                 <Component class="javax.swing.JCheckBox" name="jCheckBoxCompileForVB">
                                   <Properties>
-                                    <Property name="selected" type="boolean" value="true"/>
                                     <Property name="text" type="java.lang.String" value="vb smart list"/>
                                   </Properties>
                                   <Events>
@@ -5309,8 +5316,8 @@
                                 </Component>
                                 <Component class="javax.swing.JCheckBox" name="jCheckBox13">
                                   <Properties>
-                                    <Property name="selected" type="boolean" value="true"/>
                                     <Property name="text" type="java.lang.String" value="rts 2"/>
+                                    <Property name="enabled" type="boolean" value="false"/>
                                   </Properties>
                                 </Component>
                                 <Component class="javax.swing.JCheckBox" name="jCheckBox14">
@@ -5323,6 +5330,12 @@
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="low y"/>
                                     <Property name="toolTipText" type="java.lang.String" value="Test whether Y is &quot;very&quot; negative, if so - use different draw routine."/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JTextField" name="jTextField13">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="-150"/>
+                                    <Property name="toolTipText" type="java.lang.String" value="Threshold for additional NOP to set y integrators"/>
                                   </Properties>
                                 </Component>
                               </SubComponents>

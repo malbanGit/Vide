@@ -8,12 +8,13 @@ package de.malban.vide.vecx.devices;
 import de.malban.config.Configuration;
 import de.malban.vide.vecx.VecX;
 import static de.malban.vide.vecx.VecXPanel.DEVICE_LINKV1_L;
+import java.io.Serializable;
 
 /**
  *
  * @author malban
  */
-public class VecLinkV1Device extends AbstractDevice 
+public class VecLinkV1Device extends AbstractDevice  implements Serializable
 {
     public int getDeviceID()
     {

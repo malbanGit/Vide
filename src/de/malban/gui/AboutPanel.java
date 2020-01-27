@@ -88,7 +88,7 @@ public class AboutPanel extends javax.swing.JPanel {
 
         jLabel9.setText("Released under GPL 2.0.");
 
-        jLabel1.setText("2.5");
+        jLabel1.setText("2.5.3beta");
 
         jLabel3.setText("Homepage: ");
 

@@ -1,4 +1,6 @@
-/*
+
+
+        /*
 todo:
 chassis drawing
 fullscreen
@@ -1475,6 +1477,10 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                     {
                         drawColor = vpanel.getColor(c, left, right, drawColor);
                     }
+                    if (config.vectrexColorMode)
+                    {
+                        drawColor = getColorVectrexColor(c);
+                    }
 
                     if (config.JOGLuseSpillShader) 
                         bAdjust = (float)(bAdjust/config.JOGLInitialSpillDivisor);
@@ -1533,6 +1539,10 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                     {
                         drawColor = vpanel.getColor(c, left, right, drawColor);
                     }
+                    if (config.vectrexColorMode)
+                    {
+                        drawColor = getColorVectrexColor(c);
+                    }
 
                     if (config.JOGLuseSpillShader) 
                         bAdjust = (float)(bAdjust/config.JOGLInitialSpillDivisor);
@@ -1571,6 +1581,10 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
             if (isImager)
             {
                 drawColor = vpanel.getColor(c, left, right, drawColor);
+            }
+            if (config.vectrexColorMode)
+            {
+                drawColor = getColorVectrexColor(c);
             }
 
             if (config.JOGLuseSpillShader) 
@@ -1856,6 +1870,10 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 {
                     drawColor = vpanel.getColor(vector.color, vector.imagerColorLeft, vector.imagerColorRight, drawColor);
                 }
+                if (config.vectrexColorMode)
+                {
+                    drawColor = getColorVectrexColor(vector.color);
+                }
 
                 if (config.JOGLuseSpillShader) 
                     bAdjust = (float)(bAdjust/config.JOGLInitialSpillDivisor);
@@ -1914,6 +1932,10 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 if (isImager)
                 {
                     drawColor = vpanel.getColor(vector.color, vector.imagerColorLeft, vector.imagerColorRight, drawColor);
+                }
+                if (config.vectrexColorMode)
+                {
+                    drawColor = getColorVectrexColor(vector.color);
                 }
 
                 if (config.JOGLuseSpillShader) 
@@ -2000,6 +2022,292 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
 
             }
         }        
+    }
+
+    //256
+    Color[] vectrexColorData=
+    {
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.RED, // 
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.RED,
+        Color.YELLOW,// 
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.YELLOW,
+        Color.GREEN, // 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.GREEN, 
+        Color.CYAN, // 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.CYAN, 
+        Color.white, // 
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.white,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta,
+        Color.magenta, // 
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLACK,
+        Color.BLUE, // 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+        Color.BLUE, 
+
+    };
+    
+    
+    
+    Color getColorVectrexColor(int intensity)
+    {
+        return vectrexColorData[intensity];
+/*
+        // 7 R
+        // 7 G
+        // 3 B
+        int rBit = (intensity >> 5) & 0x7;
+        int gBit = (intensity >> 2) & 0x7;
+        int bBit = (intensity ) & 0x3;
+        
+        int r = (255/7)*rBit;
+        int g = (255/7)*gBit;
+        int b = (255/3)*bBit;
+        
+        
+        
+        
+        return new Color(r,g,b);
+        */
     }
     
     

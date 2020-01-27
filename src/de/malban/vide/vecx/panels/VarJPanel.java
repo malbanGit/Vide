@@ -410,7 +410,6 @@ public class VarJPanel extends javax.swing.JPanel implements
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jCheckBox1.setSelected(true);
         jCheckBox1.setText("only user RAM (from $c880)");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

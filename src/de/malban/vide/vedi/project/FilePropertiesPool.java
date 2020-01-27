@@ -45,7 +45,10 @@ public class  FilePropertiesPool
                 f = new java.io.File(de.malban.util.Utility.makeVideAbsolute(pathName)+File.separator+mFileName);
             if (!f.exists()) return false;
             if (pathName == null)
+            {
+                if (!new java.io.File(mFileName).exists()) return false;
                 mFileProperties = FileProperties.getHashMapFromXML(mFileName);
+            }
             else
                 mFileProperties = FileProperties.getHashMapFromXML(mFileName, de.malban.util.Utility.makeVideAbsolute(pathName));
             return true;

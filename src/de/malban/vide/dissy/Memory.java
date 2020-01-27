@@ -146,7 +146,12 @@ public class Memory {
         }
         else 
             memMap.get(adr).content = mem;
-            
+        
+        // something that is LOADED into mem, is at least a byte? But defenitly not unkown
+        if (adr < 0xe000)
+            if (memMap.get(adr).disType == MemoryInformation.DIS_TYPE_UNKOWN)
+                memMap.get(adr).disType = MemoryInformation.DIS_TYPE_LOADED;
+        
         return memMap.get(adr);
     }
     public void init()

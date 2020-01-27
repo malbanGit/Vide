@@ -83,6 +83,7 @@ public class Capacitorial implements Serializable
         {
             currentVoltage += percentageDifChangePerCycle*dif;
         }
+
     }
     // -128 - +127
     public void setDigitalVoltage(int v)

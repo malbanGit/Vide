@@ -136,7 +136,6 @@ public class Breakpoint implements Serializable
         nbp.memInfo = memInfo;
         return nbp;
     }
-    
     // are the two breakpoints "adress similar"
     public boolean addressEquals(Breakpoint bp)
     {
@@ -147,7 +146,6 @@ public class Breakpoint implements Serializable
         if (type != bp.type) return false;
         return true;
     }
-    
     public boolean equals(Breakpoint bp)
     {
         if (targetType != bp.targetType) return false;
@@ -158,7 +156,6 @@ public class Breakpoint implements Serializable
         if (type != bp.type) return false;
         return true;
     }
-    
     public String toString()
     {
         String ret = "Breakpoint, type="+bp_target[targetType];
@@ -211,7 +208,6 @@ public class Breakpoint implements Serializable
     {
         return compareValue;
     }
-    
     public String getExitTypeString()
     {
         if (exitType == EMU_EXIT_BREAKPOINT_BREAK) return "break";

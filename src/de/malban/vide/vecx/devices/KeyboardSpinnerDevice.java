@@ -73,11 +73,11 @@ public class KeyboardSpinnerDevice extends AbstractDevice
     
     private void setupKeyEvents()
     {
-        new HotKey("SpinnerButton_1_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton3(false, true); }}, panel);
-        new HotKey("SpinnerButton_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton4(false, true); }}, panel);
+        new HotKey("SpinnerButton_1_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton3(false, true); }}, panel);
+        new HotKey("SpinnerButton_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton4(false, true); }}, panel);
 
-        new HotKey("SpinnerButton_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton3(true, true); }}, panel);
-        new HotKey("SpinnerButton_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton4(true, true); }}, panel);
+        new HotKey("SpinnerButton_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton3(true, true); }}, panel);
+        new HotKey("SpinnerButton_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton4(true, true); }}, panel);
 
         new HotKey("Spinner_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  moveDirection = LEFT; }}, panel);
         new HotKey("Spinner_Right_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  moveDirection = RIGHT; }}, panel);

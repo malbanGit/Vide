@@ -214,6 +214,7 @@ public class ASM6809File
     
     synchronized void  resetLabels()
     {
+        if (doNotResetLabels) return;
         Set entries = lineEntityMap.entrySet();
         Iterator it = entries.iterator();
         while (it.hasNext())
@@ -274,7 +275,48 @@ public class ASM6809File
        entityArray.clear();
        scanText(text.toString());
     }
-            
+    String getSingleName(String path, String name)
+    {
+        path = de.malban.util.UtilityFiles.convertSeperator(path);
+        name = de.malban.util.UtilityFiles.convertSeperator(name);
+        if (name.endsWith(File.separator)) name = name.substring(0, name.length()-1);
+        String result = path;
+        // truncate name 
+        // of directories in path
+        
+        while (true)
+        {
+            String firstDir = getFirstDir(path);
+            if (firstDir ==null) return result+name;
+            path = removeLeadingDir(firstDir,path);
+            name = removeLeadingDir(firstDir, name);
+            if (name.startsWith(File.separator)) name = name.substring(1);
+        }
+    }
+    String getFirstDir(String path)
+    {
+        if (path == null) return null;
+        if (path.startsWith(File.separator)) path = path.substring(1);
+        int p = path.indexOf(File.separator);
+        if (p==-1)
+        {
+            if (path.length()==0) return null;
+            return path;
+        }
+        return path.substring(0, p);
+    }
+    String removeLeadingDir(String fd, String path)
+    {
+        if (fd == null) return path;
+        if (path.startsWith(File.separator)) path = path.substring(1);
+        if (path.startsWith(fd))
+            return path.substring(fd.length());
+        return path;
+    }
+
+    
+    
+    
     // this scans for changes between an old line and a new line
     // and sets global macro/label definitions accordingly
     // also updates entity and lineEntity
@@ -367,7 +409,8 @@ public class ASM6809File
                 {
                     newFilename+=path+File.separator;
                 }
-                newFilename+=entity.name;
+                String singleName = getSingleName(newFilename, entity.name);
+                newFilename=singleName;
                 if (master.inReset)
                 {
                     String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(newFilename)).toLowerCase();
@@ -394,15 +437,19 @@ public class ASM6809File
 
         return entity;
     }
+    boolean doNotResetLabels = false;
     synchronized void scanText(String text)
     {
         String[] lines = text.split("\n");
         int c = 0;
+        doNotResetLabels = true;
         for (String line : lines)
         {
             updateEntity(line+";"+c, line+";"+c);
             c++;
         }
+        doNotResetLabels = false;
+        resetLabels();
     }
     
     int getLineCount(String text)
