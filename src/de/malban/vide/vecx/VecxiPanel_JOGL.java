@@ -176,6 +176,7 @@ import de.malban.vide.vecx.spline.CardinalSpline;
 import de.malban.vide.vecx.spline.Pt;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.GraphicsEnvironment;
 import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -186,9 +187,11 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.lang.reflect.Method;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
+
 /*
 import org.jcodec.common.Codec;
 import org.jcodec.common.MuxerTrack;
@@ -4323,6 +4326,20 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
         }
         if (config.CHASSIS_AVAILABLE!=1) return;
     }
+    public static int getScaleFactor() {
+        try {
+            // Use reflection to avoid compile errors on non-macOS environments
+            Object screen = Class.forName("sun.awt.CGraphicsDevice").cast(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
+            Method getScaleFactor = screen.getClass().getDeclaredMethod("getScaleFactor");
+            Object obj = getScaleFactor.invoke(screen);
+            if (obj instanceof Integer) {
+                return ((Integer)obj).intValue();
+            }
+        } catch (Exception e) {
+//            System.out.println("Unable to determine screen scale factor.  Defaulting to 1.");
+        }
+        return 1;
+    }
     // of jogl panel in screen coordonates
     // only when aspect ratio is active
     int topOffset = 0;
@@ -4339,6 +4356,8 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 float width = bounds.width;
                 float height = bounds.height;
                 float ratio = 4f/3f;
+                int scaleFactor = getScaleFactor();
+                
                 if ((config.rotate == 0) || (config.rotate == 180))
                 {
                     float naturalRatio = (float)bounds.height / (float)bounds.width;
@@ -4356,8 +4375,9 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 
                 bounds.x = leftOffset;
                 bounds.y = vpanel.getYOffset() +topOffset;
-                bounds.width = (int) width;
-                bounds.height = (int) height;
+                bounds.width = (int) width * scaleFactor;
+                bounds.height = (int) height * scaleFactor;
+                
             }
             else
             {
