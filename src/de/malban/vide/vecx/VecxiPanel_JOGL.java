@@ -4351,13 +4351,13 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
 
         if ((bounds.width !=0) && (bounds.height != 0))
         {
+            int scaleFactor = getScaleFactor();
             if (config.keepAspectRatio)
             {
                 float width = bounds.width;
                 float height = bounds.height;
                 float ratio = 4f/3f;
-                int scaleFactor = getScaleFactor();
-                
+                                
                 if ((config.rotate == 0) || (config.rotate == 180))
                 {
                     float naturalRatio = (float)bounds.height / (float)bounds.width;
@@ -4375,8 +4375,8 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 
                 bounds.x = leftOffset;
                 bounds.y = vpanel.getYOffset() +topOffset;
-                bounds.width = (int) width * scaleFactor;
-                bounds.height = (int) height * scaleFactor;
+                bounds.width = (int) width;
+                bounds.height = (int) height;
                 
             }
             else
@@ -4384,7 +4384,8 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 topOffset = 0;
                 leftOffset = 0;
             }
-            
+            bounds.width *= scaleFactor;
+            bounds.height *= scaleFactor;
         }
         gl2Width = bounds.width;
         gl2Height = bounds.height;
