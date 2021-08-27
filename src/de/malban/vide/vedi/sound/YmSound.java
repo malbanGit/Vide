@@ -168,10 +168,6 @@ public class YmSound {
         filenameOnly = p.getFileName().toString();
         filenameBaseOnly = filenameOnly.substring(0, filenameOnly.length()-3); // we know it ends with ".ym"
 
-        for (int i=0; i < 16; i++)
-        {
-            out_buf[i] = new byte[len/16+16];
-        }
         String format ="";
         format += (char)buf[0];
         format += (char)buf[1];
@@ -437,6 +433,10 @@ public class YmSound {
         int pos=4;
         int todo=((len-4)/14);
         vbl_len=todo;
+        for (int i=0; i < 16; i++)
+        {
+             out_buf[i] = new byte[vbl_len];
+        }
         int out_counter = 0;
         tl.printMessageSU(tab("VBL found", DATA_TAB)+todo+"");
         song_name = file_name;
@@ -496,6 +496,10 @@ public class YmSound {
         c4 = in_buf[pos++]&0xff;
         int todo=c1*256*256*256+c2*256*256+c3*256+c4;
         vbl_len=todo;
+        for (int i=0; i < 16; i++)
+        {
+             out_buf[i] = new byte[vbl_len];
+        }
         int out_counter = 0;
         tl.printMessageSU(tab("VBL found", DATA_TAB)+todo+"");
         int interleave_length=todo;
@@ -649,6 +653,10 @@ public class YmSound {
         c4 = in_buf[pos++]&0xff;
         int todo=c1*256*256*256+c2*256*256+c3*256+c4;
         vbl_len=todo;
+        for (int i=0; i < 16; i++)
+        {
+             out_buf[i] = new byte[vbl_len];
+        }
         tl.printMessageSU(tab("VBL found", DATA_TAB)+todo+"");
         int interleave_length=todo;
 

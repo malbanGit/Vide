@@ -11,6 +11,7 @@ import de.malban.graphics.GFXVector;
 import de.malban.graphics.GFXVectorAnimation;
 import de.malban.graphics.GFXVectorList;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
@@ -211,6 +212,15 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     public MemoryDumpPanel() {
         initComponents();
         MemoryDumpTableModel model = new MemoryDumpTableModel();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldPatternName);
+            HotKey.addMacDefaults(jTextField8);
+            HotKey.addMacDefaults(jTextField9);
+            HotKey.addMacDefaults(jTextField10);
+            HotKey.addMacDefaults(jTextField2);
+            HotKey.addMacDefaults(jTextField3);
+        }
 
         mClassSetting++;
         loadPatterns();
@@ -989,23 +999,29 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         if (endAddress==-1) return;
         if (endAddress<startAddress) return;
         
-        
         StringBuffer b = new StringBuffer();
-        if ((startAddress>= 0xc800) && (endAddress<=0xcbff))
+        try
         {
-            for(int i=startAddress; i<=endAddress; i++)
+            if ((startAddress>= 0xc800) && (endAddress<=0xcbff))
             {
-                MemoryInformation memInfo = dissi.getMemoryInformation(i, vecxPanel.getCurrentBank());
-                b.append(" $").append(String.format("%02X",vecxPanel.getVecXMem8(i)) );
+                for(int i=startAddress; i<=endAddress; i++)
+                {
+                    MemoryInformation memInfo = dissi.getMemoryInformation(i, vecxPanel.getCurrentBank());
+                    b.append(" $").append(String.format("%02X",vecxPanel.getVecXMem8(i)) );
+                }
+            }
+            else
+            {
+                for(int i=startAddress; i<=endAddress; i++)
+                {
+                    MemoryInformation memInfo = dissi.getMemoryInformation(i, vecxPanel.getCurrentBank());
+                    b.append(" $").append(String.format("%02X",memInfo.content) );
+                }
             }
         }
-        else
+        catch  (Exception ex)
         {
-            for(int i=startAddress; i<=endAddress; i++)
-            {
-                MemoryInformation memInfo = dissi.getMemoryInformation(i, vecxPanel.getCurrentBank());
-                b.append(" $").append(String.format("%02X",memInfo.content) );
-            }
+            ;
         }
        
         VeccyInterpreter interpreter = new VeccyInterpreter();
@@ -1293,9 +1309,9 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         {
             int v = vecxPanel.getVecXMem8( row*16+i) &0xff;
             if (v<0x20) dump+=".";
-            else if (v>0x6F) dump+=".";
-            else if (v<0x5F) dump+=(char)v;
-            else dump += "~";
+            else if (v>0x7F) dump+=".";
+  /*          else if (v<0x5F) */dump+=(char)v;
+//            else dump += "~";
         }
         return dump;
     }

@@ -31,6 +31,7 @@ public abstract interface VecXStatics
     public static final int TIMER_MUX_SEL_CHANGE = 12;
     public static final int TIMER_SHIFT = 13;
     public static final int TIMER_T1 = 14;
+    public static final int TIMER_T2 = 15;
     
        
     public static final int TIMER_SHIFT_WRITE = TIMER_SHIFT+1024;

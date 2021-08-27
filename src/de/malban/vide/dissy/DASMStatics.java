@@ -112,10 +112,10 @@ public class DASMStatics {
         pg1opcodes[i++] = new Opcodeinfo(46,1,"bgt",REL,3);
         pg1opcodes[i++] = new Opcodeinfo(47,1,"ble",REL,3);
 
-        pg1opcodes[i++] = new Opcodeinfo(48,1,"leax",IND,2);
-        pg1opcodes[i++] = new Opcodeinfo(49,1,"leay",IND,2); // ? Frogger 0585
-        pg1opcodes[i++] = new Opcodeinfo(50,1,"leas",IND,2);
-        pg1opcodes[i++] = new Opcodeinfo(51,1,"leau",IND,2);
+        pg1opcodes[i++] = new Opcodeinfo(48,1,"leax",IND,4);
+        pg1opcodes[i++] = new Opcodeinfo(49,1,"leay",IND,4); // ? Frogger 0585
+        pg1opcodes[i++] = new Opcodeinfo(50,1,"leas",IND,4);
+        pg1opcodes[i++] = new Opcodeinfo(51,1,"leau",IND,4);
         pg1opcodes[i++] = new Opcodeinfo(52,1,"pshs",INH,5);
         pg1opcodes[i++] = new Opcodeinfo(53,1,"puls",INH,5);
         pg1opcodes[i++] = new Opcodeinfo(54,1,"pshu",INH,5);
@@ -208,6 +208,7 @@ public class DASMStatics {
         pg1opcodes[i++] = new Opcodeinfo(157,1,"jsr",DIR,7);
         pg1opcodes[i++] = new Opcodeinfo(158,1,"ldx",DIR,5);
         pg1opcodes[i++] = new Opcodeinfo(159,1,"stx",DIR,5);
+// F        pg1opcodes[i++] = new Opcodeinfo(159,1,"stx",DIR,4);
 
         pg1opcodes[i++] = new Opcodeinfo(160,1,"suba",IND,4);
         pg1opcodes[i++] = new Opcodeinfo(161,1,"cmpa",IND,4);
@@ -225,6 +226,7 @@ public class DASMStatics {
         pg1opcodes[i++] = new Opcodeinfo(173,1,"jsr",IND,7);
         pg1opcodes[i++] = new Opcodeinfo(174,1,"ldx",IND,5);
         pg1opcodes[i++] = new Opcodeinfo(175,1,"stx",IND,5);
+// F        pg1opcodes[i++] = new Opcodeinfo(175,1,"stx",IND,4);
 
         pg1opcodes[i++] = new Opcodeinfo(176,2,"suba",EXT,5);
         pg1opcodes[i++] = new Opcodeinfo(177,2,"cmpa",EXT,5);
@@ -242,6 +244,7 @@ public class DASMStatics {
         pg1opcodes[i++] = new Opcodeinfo(189,2,"jsr",EXT,8);
         pg1opcodes[i++] = new Opcodeinfo(190,2,"ldx",EXT,6);
         pg1opcodes[i++] = new Opcodeinfo(191,2,"stx",EXT,6);
+// F        pg1opcodes[i++] = new Opcodeinfo(191,2,"stx",EXT,5);
 
         pg1opcodes[i++] = new Opcodeinfo(192,1,"subb",IMM,2);
         pg1opcodes[i++] = new Opcodeinfo(193,1,"cmpb",IMM,2);
@@ -271,8 +274,10 @@ public class DASMStatics {
         pg1opcodes[i++] = new Opcodeinfo(219,1,"addb",DIR,4);
         pg1opcodes[i++] = new Opcodeinfo(220,1,"ldd",DIR,5);
         pg1opcodes[i++] = new Opcodeinfo(221,1,"std",DIR,5);
+// F        pg1opcodes[i++] = new Opcodeinfo(221,1,"std",DIR,4);
         pg1opcodes[i++] = new Opcodeinfo(222,1,"ldu",DIR,5);
         pg1opcodes[i++] = new Opcodeinfo(223,1,"stu",DIR,5);
+// F        pg1opcodes[i++] = new Opcodeinfo(223,1,"stu",DIR,4);
 
         pg1opcodes[i++] = new Opcodeinfo(224,1,"subb",IND,4);
         pg1opcodes[i++] = new Opcodeinfo(225,1,"cmpb",IND,4);
@@ -286,10 +291,13 @@ public class DASMStatics {
         pg1opcodes[i++] = new Opcodeinfo(233,1,"adcb",IND,4);
         pg1opcodes[i++] = new Opcodeinfo(234,1,"orb",IND,4);
         pg1opcodes[i++] = new Opcodeinfo(235,1,"addb",IND,4);
+// F        pg1opcodes[i++] = new Opcodeinfo(236,1,"ldd",IND,4);
+// F        pg1opcodes[i++] = new Opcodeinfo(237,1,"std",IND,4);
         pg1opcodes[i++] = new Opcodeinfo(236,1,"ldd",IND,5);
         pg1opcodes[i++] = new Opcodeinfo(237,1,"std",IND,5);
         pg1opcodes[i++] = new Opcodeinfo(238,1,"ldu",IND,5);
         pg1opcodes[i++] = new Opcodeinfo(239,1,"stu",IND,5);
+// F        pg1opcodes[i++] = new Opcodeinfo(239,1,"stu",IND,4);
 
         pg1opcodes[i++] = new Opcodeinfo(240,2,"subb",EXT,5);
         pg1opcodes[i++] = new Opcodeinfo(241,2,"cmpb",EXT,5);
@@ -305,8 +313,11 @@ public class DASMStatics {
         pg1opcodes[i++] = new Opcodeinfo(251,2,"addb",EXT,5);
         pg1opcodes[i++] = new Opcodeinfo(252,2,"ldd",EXT,6);
         pg1opcodes[i++] = new Opcodeinfo(253,2,"std",EXT,6);
+// F        pg1opcodes[i++] = new Opcodeinfo(252,2,"ldd",EXT,5);
+// F        pg1opcodes[i++] = new Opcodeinfo(253,2,"std",EXT,5);
         pg1opcodes[i++] = new Opcodeinfo(254,2,"ldu",EXT,6);
         pg1opcodes[i++] = new Opcodeinfo(255,2,"stu",EXT,6);
+// F        pg1opcodes[i++] = new Opcodeinfo(255,2,"stu",EXT,5);
 
         /* page 2 ops 10xx*/
         i=0;

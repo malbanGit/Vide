@@ -1,0 +1,57 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	gcc_memset.c
+                              6 	.area	.text
+                              7 	.globl	_memset
+   0000                       8 _memset:
+   0000 32 7A         [ 5]    9 	leas	-6,s
+   0002 AF 62         [ 6]   10 	stx	2,s
+   0004 E7 61         [ 5]   11 	stb	1,s
+   0006 AE 62         [ 6]   12 	ldx	2,s
+   0008 AF 64         [ 6]   13 	stx	4,s
+   000A 20 0C         [ 3]   14 	bra	L2
+   000C                      15 L4:
+   000C E6 61         [ 5]   16 	ldb	1,s
+   000E E7 F8 04      [ 8]   17 	stb	[4,s]
+   0011 EC 64         [ 6]   18 	ldd	4,s
+   0013 C3 00 01      [ 4]   19 	addd	#1; addhi3,3
+   0016 ED 64         [ 6]   20 	std	4,s
+   0018                      21 L2:
+   0018 6F E4         [ 6]   22 	clr	,s
+   001A AE 68         [ 6]   23 	ldx	8,s
+   001C 8C 00 00      [ 4]   24 	cmpx	#0
+   001F 27 04         [ 3]   25 	beq	L3
+   0021 C6 01         [ 2]   26 	ldb	#1
+   0023 E7 E4         [ 4]   27 	stb	,s
+   0025                      28 L3:
+   0025 EC 68         [ 6]   29 	ldd	8,s
+   0027 C3 FF FF      [ 4]   30 	addd	#-1; addhi3,3
+   002A ED 68         [ 6]   31 	std	8,s
+   002C 6D E4         [ 6]   32 	tst	,s
+   002E 26 DC         [ 3]   33 	bne	L4
+   0030 AE 62         [ 6]   34 	ldx	2,s
+   0032 32 66         [ 5]   35 	leas	6,s
+   0034 39            [ 5]   36 	rts
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 1
+Hexadecimal [16-Bits]                                 Mon May 11 16:29:49 2020
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 L2                 0018 R   |   2 L3                 0025 R
+  2 L4                 000C R   |   2 _memset            0000 GR
+
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 2
+Hexadecimal [16-Bits]                                 Mon May 11 16:29:49 2020
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size   35   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

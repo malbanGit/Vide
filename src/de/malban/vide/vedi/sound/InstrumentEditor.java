@@ -9,6 +9,7 @@ import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.panels.LogPanel;
@@ -90,6 +91,11 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
      */
     public InstrumentEditor(TinyLogInterface tl) {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextArea1);
+            HotKey.addMacDefaults(jTextField1a);
+        }
         
         initComboBox(-1);
         initCurrentInstrument();

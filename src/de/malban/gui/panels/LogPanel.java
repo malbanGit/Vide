@@ -16,6 +16,7 @@ import de.malban.config.LogListener;
 import de.malban.config.Logable;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import java.io.*;
@@ -88,6 +89,10 @@ public class LogPanel extends javax.swing.JPanel implements Windowable, Logable,
         time = de.malban.util.UtilityString.replace(time, ".", "_");
         time = de.malban.util.UtilityString.replace(time, ":", "_");
         time = de.malban.util.UtilityString.replace(time, " ", "_");
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextPaneLog);
+        }
         mLogName = time;
     }
 
@@ -316,7 +321,14 @@ public class LogPanel extends javax.swing.JPanel implements Windowable, Logable,
             String t = jTextPaneLog.getText();
             if (t.length() >MAX_LOG_LEN)
             {
+                try
+                {
                 jTextPaneLog.setText(t.substring(t.length()/4));
+                }
+                catch (Exception x)
+                {
+                
+                }
             }
         }
     }

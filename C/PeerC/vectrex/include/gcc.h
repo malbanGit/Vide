@@ -1,6 +1,5 @@
 // ***************************************************************************
-// VECTREX EXECUTIVE RUM ADDRESSES AND C INTERFACE
-// gcc built-in stdlib functions for gcc6809 - do not change!
+// gcc built-in stdlib functions for gcc6809
 // ***************************************************************************
 //
 // Disclaimer:
@@ -32,10 +31,28 @@
 // to the following contact address:
 //
 // peer.johannsen@pforzheim-university.de
+// vectrex@pforzheim-university.de
 //
 // ---------------------------------------------------------------------------
 
 #pragma once
+
+// ---------------------------------------------------------------------------
+
+#define _GCC_BUILTIN_ABORT		1	// add code for abort()
+#define _GCC_BUILTIN_FREE		1	// add code for free()
+#define _GCC_BUILTIN_MALLOC		0	// add code for malloc()
+#define _GCC_BUILTIN_MEMCMP		0	// add code for memcmp()
+#define _GCC_BUILTIN_MEMCPY		0	// add code for memcpy()
+#define _GCC_BUILTIN_MEMMOVE	0	// add code for memmove()
+#define _GCC_BUILTIN_MEMSET		0	// add code for memset()
+
+#define _GCC_BUILTIN_RESET		1	// use optimized code for abort(), free(), malloc()
+#define _GCC_BUILTIN_ASM		0	// use optimized assembly code rather than c - TODO!
+
+#ifndef __ass
+#define __ass asm
+#endif
 
 // ---------------------------------------------------------------------------
 

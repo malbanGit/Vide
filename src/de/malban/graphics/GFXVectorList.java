@@ -5,6 +5,7 @@
  */
 package de.malban.graphics;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
@@ -2624,7 +2625,7 @@ public class GFXVectorList {
         map.put(v, v);
     }
     
-    public String createC3dPattern(String name, boolean factor, boolean createNon3ds)
+    public String createC3dPattern(String name, boolean factor, boolean createNon3ds, boolean shift, boolean absolut)
     {
         StringBuilder s = new StringBuilder();
         String oldHex = hexSign;
@@ -2632,12 +2633,81 @@ public class GFXVectorList {
         GFXVectorList vl = clone();
         int count = vl.size();
 
+        if (shift)
+        {
+            if (absolut)
+            {
+                s.append("/* Format: (absolut values)\n");
+                s.append(" * pattern, y0,x0,z0,y1,x1,z1\n");
+                s.append(" */\n");
+            }
+            else
+            {
+                s.append("/* Format: (relative values)\n");
+                s.append(" * pattern, y_len,x_len,z_len\n");
+                s.append(" */\n");
+            }
+            s.append("const struct Line_3d "+name).append("[]=\n{\n");
+
+            boolean first =true;
+            for (GFXVector v : vl.list)
+            {
+                StringBuilder s2 = new StringBuilder();
+                if (first)
+                {
+                    first = false;
+                    s.append("\n");
+                }
+                else
+                {
+                    s.append(",\n");
+                }
+                s2.append("\t{");
+
+                int pattern = v.pattern;
+                if (pattern == 0)
+                {
+                    s2.append("0x00, ");
+                }
+                else
+                {
+                    s2.append("0xff, ");
+                }
+                if (absolut)
+                {
+                    s2.append(hex((int)v.start.y())).append(", ");
+                    s2.append(hex((int)v.start.x())).append(", ");
+                    s2.append(hex((int)v.start.z())).append(", ");
+                    s2.append(hex((int)v.end.y())).append(", ");
+                    s2.append(hex((int)v.end.x())).append(", ");
+                    s2.append(hex((int)v.end.z())).append("}");
+                }
+                else
+                {
+                    int width = (int)(v.end.x()-v.start.x());
+                    int height = (int)(v.end.y()-v.start.y());
+                    int depth = (int)(v.end.z()-v.start.z());
+                    s2.append(hex(height)).append(", ");
+                    s2.append(hex(width)).append(", ");
+                    s2.append(hex(depth)).append("}");
+                }
+                
+                s.append(s2);
+            }
+            s.append("\n");
+            s.append("};\n");
+            String text = s.toString();
+            hexSign = oldHex;
+            return text;        
+        }
+        
         if (createNon3ds)
             s.append("const struct Line3d "+name).append("[]=\n{\n");
         else
             s.append("const struct Line3ds "+name).append("[]=\n{\n");
 
-        HashMap<String, String> usageMap = new HashMap<String, String>();
+
+            HashMap<String, String> usageMap = new HashMap<String, String>();
         for (GFXVector v : vl.list)
         {
             StringBuilder s2 = new StringBuilder();
@@ -2840,7 +2910,7 @@ public class GFXVectorList {
     }
     // if highbyte in a pattern is cleared
     // it is FORCED set!
-    public String createCDraw_VLp(String name, boolean factor)
+    public String createCDraw_VLp(String name, boolean factor,boolean keepPosition)
     {
         if (!isDraw_VLp()) return "";
         StringBuilder s = new StringBuilder();
@@ -2849,6 +2919,24 @@ public class GFXVectorList {
         hexSign = "0x";
         s.append("const signed char "+name).append("[]=\n{");
         GFXVectorList vl = this;
+        
+        if (keepPosition)
+        {
+            if (vl.list.size()>0)
+            {
+                GFXVector v = vl.list.get(0);
+                if ((((int)v.start.x()) != 0) || (((int)v.start.y()) != 0))
+                {
+                    s.append("\t(signed char) ").append(hexU(0)).append(", ");
+                    GFXVector vDummy = new GFXVector();
+                    vDummy.end = v.start;
+                    s.append(getRelativeCoordString(vDummy, factor)).append(", ");
+                    s.append(" // pattern, y, x\n");
+                }
+            }
+        }
+        
+        
         for (GFXVector v : vl.list)
         {
             boolean warn = false;
@@ -3040,6 +3128,58 @@ public class GFXVectorList {
         hexSign = oldHex;
         return text;
     }
+    
+    public String createAbsolutListC(String name, boolean start, boolean end, boolean factor)
+    {
+        StringBuilder s = new StringBuilder();
+        
+        String oldHex = hexSign;
+        hexSign = "0x";
+        GFXVectorList vl = this;
+        s.append("const signed char "+name).append("[]=\n{");
+        String f="";
+        if (factor)
+        {
+            f = "*BLOW_UP";
+        }
+        s.append("\t(signed char) ").append(""+vl.list.size()).append(", // count of vectors\n");
+        for (GFXVector v : vl.list)
+        {
+            s.append("\t(signed char) ").append(hexU( (int)  v.start.y() ) +f ).append(", ");
+            s.append("(signed char) ").append(hexU( (int)  v.start.x() ) +f ).append(", ");
+            s.append("(signed char) ").append(hexU( (int)  v.end.y() ) +f ).append(", ");
+            s.append("(signed char) ").append(hexU( (int)  v.end.x() ) +f ).append(",");
+            s.append("\t// y0, x0, y1, x1\n");
+                
+        }
+        s.append("};\n");
+        
+        String text = s.toString();
+        hexSign = oldHex;
+        return text;        
+    }    
+    public String createAbsolutList(String name, boolean start, boolean end)
+    {
+        StringBuilder s = new StringBuilder();
+        
+        GFXVectorList vl = this;
+        s.append(name).append(":\n");
+        boolean init = true;
+        for (GFXVector v : vl.list)
+        {
+            s.append(" "+GFXVectorList.getDB()+" ");
+            if ((start) & (end))
+                s.append(hex((int)v.start.y())+", "+hex((int)v.start.x())+", "+hex((int)v.end.y())+", "+hex((int)v.end.x())+" ; y0, x0, y1, x1 [pattern:"+hexU((int) (v.pattern&0xff))+"]\n");
+            else if (start)
+                s.append(hex((int)v.start.y())+", "+hex((int)v.start.x())+" ; y0, x0 [pattern:"+hexU((int) (v.pattern&0xff))+"]\n");
+            else if (end)
+                s.append(hex((int)v.end.y())+", "+hex((int)v.end.x())+" ; y1, x1 [pattern:"+hexU((int) (v.pattern&0xff))+"]\n");
+        }
+        
+        String text = s.toString();
+        return text;
+    }    
+    
     
     public String createASMDraw_VL_mode(String name, boolean includeInitialMove, boolean factor)
     {
@@ -3247,15 +3387,16 @@ public class GFXVectorList {
         // same check as mode!
         if (!isDraw_CodeGen()) return "";
         StringBuilder s = new StringBuilder();
-        Path template = Paths.get(".", "template", "codeGenDraw.template");
+        
+        Path template = Paths.get(Global.mainPathPrefix, "template", "codeGenDraw.template");
         String drawASM = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-        template = Paths.get(".", "template", "codeGenMove.template");
+        template = Paths.get(Global.mainPathPrefix, "template", "codeGenMove.template");
         String moveASM = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-        template = Paths.get(".", "template", "codeGenPattern.template");
+        template = Paths.get(Global.mainPathPrefix, "template", "codeGenPattern.template");
         String patternASM = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-        template = Paths.get(".", "template", "codeGenInit.template");
+        template = Paths.get(Global.mainPathPrefix, "template", "codeGenInit.template");
         String initASM = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-        template = Paths.get(".", "template", "codeGenDeInit.template");
+        template = Paths.get(Global.mainPathPrefix, "template", "codeGenDeInit.template");
         String deinitASM = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
         
         GFXVectorList vl = this;
@@ -3432,6 +3573,7 @@ public class GFXVectorList {
     {
         return createCDraw_syncList(source, name,  factor,  maxResync,  extended,  splitter,  false);
     }
+    
     public boolean createCDraw_syncList(StringBuilder source,String name, boolean factor, int maxResync, boolean extended, int splitter, boolean noAdditionalOptimization)
     {
         return createCDraw_syncList(source, name,  factor,  maxResync,  extended,  splitter,  false, "BLOW_UP");

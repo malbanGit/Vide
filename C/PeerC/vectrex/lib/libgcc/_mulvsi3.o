@@ -1,0 +1,35 @@
+XH2
+H 3 areas 4 global symbols 2 banks 1 modes
+M _mulvsi3.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+S _abort Ref0000
+S ___mulsi3 Ref0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 44 flags D00
+S ___mulvhi3 Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 32 70 AF 68 EC 68 1F 89 1D 59 59 C4 01
+R 00 00 00 02
+T 00 0D 50 ED 64 AF 66 EC E8 12 1F 89 1D 59 59
+R 00 00 00 02
+T 00 1A C4 01 50 ED E4 AE E8 12 AF 62 30 6C BD
+R 00 00 00 02
+T 00 27 00 00 32 68 EC 66 ED 62 1F 89 1D 59 59
+R 00 00 00 02 81 02 00 02
+T 00 34 C4 01 50 10 A3 64 27 03 7E 00 00
+R 00 00 00 02 81 0B 00 01
+T 00 3F
+R 00 00 00 02
+T 00 3F AE 62 32 68 39
+R 00 00 00 02
+T 00 44
+R 00 00 00 02

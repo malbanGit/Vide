@@ -1,0 +1,28 @@
+XH2
+H 3 areas 3 global symbols 2 banks 1 modes
+M _paritysi2.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S _ashrhi3 Ref0000
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 30 flags D00
+S ___parityhi2 Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 32 7C AF E4 1F 10 1F 89 4F 34 10 A8 E0
+R 00 00 00 02
+T 00 0D E8 E0 ED 62 44 56 44 56 44 56 44 56 A8
+R 00 00 00 02
+T 00 1A 62 E8 63 4F C4 0F 1F 01 CC 69 96 BD
+R 00 00 00 02
+T 00 26 00 00 4F C4 01 1F 01 32 64 39
+R 00 00 00 02 81 02 00 00
+T 00 30
+R 00 00 00 02

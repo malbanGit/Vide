@@ -42,6 +42,7 @@ public class Command
     public static final int D_CMD_DONOT_FOLLOW = 28;
     public static final int D_CMD_DUMP_JOGL = 29;
     public static final int D_CMD_TOGGLE_DISASM_RAM = 30;
+    public static final int D_CMD_DO_NMI = 31;
 
     public static final Command[] commands = 
     {
@@ -76,6 +77,7 @@ public class Command
         new Command(D_CMD_DONOT_FOLLOW, "DoNotFollow", "df", 1,1,"\"DoNotFollow\"\t\tIf update is switched - do not follow within table (just update columns).\n\t\t\t\tAlso sets print final track values to true.",""),
         new Command(D_CMD_DUMP_JOGL, "DumpJOGL", "dj", 1,1,"\"DumpJOGL\"\t\tDump JOGL OpenGL infos.",""),
         new Command(D_CMD_TOGGLE_DISASM_RAM, "DisasmRAM", "dr", 1,1,"\"DisasmRAM\"\t\tActively disassemble RAM memory.",""),
+        new Command(D_CMD_DO_NMI, "NMI", "NMI", 1,1,"\"NMI\"\t\tDo one NMI.",""),
     };
     
     public String fullname ="";

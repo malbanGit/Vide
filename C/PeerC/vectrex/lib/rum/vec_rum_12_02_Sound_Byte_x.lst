@@ -1,0 +1,33 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_12_02_Sound_Byte_x.c
+                              6 	.area	.text
+                              7 	.globl	__Sound_Byte_x
+   0000                       8 __Sound_Byte_x:
+                              9 ;----- asm -----
+                             10 ; 53 "source\vec_rum_12_02_Sound_Byte_x.c" 1
+   0000 A6 62         [ 5]   11 	lda 2,s
+   0002 7E 00 00      [ 4]   12 	jmp ___Sound_Byte_x; BIOS call
+                             13 ;--- end asm ---
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __Sound_Byte_x     0000 GR  |     ___Sound_Byte_     **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size    5   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

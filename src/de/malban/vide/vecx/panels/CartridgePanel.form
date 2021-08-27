@@ -32,7 +32,9 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabel45" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTextField42" min="-2" pref="25" max="-2" attributes="0"/>
+              <Component id="jTextFieldPB6" min="-2" pref="25" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+              <Component id="jCheckBoxExternalPB6" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
           <Component id="jTabbedPane1" pref="548" max="32767" attributes="0"/>
@@ -43,13 +45,14 @@
           <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jToggleButton1" max="32767" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="jLabel68" alignment="3" max="32767" attributes="0"/>
+                      <Component id="jTextField43" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel45" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jTextField42" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                          <Component id="jLabel68" alignment="3" max="32767" attributes="0"/>
-                          <Component id="jTextField43" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jTextFieldPB6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jCheckBoxExternalPB6" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -911,6 +914,9 @@
                   <Dimension value="[40, 20]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField31ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField32">
               <Properties>
@@ -3271,7 +3277,7 @@
         <Property name="text" type="java.lang.String" value="PB6:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField42">
+    <Component class="javax.swing.JTextField" name="jTextFieldPB6">
       <Properties>
         <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
@@ -3285,6 +3291,15 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="~IRQ"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBoxExternalPB6">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="PB6 from extern"/>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCheckBoxExternalPB6ItemStateChanged"/>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jCheckBoxExternalPB6StateChanged"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

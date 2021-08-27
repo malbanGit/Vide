@@ -1,10 +1,11 @@
+;!FILE crt0.s
 XH2
-H 8 areas A global symbols 4 banks 1 modes
+H C areas 20 global symbols 4 banks 1 modes
 M crt0.c
 G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
 B _CSEG base 0 size 0 map 0 flags 0
 B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
-B rom base 0 size 8000 map 0 flags 7 fsfx _rom
+B rom base 0 size C000 map 0 flags 7 fsfx _rom
 B ram base C880 size 36B map 0 flags 7 fsfx _ram
 S l_.bss Ref0000
 S _main Ref0000
@@ -19,9 +20,35 @@ S l_.text Ref0000
 A _CODE size 0 flags CC80 bank 0
 A _DATA size 0 flags CCC0 bank 1
 A .cartridge size 0 flags 8C80 bank 2
-A .text size 3B flags 8D80 bank 2
+A .bootloader size 3B flags CD80 bank 2
+S A$crt0$60 Def0007
+S A$crt0$61 Def000B
+S A$crt0$80 Def0032
+S A$crt0$71 Def0020
+S A$crt0$62 Def000F
+S A$crt0$81 Def0033
+S A$crt0$72 Def0024
+S A$crt0$63 Def0013
+S A$crt0$82 Def0035
+S A$crt0$73 Def0027
+S A$crt0$64 Def0016
+S A$crt0$84 Def0038
+S A$crt0$75 Def0029
+S A$crt0$66 Def0018
+S A$crt0$76 Def002B
+S A$crt0$67 Def001A
+S A$crt0$58 Def0000
+S A$crt0$77 Def002D
+S A$crt0$68 Def001C
+S A$crt0$59 Def0003
+S A$crt0$69 Def001E
+S A$crt0$79 Def002F
+A .bankswitch.data size 0 flags CCC0 bank 2
+A .bankswitch.code size 0 flags CC80 bank 2
+A .text size 0 flags 8C80 bank 2
 A .text.hot size 0 flags 8C80 bank 2
 A .text.unlikely size 0 flags 8C80 bank 2
+A .text.last size 0 flags 8C80 bank 2
 A .data size 0 flags 8C80 bank 3
 A .bss size 0 flags 8C80 bank 3
 T 00 00
@@ -30,7 +57,7 @@ T 00 00 CE 00 00 33 C9 00 00 33 C9
 R 00 00 00 03 81 03 00 02 81 07 00 09
 T 00 09 00 00 33 C9 00 00 10 8E
 R 00 00 00 03 81 02 00 08 81 06 00 05
-T 00 11 00 00 8E 00 00 27 08
+T 00 11 00 00 8E 00 00 27 17
 R 00 00 00 03 81 02 00 06 81 05 00 04
 T 00 18
 R 00 00 00 03

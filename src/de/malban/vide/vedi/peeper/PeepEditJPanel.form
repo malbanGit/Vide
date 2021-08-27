@@ -27,7 +27,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jTextField2" min="-2" pref="123" max="-2" attributes="0"/>
-                      <EmptySpace pref="170" max="32767" attributes="0"/>
+                      <EmptySpace pref="532" max="32767" attributes="0"/>
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jTextField5" min="-2" pref="34" max="-2" attributes="0"/>
@@ -41,7 +41,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jTabbedPane1" alignment="0" pref="679" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" pref="1041" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -70,7 +70,7 @@
                   <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" max="32767" attributes="0"/>
+              <Component id="jTabbedPane1" pref="529" max="32767" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -153,7 +153,7 @@
                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="48" max="32767" attributes="0"/>
+                          <EmptySpace pref="209" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -413,7 +413,7 @@
                                       <Component id="jTextField8" min="-2" pref="58" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="0" pref="511" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="667" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -614,7 +614,7 @@
                               <Component id="jPanel6" alignment="0" max="32767" attributes="0"/>
                               <Component id="jButtonaddLane4" alignment="0" min="-2" pref="21" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="7" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="188" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -756,7 +756,7 @@
                               <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jTextField10" min="-2" pref="341" max="-2" attributes="0"/>
-                              <EmptySpace pref="120" max="32767" attributes="0"/>
+                              <EmptySpace pref="301" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>

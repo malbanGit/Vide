@@ -101,14 +101,14 @@ public class Global {
             String currentDir = "."+File.separator;
             try
             {
-            currentDir = new File(currentDir).getCanonicalPath();
+                currentDir = new File(currentDir).getCanonicalPath();
             }
             catch (Throwable e) { }
             if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
             while (!found)
             {
  //           System.out.println("Searching vide home in: "+currentDir);
-            b.append("Searching vide home in: "+currentDir+"\n");
+                b.append("Searching vide home in: "+currentDir+"\n");
                 File t = new File(currentDir+"serialize");
                 if (t.exists())
                 {
@@ -130,6 +130,101 @@ public class Global {
                     if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
                     if (currentDir.equals(oldDir)) break;
                 }
+            }
+            if (!found)
+            {
+                // test for netbeans
+                // this section is ONLY
+                // usefull, for editing the current source in NetBeans
+                // otherwise the GUI editor can not initiate "Global"!!!
+                // Note:
+                // my own directory where the Vide Project resides is the Path ~~NetBeansProjects/Vide
+
+                currentDir = "."+File.separator;
+                try
+                {
+                    currentDir = new File(currentDir).getCanonicalPath();
+                }
+                catch (Throwable e) { }
+                if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
+                currentDir += "NetBeansProjects"+ File.separator+"Vide"+ File.separator;
+                while (!found)
+                {
+     //           System.out.println("Searching vide home in: "+currentDir);
+                    b.append("Searching vide home in: "+currentDir+"\n");
+                    File t = new File(currentDir+"serialize");
+                    if (t.exists())
+                    {
+                        t = new File(currentDir+"cartridges");
+                        if (t.exists())
+                        {
+                            found = true;
+                        }
+                    }
+                    if (!found)
+                    {
+                        String oldDir=currentDir;
+                        try
+                        {
+                        currentDir = new File(currentDir+"..").getCanonicalPath();
+                        }
+                        catch (Throwable e) { }
+
+                        if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
+                        if (currentDir.equals(oldDir)) break;
+                    }
+                }
+                
+                
+            }
+            if (!found)
+            {
+                // test for netbeans
+                // this section is ONLY
+                // usefull, for editing the current source in NetBeans
+                // otherwise the GUI editor can not initiate "Global"!!!
+                // Note:
+                // my own directory where the Vide Project resides is the Path ~~NetBeansProjects/Vide
+
+                currentDir = "."+File.separator;
+                try
+                {
+                    currentDir = new File(currentDir).getCanonicalPath();
+                }
+                catch (Throwable e) { }
+                if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
+                currentDir += "NetBeansProjects"+ File.separator+"Vide"+ File.separator;
+                while (!found)
+                {
+     //           System.out.println("Searching vide home in: "+currentDir);
+                    String currentDirWork = currentDir+"Vide"+ File.separator;
+                    b.append("Searching vide home in: "+currentDirWork+"\n");
+                    
+                    
+                    File t = new File(currentDirWork+"serialize");
+                    if (t.exists())
+                    {
+                        t = new File(currentDirWork+"cartridges");
+                        if (t.exists())
+                        {
+                            found = true;
+                        }
+                    }
+                    if (!found)
+                    {
+                        String oldDir=currentDir;
+                        try
+                        {
+                            currentDir = new File(currentDir+"..").getCanonicalPath();
+                        }
+                        catch (Throwable e) { }
+
+                        if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
+                        if (currentDir.equals(oldDir)) break;
+                    }
+                }
+                
+                
             }
             if (!found)
             {

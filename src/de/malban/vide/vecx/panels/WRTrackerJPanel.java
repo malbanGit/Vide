@@ -8,6 +8,7 @@ package de.malban.vide.vecx.panels;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Scaler;
 import de.malban.gui.Stateable;
@@ -202,6 +203,17 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     public WRTrackerJPanel() {
         initComponents();
         loadSettings();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextField1);
+            HotKey.addMacDefaults(jTextField2);
+            HotKey.addMacDefaults(jTextField3);
+            HotKey.addMacDefaults(jTextField4);
+            HotKey.addMacDefaults(jTextField5);
+            HotKey.addMacDefaults(jTextFieldCurrent);
+            HotKey.addMacDefaults(jTextField6);
+            HotKey.addMacDefaults(jTextField7);
+        }
     }
 
     public long lastTest = 0;

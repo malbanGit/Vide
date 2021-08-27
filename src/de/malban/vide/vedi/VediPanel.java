@@ -124,6 +124,8 @@ import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Vector;
+import javax.swing.Action;
+import javax.swing.text.DefaultEditorKit;
 
 
 /**
@@ -967,7 +969,32 @@ class TransferableTreeNode implements Transferable {
 
         new HotKey("Search next", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jButtonSearchNextActionPerformed(null); }}, this);
         new HotKey("Search previous", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jButtonSearchPreviousActionPerformed(null); }}, this);
-                
+/*                
+        new HotKey(javax.swing.text.DefaultEditorKit.copyAction,(Action)null, jTextFieldSearch);
+        new HotKey(javax.swing.text.DefaultEditorKit.pasteAction,(Action) null, jTextFieldSearch);
+        new HotKey(javax.swing.text.DefaultEditorKit.cutAction, (Action)null, jTextFieldSearch);
+        new HotKey(javax.swing.text.DefaultEditorKit.selectAllAction, (Action)null, jTextFieldSearch);
+        
+        new HotKey(javax.swing.text.DefaultEditorKit.copyAction, DefaultEditorKit.copyAction, jTextFieldSearch);
+        HotKey.addMap(KeyEvent.VK_C, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.copyAction, "EditorSearch");
+        HotKey.addMap(KeyEvent.VK_V, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.pasteAction, "EditorSearch");
+        HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.cutAction, "EditorSearch");
+        HotKey.addMap(KeyEvent.VK_A, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.selectAllAction, "EditorSearch");
+*/        
+        if (isMac)
+        {
+            HotKey.addMacDefaults(jTextFieldSearch);
+            HotKey.addMacDefaults(jTextFieldReplace);
+            HotKey.addMacDefaults(jTextFieldCommand);
+            HotKey.addMacDefaults(jEditorLog);
+            HotKey.addMacDefaults(jEditorASMMessages);
+            HotKey.addMacDefaults(jEditorPaneASMListing);
+            
+        }
+        
+
+
+        
         new HotKey("Run", new AbstractAction() { public void actionPerformed(ActionEvent e) {  run(); }}, this);
         new HotKey("Debug", new AbstractAction() { public void actionPerformed(ActionEvent e) { debug(); }}, this);
 
@@ -1156,6 +1183,19 @@ class TransferableTreeNode implements Transferable {
         else // even if not to be added to settings
             // look if a tab with that nameis open, do not open a second one!
         {
+            EditorPanel edi = getEditor(settingsAbs, false); 
+            if (edi != null)
+            {
+                // todo
+                // ask reload or not
+                
+                // also gets it to front
+                // for now - do not ask, but reload!
+                edi.reload(true);
+                return edi;
+            }
+
+/*
             int tabNumber = checkTabExists(settingsAbs);
             if (tabNumber != -1)
             {
@@ -1171,6 +1211,7 @@ class TransferableTreeNode implements Transferable {
                 edi.reload(true);
                 return edi;
             }
+            */
         }
         
 
@@ -1178,9 +1219,22 @@ class TransferableTreeNode implements Transferable {
         edi.setMinimumSize(new Dimension(5,5));
         edi.setAddToSettings(addToSettings);
         if (edi.isInitError()) return null;
+        
+        int count=0;
+        String nname = name;
+        while (jTabbedPane1.indexOfTab(nname) != -1) 
+        {
+            count++;
+            if (count!= 0) nname = name+"-"+count;
+        }
+        name = nname;
+        
+        
         jTabbedPane1.addTab(name, null, edi, settingsRel);
         oneTimeTab = name;
+        
         addCloseButton(jTabbedPane1, name);
+        
         jTabbedPane1.setSelectedComponent(edi);
         edi.setTinyLog(this);
         edi.addEditorListener(this);
@@ -3178,6 +3232,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     {
         StringBuilder b = new StringBuilder();
         orgText = UtilityString.replace(orgText, "\r\n", "\n");
+        orgText = UtilityString.replace(orgText, "\t", getTABString());
         int openBrackets = 0;
         String[] lines = orgText.split("\n");
         for (String line: lines)
@@ -3244,7 +3299,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             
             // remove all tabs (in non comment line)
-            line = UtilityString.replace(line, "\t", " ");
+            line = UtilityString.replace(line, "\t", getTABString());
             String[] words = line.split(" ");
 
             // is it a label? [word starting a line]
@@ -3262,8 +3317,19 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 continue;
             }
 
-            c = spaceTo(b, c, config.TAB_MNEMONIC);
             while (words[w].length()==0) w++;
+            boolean shortTab = false;
+            if (words[w].toLowerCase().equals("if")) shortTab = true;
+            if (words[w].toLowerCase().equals("else")) shortTab = true;
+            if (words[w].toLowerCase().equals("elseif")) shortTab = true;
+            if (words[w].toLowerCase().equals("endif")) shortTab = true;
+            if (words[w].toLowerCase().equals("ifdef")) shortTab = true;
+
+            if (shortTab)
+                c = spaceTo(b, c, config.SHORT_TAB_OP);
+            else
+                c = spaceTo(b, c, config.TAB_MNEMONIC);
+    
             b.append(words[w]).append(" ");
             boolean structPossible = false;
             if (words[w].toLowerCase().equals("rts")) doSeperator = true;
@@ -3272,6 +3338,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             if (words[w].toLowerCase().equals("lbra")) doSeperator = true;
             if (words[w].toLowerCase().equals("end")) structPossible = true;
 
+            
+            
             c+=words[w].length()+1;
             w++;
             if (structPossible)
@@ -3281,7 +3349,12 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             if (!structPossible)
             {
                 if (!(line.toString().trim().startsWith(";")))
-                    c = spaceTo(b, c, config.TAB_OP);
+                {
+                    if (shortTab)
+                        c = spaceTo(b, c, config.SHORT_TAB_OP );
+                    else
+                        c = spaceTo(b, c, config.TAB_OP);
+                }
             }
             for (;w<words.length;w++)
             {
@@ -3345,7 +3418,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             {
                 if (currentProject.getIsPeerCProject())
                 {
-                    peerClean(currentProject.projectPrefix);
+                    peerClean(currentProject.projectPrefix,0);
+                    peerClean(currentProject.projectPrefix,1);
                     refreshTree();
                 }
             }
@@ -5818,7 +5892,25 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 Path flashi = Paths.get(Global.mainPathPrefix, "template", "vecflash_bs.i");
                 de.malban.util.UtilityFiles.copyOneFile(flashi.toString(),p.toString()+File.separator+ "vecflash_bs.i");
             }
-            
+            else if (project.getBankswitching().contains("4 bank PB6/IRQ")) 
+            {
+                project.getBankMainFiles().setElementAt("mainBank0.asm", 0);
+                project.getBankMainFiles().setElementAt("mainBank1.asm", 1);
+                project.getBankMainFiles().setElementAt("mainBank2.asm", 2);
+                project.getBankMainFiles().setElementAt("mainBank3.asm", 3);
+
+                de.malban.util.UtilityFiles.copyOneFile(Paths.get(Global.mainPathPrefix, "template", "mainBank0.asm").toString(), p.toString()+File.separator+ "mainBank0.asm");
+                de.malban.util.UtilityFiles.copyOneFile(Paths.get(Global.mainPathPrefix, "template", "mainBank1.asm").toString(), p.toString()+File.separator+ "mainBank1.asm");
+                de.malban.util.UtilityFiles.copyOneFile(Paths.get(Global.mainPathPrefix, "template", "mainBank2.asm").toString(), p.toString()+File.separator+ "mainBank2.asm");
+                de.malban.util.UtilityFiles.copyOneFile(Paths.get(Global.mainPathPrefix, "template", "mainBank3.asm").toString(), p.toString()+File.separator+ "mainBank3.asm");
+                
+                de.malban.util.UtilityFiles.copyOneFile(Paths.get(Global.mainPathPrefix, "template", "waitMacros.i").toString(), p.toString()+File.separator+ "waitMacros.i");
+                de.malban.util.UtilityFiles.copyOneFile(Paths.get(Global.mainPathPrefix, "template", "macro.i").toString(), p.toString()+File.separator+ "macro.i");
+                de.malban.util.UtilityFiles.copyOneFile(Paths.get(Global.mainPathPrefix, "template", "inAllBanks.i").toString(), p.toString()+File.separator+ "inAllBanks.i");
+                de.malban.util.UtilityFiles.copyOneFile(Paths.get(Global.mainPathPrefix, "template", "commonGround.i").toString(), p.toString()+File.separator+ "commonGround.i");
+                de.malban.util.UtilityFiles.copyOneFile(Paths.get(Global.mainPathPrefix, "template", "VECTREX.I").toString(), p.toString()+File.separator+ "VECTREX.I");
+            }
+                    
             shouldSave = true;
         }
         
@@ -6535,12 +6627,22 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             for (int b = 0; b<project.getNumberOfBanks(); b++)
             {
                 String filenameVideRel = project.getBankMainFiles().elementAt(b);
-                if (!filenameVideRel.contains(File.separator))
+                if (project.getIsPeerCProject())
+                {
+                    filenameVideRel = "bin"+File.separator+filenameVideRel;
                     filenameVideRel = videRelpath+File.separator+filenameVideRel;
+                }
+                else
+                {
+                    if (!filenameVideRel.contains(File.separator))
+                        filenameVideRel = videRelpath+File.separator+filenameVideRel;
+                }
+
                 int li = filenameVideRel.lastIndexOf(".");
                 if (li>=0) 
                     filenameVideRel = filenameVideRel.substring(0,li);
                 filenameVideRel = filenameVideRel+"_"+(b) + ".bin";
+                
                 String filenameAbs = de.malban.util.Utility.makeVideAbsolute(filenameVideRel);
                 
                 File test = new File(filenameAbs);
@@ -8604,79 +8706,25 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             {
                 ArrayList<CompileResult> crs = new ArrayList<CompileResult>();
                 boolean asmOk = true;
-                try
+                
                 {
-                    String path = currentProject.projectPrefix;
-
-                    // get all the files from a directory
-                    final String failure = executeFileScripts("Pre", path);
-                    if (failure!=null) 
+                    try
                     {
-                        if (!asmOk)
+                        String path = currentProject.projectPrefix;
+
+
+
+                        // get all the files from a directory
+                        final String failure = executeFileScripts("Pre", path);
+                        if (failure!=null) 
                         {
-                            SwingUtilities.invokeLater(new Runnable()
-                            {
-                                public void run()
-                                {
-                                    printError("Error execute pre build script for: " + failure);
-                                    buildCProjectResult(false, true);
-                                }
-                            });                    
-                            one = null;
-                            jButtonAssemble.setEnabled(true);
-                            jButtonDebug.setEnabled(true);
-                            asmStarted = false;
-                            return;
-                        }
-                    }
-                    
-                    // get 
-                    // get all the files from a directory
-                    {
-                        File directory = new File(path);
-                        File[] fList = directory.listFiles();
-                        for (File file : fList) 
-                        {
-                            String fileNameOnly = file.getName();
-
-                            // process only c files
-                            if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
-                            String fileNameBare = fileNameOnly;
-                            int li = fileNameOnly.lastIndexOf(".");
-                            if (li>=0) 
-                                fileNameBare = fileNameOnly.substring(0,li);
-                            if (path.length() != 0) path += File.separator;
-                            File test = new File(path+fileNameBare+"FileProperty.xml");
-                            if (test.exists())
-                            {
-                                String pathOnly = test.getParent().toString();
-                                if (pathOnly.length()!=0) pathOnly+=File.separator;
-
-                                String relPathOnly = de.malban.util.Utility.makeVideRelative(pathOnly);
-                                if (relPathOnly.length()!=0) relPathOnly+=File.separator;
-                                FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
-
-                                FileProperties fileProperties =  pool.get(fileNameOnly);
-                                if (fileProperties != null) 
-                                {
-                                    if (fileProperties.getNoInternalProcessing()) continue;
-                                }
-                            }
-                            // compile file
-                    
-                            CFLAGS[CFLAGS.length-3] = file.getAbsolutePath();
-                            CFLAGS[CFLAGS.length-1] = changeTypeTo(file.getAbsolutePath(),"s");
-
-                            CompileResult compiled = doCCompiler(CFLAGS);
-                            if (compiled != null)
-                                crs.add(compiled);
-                            else
+                            if (!asmOk)
                             {
                                 SwingUtilities.invokeLater(new Runnable()
                                 {
                                     public void run()
                                     {
-                                        printError("Error compiling: " + CFLAGS[CFLAGS.length-3]);
+                                        printError("Error execute pre build script for: " + failure);
                                         buildCProjectResult(false, true);
                                     }
                                 });                    
@@ -8687,48 +8735,108 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                                 return;
                             }
                         }
-                    }                                        
-                    
-                    // get all the files from a directory
-                    final String failure2 = executeFileScripts("Post", path);
-                    if (failure2!=null) 
-                    {
-                        if (!asmOk)
-                        {
-                            SwingUtilities.invokeLater(new Runnable()
-                            {
-                                public void run()
-                                {
-                                    printError("Error execute post build script for: " + failure2);
-                                    buildCProjectResult(false, true);
-                                }
-                            });                    
-                            one = null;
-                            jButtonAssemble.setEnabled(true);
-                            jButtonDebug.setEnabled(true);
-                            asmStarted = false;
-                            return;
-                        }
 
-                    }
-                }
-                catch (final Throwable e)
-                {
-                    SwingUtilities.invokeLater(new Runnable()
-                    {
-                        public void run()
+                        // get 
+                        // get all the files from a directory
                         {
-                            printASMMessage("Exception while building: " + e.getMessage(), ASM_MESSAGE_ERROR);
-                            printASMMessage(de.malban.util.Utility.getStackTrace(e), ASM_MESSAGE_ERROR);
-                            buildCProjectResult(false, true);
+                            File directory = new File(path);
+                            File[] fList = directory.listFiles();
+                            for (File file : fList) 
+                            {
+                                String fileNameOnly = file.getName();
+
+                                // process only c files
+                                if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
+                                String fileNameBare = fileNameOnly;
+                                int li = fileNameOnly.lastIndexOf(".");
+                                if (li>=0) 
+                                    fileNameBare = fileNameOnly.substring(0,li);
+                                if (path.length() != 0) path += File.separator;
+                                File test = new File(path+fileNameBare+"FileProperty.xml");
+                                if (test.exists())
+                                {
+                                    String pathOnly = test.getParent().toString();
+                                    if (pathOnly.length()!=0) pathOnly+=File.separator;
+
+                                    String relPathOnly = de.malban.util.Utility.makeVideRelative(pathOnly);
+                                    if (relPathOnly.length()!=0) relPathOnly+=File.separator;
+                                    FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
+
+                                    FileProperties fileProperties =  pool.get(fileNameOnly);
+                                    if (fileProperties != null) 
+                                    {
+                                        if (fileProperties.getNoInternalProcessing()) continue;
+                                    }
+                                }
+                                // compile file
+
+                                CFLAGS[CFLAGS.length-3] = file.getAbsolutePath();
+                                CFLAGS[CFLAGS.length-1] = changeTypeTo(file.getAbsolutePath(),"s");
+
+                                CompileResult compiled = doCCompiler(CFLAGS);
+                                if (compiled != null)
+                                    crs.add(compiled);
+                                else
+                                {
+                                    SwingUtilities.invokeLater(new Runnable()
+                                    {
+                                        public void run()
+                                        {
+                                            printError("Error compiling: " + CFLAGS[CFLAGS.length-3]);
+                                            buildCProjectResult(false, true);
+                                        }
+                                    });                    
+                                    one = null;
+                                    jButtonAssemble.setEnabled(true);
+                                    jButtonDebug.setEnabled(true);
+                                    asmStarted = false;
+                                    return;
+                                }
+                            }
+                        }                                        
+
+                        // get all the files from a directory
+                        final String failure2 = executeFileScripts("Post", path);
+                        if (failure2!=null) 
+                        {
+                            if (!asmOk)
+                            {
+                                SwingUtilities.invokeLater(new Runnable()
+                                {
+                                    public void run()
+                                    {
+                                        printError("Error execute post build script for: " + failure2);
+                                        buildCProjectResult(false, true);
+                                    }
+                                });                    
+                                one = null;
+                                jButtonAssemble.setEnabled(true);
+                                jButtonDebug.setEnabled(true);
+                                asmStarted = false;
+                                return;
+                            }
+
                         }
-                    });   
-                    one = null;
-                    jButtonAssemble.setEnabled(true);
-                    jButtonDebug.setEnabled(true);
-                    asmStarted = false;
-                    return;
-                }
+                    }
+                    catch (final Throwable e)
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                printASMMessage("Exception while building: " + e.getMessage(), ASM_MESSAGE_ERROR);
+                                printASMMessage(de.malban.util.Utility.getStackTrace(e), ASM_MESSAGE_ERROR);
+                                buildCProjectResult(false, true);
+                            }
+                        });   
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        return;
+                    }
+                } // and banks loop
+                
 
                 String postClass = currentProject.getProjectPostScriptClass();
                 String postName = currentProject.getProjectPostScriptName();
@@ -9065,15 +9173,31 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     void doCreatePeerCProject(ProjectProperties project)
     {
         String projectDirPath = de.malban.util.Utility.makeVideAbsolute(project.projectPrefix+ File.separator);
-        
-        
-        de.malban.util.UtilityFiles.copyDirectoryAllFiles(Global.mainPathPrefix+"template"+File.separator+"PeerC", projectDirPath);
+        if (!project.getBankswitching().contains("2 bank standard")) 
+        {
+            de.malban.util.UtilityFiles.copyDirectoryAllFiles(Global.mainPathPrefix+"template"+File.separator+"PeerC", projectDirPath);
 
-        de.malban.util.UtilityFiles.rename(projectDirPath+"overlay"+File.separator+"c_project.png",  project.getProjectName()+".png");
-        de.malban.util.UtilityFiles.rename(projectDirPath+"overlay"+File.separator+"c_project.pptx",  project.getProjectName()+".pptx");
+            de.malban.util.UtilityFiles.rename(projectDirPath+"overlay"+File.separator+"c_project.png",  project.getProjectName()+".png");
+            de.malban.util.UtilityFiles.rename(projectDirPath+"overlay"+File.separator+"c_project.pptx",  project.getProjectName()+".pptx");
+
+            de.malban.util.UtilityFiles.rename(projectDirPath+"manual"+File.separator+"c_project.pdf",  project.getProjectName()+".pdf");
+            de.malban.util.UtilityFiles.rename(projectDirPath+"manual"+File.separator+"c_project.pptx",  project.getProjectName()+".pptx");
+        }
+        else
+        {
+            de.malban.util.UtilityFiles.copyDirectoryAllFiles(Global.mainPathPrefix+"template"+File.separator+"PeerC.2banks", projectDirPath);
+
+            de.malban.util.UtilityFiles.rename(projectDirPath+"overlay"+File.separator+"c_project.png",  project.getProjectName()+".png");
+            de.malban.util.UtilityFiles.rename(projectDirPath+"overlay"+File.separator+"c_project.pptx",  project.getProjectName()+".pptx");
+
+            de.malban.util.UtilityFiles.rename(projectDirPath+"manual"+File.separator+"c_project.pdf",  project.getProjectName()+".pdf");
+            de.malban.util.UtilityFiles.rename(projectDirPath+"manual"+File.separator+"c_project.pptx",  project.getProjectName()+".pptx");
+
+            project.getBankMainFiles().clear();
+            project.getBankMainFiles().addElement(project.getProjectName());
+            project.getBankMainFiles().addElement(project.getProjectName());
+        }
         
-        de.malban.util.UtilityFiles.rename(projectDirPath+"manual"+File.separator+"c_project.pdf",  project.getProjectName()+".pdf");
-        de.malban.util.UtilityFiles.rename(projectDirPath+"manual"+File.separator+"c_project.pptx",  project.getProjectName()+".pptx");
         
  
         // set Tree to location
@@ -9084,7 +9208,6 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         saveProject(); // since files 
         settings.addProject(currentProject.getName(), currentProject.getCClass(), currentProject.projectPrefix);
         settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), currentProject.projectPrefix);
-
         updateList();
     }
     void doBuildPeerCProject()
@@ -9106,16 +9229,26 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         String preClass = currentProject.getProjectPreScriptClass();
         String preName = currentProject.getProjectPreScriptName();
         
-        String p = currentProject.projectPrefix+File.separator+"source"+File.separator;
-        
-        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
-        
-        
-        
-        boolean ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
-        if (!ok) return;
+        boolean twice = currentProject.getBankswitching().contains("2 bank standard");
+        if (!twice)
+        {
+            String p = currentProject.projectPrefix+File.separator+"source"+File.separator;
+            ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
+            boolean ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
+            if (!ok) return;
+        }
+        else
+        {
+            String p = currentProject.projectPrefix+File.separator+"source"+File.separator+"bank0"+File.separator;
+            ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
+            boolean ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
+            if (!ok) return;
+            p = currentProject.projectPrefix+File.separator+"source"+File.separator+"bank1"+File.separator;
+            ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
+            ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
+            if (!ok) return;
+        }
         clearASMOutput();
-        
         startBuildPeerCProject();
     }    
 
@@ -9134,36 +9267,76 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             {
                 ArrayList<VediPanel.CompileResult> crs = new ArrayList<VediPanel.CompileResult>();
                 boolean asmOk = true;
-                try
+                boolean twice = currentProject.getBankswitching().contains("2 bank standard");
+
+                for (int banks=0;banks<2;banks++)
                 {
-                    String baseProjectPath = de.malban.util.Utility.makeVideAbsolute(currentProject.projectPrefix);
-
-                    peerClean(baseProjectPath);
-                    String path = baseProjectPath+ File.separator+"source";
-                    String libPath = baseProjectPath+ File.separator+"build"+ File.separator+"lib"+ File.separator;
-
-                    // copy all "s" files to build lib, so they get automatically included
-                    File directory = new File(path);
-                    File[] fList = directory.listFiles();
-                    for (File file : fList) 
+                    try
                     {
-                        String fileNameOnly = file.getName();
-                        // process only c files
-                        if (!fileNameOnly.toLowerCase().endsWith(".s")) continue;
-                        de.malban.util.UtilityFiles.copyOneFile(file.getAbsolutePath(), libPath+fileNameOnly);
-                    }                        
-                    
-                    // get all the files from a directory
-                    final String failure = executeFileScripts("Pre", path);
-                    if (failure!=null) 
-                    {
-                        if (!asmOk)
+                        String baseProjectPath = de.malban.util.Utility.makeVideAbsolute(currentProject.projectPrefix);
+
+                        peerClean(baseProjectPath, banks);
+
+                        String path;
+                        String libPath;
+                        if (!twice)
+                        {
+                            path = baseProjectPath+ File.separator+"source";
+                            libPath = baseProjectPath+ File.separator+"build"+ File.separator+"lib"+ File.separator;
+                        }
+                        else
+                        {
+                            path = baseProjectPath+File.separator+"source"+File.separator+"bank"+banks;
+                            libPath = baseProjectPath+ File.separator+"build"+ File.separator+"lib."+banks+ File.separator;
+                        }
+
+
+
+                        // copy all "s" files to build lib, so they get automatically included
+                        File directory = new File(path);
+                        File[] fList = directory.listFiles();
+                        for (File file : fList) 
+                        {
+                            String fileNameOnly = file.getName();
+                            // process only c files
+                            if (!fileNameOnly.toLowerCase().endsWith(".s")) continue;
+                            de.malban.util.UtilityFiles.copyOneFile(file.getAbsolutePath(), libPath+fileNameOnly);
+                        }                        
+
+                        // get all the files from a directory
+                        final String failure = executeFileScripts("Pre", path);
+                        if (failure!=null) 
+                        {
+                            if (!asmOk)
+                            {
+                                SwingUtilities.invokeLater(new Runnable()
+                                {
+                                    public void run()
+                                    {
+                                        printError("Error execute pre build script for: " + failure);
+                                        buildPeerCProjectResult(false, true);
+                                    }
+                                });                    
+                                one = null;
+                                jButtonAssemble.setEnabled(true);
+                                jButtonDebug.setEnabled(true);
+                                asmStarted = false;
+                                return;
+                            }
+                        }
+
+                        directory = new File(path);
+                        fList = directory.listFiles();
+
+                        ArrayList<String> outNames = peerPreprocess(fList, baseProjectPath, banks);
+
+                        if (outNames == null)
                         {
                             SwingUtilities.invokeLater(new Runnable()
                             {
                                 public void run()
                                 {
-                                    printError("Error execute pre build script for: " + failure);
+    //                                printError("Error preprocessing...");
                                     buildPeerCProjectResult(false, true);
                                 }
                             });                    
@@ -9173,63 +9346,65 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                             asmStarted = false;
                             return;
                         }
-                    }
 
-                    directory = new File(path);
-                    fList = directory.listFiles();
-
-                            
-                    ArrayList<String> outNames = peerPreprocess(fList, baseProjectPath);
-
-                    if (outNames == null)
-                    {
-                        SwingUtilities.invokeLater(new Runnable()
+                        // compile for errors
+                        if (!peerCompile(fList, baseProjectPath, false, banks))
                         {
-                            public void run()
+                            SwingUtilities.invokeLater(new Runnable()
                             {
-//                                printError("Error preprocessing...");
-                                buildPeerCProjectResult(false, true);
-                            }
-                        });                    
-                        one = null;
-                        jButtonAssemble.setEnabled(true);
-                        jButtonDebug.setEnabled(true);
-                        asmStarted = false;
-                        return;
-                    }
-                    
-                    // compile for errors
-                    if (!peerCompile(fList, baseProjectPath, false))
-                    {
-                        SwingUtilities.invokeLater(new Runnable()
+                                public void run()
+                                {
+    //                                printError("Error compiling...");
+                                    buildPeerCProjectResult(false, true);
+                                }
+                            });                    
+                            one = null;
+                            jButtonAssemble.setEnabled(true);
+                            jButtonDebug.setEnabled(true);
+                            asmStarted = false;
+                            return;
+                        }                    
+                        if (currentProject.getIsCDebugging())
                         {
-                            public void run()
-                            {
-//                                printError("Error compiling...");
-                                buildPeerCProjectResult(false, true);
-                            }
-                        });                    
-                        one = null;
-                        jButtonAssemble.setEnabled(true);
-                        jButtonDebug.setEnabled(true);
-                        asmStarted = false;
-                        return;
-                    }                    
-                    if (currentProject.getIsCDebugging())
-                    {
-    // adding debug only START                    
-                        // compile for enriching
-                        // this enriches in current dir only "C" files
-                        deleteAllCompileTargets(fList, baseProjectPath);
+        // adding debug only START                    
+                            // compile for enriching
+                            // this enriches in current dir only "C" files
+                            deleteAllCompileTargets(fList, baseProjectPath);
 
-                        File[] fList2 = enrichCFiles(fList);
-                        if (!peerCompile(fList2, baseProjectPath, true))
-                        {
+                            File[] fList2 = enrichCFiles(fList);
+                            if (!peerCompile(fList2, baseProjectPath, true, banks))
+                            {
+                                deleteEnrichedCFiles(fList2);          
+                                SwingUtilities.invokeLater(new Runnable()
+                                {
+                                    public void run()
+                                    {
+                                        buildPeerCProjectResult(false, true);
+                                    }
+                                });                    
+                                one = null;
+                                jButtonAssemble.setEnabled(true);
+                                jButtonDebug.setEnabled(true);
+                                asmStarted = false;
+                                return;
+                            }
                             deleteEnrichedCFiles(fList2);          
+        // adding debug only END                    
+                        }
+                        if (!twice)
+                            path = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
+                        else
+                            path = baseProjectPath+ File.separator+"build"+ File.separator+"lib."+banks;
+                        directory = new File(path);
+                        fList = directory.listFiles();
+
+                        if (!peerAssemble(fList, baseProjectPath, banks))
+                        {
                             SwingUtilities.invokeLater(new Runnable()
                             {
                                 public void run()
                                 {
+    //                                printError("Error assembling...");
                                     buildPeerCProjectResult(false, true);
                                 }
                             });                    
@@ -9239,82 +9414,83 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                             asmStarted = false;
                             return;
                         }
-                        deleteEnrichedCFiles(fList2);          
-    // adding debug only END                    
-                    }
-                    
-                    path = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
-                    directory = new File(path);
-                    fList = directory.listFiles();
-                    if (!peerAssemble(fList, baseProjectPath))
-                    {
-                        SwingUtilities.invokeLater(new Runnable()
-                        {
-                            public void run()
-                            {
-//                                printError("Error assembling...");
-                                buildPeerCProjectResult(false, true);
-                            }
-                        });                    
-                        one = null;
-                        jButtonAssemble.setEnabled(true);
-                        jButtonDebug.setEnabled(true);
-                        asmStarted = false;
-                        return;
-                    }
-                    if (!peerLink(baseProjectPath))
-                    {
-                        SwingUtilities.invokeLater(new Runnable()
-                        {
-                            public void run()
-                            {
-//                                printError("Error linking...");
-                                buildPeerCProjectResult(false, true);
-                            }
-                        });                    
-                        one = null;
-                        jButtonAssemble.setEnabled(true);
-                        jButtonDebug.setEnabled(true);
-                        asmStarted = false;
-                        return;
-                    }
-                    if (!peerBuild(baseProjectPath))
-                    {
-                        SwingUtilities.invokeLater(new Runnable()
-                        {
-                            public void run()
-                            {
-//                                printError("Error building...");
-                                buildPeerCProjectResult(false, true);
-                            }
-                        });                    
-                        one = null;
-                        jButtonAssemble.setEnabled(true);
-                        jButtonDebug.setEnabled(true);
-                        asmStarted = false;
-                        return;
-                    }
-                    
-                    
-                }
-                catch (final Throwable e)
-                {
-                    SwingUtilities.invokeLater(new Runnable()
-                    {
-                        public void run()
-                        {
-                            printError("Exception while building: " + e.getMessage());
-                            printError(de.malban.util.Utility.getStackTrace(e));
-                            buildPeerCProjectResult(false, true);
-                        }
-                    });   
-                    one = null;
-                    jButtonAssemble.setEnabled(true);
-                    jButtonDebug.setEnabled(true);
-                    asmStarted = false;
-                    return;
-                }
 
+                        if (!peerLink(baseProjectPath, banks))
+                        {
+                            SwingUtilities.invokeLater(new Runnable()
+                            {
+                                public void run()
+                                {
+    //                                printError("Error linking...");
+                                    buildPeerCProjectResult(false, true);
+                                }
+                            });                    
+                            one = null;
+                            jButtonAssemble.setEnabled(true);
+                            jButtonDebug.setEnabled(true);
+                            asmStarted = false;
+                            return;
+                        }
+
+                        if (!peerBuild(baseProjectPath, banks))
+                        {
+                            SwingUtilities.invokeLater(new Runnable()
+                            {
+                                public void run()
+                                {
+    //                                printError("Error building...");
+                                    buildPeerCProjectResult(false, true);
+                                }
+                            });                    
+                            one = null;
+                            jButtonAssemble.setEnabled(true);
+                            jButtonDebug.setEnabled(true);
+                            asmStarted = false;
+                            return;
+                        }
+
+
+                    }
+                    catch (final Throwable e)
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                printError("Exception while building: " + e.getMessage());
+                                printError(de.malban.util.Utility.getStackTrace(e));
+                                buildPeerCProjectResult(false, true);
+                            }
+                        });   
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        return;
+                    }
+                    if (!twice) break;
+                } // and banks loop
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 String postClass = currentProject.getProjectPostScriptClass();
                 String postName = currentProject.getProjectPostScriptName();
                 
@@ -9369,8 +9545,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             {
                 return;
             }
+            boolean twice = currentProject.getBankswitching().contains("2 bank standard");
 
-            CartridgeProperties cartProp = buildCart(currentProject, false);
+            CartridgeProperties cartProp = buildCart(currentProject, twice);
             checkVec4EverProject(cartProp);
             if (config.invokeEmulatorAfterAssembly)
             {
@@ -9520,157 +9697,185 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         cflags[cflags.length-2] = "-o";
         return cflags;
     }    
-    ArrayList<String> peerPreprocess(File[] fList, String baseProjectPath)  
+
+    ArrayList<String> peerPreprocess(File[] fList, String baseProjectPath, int banks)  
     {
         ArrayList<String> outNames = new  ArrayList<String>();
-        String path = de.malban.util.Utility.makeVideAbsolute(baseProjectPath+File.separator+"source");
-        String[] CFLAGS = buildPeerCFLAGS("-E","");
-        
-        for (File file : fList) 
+        boolean twice = currentProject.getBankswitching().contains("2 bank standard");
+
         {
-            String fileNameOnly = file.getName();
-            
-            if (file.isDirectory())
+            String path = de.malban.util.Utility.makeVideAbsolute(baseProjectPath+File.separator+"source");
+            if (twice) path = path+File.separator+"bank"+banks;
+
+            String[] CFLAGS = buildPeerCFLAGS("-E","");
+
+            for (File file : fList) 
             {
-                File directory = new File(file.getAbsoluteFile().toString());
-                File[] fList2 = directory.listFiles();
-                ArrayList<String> outNames2 = peerPreprocess(fList2, baseProjectPath);
-                if (null == outNames2)
+                String fileNameOnly = file.getName();
+
+                if (file.isDirectory())
                 {
+                    File directory = new File(file.getAbsoluteFile().toString());
+                    File[] fList2 = directory.listFiles();
+                    ArrayList<String> outNames2 = peerPreprocess(fList2, baseProjectPath, banks);
+                    if (null == outNames2)
+                    {
+                        return null;
+                    }
+                    for (String on: outNames2)
+                        outNames.add(on);
+                    continue;
+                }
+
+                // process only c files
+                if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
+                fileNameOnly = de.malban.util.UtilityString.replace(fileNameOnly, ".enr.", ".");
+
+                String fileNameBare = fileNameOnly;
+                int li = fileNameOnly.lastIndexOf(".");
+                if (li>=0) 
+                    fileNameBare = fileNameOnly.substring(0,li);
+                if (path.length() != 0) path += File.separator;
+                File test = new File(path+fileNameBare+"FileProperty.xml");
+                if (test.exists())
+                {
+                    String pathOnly = test.getParent().toString();
+                    if (pathOnly.length()!=0) pathOnly+=File.separator;
+
+                    String relPathOnly = de.malban.util.Utility.makeVideRelative(pathOnly);
+                    if (relPathOnly.length()!=0) relPathOnly+=File.separator;
+                    FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
+
+                    FileProperties fileProperties =  pool.get(fileNameOnly);
+                    if (fileProperties != null) 
+                    {
+                        if (fileProperties.getNoInternalProcessing()) continue;
+                    }
+                }
+                // compile file
+
+                CFLAGS[CFLAGS.length-3] = file.getAbsolutePath();
+
+                if (!twice) 
+                {
+                 CFLAGS[CFLAGS.length-1] = baseProjectPath+ File.separator+"build"+File.separator+"lib"+File.separator+fileNameBare+".i";
+                }
+                else
+                {
+                 CFLAGS[CFLAGS.length-1] = baseProjectPath+ File.separator+"build"+File.separator+"lib."+banks+File.separator+fileNameBare+".i";
+                }
+
+
+                outNames.add(CFLAGS[CFLAGS.length-1]);
+                if (!doPeerCCompiler(CFLAGS, "Preprocessing", false))
+                {
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            printError("Error preprocessing: " + CFLAGS[CFLAGS.length-3]);
+                            buildPeerCProjectResult(false, true);
+                        }
+                    });                    
+                    one = null;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                    asmStarted = false;
                     return null;
                 }
-                for (String on: outNames2)
-                    outNames.add(on);
-                continue;
-            }
-            
-            // process only c files
-            if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
-            fileNameOnly = de.malban.util.UtilityString.replace(fileNameOnly, ".enr.", ".");
-            
-            String fileNameBare = fileNameOnly;
-            int li = fileNameOnly.lastIndexOf(".");
-            if (li>=0) 
-                fileNameBare = fileNameOnly.substring(0,li);
-            if (path.length() != 0) path += File.separator;
-            File test = new File(path+fileNameBare+"FileProperty.xml");
-            if (test.exists())
-            {
-                String pathOnly = test.getParent().toString();
-                if (pathOnly.length()!=0) pathOnly+=File.separator;
+            }    
+        }
 
-                String relPathOnly = de.malban.util.Utility.makeVideRelative(pathOnly);
-                if (relPathOnly.length()!=0) relPathOnly+=File.separator;
-                FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
-
-                FileProperties fileProperties =  pool.get(fileNameOnly);
-                if (fileProperties != null) 
-                {
-                    if (fileProperties.getNoInternalProcessing()) continue;
-                }
-            }
-            // compile file
-
-            CFLAGS[CFLAGS.length-3] = file.getAbsolutePath();
-            CFLAGS[CFLAGS.length-1] = baseProjectPath+ File.separator+"build"+File.separator+"lib"+File.separator+fileNameBare+".i";
-            outNames.add(CFLAGS[CFLAGS.length-1]);
-            if (!doPeerCCompiler(CFLAGS, "Preprocessing", false))
-            {
-                SwingUtilities.invokeLater(new Runnable()
-                {
-                    public void run()
-                    {
-                        printError("Error preprocessing: " + CFLAGS[CFLAGS.length-3]);
-                        buildPeerCProjectResult(false, true);
-                    }
-                });                    
-                one = null;
-                jButtonAssemble.setEnabled(true);
-                jButtonDebug.setEnabled(true);
-                asmStarted = false;
-                return null;
-            }
-        }    
         return outNames;
     }
-    boolean peerCompile(File[] fList, String baseProjectPath, boolean quiet)  
+    boolean peerCompile(File[] fList, String baseProjectPath, boolean quiet, int banks)  
     {
-        String path = baseProjectPath+File.separator+"source";
-        
-        for (File file : fList) 
+        boolean twice = currentProject.getBankswitching().contains("2 bank standard");
         {
-            String fileNameOnly = file.getName();
-            if (file.isDirectory())
+            String path = baseProjectPath+File.separator+"source";
+            if (twice)
             {
-                File directory = new File(file.getAbsoluteFile().toString());
-                File[] fList2 = directory.listFiles();
-
-                if (!peerCompile(fList2, baseProjectPath, quiet))
+                path = path +File.separator+"bank"+banks;
+            }
+            
+            for (File file : fList) 
+            {
+                String fileNameOnly = file.getName();
+                if (file.isDirectory())
                 {
+                    File directory = new File(file.getAbsoluteFile().toString());
+                    File[] fList2 = directory.listFiles();
+
+                    if (!peerCompile(fList2, baseProjectPath, quiet, banks))
+                    {
+                        return false;
+                    }
+                    continue;
+                }
+
+                // process only c files
+                if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
+                // ensure enrciched files use the orignal file properties
+                fileNameOnly = de.malban.util.UtilityString.replace(fileNameOnly, ".enr.", ".");
+
+                String fileNameBare = fileNameOnly;
+
+
+                int li = fileNameOnly.lastIndexOf(".");
+                if (li>=0) 
+                    fileNameBare = fileNameOnly.substring(0,li);
+                if (path.length() != 0) path += File.separator;
+                File test = new File(path+fileNameBare+"FileProperty.xml");
+                String fileCFLAGS = "";
+                if (test.exists())
+                {
+                    String pathOnly = test.getParent().toString();
+                    if (pathOnly.length()!=0) pathOnly+=File.separator;
+
+                    String relPathOnly = de.malban.util.Utility.makeVideRelative(pathOnly);
+                    if (relPathOnly.length()!=0) relPathOnly+=File.separator;
+                    FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
+
+                    FileProperties fileProperties =  pool.get(fileNameOnly);
+                    if (fileProperties != null) 
+                    {
+                        if (fileProperties.getNoInternalProcessing()) continue;
+                        fileCFLAGS = fileProperties.getFlags().trim();
+                    }
+                }
+                // compile file
+                String[] CFLAGS = buildPeerCFLAGS("",fileCFLAGS);
+
+                CFLAGS[CFLAGS.length-3] = file.getAbsolutePath();
+                if (!twice)
+                    CFLAGS[CFLAGS.length-1] = baseProjectPath+ File.separator+"build"+File.separator+"lib"+File.separator+fileNameBare+".s";
+                else
+                    CFLAGS[CFLAGS.length-1] = baseProjectPath+ File.separator+"build"+File.separator+"lib."+banks+File.separator+fileNameBare+".s";
+                    
+                if (!doPeerCCompiler(CFLAGS, "Compiling", quiet))
+                {
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            printError("Error compiling: " + CFLAGS[CFLAGS.length-3]);
+                            buildPeerCProjectResult(false, true);
+                        }
+                    });                    
+                    one = null;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                    asmStarted = false;
                     return false;
                 }
-                continue;
-            }
-
-            // process only c files
-            if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
-            // ensure enrciched files use the orignal file properties
-            fileNameOnly = de.malban.util.UtilityString.replace(fileNameOnly, ".enr.", ".");
-            
-            String fileNameBare = fileNameOnly;
-            
-            
-            int li = fileNameOnly.lastIndexOf(".");
-            if (li>=0) 
-                fileNameBare = fileNameOnly.substring(0,li);
-            if (path.length() != 0) path += File.separator;
-            File test = new File(path+fileNameBare+"FileProperty.xml");
-            String fileCFLAGS = "";
-            if (test.exists())
-            {
-                String pathOnly = test.getParent().toString();
-                if (pathOnly.length()!=0) pathOnly+=File.separator;
-
-                String relPathOnly = de.malban.util.Utility.makeVideRelative(pathOnly);
-                if (relPathOnly.length()!=0) relPathOnly+=File.separator;
-                FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
-
-                FileProperties fileProperties =  pool.get(fileNameOnly);
-                if (fileProperties != null) 
+                if (peepAtASM)
                 {
-                    if (fileProperties.getNoInternalProcessing()) continue;
-                    fileCFLAGS = fileProperties.getFlags().trim();
+                    if (currentProject.getIsCPeephole())
+                        FilePeeper.peepCorrectASM(CFLAGS[CFLAGS.length-1]);
                 }
-            }
-            // compile file
-            String[] CFLAGS = buildPeerCFLAGS("",fileCFLAGS);
-
-            CFLAGS[CFLAGS.length-3] = file.getAbsolutePath();
-            CFLAGS[CFLAGS.length-1] = baseProjectPath+ File.separator+"build"+File.separator+"lib"+File.separator+fileNameBare+".s";
-            
-            
-            if (!doPeerCCompiler(CFLAGS, "Compiling", quiet))
-            {
-                SwingUtilities.invokeLater(new Runnable()
-                {
-                    public void run()
-                    {
-                        printError("Error compiling: " + CFLAGS[CFLAGS.length-3]);
-                        buildPeerCProjectResult(false, true);
-                    }
-                });                    
-                one = null;
-                jButtonAssemble.setEnabled(true);
-                jButtonDebug.setEnabled(true);
-                asmStarted = false;
-                return false;
-            }
-            if (peepAtASM)
-            {
-                if (currentProject.getIsCPeephole())
-                    FilePeeper.peepCorrectASM(CFLAGS[CFLAGS.length-1]);
-            }
-        }    
+            }    
+        } //banks loop
+        
         return true;
     }
     
@@ -9797,38 +10002,44 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         for (int i=0; i< splits2.length; i++) asmflags[flagBase++]=splits2[i];
         return asmflags;
     } 
-    boolean peerAssemble(File[] fList, String baseProjectPath)  
+    boolean peerAssemble(File[] fList, String baseProjectPath, int banks)  
     {
-        String path = baseProjectPath+File.separator+"source";
-        String[] ASMFLAGS = buildPeerASMFLAGS("");
-        
-        for (File file : fList) 
+        boolean twice = currentProject.getBankswitching().contains("2 bank standard");
         {
-            String fileNameOnly = file.getName();
+            String path = baseProjectPath+File.separator+"source";
+            if (twice) 
+                path = path +File.separator+"bank"+banks;
+            String[] ASMFLAGS = buildPeerASMFLAGS("");
 
-            // process only c files
-            if (!fileNameOnly.toLowerCase().endsWith(".s")) continue;
-
-            ASMFLAGS[ASMFLAGS.length-2] = changeTypeTo(file.getAbsolutePath(),"rel");
-            ASMFLAGS[ASMFLAGS.length-1] = file.getAbsolutePath();
-
-            if (!doPeerAssemble(ASMFLAGS, "Assemble"))
+            for (File file : fList) 
             {
-                SwingUtilities.invokeLater(new Runnable()
+                String fileNameOnly = file.getName();
+
+                // process only c files
+                if (!fileNameOnly.toLowerCase().endsWith(".s")) continue;
+
+                ASMFLAGS[ASMFLAGS.length-2] = changeTypeTo(file.getAbsolutePath(),"rel");
+                ASMFLAGS[ASMFLAGS.length-1] = file.getAbsolutePath();
+
+                if (!doPeerAssemble(ASMFLAGS, "Assemble"))
                 {
-                    public void run()
+                    SwingUtilities.invokeLater(new Runnable()
                     {
-                        printError("Error assembling: " + ASMFLAGS[ASMFLAGS.length-3]);
-                        buildPeerCProjectResult(false, true);
-                    }
-                });                    
-                one = null;
-                jButtonAssemble.setEnabled(true);
-                jButtonDebug.setEnabled(true);
-                asmStarted = false;
-                return false;
-            }
-        }    
+                        public void run()
+                        {
+                            printError("Error assembling: " + ASMFLAGS[ASMFLAGS.length-3]);
+                            buildPeerCProjectResult(false, true);
+                        }
+                    });                    
+                    one = null;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                    asmStarted = false;
+                    return false;
+                }
+            }    
+        } // banks loop
+        
         return true;
     }
     boolean peepAtASM = true;
@@ -9912,14 +10123,14 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         for (File file : fList) 
         {
             String fileNameOnly = file.getName();
-            if (is48K)
-            {
-                if (!fileNameOnly.toLowerCase().contains("crt0_48.rel")) continue;
-            }
-            else
-            {
+//            if (is48K)
+//            {
+//                if (!fileNameOnly.toLowerCase().contains("crt0_48.rel")) continue;
+//            }
+//            else
+//            {
                 if (!fileNameOnly.toLowerCase().contains("crt0.rel")) continue;
-            }
+//            }
             additional2.add(file.getAbsolutePath());
             break;
         }
@@ -9938,7 +10149,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             
             additional2.add(file.getAbsolutePath());
         }        
-        String libPath = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"lib"+File.separator;
+        String libPath = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"lib"+File.separator;
 
         
         ArrayList<String> allOptions= new ArrayList<String>();
@@ -9950,66 +10161,103 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         allOptions.add("-k");
         allOptions.add(libPath);
         allOptions.add("-l");
-        allOptions.add("libgcov.a");
+        allOptions.add("rum.lib");
         allOptions.add("-l");
-        allOptions.add("as-libgcc.a");
-//        allOptions.add("-l");
-//        allOptions.add("libgcc.a");
+        allOptions.add("libgcc.lib");
+        allOptions.add("-l");
+        allOptions.add("gcc.lib");
+        allOptions.add("-l");
+        allOptions.add("assert.lib");
+        
+        
+//        -k %GCC%/vectrex/lib/lib/ -l assert.lib
+        
+        
         allOptions.add(additional1);
         for (String additional21 : additional2) allOptions.add(additional21);
         for (String additional31 : additional3) allOptions.add(additional31);
         
         String[] asmflags = new String[allOptions.size()+1];
         int flagBase = 1;
-        for (int i=0; i< allOptions.size(); i++) asmflags[flagBase++]=allOptions.get(i);
+        for (int i=0; i< allOptions.size(); i++) 
+            asmflags[flagBase++]=allOptions.get(i);
         return asmflags;
     } 
-    boolean peerLink(String baseProjectPath)  
+    
+  
+    
+    boolean peerLink(String baseProjectPath, int banks)  
     {
-        String path = baseProjectPath+File.separator+"build";
-        path = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
-
-        File directory = new File(path);
-        File[] fList = directory.listFiles();
-        ArrayList<String> files = new ArrayList<String>();
-        for (File file : fList) 
+        boolean twice = currentProject.getBankswitching().contains("2 bank standard");
         {
-            String fileNameOnly = file.getName();
-            if (!fileNameOnly.toLowerCase().endsWith(".rel")) continue;
-            files.add(file.getAbsolutePath());
-        }
-        
-        // if locally a lib directory exists - grab all rel files in there too
-        directory = new File(baseProjectPath+ File.separator+"lib");
-        if (directory.exists())
-        {
-            fList = directory.listFiles();
+            String path = baseProjectPath+File.separator+"build";
+            path = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
+            if (twice)
+                path = path+ "."+banks;
+            
+            File directory = new File(path);
+            File[] fList = directory.listFiles();
+            ArrayList<String> files = new ArrayList<String>();
             for (File file : fList) 
             {
                 String fileNameOnly = file.getName();
                 if (!fileNameOnly.toLowerCase().endsWith(".rel")) continue;
                 files.add(file.getAbsolutePath());
             }
-        }
-                
-        String[] LINKFLAGS = buildPeerLINKFLAGS(baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+".s19", files.toArray(new String[0]));
-        
-        if (!doPeerLink(LINKFLAGS, "Link"))
-        {
-            SwingUtilities.invokeLater(new Runnable()
+
+            // if locally a lib directory exists - grab all rel files in there too
+            if (!twice)
+                directory = new File(baseProjectPath+ File.separator+"lib");
+            else
+                directory = new File(baseProjectPath+ File.separator+"lib."+banks);
+            if (directory.exists())
             {
-                public void run()
+                fList = directory.listFiles();
+                for (File file : fList) 
                 {
-                    printError("Error linking... " );
-                    buildPeerCProjectResult(false, true);
+                    String fileNameOnly = file.getName();
+                    if (!fileNameOnly.toLowerCase().endsWith(".rel")) continue;
+                    files.add(file.getAbsolutePath());
                 }
-            });                    
-            one = null;
-            jButtonAssemble.setEnabled(true);
-            jButtonDebug.setEnabled(true);
-            asmStarted = false;
-            return false;
-        }
+            }
+
+            // and all RAM/ROM definitions
+            directory = new File(Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"lib"+File.separator+"static"+File.separator);
+            if (directory.exists())
+            {
+                fList = directory.listFiles();
+                for (File file : fList) 
+                {
+                    String fileNameOnly = file.getName();
+                    if (!fileNameOnly.toLowerCase().endsWith(".rel")) continue;
+                    files.add(file.getAbsolutePath());
+                }
+            }
+
+
+            String[] LINKFLAGS;
+            if (!twice)
+                LINKFLAGS = buildPeerLINKFLAGS(baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+".s19", files.toArray(new String[0]));
+            else
+                LINKFLAGS = buildPeerLINKFLAGS(baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_"+banks+".s19", files.toArray(new String[0]));
+
+            if (!doPeerLink(LINKFLAGS, "Link"))
+            {
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    public void run()
+                    {
+                        printError("Error linking... " );
+                        buildPeerCProjectResult(false, true);
+                    }
+                });                    
+                one = null;
+                jButtonAssemble.setEnabled(true);
+                jButtonDebug.setEnabled(true);
+                asmStarted = false;
+                return false;
+            }
+        } // bank loop
         return true;
     }
     public boolean doPeerLink(String[] flags, String stageMessage)
@@ -10115,60 +10363,74 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         for (int i=0; i< splits.length; i++) asmflags[flagBase++]=splits[i];
         return asmflags;
     } 
-    boolean peerBuild(String baseProjectPath)  
+    boolean peerBuild(String baseProjectPath, int banks)  
     {
-        String msg ="";
-        String path = baseProjectPath+File.separator+"build";
-
-        String fromS19 = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_rom.s19";
-        String toBin = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_rom.bin";
-        msg+="build"+File.separator+currentProject.getProjectName()+"_rom.s19";
-        msg+="->";
-        msg+="build"+File.separator+currentProject.getProjectName()+"_rom.bin";
-        String[] SRECFLAGS = buildPeerSREC("-q");
-        SRECFLAGS[SRECFLAGS.length-2] = fromS19;
-        SRECFLAGS[SRECFLAGS.length-1] = toBin;
-        boolean ok = true;
-        ok = ok && doPeerBuild(SRECFLAGS, "SREC2BIN: "+msg);
-
-        String fromS19ram = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_ram.s19";
-        String toBinram = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_ram.bin";
-        boolean ramExists = new File(fromS19ram).exists();
-        if (ramExists)
+        boolean twice = currentProject.getBankswitching().contains("2 bank standard");
         {
-            msg ="build"+File.separator+currentProject.getProjectName()+"_ram.s19";
+            String msg ="";
+            String path = baseProjectPath+File.separator+"build";
+
+            String romBase="_rom";
+            String ramBase="_ram";
+            String binBase=".bin";
+
+            if (twice)
+            {
+                romBase="_"+banks+"_rom";
+                ramBase="_"+banks+"_ram";
+                binBase="_"+banks+".bin";
+            }
+            
+            String fromS19 = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+romBase+".s19";
+            String toBin = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+romBase+".bin";
+            msg+="build"+File.separator+currentProject.getProjectName()+romBase+".s19";
             msg+="->";
-            msg+="build"+File.separator+currentProject.getProjectName()+"_ram.bin";
-            SRECFLAGS = buildPeerSREC("-q -o -0xc880");
-            SRECFLAGS[SRECFLAGS.length-2] = fromS19ram;
-            SRECFLAGS[SRECFLAGS.length-1] = toBinram;
+            msg+="build"+File.separator+currentProject.getProjectName()+romBase+".bin";
+            String[] SRECFLAGS = buildPeerSREC("-q");
+            SRECFLAGS[SRECFLAGS.length-2] = fromS19;
+            SRECFLAGS[SRECFLAGS.length-1] = toBin;
+            boolean ok = true;
             ok = ok && doPeerBuild(SRECFLAGS, "SREC2BIN: "+msg);
 
-            printMessage("Concatinate: "+"build"+File.separator+currentProject.getProjectName()+"_rom.bin"+" + "+"build"+File.separator+currentProject.getProjectName()+"_ram.bin"+" to "+"bin"+File.separator+currentProject.getProjectName()+".bin");
-            ok = ok && de.malban.util.UtilityFiles.concatFiles(toBin, toBinram, baseProjectPath+File.separator+"bin"+File.separator+currentProject.getProjectName()+".bin");
-        }
-        else
-        {
-            printMessage("copy: "+"build"+File.separator+currentProject.getProjectName()+"_rom.bin"+" to "+"bin"+File.separator+currentProject.getProjectName()+".bin");
-            ok = ok && de.malban.util.UtilityFiles.copyOneFile(toBin, baseProjectPath+File.separator+"bin"+File.separator+currentProject.getProjectName()+".bin");
-        }
-
-        
-        if (!ok)
-        {
-            SwingUtilities.invokeLater(new Runnable()
+            String fromS19ram = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+ramBase+".s19";
+            String toBinram = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+ramBase+".bin";
+            boolean ramExists = new File(fromS19ram).exists();
+            if (ramExists)
             {
-                public void run()
+                msg ="build"+File.separator+currentProject.getProjectName()+ramBase+".s19";
+                msg+="->";
+                msg+="build"+File.separator+currentProject.getProjectName()+ramBase+".bin";
+                SRECFLAGS = buildPeerSREC("-q -o -0xc880");
+                SRECFLAGS[SRECFLAGS.length-2] = fromS19ram;
+                SRECFLAGS[SRECFLAGS.length-1] = toBinram;
+                ok = ok && doPeerBuild(SRECFLAGS, "SREC2BIN: "+msg);
+
+                printMessage("Concatinate: "+"build"+File.separator+currentProject.getProjectName()+romBase+".bin"+" + "+"build"+File.separator+currentProject.getProjectName()+ramBase+".bin"+" to "+"bin"+File.separator+currentProject.getProjectName()+binBase);
+                ok = ok && de.malban.util.UtilityFiles.concatFiles(toBin, toBinram, baseProjectPath+File.separator+"bin"+File.separator+currentProject.getProjectName()+binBase);
+            }
+            else
+            {
+                printMessage("copy: "+"build"+File.separator+currentProject.getProjectName()+"_rom.bin"+" to "+"bin"+File.separator+currentProject.getProjectName()+binBase);
+                ok = ok && de.malban.util.UtilityFiles.copyOneFile(toBin, baseProjectPath+File.separator+"bin"+File.separator+currentProject.getProjectName()+binBase);
+            }
+
+
+            if (!ok)
+            {
+                SwingUtilities.invokeLater(new Runnable()
                 {
-                    printError("Error linking... " );
-                    buildPeerCProjectResult(false, true);
-                }
-            });                    
-            one = null;
-            jButtonAssemble.setEnabled(true);
-            jButtonDebug.setEnabled(true);
-            asmStarted = false;
-            return false;
+                    public void run()
+                    {
+                        printError("Error linking... " );
+                        buildPeerCProjectResult(false, true);
+                    }
+                });                    
+                one = null;
+                jButtonAssemble.setEnabled(true);
+                jButtonDebug.setEnabled(true);
+                asmStarted = false;
+                return false;
+            }
         }
         return true;
     }
@@ -10225,12 +10487,30 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         printError(UtilityFiles.lastMessage);
         return false;
     }    
-    void peerClean(String baseProjectPath)
+    void peerClean(String baseProjectPath, int banks)
     {
-        de.malban.util.UtilityFiles.cleanDirectory(baseProjectPath+File.separator+"bin");
-        de.malban.util.UtilityFiles.cleanDirectory(baseProjectPath+File.separator+"build");
-        File f = new File(baseProjectPath+File.separator+"build"+File.separator+"lib");
-        f.mkdir();
+        boolean twice = currentProject.getBankswitching().contains("2 bank standard");
+        if (!twice)
+        {
+        }
+        else
+        {
+            if (banks == 0)
+            {
+                de.malban.util.UtilityFiles.cleanDirectory(baseProjectPath+File.separator+"bin");
+                de.malban.util.UtilityFiles.cleanDirectory(baseProjectPath+File.separator+"build");
+            }
+        }
+        if (!twice)
+        {
+            File f = new File(baseProjectPath+File.separator+"build"+File.separator+"lib");
+            f.mkdir();
+        }
+        else
+        {
+            File f = new File(baseProjectPath+File.separator+"build"+File.separator+"lib."+banks);
+            f.mkdir();
+        }
         printMessage("Cleaned...");
         log.addLog("Clean was run...");
     }
@@ -10252,12 +10532,12 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 {
                     String baseProjectPath = currentProject.projectPrefix;
 
-                    peerClean(baseProjectPath);
+                    peerClean(baseProjectPath,-1);
                  
                     String path = de.malban.util.Utility.makeVideAbsolute(baseProjectPath+ File.separator+"source");
                     File[] fList = new File[1];
                     fList[0] = new File(fname);
-                    ArrayList<String> res = peerPreprocess(fList, baseProjectPath);
+                    ArrayList<String> res = peerPreprocess(fList, baseProjectPath,-1);
                     if (res == null)
                     {
                         SwingUtilities.invokeLater(new Runnable()
@@ -10276,7 +10556,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                         return;
                     }
                     
-                    if (!peerCompile(fList, baseProjectPath, false))
+                    if (!peerCompile(fList, baseProjectPath, false, -1))
                     {
                         SwingUtilities.invokeLater(new Runnable()
                         {
@@ -10301,7 +10581,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     fList[0] = new File(sName);
 
                     
-                    if (!peerAssemble(fList, baseProjectPath))
+                    if (!peerAssemble(fList, baseProjectPath, -1))
                     {
                         SwingUtilities.invokeLater(new Runnable()
                         {
@@ -10352,64 +10632,94 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     }
     boolean buildPeerCCNT()
     {
-        // do map file        
-        CartridgeProperties cart = new CartridgeProperties();
-        String  cntFilename = de.malban.util.Utility.makeVideAbsolute(currentProject.projectPrefix+File.separator+"bin"+File.separator+currentProject.getProjectName() +".cnt");
-        StringBuilder buf = new StringBuilder();
-
-        String baseProjectPath = de.malban.util.Utility.makeVideAbsolute(currentProject.projectPrefix);
-
-        String pathSource = baseProjectPath+ File.separator+"source";
-        String pathBuild = baseProjectPath+ File.separator+"build";
-        String pathBuildLib = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
-        String pathUsrLib = baseProjectPath+ File.separator+"lib";
-
-        File directory = new File(de.malban.util.Utility.makeVideAbsolute(currentProject.projectPrefix));
-        File[] fList = directory.listFiles();
-        ASMap asmap = parseMap(pathBuild+File.separator+currentProject.getProjectName()+".map");
-
+        boolean twice = currentProject.getBankswitching().contains("2 bank standard");
         
-        
-        if (currentProject.getIsCDebugging())
-            buf.append("HIGHEST_USED_RAM "+String.format("$%04X", (asmap.highestUsedRAM&0xffff))+"\n");
-        buf.append("COMMENT "+String.format("$%04X", (asmap.highestUsedRAM&0xffff))+" not used RAM onword...\n");
-
-        
-        if (currentProject.getIsCDebugging())
-            FilePeeper.peepsFound /=2; // each compile is done 2 times.
-        
-        printMessage("Header size: "+asmap.headerLength+", Rom size: "+asmap.romLength+", iRam size: "+asmap.initializedRAMUsage+", uRam size: "+asmap.unInitializedRAMUsage+", PF: "+FilePeeper.peepsFound );
-        
-        int extras = currentProject.getExtras();
-        boolean is48K = (extras & Cartridge.FLAG_48K) != 0;
-        
-        
-        int maxSize = 32768;
-        if (is48K) maxSize += 16384;
-        if (asmap.romLength > maxSize)
+        for (int banks = 0; banks<2;banks++)
         {
-            printError("Resulting ROM exceeds maximum size!");
-            return false;
-        }
-        
-        
-        String pathCLib = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"lib";
-        directory = new File(pathCLib);
-        fList = directory.listFiles();
-        
-        // all std C files
-        ArrayList<String> files = new ArrayList<String>();
-        for (File file : fList) 
-        {
-            String fileNameOnly = file.getName();
-            if (!fileNameOnly.toLowerCase().endsWith(".rst")) continue;
-            files.add(file.getAbsolutePath());
-        }
 
-        // all files of usr lib
-        directory = new File(pathUsrLib);
-        if (directory.exists())
-        {
+            // do map file        
+            CartridgeProperties cart = new CartridgeProperties();
+            String  cntFilename;
+            StringBuilder buf = new StringBuilder();
+            String baseProjectPath = de.malban.util.Utility.makeVideAbsolute(currentProject.projectPrefix);
+            String pathBuildLib = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
+            ASMap asmap;
+            String pathSource = baseProjectPath+ File.separator+"source";
+            String pathBuild = baseProjectPath+ File.separator+"build";
+            String pathUsrLib = baseProjectPath+ File.separator+"lib";
+    
+            if (!twice)
+            {
+                cntFilename = de.malban.util.Utility.makeVideAbsolute(currentProject.projectPrefix+File.separator+"bin"+File.separator+currentProject.getProjectName() +".cnt");
+                asmap = parseMap(pathBuild+File.separator+currentProject.getProjectName()+".map");
+            }
+            else
+            {
+                cntFilename = de.malban.util.Utility.makeVideAbsolute(currentProject.projectPrefix+File.separator+"bin"+File.separator+currentProject.getProjectName()+"_"+banks +".cnt");
+                buf.append("BANK "+banks+"\n");
+                pathBuildLib = baseProjectPath+ File.separator+"build"+ File.separator+"lib."+banks;
+                asmap = parseMap(pathBuild+File.separator+currentProject.getProjectName()+"_"+banks+".map");
+            }
+
+    
+
+            File directory = new File(de.malban.util.Utility.makeVideAbsolute(currentProject.projectPrefix));
+            File[] fList = directory.listFiles();
+
+
+
+            if (currentProject.getIsCDebugging())
+                buf.append("HIGHEST_USED_RAM "+String.format("$%04X", (asmap.highestUsedRAM&0xffff))+"\n");
+            buf.append("COMMENT "+String.format("$%04X", (asmap.highestUsedRAM&0xffff))+" not used RAM onword...\n");
+
+
+            if (currentProject.getIsCDebugging())
+                FilePeeper.peepsFound /=2; // each compile is done 2 times.
+
+            printMessage("Header size: "+asmap.headerLength+", Rom size: "+asmap.romLength+", iRam size: "+asmap.initializedRAMUsage+", uRam size: "+asmap.unInitializedRAMUsage+", PF: "+FilePeeper.peepsFound );
+
+            int extras = currentProject.getExtras();
+            boolean is48K = (extras & Cartridge.FLAG_48K) != 0;
+
+
+            int maxSize = 32768;
+            if (is48K) maxSize += 16384;
+            if (asmap.romLength > maxSize)
+            {
+                printError("Resulting ROM exceeds maximum size!");
+                return false;
+            }
+
+
+            String pathCLib = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"lib";
+            directory = new File(pathCLib);
+            fList = directory.listFiles();
+
+            // all std C files
+            ArrayList<String> files = new ArrayList<String>();
+            for (File file : fList) 
+            {
+                String fileNameOnly = file.getName();
+                if (!fileNameOnly.toLowerCase().endsWith(".rst")) continue;
+                files.add(file.getAbsolutePath());
+            }
+
+            // all files of usr lib
+            directory = new File(pathUsrLib);
+            if (directory.exists())
+            {
+                fList = directory.listFiles();
+                for (File file : fList) 
+                {
+                    String fileNameOnly = file.getName();
+                    if (!fileNameOnly.toLowerCase().endsWith(".rst")) continue;
+                    files.add(file.getAbsolutePath());
+                }
+            }
+
+            // all files of project
+
+            directory = new File(pathBuildLib);
             fList = directory.listFiles();
             for (File file : fList) 
             {
@@ -10417,105 +10727,110 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 if (!fileNameOnly.toLowerCase().endsWith(".rst")) continue;
                 files.add(file.getAbsolutePath());
             }
-        }
 
-        // all files of project
-        directory = new File(pathBuildLib);
-        fList = directory.listFiles();
-        for (File file : fList) 
-        {
-            String fileNameOnly = file.getName();
-            if (!fileNameOnly.toLowerCase().endsWith(".rst")) continue;
-            files.add(file.getAbsolutePath());
-        }
-        
-        RSTInfo rst = parseRSTs(files);
 
-        for (MemInfo info :rst.m)
-        {
-            if (info.label.length() != 0)
+
+
+
+
+
+
+
+
+
+
+            RSTInfo rst = parseRSTs(files);
+
+            for (MemInfo info :rst.m)
             {
-                String label = info.label;
-                if (((info.address&0xffff)<=0xff) && (label.contains("_dp_")))
+                if (info.label.length() != 0)
                 {
-                    // blend out all peer "dp things that lie in the zero page"
-                    label = removeDP_LABELs(label);
-                    
+                    String label = info.label;
+                    if (((info.address&0xffff)<=0xff) && (label.contains("_dp_")))
+                    {
+                        // blend out all peer "dp things that lie in the zero page"
+                        label = removeDP_LABELs(label);
+
+                    }
+                    buf.append("LABEL ").append(String.format("$%04X", (info.address&0xffff))).append(" ").append(label).append("\n");
                 }
-                buf.append("LABEL ").append(String.format("$%04X", (info.address&0xffff))).append(" ").append(label).append("\n");
             }
-        }
 
-        for (MemInfo info :rst.m)
-        {
-            
-            if (info.comment.length() != 0)
+            for (MemInfo info :rst.m)
             {
-                String c = info.comment;
-                c = de.malban.util.UtilityString.replace(c, "rum:", "");
-                c = de.malban.util.UtilityString.replace(c, "rum", "");
-                c = de.malban.util.UtilityString.replace(c, "cold reset:", "");
-                c = de.malban.util.UtilityString.replace(c, "cold reset", "");
-                c = de.malban.util.UtilityString.replace(c, "cmpqi:(R):", "");
-                c = de.malban.util.UtilityString.replace(c, "cmpqi:(R)", "");
-                c = de.malban.util.UtilityString.replace(c, "cmpqi", "");
-                
-                
-                if (c.trim().length()==0) continue;
-                /*
-                c = c.trim();
-                c = de.malban.util.UtilityString.replace(c, "::",":").trim();
-                if (c.startsWith(":")) c = c.substring(1);
-                if (c.endsWith(":")) c = c.substring(0, c.length()-1);
-                */
-                if (((info.address&0xffff)<=0xff) && (info.label.contains("_dp_")))
+
+                if (info.comment.length() != 0)
                 {
-                    // blend out all peer "dp things that lie in the zero page"
-                }
-                else
-                    buf.append("COMMENT "+String.format("$%04X", (info.address&0xffff))+" "+c+"\n");
-                
-           }
-        }
-        for (MemInfo info :rst.m)
-        {
-            if (info.lineComment.length() != 0)
-            {
-                String c = info.lineComment;
-                buf.append("COMMENT_LINE "+String.format("$%04X", (info.address&0xffff))+" "+c+"\n");
-           }
-        }
-        
-        // CINfo
-        for (MemInfo info :rst.m)
-        {
-            if (info.cInfo != null)
-            {
-                CInfoBlock c = info.cInfo;
-                if (c.hasBreakpoint)
-                    buf.append("C_INFO_BLOCK "+String.format("$%04X", (info.address&0xffff))+" \""+c.file+" \"FN_END "+c.lineNo+" \""+c.lineString+" \" BKPOINT=1\n");
-                else
-                    buf.append("C_INFO_BLOCK "+String.format("$%04X", (info.address&0xffff))+" \""+c.file+" \"FN_END "+c.lineNo+" \""+c.lineString+" \" BKPOINT=0\n");
-           }
-        }
+                    String c = info.comment;
+                    c = de.malban.util.UtilityString.replace(c, "rum:", "");
+                    c = de.malban.util.UtilityString.replace(c, "rum", "");
+                    c = de.malban.util.UtilityString.replace(c, "cold reset:", "");
+                    c = de.malban.util.UtilityString.replace(c, "cold reset", "");
+                    c = de.malban.util.UtilityString.replace(c, "cmpqi:(R):", "");
+                    c = de.malban.util.UtilityString.replace(c, "cmpqi:(R)", "");
+                    c = de.malban.util.UtilityString.replace(c, "cmpqi", "");
 
-        int a = 0;
-        
-        while (a<0x8000)
-            a = addConsecutiveType(a, rst, buf);
 
+                    if (c.trim().length()==0) continue;
+                    /*
+                    c = c.trim();
+                    c = de.malban.util.UtilityString.replace(c, "::",":").trim();
+                    if (c.startsWith(":")) c = c.substring(1);
+                    if (c.endsWith(":")) c = c.substring(0, c.length()-1);
+                    */
+                    if (((info.address&0xffff)<=0xff) && (info.label.contains("_dp_")))
+                    {
+                        // blend out all peer "dp things that lie in the zero page"
+                    }
+                    else
+                        buf.append("COMMENT "+String.format("$%04X", (info.address&0xffff))+" "+c+"\n");
+
+               }
+            }
+            for (MemInfo info :rst.m)
+            {
+                if (info.lineComment.length() != 0)
+                {
+                    String c = info.lineComment;
+                    buf.append("COMMENT_LINE "+String.format("$%04X", (info.address&0xffff))+" "+c+"\n");
+               }
+            }
+
+            // CINfo
+            for (MemInfo info :rst.m)
+            {
+                if (info.cInfo != null)
+                {
+                    CInfoBlock c = info.cInfo;
+                    if (c.hasBreakpoint)
+                        buf.append("C_INFO_BLOCK "+String.format("$%04X", (info.address&0xffff))+" \""+c.file+" \"FN_END "+c.lineNo+" \""+c.lineString+" \" BKPOINT=1\n");
+                    else
+                        buf.append("C_INFO_BLOCK "+String.format("$%04X", (info.address&0xffff))+" \""+c.file+" \"FN_END "+c.lineNo+" \""+c.lineString+" \" BKPOINT=0\n");
+               }
+            }
+
+            int a = 0;
+
+            while (a<0x8000)
+                a = addConsecutiveType(a, rst, buf);
+
+
+            try
+            {
+                PrintWriter out = new PrintWriter(cntFilename);
+                out.println(buf.toString());
+                out.close();
+            }
+            catch (Throwable e)
+            {
+                System.out.println("Error saving CNT file...");
+                return false;
+            }
+
+
+            if (!twice) break;
+        } // end banks loop
         
-        try
-        {
-            PrintWriter out = new PrintWriter(cntFilename);
-            out.println(buf.toString());
-            out.close();
-        }
-        catch (Throwable e)
-        {
-            System.out.println("Error saving CNT file...");
-            return false;
-        }
                 
                 
         return true;
@@ -11989,7 +12304,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             
             
             // not realy the operand
-            // the rest of the line withour spaces!
+            // the rest of the line without spaces!
             // handle extended, direct with modifiers!
             String op = getOperand(sLine, mnemonic);
             
@@ -12029,6 +12344,18 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 orgLine = de.malban.util.UtilityString.replace(orgLine, ">","");
             if (op.startsWith("[>"))
                 orgLine = de.malban.util.UtilityString.replace(orgLine, "[>","[");
+            
+            
+            // handle stack
+            if (op.contains(",sp"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, ",sp",",s");
+            if (op.contains(",SP"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, ",SP",",s");
+            if (op.contains(", sp"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, ", sp",",s");
+            if (op.contains(", SP"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, ", SP",",s");
+            
             
             codeSource.append(orgLine+"\n");
         }
@@ -12453,7 +12780,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                         String lastLine = outLines.get(outLines.size()-1);
                         if (lastLine.trim().startsWith("}")) 
                         {
-                            String prepreLine = "asm(\"; #ENR#["+i+"]"+escape(orgLine)+"\");";
+                            
+                       //     String prepreLine = "asm(\"; #ENR#["+i+"]"+escape(orgLine)+"\");";
+                            String prepreLine = "asm(\"; #ENR#["+i+"]"+escape(countReadyLine)+"\");";
                             outLines.add(outLines.size()-1, prepreLine);
                             preLineAllowed = false;
                         }
@@ -12628,8 +12957,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             if (!inFunc) preLineAllowed = false;
             if (inStruct) preLineAllowed = false;
             
-            
-            preLine = "{asm(\"; #ENR#["+i+"]"+escape(orgLine)+"\");}";
+  //            preLine = "{asm(\"; #ENR#["+i+"]"+escape(orgLine)+"\");}";
+            preLine = "{asm(\"; #ENR#["+i+"]"+escape(countReadyLine)+"\");}";
             preLine = de.malban.util.UtilityString.replace(preLine, "*/", "* /");
 /*            
             if ((newFunction) && (!preLineAllowed))

@@ -1,7 +1,9 @@
 package de.malban.vide.vedi.panels;
 
 
+import de.malban.Global;
 import de.malban.config.Configuration;
+import de.malban.gui.HotKey;
 import de.malban.gui.components.ModalInternalFrame;
 import java.awt.event.KeyEvent;
 import java.util.*;
@@ -14,6 +16,10 @@ public class GetRadiusValuePanel extends javax.swing.JPanel {
     /** Creates new form FilePropertiesPanel */
     public GetRadiusValuePanel() {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldLinenumber);
+        }
     }
     
     /** This method is called from within the constructor to

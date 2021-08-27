@@ -1,3 +1,239 @@
+done: added hi lo conversiojn to dw
+done: bugfix in dissy, upon bankswitch a different RAM layout was not loaded!
+
+CMD/Z does work in Vecci
+Arrgh... not in the big window... though... sorry
+
+DrawVLP with sequence not existent!
+
+the big edit window in veccy
+perhaps I can make it auto resizable...
+
+
+Brett Wallach
+
+I do see where to look now so that will help... it shows some text VECTOR / SET / POINT to the right of the tool icons in the main Vecci window.  So that helps, but would be better if it were duplicated to the large window.
+
+I'm usually editing in the large window, and if I could just press V for "vector / selecting a vector", D for "points or dots", S for "set/drawing a vector", I could keep my left hand on the keyboard shortcuts and operate more easily I think.
+
+When in the large window... if you could also press LEFT ARROW / RIGHT ARROW to cycle through the animation frames, that could be a cheap way to add a psuedo-onion-skinning.  If you can quickly switch between frames and not move your mouse, you could tweak points into the right position.
+
+
+
+
+keep position (draw_vlp) in C does not work!
+
+"C" - asm routinen must save U reg
+
+If you change the BIOS to anything other than the FASTBOOT BIOS then Dissi does not show the correct 'Content' in the BIOS memory range. I see the correct behaviour for what is really at the memory locations but the 'Content' fields are incorrect.
+
+Please can the 'Content' fields in the BIOS memory range be updated to reflect the actual content when a custom BIOS is used? Thanks!
+
+—
+
+
+I always wanted to provide a "C" bankswitch in Vide - but as of yet I always procrastinated - 
+and really did not implement it yet... Anyway some workaround, which I also 
+gave to Frank (Bloxorz).
+
+
+"Fixed" adresses of functions in "C" programs.
+
+This is not QUITE so easy, since the whole linker is written for relative positining. - but it is possible.
+
+There is ONE sections, which alread has a fixed address ".cartrigde": 
+
+Within that lies the defitions without which a vectrex program would not be able to start.
+That section starts (and must start) at address 0.
+In principle it is possible to extend that section, nonetheless the prerequisitions must be fixed, meaning:
+- the header of both banskwitch pieces must be the same size
+- the real header (as expected with a C standard program, Vide in "crartidge.c") lie must be compilation wise reside BEFORE
+  the fixed code, otherwise the fixed code would start at 0, and not the cartrdige header code.
+
+All functions, that are inserted into the section ".cartridge" will than be inserted AFTER the header.
+
+ALSO!!!
+Your first function in the header MUST jumpt to the expected programstart of your "C" program, otherwise
+the "C" stub (which initializes e.g. the bss data) won't be executed.
+
+All other functions in that cartridge section will than be fixed and for example in a bankswitched C program lie at exactly the same address.
+
+This sounds more complicated than it really is
+A demo "C" program, which compiles fine:
+
+#include <vectrex.h>
+
+ __attribute__((section(".cartridge"), used)) void _start()
+{
+    asm(" jmp s_.text");
+}
+ __attribute__((section(".cartridge"), used)) void doBankswitch(int b)
+{
+    int i=b+1;
+    // do something that does bankswitching
+    for (;i<10; i++)
+    {
+        Wait_Recal();
+    }
+}
+
+
+int main(void)
+{
+    doBankswitch(1);
+    while(1)
+    {
+        Wait_Recal();
+        Print_Str_d(0, -70, "HELLO WORLD\x80");
+    };
+    
+    // if return value is <= 0, then a warm reset will be performed,
+    // otherwise a cold reset will be performed
+    return 0;
+}
+
+Gruß
+
+Christopher
+ 
+
+Am 29.07.2019 14:15 schrieb Frank Buss:
+> Hallo Chris,
+>
+> meine Lösung geht aber nur deswegen, weil das Programm in beiden Bänken identisch ist, bis auf die Daten. Eine eigene Section definieren zu können, deren Adresse und Größe man angeben kann, wäre noch besser. Dann könnte ich alle Bankwitching-Funktionen dort unterbringen, und auch verschiedene Programme umschalten.
+>
+> Habe mal gesucht aber nichts gefunden, gibt es eine Linker Definition Datei in Vide?
+>
+> Wollte übrigens noch ein Bonusspiel mit ausliefern. Hast du was dagegen, wenn ich Karl Quappe mit auf mein Cartridge flashe?
+>
+> Viele Grüße
+>
+> Frank
+>
+>
+> On 07/29/2019 01:49 PM, chrissalo@posteo.de wrote:
+>> Hallo, sorry, dass ich mich nicht früher gemeldet habe - aber ich habe gesehen, dass Du schon eine Lösung gefunden hattest. Gruß Christopher Am 28.07.2019 01:36 schrieb Frank Buss:
+>>> Hallo Chris, habe Vide 2.51 installiert und Bloxorz läuft damit. Bin zur Zeit noch am Bankswitching dran. Gibt es eine Möglichkeit, eine C-Funktion in zwei verschiedenen Projekten an dieselbe ROM-Stelle zu compilieren? Dann bräuchte ich das nicht alles in Assembler zu lösen. Am besten wäre es vielleicht, wenn ich meine eigenen Sections definieren könnte. Dann könnte ich eine Section BankSwitching oder so definieren, und dort einfach alles reinpacken (per __attribute__ section) was dazu gehört. Wenn die Reihenfolge dann dieselbe ist, müssten die Adressen auch dieselben sein. Viele Grüße Frank
+
+
+
+@Malban here's the code that messes up button handling on real vectrex but not in VIDE
+lda      #7
+                  ldb      #%01101101
+                  jsr      Sound_Byte_raw
+
+
+Anyhoo, I made one with Vide text on it, and one without. I've included the Photoshop file .PSD, .PNG's and the converted .ICNS files here: https://www.dropbox.com/s/03muyd4eeeis6yh/vide-icons.zip?dl=1
+
+
+Aaaaaaaaa @Malban here's a new but old Vide bug to report  It used to mess up like this in the past, but now it seems more frequently occurring. Eventually after doing a little editing, everywhere I click puts an 'a' and it won't stop doing it unless I close Vide and reopen. http://g.recordit.co/P7ZDl7d9fP.gif
+
+
+technoblyheute um 20:36 Uhr
+@gauze I'm not trying to sell you on CMD + SHIFT + arrows to switch to Sublime :smile: I'm wanting this feature in Vide.  How do you do similar operation in Vide now, and/or Vim?
+
+
+
+done: bank sizes of libraries to c000!
+
+First, in config/Keyboard, shortcuts about joystick 1 and 2 are duplicated.
+Then 'Button2_1_pressed' does not work anymore. It worked fine in Vide 2.51.
+Good luck for that ones.
+
+
+curly bracket!
+
+done add new gcc lib!
+
+done
+    generater should generate source like
+    .bank rom(BASE=0x0000,SIZE=0x8000,FSFX=_rom) WITH C000!
+     -> is fine!
+
+
+Am 11.05.2020 um 17:05 schrieb Johannsen, Peer <peer.johannsen@hs-pforzheim.de>:
+
+… hehe, der Konflikt scheint aus dem Lode Runner Code zu kommen:
+ 
+In scroll.s, song_026.s, aleste_1.s und VTK_TitleMusic.s wird die .rom bank mit size 0x8000 erwähnt J
+ 
+Kann es sein, dass diese Source dort als reiner asm Code drin liegen und nicht neu aus C heraus compiliert werden?
+ 
+Grüße,
+Peer
+
+
+done: mouse pointer
+done: Vide cartridge information file WITH bank switch IRQ
+        Graham Toal Malban Vide why not remove the switch and make everything 48k compatible. 
+           All you really need is a message after compiling saying what eprom size is needed for 
+           the binary you just built. (not just 48k, but 8k/16k/32k would be helpful too)
+done: 
+    I'm using VIDE on Mac.
+    Copy/paste functions are not mapped to the right key combinations in in search box of Vedi.
+    It's working fine in the editor, but not in search box, it remains mapped to Ctrl+C Ctrl+V instead of CMD+C CMD+V. 
+    I tried to define them in the config panel, does not work either.
+done: Brett Wallach Tab to spaces in editor
+
+analalog with keyboard
+
+
+
+
+
+
+DOC:
+Erster Entwurf, noch nicht auf Größe (ROM Verbrauch) optimiert. Die Dateien an folgenden Stellen ablegen (ggf. neue Unterordner anlegen):
+ 
+gcc6809/vectrex/include/lib/assert.h
+gcc6809/vectrex/lib/lib/assert.lib
+gcc6809/vectrex/lib/lib/assert/assert.lst
+gcc6809/vectrex/lib/lib/assert/assert.rel
+ 
+Der Linker braucht dann zusätzlich folgende Parameter:
+ 
+-k %GCC%/vectrex/lib/lib/ -l assert.lib
+ 
+ 
+-----
+Antonio Maiorano Eric Schlaepfer So cool! I noticed in one of the videos on your Twitter build thread that Mine Storm had all 
+the stars off to one side. I had this same problem on my emulator. This happens when ram is all zero. 
+I had to randomize values for it to work. Mine Storm expects random garbage in memory to lay out stars!
+
+
+the path remains set to %VIDE%/xml/vectorlist Is there any way to change this default folder?
+
+
+todo
+: selectin TAB/shift tab in vedi
+
+Breakpoint load "NOT WORKING"
+
+port a is completely latched.
+so sta a 
+
+a input is not a output!!!
+
+if I put 0e in port a in output mode, I will read 0e in output mode
+if I switch to input mode, I read whatever is "input" to a, but NOT the value I write in output mode!
+
+
+
+Warning, when a bank replace could not be done!
+
+
+done: dissi does not disassemble correctly multiple cank in vectorblade (always 0) 
+
+Wenn ich während des BIOS Cartridge-Intros (d.h. während die initiale automatische und unumgängliche BIOS Routine für Titel + Melodie läuft) 
+in Vide über Dissi einen soft reset auslöse, und dieses geeignet oft wiederhole (d.h. immer wieder während des Intros ein sr absetzen, ca. 4 – 7 Mal), dann startet plötzlich Mine Storm.
+
+
+Todo:
+Vide:
+Absolut position vector list
+3d Vectorlist (relative & absolut)
+
+
 https://lb.raspberrypi.org/forums/viewtopic.php?t=201556&start=25
 
 

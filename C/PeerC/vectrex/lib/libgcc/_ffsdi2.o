@@ -1,0 +1,40 @@
+XH2
+H 3 areas 3 global symbols 2 banks 1 modes
+M _ffsdi2.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+S ___ctzhi2 Ref0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 2E flags D00
+S ___ffssi2 Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 34 40 32 7C EC 68 AE 6A 27 05 CE 00 00
+R 00 00 00 02
+T 00 0D 20 10
+R 00 00 00 02
+T 00 0F
+R 00 00 00 02
+T 00 0F 10 83 00 00 26 05 8E 00 00 20 10
+R 00 00 00 02
+T 00 1A
+R 00 00 00 02
+T 00 1A 1F 01 CE 00 10
+R 00 00 00 02
+T 00 1F
+R 00 00 00 02
+T 00 1F BD 00 00 30 01 1E 03 30 8B 1E 03
+R 00 00 00 02 81 03 00 01
+T 00 2A
+R 00 00 00 02
+T 00 2A 32 64 35 C0
+R 00 00 00 02
+T 00 2E
+R 00 00 00 02

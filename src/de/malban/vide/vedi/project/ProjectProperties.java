@@ -238,7 +238,7 @@ public class  ProjectProperties
 	}
 	public boolean getIsCRumInlined()
 	{
-		return mCRumInlined;
+		return false;// not supported anymore ! mCRumInlined;
 	}
 	public void setIsCRumInlined(boolean CRumInlined)
 	{

@@ -180,6 +180,7 @@ public class RasterPanel extends javax.swing.JPanel implements
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jButtonLoad = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(700, 600));
 
@@ -705,6 +706,13 @@ public class RasterPanel extends javax.swing.JPanel implements
             }
         });
 
+        jButton9.setText("jButton9");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -713,15 +721,19 @@ public class RasterPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonLoad)
+                .addGap(71, 71, 71)
+                .addComponent(jButton9)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonLoad)
-                    .addComponent(jLabel8))
-                .addGap(0, 3, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonLoad)
+                        .addComponent(jLabel8))
+                    .addComponent(jButton9))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -1015,6 +1027,16 @@ public class RasterPanel extends javax.swing.JPanel implements
         buildVectors();
     }//GEN-LAST:event_jSliderGridSizeStateChanged
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        
+                createASMFile();
+        buildVectors();
+
+        
+        
+        
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     
    // boolean wasMainSetManually = false;
 
@@ -1029,6 +1051,7 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCreate;
     private javax.swing.JButton jButtonLoad;

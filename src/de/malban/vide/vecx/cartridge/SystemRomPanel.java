@@ -4,6 +4,7 @@ package de.malban.vide.vecx.cartridge;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
@@ -73,6 +74,14 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
         jLabel4.setVisible(false);
         jTextFieldKlasse.setVisible(false);
         jComboBoxKlasse.setVisible(false);
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldName);
+            HotKey.addMacDefaults(jTextFieldPath2);
+            HotKey.addMacDefaults(jTextField1);
+            HotKey.addMacDefaults(jTextFieldKlasse);
+            HotKey.addMacDefaults(jTextPane1);
+        }
     }
 
     private void resetConfigPool(boolean select, String klasseToSet) /* allneeded*/

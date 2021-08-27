@@ -1,0 +1,129 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_0xf2.c
+                              6 ;----- asm -----
+                              7 	.bank page_f2 (BASE=0xf256,SIZE=0x00aa)
+                              8 	.area .0xf2 (OVR,BANK=page_f2)
+                              9 	
+                             10 ;--- end asm ---
+                             11 	.globl	___Sound_Byte
+                             12 	.area	.0xf2
+   0000                      13 ___Sound_Byte:
+   0000 00 00                14 	.word	0
+   0002 00                   15 	.byte	0
+                             16 	.globl	___Sound_Byte_x
+   0003                      17 ___Sound_Byte_x:
+   0003 00 00 00 00 00 00    18 	.word	0,0,0,0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+   001B 00                   19 	.byte	0
+                             20 	.globl	___Clear_Sound
+   001C                      21 ___Clear_Sound:
+   001C 00 00 00 00 00 00    22 	.word	0,0,0,0,0
+        00 00 00 00
+   0026 00                   23 	.byte	0
+                             24 	.globl	___Sound_Bytes
+   0027                      25 ___Sound_Bytes:
+   0027 00 00 00 00 00 00    26 	.word	0,0,0
+   002D 00                   27 	.byte	0
+                             28 	.globl	___Sound_Bytes_x
+   002E                      29 ___Sound_Bytes_x:
+   002E 00 00 00 00          30 	.word	0,0
+   0032 00                   31 	.byte	0
+                             32 	.globl	___Do_Sound
+   0033                      33 ___Do_Sound:
+   0033 00 00                34 	.word	0
+   0035 00                   35 	.byte	0
+                             36 	.globl	___Do_Sound_x
+   0036                      37 ___Do_Sound_x:
+   0036 00 00 00 00 00 00    38 	.word	0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00
+   0046 00                   39 	.byte	0
+                             40 	.globl	___Intensity_1F
+   0047                      41 ___Intensity_1F:
+   0047 00 00 00 00          42 	.word	0,0
+                             43 	.globl	___Intensity_3F
+   004B                      44 ___Intensity_3F:
+   004B 00 00 00 00          45 	.word	0,0
+                             46 	.globl	___Intensity_5F
+   004F                      47 ___Intensity_5F:
+   004F 00 00 00 00          48 	.word	0,0
+                             49 	.globl	___Intensity_7F
+   0053                      50 ___Intensity_7F:
+   0053 00 00                51 	.word	0
+                             52 	.globl	___Intensity_a
+   0055                      53 ___Intensity_a:
+   0055 00 00 00 00 00 00    54 	.word	0,0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00 00 00
+   0067 00                   55 	.byte	0
+                             56 	.globl	___Dot_ix_b
+   0068                      57 ___Dot_ix_b:
+   0068 00 00                58 	.word	0
+   006A 00                   59 	.byte	0
+                             60 	.globl	___Dot_ix
+   006B                      61 ___Dot_ix:
+   006B 00 00                62 	.word	0
+                             63 	.globl	___Dot_d
+   006D                      64 ___Dot_d:
+   006D 00 00                65 	.word	0
+                             66 	.globl	___Dot_here
+   006F                      67 ___Dot_here:
+   006F 00 00 00 00 00 00    68 	.word	0,0,0,0,0,0,0,0
+        00 00 00 00 00 00
+        00 00 00 00
+                             69 	.globl	___Dot_List
+   007F                      70 ___Dot_List:
+   007F 00 00 00 00 00 00    71 	.word	0,0,0,0
+        00 00
+   0087 00                   72 	.byte	0
+                             73 	.globl	___Dot_List_Reset
+   0088                      74 ___Dot_List_Reset:
+   0088 00 00 00 00 00 00    75 	.word	0,0,0,0
+        00 00
+                             76 	.globl	___Recalibrate
+   0090                      77 ___Recalibrate:
+   0090 00 00 00 00 00 00    78 	.word	0,0,0,0,0,0
+        00 00 00 00 00 00
+                             79 	.globl	___Moveto_x_7F
+   009C                      80 ___Moveto_x_7F:
+   009C 00 00 00 00 00 00    81 	.word	0,0,0,0,0
+        00 00 00 00
+                             82 	.globl	___Moveto_d_7F
+   00A6                      83 ___Moveto_d_7F:
+   00A6 00                   84 	.byte	0
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 1
+Hexadecimal [16-Bits]                                 Thu Jan 30 13:14:28 2020
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 ___Clear_Sound     001C GR  |   2 ___Do_Sound        0033 GR
+  2 ___Do_Sound_x      0036 GR  |   2 ___Dot_List        007F GR
+  2 ___Dot_List_Re     0088 GR  |   2 ___Dot_d           006D GR
+  2 ___Dot_here        006F GR  |   2 ___Dot_ix          006B GR
+  2 ___Dot_ix_b        0068 GR  |   2 ___Intensity_1     0047 GR
+  2 ___Intensity_3     004B GR  |   2 ___Intensity_5     004F GR
+  2 ___Intensity_7     0053 GR  |   2 ___Intensity_a     0055 GR
+  2 ___Moveto_d_7F     00A6 GR  |   2 ___Moveto_x_7F     009C GR
+  2 ___Recalibrate     0090 GR  |   2 ___Sound_Byte      0000 GR
+  2 ___Sound_Byte_     0003 GR  |   2 ___Sound_Bytes     0027 GR
+  2 ___Sound_Bytes     002E GR
+
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 2
+Hexadecimal [16-Bits]                                 Thu Jan 30 13:14:28 2020
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+[page_f2]
+   2 .0xf2            size   A7   flags 8584
+

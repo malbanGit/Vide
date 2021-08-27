@@ -1,0 +1,39 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_11_05_Compare_Score.c
+                              6 	.area	.text
+                              7 	.globl	__Compare_Score
+   0000                       8 __Compare_Score:
+   0000 34 40         [ 6]    9 	pshs	u
+   0002 32 7D         [ 5]   10 	leas	-3,s
+   0004 AF 61         [ 6]   11 	stx	1,s
+                             12 ;----- asm -----
+                             13 ; 64 "source\vec_rum_11_05_Compare_Score.c" 1
+   0006 EE 67         [ 6]   14 	ldu 7,s
+   0008 BD 00 00      [ 8]   15 	jsr ___Compare_Score; BIOS call
+   000B 1F 89         [ 6]   16 	tfr a,b
+                             17 ;--- end asm ---
+   000D 32 63         [ 5]   18 	leas	3,s
+   000F 35 C0         [ 7]   19 	puls	u,pc
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __Compare_Scor     0000 GR  |     ___Compare_Sco     **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size   11   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

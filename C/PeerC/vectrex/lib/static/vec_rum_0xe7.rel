@@ -1,0 +1,25 @@
+XH2
+H 3 areas 3 global symbols 3 banks 1 modes
+M vec_rum_0xe7.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+B page_e7 base E7B5 size 4B map 0 flags 3
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .0xe7 size 1E flags 8D8C bank 2
+S ___Displ16_xy Def001D
+S ___Displ8_xy Def0000
+T 00 00
+R 00 00 00 02
+T 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 0C 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 18 00 00 00 00 00
+R 00 00 00 02
+T 00 1D
+R 00 00 00 02
+T 00 1D 00
+R 00 00 00 02

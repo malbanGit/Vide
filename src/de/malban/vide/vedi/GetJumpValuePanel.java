@@ -1,8 +1,10 @@
 package de.malban.vide.vedi;
 
 
+import de.malban.Global;
 import de.malban.vide.vecx.panels.*;
 import de.malban.config.Configuration;
+import de.malban.gui.HotKey;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.vide.dissy.DASM6809;
 import java.awt.event.KeyEvent;
@@ -16,6 +18,10 @@ public class GetJumpValuePanel extends javax.swing.JPanel {
     /** Creates new form FilePropertiesPanel */
     public GetJumpValuePanel() {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldLinenumber);
+        }
     }
     
     /** This method is called from within the constructor to

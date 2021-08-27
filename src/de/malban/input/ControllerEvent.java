@@ -50,6 +50,10 @@ public class ControllerEvent
     public float currentRelative = 0F;
     public boolean isRelative = false;
     
+    // mouse mode
+    public int x=0;
+    public int y=0;
+    
     public int index = -1;
     
     public String toString()

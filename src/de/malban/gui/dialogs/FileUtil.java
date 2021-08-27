@@ -13,6 +13,7 @@ package de.malban.gui.dialogs;
 
 import de.malban.Global;
 import de.malban.config.Configuration;
+import de.malban.gui.HotKey;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.panels.LogPanel;
 import de.malban.util.UtilityString;
@@ -53,7 +54,24 @@ public class FileUtil extends javax.swing.JPanel {
         jLabel13.setVisible(false);
         jLabel16.setVisible(false);
         jLabel18.setVisible(false);
- 
+         if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldstart);
+            HotKey.addMacDefaults(jTextFieldstart1);
+            HotKey.addMacDefaults(jTextFieldstart2);
+            HotKey.addMacDefaults(jTextFieldstart3);
+            HotKey.addMacDefaults(jTextFieldstart4);
+            HotKey.addMacDefaults(jTextFieldstart5);
+            HotKey.addMacDefaults(jTextFieldstart6);
+            HotKey.addMacDefaults(jTextFieldstart7);
+            HotKey.addMacDefaults(jTextFieldstart8);
+            HotKey.addMacDefaults(jTextFieldstart9);
+            HotKey.addMacDefaults(jTextFieldstart10);
+            HotKey.addMacDefaults(jTextFieldstart11);
+            HotKey.addMacDefaults(jTextArea2);
+            HotKey.addMacDefaults(jTextArea1);
+        }
+
         HeuristicTableModel model = new HeuristicTableModel();
         jTable1.setModel(model);
     }
@@ -177,6 +195,11 @@ public class FileUtil extends javax.swing.JPanel {
         jLabel41 = new javax.swing.JLabel();
         jButton16 = new javax.swing.JButton();
         jLabel42 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextAreahexInput = new javax.swing.JTextArea();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextAreadbOutput = new javax.swing.JTextArea();
+        jButton11 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
@@ -1223,6 +1246,28 @@ public class FileUtil extends javax.swing.JPanel {
         jLabel42.setText("output file -> + \".asm\"");
         jLabel42.setName("jLabel42"); // NOI18N
 
+        jScrollPane4.setName("jScrollPane4"); // NOI18N
+
+        jTextAreahexInput.setColumns(20);
+        jTextAreahexInput.setRows(5);
+        jTextAreahexInput.setName("jTextAreahexInput"); // NOI18N
+        jScrollPane4.setViewportView(jTextAreahexInput);
+
+        jScrollPane5.setName("jScrollPane5"); // NOI18N
+
+        jTextAreadbOutput.setColumns(20);
+        jTextAreadbOutput.setRows(5);
+        jTextAreadbOutput.setName("jTextAreadbOutput"); // NOI18N
+        jScrollPane5.setViewportView(jTextAreadbOutput);
+
+        jButton11.setText("raw hex to db");
+        jButton11.setName("jButton11"); // NOI18N
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
@@ -1242,6 +1287,16 @@ public class FileUtil extends javax.swing.JPanel {
                     .addComponent(jLabel41)
                     .addComponent(jButton16))
                 .addContainerGap(151, Short.MAX_VALUE))
+            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel14Layout.createSequentialGroup()
+                    .addGap(38, 38, 38)
+                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton11)
+                        .addGroup(jPanel14Layout.createSequentialGroup()
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(38, Short.MAX_VALUE)))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1259,6 +1314,15 @@ public class FileUtil extends javax.swing.JPanel {
                     .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(526, Short.MAX_VALUE))
+            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel14Layout.createSequentialGroup()
+                    .addGap(210, 210, 210)
+                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(211, 211, 211)))
         );
 
         jTabbedPane1.addTab("4", jPanel14);
@@ -2528,6 +2592,31 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        String text =  jTextAreahexInput.getText();
+        String[] splitter = text.split(" ");
+        StringBuffer b = new StringBuffer();
+        int counter = 0;
+        for (String s : splitter)
+        {
+            if (s.trim().length() == 0) continue;
+            if (counter == 0)
+            {
+                b.append(" db $").append(s);
+            }
+            else
+                b.append(", $").append(s);
+            counter++;
+            if (counter == 16)
+            {
+                b.append("\n");
+                counter = 0;
+            }
+            
+        }
+        jTextAreadbOutput.setText(b.toString());
+    }//GEN-LAST:event_jButton11ActionPerformed
     String replaceFunctionCalls(String line)
     {
         // todo
@@ -2626,6 +2715,7 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
@@ -2716,10 +2806,14 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextAreadbOutput;
+    private javax.swing.JTextArea jTextAreahexInput;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextFieldstart;

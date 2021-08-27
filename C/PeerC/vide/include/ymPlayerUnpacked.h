@@ -41,6 +41,7 @@ extern unsigned long init_ym_sound;
 #define __MC6809_jsr_u__dxy(args...)		__mc6809_jsr_u__dxy(args)
 #define _asm_ym_init(U) __MC6809_jsr_u__dxy(U, __YM_INIT, YM_INIT, d, x, u)
 
+#define __ass	asm volatile
 
 #ifdef OMMIT_FRAMEPOINTER
 
@@ -82,10 +83,7 @@ extern unsigned long init_ym_sound;
 
 
 __INLINE void ym_sound() \
-  {asm_ym_sound(); } 
+  {asm_ym_sound(); }
 
 __INLINE void ym_init(void* volatile u) \
- {_asm_ym_init(u); } 
-
-
-
+ {_asm_ym_init(u); }

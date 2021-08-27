@@ -37,6 +37,7 @@ import javax.swing.text.JTextComponent;
 public class HotKey implements Serializable
 {
     public String name="";
+    public String defaultKitName="";
     public String where = "";
     public int event = 0;
     public int mask=0;
@@ -56,6 +57,13 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_C, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.copyAction, "Editor");
             HotKey.addMap(KeyEvent.VK_V, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.pasteAction, "Editor");
             HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.cutAction, "Editor");
+            HotKey.addMap(KeyEvent.VK_A, java.awt.event.KeyEvent.META_DOWN_MASK, javax.swing.text.DefaultEditorKit.selectAllAction, "Editor");
+            
+//            HotKey.addMap(KeyEvent.VK_C, java.awt.event.KeyEvent.META_DOWN_MASK, "EditorSearchCopy", "EditorSearch");
+//            HotKey.addMap(KeyEvent.VK_V, java.awt.event.KeyEvent.META_DOWN_MASK, "EditorSearchPaste", "EditorSearch");
+//            HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.META_DOWN_MASK, "EditorSearchCut", "EditorSearch");
+//            HotKey.addMap(KeyEvent.VK_A, java.awt.event.KeyEvent.META_DOWN_MASK, "EditorSearchSelect", "EditorSearch");
+
             HotKey.addMap(KeyEvent.VK_TAB, java.awt.event.KeyEvent.SHIFT_DOWN_MASK ,"unindent", "Editor");
             HotKey.addMap(KeyEvent.VK_TAB, 0 ,"indent", "Editor");
             HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.META_DOWN_MASK ,"UndoMac", "Editor");
@@ -241,6 +249,22 @@ public class HotKey implements Serializable
         editor = ed;
         addKeysToEditor();
     }    
+    public HotKey(String n, String defaultName, JTextComponent ed)
+    {
+        HotKey hk = allMappings.get(n);
+        if (hk == null)
+            return;
+        event = hk.event;
+        mask = hk.mask;
+        name = hk.name;
+        onRelease = hk.onRelease;
+        editor = ed;
+        defaultKitName =defaultName;
+        addKeysToEditor();
+    }    
+    
+    
+    
     public HotKey(String n, Action a, JPanel p)
     {
         HotKey hk = allMappings.get(n);
@@ -293,6 +317,13 @@ public class HotKey implements Serializable
         editor.getInputMap().put(getKeyStroke(), name);
         if (action != null)
             editor.getActionMap().put(name, action);
+        else
+        {
+            if (defaultKitName.length() != 0)
+            {
+                editor.getActionMap().put(name, editor.getActionMap().get(defaultKitName));
+            }
+        }
     }
     private void addKeysToPanel()
     {
@@ -303,4 +334,22 @@ public class HotKey implements Serializable
         if (action != null)
             panel.getActionMap().put(name, action);
     }  
+    
+    
+    public static void addMacDefaults(JTextComponent t)
+    {
+        t.getActionMap().put(javax.swing.text.DefaultEditorKit.copyAction+"Mac", t.getActionMap().get(javax.swing.text.DefaultEditorKit.copyAction));
+        t.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.event.KeyEvent.META_DOWN_MASK, false), javax.swing.text.DefaultEditorKit.copyAction+"Mac");
+
+        t.getActionMap().put(javax.swing.text.DefaultEditorKit.pasteAction+"Mac", t.getActionMap().get(javax.swing.text.DefaultEditorKit.pasteAction));
+        t.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_V, java.awt.event.KeyEvent.META_DOWN_MASK, false), javax.swing.text.DefaultEditorKit.pasteAction+"Mac");
+
+        t.getActionMap().put(javax.swing.text.DefaultEditorKit.cutAction+"Mac", t.getActionMap().get(javax.swing.text.DefaultEditorKit.cutAction));
+        t.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_X, java.awt.event.KeyEvent.META_DOWN_MASK, false), javax.swing.text.DefaultEditorKit.cutAction+"Mac");
+
+        t.getActionMap().put(javax.swing.text.DefaultEditorKit.selectAllAction+"Mac", t.getActionMap().get(javax.swing.text.DefaultEditorKit.selectAllAction));
+        t.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, java.awt.event.KeyEvent.META_DOWN_MASK, false), javax.swing.text.DefaultEditorKit.selectAllAction+"Mac");
+    }
+    
 }
+

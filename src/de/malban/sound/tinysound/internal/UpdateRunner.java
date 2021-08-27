@@ -104,17 +104,22 @@ public class UpdateRunner implements Runnable
                 {
                     int bytesToSkip = framesToSkip * TinySound.FORMAT.getFrameSize();
                     this.mixer.skip(bytesToSkip);
+//System.out.println("Frames skipped: " + framesToSkip);
                 }
                 //read frames
                 if (framesToRead > 0) 
                 {
                     //read from the mixer
                     int bytesToRead = framesToRead * TinySound.FORMAT.getFrameSize();
+                    
+                    
+                    
                     int tmpBytesRead = this.mixer.read(audioBuffer, numBytesRead, bytesToRead);
                     numBytesRead += tmpBytesRead; //mark how many read
 
                     //fill rest with zeroes
                     int remaining = bytesToRead - tmpBytesRead;
+//System.out.println("bytesToRead: "+bytesToRead+ "  remaining:" + remaining);
                     for (int i = 0; i < remaining; i++) 
                     {
                         audioBuffer[numBytesRead + i] = 0;

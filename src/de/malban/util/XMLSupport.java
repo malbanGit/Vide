@@ -21,7 +21,12 @@ public class XMLSupport
     
     // new June 2017
     // CASE sensitive tags!
-    
+    boolean quietNow = false;
+    public void beQuiet(boolean b)
+    {
+        quietNow = b;
+    }
+
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public static final int OK = 0;
     public static final int ELEMENT_START_NOT_FOUND = 1;
@@ -119,7 +124,8 @@ public class XMLSupport
             errorCode+=ELEMENT_START_NOT_FOUND;
             if (doWarn)
             {
-                log.addLog("getXMLElement(): StartTag not found: "+tag, INFO);
+                if (!quietNow)
+                    log.addLog("getXMLElement(): StartTag not found: "+tag, INFO);
             }
             return null;
         }

@@ -203,6 +203,12 @@ SM_continue_yEqx                                          ;#isfunction
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
                     pulu     a,b,pc 
+
+SM_repeat_same                                            ;#isfunction  
+                    pulu     a,b 
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     pc 
 SM_continue_d_double                                      ;#isfunction  
                     sta      <VIA_port_a 
                     clra     
@@ -246,12 +252,6 @@ SM_startMove_d_double_sj:                                    ;#isfunction
 
 SM_continue_sj                                               ;#isfunction  
                     ldu      ,u 
-                    pulu     a,b 
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     pc 
-
-SM_repeat_same                                            ;#isfunction  
                     pulu     a,b 
                     clr      <VIA_t1_cnt_hi 
                     ADD_NOPS  

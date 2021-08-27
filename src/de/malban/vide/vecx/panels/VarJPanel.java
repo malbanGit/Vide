@@ -95,7 +95,9 @@ public class VarJPanel extends javax.swing.JPanel implements
         }
         for (int m = start; m<end; m++)
         {
-            MemoryInformation memInfo = memory.memMap.get(m);
+            //MemoryInformation memInfo = memory.memMap.get(m);
+            MemoryInformation memInfo = memory.getBankMemory(dissi.getCurrentBank()).get(m);
+            jLabel1.setText("Ram Layout from bank: "+dissi.getCurrentBank());
             if (memInfo.memType == MEM_TYPE_RAM)
             {
                 if (jCheckBoxShowAllRAM.isSelected())
@@ -294,6 +296,7 @@ public class VarJPanel extends javax.swing.JPanel implements
         jButtonAddVariable = new javax.swing.JButton();
         jCheckBoxShowAllRAM = new javax.swing.JCheckBox();
         jCheckBoxHideBIOSNames = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
 
         jMenuItemBreakpointRead.setText("add Breakpoint read");
         jMenuItemBreakpointRead.addActionListener(new java.awt.event.ActionListener() {
@@ -442,6 +445,8 @@ public class VarJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jLabel1.setText("Ram Layout from bank: 1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -454,6 +459,8 @@ public class VarJPanel extends javax.swing.JPanel implements
                 .addComponent(jCheckBoxShowAllRAM)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxHideBIOSNames)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonAddVariable))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
@@ -466,7 +473,8 @@ public class VarJPanel extends javax.swing.JPanel implements
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jCheckBoxShowAllRAM)
-                        .addComponent(jCheckBoxHideBIOSNames))
+                        .addComponent(jCheckBoxHideBIOSNames)
+                        .addComponent(jLabel1))
                     .addComponent(jButtonAddVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
@@ -691,6 +699,7 @@ public class VarJPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBoxHideBIOSNames;
     private javax.swing.JCheckBox jCheckBoxShowAllRAM;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemBreakpointRead;

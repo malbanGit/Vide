@@ -1,0 +1,40 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_05_02_03_Print_Str_d.c
+                              6 	.area	.text
+                              7 	.globl	__Print_Str_d
+   0000                       8 __Print_Str_d:
+   0000 34 40         [ 6]    9 	pshs	u
+   0002 32 7D         [ 5]   10 	leas	-3,s
+   0004 E7 62         [ 5]   11 	stb	2,s
+   0006 AF E4         [ 5]   12 	stx	,s
+                             13 ;----- asm -----
+                             14 ; 60 "source\vec_rum_05_02_03_Print_Str_d.c" 1
+   0008 A6 67         [ 5]   15 	lda 7,s
+   000A 1F 13         [ 6]   16 	tfr x,u
+   000C BD 00 00      [ 8]   17 	jsr ___Print_Str_d; BIOS call
+                             18 ;--- end asm ---
+   000F 32 63         [ 5]   19 	leas	3,s
+   0011 35 C0         [ 7]   20 	puls	u,pc
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __Print_Str_d      0000 GR  |     ___Print_Str_d     **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size   13   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

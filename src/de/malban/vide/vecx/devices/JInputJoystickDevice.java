@@ -24,7 +24,7 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
 
     ControllerConfig cConfig=null;
     EventController eController = null;
-    
+    boolean mouseMode = false;
     public int getDeviceID()
     {
         return DEVICE_JINPUT_JOYSTICK;
@@ -81,6 +81,8 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
 //            deinit();
         }
         eController = new EventController(controller);
+        mouseMode = cConfig.inputMapping.get("mouseMode") != null;
+        eController.setMouseMode(mouseMode);
         eController.addEventListerner(this);
         
         eController.setActive(true);
@@ -93,12 +95,18 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
         c.initEventMapping();
         
         
-        
         return device;
     }
     @Override
     public void controllerEvent(ControllerEvent e)
     {
+        if ((mouseMode) && (e.isRelative))
+        {
+            joyport.setVertical(e.y, true);
+            joyport.setHorizontal(e.x, true);
+            return;
+        }
+
         String evenId = e.componentId;
         String vectrexTarget = cConfig.eventMapping.get(evenId);
         if (vectrexTarget==null) 
@@ -126,13 +134,14 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
             }
             return; // not for me!
         }
-        if (joyportIsInOutputMode)
+        if (joyportIsInInputMode)
         {
             if (vectrexTarget.equals("1")) joyport.setButton1(!e.currentButtonState, true); 
             if (vectrexTarget.equals("2")) joyport.setButton2(!e.currentButtonState, true); 
             if (vectrexTarget.equals("3")) joyport.setButton3(!e.currentButtonState, true); 
             if (vectrexTarget.equals("4")) joyport.setButton4(!e.currentButtonState, true); 
         }
+        
         
         
         

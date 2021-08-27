@@ -28,7 +28,10 @@ import javax.swing.SwingUtilities;
  */
 public class VideMain {
 
+    
+    
     public static void main(String[] args) {
+        
 //Extractor.ensureParaAvailable();
 //        Extractor.extractPara();
         Configuration.getConfiguration().getDebugEntity();
