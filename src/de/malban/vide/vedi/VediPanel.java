@@ -6585,6 +6585,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 RandomAccessFile file = new RandomAccessFile(cartProp.getFullFilename().get(0), "r");
                 byte[] bytes = new byte[(int)file.length()];
                 file.readFully(bytes);
+                file.close();
                 
                 for (int i = 0; i < bytes.length; i++) {
                     output.write('@');
