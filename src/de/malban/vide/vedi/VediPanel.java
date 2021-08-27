@@ -6,6 +6,7 @@
   
 package de.malban.vide.vedi; 
    
+import com.fazecast.jSerialComm.SerialPort;
 import de.malban.Global;
 import de.malban.vide.vedi.panels.BinaryPanel;
 import de.malban.vide.vedi.panels.ImagePanel;
@@ -121,6 +122,11 @@ import javax.swing.tree.TreePath;
 
 import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 import java.awt.geom.Point2D;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Vector;
@@ -6543,6 +6549,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     printMessage("Assembly successfull, starting emulation...");
                 }
             }
+            else if (config.invokeVecMultiAfterAssembly) {
+                loadVecMulti(cartProp);
+            }
             else
             {
                 printMessage("Assembly successfull...");
@@ -6555,6 +6564,37 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         refreshTree();
     }  
+    
+    private void loadVecMulti(CartridgeProperties cartProp)
+    {
+        SerialPort[] ports = SerialPort.getCommPorts();
+        if (ports.length == 0) {
+            printError("Failed to find any connected serial ports");
+            return;
+        }
+        
+        SerialPort port = ports[0];
+        printMessage("Writing to serial port " + port.getDescriptivePortName());
+        port.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
+        port.openPort();
+        try {
+            InputStream input = port.getInputStream();
+            try (OutputStream output = port.getOutputStream()) {
+                output.write('s');
+                RandomAccessFile file = new RandomAccessFile(cartProp.getFullFilename().get(0), "r");
+                byte[] bytes = new byte[(int)file.length()];
+                file.readFully(bytes);
+                
+                for (int i = 0; i < bytes.length; i++) {
+                    output.write('@');
+                    output.write(bytes[i]);
+                }
+                output.write('y');
+            }
+            port.closePort();
+            printMessage("VecMulti loading successful. Reset your Vectrex!");
+        } catch (IOException e) {}
+    }
         
     // expects relative file name
     // but under windows can be absolute nonetheless (other drive)
@@ -8924,12 +8964,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         refreshTree();
         if (buildOk)
         {
+            VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
+            ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
+
+            CartridgeProperties cartProp = buildCart(currentProject, false);
+                
             if (config.invokeEmulatorAfterAssembly)
             {
-                VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
-                ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
-
-                CartridgeProperties cartProp = buildCart(currentProject, false);
                 checkVec4EverProject(cartProp);
                 
                 
@@ -8970,6 +9011,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     vec.startCartridge(cartProp, startTypeRun);
                     printMessage("Assembly successfull, starting emulation...");
                 }
+            }
+            else if (config.invokeVecMultiAfterAssembly) {
+                loadVecMulti(cartProp);
             }
             else
             {
@@ -9593,6 +9637,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     vec.startCartridge(cartProp, startTypeRun);
                     printMessage("Compile successfull, starting emulation...");
                 }
+            }
+            else if (config.invokeVecMultiAfterAssembly) {
+                loadVecMulti(cartProp);
             }
             else
             {
