@@ -6549,12 +6549,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     printMessage("Assembly successfull, starting emulation...");
                 }
             }
-            else if (config.invokeVecMultiAfterAssembly) {
-                loadVecMulti(cartProp);
-            }
             else
             {
                 printMessage("Assembly successfull...");
+            }
+            
+            if (config.invokeVecMultiAfterAssembly) {
+                loadVecMulti(cartProp);
             }
         }
         else
@@ -6574,7 +6575,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         
         SerialPort port = ports[0];
-        printMessage("Writing to serial port " + port.getDescriptivePortName());
+        printMessage("Writing to serial port " + port.getDescriptivePortName() + "...");
         port.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
         port.openPort();
         try {
@@ -9012,12 +9013,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     printMessage("Assembly successfull, starting emulation...");
                 }
             }
-            else if (config.invokeVecMultiAfterAssembly) {
-                loadVecMulti(cartProp);
-            }
             else
             {
                 printMessage("Assembly successfull...");
+            }
+            
+            if (config.invokeVecMultiAfterAssembly) {
+                loadVecMulti(cartProp);
             }
         }
         else
@@ -9638,12 +9640,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     printMessage("Compile successfull, starting emulation...");
                 }
             }
-            else if (config.invokeVecMultiAfterAssembly) {
-                loadVecMulti(cartProp);
-            }
             else
             {
                 printMessage("Compile successfull...");
+            }
+            
+            if (config.invokeVecMultiAfterAssembly) {
+                loadVecMulti(cartProp);
             }
         }
         else
