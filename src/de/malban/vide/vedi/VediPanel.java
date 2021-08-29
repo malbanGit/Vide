@@ -130,6 +130,8 @@ import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Action;
 import javax.swing.text.DefaultEditorKit;
 
@@ -6555,7 +6557,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             
             if (config.invokeVecMultiAfterAssembly) {
-                loadVecMulti(cartProp);
+                loadVecMulti(cartProp.getFullFilename().get(0));
             }
         }
         else
@@ -6566,36 +6568,55 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         refreshTree();
     }  
     
-    private void loadVecMulti(CartridgeProperties cartProp)
+    private void writeByte(OutputStream output, byte value) throws InterruptedException, IOException {
+        output.write(value);
+    }
+    
+    private void loadVecMulti(String fileName)
     {
-        SerialPort[] ports = SerialPort.getCommPorts();
-        if (ports.length == 0) {
-            printError("Failed to find any connected serial ports");
-            return;
-        }
-        
-        SerialPort port = ports[0];
-        printMessage("Writing to serial port " + port.getDescriptivePortName() + "...");
-        port.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
-        port.openPort();
-        try {
-            InputStream input = port.getInputStream();
-            try (OutputStream output = port.getOutputStream()) {
-                output.write('s');
-                RandomAccessFile file = new RandomAccessFile(cartProp.getFullFilename().get(0), "r");
-                byte[] bytes = new byte[(int)file.length()];
-                file.readFully(bytes);
-                file.close();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                final int BAUD_RATE = 115200;
+                final int DATA_BITS = 8;
+                final int PROGRESS_FREQ = 1000;
                 
-                for (int i = 0; i < bytes.length; i++) {
-                    output.write('@');
-                    output.write(bytes[i]);
+                if (config.vecMultiPortDescriptor == null) {
+                    printError("Failed to find any connected serial ports");
+                    return;
                 }
-                output.write('y');
+
+                SerialPort port = SerialPort.getCommPort(config.vecMultiPortDescriptor);
+                printMessage("Writing to serial port " + config.vecMultiPortDescriptor + "...");
+                port.setComPortParameters(BAUD_RATE, DATA_BITS, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
+                port.openPort();
+                try {
+                    try (OutputStream output = port.getOutputStream()) {
+                        writeByte(output, (byte) 's');
+                        byte[] bytes;
+                        try (RandomAccessFile file = new RandomAccessFile(fileName, "r")) {
+                            bytes = new byte[(int)file.length()];
+                            file.readFully(bytes);
+                        }
+
+                        for (int i = 0; i < bytes.length; i++) {
+                            writeByte(output, (byte) '@');
+                            writeByte(output, bytes[i]);
+                            int progress = (i * 100) / bytes.length;
+                            if (i % PROGRESS_FREQ == 0) {
+                                printMessage(progress + "% loaded...");
+                            }
+                        }
+                        writeByte(output, (byte) 'y');
+                    } catch (InterruptedException e) {}
+                    port.closePort();
+                    printMessage("VecMulti loading successful. Reset your Vectrex!");
+                } catch (IOException e) {}
             }
-            port.closePort();
-            printMessage("VecMulti loading successful. Reset your Vectrex!");
-        } catch (IOException e) {}
+        };
+        
+        thread.setName("VecMulti load: "+currentProject.getProjectName());
+        thread.start();
     }
         
     // expects relative file name
@@ -9020,7 +9041,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             
             if (config.invokeVecMultiAfterAssembly) {
-                loadVecMulti(cartProp);
+                loadVecMulti(cartProp.getFullFilename().get(0));
             }
         }
         else
@@ -9647,7 +9668,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             
             if (config.invokeVecMultiAfterAssembly) {
-                loadVecMulti(cartProp);
+                loadVecMulti(cartProp.getFullFilename().get(0));
             }
         }
         else

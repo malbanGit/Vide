@@ -5,6 +5,7 @@
  */
 package de.malban.vide;
 
+import com.fazecast.jSerialComm.SerialPort;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.graphics.VectorColors;
@@ -217,6 +218,7 @@ class ConfigStatic1 implements Serializable
    public boolean motdActive = true;
    // VEDI
    public boolean invokeVecMultiAfterAssembly = false;
+   public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
    public boolean invokeEmulatorAfterAssembly = true;
    public boolean scanMacros = true;
    public boolean scanVars = true;
@@ -470,6 +472,7 @@ public class VideConfig  implements Serializable{
     public boolean motdActive = true;
     // VEDI
     public boolean invokeVecMultiAfterAssembly = false;
+    public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
     public boolean invokeEmulatorAfterAssembly = true;
     public boolean scanMacros = true;
     public boolean scanVars = true;
@@ -920,6 +923,7 @@ public class VideConfig  implements Serializable{
         
         // VEDI
         to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
+        to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
         to.invokeEmulatorAfterAssembly = from.invokeEmulatorAfterAssembly;
         to.scanMacros = from.scanMacros;
         to.scanVars = from.scanVars;
@@ -1137,6 +1141,7 @@ public class VideConfig  implements Serializable{
         
         // VEDI
         to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
+        to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
         to.invokeEmulatorAfterAssembly = from.invokeEmulatorAfterAssembly;
         to.scanMacros = from.scanMacros;
         to.scanVars = from.scanVars;
