@@ -4882,7 +4882,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             }
         });
 
-        jComboBox10.setToolTipText("Volume table used for emulation");
+        jComboBox10.setToolTipText("Serial COM port used to load VecMulti cartridge");
         jComboBox10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox10ActionPerformed(evt);
