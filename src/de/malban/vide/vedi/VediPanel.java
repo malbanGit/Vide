@@ -6579,7 +6579,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             public void run() {
                 final int BAUD_RATE = 115200;
                 final int DATA_BITS = 8;
-                final int PROGRESS_FREQ = 1000;
+                final int PROGRESS_FREQ = 4096;
                 
                 if (config.vecMultiPortDescriptor == null) {
                     printError("Failed to find any connected serial ports");
