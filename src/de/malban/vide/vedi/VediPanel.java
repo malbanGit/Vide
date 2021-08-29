@@ -6557,7 +6557,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             
             if (config.invokeVecMultiAfterAssembly) {
-                loadVecMulti(cartProp.getFullFilename().get(0));
+                loadVecMulti(cartProp);
             }
         }
         else
@@ -6572,8 +6572,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         output.write(value);
     }
     
-    private void loadVecMulti(String fileName)
+    private void loadVecMulti(CartridgeProperties cartProp)
     {
+        String fileName = de.malban.util.Utility.makeVideAbsolute(de.malban.util.UtilityFiles.convertSeperator(cartProp.getFullFilename().elementAt(0)));
+        
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -6608,10 +6610,14 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                             }
                         }
                         writeByte(output, (byte) 'y');
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException e) {
+                        printError(e.toString());
+                    }
                     port.closePort();
                     printMessage("VecMulti loading successful. Reset your Vectrex!");
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                    printError(e.toString());
+                }
             }
         };
         
@@ -9041,7 +9047,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             
             if (config.invokeVecMultiAfterAssembly) {
-                loadVecMulti(cartProp.getFullFilename().get(0));
+                loadVecMulti(cartProp);
             }
         }
         else
@@ -9668,7 +9674,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             }
             
             if (config.invokeVecMultiAfterAssembly) {
-                loadVecMulti(cartProp.getFullFilename().get(0));
+                loadVecMulti(cartProp);
             }
         }
         else
