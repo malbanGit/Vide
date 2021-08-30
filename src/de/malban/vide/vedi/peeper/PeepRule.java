@@ -242,7 +242,9 @@ public class PeepRule {
         do
         {
             xmlSupport.errorCode = 0;
+    xmlSupport.beQuiet(true);
             rule = CombinedPeepRule.readRuleFromXML(xmlSupport.getXMLElement("CombinedPeepRule", xml), xmlSupport);
+    xmlSupport.beQuiet(false);
             if (rule != null)
             {
                 errorCode|=xmlSupport.errorCode;
@@ -260,7 +262,9 @@ public class PeepRule {
         do
         {
             xmlSupport.errorCode = 0;
+    xmlSupport.beQuiet(true);
             result = OneResult.readResultFromXML(xmlSupport.getXMLElement("OneResult", xml), xmlSupport);
+    xmlSupport.beQuiet(false);
             if (result != null)
             {
                 errorCode|=xmlSupport.errorCode;

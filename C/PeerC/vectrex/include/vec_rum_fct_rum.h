@@ -221,6 +221,7 @@ __NO_INLINE void __Draw_Pat_VL_a(volatile const unsigned int a, void* volatile c
 __NO_INLINE void __Draw_Pat_VL(void* volatile const x); // 0xF437
 __NO_INLINE void __Draw_Pat_VL_d(volatile const long unsigned int d, void* volatile const x); // 0xF439, not official
 __NO_INLINE void __Draw_Line_d(volatile const int a, volatile const int b); // 0xF3DF
+__NO_INLINE void __Draw_Line_dd(volatile const long int d); // 0xF3DF
 __NO_INLINE void __Draw_VLc(void* volatile const x); // 0xF3CE, count y x y x ...
 __NO_INLINE void __Draw_VL_ab(volatile const unsigned int a, volatile const unsigned int b, void* volatile const x); // 0xF3D8
 __NO_INLINE void __Draw_VL(void* volatile const x); // 0xF3DD, y x y x ...
@@ -297,7 +298,7 @@ __NO_INLINE void __Rot_VL_Pack(void* volatile const x, void* volatile const u); 
 // 5.4 Unknown
 
 // NIBBY 	0xFF9F 	--- 	Draw vector grid list
-// __NO_INLINE void __Draw_Grid_VL(void* volatile const x, void* volatile const y); //0xFF9F, not official
+__NO_INLINE void __Draw_Grid_VL(void* volatile const x, void* volatile const y); //0xFF9F, not official
 
 // ---------------------------------------------------------------------------
 // 6. Mathematical Functions

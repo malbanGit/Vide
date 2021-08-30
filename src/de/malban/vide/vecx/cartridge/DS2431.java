@@ -442,14 +442,6 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         cart = c;
 
 
-        // Serial Asteroids from Thomas #2
-        SERIAL_NUMBER[0] = 0x60;
-        SERIAL_NUMBER[1] =(byte) 0x9e;
-        SERIAL_NUMBER[2] = 0x7f;
-        SERIAL_NUMBER[3] = 0x15;
-        SERIAL_NUMBER[4] = 0x00;
-        SERIAL_NUMBER[5] = 0x00;
-
         // Serial Asteroids Deluxe  from Thomas #2
         SERIAL_NUMBER[0] = 0x4c;
         SERIAL_NUMBER[1] =(byte) 0xa1;
@@ -466,6 +458,14 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         SERIAL_NUMBER[4] = 0x00;
         SERIAL_NUMBER[5] = 0x00;
         
+
+        // Serial Asteroids from Thomas #2
+        SERIAL_NUMBER[0] = 0x60;
+        SERIAL_NUMBER[1] =(byte) 0x9e;
+        SERIAL_NUMBER[2] = 0x7f;
+        SERIAL_NUMBER[3] = 0x15;
+        SERIAL_NUMBER[4] = 0x00;
+        SERIAL_NUMBER[5] = 0x00;
         
     }
     public DS2431 clone()
@@ -785,7 +785,7 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         }
         else if (highLevelState == HL_SERIAL_5)
         {
-            log.addLog("1W Command READROM 4. byte!", LogPanel.INFO);
+            log.addLog("1W Command READROM 5. byte!", LogPanel.INFO);
             highLevelState = HL_SERIAL_6;
             currentByteOutput = SERIAL_NUMBER[3];
             currentWriteByteComplete = SERIAL_NUMBER[3];

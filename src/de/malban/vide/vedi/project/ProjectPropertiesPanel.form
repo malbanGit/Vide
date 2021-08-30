@@ -26,7 +26,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" pref="554" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -213,7 +213,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jCheckBoxCreateGameLoop" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jScrollPane2" pref="82" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane2" pref="106" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="jComboBoxBankswitchNumber" min="-2" max="-2" attributes="0"/>
@@ -735,7 +735,7 @@
                 <Component class="javax.swing.JCheckBox" name="jCheckBoxCRumInlined">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="C Rum inlined"/>
-                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;Rum functions inlined -&gt; checked&lt;BR&gt;&#xa;Rum functions as &quot;functions&quot; -&gt; not checked!&#xa;&lt;/html&gt;"/>
+                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;Rum functions inlined -&gt; not supported! &lt;BR&gt;&#xa;Rum functions as &quot;functions&quot;...&#xa;&lt;/html&gt;"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>

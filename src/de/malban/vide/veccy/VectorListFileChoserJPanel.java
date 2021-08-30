@@ -5,9 +5,11 @@
  */
 package de.malban.vide.veccy;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.graphics.GFXVectorAnimation;
 import de.malban.graphics.GFXVectorList;
+import de.malban.gui.HotKey;
 import de.malban.gui.components.ModalInternalFrame;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Component;
@@ -49,6 +51,10 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
      */
     public VectorListFileChoserJPanel(String filepath, boolean ia) {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldFileName);
+        }
         isAnimation = ia;
         filePath = filepath;
         initTable();

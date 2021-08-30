@@ -1,5 +1,81 @@
+> That ticking noise...???   I'm guessing you don't get that on your installation?   Maybe try it on a Windows PC?
+>
 
-- vecci: added hotkeys (standard) for delete (del) copy(meta c)/cut(meta x)/paste(meta v) undo(meta z)/redo(meta shift z) selectAll (meta a) and mode switch (M)
+
+Vectorblade - remember diffivculty in SAVE
+
+
+I've got a PiTrex - love it...well, except for the menu system - for some reason it doesn't always read joystick inputs, 
+so I can sit there and have to flick the joystick left 5-10 times for it to move left. Joystick works great in game, 
+just not in the PiTrex menu.
+
+
+Douglas Peuker Algorythm
+Preview <-> final (like images)
+Edit Epsilon
+checkbox to "use" move as vectors
+
+
+PiTrex
+Lightpan Animaction "Menu"
+VecMania
+Coin in Asteroids
+Vectorblade update to 12
+WWW Vi
+
+
+
+Cycle counts in Vecx checken und korrigieren.
+
+4bankswictth scheme added to template
+
+bankswitchin in C
+
+
+
+- veccy: fixed code export template directory generation
+
+- YM: fixed a bug where the length of ym2! and ym3! files were not correctly calculated!
+
+
+
+- C: WARNING - code like does not work - even though dp_VIA_port_b is declared as volatile, it is not read again!
+            dp_VIA_port_b = 0x01;
+            if ((dp_VIA_port_b & 0x40) == 0x40)
+     Implementation of "volatile" is compiler dependend, to beon the save side explicit memory barriers should be set, like
+            asm volatile ("" ::: "memory");                 // memory barrier
+     before the if clause in above example!
+- C: WARNING - Code MIGHT be build wrongly if the second parameter of a function is 8 bit and the first is 16 bit, example:
+            -----
+            extern void foo(unsigned long int x, unsigned int b);
+            static unsigned int v;
+            void bar(void)
+            {
+                            foo(v, 0);
+            }
+            -----
+     This is a gcc bug, documented in: "https://gitlab.com/dfffffff/gcc6809/-/issues/6",
+     also documented methods to circumvent (usage of compile parameters!)!
+     For new C - projects the command line parameters "-fno-ipa-reference -ftree-ter" are added per default!
+- C: linkage changed (Peer) - only library/calls which are needed are linked, removed option to use RUM INLINED
+- C: new CRT0, which always has 48k support enabled
+- C: assert functionality added (Peer)
+     in "main" just add #inlude <assert.h>
+     Per default asserts are active, do switch them off use either in code: "#define NDEBUG",
+     or add the CCFLAG parameter (in project) "-D NDEBUG".
+     Active asserts use precious cycles!
+     If an asserts fires, a message with the assert parameters are output.
+     On a button press the program continues (at your own risk)!
+- misc: fixed download link for YM files (https now)
+- vecxi: added mouse Analog -> coordinate input method (Graham)
+  Note this is "hard" to get 1:1, either change the scale of drawing...
+  Or "zoom" in using configuration "emulated vectrex integrator max" (smaller values)
+- vedi: Add cmd A to editor (on OSX this has to be done manually for all field... I am certain I missed a few!)
+- vedi: add cmd A/X/C/V to search
+- vedi: all (in Vide added) tabs are now spaces
+- dissi/vecxi: added "nmi"
+- vecci: added hotkeys (standard) for delete (del) copy(meta c)/cut(meta x)/paste(meta v) undo(meta z)/redo(meta shift z) 
+         selectAll (meta a) and mode switch (M)
          -> needs new config settings
          Win -> meta = CTRL
          Max -> meta = Command
@@ -11,20 +87,35 @@
 - vecci: added import filter for Gyrock lists
 - vecci: added template for smartlist with NO SHIFT REGISTER usage
 - vedi: added "*.md" files to be editable
-
-bug:
- - dissi: load in dissi different configured disassemblings
- - vedi: file not found exception when trying to edit file properties
- - dissi: UNOWN data types were possible in dissi (not disassembled)
- - dissi: strings could be "closed" with any negative value (instead of only 0x80) - during a string scan!
- - vedi: include in subdirectories were not parsed correctly (sometimes)
- - vecci: corrected VBSmartlist generation 
- - vecxi: analog joystcik  vertical in relative mode had wrong directions
- - vecxi: better reconnect to joysticks that time out
- - vedi: lower upper character independency added in label jumping
- - ym/vedi: ym menu was not enabled correctly
- - vecxi: soft reset no does not delete/initialize RAM
- - vecx: joystick buttons must only be set, when PSG regs are in output mode
+- vedi: pretty print asm    if then else elseif ifdef ...    Only 1 space "insert"
+- vecxi: added "fauly" VIA mode
+- vedi: if resulting binray is too large - hit prints the size!
+- vecxi: added a faulty vectrex mode
+- vecxi: T1 timer one shot mode, now resets the timer to the latch times
+         "read" of VIA is always after the complete "cycle" run.
+-vecxi: Changes done in Vide for 100% cycle exact execution of VB
+        (it still is not 100%!)
+        - T1 timer one shot, was not "reset" with latch values after reaching 0, including one cycle "duration" of reset
+          reloaded value is shown "false" in vecxi since it shows "value+"
+          the real VIA shows hi ff, lo 0 and than the "real" value appears next round - >there is a delay of one cycle!
+        - t2 needa one cycle to START the actual timer, befor it counts down
+        - values read with "lda" kind of instructions are read AFTER all instruction cycles are processed (however strange that may be)
+        - STB direct, value is written after 3 of 4 cycles  (STA after 4 !?!?!?)
+        Falsly shown in Vide:
+        - State of CB1 (also interrupt flag CB1), vectrex has NO CB1
+        - half carry is "uncertain" emulated
+- dissi: load in dissi different configured disassemblings
+- vedi: file not found exception when trying to edit file properties
+- dissi: UNOWN data types were possible in dissi (not disassembled)
+- dissi: strings could be "closed" with any negative value (instead of only 0x80) - during a string scan!
+- vedi: include in subdirectories were not parsed correctly (sometimes)
+- vecci: corrected VBSmartlist generation 
+- vecxi: analog joystcik  vertical in relative mode had wrong directions
+- vecxi: better reconnect to joysticks that time out
+- vedi: lower upper character independency added in label jumping
+- ym/vedi: ym menu was not enabled correctly
+- vecxi: soft reset no does not delete/initialize RAM
+- vecx: joystick buttons must only be set, when PSG regs are in output mode
 
 3rd of April 2019
 Version 2.51

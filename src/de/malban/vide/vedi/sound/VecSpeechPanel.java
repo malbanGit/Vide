@@ -9,6 +9,7 @@ import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
@@ -209,6 +210,12 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
      */
     public VecSpeechPanel(TinyLogInterface tl) {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextAreaInputText);
+            HotKey.addMacDefaults(jTextAreaTranslation);
+            HotKey.addMacDefaults(jTextArea3);
+        }
         tinyLog = tl;
         jTable1.setModel(new VecVoxTableModel());
         jTable2.setModel(new VecVoxSpecialTableModel());

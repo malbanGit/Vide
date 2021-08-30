@@ -54,6 +54,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -216,7 +217,7 @@ public class EditorPanel extends EditorPanelFoundation
         }
         catch (Throwable e)
         {
-    LogPanel slog = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+            LogPanel slog = (LogPanel) Configuration.getConfiguration().getDebugEntity();
             slog.addLog(e);
         }
         return null;
@@ -397,9 +398,18 @@ public class EditorPanel extends EditorPanelFoundation
             new HotKey("RedoWin", redoAction, jTextPane1);
         }
         
-        new HotKey(javax.swing.text.DefaultEditorKit.copyAction,null, jTextPane1);
-        new HotKey(javax.swing.text.DefaultEditorKit.pasteAction, null, jTextPane1);
-        new HotKey(javax.swing.text.DefaultEditorKit.cutAction, null, jTextPane1);
+        new HotKey(javax.swing.text.DefaultEditorKit.copyAction,(Action)null, jTextPane1);
+        new HotKey(javax.swing.text.DefaultEditorKit.pasteAction, (Action)null, jTextPane1);
+        new HotKey(javax.swing.text.DefaultEditorKit.cutAction, (Action)null, jTextPane1);
+        new HotKey(javax.swing.text.DefaultEditorKit.selectAllAction, (Action)null, jTextPane1);
+
+        new HotKey("EditorSearchCopy", javax.swing.text.DefaultEditorKit.copyAction, jTextPane1);
+        new HotKey("EditorSearchPaste", javax.swing.text.DefaultEditorKit.pasteAction,  jTextPane1);
+        new HotKey("EditorSearchCut", javax.swing.text.DefaultEditorKit.cutAction,  jTextPane1);
+        new HotKey("EditorSearchSelect", javax.swing.text.DefaultEditorKit.selectAllAction,  jTextPane1);
+        
+        
+        
         new HotKey("unindent", shiftTabAction, jTextPane1);
         new HotKey("indent", tabAction, jTextPane1);
         new HotKey("SearchMac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.requestSearchFocus(); }}, this);
@@ -723,7 +733,7 @@ public class EditorPanel extends EditorPanelFoundation
         String ret = "";
 
         for (int i=0;i<brackCount[line];i++) 
-            ret+="\t";
+            ret+=getTABString(); 
         return ret;
     }
     
@@ -759,12 +769,12 @@ log.addLog("Attrib:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
             try
             {
                 // check if char befor is TAB if so delete it
-                int startPos = jTextPane1.getCaretPosition()-1;
+                int startPos = jTextPane1.getCaretPosition()-getTABString().length();
                 int endPos = jTextPane1.getCaretPosition()-0;
                 jTextPane1.setSelectionStart(startPos);
                 jTextPane1.setSelectionEnd(endPos);
                 String before = jTextPane1.getSelectedText();
-                if (before.endsWith("\t"))
+                if (before.endsWith(getTABString()))
                 {
                     synchronized (editorPaneDocument.getDocumentLock())
                     {
@@ -772,8 +782,8 @@ log.addLog("Attrib:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
                         evt.consume();
                     }
                 }
-                jTextPane1.setSelectionStart(endPos);
-                jTextPane1.setSelectionEnd(endPos);
+                jTextPane1.setSelectionStart(startPos+1);
+                jTextPane1.setSelectionEnd(startPos+1);
                 
             }
             catch (Throwable e)
@@ -913,12 +923,16 @@ e.printStackTrace();
             Iterator it = entries.iterator();
             while (it.hasNext())
             {
-                Map.Entry entry = (Map.Entry) it.next();
-                EntityDefinition value = (EntityDefinition) entry.getValue();
-                if (value.getName().toLowerCase().startsWith(starter.toLowerCase()))
+                try
                 {
-                    ret.add(value.getName());
+                    Map.Entry entry = (Map.Entry) it.next();
+                    EntityDefinition value = (EntityDefinition) entry.getValue();
+                    if (value.getName().toLowerCase().startsWith(starter.toLowerCase()))
+                    {
+                        ret.add(value.getName());
+                    }
                 }
+                catch (Throwable x){}
             }
         }
         else if (assume6809C)
@@ -1893,7 +1907,7 @@ e.printStackTrace();
                 if (start != end) end--;
                 if (end-start == 0)
                 {
-                    jTextPane1.getDocument().insertString(jTextPane1.getCaretPosition(),"\t", null);
+                    jTextPane1.getDocument().insertString(jTextPane1.getCaretPosition(),TAB_STRING, null);
                     return;
                 }
                 stopColoring();
@@ -1928,13 +1942,19 @@ e.printStackTrace();
                 String TAB_STRING = getTABString();
                 int start = jTextPane1.getSelectionStart();
                 int end = jTextPane1.getSelectionEnd();
+                boolean startEQEnd = start==end;
                 if (start != end) end--;
-
                 stopColoring();
 
                 // now, sub for every line in selection one TAB from start!
                 int first = getLineOfPos(jTextPane1, start);
                 int last = getLineOfPos(jTextPane1, end);
+                
+                int myLine = getLineOfPos(jTextPane1, jTextPane1.getCaretPosition());
+                int myPos = jTextPane1.getCaretPosition();
+                boolean myPosIsStart = myPos==start;
+                
+                
                 for (int i=last; i>=first;i--)
                 {
                     int pos = getPosOfLineStart(i);
@@ -1947,8 +1967,17 @@ e.printStackTrace();
                     }
                 }
                 startColoring();
-                jTextPane1.setSelectionStart(start);
+                
+                
+                if (startEQEnd)
+                    jTextPane1.setSelectionStart(end);
+                else
+                    jTextPane1.setSelectionStart(start);
                 jTextPane1.setSelectionEnd(end);
+                
+//                jTextPane1.setCaretPosition(getPosOfLineStart(myLine));
+                
+                
             }
             catch (Throwable ex)
             {

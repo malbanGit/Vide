@@ -1,0 +1,30 @@
+XH2
+H 3 areas 4 global symbols 3 banks 1 modes
+M vec_rom_0xfc_0.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+B page_fc base FC6D size 100 map 0 flags 3
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .dpfc size 21 flags 8D8C bank 2
+S _Vec_Cosine_Table Def0010
+S _Vec_Sine_Table Def0000
+S _Vec_Note_Table Def0020
+T 00 00
+R 00 00 00 02
+T 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 0C 00 00 00 00
+R 00 00 00 02
+T 00 10
+R 00 00 00 02
+T 00 10 00 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 1C 00 00 00 00
+R 00 00 00 02
+T 00 20
+R 00 00 00 02
+T 00 20 00
+R 00 00 00 02

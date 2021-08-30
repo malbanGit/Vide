@@ -1,0 +1,29 @@
+XH2
+H 3 areas 2 global symbols 2 banks 1 modes
+M gcc_memset.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 35 flags D00
+S _memset Def0000
+T 00 00
+R 00 00 00 02
+T 00 00 32 7A AF 62 E7 61 AE 62 AF 64 20 0C
+R 00 00 00 02
+T 00 0C
+R 00 00 00 02
+T 00 0C E6 61 E7 F8 04 EC 64 C3 00 01 ED 64
+R 00 00 00 02
+T 00 18
+R 00 00 00 02
+T 00 18 6F E4 AE 68 8C 00 00 27 04 C6 01 E7 E4
+R 00 00 00 02
+T 00 25
+R 00 00 00 02
+T 00 25 EC 68 C3 FF FF ED 68 6D E4 26 DC AE 62
+R 00 00 00 02
+T 00 32 32 66 39
+R 00 00 00 02

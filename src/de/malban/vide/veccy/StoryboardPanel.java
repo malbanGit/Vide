@@ -10,6 +10,7 @@ import de.malban.config.Configuration;
 import de.malban.graphics.GFXVectorAnimation;
 import de.malban.graphics.GFXVectorList;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAInternalFrame;
 import de.malban.gui.components.CSAView;
@@ -161,6 +162,30 @@ public class StoryboardPanel extends javax.swing.JPanel  implements Windowable, 
      */
     public StoryboardPanel() {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldAnimationName);
+            HotKey.addMacDefaults(jTextFieldFrameCount);
+            HotKey.addMacDefaults(jTextFieldDelayVectrex);
+            HotKey.addMacDefaults(jTextFieldListScaleStart);
+            HotKey.addMacDefaults(jTextFieldListScaleDelay);
+            HotKey.addMacDefaults(jTextFieldListScaleIncrease);
+            HotKey.addMacDefaults(jTextFieldListIntensityFrom);
+            HotKey.addMacDefaults(jTextFieldListIntensityDelay);
+            HotKey.addMacDefaults(jTextFieldListIntensityIncrease);
+            HotKey.addMacDefaults(jTextFieldPosStartX);
+            HotKey.addMacDefaults(jTextFieldPosDelayX);
+            HotKey.addMacDefaults(jTextFieldPosIncreaseX);
+            HotKey.addMacDefaults(jTextFieldPosStartY);
+            HotKey.addMacDefaults(jTextFieldPosDelayY);
+            HotKey.addMacDefaults(jTextFieldPosIncreaseY);
+            HotKey.addMacDefaults(jTextFieldMoveScale);
+            HotKey.addMacDefaults(jTextFieldResync);
+            HotKey.addMacDefaults(jTextFieldFactor);
+            HotKey.addMacDefaults(jTextFieldGotoValue);
+            HotKey.addMacDefaults(jTextFieldLoopCount);
+        }
+        
         lanePanel.remove(storyboardLanePanel1);
     }
 

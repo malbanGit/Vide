@@ -1,0 +1,38 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_12_07_Init_Music_chk.c
+                              6 	.area	.text
+                              7 	.globl	__Init_Music_chk
+   0000                       8 __Init_Music_chk:
+   0000 34 60         [ 7]    9 	pshs	y,u
+   0002 32 7E         [ 5]   10 	leas	-2,s
+   0004 AF E4         [ 5]   11 	stx	,s
+                             12 ;----- asm -----
+                             13 ; 66 "source\vec_rum_12_07_Init_Music_chk.c" 1
+   0006 1F 13         [ 6]   14 	tfr x,u
+   0008 BD 00 00      [ 8]   15 	jsr ___Init_Music_chk; BIOS call
+                             16 ;--- end asm ---
+   000B 32 62         [ 5]   17 	leas	2,s
+   000D 35 E0         [ 8]   18 	puls	y,u,pc
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __Init_Music_c     0000 GR  |     ___Init_Music_     **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size    F   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

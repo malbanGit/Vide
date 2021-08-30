@@ -1,4 +1,7 @@
+
 SPRITE_SCALE        =        ##SCALE##; 80 highest possible value
+SHITREG_POKE_VALUE  =        $01 
+
 
 ; PC not usable :-)
 
@@ -591,6 +594,8 @@ ADD_NOPS_NOU        macro
 
 
 
+
+
 ;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
 ;***************************************************************************
 delayReset          EQU      5 
@@ -694,178 +699,278 @@ notEndYet
                     direct   $d0 
 ;***************************************************************************
 
-drawSmart                                                 ;#isfunction  
-                    pulu     d,pc 
-;***************************************************************************
-; continue uses same shift  
+; for scale 7 
+; we need WAIT6 after a poke to hi
+; followd directly by a set_y_int
+; todo 
+; last draw could contain $F in A
+; than load not needed - attention 
+; when cycles are not done for load, than shift value might be needed 2 higher!
+; also in X could be some sensible value in X for one of the other 
+;SM_lastDraw_rts2                                ;#isfunction  
+; list format
+; y pos byte -> REG A
+; VIA_B for x reg = 01 *256 + x pos byte -> REG X
+; pointer to draw function -> PC
+; 5 bytes per "position" (except continuous)
+; reg A must be constantly == 0!
+; opti finding
+; a)  Findings T1 can be 2 cycles "off" -> smartlist max scale of "optimium" reduced from 9 to 7 scale :-(
+; b ) y and z sampling need up to 4 cycles to bare fruit (poke b reg)
+;     90% vectrex (guess) need 0 cycles
+;     95% vectrex are content with 2 cycles (1 nop)
+;     some few vectrex NEED 4 cycles!!! ARGH!
+; c)  std to reg b of via (Y Reg) does not always / everywhere work
+;
+;
+; delays needed for 5% of vectrex
+; cost on a "full" screen
+; about 2000 cycles
+;VECTREX_SAVE_DELAY  =        1 
+SHITREG_POKE_VALUE  =        $01 
 
-SHIFT_START         EQU      $1f 
+ADD_BURST macro
+ 
+ endm
+
+DELAY_NONE macro
+ ADD_BURST
+ endm
+
+
+;
+Y_DELAY_4             macro    
+                    nop      
+                    nop      
+ ADD_BURST
+                    endm     
+
+Y_DELAY_HALF_4        macro    
+                    nop      
+ ADD_BURST
+
+                    endm     
+;
+Y_DELAY             macro    
+ Y_DELAY_4
+ ADD_BURST
+ endm
+  
+Y_DELAY_HALF        macro    
+ Y_DELAY_HALF_4
+                    endm     
+
+
+
+SET_Y_INT           macro    
+                    sta      <VIA_port_b                  ; 4 
+                    stb      <VIA_port_a                  ; 4 
+                    endm     
+VB_SPRITE_SCALE     =        SPRITE_SCALE 
+; NOPS add one less, since PULL X is one cycle more than pull a!
+ADD_NOPS            macro    
+                    if       VB_SPRITE_SCALE>8 
+                    nop      (VB_SPRITE_SCALE-8)/2 
+                    endif    
+                    endm     
+ADD_NOPS_NOU        macro    
+                    if       VB_SPRITE_SCALE>(8-5) 
+                    nop      (VB_SPRITE_SCALE-8-5)/2 
+                    endif    
+                    endm     
 WAIT_BEFORE         macro    
                     WAIT3    
                     endm     
 WAIT_AFTER          macro    
                     WAIT7    
                     endm     
-SM_continue7_single                                       ;#isfunction  
-                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
-                    clra                                  ; special case entry. new y = old X, saves 4 cycles! 
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
+INIT_MOVE_org       macro    
+                    sta      <VIA_shift_reg               ; 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
                     sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b 
-SM_continue6_single                                       ;#isfunction  
-                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
-                    clra                                  ; special case entry. new y = old X, saves 4 cycles! 
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
+                    endm     
+INIT_MOVE           macro    
+                    ldb      #%11100000 
+                    stb      <VIA_shift_reg               ; 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
                     sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b 
-SM_continue5_single                                       ;#isfunction  
-                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
-                    clra                                  ; special case entry. new y = old X, saves 4 cycles! 
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
+                    endm     
+INIT_MOVE_SJ        macro    
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
                     sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b 
-SM_continue4_single                                       ;#isfunction  
-                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
-                    clra                                  ; special case entry. new y = old X, saves 4 cycles! 
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
+                    sta      <VIA_shift_reg               ; 
+                    endm     
+;***************************************************************************
+drawSmart                                            ;#isfunction  
                     clra     
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b 
-SM_continue3_single                                       ;#isfunction  
-                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
-                    clra                                  ; special case entry. new y = old X, saves 4 cycles! 
+                    pulu     b,x,pc 
+;***************************************************************************
+;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
+SM_setScale:                                            ;#isfunction  
+                    stb      <VIA_t1_cnt_lo 
+                    pulu     b,x,pc 
+
+SM_setIntensity:                                          ;#isfunction  
+                    WAIT10   
+                    sta      <VIA_port_a 
+                    ldd      #$0401 
                     sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b 
-; two consecutive continues, most common case,
-; than save a pulu
-SM_continue2_single                                       ;#isfunction  
-                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
-                    clra                                  ; special case entry. new y = old X, saves 4 cycles! 
+                    stb      <VIA_port_b 
+                    pulu     b,x,pc 
+
+SM_LightOff_Intensity:                                      ;#isfunction  
+                    WAIT10   
+ lda #$ce
+                    STa      VIA_cntl                     ;/BLANK low and /ZERO low 
+                    stb      <VIA_port_a 
+                    ldd      #$0401
                     sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_t1_cnt_hi 
+                    stb      <VIA_port_b 
+ clra
+                    pulu     b,x,pc 
+
+
+SM_continue_yd4_yStays_single ;#isfunction  
+SM_continue_yStays_single                               ;#isfunction  
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
                     ADD_NOPS  
-                    pulu     a,b 
+                    pulu     b,x,pc 
+
+
+SM_continue7_single                                  ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS                              ; 21 
+; this is one pulu cycle more!
+; thus ADD_NOPS can be one cycle less!
+; minus 6!
+                    pulu     b,x                          ; 5+3 
+SM_continue6_single                                  ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS                              ; 21 
+                    pulu     b,x                          ; 5+3 
+SM_continue5_single                                  ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS                              ; 21 
+                    pulu     b,x                          ; 5+3 
+SM_continue4_single                                  ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS                              ; 21 
+                    pulu     b,x                          ; 5+3 
+SM_continue3_single                                  ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS                              ; 21 
+                    pulu     b,x                          ; 5+3 
+SM_continue2_single                                  ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS                              ; 21 
+                    pulu     b,x                          ; 5+3 
 ; continue uses same shift  
-SM_continue_single                                        ;#isfunction  
-                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
-                    clra                                  ; special case entry. new y = old X, saves 4 cycles! 
+SM_continue_single                                   ;#isfunction  
+                    stb      <VIA_port_a                  ; 4 shift not changed, move might also be a draw 
 ; y is inherently known to be == old_x, y was set to 0 by generator
-SM_continue_newY_eq_oldX:                                 ;#isfunction  
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
+SM_continue_newY_eq_oldX_single:                       ;#isfunction  
+                    sta      <VIA_port_b                  ; 4 
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    pulu     a,b,pc 
-; assuming a = 0
-SM_continue_yEqx_single                                   ;#isfunction  
-                    std      <VIA_port_b                  ; shift not changed, move might also be a draw 
+                    pulu     b,x,pc 
+
+
+SM_continue_yd4_single                                   ;#isfunction  
+                    stb      <VIA_port_a                  ; 4 shift not changed, move might also be a draw 
+; y is inherently known to be == old_x, y was set to 0 by generator
+SM_continue_yd4_newY_eq_oldX_single:                       ;#isfunction  
+                    sta      <VIA_port_b                  ; 4 
+                    Y_DELAY_4                             ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    pulu     b,x,pc
+
+
+SM_continue_single_sj                                   ;#isfunction  
+                    stb      <VIA_port_a                  ; 4 shift not changed, move might also be a draw 
+; y is inherently known to be == old_x, y was set to 0 by generator
+SM_continue_newY_eq_oldX_single_sj:                     ;#isfunction  
+                    sta      <VIA_port_b                  ; 4 
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     b,x,pc 
+; continue uses same shift
+; y is inherently known to be == x, 
+SM_continue_yd4_yEqx_single ;#isfunction 
+                    SET_Y_INT  
+                    Y_DELAY_HALF_4                          ; 4 
                     inc      <VIA_port_b 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    pulu     a,b,pc 
-SM_continue_x0_single                                     ;#isfunction  
-                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
-                    stb      <VIA_port_b 
-                    lda      #1 
-                    std      <VIA_port_b 
-                    stb      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-SM_continue_y0_single                                     ;#isfunction  
-                    sta      <VIA_port_a                  ; shift not changed, move might also be a draw 
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-; assume a = 1
-SM_continue_yStays_single                                 ;#isfunction  
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-; assume a = 0
-SM_continue_newY_eq_oldX_single 
-                    sta      <VIA_port_b                  ; y = old int b 
-                    inca     
-                    std      <VIA_port_b 
-                    deca     
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-SM_continue_sept                                          ;#isfunction  
-                    sta      <VIA_port_a 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      cont6 
+                    pulu     b,x,pc 
 
-SM_continue_hex                                           ;#isfunction  
-                    sta      <VIA_port_a 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
+SM_continue_yEqx_single                                 ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY_HALF                          ; 4 
+ 
+
+                    inc      <VIA_port_b 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    bra      cont5 
-
-SM_continue_quint                                         ;#isfunction  
-                    sta      <VIA_port_a 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
+                    pulu     b,x,pc 
+SM_continue_tripple                                     ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    bra      cont4 
+                    jmp      cont2 
 
-SM_continue_octo                                          ;#isfunction  
-                    sta      <VIA_port_a 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
+SM_continue_quadro                                      ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    jmp      cont3 
+SM_continue_hex ;#isfunction 
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    jmp      cont5 
+SM_continue_octo                                        ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
                     WAIT_BEFORE  
 cont7 
-                    WAIT_AFTER  
                     WAIT_AFTER  
                     clr      <VIA_t1_cnt_hi 
                     ADD_NOPS  
@@ -894,466 +999,333 @@ cont2
                     WAIT_AFTER  
                     clr      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    bra      SM_repeat_same 
+                    jmp      SM_repeat_same 
 
-SM_continue_tripple                                       ;#isfunction  
-                    sta      <VIA_port_a 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      cont2 
-
-SM_continue_quadro                                        ;#isfunction  
-                    sta      <VIA_port_a 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      cont3 
-
-SM_repeat_same                                            ;#isfunction  
-                    pulu     a,b 
+SM_repeat_same                                          ;#isfunction  
+                    pulu     b,x 
                     clr      <VIA_t1_cnt_hi 
                     ADD_NOPS  
                     pulu     pc 
-SM_continue_double                                        ;#isfunction  
-                    sta      <VIA_port_a 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
+SM_continue_double                                      ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    bra      SM_repeat_same 
+                    jmp      SM_repeat_same 
+SM_continue_yd4_double;#isfunction 
+                    SET_Y_INT  
+                    Y_DELAY_4                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    jmp      SM_repeat_same 
 
-; assumed a = 1
-SM_startMove_yStays_single                                ;#isfunction  
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
-                    sta      <VIA_t1_cnt_hi 
+SM_startMove_yd4_single ;#isfunction 
+SM_startMove_single:                                    ;#isfunction  
+                    SET_Y_INT  
+                    INIT_MOVE  
                     ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startMove_double:                                      ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      SM_repeat_same 
+                    pulu     b,x,pc 
+SM_startMove_single_sj:                                 ;#isfunction  
+                    SET_Y_INT  
+                    ldu      ,u 
+ 
+                    INIT_MOVE_SJ  
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    pulu     b,x,pc 
 
-SM_startMove_single:                                      ;      #isfunction 
-                    sta      <VIA_port_a                  ; leaves with shift light off 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startMove_sept                                         ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      move6 
+SM_startMove_yd4_single_sj:                                 ;#isfunction  
+                    SET_Y_INT  
+                    ldu      ,u 
+                    INIT_MOVE_SJ  
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    pulu     b,x,pc 
 
-SM_startMove_hex                                          ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      move5 
 
-SM_startMove_quint                                        ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
-                    sta      <VIA_t1_cnt_hi 
+SM_startMove_yd4_double:                                    ;#isfunction  
+SM_startMove_double:                                    ;#isfunction  
+                    SET_Y_INT  
+                    INIT_MOVE  
                     ADD_NOPS  
-                    bra      move4 
+                    jmp      SM_repeat_same2 
+SM_startDraw_tripple ;#isfunction 
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    jmp      cont2 
 
-SM_startMove_octo                                         ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
-                    sta      <VIA_t1_cnt_hi 
+SM_startDraw_double ;#isfunction 
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
                     ADD_NOPS  
-                    WAIT3    
-move7 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-move6 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-move5 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-move4 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-move3 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-move2 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      SM_repeat_same2 
+                    jmp      SM_repeat_same2 
 
-SM_startMove_tripple                                      ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
-                    sta      <VIA_t1_cnt_hi 
+SM_startMove_tripple ;#isfunction 
+                    SET_Y_INT  
+                    INIT_MOVE  
                     ADD_NOPS  
                     bra      move2 
 
-SM_startMove_quadro                                       ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg               ; this should be done 2-3 cycles earlier! 
-                    sta      <VIA_t1_cnt_hi 
+SM_startMove_quadro ;#isfunction 
+                    SET_Y_INT  
+                    INIT_MOVE  
                     ADD_NOPS  
                     bra      move3 
 
-; assuming a = 0
-SM_startMove_yEqx_single                                  ;#isfunction  
-                    std      <VIA_port_b                  ; 
-                    inc      <VIA_port_b 
-                    sta      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
+move3 
+                    WAIT_AFTER  
+                    clr      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    pulu     a,b,pc 
+                    WAIT_BEFORE  
+move2 
+                    WAIT_AFTER  
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    jmp      SM_repeat_same2 
+
 SM_repeat_same2                                           ;#isfunction  
-                    pulu     a,b 
+                    pulu     b,x 
                     clr      <VIA_t1_cnt_hi 
                     ADD_NOPS  
                     pulu     pc 
-; assuming a = 0; b = ff
-SM_startMove_xyStays_single                               ;#isfunction  
-                    sta      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
+SM_startMove_double_sj                                  ;#isfunction  
+                    SET_Y_INT  
+                    ldu      ,u 
+                    INIT_MOVE_SJ  
                     ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startMove_x0_single:                                   ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light off 
-                    stb      <VIA_port_b 
-                    lda      #$01 
-                    std      <VIA_port_b 
+                    brn      0 
+                    brn      0 
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS                              ; reduced by ldu ,u - 5 cycles 
+                    pulu     b,x, pc 
+SM_startMove_yStays_single                              ;#isfunction  
+                    INIT_MOVE  
+                    ADD_NOPS  
+                    pulu     b,x,pc 
+SM_startMove_yStays_single_sj 
+                    ldu      ,u 
+                    INIT_MOVE_SJ  
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    pulu     b,x,pc 
+; assuming b = 1
+SM_startDraw_yStays_single                              ;#isfunction  
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    pulu     b,x,pc 
+; assume b contains SHIFT
+
+SM_startDraw_xyStays_single                             ;#isfunction  
                     stb      <VIA_shift_reg 
-                    stb      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startMove_y0_single                                    ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light off 
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    clra     
-                    sta      <VIA_shift_reg 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    pulu     a,b,pc 
-; assume a = 0
-SM_startMove_newY_eq_oldX_single                          ;#isfunction  
-                    sta      <VIA_port_b                  ; y = old int b 
-                    inca     
-                    std      <VIA_port_b 
-                    deca     
-                    sta      <VIA_shift_reg 
+                    pulu     b,x,pc 
+SM_startDraw_yStays_single_sj                           ;#isfunction  
+;                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     b,x,pc 
+SM_startDraw_yd4_single;#isfunction 
+SM_startDraw_single:                                    ;#isfunction  
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    pulu     b,x,pc 
+SM_startDraw_single_sj 
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     b,x,pc 
+SM_startDraw_yEqx_single_sj                             ;#isfunction  
+                    SET_Y_INT  
+                    ldb      #$01 
+                    stb      <VIA_shift_reg               ; 4 - ASSUMING SHITREG_POKE_VALUE = 1 
+ DELAY_NONE
+                    stb      <VIA_port_b 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     b,x,pc 
+SM_startDraw_yEqx_single                                ;#isfunction  
+SM_startDraw_yd4_yEqx_single                                ;#isfunction  
+                    SET_Y_INT  
+                    ldb      #$01 
+                    stb      <VIA_shift_reg               ; 4 - ASSUMING SHITREG_POKE_VALUE = 1 
+ DELAY_NONE
+                    stb      <VIA_port_b 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startDraw_yEqx_single                                  ;#isfunction  
-                    std      <VIA_port_b                  ; 
+                    pulu     b,x,pc 
+SM_startMove_yEqx_single                                ;#isfunction  
+                    SET_Y_INT  
+ Y_DELAY_HALF
                     inc      <VIA_port_b 
-                    ldb      #lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
                     sta      <VIA_t1_cnt_hi 
+                    sta      <VIA_shift_reg               ; 4 
                     ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startDraw_yStays_single                                ;#isfunction  
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
+                    pulu     b,x,pc 
+SM_startMove_yd4_yEqx_single                                ;#isfunction  
+                    SET_Y_INT  
+ Y_DELAY_HALF_4
+                    inc      <VIA_port_b 
                     sta      <VIA_t1_cnt_hi 
+                    sta      <VIA_shift_reg               ; 4 
                     ADD_NOPS  
-                    pulu     a,b,pc 
-; assuming a = 0; b = ff
-SM_startDraw_xyStays_single                               ;#isfunction  
-                    stb      <VIA_shift_reg 
+                    pulu     b,x,pc 
+SM_startMove_xyStays_single ;#isfunction 
                     sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startDraw_single:                                      ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
                     stb      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startDraw_sept                                         ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      draw6 
+                    pulu     b,x,pc 
 
-SM_startDraw_hex                                          ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
+SM_startMove_yEqx_single_sj                             ;#isfunction  
+                    SET_Y_INT  
+                    WAIT2    
+ DELAY_NONE
+                    inc      <VIA_port_b 
+                    sta      <VIA_t1_cnt_hi 
+                    sta      <VIA_shift_reg               ; 4 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     b,x,pc 
+SM_startMove_yd4_yEqx_single_sj                             ;#isfunction  
+
+                    SET_Y_INT  
+                    WAIT2    
+ Y_DELAY_HALF_4
+                    inc      <VIA_port_b 
+                    sta      <VIA_t1_cnt_hi 
+                    sta      <VIA_shift_reg               ; 4 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     b,x,pc 
+SM_startMove_newY_eq_oldX_single;#isfunction  
+                    sta      <VIA_port_b                  ; 4 
+                    INIT_MOVE  
+                    ADD_NOPS                          ; reduced by ldu ,u - 5 cycles 
+                    pulu     b,x,pc 
+SM_startMove_newY_eq_oldX_single_sj ;#isfunction  
+                    sta      <VIA_port_b                  ; 4 
+                    ldu      ,u 
+                    INIT_MOVE_SJ  
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    pulu     b,x,pc 
+SM_startDraw_newY_eq_oldX_single:                       ;#isfunction  
+                    sta      <VIA_port_b                  ; 4 
+                    ldb      #SHITREG_POKE_VALUE 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    bra      draw5 
-
-SM_startDraw_quint                                        ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
+                    pulu     b,x,pc 
+SM_startDraw_newY_eq_oldX_single_sj:                    ;#isfunction  
+                    sta      <VIA_port_b                  ; 4 
+                    ldb      #SHITREG_POKE_VALUE 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
                     sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      draw4 
+                    ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
+                    ldu      ,u 
+                    pulu     b,x,pc 
 
-SM_startDraw_octo                                         ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-draw7 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-draw6 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-draw5 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-draw4 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-draw3 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    WAIT3    
-draw2 
-                    WAIT7    
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      SM_repeat_same3 
 
-SM_repeat_same3                                           ;#isfunction  
-                    pulu     a,b 
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     pc 
-SM_startDraw_quadro                                       ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      draw3 
-
-SM_startDraw_tripple                                      ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      draw2 
-
-SM_startDraw_double:                                      ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    bra      SM_repeat_same3 
-
-SM_startDraw_x0_single:                                   ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light on 
-                    stb      <VIA_port_b 
-                    lda      #$01 
-                    std      <VIA_port_b 
-                    lda      #SHIFT_START 
+SM_lastDraw_rts                                         ;#isfunction  
+SM_FlagWait: 
+                    bitb     <VIA_int_flags 
+                    beq      SM_FlagWait 
                     sta      <VIA_shift_reg 
-                    stb      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startDraw_y0_single                                    ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift light off 
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-SM_startDraw_newY_eq_oldX_single                          ;#isfunction  
-                    sta      <VIA_port_b                  ; y = old int b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$00+lo(SHIFT_START) 
-                    stb      <VIA_shift_reg 
-                    sta      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-                    pulu     a,b,pc 
-SM_lastDraw_rts                                           ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift to e0, dies slowly 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$40E0 
-                    stb      <VIA_shift_reg 
-SM_rts:                                                   ;#isfunction  
+SM_rts:                                                 ;#isfunction  
                     ldb      gameScale 
-                    stB      VIA_t1_cnt_lo 
                     LDA      #$CC 
                     STA      VIA_cntl                     ;/BLANK low and /ZERO low 
-; and ensures integrators are clean (good positioning!)
-                    ldd      #0 
-                    std      <VIA_port_b 
-                    rts      
-
-SM_lastDraw_rts_stay                                      ;#isfunction  
-                    sta      <VIA_port_a                  ; leaves with shift to e0, dies slowly 
-                    clra     
-                    sta      <VIA_port_b 
-                    inca     
-                    std      <VIA_port_b 
-                    ldd      #$40E0 
-                    clr      <VIA_t1_cnt_hi 
-                    ADD_NOPS  
-SM_FlagWait3:                                             ;#isfunction  
-                    bita     <VIA_int_flags 
-                    beq      SM_FlagWait3 
-                    stb      <VIA_shift_reg 
-                    rts      
-
-SM_lastDraw_rts2                                          ;#isfunction  
-                    ldb      gameScale 
-                    lda      #$f0 
                     stB      VIA_t1_cnt_lo 
-                    sta      <VIA_shift_reg 
-SM_rts2:                                                  ;#isfunction  
-                    LDa      #$CC 
-                    STA      VIA_cntl                     ;/BLANK low and /ZERO low 
 ; and ensures integrators are clean (good positioning!)
-                    ldd      #0 
-                    std      <VIA_port_b 
+;                    ldd      #0 
+                    stx      <VIA_port_b 
+                    rts      
+
+;// TODO CHECK WITH SHIELD + CO
+SM_lastDraw_rts_stay                                    ;#isfunction  
+;                    SET_Y_INT  
+;                    Y_DELAY_HALF                          ; 4 
+;                    ldd      #$40E0 
+;                    stx      <VIA_port_b                  ; 5 
+;                    clr      <VIA_t1_cnt_hi 
+;                    ADD_NOPS  
+SM_FlagWait3:                                           ;#isfunction  
+                    bitb     <VIA_int_flags 
+                    beq      SM_FlagWait3 
+                    sta      <VIA_shift_reg 
+                    nop      2 
+                    rts      
+
+SM_lastMove_rts_stay                                    ;#isfunction  
+                    lda      #$40 
+SM_FlagWait3_2: 
+                    bita     <VIA_int_flags 
+                    beq      SM_FlagWait3_2 
+                    rts      
+
+; todo 
+; last draw could contain $F in A
+; than load not needed - attention 
+; when cycles are not done for load, than shift value might be needed 2 higher!
+; also in X could be some sensible value in X for one of the other 
+SM_lastDraw_rts2                                        ;#isfunction  
+;                    ldb      #$f0 
+                    nop      
+                    stb      <VIA_shift_reg 
+                    lda      gameScale 
+                    sta      <VIA_t1_cnt_lo 
+; extended on purpose to gain one cycle of time
+; to reset to 
+; a) swithc light off before zeroing
+; b) zero
+SM_rts2:                                                ;#isfunction  
+                    ldb      #$cc 
+                    STb      >VIA_cntl                    ;/BLANK low and /ZERO low 
+                    stx      >VIA_port_b 
+; nop 10
                     puls     d,pc                         ; (D = y,x, pc = next object) 
-calibrationZero                                           ;#isfunction  
+calibrationZero                                          ;#isfunction  
                     ldb      #$CC 
                     stb      <VIA_cntl 
                     ldd      #$8100 
                     std      <VIA_port_b 
                     dec      <VIA_port_b 
-                    ldb      >calibrationValue 
+                    ldb      >calibrationValue
                     lda      #$82 
                     std      <VIA_port_b 
                     ldd      #$83FF 
                     stb      <VIA_port_a 
                     sta      <VIA_port_b 
                     rts      
-
 
 ; assumes b = 0
 SM_Shift0_Intensity:                                      ;#isfunction  
@@ -1363,8 +1335,7 @@ SM_Shift0_Intensity:                                      ;#isfunction
                     ldd      #$0401 
                     sta      <VIA_port_b 
                     stb      <VIA_port_b 
-                    pulu     a,b,pc 
-
+                    pulu     b,x,pc 
 
 ;***************************************************************************
 ; DATA SECTION

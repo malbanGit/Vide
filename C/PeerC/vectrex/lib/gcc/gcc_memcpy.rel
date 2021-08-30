@@ -1,0 +1,31 @@
+XH2
+H 3 areas 2 global symbols 2 banks 1 modes
+M gcc_memcpy.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 3D flags D00
+S _memcpy Def0000
+T 00 00
+R 00 00 00 02
+T 00 00 32 79 AF 61 AF 63 AE 69 AF 65 20 14
+R 00 00 00 02
+T 00 0C
+R 00 00 00 02
+T 00 0C E6 F8 05 E7 F8 03 EC 63 C3 00 01 ED 63
+R 00 00 00 02
+T 00 19 EC 65 C3 00 01 ED 65
+R 00 00 00 02
+T 00 20
+R 00 00 00 02
+T 00 20 6F E4 AE 6B 8C 00 00 27 04 C6 01 E7 E4
+R 00 00 00 02
+T 00 2D
+R 00 00 00 02
+T 00 2D EC 6B C3 FF FF ED 6B 6D E4 26 D4 AE 61
+R 00 00 00 02
+T 00 3A 32 67 39
+R 00 00 00 02

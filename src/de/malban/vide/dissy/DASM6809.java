@@ -1807,7 +1807,7 @@ public class DASM6809 extends DASMStatics {
     }
     public String disassemble(byte[] data, int romStartAddress, int disassemblyStartAddress, boolean assumeVectrexModule, int bank)
     {
-        return disassemble(data, romStartAddress, disassemblyStartAddress, assumeVectrexModule, 0, false);
+        return disassemble(data, romStartAddress, disassemblyStartAddress, assumeVectrexModule, bank, false);
     }
     public String disassemble(byte[] data, int romStartAddress, int disassemblyStartAddress, boolean assumeVectrexModule, int bank, boolean fullMode)
     {

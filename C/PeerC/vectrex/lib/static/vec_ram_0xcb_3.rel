@@ -1,0 +1,26 @@
+XH2
+H 3 areas 4 global symbols 3 banks 1 modes
+M vec_ram_0xcb_3.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+B page_cb base CBEA size 100 map 0 flags 3
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .dpcb size 14 flags 8D8C bank 2
+S _Vec_Default_Stk Def0000
+S _Vec_SWI2_vector Def0008
+S _Vec_NWI_vector Def0011
+T 00 00
+R 00 00 00 02
+T 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 08
+R 00 00 00 02
+T 00 08 00 00 00 00 00 00 00 00 00
+R 00 00 00 02
+T 00 11
+R 00 00 00 02
+T 00 11 00 00 00
+R 00 00 00 02

@@ -41,15 +41,15 @@ public class KeyboardJoystickDevice extends AbstractDevice
     {
         if (keySet == 0)
         {
-            new HotKey("Button1_1_pressed", new AbstractAction() {@Override public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton1(false, true); }}, panel);
-            new HotKey("Button1_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton2(false, true); }}, panel);
-            new HotKey("Button1_3_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton3(false, true); }}, panel);
-            new HotKey("Button1_4_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton4(false, true); }}, panel);
+            new HotKey("Button1_1_pressed", new AbstractAction() {@Override public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton1(false, true); }}, panel);
+            new HotKey("Button1_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton2(false, true); }}, panel);
+            new HotKey("Button1_3_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton3(false, true); }}, panel);
+            new HotKey("Button1_4_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton4(false, true); }}, panel);
 
-            new HotKey("Button1_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton1(true, true); }}, panel);
-            new HotKey("Button1_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton2(true, true); }}, panel);
-            new HotKey("Button1_3_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton3(true, true); }}, panel);
-            new HotKey("Button1_4_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton4(true, true); }}, panel);
+            new HotKey("Button1_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton1(true, true); }}, panel);
+            new HotKey("Button1_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton2(true, true); }}, panel);
+            new HotKey("Button1_3_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton3(true, true); }}, panel);
+            new HotKey("Button1_4_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton4(true, true); }}, panel);
 
             new HotKey("Joy1_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) 
             {  
@@ -65,15 +65,15 @@ public class KeyboardJoystickDevice extends AbstractDevice
         }
         else if (keySet == 1)
         {
-            new HotKey("Button2_1_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton1(false, true); }}, panel);
-            new HotKey("Button2_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton2(false, true); }}, panel);
-            new HotKey("Button2_3_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton3(false, true); }}, panel);
-            new HotKey("Button2_4_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton4(false, true); }}, panel);
+            new HotKey("Button2_1_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton1(false, true); }}, panel);
+            new HotKey("Button2_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton2(false, true); }}, panel);
+            new HotKey("Button2_3_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton3(false, true); }}, panel);
+            new HotKey("Button2_4_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton4(false, true); }}, panel);
 
-            new HotKey("Button2_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton1(true, true); }}, panel);
-            new HotKey("Button2_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton2(true, true); }}, panel);
-            new HotKey("Button2_3_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton3(true, true); }}, panel);
-            new HotKey("Button2_4_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInOutputMode)joyport.setButton4(true, true); }}, panel);
+            new HotKey("Button2_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton1(true, true); }}, panel);
+            new HotKey("Button2_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton2(true, true); }}, panel);
+            new HotKey("Button2_3_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton3(true, true); }}, panel);
+            new HotKey("Button2_4_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) if (joyportIsInInputMode)joyport.setButton4(true, true); }}, panel);
 
             new HotKey("Joy2_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0, true); }}, panel);
             new HotKey("Joy2_Right_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0xff, true); }}, panel);

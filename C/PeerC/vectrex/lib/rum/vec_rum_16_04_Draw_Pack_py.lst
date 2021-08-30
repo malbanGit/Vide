@@ -1,0 +1,39 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_16_04_Draw_Pack_py.c
+                              6 	.area	.text
+                              7 	.globl	__Draw_Pack_py
+   0000                       8 __Draw_Pack_py:
+   0000 34 20         [ 6]    9 	pshs	y
+   0002 32 7D         [ 5]   10 	leas	-3,s
+   0004 E7 62         [ 5]   11 	stb	2,s
+   0006 AF E4         [ 5]   12 	stx	,s
+                             13 ;----- asm -----
+                             14 ; 63 "source\vec_rum_16_04_Draw_Pack_py.c" 1
+   0008 10 AE 67      [ 7]   15 	ldy 7,s
+   000B BD 00 00      [ 8]   16 	jsr ___Draw_Pack_py; BIOS call
+                             17 ;--- end asm ---
+   000E 32 63         [ 5]   18 	leas	3,s
+   0010 35 A0         [ 7]   19 	puls	y,pc
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __Draw_Pack_py     0000 GR  |     ___Draw_Pack_p     **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size   12   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

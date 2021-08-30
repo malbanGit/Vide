@@ -1,0 +1,12 @@
+XH2
+H 3 areas 1 global symbols 2 banks 1 modes
+M _bswapdi2.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 0 flags C00
+T 00 00
+R 00 00 00 02

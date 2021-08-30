@@ -201,7 +201,7 @@ public class CartridgePanel extends javax.swing.JPanel implements
         currentCart = vecxPanel.getCartridge();
         if (currentCart == null) return;
 
-        jTextField42.setText(""+(currentCart.currentPB6?1:0));
+        jTextFieldPB6.setText(""+(currentCart.currentPB6?1:0));
         jTextField43.setText(""+(currentCart.currentIRQ?1:0));
 
         updateMicrochip();
@@ -695,9 +695,10 @@ public class CartridgePanel extends javax.swing.JPanel implements
         jLabel147 = new javax.swing.JLabel();
         jTextFieldOutVal3 = new javax.swing.JTextField();
         jLabel45 = new javax.swing.JLabel();
-        jTextField42 = new javax.swing.JTextField();
+        jTextFieldPB6 = new javax.swing.JTextField();
         jTextField43 = new javax.swing.JTextField();
         jLabel68 = new javax.swing.JLabel();
+        jCheckBoxExternalPB6 = new javax.swing.JCheckBox();
 
         setName("regi"); // NOI18N
 
@@ -1129,6 +1130,11 @@ public class CartridgePanel extends javax.swing.JPanel implements
 
         jTextField31.setToolTipText("in from vectrex");
         jTextField31.setPreferredSize(new java.awt.Dimension(40, 20));
+        jTextField31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField31ActionPerformed(evt);
+            }
+        });
 
         jTextField32.setToolTipText("out from DS");
         jTextField32.setPreferredSize(new java.awt.Dimension(40, 20));
@@ -2641,11 +2647,23 @@ public class CartridgePanel extends javax.swing.JPanel implements
 
         jLabel45.setText("PB6:");
 
-        jTextField42.setText("0");
+        jTextFieldPB6.setText("0");
 
         jTextField43.setText("0");
 
         jLabel68.setText("~IRQ");
+
+        jCheckBoxExternalPB6.setText("PB6 from extern");
+        jCheckBoxExternalPB6.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBoxExternalPB6ItemStateChanged(evt);
+            }
+        });
+        jCheckBoxExternalPB6.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBoxExternalPB6StateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -2660,9 +2678,11 @@ public class CartridgePanel extends javax.swing.JPanel implements
                 .addGap(18, 18, 18)
                 .addComponent(jLabel45)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldPB6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(jCheckBoxExternalPB6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2670,11 +2690,12 @@ public class CartridgePanel extends javax.swing.JPanel implements
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField43, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField43, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jTextFieldPB6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBoxExternalPB6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1)
                 .addGap(0, 0, 0))
@@ -2893,11 +2914,27 @@ public class CartridgePanel extends javax.swing.JPanel implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldOutVal3ActionPerformed
 
+    private void jCheckBoxExternalPB6ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxExternalPB6ItemStateChanged
+        // TODO add your handling code here:
+        currentCart = vecxPanel.getCartridge();
+        if (currentCart == null) return;
+        currentCart.setPB6FromCartridge(jCheckBoxExternalPB6.isSelected());
+    }//GEN-LAST:event_jCheckBoxExternalPB6ItemStateChanged
+
+    private void jCheckBoxExternalPB6StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxExternalPB6StateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxExternalPB6StateChanged
+
+    private void jTextField31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField31ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField31ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBoxExternalPB6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;
@@ -3113,7 +3150,6 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField40;
     private javax.swing.JTextField jTextField41;
-    private javax.swing.JTextField jTextField42;
     private javax.swing.JTextField jTextField43;
     private javax.swing.JTextField jTextField44;
     private javax.swing.JTextField jTextField45;
@@ -3133,6 +3169,7 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextFieldOutVal1;
     private javax.swing.JTextField jTextFieldOutVal2;
     private javax.swing.JTextField jTextFieldOutVal3;
+    private javax.swing.JTextField jTextFieldPB6;
     private javax.swing.JTextField jTextFieldReg0;
     private javax.swing.JTextField jTextFieldReg1;
     private javax.swing.JTextField jTextFieldReg2;

@@ -1,0 +1,38 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_15_02_01_Rise_Run_X.c
+                              6 	.area	.text
+                              7 	.globl	__Rise_Run_X
+   0000                       8 __Rise_Run_X:
+   0000 32 7D         [ 5]    9 	leas	-3,s
+   0002 E7 62         [ 5]   10 	stb	2,s
+                             11 ;----- asm -----
+                             12 ; 53 "source\vec_rum_15_02_01_Rise_Run_X.c" 1
+   0004 A6 65         [ 5]   13 	lda 5,s
+   0006 BD 00 00      [ 8]   14 	jsr ___Rise_Run_X; BIOS call
+   0009 1F 01         [ 6]   15 	tfr d,x
+                             16 ;--- end asm ---
+   000B 32 63         [ 5]   17 	leas	3,s
+   000D 39            [ 5]   18 	rts
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __Rise_Run_X       0000 GR  |     ___Rise_Run_X      **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size    E   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

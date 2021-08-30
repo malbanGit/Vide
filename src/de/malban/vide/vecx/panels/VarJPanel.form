@@ -126,6 +126,8 @@
               <Component id="jCheckBoxShowAllRAM" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jCheckBoxHideBIOSNames" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jButtonAddVariable" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -141,6 +143,7 @@
                       <Component id="jCheckBox1" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="jCheckBoxShowAllRAM" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jCheckBoxHideBIOSNames" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jButtonAddVariable" alignment="0" min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
@@ -261,6 +264,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxHideBIOSNamesActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ram Layout from bank: 1"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

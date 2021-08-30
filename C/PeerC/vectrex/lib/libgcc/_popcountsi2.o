@@ -1,0 +1,28 @@
+XH2
+H 3 areas 3 global symbols 2 banks 1 modes
+M _popcountsi2.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+S ___popcount_tab Ref0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 2A flags D00
+S ___popcounthi2 Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 34 20 32 7E AF E4 1F 10 4F 1F 01 E6 89
+R 00 00 00 02
+T 00 0D 00 00 4F 1F 02 EC E4 1F 89 4F 1F 01 E6
+R 00 00 00 02 81 02 00 01
+T 00 1A 89 00 00 4F 1F 01 1E 02 30 8B 1E 02 32
+R 00 00 00 02 81 03 00 01
+T 00 27 62 35 A0
+R 00 00 00 02
+T 00 2A
+R 00 00 00 02

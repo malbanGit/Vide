@@ -537,7 +537,7 @@ public class GFXVectorAnimation
         String text = table.toString();
         return text;        
     }        
-    public String createCDraw_VLp(String name, boolean factor)
+    public String createCDraw_VLp(String name, boolean factor, boolean keepPosition)
     {
         if (!isDraw_VLp()) return "";
         StringBuilder source = new StringBuilder();
@@ -553,7 +553,7 @@ public class GFXVectorAnimation
                 table.append(", // list of all single vectorlists in this\n");
             else
                 table.append(",\n");
-            String asm = vl.createCDraw_VLp(name+"_"+count, factor);
+            String asm = vl.createCDraw_VLp(name+"_"+count, factor, keepPosition);
             if (asm.length() == 0)
             {
                 log.addLog("Anim: createCDraw_VLp failed, VL("+count+") returned error!", WARN);

@@ -1,10 +1,10 @@
 // ***************************************************************************
 // main
 // ***************************************************************************
-// This file was developed by Prof. Dr. Peer Johannsen as part of the 
+// This file was developed by Prof. Dr. Peer Johannsen as part of the
 // "Retro-Programming" and "Advanced C Programming" class at
 // Pforzheim University, Germany.
-// 
+//
 // It can freely be used, but at one's own risk and for non-commercial
 // purposes only. Please respect the copyright and credit the origin of
 // this file.
@@ -14,6 +14,12 @@
 // ---------------------------------------------------------------------------
 
 #include <vectrex.h>
+#include <assert.h>			
+// As default assertions are enabled.
+// to disable do a
+// "#define NDEBUG"
+// or set the gcc option "-D NDEBUG" (Vide project file)
+
 
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
@@ -32,7 +38,7 @@ int main(void)
 		Wait_Recal();
 		Print_Str_d(0, -70, "HELLO WORLD\x80");
 	};
-	
+
 	// if return value is <= 0, then a warm reset will be performed,
 	// otherwise a cold reset will be performed
 	return 0;

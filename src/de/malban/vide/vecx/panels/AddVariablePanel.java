@@ -1,7 +1,9 @@
 package de.malban.vide.vecx.panels;
 
 
+import de.malban.Global;
 import de.malban.config.Configuration;
+import de.malban.gui.HotKey;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.vide.dissy.DASM6809;
 import java.util.*;
@@ -14,6 +16,10 @@ public class AddVariablePanel extends javax.swing.JPanel {
     /** Creates new form FilePropertiesPanel */
     public AddVariablePanel() {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldFlags);
+        }
     }
     
     /** This method is called from within the constructor to

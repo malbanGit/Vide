@@ -3,6 +3,7 @@ package de.malban.vide.vedi.project;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.components.ModalInternalFrame;
@@ -184,6 +185,17 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     public ProjectPropertiesPanel() {
         mClassSetting++;
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldProjectName);
+            HotKey.addMacDefaults(jTextFieldPath);
+            HotKey.addMacDefaults(jTextFieldMainFile);
+            HotKey.addMacDefaults(jTextFieldVersion);
+            HotKey.addMacDefaults(jTextFieldMainFile);
+            HotKey.addMacDefaults(jTextFieldAuthor);
+            HotKey.addMacDefaults(jTextAreaDescription);
+            HotKey.addMacDefaults(jTextFieldCFLAGS);
+        }
         initScripts();
         initImager();
         jComboBoxImager.setSelectedIndex(-1);
@@ -202,6 +214,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jTable1.getColumnModel().getColumn(1).setWidth(200);  
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);                
         jTable1.getColumnModel().getColumn(1).setWidth(100);  
+        jCheckBoxCRumInlined.setVisible(false);
         mClassSetting--;
         UIManager.addPropertyChangeListener(pListener);
         updateMyUI(); 
@@ -235,6 +248,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jTable1.getColumnModel().getColumn(0).setWidth(5);  
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(200);                
         jTable1.getColumnModel().getColumn(1).setWidth(200);  
+        jCheckBoxCRumInlined.setVisible(false);
         mClassSetting--;
         UIManager.addPropertyChangeListener(pListener);
         updateMyUI(); 
@@ -243,6 +257,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     // called when bankswitching or number of banks changed
     void adjustMains()
     {
+
         if (mClassSetting > 0) return;
         if (mProjectProperties.mBankMainFiles == null)
             mProjectProperties.mBankMainFiles = new Vector<String>();
@@ -442,13 +457,14 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBoxCPeepholing.setEnabled(jCheckBoxCProject1.isSelected());
         jCheckBoxCDebugging.setEnabled(jCheckBoxCProject1.isSelected());
         jCheckBoxCKeepEnriched.setEnabled(jCheckBoxCProject1.isSelected());
-        jCheckBoxCRumInlined.setEnabled(jCheckBoxCProject1.isSelected());
+        jCheckBoxCRumInlined.setEnabled(false);//jCheckBoxCProject1.isSelected());
+        jCheckBoxCRumInlined.setVisible(false);
         
         
         jCheckBoxCDebugging.setSelected(mProjectProperties.mCDebugging);
         jCheckBoxCPeepholing.setSelected(mProjectProperties.mCPeephole);
         jCheckBoxCKeepEnriched.setSelected(mProjectProperties.mCKeepEnriched);
-        jCheckBoxCRumInlined.setSelected(mProjectProperties.mCRumInlined);
+        jCheckBoxCRumInlined.setSelected(false);//mProjectProperties.mCRumInlined);
 
         
         enableASM(!mProjectProperties.mIsPeerCProject);
@@ -895,7 +911,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         });
 
         jCheckBoxCRumInlined.setText("C Rum inlined");
-        jCheckBoxCRumInlined.setToolTipText("<html>\nRum functions inlined -> checked<BR>\nRum functions as \"functions\" -> not checked!\n</html>");
+        jCheckBoxCRumInlined.setToolTipText("<html>\nRum functions inlined -> not supported! <BR>\nRum functions as \"functions\"...\n</html>");
         jCheckBoxCRumInlined.setEnabled(false);
         jCheckBoxCRumInlined.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1221,7 +1237,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(jCheckBoxCreateGameLoop)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(jComboBoxBankswitchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
@@ -1246,7 +1262,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1517,10 +1533,10 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBoxCPeepholing.setEnabled(jCheckBoxCProject1.isSelected());
         jCheckBoxCDebugging.setEnabled(jCheckBoxCProject1.isSelected());
         jCheckBoxCKeepEnriched.setEnabled(jCheckBoxCProject1.isSelected());
-        jCheckBoxCRumInlined.setEnabled(jCheckBoxCProject1.isSelected());
+        jCheckBoxCRumInlined.setEnabled(false);//jCheckBoxCProject1.isSelected());
         
         mClassSetting--;
-        jTextFieldCFLAGS.setText("-quiet -fno-gcse -fverbose-asm -W -Wall -Wextra -Wconversion -Werror -fomit-frame-pointer -fno-toplevel-reorder -mint8 -msoft-reg-count=0 -std=gnu99 -fno-time-report -IC/PeerC/vectrex/include");
+        jTextFieldCFLAGS.setText("-quiet -fno-ipa-reference -ftree-ter -fno-gcse -fverbose-asm -W -Wall -Wextra -Wconversion -Werror -fomit-frame-pointer -fno-toplevel-reorder -mint8 -msoft-reg-count=0 -std=gnu99 -fno-time-report -IC/PeerC/vectrex/include");
         
         enableASM(!jCheckBoxCProject1.isSelected());
         
@@ -1790,10 +1806,10 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jComboBoxImager.setEnabled(b);
         jCheckBoxCreateSupportCode.setEnabled(b);
         jCheckBoxCreateGameLoop.setEnabled(b);
-        jComboBoxBankswitch.setEnabled(b);
+//        jComboBoxBankswitch.setEnabled(b);
         jTable1.setEnabled(b);
         jCheckBoxCDebugging.setEnabled(!b);
-        jCheckBoxCRumInlined.setEnabled(!b);
+        jCheckBoxCRumInlined.setEnabled(false);//!b);
     }
 
 }

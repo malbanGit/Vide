@@ -5,8 +5,10 @@
  */
 package de.malban.vide.dissy;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
@@ -311,6 +313,15 @@ public class DissiPanel extends javax.swing.JPanel  implements
         panels.add(this);
         jTable1.setModel(currentDissi.watchModel);
         correctTableWatch();
+        
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldCommand);
+            HotKey.addMacDefaults(jTextFieldSearch);
+            HotKey.addMacDefaults(jTextFieldSearch1);
+        }
+        
+        
         UIManager.addPropertyChangeListener(pListener);
         updateMyUI(); 
         
@@ -4942,6 +4953,11 @@ public class DissiPanel extends javax.swing.JPanel  implements
         switch (command.ID)
         {
             
+            case Command.D_CMD_DO_NMI:
+            {
+                currentDissi.vecxPanel.doNMI();
+                break;
+            }
             case Command.D_CMD_BANKSWITCH_DEBUG:
             {
                 bsDebug = !bsDebug;
@@ -5847,12 +5863,13 @@ public class DissiPanel extends javax.swing.JPanel  implements
     int getConsecutiveType(int address, int bank, int type)
     {
         int len = 0;
-        int newType;
+        int newType = DIS_TYPE_UNKOWN;
         do
         {
             len++;
             address++;
-            newType = getMemoryInformation(address, bank).disType;
+            if (getMemoryInformation(address, bank) != null)
+                newType = getMemoryInformation(address, bank).disType;
             if (newType>=DIS_TYPE_DATA_INSTRUCTION_1_LENGTH) newType = MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_GENERAL;
         }
         while  (type == newType);
@@ -5889,10 +5906,12 @@ public class DissiPanel extends javax.swing.JPanel  implements
     public void setDissiBank(int bank)
     {
         currentDissi.dasm.myMemory.setBank(bank);
+        
         correctModel();    
         if (currentDissi.vecxPanel==null) return;
         currentDissi.vecxPanel.updateLabi();
         currentDissi.vecxPanel.updateDumpi();
+        currentDissi.vecxPanel.updateVari(); // memory layout has changed!
     }
     public void setUpTableColumns()
     {

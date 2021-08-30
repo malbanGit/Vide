@@ -8,6 +8,7 @@ package de.malban.vide.vecx.panels;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
@@ -110,6 +111,12 @@ public class PSGJPanel extends javax.swing.JPanel implements
      */
     public PSGJPanel() {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextField1);
+            HotKey.addMacDefaults(jTextField2);
+            HotKey.addMacDefaults(jTextField3);
+        }
         jLabel43.setVisible(false);
         jTextField2.setText("tmp"+File.separator+"record.ym");
     }

@@ -107,7 +107,9 @@ import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
@@ -487,6 +489,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             data = data & (0xff-0x40); // ensure pb6 =0
                             data = data | (pb6_in); // ensure pb6 in value
                         }
+                        else
+                        {
+                            if (config.isFaultyVIA)
+                            {
+                                data = data | 0x40;
+                            }
+                        }
+                        
                         break;
                     case 0x1:
                         /* fall through */
@@ -580,6 +590,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             if ((address & 0x800) != 0)
             {
+                if (ramAccess[address & 0x3ff]==0)
+                {
+                    if (e6809.clear==0)
+                    log.addLog("RAM ACCESS to uninitialized location: "+String.format("$%04X", address)+ " from: "+String.format("$%04X", e6809.reg_pc));
+                }
                 /* ram */
                 //data = ram[address & 0x3ff];
                 return ram[address & 0x3ff];
@@ -608,6 +623,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         {
                             data = data & (0xff-0x40); // ensure pb6 =0
                             data = data | (pb6_in); // ensure pb6 in value
+                        }
+                        else
+                        {
+                            if (config.isFaultyVIA)
+                            {
+                                data = data | 0x40;
+                            }
                         }
                         return data;
                     case 0x1:
@@ -733,6 +755,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             if ((address & 0x800) != 0)
             {
                 ram[address & 0x3ff] = data;
+                
+                ramAccess[address & 0x3ff]=1;
             }
                 
             if ((address & 0x1000) != 0)
@@ -808,7 +832,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         break;
                     case 0x5:
                         /* T1 high order counter */
-                        
                         timerAddItem(data,null, TIMER_T1);
                         break;
                     case 0x6:
@@ -828,11 +851,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         break;
                     case 0x9:
                         /* T2 high order latch/counter */
-                        via_t2c = (data << 8) | via_t2ll;
-                        via_ifr &= 0xdf;
-                        via_t2on = 1; /* timer 2 starts running */
-                        via_t2int = 1;
-                        int_update ();
+                        timerAddItem(data,null, TIMER_T2);
                         break;
                     case 0xa:
                  
@@ -1106,7 +1125,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         int npb6 = tobe_via_orb & tobe_via_ddrb & 0x40; // all output (0x40)
         if ((tobe_via_ddrb & 0x40) == 0x00)  npb6 = npb6 | 0x40; // all input (0x40)
         b = npb6 != 0;
-
+pb6_out = npb6;
         cart.setPB6FromVectrex(b);
         if (config.breakpointsActive) checkExternalLineBreakpoint(b);
         return b;
@@ -1234,11 +1253,18 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
                     via_t1pb7 = 0x80 - via_t1pb7;
                     doCheckRamp(false);
                     /* reload counter */
+
                     via_t1c = (via_t1lh << 8) | via_t1ll;
                 } 
                 else 
                 {
                     /* one shot mode */
+                    // reload timer
+                    via_t1c = (via_t1lh << 8) | via_t1ll;
+                    
+                    via_t1c++; // reloading takes one cycle?
+                    // reloaded value is shown "false" in vecxi since it show "value+"
+                    // the real VIA shows hi ff, lo 0 and than the "real" value appears next round
                     
 // regardless of interrup, the t1pb7 is set when timer expired                
 // changed for VectorPatrol 13.01.2018, string print routine                     
@@ -1606,7 +1632,8 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
 //            nonCPUStepsDone++;
 //            cyclesRunning++;
         }
-    }    public void vectrexNonCPUStep(int cycles)
+    }    
+    public void vectrexNonCPUStep(int cycles)
     {
         if (!config.cycleExactEmulation) return;
         for (int c = 0; c < cycles; c++) 
@@ -1621,8 +1648,97 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
             via_sstep1();
             nonCPUStepsDone++;
             cyclesRunning++;
+            if (peerOutputEnabled)
+                doPeerOutput();
         }
     }
+    boolean peerOutputEnabled = false;
+    boolean wasSync = false;
+    double hzStep = 1.0/1500000.0;
+    double hzStepHalf = (1.0/1500000.0)/2.0;
+    synchronized public void doPeerOutput()
+    {
+        double t1 = ((double)cyclesRunning) * hzStep;
+        double t2 = ((double)cyclesRunning) * hzStep + hzStepHalf;
+
+        StringBuffer b=new StringBuffer();
+        
+        int portA = e6809_readOnly8(0xd001);
+        b.append(String.format("%02X", (portA & 0xFF)))  ;
+
+        int portB = e6809_readOnly8(0xd000);
+        portB = portB & (0x07); // only lowest 3 bits
+        // BIT 0x08 NOT used!
+
+        if (sig_ramp.intValue  != 0) portB+= 0x10;
+        if (sig_blank.intValue  != 0) portB+= 0x20;
+        if (sig_zero.intValue  != 0) portB+= 0x40;
+        if (wasSync) portB+= 0x80;
+ 
+        b.append(String.format("%02X", (portB & 0xFF)))  ;
+
+        wasSync = false;
+        if (pw != null)
+        {
+            try
+            {
+                pw.print(""+b.toString()+"\n");
+            }
+            catch (Throwable e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    synchronized void doPeerSync()
+    {
+        wasSync = true;
+        /*
+        if (pw != null)
+        {
+            try
+            {
+                pw.print("SYNC\n");
+            }
+            catch (Throwable e)
+            {
+                e.printStackTrace();
+            }
+        }
+        */
+    }
+    PrintWriter pw = null;
+    synchronized public void setPeerOutputEnabled(boolean z)
+    {
+        peerOutputEnabled = z;
+        if (!peerOutputEnabled)
+        {
+            pw.close();
+            pw = null;
+        }
+        else
+        {
+            if (pw == null)
+            {
+                try
+                {
+                    FileWriter fstream = new FileWriter(Global.mainPathPrefix+"logs"+File.separator+"peerOutput"+".csv",true);
+                    pw = new PrintWriter(fstream);
+//                    pw.append("Time[s], Bit1, Bit2, Bit3, Bit4, Bit5, Bit6, Bit7, Bit8, S/H, Sel0, Sel1, Compare, !RAMP, !BLANK, !ZERO, E(CLK)\n");
+                    pw.append("XXYY: X hex porta, YY hex bits szbr#10h h=S/H, 0=Sel0, 1=Sel1, #=unused , r=!RAMP, b=!BLANK, z=!ZERO, s = sync before these values\n");
+                }
+                catch (Throwable e)
+                {
+                    e.printStackTrace();
+                    System.out.println("WriteFile could not be created!");
+                }
+            }
+        }
+    }
+
+
+
+    
     public long getCycles()
     {
         return cyclesRunning;
@@ -1774,6 +1890,8 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
             
             if (doSync)
             {
+                if (peerOutputEnabled)
+                    doPeerSync();
                 if (thisWaitRecal)
                 {
                     thisWaitRecal = false;
@@ -1810,6 +1928,14 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
                 cyclesDone=cyclesRunning-cyclesStart;
                 return breakpointExit;
             }
+            /*
+            if (checkRAMPointers())
+            {
+                debugging = true;
+                cyclesDone=cyclesRunning-cyclesStart;
+                return breakpointExit;
+            }
+*/
 
             //Fill buffer and call core to update sound
             // no sound while debugging (cycledOrg == 1)
@@ -2063,6 +2189,8 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
 
     public boolean init(CartridgeProperties cartProp)
     {
+        initRam();
+        
         config.resetCartChanges();
         /*
         atmelEnabled = false;
@@ -2121,6 +2249,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     }
     public boolean init(String filenameRom, boolean checkForCartridge, boolean fromPanel)
     {
+        initRam();
         config.resetCartChanges();
         cart = new Cartridge();
         /*
@@ -2603,6 +2732,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
                     via_t1on = 1; /* timer 1 starts running */
                     via_t1lh = (t.valueToSet & 0xff);
                     via_t1c = (via_t1lh << 8) | via_t1ll;
+//                    via_t1c += 1; // hack, it seems vectrex (via) takes one cycles to "process" the setting...
                     via_ifr &= 0xbf; /* remove timer 1 interrupt flag */
                     via_t1int = 1;
 
@@ -2618,6 +2748,24 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
                     doCheckRamp(false);
                     int_update ();
                 }
+                else if (t.type == TIMER_T2)
+                {
+                        via_t2c = ((t.valueToSet& 0xff) << 8) | via_t2ll;
+                        via_t2c += 0; // hack, it seems vectrex (via) takes two cycles to "process" the setting...
+                        via_ifr &= 0xdf;
+                        via_t2on = 1; /* timer 2 starts running */
+                        via_t2int = 1;
+                        int_update ();
+                }
+
+                
+                
+                
+                
+                
+                
+                
+                
                 else if (t.type == TIMER_MUX_R_CHANGE)
                 {
                     noiseCycles = cyclesRunning;
@@ -3280,7 +3428,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         
         
         
-        if ((sig_ramp.intValue== 1) || (sig_blank.intValue == 0))
+        if ((sig_ramp.intValue!= 0) || (sig_blank.intValue == 0))
         {
             alg_curved = false;
         }
@@ -3774,7 +3922,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
         
         
         
-        if ((sig_ramp.intValue== 1) || (sig_blank.intValue == 0))
+        if ((sig_ramp.intValue!= 0) || (sig_blank.intValue == 0))
         {
             alg_curved = false;
         }
@@ -3856,6 +4004,7 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
             // check PC = ADR breakpoint
             for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CPU])
             {
+                if (bp == null) continue;
                 if (!bp.enabled) continue;
                 if (bp.targetSubType  == Breakpoint.BP_SUBTARGET_CPU_PC)
                 {
@@ -4738,6 +4887,101 @@ private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean o
     public byte getDataBUS()
     {
         return e6809.getDataBUS();
+    }
+    transient int[] ramAccess = new int[1024];
+    private void initRam()
+    {
+        for (int i=0; i< 1024; i++)ramAccess[i]=0;
+        
+    }
+
+    boolean checkRAMPointers()
+    {
+        return false;
+        /*
+        int[] toCheck=
+        {
+            // enemy shots
+            0xc903+0*12,
+            0xc903+1*12,
+            0xc903+2*12,
+            0xc903+3*12,
+            0xc903+4*12,
+            0xc903+5*12,
+            0xc903+6*12,
+            0xc903+7*12,
+            // BONUS
+            0xc963+8*0,
+            0xc963+8*1,
+            0xc963+8*2,
+            0xc963+8*3,
+            0xc963+8*4,
+            0xc963+8*5,
+            // stars
+            0xc993+0*13,
+            0xc993+1*13,
+            0xc993+2*13,
+            0xc993+3*13,
+            0xc993+4*13,
+            // enemies
+            0xc9d4+0*21,
+            0xc9d4+1*21,
+            0xc9d4+2*21,
+            0xc9d4+3*21,
+            0xc9d4+4*21,
+            0xc9d4+5*21,
+            0xc9d4+6*21,
+            0xc9d4+7*21,
+            0xc9d4+8*21,
+            0xc9d4+9*21,
+            0xc9d4+10*21,
+            0xc9d4+11*21,
+            0xc9d4+12*21,
+            0xc9d4+13*21,
+            0xc9d4+14*21,
+            0xc9d4+15*21,
+            0xc9d4+16*21,
+            0xc9d4+17*21,
+            0xc9d4+18*21,
+            0xc9d4+19*21,
+            // player shots
+            0xcb78+0*10,
+            0xcb78+1*10,
+            0xcb78+2*10,
+            0xcb78+3*10,
+            0xcb78+4*10,
+            0xcb78+5*10,
+            0xcb78+6*10,
+            0xcb78+7*10,
+            0xcb78+8*10,
+            0xcb78+9*10,
+        };
+        
+        if (getPC() == 0x53a) // main loop start
+        {
+            if (cart.getCurrentBank() == 3)
+            {
+                for (int i=0; i<toCheck.length; i++)
+                {
+                    int offsetDueToChanges = -0;
+                    int ram = e6809_readOnly8(toCheck[i]+offsetDueToChanges)*256+e6809_readOnly8(toCheck[i]+offsetDueToChanges+1);
+                    if (ram < 0xc800)
+                    {
+                        breakpointExit=EMU_EXIT_BREAKPOINT_BREAK;
+                        CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                        DissiPanel dissi = frame.checkDissi();
+                        if (dissi != null)
+                        {
+                            dissi.printMessage("Vectorblade RAM corruption: "+String.format("$%04X", toCheck[i]+offsetDueToChanges)+"->"+String.format("$%04X", ram), DissiPanel.MESSAGE_INFO );
+                        }
+
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+*/
     }
 }
 

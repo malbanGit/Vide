@@ -3,6 +3,7 @@ package de.malban.vide.vedi.project;
 
 import de.malban.Global;
 import de.malban.config.Configuration;
+import de.malban.gui.HotKey;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.vide.script.ExecutionDescriptor;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_FILE_ACTION;
@@ -42,6 +43,16 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         mFilePropertiesPool = new FilePropertiesPool();
         resetConfigPool(false, "");
         jPanel1.setVisible(false);
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextField1);
+            HotKey.addMacDefaults(jTextField2);
+            HotKey.addMacDefaults(jTextFieldVersion);
+            HotKey.addMacDefaults(jTextFieldFlags);
+            HotKey.addMacDefaults(jTextFieldParam1);
+            HotKey.addMacDefaults(jTextFieldParam2);
+            HotKey.addMacDefaults(jTextFieldParam3);
+        }
     }
     
     public void setFile(String path)

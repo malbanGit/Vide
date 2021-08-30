@@ -1,0 +1,34 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_05_02_10_Print_MRast.c
+                              6 	.area	.text
+                              7 	.globl	__Print_MRast
+   0000                       8 __Print_MRast:
+   0000 34 40         [ 6]    9 	pshs	u
+                             10 ;----- asm -----
+                             11 ; 58 "source\vec_rum_05_02_10_Print_MRast.c" 1
+   0002 BD 00 00      [ 8]   12 	jsr ___Print_MRast; BIOS call
+                             13 ;--- end asm ---
+   0005 35 C0         [ 7]   14 	puls	u,pc
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __Print_MRast      0000 GR  |     ___Print_MRast     **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size    7   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+
