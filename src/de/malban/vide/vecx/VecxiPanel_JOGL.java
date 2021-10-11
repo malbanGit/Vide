@@ -191,6 +191,7 @@ import java.lang.reflect.Method;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
+
 /*
 import org.jcodec.common.Codec;
 import org.jcodec.common.MuxerTrack;
@@ -4325,7 +4326,6 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
         }
         if (config.CHASSIS_AVAILABLE!=1) return;
     }
-    
     public static int getScaleFactor() {
         try {
             // Use reflection to avoid compile errors on non-macOS environments
@@ -4357,6 +4357,7 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 float width = bounds.width;
                 float height = bounds.height;
                 float ratio = 4f/3f;
+                                
                 if ((config.rotate == 0) || (config.rotate == 180))
                 {
                     float naturalRatio = (float)bounds.height / (float)bounds.width;
@@ -4376,6 +4377,7 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 bounds.y = vpanel.getYOffset() +topOffset;
                 bounds.width = (int) width;
                 bounds.height = (int) height;
+                
             }
             else
             {
@@ -4384,7 +4386,6 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
             }
             bounds.width *= scaleFactor;
             bounds.height *= scaleFactor;
-            
         }
         gl2Width = bounds.width;
         gl2Height = bounds.height;
