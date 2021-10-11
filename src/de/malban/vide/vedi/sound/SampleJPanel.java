@@ -12,6 +12,7 @@ import de.malban.event.EditMouseEvent;
 import de.malban.graphics.MouseMovedListener;
 import de.malban.graphics.MousePressedListener;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.components.ModalInternalFrame;
@@ -157,6 +158,10 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         initComponents();
         fillDeviceList();
         checkTargetLine();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldSampleRate);
+        }
 
         if (filename== null) filename = "";
         

@@ -13,6 +13,6 @@ import java.io.Serializable;
  */
 public class ValuePointer implements Serializable{
     public int intValue;
-    public double doubleValue;
+    //public double doubleValue;
 
 }

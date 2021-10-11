@@ -32,6 +32,7 @@
 // to the following contact address:
 //
 // peer.johannsen@pforzheim-university.de
+// vectrex@pforzheim-university.de
 //
 // ---------------------------------------------------------------------------
 

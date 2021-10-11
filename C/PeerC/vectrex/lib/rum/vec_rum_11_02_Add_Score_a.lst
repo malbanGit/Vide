@@ -1,0 +1,39 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_11_02_Add_Score_a.c
+                              6 	.area	.text
+                              7 	.globl	__Add_Score_a
+   0000                       8 __Add_Score_a:
+   0000 34 40         [ 6]    9 	pshs	u
+   0002 32 7D         [ 5]   10 	leas	-3,s
+   0004 E7 62         [ 5]   11 	stb	2,s
+   0006 AF E4         [ 5]   12 	stx	,s
+                             13 ;----- asm -----
+                             14 ; 62 "source\vec_rum_11_02_Add_Score_a.c" 1
+   0008 1F 98         [ 6]   15 	tfr b,a
+   000A BD 00 00      [ 8]   16 	jsr ___Add_Score_a; BIOS call
+                             17 ;--- end asm ---
+   000D 32 63         [ 5]   18 	leas	3,s
+   000F 35 C0         [ 7]   19 	puls	u,pc
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __Add_Score_a      0000 GR  |     ___Add_Score_a     **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size   11   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

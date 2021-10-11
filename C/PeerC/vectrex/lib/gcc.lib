@@ -1,0 +1,7 @@
+./gcc/gcc_abort.rel
+./gcc/gcc_free.rel
+./gcc/gcc_malloc.rel
+./gcc/gcc_memcmp.rel
+./gcc/gcc_memcpy.rel
+./gcc/gcc_memmove.rel
+./gcc/gcc_memset.rel

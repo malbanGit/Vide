@@ -50,9 +50,9 @@ public class MemoryInformation
     
     public static final int DIS_TYPE_DATA_INSTRUCTION_GENERAL = 15; 
     
-    public static String[] disTypeString = {"UNKOWN", "DB Byte", "DB Word", "DB Ptr", "DB Char",
+    public static String[] disTypeString = {"UNKOWN", "DB Byte", "DB Word", "DB Ptr", "DB Char", "DB Bin",
                                             "INS 1","INS 2","INS 3","INS 4","INS 5",
-                                            "INSPart 2","INSPart 3","INSPart 4","INSPart 5", "INS UNKOWN"
+                                            "INSPart 2","INSPart 3","INSPart 4","INSPart 5", "INS UNKOWN", "GENERAL (error)"
     };
 
     // this class describes ONE BYTE of memory!

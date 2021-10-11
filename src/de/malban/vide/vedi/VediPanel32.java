@@ -29,6 +29,7 @@ import static de.malban.vide.script.ExecutionDescriptor.*;
 import de.malban.vide.script.*;
 import static de.malban.vide.vecx.VecX.START_TYPE_DEBUG;
 import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
+import static de.malban.vide.vedi.VediPanel.isMac;
 import de.malban.vide.vedi.project.FileProperties;
 import de.malban.vide.vedi.project.FilePropertiesPanel;
 import de.malban.vide.vedi.project.FilePropertiesPool;
@@ -200,6 +201,13 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     }
     public VediPanel32(boolean ls) {
         initComponents();
+        if (isMac)
+        {
+            HotKey.addMacDefaults(jTextFieldSearch);
+            HotKey.addMacDefaults(jTextFieldReplace);
+            HotKey.addMacDefaults(jTextFieldCommand);
+            HotKey.addMacDefaults(jTextFieldPath);
+        }
         jMenuItemVector.setVisible(false); // dsabled, do image conversion from vecci
         loadSettings = ls;
 //        jEditorLog.setEditable(false);

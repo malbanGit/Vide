@@ -10,6 +10,7 @@ import de.malban.gui.TimingTriggerer;
 import de.malban.gui.TriggerCallback;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.input.ControllerEvent.CONTROLLER_DISCONNECT;
+import de.malban.vide.vecx.VecXPanel;
 import java.util.ArrayList;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
@@ -44,8 +45,13 @@ public class EventController
     }
     private Controller controller;
     boolean isActive = false;
+    boolean isMouseMode = false;
     private boolean isAvailable = true;
-    
+    public void setMouseMode(boolean b)
+    {
+        isMouseMode = b;
+    }
+
     private ArrayList<ControllerListern> mListener= new ArrayList<ControllerListern>();
 
     static TimingTriggerer timer;
@@ -248,6 +254,16 @@ public class EventController
                 event.index = i;
                 event.isRelative = true;
 
+                if (isMouseMode)
+                {
+                    VecXPanel v = Configuration.getConfiguration().getMainFrame().getVecxy();
+                    if (v != null)
+                    {
+                        v.setMouseCoordinates(event);
+                    }
+                }
+
+                
                 fireControllerChanged(event);
             }
         }

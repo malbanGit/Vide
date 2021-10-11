@@ -26,6 +26,7 @@ Labels are identifies while building a SourceLine Object (in the cosnstructor
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.vide.VideConfig;
@@ -140,25 +141,29 @@ public class Asmj {
 
                 for (Replacements r : asmR.replacementList)
                 {
-                    if (r.address+r.len> data.length) continue;
-                    if (r.replacementVarName.equals("noiseOnlyData"))
-                        System.out.println("");
+                    if (r.address+r.len > data.length) continue;
                     int value = getReplacementValue(r.replacementVarName, r.replacementVarListName);
                     byte lo = (byte) (value &0xff);
                     byte hi = (byte) ((value &0xff00)>>8);
+
                     if (r.len ==1)
                     {
                         int org = data[r.address]&0xff;
                         data[r.address] = lo;
                         log.addLog("Replacement done (at $"+String.format("%04X", r.address)+"): '"+r.replacementVarName+"', from $"+String.format("%02X", org)+" to $"+String.format("%02X", (lo)), INFO);
+                        
+                        if (value == 0)
+                            log.addLog("Replacement value == 0 (at $"+String.format("%04X", r.address)+"): '"+r.replacementVarName+"', from $"+String.format("%02X", org)+" to $"+String.format("%02X", (lo)), ERROR);
                     }
-                    if (r.len ==2)
+                    else if (r.len ==2)
                     {
                         int org = ((data[r.address]&0xff)*256+(data[r.address+1]&0xff) )&0xffff;
                         data[r.address] = hi;
                         data[r.address+1] = lo;
 
                         log.addLog("Replacement done (at $"+String.format("%04X", r.address)+"): '"+r.replacementVarName+"', from $"+String.format("%04X", org)+" to $"+String.format("%04X", (value&0xffff)), INFO);
+                        if (value == 0)
+                            log.addLog("Replacement value == 0 (at $"+String.format("%04X", r.address)+"): '"+r.replacementVarName+"', from $"+String.format("%04X", org)+" to $"+String.format("%02X", (lo)), ERROR);
                     }
                 }
                
@@ -1329,6 +1334,7 @@ public class Asmj {
             // Handle if/ifdef/.../endif
             if (instr.isIf()) 
             {
+//                System.out.println("IF OPEN: "+pline.fileName+", "+pline.lineNumber+pline.inputLine);
 //                if (pline.inputLine.contains("if USE_COMPILED = 1")) 
 //                    System.out.println("sss");
                 c = ctx.beginIf( instr.getCondition() );
@@ -1357,6 +1363,7 @@ public class Asmj {
             } 
             else if (instr.isEndIf()) 
             {
+//                System.out.println("IF CLOSE: "+pline.fileName+", "+pline.lineNumber+pline.inputLine);
                 if (ctx.assertIf()) 
                 {
                     c = ctx.popContext();
@@ -1533,6 +1540,8 @@ public class Asmj {
         globalAddress = address;
         boolean oomDone = false;
         macroCount=0;
+        int maxMem = 32768;
+        if (Asmj.is48k) maxMem = 32768 +16384;
         for (pline=ctx.first; pline!=null; pline=pline.getNext()) 
         {
             if (preprocess != null)
@@ -1552,21 +1561,17 @@ public class Asmj {
             {
                 if (!multibank)
                 {
-                    int maxMem = 32768;
-                    if (Asmj.is48k) maxMem = 32768 +16384;
-                    
                     if (mem.current.length > maxMem)
                     {
-                        if (!oomDone)
-                        Asmj.error( pline, "Resulting binary is larger than "+maxMem+" bytes, it can not run on a vectrex!" );
                         oomDone = true;
                     }
                 }
-                
             }
 
             instr.pass2( mem, symtab );
         }
+        if (oomDone)
+            Asmj.error( ctx.first, "Resulting binary is larger than "+maxMem+" bytes, it can not run on a vectrex ("+mem.current.length+" -> "+(maxMem-mem.current.length)+")!" );
     }
 
     private void writeBinary( Memory image, OutputStream binaryOut ) {
@@ -2108,9 +2113,7 @@ public class Asmj {
     }
 
     public static void error( SourceLine line, String errmsg ) {
-            line.addErrorMessage(
-                    line.fileName+"("+line.lineNumber+")"
-                    + ":  " + errmsg );
+            line.addErrorMessage( line.fileName+"("+line.lineNumber+")" + ":  " + errmsg );
     }
     public static void warning( SourceLine line, String errmsg ) {
         if (line != null)    

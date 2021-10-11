@@ -111,7 +111,8 @@ public class VecXState implements Serializable
      public ValuePointer sig_zero = new ValuePointer();
      public ValuePointer sig_ramp = new ValuePointer();
      public ValuePointer sig_blank = new ValuePointer();
-     public Capacitorial c_alg_rsh = new Capacitorial(175, 0.00000001);/* zero ref sample and hold */
+//     public Capacitorial c_alg_rsh = new Capacitorial(175, 0.00000001);/* zero ref sample and hold */
+     public Capacitorial c_alg_rsh = new Capacitorial(175,   0.000000006);/* zero ref sample and hold */
      
      public ValuePointer alg_xsh = new ValuePointer();  /* x sample and hold */
      public ValuePointer alg_ysh = new ValuePointer();  /* y sample and hold */

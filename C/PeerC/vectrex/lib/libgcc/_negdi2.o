@@ -1,0 +1,29 @@
+XH2
+H 3 areas 2 global symbols 2 banks 1 modes
+M _negdi2.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 3A flags D00
+S ___negsi2 Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 34 60 32 76 EE E8 12 EC E8 10 40 50 82
+R 00 00 00 02
+T 00 0D 00 ED E4 1F 30 40 50 82 00 1F 02 1F 30
+R 00 00 00 02
+T 00 1A 34 20 AA E0 EA E0 1F 89 4F 59 59 C4 01
+R 00 00 00 02
+T 00 27 1F 03 EC E4 34 40 A3 E1 1F 03 ED 84 10
+R 00 00 00 02
+T 00 34 AF 02 32 6A 35 E0
+R 00 00 00 02
+T 00 3A
+R 00 00 00 02

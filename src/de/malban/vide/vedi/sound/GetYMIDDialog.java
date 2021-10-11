@@ -11,6 +11,8 @@
 
 package de.malban.vide.vedi.sound;
 
+import de.malban.Global;
+import de.malban.gui.HotKey;
 import de.malban.gui.dialogs.*;
 import de.malban.gui.components.CSAInternalFrame;
 
@@ -23,6 +25,10 @@ public class GetYMIDDialog extends javax.swing.JPanel {
     /** Creates new form GetStringDialog */
     public GetYMIDDialog() {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextField1);
+        }
     }
 
     /** This method is called from within the constructor to

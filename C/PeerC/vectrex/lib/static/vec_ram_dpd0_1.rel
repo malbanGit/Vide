@@ -1,0 +1,46 @@
+XH2
+H 3 areas 8 global symbols 3 banks 1 modes
+M vec_ram_dpd0_1.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+B page_00 base 0 size 100 map 0 flags 3
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .direct size D flags 8D8C bank 2
+S _dp_VIA_aux_cntl_w Def000B
+S _dp_VIA_t1_lch Def0006
+S _dp_VIA_DDR_ba Def0002
+S _dp_VIA_t1_cnt Def0004
+S _dp_VIA_t2 Def0008
+S _dp_VIA_port_ba Def0000
+S _dp_dummy Def000A
+T 00 00
+R 00 00 00 02
+T 00 00 00 00
+R 00 00 00 02
+T 00 02
+R 00 00 00 02
+T 00 02 00 00
+R 00 00 00 02
+T 00 04
+R 00 00 00 02
+T 00 04 00 00
+R 00 00 00 02
+T 00 06
+R 00 00 00 02
+T 00 06 00 00
+R 00 00 00 02
+T 00 08
+R 00 00 00 02
+T 00 08 00 00
+R 00 00 00 02
+T 00 0A
+R 00 00 00 02
+T 00 0A 00
+R 00 00 00 02
+T 00 0B
+R 00 00 00 02
+T 00 0B 00 00
+R 00 00 00 02

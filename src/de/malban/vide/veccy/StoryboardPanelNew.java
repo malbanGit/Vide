@@ -9,6 +9,7 @@ import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.graphics.GFXVectorAnimation;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAInternalFrame;
 import de.malban.gui.components.CSAView;
@@ -163,7 +164,27 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     public StoryboardPanelNew() {
         initComponents();
         lanePanel.remove(storyboardLanePanel1);
-    }
+       if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldAnimationName);
+            HotKey.addMacDefaults(jTextFieldFrameCount);
+            HotKey.addMacDefaults(jTextFieldDelayVectrex);
+            HotKey.addMacDefaults(jTextFieldListIntensityFrom);
+            HotKey.addMacDefaults(jTextFieldMoveScale);
+            HotKey.addMacDefaults(jTextFieldResync);
+            HotKey.addMacDefaults(jTextFieldFactor);
+
+            HotKey.addMacDefaults(jTextFieldListScaleTo);
+            HotKey.addMacDefaults(jTextFieldListScaleFrom);
+            HotKey.addMacDefaults(jTextFieldListIntensityTo);
+            HotKey.addMacDefaults(jTextFieldPosXFrom);
+            HotKey.addMacDefaults(jTextFieldPosXTo);
+            HotKey.addMacDefaults(jTextFieldPosYFrom);
+            HotKey.addMacDefaults(jTextFieldPosYTo);
+            HotKey.addMacDefaults(jTextFieldMoveScale);
+            HotKey.addMacDefaults(jTextFieldRoundCount);
+        }
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.

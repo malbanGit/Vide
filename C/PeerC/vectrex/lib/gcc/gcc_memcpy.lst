@@ -1,0 +1,61 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	gcc_memcpy.c
+                              6 	.area	.text
+                              7 	.globl	_memcpy
+   0000                       8 _memcpy:
+   0000 32 79         [ 5]    9 	leas	-7,s
+   0002 AF 61         [ 6]   10 	stx	1,s
+                             11 	; ldx	1,s	; optimization 5
+   0004 AF 63         [ 6]   12 	stx	3,s
+   0006 AE 69         [ 6]   13 	ldx	9,s
+   0008 AF 65         [ 6]   14 	stx	5,s
+   000A 20 14         [ 3]   15 	bra	L2
+   000C                      16 L4:
+   000C E6 F8 05      [ 8]   17 	ldb	[5,s]
+   000F E7 F8 03      [ 8]   18 	stb	[3,s]
+   0012 EC 63         [ 6]   19 	ldd	3,s
+   0014 C3 00 01      [ 4]   20 	addd	#1; addhi3,3
+   0017 ED 63         [ 6]   21 	std	3,s
+   0019 EC 65         [ 6]   22 	ldd	5,s
+   001B C3 00 01      [ 4]   23 	addd	#1; addhi3,3
+   001E ED 65         [ 6]   24 	std	5,s
+   0020                      25 L2:
+   0020 6F E4         [ 6]   26 	clr	,s
+   0022 AE 6B         [ 6]   27 	ldx	11,s
+   0024 8C 00 00      [ 4]   28 	cmpx	#0
+   0027 27 04         [ 3]   29 	beq	L3
+   0029 C6 01         [ 2]   30 	ldb	#1
+   002B E7 E4         [ 4]   31 	stb	,s
+   002D                      32 L3:
+   002D EC 6B         [ 6]   33 	ldd	11,s
+   002F C3 FF FF      [ 4]   34 	addd	#-1; addhi3,3
+   0032 ED 6B         [ 6]   35 	std	11,s
+   0034 6D E4         [ 6]   36 	tst	,s
+   0036 26 D4         [ 3]   37 	bne	L4
+   0038 AE 61         [ 6]   38 	ldx	1,s
+   003A 32 67         [ 5]   39 	leas	7,s
+   003C 39            [ 5]   40 	rts
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 1
+Hexadecimal [16-Bits]                                 Mon May 11 16:29:49 2020
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 L2                 0020 R   |   2 L3                 002D R
+  2 L4                 000C R   |   2 _memcpy            0000 GR
+
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 2
+Hexadecimal [16-Bits]                                 Mon May 11 16:29:49 2020
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size   3D   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

@@ -1,6 +1,8 @@
 package de.malban.vide.script;
 
 
+import de.malban.Global;
+import de.malban.gui.HotKey;
 import de.malban.util.syntax.Syntax.HighlightedDocument;
 import de.malban.vide.veccy.VeccyPanel;
 import de.malban.vide.codi.CodeLibraryPanel;
@@ -37,6 +39,14 @@ public class ScriptDataPanel extends javax.swing.JPanel {
 document.start();
         mExportDataPool = new ExportDataPool();
         resetConfigPool(false, "");
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldName);
+            HotKey.addMacDefaults(jTextAreaComment);
+            HotKey.addMacDefaults(jTextPaneScript);
+            HotKey.addMacDefaults(jTextFieldKlasse);
+            HotKey.addMacDefaults(jTextAreaOutput);
+        }
     }
     
     public void setVedi(VediPanel v)

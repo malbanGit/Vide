@@ -534,70 +534,77 @@ public class Cartridge implements Serializable
 	if (addr==0x7ffe) parm=data;
 	if ((addr&0xff)==0xff) 
         {
-            if (data==1) 
+            try
             {
-                log.addLog("Cart: extreme multicard -> Unimplemented: multicart", WARN);
-            } 
-            else if (data==2) 
-            {
-                if (allData==null) 
+                if (data==1) 
                 {
-                    try
+                    log.addLog("Cart: extreme multicard -> Unimplemented: multicart", WARN);
+                } 
+                else if (data==2) 
+                {
+                    if (allData==null) 
                     {
-                        Path path = Paths.get(Global.mainPathPrefix+"vec.bin");
-                        if (currentCardProp != null)
+                        try
                         {
-                            String s = "vec.bin";
-                            if(currentCardProp.mFullFilename.size()>0)
+                            Path path = Paths.get(Global.mainPathPrefix+"vec.bin");
+                            if (currentCardProp != null)
                             {
-                                String org = currentCardProp.mFullFilename.elementAt(0);
-                                int t = org.lastIndexOf(File.separator)+1;
-                                s = org.substring(0, t)+s;
-                            }
-                            path = Paths.get(Global.mainPathPrefix+s);
-                            if (currentCardProp.mextremeVecFileImage==null)
-                            {
-                            }
-                            else
-                            {
-                                if (currentCardProp.mextremeVecFileImage.trim().length()==0)
+                                String s = "vec.bin";
+                                if(currentCardProp.mFullFilename.size()>0)
+                                {
+                                    String org = currentCardProp.mFullFilename.elementAt(0);
+                                    int t = org.lastIndexOf(File.separator)+1;
+                                    s = org.substring(0, t)+s;
+                                }
+                                path = Paths.get(Global.mainPathPrefix+s);
+                                if (currentCardProp.mextremeVecFileImage==null)
                                 {
                                 }
                                 else
                                 {
-                                    path = Paths.get(Global.mainPathPrefix+currentCardProp.mextremeVecFileImage);
+                                    if (currentCardProp.mextremeVecFileImage.trim().length()==0)
+                                    {
+                                    }
+                                    else
+                                    {
+                                        path = Paths.get(Global.mainPathPrefix+currentCardProp.mextremeVecFileImage);
+                                    }
                                 }
                             }
+    //                        log.addLog("Cart: extreme multicard -> hardcoded 'vec.bin' used", WARN);
+                            allData = Files.readAllBytes(path);
+                            pos = 0;
                         }
-//                        log.addLog("Cart: extreme multicard -> hardcoded 'vec.bin' used", WARN);
-                        allData = Files.readAllBytes(path);
-                        pos = 0;
+                        catch (Throwable ex)
+                        {
+
+                        }
                     }
-                    catch (Throwable ex)
+                    if (allData == null) return;
+                    if (allData.length<pos+1024+512) pos = 0;
+                    for (int ii=0; ii< 1024+512;ii++)
                     {
-                        
+                        cart[currentBank][0x4000+ii] = allData[pos];
+    //System.out.println("Extreme bank switch");                    
+                        pos++;
                     }
-                }
-                if (allData == null) return;
-                if (allData.length<pos+1024+512) pos = 0;
-                for (int ii=0; ii< 1024+512;ii++)
+    //                i=fread(&cart[0x4000], 1, 1024+512, str);
+    //                printf("Read %d bytes %hhx.\n", i, cart[0x4000]);
+                    if (doExtremeOutput)
+                        System.out.println("Read 1536 bytes "+String.format("%02X", cart[currentBank][0x4000])+".");
+                } 
+                else if (data==66) 
                 {
-                    cart[currentBank][0x4000+ii] = allData[pos];
-//System.out.println("Extreme bank switch");                    
-                    pos++;
+                    log.addLog("Cart: extreme multicard -> doom not supported", WARN);
+                    System.out.println("Doom Boom!\n");
+                        //Do a Doom render...
+    //                    printf("DOOM BOOOM Read %d bytes %hhx.\n", i, cart[0x4000]);
+    //                    voomVectrexFrame(parm, &cart[0x1000]);
                 }
-//                i=fread(&cart[0x4000], 1, 1024+512, str);
-//                printf("Read %d bytes %hhx.\n", i, cart[0x4000]);
-                if (doExtremeOutput)
-                    System.out.println("Read 1536 bytes "+String.format("%02X", cart[currentBank][0x4000])+".");
-            } 
-            else if (data==66) 
+            }
+            catch (Exception ex)
             {
-                log.addLog("Cart: extreme multicard -> doom not supported", WARN);
-                System.out.println("Doom Boom!\n");
-                    //Do a Doom render...
-//                    printf("DOOM BOOOM Read %d bytes %hhx.\n", i, cart[0x4000]);
-//                    voomVectrexFrame(parm, &cart[0x1000]);
+                log.addLog(ex, ERROR);
             }
 	}
     }
@@ -1151,6 +1158,7 @@ public class Cartridge implements Serializable
         // so the "start" bank is actually bank 3
         int newBank = 0;
         if (previousExternalLineB) newBank +=1;
+        
         if (previousExternalLineIRQ) newBank +=2;
         setBank(newBank);
     } 

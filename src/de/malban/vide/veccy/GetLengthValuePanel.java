@@ -1,8 +1,10 @@
 package de.malban.vide.veccy;
 
 
+import de.malban.Global;
 import de.malban.vide.vedi.panels.*;
 import de.malban.config.Configuration;
+import de.malban.gui.HotKey;
 import de.malban.gui.components.ModalInternalFrame;
 import java.awt.event.KeyEvent;
 import java.util.*;
@@ -15,6 +17,10 @@ public class GetLengthValuePanel extends javax.swing.JPanel {
     /** Creates new form FilePropertiesPanel */
     public GetLengthValuePanel() {
         initComponents();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldLinenumber);
+        }
     }
     
     /** This method is called from within the constructor to
@@ -95,6 +101,7 @@ public class GetLengthValuePanel extends javax.swing.JPanel {
         ArrayList<JButton> eb= new ArrayList<JButton>();
         ModalInternalFrame modal = new ModalInternalFrame("Length?", frame.getRootPane(), frame, panel,null, null , null);
         panel.modelDialog = modal;
+
         modal.setVisible(true);
         return panel.lineNumber%128;
     }    

@@ -155,7 +155,9 @@ public class CombinedPeepRule {
         do
         {
             xmlSupport.errorCode = 0;
+            xmlSupport.beQuiet(true);
             rule = OnePeepRule.readRuleFromXML(xmlSupport.getXMLElement("OneRule", xml), xmlSupport);
+            xmlSupport.beQuiet(false);
             if (rule != null)
             {
                 errorCode|=xmlSupport.errorCode;

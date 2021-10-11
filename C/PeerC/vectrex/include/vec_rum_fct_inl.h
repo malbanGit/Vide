@@ -876,6 +876,11 @@ __INLINE void Draw_Line_d(const int a, const int b) // 0xF3DF
 	_Draw_Line_d(b, a); // middle layer call
 }
 
+__INLINE void Draw_Line_dd(const long int d) // 0xF3DF
+{
+	_Draw_Line_dd(d); // middle layer call
+}
+
 // ---------------------------------------------------------------------------
 // Draw from ‘Diffy’ style list
 // List Description:
@@ -1440,7 +1445,7 @@ __INLINE void Rot_VL_M_dft(void* const x, void* const u) // 0xF62B
 
 // NIBBY 	0xFF9F 	--- 	Draw vector grid list
 
-#if 0
+#if 1
 __INLINE void Draw_Grid_VL(void* const x, void* const y) //0xFF9F, not official
 {
 	_Draw_Grid_VL(x, y); // middle layer call

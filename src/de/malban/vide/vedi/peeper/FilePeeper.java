@@ -1086,7 +1086,9 @@ public class FilePeeper
         do
         {
             xmlSupport.errorCode = 0;
+            xmlSupport.beQuiet(true);
             rule = PeepRule.readRuleFromXML(xmlSupport.getXMLElement("PeepRule", xml), xmlSupport);
+            xmlSupport.beQuiet(false);
             if (rule != null)
             {
                 errorCode|=xmlSupport.errorCode;

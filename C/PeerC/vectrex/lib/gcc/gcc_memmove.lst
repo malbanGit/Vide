@@ -1,0 +1,104 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	gcc_memmove.c
+                              6 	.area	.text
+                              7 	.globl	_memmove
+   0000                       8 _memmove:
+   0000 34 40         [ 6]    9 	pshs	u
+   0002 32 74         [ 5]   10 	leas	-12,s
+   0004 AF 62         [ 6]   11 	stx	2,s
+                             12 	; ldx	2,s	; optimization 5
+   0006 AF 64         [ 6]   13 	stx	4,s
+   0008 AE E8 10      [ 6]   14 	ldx	16,s
+   000B AF 66         [ 6]   15 	stx	6,s
+   000D AE 64         [ 6]   16 	ldx	4,s
+   000F AC 66         [ 7]   17 	cmpx	6,s	;cmphi:
+   0011 24 33         [ 3]   18 	bhs	L2
+   0013 20 14         [ 3]   19 	bra	L3
+   0015                      20 L5:
+   0015 E6 F8 06      [ 8]   21 	ldb	[6,s]
+   0018 E7 F8 04      [ 8]   22 	stb	[4,s]
+   001B EC 64         [ 6]   23 	ldd	4,s
+   001D C3 00 01      [ 4]   24 	addd	#1; addhi3,3
+   0020 ED 64         [ 6]   25 	std	4,s
+   0022 EC 66         [ 6]   26 	ldd	6,s
+   0024 C3 00 01      [ 4]   27 	addd	#1; addhi3,3
+   0027 ED 66         [ 6]   28 	std	6,s
+   0029                      29 L3:
+   0029 6F E4         [ 6]   30 	clr	,s
+   002B AE E8 12      [ 6]   31 	ldx	18,s
+   002E 8C 00 00      [ 4]   32 	cmpx	#0
+   0031 27 04         [ 3]   33 	beq	L4
+   0033 C6 01         [ 2]   34 	ldb	#1
+   0035 E7 E4         [ 4]   35 	stb	,s
+   0037                      36 L4:
+   0037 EC E8 12      [ 6]   37 	ldd	18,s
+   003A C3 FF FF      [ 4]   38 	addd	#-1; addhi3,3
+   003D ED E8 12      [ 6]   39 	std	18,s
+   0040 6D E4         [ 6]   40 	tst	,s
+   0042 26 D1         [ 3]   41 	bne	L5
+   0044 20 47         [ 3]   42 	bra	L6
+   0046                      43 L2:
+   0046 EE E8 12      [ 6]   44 	ldu	18,s
+   0049 30 5F         [ 5]   45 	leax	-1,u
+   004B EC 66         [ 6]   46 	ldd	6,s
+   004D 30 8B         [ 8]   47 	leax	d,x
+   004F AF 68         [ 6]   48 	stx	8,s
+   0051 EE E8 12      [ 6]   49 	ldu	18,s
+   0054 30 5F         [ 5]   50 	leax	-1,u
+   0056 EC 64         [ 6]   51 	ldd	4,s
+   0058 30 8B         [ 8]   52 	leax	d,x
+   005A AF 6A         [ 6]   53 	stx	10,s
+   005C 20 14         [ 3]   54 	bra	L7
+   005E                      55 L9:
+   005E E6 F8 08      [ 8]   56 	ldb	[8,s]
+   0061 E7 F8 0A      [ 8]   57 	stb	[10,s]
+   0064 EC 6A         [ 6]   58 	ldd	10,s
+   0066 C3 FF FF      [ 4]   59 	addd	#-1; addhi3,3
+   0069 ED 6A         [ 6]   60 	std	10,s
+   006B EC 68         [ 6]   61 	ldd	8,s
+   006D C3 FF FF      [ 4]   62 	addd	#-1; addhi3,3
+   0070 ED 68         [ 6]   63 	std	8,s
+   0072                      64 L7:
+   0072 6F 61         [ 7]   65 	clr	1,s
+   0074 AE E8 12      [ 6]   66 	ldx	18,s
+   0077 8C 00 00      [ 4]   67 	cmpx	#0
+   007A 27 04         [ 3]   68 	beq	L8
+   007C C6 01         [ 2]   69 	ldb	#1
+   007E E7 61         [ 5]   70 	stb	1,s
+   0080                      71 L8:
+   0080 EC E8 12      [ 6]   72 	ldd	18,s
+   0083 C3 FF FF      [ 4]   73 	addd	#-1; addhi3,3
+   0086 ED E8 12      [ 6]   74 	std	18,s
+   0089 6D 61         [ 7]   75 	tst	1,s
+   008B 26 D1         [ 3]   76 	bne	L9
+   008D                      77 L6:
+   008D AE 62         [ 6]   78 	ldx	2,s
+   008F 32 6C         [ 5]   79 	leas	12,s
+   0091 35 C0         [ 7]   80 	puls	u,pc
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 1
+Hexadecimal [16-Bits]                                 Mon May 11 16:29:49 2020
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 L2                 0046 R   |   2 L3                 0029 R
+  2 L4                 0037 R   |   2 L5                 0015 R
+  2 L6                 008D R   |   2 L7                 0072 R
+  2 L8                 0080 R   |   2 L9                 005E R
+  2 _memmove           0000 GR
+
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 2
+Hexadecimal [16-Bits]                                 Mon May 11 16:29:49 2020
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size   93   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

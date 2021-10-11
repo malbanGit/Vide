@@ -1,0 +1,31 @@
+XH2
+H 3 areas 4 global symbols 2 banks 1 modes
+M _compare_sf.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S ___fpcmp_parts_f Ref0000
+S .__.ABS. Def0000
+S ___unpack_f Ref0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 3D flags D00
+S ___cmpsf2 Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 34 60 32 E8 E8 AE E8 1E AF E8 14 AE E8
+R 00 00 00 02
+T 00 0D 20 AF E8 16 AE E8 22 AF E8 10 AE E8 24
+R 00 00 00 02
+T 00 1A AF E8 12 33 68 34 40 30 E8 16 BD 00 00
+R 00 00 00 02 81 0D 00 02
+T 00 27 31 62 34 20 30 E8 14 BD 00 00 34 20 30
+R 00 00 00 02 81 0A 00 02
+T 00 34 C4 BD 00 00 32 E8 1E 35 E0
+R 00 00 00 02 81 04 00 00
+T 00 3D
+R 00 00 00 02

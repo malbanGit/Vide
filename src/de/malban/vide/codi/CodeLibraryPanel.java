@@ -9,6 +9,7 @@ import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
 import de.malban.vide.VideConfig;
@@ -110,6 +111,12 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         jEditorLog.setContentType("text/html");
         
         init();
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldSearch);
+            HotKey.addMacDefaults(jEditorLog);
+            
+        }
     }
     @Override
     public void setMenuItem(javax.swing.JMenuItem item)

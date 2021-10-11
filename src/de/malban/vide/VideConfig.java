@@ -5,6 +5,7 @@
  */
 package de.malban.vide;
 
+import com.fazecast.jSerialComm.SerialPort;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.graphics.VectorColors;
@@ -16,6 +17,7 @@ import de.malban.input.EventController;
 import de.malban.input.SystemController;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.util.syntax.Syntax.TokenStyles;
+import static de.malban.vide.vecx.VecXStatics.TIMER_T2;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
@@ -62,10 +64,10 @@ class ConfigStatic1 implements Serializable
    public String startFile = "";
 
   // public int[] delays = {0,5,0,11,4,0,0,0,11,0,13, 2, 3, 1}; // full delays, ramp on and off have partials!
-   public int[] delays = {0,5,0,0,11,11,0,0,0,11,0,14, 1, 0, 1}; // full delays, ramp on and off have partials!
+   public int[] delays = {0,5,0,0,11,11,0,0,0,11,0,14, 2, 2, 2, 1}; // full delays, ramp on and off have partials!
    public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
-   public String[] delaysDisplay = {"-", "ZERO", "BLANK_ON", "BLANK_OFF", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
-
+   public String[] delaysDisplay = {"-", "ZERO", "BLANK_ON", "BLANK_OFF", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1", "T2"};
+   
    public double zeroRetainX = 50.0/10000.0;
    public double zeroRetainY = 50.0/10000.0;
    public double zero_divider = 6.80;
@@ -215,6 +217,8 @@ class ConfigStatic1 implements Serializable
 
    public boolean motdActive = true;
    // VEDI
+   public boolean invokeVecMultiAfterAssembly = false;
+   public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
    public boolean invokeEmulatorAfterAssembly = true;
    public boolean scanMacros = true;
    public boolean scanVars = true;
@@ -288,6 +292,9 @@ class ConfigStatic2 implements Serializable
 
    public boolean vectrexColorMode = false; 
    public boolean displayModeWriting = true;
+   public boolean isFaultyVIA = false;
+   public int SHORT_TAB_OP = 1;
+   public int t2Delay = 1;
 
 }
 
@@ -310,9 +317,9 @@ public class VideConfig  implements Serializable{
     public String startFile = "";
     
    // public int[] delays = {0,5,0,11,4,0,0,0,11,0,13, 2, 3, 1}; // full delays, ramp on and off have partials!
-   public int[] delays = {0,5,0,0,11,11,0,0,0,11,0,14, 2, 2, 1}; // full delays, ramp on and off have partials!
+   public int[] delays = {0,5,0,0,11,11,0,0,0,11,0,14, 2, 2, 2, 1}; // full delays, ramp on and off have partials!
    public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
-   public String[] delaysDisplay = {"-", "ZERO", "BLANK_ON", "BLANK_OFF", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
+   public String[] delaysDisplay = {"-", "ZERO", "BLANK_ON", "BLANK_OFF", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1", "T2"};
     
    public double zeroRetainX = 50.0/10000.0;
    public double zeroRetainY = 50.0/10000.0;
@@ -464,6 +471,8 @@ public class VideConfig  implements Serializable{
     
     public boolean motdActive = true;
     // VEDI
+    public boolean invokeVecMultiAfterAssembly = false;
+    public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
     public boolean invokeEmulatorAfterAssembly = true;
     public boolean scanMacros = true;
     public boolean scanVars = true;
@@ -477,8 +486,10 @@ public class VideConfig  implements Serializable{
     public int TAB_MNEMONIC = 20;
     public int TAB_OP = 30;
     public int TAB_COMMENT = 58;
-    
 
+
+    
+    
     public int deepSyntaxCheckTiming = 10000; // in ms
     public boolean deepSyntaxCheck = true;
 
@@ -538,6 +549,9 @@ public class VideConfig  implements Serializable{
    public Color cLinesFore = new Color(250,250,80);
    public Color cLinesBack  = new Color(100,100,255);
    public Color cLsinesBack  = new Color(100,100,255);
+
+   public boolean isFaultyVIA = false;
+   public int SHORT_TAB_OP = 1;
 /////////////
     
     
@@ -598,7 +612,7 @@ public class VideConfig  implements Serializable{
         }        
         return true;
     }
-    
+
     // filename + path
     public boolean save(String filename)
     {
@@ -809,10 +823,12 @@ public class VideConfig  implements Serializable{
         to.ALG_MAX_Y = from.ALG_MAX_Y;
         to.startFile = from.startFile;
         
+        for (int i=0; i<from.delays.length; i++)
+            to.delays[i] = from.delays[i];
         
-        System.arraycopy(from.delays, 0, to.delays, 0, from.delays.length);
+//        System.arraycopy(from.delays, 0, to.delays, 0, from.delays.length);
         System.arraycopy(from.partialDelays, 0, to.partialDelays, 0, from.partialDelays.length);
-        System.arraycopy(from.delaysDisplay, 0, to.delaysDisplay, 0, from.delaysDisplay.length);
+//        System.arraycopy(from.delaysDisplay, 0, to.delaysDisplay, 0, from.delaysDisplay.length);
         to.keySupport = from.keySupport;
         to.styleSupport = from.styleSupport;
         to.themeFile = from.themeFile;
@@ -906,6 +922,8 @@ public class VideConfig  implements Serializable{
         to.v4eVolumeName = from.v4eVolumeName;
         
         // VEDI
+        to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
+        to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
         to.invokeEmulatorAfterAssembly = from.invokeEmulatorAfterAssembly;
         to.scanMacros = from.scanMacros;
         to.scanVars = from.scanVars;
@@ -1008,6 +1026,13 @@ public class VideConfig  implements Serializable{
         to.IOInput = from.IOInput;
         to.IOOutput = from.IOOutput;
         to.dataSelection = from.dataSelection;
+
+        to.TAB_EQU = from.TAB_EQU;
+        to.TAB_EQU_VALUE = from.TAB_EQU_VALUE;
+        to.TAB_MNEMONIC = from.TAB_MNEMONIC;
+        to.TAB_OP = from.TAB_OP;
+        to.TAB_COMMENT = from.TAB_COMMENT;
+
     }
     private void copyFromConfigToStatic(VideConfig from, ConfigStatic1 to)
     {
@@ -1015,10 +1040,11 @@ public class VideConfig  implements Serializable{
         to.ALG_MAX_Y = from.ALG_MAX_Y;
         to.startFile = from.startFile;
         
-        
-        System.arraycopy(from.delays, 0, to.delays, 0, from.delays.length);
+        for (int i=0; i<from.delays.length-1; i++)
+            to.delays[i] = from.delays[i];
+//        System.arraycopy(from.delays, 0, to.delays, 0, from.delays.length);
         System.arraycopy(from.partialDelays, 0, to.partialDelays, 0, from.partialDelays.length);
-        System.arraycopy(from.delaysDisplay, 0, to.delaysDisplay, 0, from.delaysDisplay.length);
+//      System.arraycopy(from.delaysDisplay, 0, to.delaysDisplay, 0, from.delaysDisplay.length);
         
         to.keySupport = from.keySupport;
         to.styleSupport = from.styleSupport;
@@ -1114,6 +1140,8 @@ public class VideConfig  implements Serializable{
         to.v4eVolumeName = from.v4eVolumeName;
         
         // VEDI
+        to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
+        to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
         to.invokeEmulatorAfterAssembly = from.invokeEmulatorAfterAssembly;
         to.scanMacros = from.scanMacros;
         to.scanVars = from.scanVars;
@@ -1215,7 +1243,13 @@ public class VideConfig  implements Serializable{
         to.IOInput = from.IOInput;
         to.IOOutput = from.IOOutput;
         to.dataSelection = from.dataSelection;
-
+        
+        
+        to.TAB_EQU = from.TAB_EQU;
+        to.TAB_EQU_VALUE = from.TAB_EQU_VALUE;
+        to.TAB_MNEMONIC = from.TAB_MNEMONIC;
+        to.TAB_OP = from.TAB_OP;
+        to.TAB_COMMENT = from.TAB_COMMENT;
     }
     private void copyFromStaticToConfig(ConfigStatic2 from, VideConfig to)
     {
@@ -1224,7 +1258,10 @@ public class VideConfig  implements Serializable{
         to.cLsinesBack = from.cLsinesBack;
         to.displayModeWriting = from.displayModeWriting;
         to.vectrexColorMode = from.vectrexColorMode;
-        
+        to.isFaultyVIA = from.isFaultyVIA;
+        to.SHORT_TAB_OP = from.SHORT_TAB_OP;
+        to.delays[TIMER_T2] = from.t2Delay;
+
     }
     private void copyFromConfigToStatic(VideConfig from, ConfigStatic2 to)
     {
@@ -1233,6 +1270,9 @@ public class VideConfig  implements Serializable{
         to.cLsinesBack = from.cLsinesBack;
         to.displayModeWriting = from.displayModeWriting;
         to.vectrexColorMode = from.vectrexColorMode;
+        to.isFaultyVIA = from.isFaultyVIA;
+        to.SHORT_TAB_OP = from.SHORT_TAB_OP;
+        to.t2Delay = from.delays[TIMER_T2];
     }
     
     public static File[] getConfigs()

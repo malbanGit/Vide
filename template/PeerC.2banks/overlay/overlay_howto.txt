@@ -1,0 +1,10 @@
+This is a collection of simple PowerPoint templates for creating Vectrex overlays for use with a Vectrex emulator.
+
+Each template can easily be modified and new elements can be added. Combine all elements to one single final group. Then select the top-level group and use right-click to save as graphics in *.png format.
+
+This file was developed by Prof. Dr. Peer Johannsen as part of the “Retro-Programming” and “Advanced C Programming” class at Pforzheim University, Germany. It can freely be used, but at one’s own risk and for non-commercial purposes only. Please respect the copyright and credit the origin of this file.
+
+Feedback, suggestions and bug-reports are very welcome and can be sent to:
+
+peer.johannsen@pforzheim-university.de
+

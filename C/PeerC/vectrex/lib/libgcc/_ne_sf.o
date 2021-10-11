@@ -1,0 +1,41 @@
+XH2
+H 3 areas 4 global symbols 2 banks 1 modes
+M _ne_sf.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S ___fpcmp_parts_f Ref0000
+S .__.ABS. Def0000
+S ___unpack_f Ref0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size 52 flags D00
+S ___nesf2 Def0000
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00
+R 00 00 00 02
+T 00 00 34 60 32 E8 E8 AE E8 1E AF E8 14 EC E8
+R 00 00 00 02
+T 00 0D 20 ED E8 16 AE E8 22 AF E8 10 EC E8 24
+R 00 00 00 02
+T 00 1A ED E8 12 31 68 34 20 30 E8 16 BD 00 00
+R 00 00 00 02 81 0D 00 02
+T 00 27 33 62 34 40 30 E8 14 BD 00 00 32 64 E6
+R 00 00 00 02 81 0A 00 02
+T 00 34 68 C1 01 23 11 E6 E4 C1 01 23 0B 34 40
+R 00 00 00 02
+T 00 41 30 A4 BD 00 00 32 62 20 03
+R 00 00 00 02 81 05 00 00
+T 00 4A
+R 00 00 00 02
+T 00 4A 8E 00 01
+R 00 00 00 02
+T 00 4D
+R 00 00 00 02
+T 00 4D 32 E8 18 35 E0
+R 00 00 00 02
+T 00 52
+R 00 00 00 02

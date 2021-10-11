@@ -1,0 +1,18 @@
+XH2
+H 3 areas 3 global symbols 2 banks 1 modes
+M vec_rum_09_01_Select_Game.c
+G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
+B _CSEG base 0 size 0 map 0 flags 0
+B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
+S ___Select_Game Ref0000
+S .__.ABS. Def0000
+A _CODE size 0 flags CC80 bank 0
+A _DATA size 0 flags CCC0 bank 1
+A .text size F flags D00
+S __Select_Game Def0000
+T 00 00
+R 00 00 00 02
+T 00 00 34 60 32 7F E7 E4 A6 67 BD 00 00 32 61
+R 00 00 00 02 81 0B 00 00
+T 00 0D 35 E0
+R 00 00 00 02

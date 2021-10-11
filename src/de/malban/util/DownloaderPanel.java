@@ -4,6 +4,7 @@ package de.malban.util;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.components.CSAInternalFrame;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
@@ -41,6 +42,17 @@ public class DownloaderPanel extends javax.swing.JPanel {
     /** Creates new form DownloaderPanel */
     public DownloaderPanel() {
         initComponents();
+        
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            HotKey.addMacDefaults(jTextFieldKlasse);
+            HotKey.addMacDefaults(jTextFieldName);
+            HotKey.addMacDefaults(jTextField1);
+            HotKey.addMacDefaults(jTextField4);
+            HotKey.addMacDefaults(jTextField5);
+            HotKey.addMacDefaults(jTextField6);
+        }
+        
         mDownloaderPool = new DownloaderPool();
         jTabbedPane1.removeAll();
         resetConfigPool(false, "");

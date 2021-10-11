@@ -17,6 +17,9 @@ import de.malban.vide.vecx.libayemu.AY;
  */
 public class E8910 extends E8910State implements E8910Statics
 {
+    int SAMPLE_THRESHOLD = 25;
+    
+    
     /***************************************************************************
       ay8910.c
 
@@ -192,6 +195,8 @@ public class E8910 extends E8910State implements E8910Statics
                         sampleByte = sampleByte-128;
 
                         digitByte[digitByteCounter++] = sampleByte;
+                        
+                        
                         return;
                         
                     }
@@ -690,7 +695,7 @@ public class E8910 extends E8910State implements E8910Statics
         }
         
         // small sample counts are ignored!
-        if ((digitByteCounter>15) ) // are there any samples?
+        if ((digitByteCounter>SAMPLE_THRESHOLD) ) // are there any samples?
         {
             double sampleScale = ((double)digitByteCounter) / ((double) lengthOrg);
             int i=0;
@@ -834,7 +839,7 @@ public class E8910 extends E8910State implements E8910Statics
 //System.out.println(""+length);
         int lengthOrg = length;
   	int positionInOutputArray = 0;
-        if ((digitByteCounter<15) )
+        if ((digitByteCounter<SAMPLE_THRESHOLD) )
         {
             if (config.useLibAYEmu) 
             {
@@ -1148,8 +1153,9 @@ public class E8910 extends E8910State implements E8910Statics
                 length--;
             }
         }
-        // small sample counts are ignored!
-        else //if ((digitByteCounter>15) ) // are there any samples?
+        
+// small sample counts are ignored!
+        else if ((digitByteCounter>SAMPLE_THRESHOLD) ) // are there any samples?
         {
             double sampleScale = (((double)digitByteCounter) / ((double) lengthOrg)); // length is counter of buffer in words, samples are in bytes - so in this case they are equal
             int i=0;

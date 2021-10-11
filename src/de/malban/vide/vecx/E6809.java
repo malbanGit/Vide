@@ -1,3 +1,6 @@
+//change cycles in "fast" emu!
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,6 +19,8 @@ package de.malban.vide.vecx;
  */
 public class E6809 extends E6809State implements E6809Statics
 {
+    int clear = 0;
+
     transient E6809Access vecx=null;
     transient Profiler profiler = null;
     public transient int lowestStackValue = 65536;
@@ -238,12 +243,12 @@ public class E6809 extends E6809State implements E6809Statics
 
         return (datahi << 8) | (datalo);
     }
-    int read16 (int address, boolean doCycles)
+    int read16_cycloid (int address)
     {
         int datahi, datalo;
 
         datahi = vecx.e6809_read8(address & 0xffff);
-        vecx.vectrexNonCPUStepDontAdd(1);
+        vecx.vectrexNonCPUStep(1);//vectrexNonCPUStepDontAdd(1);
         datalo = vecx.e6809_read8((address + 1) & 0xffff) ;
 
         return (datahi << 8) | (datalo);
@@ -255,10 +260,10 @@ public class E6809 extends E6809State implements E6809Statics
         write8 (address + 1, data); // write 8 does & 0xff
     }
 
-    void write16 (int address, int data, boolean doCycles)
+    void write16_cycloid (int address, int data)
     {
         write8 (address, data >> 8);
-        vecx.vectrexNonCPUStepDontAdd(1);
+        vecx.vectrexNonCPUStep(1);//vectrexNonCPUStepDontAdd(1);
         write8 (address + 1, data); // write 8 does & 0xff
     }
 
@@ -351,18 +356,22 @@ public class E6809 extends E6809State implements E6809Statics
         r = (op >> 5) & 3;
         switch (op) 
         {
+// X
             case 0x00: case 0x01: case 0x02: case 0x03:
             case 0x04: case 0x05: case 0x06: case 0x07:
             case 0x08: case 0x09: case 0x0a: case 0x0b:
             case 0x0c: case 0x0d: case 0x0e: case 0x0f:
+// Y
             case 0x20: case 0x21: case 0x22: case 0x23:
             case 0x24: case 0x25: case 0x26: case 0x27:
             case 0x28: case 0x29: case 0x2a: case 0x2b:
             case 0x2c: case 0x2d: case 0x2e: case 0x2f:
+// U
             case 0x40: case 0x41: case 0x42: case 0x43:
             case 0x44: case 0x45: case 0x46: case 0x47:
             case 0x48: case 0x49: case 0x4a: case 0x4b:
             case 0x4c: case 0x4d: case 0x4e: case 0x4f:
+// S
             case 0x60: case 0x61: case 0x62: case 0x63:
             case 0x64: case 0x65: case 0x66: case 0x67:
             case 0x68: case 0x69: case 0x6a: case 0x6b:
@@ -372,18 +381,22 @@ public class E6809 extends E6809State implements E6809Statics
                 vecx.vectrexNonCPUStep(1);
                 ea = read_xyus(r) + (op & 0xf);
                 break;
+// X
             case 0x10: case 0x11: case 0x12: case 0x13:
             case 0x14: case 0x15: case 0x16: case 0x17:
             case 0x18: case 0x19: case 0x1a: case 0x1b:
             case 0x1c: case 0x1d: case 0x1e: case 0x1f:
+// Y
             case 0x30: case 0x31: case 0x32: case 0x33:
             case 0x34: case 0x35: case 0x36: case 0x37:
             case 0x38: case 0x39: case 0x3a: case 0x3b:
             case 0x3c: case 0x3d: case 0x3e: case 0x3f:
+// U
             case 0x50: case 0x51: case 0x52: case 0x53:
             case 0x54: case 0x55: case 0x56: case 0x57:
             case 0x58: case 0x59: case 0x5a: case 0x5b:
             case 0x5c: case 0x5d: case 0x5e: case 0x5f:
+// S
             case 0x70: case 0x71: case 0x72: case 0x73:
             case 0x74: case 0x75: case 0x76: case 0x77:
             case 0x78: case 0x79: case 0x7a: case 0x7b:
@@ -396,7 +409,7 @@ public class E6809 extends E6809State implements E6809Statics
             case 0x80: case 0x81:
             case 0xa0: case 0xa1:
             case 0xc0: case 0xc1:
-            case 0xe0: case 0xe1:
+            case 0xe0: case 0xe1: 
                 /* ,R+ / ,R++ */
                 cycles.intValue+= 2 + (op & 1);
                 vecx.vectrexNonCPUStep((2 + (op & 1)));
@@ -441,8 +454,8 @@ public class E6809 extends E6809State implements E6809Statics
             case 0x94: case 0xb4:
             case 0xd4: case 0xf4:
                 /* [,R] */
-                cycles.intValue+= 2;
-                vecx.vectrexNonCPUStep(2);
+                cycles.intValue+= 3;// 3?
+                vecx.vectrexNonCPUStep(3);
                 ea = read16 (read_xyus(r));
                 break;
             case 0x85: case 0xa5:
@@ -959,12 +972,29 @@ void inst_bra8 (boolean test, int op, ValuePointer cycles)
 }
 
 /* instruction: 16-bit offset branch */
-
 void inst_bra16 (boolean test, int op, ValuePointer cycles)
 {
     int offset;
     offset = pc_read16 ();
 
+    /* this is 0 page opcode 16 */
+/*
+    if (op == 0x020)/ * lbra * /
+    {
+        reg_pc = (reg_pc + offset)& 0xffff;
+        cycles.intValue += 5;
+        vecx.vectrexNonCPUStep(5);
+        return;
+    }
+    */
+    /*
+    if (op == 0x021)/ * lbrn * /
+    {
+        cycles.intValue += 5;
+        vecx.vectrexNonCPUStep(5);
+        return;
+    }
+*/
     if (!((test) ^ ((op&1)==1)))
     {
         reg_pc = (reg_pc + offset)& 0xffff;
@@ -1245,6 +1275,12 @@ public void e6809_reset ()
 
     reg_pc = read16 (0xfffe);
 }
+boolean nmi = false;
+
+void doNMI()
+{
+    nmi = true;
+}
 
 /* execute a single instruction or handle interrupts and return */
 ValuePointer cycles = new ValuePointer();
@@ -1253,6 +1289,18 @@ int ea, i0, i1, r, tmp;
 int orgPC;
 int e6809_sstep (int irq_i, int irq_f)
 {
+    if (nmi)
+    {
+        nmi = false;
+        reg_cc = (reg_cc | FLAG_E);
+        inst_psh (0xff, reg_s, reg_u, cycles);
+        if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
+
+        reg_cc = (reg_cc | FLAG_I| FLAG_F);
+        reg_pc = read16 (0xfffc);
+        irq_status = IRQ_NORMAL;
+        cycles.intValue += 7;
+    }
     cycles.intValue = 0;
     orgPC = reg_pc;
     if (irq_f!=0) 
@@ -1299,7 +1347,7 @@ int e6809_sstep (int irq_i, int irq_f)
             {
                 reg_cc = (reg_cc | FLAG_E);
                 int olds = reg_s.intValue;
-                inst_psh (0xff, reg_s, reg_u, cycles);
+                 inst_psh (0xff, reg_s, reg_u, cycles);
                 if (reg_s.intValue<lowestStackValue) lowestStackValue = reg_s.intValue;
                 
                 if (profiler != null)
@@ -1343,7 +1391,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_neg (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x40:
@@ -1364,7 +1411,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_neg (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x70:
@@ -1373,7 +1419,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_neg (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 7;
             break;
             /* com, coma, comb */
@@ -1383,7 +1428,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_com (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x43:
@@ -1402,7 +1446,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_com (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x73:
@@ -1411,7 +1454,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_com (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 7;
             break;
             /* lsr, lsra, lsrb */
@@ -1421,7 +1463,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_lsr (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x44:
@@ -1475,7 +1516,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_ror (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x76:
@@ -1484,7 +1524,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_ror (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 7;
             break;
             /* asr, asra, asrb */
@@ -1494,7 +1533,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_asr (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x47:
@@ -1513,7 +1551,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_asr (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x77:
@@ -1522,7 +1559,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_asr (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 7;
             break;
             /* asl, asla, aslb */
@@ -1532,7 +1568,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_asl (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x48:
@@ -1551,7 +1586,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_asl (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x78:
@@ -1560,7 +1594,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_asl (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 7;
             break;
             /* rol, rola, rolb */
@@ -1570,7 +1603,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_rol (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x49:
@@ -1589,7 +1621,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_rol (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x79:
@@ -1598,7 +1629,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_rol (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 7;
             break;
             /* dec, deca, decb */
@@ -1608,7 +1638,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_dec (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x4a:
@@ -1627,7 +1656,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_dec (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x7a:
@@ -1636,7 +1664,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_dec (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 7;
             break;
             /* inc, inca, incb */
@@ -1646,7 +1673,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_inc (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x4c:
@@ -1665,7 +1691,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_inc (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 6;
             break;
         case 0x7c:
@@ -1674,7 +1699,6 @@ int e6809_sstep (int irq_i, int irq_f)
             r = inst_inc (read8 (ea));
             vecx.vectrexNonCPUStep(2+1);
             write8 (ea, r);
-            
             cycles.intValue += 7;
             break;
             /* tst, tsta, tstb */
@@ -1730,7 +1754,9 @@ int e6809_sstep (int irq_i, int irq_f)
             ea = ea_direct ();
             vecx.vectrexNonCPUStep(PRE_CLR_STEPS);
             inst_clr ();
+            clear = 1;
             read8(ea); // clear reads! important for shift reg emulation! e.g.
+            clear = 0;
             vecx.vectrexNonCPUStep(2+1+POST_CLR_ADDSTEPS);
             write8 (ea, 0);
             cycles.intValue += 6;
@@ -1751,20 +1777,21 @@ int e6809_sstep (int irq_i, int irq_f)
             ea = ea_indexed (cycles);
             vecx.vectrexNonCPUStep(PRE_CLR_STEPS);
             inst_clr ();
+            clear = 1;
             read8(ea); // clear reads! important for shift reg emulation! e.g.
-            vecx.vectrexNonCPUStep(2+1+POST_CLR_ADDSTEPS);
+            clear = 0;
             write8 (ea, 0);
-            
             cycles.intValue += 6;
             break;
         case 0x7f:
             ea = ea_extended ();
             vecx.vectrexNonCPUStep(1+PRE_CLR_STEPS);
             inst_clr ();
+            clear = 1;
             read8(ea); // clear reads! important for shift reg emulation! e.g.
+            clear = 0;
             vecx.vectrexNonCPUStep(2+1+POST_CLR_ADDSTEPS);
             write8 (ea, 0);
-            
             cycles.intValue += 7;
             break;
             /* suba */
@@ -1778,7 +1805,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_a = inst_sub8 (reg_a, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xa0:
@@ -1786,7 +1812,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(1);
             reg_a = inst_sub8 (reg_a, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xb0:
@@ -1800,7 +1825,6 @@ int e6809_sstep (int irq_i, int irq_f)
         case 0xc0:
             vecx.vectrexNonCPUStep(1+1);
             reg_b = inst_sub8 (reg_b, pc_read8 ())&0xff;
-            
             cycles.intValue += 2;
             break;
         case 0xd0:
@@ -1808,7 +1832,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_b = inst_sub8 (reg_b, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xe0:
@@ -1816,7 +1839,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_b = inst_sub8 (reg_b, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xf0:
@@ -1824,14 +1846,12 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(1);
             reg_b = inst_sub8 (reg_b, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 5;
             break;
             /* cmpa */
         case 0x81:
             vecx.vectrexNonCPUStep(1+1);
             inst_sub8 (reg_a, pc_read8 ());
-            
             cycles.intValue += 2;
             break;
         case 0x91:
@@ -1839,7 +1859,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(1);
             inst_sub8 (reg_a, read8 (ea));
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xa1:
@@ -1847,7 +1866,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(1);
             inst_sub8 (reg_a, read8 (ea));
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xb1:
@@ -1861,15 +1879,13 @@ int e6809_sstep (int irq_i, int irq_f)
         case 0xc1:
             vecx.vectrexNonCPUStep(1+1);
             inst_sub8 (reg_b, pc_read8 ());
-            
             cycles.intValue += 2;
             break;
         case 0xd1:
-            ea = ea_direct ();
+            ea = ea_direct();
             vecx.vectrexNonCPUStep(3);
             inst_sub8 (reg_b, read8 (ea));
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xe1:
@@ -1877,7 +1893,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             inst_sub8 (reg_b, read8 (ea));
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xf1:
@@ -1885,14 +1900,12 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(4);
             inst_sub8 (reg_b, read8 (ea));
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 5;
             break;
             /* sbca */
         case 0x82:
             vecx.vectrexNonCPUStep(1+1);
             reg_a = inst_sbc (reg_a, pc_read8 ())&0xff;
-            
             cycles.intValue += 2;
             break;
         case 0x92:
@@ -1900,14 +1913,12 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_a = inst_sbc (reg_a, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xa2:
             ea = ea_indexed (cycles);
             vecx.vectrexNonCPUStep(3);
             reg_a = inst_sbc (reg_a, read8 (ea))&0xff;
-            
             vecx.vectrexNonCPUStep(1);
             cycles.intValue += 4;
             break;
@@ -1916,14 +1927,12 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(4);
             reg_a = inst_sbc (reg_a, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 5;
             break;
             /* sbcb */
         case 0xc2:
             vecx.vectrexNonCPUStep(1+1);
             reg_b = inst_sbc (reg_b, pc_read8 ())&0xff;
-            
             cycles.intValue += 2;
             break;
         case 0xd2:
@@ -1931,7 +1940,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_b = inst_sbc (reg_b, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xe2:
@@ -1939,7 +1947,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_b = inst_sbc (reg_b, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xf2:
@@ -1947,14 +1954,12 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(4);
             reg_b = inst_sbc (reg_b, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 5;
             break;
             /* anda */
         case 0x84:
             vecx.vectrexNonCPUStep(1+1);
             reg_a = inst_and (reg_a, pc_read8 ())&0xff;
-            
             cycles.intValue += 2;
             break;
         case 0x94:
@@ -1962,7 +1967,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_a = inst_and (reg_a, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xa4:
@@ -1970,7 +1974,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_a = inst_and (reg_a, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xb4:
@@ -1978,14 +1981,12 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(4);
             reg_a = inst_and (reg_a, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 5;
             break;
             /* andb */
         case 0xc4:
             vecx.vectrexNonCPUStep(1+1);
             reg_b = inst_and (reg_b, pc_read8 ())&0xff;
-            
             cycles.intValue += 2;
             break;
         case 0xd4:
@@ -1993,7 +1994,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_b = inst_and (reg_b, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xe4:
@@ -2001,7 +2001,6 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3);
             reg_b = inst_and (reg_b, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xf4:
@@ -2009,79 +2008,62 @@ int e6809_sstep (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(4);
             reg_b = inst_and (reg_b, read8 (ea))&0xff;
             vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 5;
             break;
             /* bita */
         case 0x85:
             vecx.vectrexNonCPUStep(1+1);
             inst_and (reg_a, pc_read8 ());
-            
             cycles.intValue += 2;
             break;
         case 0x95:
             ea = ea_direct ();
-            vecx.vectrexNonCPUStep(3);
+            vecx.vectrexNonCPUStep(4);
             inst_and (reg_a, read8 (ea));
-            vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xa5:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(3);
+            vecx.vectrexNonCPUStep(4);
             inst_and (reg_a, read8 (ea));
-            vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xb5:
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(4);
+            vecx.vectrexNonCPUStep(5);
             inst_and (reg_a, read8 (ea));
-            vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 5;
             break;
             /* bitb */
         case 0xc5:
             vecx.vectrexNonCPUStep(1+1);
             inst_and (reg_b, pc_read8 ());
-            
             cycles.intValue += 2;
             break;
         case 0xd5:
             ea = ea_direct ();
-            vecx.vectrexNonCPUStep(3);
+            vecx.vectrexNonCPUStep(4);
             inst_and (reg_b, read8 (ea));
-            vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xe5:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(3);
+            vecx.vectrexNonCPUStep(4);
             inst_and (reg_b, read8 (ea));
-            vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 4;
             break;
         case 0xf5:
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(4);
+            vecx.vectrexNonCPUStep(5);
             inst_and (reg_b, read8 (ea));
-            vecx.vectrexNonCPUStep(1);
-            
             cycles.intValue += 5;
             break;
             /* lda */
         case 0x86:
             reg_a = pc_read8 ();
 dataBUS = reg_a;
-            
             vecx.vectrexNonCPUStep(1+1);
             inst_tst8 (reg_a);
-            
             cycles.intValue += 2;
             break;
         case 0x96:
@@ -2145,7 +2127,6 @@ dataBUS = reg_b;
             ea = ea_direct ();
             vecx.vectrexNonCPUStep(3+1);
             write8 (ea, reg_a);
-            
             inst_tst8 (reg_a);
             cycles.intValue += 4;
             break;
@@ -2168,8 +2149,10 @@ dataBUS = reg_b;
             /* stb */
         case 0xd7:
             ea = ea_direct ();
-            vecx.vectrexNonCPUStep(3+1);
+//            vecx.vectrexNonCPUStep(3+1);
+            vecx.vectrexNonCPUStep(3);
             write8 (ea, reg_b);
+    vecx.vectrexNonCPUStep(1);
             
             inst_tst8 (reg_b);
             cycles.intValue += 4;
@@ -2520,50 +2503,45 @@ dataBUS = reg_b;
         case 0x9f:
             ea = ea_direct ();
             vecx.vectrexNonCPUStep(3+1);
-            write16 (ea, reg_x, true);
+            write16_cycloid(ea, reg_x); // executes one non cpu step in between
             inst_tst16 (reg_x);
-            vecx.vectrexNonCPUStep(1);
             cycles.intValue += 5;
             break;
         case 0xaf:
             ea = ea_indexed (cycles);
             vecx.vectrexNonCPUStep(3);
-            write16 (ea, reg_x, true);
+            write16_cycloid(ea, reg_x);
             inst_tst16 (reg_x);
             vecx.vectrexNonCPUStep(1);
             cycles.intValue += 5;
             break;
         case 0xbf:
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(4);
-            write16 (ea, reg_x, true);
+            vecx.vectrexNonCPUStep(5);
+            write16_cycloid(ea, reg_x);
             inst_tst16 (reg_x);
-            vecx.vectrexNonCPUStep(1);
             cycles.intValue += 6;
             break;
             /* stu */
         case 0xdf:
             ea = ea_direct ();
-            vecx.vectrexNonCPUStep(3);
-            write16 (ea, reg_u.intValue, true);
+            vecx.vectrexNonCPUStep(4);
+            write16_cycloid(ea, reg_u.intValue);
             inst_tst16 (reg_u.intValue);
-            vecx.vectrexNonCPUStep(1);
             cycles.intValue += 5;
             break;
         case 0xef:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(3);
-            write16 (ea, reg_u.intValue, true);
+            vecx.vectrexNonCPUStep(4);
+            write16_cycloid(ea, reg_u.intValue);
             inst_tst16 (reg_u.intValue);
-            vecx.vectrexNonCPUStep(1);
             cycles.intValue += 5;
             break;
         case 0xff:
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(4);
-            write16 (ea, reg_u.intValue, true);
+            vecx.vectrexNonCPUStep(5);
+            write16_cycloid(ea, reg_u.intValue);
             inst_tst16 (reg_u.intValue);
-            vecx.vectrexNonCPUStep(1);
             cycles.intValue += 6;
             break;
             /* addd */
@@ -2602,52 +2580,46 @@ dataBUS = reg_b;
             break;
         case 0xdc:
             ea = ea_direct ();
-            vecx.vectrexNonCPUStep(2+1);
-            set_reg_d (read16 (ea, true));
-            vecx.vectrexNonCPUStep(2);
+            vecx.vectrexNonCPUStep(3);
+            set_reg_d (read16_cycloid(ea));
+            vecx.vectrexNonCPUStep(1);
             inst_tst16 (get_reg_d ());
             cycles.intValue += 5;
             break;
         case 0xec:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(2+1);
-            set_reg_d (read16 (ea, true));
-            vecx.vectrexNonCPUStep(2);
+            vecx.vectrexNonCPUStep(3);
+            set_reg_d (read16_cycloid(ea));
+            vecx.vectrexNonCPUStep(1);
             inst_tst16 (get_reg_d ());
             cycles.intValue += 5;
             break;
         case 0xfc:
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(3+1);
-            set_reg_d (read16 (ea, true));
-            vecx.vectrexNonCPUStep(2);
+            vecx.vectrexNonCPUStep(5);
+            set_reg_d (read16_cycloid(ea));
             inst_tst16 (get_reg_d ());
             cycles.intValue += 6;
             break;
             /* std */
-        case 0xdd:
+        case 0xdd: 
             ea = ea_direct ();
-            vecx.vectrexNonCPUStep(3);
-            write16 (ea, get_reg_d (), true);
+            vecx.vectrexNonCPUStep(4);
+            write16_cycloid(ea, get_reg_d());
             inst_tst16 (get_reg_d ());
-            vecx.vectrexNonCPUStep(1);
             cycles.intValue += 5;
             break;
         case 0xed:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(3);
-            write16 (ea, get_reg_d (), true);
-            vecx.vectrexNonCPUStep(1);
-            
+            vecx.vectrexNonCPUStep(4);
+            write16_cycloid(ea, get_reg_d ());
             inst_tst16 (get_reg_d ());
             cycles.intValue += 5;
             break;
-        case 0xfd:
+        case 0xfd: 
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(4);
-            write16 (ea, get_reg_d (), true);
-            vecx.vectrexNonCPUStep(1);
-            
+            vecx.vectrexNonCPUStep(5);
+            write16_cycloid(ea, get_reg_d ());
             inst_tst16 (get_reg_d ());
             cycles.intValue += 6;
             break;
@@ -2728,7 +2700,6 @@ dataBUS = reg_b;
         case 0x16:
             r = pc_read16 ();
             reg_pc = (reg_pc+r)&0xffff;
-            
             cycles.intValue += 5;
             vecx.vectrexNonCPUStep(5);
             break;
@@ -2979,17 +2950,6 @@ dataBUS = reg_b;
             break;
             /* cwai */
         case 0x3c:
-/*            
-// malban seeking Polar Rescue!            
-byte tmp = (byte)pc_read8 ();
-set_cc (FLAG_E, 1);
-inst_psh (0xff, reg_s, reg_u, cycles);
-irq_status = IRQ_CWAI;
-reg_cc &= tmp;
-
-            // dont care analog
-            cycles.intValue += 4;
-*/
             reg_cc &= pc_read8 ();
             set_cc (FLAG_E, true);
             inst_psh (0xff, reg_s, reg_u, cycles);
@@ -3007,7 +2967,7 @@ reg_cc &= tmp;
 //            vecx.vectrexNonCPUStep(2);
             
             switch (op) {
-                    /* lbra */
+                    /* lbra  NOT TRUE */
                 case 0x20:
                     /* lbrn */
                 case 0x21:
@@ -3065,24 +3025,22 @@ reg_cc &= tmp;
                     break;
                 case 0x93:
                     ea = ea_direct ();
-                    vecx.vectrexNonCPUStep(6);
-                    inst_sub16 (get_reg_d (), read16 (ea, true));
+                    vecx.vectrexNonCPUStep(5);
+                    inst_sub16 (get_reg_d (), read16_cycloid(ea));
                     vecx.vectrexNonCPUStep(1);
                     cycles.intValue += 7;
                     break;
                 case 0xa3:
                     ea = ea_indexed (cycles);
-                    vecx.vectrexNonCPUStep(6);
-                    inst_sub16 (get_reg_d (), read16 (ea, true));
-                    
+                    vecx.vectrexNonCPUStep(5);
+                    inst_sub16 (get_reg_d (), read16_cycloid(ea));
                     vecx.vectrexNonCPUStep(1);
                     cycles.intValue += 7;
                     break;
                 case 0xb3:
                     ea = ea_extended ();
-                    vecx.vectrexNonCPUStep(7);
-                    inst_sub16 (get_reg_d (), read16 (ea, true));
-                    
+                    vecx.vectrexNonCPUStep(6);
+                    inst_sub16 (get_reg_d (), read16_cycloid(ea));
                     vecx.vectrexNonCPUStep(1);
                     cycles.intValue += 8;
                     break;
@@ -4427,7 +4385,6 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             vecx.vectrexNonCPUStep(3+1);
             //write8 (ea, reg_b);
             vecx.e6809_write8(ea, reg_b);
-            
             reg_cc = ((reg_b & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = ((reg_b&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
             reg_cc = (reg_cc & ~FLAG_V);
@@ -4850,7 +4807,7 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
     vecx.vectrexNonCPUStep(3+1);
             
-            vecx.e6809_write8(ea, reg_x>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_x);
+            vecx.e6809_write8(ea, reg_x>> 8);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_x);
 
             reg_cc = ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
@@ -4862,7 +4819,7 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             ea = ea_indexed (cycles);
     vecx.vectrexNonCPUStep(3+1);
             
-            vecx.e6809_write8(ea, reg_x>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_x);
+            vecx.e6809_write8(ea, reg_x>> 8);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_x);
             reg_cc =  ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
             reg_cc = (reg_cc & ~FLAG_V);
@@ -4873,7 +4830,7 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
     vecx.vectrexNonCPUStep(4+1);
             
-            vecx.e6809_write8(ea, reg_x>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_x);
+            vecx.e6809_write8(ea, reg_x>> 8);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_x);
             // dont care analog
             reg_cc =  ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
@@ -4885,7 +4842,7 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             //ea = ea_direct ();
             ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
     vecx.vectrexNonCPUStep(3+1);
-            vecx.e6809_write8(ea, reg_u.intValue>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_u.intValue);
+            vecx.e6809_write8(ea, reg_u.intValue>> 8);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_u.intValue);
             reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
             reg_cc = (reg_cc & ~FLAG_V);
@@ -4894,7 +4851,7 @@ int e6809_sstep_opt (int irq_i, int irq_f)
         case 0xef:
             ea = ea_indexed (cycles);
     vecx.vectrexNonCPUStep(3+1);
-            vecx.e6809_write8(ea, reg_u.intValue>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_u.intValue);
+            vecx.e6809_write8(ea, reg_u.intValue>> 8);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_u.intValue);
             reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
             reg_cc = (reg_cc & ~FLAG_V);
@@ -4904,7 +4861,7 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
     vecx.vectrexNonCPUStep(4+1);
             
-            vecx.e6809_write8(ea, reg_u.intValue>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_u.intValue);
+            vecx.e6809_write8(ea, reg_u.intValue>> 8);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_u.intValue);
             reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
             reg_cc = (reg_cc & ~FLAG_V);
@@ -4950,11 +4907,10 @@ int e6809_sstep_opt (int irq_i, int irq_f)
         case 0xdc:
             //ea = ea_direct ();
             ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
-            vecx.vectrexNonCPUStep(2+1);
+            vecx.vectrexNonCPUStep(4);
             tmp = vecx.e6809_read8(ea);
             vecx.vectrexNonCPUStep(1);
             set_reg_d ((tmp << 8)| vecx.e6809_read8((ea + 1) & 0xffff));
-            vecx.vectrexNonCPUStep(1);
             reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
             reg_cc = (reg_cc & ~FLAG_V);
@@ -4962,11 +4918,10 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             break;
         case 0xec:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(2+1);
+            vecx.vectrexNonCPUStep(4);
             tmp = vecx.e6809_read8(ea);
             vecx.vectrexNonCPUStep(1);
             set_reg_d ((tmp << 8)| vecx.e6809_read8((ea + 1) & 0xffff));
-            vecx.vectrexNonCPUStep(1);
             reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
             reg_cc = (reg_cc & ~FLAG_V);
@@ -4974,12 +4929,10 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             break;
         case 0xfc:
             ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
-            vecx.vectrexNonCPUStep(3+1);
-            
+            vecx.vectrexNonCPUStep(5);
             tmp = vecx.e6809_read8(ea);
             vecx.vectrexNonCPUStep(1);
             set_reg_d ((tmp << 8)| vecx.e6809_read8((ea + 1) & 0xffff));
-            vecx.vectrexNonCPUStep(1);
             reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
             reg_cc = (reg_cc & ~FLAG_V);
@@ -4987,9 +4940,8 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             break;
             /* std */
         case 0xdd:
-            //ea = ea_direct ();
             ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
-            vecx.vectrexNonCPUStep(3+1);
+            vecx.vectrexNonCPUStep(4);
             vecx.e6809_write8(ea, reg_a);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_b);            
             reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
             reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);

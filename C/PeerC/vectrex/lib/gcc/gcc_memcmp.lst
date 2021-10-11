@@ -1,0 +1,94 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	gcc_memcmp.c
+                              6 	.area	.text
+                              7 	.globl	_memcmp
+   0000                       8 _memcmp:
+   0000 34 40         [ 6]    9 	pshs	u
+   0002 32 74         [ 5]   10 	leas	-12,s
+   0004 AF 66         [ 6]   11 	stx	6,s
+                             12 	; ldx	6,s	; optimization 5
+   0006 AF 68         [ 6]   13 	stx	8,s
+   0008 AE E8 10      [ 6]   14 	ldx	16,s
+   000B AF 6A         [ 6]   15 	stx	10,s
+   000D 20 46         [ 3]   16 	bra	L2
+   000F                      17 L8:
+   000F E6 F8 08      [ 8]   18 	ldb	[8,s]
+   0012 E7 E4         [ 4]   19 	stb	,s
+   0014 E6 F8 0A      [ 8]   20 	ldb	[10,s]
+   0017 6F 61         [ 7]   21 	clr	1,s
+   0019 E1 E4         [ 4]   22 	cmpb	,s	;cmpqi:(R)
+   001B 27 04         [ 3]   23 	beq	L3
+   001D C6 01         [ 2]   24 	ldb	#1
+   001F E7 61         [ 5]   25 	stb	1,s
+   0021                      26 L3:
+   0021 EC 68         [ 6]   27 	ldd	8,s
+   0023 C3 00 01      [ 4]   28 	addd	#1; addhi3,3
+   0026 ED 68         [ 6]   29 	std	8,s
+   0028 EC 6A         [ 6]   30 	ldd	10,s
+   002A C3 00 01      [ 4]   31 	addd	#1; addhi3,3
+   002D ED 6A         [ 6]   32 	std	10,s
+   002F 6D 61         [ 7]   33 	tst	1,s
+   0031 27 22         [ 3]   34 	beq	L2
+   0033 EE 68         [ 6]   35 	ldu	8,s
+   0035 30 5F         [ 5]   36 	leax	-1,u
+   0037 E6 84         [ 4]   37 	ldb	,x
+   0039 E7 64         [ 5]   38 	stb	4,s
+   003B EE 6A         [ 6]   39 	ldu	10,s
+   003D 30 5F         [ 5]   40 	leax	-1,u
+   003F E6 84         [ 4]   41 	ldb	,x
+   0041 E1 64         [ 5]   42 	cmpb	4,s	;cmpqi:(R)
+   0043 23 06         [ 3]   43 	bls	L4
+   0045 C6 FF         [ 2]   44 	ldb	#-1
+   0047 E7 63         [ 5]   45 	stb	3,s
+   0049 20 04         [ 3]   46 	bra	L5
+   004B                      47 L4:
+   004B C6 01         [ 2]   48 	ldb	#1
+   004D E7 63         [ 5]   49 	stb	3,s
+   004F                      50 L5:
+   004F E6 63         [ 5]   51 	ldb	3,s
+   0051 E7 62         [ 5]   52 	stb	2,s
+   0053 20 1F         [ 3]   53 	bra	L6
+   0055                      54 L2:
+   0055 6F 65         [ 7]   55 	clr	5,s
+   0057 AE E8 12      [ 6]   56 	ldx	18,s
+   005A 8C 00 00      [ 4]   57 	cmpx	#0
+   005D 27 04         [ 3]   58 	beq	L7
+   005F C6 01         [ 2]   59 	ldb	#1
+   0061 E7 65         [ 5]   60 	stb	5,s
+   0063                      61 L7:
+   0063 EC E8 12      [ 6]   62 	ldd	18,s
+   0066 C3 FF FF      [ 4]   63 	addd	#-1; addhi3,3
+   0069 ED E8 12      [ 6]   64 	std	18,s
+   006C 6D 65         [ 7]   65 	tst	5,s
+   006E 10 26 FF 9D   [ 6]   66 	lbne	L8
+   0072 6F 62         [ 7]   67 	clr	2,s
+   0074                      68 L6:
+   0074 E6 62         [ 5]   69 	ldb	2,s
+   0076 32 6C         [ 5]   70 	leas	12,s
+   0078 35 C0         [ 7]   71 	puls	u,pc
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 1
+Hexadecimal [16-Bits]                                 Mon May 11 16:29:49 2020
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 L2                 0055 R   |   2 L3                 0021 R
+  2 L4                 004B R   |   2 L5                 004F R
+  2 L6                 0074 R   |   2 L7                 0063 R
+  2 L8                 000F R   |   2 _memcmp            0000 GR
+
+ASxxxx Assembler V05.31  (Motorola 6809)                                Page 2
+Hexadecimal [16-Bits]                                 Mon May 11 16:29:49 2020
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size   7A   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

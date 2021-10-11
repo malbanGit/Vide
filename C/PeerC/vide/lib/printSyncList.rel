@@ -1,102 +1,119 @@
-;!FILE /Users/chrissalo/NetBeansProjects/Vide/tmp/veccyAsm.pre.asx.s
+;!FILE /Users/chrissalo/NetBeansProjects/Vide/C/PeerC/vide/lib/printSyncList.s
 XH2
-H 8 areas 31 global symbols 4 banks 1 modes
+H 3 areas 3D global symbols 2 banks 1 modes
 M printSyncList.s
 G 00 00 80 81 82 83 84 85 86 87 88 89 8A 8B 8C 8D 8E 8F
 B _CSEG base 0 size 0 map 0 flags 0
 B _DSEG base 0 size 0 map 0 flags 4 fsfx _DS
-B rom base 0 size 8000 map 0 flags 7 fsfx _rom
-B ram base C880 size 36B map 0 flags 7 fsfx _ram
 S .__.ABS. Def0000
 A _CODE size 0 flags CC80 bank 0
 A _DATA size 0 flags CCC0 bank 1
-A .cartridge size 0 flags 8C80 bank 2
-A .text size 5F flags 8D80 bank 2
-S A$veccyAsm.pre.asx$100 Def002F
-S setPatternLoop Def0052
-S A$veccyAsm.pre.asx$110 Def003F
-S A$veccyAsm.pre.asx$101 Def0031
-S A$veccyAsm.pre.asx$120 Def0055
-S A$veccyAsm.pre.asx$111 Def0042
-S A$veccyAsm.pre.asx$121 Def0057
-S A$veccyAsm.pre.asx$112 Def0044
-S A$veccyAsm.pre.asx$122 Def005A
-S A$veccyAsm.pre.asx$113 Def0047
-S A$veccyAsm.pre.asx$104 Def0034
-S A$veccyAsm.pre.asx$114 Def004A
-S A$veccyAsm.pre.asx$105 Def0036
-S A$veccyAsm.pre.asx$115 Def004C
-S A$veccyAsm.pre.asx$106 Def0038
-S A$veccyAsm.pre.asx$116 Def004F
-S A$veccyAsm.pre.asx$126 Def005C
-S A$veccyAsm.pre.asx$108 Def003A
-S A$veccyAsm.pre.asx$127 Def005E
-S A$veccyAsm.pre.asx$109 Def003C
-S A$veccyAsm.pre.asx$119 Def0052
-S drawdone Def005C
-S zeroLoop Def0015
-S A$veccyAsm.pre.asx$71 Def0004
-S A$veccyAsm.pre.asx$81 Def0010
-S A$veccyAsm.pre.asx$91 Def001E
-S A$veccyAsm.pre.asx$82 Def0013
-S A$veccyAsm.pre.asx$92 Def0020
-S A$veccyAsm.pre.asx$74 Def0006
-S A$veccyAsm.pre.asx$93 Def0023
-S A$veccyAsm.pre.asx$75 Def0007
-S A$veccyAsm.pre.asx$94 Def0025
-S A$veccyAsm.pre.asx$95 Def0028
-S A$veccyAsm.pre.asx$86 Def0015
-S A$veccyAsm.pre.asx$77 Def0009
-S A$veccyAsm.pre.asx$68 Def0000
-S A$veccyAsm.pre.asx$96 Def002A
-S A$veccyAsm.pre.asx$87 Def0018
-S A$veccyAsm.pre.asx$78 Def000B
-S A$veccyAsm.pre.asx$69 Def0002
-S A$veccyAsm.pre.asx$88 Def0019
-S A$veccyAsm.pre.asx$79 Def000E
-S A$veccyAsm.pre.asx$89 Def001B
-S A$veccyAsm.pre.asx$99 Def002D
-S nextListEntry Def0034
+A .text size 63 flags D00
+S A$printSyncList$100 Def0041
+S A$printSyncList$110 Def0053
+S A$printSyncList$101 Def0043
+S A$printSyncList$111 Def0055
+S A$printSyncList$102 Def0045
+S A$printSyncList$112 Def0057
+S A$printSyncList$122 Def0061
+S A$printSyncList$104 Def0047
+S setPatternLoop Def0059
+S A$printSyncList$105 Def0049
+S A$printSyncList$115 Def0059
+S A$printSyncList$106 Def004B
+S A$printSyncList$116 Def005B
+S A$printSyncList$107 Def004D
+S A$printSyncList$117 Def005D
+S A$printSyncList$108 Def004F
+S A$printSyncList$118 Def005F
+S A$printSyncList$109 Def0051
+S A$printSyncList$50 Def0000
+S drawdone Def0061
+S A$printSyncList$60 Def000B
+S A$printSyncList$51 Def0002
+S A$printSyncList$70 Def0016
+S A$printSyncList$61 Def000D
+S A$printSyncList$80 Def0026
+S A$printSyncList$71 Def0018
+S A$printSyncList$53 Def0004
+S A$printSyncList$81 Def0027
+S A$printSyncList$63 Def000F
+S A$printSyncList$91 Def0036
+S A$printSyncList$82 Def0029
+S A$printSyncList$73 Def001A
+S A$printSyncList$64 Def0011
+S A$printSyncList$92 Def0038
+S A$printSyncList$83 Def002A
+S A$printSyncList$74 Def001C
+S A$printSyncList$56 Def0006
+S zeroLoop Def0013
+S A$printSyncList$84 Def002C
+S A$printSyncList$75 Def001E
+S A$printSyncList$57 Def0007
+S A$printSyncList$85 Def002E
+S A$printSyncList$95 Def003A
+S A$printSyncList$86 Def0030
+S A$printSyncList$77 Def0020
+S A$printSyncList$68 Def0013
+S A$printSyncList$59 Def0009
+S A$printSyncList$96 Def003C
+S A$printSyncList$87 Def0032
+S A$printSyncList$78 Def0022
+S A$printSyncList$69 Def0015
+S A$printSyncList$97 Def003E
+S A$printSyncList$79 Def0024
+S A$printSyncList$89 Def0034
+S LF33D22 Def0036
+S A$printSyncList$3 Def0000
+S nextListEntry Def0041
 S draw_synced_list Def0000
-S moveTo Def002D
+S moveTo Def003A
 S sync Def0006
-A .text.hot size 0 flags 8C80 bank 2
-A .text.unlikely size 0 flags 8C80 bank 2
-A .data size 0 flags 8C80 bank 3
-A .bss size 0 flags 8C80 bank 3
+T 00 00 00 01 D0 00
+P 00 00 00 02
 T 00 00
-R 00 00 00 03
+R 00 00 00 02
 T 00 00 34 02 34 04 A6 C0
-R 00 00 00 03
+R 00 00 00 02
 T 00 06
-R 00 00 00 03
-T 00 06 4A 26 53 C6 CC F7 D0 0C C6 07 7F D0 01
-R 00 00 00 03
-T 00 13 86 82
-R 00 00 00 03
-T 00 15
-R 00 00 00 03
-T 00 15 B7 D0 00 5A 26 FA 7C D0 00 A6 61 B7
-R 00 00 00 03
-T 00 21 D0 04 1F 10 BD F3 12 A6 E4 B7 D0 04
-R 00 00 00 03
-T 00 2D
-R 00 00 00 03
-T 00 2D EC C1 27 03 BD F3 12
-R 00 00 00 03
-T 00 34
-R 00 00 00 03
-T 00 34 A6 C0 27 F5 2A CC EC C1 B7 D0 01 7F
-R 00 00 00 03
-T 00 40 D0 00 86 FF 7C D0 00 F7 D0 01 C6 40 7F
-R 00 00 00 03
-T 00 4D D0 05 B7 D0 0A
-R 00 00 00 03
-T 00 52
-R 00 00 00 03
-T 00 52 F5 D0 0D 27 FB 7F D0 0A 20 D8
-R 00 00 00 03
-T 00 5C
-R 00 00 00 03
-T 00 5C 35 06 39
-R 00 00 00 03
+R 00 00 00 02
+T 00 06 4A 26 58 C6 CC D7 D0 0C C6 03 0F D0 01
+R 00 00 00 02 20 08 00 01 20 0D 00 01
+T 00 11 86 82
+R 00 00 00 02
+T 00 13
+R 00 00 00 02
+T 00 13 97 D0 00 5A 26 FB 0C D0 00 A6 61 97
+R 00 00 00 02 20 03 00 01 20 09 00 01
+T 00 1D D0 04 1F 10 97 D0 01 86 CE 97
+R 00 00 00 02 20 02 00 01 20 07 00 01
+T 00 25 D0 0C 4F 97 D0 00 12 0C
+R 00 00 00 02 20 02 00 01 20 06 00 01
+T 00 2B D0 00 D7 D0 01 97
+R 00 00 00 02 20 02 00 01 20 05 00 01
+T 00 2F D0 05 A6 E4 97 D0 04 C6 40 D5
+R 00 00 00 02 20 02 00 01 20 07 00 01
+T 00 37 D0 0D 27 FC
+R 00 00 00 02 20 02 00 01
+T 00 3A
+R 00 00 00 02
+T 00 3A EC C1 27 03 BD F3 12
+R 00 00 00 02
+T 00 41
+R 00 00 00 02
+T 00 41 A6 C0 27 F5 2A BF EC C1 97 D0 01 0F
+R 00 00 00 02 20 0B 00 01
+T 00 4C D0 00 86 FF 0C D0 00 D7
+R 00 00 00 02 20 02 00 01 20 07 00 01
+T 00 52 D0 01 C6 40 0F D0 05 97
+R 00 00 00 02 20 02 00 01 20 07 00 01
+T 00 58 D0 0A
+R 00 00 00 02 20 02 00 01
+T 00 59
+R 00 00 00 02
+T 00 59 D5 D0 0D 27 FC 0F D0 0A 20 E0
+R 00 00 00 02 20 03 00 01 20 08 00 01
+T 00 61
+R 00 00 00 02
+T 00 61 35 86
+R 00 00 00 02

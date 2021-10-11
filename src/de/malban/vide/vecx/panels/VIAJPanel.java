@@ -15,6 +15,8 @@ import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.Updatable;
 import de.malban.vide.vecx.VecXState;
+import de.malban.vide.vecx.cartridge.Cartridge;
+import de.malban.vide.vecx.cartridge.DS2431;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -104,6 +106,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
 
     VecXState lastDisplayed = new VecXState();
     VecXState currentDisplayed = new VecXState();
+    boolean start = true;
     private void update()
     {
         if (vecxPanel==null) return;
@@ -113,7 +116,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
         
         jLabel11.setText("$"+String.format("%02X", currentDisplayed.via_orb));
         
-        if (currentDisplayed.via_acr != lastDisplayed.via_acr)
+        if ((currentDisplayed.via_acr != lastDisplayed.via_acr) || (start))
         {
             if ((currentDisplayed.via_acr & 0x80)!=0)  
             {
@@ -126,22 +129,27 @@ public class VIAJPanel extends javax.swing.JPanel implements
                 jTextField1.setEnabled(true);
             }
         }
-        if (currentDisplayed.via_t1pb7 != lastDisplayed.via_t1pb7)
+        if ((currentDisplayed.via_t1pb7 != lastDisplayed.via_t1pb7)|| (start))
             jTextField17.setText(""+(((currentDisplayed.via_t1pb7&0x80)==0x80)?"1":"0"));
-        if (currentDisplayed.via_orb != lastDisplayed.via_orb)
+        if ((currentDisplayed.via_orb != lastDisplayed.via_orb)|| (start))
             jTextField1.setText(""+(((currentDisplayed.via_orb&0x80)==0x80)?"1":"0"));
         
+//        Cartridge currentCart = vecxPanel.getCartridge();
+//        DS2431 currentDS1 = vecxPanel.getDS2431();
+//        boolean pb6_c = currentCart.currentPB6;
+//        String pb6_d = currentDS1.getLineIn();
     //    from vec out
-        if (currentDisplayed.pb6_out != lastDisplayed.pb6_out)
+        if ((currentDisplayed.pb6_out != lastDisplayed.pb6_out)|| (start))
             jTextField2.setText(""+(((currentDisplayed.pb6_out&0x40)==0x40)?"1":"0"));
-
+        
+        
 //        from ext in
-        if (currentDisplayed.pb6_in != lastDisplayed.pb6_in)
+        if ((currentDisplayed.pb6_in != lastDisplayed.pb6_in)|| (start))
             jTextField18.setText(""+(((currentDisplayed.pb6_in&0x40)==0x40)?"1":"0"));
 
-        if (currentDisplayed.alg_compare != lastDisplayed.alg_compare)
+        if ((currentDisplayed.alg_compare != lastDisplayed.alg_compare)|| (start))
              jTextField3.setText(""+(((currentDisplayed.alg_compare&0x20)==0x20)?"1":"0"));
-        if (currentDisplayed.via_orb != lastDisplayed.via_orb)
+        if ((currentDisplayed.via_orb != lastDisplayed.via_orb)|| (start))
         {
             jTextField4.setText(""+(((currentDisplayed.via_orb&0x10)==0x10)?"1":"0"));
             jTextField5.setText(""+(((currentDisplayed.via_orb&0x08)==0x08)?"1":"0"));
@@ -160,7 +168,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
             data = vecxPanel.getE8910State().snd_regs[vecxPanel.getVecXState().snd_select];
         } 
 */
-        if (currentDisplayed.via_ora != lastDisplayed.via_ora)
+        if ((currentDisplayed.via_ora != lastDisplayed.via_ora)|| (start))
         {
             jLabel12.setText("$"+String.format("%02X", data));
             jTextField9.setText(""+(((data&0x80)==0x80)?"1":"0"));
@@ -173,7 +181,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
             jTextField16.setText(""+(((data&0x01)==0x01)?"1":"0"));
         }
         
-        if (currentDisplayed.via_ddrb != lastDisplayed.via_ddrb)
+        if ((currentDisplayed.via_ddrb != lastDisplayed.via_ddrb)|| (start))
         {
             jLabel32.setText("$"+String.format("%02X", currentDisplayed.via_ddrb));
             jTextField35.setText(""+(((currentDisplayed.via_ddrb&0x80)==0x80)?"1":"0"));
@@ -199,7 +207,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
             jTextField7.setBackground((((currentDisplayed.via_ddrb&0x02)==0x02)?(output):(input)));
             jTextField8.setBackground((((currentDisplayed.via_ddrb&0x01)==0x01)?(output):(input)));
         }
-        if (currentDisplayed.via_ddra != lastDisplayed.via_ddra)
+        if ((currentDisplayed.via_ddra != lastDisplayed.via_ddra)|| (start))
         {
             jLabel30.setText("$"+String.format("%02X", currentDisplayed.via_ddra));
             jTextField27.setText(""+(((currentDisplayed.via_ddra&0x80)==0x80)?"1":"0"));
@@ -225,9 +233,9 @@ public class VIAJPanel extends javax.swing.JPanel implements
         tmp = (currentDisplayed.via_t1c>>8)&0xff;
         jLabel36.setText("$"+String.format("%02X", tmp));
         
-        if (currentDisplayed.via_t1ll != lastDisplayed.via_t1ll)
+        if ((currentDisplayed.via_t1ll != lastDisplayed.via_t1ll)|| (start))
             jLabel38.setText("$"+String.format("%02X", currentDisplayed.via_t1ll));
-        if (currentDisplayed.via_t1lh != lastDisplayed.via_t1lh)
+        if ((currentDisplayed.via_t1lh != lastDisplayed.via_t1lh)|| (start))
             jLabel40.setText("$"+String.format("%02X", currentDisplayed.via_t1lh));
 
         jLabel42.setText("$"+String.format("%02X", currentDisplayed.via_t2ll));
@@ -241,7 +249,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
         tmp = (currentDisplayed.via_t2c>>8)&0xff;
         jLabel44.setText("$"+String.format("%02X", tmp));
 
-        if (currentDisplayed.via_sr != lastDisplayed.via_sr)
+        if ((currentDisplayed.via_sr != lastDisplayed.via_sr)|| (start))
         {
             jLabel46.setText("$"+String.format("%02X", (currentDisplayed.via_sr&0xff)));
             jTextField91.setText(""+(((currentDisplayed.via_sr&0x80)==0x80)?"1":"0"));
@@ -253,7 +261,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
             jTextField97.setText(""+(((currentDisplayed.via_sr&0x02)==0x02)?"1":"0"));
             jTextField98.setText(""+(((currentDisplayed.via_sr&0x01)==0x01)?"1":"0"));
         }
-        if (currentDisplayed.via_acr != lastDisplayed.via_acr)
+        if ((currentDisplayed.via_acr != lastDisplayed.via_acr)|| (start))
         {
             jLabel20.setText("$"+String.format("%02X", currentDisplayed.via_acr));
             jTextField19.setText(""+(((currentDisplayed.via_acr&0x80)==0x80)?"1":"0"));
@@ -265,7 +273,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
             jTextField25.setText(""+(((currentDisplayed.via_acr&0x02)==0x02)?"1":"0"));
             jTextField26.setText(""+(((currentDisplayed.via_acr&0x01)==0x01)?"1":"0"));
         }
-        if (currentDisplayed.via_pcr != lastDisplayed.via_pcr)
+        if ((currentDisplayed.via_pcr != lastDisplayed.via_pcr)|| (start))
         {
             jLabel47.setText("$"+String.format("%02X", currentDisplayed.via_pcr));
             jTextField99.setText(""+(((currentDisplayed.via_pcr&0x80)==0x80)?"1":"0"));
@@ -277,7 +285,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
             jTextField105.setText(""+(((currentDisplayed.via_pcr&0x02)==0x02)?"1":"0"));
             jTextField106.setText(""+(((currentDisplayed.via_pcr&0x01)==0x01)?"1":"0"));
         }
-        if (currentDisplayed.via_ifr != lastDisplayed.via_ifr)
+        if ((currentDisplayed.via_ifr != lastDisplayed.via_ifr)|| (start))
         {
             jLabel55.setText("$"+String.format("%02X", currentDisplayed.via_ifr));
             jTextField115.setText(""+(((currentDisplayed.via_ifr&0x80)==0x80)?"1":"0"));
@@ -290,7 +298,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
             jTextField122.setText(""+(((currentDisplayed.via_ifr&0x01)==0x01)?"1":"0"));
         }
 
-        if (currentDisplayed.via_ier != lastDisplayed.via_ier)
+        if ((currentDisplayed.via_ier != lastDisplayed.via_ier)|| (start))
         {
             jLabel53.setText("$"+String.format("%02X", currentDisplayed.via_ier));
             jTextField107.setText(""+(((currentDisplayed.via_ier&0x80)==0x80)?"1":"0"));
@@ -302,7 +310,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
             jTextField113.setText(""+(((currentDisplayed.via_ier&0x02)==0x02)?"1":"0"));
             jTextField114.setText(""+(((currentDisplayed.via_ier&0x01)==0x01)?"1":"0"));
         }
-        if ((currentDisplayed.via_ier != lastDisplayed.via_ier) || (currentDisplayed.via_ifr != lastDisplayed.via_ifr))
+        if (((currentDisplayed.via_ier != lastDisplayed.via_ier) || (currentDisplayed.via_ifr != lastDisplayed.via_ifr))|| (start))
         {
             int interruptFlag = currentDisplayed.via_ifr & 127;
             int interruptEnable = currentDisplayed.via_ier & 127;
@@ -317,20 +325,21 @@ public class VIAJPanel extends javax.swing.JPanel implements
 
 
         
-        if (currentDisplayed.via_ora != lastDisplayed.via_ora)
+        if ((currentDisplayed.via_ora != lastDisplayed.via_ora)|| (start))
         {
             jLabel13.setText("$"+String.format("%02X", currentDisplayed.via_ora));
         }
 
-        if (currentDisplayed.via_ca1 != lastDisplayed.via_ca1)
+        if ((currentDisplayed.via_ca1 != lastDisplayed.via_ca1)|| (start))
             jTextField131.setText(""+((currentDisplayed.via_ca1 !=0 )?"1":"0"));
-        if (currentDisplayed.via_ca2 != lastDisplayed.via_ca2)
+        if ((currentDisplayed.via_ca2 != lastDisplayed.via_ca2)|| (start))
             jTextField132.setText(""+((currentDisplayed.via_ca2 !=0 )?"1":"0"));
-        if (currentDisplayed.sig_blank.intValue != lastDisplayed.sig_blank.intValue)
+        if ((currentDisplayed.sig_blank.intValue != lastDisplayed.sig_blank.intValue)|| (start))
             jTextField133.setText(""+((currentDisplayed.sig_blank.intValue !=0 )?"1":"0"));
 
 
         VecXState.shallowCopy(currentDisplayed, lastDisplayed, false, false);
+        start = false;
      }
 
     /**
@@ -602,6 +611,11 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jTextField2MousePressed(evt);
+            }
+        });
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
             }
         });
 
@@ -1573,7 +1587,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel48)
                     .addComponent(jTextField106, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2212,6 +2226,10 @@ public class VIAJPanel extends javax.swing.JPanel implements
     private void jTextField18MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField18MousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField18MousePressed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
     String popUpName = "";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

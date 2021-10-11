@@ -408,6 +408,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
             return;
         }
         selectedController = new EventController(controllers.get(index));
+        
         selectedController.addEventListerner(new ControllerListern()
         {
             @Override

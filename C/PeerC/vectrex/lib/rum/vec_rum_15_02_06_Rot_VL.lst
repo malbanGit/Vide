@@ -1,0 +1,38 @@
+                              1 ;;; gcc for m6809 : Mar 17 2019 13:25:32
+                              2 ;;; 4.3.6 (gcc6809)
+                              3 ;;; ABI version 1
+                              4 ;;; -mabi=bx -mint8 -fomit-frame-pointer -O0
+                              5 	.module	vec_rum_15_02_06_Rot_VL.c
+                              6 	.area	.text
+                              7 	.globl	__Rot_VL
+   0000                       8 __Rot_VL:
+   0000 34 40         [ 6]    9 	pshs	u
+   0002 32 7E         [ 5]   10 	leas	-2,s
+   0004 AF E4         [ 5]   11 	stx	,s
+                             12 ;----- asm -----
+                             13 ; 61 "source\vec_rum_15_02_06_Rot_VL.c" 1
+   0006 EE 66         [ 6]   14 	ldu 6,s
+   0008 BD 00 00      [ 8]   15 	jsr ___Rot_VL; BIOS call
+                             16 ;--- end asm ---
+   000B 32 62         [ 5]   17 	leas	2,s
+   000D 35 C0         [ 7]   18 	puls	u,pc
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 __Rot_VL           0000 GR  |     ___Rot_VL          **** GX
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 .text            size    F   flags  100
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+

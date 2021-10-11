@@ -23,6 +23,7 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.ShowErrorDialog;
 import de.malban.gui.panels.LogPanel;
+import de.malban.input.ControllerEvent;
 import de.malban.jogl.JOGLSupport;
 
 
@@ -83,12 +84,14 @@ import de.malban.vide.vecx.panels.VarJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import de.malban.vide.vedi.DebugInfoC;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.time.LocalDateTime;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -243,6 +246,7 @@ public class VecXPanel extends javax.swing.JPanel
         AbstractDevice.exitSync = false;
         DualVec.exitSync = false;
         initComponents();
+        //jCheckBox1.setVisible(false);
         vecx = new VecX();
         ensureDevices();
         initJoyportsFromFlag();
@@ -289,29 +293,30 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonLoadState = new javax.swing.JButton();
         jButtonSaveState = new javax.swing.JButton();
         jButtonStart = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(0, 0, 0));
         setName("vecxy"); // NOI18N
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                formMouseMoved(evt);
-            }
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 formMouseDragged(evt);
             }
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
         });
         addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                formMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                formMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 formMouseReleased(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                formMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                formMouseEntered(evt);
             }
         });
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -427,6 +432,13 @@ public class VecXPanel extends javax.swing.JPanel
             }
         });
 
+        jCheckBox1.setText("Peer Output");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -449,37 +461,48 @@ public class VecXPanel extends javax.swing.JPanel
                         .addComponent(jButtonPause))
                     .addComponent(jComboBoxJoyport1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxJoyport0, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(5, 5, 5)
-                .addComponent(jButtonStop)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSaveState)
-                .addGap(6, 6, 6)
-                .addComponent(jButtonLoadState)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonDebug)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jButtonStop)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSaveState)
+                        .addGap(6, 6, 6)
+                        .addComponent(jButtonLoadState)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDebug))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButtonStop, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jButtonSaveState, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDebug, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonLoadState, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonStart, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(1, 1, 1)))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxJoyport0, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonDebug, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonLoadState, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jButtonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jButtonStart, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(1, 1, 1)))
+                            .addComponent(jButtonStop, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSaveState, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxJoyport0, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jCheckBox1)))
                 .addGap(1, 1, 1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1361,6 +1384,10 @@ waitAMoment = false;
         ensureMyDissi();
     }//GEN-LAST:event_jButtonDebugActionPerformed
 
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        vecx.setPeerOutputEnabled(jCheckBox1.isSelected());
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
     
     public void setUpdateAllways(boolean b)
     {
@@ -1538,6 +1565,7 @@ waitAMoment = false;
     private javax.swing.JButton jButtonSaveState;
     private javax.swing.JButton jButtonStart;
     private javax.swing.JButton jButtonStop;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBoxJoyport0;
     private javax.swing.JComboBox jComboBoxJoyport1;
     private javax.swing.JLabel jLabel1;
@@ -2672,6 +2700,10 @@ waitAMoment = false;
     {
         vecx.e6809.reg_pc = addr;
     }
+    public void doNMI()
+    {
+        vecx.e6809.doNMI();
+    }
     
     public void setAllBreakpoints(ArrayList<Breakpoint>[] ab)
     {
@@ -3579,5 +3611,36 @@ waitAMoment = false;
         return vecx.trackyAbove;
     }
 
+    int old_x=0;
+    int old_y=0;
+    public void setMouseCoordinates(ControllerEvent event)
+    {
+        // test is mouse over vecx panel
+        // if so - set new coordinates
+        
+        if (displayPanel != null) 
+        {
+            JPanel panel = (JPanel)displayPanel;
+            Point p = panel.getMousePosition();
+            if (p != null)
+            {
+                float mx = p.x;
+                float my = p.y;
+                
+                float percentX = mx /((float)(panel.getWidth()));
+                float percentY = my /((float)(panel.getHeight()));
+                float maxVectrexPos = 256;
+                old_x = (int) (maxVectrexPos*percentX);
+                old_y = -(int) (maxVectrexPos*percentY);
+// $80 == 0
+// $ff ==right
+// $00 == left
+                old_x =(old_x&0xff);
+                old_y =(old_y&0xff);
+            }
+        }
+        event.x=old_x;
+        event.y=old_y;
+    }
     
 }
