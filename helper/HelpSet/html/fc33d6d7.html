@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222015" />
+<!-- created with HelpSetMaker, ID=fc33d6d7 -->
+<title>Explosion editor</title>
+</head>
+<body class="doc">
+<h1>Explosion editor</h1>
+<br/><p align="center">
+<img src="pics/ExplosionEditor.png" width="597" height="398" /><br/>
+<em>Explosion Editor</em></p><br/>
+
+<p>In this editor you can generate, save, load "explosion data" for use with the BIOS explosion routine. For a detailed description of the parameters, please look at the Bruce Tomlin disassembly.</p>
+
+<p>The generated explosion data always consists of 4 bytes which must be passed to the explosion routine.</p>
+
+<p>The GUI elements change the "generated" bytes directly (textfields &rarr; press return!), so you can see directly which bits/bytes are changed.</p>
+
+<p>Hitting "play" will generate a vectrex program which plays your current edited explosion upon a button press. </p>
+
+<p>You can also view (and edit) the generated "explosion source code" in Vide.</p>
+
+<p>Short "general" description:</p>
+
+<ol><li>
+<p>each explosion can use any number of channels (1-3).</p>
+</li><li>
+<p>each explosion can use tone and/or noise for each channel</p>
+</li><li>
+<p>the frequency/volume for all channels is the same</p>
+</li><li>
+<p>frequency (noise frequency, you can not set the tone frequency using this BIOS function)/volumne can swoop up and down or stay at a fixed value. (Frequency is a 5bit value, volume a 4bit value)</p>
+</li><li>
+<p>if a fixed value is used, than the values must be entered into the corresponding textfields</p>
+</li><li>
+<p>a duration of the effect can be given</p>
+</li></ol>
+
+<p>You can save - and load explosion configurations.</p>
+
+<p> </p>
+</body>
+</html>

@@ -518,11 +518,12 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
             if (isAnimation)
             {
                 GFXVectorAnimation animation = new GFXVectorAnimation(getChosenFilename());
+
                 if (animation.isAnimation)
                 {
                     
-    singleVectorPanel.setAnimation(new GFXVectorAnimation());
-    singleVectorPanel.setDelay(-1);
+                    singleVectorPanel.setAnimation(new GFXVectorAnimation());
+                    singleVectorPanel.setDelay(-1);
                     
                     
                     singleVectorPanel.setDelay(80);
@@ -542,9 +543,11 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
                     {
                         vl.add(animation.get(i));
                     }
-                    vl.connectWherePossible(false);
-
-                    singleVectorPanel.setForegroundVectorList(vl);
+                    if (vl.size()<200)
+                    {
+                        vl.connectWherePossible(false);
+                        singleVectorPanel.setForegroundVectorList(vl);
+                    }
                     
                 }
                 

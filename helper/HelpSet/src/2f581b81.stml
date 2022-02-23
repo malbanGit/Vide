@@ -46,19 +46,19 @@ The above mentioned AT24C02N 10SU-2.7 (which I will in the following only refere
 - SCL: Serial Clock Input
 - there are more pins (address pins if you have more than one I2C devices, write protect, etc) – but these do not concern us here
 
-In order to use the chip you must be able to write to the cartridge with one other external (cartridge port – Vectrex) signal.
+In order to use the chip you must be able to write to the cartridge with one other external (cartridge port - Vectrex) signal.
 
 How is that possible? ->  IRQ!
 
-The service manual is not very easy to interprete in this regard – cartridge pin 36 is connected to the ~IRQ pin of the processor.
+The service manual is not very easy to interprete in this regard - cartridge pin 36 is connected to the ~IRQ pin of the processor.
 
-VIA can generate interrupts (by timer, shifts, control lines etc), the schematics show the VIA ~IRQ pin connected to the RAM chips – which is nonsense. What is not nonsense is the fact that ~IRQ signals of VIA must reach the CPU, otherwise it would not be possible to generate interrupts at all (by VIA).
+VIA can generate interrupts (by timer, shifts, control lines etc), the schematics show the VIA ~IRQ pin connected to the RAM chip - which is nonsense. What is not nonsense is the fact that ~IRQ signals of VIA must reach the CPU, otherwise it would not be possible to generate interrupts at all (by VIA).
 
-And once the connection to the processor is made it stands to reason that the same TTL – level will be available at the cartridge port (at said pin 36).
+And once the connection to the processor is made it stands to reason that the same TTL - level will be available at the cartridge port (at said pin 36).
 
 Thus by generating an interrupt (~IRQ = 0) or by no interrupt (~IRQ = 1) you can programmatically change the value of pin 36 of the cartridge port!
 
-VIA interrupts can be very flexibly generated, enabled, disabled etc. Also – even if an interrupt is generated, that does not mean the microprocessor has to interrupt its work – you can (conditional code register – bit 4 – Interrupt Request Mask) tell the processor to ignore interrupts. So if you do it right you can set/unset the interrupt to your likings without disturbing your code.
+VIA interrupts can be very flexibly generated, enabled, disabled etc. Also – even if an interrupt is generated, that does not mean the microprocessor has to interrupt its work - you can (conditional code register - bit 4 - Interrupt Request Mask) tell the processor to ignore interrupts. So if you do it right you can set/unset the interrupt to your likings without disturbing your code.
 
 
 You can view current emulation status by opening a "cartridge" window (in dissi type "carti").

@@ -69,7 +69,7 @@ public class ExplosionEditor extends javax.swing.JPanel implements Windowable{
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Explosion Editor");
+        mParentMenuItem.setText("Sound: Explosion Editor");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -675,7 +675,7 @@ public class ExplosionEditor extends javax.swing.JPanel implements Windowable{
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ExplosionEditor panel = new ExplosionEditor(tl);
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  600, 400, "Explosion Editor");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  600, 400, "Sound: Explosion Editor");
     }        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

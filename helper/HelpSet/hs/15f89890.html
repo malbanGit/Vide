@@ -71,7 +71,7 @@ VIA register $b (auxiliary control register) is set to $98, which in bits is %10
 <i>count down to zero and than stop, also while counting down set PB7 to zero, when countdown is finished, set PB7 to one</i></p>
 </li><li>
 <p>Bit 4, 3 and 2 ["110"]: sets the bevaviour of the SHIFT Register of VIA, the "combined" behaviour setting result is:<br>
-<i>every two processor cycle shift out the MSB (most significant bit) to CB2, at the same time shift the MSB back to the LSB (least significant bit). Keep on shifting till I tell you something else [the actual shifting starts once the Shiftreg is read or written to]</i>.</p>
+<i>every two processor cycle shift out the MSB (most significant bit) to CB2, at the same time shift the MSB back to the LSB (least significant bit). Do one complete SHIFT (8bits) and keep blank set to the last shifted bit. (Also due to a "defect in VIA" shift the last bit twice - so a complete SHIFT "round" takes 18 processor cycles)</i>.</p>
 </li></ul>
 </p>
 

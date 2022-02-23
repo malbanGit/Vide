@@ -9,6 +9,9 @@
 <body>
 <hr />
 <h1>VIDE</h1>
+<br/><p align="center">
+<img src="pics/VideNameNormal.png" width="546" height="250" /><br/>
+<em>Vide</em></p><br/>
 
 <p>Vide is a collection of different sources - and some new creations - in a single application.<br />
 It is a <b>V</b>ectrex <b>I</b>ntegrated <b>D</b>evelopement <b>E</b>nvironment.</p>
@@ -62,14 +65,7 @@ This part will be called <b>vecci</b> further on.<br />
  <br />
  </p>
 </li><li>
-<p>perhaps more will follow, like: <br />
-some sound editing, <br />
-or ym-stuff, <br />
-or bitmap to vectrex conversion... <br />
- <br />
-who knows where all paths lead...<br />
- <br />
-You can start thinking about som <b>funni</b> names :-)</p>
+<p>and many small utilities that may or may not make the live of a vectrex developer more easy.</p>
 </li></ul>
 </p>
 
@@ -104,7 +100,7 @@ The icons can also be used under Creative Commons Attribution 3.0 License (Hi De
 <ul><li>
 <p>Each window is accessable (uniconify/bring to front), via the window menu</p>
 </li><li>
-<p>Using CTRL/TAB gives access to a âquickâ Window switcher</p>
+<p>Using CTRL/TAB gives access to a "quick" Window switcher</p>
 </li><li>
 <p>Windows can be iconified to the desktop</p>
 </li><li>
@@ -116,16 +112,18 @@ The icons can also be used under Creative Commons Attribution 3.0 License (Hi De
 <img src="pics/starter.png" width="1045" height="836" /><br/>
 <em>Starter window</em></p><br/>
 
-<p>Here all configured cartridge are listed (along with their properties). The starter is split into two halfes, the upper part a list of all "games", and the lower half an information panel. The list has some "excel-qualities" you can filter/sort the list right mouseclick for a popup with other configurations and even export it to excel (or whatever your favourite table application may be).</p>
+<p>Here all configured cartridges are listed (along with their properties). The starter is split into two halfes, the upper part a list of all "games", and the lower half an information panel. The list has some "excel-qualities" you can filter/sort the list right mouseclick for a popup with other configurations and even export it to excel (or whatever your favourite table application may be).</p>
 
 <p>A double click on a table entry starts the rom image behind the entry (or initiates a download first).</p>
+
+<p>You can add/change entries for the starter using the "Cartridge Information" (utility).</p>
 <hr />
 <h1>vecxi</h1>
 <br/><p align="center">
 <img src="pics/vecxi.png" width="531" height="678" /><br/>
 <em>vecxi emulation window</em></p><br/>
 
-<p>Emulation wise this is the heart of VIDE.  In the above example you can see the wonderful implementation of Cleansweep in the emulator.</p>
+<p>Emulation wise this is the heart of VIDE.  In the above example you can see  Cleansweep running in the emulator.</p>
 
 <p>The shown window is a preliminary version, I am sure the final output will be different!</p>
 
@@ -149,16 +147,10 @@ The icons can also be used under Creative Commons Attribution 3.0 License (Hi De
 </li><li>
 <p><b>save</b> <br />
  save a state</p>
-</li><li>
-<p><img src="pics/pencil.png" alt="pencil.png" /> <b>&nbsp;&nbsp;enable lightpen</b><br />
- (only in port 2 as of now)</p>
-</li><li>
-<p><img src="pics/color_wheel.png" alt="color_wheel.png" /> <b>&nbsp;&nbsp;enable imager</b><br />
- (not done yet)</p>
 </li></ul>
 </p>
 
-<p>Emulation and debuggings wise, vecxi is the center of VIDE. Once you load a rom and start emulation, a "dissi" window will pop up (if not already open).</p>
+<p>Emulation and debugging wise, vecxi is the center of VIDE. Once you load a rom and start emulation, a "dissi" window will pop up (if not already open - or might "pop" into an iconified state).</p>
 
 <p>From dissi you can access all other debugging utilities VIDE has to offer. . .</p>
 
@@ -172,7 +164,11 @@ The icons can also be used under Creative Commons Attribution 3.0 License (Hi De
 </li><li>
 <p>vecxi can be told to draw "arrows" rather than vectors, so you can see the direction of all vectors</p>
 </li><li>
-<p>many more...</p>
+<p>and much more...</p>
+</li><li>
+<p>keyboard shortcuts:<br />
+  "P" Pause/unpause<br />
+  "O" Overlay/no Overlay (if available)</p>
 </li></ul>
 </p>
 <hr />
@@ -344,10 +340,11 @@ Labels can be edited! When you enter the editor, you see all labels for <i>exact
 This is a hex-byte representation of this memory location (group)</p>
 </li><li>
 <p><b>Column 4 - Mnemonic</b><br />
-A Mnemonic representation of the underlying manchine language instruction - or a pseudo opcode for data (DB, DW).</p>
+A Mnemonic representation of the underlying manchine language instruction - or a pseudo opcode for data (DB, DW). Double click on an instruction will open a small help for the mnemonic (stay on top window).</p>
 </li><li>
 <p><b>Column 5 - Operand</b><br />
-Underlying operand of the machine language instruction or a representation of data.</p>
+Underlying operand of the machine language instruction or a representation of data. <br />
+If the operand represents a BIOS (Bruce Tomlin style) routine, you can double click the operand, and a small help (stay on top window) will be displayed.</p>
 </li><li>
 <p><b>Column 6 - Page</b><br />
 one of four possible states:<br />
@@ -516,6 +513,8 @@ and an assembler directive like:<br />
 </li></ul>
 
 <p>(as you see, these were commands that I at some stage needed while hacking VIDE together :-))</p>
+
+<p>You can enter simple "expression" and use the cli as a small calculator. Conversion between decimal, binary and hex is also supported.</p>
 <h3>Searching</h3>
 
 <p>On the bottom of dissi is a search field. Searches covers all kinds of labels and commentary</p>
@@ -592,6 +591,8 @@ Whenever this line is passed in emulation. The emulation is <b>not</b> stopped, 
 <p>you can give the print command a 16bit hex-number which must start with a "$", it than will print that address and the 8bit value stored in that address</p>
 </li><li>
 <p>you can print any known "variable" and its 8bit contents, the label must be proceded by a "$"</p>
+</li><li>
+<p>you can print all 6809 register and there values, write a hash before the register (e.g. #a for register a)</p>
 </li><li>
 <p>technically the string in the parantheses is "split("&nbsp;")" and all resulting words are interpreted with the above syntax, so in one line you can print as much as you like</p>
 </li></ul>
@@ -902,8 +903,16 @@ On both tables you do have the popup-menu to cast the data to anything you like.
 </li></ul>
 
 <p>Notice:<br />
-The callstack is not the contents of the stack!<br />
-The callstack only has "subroutine"-return-addresses!</p>
+
+<ul><li>
+<p>the callstack is not the contents of the stack!<br />
+</p>
+</li><li>
+<p>the callstack only has "subroutine"-return-addresses!</p>
+</li><li>
+<p>the callstack might also get confused if the stack is changed programmatically (like <tt>LDS&nbsp;&nbsp;&nbsp;#$C800</tt>)</p>
+</li></ul>
+</p>
 <hr />
 <h1>dumpi</h1>
 <br/><p align="center">
@@ -1599,7 +1608,9 @@ x Points selected<br />
 
 <ul><li>
 <p>"join here"<br />
-  Joins all points at the current location and truly joins them!</p>
+  Joins all points at the current location and truly joins them!<br />
+<b>NOTE</b><br />
+ Joining more than two vectors in one point is usualy a bad idea and might lead to unexpected results, when using some other "shortcuts" within vecci</p>
 </li></ul>
 </p>
 
@@ -1780,7 +1791,7 @@ SHIFT clicking the buttons MOVES one animation frame in the corresponding direct
 </p>
 <h2>Vecci format (Save/Load)</h2>
 
-<p>The vecvy save format is a straight forward XML-File with all data in appropriate sub structures.</p>
+<p>The vecci save format is a straight forward XML-File with all data in appropriate sub structures.</p>
 
 <ul><li>
 <p>a VectorAnimation consists of n XML-structures of the type GFXVectorList</p>
@@ -1829,6 +1840,44 @@ Select (multi select is supported) the vectors you want to apply the new setting
 <h3>Figure</h3>
 
 <p>Ignore these for now...</p>
+<h3>Faces- Hidden line removal</h3>
+<br/><p align="center">
+<img src="pics/faces.png" width="1491" height="870" /><br/>
+<em>Faces</em></p><br/>
+
+<p>Vecci is capable of doing a HLR (Hidden line removal) from the display of 3d-"figures". In order to do HLR following steps have to be considered:
+<ul><li>
+<p>the result of a HLR is a two dimensional vector list, which usually is unordered, not a polygon and not continous, so the export possibilities are somewhat restrained</p>
+</li><li>
+<p>a HLR only makes sense on a 3d "object"</p>
+</li><li>
+<p>to hide anything, there must be something where it can be hidden BEHIND, behind a line or a linesegment nothing can be hidden. Therefor the "objects" must have "faces" which represents a surface, plane, region, zone or whatever you want to call it</p>
+</li><li>
+<p>under the tab "faces" you can define, delete and see all faces that are currently defined</p>
+</li><li>
+<p>the only way to define a face (apart from loading a file) is to select "points" in your vectorlist and press "add selected as face"</p>
+</li><li>
+<p>the selected points must all lie within one plane (coplanar), otherwise they will not be accepted as a face</p>
+</li><li>
+<p>the selected points must be sufficient to <i>define</i> a plane (at least three points which are not colinear), otherwise they will not be accepted as a face</p>
+</li><li>
+<p>in order to define faces you must be in mode "POINT" (otherwise you can not select points)</p>
+</li><li>
+<p>you can select points either in the vector editing "grids" or in the table. Clicking in the table on one of the columns that displays a point - selects that point</p>
+</li><li>
+<p>multiple selection (as always) is possible holding SHIFT (also in table)</p>
+</li><li>
+<p>deselecting a point is also possible using the middle mouse button (on multi selection remember to keep shift pressed) (also in table)</p>
+</li><li>
+<p>Note: The table (due to using shift and the resulting multi selects in the table) does not display the selection corretly. Look at the editor grids to see which points are actually currently selected</p>
+</li></ul>
+</p>
+
+<p>Moving points of a face can "destroy" the face. A face gets deleted automatically from the face list, when its points are no longer coplanar.</p>
+
+<p>The HLR is executed with the 3d-settings which result in the DISPLAY image (that enables the user to chose the point of view to on the figure - see tab 3d-settings).</p>
+
+<p>The result of the HLR is added to the animation/scenario list.</p>
 <hr />
 <h1>Import</h1>
 
@@ -1991,6 +2040,34 @@ the break criteria always refers to the first byte of the next "line x"</p>
 <br/><p align="center">
 <img src="pics/SpudsterExample.png" width="1227" height="381" /><br/>
 <em>Spudster example</em></p><br/>
+<h2>Wavefront Object format</h2>
+<br/><p align="center">
+<img src="pics/Violine.png" width="926" height="310" /><br/>
+<em>Wavefront file</em></p><br/>
+
+<div class="code">
+<p>OBJ (or .OBJ) is a geometry definition file format first developed by Wavefront Technologies for its Advanced Visualizer animation package. The file format is open and has been adopted by other 3D graphics application vendors. For the most part it is a universally accepted format.</p>
+
+<p>The OBJ file format is a simple data-format that represents 3D geometry alone - namely, the position of each vertex, the UV position of each texture coordinate vertex, vertex normals, and the faces that make each polygon defined as a list of vertices, and texture vertices. Vertices are stored in a counter-clockwise order by default, making explicit declaration of face normals unnecessary. OBJ coordinates have no units, but OBJ files can contain scale information in a human readable comment line.</p>
+</div>
+
+<p>(Taken from Wikipedia)</p>
+
+<p>Vecci is able to load WaveFront object files, only supported entities:</p>
+
+<ul><li>
+<p>vertex ("v")</p>
+</li><li>
+<p>faces ("f")</p>
+</li><li>
+<p>points ("p")</p>
+</li><li>
+<p>lines ("l")</p>
+</li></ul>
+
+<p>All other entities are ignored. Faces are imported to vecci faces so HLR is working out of the box with these files.</p>
+
+<p>Beware! Many OBJ-files that can be found have hundreds and thousands of vectors, the above seen violine case can be loaded and edited in vecci - but displaying it on a vectrex uses about 500000 cycles! (0.3 seconds for one frame)</p>
 <hr />
 <h1>Export</h1>
 
@@ -2127,6 +2204,58 @@ The formats: Draw&nbsp;VLx have no way to "place" the vectorlist. The vectorlist
 
 <p><b>Note:</b>!<br />
 In order to be able to export an animation be sure the "original" single vectors are exportable in the format you wish.</p>
+
+<p><tt><b>Draw sync list</b><br />
+     </tt>                                                                                                             This routine does not have BIOS pendant, with this type of list output of large non linear vectorlists can be achieved, which additionally are not prone (not very) to vectrex drift.</p>
+
+<p>The list look a lot like the Draw_VL_mode format: <tt>                                                              <br />
+                                                                       <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode, rel y, rel x,                                             <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode, rel y, rel x,                                             <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.      .      .                                                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.      .      .                                                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode, rel y, rel x,                                             <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0x02 </tt></p>
+
+<p>But the behaviour is a bit different. Following mode bytes are supported:
+<ul><li>
+<p>"0x00" move to the y, x (relative) </p>
+</li><li>
+<p>"0xff" draw to the y, x (relative) </p>
+</li><li>
+<p>"0x01" zero the integrators, reset offset, move to the designated start of the vectorlist and from there move to the y, x (relative) </p>
+</li><li>
+<p>"0x02" end marker</p>
+</li></ul>
+</p>
+
+<p>As you see with this list it is possible to "resync" the beam in between drawing of the vectorlist. </p>
+
+<p>For the above mentioned resync to be possible the call to the routine must provide additional information, as:<br />
+
+<ul><li>
+<p>U register, address of vectorlist</p>
+</li><li>
+<p>X register, the "absolut" position of the vectorlist to be drawn at</p>
+</li><li>
+<p>A register, the scalefactor for the positioning to the above start point</p>
+</li><li>
+<p>B register, the scalefactor the vectorlist itself will be drawn with</p>
+</li></ul>
+</p>
+
+<p>Examples (runnable) for this type of vectorlist can be generated as for all others.</p>
+
+<p><b>Note:</b><br />
+The vectorlists build in vecci automatically resync at points in the list which are not connected. One additional parameter can be given to the generation of the list (textfield right beside the button). This is the maximum of vectors that are drawn without a resync (or -1, if only resyncs should be inserted at non connected vectors).</p>
+
+<p>An example of the differences of a synced and not synced vectorlist:</p>
+<br/><p align="center">
+<img src="pics/FrogNotSynced.png" width="469" height="639" /><br/>
+<em>Not synced</em></p><br/>
+<br/><p align="center">
+<img src="pics/frogSynced.png" width="459" height="639" /><br/>
+<em>synced</em></p><br/>
 <h2>Vectorlist export</h2>
 
 <p>Look above...</p>
@@ -2984,7 +3113,7 @@ A binary number is indicated by a percent-sign prefix.</p>
 <hr />
 <h1>vedi</h1>
 <br/><p align="center">
-<img src="pics/vedi.png" width="1007" height="739" /><br/>
+<img src="pics/vedi.png" width="963" height="801" /><br/>
 <em>vedi window</em></p><br/>
 <h2>Editor</h2>
 <h3>some "highlights":</h3>
@@ -3004,6 +3133,30 @@ A binary number is indicated by a percent-sign prefix.</p>
 </li><li>
 <p>you can configure you syntax coloring settings</p>
 </li></ul>
+<h2>Buttons</h2>
+
+<p><img src="pics/new.png" alt="new.png" /><br />
+Create a new project or create an empty file.<br />
+</p>
+
+<p>Special:<br />
+If in file system view pressing "shift"-new will create a "default" project on the current selected assembler file.</p>
+
+<p><img src="pics/arrow_refresh.png" alt="arrow_refresh.png" /><br />
+Refresh the current display tree (if you externally added files - e.g.).<br />
+</p>
+
+<p>Special:<br />
+Pressing "shift"- refresh will switch the tree to a filesystem view within the Vide directory.</p>
+
+<p><img src="pics/page_go.png" alt="page_go.png" /> Load a file.<br />
+Pressing shift with the button, will reload the current edited file.</p>
+
+<p><img src="pics/page_save.png" alt="page_save.png" /> Save the current file.<br />
+Pressing shift with the button, will "save as" - opens a file dialog.</p>
+
+<p><img src="pics/text_columns.png" alt="text_columns.png" /><br />
+Pretty print the current source (assembler only).</p>
 <h2>Assembling</h2>
 
 <p>Pressing the button: <img src="pics/control_play_blue.png" alt="control_play_blue.png" /> <br />
@@ -3019,6 +3172,17 @@ The messages of assi can be viewed in the bottom tab called "ASM messages". A br
 
 <p>Pressing the button: <img src="pics/server_go.png" alt="server_go.png" /> <br />
 starts the assembler with the current active file as input (file is automatically saved)  and if successfull (and a vecxi instance is already running) <b>injects</b> the built binary file into the currently running vecxi. Vecxi is not reset while doing this, you just âchangeâ the cartridge ROM while running. You can thus experiment with changes to your bin file on the fly without losing RAM data, PC address or breakpoints.</p>
+<h2>Ask/F1</h2>
+
+<ol><li>
+<p>You can enter simple "expression" and use the ask field as a small calculator. Conversion between decimal, binary and hex is also supported.</p>
+</li><li>
+<p>You can enter names of (Bruce Tomlin - defined) BIOS routines, and a (stay on top) window displays a small help</p>
+</li><li>
+<p>You can enter Assembler mnemonics, and a help for the directive will be displayed</p>
+</li></ol>
+
+<p>Placing the cursor over such a "text" within the source, will do the same. </p>
 <h3>Messages</h3>
 
 <ul><li>
@@ -3197,7 +3361,7 @@ Will be realized as "beanshell" scripts (basically java 1.2 which can be run as 
 
 <p>The data is output in binary-data-statements, that way (with some fantasy) you can still discern your image, although this is made more difficult with each alternating line, since the display routine is bidirectional, meaning the data of every second line is stored "backwards".</p>
 
-<p>You can also generate uni directional data, but for this data no example routines can be generated (yet).</p>
+<p>You can also generate uni directional data, for the difference of the two formats, look at the section in "Code Generation".</p>
 
 <p>The format of the data is described in the (generated) source.</p>
 
@@ -3396,7 +3560,9 @@ First there are 12 radio buttons, with these you can set which of the 4 mod chan
 <img src="pics/adsr.png" width="306" height="199" /><br/>
 <em>ADSR</em></p><br/>
 
-<p>The last possible settings are the ADSR (<b>A</b>ttack, <b>D</b>ecay, <b>S</b>ustain, <b>R</b>elease) and TWANG (Vibrato) table.  Although I have as yet not found an in depth explaination of how these are best configured... you CAN enable different instrument settings with these. The values displayed are a shameless copy of the lineart demo, but you can surely experiment with them!</p>
+<p>The last possible settings are the ADSR (<b>A</b>ttack, <b>D</b>ecay, <b>S</b>ustain, <b>R</b>elease) and TWANG (Vibrato) table. <br />
+(See also Programming the Vectrex - Sound)<br />
+The vectrex mod formats supports different ADSR / TWANG settings for each voice. </p>
 <br />
 
 <p>Note:<br />
@@ -3405,6 +3571,24 @@ Each pattern can have different ADSR and TWANG tables. The values you find here 
 
 <p>Note again:<br />
 The ADSR and TWANG values are copied to the source AS IS, if you put errors in there or supply the wrong count of values, strange sounds may occur!</p>
+<br />
+
+<p>Instruments<br />
+This might be confusing, there are actually "3" different entities lurking behind the label "instrument".
+<ol><li>
+<p>The Instruments which are mod file inherent, these are samples which are played in different frequencies to acchieve different tones.</p>
+</li><li>
+<p>In the table of the mod conversion, you can set the vectrex "translation" instruments. This originated in the way vectrex (or the PSG) generates sounds and how the sound format of the orginal BIOS was defined. There are two "states" a sound register can produce output from: <i>NOISE</i> and <i> TONE</i>. The noise is generated PSG internally and the input "frequency" defines the noise - this is not equavalent to a "tone-frequency". For that reason you can select in the table: 
+<ul><li>
+<p>silence (no sound)</p>
+</li><li>
+<p>a "noise" instrument (there are 3 fixed defined ones, but you can add easily to the resulting source code)</p>
+</li><li>
+<p>any "tone" instrument as "note" - the actual tone instrument is defined via the ADSR and TWANG tables (see also instrument editor)</p>
+</li></ul>
+</p>
+</li></ol>
+</p>
 <h3>The last checkbox<br />
 </h3>
 
@@ -3472,6 +3656,41 @@ See Bruce Tomlins BIOS disassembly (&rarr;Library, address from $F687, "Init_Mus
 <a target="_blank" href="http://modarchive.org/">http://modarchive.org/</a><br />
 or<br />
 <a target="_blank" href="http://amp.dascene.net/home.php">http://amp.dascene.net/home.php</a></p>
+<hr />
+<h1>Instrument editor</h1>
+<br/><p align="center">
+<img src="pics/Instruments.png" width="1026" height="429" /><br/>
+<em>Instrument editor</em></p><br/>
+
+<p>Here you can edit and experiment with the vectrex ADSR and TWANG tables. You can use the resulting data with mod file generation directly - or you can copy/paste the data to your own vecterx BIOS pieces and use them there - the format is identical.</p>
+
+<p>There are 32 ADSR values which (provided the vectrex runs at 30000 cycles per update round) each represent a 0.02 seconds "piece" of a generated tone.</p>
+
+<p>The values are "volumes" in the range from 0 (silence) to 15 (maximum volume). If within the "full" duration of the note (32*0.02) = 0.64 another sound is played, the ADSR will be chopped off - and the next note will start with its own ADSR range.</p>
+
+<p>The Twang table are register frequency values (see Programmin the vectrex - sound), which are added to the PSG registers for the current channel (values range from -128 to + 127). This also "updates" each 0.02 seconds.</p>
+
+<p>Regarding TWANG, some info:</p>
+
+<ul><li>
+<p>the TWANG values are roll over, they start at their respective zero-value after the max value is used</p>
+</li><li>
+<p>the BIOS routine uses different roll over values (6, 7, 8 for channel 0,1,2), the modified MOD-player routine uses always 8 (since it uses different TWANG values for each channel)</p>
+</li><li>
+<p>the internal twang counter is always increased, whether a note is played or not</p>
+</li><li>
+<p>the internal twang counter always (continues), it is not "reset" by playing a new note</p>
+</li></ul>
+<h3>Saving loading</h3>
+
+<p>You can save the setting by giving a name and pressing the save button. <br />
+You can retrieve old setting via the checkbox.</p>
+<h3>Playing</h3>
+
+<p>You can use the keyboard to listen to the sound generated by the current setting. For that place the cursor in the textfield behind "play" and press keyes.</p>
+<h3>Noise</h3>
+
+<p>With the checkbox you enable noise generation.</p>
 <hr />
 <h1>YM-Conversion I</h1>
 
@@ -4134,9 +4353,34 @@ Deletes all data, creates a new "empty" YM-data table (with ONE row of nulled da
 <h3>YM-file data</h3>
 
 <p>Below the player buttons, you can see listed the meta-data that was gathered from the loaded YM-file. Not all YM-versions supply all data fields, so some may be empty.</p>
-<h3>Source-generater</h3>
+<h3>YM-Lister</h3>
 
-<p>Below the YM-file information you see a two button and two checkboxes, with those you can influence (or start) the generation of source files. They are pretty self explainatory.</p>
+<p>On the second tab you can see a list of all ym files that are in the same directory of the last loaded ym file.<br />
+Double clicking on an entry loads the corresponding file. This allowes you (more or less) easy browsing and comparing of ym files.</p>
+<h3>more configuration</h3>
+
+<p>Nothing much is on this tab yet. There are three checkboxes. If any one of these are pressed the ym-data is "pre processed". Preprocessed means the data is analysed and if the corresponding registers are not used the are set to "0" (zero). <br />
+e.g. :<br />
+If in the complete ym file channel a is never used as a "tone" - only as noise, than registers 0 and 1 will be set to 0 to all data.</p>
+<br />
+
+<p>Preprocessing does <b>not</b> always make sense, one has to tryout each ym file individually whether the resulting data is actually shorter or longer. </p>
+<h3>Source-generator</h3>
+
+<p>Below the YM-file information you see one button, one checkboxes and one combobox:
+<ul><li>
+<p>button: "create source"<br />
+if pressed source code is generated for the ym data loaded (depending on the settings)<br />
+<b>note</b>:<br />
+When packing is used, the process may take some time, if started as a standalone window, the log-output is done to the standard debugging log, you can watch the processings there</p>
+</li><li>
+<p>checkbox: "create player"<br />
+whether source code for the generated type of ym-asm-data should be generated or not</p>
+</li><li>
+<p>combobox: "encoding"<br />
+Here you can chose what kind of encoding should be used for the generated vectrex data (see ym vectrex generator)</p>
+</li></ul>
+</p>
 <h2>AYFX Support</h2>
 
 <p>The last available feature is support for AYFX files (see the other chapter where these may come from). AYFX is a format for sound effects of the PSG-chips. The sound effects are channel independend, and are saved WITHOUT channel information (and can be loaded to any channel - any of the three :-)). The below description goes for all three channels.</p>
@@ -4146,6 +4390,94 @@ Deletes all data, creates a new "empty" YM-data table (with ONE row of nulled da
 <h3>Load from AYFX</h3>
 
 <p>You can load AYFX data to the current YM-file. You can select if new rows should be inserted [befor the current active row] (than all other channel data will be set to 0 (null)), or you can select if the data in the current YM-file should overwritten with AYFX data [starting from the current active row]. Data for the selected channel will be overwritten. Mixer settings for that channel only will also be changed (but the other channel data in Reg 7 will be kept unchanged). The noise register (Reg 6) will be changed to the data that is loaded from the AYFX file (there is only one noise register for all 3 channels, so this <i>may</i> make a difference!)</p>
+<hr />
+<h1>YM vectrex generator</h1>
+
+<p>With the supplied ym utility you can generate different YM data files (and players). Following is a list of these formats.</p>
+<h2>Uncompressed</h2>
+
+<p>The data is written in without any compressing to data statements - this is very easy understandable. (for comparisson, playing speed ~ 1700 cycles)</p>
+<h2>YMSound (historic)</h2>
+
+<p>This output is 100% compatible to the tool I released about 15 years ago. The structure of the generated ym file is explained in YM-Conversion I.</p>
+<h2>YMSound (opimized speed)</h2>
+
+<p>This is still in basic the same as YMSound, but with a few ehancements. The data between these two are NOT compatible.</p>
+
+<p>The generated data uses a little bit more space (10% more ~ about). The <i>average</i> unpacking speed is about the same amount faster (a little bit more than 10%), but the main aspect is, that the "peaks" are reduced.</p>
+
+<p>With my given example file, peaks by playing using the old routines were up to nearly 20000 cycles (average 3200 cycles). The new routines have a maximum peak of less thean 7500 cycles (in the whole song only 3 times) - and an average of about 2400 cycles.</p>
+
+<p>Changes to YMSound historic:
+<ul><li>
+<p>single bytes are not shannon encoded (since searching for the shannon code takes longer the more codes are generated, and the savings for single bytes using shannon was only a small benefit)</p>
+</li><li>
+<p>RLE encoding changed from LSB first to MSB first, this made decoding the RLE length more performat</p>
+</li><li>
+<p>the phrase length is not held befor the phrase structure but directly in the phrase mapping, I can calculate the phrase offset now while searching the phrase</p>
+</li><li>
+<p>the RAM structure is 1 byte longer per register, the current phrase length is also kept in the data structure now</p>
+</li><li>
+<p>only the used bits per register are encoded (e.g. amplitude registers only 4 bits...) this made up quite some of the lost space due to the shannon/byte changes</p>
+</li><li>
+<p>some internal changes to optimzed "little" stuff</p>
+</li><li>
+<p>all "subroutines" were macro'ed</p>
+</li><li>
+<p>I advise to change the subroutine, to output to shadow registers, rather than to PSG registeres directly, that way you can "overwrite" values with sound effects!</p>
+</li></ul>
+</p>
+<h2>Streamed</h2>
+
+<p>(streamed does not support envelope data as yet)<br />
+The ym data is bit encodeded in a stream of "bits".  At first the data is analyzed, the analysis results in following "knowledge":
+<ul><li>
+<p>is channel X used at all or not</p>
+</li><li>
+<p>does channel X use tone or not</p>
+</li><li>
+<p>does channel X use noise or not</p>
+</li><li>
+<p>is noise used at all in the ym data</p>
+</li><li>
+<p>does register 7 change at all in the data</p>
+</li></ul>
+</p>
+
+<p>According to the above knowlegde only used registers are encoded.</p>
+
+<p>The idea behind streamed encoding is to only supply information for changes and leave out all data that is unchanged.</p>
+
+<p>There are two good reasons for that:
+<ol><li>
+<p>leaving out data is "packing" of some sort, the resulting data is shorter than the original</p>
+</li><li>
+<p>we know while processing inherently what data has changed and what not, so while unpacking on the vectrex we also know what registers changed and we do not have to poke to the psg registers that did not change. Poking to psg takes quite a few cycles.</p>
+</li></ol>
+</p>
+
+<p>Following decoding is used (for each ym-line, a complete set of data for one refresh cycle - encoding is the opposite way):<br />
+<tt> &nbsp;&nbsp;read bit, if bit is 0 than nothing at all changed &rarr; goto done<br />
+&nbsp;&nbsp;for channel 0 to 2 do<br />
+&nbsp;&nbsp;&nbsp;&nbsp;read bit, if bit is 0 than channel did not change at all &rarr; do next channel<br />
+&nbsp;&nbsp;&nbsp;&nbsp;read bit, if bit is not 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read 4 bits of amplitude<br />
+&nbsp;&nbsp;&nbsp;&nbsp;read bit, if bit is 1 than set noise, outherwise clear noise<br />
+&nbsp;&nbsp;&nbsp;&nbsp;read bit, if bit is 1 than set tone, outherwise clear tone<br />
+&nbsp;&nbsp;&nbsp;&nbsp;read bit, if bit is not 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read 8 bits of frequency low<br />
+&nbsp;&nbsp;&nbsp;&nbsp;read bit, if bit is not 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read 4 bits of frequency high<br />
+&nbsp;&nbsp;end for<br />
+&nbsp;&nbsp;read bit, if bit is not 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;read 5 bits of noise frequency<br />
+done: </tt></p>
+
+<p>Vectrex unpacking is done like described above. The unpacker is a bit "longish" since readbit is realized as a macro and often used :-).</p>
+
+<p>The mentioned analysis is also respected by the vectrex sources. Code parts that are not needed are omitted (using "<tt>if then else</tt>").</p>
+
+<p>The resulting player is usually quite a lot faster than the other packing - but the data used is by far not reduced as much. It depends on how "tight" (cycles) the circumstances are what strategy of packing is more useful to you.</p>
 <hr />
 <h1>AYFX-Conversion</h1>
 
@@ -4669,9 +5001,11 @@ a "main" file, with an example vectrex runnable "cartridge" file</p>
 <p>The format and the actual play routines are documented in the source code. <br />
 Just a few bullet points...
 <ul><li>
-<p>the provided player routine is nearly exactly the same routine as the BIOS routine, only 5 instructions are different, which insure that the value of $3f is taken as "silence" (for the BIOS routine, $3f is the highest possible note)</p>
+<p>the provided player routine is similar to the BIOS routine.</p>
 </li><li>
 <p>the data that results in the mod conversion is (apart from the SILENCE value) exactly the same as the BIOS vectrex music data and therefor not further explained here</p>
+</li><li>
+<p>in addition to the "music" data, the new format supports a ADSR and TWANG table for each voice, the given music structure looks the same, but the expected ADSR and TWANG data should be tripple the size - look at the generated mod files as an example</p>
 </li><li>
 <p>the generated data is "verbose" and uses named constant labels for note representation and silence values - and is therfor quite readable (and thus resembles a tracker data also)</p>
 </li><li>
@@ -4724,6 +5058,35 @@ Is done exactly (with respecting above mentioned patterns...) like playing a vec
 (The name of the generated sources are derived from the chosen file. In the following it is assumed that the name given is <tt>"ghost.png"</tt>.) <br />
 The generated sources are accompanied by an example raster display program. The example routine is programmed for bi directional raster data, if you want to use the provided routines - be sure that the corresponding checkbox is checked.</p>
 
+<p><b>Note:<br />
+</b> You can chose whether you want to generate uni- or bi- directional data (and examples).
+<ul><li>
+<p>bi directional data will be drawn:<br />
+
+<ol><li>
+<p>positioning of the beam</p>
+</li><li>
+<p>draw one line forward</p>
+</li><li>
+<p>draw one line backward</p>
+</li><li>
+<p>do 2) and 3) till finished This is in comparisson quite fast, but the result is prone to be "italic" due to vectrex drift</p>
+</li></ol>
+</p>
+</li><li>
+<p>uni directional data will be drawn:<br />
+
+<ol><li>
+<p>zeroing and positioning of the beam</p>
+</li><li>
+<p>draw line forward</p>
+</li><li>
+<p>do 1) and 2) till finished This is in comparisson quite slow (nearly double time as bi), but the result very "clear" and is immune to drift</p>
+</li></ol>
+</p>
+</li></ul>
+</p>
+
 <p>Following sources are generated:
 <ul><li>
 <p><tt>rasterDraw.asm</tt><br />
@@ -4770,6 +5133,12 @@ a "main" file, with an example vectrex runnable "cartridge" file</p>
 <em>example raster display</em></p><br/>
 <hr />
 <h1>YM-Files</h1>
+
+<p><b>Note:</b><br />
+YM generation can take a few seconds to finish. If you open the utility directly, the output goes to the debug window. So if you want to follow the progress - you should open the debug log.<br />
+Once generation finishes, a vedi window will open!</p>
+
+<p>--</p>
 
 <p>YM file conversion and play code is generated in vedi, using the popup on the project file tree. By chosing the entry "build vectrex YM" the dialog is displayed. (see also the vedi&rarr;YM-Conversion documentation(s))</p>
 
@@ -5081,6 +5450,8 @@ Just a few bullet points...
 <p>and many many more, if I get permissions, as of now about 20 MB of vectrex sources</p>
 </li></ul>
 </p>
+
+<p>Some examples/descriptions of my own programming can also be found in the "Programming" section of this help.</p>
 <hr />
 <h1>Example: Lightpen</h1>
 
@@ -5103,7 +5474,7 @@ codelib/Snippets/Malban/Lightpen/LightpenSubroutines.i</tt>)</p>
 
 <p>Anyone interested in programming lighpen stuff should find it (I hope) to be quite easy to get going.</p>
 
-<p>I didn't bother to provide examples for lightpen usage in port 0, I can't really seem to find much use for it, although the routines in general should be nearly the same. Further writings about lightpen in this documentaion always assumes lightpen in port 1.</p>
+<p>I didn't bother to provide examples for lightpen usage in port 0, I can't really seem to find much use for it, although the routines in general should be nearly the same. Further writings about lightpen in this documentation always assumes lightpen in port 1.</p>
 <h2>In general</h2>
 
 <p>The main (and actually - ONLY) communication that is going on between the lightpen and a vectrex is by whether "button 4" of joyport 1 is pressed or not. The lightpen internally reacts (how else could it be) on light. If the light is switched on the button is active (I say active here, in reality the state of the button goes low, but that is sort of confusing, lets just say light = active), if the light is switched off - the button is not active. The switching is done "lightning" fast. If you use your usual vectrex 50Hz display, the button is switched on/off 50 times per second, the "glow" of the vectors is in this case negligible.</p>
@@ -5157,7 +5528,7 @@ With this method you fill the whole screen (bottom to top, left to right) with "
 
 <p>  Note on Interrupt:<br />
 Although none of my VIA 6522 documentation describes this - the routines described below clear the Interrupt flag with <br />
-<tt>"CLR VIA&nbsp;int&nbsp;flags"</tt><br />
+<tt>"CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_int_flags"</tt><br />
 this obviously works ok though ...</p>
 <h2>Example routines</h2>
 
@@ -5214,6 +5585,15 @@ DB "SOME TEXT", $80<br />
 <p>The return of the method is the same as the input:</p>
 
 <p>After a call register A will be $ff if a lightpen pick was found or 0 if not. If a pick was found register X contains the location (scale factor $ff) as y, x. </p>
+<br/><p align="center">
+<img src="pics/LightPenExample1.png" width="559" height="695" /><br/>
+<em>Lightpen example 1</em></p><br/>
+<br/><p align="center">
+<img src="pics/LightPenExample2.png" width="559" height="694" /><br/>
+<em>Lightpen example 2</em></p><br/>
+<br/><p align="center">
+<img src="pics/LightPenExample3.png" width="558" height="693" /><br/>
+<em>Lightpen example 3</em></p><br/>
 <hr />
 <h1>Example: VecLink V1</h1>
 
@@ -5255,6 +5635,9 @@ The program can be assembled and run in vide.</p>
 <p>for port 1 select the "other side" (right?) of the same veclink cable</p>
 </li></ul>
 </p>
+<br/><p align="center">
+<img src="pics/VecLink.png" width="802" height="460" /><br/>
+<em>VecLink example</em></p><br/>
 <hr />
 <h1>Example: VecLink V2</h1>
 
@@ -5262,11 +5645,7 @@ The program can be assembled and run in vide.</p>
 
 <p>One of the binaries ("BerzerkArena") is fantastic prototype game made by Alex Herbert</p>
 
-<p>I partly disassembled the program and commented it.</p>
-
-<p>I combined the disassembled serial communication routines with the example I had for VecLink V1.</p>
-
-<p>I guess by now it can also be seen as a well documented example on how to use veclink V2.</p>
+<p>I partly disassembled the program and commented it. I combined the disassembled serial communication routines with the example I had for VecLink V1. I guess by now it can also be seen as a well documented example on how to use veclink V2.</p>
 
 <p>It can be found in the directory:<br />
 </p>
@@ -5296,10 +5675,159 @@ The program can be assembled and run in vide.</p>
 <p>for port 1 select the "other side" (right?) of the same veclink cable</p>
 </li></ul>
 </p>
+<br/><p align="center">
+<img src="pics/VecLink.png" width="802" height="460" /><br/>
+<em>VecLink example</em></p><br/>
 <hr />
 <h1>Example: 3d Imager</h1>
 
-<p><b>not done</b></p>
+<p>For the 3d Imager no "Code Generation" was done, since any generated code would have been an extensive example on its own.</p>
+
+<p>Instead I provide an example in form of a "code snippet" within codi. (see:<br />
+<tt> codelib/Snippets/Malban/3dImager/3dImager.asm<br />
+and <br />
+codelib/Snippets/Malban/3dImager/3dImager.i</tt>)</p>
+
+<p>Much of the example is reused code found in the Narrow Escape binary and the great disassembly of Fred Taft.</p>
+
+<p>I enhanced his disassembly in two ways:
+<ol><li>
+<p>added further comments</p>
+</li><li>
+<p>extracted a couple of subroutines, which can be used "out of the box" without sorting out to much stuff</p>
+</li></ol>
+</p>
+
+<p>Anyone interested in programming imager stuff should find it (I hope) to be quite easy to get going.</p>
+
+<p>In the example I do not do any fancy 3d calculation, I only print 6 messages for the combination color/eye. Movement and placing of vectors to acchive 3d effects I leave out as an excercise for the avid reader.</p>
+<br/><p align="center">
+<img src="pics/ImagerExample.png" width="379" height="484" /><br/>
+<em>Imager example</em></p><br/>
+<h2>In general</h2>
+
+<p>Narrow Escape: how the imager is programmed and how PWM is realized to control the motor</p>
+
+<ol><li>
+<p>Startup The official imager games have a startup phase.  During this phase the imager is "powered" up with high frequency short pwm duty pulses until the speed of the wheel matches the above mentioned time frame. The pulse duty is about 67% [542 cycles of low pulse, with 805 cylces wavelength]. </p>
+</li></ol>
+
+<p>During that powerup button 4 is polled to see if the sync hole of the wheel is triggered (button 4) - no usage of interrupts in the startup phase.  The measurement taken is thus that one 360Â° spin of the wheel (one sync cycle) must be done completely within the wanted time frame [time frame see below] - if that is achieved three times, the program assumes that the wheel is up to speed.</p>
+
+<p>The powerup loop only contains the above mentioned routines, if the power up does not reach its goal, from a user point of view the program  just "hangs", since no other output of any kind gives any feedback.</p>
+
+<ol><li>
+<p>Ingame Once the game runs, the PWM is realized differently. Vectrex "assumes" that the wheel is spinning about "right" and sends exactly one pulse (of a calculated length, which is adjusted all the time) per sync cycle.</p>
+</li></ol>
+
+<p>Each official game runs the game loop in a time reference frame.  The frequency of the wheel is set in accordance to that timing frame (different games have different timing parameters).</p>
+
+<p>The developer chose a frequency they would like to realize the game with (in Narrow Escape that timing value is $E000, which results in a frequency of 1/(1/1500000 * 0xe000) = 26,1579241... Hz wheel spin).<br />
+(<br />
+<tt>Narrow Escape: $e000 &rarr; 26.157Hz<br />
+Minestorm 3d: $fc00 &rarr; 23.251Hz<br />
+3d Crazy Coaster: $f000 &rarr; 24.414Hz<br />
+</tt> )<br />
+</p>
+
+<p>Timer T2 is set to that value. T2 is started after the sync triggered the interrupt and thus "counted down" throughout the game loop, the game loop finishes with a CWAI instruction, which waits for another interrupt to occur.</p>
+
+<p>During the game T2 is compared to reference values:<br />
+<tt> $f000 right eye blue<br />
+$BD00 right eye green<br />
+$9600 right eye red<br />
+$6800 left eye blue<br />
+$4000 left eye green<br />
+$2000 left eye red<br />
+</tt></p>
+
+<p>When the timer has reached the value - the corresponding vectors are drawn.</p>
+
+<p>The pulse modulation is handled in a two fold manner:</p>
+<h3>Interrupt</h3>
+
+<p>With each occurrence of an interrupt a compare value is stored to a "global" variable (which I call "PWM_T2_Compare_current"). While running the main loop in the beginning the pulse is switched on (put to low), T2 (hi) is compared against the reference every now and than and if T2 is lower than the reference, the pulse is switched off.</p>
+
+<p>The interrupt is triggered each time the index hole of the wheel passes the photo transistor and the in opposition placed LED.</p>
+
+<p>The interrupt handles the calculation of the PWM. In general:</p>
+
+<p>Within the interrupt two compare values are generated which I call
+<ul><li>
+<p>PWM_T2_Compare_faster</p>
+</li><li>
+<p>PWM_T2_Compare_slower</p>
+</li></ul>
+</p>
+
+<p>As you might have guessed those two values are stored to the above mentioned "global" variable (PWM_T2_Compare_current).<br />
+The calculated value "PWM_T2_Compare_slower" is used when no timeout occured and "PWM_T2_Compare_faster" when a timeout occured. "Switching" between those two values all the time, the speed of the motor is held more or less constant (in emulation the difference is about 0.01 Hz, I have not been able to measure the real thing).</p>
+
+<p>The two mentioned values are checked from time to time if they also need adjustment. Therefor  eight interrupt "sampling" are bundled together and are further investigated.</p>
+
+<p>The timeout "failures" from above are counted and remembered. After 8 interrupt calls the ratio of "timeouts" and "not timeouts" are stored and further examined. </p>
+
+<p>The current sampling (of 8 interrupt measurements) is stored in a variable which might be called:
+<ul><li>
+<p><tt>countIRQFailureAfterRefreshFor8Samples</tt><br />
+(yes I know - it is a long name, but I like self explaining variable names)</p>
+</li></ul>
+</p>
+
+<p>for "long term" measurement, these samples are additionally stored for the last 3 samplings, in variables which I call:<br />
+<tt>
+<ul><li>
+<p>countIRQFailureAfterRefreshFor8Samples_1<br />
+</p>
+</li><li>
+<p>countIRQFailureAfterRefreshFor8Samples_2<br />
+</p>
+</li><li>
+<p>countIRQFailureAfterRefreshFor8Samples_3<br />
+<tt></tt></p>
+</li></ul>
+</tt></p>
+
+<p>(So all together we have access to the last 4 * 8 = 32 timeout/non timeout IRQ values).</p>
+
+<p>The calculation of the new values for PWM_T2_Compare_faster/PWM_T2_Compare_slower is three fold:</p>
+
+<ol><li>
+<p>adjustment of "PWM_T2_Compare_faster"
+<ul><li>
+<p>the sum of the current and last sampling is build, which results in a value between 0 - 16    (maximum of 16 timeouts, wheel is WAY to slow), the average should be "8", half of the samplings were done in time, the other half had a timeout.</p>
+</li><li>
+<p>the sum is compared to 13<br />
+  &nbsp;&nbsp;&nbsp;- if it is exactly equal, the "PWM_T2_Compare_faster" stays the same<br />
+  &nbsp;&nbsp;&nbsp;- if there are more failures than 13, subtract the difference from "PWM_T2&nbsp;Compare_faster"      (when PWM_T2_Compare_faster is decreased, the compare value to T2 is decreased and thus the duty pulse of the PWM is longer) (not below 0)<br />
+  &nbsp;&nbsp;&nbsp;- if there are less failures than 13, add the difference to "PWM_T2_Compare_faster" <br />
+    (when PWM_T2_Compare_faster is increased, the compare value to T2 is increased and thus the duty pulse of the PWM is shorter) (not above 0xff)</p>
+</li></ul>
+</p>
+</li><li>
+<p>adjustment of "PWM_T2_Compare_slower"<br />
+
+<ul><li>
+<p>the sum of all available samplings is build, which results in a value between 0 - 32    (maximum of 32 timeouts, wheel is WAY to slow), the average should be "16", half of the samplings were done in time, the other half had a timeout.<br />
+</p>
+</li><li>
+<p>the sum is compared to 24<br />
+  &nbsp;&nbsp;&nbsp;- if it is exactly equal, the "PWM_T2_Compare_slower" stays the same<br />
+  &nbsp;&nbsp;&nbsp;- if there are more failures than 24, subtract half the difference from "PWM_T2_Compare_slower" (not below 0)<br />
+  &nbsp;&nbsp;&nbsp;- if there are less failures than 24, add half the difference to "PWM_T2_Compare_slower" (not above 0xff)<br />
+ (The "PWM_T2_Compare_slower" is "wheighted" more towards timeouts than the "PWM&nbsp;T2_Compare_faster" value by the usage of 32 samples (and 24 as timeout threshold))<br />
+</p>
+</li></ul>
+</p>
+</li><li>
+<p>it is ensured, that both values are not to close to each other<br />
+ - if the difference between "PWM_T2_Compare_faster" and "PWM_T2_Compare_slower" is smaller than $1a than the "newer" value of "PWM_T2_Compare_faster" is taken as a reference and   "PWM_T2_Compare_slower" = "PWM_T2_Compare_faster" - $1a   is used.  </p>
+</li></ol>
+<h3>In game</h3>
+
+<p>The "in game" handling of PWM is quite simple (once the IRQ has handled all the setup). At the beginning of the game loop (after joystick buttons have been read, this must be done beforehand, otherwise the button requests would interfere with the imager-communication), the duty pulse is enabled (set to low).</p>
+
+<p>Than each time after some "time consuming" work is done, the variable "PWM_T2_Compare_current" is compared to T2 timer (hi byte). If T2 is lower than the reference value, the duty pulse is finished (set to high) and the "PWM_T2_Compare_current" set to 0 as indication that the pwm control is done for this mainloop.</p>
 <hr />
 <h1>Library</h1>
 <br/><p align="center">
@@ -5309,13 +5837,29 @@ The program can be assembled and run in vide.</p>
 <p>I would like to integrate a "library" of vectrex essential documentations.</p>
 
 <p>Provided I get permission, this (at least for me) may be helpfull as I don't have to look for all those manuals in the shelfs.</p>
+
+<p>The "Library" is generated from all files that can be found in the documentation folder. Following "rules" are used to generate:
+<ul><li>
+<p>the file extension must be one of: "pdf", "txt", "rtf", "doc", "html", all other files are ignored</p>
+</li><li>
+<p>files containing "_critics.txt" or "_instructions.txt" are ignored</p>
+</li><li>
+<p>directories containing "firstvectrex" are ignored</p>
+</li></ul>
+</p>
+
+<p>All other files and directories (provided they are not empty with above mentioned rules) are displayed.</p>
+
+<p>For each selected entry the system wide default "viewer" is started when activated.</p>
+
+<p>You can add your <i>own</i> entries by simply copying your documents in the directory (and restarting vide).</p>
 <hr />
 <h1>Cartridges</h1>
 <br/><p align="center">
 <img src="pics/CartProps.png" width="580" height="773" /><br/>
 <em>Cartridge configuration</em></p><br/>
 
-<p>Cartridges are the "main" input to Vecx (even if not fully implemented yet).</p>
+<p>Cartridges are the "main" input to vecxi.</p>
 
 <p>Cartridges can be configured with all kinds of properties - some emulation relevant, some only for documentation or history reasons.</p>
 
@@ -5765,6 +6309,50 @@ The secondary vectrex receives the above mentioned "$4d" and responds with sendi
 </li></ul>
 </p>
 <hr />
+<h1>VecLink V1</h1>
+
+<p>Earlier version of the cable (V1). The I/O on pin 4 is harder to drive than pins 1,2,3 so the pull up resistors were used to try and correct the voltage levels, but even then it was still iffy.    </p>
+
+<p><tt><br />
+Vectrex A                Vectrex B<br />
+1 |--------------------------| 4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;   600 Ohm Resistor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+8 |--------------------------| 8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;   600 Ohm Resistor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+4 |--------------------------| 3<br />
+2 |--------------------------| 1<br />
+3 |--------------------------| 2<br />
+</tt></p>
+<hr />
+<h1>VecLink V2</h1>
+
+<p>The new cable (V2) just avoids this by not using pin 4. It means we have 1 less pin for data which should in theory reduce the maximum bandwidth, but I was able to optimise it quite well and didn't loose much performance. </p>
+
+<p><tt><br />
+Newer style VecLink Cable <br />
+Vectrex A                Vectrex B<br />
+1 |--------------------------| 1<br />
+2 |--------------------------| 2<br />
+3 |--------------------------| 3<br />
+8 |--------------------------| 8<br />
+All other pins MUST NOT be connected.<br />
+(or damage to your Vectrexes is quite probable).<br />
+</tt></p>
+<hr />
 <h1>Emulation: Dual Vec</h1>
 
 <p>I found following message on a very old rec.games.vectrex usenet entry:<br />
@@ -5800,7 +6388,185 @@ The secondary vectrex receives the above mentioned "$4d" and responds with sendi
 <p>That should do it... (configuration is automatically gotten from the cartridge settings).</p>
 
 <p><b>Note:<br />
-</b> Due to the same reasons that VecLinkV1 ist somewhat unstable in vide [no proper, synchronization between the two in different threads running emulators], this one too is a bit âflickeryâ. Once I have done all other stuff I want to do with vide, I will add a proper âdual emulationâ, where two emulators can run in cycle sync. Doing that will get rid of these last disturbances. If anyone wants to use any of the link versions befor that far away day in the future and also would like to use vide to develope â give me a call and I will prioritiseâ¦</p>
+</b> Due to the same reasons that VecLinkV1 ist somewhat unstable in vide [no proper, synchronization between the two in different threads running emulators], this one too is a bit "flickery". Once I have done all other stuff I want to do with vide, I will add a proper "dual emulation", where two emulators can run in cycle sync. Doing that will get rid of these last disturbances. If anyone wants to use any of the link versions befor that far away day in the future and also would like to use vide to develope â give me a call and I will prioritiseâ¦</p>
+<hr />
+<h1>Emulation: Imager 3d (Goggles)</h1>
+
+<p>Emulation of the 3d imager can be enabled with the cartridge settings. Required is also that a "wheel" is chosen for the imager.</p>
+
+<p>The wheel has important information which are needed to display the game correctly:</p>
+
+<ul><li>
+<p>the colors</p>
+</li><li>
+<p>the angle of the colors</p>
+</li><li>
+<p>the position of the index hole<br />
+</p>
+</li><li>
+<p>(the default speed of the wheel,<br />
+ this information is not required, but emulating the pulse width modulation slows down the startup of a game, using the default speed is a quicker way. The default speed is game related, not wheel-related though. It makes sense to create own wheels (even if the layout is identical) for each game, since the default speeds vary between games)</p>
+</li></ul>
+
+<p>The emulation has two different "modes", namely
+<ul><li>
+<p>manual</p>
+</li><li>
+<p>automatic</p>
+</li></ul>
+</p>
+<h3>Manual "Imager" emulation</h3>
+
+<p>In this mode the speed of the wheel is "fixed", the user (or the settings) can set (or change) the speed of the wheel. The vectrex program has no influence on the speed.</p>
+
+<p>If a game is "known" this setting is the "better" looking version. All known games use during its livecycle only one rotation speed, so the value can be pre-set.</p>
+<h3>Automatic "Imager" emulation</h3>
+
+<p>In this mode the speed of the wheel is calculated by obtaining and calculating the pulses the vectrex sends to the imager hardware (see PWM).  At the beginning of an imager programm the vectrex sends heavy duty pulses to get the wheel up to speed (which takes a few seconds to emulate), and than regulates the speed continuously while the game is runnning. The wavelength of one sequence is always the time between two sync (hole) passes.</p>
+
+<p><b>Note!</b><br />
+Switching from automatic to manual emulation mode is no problem. Switching from manual emulation to automatic gives sometimes unexpected results. This is caused by the algorythms the vectrex games use to control the motor (pwm) with. The algorythm tries to achieve a "fixed" relation between timeout and non-timeouts. The manual emulation knows only one fixed frequency. That frequency either times out or does not timeout. One way or the other, the count of these events is min and max, the game algorythms still try to adept to the received values. Even to the EXTREME. Thus switching from manual to automatic, the startup values for automatic mode (of the current running game) are all wrong and the game probably goes completely out of sync.</p>
+<h2>Emulation Imager in general</h2>
+
+<p>The emulation of the imager hardware consists of different entities:
+<ul><li>
+<p>the wheel</p>
+</li><li>
+<p>phototransistor</p>
+</li><li>
+<p>the motor</p>
+</li><li>
+<p>eye areas</p>
+</li></ul>
+</p>
+<h3>Reference points</h3>
+
+<p>Following points of reference are assumed in emulation and in the following descriptions:
+<ul><li>
+<p>all "directions" are from the view of the person wearing the imager, looking through the imager</p>
+</li><li>
+<p>on the wheel the degree 0 is the start of the black area, degrees are increased clock wise, thus the first color starts at 180 degree</p>
+</li><li>
+<p>the 0 degree on the hardware side is the 6 o'clock position (right above the nose of the wearer)</p>
+</li></ul>
+</p>
+<h3>The wheel</h3>
+
+<p>The wheel characteristcs are:
+<ul><li>
+<p>black area<br />
+  it is assumed every imager wheel has a 180 degree black area, for reference sake the start of the black area is regarded as 0 degree (zero) degree point for wheel definition.</p>
+</li><li>
+<p>color areas<br />
+all known games feature three colors, but actually the number of colors is arbitrary, emulation allows to build wheels with different numbers of colors. The first color always starts at degree 180 degree and the last color always ends at degree 360 degree.</p>
+</li><li>
+<p>index hole<br />
+Placement of the index hole on the wheel. This is the reference point the vectrex programs use for internal calculation of when to draw vectors (left/right eye in relation to color). <br />
+In "real live" a phototransistor and a led are placed opposite of each other, and only when the index whole is in the right position the light of the led reaches the phototransistor. The transistor switches "button 4" to the state "pressed" and thus sends a signal to the vectrex (button 4 is also connected to CA1 of VIA - and can thus be configured to trigger an interrupt).<br />
+ <br />
+The index hole is not in the same position (in relation to the above defined 0 degree) for the two known official wheels. </p>
+</li></ul>
+</p>
+<h3>Phototransistor</h3>
+
+<p>Experiments and measures indicate a good value for the phototransistor location at 339 degree. The index hole has a size of about 3.3274 millimeters :-) - but experiments also show, that the transistor does not react on the led for the whole size of the hole, the actual reaction size is (guessing) only 1/3 of that.</p>
+<h3>Motor</h3>
+
+<p>The motor is emulated as a "frequency" of rotation. The frequency can be either set manually or can be determined by a calculation of the pulses got from the vectrex (see pwm). Emulation-internally an angle is increased every emulated cycle - in relation to the current frequency.</p>
+<h3>Eye areas</h3>
+
+<p>The holes where the wearer sees the vectrex image through. In relation to the reference the eyes are located at 90 degree and 270 degree respectively.</p>
+<h2>Inspecting the emulation</h2>
+
+<p>You can view current emulation status by opening a "device" window (in dissi type "joyi").</p>
+<br/><p align="center">
+<img src="pics/device_imager.png" width="742" height="744" /><br/>
+<em>emulation view</em></p><br/>
+
+<p>Using the button <img src="pics/page_edit.png" alt="page_edit.png" /> you can start editing your own wheels:</p>
+<br/><p align="center">
+<img src="pics/WheelEdit1.png" width="479" height="584" /><br/>
+<em>wheel editor</em></p><br/>
+<h2>Additional Notes</h2>
+<h3>Startup / Interrupt usage</h3>
+
+<p>Each official game runs the game loop in a time reference frame. The frequency of the wheel is set in accordance to that timing frame (different games can have different timing parameters).</p>
+
+<p>The official imager games have a startup phase. During this phase the imager is "powered" up with heavy duty cycles (pwm) until the speed of the wheel matches the above mentioned time frame (many "pulses" per sync round). During that powerup button 4 is polled to see if the sync hole of the wheel is triggered (button 4) - no usage of interrupts in the startup phase. <br />
+</p>
+
+<p>The measurement taken is thus that one 360 degree spin of the wheel (one sync cycle) must be done completely within the wanted time frame - if that is achieved three times, the program assumes that the wheel is up to speed.</p>
+
+<p>Once the game runs, the PWM is realized differently. Vectrex "assumes" that the wheel is spinning about "right" and sends exactly one pulse (of a calculated length, which is adjusted all the time) per sync cylces.</p>
+
+<p>The game "loop" is realized by using the interrupt the sync triggers. Here the difference:<br />
+The normal game loop:<br />
+<tt>main: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR WaitRecal<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoSound<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DisplaySomething<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoGameStuff<br />
+...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA main</tt><br />
+</p>
+
+<p>and imager game loop looks like:</p>
+
+<p><tt>main: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoOwnRecal<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoSound<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DisplaySomething<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoGameStuff<br />
+...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CWAI #$ef<br />
+...<br />
+InterruptHandler: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... do imager stuff<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDS #$CBEA ; or any other kind of stack correction because of interrupt<br />
+...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMP main</tt><br />
+</p>
+
+<p>There are two dangers if not handled carefully:
+<ol><li>
+<p>the wheel spinning to fast<br />
+If for any reason, the wheel spins to fast, the interrupt can be triggered to soon, while still in some important other routine. If this happens two things can go awfully wrong.
+<ul><li>
+<p>the routine is not completed and the game does not run correctly</p>
+</li><li>
+<p>the assumptions of the interrupt routine are not met (e.g. correct setting of the DP register)</p>
+</li></ul>
+</p>
+</li><li>
+<p>the wheel is spinning to slow<br />
+Here also a "tricky" thing can happen. The imager (in opposite to the default) triggers the interrupt CA1 on "active high" (state of the line going form low to high) (which is set by storing the right bits into VIA control register $c). Within the Interrupt handler the BIOS routine <tt>"Reset0Ref"</tt> is called, which resets that setting to the default value (trigger interrupt on active low, going from high to low).<br />
+If the wheel spins to slowly, the index whole has not yet reached its end, and another interrupt is triggered when the sync is shut down again - since the expected interrupt settings were not yet in place (trigger on active high). This second trigger while in itself not a catastrophy can also happen at exactly the wrong time (e.g. dp not correctly set) - so that the program also is not working anymore.</p>
+</li></ol>
+</p>
+<hr />
+<h1>What is PWM.</h1>
+
+<p>(extracted from: <a target="_blank" href="http://www.allaboutcircuits.com/textbook/semiconductors/chpt-11/pulse-width-modulation/">http://www.allaboutcircuits.com/textbook/semiconductors/chpt-11/pulse-width-modulation/</a> - written by Tony R. Kuphaldt, Design Science License)</p>
+<h1>Pulse Width Modulation</h1>
+
+<p>Pulse Width Modulation (PWM) uses digital signals to control power applications, as well as being fairly easy to convert back to analog with a minimum of hardware.</p>
+
+<p>Analog systems, such as linear power supplies, tend to generate a lot of heat since they are basically variable resistors carrying a lot of current. Digital systems donât generally generate as much heat. Almost all the heat generated by a switching device is during the transition (which is done quickly), while the device is neither on nor off, but in between. This is because power follows the following formula:</p>
+
+<p>P = E I, or Watts = Voltage X Current</p>
+
+<p>If either voltage or current is near zero then power will be near zero. PWM takes full advantage of this fact.</p>
+
+<p>PWM can have many of the characteristics of an analog control system, in that the digital signal can be free wheeling. PWM does not have to capture data, although there are exceptions to this with higher end controllers.</p>
+
+<p>One of the parameters of any square wave is duty cycle. Most square waves are 50%, this is the norm when discussing them, but they donât have to be symmetrical. The ON time can be varied completely between signal being off to being fully on, 0% to 100%, and all ranges between.</p>
+
+<p>Shown below are examples of a 10%, 50%, and 90% duty cycle. While the frequency is the same for each, this is not a requirement.</p>
+<br/><p align="center">
+<img src="pics/pwm1.png" width="427" height="108" /><br/>
+<em>pwm</em></p><br/>
+
+<p>The reason PWM is popular is simple. Many loads, such as resistors, integrate the power into a number matching the percentage. Conversion into its analog equivalent value is straightforward. LEDs are very nonlinear in their response to current, give an LED half its rated current you you still get more than half the light the LED can produce. With PWM the light level produced by the LED is very linear. Motors, which will be covered later, are also very responsive to PWM.</p>
 <hr />
 <h1>Configuration</h1>
 
@@ -5828,37 +6594,7 @@ Due to Vide being 100% pure java and trying to emulate vectrex as precisley as I
 
 <p>I know that I still am not able to emulate the old brute 100% - but god knows I have put much effort into the emulation - and I am quite certain that at the time beeing - emulation in VIDE is the most exact vectrex emulation around.</p>
 
-<p>Always depending on the options you have chosen.</p>
-
-<p>There is also some hardware I have not put effort into emulating, for various reasons:
-<ul><li>
-<p>I do not have the hardware</p>
-</li><li>
-<p>it is down on my priority list</p>
-</li><li>
-<p>or any other reason</p>
-</li></ul>
-</p>
-
-<p>Well known hardware not emulated yet include:
-<ul><li>
-<p>Animaction RAM</p>
-</li><li>
-<p>3d Imager</p>
-</li><li>
-<p>VecMulti (haven't got one)</p>
-</li><li>
-<p>VecVox</p>
-</li><li>
-<p>Lightpen (port 1)</p>
-</li><li>
-<p>RA Spectrum</p>
-</li><li>
-<p>high score RAM thingy... ...</p>
-</li></ul>
-</p>
-
-<p>None the less - here some descriptions of what is emulated, and how you may alter emulation with configuration: </p>
+<p>Always depending on the options you have chosen. Here some descriptions of what is emulated, and how you may alter emulation with configuration: </p>
 <h1>Emulator</h1>
 <br/><p align="center">
 <img src="pics/config1.png" width="557" height="1089" /><br/>
@@ -6076,9 +6812,1244 @@ If checked, vedi scans files for the entities, this allows displaying / coloring
 <p><b>scan for vectorlists ...</b><br />
 If checked, vecxi scans while running, whether BIOS vectrex routines draw a vectorlist, if so - vecxi saves the list in XML format, under the cartridge name.</p>
 <h1>Keyboard</h1>
+
+<p>All kind of keyboard inputs can be defined/altered here (editor, and vectrex emulator input controls).<br />
+</p>
+
+<p>Follow the instructions given on the TAB. <br />
+<br />
+Note:<br />
+For Joytick simulations your have to configure both "Pressed" and "Released" events!</p>
 <h1>Theme/Color</h1>
+
+<p>Follow the instructions given on the TAB.</p>
+<h1>Input</h1>
+<br/><p align="center">
+<img src="pics/jinput.png" width="582" height="948" /><br/>
+<em>input settings</em></p><br/>
+
+<p>Here you can configure additional input settings for different inout "hardware" for use with the emulator. The code is based on the "JInput" library.</p>
+
+<p>The tab is split into two halfs, the upper half representing the vectrex "side" the lower half representing the input device parameters.</p>
+
+<p>There are at the moment two types of vectrex input types:
+<ol><li>
+<p>Joystick</p>
+</li><li>
+<p>spinner (like atari driving paddle)</p>
+</li></ol>
+</p>
+
+<p>Pressing one button on the vectrex half enables "input chosing" - pressing (or moving) the actual hardware of the selected "real" input device - connects the two sides.</p>
+
+<p>Pressing <img src="pics/add.png" alt="add.png" /> saves the configuration (after a valid name was entered.</p>
+
+<p>Upon the next start of a vecxi window, the new input settings will be appear in the Joyport selection boxes.</p>
+
+<p>Devices will be remembered for the next vide-sessions, however should the device not be available, it won't appear in the combobox.</p>
+<br />
+
+<p><b>Note</b>:<br />
+There is a global setting for spinner emulation: "minimum cycles bewteen spinner events". Following an explanaition where this value is derived from, and when you might want to change it:</p>
+
+<p>The driving atari-controller works thus, that the state of two switches form a 2 bit value, the actual spinner "rotates" the switch states 00 01 10 11 (binary).</p>
+
+<p>The direction of rotation is computed via two of such states:<br />
+
+<ul><li>
+<p>left direction is computed when following states succeed each other:<br />
+ 00 &rarr; 01 <br />
+ 01 &rarr; 11 <br />
+ 10 &rarr; 00 <br />
+ 11 &rarr; 10  </p>
+</li><li>
+<p>right direction is computed when following states succeed each other: <br />
+ 00 &rarr; 10 <br />
+ 01 &rarr; 00 <br />
+ 10 &rarr; 11 <br />
+ 11 &rarr; 01</p>
+</li></ul>
+</p>
+
+<p>All other succeeding "pairs" of states are "illegal" or no "movements" and are as such taken as "no movement".</p>
+
+<p>The emulated paddle sets these paddle "button" values (button 1+2 of the used joyport) in the correct order at "fixed" intervalls. The minimum intervall these values are set is the cycle count given in the parameter "minimum cycles bewteen spinner events".<br />
+(if you use analog emulation as input, than "slower" spinning is a multiple of that value)</p>
+
+<p>So...<br />
+If your vectrex game, refreshes once each 30000 cycles and you call the paddle "read"-routine every 30000 cycles everything is fine (default setting).</p>
+
+<p>But if your game refreshes each 20000 and also reads paddle values each 20000 cylces the above state-order will "hickup" and some states will be read as "no movement".</p>
+
+<p>Same happens if you read more paddle events per update round.</p>
+
+<p>I think for most games the 30000 will be ok, but with the value "minimum cycles bewteen spinner events" you can actually alter the emulation of the paddle to accomodate possible slower games or multiple update readings.</p>
 <hr />
 <h1>Programming the Vectrex</h1>
+
+<p>As yet unfinished, but the plan is to gather some coding resources and do some further explaining here beyond the mere source code which can be gotton from codi.</p>
+<hr />
+<h1>Strings - Raster</h1>
+<h2>How are strings drawn by vectrex BIOS?</h2>
+
+<p>The vectrex BIOS stores a raster "image" of all characters supported, this can be seen e.g. by using dumpi:</p>
+<br/><p align="center">
+<img src="pics/dumpiChars.png" width="1803" height="735" /><br/>
+<em>Dumpi</em></p><br/>
+
+<p>Each char is represented by 7 bytes, each byte repressents one row of the character and each bit position one column. So the "pixel" size of one char is 8*7 (height * width).</p>
+
+<p>If a string is to be printed, the BIOS loads the address of the bitmap, examines each character of the string and uses the char values as a lookup reference into the raster image and outputs in one long line the first row of all characters of the string.</p>
+
+<p>Of each char (in the string) the first byte is read and the bits which are set are output with the "light switched on" and bits which are not set are output with the "light switched off".</p>
+
+<p>Actually each line of a String output is one long line which changes its "pattern"-byte continually along the way. Lets call this thing a "string-line" for easier reference.</p>
+
+<p>All raster outputs on a vectrex are more or less done exactly that way.</p>
+<h3>Outputting more than one line</h3>
+
+<p>There is virtually no way the above explained can be made more efficient. To output one byte of (raster) data you need one full "shift cycle". One shift cycle takes 18 (CPU) cylces. You can finish that sooner - than you did not output 8 bits, you can finish that later, but you will not output more bits. So - exactly 18 cycles is what it takes. Fullstop!</p>
+
+<p>The only way one can change the output of "complete" strings is to change the things which are done in between the output of each string-line.</p>
+
+<p>Take a look at the following image, here I show three different ways what can be done:</p>
+<br/><p align="center">
+<img src="pics/printString.png" width="516" height="687" /><br/>
+<em>PrintString</em></p><br/>
+<h3>BIOS routine - the original</h3>
+
+<p>This I call "uni directional output", in short:</p>
+
+<ul><li>
+<p>output one string line</p>
+</li><li>
+<p>go a little bit down</p>
+</li><li>
+<p>go back to the start of the line</p>
+</li><li>
+<p>do the above 7 times</p>
+</li></ul>
+<h3> Moon Lander routines (and some of "thomas")</h3>
+
+<p>This I call "bi directional output", in short:<br />
+
+<ul><li>
+<p>output one string line</p>
+</li><li>
+<p>go down a little bit</p>
+</li><li>
+<p>while going back output an "inverse string line"</p>
+</li><li>
+<p>do above for all 7 lines</p>
+</li></ul>
+</p>
+<h3>Alex Herbert/Kristof Tuts (?) routines</h3>
+
+<p>This I call "synced output", in short:</p>
+
+<ul><li>
+<p>    output one string line</p>
+</li><li>
+<p>    zero the integrators, and wait</p>
+</li><li>
+<p>    reposition beam to start and move down a little</p>
+</li><li>
+<p>    do the above 7 times</p>
+</li></ul>
+
+<p> </p>
+<h3>Pros /Cons</h3>
+
+<p><i>uni directional output</i><br />
+
+<ul><li>
+<p>Speed - medium (shown example 10486 cycles for "Hello world this is - a wonderfull day")</p>
+</li><li>
+<p>vulnerable to vectrex drift, the longer the text the more "italic" it gets</p>
+</li></ul>
+</p>
+
+<p><i>bi directional output</i><br />
+
+<ul><li>
+<p>Speed - fast (shown example 6209 cycles for "Hello world this is a wonderfull day")</p>
+</li><li>
+<p>vulnerable to vectrex drift, but not as much as "uni", tends to be a bit more "grizzly"</p>
+</li><li>
+<p>reports, that it does not work on all vectri (although I have not seen that in real live yet)</p>
+</li></ul>
+</p>
+
+<p><i>synced output</i><br />
+
+<ul><li>
+<p>Speed - slow (shown example 12443 cycles for "Hello world this is a wonderfull day")</p>
+</li><li>
+<p>not! vulnerable to vectrex drift</p>
+</li></ul>
+</p>
+
+<p>Example routines can be found in codi:<br />
+<tt>codelib/Snippets/Malban/Print_Tests/ </tt></p>
+
+<p> </p>
+<hr />
+<h1>Sound (Bios) - more or less</h1>
+
+<p>Following I am assuming the length of a "gameloop" as 0,02 seconds (30000 cycles) - 50Hz, 0,02 seconds will further be references to as "soundticks".</p>
+
+<p>(each calling of the BIOS function: "Init_Music_chk" executes one soundtick, the function is usually called once per gameloop)</p>
+
+<p>The PSG supports 3 voices at the time, so our music can also be played utilizing three voices. Furthermore it has the ability to create noises, so we can not only play music, but can also have some shooting or explosion or the like sounds (snare drums...).</p>
+<h3>Notes</h3>
+
+<p>The music playing routines the BIOS provides us with, enables us to use 64 notes, ranging from G2 to AS7 (S=Sharp). In each octave we have 12 different notes, look at a BIOS for a list of all notes [BIOS location: $FC8D, using mod2Vectrex you can generate a human readable table of the notes+offset, you can also look in vide at "library&rarr;programming&rarr;Tutorial Malban&rarr;AppendixF" ]. If you absolutely hate music and do not even want any further information, the BIOS has several pieces of music built into (13 I think), you can use them in your programs for several usages, they range from simple songs, to some noise and bonus sounds. </p>
+<h3>Music format</h3>
+
+<p>The music structure the BIOS provides is described in Bruce Tomlins BIOS disassembly:<br />
+</p>
+
+<p><tt> ; Music data format:<br />
+; <br />
+; header word &rarr; $C84F 32 nibble ADSR table <br />
+; header word &rarr; $C851 8-byte "twang" table <br />
+; data bytes <br />
+; <br />
+; The ADSR table is simply 32 nibbles (16 bytes) of amplitude values. <br />
+; <br />
+; The twang table is 8 signed bytes to modify the base frequency of <br />
+; each note being played. Each channel has a different limit to its <br />
+; twang table index (6-8) to keep them out of phase to each other. <br />
+; <br />
+; Music data bytes: <br />
+; Bits 0-5 = frequency <br />
+; Bit 6 clear = tone <br />
+; Bit 6 set = noise <br />
+; Bit 7 set = next music data byte is for next channel <br />
+; Bit 7 clear, play note with duration in next music data byte: <br />
+; bits 0-5 = duration <br />
+; bit 6 = unused <br />
+; bit 7 set = end of music <br />
+  </tt></p>
+
+<p>While the above description is 100% correct IMHO it is hard to understand.</p>
+
+<p>I will try to explain the format a little bit more closely.</p>
+
+<ul><li>
+<p>each data entry consists of 1,2 or 3 notes (1 channel, 2 channels or 3 channels) plus one entry for duration of the note </p>
+</li><li>
+<p>the notes are values from the frequency table</p>
+</li><li>
+<p>there are $3f different notes</p>
+</li><li>
+<p>but the "note" entry in the music structure uses all bits, the top most bits ... (see below)</p>
+</li><li>
+<p>in binary the bits %AONN NNNN are used (N = used) for notes</p>
+</li><li>
+<p>O bit (bit 6) is used to indicate whether an actual note or noise is played (0 = note, 1 = noise)</p>
+</li><li>
+<p>A bit (bit 7) indicates whether an additional channel is used, if so, the next value is expected to be another note, not the duration marker (up to a maximum of 3 channels)</p>
+</li></ul>
+
+<p>Example for one "line":<br />
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;FCB&nbsp;&nbsp;&nbsp;&nbsp;$80+2,$80+26, 14, 12&nbsp;&nbsp;&nbsp;&nbsp;;<br />
+</tt></p>
+
+<ul><li>
+<p>plays the note "2" (A2) in channel 1, and continues to channel 2(+$80)</p>
+</li><li>
+<p>plays the note "26" (A4) in channel 2, and continues to channel 3(+$80)</p>
+</li><li>
+<p>plays the note "14" (A3) in channel 3</p>
+</li><li>
+<p>for a duration of 12</p>
+</li></ul>
+
+<p>The length of the note is in "soundticks". The maximum "sensible" length of a note is $1f (31) - because this is the maximum of the ADSR envelope - after that the note sound will be silenced.</p>
+<h3>ADSR</h3>
+
+<p>For a general explanation see google (or some other parts of this documentation).<br />
+In relation to vectrex the ADSR used with BIOS routines consists of 16 bytes </p>
+
+<p>These 16 bytes are split into nibbles (two 4 bit pieces in each byte), which each represent a 4 bit number, thus ranging from 0 to 15. Alltogether there are 32 nibbles.</p>
+
+<p>Each note played will be "enveloped" in the ADSR table given. Each nibble (4 bit value) is read as a volume parameter ranging from 0 - 15. These volume parameters are applied over the duration of the note to the output volume of the note. </p>
+
+<p>Thus each note is played with a volume level corresponding to the ADSR (nibble) value of the duration timer of the note at each soundtick. <br />
+Example:<br />
+</p>
+
+<p><tt>adsr: db $cc, $fe, $dd, $dd, $aa, $88, $44, $00, $00, $00, $00, $00, $00, $00, $00, $00</tt></p>
+
+<p>will play a note with following volume levels at each tick:<br />
+
+<ol><li>
+<p>Tick: volume 12 (of 15) ; Attack </p>
+</li><li>
+<p>Tick: volume 12 (of 15)</p>
+</li><li>
+<p>Tick: volume 15 (of 15) ; Decay</p>
+</li><li>
+<p>Tick: volume 14 (of 15)</p>
+</li><li>
+<p>Tick: volume 13 (of 15) ; Sustain (in vectrex the sustain IS timed)</p>
+</li><li>
+<p>Tick: volume 13 (of 15)</p>
+</li><li>
+<p>Tick: volume 13 (of 15)</p>
+</li><li>
+<p>Tick: volume 13 (of 15)</p>
+</li><li>
+<p>Tick: volume 10 (of 15) ; Release</p>
+</li><li>
+<p>Tick: volume 10 (of 15)</p>
+</li><li>
+<p>Tick: volume 8 (of 15)</p>
+</li><li>
+<p>Tick: volume 8 (of 15)</p>
+</li><li>
+<p>Tick: volume 4 (of 15)</p>
+</li><li>
+<p>Tick: volume 4 (of 15)</p>
+</li><li>
+<p>silence thereafter...</p>
+</li></ol>
+</p>
+
+<p>If the duration of the note is shorter than the ADSR table, the played note will be cut off - and the next note will start directly.</p>
+
+<p>The ADSR envelope "defines" (more or less) the type of instrument you like to play (again - google is your friend).</p>
+<h3>Twang</h3>
+
+<p>With the twang values you can define a kind of "vibrato" effect to. The Twang table consists of 8 bytes, each byte representing a signed byte value (-128 to +128). The value gotten from the twang table is added "directly" to the PSG sound registers for the frequency of the used channel (PSG registers 5/4, 3/2, 1/0) [remember, the frequency for each note is kept in the table located at: <tt>Vec_Freq_Table</tt> - $FC8D].<br />
+  An internal counter for the twang table is increased with each soundtick and each soundtick the "next" value is used. The counter will be reset to 0 after a number of soundticks (and again increased). For each channel the rollover (soundtick-) timer is different:
+<ul><li>
+<p>channel 0: Twang rollover after 6 soundticks</p>
+</li><li>
+<p>channel 1: Twang rollover after 7 soundticks</p>
+</li><li>
+<p>channel 2: Twang rollover after 8 soundticks</p>
+</li></ul>
+</p>
+
+<p>The internal TWANG counter is increased (and rolled over) whether a sound is actually played or not. The twang counter is not resetted when a note starts. That means a note can start of playing at any twang location.<br />
+<br />
+(Note:<br />
+Even though the above table <tt>Vec_Freq_Table</tt> is called "frequency table", the values stored there are <b>not</b> frequencies, but values for the PSG-frequency registers. This means for example, for the note "C" there is a 12 bit value stored: $06 $AE this value put into the frequency registers of the correct channel translates to a frequency 65.416 Hz (which is pretty near the 65.406 Hz of the actual note "C".))<br />
+</p>
+<br />
+
+<p><b>Note:<br />
+</b> The routines used in mod2Vectrex is a modified version of the vectrex sound routines, while in general very similar, following changes were made:
+<ul><li>
+<p>allowing the use of "silence" as a note (value $3f), this also means one note less for the user</p>
+</li><li>
+<p>using "silence" (for the other channels) you can play each channels independendly</p>
+</li><li>
+<p>each channel has its own ADSR and TWANG setting</p>
+</li></ul>
+</p>
+
+<p>What is still missing: <br />
+Different "duration" timers for each channel.</p>
+<h3>PSG accessing</h3>
+
+<p>The PSG hardware is a bit "cumbersome" to access, from a programmers point of view. Therefor the BIOS developers  "shadowed" all soundchip registers in RAM.</p>
+
+<p>If you only use BIOS functions, it is sufficient to modify the shadow registers of the PSG chip and call the "Do_Sound" routine ones per update round.</p>
+
+<p>The RAM locations of the shadow is located at $C800.  That location should not be confused with "Vec_Music_Work" (located at: $C83F).</p>
+<br />
+
+<p>For a more in depth reading, please head over to: <br />
+<tt> codi&rarr;Snippets&rarr;Christopher Tumber&rarr;Sound </tt> There you will also find Christophers own play routines, which allow more controll over single notes (like adsr length dependency), or playing each channel selectively.</p>
+
+<p> </p>
+<hr />
+<h1>... a demo written</h1>
+
+<p>Under the "projects" directory you can find a small demo written using Vide. The demo was "written" in a couple of hours and is merely ment as an example for vide-usage.</p>
+
+<p>Here some clues what is done:<br />
+<b>part 1</b><br />
+</p>
+
+<ul><li>
+<p>When started the vectorlist "MALBAN" is displayed. That vectorlist was generated from an raster image using the utiliy "vector images" - and slightly edited thereafter in vecci. The drawing routine used was "draw_synced_list" - the routine was optimized for the used scale factor (since the orginal routine always assumes the worst), movetod was inlined.</p>
+</li><li>
+<p>A raster image is displayed showing a picture of me. That image was generated using the utility "raster images". The image is display uni directional, the display routine was also "optimized" the same way as the above mentioned vectorlist routine. The raster-image was also bit-shifted by hand to save one byte per line.</p>
+</li><li>
+<p>The displayed cube was generated using vecci, hiddenline removal was done by hand (but took only about 10 minutes). The cube is a "standard"- animation displayed by the BIOS-routine "Draw_VL_mode".</p>
+</li><li>
+<p>The background music a converted mod, nothing special done here, only selecting instruments in the mod converter.</p>
+</li></ul>
+
+<p><b>part 2</b> (after pressing any key)<br />
+
+<ul><li>
+<p>The "running" man was again created in vecci, using image to vector conversion and a little bit of editing afterwards. The vectorlist was further repositioned and scaled to use "good" vector strengths.<br />
+The vectorlists are of arbitrary size some with lose ends and "inner circles". The list consists of a maximum of about 40 vectors. Therefor this animation is displayed using the "synced" list again. But I didn't bother to optimize the drawing routine all that much.</p>
+</li><li>
+<p>The music is a YM-converted (and packed) piece I found in the internet (Bitmap). I modified the YM_player slightly to not write to the soundchip, but to the shadow-registers in ram, with that it was easy to... </p>
+</li><li>
+<p>using the buttons 1-3 you can play 3 different AYFX sounds parallel to the YM-file using a modified AYFX-play routine. The modified routine also writes to the shadow register, doing that after the YM-routine "overlays" the ym generated sounds with the AYFX sounds.</p>
+</li><li>
+<p>The scrolltext was something I did some time ago, there must somewhere be a version that enters and exits the letters "clipped" but I have not found that one yet.</p>
+</li></ul>
+</p>
+<hr />
+<h1>Vectrex32</h1>
+<h2>What is that?</h2>
+
+<p>From the announcement of the author:<br />
+</p>
+
+<div class="code">
+<p>I have created a new cartridge for the Vectrex that effectively upgrades it to 32 bits and allows you to write Vectrex games in interactive interpreted BASIC.</p>
+
+<p>The cartridge, which I call the Vectrex32 SmartCart, is based on the Microchip PIC32. It's a 32 bit microcontroller that runs at 200 MHz, has a floating point unit, 2MB of flash, and 512KB of RAM. By comparison, the Vectrex's 6809 is an 8/16 bit processor with 8KB of ROM and 1K of RAM.</p>
+
+<p>The BASIC interpreter and the game run on the PIC32. There's a dual-port memory chip readable and writable by both the PIC32 and the 6809. The PIC32 writes 6809 machine code into the dual-port memory and the 6809 runs it. Thirty times per second, the PIC32 writes the instructions needed to draw the screen, play sounds, and read the controller. Since the game logic is running on the PIC32, games can be far more sophisticated than anything the Vectrex could do alone.</p>
+
+<p>The SmartCart also has a USB interface. When connected to a PC, it appears as a mass storage drive and a serial port. The drive holds BASIC programs and the serial port can be used with a terminal emulator. You can interactively debug a BASIC program (my version of BASIC supports breakpoints, single-stepping, printing out variables, and more). You can also interactively change things on the screen, e.g. you can experiment to get your shapes looking right and moving right.</p>
+
+<p>The SmartCart provides advanced graphics features like sprites, scaling, rotating, and clipping.</p>
+
+<p>Read more: <a target="_blank" href="http://vectrex32.com/">http://vectrex32.com/</a></p>
+</div>
+<h2>Vec32 Terminal</h2>
+
+<p>Vide has some preliminary support for the above device. Like above described the device is accessed via:
+<ul><li>
+<p>9600 8n1 terminal (communication)</p>
+</li><li>
+<p>file system (usb drive - files)</p>
+</li></ul>
+</p>
+
+<p>This makes handling/programming sometimes a bit cumbersome. For that reason I added editing and starting to vide.</p>
+
+<p>You can access the Vec32 Terminal under the menu tools. If you do so, a window similar to vedi appears:</p>
+<br/><p align="center">
+<img src="pics/Vec32Help.png" width="1239" height="983" /><br/>
+<em>Vec32 Terminal</em></p><br/>
+
+<p>In the upper region of the window you must define the Vectrex32 device parameters
+<ol><li>
+<p>give the serial port, the <img src="pics/arrow_refresh.png" alt="arrow_refresh.png" /> rescans the available ports (in case you switched on vectrex "later")</p>
+</li><li>
+<p>the location of the usb drive</p>
+</li></ol>
+</p>
+<h3>serial connection</h3>
+
+<p>The combobox gives you all currently available serial ports. Please chose the correct one. There is no internal testing if you chose the correct port! (probably nothing but will come from a wrong port choice - but you won't be able to run your BASIC programs)</p>
+
+<p>The serial port selection was tested with <i>Windows 7</i>, <i>Mac OSX</i> and <i>Linux Ubuntu</i>. If there is any problem establishing a connection, you may try reaching out to Malban.</p>
+
+<p><b>Note:</b><br />
+Under my linux installation it was neccessary to change file system permissions for the tty. You may need to do so too. With my system following line was neccessary:<br />
+ <br />
+<tt>sudo chmod 666 /dev/ttyACM0<br />
+</tt></p>
+
+<p>(your terminal might have a different name)</p>
+<h3>file system connection</h3>
+
+<p>The usb drive of Vectrex 32 stores the BASIC programs that can be run "on" the vectrex. In order to store files there, naturally the drive must be mounted to some place.</p>
+
+<p>Chose the right drive/folder/mountpoint using the file selection button.<br />
+The contents of the drive will be displayed in the treeview to the left.</p>
+
+<p>Only if that location is chosen correctly the transport of your edited files to the Vectrex32 cart will succeed!</p>
+<h2>Connect</h2>
+
+<p>If you selected the above two entities, press "connect" to connect to the Vectrex 32 device. If the connection was successfull a green "connected" will appear next to the button (a red "not connected" otherwise).</p>
+
+<p>The device settings will be stored. But can naturally only be used if the Vectrex 32 device is connected and switched on.</p>
+<h2>Buttons</h2>
+
+<p><img src="pics/new.png" alt="new.png" /><br />
+Creates a new file.<br />
+</p>
+
+<p><img src="pics/arrow_refresh.png" alt="arrow_refresh.png" /><br />
+Refresh the current display tree (if you externally added files - e.g.).<br />
+</p>
+
+<p><img src="pics/page_go.png" alt="page_go.png" /><br />
+Load a file (from anywhere).<br />
+Pressing shift with the button, will reload the current edited file.</p>
+
+<p><img src="pics/page_save.png" alt="page_save.png" /><br />
+Save the current file.<br />
+Pressing shift with the button, will "save as" - opens a file dialog.</p>
+
+<p><img src="pics/text_columns.png" alt="text_columns.png" /><br />
+Restarts syntax highlighting.</p>
+
+<p><img src="pics/control_play_blue.png" alt="control_play_blue.png" /> <br />
+Saves the current file to its original location (probably on the Vectrex 32 device) and tries to run it as a BASIC program.</p>
+
+<p>In order to do that following "terminal"-commands are send:</p>
+
+<ul><li>
+<p><tt>CRTL/C</tt><br />
+(breaks any currently running Vectrex 32 programs)</p>
+</li><li>
+<p><tt>STOP</tt><br />
+(stops any currently running Vectrex 32 programs)</p>
+</li><li>
+<p><tt>LOAD "currentFile"</tt><br />
+(tries to load the just saved program)</p>
+</li><li>
+<p><tt>RUN</tt><br />
+(... and starts it)</p>
+</li></ul>
+<h2>The tree</h2>
+
+<p>If "initialization" of Vectrex 32 went alright, than the tree shows the files which are stored on the Vectrex 32 usb device. Clicking on such a file will open it in the editor to the right. There are no popup menus (yet).</p>
+<h2>Editor</h2>
+
+<p>The editor is basically the same as vide, with a different syntax highlighting. Inserting vectorlists and quickhelp is <b>not</b> available.</p>
+<h2>Terminal</h2>
+
+<p>The lower part of the window is the "Terminal". <br />
+The terminal window provides the two way communication with the Vectrex 32 device.</p>
+
+<p>Basically I tried to implement a "C64"-like screen. Within the terminal you can move accross the panel using cursor keys. Pressing return will send <i>that</i> line (up to the cursor position) to the Vectrex 32 device.</p>
+
+<p>Hitting CTRL/C will send a "CTRL/C" to the device.</p>
+
+<p>Letters are <b>not</b> send when typed - they are only send after hitting "return" (CTRL/C being an exception).</p>
+
+<p><b>Caveats</b><br />
+The terminal "emulation" is not as "clean" as I would like. Since the serial device is both an input and an output device, some communications (sometimes) when printing to the used jEditorPane (Java thingy) seem to "overlap". Everything works alright but some letters are sometimes printed in the wrong place.</p>
+
+<p>Without doing a completely different "thing" I don't think this can be changed easily (I <i>tried! </i>). What I usually do when "talking" to the device is, "CTRL/A" + delete to clear the screen and start fresh (or just press the little "sun" button).</p>
+
+<p>I also noticed, that sometimes the "CTRL/C" is not accepted immediatly, if that is the case, press "return" after the "CTRL/C".</p>
+
+<p>After implementing the "terminal" emulation - I have not used any "real" terminal with Vectrex 32, so I don't know if the next behaviour does also exist in the "normal" environment.<br />
+Sometimes, when running a BASIC program the serial communication seems to "stumble". The 5 different parts are executed right after another (SAVE, CTRL/C, STOP, LOAD, RUN), sometimes it seems, that the filesystem transfer is not finished, when the "LOAD" is commited to the device. Than the BASIC program is loaded in an "unfinished state" - which results in any kind of BASIC error. If a totally unexpected error happens, just try another "RUN"(YES, I already implemented a delay after the saving...).  </p>
+<h2>Vecci support</h2>
+
+<p>Vectorlists that are build in vecci and are exportable as "Draw_VL_mode" can also be exported in BASIC format. To do that check the little checkbox at the side of the corresponding button. If done, a vectorlist usable in BASIC programs will be generated. Example:<br />
+<tt> VectorList={&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{MoveTo, +$20, -$40}, &nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{DrawTo, +$20, +$00}, &nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{DrawTo, +$00, +$40}, &nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{DrawTo, -$20, +$00}, &nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{DrawTo, -$20, -$40}, &nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{DrawTo, +$20, +$00}, &nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{DrawTo, -$20, +$00}, &nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{DrawTo, +$20, -$40}}<br />
+</tt></p>
+
+<p>If you also check the "runnable" button, a Vectrex 32 runable BASIC program which displays your vectorlist will be generated.</p>
+
+<p>To transport the generated vectorlist to your own BASIC program you (as of now) must use copy/paste from vecci to Vec32.</p>
+<h2>YM support</h2>
+
+<p>In the middle of the iconbar is a "YM"-button, with that you can call the YM-editor and load and convert YM-data to BASIC.<br />
+The only output option as of now is UNPACKED (and not switchable).  <br />
+Beware, that the storage space of the Vectrex32 is "only" 430KB and that can be easily filled with a moderatly long YM files and its BASIC data output.<br />
+A BASIC ym-player can also be generated.</p>
+<h2>Attention!</h2>
+
+<p>Following facts can be confusing when using Vectrex 32:
+<ul><li>
+<p>the BASIC text files must be "windows" like, thus a line must end with  0x0d + 0x0a characters (vide does that for you)</p>
+</li><li>
+<p>all vectorlists have the coordinates switched to "usual" vectrex usage, thus a vectorlist is stored with x, y as coordinates, <b>not</b> y, x</p>
+</li><li>
+<p>coordinates within a vectorlist are "absolut" not relative</p>
+</li></ul>
+</p>
+<hr />
+<h1>Draw_VLc - Optimizations</h1>
+<h2>Motivation</h2>
+
+<p>In this section I would like to demonstrate possible steps to optimize vectorlist drawing.</p>
+
+<p>The shown possible steps are not ment to be "complete", exclusively right or particulary engenious.</p>
+
+<p>Each scenario of ones own coding base provides grounds for other or more specific optimization technics.</p>
+
+<p>I will show different versions of printing a vectorlist, which in each version step will be slightly more optimized in specific ways. </p>
+
+<p>The demonstration program(s) will draw a vectorlist which represents a "hut" like:</p>
+<br/><p align="center">
+<img src="pics/Hut.png" width="366" height="508" /><br/>
+<em>Hut</em></p><br/>
+
+<p>(The hut is pretty small, but as you will see, drawing a "small" list is easier to optimize - also in many games drawing many small objects is the predominant scenario)</p>
+<h2>Version 1 - 3164 cycles - basis</h2>
+
+<p>Basis:</p>
+
+<div class="code">
+<p><tt> ;*****************************************************<br />
+; DEFINE SECTION<br />
+;*****************************************************<br />
+; load vectrex bios routine definitions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE  "VECTREX.I"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vectrex function includes<br />
+<br />
+;*****************************************************<br />
+; Variable / RAM SECTION<br />
+;*****************************************************<br />
+; insert your variables (RAM usage) in the BSS section<br />
+; user RAM starts at $c880 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BSS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c880&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; start of our ram space <br />
+<br />
+;*****************************************************<br />
+; HEADER SECTION<br />
+;*****************************************************<br />
+; The cartridge ROM starts at address 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 <br />
+; the first few bytes are mandatory, otherwise the BIOS will not load<br />
+; the ROM file, and will start MineStorm instead<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"g GCE 1998", $80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; "g' is copyright sign<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;music1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; music from the rom <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$F8, $50, $20, -$80&nbsp;&nbsp;&nbsp;; hight, width, rel y, rel x (from 0,0) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"DRAW LINES V1", $80&nbsp;&nbsp;; some game information, ending with $80<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; end of game header <br />
+<br />
+;*****************************************************<br />
+; CODE SECTION<br />
+;*****************************************************<br />
+; here the cartridge program starts off<br />
+main: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wait_Recal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Vectrex BIOS recalibration <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intensity_5F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Sets the intensity of the <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vector beam to $5f <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$b0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; scalefactor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_t1_cnt_lo<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative Y <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative X<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moveto_d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; sets up VIA control register after a wait recal<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#vData&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; address of string <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw_VLc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Vectrex BIOS print routine <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; and repeat forever <br />
+<br />
+<br />
+;*****************************************************<br />
+; DATA SECTION<br />
+;*****************************************************<br />
+<br />
+vData = VectorList<br />
+VectorList:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; number of lines to draw<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00, +$06 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07, +$00 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$05, -$03 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$05, -$03 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07, +$00 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07, +$06 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00, -$06 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07, +$06 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; draw to y, x<br />
+</tt><br />
+</p>
+</div>
+<h2>Version 2 - 1637 cycles - scale factor!</h2>
+
+<p>In the above version (for demonstration purposes) I used a large scale factor and small vector strengths. Using a small scale factor and large vector strength results in huge optimization effects.</p>
+
+<p>The scale factor and strength changes are not 1:1 - you have to experiment to get the same "sizes" of the resulting lists.</p>
+
+<p>In the example I changed the scale factor from $b0 to $06, and multiplied each (original) strength by 18.</p>
+
+<div class="code">
+<p><tt> ;*****************************************************<br />
+; DEFINE SECTION<br />
+;*****************************************************<br />
+; load vectrex bios routine definitions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE  "VECTREX.I"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vectrex function includes<br />
+<br />
+;*****************************************************<br />
+; Variable / RAM SECTION<br />
+;*****************************************************<br />
+; insert your variables (RAM usage) in the BSS section<br />
+; user RAM starts at $c880 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BSS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c880&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; start of our ram space <br />
+<br />
+;*****************************************************<br />
+; HEADER SECTION<br />
+;*****************************************************<br />
+; The cartridge ROM starts at address 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 <br />
+; the first few bytes are mandatory, otherwise the BIOS will not load<br />
+; the ROM file, and will start MineStorm instead<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"g GCE 1998", $80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; "g' is copyright sign<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;music1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; music from the rom <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$F8, $50, $20, -$80&nbsp;&nbsp;&nbsp;; hight, width, rel y, rel x (from 0,0) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"DRAW LINES V2", $80&nbsp;&nbsp;; some game information, ending with $80<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; end of game header <br />
+<br />
+;*****************************************************<br />
+; CODE SECTION<br />
+;*****************************************************<br />
+; here the cartridge program starts off<br />
+main: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wait_Recal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Vectrex BIOS recalibration <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intensity_5F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Sets the intensity of the <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vector beam to $5f <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$06&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; scalefactor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_t1_cnt_lo<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative Y <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative X<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moveto_d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; sets up VIA control register after a wait recal<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#vData&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; address of string <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw_VLc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Vectrex BIOS print routine <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; and repeat forever <br />
+<br />
+<br />
+;*****************************************************<br />
+; DATA SECTION<br />
+;*****************************************************<br />
+<br />
+BLOW&nbsp;UP = 18<br />
+vData = VectorList<br />
+VectorList:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; number of lines to draw<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07*BLOW_UP, +$00*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$05*BLOW_UP, -$03*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$05*BLOW_UP, -$03*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07*BLOW_UP, +$00*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00*BLOW_UP, -$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+</tt><br />
+</p>
+</div>
+<h2>Version 3 - 1630 cycles - macro!</h2>
+
+<p>This version is a step "in between". Nothing really changed, only  the call of "<tt>JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw&nbsp;VLc</tt>" was replaced with a macro call of exactly the same routine.</p>
+
+<div class="code">
+<p><tt> ;*****************************************************<br />
+; DEFINE SECTION<br />
+;*****************************************************<br />
+; load vectrex bios routine definitions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE  "VECTREX.I"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vectrex function includes<br />
+<br />
+DRAW_VLC            macro    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direct&nbsp;&nbsp;$d0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; following code uses d0 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,X+ <br />
+Draw_VL_a_macro? <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$C823 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,X <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Send Y to A/D <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Enable mux <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAX&nbsp;&nbsp;&nbsp;&nbsp;2,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Point to next coordinate pair <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait a moment <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Disable mux <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Send X to A/D <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$FF00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Shift reg=$FF (solid line), T1H=0 <br />
+LF3ED\?: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Put pattern in shift register <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_t1&nbsp;cnt_hi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Set T1H (scale factor?) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$0040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;B-reg = T1 interrupt bit <br />
+LF3F4\?: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BITB&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_int_flags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait for T1 to time out <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF3F4\? <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait a moment more <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Clear shift register (blank output) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$C823&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Decrement line count <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DECA&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BPL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw_VL_a_macro\?&nbsp;&nbsp;&nbsp;&nbsp;;Go back for more points <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Check0Ref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Reset zero reference if necessary <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endm     <br />
+<br />
+;*****************************************************<br />
+; Variable / RAM SECTION<br />
+;*****************************************************<br />
+; insert your variables (RAM usage) in the BSS section<br />
+; user RAM starts at $c880 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BSS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c880&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; start of our ram space <br />
+<br />
+;*****************************************************<br />
+; HEADER SECTION<br />
+;*****************************************************<br />
+; The cartridge ROM starts at address 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 <br />
+; the first few bytes are mandatory, otherwise the BIOS will not load<br />
+; the ROM file, and will start MineStorm instead<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"g GCE 1998", $80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; "g' is copyright sign<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;music1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; music from the rom <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$F8, $50, $20, -$80&nbsp;&nbsp;&nbsp;; hight, width, rel y, rel x (from 0,0) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"DRAW LINES V3", $80&nbsp;&nbsp;; some game information, ending with $80<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; end of game header <br />
+<br />
+;*****************************************************<br />
+; CODE SECTION<br />
+;*****************************************************<br />
+; here the cartridge program starts off<br />
+main: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wait_Recal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Vectrex BIOS recalibration <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intensity_5F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Sets the intensity of the <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vector beam to $5f <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$06&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; scalefactor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_t1_cnt_lo<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative Y <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative X<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moveto_d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; sets up VIA control register after a wait recal<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#vData&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; address of string <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DRAW_VLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Macro print routine <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; and repeat forever <br />
+<br />
+<br />
+;*****************************************************<br />
+; DATA SECTION<br />
+;*****************************************************<br />
+<br />
+BLOW&nbsp;UP = 18<br />
+vData = VectorList<br />
+VectorList:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; number of lines to draw<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07*BLOW_UP, +$00*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$05*BLOW_UP, -$03*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$05*BLOW_UP, -$03*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07*BLOW_UP, +$00*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00*BLOW_UP, -$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+</tt><br />
+</p>
+</div>
+<h2>Version 4 - 1531 cycles - optimized macro!</h2>
+
+<p>The above introduced macro was changed to a manualy optimized version.</p>
+
+<div class="code">
+<p><tt> ;*****************************************************<br />
+; DEFINE SECTION<br />
+;*****************************************************<br />
+; load vectrex bios routine definitions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE  "VECTREX.I"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vectrex function includes<br />
+<br />
+DRAW_VLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;macro    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direct&nbsp;&nbsp;$d0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; following code uses d0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,X++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$C823&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLRA<br />
+_DRAW_VLA\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,X+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Disable mux<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Send X to A/D<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Put pattern in shift register<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_t1_cnt_hi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;enable timer 1<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,X+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; 6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$C823&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; 7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DRAW_END\?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; 3 Go back for more points<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;B-reg = T1 interrupt bit<br />
+LF_1\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BITA&nbsp;&nbsp;&nbsp;&nbsp;VIA_int_flags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait for T1 to time out<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF_1\?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait a moment more<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Clear shift register (blank output)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DRAW_VLA\?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; 3<br />
+_DRAW_END\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;B-reg = T1 interrupt bit<br />
+LF_2\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BITA&nbsp;&nbsp;&nbsp;&nbsp;VIA_int_flags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait for T1 to time out<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF_2\?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait a moment more<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_shift_reg<br />
+; one more round<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,X+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Disable mux<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Send X to A/D<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Put pattern in shift register<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_t1_cnt_hi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;enable timer 1<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;B-reg = T1 interrupt bit<br />
+LF_3?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BITA&nbsp;&nbsp;&nbsp;&nbsp;VIA_int_flags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait for T1 to time out<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF_3\?<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Clear shift register (blank output)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endm<br />
+<br />
+;*****************************************************<br />
+; Variable / RAM SECTION<br />
+;*****************************************************<br />
+; insert your variables (RAM usage) in the BSS section<br />
+; user RAM starts at $c880 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BSS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c880&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; start of our ram space <br />
+<br />
+;*****************************************************<br />
+; HEADER SECTION<br />
+;*****************************************************<br />
+; The cartridge ROM starts at address 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 <br />
+; the first few bytes are mandatory, otherwise the BIOS will not load<br />
+; the ROM file, and will start MineStorm instead<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"g GCE 1998", $80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; "g' is copyright sign<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;music1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; music from the rom <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$F8, $50, $20, -$80&nbsp;&nbsp;&nbsp;; hight, width, rel y, rel x (from 0,0) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"DRAW LINES V4", $80&nbsp;&nbsp;; some game information, ending with $80<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; end of game header <br />
+<br />
+;*****************************************************<br />
+; CODE SECTION<br />
+;*****************************************************<br />
+; here the cartridge program starts off<br />
+main: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wait_Recal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Vectrex BIOS recalibration <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intensity_5F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Sets the intensity of the <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vector beam to $5f <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$06&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; scalefactor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_t1_cnt_lo<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative Y <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative X<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moveto_d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; sets up VIA control register after a wait recal<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#vData&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; address of string <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DRAW_VLC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Macro print routine <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; and repeat forever <br />
+<br />
+<br />
+;*****************************************************<br />
+; DATA SECTION<br />
+;*****************************************************<br />
+<br />
+BLOW_UP = 18<br />
+vData = VectorList<br />
+VectorList:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; number of lines to draw<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07*BLOW_UP, +$00*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$05*BLOW_UP, -$03*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$05*BLOW_UP, -$03*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07*BLOW_UP, +$00*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00*BLOW_UP, -$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+</tt><br />
+</p>
+</div>
+<h2>Version 5 - 1416 cycles - loop unrolling and cycle specific!</h2>
+
+<p>The loop in the vector drawing was unrolled, and the actual drawing routine does not have  a wait loop anymore, since we <i>now</i> that the length of the loop (= scalefactor) is 6. We can use the information, that we only draw for 6 cycles, to NOT wait for these 6 cycles to finish - we know how many cycles our instructions take.</p>
+
+<p>To do the loop unrolling and some of the math involved (jump into a unrolled vector drawing routine) we changed the first parameter of the vectorlist to have a unrolled offset counter instead of the vectorlist length.</p>
+
+<p>The maximum unrolled loop in this version is 11 vectors (maximum vectorlist size).</p>
+
+<p>The size of the header (10) and one line (16) is manually computed, but could also be automatically gotten from address "math".</p>
+
+<div class="code">
+<p><tt> ;*****************************************************<br />
+; DEFINE SECTION<br />
+;*****************************************************<br />
+; load vectrex bios routine definitions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE  "VECTREX.I"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vectrex function includes<br />
+<br />
+ONE_LINE_LENGTH&nbsp;&nbsp;&nbsp;EQU 16<br />
+LENGTH_OF_HEADER&nbsp;&nbsp;EQU (4+2+2+2)<br />
+MAX_LINE_NUM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EQU 23<br />
+<br />
+<br />
+ONE_LINE_DRAW macro&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; cycles<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [6] Disable mux<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [6] Send X to A/D<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [6] Put pattern in shift register<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_t1_cnt_hi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [4] enable timer 1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,X++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [8] load Y coordinate to A, X coordinate to B<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [4] Send Y to A/D<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [4] enable mux, thus y integrators are set to Y<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [4] turn the lights off<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endm<br />
+<br />
+MY_SPRITE_DRAW_VLC_UNLOOP_SMALL&nbsp;macro<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ,X++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;(2)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;(2) [4] Send Y to A/D<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;(2) [4] enable mux, thus y integrators are set to Y<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[i_jump]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;(4)<br />
+JUMP_INTO_ALL\?:<br />
+JUMP_INTO_11\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_10\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_09\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_08\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_07\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_06\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_05\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_04\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_03\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_02\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ONE_LINE_DRAW<br />
+JUMP_INTO_01\?:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [6] Disable mux<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [6] Send X to A/D<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [6] Put pattern in shift register<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_t1_cnt_hi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [4] enable timer 1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endm<br />
+<br />
+;*****************************************************<br />
+; Variable / RAM SECTION<br />
+;*****************************************************<br />
+; insert your variables (RAM usage) in the BSS section<br />
+; user RAM starts at $c880 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BSS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c880&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; start of our ram space <br />
+<br />
+;*****************************************************<br />
+; HEADER SECTION<br />
+;*****************************************************<br />
+; The cartridge ROM starts at address 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 <br />
+; the first few bytes are mandatory, otherwise the BIOS will not load<br />
+; the ROM file, and will start MineStorm instead<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"g GCE 1998", $80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; "g' is copyright sign<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;music1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; music from the rom <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$F8, $50, $20, -$80&nbsp;&nbsp;&nbsp;; hight, width, rel y, rel x (from 0,0) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"DRAW LINES V5", $80&nbsp;&nbsp;; some game information, ending with $80<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; end of game header <br />
+<br />
+;*****************************************************<br />
+; CODE SECTION<br />
+;*****************************************************<br />
+; here the cartridge program starts off<br />
+main: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wait_Recal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Vectrex BIOS recalibration <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intensity_5F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Sets the intensity of the <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; vector beam to $5f <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$06&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; scalefactor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_t1_cnt_lo<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative Y <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; position relative X<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JSR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moveto_d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; sets up VIA control register after a wait recal<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#vData&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; address of string <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,X++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; load offset of vector list draw<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ADDD&nbsp;&nbsp;&nbsp;&nbsp;#(unloop_start_address0+LENGTH_OF_HEADER-12*ONE_LINE_LENGTH); 4=JMP [], 2=LDD ,X++<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_jump<br />
+unloop_start_address0:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MY_SPRITE_DRAW_VLC_UNLOOP_SMALL  <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_shift_reg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [4] turn the lights off<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; and repeat forever <br />
+<br />
+<br />
+;*****************************************************<br />
+; DATA SECTION<br />
+;*****************************************************<br />
+<br />
+BLOW&nbsp;UP = 18<br />
+vData = VectorList<br />
+VectorList:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DW (MAX&nbsp;LINE&nbsp;NUM-(7+1))*ONE&nbsp;LINE&nbsp;LENGTH<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07*BLOW_UP, +$00*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$05*BLOW_UP, -$03*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$05*BLOW_UP, -$03*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07*BLOW_UP, +$00*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$07*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB +$00*BLOW_UP, -$06*BLOW_UP; draw to y, x<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB -$07*BLOW_UP, +$06*BLOW_UP; draw to y, x<br />
+</tt><br />
+</p>
+</div>
+<h2>Version 6 - 1376 cycles - tricking VIA!</h2>
+
+<p>- unfinished - </p>
+<hr />
+<h1>Drawing vectors - differently</h1>
+
+<p>Simply put vector drawing goes like this:
+<ul><li>
+<p>place the beam on the screen</p>
+</li><li>
+<p>switch the light on</p>
+</li><li>
+<p>move the beam with light switched on</p>
+</li><li>
+<p>switch the light off</p>
+</li></ul>
+</p>
+
+<p>Less simple:<br />
+The way BIOS (and most other implementations) draw vectors is:<br />
+(drawing characters or raster data is slightly different)
+<ul><li>
+<p>place the beam somewhere (MoveTo)</p>
+</li><li>
+<p>set the scale factor (Timer1 Lo)</p>
+</li><li>
+<p>set y strength (integrator Y)</p>
+</li><li>
+<p>set x strength (integrator X)</p>
+</li><li>
+<p>write $ff to shift register (the light is switched on)</p>
+</li><li>
+<p>start timer 1 (which, starts the ~RAMP (vector beam is moving))</p>
+</li><li>
+<p>wait for timer 1 to expire (~RAMP is switched off)</p>
+</li><li>
+<p>write $00 to shift register (switch the light off)</p>
+</li></ul>
+</p>
+
+<p>A short via side explanation (for more in depth see "Vectrex internals &rarr; Analog").</p>
+
+<p><b>~RAMP<br />
+</b> Moving the beam internally is realized using integrator circuits which are connected to the deflection coils. Whether the integrators are integrating or not is controlled by a single "flag" (one BIT), which is called ~RAMP. </p>
+
+<p>~RAMP is a zero active flag, meaning the integrators are WORKING when the ~RAMP flag equals zero, this is indicated by the "~" in front of the flag.</p>
+
+<p><b>~BLANK<br />
+</b> Switching the light on and off is internally nearly the same thing, the brightness of the light is set equally to the strength of the vectors [NOT using the blank flag], and the circuit telling the CRT to actually send a "strong" electron beam (which illuminates the phosphor coated tube) is not really that much different than the deflection coil circuits. <br />
+What the "~RAMP" signal is for moving - that is the "~BLANK" signal for light on off.<br />
+The ~BLANK is also a single (zero active) flag, which tells vectrex to switch the light off ~BLANK equals zero, or to switch the light on (~BLANK non zero).</p>
+
+<p><b>VIA<br />
+</b> To communicate the state of the flags (set/unset) VIA 6522 is used.</p>
+
+<p>~RAMP flag is connected the seventh bit of VIA port B (in the following the short form of PB7 is used (<b>P</b>ort <b>B</b> bit <b>7</b>).</p>
+
+<p>~BLANK flag is connected to the VIA Control line Port B 2 (in the following the short form CB2 is used (<b>C</b>ontroll line Port <b>B 2</b>))</p>
+
+<p><b>Versatile<br />
+</b> As the name VIA (Versatile Interface Adapter) implies - there are more than one way to handle things. Via has a couple of control registers, that influence the way it behaves. In relation to the above two "flags" (PB7 = ~RAMP and CB2 = ~BLANK) following information is "interesting":<br />
+</p>
+
+<p>Default BIOS settings:<br />
+VIA register $b (auxiliary control register) is set to $98, which in bits is %10 0 110 00. (See also Vide documentaion: Vectrex internals&rarr; VIA)<br />
+
+<ul><li>
+<p>Bit 7 and 6 ["10"]: sets the behaviour of Timer T1, in short "10" means:<br />
+<i>count down to zero and than stop, also while counting down set PB7 to zero, when countdown is finished, set PB7 to one</i></p>
+</li><li>
+<p>Bit 4, 3 and 2 ["110"]: sets the bevaviour of the SHIFT Register of VIA, the "combined" behaviour setting result is:<br />
+<i>every two processor cycle shift out the MSB (most significant bit) to CB2, at the same time shift the MSB back to the LSB (least significant bit). Keep on shifting till I tell you something else [the actual shifting starts once the Shiftreg is read or written to]</i>.</p>
+</li></ul>
+</p>
+
+<p>What this boils down to is the above described "less simple" way of drawing a vector.<br />
+</p>
+
+<p>Starting the timer 1 "automatically" starts moving the vector. Programatically writing "$ff" to the shift register switches the light on for every shift cycle following (~BLANK = 1 means the light is on).</p>
+
+<p>When the timer t1 reaches zero, the vector automatically stops moving. Than one programatically has to switch the light of by writing 0 to the shift register.<br />
+(Note: it is better to do a <tt><br />
+&nbsp;&nbsp;clra<br />
+&nbsp;&nbsp;sta via_shiftreg</tt><br />
+than to do a<br />
+<tt>&nbsp;&nbsp;clr via_shiftreg</tt>, <br />
+the speed (processor cycles) is the same, but doing a "<tt>clr via_shiftreg</tt>"  also READS the shiftreg, which inherently starts shifting and does output at least one other shift cycle to CB2). <br />
+<br />
+As you might notice, the switch light off using the above method always switches the light off after the moving stops - actually the light is switched off (due to instructions being not immediate) after some additional cycles (at least 4). Meaning the light is kept on for that number of cycles for to long!</p>
+
+<p>You can see that on your vectrex, each vector has a brighter spot at its end, this is because the light is switched of a few cycles to late.</p>
+<h2>Differently</h2>
+
+<p>As you might have guessed with the above mentioning of "versatile" - you can also access the above flags differently.</p>
+
+<p>One other ways to access both bits is to set them "manually".</p>
+
+<p>Below given example (in X register given a Draw_VLc compatible vectorlist) draws vectors "manually" - meaning without using a timer and without using the shift register.</p>
+
+<p>Following settings were used:<br />
+VIA register $b (auxiliary control register) is set to $00, which in bits is %00 0 000 00. (See also Vide documentaion: Vectrex internals&rarr; VIA)<br />
+
+<ul><li>
+<p>Bit 7 and 6 ["00"]: sets the behaviour of Timer T1, in short "00" means:<br />
+<i>Do not influence PB7 by timer 1.</i></p>
+</li><li>
+<p>Bit 4, 3 and 2 ["110"]: sets the bevaviour of the SHIFT Register of VIA, the "combined" behaviour setting result is:<br />
+<i>Disable Shift register activity</i>.</p>
+</li></ul>
+</p>
+
+<p>By setting the via auxiliary control register to above values, both flags can be set manually. 
+<ul><li>
+<p>PB7 <br />
+can manually be set by writing appropriate values to  "VIA_port_b" (Bit 7).</p>
+</li><li>
+<p>CB2<br />
+ can manually be set by setting appropriate values to "VIA_cntl" (Bit 5, 6 and 7 are responsible for CB2 bevaviour)</p>
+</li></ul>
+</p>
+
+<div class="code">
+<p><tt> fixDraw: <br />
+; setup fixdraw<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;,x+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; load the count of vectors to draw <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;tmp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; and remember them somewhere <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;#$81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; mux disabled, ramp disables <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;#$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&lt;VIA_aux_cntl&nbsp;&nbsp;; Shift reg mode = 000 free disable, T1 PB7 disabled<br />
+  noEnd:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;#$ce <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&lt;VIA_cntl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ZERO disabled, and BLANK enabled <br />
+nextv:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldd&nbsp;&nbsp;&nbsp;,x++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; a = y, b = x <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;; Y &rarr; Send it to the D/A <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda&nbsp;&nbsp;&nbsp;#$80 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; ramp disabled, mux enabled &rarr; to Y <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inca&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; ramp disabled, mux disabled &rarr; to Y <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;; X &rarr; Send it to the D/A <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldd&nbsp;&nbsp;&nbsp;#$8101 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; below are x cycles RAMP switched on!<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;#$ee <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb&nbsp;&nbsp;&nbsp;&lt;VIA_cntl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ZERO disabled, and BLANK disabled <br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nop&nbsp;&nbsp;&nbsp;10 ; DELAY<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;; disable ramp ; should again be $81 <br />
+; and x +y cycles light switched on<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nop&nbsp;&nbsp;&nbsp;2 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec&nbsp;&nbsp;&nbsp;tmp <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bpl&nbsp;&nbsp;&nbsp;noEnd <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb&nbsp;&nbsp;&nbsp;#$ce <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb&nbsp;&nbsp;&nbsp;&lt;VIA_cntl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ZERO disabled, and BLANK enabled <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;#$98 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&lt;VIA_aux_cntl <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rts&nbsp;&nbsp;&nbsp;<br />
+</tt><br />
+</p>
+</div>
+
+<p>The line with "<tt>nop&nbsp;&nbsp;&nbsp;10&nbsp;; DELAY</tt>" is resonsible for the size of the resulting image (much like the scale factor).</p>
+<br />
+
+<p><b>Note:</b><br />
+Although the code above suggests otherwise  in consideration of VIA internal timings - the above vector drawing done is (at least using my vectri) cycle exact. ~RAMP and ~BLANK are set and unset at the correct times, and there are no bright spots on either side of the drawn vectors. (~BLANK is switched off for 20 cycles <i>longer</i> than ~RAMP - I have no clue what VIA is doing in those 20 cycles!)<br />
+</p>
+<br />
+
+<p><b>Note:</b><br />
+The timings given in above example have been experimentally gotten by trial an error using real life vectrex systems. While Vide is able to display the result correctly, emulation of VIA internal timing is not good enough to trust the emulator on timing experiments.</p>
 <hr />
 <h1>Vectrex internals</h1>
 
@@ -6124,7 +8095,7 @@ The same select lines are used to demultiplex the joystick analog potentiometers
 For more information regarding joystick input, see Joyport devices.</p>
 <h4>Bit 3 sound BC1  + Bit 4 sound BDIR</h4>
 
-<p>The above two bits are again "bundled" to 4 different possible states of communiction with the PSG chip:</p>
+<p>The above two bits are again "bundled" to 4 different possible states of communication with the PSG chip:</p>
 
 <ol><li>
 <p>0 (binary: 00) PSG Inactive<br />
@@ -6154,7 +8125,7 @@ This signal indicates that the bus                             contains a regist
 
 <p>For vectrex purposes via port A is: 
 <ol><li>
-<p>simply the digital register that serves as input to the Digital to Analoge Converter (DAC).</p>
+<p>simply the digital register that serves as input to the Digital to Analog Converter (DAC).</p>
 </li><li>
 <p>if BC1 and BDIR are configured - the port that sends (receives from) data to the PSG</p>
 </li></ol>
@@ -6186,9 +8157,22 @@ This signal indicates that the bus                             contains a regist
 </li><li>
 <p>a shift is started by reading and by writing to the shiftreg</p>
 </li></ul>
+
+<p><b>Note:</b><br />
+Why 18 cycles and 9 shifts?<br />
+This is because (most) VIA ships (all vectrex used ships to my knowledge) have a bug.<br />
+<br />
+<i>When shifting using Phi2 (System clock) [Mode 110, see below], VIA outputs 9 shift pulses, the last shifted value is repeated.</i></p>
+
+<p>[See: Synertek sy6522 Applications Information AN5 March 1982]</p>
 <h3>Register $b VIA Auxiliary control register</h3>
 
-<p>With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any since for vectrex).</p>
+<p>With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any sense for vectrex).</p>
+
+<p><tt> +---+---+---+---+---+---+---+---+<br />
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |<br />
++---+---+---+---+---+---+---+---+<br />
+|___T1__|T2_|___SHIFT___|PB_|PA_|                   </tt></p>
 
 <p>SHIFT Mode is contolled by bit 2-4 with these 3 bits 8 SHIFT mode can be configured<br />
 The first mode is DISABLE. The next 3 modes are SHIFT IN modes, which is not used by vectrex.</p>
@@ -6241,7 +8225,16 @@ CB2<br />
 
 <p>All control lines act as interrupt inputs or as handshake Outputs.</p>
 
+<p><tt> +---+---+---+---+---+---+---+---+<br />
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |<br />
++---+---+---+---+---+---+---+---+<br />
+|____CB2____|CB1|____CA2____|CA1|</tt></p>
+
 <p>For vectrex anlog parts (and for now) the lines CA2 (ZERO) and CB2 (BLANK) are <i>most</i> interesting.</p>
+
+<p>CA1<br />
+The CA1 line is connected to the second joystickport of the vectrex, more specific to button4. For joystick activity the controlline is not used. However, the lightpen device and the 3d Imager make use of that control line!<br />
+The lightpen for example "triggers" CA1 when it sees some "light" :-). Bit 0 controls the interrupt behaviour of the CA1 line. Usually the bit is (left ) to 0. If this bit is a logic 0, the CAl interrupt flag will be set by a negative transition (high to low) of the signal on the CAl pin. If bit 0 is a logic 1, the CAl interrupt flag will be set by a positive transition (low to high) of this signal. The Imager 3d (at least in Narrow Escape), sets this bit to 1 to receive the "signal" from the index hole.</p>
 
 <p>CA2 - ZERO<br />
 Responsible bits are bit 1-3: 
@@ -6274,9 +8267,8 @@ Responsible bits are bit 5-7:
 </li></ul>
 </p>
 
-<p>CA1<br />
-The CA1 line is connected to the second joystickport of the vectrex, more specific to button4. For joystick activity the controlline is not used. However, the lightpen device and the 3d Imager make use of that control line!<br />
-The lightpen for example "triggers" CA1 when it sees some "light" :-).</p>
+<p><b>Note:</b><br />
+The manual appliance to the BLANK singnal with the control register only has any effect if SHIFT is switched to OFF. </p>
 <h3>Via Interrupt Flag Reg $d</h3>
 
 <p>Write one to a bit resets the interrupt flag.</p>
@@ -6508,6 +8500,22 @@ The DAC input is THAT value.</p>
 <h3>ZERO</h3>
 
 <p>In short zero means "ground", if you look at the diagram the zero line is connected to both integrators. If ZERO is active, than the integrators are grounded, and no matter what values are present there is no integration ongoing. If an integration happend befor, values are resetted! If zero is active and you as a programmer try to draw something - all you will see is a bright spot in the middle of the screen - the point zero!</p>
+
+<p>ZERO ing the integrators takes time. Measures at my vectrex show e.g.: If you move the beam with a to x = -127 and y = -127 at diffferent scale values, the time to reach zero:
+<ul><li>
+<p>scale $ff &rarr; zero 110 cycles</p>
+</li><li>
+<p>scale $7f &rarr; zero 75 cycles</p>
+</li><li>
+<p>scale $40 &rarr; zero 57 cycles</p>
+</li><li>
+<p>scale $20 &rarr; zero 53 cycles</p>
+</li></ul>
+</p>
+
+<p>After these I stopped my (tedious) measurements.</p>
+
+<p>Just remember, not to draw vectors to early after doing a ZERO.</p>
 <h3>BLANK</h3>
 
 <p>The same thing as ZERO only this time for the brightness of the beam, not the position. If BLANK is active, the beam is switched off, no matter what other brightness you might have set befor.</p>
@@ -6917,7 +8925,7 @@ LF50A:          <br />
 <p> </p>
 <h2>Programming/accessing PSG</h2>
 
-<p>- not done yet -  <br />
+<p>See programming section... <br />
 For  a glimpse look at Joysport devices, since they are accessed via PSG.</p>
 <h2>Non programming stuff</h2>
 <h2>Vectrex BIOS</h2>
@@ -7204,6 +9212,22 @@ write&nbsp;A&nbsp;toJoy2:<br />
 <br />
 </tt> Note:<br />
 BC1/BDIR = 00 is used at the end of each command. This is ok, if this is followed strictly, since before each setting BC1/BDIR must be 00, which is still "honoured".</p>
+
+<p>Note:<br />
+The vectrex BIOS also supports PSG "operations". If you only use BIOS functions to access PSG, than all registers of the PSG are shadows at the RAM locations:<br />
+<br />
+$c83f (register 14)<br />
+...<br />
+$c84c (register 0)<br />
+<br />
+Yes - in reverse order!<br />
+You can read those values and use them as you would do "directly". To poke a value at register 7 you would do:<br />
+</p>
+
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; value to set<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda #$07&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Register 7 of PSG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jsr Sound&nbsp;Byte&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; write byte to soundchip and to shadow registers <br />
+</tt></p>
 <h2>Part two - Joystick!</h2>
 
 <p>Reading values of the joystick is not as easy as one might think.<br />
@@ -7353,10 +9377,15 @@ xReadDone: <br />
 
 <p>I do all development with the - at the time - newest java version. I was told, that you need at least Java 1.8.<br />
  An exception:<br />
-<i>Exception in thread "main" java.lang.UnsupportedClassVersionError: de/malban/VideMain : Unsupported major.minor version 52.0<br />
+<i>Exception in thread "main" java.lang.UnsupportedClassVersionError: de/malban/VideMain: Unsupported major.minor version 52.0<br />
 at java.lang.ClassLoader.defineClass1(Native Method)<br />
 ...<br />
 </i> will occur if your java version is to old.</p>
+<h2>I (try) to run Vide under Win 10 and it is REALLY slow!</h2>
+
+<p>Apparently this has to do with the correct/incorrect java version. I myself do not have a windows 10 system available. But "Manu" discovered, that under under windows 10 [Quote]:<br />
+<tt><br />
+"The solution is here: <a target="_blank" href="https://java.com/en/download/manual.jsp">https://java.com/en/download/manual.jsp</a> - you need to download (also) the 64-bit version of Java, and it's not the &gt;normal&lt; download that they offer on the front page."</tt></p>
 <h2>How do I enter new cartridges to the Starter?</h2>
 
 <ul><li>
@@ -7387,14 +9416,16 @@ you can set the debug level (3, pretty high) is as of now default.</p>
 <p>Because I programmed it that way, you should know what you do!</p>
 <h2>I just want to play some games, why is dissi always starting?</h2>
 
-<p>Because the program is called vide and not gami!</p>
+<p>Because the program is called vide and not gami!<br />
+Update: Starting a game starts dissi iconified now!</p>
 <h2>Is there a fullscreen mode, with just vecxi?</h2>
 
 <p>Nope, this is only 10 lines of code, but the program is called vide, not gami!</p>
 <h2>Why don't you use OpenGL and some shaders, the results would be much prettier, look at paraJVE?</h2>
 
 <p>Because Vide is an developement environment, not a game center!<br />
-Also...  Vide is pure java.</p>
+Also...  Vide is (was :-( ) pure java.<br />
+Actually I started a openGL version using LWJGL, but using that library send shivers down my spine. I aborted it after 1 day. I <i>might</i> at some stage start another try with JOGL, but don't wait for it.</p>
 <h2>There are more vectrex programs available, why aren't they in the starter listing?</h2>
 
 <p>Most homebrewlers are pretty strict with their creations. No homebrew program is bundled with vide (apart from the sources in the codi area). If vide is able to download the programs, than I have added them. If they are behind some internet walls, they are not included.</p>
@@ -7409,12 +9440,15 @@ Also...  Vide is pure java.</p>
 <p>VIDE consists of different parts, which are programs collected from different sources. The old copyrights still apply. I only used sources which are freely available, but that does NOT mean they are public domain. With all sources I included copyright notices and license files (if available) - look at the respective places in the code. Code done by me (Malban) is open source and licenced with GPL V2.0.</p>
 <h2>The source is huge, at least compared to the "compactness" of vecx, any tips?</h2>
 
-<p>I use Netbeans version 8.x. All development was done with Netbeans, so that is what I recomend as IDE.<br />
-Add the libraries in the "lib" (jars) folder, and you should be able to build. I use quite a lot of sourcecode from my other projects, for that reason there are probably many sources in the archive not really NEEDED for VIDE, nonethelss they are there.<br />
+<p>I use Netbeans version 8.x. All development was done with Netbeans, so that is what I recommend as IDE.<br />
+Add the libraries in the "lib" (jars) folder, and you should be able to build. I use quite a lot of sourcecode from my other projects, for that reason there are probably many sources in the archive not really NEEDED for VIDE, nonetheless they are there.<br />
 </p>
 
 <p>The "Main" program can be found under: de.malban.VideMain, this mainly just instantiates a "CSAMainFrame", which is the main desktop application, from here all events are triggered.<br />
 All things directly "vide"-related can be found under: de.malban.vide.*</p>
+<h2>Do you support any other input devices than keyboard?</h2>
+
+<p>You can configure many input devices. For accessing them I use the JInput library, which needs native support. For Windows, Mac and Linux the native libraries are included in the lib directory. If you use another OS, you are not able to configure other input devices. To configure, go to "Configuration" and than tab "Input".</p>
 <hr />
 <h1>FAQ emulation</h1>
 <h2>How do I start a game?</h2>
@@ -7435,7 +9469,7 @@ All things directly "vide"-related can be found under: de.malban.vide.*</p>
 <p>See "How do I start a game", second bullet point.</p>
 <h2>My own new game should have an overlay, what can I do?</h2>
 
-<p>Overlays are just "normal" pictures where some regions have some alpha values. Try your favourite paint program. Save them as "png" images. (The overlay provided were stolen from MESS!) The filename of the overlay should be the same as the "bin" file, only with a different extension (png)</p>
+<p>Overlays are just "normal" pictures where some regions have some alpha values. Try your favourite paint program. Save them as "png" images. (The overlay provided were stolen from MESS!) The filename of the overlay should be the same as the "bin" file, only with a different extension (png). </p>
 <h2>Where should I put my own overlay image?</h2>
 
 <p>Several options:
@@ -7477,30 +9511,32 @@ Well, probably<br />
 <h2>Emulation seems to be awfully slow, can I speed things up?</h2>
 
 <p>Yep. Just remember, vide was never build for speed! <br />
-you can:
+you can (in descending order):
 <ul><li>
-<p>set line width to 1</p>
-</li><li>
-<p>disable glow</p>
-</li><li>
-<p>don't use an overlay</p>
-</li><li>
-<p>antialiazing ON (on is faster on my system, why? I don't now!)</p>
-</li><li>
-<p>switch off the use of splines</p>
-</li><li>
-<p>disable cycle exact emulation</p>
+<p>be absolutley sure that "ray gun" is switched off!</p>
 </li><li>
 <p>disable ringbuffer</p>
 </li><li>
+<p>antialiazing ON (on is faster on my system, why? I don't now!)</p>
+</li><li>
+<p>disable glow</p>
+</li><li>
+<p>set line width to 1</p>
+</li><li>
+<p>disable persistence</p>
+</li><li>
+<p>don't use an overlay</p>
+</li><li>
 <p>disable codescan</p>
 </li><li>
-<p>be absolutley sure that "ray gun" is switched off!</p>
+<p>disable cycle exact emulation</p>
+</li><li>
+<p>switch off the use of splines</p>
 </li></ul>
 </p>
 <h2>When I start one of the 3d games only a black screen is shown after the start, why?</h2>
 
-<p>Because I have not bothered yet, to emulate the 3d Imager.</p>
+<p>For all known 3d-Imager games the configuration includes "imager". If for some reason in the second joystick port no imager is present, that might be the problem. Chose "Imager" in the combobox for port 1.</p>
 <h2>When I debug my program, I notice vectors are drawn differently, what is that?</h2>
 
 <p>Depending on your VIDE settings ("activate direct draw on debug"), vectors while single stepping/multistepping are REALLY drawn differently!<br />
@@ -7525,7 +9561,7 @@ Usually vecxi emulates and "collects" vectors for a certain amount of time (one 
 </li></ul>
 </p>
 </li><li>
-<p>in relation to VIDE open a Vedi panel (menu: Tools&rarr;vide)</p>
+<p>in relation to VIDE open a vedi panel (menu: Tools&rarr;vide)</p>
 </li><li>
 <p>create a new project (button NEW&rarr; new Project)</p>
 </li><li>
@@ -7558,11 +9594,23 @@ Usually vecxi emulates and "collects" vectors for a certain amount of time (one 
 </p>
 </li></ul>
 </p>
+<h2>Assi is not optimizing as good as my older assembler.</h2>
+
+<p>Yep that might be true. Optimizing is sometimes tricky. And since I did not develope the core code of assi myself, I felt sometimes restrained to change the very core of it (or in other words I did not dare). Anyway I think a good solution is to let the programmer do optimization - I don't think any assembler (or compiler) can be as good as a programmer.</p>
+<h2>But... even a extended addressing is sometimes not translated to direct addressing even when possible!</h2>
+
+<p>Yes. If you use extended addressing with a variable (ram location e.g.) that is defined further down the source (or an include file loaded at a later stage), that address is not optimized to direct addressing. This also has to do with the inner working of assi. The decision whether an instruction is direct or extended is made in pass 1. In pass 1 also the includes and variables are evaluated. If a variable comes later down the line it is at that stage "unkown" and a decision whether the DP-register is the correct one can not be made. Doing extended addressing is the save path. The correct way for assi would be to do a pass in between and try to assert all "fixed" variables so at least they can be evaluated - I have not done that yet! Two fixes are possible for that particular "optimization":
+<ul><li>
+<p>do not use variables before they are declared!</p>
+</li><li>
+<p>"force" direct addressing with the "&lt;" prefix</p>
+</li></ul>
+</p>
 <h2>My sources are spread over several files, how do I assemble them?</h2>
 
 <p>Look at the answer to the last question, both work.
 <ul><li>
-<p>build a project and select add all files, set the "main" as main</p>
+<p>build a project and select add and all files, set the "main" as main</p>
 </li><li>
 <p>all the other files are included by the assembler </p>
 </li></ul>
@@ -7637,7 +9685,8 @@ You don't have to, but building and error editing in vedi won't be as comfortabl
 <p>These vectors are "totally" relative, meaning both start and end are shared between this vector and its "neighbours".</p>
 <h2>I want to change one "frame" of an animation, but it seems I always work on a copy!</h2>
 
-<p>Yes, that is true. If you click on an animation frame, the editor is always filled with a copy of that frame. There is no direct editing. However, you can edit to your hearts content, when finished use the "apply" button (in the animation section), the edited vector list than replaces the current selected animation frame.</p>
+<p>Yes, that is true. If you click on an animation frame, the editor is always filled with a copy of that frame. There is no direct editing. However, you can edit to your hearts content, when finished use the "apply" button (in the animation section), the edited vector list than replaces the current selected animation frame. <br />
+There also is an option to "auto" apply all changes, but this might be dangerous, since all editing is directly applied to the animation list.</p>
 <h2>What is the "add view" button useful for?</h2>
 
 <p>At first it looks like it is just the same as the "add current" button. The difference is, that it does not add the current vectorlist of the editor, but rather the "displayed" vectorlist in the little panel below that. If that panel is not in play mode, it displays the currently edited vectorlist. The "trick" is, that the displayed vectorlist can be viewed from different angles.<br />
@@ -7819,9 +9868,11 @@ Also: Remember to switch the "always update" button to "on" - otherwise you won'
 </li><li>
 <p>if nothing was found searching continues with next (previous) row</p>
 </li></ul>
-<h2>In dissi, the number of cycles sometimes do not match with the table I got from motorola, what the...?</h2>
+<h2>In dissi, the number of cycles sometimes do not match with the table I got from motorola, what the...?<br />
+</h2>
 
-<p>Well yes. Dissi displays the REAL number of cycles, some official tables only show the "base" number of cycles.  For indirect and/or indexed addressing you must add some cycles because the address has to be calculated by the CPU. Believe me, the cycle information in dissi is "more" correct!</p>
+<p>Well yes.<br />
+Dissi displays the REAL number of cycles, some official tables only show the "base" number of cycles.  For indirect and/or indexed addressing you must add some cycles because the address has to be calculated by the CPU. Believe me, the cycle information in dissi is "more" correct!</p>
 <h2>In dissi, what is "highlight op" usefull for?</h2>
 
 <p>Well, depends what your definition of usefull is. Play with it! The column "Operand" is taken as a string, if (case independend) the string you entered in "highlight op:" was part of the string, the operand column for that row is highlighted (yellow). This can be anything you like, a label, an address or anything that can be an operand. Great for a quick visual search! </p>
@@ -8067,7 +10118,7 @@ Licence: GNU General Public License (GPL) V3.0 (or later)<br />
 Homepage: <a target="_blank" href="https://github.com/JorenSix/Tarsos">https://github.com/JorenSix/Tarsos</a><br />
 </tt></p>
 <hr />
-<h1>Other: Copyrights and Licenses...</h1>
+<h1>Code: Copyrights and Licenses...</h1>
 
 <p><tt> <b>Documentation/Code by Christopher L. Tumber</b><br />
 -------------------------------------------<br />
@@ -8331,5 +10382,11 @@ AUTOMATIC TRANSLATION OF ENGLISH TEXT TO PHONETICS<br />
 BY MEANS OF LETTER-TO-SOUND RULES<br />
 <br />
 My implementation is based on the code found in the file: "Avox&nbsp;text2speech2.zip" by a guy called "batari" in the forums of <a target="_blank" href="http://atariage.com/forums/index.php">http://atariage.com/forums/index.php</a>, "Speak To Me".</tt></p>
+
+<p><tt> Book: Computer Graphics for Java Programmers<br />
+--------------------------------------------<br />
+By Leen Ammeraal and Kan Zhang<br />
+<br />
+The discussed algorithms were used to implement hidden line removal to vecci.</tt></p>
 </body>
 </html>

@@ -89,7 +89,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Storyboard Panel");
+        mParentMenuItem.setText("Vector: Storyboard (new)");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -1135,7 +1135,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
             v.setSBPanel(panel);
             panel.veccy = v;
         }
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 1080, 800, "Storyboard Panel new");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 1080, 800, "Vector: Storyboard (new)");
     }    
 
     void updateToElement(boolean onlyAnimation)

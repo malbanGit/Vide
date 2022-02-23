@@ -49,7 +49,7 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("SystemRom");
+        mParentMenuItem.setText("Config: System BIOS");
 
     }
     @Override

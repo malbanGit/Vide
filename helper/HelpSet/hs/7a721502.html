@@ -155,5 +155,53 @@ asmj can as of yet not concatinate conditions with &amp;&amp; or ||. Here you ha
 optimization is not as "good" as AS09 (no optimize for long branches to short branches e.g.)</p>
 </li></ul>
 </p>
+<h2>Replace mechanism for multiple banks</h2>
+
+<p>I have implemented a mechanism, with which I can translate (assemble that is) both banks without errors and than injecting the needed address information in the final binary.</p>
+
+<p>I'll describe that in the following. Actually it is quite easy â but probably hard to explain (and to read).</p>
+
+<ul><li>
+<p>I have two main files - one main file for each bank. They are called:<br>
+    "mainBank0.asm", "mainBank1.asm"<br>
+    "mainBank0.asm" contains as the first line:<br>
+    ; #genVarlist# varFrom0<br>
+<br>
+</p>
+</li><li>
+<p>"mainBank1.asm" contains as the first line:<br>
+    ; #genVarlist# varFrom1<br>
+    This tells the assembler to generate an output file called "varFrom0" ("varFrom1" respectivly) in which all variable/value pairs are listed</p>
+</li><li>
+<p>At the place where I need information from the other bank I insert a special label, like:<br>
+REPLACE&nbsp;2&nbsp;2&nbsp;enemyPlayerControlledLeftBehaviour&nbsp;varFrom1&nbsp;0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cmpu #0  ; "0" will be replaced<br>
+<br>
+</p>
+</li><li>
+<p>After the compilation of all banks a replacement mechanism is triggered that uses information gathered with above information to replace "banked" information dummies with real addresses.</p>
+</li></ul>
+
+<p>Definition:</p>
+
+<p>REPLACE&nbsp;2&nbsp;2&nbsp;enemyPlayerControlledLeftBehaviour&nbsp;varFrom1&nbsp;0<br>
+</p>
+
+<p>That label contains all information needed for a post compile replacement:<br>
+</p>
+
+<ul><li>
+<p>"REPLACE" indicates this lable contains REPLACE information</p>
+</li><li>
+<p>"2" indicates replacement must occure two bytes after the label (cmpu is a second page opcode)</p>
+</li><li>
+<p>"2" the replacement must be done for a 16 bit value ("1" would be an eight bit value)</p>
+</li><li>
+<p>"enemyPlayerControlledLeftBehaviour" is the name of the variable that is used for the value in  the other bank </p>
+</li><li>
+<p>"varFrom1" is the filename from which the name/value pair is read </p>
+</li><li>
+<p>"0" is a unique additional identifier (since the label parts before might be the same for several replacements)</p>
+</li></ul>
 </body>
 </html>

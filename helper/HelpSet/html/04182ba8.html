@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160906151831" />
+<meta name="date" content="20181124222015" />
 <!-- created with HelpSetMaker, ID=04182ba8 -->
 <title>Samples</title>
 </head>
@@ -98,16 +98,97 @@ do the above mentioned "normalization", selecting a number of bits "cuts" these 
 <p>The data is output in data-statements, the format of the data is described in the (generated) source. With the sourcecode some example code is also generated.</p>
 <h2>Technically</h2>
 
-<p>Samples as implemented now have NOTHING whatsoever to do with PSG.</p>
+<p>There are two different "ways" to play samples using a Vectrex.
+<ol><li>
+<p>playing directly two the amplifying hardware - that is the "normal" way. Thing is - on "No Buzz" Vectri forunkown reasons the sampled sound is barely audible.</p>
+</li><li>
+<p>playing samples using the PSG chip.</p>
+</li></ol>
+</p>
+<h2>Sound Samples 1</h2>
 
-<p>It might be possible to implement samples as "volume" levels of  PSG channels, but as of now nobody has tried that.</p>
+<p>In general - the Vectrex can play digitized sounds. The first game to support this was Spike: "Eeek, Help, Spike!" - "Oh No, Molly!"</p>
 
-<p>The current implementation of playing samples is using  a direct DAC &rarr; audio implementation.</p>
+<p>On the technical side this is possible since the DAC output can be (electronically) connected* to the amplifiying hardware. If the sound samples are in the correct format, and the sample bytes are output frequently enough to that hardware (e.g. 8000Hz sample rate &rarr; 8000 bytes per second to the output...) - than you can listen to sampled sound.</p>
 
-<p>Technical meaning:</p>
+<p>I have never taken measurement â but I think Spike might have a sample rate of something between 3000 - 4000Hz.</p>
 
-<p>The sample data is taken directly (as signed 8 bit values), fed into the vectrex DAC and converted to analog values. Thru the multiplexer the resulting analog values are fed DIRECTLY to the vectrex sound hardware (not the PSG).</p>
+<p>The sound format is: PCM unsigned, 8 bit.</p>
 
-<p>A MUXSEL value of 11 (and mux select enabled) does that with data in port A of VIA.</p>
+<p>The challenge with playing samples is the above "frequently enough". If we take the example from above (8000Hz), a digitized sound byte must be played every 188 cylces. ( 6809 clockspeed 1.5Mhz &rarr; 1 secound = 1500000 cycles, 8000 sampels per second &rarr; 1500000/8000 = 187.5 &rarr; every 187.5 cycles a sample must be played )</p>
+
+<p>Playing a sample itself (reading the byte, preparing output etc), takes also some cycles, lets say the sample output takes about 60 cycles. In summary you than:</p>
+
+<p>    have only 2/3 of cycles for the rest of your program     the program must be interrupted each 188 cylces for about 60 cycles     due to technical limitations the sound output can NOT be done while the  vector hardware is active in any way</p>
+
+<p>These are pretty steep restrictions - this is one of the reasons, why you see very few programs, that make use of samples. And even less programs that incorporate digitized sound during gameplay.</p>
+
+<p>Additionally</p>
+
+<p>For undisclosed reasons accessing the audio hardware does not work properly on newer vectrex versions. The so called "No Buzz" Vectrex do not play digitized sound correctly - they do still play the sound, but it is even in full volume only barely audible.</p>
+<h2>Sound Samples 2</h2>
+
+<p>Especially above mentioned "additionally" was a thing that always bothered me. For quite some time I was thinking: "sample playing must also be possible by using the PSG chip".</p>
+
+<p>Some weeks ago I started trying that out, I wrote a small program, that would output samples to the PSG chip. In general:<br />
+
+<ul><li>
+<p>sound samples are (more or less) volume levels. My thought was - "if I output these volume levels to the PSG - I ought to be able to play samples using the volume registers"</p>
+</li></ul>
+</p>
+
+<p>My first tryouts were quite bad.</p>
+
+<p>I could hear some "scratching noise", that was in the rythm of the digitized sound that I wanted to play - but that was about it.</p>
+
+<p>Several tryouts later I discovered the reason: I had to use a different sample format. I don't exactly know why, but playing digitized sound via the PSG you have to use the format:
+<ul><li>
+<p>PCM signed</p>
+</li></ul>
+</p>
+
+<p>During my search I also found a couple of interesting links:<br />
+<a target="_blank" href="http://map.grauw.nl/articles/psg_sample.php">http://map.grauw.nl/articles/psg_sample.php</a><br />
+<a target="_blank" href="http://www.smspower.org/Development/SamplePlayback">http://www.smspower.org/Development/SamplePlayback</a><br />
+<a target="_blank" href="https://www.msx.org/forum/development/msx-development/crystal-clean-pcm-8bit-samples-poor-psg">https://www.msx.org/forum/development/msx-development/crystal-clean-pcm-8bit-samples-poor-psg</a><br />
+</p>
+
+<p>Which provided some information.</p>
+
+<p>The volume levels of the PSG are encoded in only 4bit. Thus the sound format "complete" is: PCM signed 4 bit. The volume level is based on a "logarithmic volume scale" so in reality the above mentioned 4 bits are more something like 2.5 â 3 bits. The number of volume levels available restrict the quality of samples.</p>
+
+<p>The gist is by using the PSG as digitized sample output:<br />
+</p>
+
+<ul><li>
+<p>negative: reduction of sample quality from 8bit to about 3bit</p>
+</li><li>
+<p>negative: the playback routine needs more cycles (PSG-Registers are harder to access than the audio hardware)</p>
+</li><li>
+<p>positive: the sample size is only half as big</p>
+</li><li>
+<p>positive: playback is "constant" on all vectrex</p>
+</li><li>
+<p>other: playback is a little bit softer than audio hardware using samples on "buzz" machines</p>
+</li></ul>
+
+<p>Note 1:<br />
+On the above pages it is mentioned, that the quality can be enhanced by adding sound levels of more than one PSG channel. I tried that - and failed. That might be prone to my programming skills - but I rather suspect, that due to the "complicated" way that PSG-registers are accessed in the vectrex hardware, that the timing with which the volume levels are put into the 3 PSG channels differs to much to produce clean samples (30-40 cycles needed for each individual channel).</p>
+
+<p>Note 2:<br />
+On above pages it is suggested that the volume levels from the samples could be "translated" to corresponding PSG levels (linear versus logarithmic). I tried that also â which resulted in an audible pessimation rather than an optimization.</p>
+<h2>Chose the kind of sampling you want</h2>
+
+<p>Vide supports both method to build samples and generate a players for above PSG "Samples".</p>
+
+<p>The default setting generate "default" samples - and playroutines. If you want to generate and play PSG samples, than you must configure:
+<ul><li>
+<p>4 bit samples</p>
+</li><li>
+<p>signed samples</p>
+</li><li>
+<p>not reversed</p>
+</li></ul>
+</p>
 </body>
 </html>

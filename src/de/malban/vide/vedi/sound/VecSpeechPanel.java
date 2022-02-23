@@ -83,7 +83,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("VecSpeechPanel");
+        mParentMenuItem.setText("Sound: Vox/Voice Editor");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -811,7 +811,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
         {
             panel.standalone = true;
         }
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1024, 600, "VecSpeechPanel");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1024, 600, "Sound: Vox/Voice Editor");
     }        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160906151831" />
+<meta name="date" content="20181124222015" />
 <!-- created with HelpSetMaker, ID=76372efe -->
 <title>vedi</title>
 </head>
@@ -15,6 +15,9 @@
 <img src="pics/vedi.png" width="963" height="801" /><br/>
 <em>vedi window</em></p><br/>
 <h2>Editor</h2>
+<h3>!To learn about "C" support in Vedi look at the chapter "Programming in C"!</h3>
+
+<p> </p>
 <h3>some "highlights":</h3>
 
 <ul><li>
@@ -56,6 +59,15 @@ Pressing shift with the button, will "save as" - opens a file dialog.</p>
 
 <p><img src="pics/text_columns.png" alt="text_columns.png" /><br />
 Pretty print the current source (assembler only).</p>
+<h2>noteworthy Bottom buttons</h2>
+
+<p><img src="pics/font_add.png" alt="font_add.png" /><br />
+Increase font size of editor.</p>
+
+<p><img src="pics/font_delete.png" alt="font_delete.png" /><br />
+Decrease font size of editor.</p>
+
+<p>The other buttons should be selfexplanatory.</p>
 <h2>Assembling</h2>
 
 <p>Pressing the button: <img src="pics/control_play_blue.png" alt="control_play_blue.png" /> <br />
@@ -70,7 +82,7 @@ starts <b> debugging</b> the assembler with the current active file as input (fi
 The messages of assi can be viewed in the bottom tab called "ASM messages". A breakpoint will be set automatically to the first valid instruction of the cartridge - dissi will popup and you can debug right away.</p>
 
 <p>Pressing the button: <img src="pics/server_go.png" alt="server_go.png" /> <br />
-starts the assembler with the current active file as input (file is automatically saved)  and if successfull (and a vecxi instance is already running) <b>injects</b> the built binary file into the currently running vecxi. Vecxi is not reset while doing this, you just âchangeâ the cartridge ROM while running. You can thus experiment with changes to your bin file on the fly without losing RAM data, PC address or breakpoints.</p>
+starts the assembler with the current active file as input (file is automatically saved)  and if successfull (and a vecxi instance is already running) <b>injects</b> the built binary file into the currently running vecxi. Vecxi is not reset while doing this, you just "change" the cartridge ROM while running. You can thus experiment with changes to your bin file on the fly without losing RAM data, PC address or breakpoints.</p>
 <h2>Ask/F1</h2>
 
 <ol><li>
@@ -94,7 +106,7 @@ starts the assembler with the current active file as input (file is automaticall
 <p>info messages are colored black</p>
 </li></ul>
 
-<p>Error/Warning/Optimization messages are related to the assembled source. They allways consist of two lines of information:<br />
+<p>Error/Warning/Optimization messages are related to the assembled source. They always consist of two lines of information:<br />
 Line 1: What happened?<br />
 Line 2: Where did it happen?<br />
 </p>
@@ -124,9 +136,64 @@ Line 2: Where did it happen?<br />
 <h2>Other features</h2>
 <h3>Bookmarks</h3>
 
-<p>Using SHIFT and CTRL (windows/linux) or CMD (apple) "1"-"0" you can define bookmarks. Using CTRL (windows/linux) or CMD (apple) "1"-"0" you can jump to defined bookmarks.</p>
+<p>Using SHIFT and CTRL (windows/linux) or CMD (apple) "1"-"0" you can define bookmarks. Using CTRL (windows/linux) or CMD (apple) "1"-"0" you can jump to defined bookmarks. </p>
+
+<p>Bookmarks are also listed in the corresponding "bookmark" tab at the bottom (you can also double click the table to jump to a bookmark)</p>
 
 <p>Bookmarks can be used "accross" files.</p>
+<h3>Breakpoints </h3>
+
+<p>You can set and delete "simple" breakpoints (pc reaches the location) by clicking on the line number you want to set a breakpoint to. The line number will be shown in red. Clicking the line number again will switch the breakpoint off (toggle). The breakpoints are "file" related - vedi will remember breakpoints by the filename (path) it as set to. All "vedi"-breakpoints are also listed in a table under the tab "breakpoints" at the bottom. Double click on a breakpoints jumps to the file and location of that breakpoint. A popup on the table allows to delete breakpoints from the table.</p>
+<h3>Watches </h3>
+
+<p>You access a popup menu in the editor. You can chose to add a watch (for your next vecxi/dissi run) for the word you "popped up on". The popup is rather dumb, it adds a watch for anything that you chose - it does no testing whether it actually is a correct label.</p>
+
+<p>Watches are added at the start of vecxi execution in the form of "hey dissi" comments for the corresponding line. In dissi however you will see only watches that make sense (meaning: for labels that actually exist).</p>
+
+<p>All watches for the current file are listed at the bottom on the "watches" tab.</p>
+
+<p><b>Note:<br />
+</b> Breakpoints and watches can only defined for the <b>next</b> instance of emulation. You can not add/change/delete breakpoints or watches from the editor for the current running vecxi instance. You have to do that from dissi! </p>
+<h3>Navigation </h3>
+<br/><p align="center">
+<img src="pics/NaviConfg.png" width="511" height="301" /><br/>
+<em>Navigation panel</em></p><br/>
+
+<p>The panel includes mainly two functions:</p>
+
+<ul><li>
+<p>a history<br />
+Since on some occasions you can jump to other places in the editor (using bookmarks, breakpoints or middle-doubleclick on labels) I find it sometimes annoying to not easily go back.<br />
+The history solves that. You can go back and forth in the history of your jumps at your will. The file and the line number will be remembered and you can go back to the place you edited before.<br />
+Use the new arrow buttons (on the navigation panel) to navigate back and forth.</p>
+</li><li>
+<p>a listing of labels<br />
+In the navigation panel a table of labels of the current edited file is listed. A double click on the label jumps to the corresponding location in the file.<br />
+Now - in (at least my) usual assembler files there are heaps and heaps of labels. So even displaying just labels might be not much help - because there are so many of them.<br />
+For that reason you can configure WHAT kind of labels are displayed. Following distinctions are be made:
+<ul><li>
+<p>equ - labels [resulting from "Variable equ 16"]</p>
+</li><li>
+<p>"=" - labels [resulting from "Variable = 16"]</p>
+</li><li>
+<p>set - labels [resulting from "Variable set 16"]</p>
+</li><li>
+<p>struct - labels [resulting from "struct SomeStruct"]</p>
+</li><li>
+<p>in struct - labels [resulting from " ds Var, 2" (while in struct definition)]</p>
+</li><li>
+<p>line - labels [labels starting an assembler line]</p>
+</li><li>
+<p>data - labels [labels starting an assembler line, and a data statement follows (db, dw, ds, fcb . . . )]</p>
+</li><li>
+<p>function - labels [labels starting an assembler line, after a "closure" (last line was rts, bra, jmp . . .)]</p>
+</li><li>
+<p>user - labels [the comment of the line has the mark "#isFunction"]</p>
+</li></ul>
+</p>
+</li></ul>
+
+<p>All of these different kind of labels can be configured to be shown - or not. Especially if you build new code and mark all your "interesting" sections with the user label - you can navigate really efficiently in your code!</p>
 <h3>Jump</h3>
 
 <p>CTRL (windows/linux) or CMD (apple) "J" jumps to a line number.</p>
@@ -136,5 +203,61 @@ Line 2: Where did it happen?<br />
 <h3>Run/Debug</h3>
 
 <p>F5 runs the current project/file, F6 debugs the current project/file (same as the buttons).</p>
+<h3>VecFever support</h3>
+<br/><p align="center">
+<img src="pics/VecFeverSupport.png" width="308" height="45" /><br/>
+<em>VecFever support</em></p><br/>
+
+<p>In the upper bar of Vide there are the shown gui elements.</p>
+
+<p>To use the VecFever in Vide for rapid development do the following:</p>
+
+<ul><li>
+<p>insert VecFever into Vectrex</p>
+</li><li>
+<p>switch vectrex on</p>
+</li><li>
+<p>insert usb cable</p>
+</li></ul>
+
+<p>Do not do it the other way around (first usb, than vectrex on - since than you use the VecFever as an USB-Drive, for our purpose that is not what we want, we want to use it as a RAMDISK)</p>
+
+<ul><li>
+<p>enable VecFever support by checking the V4E checkbox</p>
+</li><li>
+<p>(first time only - if the Volume does not change) press the "..." button and select the RAMDISK volume, this should always be named <b>DEVFEVER</b></p>
+</li><li>
+<p>after a few seconds press "seek connection" (connection must be established, that may take a few seconds)</p>
+</li><li>
+<p>in the message window below should be a message "V4E: RAM DISK volume found.", if not wait some more and try again</p>
+</li><li>
+<p>if it still doesn't work - I don't know :-(</p>
+</li></ul>
+
+<p>If you assemble a binary now, the following will happen, depending on your configuration:</p>
+
+<ol><li>
+<p>Config Miscellaneous "automatically eject attached VecFever on compile success": <b>checked</b>
+<ul><li>
+<p>the compiled binary will be copied to the RAMDISK with the required name "cart.bin"</p>
+</li><li>
+<p>the RAMDISK will be ejected (at least under windows and mac)</p>
+</li><li>
+<p>if the VecFever is configured right, the binary will at once start on the vectrex</p>
+</li><li>
+<p>pressing reset on the vectrex will return to RAMDISK status and vide will again be ready to compile and transport to RAMDISK (no further setup needed)</p>
+</li></ul>
+</p>
+</li><li>
+<p>Config Miscellaneous "automatically eject attached VecFever on compile success": <b>unchecked</b>
+<ul><li>
+<p>the compiled binary will be copied to the RAMDISK with the required name "cart.bin"</p>
+</li><li>
+<p>you can now either eject the RAMDISK by using the "eject" button or your system</p>
+</li><li>
+<p>or (if VecFever was configured such) press button 4 and start the binary on your vectrex  </p>
+</li></ul>
+</p>
+</li></ol>
 </body>
 </html>

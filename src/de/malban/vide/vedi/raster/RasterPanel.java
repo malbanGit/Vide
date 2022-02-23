@@ -70,7 +70,7 @@ public class RasterPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Raster Panels");
+        mParentMenuItem.setText("Image Raster converter");
 
     }
     @Override
@@ -1126,7 +1126,7 @@ public class RasterPanel extends javax.swing.JPanel implements
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         RasterPanel panel = new RasterPanel();
         panel.setModal(false);
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1080, 800, "Raster Panels");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1080, 800, "Image Raster converter");
         
 //       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
 //       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1080, 800, panel.getMenuItem().getText());

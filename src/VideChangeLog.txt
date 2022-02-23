@@ -1,5 +1,37 @@
+fixed hopefully - the vecci bug, where lists could be "shadow selected" and not accessed anymore
+
+todo 
+@Malban I haven't checked the Beta yet, but the main thing I would like to see fixed is that the last 
+directory opened gets saved somewhere and Vide doesn't keep defaulting to the directory it's running in.  
+This is mainly important for Vecxi and Vedi.  
+A lot of times I'll want to test some binary in Vecxi, and it's not very easy to browse to a new location 
+so I'll just copy files I want to try to the Vide main directory.  
+Would be nice if it would just remember that I opened the ~/Downloads folder though, etc..  
+Also when opening different projects I'm having to traverse through the tree, 
+but that one is not as bad since the projects/ folder is right there and not many projects to look through.
+
+
+
+
+todo
+  build a function "memoryHarmonize" that ensures dissi mem == emulator mem
+  a) must be called after changing memory in dissi 
+  b) must be called after emulator (flash) changed memory in cart!
+
+Fixed most of the tickets
+
+
+------------
 > That ticking noise...???   I'm guessing you don't get that on your installation?   Maybe try it on a Windows PC?
 >
+I think for now this is "fixed".
+
+It had to do with sample emulation, when a PSG was used to play 4bit
+samples.
+The recognition whether it was a sample or a standard PSG register
+setting was not "broad" enough... and it
+thus sometimes recognized the joystick reading as "sample output".
+------------
 
 
 Vectorblade - remember diffivculty in SAVE

@@ -39,7 +39,7 @@ public class VediSettings implements Serializable
     public boolean showFunctionLabel = true;
     public boolean showUserLabel = true;
     
-    public String v4eVolumeName = "";
+    public String v4eVolumeName = ""; // not used anymore! - we use "config" now
     public boolean v4eEnabled = false;
 
     int fontSize = 12;

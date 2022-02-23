@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160906151831" />
+<meta name="date" content="20181124222016" />
 <!-- created with HelpSetMaker, ID=93d9f3f4 -->
 <title>Analog </title>
 </head>
@@ -67,7 +67,7 @@
 <p>This is a wild mixture of "things" Via has to offer!<br />
 CA and CB are "Control Lines" there are 2 control lines each for "A" and "B". The control lines can generate interrupts, can be used as input or output and "B" can be "driven" by timers. The behaviour of these control lines is internally controlled by register $c [Control Register].</p>
 
-<p>The bits of the ORB can theoreticall be both input and output, the above bits are ONLY used as output! Bit 7 is "special" in the way, that output can also be "controlled" by the timer 1 of VIA.</p>
+<p>The bits of the ORB can theoretically be both input and output, the above bits are ONLY used as output! Bit 7 is "special" in the way, that output can also be "controlled" by the timer 1 of VIA.</p>
 
 <p>ORA is used as "direct" input to the DAC.</p>
 
@@ -115,7 +115,7 @@ The DAC input is THAT value.</p>
 <p>The same thing as ZERO only this time for the brightness of the beam, not the position. If BLANK is active, the beam is switched off, no matter what other brightness you might have set befor.</p>
 <h3>RAMP</h3>
 
-<p>The RAMP signal enables or disables integration. In the diagramm the RAMP line is connected to "switches" befor the integrators. If RAMP is active, the switch is in ON position and integration happens. If not, NO integration is possible. But the integrators "hold" their values (well for a little time anyway). It is not possible to switch only one of the integrators on or off, you do allways set RAMP for both! If you don't want to integrate the other one, set the "integration value" to 0.</p>
+<p>The RAMP signal enables or disables integration. In the diagramm the RAMP line is connected to "switches" befor the integrators. If RAMP is active, the switch is in ON position and integration happens. If not, NO integration is possible. But the integrators "hold" their values (well for a little time anyway). It is not possible to switch only one of the integrators on or off, you do always set RAMP for both! If you don't want to integrate the other one, set the "integration value" to 0.</p>
 <h3>mux enable</h3>
 
 <p>As seen in the diagram, the output of the DAC goes as input into the MUX. If mux is enabled, than the DAC (analog) value is sent to its destination (given by mux select). If mux is disabled, NO output is done to any of the mux lines. (BUT: as you can see the output of the DAC goes directly to the X-Integrator input (switch). Regardless of the MUX, x-integrator ALWAYS recieves the current DAC output!)</p>
@@ -128,7 +128,7 @@ The DAC input is THAT value.</p>
 3 (binary: 11) audio hardware<br />
 </p>
 
-<p>Not discerable on the diagram is, that for the line 0 and line 2 (y-Integration and Brightness) the values that are set are hold till set to another value. Responsible for holding are the op-amps of type IC LF347(s).For setting a value one can also say, that the current DAC value is a (short) "sample", and these sample values are on hold till new samples arrive. In many documentations you may find "sample and hold" values.  The values that are set to the above four different destinations are those "sample and hold" values.</p>
+<p>Not discernable on the diagram is, that for the line 0 and line 2 (y-Integration and Brightness) the values that are set are hold till set to another value. Responsible for holding are the op-amps of type IC LF347(s). For setting a value one can also say, that the current DAC value is a (short) "sample", and these sample values are on hold till new samples arrive. In many documentations you may find "sample and hold" values.  The values that are set to the above four different destinations are those "sample and hold" values.</p>
 <h3>DAC Value</h3>
 
 <p>The DAC translates a 8bit input (-128 - +127) to an analog voltage ranging from -5 volt to +5 volt to its output</p>

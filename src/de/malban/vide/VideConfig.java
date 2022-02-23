@@ -216,9 +216,8 @@ class ConfigStatic1 implements Serializable
    public boolean debugingCore = true;
 
    public boolean motdActive = true;
+
    // VEDI
-   public boolean invokeVecMultiAfterAssembly = false;
-   public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
    public boolean invokeEmulatorAfterAssembly = true;
    public boolean scanMacros = true;
    public boolean scanVars = true;
@@ -296,6 +295,8 @@ class ConfigStatic2 implements Serializable
    public int SHORT_TAB_OP = 1;
    public int t2Delay = 1;
 
+   public boolean invokeVecMultiAfterAssembly = false;
+   public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
 }
 
 public class VideConfig  implements Serializable{
@@ -471,8 +472,6 @@ public class VideConfig  implements Serializable{
     
     public boolean motdActive = true;
     // VEDI
-    public boolean invokeVecMultiAfterAssembly = false;
-    public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
     public boolean invokeEmulatorAfterAssembly = true;
     public boolean scanMacros = true;
     public boolean scanVars = true;
@@ -552,6 +551,9 @@ public class VideConfig  implements Serializable{
 
    public boolean isFaultyVIA = false;
    public int SHORT_TAB_OP = 1;
+
+   public boolean invokeVecMultiAfterAssembly = false;
+    public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
 /////////////
     
     
@@ -922,8 +924,6 @@ public class VideConfig  implements Serializable{
         to.v4eVolumeName = from.v4eVolumeName;
         
         // VEDI
-        to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
-        to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
         to.invokeEmulatorAfterAssembly = from.invokeEmulatorAfterAssembly;
         to.scanMacros = from.scanMacros;
         to.scanVars = from.scanVars;
@@ -1140,8 +1140,6 @@ public class VideConfig  implements Serializable{
         to.v4eVolumeName = from.v4eVolumeName;
         
         // VEDI
-        to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
-        to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
         to.invokeEmulatorAfterAssembly = from.invokeEmulatorAfterAssembly;
         to.scanMacros = from.scanMacros;
         to.scanVars = from.scanVars;
@@ -1262,6 +1260,8 @@ public class VideConfig  implements Serializable{
         to.SHORT_TAB_OP = from.SHORT_TAB_OP;
         to.delays[TIMER_T2] = from.t2Delay;
 
+        to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
+        to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
     }
     private void copyFromConfigToStatic(VideConfig from, ConfigStatic2 to)
     {
@@ -1273,6 +1273,9 @@ public class VideConfig  implements Serializable{
         to.isFaultyVIA = from.isFaultyVIA;
         to.SHORT_TAB_OP = from.SHORT_TAB_OP;
         to.t2Delay = from.delays[TIMER_T2];
+
+        to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
+        to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
     }
     
     public static File[] getConfigs()

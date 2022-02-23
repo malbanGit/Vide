@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160906151831" />
+<meta name="date" content="20181124222015" />
 <!-- created with HelpSetMaker, ID=2a6412de -->
 <title>Emulation: eEprom DS2430A</title>
 </head>
@@ -14,11 +14,17 @@
 
 <p>Based on the description and vectrex source code from Alex Herbert. Emulation is only done in so far, that SP can be read and written, this is no FULL emulation of a DS2430!</p>
 
+<p><b>Addendum</b><br />
+As I have now access to a Protector LE edition - I tested that bin and enhanced emulation to also support the reading of application registers (values can be stored there by a "Write Once" feature).<br />
+The values of those registers can be changed in the carti window (non permanent). </p>
+
 <p>Known cartridges which use this hardware:
 <ul><li>
 <p>Thrust</p>
 </li><li>
 <p>Protector/ YASI</p>
+</li><li>
+<p>Protector LE</p>
 </li></ul>
 </p>
 
@@ -50,6 +56,6 @@
 <p>The datasheet of the chip can be found in the subdirectory: <br />
 </p>
 
-<p>documents/hardware/DS2430A.pdf</p>
+<p>documents/hardware/eEprom/DS2430A.pdf</p>
 </body>
 </html>

@@ -136,7 +136,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Samples");
+        mParentMenuItem.setText("Sound: Sample Editor");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -1265,7 +1265,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         SampleJPanel panel = new SampleJPanel(null);
         panel.standalone = true;
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  800, 800, "Samples");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  800, 800, "Sound: Sample Editor");
         return true;
     }      
     private void checkTargetLine()

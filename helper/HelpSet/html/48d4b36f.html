@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222015" />
+<!-- created with HelpSetMaker, ID=48d4b36f -->
+<title>YM vectrex generator</title>
+</head>
+<body class="doc">
+<h1>YM vectrex generator</h1>
+
+<p>With the supplied ym utility you can generate different YM data files (and players). Following is a list of these formats.</p>
+<h2>Uncompressed</h2>
+
+<p>The data is written in without any compressing to data statements - this is very easy understandable. (for comparisson, playing speed ~ 1700 cycles)</p>
+<h2>YMSound (historic)</h2>
+
+<p>This output is 100% compatible to the tool I released about 15 years ago. The structure of the generated ym file is explained in YM-Conversion I.</p>
+<h2>YMSound (opimized speed)</h2>
+
+<p>This is still in basic the same as YMSound, but with a few ehancements. The data between these two are NOT compatible.</p>
+
+<p>The generated data uses a little bit more space (10% more ~ about). The <i>average</i> unpacking speed is about the same amount faster (a little bit more than 10%), but the main aspect is, that the "peaks" are reduced.</p>
+
+<p>With my given example file, peaks by playing using the old routines were up to nearly 20000 cycles (average 3200 cycles). The new routines have a maximum peak of less thean 7500 cycles (in the whole song only 3 times) - and an average of about 2400 cycles.</p>
+
+<p>Changes to YMSound historic:
+<ul><li>
+<p>single bytes are not shannon encoded (since searching for the shannon code takes longer the more codes are generated, and the savings for single bytes using shannon was only a small benefit)</p>
+</li><li>
+<p>RLE encoding changed from LSB first to MSB first, this made decoding the RLE length more performat</p>
+</li><li>
+<p>the phrase length is not held befor the phrase structure but directly in the phrase mapping, I can calculate the phrase offset now while searching the phrase</p>
+</li><li>
+<p>the RAM structure is 1 byte longer per register, the current phrase length is also kept in the data structure now</p>
+</li><li>
+<p>only the used bits per register are encoded (e.g. amplitude registers only 4 bits...) this made up quite some of the lost space due to the shannon/byte changes</p>
+</li><li>
+<p>some internal changes to optimzed "little" stuff</p>
+</li><li>
+<p>all "subroutines" were macro'ed</p>
+</li><li>
+<p>I advise to change the subroutine, to output to shadow registers, rather than to PSG registeres directly, that way you can "overwrite" values with sound effects!</p>
+</li></ul>
+</p>
+<h2>Streamed</h2>
+
+<p>This is another way, that Vide can encode YM-data. It uses more (quite a bit more) memory than the old YM-Sound data, but unpacking is faster and nearly without peaks. If you have enough memory, have quite short ym-files and do not have many cycles to spare â this might just be the right format.</p>
+
+<p>Playing my example averages at about 1300 cycles with peaks up to 2400 cycles. </p>
+
+<p>Here a short explanation:</p>
+
+<p>The ym data is bit encodeded in a stream of "bits". At first the ym-data is analyzed, the analysis results in following "knowledge":</p>
+
+<ul><li>
+<p>is channel X used at all or not</p>
+</li><li>
+<p>does channel X use tone or not</p>
+</li><li>
+<p>does channel X use noise or not</p>
+</li><li>
+<p>is noise used at all in the ym-data</p>
+</li><li>
+<p>does register 7 change at all in the data</p>
+</li><li>
+<p>is the envelope used</p>
+</li></ul>
+
+<p>According to the above knowlegde only used registers are encoded.</p>
+
+<p>The idea behind streamed encoding is to only supply information for changes and leave out all data that is unchanged.</p>
+
+<p>There are two good reasons for that:</p>
+
+<ul><li>
+<p>leaving out data is "packing" of some sort, the resulting data is shorter than the original</p>
+</li><li>
+<p>we know while processing inherently what data has changed and what not, so while unpacking on the vectrex we also know what registers changed and we do not have to poke to the psg registers that did not change. Poking to psg takes quite a few cycles.</p>
+</li></ul>
+
+<p>Following decoding is used (for each ym-line, a complete set of data for one refresh cycle â encoding is the opposite way):</p>
+
+<p><tt> &nbsp;read bit, if bit is 0 than nothing at all changed &rarr; goto done<br />
+&nbsp;for channel 0 to 2 do<br />
+&nbsp;&nbsp;&nbsp;read bit, if bit is 0<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;than channel did not change at all &rarr; do next channel<br />
+&nbsp;&nbsp;&nbsp;read bit, if bit is not 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read 4(5) bits of amplitude<br />
+&nbsp;&nbsp;&nbsp;read bit, if bit is 1 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;than set noise, <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise clear noise<br />
+&nbsp;&nbsp;&nbsp;read bit, if bit is 1 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;than set tone, <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise clear tone<br />
+&nbsp;&nbsp;&nbsp;read bit, if bit is not 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read 8 bits of frequency low<br />
+&nbsp;&nbsp;&nbsp;read bit, if bit is not 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read 4 bits of frequency high<br />
+&nbsp;end for<br />
+&nbsp;read bit, if bit is not 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read 5 bits of noise frequency<br />
+&nbsp;if envelope is used<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read bit, if bit is not 0<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;read 16 bits of envelope frequency<br />
+&nbsp;done: <br />
+</tt> <br />
+Note: <br />
+5 amplitude bits are used, when envelope data is used by the YM file.</p>
+
+<p>Vectrex unpacking is done like described above. The unpacker is a bit "longish" since read bit is realized as a macro and often used :-).</p>
+
+<p>The mentioned analysis is also respected by the vectrex sources. Code parts that are not needed are omitted (using "if then else").</p>
+
+<p>The resulting player is usually quite a lot faster than the other packing â but the data used is by far not reduced as much. It depends on how "tight" (cycles) the circumstances are,  what strategy of packing is more useful to you.</p>
+</body>
+</html>

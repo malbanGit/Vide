@@ -87,6 +87,37 @@ optimization is not as "good" as AS09 (no optimize for long branches to short br
 
 
 
+:h2 Replace mechanism for multiple banks
+I have implemented a mechanism, with which I can translate (assemble that is) both banks without errors and than injecting the needed address information in the final binary.
+
+I'll describe that in the following. Actually it is quite easy – but probably hard to explain (and to read).
+
+- I have two main files - one main file for each bank. They are called:~~
+    "mainBank0.asm", "mainBank1.asm"~~
+    "mainBank0.asm" contains as the first line:~~
+    ; #genVarlist# varFrom0~~
+~~
+- "mainBank1.asm" contains as the first line:~~
+    ; #genVarlist# varFrom1~~
+    This tells the assembler to generate an output file called "varFrom0" ("varFrom1" respectivly) in which all variable/value pairs are listed
+- At the place where I need information from the other bank I insert a special label, like:~~
+REPLACE_2_2_enemyPlayerControlledLeftBehaviour_varFrom1_0~~
+____cmpu #0  ; "0" will be replaced~~
+~~
+- After the compilation of all banks a replacement mechanism is triggered that uses information gathered with above information to replace "banked" information dummies with real addresses.
+
+Definition:
+
+REPLACE_2_2_enemyPlayerControlledLeftBehaviour_varFrom1_0~~
+
+That label contains all information needed for a post compile replacement:~~
+
+- "REPLACE" indicates this lable contains REPLACE information
+- "2" indicates replacement must occure two bytes after the label (cmpu is a second page opcode)
+- "2" the replacement must be done for a 16 bit value ("1" would be an eight bit value)
+- "enemyPlayerControlledLeftBehaviour" is the name of the variable that is used for the value in  the other bank 
+- "varFrom1" is the filename from which the name/value pair is read 
+- "0" is a unique additional identifier (since the label parts before might be the same for several replacements)
 
 
 

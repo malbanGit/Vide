@@ -116,6 +116,7 @@
 <tocitem text="Emulation: eEprom DS2430A" target="_file.2a6412de" />
 <tocitem text="Emulation: eEprom DS2431" target="_file.1f9ace61" />
 <tocitem text="Emulation: eEprom Microchip 11AA010" target="_file.1a69dabf" />
+<tocitem text="Emulation: AT24C02, 2K Two-wire Serial EEPROM" target="_file.2f581b81" />
 <tocitem text="Emulation: Bankswitching 'Dondzila'" target="_file.a720cadf" />
 <tocitem text="Emulation: VecFlash" target="_file.aee71600" />
 <tocitem text="Emulation: Lightpen" target="_file.8a994bbb" />
@@ -145,8 +146,10 @@
 <tocitem text="GUI-Settings" target="configGUI" />
 <tocitem text="Input-Settings" target="configInput" />
 </tocitem>
-<tocitem text="Programming the Vectrex" target="_file.eae1f853">
-<tocitem text="Strings - Raster" target="_file.a1c5ac89" />
+<tocitem text="Vectrex programming" target="_file.eae1f853">
+<tocitem text="Strings - Raster" target="_file.a1c5ac89">
+<tocitem text="BIOS Strings - Italic - Timing?" target="_file.5048d125" />
+</tocitem>
 <tocitem text="Sound (Bios) - more or less" target="_file.17fcdfd5" />
 <tocitem text="Draw - Optimizations" target="_file.66250639" />
 <tocitem text="Drawing vectors - differently" target="_file.15f89890" />
@@ -173,6 +176,13 @@
 <tocitem text="Sound / PSG Chip" target="_file.44a3eb2e" />
 <tocitem text="Bankswitching" target="_file.27322096" />
 <tocitem text="Joyport Devices" target="_file.b2de88b8" />
+</tocitem>
+<tocitem text="Vectrex hardware" target="_file.28aeb1d2">
+<tocitem text="Cartridge" target="_file.5a3cfa62" />
+<tocitem text="Joystick/Joypad" target="_file.6d35c308" />
+<tocitem text="Spinner" target="_file.44024f9b" />
+<tocitem text="Cap Kits" target="_file.5dc001ee" />
+<tocitem text="Other" target="_file.d4cf2740" />
 </tocitem>
 <tocitem text="Thanks!" target="_file.81cde044" />
 <tocitem text="'Known Features'" target="_file.bf73b0c2" />

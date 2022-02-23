@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222015" />
+<!-- created with HelpSetMaker, ID=2f581b81 -->
+<title>Emulation: AT24C02, 2K Two-wire Serial EEPROM</title>
+</head>
+<body class="doc">
+<h1>Emulation: AT24C02, 2K Two-wire Serial EEPROM</h1>
+
+<p>Based on the pdf manuel for the chip family and my own  disassembly of VectorPatrol - the only known cartridge, which makes use of the chip.</p>
+
+<p>Emulation is only done in so far, that VectorPatrol playes all right.</p>
+
+<p>Known cartridges which use this hardware:
+<ul><li>
+<p>VectorPatrol</p>
+</li></ul>
+</p>
+
+<p>Following is taken from my own blog entry for Vide:</p>
+
+<p>This is the âfullâ naming/specs: ATMEL 611 AT24C02N 10SU-2.7
+<ul><li>
+<p>2,7V</p>
+</li><li>
+<p>"U" designates Green Package + RoHS compliant.</p>
+</li><li>
+<p>Package 8S1</p>
+</li><li>
+<p>8-lead JEDEC SOIC</p>
+</li><li>
+<p>AT24C02, 2K Two-wire Serial EEPROM: <br />
+  Internally organized with 32 pages of 8 bytes each, the 2K requires an 8-bit data word address for random word addressing.</p>
+</li></ul>
+</p>
+
+<p>Although the datasheet doesn't say it probably due to copyright reasons this is a I2C compliant device.</p>
+<h3>TWO WIRE</h3>
+
+<p>The "extraordinary" above is the word "two" instead of "one".</p>
+
+<p>Before VPatrol all storage devices inside Vectrex cartridges were one wire devices â a tradition that began with Alex Herberts "Protector".</p>
+
+<p>One wire eEproms (as the name suggests use GND, some Voltage and one Pin for communication) â thus these device often come with 3 connection pins and look a little bit like a classic transistor.</p>
+
+<p>This "one" is/was due to the fact, that the vectrex cartridge port only sports 1 pin that is "programmable" from the Vectrex side. That pin (cartridge port pin 35) is connected directly to VIA and can be read or written to by doing some stuff with (or to) the VIA chip. Namely that is VIA Pin 16 â which, since it is addressed by the 6th bit of Port B, is also often refered to as PB6.</p>
+
+<p>PB6 is famous for communication with all kinds of cartridge internal stuff, like:</p>
+
+<ul><li>
+<p>bankswitching</p>
+</li><li>
+<p>eEproms</p>
+</li><li>
+<p>Thermometers</p>
+</li><li>
+<p>...</p>
+</li></ul>
+
+<p>Anyway...</p>
+
+<p>The above mentioned AT24C02N 10SU-2.7 (which I will in the following only reference as "Atmel") is a two wire chip. This means it needs TWO pins to communicate with Vectrex!</p>
+
+<ul><li>
+<p>SDA: Serial Data</p>
+</li><li>
+<p>SCL: Serial Clock Input</p>
+</li><li>
+<p>there are more pins (address pins if you have more than one I2C devices, write protect, etc) â but these do not concern us here</p>
+</li></ul>
+
+<p>In order to use the chip you must be able to write to the cartridge with one other external (cartridge port - Vectrex) signal.</p>
+
+<p>How is that possible? &rarr;  IRQ!</p>
+
+<p>The service manual is not very easy to interprete in this regard - cartridge pin 36 is connected to the ~IRQ pin of the processor.</p>
+
+<p>VIA can generate interrupts (by timer, shifts, control lines etc), the schematics show the VIA ~IRQ pin connected to the RAM chip - which is nonsense. What is not nonsense is the fact that ~IRQ signals of VIA must reach the CPU, otherwise it would not be possible to generate interrupts at all (by VIA).</p>
+
+<p>And once the connection to the processor is made it stands to reason that the same TTL - level will be available at the cartridge port (at said pin 36).</p>
+
+<p>Thus by generating an interrupt (~IRQ = 0) or by no interrupt (~IRQ = 1) you can programmatically change the value of pin 36 of the cartridge port!</p>
+
+<p>VIA interrupts can be very flexibly generated, enabled, disabled etc. Also â even if an interrupt is generated, that does not mean the microprocessor has to interrupt its work - you can (conditional code register - bit 4 - Interrupt Request Mask) tell the processor to ignore interrupts. So if you do it right you can set/unset the interrupt to your likings without disturbing your code.</p>
+
+<p>You can view current emulation status by opening a "cartridge" window (in dissi type "carti").</p>
+<br/><p align="center">
+<img src="pics/atmel.png" width="693" height="825" /><br/>
+<em>emulation view</em></p><br/>
+
+<p>The datasheet of the chip can be found in the subdirectory: <br />
+</p>
+
+<p>documents/hardware/eEprom/20001203U.pdf</p>
+</body>
+</html>

@@ -1034,7 +1034,7 @@ __INLINE void Draw_Pat_VL_d(const long unsigned int d, void* const x) // 0xF439,
 // B = Destroyed
 // X = Entry value + 2
 
-__INLINE void Draw_Line_d(const int a, const int b) // 0xF3DF
+__INLINE void Draw_Line_dab(const int a, const int b) // 0xF3DF
 {
 	asm volatile(
 		"lda %[A]\n\t"
@@ -1049,7 +1049,7 @@ __INLINE void Draw_Line_d(const long int d) // 0xF3DF
 	asm volatile(
 		"ldd %[D]\n\t"
 		"jsr ___Draw_Line_d; BIOS call\n\t"
-		:: 	[A] "mi" (a), [B] "mi" (b)
+		:: 	[D] "mi" (d)
 		: "memory", "cc", "d", "x");
 }
 

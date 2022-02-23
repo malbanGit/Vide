@@ -82,6 +82,7 @@ extern const void* const bankFunctions[NUMBER_OF_FUNCTIONS] __attribute__((secti
     " sta      *_VIA_DDR_b                     ; all ORB/ORA to output except ORB 5, PB6 goes LOW\n"
 	" rts\n"
 
+	".globl _subBank1\n"
 	"_subBank1:\n"
     " lda      #0x9F                           ; Prepare DDR Registers % 1001 1111 1111 1111\n"
     " sta      *_VIA_DDR_b                     ; all ORB/ORA to output except ORB 5, PB6 goes LOW\n"

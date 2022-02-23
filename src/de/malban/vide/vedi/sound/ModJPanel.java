@@ -89,7 +89,7 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Mod2Vectrex");
+        mParentMenuItem.setText("Sound: Mod to Vectrex");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -1163,7 +1163,7 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  800, 800, "Mod2Vectrex");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  800, 800, "Sound: Mod to Vectrex");
     }        
     void createSource()
     {

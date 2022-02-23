@@ -82,6 +82,18 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_J, java.awt.event.KeyEvent.META_DOWN_MASK, "JumpMac", "Editor");
             HotKey.addMap(KeyEvent.VK_J, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "JumpWin", "Editor");
 
+            
+            HotKey.addMap(KeyEvent.VK_LEFT, java.awt.event.KeyEvent.META_DOWN_MASK, "FirstCharInLine", "Editor");
+            HotKey.addMap(KeyEvent.VK_RIGHT, java.awt.event.KeyEvent.META_DOWN_MASK, "LastCharInLine", "Editor");
+            HotKey.addMap(KeyEvent.VK_UP, java.awt.event.KeyEvent.META_DOWN_MASK, "FileStart", "Editor");
+            HotKey.addMap(KeyEvent.VK_DOWN, java.awt.event.KeyEvent.META_DOWN_MASK, "FileEnd", "Editor");
+/*
+            HotKey.addMap(KeyEvent.VK_LEFT, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "FirstCharInLine", "Editor");
+            HotKey.addMap(KeyEvent.VK_RIGHT, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "LastCharInLine", "Editor");
+            HotKey.addMap(KeyEvent.VK_UP, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "FileStart", "Editor");
+            HotKey.addMap(KeyEvent.VK_DOWN, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "FileEnd", "Editor");
+*/            
+            
             HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark1Mac", "Editor");
             HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark1Win", "Editor");
             HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark1Mac", "Editor");
@@ -186,7 +198,7 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_B, 0, "RingbufferToggle", "Vecxi");            
             HotKey.addMap(KeyEvent.VK_P, java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "Panel/Toggle", "Vecxi");
             HotKey.addMap(KeyEvent.VK_F, java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "FullScreen/Toggle", "Vecxi");
-            HotKey.addMap(KeyEvent.VK_Q, 0, "Quit vecxi", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_Q, java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "Quit vecxi", "Vecxi");
             
             
             HotKey.addMap(KeyEvent.VK_M, 0, "Mode change", "Vecci");

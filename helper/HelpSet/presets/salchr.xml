@@ -6,16 +6,17 @@
 <Value Key="ilsplit.location">58</Value>
 <Value Key="showanchors">false</Value>
 <Value Key="showlabels">false</Value>
-<Value Key="split.location">151</Value>
+<Value Key="split.location">510</Value>
 <Value Key="stmleditor.autoupdate">true</Value>
 <Value Key="stmleditor.showhtml">true</Value>
-<Value Key="vsplit.lastlocation">622</Value>
-<Value Key="vsplit.location">702</Value>
+<Value Key="vsplit.lastlocation">702</Value>
+<Value Key="vsplit.location">668</Value>
 </Engine>
-<EditorData Filename="fb7d057b">1430,230</EditorData>
+<EditorData Filename="fb7d057b">0,0</EditorData>
+<EditorData Filename="81cde044">0,383</EditorData>
 <EditorData Filename="99db4f14">2145,396</EditorData>
-<EditorData Filename="0cc1c4e1">457,0</EditorData>
 <EditorData Filename="9f7215b8">91,0</EditorData>
+<EditorData Filename="0cc1c4e1">457,0</EditorData>
 <EditorData Filename="066c9925">96,0</EditorData>
 <EditorData Filename="df960cb0">354,0</EditorData>
 <EditorData Filename="8d9df43c">0,0</EditorData>

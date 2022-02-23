@@ -36,7 +36,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     private javax.swing.JMenuItem mParentMenuItem = null;
     private int mClassSetting=0;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
-    public static String SID = "tracki";
+    public static String SID = "Debug: Tracker";
 
     BufferedImage[] image = new BufferedImage[2];
     int imageSwitch = 0;
@@ -182,7 +182,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Tracker");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

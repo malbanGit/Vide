@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222014" />
+<!-- created with HelpSetMaker, ID=bdcea95c -->
+<title>"Building"</title>
+</head>
+<body class="doc">
+<h1>"Building"</h1>
+
+<p>Building is the stage, where the *.s19 files are transitioned to *.bin files. Also the resulting *.bin files are concatinated to only ONE bin file.</p>
+
+<p>ASLINK using the current setup usually generates two files, a "rom" file and a "ram" file. The ram file being the data that the ram (bss) will be initialized to.</p>
+
+<p>For this stage the utility "srec2bin" is used.</p>
+
+<p>For the rom generation srec2bin is called with following options:</p>
+
+<ul><li>
+<p>-q Quiet mode</p>
+</li><li>
+<p>"<tt>YOUR_PROJECT/build/YOUR_PROJECT&nbsp;rom.s19</tt>"</p>
+</li><li>
+<p>"<tt>YOUR_PROJECT/build/YOUR_PROJECT&nbsp;rom.bin</tt>"</p>
+</li></ul>
+
+<p>For the rom generation srec2bin is called with following options:</p>
+
+<ul><li>
+<p>-q Quiet mode</p>
+</li><li>
+<p>-o Start address offset (hex), default = 0.</p>
+</li><li>
+<p>"<tt>YOUR_PROJECT/build/YOUR_PROJECT&nbsp;ram.s19</tt>"</p>
+</li><li>
+<p>"<tt>YOUR_PROJECT/build/YOUR_PROJECT&nbsp;ram.bin</tt>"</p>
+</li></ul>
+
+<p>-o parameter being set to "<tt>0xc880</tt>".</p>
+
+<p>The final resulting two bin files are concatinated and the result is copied to:<br />
+"<tt>YOUR_PROJECT/bin/YOUR_PROJECT.bin</tt>"</p>
+
+<p>These options can not be altered.</p>
+</body>
+</html>

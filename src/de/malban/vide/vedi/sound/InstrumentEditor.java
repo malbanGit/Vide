@@ -74,7 +74,7 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Instrument Editor");
+        mParentMenuItem.setText("Sound: Instrument Editor");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -1878,7 +1878,7 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         InstrumentEditor panel = new InstrumentEditor(tl);
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  919, 700, "Instrument Editor");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  919, 700, "Sound: Instrument Editor");
     }        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton jButtonAssemble;

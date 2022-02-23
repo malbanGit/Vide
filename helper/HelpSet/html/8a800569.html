@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222014" />
+<!-- created with HelpSetMaker, ID=8a800569 -->
+<title>Assembling</title>
+</head>
+<body class="doc">
+<h1>Assembling</h1>
+
+<p>For now the vectrex C setup uses the complete toolchain Peer build. This means after the compile stage the assembler AS6809 is called (instead of assi, which is the internal assembler of Vide).</p>
+
+<p>AS6809 is called with following options:
+<ul><li>
+<p>-x Hex listing (default)</p>
+</li><li>
+<p>-p Disable automatic listing pagination</p>
+</li><li>
+<p>-l Create list file/outfile[.lst]</p>
+</li><li>
+<p>-o Create object file/outfile[.rel]</p>
+</li><li>
+<p>-y Enable SDCC  Debug Symbols</p>
+</li><li>
+<p>-g Undefined symbols made global</p>
+</li></ul>
+</p>
+
+<p>These options can not be altered.</p>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160906151831" />
+<meta name="date" content="20181124222015" />
 <!-- created with HelpSetMaker, ID=aa9962d6 -->
 <title>Export</title>
 </head>
@@ -18,7 +18,7 @@
 <img src="pics/VeccyExport.png" width="1508" height="421" /><br/>
 <em>text export</em></p><br/>
 
-<p>Text export is the "main" export vecci offers, all other exports (at the moment) must be user defined - but with user definitions you can probably export to any imaginable format (if you do know a little bit about java).</p>
+<p>Text export is the "main" export vecci offers, some other exports are supported (see below) plus there can be user defined exports, with user definitions you can probably export to any imaginable format (if you do know a little bit about java).</p>
 
 <p>Anyway...<br />
 </p>
@@ -43,6 +43,12 @@
 <p>if a runnable source is generated, the button <img src="pics/control_play_blue.png" alt="control_play_blue.png" /> is enabled, and by pressing it you start your generated vectrex binary in the emulator.</p>
 </li><li>
 <p>you can also change the source in the editor an run it afterwards. If "nothing" happened you entered a syntax error (check the log). If that is so, better copy and paste the text into vedi, there you can access error messages of assi directly</p>
+</li><li>
+<p>you can chose whether to add a "factor". The factor is realized as a constant within each data statement. The default value for the constant is "1", but you can easily edit that value in the generated sources.</p>
+</li><li>
+<p>you can chose whether to use a "db" or "fcb" assembler statement (checkbox)</p>
+</li><li>
+<p>you can chose whether to use a hex or decimal output values (checkbox)</p>
 </li></ul>
 
 <p>Following types of exports are supported (if possible):<br />
@@ -205,6 +211,8 @@ The vectorlists build in vecci automatically resync at points in the list which 
 
 <p>In order to be able to save an animation in one format, <b>ALL</b> vectorlists of that animation must be saveable in that format!</p>
 
+<p>For animations you can also save in synced "extended" vector format. That format also included the intensity of the vectors as set in vecci.</p>
+
 <p>If you use rotation, be sure to either have a correct startpoint, or use one of the Mov_Draw... or Mode... formats, otherwise it might happen, that you are "rotating" around the wrong point!</p>
 <h3>Scenario</h3>
 
@@ -265,5 +273,98 @@ Following templates are used:
 <h2>User export</h2>
 
 <p>Here a user can configure (meaning program) his own export routines. A simple example is given, as of now I will not elaborate these settings.</p>
+<h2>Other</h2>
+
+<p><b>SVG</b><br />
+</p>
+
+<p>The SVG export is at the moment very basic, since it only makes use of the "line" command. If you want to reuse the export you are probaby better of if you edit the result in some svg supporting tool (Inkscape?).</p>
+
+<p>The resulting SVG file is always placed in the default vectorlist directory under:<br />
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vide/xml/vectorlist/</tt><br />
+</p>
+
+<p><b>Wavefront OBJ</b><br />
+The OBJ export is at the moment very basic, only the entities:
+<ul><li>
+<p>v (vertex)</p>
+</li><li>
+<p>p (point)</p>
+</li><li>
+<p>l (line)</p>
+</li><li>
+<p>f (face) are used.</p>
+</li></ul>
+</p>
+
+<p>If you want to reuse the export you can do that for examples with "Blender".</p>
+
+<p>The resulting OBJ file is always placed in the default vectorlist directory under:<br />
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vide/xml/vectorlist/</tt><br />
+</p>
+<h2>SmartLists</h2>
+<br/><p align="center">
+<img src="pics/SmartList.png" width="1337" height="696" /><br/>
+<em>Smartlist example</em></p><br/>
+
+<p>Some credits for the implementation of smart lists go to Kristof Tuts. I had similar ideas beforehand - but only after examinig his Vector Patrol code I actually came arround implementing them in this way.</p>
+
+<p>For further explanation please see the blog entry for vide at: <a target="_blank" href="http://vide.malban.de/6th-of-february-2018-vpatrol-ingenuity-part-iii">http://vide.malban.de/6th-of-february-2018-vpatrol-ingenuity-part-iii</a></p>
+
+<p>Smart lists can be created and exported as simple lists - or as animations, including code generation.  The code generation uses the smartlist.template files in the template directory. In order to use these vector lists you also have to use the accompanying function assortment - otherwise the generated data is useless.</p>
+
+<p>The default size (scale) of the generated list is "9". The size (scale) can not be increased "in game". </p>
+
+<p>At the top of the generated "runnable" executables you find will find a define:<br />
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPRITE&nbsp;SCALE        =        9</b></p>
+
+<p>This is the scale the set of routines use. You can change the scale - but in order to use two different scales in the "compiled" version you have to "double" the set of functions (and rename them).</p>
+
+<p>A smaller scale (than 9) CAN be used with the same functions!</p>
+
+<p>The drawing functions use no "wait" loop anywhere. If a higher scale than 9 is used, the drawing "parts" will overlap and the vectorlists will look more than odd. In order to use higher scales the routines must include "wait" statements (which of course make the routines slower - wait&rarr;slower!). The routines as they are, are prepared to generate wait statements for the scale set with SPRITE&nbsp;SCALE.</p>
+
+<p>Ah - well - just look at the routines you will figure out what I mean. </p>
+
+<p>The UI in vecci includes some stuff I prepared for, following things can be done:
+<ul><li>
+<p>default intensity </p>
+</li><li>
+<p>default scale </p>
+</li><li>
+<p>default factor - can be set to a number if the checkbox is set</p>
+</li><li>
+<p>name is the base name for the generated data</p>
+</li><li>
+<p>build list, generates a smart list output to the textarea of a single vector list</p>
+</li><li>
+<p>build anim list, generates a smart list output to the textarea of all animation vectorlists</p>
+</li><li>
+<p>build scenario list, generates a smart list output to the textarea of all scenario vectorlists</p>
+</li><li>
+<p>jump on last move<br />
+  if the last vector in a list is a move, than this option enables the "jump" to another smart list, the name given in the textfield below gives the destination name.<br />
+Where this might be usefull:<br />
+In vectorblade all bonus items have a frame (circular/rectangle etc), with this "jump" I can draw the inner bonus icon and than jump to the "circle" list. This way the circle data needs to be memorized only once and not for all single bonus items.</p>
+</li><li>
+<p>no positioning move, if not checked the first item in the generated data will be a move to the starting position of the vectorlist</p>
+</li></ul>
+</p>
+
+<p>The other items (runnable, run, edit) are the same as for the other generators</p>
+
+<p><b>Note on Smartlists:<br />
+</b>
+<ol><li>
+<p>the "code section" of the smartlist is always for one scale only!<br />
+If you want to use smartlists for different scales - you have to "double" and rename all smartlist functions and, also the generated names in the data section of the vectorlist </p>
+</li><li>
+<p>the generated sources for smartlist always include "calibration" (via joystick) whether you want to use calibratioin in your final "product" is up to you though (just remove the calibration code) </p>
+</li><li>
+<p>Smartlists output quality is "time based". That means for a certain amount the smartlist will output vector list fairly stable. A smarlist with scale 9 might be able to ouput 60-70 vectors stable. A Smartlist with a scale of 70 will probably only output 30 vectors stable - here you have to look for yourself and draw your lists accordingly. Greater scale vectorlists can be output via a scenario, the optimal "cutting" and "glueing" of a good scenario is up to the user though.</p>
+</li><li>
+<p>If the scale of a smartlist is greater 9 - than wait statements in the form of NOPs are inserted. This can get "out of hand" code wise. For each two scale above 9 there will be one NOP inserted in each smartlist function. If you use a scale of 79 than 35 NOPs are inserted into every smartlist function. There are about 30 SM&nbsp;xxx functions using high scales can easily insert hundredes and hundreds of NOPs. This is neither smart nor efficient. If you want to use smartlists with large scales - manually edit the "wait" statements and insert some more memory saving wait (jsr delayXX or something similar).</p>
+</li></ol>
+</p>
 </body>
 </html>

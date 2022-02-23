@@ -1,0 +1,264 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222015" />
+<!-- created with HelpSetMaker, ID=2794015a -->
+<title>Storyboard</title>
+</head>
+<body class="doc">
+<h1>Storyboard</h1>
+
+<p>The storyboard can be accessed by pressing the button "<img src="pics/user_red.png" alt="user_red.png" /> Storyboard" in vecci (located at the lower right - in the animation section).</p>
+
+<p>With the storyboard you can generate vectrex source code and binary that displays a set of animations.<br />
+</p>
+
+<p>Each such animation can be placed, sized, moved, removed and illuminated in user defined sequences.</p>
+
+<p>With some "energy" one might tell "stories" consisting of different animation (sequences).</p>
+<br/><p align="center">
+<img src="pics/Storyboard.png" width="1115" height="717" /><br/>
+<em>The storyboard</em></p><br/>
+
+<p><b>In general </b><br />
+each storyboard consists of so called "lanes". Each lane will be played back in parallel to all other lanes. You can add as many lanes as you like.<br />
+<br />
+Each lane consists of so called sequences. The sequences in one lane are played sequentially.<br />
+<br />
+Each sequence contains one animation or a pause.<br />
+ <br />
+So overall you can create a storyboard which consists of animations which can be played in sequence or parallel. <br />
+The complete storyboard repeats after it is finshed playing. If a single lane is finished "befor" other lanes are finished it will also start from the beginning. Thus lanes can get "out of sync" (to synchronize lanes you can add pauses).</p>
+
+<p><b>Vocabulary</b><br />
+
+<ul><li>
+<p>(refresh-)round<br />
+Vectrex programs are realized in what can be called "game loops". One such "loop" is what I like to refer to as a round (refresh round). Optimally one round takes 1/50 of a second. So 50 rounds take one second. If that is the case the vectrex screen is refreshed 50 times a second = 50Hz display, which is nice and stable.</p>
+</li><li>
+<p>(animation-)frame<br />
+If talking about animations a frame of an animation is "one" step or one "image" of such an animation.</p>
+</li><li>
+<p>(animation-)delay <br />
+A number of refresh rounds to wait before something is changed.
+<ul><li>
+<p>animation delay: rounds to wait before the frame of an animation is changed </p>
+</li><li>
+<p>scale delay: rounds to wait before the scale is changed</p>
+</li><li>
+<p>intensity delay: rounds to wait before the intensity is changed</p>
+</li><li>
+<p>X/Y delay: rounds to wait before the X/Y (position) is changed</p>
+</li></ul>
+</p>
+</li><li>
+<p>scale<br />
+Vectrex internally that is timer T1 (low). For convenience sake let us say it is one of two factors that defines the size of an animation. <br />
+<br />
+A little bit more in depths explanation. All drawing or positioning the vectrex does is done using two components:
+<ul><li>
+<p>scale and</p>
+</li><li>
+<p>strength</p>
+</li></ul>
+</p>
+
+<p>The strength is inherently defined by the vectorlist (of the animation) and once compiled can not be (easily) changed. The scale is "just" a drawing parameter and can easily be changed while a vectrex programm is running. To get a better understanding... <br />
+ <br />
+</p>
+
+<p>Think of it like you sit in a car. The speed of the car is the "strength" and the time you sit in the car is the scale.<br />
+<br />
+To move 10 kilometers you have (in this example) two options:
+<ul><li>
+<p>move with the speed of 1 km/h for 10 hours</p>
+</li><li>
+<p>move with the speed of 10 km/h for 1 hour</p>
+</li></ul>
+</p>
+
+<p>Since you are in a hurry - you will always chose option 2! <br />
+<br />
+Vectrex is always in a hurry! If at all possible use the smallest scale (time) possible (to achieve the above mentioned 50Hz).<br />
+<br />
+To stay with the example above: 
+<ul><li>
+<p>imagine you are driving on really large parking place (like 10x10 kilometers)</p>
+</li><li>
+<p>imagine it is deep in the night</p>
+</li><li>
+<p>imagine there is a spectator in an airplane 10 kilometers above</p>
+</li><li>
+<p>imagine you have a powerfull light on the roof of your car</p>
+</li><li>
+<p>imagine you drive from the middle of the parking spot 1km to the west with the light switched on</p>
+</li></ul>
+</p>
+
+<p>The spectator just saw a gigantic vectrex, drawing a vector really slow!
+<ul><li>
+<p>imagine you switch the light off</p>
+</li><li>
+<p>imagine you drive 500m to the north</p>
+</li></ul>
+</p>
+
+<p>The spectator just saw nothing, but he will realize soon that the gigantic vectrex, moved the vector beam to another location
+<ul><li>
+<p>image you switch the light on</p>
+</li><li>
+<p>imagine you drive 1km to the east</p>
+</li></ul>
+</p>
+
+<p>The spectator saw the vectrex drawing another vector, resulting in an "=" sign!<br />
+... and so on.</p>
+</li></ul>
+</p>
+<h3>Buttons</h3>
+
+<p>Located somewhere in the left in the middle of the screen:<br />
+
+<ul><li>
+<p>"<img src="pics/add.png" alt="add.png" /> <b>add lane</b>"<br />
+ adds a lane. If there are more than one lane - there will be a "selected" lane (= active lane). The selected lane has a bright green border, not selected lanes have a black border.</p>
+</li><li>
+<p>"<img src="pics/delete.png" alt="delete.png" /> <b>delete lane</b>"<br />
+ deletes the current active lane (and all its sequences).</p>
+</li></ul>
+</p>
+
+<p>Located somewhere in the left at the bottom of the screen:<br />
+
+<ul><li>
+<p><img src="pics/page_go.png" alt="page_go.png" /> &nbsp;&nbsp;<b>load a storyboard</b></p>
+</li><li>
+<p><img src="pics/page_save.png" alt="page_save.png" /> &nbsp;&nbsp;<b>save storyboard</b></p>
+</li><li>
+<p><img src="pics/control_play_blue.png" alt="control_play_blue.png" />&nbsp;&nbsp;<b>compile and run storyboard</b></p>
+</li><li>
+<p><img src="pics/page_edit.png" alt="page_edit.png" />&nbsp;&nbsp;<b>open vide with generated sources</b></p>
+</li></ul>
+</p>
+
+<p>Once a lane is added, each lane has three buttons:<br />
+
+<ul><li>
+<p><img src="pics/add.png" alt="add.png" />&nbsp;&nbsp;<b>add a sequence</b></p>
+</li><li>
+<p><img src="pics/arrow_right.png" alt="arrow_right.png" />&nbsp;&nbsp;<b>move selected sequence right</b></p>
+</li><li>
+<p><img src="pics/arrow_left.png" alt="arrow_left.png" />&nbsp;&nbsp;<b>move selected sequence left</b></p>
+</li></ul>
+</p>
+
+<p>All sequences have a black background. A selected sequence has a dark gray backround. The selected sequences details can be edited at in the panel at the top of the screen labeled "sequence details".</p>
+
+<p>Located somewhere in the middle at the top of the screen, in an area labeled "sequence detail":<br />
+
+<ul><li>
+<p><img src="pics/page_go.png" alt="page_go.png" /> &nbsp;&nbsp;<b>load a animation</b></p>
+</li><li>
+<p><img src="pics/delete.png" alt="delete.png" /> &nbsp;&nbsp;<b>delete current sequence</b></p>
+</li></ul>
+</p>
+<h3>Sequence details</h3>
+
+<ul><li>
+<p>animation<br />
+here you can select the animation this sequence should display<br />
+unless you want to build a "pause-sequence", you always must select an animation.</p>
+</li><li>
+<p>frame<br />
+this shows of how many frames the selected animation consists of</p>
+</li><li>
+<p>delay<br />
+a value you can provide how "fast" the animation changes its frames (see above definition of delay)</p>
+</li><li>
+<p>scale/delay/increase<br />
+
+<ul><li>
+<p>"scale": the first value gives the (initial) size of the animation</p>
+</li><li>
+<p>"delay": if the size is stable (should not change) leave this value at 0,<br />
+otherwise define a delay, at which speed the scale should change</p>
+</li><li>
+<p>"increase": if a delay other than 0 was set, this value will be added to the initial scale each "delay" countdown. </p>
+</li></ul>
+</p>
+
+<p>"scale" is an 8bit unsigned value, "delay" and "increase" are 8bit signed values</p>
+</li><li>
+<p>intensity/delay/increase<br />
+Only available if the draw type is not "synced extended"
+<ul><li>
+<p>"intensity": the first value gives the (initial) brightness of the animation (0-127, values between 128-255 do not have an intensity)</p>
+</li><li>
+<p>"delay": if the intensity is stable (should not change) leave this value at 0,<br />
+otherwise define a delay, at which speed the intensity should change</p>
+</li><li>
+<p>"increase": if a delay other than 0 was set, this value will be added to the initial intensity each "delay" countdown. </p>
+</li></ul>
+</p>
+
+<p>"intensity" is an 8bit unsigned value, "delay" and "increase" are 8bit signed values</p>
+</li><li>
+<p>X/Y/delay/increase<br />
+Y respectively...
+<ul><li>
+<p>"X": the first value gives the (initial) X-position of the animation (-128 - +127)</p>
+</li><li>
+<p>"delay": if the X-position is stable (should not change) leave this value at 0,<br />
+otherwise define a delay, at which speed the X-position should change</p>
+</li><li>
+<p>"increase": if a delay other than 0 was set, this value will be added to the initial X-position each "delay" countdown. </p>
+</li></ul>
+</p>
+
+<p>"X" is an 8bit signed value, "delay" and "increase" are 8bit signed values</p>
+</li><li>
+<p>move - scale<br />
+The scale of the positioning. Since it is possible to draw small objects (small draw scale) at the edge of the screen (large move scale), it is necessary to define two different scale values - this is the one for moving, and can not be changed over time. The same effect as changing "this" value over time can be achieved by changing the position (although theoretically this is the worse version).</p>
+</li><li>
+<p>draw type<br />
+At the moment only two draw types are supported:
+<ul><li>
+<p>synced<br />
+should be used with "normal" animations</p>
+</li><li>
+<p>synced extended<br />
+should be used with animations, that support vectors with different intensities within the animation</p>
+</li></ul>
+</p>
+
+<p>for both lists two additional parameters can be given:
+<ul><li>
+<p>resync max<br />
+(see description in vecci-export documentation)</p>
+</li><li>
+<p>factor for list<br />
+Using the "metaphor" above with this value you can change the speed of the car. Meaning you can change the strength of the vectorlist. Each coordinate within the vectorlist is multiplied with this factor.<br />
+The factor must be chosen that after the multiplication each vector coordinates absolut value is smaller than 127 (otherwise the vectorlist/animation will not be displayed correctly). You can check the source generated in the neighboring large textarea.</p>
+</li></ul>
+</p>
+</li><li>
+<p>jump<br />
+To prevent jumping to the beginning or to the next sequence, you can check the "jump" checkbox and enter the number of the sequence you want to jump to. (number only from this lane, zero based)</p>
+</li><li>
+<p>loop<br />
+If you want this sequence to loop - check this checkbox and provide a number of loops (0 = endless).</p>
+</li><li>
+<p>display rounds<br />
+The textfield contains the number of "rounds" this sequence plays. Usually it is calculated from the values given above. The calculation is done using the formular: <tt><br />
+&nbsp;&nbsp;&nbsp;&nbsp;display rounds = frames*delay*loopcount<br />
+</tt> If "manual round count" is checked, you can enter a value manually thus overwriting the calculated value. The animation sequence than will play for exactly that number of rounds (looping).</p>
+</li><li>
+<p>is pause:<br />
+If selected, there one need not provide a draw type or an animation. This sequence will wait for the number of rounds provided by "display rounds" (which must be entered manually). Nothing will be displayed while pausing.</p>
+</li></ul>
+</body>
+</html>

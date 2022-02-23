@@ -141,10 +141,53 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Alley anxiety</Name>
+		<CartName>Alley anxiety</CartName>
+		<Author>Gauze</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>aa_beta0118.bin</FullFilename>
+		</FullFilenames>
+		<Information>Gauze</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://entropy.tmok.com/~gauze/vectrex/wip/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>aa_beta0118.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -178,49 +221,6 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-		<ConfigOverwrite>false</ConfigOverwrite>
-		<CF_AutoSync>false</CF_AutoSync>
-		<CF_AllowROMWrite>false</CF_AllowROMWrite>
-		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
-		<Name>Amen Break</Name>
-		<CartName>Amen Break</CartName>
-		<Author>Binary Star</Author>
-		<Year>2016</Year>
-		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download/cartridges/AmenLive.bin</FullFilename>
-		</FullFilenames>
-		<Information>Binary Star</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage>http://atariage.com/forums/index.php?app=core&amp;module=attach&amp;section=attach&amp;attach_id=432837</Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Amen Break6097115701889275906.png</InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink>Amen Live Download BIN</BinaryLink>
-		<Licence></Licence>
-		<CopyrightType></CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>true</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 		<ConfigOverwrite>false</ConfigOverwrite>
@@ -279,6 +279,49 @@ Please respect the copyright and credit the author and the origin of this game.<
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Amen Break</Name>
+		<CartName>Amen Break</CartName>
+		<Author>Binary Star</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/AmenLive.bin</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Amen Break6097115701889275906.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Amen Live Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Becky&apos;s Message</Name>
 		<CartName>Becky&apos;s Message</CartName>
 		<Author>Dan Siewers</Author>
@@ -330,15 +373,15 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CRC>0</CRC>
 		<TypeFlags>2</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download\cartridges\lineart01.bin</FullFilename>
+			<FullFilename>codelib/demos/MV/Lineart/lineart_0.bin</FullFilename>
 			<FullFilename></FullFilename>
 			<FullFilename></FullFilename>
 			<FullFilename></FullFilename>
 			<FullFilename></FullFilename>
-			<FullFilename>download\cartridges\lineart01.bin</FullFilename>
-			<FullFilename>download\cartridges\lineart02.bin</FullFilename>
-			<FullFilename>download\cartridges\lineart03.bin</FullFilename>
-			<FullFilename>download\cartridges\lineart04.bin</FullFilename>
+			<FullFilename>codelib/demos/MV/Lineart/lineart_5.bin</FullFilename>
+			<FullFilename>codelib/demos/MV/Lineart/lineart_6.bin</FullFilename>
+			<FullFilename>codelib/demos/MV/Lineart/lineart_7.bin</FullFilename>
+			<FullFilename>codelib/demos/MV/Lineart/lineart_8.bin</FullFilename>
 		</FullFilenames>
 		<Information>Nuance &amp; Metalvotze</Information>
 		<Cheats></Cheats>
@@ -351,7 +394,7 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<InGameImage>./cartridges/images/Lineart-6312384250983452480.png</InGameImage>
 		<Critic></Critic>
 		<Other></Other>
-		<BinaryLink>LineArt Download BIN</BinaryLink>
+		<BinaryLink></BinaryLink>
 		<Licence></Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
@@ -381,7 +424,7 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download/cartridges/agt.bin</FullFilename>
+			<FullFilename>download\cartridges\agt.bin</FullFilename>
 		</FullFilenames>
 		<Information>John Dondzila</Information>
 		<Cheats>More Invaders! Bonuses
@@ -397,12 +440,12 @@ On the game select screen, hold down button two and press four repeatedly until 
     Spike&apos;s Water Balloons was also included in the Vectopia cartridge as Spike&apos;s Water Balloons Analog, which was geared to work with the original Vectrex controller&apos;s analog mode, along with being released as its own cartridge.
     All Good Things was available from Classic Game Creations until the end of 2013, as creator John Dondzila did not have the time to produce cartridges any more, along with working his day job. The cartridge was re-released in March, 2015 from Packrat Video Games, LLC, however.</Eastereggs>
 		<Homepage></Homepage>
-		<InstructionFile>documents\games\All good things_instructions.txt</InstructionFile>
+		<InstructionFile>documents/games/All good things_instructions.txt</InstructionFile>
 		<FrontImage>./cartridges/images/All good things-5254628334882337364.png</FrontImage>
 		<BackImage>./cartridges/images/All good things-7031017440940262039.png</BackImage>
 		<Overlay></Overlay>
 		<InGameImage>./cartridges/images/All good things-6403600434143815982.png</InGameImage>
-		<Critic>documents\games\All good things_critics.txt</Critic>
+		<Critic>documents/games/All good things_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink>All good things Download BIN</BinaryLink>
 		<Licence></Licence>
@@ -420,10 +463,138 @@ On the game select screen, hold down button two and press four repeatedly until 
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Quartz Quest</Name>
+		<CartName>Quartz Quest</CartName>
+		<Author>Denebola Interactive</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+		</FullFilenames>
+		<Information>Denebola Interactive</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://denebola-interactive.itch.io/quartzs-quest</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>Download at above homepage</Licence>
+		<CopyrightType>Name your own price</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>PORTAL FIGHT</Name>
+		<CartName>PORTAL FIGHT</CartName>
+		<Author>J3W3L5</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\portal_fight.bin</FullFilename>
+		</FullFilenames>
+		<Information>J3W3L5</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_portal_fight.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>portal_fight.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>FENCING SIMULATOR</Name>
+		<CartName>FENCING SIMULATOR</CartName>
+		<Author>Alberich</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\fencing_simulator.bin</FullFilename>
+		</FullFilenames>
+		<Information>Alberich</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_fencing_simulator.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>cartridges\images\FENCING SIMULATOR8638963165524121305.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>fencing_simulator.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>fencing_simulator.pdf</PDFLink>
+		<PDFFile>download\cartridges\fencing_simulator.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -736,6 +907,49 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>HOLE-RUN</Name>
+		<CartName>HOLE-RUN</CartName>
+		<Author>Speedy G.</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\hole_run.bin</FullFilename>
+		</FullFilenames>
+		<Information>Speedy G.</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_hole_run.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>hole_run.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>hole_run.pdf</PDFLink>
+		<PDFFile>download\cartridges\hole_run.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Scalar Ownage</Name>
 		<CartName>Scalar Ownage</CartName>
 		<Author>Sebastian Mihai</Author>
@@ -867,8 +1081,8 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
 		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -879,7 +1093,7 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CRC>0</CRC>
 		<TypeFlags>1024</TypeFlags>
 		<FullFilenames>
-			<FullFilename>projects/WelcomeToVide/C1Main_0.bin</FullFilename>
+			<FullFilename>C1Main_0.bin</FullFilename>
 		</FullFilenames>
 		<Information>Malban</Information>
 		<Cheats></Cheats>
@@ -1001,6 +1215,49 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>PIRATES</Name>
+		<CartName>PIRATES</CartName>
+		<Author>G. Freeman</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\pirates.bin</FullFilename>
+		</FullFilenames>
+		<Information>G. Freeman</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_pirates.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>pirates.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>pirates.pdf</PDFLink>
+		<PDFFile>download\cartridges\pirates.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>3d-Crazy Coaster</Name>
 		<CartName>3d-Crazy Coaster</CartName>
 		<Author>GCE - Bill Hawkins</Author>
@@ -1088,6 +1345,49 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>KEYBOARD HERO</Name>
+		<CartName>KEYBOARD HERO</CartName>
+		<Author>W.L.</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\keyboard_hero.bin</FullFilename>
+		</FullFilenames>
+		<Information>W.L.</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_keyboard_hero.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>keyboard_hero.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -1191,16 +1491,18 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<Information>Alex Nicholson</Information>
 		<Cheats></Cheats>
 		<Eastereggs></Eastereggs>
-		<Homepage>http://www.vectorzoa.com/info2.html</Homepage>
+		<Homepage>https://madtronix.com/shop</Homepage>
 		<InstructionFile></InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
 		<Overlay></Overlay>
 		<InGameImage></InGameImage>
-		<Critic>documents\games\Logolite_critics.txt</Critic>
+		<Critic>documents/games/Logolite_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink></BinaryLink>
-		<Licence></Licence>
+		<Licence>Original homepage at:
+http://www.vectorzoa.com/games.html
+</Licence>
 		<CopyrightType>Copyright 2006 Alex Nicholson</CopyrightType>
 		<PDFLink>Logo Manual</PDFLink>
 		<PDFFile>download/documents/games/logoman.pdf</PDFFile>
@@ -1215,10 +1517,10 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -1366,12 +1668,12 @@ Please respect the copyright and credit the author and the origin of this game.<
     Homebrewer Mark Shaker assembled the first batch of cartridges, but George Pelonis of FURY took over the task of assembling them later when Shaker had to quit making Vectrex cartridges in 2007. This is also why they used the same boxes, as FURY uses for his games.
     This game was also available as Vec Sports Boxing Limited Edition, which consisted of 13 numbered copies including a cart, manual, handmade overlay, and a handmade GCE-style cardboard box.&amp;#x20;</Eastereggs>
 		<Homepage>http://pelikonepeijoonit.net/files/vec/index.html</Homepage>
-		<InstructionFile>documents\games\Vecsports boxing_instructions.txt</InstructionFile>
+		<InstructionFile>documents/games/Vecsports boxing_instructions.txt</InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
 		<Overlay></Overlay>
 		<InGameImage>./cartridges/images/Vecsports boxing-827062348328537262.png</InGameImage>
-		<Critic>documents\games\Vecsports boxing_critics.txt</Critic>
+		<Critic>documents/games/Vecsports boxing_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink>VecSports Boxing Download BIN</BinaryLink>
 		<Licence></Licence>
@@ -1389,10 +1691,10 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -1570,6 +1872,49 @@ Please respect the copyright and credit the author and the origin of this game.<
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Asteroids Thomas</Name>
+		<CartName>Asteroids Thomas</CartName>
+		<Author>Thomas Sontowski</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>65536</TypeFlags>
+		<FullFilenames>
+			<FullFilename>ASTEROIDS.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Thomas Sontowski</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>habbo.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Vectrace</Name>
 		<CartName>Vectrace</CartName>
 		<Author>Ronan Habot</Author>
@@ -1628,7 +1973,7 @@ VECRACE is my first Vectrex game. I developed it in order to learn and understan
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download/cartridges/Tsunami.bin</FullFilename>
+			<FullFilename>download/cartridges/Vix.bin</FullFilename>
 		</FullFilenames>
 		<Information>Christopher Tumber</Information>
 		<Cheats></Cheats>
@@ -1666,10 +2011,10 @@ This game originally sold for $20 (regular edition) or $50 (collector&apos;s edi
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -1713,6 +2058,66 @@ This game originally sold for $20 (regular edition) or $50 (collector&apos;s edi
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vec-Man</Name>
+		<CartName>Vec-Man</CartName>
+		<Author>Peer Johannsen</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\vec_man.bin</FullFilename>
+		</FullFilenames>
+		<Information>Peer Johannsen</Information>
+		<Cheats></Cheats>
+		<Eastereggs>&amp;#x20;   The intention of this project is not to recreate the original Pac-Man, but to do a Pac-Man themed clone for the Vectrex that adds slight taste of its own.
+    There are small and large mazes. In each level, the layout is different.
+    Vec-Man can take one of the outer warp exits which cause him to reappear on the  opposite site.
+    The ghosts cannot go through the outer warp exits.
+    In each maze, there are either 2, 3, 4 or 6 ghosts.
+    Each ghost has its unique strategy of chasing Vec-Man.
+    In higher levels, food pills and power pills start to move and are thus more difficult to be caught.
+    Some mazes also contain secret bonus items. Choose wisely when to use them.
+    The sequence of levels is always the same. It is created by procedural content generation techniques based on a determistic pseudo random number generator.
+    The game starts easy, but some of the much higher levels might become crazily difficult to virtually impossible...
+    The starting level can be selected as game option. However, the machine&apos;s high score will only be updated if game play is started at level 1.
+    A two player modus is available in which the players take turns.
+
+    The game is written entirely in C. The original Vectrex BIOS routines are used exclusively for interfacing with the Vectrex hardware.</Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_vec_man.htm</Homepage>
+		<InstructionFile>documents\games\Vec-Man_instructions.txt</InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>cartridges\images\Vec-Man9123292749328308344.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vec-ManCrt</BinaryLink>
+		<Licence>&amp;#x20;   Downloads are free and for non commercial use only. Use at your own risk.
+    Please respect the copyright and credit the author and the origin of this game.
+
+    Feedback and bug reports are very welcome.
+    Contact: vectrex@pforzheim-university.de</Licence>
+		<CopyrightType>Downloads are free and for non commercial use only.&amp;#x20;</CopyrightType>
+		<PDFLink>vec_man.pdf</PDFLink>
+		<PDFFile>download\cartridges\vec_man.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -1842,6 +2247,49 @@ This game originally sold for $20 (regular edition) or $50 (collector&apos;s edi
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>SPLIT PERSONALITY</Name>
+		<CartName>SPLIT PERSONALITY</CartName>
+		<Author>M.S.</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\split_personality.bin</FullFilename>
+		</FullFilenames>
+		<Information>M.S.</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_split_personality.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>split_personality.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -2064,7 +2512,7 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<BackImage>./cartridges/images/Vaboom-4526933568553023768.png</BackImage>
 		<Overlay></Overlay>
 		<InGameImage>./cartridges/images/Vaboom6384374621379284250.png</InGameImage>
-		<Critic>documents\games\Vaboom_critics.txt</Critic>
+		<Critic>documents/games/Vaboom_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink>Vaboom Download Bin</BinaryLink>
 		<Licence>Files can not be downloaded from homepage unless linked from same page!
@@ -2083,63 +2531,10 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
-		<Name>Space Frenzy</Name>
-		<CartName>Space Frenzy</CartName>
-		<Author>John Dondzila</Author>
-		<Year>2006</Year>
-		<CRC>0</CRC>
-		<TypeFlags>1024</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download/cartridges/SpaceFrenzy.BIN</FullFilename>
-		</FullFilenames>
-		<Information>John Dondzila</Information>
-		<Cheats></Cheats>
-		<Eastereggs>&amp;#x20;   The alien does not appear on the ROM version for those wanting to play Space Frenzy on an emulator.
-    The front box cover closely resembles the original GCE-released Vectrex game boxes.
-    At the time of its release, this was proclaimed by creator John Dondzila as to being his first &quot;paperless&quot; game, as the game instructions are &quot;online&quot;[1], rather than having them printed out and included with the game (although this doesn&apos;t include the Vectropolis 500 demo off of Dondzila&apos;s Vectopia release, as its instructions are also online). However, starting in 2009, several games (Vaboom!/Vectrace, Vector Vaders, and Thrust, for example) were released that had their instructions printed on the backs of oversized boxes, which was probably due to Dondzila doing this to save money, as he had never raised his prices for his cartridges (not counting shipping) since he started marking his homebrewed games in 1996 ($20 U. S. for all of his games, not including several from the Vectrex carts website that he took over from Mark Shaker, which several of those games are even cheaper) until 2013 when he quit producing cartridges. However, at the time, this was a first for Dondzila. (The game would be re-released by Packrat Video Games, LLC in 2015.)
-    With all Vectrexes having slightly different displays, the display can be affected when the Digi-Speech
-    Alien
-
-    Oops upside da head...
-    version is played. A few people had posted on the Vectrex news group that the game ran fine with all of their Vectrexes they tried it out on. Others said they had to crank up the volume really loud to hear the alien, while another stated that the alien&apos;s volume was only slightly lower than the regular game sounds, but the graphics were distorted, with the alien&apos;s eye and pupil being separated and it looked like the alien&apos;s head was split open. (Note: Vectrex images can be hard to capture, which taking this photo at right proved, since lines aren&apos;t all drawn at once [too quick for the naked eye to see, but not the camera to catch], so not all of the details could be caught at the same time, like the eye problem. However, it still illustrates how the top of the alien&apos;s head seems to be split, along with the line going through his neck on his right [/the reader&apos;s left].)
-    The Digi-Speech version very closely resembles the Space Fury original, with the deep voice. When playing the regular version with a VecVox or AtariVox+, however, the voice coming from the SpeakJet sounds robotic and nothing like the voice from Space Fury, as the two technologies in regards to producing the speech are totally different.
-    Unlike how it states in the instructions, no extra life is awarded at 10,000 points on Space Frenzy, unless this was changed in later editions.
-    Originally on the Space Frenzy official web page and the cartridge box, it stated the game was VecVoice compatible. This was actually incorrect (it actually works with the VecVox/setting on the AtariVox+), and if the VecVoice/mode is chosen for those that own an AtariVox+, the speech will come out garbled.&amp;#x20;</Eastereggs>
-		<Homepage></Homepage>
-		<InstructionFile>documents\games\Space Frenzy_instructions.txt</InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Space Frenzy-6010385909658325632.png</InGameImage>
-		<Critic>documents\games\Space Frenzy_critics.txt</Critic>
-		<Other></Other>
-		<BinaryLink>SpaceFrenzy Download BIN</BinaryLink>
-		<Licence></Licence>
-		<CopyrightType>Copyright 2006 John Dondzila</CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>true</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-		<ConfigOverwrite>false</ConfigOverwrite>
-		<CF_AutoSync>false</CF_AutoSync>
-		<CF_AllowROMWrite>false</CF_AllowROMWrite>
-		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -2186,6 +2581,49 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Vectrexians</Name>
+		<CartName>Vectrexians</CartName>
+		<Author>Kristof Tuts</Author>
+		<Year>2008</Year>
+		<CRC>0</CRC>
+		<TypeFlags>1</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\Vectrexians.bin</FullFilename>
+		</FullFilenames>
+		<Information>Kristof Tuts</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://kristofsnewvectrexgames.comli.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vectrexians.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Storm Storm</Name>
 		<CartName>Storm Storm</CartName>
 		<Author>Captain Dreamcast</Author>
@@ -2193,6 +2631,7 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
+			<FullFilename>StormStorm.bin</FullFilename>
 		</FullFilenames>
 		<Information>Captain Dreamcast</Information>
 		<Cheats></Cheats>
@@ -2205,7 +2644,7 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<InGameImage></InGameImage>
 		<Critic></Critic>
 		<Other></Other>
-		<BinaryLink></BinaryLink>
+		<BinaryLink>StormStorm.bin</BinaryLink>
 		<Licence>Must be downloaded at above homepage</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
@@ -2359,6 +2798,49 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>THIRSTY ASTRONAUT</Name>
+		<CartName>THIRSTY ASTRONAUT</CartName>
+		<Author>Firemedic</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\thirsty_astronaut.bin</FullFilename>
+		</FullFilenames>
+		<Information>Firemedic</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_thirsty_astronaut.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>thirsty_astronaut.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Where Have All The Pixels Gone</Name>
 		<CartName>Where Have All The Pixels Gone</CartName>
 		<Author>Carnegie Mellon Computer Club</Author>
@@ -2509,7 +2991,10 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink>SinZ Download BIN</BinaryLink>
-		<Licence></Licence>
+		<Licence>See also:
+http://www.pouet.net/prod.php?which=65470
+
+</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -2524,10 +3009,10 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -2663,6 +3148,49 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>DONKEY KONG</Name>
+		<CartName>DONKEY KONG</CartName>
+		<Author>Lionpride</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\donkey_kong.bin</FullFilename>
+		</FullFilenames>
+		<Information>Lionpride</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_donkey_kong.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>donkey_kong.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>donkey_kong.pdf</PDFLink>
+		<PDFFile>download\cartridges\donkey_kong.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>EmptyScreentro</Name>
 		<CartName>EmptyScreentro</CartName>
 		<Author>Frog</Author>
@@ -2703,6 +3231,49 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Crossfire</Name>
+		<CartName>Crossfire</CartName>
+		<Author>BinaryStar</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>524288</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/CROSSFIRE_v101.BIN</FullFilename>
+		</FullFilenames>
+		<Information>BinaryStar</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>CROSSFIRE_v101.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -3193,6 +3764,49 @@ A modern day online version was created in 2010, which included the Vectrex port
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>SPACE DEFENDER</Name>
+		<CartName>SPACE DEFENDER</CartName>
+		<Author>KusoTech</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\space_defender.bin</FullFilename>
+		</FullFilenames>
+		<Information>KusoTech</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_space_defender.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>space_defender.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>space_defender.pdf</PDFLink>
+		<PDFFile>download\cartridges\space_defender.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Spikes Circus</Name>
 		<CartName>Spikes Circus</CartName>
 		<Author>Alex Nicholson</Author>
@@ -3205,7 +3819,7 @@ A modern day online version was created in 2010, which included the Vectrex port
 		<Information>Alex Nicholson</Information>
 		<Cheats></Cheats>
 		<Eastereggs></Eastereggs>
-		<Homepage>http://www.vectorzoa.com/info2.html</Homepage>
+		<Homepage>https://madtronix.com/shop</Homepage>
 		<InstructionFile></InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
@@ -3214,7 +3828,9 @@ A modern day online version was created in 2010, which included the Vectrex port
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink></BinaryLink>
-		<Licence></Licence>
+		<Licence>Original homepage at:
+http://www.vectorzoa.com/games.html
+</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -3229,10 +3845,10 @@ A modern day online version was created in 2010, which included the Vectrex port
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -3419,12 +4035,12 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
     Individual Vectrexes can have slightly different displays, which is why sometimes the moon lander can appear to dip below a lunar surface without being destroyed.
     Moon Lander was originally available through the Vectrex carts website, then later on the Classic Game Creations site once John Dondzila took over the site from Mark Shaker. Dondzila ceased production of all games at the end of 2013 due to a lack of time and being able to work his day job; however, Packrat Video Games, LLC re-released the game in April, 2015.&amp;#x20;</Eastereggs>
 		<Homepage></Homepage>
-		<InstructionFile>documents\games\Moon Lander_instructions.txt</InstructionFile>
+		<InstructionFile>documents/games/Moon Lander_instructions.txt</InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
 		<Overlay></Overlay>
 		<InGameImage>./cartridges/images/Moon Lander2288877486065656097.png</InGameImage>
-		<Critic>documents\games\Moon Lander_critics.txt</Critic>
+		<Critic>documents/games/Moon Lander_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink>MonnLander Download BIN</BinaryLink>
 		<Licence></Licence>
@@ -3442,10 +4058,10 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -3504,7 +4120,7 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<Information>LA1N</Information>
 		<Cheats></Cheats>
 		<Eastereggs></Eastereggs>
-		<Homepage></Homepage>
+		<Homepage>https://atariage.com/forums/topic/233522-squarez-2015-new-vectrex-game-demake-of-the-flash-game-squares/</Homepage>
 		<InstructionFile></InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
@@ -3513,7 +4129,8 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink>Squarez.bin</BinaryLink>
-		<Licence></Licence>
+		<Licence>Download at:
+https://atariage.com/forums/topic/233522-squarez-2015-new-vectrex-game-demake-of-the-flash-game-squares/</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -3528,10 +4145,10 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -3607,12 +4224,12 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
     There are several humorous messages in the games, such as if the player is able to beat Gravitrex and rescue all humans in the game, as it says on the screen “Hey, did you cheat?”. On the title screen of Patriots III, it reads “Classic games never die...they just slowly fade away...then resurface on e-bay”. And when the game ends on Paratroopers, it reads “We win!”
     Gravitrex Plus was available from 2002-2013 when it was announced that, due to a lack of time, Classic Game Creations would not be able to produce any more games. Packrat Video Games, LLC, took over the duties and re-released the cartridge in November, 2014.</Eastereggs>
 		<Homepage></Homepage>
-		<InstructionFile>documents\games\Gravitrex_instructions.txt</InstructionFile>
+		<InstructionFile>documents/games/Gravitrex_instructions.txt</InstructionFile>
 		<FrontImage>./cartridges/images/Gravitrex-665527253081335425.png</FrontImage>
 		<BackImage>./cartridges/images/Gravitrex3280032832082934592.png</BackImage>
 		<Overlay></Overlay>
 		<InGameImage>./cartridges/images/Gravitrex-4334411084600525159.png</InGameImage>
-		<Critic>documents\games\Gravitrex_critics.txt</Critic>
+		<Critic>documents/games/Gravitrex_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink>Gravitrex Download BIN</BinaryLink>
 		<Licence></Licence>
@@ -3630,10 +4247,53 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>TREASURE DIVER</Name>
+		<CartName>TREASURE DIVER</CartName>
+		<Author>Falrahch</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\treasure_diver.bin</FullFilename>
+		</FullFilenames>
+		<Information>Falrahch</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_treasure_diver.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>treasure_diver.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -3675,6 +4335,95 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
 		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vectorblade</Name>
+		<CartName>Vectorblade</CartName>
+		<Author>Malban</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>50855936</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Vectorblade_gold2/mainBank0_0.bin</FullFilename>
+			<FullFilename>Vectorblade_gold2/mainBank1_1.bin</FullFilename>
+			<FullFilename>Vectorblade_gold2/mainBank2_2.bin</FullFilename>
+			<FullFilename>Vectorblade_gold2/mainBank3_3.bin</FullFilename>
+		</FullFilenames>
+		<Information>Malban</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>PYORO-CHAN</Name>
+		<CartName>PYORO-CHAN</CartName>
+		<Author>Swagger</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\pyoro_chan.bin</FullFilename>
+		</FullFilenames>
+		<Information>Swagger</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_pyoro_chan.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>pyoro_chan.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
@@ -3730,7 +4479,7 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download/cartridges/vectrexagon.bin</FullFilename>
+			<FullFilename>download\cartridges\vectrexagon_downloadable.bin</FullFilename>
 		</FullFilenames>
 		<Information>Andreas Gustafsson</Information>
 		<Cheats></Cheats>
@@ -3743,7 +4492,7 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<InGameImage></InGameImage>
 		<Critic></Critic>
 		<Other></Other>
-		<BinaryLink>vectrexagonbin</BinaryLink>
+		<BinaryLink>vectrexagon.bin</BinaryLink>
 		<Licence></Licence>
 		<CopyrightType>Copyright © SDW Developments</CopyrightType>
 		<PDFLink></PDFLink>
@@ -3773,7 +4522,7 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download/cartridges/Hex_v1_1.BIN</FullFilename>
+			<FullFilename>download\cartridges\HEX_alpha2.BIN</FullFilename>
 		</FullFilenames>
 		<Information>Binary Star</Information>
 		<Cheats></Cheats>
@@ -3804,6 +4553,92 @@ Do it it two times, and you&apos;ll reach the end of the game.&amp;#x20;</Cheats
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
 		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Rounders</Name>
+		<CartName>Rounders</CartName>
+		<Author>Ronan Habot</Author>
+		<Year>2000</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/RonanHabotGame.bin</FullFilename>
+		</FullFilenames>
+		<Information>Ronan Habot</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Ronan&apos;s Game Cart7883078091682309064.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>RonanHabot Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2000 Ronan Habot</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>CASTLE VS. CASTLE</Name>
+		<CartName>CASTLE VS. CASTLE</CartName>
+		<Author>Hydrochous</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\castle_vs_castle.bin</FullFilename>
+		</FullFilenames>
+		<Information>Hydrochous</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_castle_vs_castle.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>castle_vs_castle.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>castle_vs_castle.pdf</PDFLink>
+		<PDFFile>download\cartridges\castle_vs_castle.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
@@ -3986,32 +4821,34 @@ Please respect the copyright and credit the author and the origin of this game.<
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>Ronan&apos;s Game Cart</Name>
-		<CartName>Ronan&apos;s Game Cart</CartName>
-		<Author>Ronan Habot</Author>
-		<Year>2000</Year>
+		<Name>Patriots 3</Name>
+		<CartName>Patriots 3</CartName>
+		<Author>John Dondzila</Author>
+		<Year>1994</Year>
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download/cartridges/RonanHabotGame.bin</FullFilename>
+			<FullFilename>download/cartridges/Patriots3.BIN</FullFilename>
 		</FullFilenames>
-		<Information>Ronan Habot</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
+		<Information>John Dondzila</Information>
+		<Cheats>To play the hidden game, start a new game, score 150 points, then press pause.&amp;#x20;</Cheats>
+		<Eastereggs>&amp;#x20;Patriots was one of the first homebrew games developed for the Vectrex. First released in 1996, it was 14 years after the system was first available in stores.
+Its inspiration, Missile Command, was released in the arcade in 1980 and on the Atari 2600 in 1981.
+The cover of the first release, sometimes referred to as Patriots Limited Edition, featured a set of missiles in the foreground and the New York cityscape including the Twin Towers in the background. This cover was retired and no longer used due to the terrorist events of September 11, 2001, which resulted in the Towers being destroyed. This is also the only version which was sold sealed in shrinkwrap.&amp;#x20;</Eastereggs>
 		<Homepage></Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
+		<InstructionFile>documents/games/Patriots_instructions.txt</InstructionFile>
+		<FrontImage>./cartridges/images/Patriots-1663980181312059751.png</FrontImage>
+		<BackImage>./cartridges/images/Patriots-7400852058327199525.png</BackImage>
 		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Ronan&apos;s Game Cart7883078091682309064.png</InGameImage>
+		<InGameImage>./cartridges/images/Patriots-1698319930157536057.png</InGameImage>
 		<Critic></Critic>
 		<Other></Other>
-		<BinaryLink>RonanHabot Download BIN</BinaryLink>
+		<BinaryLink>Patriots3 Download bin</BinaryLink>
 		<Licence></Licence>
-		<CopyrightType>Copyright 2000 Ronan Habot</CopyrightType>
+		<CopyrightType>Copyright 1994 John Dondzila</CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
+		<CartridgeImage>./cartridges/images/Patriots2722903673975181317.png</CartridgeImage>
 		<Homebrew>true</Homebrew>
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
@@ -4022,10 +4859,53 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>FLOOR IS LAVA</Name>
+		<CartName>FLOOR IS LAVA</CartName>
+		<Author>Volcanus</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\floor_is_lava.bin</FullFilename>
+		</FullFilenames>
+		<Information>Volcanus</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_lava_floor.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>floor_is_lava_vector_war_v2.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -4133,7 +5013,7 @@ Please respect the copyright and credit the author and the origin of this game.<
 Its inspiration, Missile Command, was released in the arcade in 1980 and on the Atari 2600 in 1981.
 The cover of the first release, sometimes referred to as Patriots Limited Edition, featured a set of missiles in the foreground and the New York cityscape including the Twin Towers in the background. This cover was retired and no longer used due to the terrorist events of September 11, 2001, which resulted in the Towers being destroyed. This is also the only version which was sold sealed in shrinkwrap.&amp;#x20;</Eastereggs>
 		<Homepage></Homepage>
-		<InstructionFile>documents\games\Patriots_instructions.txt</InstructionFile>
+		<InstructionFile>documents/games/Patriots_instructions.txt</InstructionFile>
 		<FrontImage>./cartridges/images/Patriots-1663980181312059751.png</FrontImage>
 		<BackImage>./cartridges/images/Patriots-7400852058327199525.png</BackImage>
 		<Overlay></Overlay>
@@ -4156,10 +5036,10 @@ The cover of the first release, sometimes referred to as Patriots Limited Editio
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -4212,47 +5092,44 @@ The cover of the first release, sometimes referred to as Patriots Limited Editio
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>Lineart3</Name>
-		<CartName>Lineart3</CartName>
-		<Author>Nuance &amp; Metalvotze</Author>
-		<Year>2011</Year>
+		<Name>DAISY LAND</Name>
+		<CartName>DAISY LAND</CartName>
+		<Author>Princess Daisy</Author>
+		<Year>2019</Year>
 		<CRC>0</CRC>
-		<TypeFlags>2</TypeFlags>
+		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>lineart01.bin</FullFilename>
-			<FullFilename>lineart02.bin</FullFilename>
-			<FullFilename>lineart03.bin</FullFilename>
-			<FullFilename>lineart04.bin</FullFilename>
+			<FullFilename>download\cartridges\daisy_land.bin</FullFilename>
 		</FullFilenames>
-		<Information>Nuance &amp; Metalvotze</Information>
+		<Information>Princess Daisy</Information>
 		<Cheats></Cheats>
 		<Eastereggs></Eastereggs>
-		<Homepage>http://metalvotze.de/files/vecsrc/</Homepage>
-		<InstructionFile>documents/games/Lineart_instructions.txt</InstructionFile>
-		<FrontImage>./cartridges/images/Lineart-7881467895127104613.png</FrontImage>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_daisy_land.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
 		<BackImage></BackImage>
 		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Lineart-6312384250983452480.png</InGameImage>
+		<InGameImage></InGameImage>
 		<Critic></Critic>
 		<Other></Other>
-		<BinaryLink></BinaryLink>
+		<BinaryLink>daisy_land.bin</BinaryLink>
 		<Licence></Licence>
 		<CopyrightType></CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
+		<PDFLink>daisy_land.pdf</PDFLink>
+		<PDFFile>daisy_land.pdf</PDFFile>
 		<CartridgeImage></CartridgeImage>
 		<Homebrew>true</Homebrew>
-		<Demo>true</Demo>
+		<Demo>false</Demo>
 		<Snippet>false</Snippet>
-		<CompleteGame>false</CompleteGame>
+		<CompleteGame>true</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
-		<ConfigOverwrite>true</ConfigOverwrite>
-		<CF_AutoSync>true</CF_AutoSync>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
@@ -4460,52 +5337,6 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>Lineart3</Name>
-		<CartName>Lineart3</CartName>
-		<Author>Nuance &amp; Metalvotze</Author>
-		<Year>2011</Year>
-		<CRC>0</CRC>
-		<TypeFlags>2</TypeFlags>
-		<FullFilenames>
-			<FullFilename>lineart01.bin</FullFilename>
-			<FullFilename>lineart02.bin</FullFilename>
-			<FullFilename>lineart03.bin</FullFilename>
-			<FullFilename>lineart04.bin</FullFilename>
-		</FullFilenames>
-		<Information>Nuance &amp; Metalvotze</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage>http://metalvotze.de/files/vecsrc/</Homepage>
-		<InstructionFile>documents/games/Lineart_instructions.txt</InstructionFile>
-		<FrontImage>./cartridges/images/Lineart-7881467895127104613.png</FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Lineart-6312384250983452480.png</InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink></BinaryLink>
-		<Licence></Licence>
-		<CopyrightType></CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>true</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>false</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-		<ConfigOverwrite>true</ConfigOverwrite>
-		<CF_AutoSync>true</CF_AutoSync>
-		<CF_AllowROMWrite>false</CF_AllowROMWrite>
-		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
 		<Name>DualVec</Name>
 		<CartName>DualVec</CartName>
 		<Author>William Hawkins</Author>
@@ -4614,6 +5445,49 @@ Limited production by Rob Mitchell. Originally available for $10.</Eastereggs>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>DINO RUNNER</Name>
+		<CartName>DINO RUNNER</CartName>
+		<Author>Hoid</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\dino_runner.bin</FullFilename>
+		</FullFilenames>
+		<Information>Hoid</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_dino_runner.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>dino_runner.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>dino_runner.pdf</PDFLink>
+		<PDFFile>download\cartridges\dino_runner.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Tank demo</Name>
 		<CartName>Tank demo</CartName>
 		<Author></Author>
@@ -4713,7 +5587,6 @@ Judging by the videos of the fully working prototype I can surmise that the game
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download\cartridges\Citybomber.bin</FullFilename>
 		</FullFilenames>
 		<Information>Andrew Coleman</Information>
 		<Cheats></Cheats>
@@ -4735,8 +5608,10 @@ This limited edition also includes a playable, six level, beta version of &apos;
 		<InGameImage>.\cartridges\images\City Bomber-7196287554640036624.png</InGameImage>
 		<Critic></Critic>
 		<Other></Other>
-		<BinaryLink>Citybomber.bin</BinaryLink>
-		<Licence></Licence>
+		<BinaryLink></BinaryLink>
+		<Licence>Can be downloaded from:
+http://vectrex.playntradeonline.com/bomber.html
+</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -4751,10 +5626,10 @@ This limited edition also includes a playable, six level, beta version of &apos;
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -4800,6 +5675,49 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>ASTEROIDS Deluxe</Name>
+		<CartName>ASTEROIDS Deluxe</CartName>
+		<Author>Thomas Sontowski</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>65536</TypeFlags>
+		<FullFilenames>
+			<FullFilename>ASTEROIDS2.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Thomas Sontowski</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -4938,7 +5856,9 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink>Pimmelsafari Download BIN</BinaryLink>
-		<Licence></Licence>
+		<Licence>Perhaps download at:
+
+http://www.pouet.net/prod.php?which=18669</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -4953,10 +5873,107 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Space Frenzy beta</Name>
+		<CartName>Space Frenzy beta</CartName>
+		<Author>John Dondzila</Author>
+		<Year>2006</Year>
+		<CRC>0</CRC>
+		<TypeFlags>1024</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/SpaceFrenzy.BIN</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs>&amp;#x20;   The alien does not appear on the ROM version for those wanting to play Space Frenzy on an emulator.
+    The front box cover closely resembles the original GCE-released Vectrex game boxes.
+    At the time of its release, this was proclaimed by creator John Dondzila as to being his first &quot;paperless&quot; game, as the game instructions are &quot;online&quot;[1], rather than having them printed out and included with the game (although this doesn&apos;t include the Vectropolis 500 demo off of Dondzila&apos;s Vectopia release, as its instructions are also online). However, starting in 2009, several games (Vaboom!/Vectrace, Vector Vaders, and Thrust, for example) were released that had their instructions printed on the backs of oversized boxes, which was probably due to Dondzila doing this to save money, as he had never raised his prices for his cartridges (not counting shipping) since he started marking his homebrewed games in 1996 ($20 U. S. for all of his games, not including several from the Vectrex carts website that he took over from Mark Shaker, which several of those games are even cheaper) until 2013 when he quit producing cartridges. However, at the time, this was a first for Dondzila. (The game would be re-released by Packrat Video Games, LLC in 2015.)
+    With all Vectrexes having slightly different displays, the display can be affected when the Digi-Speech
+    Alien
+
+    Oops upside da head...
+    version is played. A few people had posted on the Vectrex news group that the game ran fine with all of their Vectrexes they tried it out on. Others said they had to crank up the volume really loud to hear the alien, while another stated that the alien&apos;s volume was only slightly lower than the regular game sounds, but the graphics were distorted, with the alien&apos;s eye and pupil being separated and it looked like the alien&apos;s head was split open. (Note: Vectrex images can be hard to capture, which taking this photo at right proved, since lines aren&apos;t all drawn at once [too quick for the naked eye to see, but not the camera to catch], so not all of the details could be caught at the same time, like the eye problem. However, it still illustrates how the top of the alien&apos;s head seems to be split, along with the line going through his neck on his right [/the reader&apos;s left].)
+    The Digi-Speech version very closely resembles the Space Fury original, with the deep voice. When playing the regular version with a VecVox or AtariVox+, however, the voice coming from the SpeakJet sounds robotic and nothing like the voice from Space Fury, as the two technologies in regards to producing the speech are totally different.
+    Unlike how it states in the instructions, no extra life is awarded at 10,000 points on Space Frenzy, unless this was changed in later editions.
+    Originally on the Space Frenzy official web page and the cartridge box, it stated the game was VecVoice compatible. This was actually incorrect (it actually works with the VecVox/setting on the AtariVox+), and if the VecVoice/mode is chosen for those that own an AtariVox+, the speech will come out garbled.&amp;#x20;</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents\games\Space Frenzy_instructions.txt</InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Space Frenzy-6010385909658325632.png</InGameImage>
+		<Critic>documents\games\Space Frenzy_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink>SpaceFrenzy Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2006 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>SpideX</Name>
+		<CartName>SpideX</CartName>
+		<Author>phoboz</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+		</FullFilenames>
+		<Information>phoboz</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://github.com/phoboz/spidex</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>You have to compile the game yourself, sources available at above homepage.
+
+Cartridge can be bought from: http://tjocktv.se/</Licence>
+		<CopyrightType>Seems to be free</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -4967,7 +5984,6 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CRC>0</CRC>
 		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download/cartridges/BANDAI.BIN</FullFilename>
 		</FullFilenames>
 		<Information>Alex Nicholson</Information>
 		<Cheats></Cheats>
@@ -4980,8 +5996,10 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<InGameImage>./cartridges/images/Bandai-909510207661974291.png</InGameImage>
 		<Critic></Critic>
 		<Other></Other>
-		<BinaryLink>Bandai Download BIN</BinaryLink>
-		<Licence></Licence>
+		<BinaryLink></BinaryLink>
+		<Licence>Can be downloaded at:
+https://web.archive.org/web/20160326002606/http://vectorzoa.com/pubbins/BANDAI.BIN
+</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -4996,10 +6014,10 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -5015,7 +6033,7 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Information>Alex Nicholson</Information>
 		<Cheats></Cheats>
 		<Eastereggs></Eastereggs>
-		<Homepage>http://www.vectorzoa.com/info2.html</Homepage>
+		<Homepage>https://web.archive.org/web/20190429152521/http://www.vectorzoa.com</Homepage>
 		<InstructionFile></InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
@@ -5024,7 +6042,9 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink>VVOXXMAS Download BIN</BinaryLink>
-		<Licence></Licence>
+		<Licence>Download with link to:
+
+https://web.archive.org/web/20190429152521/http://www.vectorzoa.com/pubbins/VVOXXMAS.BIN</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -5039,10 +6059,10 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -5086,6 +6106,49 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>YMusic</Name>
+		<CartName>YMusic</CartName>
+		<Author>Binary Star</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>YMusic_v100.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>YMusic_v100.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -5155,7 +6218,7 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
     The instructions claim the player will receive an extra frog with every 10,000 points; however, if 10,000 or a multiple thereof is scored in the middle of a level, the player will not receive that extra frog unless they are able to place that frog successfully into a frog bay. If the player loses their last frog, the game will end, even if they earned enough points for an extra life.
     The game was originally available through the Vectrex carts site, but was distributed through Classic Game Creations later when programmer John Dondzila took over the business until late 2013, when Dondzila announced he did not have the time to produce physical cartridges any more and was thus shutting down his business. However, Packrat Video Games, LLC re-released the cartridge in January, 2015.&amp;#x20;</Eastereggs>
 		<Homepage>http://www.malban.de</Homepage>
-		<InstructionFile>documents\games\Vectrex Frogger_instructions.txt</InstructionFile>
+		<InstructionFile>documents/games/Vectrex Frogger_instructions.txt</InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
 		<Overlay></Overlay>
@@ -5178,10 +6241,10 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -5360,6 +6423,49 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Bloxorz beta</Name>
+		<CartName>Bloxorz beta</CartName>
+		<Author>Frank Buss</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>1</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\Bloxorz.bin</FullFilename>
+		</FullFilenames>
+		<Information>Frank Buss</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://github.com/FrankBuss/bloxorz</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>BloxOrzCart</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Robot Arena</Name>
 		<CartName>Robot Arena</CartName>
 		<Author></Author>
@@ -5425,12 +6531,12 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
     Vecmania was available from 1999 until 2013 when it was stated on the Classic Game Creations web site that its creator John Dondzila did not have the time to produce any more of his games. Packrat Video Games, LLC picked up the rights to the cartridge and re-released it in November, 2014.
     Right when the hidden game Breakout starts, it says &quot;keep the Vectrex alive&quot; on the screen before it goes to the game.&amp;#x20;</Eastereggs>
 		<Homepage></Homepage>
-		<InstructionFile>documents\games\Vecmania part 2_instructions.txt</InstructionFile>
+		<InstructionFile>documents/games/Vecmania part 2_instructions.txt</InstructionFile>
 		<FrontImage>./cartridges/images/Vecmania part 2-5276247407807192332.png</FrontImage>
 		<BackImage>./cartridges/images/Vecmania part 2594219429585013865.png</BackImage>
 		<Overlay></Overlay>
 		<InGameImage>./cartridges/images/Vecmania part 2-239771205493916316.png</InGameImage>
-		<Critic>documents\games\Vecmania part 2_critics.txt</Critic>
+		<Critic>documents/games/Vecmania part 2_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink>Vecmania 2 Download Bin</BinaryLink>
 		<Licence></Licence>
@@ -5448,10 +6554,10 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -5481,12 +6587,12 @@ On the Birds of Prey title screen, press down, then right on the controller. &qu
     Vecmania was available from 1999 until 2013 when it was stated on the Classic Game Creations web site that its creator John Dondzila did not have the time to produce any more of his games. Packrat Video Games, LLC picked up the rights to the cartridge and re-released it in November, 2014.
     Right when the hidden game Breakout starts, it says &quot;keep the Vectrex alive&quot; on the screen before it goes to the game.&amp;#x20;</Eastereggs>
 		<Homepage></Homepage>
-		<InstructionFile>documents\games\Vecmania part 1_instructions.txt</InstructionFile>
+		<InstructionFile>documents/games/Vecmania part 1_instructions.txt</InstructionFile>
 		<FrontImage>./cartridges/images/Vecmania part 1-7811830898738774467.png</FrontImage>
 		<BackImage>./cartridges/images/Vecmania part 18666429647942435893.png</BackImage>
 		<Overlay></Overlay>
 		<InGameImage>./cartridges/images/Vecmania part 18739002754905449245.png</InGameImage>
-		<Critic>documents\games\Vecmania part 1_critics.txt</Critic>
+		<Critic>documents/games/Vecmania part 1_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink>Vecmania 1 Download Bin</BinaryLink>
 		<Licence></Licence>
@@ -5504,10 +6610,10 @@ On the Birds of Prey title screen, press down, then right on the controller. &qu
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -5688,6 +6794,49 @@ On the Birds of Prey title screen, press down, then right on the controller. &qu
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>ASTEROID COWBOY</Name>
+		<CartName>ASTEROID COWBOY</CartName>
+		<Author>A.B.</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\asteroid_cowboy.bin</FullFilename>
+		</FullFilenames>
+		<Information>A.B.</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_asteroid_cowboy.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>AsteroidsCowboy.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Trapped</Name>
 		<CartName>Trapped</CartName>
 		<Author>Garry Grierson</Author>
@@ -5826,6 +6975,48 @@ responsible for any damage due to the use of this software.</Licence>
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Beluga Dreams</Name>
+		<CartName>Beluga Dreams</CartName>
+		<Author>8-Bit Waves</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+		</FullFilenames>
+		<Information>8-Bit Waves</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://8-bit-waves.itch.io/beluga-dreams</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>Download at above page</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -6093,6 +7284,50 @@ The music in Sub Wars is W. A. Mozart&apos;s &quot;Requiem&quot;, rewritten for 
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>StarSling</Name>
+		<CartName>StarSling</CartName>
+		<Author>Alex Nicholson</Author>
+		<Year>2006</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\SSlingTE.bin</FullFilename>
+		</FullFilenames>
+		<Information>Alex Nicholson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://madtronix.com/vectrex/star-sling</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>StarSlingCartridge</BinaryLink>
+		<Licence>Additional homepage
+https://web.archive.org/web/20190405200307/http://www.vectorzoa.com/ssling/gi_ssling.html</Licence>
+		<CopyrightType>Free edition for ParaJVE</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Revector</Name>
 		<CartName>Revector</CartName>
 		<Author>Craig Aker</Author>
@@ -6267,10 +7502,10 @@ The music in Sub Wars is W. A. Mozart&apos;s &quot;Requiem&quot;, rewritten for 
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -6494,49 +7729,6 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>Spike&apos;s Water Balloons</Name>
-		<CartName>Spike&apos;s Water Balloons</CartName>
-		<Author>John Dondzila</Author>
-		<Year>2001</Year>
-		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download/cartridges/spikesBalloons.bin</FullFilename>
-		</FullFilenames>
-		<Information>John Dondzila</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage></Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Spike&apos;s Water Balloons-1768645606569210094.png</InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink>SkiesWaterBallons Download Bin</BinaryLink>
-		<Licence></Licence>
-		<CopyrightType>Copyright 2001 John Dondzila</CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>true</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-		<ConfigOverwrite>false</ConfigOverwrite>
-		<CF_AutoSync>false</CF_AutoSync>
-		<CF_AllowROMWrite>false</CF_AllowROMWrite>
-		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
 		<Name>Vec Fu</Name>
 		<CartName>Vec Fu</CartName>
 		<Author>Michael Borrmann</Author>
@@ -6581,6 +7773,49 @@ You may give the Vecfu.bin file to your friends, but only together with this rea
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Spike&apos;s Water Balloons</Name>
+		<CartName>Spike&apos;s Water Balloons</CartName>
+		<Author>John Dondzila</Author>
+		<Year>2001</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/spikesBalloons.bin</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Spike&apos;s Water Balloons-1768645606569210094.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>SkiesWaterBallons Download Bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2001 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -6770,7 +8005,7 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<Information>Binary Star</Information>
 		<Cheats></Cheats>
 		<Eastereggs></Eastereggs>
-		<Homepage>http://atariage.com/forums/index.php?app=core&amp;module=attach&amp;section=attach&amp;attach_id=432837</Homepage>
+		<Homepage>http://http://www.binarystarsoftware.com</Homepage>
 		<InstructionFile></InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
@@ -6779,7 +8014,10 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink>Get Into Vectrex Download BIN</BinaryLink>
-		<Licence></Licence>
+		<Licence>Use 
+http://atariage.com/forums/index.php?app=core&amp;module=attach&amp;section=attach&amp;attach_id=432837
+
+to download rom!</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -6794,10 +8032,10 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -6859,6 +8097,48 @@ Bill Hawkins</Eastereggs>
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Oversser</Name>
+		<CartName>Oversser</CartName>
+		<Author>Zhamul, borbware</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+		</FullFilenames>
+		<Information>Zhamul, borbware</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://zhamul.itch.io/overseer</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>Download at above link</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -6952,8 +8232,8 @@ Vectrex Generation != 3</Eastereggs>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
 		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -6964,12 +8244,12 @@ Vectrex Generation != 3</Eastereggs>
 		<CRC>0</CRC>
 		<TypeFlags>512</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download/cartridges/ColorTest.bin</FullFilename>
+			<FullFilename>download/cartridges/ISTRIPES.BIN</FullFilename>
 		</FullFilenames>
 		<Information>Alex Nicholson</Information>
 		<Cheats></Cheats>
 		<Eastereggs></Eastereggs>
-		<Homepage>http://www.vectorzoa.com/info2.html</Homepage>
+		<Homepage>https://web.archive.org/web/20190429152521/http://www.vectorzoa.com</Homepage>
 		<InstructionFile></InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
@@ -6978,7 +8258,10 @@ Vectrex Generation != 3</Eastereggs>
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink>ISTRIPES Download BIN</BinaryLink>
-		<Licence></Licence>
+		<Licence>Download with link:
+
+https://web.archive.org/web/20160816225459/http://www.vectorzoa.com/pubbins/ISTRIPES.BIN
+</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -6995,8 +8278,8 @@ Vectrex Generation != 3</Eastereggs>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
 		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -7149,7 +8432,7 @@ Vectrex Generation != 3</Eastereggs>
 		<BackImage>./cartridges/images/Solar Quest3841717252472322698.png</BackImage>
 		<Overlay>overlays/solar.png</Overlay>
 		<InGameImage>./cartridges/images/Solar Quest-1795239283705661270.png</InGameImage>
-		<Critic>documents\games\Solar Quest_critics.txt</Critic>
+		<Critic>documents/games/Solar Quest_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink></BinaryLink>
 		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
@@ -7163,14 +8446,14 @@ Vectrex Generation != 3</Eastereggs>
 		<CompleteGame>true</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
-		<ConfigOverwrite>false</ConfigOverwrite>
-		<CF_AutoSync>false</CF_AutoSync>
+		<ConfigOverwrite>true</ConfigOverwrite>
+		<CF_AutoSync>true</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>10.9</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -7214,6 +8497,49 @@ Vectrex Generation != 3</Eastereggs>
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>YARG!</Name>
+		<CartName>YARG!</CartName>
+		<Author>Germanke</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\yarg_no_overlay.bin</FullFilename>
+		</FullFilenames>
+		<Information>Germanke</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_yarg.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>yarg_no_overlay.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -7328,7 +8654,7 @@ Modes can be selected from the main Y*A*S*I menu by pressing button two, then re
 		<CRC>0</CRC>
 		<TypeFlags>256</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download\cartridges\WAM_v100.BIN</FullFilename>
+			<FullFilename>download/cartridges/WAM_v100.BIN</FullFilename>
 		</FullFilenames>
 		<Information>Binary Star</Information>
 		<Cheats></Cheats>
@@ -7357,10 +8683,10 @@ Modes can be selected from the main Y*A*S*I menu by pressing button two, then re
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -7509,6 +8835,49 @@ Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and ful
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>MOON SHOT</Name>
+		<CartName>MOON SHOT</CartName>
+		<Author>SchellLabs</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\moon_shot.bin</FullFilename>
+		</FullFilenames>
+		<Information>SchellLabs</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_moon_shot.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>moon_shot.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>moon_shot.pdf</PDFLink>
+		<PDFFile>download\cartridges\moon_shot.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Fortress of Narzod</Name>
 		<CartName>Fortress of Narzod</CartName>
 		<Author>GCE - John Hall</Author>
@@ -7597,6 +8966,49 @@ Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and ful
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>DON&apos;T FALL</Name>
+		<CartName>DON&apos;T FALL</CartName>
+		<Author>Mr. Chomp</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\dont_fall.bin</FullFilename>
+		</FullFilenames>
+		<Information>Mr. Chomp</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_dont_fall.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>dont_fall.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>dont_fall.pdf</PDFLink>
+		<PDFFile>download\cartridges\dont_fall.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Oldsk00l</Name>
 		<CartName>Oldsk00l</CartName>
 		<Author>Manu P&#228;rssinen</Author>
@@ -7618,7 +9030,10 @@ Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and ful
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink>Oldsk00l Download BIN</BinaryLink>
-		<Licence></Licence>
+		<Licence>Download at:
+
+https://web.archive.org/web/20090728022744/http://pelikonepeijoonit.net/vec/0ldsk00l.bin
+</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -7633,10 +9048,10 @@ Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and ful
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -7734,17 +9149,17 @@ Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and ful
 		<Class>Cartridge</Class>
 		<Name>ASTEROIDS</Name>
 		<CartName>ASTEROIDS</CartName>
-		<Author>Thomas Sontowski</Author>
-		<Year>2017</Year>
+		<Author>L.D.</Author>
+		<Year>2018</Year>
 		<CRC>0</CRC>
-		<TypeFlags>65536</TypeFlags>
+		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
-			<FullFilename>ASTEROIDS.BIN</FullFilename>
+			<FullFilename>download\cartridges\asteroids.bin</FullFilename>
 		</FullFilenames>
-		<Information>Thomas Sontowski</Information>
+		<Information>L.D.</Information>
 		<Cheats></Cheats>
 		<Eastereggs></Eastereggs>
-		<Homepage></Homepage>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2018/vectrex_game_asteroids.htm</Homepage>
 		<InstructionFile></InstructionFile>
 		<FrontImage></FrontImage>
 		<BackImage></BackImage>
@@ -7752,7 +9167,7 @@ Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and ful
 		<InGameImage></InGameImage>
 		<Critic></Critic>
 		<Other></Other>
-		<BinaryLink></BinaryLink>
+		<BinaryLink>asteroids.bin</BinaryLink>
 		<Licence></Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
@@ -7768,8 +9183,51 @@ Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and ful
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>BLOX</Name>
+		<CartName>BLOX</CartName>
+		<Author>Whitehat</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\blox.bin</FullFilename>
+		</FullFilenames>
+		<Information>Whitehat</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_blox.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>blox.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>blox.pdf</PDFLink>
+		<PDFFile>download\cartridges\blox.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
@@ -7897,6 +9355,92 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>VECTROID</Name>
+		<CartName>VECTROID</CartName>
+		<Author>NATE__66</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\vectroid.bin</FullFilename>
+		</FullFilenames>
+		<Information>NATE__66</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_vectroid.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>vectroid.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>vectroid.pdf</PDFLink>
+		<PDFFile>download\cartridges\vectroid.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>VectorbladeAlpha5</Name>
+		<CartName>VectorbladeAlpha5</CartName>
+		<Author>Malban</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>1</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/other/VBladeAlpha5.bin</FullFilename>
+		</FullFilenames>
+		<Information>Malban</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://vide.malban.de/21st-of-july-vectorblade-alpha-5</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -8036,50 +9580,6 @@ Please respect the copyright and credit the author and the origin of this game.<
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>Bloxorz</Name>
-		<CartName>Bloxorz</CartName>
-		<Author>Frank Bu&#223;</Author>
-		<Year>2013</Year>
-		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download\cartridges\bloxorz-rom.bin</FullFilename>
-		</FullFilenames>
-		<Information>Frank Bu&#223;</Information>
-		<Cheats></Cheats>
-		<Eastereggs>&amp;#x20;   The name Bloxorz is used with permission from Damien Clarke.
-    Other games with similar game concepts as Bloxorz include W*H*B for the Sinclair Spectrum as well as Cuboid and Nintaii for iOS.</Eastereggs>
-		<Homepage>http://www.frank-buss.de/vectrex/</Homepage>
-		<InstructionFile>documents\games\Bloxorz_instructions.txt</InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Bloxorz-5786276712779159424.png</InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink>Bloxorz Download BIN</BinaryLink>
-		<Licence></Licence>
-		<CopyrightType></CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>true</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-		<ConfigOverwrite>false</ConfigOverwrite>
-		<CF_AutoSync>false</CF_AutoSync>
-		<CF_AllowROMWrite>false</CF_AllowROMWrite>
-		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
 		<Name>Heps</Name>
 		<CartName>Heps</CartName>
 		<Author>Fit</Author>
@@ -8101,49 +9601,6 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink>Heps Download BIN</BinaryLink>
-		<Licence></Licence>
-		<CopyrightType></CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>true</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>false</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-		<ConfigOverwrite>false</ConfigOverwrite>
-		<CF_AutoSync>false</CF_AutoSync>
-		<CF_AllowROMWrite>false</CF_AllowROMWrite>
-		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
-		<Name>Snow Challenge</Name>
-		<CartName>Snow Challenge</CartName>
-		<Author>Alex Nicholson</Author>
-		<Year>2007</Year>
-		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download/cartridges/CCCSNOW.BIN</FullFilename>
-		</FullFilenames>
-		<Information>Alex Nicholson</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage>http://www.vectorzoa.com/info2.html</Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Snow Challenge1167688479648163186.png</InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink>Snow Challenge Download BIN</BinaryLink>
 		<Licence></Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
@@ -8206,6 +9663,52 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Snow Challenge</Name>
+		<CartName>Snow Challenge</CartName>
+		<Author>Alex Nicholson</Author>
+		<Year>2007</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/CCCSNOW.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Alex Nicholson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://web.archive.org/web/20190429152521/http://www.vectorzoa.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Snow Challenge1167688479648163186.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Snow Challenge Download BIN</BinaryLink>
+		<Licence>Download with link:
+
+https://web.archive.org/web/20160816225459/http://www.vectorzoa.com/pubbins/ISTRIPES.BIN
+</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -8292,48 +9795,6 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
-		<Name>Galaxian</Name>
-		<CartName>Galaxian</CartName>
-		<Author>Kristof Tuts</Author>
-		<Year>2008</Year>
-		<CRC>0</CRC>
-		<TypeFlags>1</TypeFlags>
-		<FullFilenames>
-		</FullFilenames>
-		<Information>Kristof Tuts</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage></Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage></InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink></BinaryLink>
-		<Licence></Licence>
-		<CopyrightType></CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>false</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-		<ConfigOverwrite>false</ConfigOverwrite>
-		<CF_AutoSync>false</CF_AutoSync>
-		<CF_AllowROMWrite>false</CF_AllowROMWrite>
-		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -8585,7 +10046,7 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<Critic></Critic>
 		<Other></Other>
 		<BinaryLink>JunoFirst.bin</BinaryLink>
-		<Licence></Licence>
+		<Licence>Load the newest version at above &quot;homepage&quot;!</Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
@@ -8600,10 +10061,10 @@ Please respect the copyright and credit the author and the origin of this game.<
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -8821,6 +10282,49 @@ Please respect the copyright and credit the authors and the origin of this game.
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Zodiac</Name>
+		<CartName>Zodiac</CartName>
+		<Author>BinaryStar</Author>
+		<Year>2018</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Zodiac_v100.BIN</FullFilename>
+		</FullFilenames>
+		<Information>BinaryStar</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Zodiac_v100.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>41000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>41000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -9142,7 +10646,7 @@ In late 2012, it became known that bassist Rudy Sarzo (who has played in the hea
 		<Author></Author>
 		<Year></Year>
 		<CRC>0</CRC>
-		<TypeFlags>32</TypeFlags>
+		<TypeFlags>0</TypeFlags>
 		<FullFilenames>
 			<FullFilename>Dumped/ProtectorOrg.BIN</FullFilename>
 		</FullFilenames>
@@ -9173,10 +10677,10 @@ In late 2012, it became known that bassist Rudy Sarzo (who has played in the hea
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -9309,6 +10813,49 @@ In late 2012, it became known that bassist Rudy Sarzo (who has played in the hea
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>UNKNOWN</Name>
+		<CartName>UNKNOWN</CartName>
+		<Author>M4K5</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\unknown.bin</FullFilename>
+		</FullFilenames>
+		<Information>M4K5</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://it.hs-pforzheim.de/personen/johannsen/projektlabor/vectrex_2019/vectrex_game_unknown.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>unknown.bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>unknown.pdf</PDFLink>
+		<PDFFile>download\cartridges\unknown.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>

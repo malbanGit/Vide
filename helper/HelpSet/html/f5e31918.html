@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222015" />
+<!-- created with HelpSetMaker, ID=f5e31918 -->
+<title>Emulation: SID</title>
+</head>
+<body class="doc">
+<h1>Emulation: SID</h1>
+
+<p>I received a request to emulate the SID chip within Vide. While at first it sounds "strange" to emulate the Commodore C64 soundchip - the idea behind it is a special cartridge design with a SID chip on it.<br />
+</p>
+
+<p>The prototype of the card already exists and seems to work quite well. The chips registers are located at "forbidden" vectrex locations (addresses $8000 - $8020). Actually the emulation of that could be implemented in a couple of hours - since there are quite a few open source java C64 emulators available. The used SID emulation is a java version of "reSid" and works (for a few hours of work) remarkably well.</p>
+
+<p>Also the SID registers are viewable using the dissi&rarr;carti window.  </p>
+<br/><p align="center">
+<img src="pics/sid.png" width="510" height="444" /><br/>
+<em>emulation view</em></p><br/>
+</body>
+</html>

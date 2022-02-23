@@ -377,11 +377,12 @@ jCheckBoxMenuItem1.setVisible(false);
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem45 = new javax.swing.JMenuItem();
         jMenuItem42 = new javax.swing.JMenuItem();
-        jMenuItem44 = new javax.swing.JMenuItem();
         jMenuItemCartridgeEdit = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem44 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemVec32 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItemConfig = new javax.swing.JMenuItem();
@@ -484,7 +485,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         toolsMenu.add(jMenuItemStarter);
 
-        jMenuItemVecxi.setText("Vecxi");
+        jMenuItemVecxi.setText("Emulator");
         jMenuItemVecxi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemVecxiActionPerformed(evt);
@@ -492,7 +493,8 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         toolsMenu.add(jMenuItemVecxi);
 
-        jMenuItemVedi.setText("Vedi");
+        jMenuItemVedi.setText("Source Editor");
+        jMenuItemVedi.setActionCommand("SourceEditor");
         jMenuItemVedi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemVediActionPerformed(evt);
@@ -500,7 +502,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         toolsMenu.add(jMenuItemVedi);
 
-        jMenuItemCodi.setText("Codi");
+        jMenuItemCodi.setText("Code Examples");
         jMenuItemCodi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemCodiActionPerformed(evt);
@@ -508,7 +510,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         toolsMenu.add(jMenuItemCodi);
 
-        jMenuItemVeccy.setText("Vecci");
+        jMenuItemVeccy.setText("Vector Editor");
         jMenuItemVeccy.setToolTipText("");
         jMenuItemVeccy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -517,7 +519,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         toolsMenu.add(jMenuItemVeccy);
 
-        jMenuItemDissy.setText("Dissi (standalone)");
+        jMenuItemDissy.setText("Disassembler (standalone)");
         jMenuItemDissy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemDissyActionPerformed(evt);
@@ -525,7 +527,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         toolsMenu.add(jMenuItemDissy);
 
-        jMenuItemAssi.setText("Assi");
+        jMenuItemAssi.setText("6809 Assembler");
         jMenuItemAssi.setEnabled(false);
         jMenuItemAssi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -537,7 +539,7 @@ jCheckBoxMenuItem1.setVisible(false);
 
         jMenu8.setText("Utilities");
 
-        jMenuItem38.setText("Raster images");
+        jMenuItem38.setText("Image Raster converter");
         jMenuItem38.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem38ActionPerformed(evt);
@@ -545,7 +547,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         jMenu8.add(jMenuItem38);
 
-        jMenuItem39.setText("Vector images");
+        jMenuItem39.setText("Vector: Image to Vector");
         jMenuItem39.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem39ActionPerformed(evt);
@@ -553,7 +555,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         jMenu8.add(jMenuItem39);
 
-        jMenuItem40.setText("YM-files");
+        jMenuItem40.setText("Sound: YM Editor/Converter");
         jMenuItem40.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem40ActionPerformed(evt);
@@ -561,7 +563,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         jMenu8.add(jMenuItem40);
 
-        jMenuItem41.setText("Mod-files");
+        jMenuItem41.setText("Sound: Mod to Vectrex");
         jMenuItem41.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem41ActionPerformed(evt);
@@ -569,7 +571,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         jMenu8.add(jMenuItem41);
 
-        jMenuItem43.setText("Vectrex instruments/music");
+        jMenuItem43.setText("Sound: Instrument Editor");
         jMenuItem43.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem43ActionPerformed(evt);
@@ -577,7 +579,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         jMenu8.add(jMenuItem43);
 
-        jMenuItem6.setText("Explosion design");
+        jMenuItem6.setText("Sound: Explosion Editor");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -585,7 +587,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         jMenu8.add(jMenuItem6);
 
-        jMenuItem45.setText("Sample generation");
+        jMenuItem45.setText("Sound: Sample Editor");
         jMenuItem45.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem45ActionPerformed(evt);
@@ -593,7 +595,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         jMenu8.add(jMenuItem45);
 
-        jMenuItem42.setText("VecVoice/VecVox");
+        jMenuItem42.setText("Sound: Vox/Voice Editor");
         jMenuItem42.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem42ActionPerformed(evt);
@@ -601,15 +603,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         jMenu8.add(jMenuItem42);
 
-        jMenuItem44.setText("Imager wheel editor");
-        jMenuItem44.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem44ActionPerformed(evt);
-            }
-        });
-        jMenu8.add(jMenuItem44);
-
-        jMenuItemCartridgeEdit.setText("Cartridge information");
+        jMenuItemCartridgeEdit.setText("Cartridge Editor");
         jMenuItemCartridgeEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemCartridgeEditActionPerformed(evt);
@@ -617,15 +611,7 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         jMenu8.add(jMenuItemCartridgeEdit);
 
-        jMenuItem4.setText("File utility");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu8.add(jMenuItem4);
-
-        jMenuItem3.setText("Dissi compare");
+        jMenuItem3.setText("Compare Disassembled");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -640,10 +626,27 @@ jCheckBoxMenuItem1.setVisible(false);
             }
         });
         jMenu8.add(jMenuItem2);
+        jMenu8.add(jSeparator4);
+
+        jMenuItem44.setText("Wheel Editor");
+        jMenuItem44.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem44ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem44);
+
+        jMenuItem4.setText("File utility");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem4);
 
         toolsMenu.add(jMenu8);
 
-        jMenuItemVec32.setText("Vec32 Terminal");
+        jMenuItemVec32.setText("BASIC Editor");
         jMenuItemVec32.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemVec32ActionPerformed(evt);
@@ -678,7 +681,7 @@ jCheckBoxMenuItem1.setVisible(false);
         jMenuItem12.setText("Dummy Window");
         windowMenu.add(jMenuItem12);
 
-        jMenuItemDebug.setText("Debug Window");
+        jMenuItemDebug.setText("Vide log");
         jMenuItemDebug.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemDebugActionPerformed(evt);
@@ -779,7 +782,7 @@ jCheckBoxMenuItem1.setVisible(false);
 
     private void jMenuItemDissyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDissyActionPerformed
         Windowable p = new DissiFullPanel();
-        addAsWindow(p, 800, 600, "Dissi Standalone  Window");
+        addAsWindow(p, 800, 600, "Disassembler (standalone)");
         /*
         CSAInternalFrame frame = getInternalFrame(p);
         try
@@ -792,7 +795,7 @@ jCheckBoxMenuItem1.setVisible(false);
 
     private void jMenuItemAssiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAssiActionPerformed
         AssyPanel p = new AssyPanel();
-        addAsWindow(p, 800, 600, "Assi Window");
+        addAsWindow(p, 800, 600, "6809 Assembler");
     }//GEN-LAST:event_jMenuItemAssiActionPerformed
 
     private void jMenuItemVecxiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVecxiActionPerformed
@@ -968,7 +971,7 @@ jCheckBoxMenuItem1.setVisible(false);
         LogPanel c = (LogPanel) Configuration.getConfiguration().getDebugEntity();
         
         
-        CSAInternalFrame frame = addAsWindow(c, 331, 514, "Debug Window");
+        CSAInternalFrame frame = addAsWindow(c, 331, 514, "Vide log");
             frame.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {
                 @Override
                 public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
@@ -1037,7 +1040,7 @@ jCheckBoxMenuItem1.setVisible(false);
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         ConfigurationPanel c = new ConfigurationPanel();
-        addAsWindow(c, 1018, 680, "Application onfiguration");
+        addAsWindow(c, 1018, 680, "Application configuration");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem38ActionPerformed
@@ -1253,6 +1256,7 @@ jCheckBoxMenuItem1.setVisible(false);
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu toolsMenu;

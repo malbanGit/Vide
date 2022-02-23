@@ -5,6 +5,11 @@ not finished yet!
 
 ~~
 ~~
+Breakpoints now be saved and loaded, use the load save buttons for that. ~~
+In the lower right corner is a "clock" button - with this you can temporarily disable/enable breakpoints.
+
+~~
+~~
 This is the beginning of a breakpoint list window. Although it is functionally working I don't like the looks of it.
 
 The display lists all known information of all breakpoints, although to "normal" user this information may seem cryptic.

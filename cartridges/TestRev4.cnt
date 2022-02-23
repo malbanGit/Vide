@@ -1,0 +1,572 @@
+START_BANK                    $00
+LABEL                    $0000                              _0000
+COMMENT                    $0000                              GCS Copyright
+COMMENT                    $0000                              GCS Copyright
+LABEL                    $0008                              _0008
+COMMENT                    $000B                              Start music pointer
+COMMENT                    $000B                              Start music pointer
+COMMENT                    $000D                              hight, width, rel y, rel x (from 0,0)
+COMMENT                    $000D                              hight, width, rel y, rel x (from 0,0)
+LABEL                    $0010                              _0010
+COMMENT                    $0011                              individual title String(s)
+COMMENT                    $0011                              individual title String(s)
+COMMENT                    $001C                              end of header
+COMMENT                    $001C                              end of header
+LABEL                    $001D                              start
+LABEL                    $001D                              start
+COMMENT                    $001D                              start of cartridge code!
+COMMENT                    $001D                              start of cartridge code!
+LABEL                    $0020                              _0020
+LABEL                    $0032                              _0032
+LABEL                    $0039                              _0039
+LABEL                    $003C                              _003C
+LABEL                    $0040                              _0040
+LABEL                    $0053                              _0053
+LABEL                    $0060                              _0060
+LABEL                    $0074                              _0074
+LABEL                    $0078                              _0078
+LABEL                    $007F                              _007F
+LABEL                    $0080                              _0080
+LABEL                    $0082                              _0082
+LABEL                    $0088                              _0088
+LABEL                    $0092                              _0092
+LABEL                    $00A0                              _00A0
+LABEL                    $00AB                              _00AB
+LABEL                    $00B0                              _00B0
+LABEL                    $00C0                              _00C0
+LABEL                    $00C4                              _00C4
+LABEL                    $00D8                              _00D8
+LABEL                    $00DC                              _00DC
+LABEL                    $00E0                              _00E0
+LABEL                    $00ED                              _00ED
+LABEL                    $00EF                              _00EF
+LABEL                    $00F8                              _00F8
+LABEL                    $00FA                              _00FA
+LABEL                    $00FF                              _00FF
+LABEL                    $0101                              _0101
+LABEL                    $0117                              _0117
+LABEL                    $0119                              _0119
+LABEL                    $0141                              _0141
+LABEL                    $0166                              _0166
+LABEL                    $0174                              _0174
+LABEL                    $0178                              _0178
+LABEL                    $018B                              _018B
+LABEL                    $01A4                              _01A4
+LABEL                    $01AA                              _01AA
+LABEL                    $01BE                              _01BE
+LABEL                    $01C7                              _01C7
+LABEL                    $01D9                              _01D9
+LABEL                    $01DE                              _01DE
+LABEL                    $020B                              _020B
+LABEL                    $0224                              _0224
+LABEL                    $022A                              _022A
+LABEL                    $0239                              _0239
+LABEL                    $025B                              _025B
+LABEL                    $027A                              _027A
+LABEL                    $0281                              _0281
+LABEL                    $02B5                              _02B5
+LABEL                    $02CD                              _02CD
+LABEL                    $02FC                              _02FC
+LABEL                    $0308                              _0308
+LABEL                    $030E                              _030E
+LABEL                    $0311                              _0311
+LABEL                    $0319                              _0319
+LABEL                    $031A                              _031A
+LABEL                    $0324                              _0324
+LABEL                    $032E                              _032E
+LABEL                    $0353                              _0353
+LABEL                    $037E                              _037E
+LABEL                    $0385                              _0385
+LABEL                    $038F                              _038F
+LABEL                    $03AA                              _03AA
+LABEL                    $03AB                              _03AB
+LABEL                    $03AE                              _03AE
+LABEL                    $03BA                              _03BA
+LABEL                    $03BF                              _03BF
+LABEL                    $03C2                              _03C2
+LABEL                    $03CE                              _03CE
+LABEL                    $03EE                              _03EE
+LABEL                    $0451                              _0451
+LABEL                    $046A                              _046A
+LABEL                    $0471                              _0471
+LABEL                    $0486                              _0486
+LABEL                    $049A                              _049A
+LABEL                    $04EF                              _04EF
+LABEL                    $04F3                              _04F3
+LABEL                    $050A                              _050A
+LABEL                    $053F                              _053F
+LABEL                    $05AF                              _05AF
+LABEL                    $05D8                              _05D8
+LABEL                    $05DF                              _05DF
+LABEL                    $061F                              _061F
+LABEL                    $0642                              _0642
+LABEL                    $0644                              _0644
+LABEL                    $0649                              _0649
+LABEL                    $0670                              _0670
+LABEL                    $0687                              _0687
+LABEL                    $0690                              _0690
+LABEL                    $069F                              _069F
+LABEL                    $06A6                              _06A6
+LABEL                    $06BB                              _06BB
+LABEL                    $06CA                              _06CA
+LABEL                    $06E0                              _06E0
+LABEL                    $06F6                              _06F6
+LABEL                    $06FA                              _06FA
+LABEL                    $0709                              _0709
+LABEL                    $0718                              _0718
+LABEL                    $07DB                              _07DB
+LABEL                    $0800                              _0800
+LABEL                    $0801                              _0801
+LABEL                    $0807                              _0807
+LABEL                    $0808                              _0808
+LABEL                    $0811                              _0811
+LABEL                    $0818                              _0818
+LABEL                    $081C                              _081C
+LABEL                    $0830                              _0830
+LABEL                    $084B                              _084B
+LABEL                    $08C9                              _08C9
+LABEL                    $08D8                              _08D8
+LABEL                    $08E7                              _08E7
+LABEL                    $08E8                              _08E8
+LABEL                    $08F2                              _08F2
+LABEL                    $08F8                              _08F8
+LABEL                    $08FC                              _08FC
+LABEL                    $0900                              _0900
+LABEL                    $090F                              _090F
+LABEL                    $0927                              _0927
+LABEL                    $092C                              _092C
+LABEL                    $092D                              _092D
+LABEL                    $0945                              _0945
+LABEL                    $0955                              _0955
+LABEL                    $095E                              _095E
+LABEL                    $0965                              _0965
+LABEL                    $0985                              _0985
+LABEL                    $0988                              _0988
+LABEL                    $098E                              _098E
+LABEL                    $0997                              _0997
+LABEL                    $0998                              _0998
+LABEL                    $099E                              _099E
+LABEL                    $09A6                              _09A6
+LABEL                    $09AB                              _09AB
+LABEL                    $09AE                              _09AE
+LABEL                    $09B8                              _09B8
+LABEL                    $09C2                              _09C2
+LABEL                    $09CC                              _09CC
+LABEL                    $09D0                              _09D0
+LABEL                    $09D2                              _09D2
+LABEL                    $09D6                              _09D6
+LABEL                    $09E4                              _09E4
+LABEL                    $09E9                              _09E9
+LABEL                    $09EE                              _09EE
+LABEL                    $0A00                              _0A00
+LABEL                    $0A04                              _0A04
+LABEL                    $0A07                              _0A07
+LABEL                    $0A09                              _0A09
+LABEL                    $0A17                              _0A17
+LABEL                    $0A1E                              _0A1E
+LABEL                    $0A2B                              _0A2B
+LABEL                    $0A30                              _0A30
+LABEL                    $0A46                              _0A46
+LABEL                    $0A47                              _0A47
+LABEL                    $0A49                              _0A49
+LABEL                    $0A4B                              _0A4B
+LABEL                    $0A4F                              _0A4F
+LABEL                    $0A67                              _0A67
+LABEL                    $0A6E                              _0A6E
+LABEL                    $0A72                              _0A72
+LABEL                    $0A78                              _0A78
+LABEL                    $0AA8                              _0AA8
+LABEL                    $0AB3                              _0AB3
+LABEL                    $0AB8                              _0AB8
+LABEL                    $0AC0                              _0AC0
+LABEL                    $0AC7                              _0AC7
+LABEL                    $0ACD                              _0ACD
+LABEL                    $0AD9                              _0AD9
+LABEL                    $0AF0                              _0AF0
+LABEL                    $0AF4                              _0AF4
+LABEL                    $0B16                              _0B16
+LABEL                    $0B19                              _0B19
+LABEL                    $0B2B                              _0B2B
+LABEL                    $0B33                              _0B33
+LABEL                    $0B3A                              _0B3A
+LABEL                    $0B42                              _0B42
+LABEL                    $0B4A                              _0B4A
+LABEL                    $0C20                              _0C20
+LABEL                    $1000                              _1000
+LABEL                    $1010                              _1010
+LABEL                    $1040                              _1040
+LABEL                    $10A0                              _10A0
+LABEL                    $1606                              _1606
+LABEL                    $160F                              _160F
+LABEL                    $16FE                              _16FE
+LABEL                    $1808                              _1808
+LABEL                    $1810                              _1810
+LABEL                    $1830                              _1830
+LABEL                    $18F0                              _18F0
+LABEL                    $1B0F                              _1B0F
+LABEL                    $1C06                              _1C06
+LABEL                    $1C70                              _1C70
+LABEL                    $2000                              _2000
+LABEL                    $2008                              _2008
+LABEL                    $2018                              _2018
+LABEL                    $2060                              _2060
+LABEL                    $2070                              _2070
+LABEL                    $207F                              _207F
+LABEL                    $20E0                              _20E0
+LABEL                    $20F0                              _20F0
+LABEL                    $2110                              _2110
+LABEL                    $287F                              _287F
+LABEL                    $28D8                              _28D8
+LABEL                    $3000                              _3000
+LABEL                    $3004                              _3004
+LABEL                    $3020                              _3020
+LABEL                    $3040                              _3040
+LABEL                    $3050                              _3050
+LABEL                    $3090                              _3090
+LABEL                    $30C0                              _30C0
+LABEL                    $30F8                              _30F8
+LABEL                    $3870                              _3870
+LABEL                    $3880                              _3880
+LABEL                    $38E0                              _38E0
+LABEL                    $396D                              _396D
+LABEL                    $3B3D                              _3B3D
+LABEL                    $3C08                              _3C08
+LABEL                    $3CD8                              _3CD8
+LABEL                    $4000                              _4000
+LABEL                    $4010                              _4010
+LABEL                    $4015                              _4015
+LABEL                    $4018                              _4018
+LABEL                    $4040                              _4040
+LABEL                    $40C0                              _40C0
+LABEL                    $40F0                              _40F0
+LABEL                    $464F                              _464F
+LABEL                    $4B45                              _4B45
+LABEL                    $5000                              _5000
+LABEL                    $5030                              _5030
+LABEL                    $5050                              _5050
+LABEL                    $50B0                              _50B0
+LABEL                    $50D0                              _50D0
+LABEL                    $50F8                              _50F8
+LABEL                    $5544                              _5544
+LABEL                    $6000                              _6000
+LABEL                    $6027                              _6027
+LABEL                    $60A8                              _60A8
+LABEL                    $60BA                              _60BA
+LABEL                    $624A                              _624A
+LABEL                    $7000                              _7000
+LABEL                    $7008                              _7008
+LABEL                    $7010                              _7010
+LABEL                    $7020                              _7020
+LABEL                    $7040                              _7040
+LABEL                    $7070                              _7070
+LABEL                    $7080                              _7080
+LABEL                    $70F0                              _70F0
+LABEL                    $7777                              _7777
+LABEL                    $77C8                              _77C8
+LABEL                    $7800                              _7800
+LABEL                    $7921                              _7921
+LABEL                    $7F00                              _7F00
+LABEL                    $7F20                              _7F20
+LABEL                    $7F78                              _7F78
+LABEL                    $8000                              _8000
+LABEL                    $8010                              _8010
+LABEL                    $8068                              _8068
+LABEL                    $8080                              _8080
+LABEL                    $809C                              _809C
+LABEL                    $8238                              _8238
+LABEL                    $8870                              _8870
+LABEL                    $88F0                              _88F0
+LABEL                    $88F8                              _88F8
+LABEL                    $8BCC                              _8BCC
+LABEL                    $8D5C                              _8D5C
+LABEL                    $8EA2                              _8EA2
+LABEL                    $9020                              _9020
+LABEL                    $931F                              _931F
+LABEL                    $969A                              _969A
+LABEL                    $981C                              _981C
+LABEL                    $9868                              _9868
+LABEL                    $9876                              _9876
+LABEL                    $A000                              _A000
+LABEL                    $A070                              _A070
+LABEL                    $A07F                              _A07F
+LABEL                    $A28E                              _A28E
+LABEL                    $A500                              _A500
+LABEL                    $AA99                              _AA99
+LABEL                    $B0D0                              _B0D0
+LABEL                    $B600                              _B600
+LABEL                    $B60C                              _B60C
+LABEL                    $B6A0                              _B6A0
+LABEL                    $BA7C                              _BA7C
+LABEL                    $BA98                              _BA98
+LABEL                    $BD09                              _BD09
+LABEL                    $BF00                              _BF00
+LABEL                    $BFC0                              _BFC0
+LABEL                    $C000                              _C000
+LABEL                    $C040                              _C040
+LABEL                    $C0C0                              _C0C0
+LABEL                    $C0D0                              _C0D0
+LABEL                    $C0F0                              _C0F0
+LABEL                    $C400                              _C400
+LABEL                    $C4D8                              _C4D8
+LABEL                    $C601                              _C601
+LABEL                    $C6D5                              _C6D5
+LABEL                    $C800                              _C800
+LABEL                    $C802                              _C802
+LABEL                    $C80F                              _C80F
+LABEL                    $C812                              _C812
+LABEL                    $C814                              _C814
+LABEL                    $C815                              _C815
+LABEL                    $C816                              _C816
+LABEL                    $C818                              _C818
+LABEL                    $C819                              _C819
+LABEL                    $C81A                              _C81A
+LABEL                    $C81B                              _C81B
+LABEL                    $C81C                              _C81C
+LABEL                    $C81D                              _C81D
+LABEL                    $C81E                              _C81E
+LABEL                    $C81F                              _C81F
+LABEL                    $C821                              _C821
+LABEL                    $C823                              _C823
+LABEL                    $C824                              _C824
+LABEL                    $C825                              _C825
+LABEL                    $C826                              _C826
+LABEL                    $C827                              _C827
+LABEL                    $C828                              _C828
+LABEL                    $C829                              _C829
+LABEL                    $C82A                              _C82A
+LABEL                    $C82B                              _C82B
+LABEL                    $C82C                              _C82C
+LABEL                    $C836                              _C836
+LABEL                    $C837                              _C837
+LABEL                    $C839                              _C839
+LABEL                    $C83B                              _C83B
+LABEL                    $C83D                              _C83D
+LABEL                    $C842                              _C842
+LABEL                    $C843                              _C843
+LABEL                    $C844                              _C844
+LABEL                    $C845                              _C845
+LABEL                    $C846                              _C846
+LABEL                    $C850                              _C850
+LABEL                    $C856                              _C856
+LABEL                    $C870                              _C870
+LABEL                    $C879                              _C879
+LABEL                    $C87A                              _C87A
+LABEL                    $C87B                              _C87B
+LABEL                    $C880                              _C880
+LABEL                    $C881                              _C881
+LABEL                    $C882                              _C882
+LABEL                    $C883                              _C883
+LABEL                    $C885                              _C885
+LABEL                    $C886                              _C886
+LABEL                    $C888                              _C888
+LABEL                    $C889                              _C889
+LABEL                    $C88B                              _C88B
+LABEL                    $C88C                              _C88C
+LABEL                    $C88D                              _C88D
+LABEL                    $C88E                              _C88E
+LABEL                    $C88F                              _C88F
+LABEL                    $C890                              _C890
+LABEL                    $C891                              _C891
+LABEL                    $C892                              _C892
+LABEL                    $C893                              _C893
+LABEL                    $C894                              _C894
+LABEL                    $C896                              _C896
+LABEL                    $C897                              _C897
+LABEL                    $C898                              _C898
+LABEL                    $C899                              _C899
+LABEL                    $C89A                              _C89A
+LABEL                    $C89B                              _C89B
+LABEL                    $C89C                              _C89C
+LABEL                    $C89D                              _C89D
+LABEL                    $C89F                              _C89F
+LABEL                    $C8A1                              _C8A1
+LABEL                    $C8A2                              _C8A2
+LABEL                    $C8A3                              _C8A3
+LABEL                    $C8A5                              _C8A5
+LABEL                    $C8A6                              _C8A6
+LABEL                    $C8A7                              _C8A7
+LABEL                    $C8A8                              _C8A8
+LABEL                    $C8A9                              _C8A9
+LABEL                    $C8B6                              _C8B6
+LABEL                    $C8B7                              _C8B7
+LABEL                    $C8BD                              _C8BD
+LABEL                    $C8BE                              _C8BE
+LABEL                    $C8C0                              _C8C0
+LABEL                    $C8C8                              _C8C8
+LABEL                    $C8CA                              _C8CA
+LABEL                    $C8D9                              _C8D9
+LABEL                    $C8DA                              _C8DA
+LABEL                    $C8DB                              _C8DB
+LABEL                    $C8DC                              _C8DC
+LABEL                    $C8E7                              _C8E7
+LABEL                    $C8EA                              _C8EA
+LABEL                    $C8EB                              _C8EB
+LABEL                    $C8EC                              _C8EC
+LABEL                    $C8ED                              _C8ED
+LABEL                    $C8EE                              _C8EE
+LABEL                    $C8F2                              _C8F2
+LABEL                    $C8F3                              _C8F3
+LABEL                    $C8F4                              _C8F4
+LABEL                    $C8F6                              _C8F6
+LABEL                    $C8F7                              _C8F7
+LABEL                    $C8F8                              _C8F8
+LABEL                    $C907                              _C907
+LABEL                    $C909                              _C909
+LABEL                    $CBFE                              _CBFE
+LABEL                    $D00D                              _D00D
+LABEL                    $D050                              _D050
+LABEL                    $D058                              _D058
+LABEL                    $D090                              _D090
+LABEL                    $D0A8                              _D0A8
+LABEL                    $D0B0                              _D0B0
+LABEL                    $D8D8                              _D8D8
+LABEL                    $DCBA                              _DCBA
+RANGE $0000-$000A CHAR_DATA 30
+RANGE $000A-$000B DB_DATA 4
+RANGE $000B-$000D DWP_DATA 4
+RANGE $000D-$0011 DB_DATA 4
+RANGE $0011-$001B CHAR_DATA 30
+RANGE $001B-$001D DB_DATA 30
+RANGE $001D-$005C CODE
+RANGE $005C-$005D DB_DATA 4
+RANGE $005D-$006E CODE
+RANGE $006E-$006F DB_DATA 4
+RANGE $006F-$0073 CODE
+RANGE $0073-$0074 DB_DATA 4
+RANGE $0074-$007A CODE
+RANGE $007A-$007B DB_DATA 4
+RANGE $007B-$008F CODE
+RANGE $008F-$0091 DB_DATA 4
+RANGE $0091-$0093 CODE
+RANGE $0093-$0094 DB_DATA 4
+RANGE $0094-$0161 CODE
+RANGE $0161-$0162 DB_DATA 4
+RANGE $0162-$016E CODE
+RANGE $016E-$016F DB_DATA 4
+RANGE $016F-$01E1 CODE
+RANGE $01E1-$01E2 DB_DATA 4
+RANGE $01E2-$01E6 CODE
+RANGE $01E6-$01E7 DB_DATA 4
+RANGE $01E7-$01ED CODE
+RANGE $01ED-$01EE DB_DATA 4
+RANGE $01EE-$01F2 CODE
+RANGE $01F2-$01F3 DB_DATA 4
+RANGE $01F3-$0220 CODE
+RANGE $0220-$0221 DB_DATA 4
+RANGE $0221-$0222 CODE
+RANGE $0222-$0223 DB_DATA 4
+RANGE $0223-$0224 CODE
+RANGE $0224-$0226 DB_DATA 4
+RANGE $0226-$0228 CODE
+RANGE $0228-$0229 DB_DATA 4
+RANGE $0229-$022E CODE
+RANGE $022E-$022F DB_DATA 4
+RANGE $022F-$023B CODE
+RANGE $023B-$023C DB_DATA 4
+RANGE $023C-$0247 CODE
+RANGE $0247-$0248 DB_DATA 4
+RANGE $0248-$024B CODE
+RANGE $024B-$024C DB_DATA 4
+RANGE $024C-$024F CODE
+RANGE $024F-$0250 DB_DATA 4
+RANGE $0250-$026E CODE
+RANGE $026E-$026F DB_DATA 4
+RANGE $026F-$0360 CODE
+RANGE $0360-$0361 DB_DATA 4
+RANGE $0361-$0363 CODE
+RANGE $0363-$0364 DB_DATA 4
+RANGE $0364-$0368 CODE
+RANGE $0368-$0369 DB_DATA 4
+RANGE $0369-$036A CODE
+RANGE $036A-$036B DB_DATA 4
+RANGE $036B-$036C CODE
+RANGE $036C-$036D DB_DATA 4
+RANGE $036D-$0375 CODE
+RANGE $0375-$0376 DB_DATA 4
+RANGE $0376-$0377 CODE
+RANGE $0377-$0378 DB_DATA 4
+RANGE $0378-$0379 CODE
+RANGE $0379-$037A DB_DATA 4
+RANGE $037A-$037F CODE
+RANGE $037F-$0380 DB_DATA 4
+RANGE $0380-$03F6 CODE
+RANGE $03F6-$03F7 DB_DATA 4
+RANGE $03F7-$03F9 CODE
+RANGE $03F9-$03FA DB_DATA 4
+RANGE $03FA-$03FE CODE
+RANGE $03FE-$03FF DB_DATA 4
+RANGE $03FF-$0401 CODE
+RANGE $0401-$0402 DB_DATA 4
+RANGE $0402-$0404 CODE
+RANGE $0404-$0405 DB_DATA 4
+RANGE $0405-$0418 CODE
+RANGE $0418-$0419 DB_DATA 4
+RANGE $0419-$042D CODE
+RANGE $042D-$042E DB_DATA 4
+RANGE $042E-$0431 CODE
+RANGE $0431-$0432 DB_DATA 4
+RANGE $0432-$0439 CODE
+RANGE $0439-$043A DB_DATA 4
+RANGE $043A-$043D CODE
+RANGE $043D-$043E DB_DATA 4
+RANGE $043E-$04B7 CODE
+RANGE $04B7-$04B8 DB_DATA 4
+RANGE $04B8-$04B9 CODE
+RANGE $04B9-$04BB DB_DATA 4
+RANGE $04BB-$051C CODE
+RANGE $051C-$051D DB_DATA 4
+RANGE $051D-$0534 CODE
+RANGE $0534-$0535 DB_DATA 4
+RANGE $0535-$053A CODE
+RANGE $053A-$053B DB_DATA 4
+RANGE $053B-$053E CODE
+RANGE $053E-$053F DB_DATA 4
+RANGE $053F-$0542 CODE
+RANGE $0542-$0545 DB_DATA 4
+RANGE $0545-$0548 CODE
+RANGE $0548-$0549 DB_DATA 4
+RANGE $0549-$054E CODE
+RANGE $054E-$054F DB_DATA 4
+RANGE $054F-$0572 CODE
+RANGE $0572-$0573 DB_DATA 4
+RANGE $0573-$0594 CODE
+RANGE $0594-$0595 DB_DATA 4
+RANGE $0595-$060C CODE
+RANGE $060C-$060D DB_DATA 4
+RANGE $060D-$0610 CODE
+RANGE $0610-$0611 DB_DATA 4
+RANGE $0611-$061A CODE
+RANGE $061A-$061B DB_DATA 4
+RANGE $061B-$0629 CODE
+RANGE $0629-$062A DB_DATA 4
+RANGE $062A-$062C CODE
+RANGE $062C-$062D DB_DATA 4
+RANGE $062D-$0631 CODE
+RANGE $0631-$0632 DB_DATA 4
+RANGE $0632-$066D CODE
+RANGE $066D-$066E DB_DATA 4
+RANGE $066E-$0671 CODE
+RANGE $0671-$0672 DB_DATA 4
+RANGE $0672-$0771 CODE
+RANGE $0771-$0772 DB_DATA 4
+RANGE $0772-$0783 CODE
+RANGE $0783-$0784 DB_DATA 4
+RANGE $0784-$0799 CODE
+RANGE $0799-$079A DB_DATA 4
+RANGE $079A-$07BB CODE
+RANGE $07BB-$07BC DB_DATA 4
+RANGE $07BC-$0881 CODE
+RANGE $0881-$0885 DB_DATA 4
+RANGE $0885-$088F CODE
+RANGE $088F-$0893 DB_DATA 4
+RANGE $0893-$089D CODE
+RANGE $089D-$08A1 DB_DATA 4
+RANGE $08A1-$08A7 CODE
+RANGE $08A7-$08A8 DB_DATA 4
+RANGE $08A8-$08E3 CODE
+RANGE $08E3-$08E4 DB_DATA 4
+RANGE $08E4-$08EB CODE
+RANGE $08EB-$08EF DB_DATA 4
+RANGE $08EF-$1000 CODE
+END_BANK                    $00
+

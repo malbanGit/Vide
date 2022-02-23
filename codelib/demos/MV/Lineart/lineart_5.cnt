@@ -795,6 +795,7 @@ LABEL $7D13 ph_runner
 LABEL $7D2C ph_runner2
 EQU $00 TEMPLATE
 LABEL $7D45 *
+COMMENT_LINE $0000 ; hey dissi "watch $circleHalf 2 0"
 COMMENT_LINE $0000 BIOS Routines
 COMMENT_LINE $0000 ROM
 COMMENT_LINE $0000 Init block that needs to be in every program
@@ -17210,6 +17211,7 @@ COMMENT_LINE $781F switch to bank          ;
 COMMENT_LINE $781F IN: a - no of bank      ;
 COMMENT_LINE $781F ;;;;;;;;;;;;;;;;;;;;;;;;;;
 FORCE_SYMBOL $781F cartnum
+COMMENT_LINE $7822 hey dissi "print #a
 COMMENT_LINE $7822 lda #64					; switch port B6 to output
 COMMENT_LINE $7822 ora VIA_DDR_b
 COMMENT_LINE $7822 sta VIA_DDR_b

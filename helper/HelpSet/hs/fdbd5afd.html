@@ -85,5 +85,15 @@ All things directly "vide"-related can be found under: de.malban.vide.*</p>
 <h2>Do you support any other input devices than keyboard?</h2>
 
 <p>You can configure many input devices. For accessing them I use the JInput library, which needs native support. For Windows, Mac and Linux the native libraries are included in the lib directory. If you use another OS, you are not able to configure other input devices. To configure, go to "Configuration" and than tab "Input".</p>
+<h2>Using Vide with HiRes under Windows?</h2>
+
+<p>From a Vide user following information:<br>
+I'm working on Windows 10 64-bit, monitor size is 27â³, 2560 x1440, scaling 125%.</p>
+
+<p>The VIDE text and toolbar buttons have always been too small to be comfortable for me, the text sizes are now changeable via LaF settings, but not the toolbar buttons. One problem seems to be that Java doesn't recognise the 125% scaling on what is quite a high DPI monitor, it sticks to 100%, whilst everything else is working at 125%.</p>
+
+<p>However, I discovered that you can tweak the high DPI settings to force Windows to adjust it to 125% from the Windows Task Manager. Make sure VIDE is running and then press Ctrl+Shift+Esc to bring up Task Manager, locate the "Java(TM) Platform SE Binary" application, right click on it and choose "Properties", then on the "Compatibility" tab, check the box labelled "Override high DPI scaling behaviour. Scaling performed by:" and to get the 125% scaling, I choose "System" in the combobox. (The other two give me 100% scaling.) Then, restart VIDE to run with the new settings.</p>
+
+<p>For me, choosing "System" gives 125% scaling. Itâs a little blurry after that, but still quite usable and easier to read for me.</p>
 </body>
 </html>

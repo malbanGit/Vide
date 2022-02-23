@@ -273,7 +273,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         
         return super.saveSettings();
     }
-    public static String SID = "Vec32";
+    public static String SID = "BASIC Editor";
     public String getID()
     {
         return SID;

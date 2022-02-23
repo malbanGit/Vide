@@ -37,7 +37,7 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
     private int mClassSetting=0;
     private DissiPanel dissi = null;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
-    public static String SID = "breaki";
+    public static String SID = "Debug: Breakpoints";
     public String getID()
     {
         return SID;
@@ -87,7 +87,7 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Breakpoints");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

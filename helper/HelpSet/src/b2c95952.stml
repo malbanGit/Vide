@@ -44,7 +44,7 @@ The order of the function parameters is always in sequence of a,b,x,y,u and the 
 
 :h3 Direct page addressing:
 
-It is possible to trigger (quick and fast) direct page addressing mode for accessing the system variables by adding the prefix "dp_" to the variable name. This is especially useful when programming the VIA directly:~~
+It is possible to trigger (quick and fast) direct page addressing mode for accessing the system variables by adding the prefix "dp\_" to the variable name. This is especially useful when programming the VIA directly:~~
 
 \// system api:~~
 ::
@@ -78,7 +78,7 @@ int* const table\_b[2] = { & Vec\_Music\_1, &Vec\_Music\_2 };_\// array of const
 ::~~
  
 :h3 Inlined system calls vs. library functions calls
-There is a true choice between an "inlined" version and a "function" version of the Vectrex BIOS interface. The desired version can be selected by means of the "RUM\_INLINE" switch which is passed to the gcc6809 compiler as –D option.
+There is a true choice between an "inlined" version and a "function" version of the Vectrex BIOS interface. The desired version can be selected by means of the "RUM\_INLINE" switch which is passed to the gcc6809 compiler as -D option.
  
 The "inlined" version will generate inlined code for each BIOS call. The "function" version will generate a true C function call to a precompiled C system library which then calls the Vectrex BIOS routines. Depending on your C program, either version might give you the faster code or/and the smaller binary (this is the same tradeoff as with any inlined or non-inlined function call in C). In my current C project "The Count" (which is quite large and uses quite a lot of the BIOS functions) it turned out that the "function" version is faster and also produces the smaller binary. But that might very well be different for other programs.
 
@@ -94,7 +94,7 @@ Do not change this. Using soft-regs for Vectrex C programming simply does not wo
 -int8~~
 
  
-This will cause integer types to be 8 bits wide, and long integer types to be 16 bits wide. I have chosen this to be the default for several (good) reasons. With gcc6809, arithmetic is much more efficient on 8 bit data types. The MC6809 is an 8 bit CPU with an 8 bit data path and a 16 bit address path. Yes, there are elements towards a 16 bit architecture, and there is the d registers, but its usage (by gcc6809) is in some way limited (e.g. shifts and rotates are always done on 8 bit registers). Moreover, most of the Vectrex BIOS routines are built around 8 bit data (vectors, coordinates, scale factors, …).I have examined the int16 option and my experiments ended up with significantly less efficient code. Some might argue that there is char in C which is guaranteed to be 8 bits wide and could also be used for 8 bit arithmetic. However, when I write C code, I am using char for – well – characters. And if I want integer arithmetic, I am using integer types. To make it short, you have to use this default if you want to use my API, as all the system stuff is built around this. But, in a way, 8 bit ints and 16 bit longs truly reflect the 6809 internals and offer very good control of which registers are used for which C level computations. So, as a C programmer, one can very cleverly make use of this.
+This will cause integer types to be 8 bits wide, and long integer types to be 16 bits wide. I have chosen this to be the default for several (good) reasons. With gcc6809, arithmetic is much more efficient on 8 bit data types. The MC6809 is an 8 bit CPU with an 8 bit data path and a 16 bit address path. Yes, there are elements towards a 16 bit architecture, and there is the d registers, but its usage (by gcc6809) is in some way limited (e.g. shifts and rotates are always done on 8 bit registers). Moreover, most of the Vectrex BIOS routines are built around 8 bit data (vectors, coordinates, scale factors, ...).I have examined the int16 option and my experiments ended up with significantly less efficient code. Some might argue that there is char in C which is guaranteed to be 8 bits wide and could also be used for 8 bit arithmetic. However, when I write C code, I am using char for - well - characters. And if I want integer arithmetic, I am using integer types. To make it short, you have to use this default if you want to use my API, as all the system stuff is built around this. But, in a way, 8 bit ints and 16 bit longs truly reflect the 6809 internals and offer very good control of which registers are used for which C level computations. So, as a C programmer, one can very cleverly make use of this.
 
  
 -fomit-frame-pointer~~

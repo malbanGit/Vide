@@ -81,7 +81,7 @@ public class GFXVectorAnimation
     public boolean add(GFXVectorList v)
     {
         v.order = getHighestOrder()+1;
-        v.uid = v.order;
+// removed 21.02.2022 in order to get rid of bug with double selected animation stages - not sure if I can removed this simply!        v.uid = v.order;
         return list.add(v);
     }
     public boolean toXML(StringBuilder s, String tag)

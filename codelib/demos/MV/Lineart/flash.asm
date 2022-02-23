@@ -4,6 +4,7 @@
 ; IN: a - no of bank      ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 switchROM:  std cartnum
+; hey dissi "print #a
 ;    	lda #64					; switch port B6 to output
 ;		ora VIA_DDR_b
 ;		sta VIA_DDR_b

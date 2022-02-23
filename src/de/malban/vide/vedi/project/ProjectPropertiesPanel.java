@@ -163,7 +163,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("ProjectWindow");
+        mParentMenuItem.setText("Editor: Project properties");
 
     }
     @Override
@@ -312,6 +312,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jTable1.getColumnModel().getColumn(0).setWidth(5);  
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(200);                
         jTable1.getColumnModel().getColumn(1).setWidth(200);  
+        
     }
     
     
@@ -468,6 +469,8 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         
         enableASM(!mProjectProperties.mIsPeerCProject);
+
+        
         initScripts();
 
         mClassSetting--;
@@ -1810,6 +1813,13 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jTable1.setEnabled(b);
         jCheckBoxCDebugging.setEnabled(!b);
         jCheckBoxCRumInlined.setEnabled(false);//!b);
+
+        if (mProjectProperties.mIsPeerCProject)
+        {
+            if (mProjectProperties.mNumberOfBanks>1)
+                jTable1.setEnabled(true);
+        }
+
     }
 
 }

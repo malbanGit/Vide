@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160906151831" />
+<meta name="date" content="20181124222015" />
 <!-- created with HelpSetMaker, ID=a1c5ac89 -->
 <title>Strings - Raster</title>
 </head>
@@ -18,7 +18,7 @@
 <img src="pics/dumpiChars.png" width="1803" height="735" /><br/>
 <em>Dumpi</em></p><br/>
 
-<p>Each char is represented by 7 bytes, each byte repressents one row of the character and each bit position one column. So the "pixel" size of one char is 8*7 (height * width).</p>
+<p>Each char is represented by 7 bytes, each byte repressents one row of the character and each bit position one column. So the "pixel" size of one char is 8*7 (width * height).</p>
 
 <p>If a string is to be printed, the BIOS loads the address of the bitmap, examines each character of the string and uses the char values as a lookup reference into the raster image and outputs in one long line the first row of all characters of the string.</p>
 

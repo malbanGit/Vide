@@ -85,7 +85,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Vector Panel");
+        mParentMenuItem.setText("Vector: Image to Vector");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -944,14 +944,14 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             v.setVPanel(panel);
             panel.veccy = v;
         }
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1080, 800, "Vector Panel");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1080, 800, "Vector: Image to Vector");
     }        
 
     public static void showModPanelNoModal(String fileName, TinyLogInterface tl)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         VectorJPanel panel = new VectorJPanel(fileName, tl);
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1080, 800, "Vector Panel");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1080, 800, "Vector: Image to Vector");
     }        
     
     

@@ -66,7 +66,7 @@ public class DissiFullPanel extends javax.swing.JPanel  implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Dissi");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -288,7 +288,7 @@ public class DissiFullPanel extends javax.swing.JPanel  implements
     {
         return dasm.myMemory.memMap.get(address);
     }
-    public static String SID = "dissiFull";
+    public static String SID = "Disassembler (standalone)";
     public String getID()
     {
         return SID;

@@ -44,6 +44,9 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
     protected javax.swing.JMenuItem mParentMenuItem = null;
     protected int mClassSetting=0;
 
+    public abstract String getID();
+
+    protected boolean wrapped = false;
     public class MyCloseListener implements CloseListener {
 
         private String tabName;
@@ -137,7 +140,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Vedi");
+        mParentMenuItem.setText(getID());
 
     }
     @Override

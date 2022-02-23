@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222015" />
+<!-- created with HelpSetMaker, ID=2b2a043b -->
+<title>"still ok'ish" Vectorlists</title>
+</head>
+<body class="doc">
+<h1>"still ok'ish" Vectorlists</h1>
+
+<p>Many function in Vecci do not work with "ok'ish" vectorlists. What makes a vectorlist only ok'is?</p>
+
+<p>any one of the following criteria makes a vectorlists at best "ok'ish"</p>
+
+<ul><li>
+<p>not ordered or only partialy orderd</p>
+</li><li>
+<p>some vectors are not connected or form only small "paths"</p>
+</li><li>
+<p>the directions of connected vectors are in opposition<br />
+ <br />
+</p>
+</li><li>
+<p>all vectors have a length smaller than 127/128 (depending on the sign)  </p>
+</li></ul>
+
+<p>These vectors can only be exported to "synced" list.</p>
+
+<p>Depending on the purpose of such a list - the format might still be usefull. A synced list can be used to draw very large vectorlists which do not show signs of drift.</p>
+
+<p>To scratch some performace out of this format see that as many "sections" of such a vectorlist are "good" vectorlists as possible.</p>
+
+<p>You can check that by using the button under the tab: "build animation" &rarr; tab: "Scenatio" &rarr; button "seperate paths as scenario entries".</p>
+
+<p>The number of such generated scenario entries represent the minimum numbers of syncs a synced list needs. </p>
+
+<p>Try to edit the vectorlist so that as many "sections" are "good" or "perfect" - and thus that there are as few as possible "scenario" entries.</p>
+</body>
+</html>

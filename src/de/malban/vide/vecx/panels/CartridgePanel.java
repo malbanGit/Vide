@@ -41,7 +41,7 @@ public class CartridgePanel extends javax.swing.JPanel implements
     private int mClassSetting=0;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
     private DissiPanel dissi = null;
-    public static String SID = "cartridges";
+    public static String SID = "Debug: Cartridges";
     boolean nameChanged = false;
     public String getID()
     {
@@ -92,7 +92,7 @@ public class CartridgePanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Cartridge");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

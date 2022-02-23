@@ -71,7 +71,7 @@ public class SingleVecciPanel3d extends javax.swing.JPanel implements Windowable
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Vecci Editor");
+        mParentMenuItem.setText("Vector: Editor 3d");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -699,7 +699,7 @@ singleVectorPanel1.updateAndRepaint();
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         SingleVecciPanel3d panel = new SingleVecciPanel3d(v);
         
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 919, 387, "Vecci Editor 3d");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 919, 387, "Vector: Editor 3d");
        return panel;
     }        
     public SingleVectorPanel getSVP()

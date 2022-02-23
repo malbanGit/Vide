@@ -1,0 +1,78 @@
+ASxxxx Linker V05.00,  page 1.
+Hexidecimal  [16-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+.  .ABS.                   0000        0000 =           0. bytes (ABS,OVR,CSEG)
+
+         Value  Global                             Global Defined In Module
+         -----  --------------------------------   ------------------------
+          0000  l_.bss                          
+          0000  l__DATA                         
+          0000  _main                           
+          0000  l__CODE                         
+          0000  s__DATA                         
+          0000  s__CODE                         
+          0000  l_.data                         
+          0000  l_.text.unlikely                
+          0000  .__.ABS.                           crt0.c
+          0000  l_.text.last                    
+          0000  s_.bootloader                   
+          0000  l_.cartridge                    
+          0000  l_.bankswitch.data              
+          0000  l_.bankswitch.code              
+          0000  s_.cartridge                    
+          0000  l_.text.hot                     
+          0000  l_.text                         
+          003B  s_.text                         
+          003B  s_.text.unlikely                
+          003B  l_.bootloader                   
+          003B  s_.text.last                    
+          003B  s_.bankswitch.data              
+          003B  s_.bankswitch.code              
+          003B  s_.text.hot                     
+          C880  s_.bss                          
+          C880  s_.data                         
+
+ASxxxx Linker V05.00,  page 2.
+Hexidecimal  [16-Bits]
+[ Bank == rom ]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+.bootloader                0000        003B =          59. bytes (REL,CON,CSEG)
+
+         Value  Global                             Global Defined In Module
+         -----  --------------------------------   ------------------------
+          0000  A$crt0$58                          crt0.c
+          0003  A$crt0$59                          crt0.c
+          0007  A$crt0$60                          crt0.c
+          000B  A$crt0$61                          crt0.c
+          000F  A$crt0$62                          crt0.c
+          0013  A$crt0$63                          crt0.c
+          0016  A$crt0$64                          crt0.c
+          0018  A$crt0$66                          crt0.c
+          001A  A$crt0$67                          crt0.c
+          001C  A$crt0$68                          crt0.c
+          001E  A$crt0$69                          crt0.c
+          0020  A$crt0$71                          crt0.c
+          0024  A$crt0$72                          crt0.c
+          0027  A$crt0$73                          crt0.c
+          0029  A$crt0$75                          crt0.c
+          002B  A$crt0$76                          crt0.c
+          002D  A$crt0$77                          crt0.c
+          002F  A$crt0$79                          crt0.c
+          0032  A$crt0$80                          crt0.c
+          0033  A$crt0$81                          crt0.c
+          0035  A$crt0$82                          crt0.c
+          0038  A$crt0$84                          crt0.c
+
+ASxxxx Linker V05.00,  page 3.
+
+Files Linked                              [ module(s) ]
+
+crt0.rel                                  [ crt0.c ]
+
+
+
+?ASlink-Warning-Undefined Global _main referenced by module crt0.c

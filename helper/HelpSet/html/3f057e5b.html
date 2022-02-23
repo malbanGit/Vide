@@ -1,0 +1,150 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222014" />
+<!-- created with HelpSetMaker, ID=3f057e5b -->
+<title>Building the compiler and tools</title>
+</head>
+<body class="doc">
+<h1>Building the compiler and tools</h1>
+<h2>Compiling GCC</h2>
+<h3>Preface</h3>
+
+<p>In order distribute Vectrex "C" in the current form I had to compile gcc 6809 for different platforms.</p>
+
+<p>I already did a Vectrex "C" package about 20 years ago, so there was at least &lt;some&gt; experience - nonetheless the included gcc version is not based on my old doings, but rather on the gcc version found under <a target="_blank" href="https://github.com/bcd/gcc">https://github.com/bcd/gcc</a>. Other people wrote about their gcc experiences before and I much appreciate their efforts. Their doings provided me with insights and were very valuable. Following links to two of these other gcc experiences:<br />
+<a target="_blank" href="http://www.frank-buss.de/vectrex/">http://www.frank-buss.de/vectrex/</a><br />
+<a target="_blank" href="https://github.com/JoakimLarsson/VectrexTutorial">https://github.com/JoakimLarsson/VectrexTutorial</a><br />
+</p>
+
+<p>There is also a (slightly) different gcc 6809 version to be found at: <a target="_blank" href="https://github.com/dfffffff">https://github.com/dfffffff</a>, which I did not further inspect.</p>
+
+<p>Also of note - there is at least one other C compiler available which can be used for vectrex:<br />
+<a target="_blank" href="http://perso.b2b2c.ca/~sarrazip/dev/cmoc.html">http://perso.b2b2c.ca/~sarrazip/dev/cmoc.html</a><br />
+also:<br />
+<a target="_blank" href="https://vandenbran.de/2016/02/01/a-modern-toolchain-for-vectrex-development/">https://vandenbran.de/2016/02/01/a-modern-toolchain-for-vectrex-development/</a><br />
+I have dabbled with CMOC, but ultimatly decided in favour of gcc.</p>
+
+<p>If you are a Mac user, there is an installment package for C to use the XCode environment - it can be found at:<br />
+<a target="_blank" href="https://github.com/Phillrb/vec-c">https://github.com/Phillrb/vec-c</a> </p>
+<h3>General </h3>
+
+<p>The complete source package that I used to compile the "Vectrex C" suit can be downloaded from my site. It is based on above mentioned gcc version. The changes and additions I comment below have already been included. You can download the complete package at:<br />
+<a target="_blank" href="http://vectrex.malban.de/Vide-VectrexCsrc.zip">http://vectrex.malban.de/Vide-VectrexCsrc.zip</a></p>
+
+<p>To compile you need a current GNU GCC compiler environment installed on your system. <br />
+Using Linux - you probably have that.  <br />
+<br />
+Using Mac - probably too. You might have additionally to install the "XCode command line tools" - your system will tell you about it.<br />
+ <br />
+Using a Windows bases OS you can use either CygWin or MingW - although I'd prefer a MingW setup, if compiled using CygWin - the final product needs most of CygWin installed to be able to run. I have not compiled gcc under Windows myself - I used the binary I got from Peer.</p>
+<h3>Changes to the original package</h3>
+
+<p>Due to the original gcc 6809 sources being "a little" bit old compared to todays standards some slight adjustments had to be done to be compilable with a current GNU gcc compiler setup. Following the changes I noted. I compiled gcc 6809 about a 100 times in the last weeks with slight changes here and there along the way. It might be that I forgot some of the hurdles I had to take, sorry about that.</p>
+
+<p>In order to <i>compile</i> gcc 6809 you need to have "flex", "bison", "gmp", "mpfr" and "iconv" installed.</p>
+
+<p>In order to <i>run</i> gcc 6809 it needs the libraries:
+<ul><li>
+<p>GMP</p>
+</li><li>
+<p>MPFR </p>
+</li></ul>
+</p>
+
+<p>The sources I provide, have both libraries as sources included in the package. Building gcc with the sources included has the nice effect, that the libraries are automatically statically linked. You still need those libraries to build gcc 6809, but you do not need them installed to run gcc 6809.</p>
+
+<p><b>Make</b><br />
+To compile gcc 6809 go to the directory <tt>"Vide/C/src/gcc-gcc6809-4_3_branch/build-6809/"</tt> (or wherever you downloaded the sources to). In a terminal window type:<br />
+<tt>"sudo make distclean"</tt><br />
+(you obviously need some additional rights).<br />
+ <br />
+Followed by:<br />
+<tt>"sudo make everything"</tt><br />
+<br />
+The final result will be in a new directory tree called: <tt>"m6809-unknown-none"</tt>. The gcc (cc1) binaries can be found at:<br />
+<tt>.../src/gcc-gcc6809-4_3_branch/build-6809/m6809-unknown-none/gcc"</tt><br />
+</p>
+
+<p><b>Changes to the Makefile(s)</b><br />
+<i>-fgnu89-inline</i><br />
+At some time in the past (must have been around 2007ish) gcc internally changed "standards" and a formally known "type' "extern inline" changed its meaning. The gcc 6809 is based on the old standard, the "modern" gcc compilers use the new standard (more info on this: <a target="_blank" href="https://gcc.gnu.org/ml/gcc-patches/2007-02/msg00119.html">https://gcc.gnu.org/ml/gcc-patches/2007-02/msg00119.html</a>).<br />
+ In order to compile with old standard I had to inserted a new compile option. To the  "BUILD&nbsp;FLAGS" (line 130) I added "-fgnu89-inline". <br />
+ <br />
+<i>tree-inline.o</i><br />
+On new gcc versions the "tree-inline.o" is included in some other library (see: <a target="_blank" href="https://gist.github.com/errordeveloper/1854389">https://gist.github.com/errordeveloper/1854389</a>). To be able to compile, the file: <br />
+<tt>".../src/gcc-gcc6809-4_3_branch/gcc/cp/Make-lang.in"</tt><br />
+had to be manipulated, line 76 had to be altered - the "tree-inline.o" had to be removed.</p>
+
+<p><b>Linux</b>:<br />
+Using linux possibly the complete makefile can be executed without errors. The makefile automatically installs gcc 6809 into your system. You can find the installment at: <tt>"/usr/local/lib/gcc/m6809-unknown-none"</tt> and <tt>"/usr/local/bin"</tt>.</p>
+
+<p><b>Mac</b>:<br />
+Due to incompatabilities of "apple gcc" and "gcc" in general, the make - process will exit with an error. The error occurs <i>after</i> gcc 6809 was built. I decided to let it stand as it is - and not examine further. The binaries can be found in the above mentioned path (The easiest way to circumvent this, would probably be to install a GNU gcc variant on your Mac).</p>
+
+<p>For some more information see also the readme file in the directory "Vide/C/Mac/lib".</p>
+
+<p><b>Windows</b>:<br />
+I did not build gcc under windows, I used the gcc 6809 version I got from Peer.</p>
+<h2>Compiling aslink/asxxxx</h2>
+
+<p>The Vectrex C package uses the Assembler/Linker package programmed by Alan R.  Baldwin, available at: <a target="_blank" href="http://shop-pdp.net/ashtml/asxxxx.php">http://shop-pdp.net/ashtml/asxxxx.php</a>.</p>
+
+<p>The toolchain Peer did setup uses version 5.00, the newest version available is 5.20. For some reason or another the new version produces errors during the "link"-phase. For now I decided to not further investigate and instead continue to use the old version.</p>
+<h3>Make</h3>
+
+<p>To compile you need a current GNU GCC compiler environment installed on your system.</p>
+
+<p>The package comes with preconfigured makefiles for several platforms (on Mac you can use Linux, compiling under MingW you can also use cygwin).<br />
+Depending on your system go to:<br />
+<tt>"...\src\asxv5pxx\asxmak\linux\build\"</tt><br />
+<tt>"...\src\asxv5pxxvasxmak\cygwin\build\"</tt><br />
+</p>
+
+<p> In a terminal window type:<br />
+<tt>"make clean"</tt><br />
+</p>
+
+<p>Followed by:<br />
+<tt>"make as6809"</tt><br />
+<tt>"make aslink"</tt><br />
+<br />
+The resulting binaries can be found in the same directory or in the "one step further up" "exe" directory.</p>
+<h3>Changes to the original package</h3>
+
+<p>I did some slight changes to the sources in order to be more "compatible" to our setup.</p>
+
+<p><i>getline()</i><br />
+I changed all references of "getline()" to "axgetline()", since getline() is now used as a std function in gcc C. After I did the changes, I discovered that the author did the same thing with update 1 of the 5.00 version :-).</p>
+
+<p><i>filenames</i><br />
+The package as it comes can not cope with spaces in filenames. This seems due to a feature, that all input can also be read from an input file, in input files all filenames are seperated with spaces. The routine to parse the command line and an input file is internally the same.<br />
+In the "lklex.c" I changed the "getc()" and "getidc()" to allow spaces. Input files will not properly work with my hacked version.</p>
+
+<p><i>buffers</i><br />
+I changed several "buffer" sizes in "asxxxx.h". Since I reference all filenames with the complete path, the 80 bytes the original version reserved as buffer for filenames quickly ran out of whack.</p>
+<h2>Compiling SREC2BIN</h2>
+
+<p>The Vectrex C package uses SREC2BIN programmed by Ant Goffart, available at: <a target="_blank" href="http://www.s-record.com">http://www.s-record.com</a>.</p>
+<h3>Make</h3>
+
+<p>To compile you need a current GNU GCC compiler environment installed on your system.</p>
+
+<p>Go to:<br />
+<tt>"...\src\srec"</tt><br />
+</p>
+
+<p>In a terminal window type:<br />
+<tt>"make clean"</tt><br />
+Followed by:<br />
+<tt>"make"</tt><br />
+The resulting binaries can be found in the same directory.</p>
+<h3>Changes to the original package</h3>
+
+<p>None.</p>
+</body>
+</html>

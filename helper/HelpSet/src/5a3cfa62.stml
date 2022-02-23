@@ -1,0 +1,32 @@
+:title Cartridge
+
+Some links where you can read about manufacturing pcbs - even with downloads...~~
+
+
+Order a "blank" PCB:~~
+[[http://www.clockworkrobot.com/shop/]]~~
+~~
+[[http://retroelectronik.com/en/cartmodding/76-vectrex-replacement-pcb-for-repairprototyping-test-or-cart-modding.html]]~~
+
+"Simple" PCB design done by Frank Buss:~~
+(also download for eagle)~~
+[[https://hackaday.io/project/28295-vectrex-cartridge]]~~
+[[https://blog.oshpark.com/2017/11/22/vectrex-cartridge-board/]]~~
+[[https://github.com/FrankBuss/bloxorz]]~~
+
+"multicard/flashcard" PCB design done by ALeX Kazik:~~
+(also download for KiCad)~~
+[[https://github.com/alexkazik/mucarex]]~~
+[[https://alex.kazik.de/312/mucarex/]]~~
+
+Explanation how to do a "simple" multicard:~~
+[[https://www.harmlesslion.com/text/vectrex_multicart.htm]]~~
+
+
+dual port SRAM Cart to interface to an Arduino Mega.  - final version missing 
+(also download for eagle)~~
+[[http://vectorgaming.proboards.com/thread/1276/dual-port-sram-cart]]~~
+
+~~
+Purchase new PCB with ROM service:~~
+[[http://www.ombertech.com/romprodindex.htm]]~~

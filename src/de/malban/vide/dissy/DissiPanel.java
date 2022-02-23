@@ -230,7 +230,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     ArrayList<TableColumn> allColumns = null;
     // for config changed listeners
     public static ArrayList<DissiPanel> panels = new ArrayList<DissiPanel>();
-    public static String SID = "dissi";
+    public static String SID = "Debugger";
     public String getID()
     {
         return SID;
@@ -280,7 +280,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Dissi");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -1631,7 +1631,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     .addComponent(jCheckBox3)
                     .addComponent(jPanelDebug, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(2, 2, 2)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
                 .addGap(2, 2, 2)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -3071,6 +3071,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         for (int i=start; (((i&0xffff) !=0) || (i==start)); i+=addi)
         {
             MemoryInformation memInfo =  currentDissi.dasm.myMemory.memMap.get(i);
+            
             for (String l: memInfo.labels)
             {
                 if (l.toLowerCase().contains(text.toLowerCase()))
@@ -3093,6 +3094,19 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     jLabel3.setText("Found in comment at: " + String.format("$%04X",i&0xffff ));
                     break;
                 }
+            }
+            if (foundAt!=-1) break;
+            if(memInfo.isCInfo())
+            {
+                if (memInfo.cInfo != null)
+                    if (memInfo.cInfo.lineString.toLowerCase().contains(text.toLowerCase()))
+                    {
+                        foundAt = i;
+                        jLabel3.setVisible(true);
+                        jLabel3.setForeground(config.valueNotChanged);
+                        jLabel3.setText("Found in label at: " + String.format("$%04X",i&0xffff ));
+                        break;
+                    }
             }
             if (foundAt!=-1) break;
         }

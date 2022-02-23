@@ -953,7 +953,7 @@ LF318:          LDA     #$CE            ;Blank low, zero high?
                 ORA     -1,S
                 LDB     #$40
                 CMPA    #$40
-                BRA     LF345
+                BLS     LF345
                 CMPA    #$64
                 BLS     LF33B
                 LDA     #$08

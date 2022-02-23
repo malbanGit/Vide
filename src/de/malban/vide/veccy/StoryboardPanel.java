@@ -145,7 +145,7 @@ public class StoryboardPanel extends javax.swing.JPanel  implements Windowable, 
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Storyboard Panel");
+        mParentMenuItem.setText("Vector: Storyboard");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -1304,7 +1304,7 @@ public class StoryboardPanel extends javax.swing.JPanel  implements Windowable, 
             v.setSBPanel(panel);
             panel.veccy = v;
         }
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 1080, 800, "Storyboard Panel");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 1080, 800, "Vector: Storyboard");
     }    
 
     void updateToElement(boolean onlyAnimation)

@@ -74,7 +74,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
     boolean myImageShown = VideConfig.getConfig().loadStarterImages;
     private javax.swing.JMenuItem mParentMenuItem = null;
     private int mClassSetting=0;
-    public static String SID = "starter";
+    public static String SID = "Starter";
     private CartridgeProperties mCartridgeProperties = null;
     
     ArrayList<CartridgeProperties> allCartridges = new ArrayList<CartridgeProperties>();
@@ -186,7 +186,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Starter");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

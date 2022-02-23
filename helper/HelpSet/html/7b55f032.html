@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160906151831" />
+<meta name="date" content="20181124222016" />
 <!-- created with HelpSetMaker, ID=7b55f032 -->
 <title>FAQ emulation</title>
 </head>
@@ -24,7 +24,7 @@
 <p>do "the same" in vedi (menu: Tools&rarr;vedi), here load a project or a "single" source, and press the start button</p>
 </li></ul>
 </p>
-<h2>I have a xxxx.bin file - how do a run that?</h2>
+<h2>I have a xxxx.bin file - how do I run that?</h2>
 
 <p>See "How do I start a game", second bullet point.</p>
 <h2>My own new game should have an overlay, what can I do?</h2>
@@ -38,7 +38,7 @@
 </li><li>
 <p>in the directory "overlay"</p>
 </li><li>
-<p>if the overlay belongs to a "cartridge" file, than just put the path to the image in the appropriate place</p>
+<p>if the overlay belongs to a "cartridge" file, than just put the path to the image in the appropriate place (configuration of cartridges)</p>
 </li></ul>
 </p>
 <h2>Some vectors in games seem wrong, vector lists appear to have lose ends?</h2>
@@ -73,19 +73,21 @@ Well, probably<br />
 <p>Yep. Just remember, vide was never build for speed! <br />
 you can (in descending order):
 <ul><li>
+<p>if possible use JOGL as your display (see configuration)</p>
+</li><li>
 <p>be absolutley sure that "ray gun" is switched off!</p>
+</li><li>
+<p>if you do not debug - disable "debug core"</p>
 </li><li>
 <p>disable ringbuffer</p>
 </li><li>
 <p>antialiazing ON (on is faster on my system, why? I don't now!)</p>
 </li><li>
-<p>disable glow</p>
+<p>set line width to 1 (if not JOGL)</p>
 </li><li>
-<p>set line width to 1</p>
+<p>disable persistence (if not JOGL)</p>
 </li><li>
-<p>disable persistence</p>
-</li><li>
-<p>don't use an overlay</p>
+<p>don't use an overlay (if not JOGL)</p>
 </li><li>
 <p>disable codescan</p>
 </li><li>
@@ -96,7 +98,7 @@ you can (in descending order):
 </p>
 <h2>When I start one of the 3d games only a black screen is shown after the start, why?</h2>
 
-<p>For all known 3d-Imager games the configuration includes "imager". If for some reason in the second joystick port no imager is present, that might be the problem. Chose "Imager" in the combobox for port 1.</p>
+<p>For all known 3d-Imager games the configuration includes "imager". If for some reason in the second joystick port no imager is present, that might be the problem. Chose "Imager" in the combobox for port 1. Also depending on your emualtion settings - the internal imager emulation needs to come up with the correct speed - this can take a few seconds!</p>
 <h2>When I debug my program, I notice vectors are drawn differently, what is that?</h2>
 
 <p>Depending on your VIDE settings ("activate direct draw on debug"), vectors while single stepping/multistepping are REALLY drawn differently!<br />

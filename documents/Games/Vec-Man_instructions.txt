@@ -1,0 +1,4 @@
+Vec-Man lives in a maze and is always hungry. His task is to eat all the food pills that are laid out in the maze in order to advance to the next level.
+Unfortunately, the mazes are inhabited by hostile ghosts who are also hungry and want to eat Vec-Man. If Vec-Man is caught by a ghost, he looses one of his lives.
+With higher levels the number of ghosts will increase, and the ghosts will move faster. Also the layout of the mazes will become more and more difficult.
+Some mazes contain power pills. If Vec-Man eats a power pill, then for a short period of time he will be able to eat the ghosts. A bonus life will be awarded if all present ghosts are eaten.

@@ -29,18 +29,15 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel24" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jScrollPane1" min="-2" pref="914" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jScrollPane1" min="-2" pref="699" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <Component id="jPanel24" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="845" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="845" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -744,7 +741,7 @@
                                   </Group>
                               </Group>
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="jPanel28" alignment="0" pref="450" max="32767" attributes="0"/>
+                                  <Component id="jPanel28" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jPanel25" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -1189,7 +1186,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jSliderT1" alignment="0" pref="60" max="32767" attributes="0"/>
+                              <Component id="jSliderT1" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -1681,7 +1678,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jPanel26" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jPanel27" alignment="0" pref="899" max="32767" attributes="0"/>
+                      <Component id="jPanel27" alignment="0" pref="675" max="32767" attributes="0"/>
                       <Component id="jPanel64" alignment="1" max="32767" attributes="0"/>
                       <Component id="jPanel66" alignment="1" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
@@ -1817,7 +1814,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSliderMuxY4" pref="21" max="32767" attributes="0"/>
+                          <Component id="jSliderMuxY4" pref="26" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -3002,7 +2999,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSliderMultiStepDelay" alignment="0" pref="889" max="32767" attributes="0"/>
+                          <Component id="jSliderMultiStepDelay" alignment="0" pref="663" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -3277,7 +3274,7 @@
                                       <Component id="jCheckBox52" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox53" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="772" max="32767" attributes="0"/>
+                                  <EmptySpace pref="571" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3570,7 +3567,7 @@
                                           <Component id="jCheckBoxDeepSyntaxThresholdActive" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="501" max="32767" attributes="0"/>
+                                  <EmptySpace pref="356" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -3585,7 +3582,7 @@
                                       <Component id="jTextField18" pref="95" max="32767" attributes="0"/>
                                       <Component id="jTextField19" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="467" max="32767" attributes="0"/>
+                                  <EmptySpace pref="333" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -3757,7 +3754,7 @@
                                   <Component id="jLabel111" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTextField27" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="8" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -4016,7 +4013,7 @@
                                               </Group>
                                               <Component id="jCheckBox47" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="222" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="75" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jPanel40" min="-2" max="-2" attributes="0"/>

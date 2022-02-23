@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222014" />
+<!-- created with HelpSetMaker, ID=1843912a -->
+<title>Direct page</title>
+</head>
+<body class="doc">
+<h1>Direct page</h1>
+
+<p>Known BIOS RAM, ROM locations and VIA registers can be access with "direct page" adresses. The adresses are the same as "always" (Bruce Tomlin style) - with a prefex "dp_".</p>
+
+<p><b>NOTE</b><br />
+The DP register is neither set nor restored by this settings. The programmer must ensure, that while accessing VIA registers that the DP register is set to the requered direct page address - and it also must be restored if used by your programs in other sections (certain Vectrex BIOS functions require DP set to "$c8").</p>
+
+<p>For more information how this is implemented look at:<br />
+<a target="_blank" href="http://vectrexc.malban.de/documentation/the-direct-adressing-quest">http://vectrexc.malban.de/documentation/the-direct-adressing-quest</a></p>
+</body>
+</html>

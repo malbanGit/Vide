@@ -114,7 +114,7 @@ I am not sure anymore if this phenomenon is cased by the SHIFTREG delay. A delay
 
 <p>The position (since an analog) value is some voltage that is held using the integration circuits. </p>
 
-<p>Going to point "zero" is in principal nothing more than poking a "0" to a specific memory location which in turn represents a "switch" that grounds the integration circuits and thus resets them to zero (at least that is my understanding).</p>
+<p>Going to point "zero" is in principal nothing more than poking a "0" to a specific memory location which in turn represents a "switch" that grounds the integration circuits and thus resets them to zero .</p>
 
 <p>The act of "grounding" is in simplistic terms the discharging of a capacitor.  Due to age, variants and being analog hardware over all - the discharging (the zeroing) takes a certain amount of time. The time depends mainly:
 <ul><li>
@@ -129,6 +129,12 @@ I am not sure anymore if this phenomenon is cased by the SHIFTREG delay. A delay
 <p>Electronic laws even state that capacitors never get full discharged - in general if you leave the lights on while discharging you will see some sort of "e" function as the discharging happens.</p>
 
 <p>What it boils down to is - if you optimize your programs to use the least possible value for discharging (and thus saving some time) - the resulting program might look slightly different on another vectrex. </p>
+
+<p>Looking at the schematics following values come to mind, when zeroing is done:</p>
+
+<p>Short circuiting the integrators</p>
+
+<p>Capacitor 10nF = 0.01uF Resistor  220 Ohm  -&gt; Tau ~ 2.2uSeconds, about 3,5 cycles, that would mean zeroing "completely" would be 5 Tau =  17,5 cycles -&gt; which seems to me a bit fast...</p>
 <h3>Integrator retain</h3>
 
 <p>The following is some "guess work" and describes a phenomenon I have witnessed but due to lack of electronic wisdom have not the knowledge to fully explain (if you know more - please tell me).</p>
@@ -171,6 +177,37 @@ I am not sure anymore if this phenomenon is cased by the SHIFTREG delay. A delay
 <p>Notice the order I used above. This is the order I "must" use. The first two bullet points have fixed screen positions. If in my update round I print them  - say - after I print the frog, then the next fixed part I draw right after the frog, ever so slightly MOVES with the frog (~1 millimeters).</p>
 
 <p>That is very much noticable and disturbing. Even worse I seem to have a very good vectrex - I have reports of some other people - where that effect is even worse. </p>
+
+<p><i>Following is a possible explanation:<br>
+</i> The sample/hold circuits are not immediate, they take a certain time to reach their final "voltage" destination.</p>
+
+<p>The final voltage also seems to depend ever so slightly on the last value.</p>
+
+<p>The effect in the picture occured when I did something like:</p>
+
+<ul><li>
+<p>load s/h of x and/or y with some large value (used for vector placing/drawing) some other vector</p>
+</li><li>
+<p>enable zero (beam goes to zero)</p>
+</li><li>
+<p>(1) move to the start of the string   (what this does is, put new values into the sample/hold registers)</p>
+</li><li>
+<p>print one line</p>
+</li><li>
+<p>enable zero (beam goes to zero)</p>
+</li><li>
+<p>(2) move to the start of the string, plus a little bit down</p>
+</li></ul>
+
+<p>The base "value" of (1) and (2) are different s/h values.  The s/h value is basically the charge of a capacitor (charged/discharged with a value given by the DAC). If the charging/discharging starts at a different starting point -&gt; the final result is ever so slightly different, a difference of a millivolt is visible!)</p>
+
+<p>If in the above scenario the line "enable zero" is replaced with "enable zero and set s/h to 0" everything is fine - and no "first" offset is seen. (Above is not handled 100% correct in Vide emulation - yet!)</p>
+
+<p>This is ONE part of it.</p>
+
+<p>The other part seems to be the monitor / the monitor circuits that place the beam. I am positive, that the the monitor circuits itself keep a certain amount of "retaining".</p>
+
+<p>Otherwise it would doing s/h experiments with low scale values would have the same results as with high scale value - which they don't. The actual "screen - movement" seems to also have some influence!</p>
 <h2>differences in "weight" (scale and strength)</h2>
 
 <p>In "general" you can calculate a position on screen using the formular:

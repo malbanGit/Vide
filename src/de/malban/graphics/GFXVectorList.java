@@ -32,6 +32,16 @@ public class GFXVectorList {
     
     public static boolean avoidConnectMoreThan2 = true;
     
+    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+    private static int UID = 0;
+    public int load_uid;
+    public final int uid = ++UID;
+    public int order = 0;
+    static long tuid=0; // to build unique labels in code gen!
+    
+    
+    public ArrayList<GFXVector> list = new ArrayList<GFXVector>();
+
     public static String getDW()
     {
         if (db) return "DW";
@@ -88,17 +98,7 @@ public class GFXVectorList {
         }
         return s;
     }
-    
-    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
-    private static int UID = 0;
-    public int load_uid;
-    public int uid = ++UID;
-    public int order = 0;
-    static long tuid=0; // to build unique labels in code gen!
-    
-    
-    public ArrayList<GFXVector> list = new ArrayList<GFXVector>();
-    
+
     public GFXVectorList()
     {
         order = uid;

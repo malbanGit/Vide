@@ -122,7 +122,7 @@ public class RegisterJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Registers");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -681,7 +681,7 @@ public class RegisterJPanel extends javax.swing.JPanel implements
     private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
 
-    public static String SID = "regi";
+    public static String SID = "Debug: Register";
     public String getID()
     {
         return SID;

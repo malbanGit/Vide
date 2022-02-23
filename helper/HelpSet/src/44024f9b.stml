@@ -1,0 +1,126 @@
+:title Spinner
+
+The spinner that can be used with //some// homebrew vectrex games is 100% compatible to the Atari Driving (**not** the tennis paddles!) controllers.
+
+In Vectrex "words" the controller uses button 1 and button 2.
+Both buttons are connected to the spinners rotary two bit gray code encoder 
+
+
+Wikipedia:~~
+::The  Gray code after Frank Gray, is an ordering of the binary numeral system such that two successive values differ in only one bit (binary digit).
+::
+
+What it boils down to is, that while rotating the paddle, contacts are rotated on a disk inside the encoder. Each contact is placed over a circular lane.
+The lanes are contructed such that each lane is half way an insulater and the other half is conductive. The lanes are displaced by 90 degrees.
+
+The result looks like following picture I found:
+
+:image 2BitGray.png|2 bit gray code rotary disk
+
+(picture stolen from: 
+[[http://www.danielvik.com/2015/01/colecovision-driving-module.html]])
+
+When rotating and reading values from the contacts (button 1 and button 2), the resulting 2 bit values are such that they differ only ever in one bit:
+00~~
+01~~
+11~~
+10~~
+
+To get a "direction" from the readings you must compare previous readings with the current readings of the paddle.~~
+Transitions which are in the above order, e.g. "00->01" or "01->11" are an indicator that you rotated the wheel clockwise.~~
+Transitions in the opposite order, e.g. "11->01" or "10->11" indicate the wheel was rotated counter clockwise.
+
+Transitions which are not allowed, e.g. "00->11" are "errors" that should be discarded.
+
+A possible problem with "vectrex":~~
+Usually you do your "input" readings once per game round, that means about every 30000 cycles (or 50 times per second).~~
+If you are able to spin the spinner so fast that you "overstep" one gray code (with above example disk, more than 90 degrees in 1/50 of a second) the grey code will "hickup" and the reading is false.
+
+Simple schematic:~~
+[[https://postimg.cc/image/6bol853c1/]]~~
+
+Following code was provided a long time ago by "Christopher L. Tumber". It was given to the public - even if I can't remember when and where.
+
+:div code
+::
+;read\_spinner____________________________~~
+;A__________routine_by_Christopher_L._Tumber__~~
+;________________________________________~~
+;This_______routine_reads_the_spinner._It_requires_one_variable_named__~~
+;________________________________________~~
+;old\_spinner_____________________________~~
+;________________________________________~~
+;Which______stores__the_previous_spinner_value.__~~
+;________________________________________~~
+;This_______routine_branches_to_two_locations_as_follows:__~~
+;________________________________________~~
+;player\_plus:_-_____Rotates/moves_the_player_"plus"_(ie:_counterclockwise)__~~
+;player\_minus:_-____Rotates/moves_the_player_"minus"_(ie:_clockwise)__~~
+_________________________________________~~
+read\_spinner:____________________________~~
+____________lda_____#$00_________________~~
+____________ldb_____$c816________________~~
+____________beq_____not\_a2_______________~~
+____________lda_____#$02_________________~~
+not\_a2:__________________________________~~
+____________ldb_____$c817________________~~
+____________beq_____not\_b2_______________~~
+____________inca_________________________~~
+not\_b2:__________________________________~~
+____________cmpa____old\_spinner__________~~
+____________beq_____no\_spinner\_move______~~
+_________________________________________~~
+____________ldb_____old\_spinner__________~~
+____________sta_____old\_spinner__________~~
+____________cmpa____#$00_________________~~
+____________bne_____not\_spin1____________~~
+____________cmpb____#$01_________________~~
+____________beq_____player\_plus__________~~
+not\_spin1:_______________________________~~
+____________cmpa____#$01_________________~~
+____________bne_____not\_spin2____________~~
+____________cmpb____#$03_________________~~
+____________beq_____player\_plus__________~~
+not\_spin2:_______________________________~~
+____________cmpa____#$03_________________~~
+____________bne_____not\_spin3____________~~
+____________cmpb____#$02_________________~~
+____________beq_____player\_plus__________~~
+not\_spin3:_______________________________~~
+____________cmpa____#$02_________________~~
+____________bne_____not\_spin4____________~~
+____________cmpb____#$00_________________~~
+____________beq_____player\_plus__________~~
+not\_spin4:_______________________________~~
+_________________________________________~~
+____________cmpa____#$00_________________~~
+____________bne_____not\_spin5____________~~
+____________cmpb____#$02_________________~~
+____________beq_____player\_minus_________~~
+not\_spin5:_______________________________~~
+____________cmpa____#$02_________________~~
+____________bne_____not\_spin6____________~~
+____________cmpb____#$03_________________~~
+____________beq_____player\_minus_________~~
+not\_spin6:_______________________________~~
+____________cmpa____#$03_________________~~
+____________bne_____not\_spin7____________~~
+____________cmpb____#$01_________________~~
+____________beq_____player\_minus_________~~
+not\_spin7:_______________________________~~
+____________cmpa____#$01_________________~~
+____________bne_____not\_spin8____________~~
+____________cmpb____#$00_________________~~
+____________beq_____player\_minus_________~~
+not\_spin8:_______________________________~~
+_________________________________________~~
+no\_spinner\_move:_________________________~~
+_________________________________________~~
+____________rts__________________________~~
+_________________________________________~~
+player\_plus:_____________________________~~
+player\_minus:____________________________~~
+_________________________________________~~
+\::_______________________________________~~
+::
+:/div

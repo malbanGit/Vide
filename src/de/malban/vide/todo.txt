@@ -1,3 +1,26 @@
+done? make c source code searchable in debugger
+
+select all in point mode -> select all points not all vetcors!!!
+
+in editor if more than one file name with the same name exists - ensure jumping to the right one after compile error
+
+
+
+add rgb support for imager???
+would have to look up if line was drawn before - and than add color up...
+
+C Multibank project
+it must be possible to enter names of main files
+otherwise the project won't compile!!!
+-> done but not realy tested
+todo -> document this!
+name of the main files should be name of the project.
+
+2. How can I clear Bookmarks & Breakpoints? I can see some of yours but I cannot remove them (for Breakpoints, right-click > remove breakpoint does not work).
+
+
+
+
 done: added hi lo conversiojn to dw
 done: bugfix in dissy, upon bankswitch a different RAM layout was not loaded!
 

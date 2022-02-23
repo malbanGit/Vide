@@ -629,6 +629,7 @@ LABEL $6F50 part_void
 LABEL $6F5C roadrunnerlogo
 EQU $00 TEMPLATE
 LABEL $6FB1 *
+COMMENT_LINE $0000 ; hey dissi "watch $circleHalf 2 0"
 COMMENT_LINE $0000 BIOS Routines
 COMMENT_LINE $0000 ROM
 COMMENT_LINE $0000 Init block that needs to be in every program
@@ -13795,6 +13796,7 @@ COMMENT_LINE $6CA1 switch to bank          ;
 COMMENT_LINE $6CA1 IN: a - no of bank      ;
 COMMENT_LINE $6CA1 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 FORCE_SYMBOL $6CA1 cartnum
+COMMENT_LINE $6CA4 hey dissi "print #a
 COMMENT_LINE $6CA4 lda #64					; switch port B6 to output
 COMMENT_LINE $6CA4 ora VIA_DDR_b
 COMMENT_LINE $6CA4 sta VIA_DDR_b

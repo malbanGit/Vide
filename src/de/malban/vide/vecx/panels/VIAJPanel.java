@@ -61,7 +61,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("VIA Registers");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -2422,7 +2422,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
     private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
 
-    public static String SID = "viai";
+    public static String SID = "Debug: VIA";
     public String getID()
     {
         return SID;

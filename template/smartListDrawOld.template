@@ -1,4 +1,4 @@
-SPRITE_SCALE        =        50
+SPRITE_SCALE        =        ##SCALE##
 ;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
 
 ;***************************************************************************
@@ -298,7 +298,7 @@ SM_startMove_d_double:                                    ;#isfunction
                     sta      <VIA_shift_reg 
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
-                    bra      SM_continue 
+                    jmp      SM_continue 
 
 SM_startMove_d_x0_sj:                                     ;#isfunction  
                     sta      <VIA_port_a                  ; leaves with shift light off 

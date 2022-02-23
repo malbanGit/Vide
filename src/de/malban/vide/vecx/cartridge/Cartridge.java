@@ -910,7 +910,12 @@ public class Cartridge implements Serializable
             for (int i=0; i< MAX_BANK_SIZE;i++)
             {
                 if (i>=data.length)
-                    cart[bank][i] = 1; // polar rescue needs this!
+                {
+                    if (i<0x8000)
+                        cart[bank][i] = 1; // polar rescue needs this!
+                    else
+                        cart[bank][i] = 0xff; // test for flash programming -> erased/new data
+                }
                 else
                     cart[bank][i] = data[i]&0xff;;
             }
@@ -994,7 +999,12 @@ public class Cartridge implements Serializable
                 for (int i=0; i< MAX_BANK_SIZE;i++)
                 {
                     if (b*MAX_BANK_SIZE+i>=data.length)
-                        cart[b][i] = 1; // polar rescue needs this!
+                    {
+                        if (i<0x8000)
+                            cart[b][i] = 1; // polar rescue needs this!
+                        else
+                            cart[b][i] = 0xff; // test for flash programming -> erased/new data
+                    }
                     else
                         cart[b][i] = data[b*MAX_BANK_SIZE+i]&0xff;
                 }

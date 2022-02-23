@@ -86,7 +86,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemVecxi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Vecxi"/>
+                <Property name="text" type="java.lang.String" value="Emulator"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemVecxiActionPerformed"/>
@@ -94,7 +94,8 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemVedi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Vedi"/>
+                <Property name="text" type="java.lang.String" value="Source Editor"/>
+                <Property name="actionCommand" type="java.lang.String" value="SourceEditor"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemVediActionPerformed"/>
@@ -102,7 +103,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCodi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Codi"/>
+                <Property name="text" type="java.lang.String" value="Code Examples"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemCodiActionPerformed"/>
@@ -110,7 +111,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemVeccy">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Vecci"/>
+                <Property name="text" type="java.lang.String" value="Vector Editor"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>
@@ -119,7 +120,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemDissy">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Dissi (standalone)"/>
+                <Property name="text" type="java.lang.String" value="Disassembler (standalone)"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemDissyActionPerformed"/>
@@ -127,7 +128,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAssi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Assi"/>
+                <Property name="text" type="java.lang.String" value="6809 Assembler"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -143,7 +144,7 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem38">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Raster images"/>
+                    <Property name="text" type="java.lang.String" value="Image Raster converter"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem38ActionPerformed"/>
@@ -151,7 +152,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem39">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Vector images"/>
+                    <Property name="text" type="java.lang.String" value="Vector: Image to Vector"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem39ActionPerformed"/>
@@ -159,7 +160,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem40">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="YM-files"/>
+                    <Property name="text" type="java.lang.String" value="Sound: YM Editor/Converter"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem40ActionPerformed"/>
@@ -167,7 +168,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem41">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Mod-files"/>
+                    <Property name="text" type="java.lang.String" value="Sound: Mod to Vectrex"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem41ActionPerformed"/>
@@ -175,7 +176,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem43">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Vectrex instruments/music"/>
+                    <Property name="text" type="java.lang.String" value="Sound: Instrument Editor"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem43ActionPerformed"/>
@@ -183,7 +184,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Explosion design"/>
+                    <Property name="text" type="java.lang.String" value="Sound: Explosion Editor"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem6ActionPerformed"/>
@@ -191,7 +192,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem45">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Sample generation"/>
+                    <Property name="text" type="java.lang.String" value="Sound: Sample Editor"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem45ActionPerformed"/>
@@ -199,39 +200,23 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem42">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="VecVoice/VecVox"/>
+                    <Property name="text" type="java.lang.String" value="Sound: Vox/Voice Editor"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem42ActionPerformed"/>
                   </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem44">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Imager wheel editor"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem44ActionPerformed"/>
-                  </Events>
-                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCartridgeEdit">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Cartridge information"/>
+                    <Property name="text" type="java.lang.String" value="Cartridge Editor"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemCartridgeEditActionPerformed"/>
                   </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="File utility"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
-                  </Events>
-                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Dissi compare"/>
+                    <Property name="text" type="java.lang.String" value="Compare Disassembled"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
@@ -245,11 +230,29 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator4">
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem44">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Wheel Editor"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem44ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="File utility"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
+                  </Events>
+                </MenuItem>
               </SubComponents>
             </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemVec32">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Vec32 Terminal"/>
+                <Property name="text" type="java.lang.String" value="BASIC Editor"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemVec32ActionPerformed"/>
@@ -295,7 +298,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemDebug">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Debug Window"/>
+                <Property name="text" type="java.lang.String" value="Vide log"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemDebugActionPerformed"/>

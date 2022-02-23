@@ -133,6 +133,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Action;
+import javax.swing.JTabbedPane;
 import javax.swing.text.DefaultEditorKit;
 
 
@@ -152,14 +153,13 @@ import javax.swing.text.DefaultEditorKit;
  */
 public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, EditorListener
 {
-    public static String SID = "Vedi";
+    public static String SID = "Source Editor";
     VideConfig config = VideConfig.getConfig();
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     String oneTimeTab = null; 
-    
+    boolean tabChangeNotAllowed = false;
     public static int scanCount = 0;
     boolean init = false;
-    Color defaultForegroundColor=null;
     boolean inProject = false;
     ProjectProperties currentProject = null;
     DefaultListModel projectsListModel;
@@ -608,7 +608,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         initComponents();
         jMenuItem1.setVisible(false);
         jSeparator4.setVisible(false);
-        defaultForegroundColor = jLabel10.getForeground();
         jMenuItemVector.setVisible(false); // dsabled, do image conversion from vecci
         loadSettings = ls;
         jEditorLog.setEditable(false);
@@ -919,7 +918,7 @@ class TransferableTreeNode implements Transferable {
                 ArrayList<EditorFileSettings> toRemove = new ArrayList<EditorFileSettings>();
                 for (EditorFileSettings fn: settings.currentOpenFiles)
                 {
-                    EditorPanel edi = addEditor(de.malban.util.Utility.makeVideAbsolute(fn.filename), false);
+                    EditorPanel edi = addEditor(de.malban.util.Utility.makeVideAbsolute(fn.filename), false, false);
                     if (edi == null)
                     {
                         // error while loading, remove file from current
@@ -935,9 +934,6 @@ class TransferableTreeNode implements Transferable {
                 }
                 for (EditorFileSettings fn: toRemove) settings.currentOpenFiles.remove(fn);
                 jCheckBoxIgnoreCase1.setSelected(settings.v4eEnabled);
-                if (settings.v4eVolumeName != null)
-                    jTextFieldPath.setText(settings.v4eVolumeName);
-                checkVec4Ever(true);
             }
         }
         else
@@ -1150,8 +1146,34 @@ class TransferableTreeNode implements Transferable {
         }
         jListFiles.setModel(filesListModel);
     }
+    void verifySettings()
+    {
+        boolean redo;
+        
+        do
+        {
+            redo = false;
+            for (EditorFileSettings set: settings.currentOpenFiles)
+            {
+                String settingsRel = de.malban.util.Utility.makeVideRelative(set.filename);
+                String settingsAbs = de.malban.util.Utility.makeVideAbsolute(set.filename);
+                // this is a relative name
+
+                if ((getEditor(settingsRel, false) == null) && (getEditor(settingsAbs, false) == null) && (getEditor(set.filename, false) == null))
+                {
+                    settings.removeOpen(set.filename);
+                    redo = true;
+                    break;
+                }
+            }
+        } while (redo);
+    }
     
     EditorPanel addEditor(String fullPathname, boolean addToSettings)
+    {
+        return addEditor(fullPathname, addToSettings, true);
+    }
+    EditorPanel addEditor(String fullPathname, boolean addToSettings, boolean verifySettings)
     {
         String name = "edi";
         Path path = Paths.get(fullPathname);
@@ -1160,7 +1182,7 @@ class TransferableTreeNode implements Transferable {
         int pos = 0;
         String settingsRel = de.malban.util.Utility.makeVideRelative(fullPathname);
         String settingsAbs = settingsAbs = de.malban.util.Utility.makeVideAbsolute(fullPathname);
-        
+        if (verifySettings) verifySettings();
         if (addToSettings)
         {
             if (settings.openContains(settingsAbs))
@@ -1386,7 +1408,18 @@ class TransferableTreeNode implements Transferable {
         jButtonAssemble = new javax.swing.JButton();
         jSplitPane1 = new javax.swing.JSplitPane();
         jSplitPane2 = new javax.swing.JSplitPane();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane1 = new JTabbedPane()
+        {
+            @Override
+            public void setSelectedIndex(int index) 
+            {
+                if (getSelectedIndex() == index)
+                return;
+                if (tabChangeNotAllowed) return;
+                super.setSelectedIndex(index);
+            }
+        };
+        ;
         jSplitPane4 = new javax.swing.JSplitPane();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -1430,6 +1463,7 @@ class TransferableTreeNode implements Transferable {
         jButtonAssembleOne3 = new javax.swing.JButton();
         jButtonAssembleOne4 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jButtonAssembleOne5 = new javax.swing.JButton();
         jButtonNew = new javax.swing.JButton();
         jButtonPrettyPrint = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -1457,11 +1491,6 @@ class TransferableTreeNode implements Transferable {
         jTextFieldCommand = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextFieldPath = new javax.swing.JTextField();
-        jButtonFileSelect1 = new javax.swing.JButton();
-        jButtonCheckVec4Ever = new javax.swing.JButton();
-        jButtonEjectVecForever = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
         jCheckBoxIgnoreCase1 = new javax.swing.JCheckBox();
         jButtonDebugSyntax = new javax.swing.JButton();
         jButtonAssembleOne = new javax.swing.JButton();
@@ -1777,12 +1806,10 @@ class TransferableTreeNode implements Transferable {
             }
         });
 
-        jSplitPane1.setBorder(null);
         jSplitPane1.setDividerLocation(500);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setResizeWeight(1.0);
 
-        jSplitPane2.setBorder(null);
         jSplitPane2.setDividerLocation(200);
 
         jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -1794,7 +1821,6 @@ class TransferableTreeNode implements Transferable {
         });
         jSplitPane2.setRightComponent(jTabbedPane1);
 
-        jSplitPane4.setBorder(null);
         jSplitPane4.setDividerLocation(300);
         jSplitPane4.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
@@ -1983,7 +2009,7 @@ class TransferableTreeNode implements Transferable {
                     .addComponent(jButtonAdressBack, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonLabelConfig, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
         );
 
         jSplitPane4.setRightComponent(jPanel7);
@@ -1992,7 +2018,6 @@ class TransferableTreeNode implements Transferable {
 
         jSplitPane1.setTopComponent(jSplitPane2);
 
-        jSplitPane3.setBorder(null);
         jSplitPane3.setDividerLocation(600);
 
         jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -2056,7 +2081,7 @@ class TransferableTreeNode implements Transferable {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Bookmarks", jPanel2);
@@ -2087,7 +2112,7 @@ class TransferableTreeNode implements Transferable {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Breakpoints", jPanel6);
@@ -2118,7 +2143,7 @@ class TransferableTreeNode implements Transferable {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Watches", jPanel8);
@@ -2170,19 +2195,35 @@ class TransferableTreeNode implements Transferable {
             }
         });
 
+        jButtonAssembleOne5.setText("both");
+        jButtonAssembleOne5.setToolTipText("");
+        jButtonAssembleOne5.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonAssembleOne5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAssembleOne5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonAssembleOne2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonAssembleOne1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonAssembleOne3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButtonAssembleOne4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(30, 30, 30)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jButtonAssembleOne4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonAssembleOne1, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButtonAssembleOne2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonAssembleOne3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonAssembleOne5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)))
                 .addComponent(jCheckBox1)
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addGap(119, 119, 119))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2190,13 +2231,15 @@ class TransferableTreeNode implements Transferable {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAssembleOne1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonAssembleOne3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(14, 14, 14)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonAssembleOne3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAssembleOne5))
+                .addGap(14, 14, 14)
                 .addComponent(jButtonAssembleOne2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonAssembleOne4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -2212,7 +2255,7 @@ class TransferableTreeNode implements Transferable {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Assi->C", jPanel9);
@@ -2482,45 +2525,6 @@ class TransferableTreeNode implements Transferable {
 
         jLabel9.setText("V4E");
 
-        jTextFieldPath.setEnabled(false);
-        jTextFieldPath.setFocusable(false);
-        jTextFieldPath.setPreferredSize(new java.awt.Dimension(6, 21));
-
-        jButtonFileSelect1.setText("...");
-        jButtonFileSelect1.setToolTipText("Chose the \"mountpoint\" of the VecFever RAM disk\n");
-        jButtonFileSelect1.setEnabled(false);
-        jButtonFileSelect1.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonFileSelect1.setPreferredSize(new java.awt.Dimension(17, 21));
-        jButtonFileSelect1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonFileSelect1ActionPerformed(evt);
-            }
-        });
-
-        jButtonCheckVec4Ever.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/drive_add.png"))); // NOI18N
-        jButtonCheckVec4Ever.setToolTipText("seek connection");
-        jButtonCheckVec4Ever.setEnabled(false);
-        jButtonCheckVec4Ever.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonCheckVec4Ever.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckVec4EverActionPerformed(evt);
-            }
-        });
-
-        jButtonEjectVecForever.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/drive_delete.png"))); // NOI18N
-        jButtonEjectVecForever.setToolTipText("eject ");
-        jButtonEjectVecForever.setEnabled(false);
-        jButtonEjectVecForever.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonEjectVecForever.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEjectVecForeverActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setFont(new java.awt.Font("Geneva", 1, 11)); // NOI18N
-        jLabel10.setText("!");
-        jLabel10.setEnabled(false);
-
         jCheckBoxIgnoreCase1.setToolTipText("ignore case (if selected)");
         jCheckBoxIgnoreCase1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2588,17 +2592,7 @@ class TransferableTreeNode implements Transferable {
                 .addComponent(jLabel9)
                 .addGap(1, 1, 1)
                 .addComponent(jCheckBoxIgnoreCase1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldPath, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonCheckVec4Ever)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonEjectVecForever)
-                .addGap(5, 5, 5)
-                .addComponent(jLabel10)
-                .addGap(36, 36, 36)
+                .addGap(264, 264, 264)
                 .addComponent(jButtonDebugSyntax)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -2611,7 +2605,6 @@ class TransferableTreeNode implements Transferable {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBoxIgnoreCase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2632,11 +2625,7 @@ class TransferableTreeNode implements Transferable {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel7)
-                                .addComponent(jLabel9)
-                                .addComponent(jTextFieldPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButtonCheckVec4Ever)
-                            .addComponent(jButtonEjectVecForever)
+                                .addComponent(jLabel9))
                             .addComponent(jButtonDebugSyntax)
                             .addComponent(jButtonAssembleOne))
                         .addGap(1, 1, 1)))
@@ -3233,7 +3222,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     {
         String ret="";
         for (int i=0;i<count;i++) 
-            ret+="\t";
+//            ret+="\t";
+            ret+=getTABString();
         return ret;
     }
     String prettyPrintC(String orgText)
@@ -3260,10 +3250,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     
     String prettyPrint(String orgText)
     {
+boolean DELELTE_EMPTY_LINES = false;   
         StringBuilder b = new StringBuilder();
         orgText = UtilityString.replace(orgText, "\r\n", "\n");
-        
-        
+
         orgText = UtilityString.replace(orgText, "\t", getTABString());
         
         String[] lines = orgText.split("\n");
@@ -3290,21 +3280,46 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 }
             }
             // "zero" line? -> remove
-            if (line.trim().length()==0) continue;
-            
-            // comment only (a)?
-            if (line.charAt(0)==';')
-            {
-                b.append(line).append("\n"); // leave them for now
-                continue;
-            }
 
-            // comment only (b)?
-            if (line.charAt(0)=='*')
+// steve Hopkins            
+            if (DELELTE_EMPTY_LINES) 
             {
-                b.append(line).append("\n"); // leave them for now
-                continue;
+                if (line.trim().length()==0) continue;
+                // comment only (a)?
+                if (line.charAt(0)==';')
+                {
+                    b.append(line).append("\n"); // leave them for now
+                    continue;
+                }
+                // comment only (b)?
+                if (line.charAt(0)=='*')
+                {
+                    b.append(line).append("\n"); // leave them for now
+                    continue;
+                }
             }
+            else
+            {
+                if (line.trim().length()==0) 
+                {
+                    b.append(line).append("\n"); // leave them for now
+                    continue;
+                }
+                // comment only (a)?
+                if (line.trim().charAt(0)==';')
+                {
+                    b.append(line).append("\n"); // leave them for now
+                    continue;
+                }
+                // comment only (b)?
+                if (line.trim().charAt(0)=='*')
+                {
+                    b.append(line).append("\n"); // leave them for now
+                    continue;
+                }
+            }
+            
+
             
             // remove all tabs (in non comment line)
             line = UtilityString.replace(line, "\t", getTABString());
@@ -3408,6 +3423,32 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 b.append(line).append("\n"); // 
                 continue;
             }
+            
+            
+            if (!DELELTE_EMPTY_LINES) 
+            {
+                if (line.trim().length()==0) 
+                {
+                    b.append(line).append("\n"); // leave them for now
+                    continue;
+                }
+                // comment only (a)?
+                if (line.trim().charAt(0)==';')
+                {
+                    b.append(line).append("\n"); // leave them for now
+                    continue;
+                }
+                // comment only (b)?
+                if (line.trim().charAt(0)=='*')
+                {
+                    b.append(line).append("\n"); // leave them for now
+                    continue;
+                }
+            }
+            
+            
+            
+            
             String preComment = UtilityString.trimEnd(line.substring(0, commentPos));
             String comment = line.substring(commentPos);
             b.append(preComment);
@@ -4217,40 +4258,8 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         runInternal();
     }//GEN-LAST:event_jButtonInjectBinActionPerformed
 
-    private void jTextFieldCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCommandActionPerformed
-        String command = jTextFieldCommand.getText();
-        jTextFieldCommand.setText("");
-        doQuickHelp(command, command);
-    }//GEN-LAST:event_jTextFieldCommandActionPerformed
-
-    private void jButtonFileSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect1ActionPerformed
-        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
-        fc.setDialogTitle("Select VecFever RAMDISK-drive");
-        fc.setCurrentDirectory(new java.io.File(File.separator));
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
-        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
-        String lastPath = fc.getSelectedFile().getAbsolutePath();
-
-        Path p = Paths.get(lastPath);
-        settings.v4eVolumeName = p.toString();
-        jTextFieldPath.setText(p.toString());
-        checkVec4Ever(true);        
-    }//GEN-LAST:event_jButtonFileSelect1ActionPerformed
-
-    private void jButtonCheckVec4EverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckVec4EverActionPerformed
-        checkVec4Ever(true);        
-    }//GEN-LAST:event_jButtonCheckVec4EverActionPerformed
-
-    private void jButtonEjectVecForeverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEjectVecForeverActionPerformed
-        ejectVec4Ever();
-        checkVec4Ever(false);        
-    }//GEN-LAST:event_jButtonEjectVecForeverActionPerformed
-
     private void jCheckBoxIgnoreCase1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxIgnoreCase1ActionPerformed
         settings.v4eEnabled = jCheckBoxIgnoreCase1.isSelected();
-        checkVec4Ever(false);
     }//GEN-LAST:event_jCheckBoxIgnoreCase1ActionPerformed
 
     private void jButtonFontPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFontPlusActionPerformed
@@ -4520,6 +4529,52 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             log.addLog("scheduling was switched off manually", INFO);
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jTextFieldCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCommandActionPerformed
+        String command = jTextFieldCommand.getText();
+        jTextFieldCommand.setText("");
+        doQuickHelp(command, command);
+    }//GEN-LAST:event_jTextFieldCommandActionPerformed
+
+    private void jButtonAssembleOne5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleOne5ActionPerformed
+        jButtonClearMessagesActionPerformed(null);
+
+        if (getSelectedEditor() == null) return;
+        String fn = getSelectedEditor().getFilename();
+        if (!((fn.toLowerCase().endsWith("s")) || (fn.toLowerCase().endsWith("i"))|| (fn.toLowerCase().endsWith("asm"))   )    ) return;
+        getSelectedEditor().save(false);
+        
+        CustomOutputStream preprocessOut = new CustomOutputStream();
+        PrintStream asmPreprocess = new PrintStream(preprocessOut);
+        CustomOutputStream _errOut = new CustomOutputStream();
+        PrintStream _asmErrOut = new PrintStream(_errOut);
+        
+        String o = new Asmj(fn, _asmErrOut, asmPreprocess).getAllOut();
+
+        fn = changeTypeTo(fn, "asx.s");
+        File f = new File (fn);
+        String nameOnly = f.getName();
+        
+        
+        Vector<String> sLines =  new Vector<String>();
+        String[] lines = o.split("\n");
+        for (String zeile: lines)
+        {
+                if (zeile == null) continue;
+                if (zeile.trim().length()==0) continue;
+                sLines.addElement(zeile);
+        } 
+        
+        CompileResult result = toAs6809(sLines, nameOnly);
+        
+        // todo translate struct
+
+        de.malban.util.UtilityString.writeToTextFile(result.codeData, new File(fn));
+        EditorPanel edi = addEditor(fn, true);
+
+        refreshTree();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonAssembleOne5ActionPerformed
     
     @Override
     public void doQuickHelp(String word, String integer)
@@ -4596,14 +4651,12 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     private javax.swing.JButton jButtonAssembleOne2;
     private javax.swing.JButton jButtonAssembleOne3;
     private javax.swing.JButton jButtonAssembleOne4;
-    private javax.swing.JButton jButtonCheckVec4Ever;
+    private javax.swing.JButton jButtonAssembleOne5;
     private javax.swing.JButton jButtonClearMessages;
     private javax.swing.JButton jButtonCopy;
     private javax.swing.JButton jButtonCut;
     javax.swing.JButton jButtonDebug;
     private javax.swing.JButton jButtonDebugSyntax;
-    private javax.swing.JButton jButtonEjectVecForever;
-    private javax.swing.JButton jButtonFileSelect1;
     private javax.swing.JButton jButtonFontMinus;
     private javax.swing.JButton jButtonFontPlus;
     private javax.swing.JButton jButtonIgnoreCase;
@@ -4632,7 +4685,6 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     private javax.swing.JEditorPane jEditorLog;
     private javax.swing.JEditorPane jEditorPaneASMListing;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -4711,7 +4763,6 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     private javax.swing.JTable jTableInventory;
     private javax.swing.JTable jTableWatches;
     private javax.swing.JTextField jTextFieldCommand;
-    private javax.swing.JTextField jTextFieldPath;
     private javax.swing.JTextField jTextFieldReplace;
     private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JTree jTree1;
@@ -5147,17 +5198,15 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         int found = -1;
         for (int i=0; i < jTabbedPane1.getTabCount(); i++)
         {
-            String tabName = jTabbedPane1.getTitleAt(i);
-            if (tabName.equalsIgnoreCase(name))
+//            String tabName = jTabbedPane1.getTitleAt(i);
+//            if (tabName.equalsIgnoreCase(name))
             {
-                found = i;
-                break;
+                jTabbedPane1.setSelectedComponent(jTabbedPane1.getComponentAt(i));
+                EditorPanel ed = (EditorPanel)jTabbedPane1.getComponentAt(i);
+                String t = ed.getFilename();
+                if (t.equals(filename))
+                    return ed;
             }
-        }
-        if (found != -1)
-        {
-            jTabbedPane1.setSelectedComponent(jTabbedPane1.getComponentAt(found));
-            return (EditorPanel)jTabbedPane1.getComponentAt(found);
         }
         if (!create) return null;
         EditorPanel edi = addEditor(filename, true);
@@ -5301,6 +5350,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             jTree1.setModel(new DefaultTreeModel(null));
             return;
         }
+tabChangeNotAllowed = true;
         currentStartPath = startpath;
         TreeEntry rootEntry = new TreeEntry(startpath);
         root = new DefaultMutableTreeNode(rootEntry);
@@ -5322,7 +5372,6 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 }
             }
             jTree1.setModel(new DefaultTreeModel(root));
-            
             String state = sb.toString();
             for(int i = 0 ; i<jTree1.getRowCount(); i++){
                 TreePath tp = jTree1.getPathForRow(i);
@@ -5376,16 +5425,16 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 }
             }
         }
-
-        
-        
+tabChangeNotAllowed = false;
     }
     void fillTreeFiles()
     {
+tabChangeNotAllowed = true;
         Path startpath = Paths.get(Global.mainPathPrefix,"");
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeEntry(startpath));
         addChildrenFile(root);
         jTree1.setModel(new DefaultTreeModel(root));
+tabChangeNotAllowed = false;
     }
     boolean addChildrenFile(DefaultMutableTreeNode node)
     {
@@ -7628,23 +7677,6 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     }
     
 
-    void checkVec4Ever(boolean verbose)
-    {
-        boolean available = settings.v4eEnabled;
-        if (settings.v4eEnabled)
-        {
-            available = checkVec4EverVolume(verbose);
-        }
-        else
-        {
-            jLabel10.setForeground(defaultForegroundColor);
-        }
-        jTextFieldPath.setEnabled(settings.v4eEnabled);
-        jButtonFileSelect1.setEnabled(settings.v4eEnabled);
-        jButtonCheckVec4Ever.setEnabled(settings.v4eEnabled);
-        jButtonEjectVecForever.setEnabled(available);
-        jLabel10.setEnabled(settings.v4eEnabled);
-    }    
     public boolean checkVec4EverVolume(boolean verbose)
     {
         if (!settings.v4eEnabled)
@@ -7653,7 +7685,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         try
         {
-            Path path = Paths.get(settings.v4eVolumeName);
+            Path path = Paths.get(config.v4eVolumeName);
             File directory = path.toFile();
 
             // get all the files from a directory
@@ -7668,8 +7700,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                         String readmetxt = de.malban.util.UtilityString.readTextFileToOneString(file);
                         if (readmetxt.contains("Sontowski"))
                         {
-                            jLabel10.setForeground(Color.green);
-                            if (verbose)
+//                            if (verbose)
                                 printMessage("V4E: RAM DISK volume found.");
                             return true; 
                         }
@@ -7681,10 +7712,10 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         }
         catch (Throwable e)
         {
-            if (verbose)
-                printError("V4E: RAM DISK volume not found.");
+//            if (verbose)
+//                printError("V4E: RAM DISK volume not found.");
         }
-        jLabel10.setForeground(Color.black);
+        printError("V4E: RAM DISK volume not found.");
         return false;
     }
     void ejectVec4Ever()
@@ -7692,19 +7723,17 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         boolean available = checkVec4EverVolume(false);
         if (!available)
         {
-            jLabel10.setForeground(Color.red);
+            printError("V4E: VecFever not found!");
             return;
         }
-        boolean ok = de.malban.util.UtilityFiles.ejectVolume(settings.v4eVolumeName);
+        boolean ok = de.malban.util.UtilityFiles.ejectVolume(config.v4eVolumeName);
         if (!ok)
         {
             printError("V4E: RAM DISK not ejected");
-            jLabel10.setForeground(Color.red);
         }
         else
         {
             printMessage("V4E: RAM DISK ejected");
-            jLabel10.setForeground(Color.black);
         }
     }
 
@@ -7730,7 +7759,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 de.malban.util.UtilityFiles.concatFiles(n1, n2);
                 checkVec4EverFile(n1+".con");
             }
-            if (cart.getFullFilename().size() == 4)
+            else if (cart.getFullFilename().size() == 4)
             {
                 boolean is48K = (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
                 int memSize = 32768;
@@ -7771,14 +7800,13 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         catch (Throwable e)
         {
             printError("V4E: could not access project file.");
-            jLabel10.setForeground(Color.red);
         }
     }
 
     public void checkVec4EverFile(String filenameAbs)
     {
         if (!checkVec4EverVolume(false)) return;
-        boolean ok = de.malban.util.UtilityFiles.copyOneFile(filenameAbs, settings.v4eVolumeName+File.separator+"cart.bin");
+        boolean ok = de.malban.util.UtilityFiles.copyOneFile(filenameAbs, config.v4eVolumeName+File.separator+"cart.bin");
         if (!ok)
         {
             printError("V4E: error copying file to RAMDISK: "+de.malban.util.UtilityFiles.error);
@@ -9545,25 +9573,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                     if (!twice) break;
                 } // and banks loop
 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
                 
                 String postClass = currentProject.getProjectPostScriptClass();
                 String postName = currentProject.getProjectPostScriptName();
@@ -9620,9 +9630,12 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 return;
             }
             boolean twice = currentProject.getBankswitching().contains("2 bank standard");
+            boolean is48K = (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
 
             CartridgeProperties cartProp = buildCart(currentProject, twice);
+
             checkVec4EverProject(cartProp);
+            
             if (config.invokeEmulatorAfterAssembly)
             {
                 
@@ -9646,14 +9659,14 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
                 {
 //                    JOptionPane pane = new JOptionPane("The bin files appear to be not compatible, inject anyway?", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
 //                    int answer = JOptionPaneDialog.show(pane);
-                int answer = JOptionPane.showOptionDialog(Configuration.getConfiguration().getMainFrame(), 
-                "The bin files appear to be not compatible, inject anyway?",
-                "File not compatible",
-                JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, null, null);
+                    int answer = JOptionPane.showOptionDialog(Configuration.getConfiguration().getMainFrame(), 
+                    "The bin files appear to be not compatible, inject anyway?",
+                    "File not compatible",
+                    JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, null, null);
 
                 
                 
-                if (answer == JOptionPane.YES_OPTION)
+                    if (answer == JOptionPane.YES_OPTION)
                         doit = true;
                     else
                     {
@@ -10444,6 +10457,7 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
     boolean peerBuild(String baseProjectPath, int banks)  
     {
         boolean twice = currentProject.getBankswitching().contains("2 bank standard");
+
         {
             String msg ="";
             String path = baseProjectPath+File.separator+"build";
@@ -11922,6 +11936,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
         ArrayList<String> globalVars = new ArrayList<String>();
 
         
+        codeSource.append("; NOTE!!!\n; IF USED IN 'C' YOU MIGHT NEED TO SAVE SOME REGS WHEN CALLING\n");
+        codeSource.append("; YOUR FUNCTIONS, LIKE REG 'U' and 'Y'!\n");
+        codeSource.append("; ALSO CHECK YOUR DP SETTINGS, BELOW DP = D0 is assumed!\n");
         
         codeSource.append(" .module "+module+"\n");
 //        codeSource.append(" .bank rom(BASE=0x0000,SIZE=0x8000,FSFX=_rom)\n");
@@ -11934,6 +11951,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
 //        codeSource.append(" .area .data  (BANK=ram)\n");
 //        codeSource.append(" .area .bss   (BANK=ram)\n\n");
         codeSource.append(" .area .text\n");
+        
+                     
+        
         
         /* structs can be transfered like:
                     struct   ObjectStruct 
@@ -12301,6 +12321,9 @@ private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-
             if (mnemonic.equals("code"))
             {
                 codeSource.append(de.malban.util.UtilityString.replaceCI(orgLine, "code", ".area .text", true)+"\n");
+                codeSource.append("; NOTE!!!\n; THIS MIGHT BE INCORRECT FOR YOUR NEEDS!\n; MOST OF THE TIME FOR MALBAN THIS IS GOOD!\n");
+                codeSource.append(" .setdp   0xd000,_DATA\n");
+                
                 continue;
             }
             if (mnemonic.equals("bss"))

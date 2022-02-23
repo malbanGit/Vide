@@ -28,6 +28,18 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
+		<Name>YMusic_v100.BIN</Name>
+		<URL>http://binarystarsoftware.com/bin/YMusic_v100.BIN</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>YMusic_v100.BIN</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
 		<Name>Bandai Download BIN</Name>
 		<URL>http://www.vectorzoa.com/pubbins/BANDAI.BIN</URL>
 		<isZip>false</isZip>
@@ -67,7 +79,7 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Hex alpha Download BIN</Name>
-		<URL>http://binarystarsoftware.com/bin/HEX_alpha2.BIN</URL>
+		<URL>http://binarystarsoftware.com/bin/Hex_v1_1.BIN</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
@@ -75,6 +87,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\cartridges\HEX_alpha2.BIN</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>castle_vs_castle.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/castle_vs_castle.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\castle_vs_castle.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>PDF</Class>
@@ -208,6 +232,18 @@
 	</Downloader>
 	<Downloader>
 		<Class>PDF</Class>
+		<Name>pirates.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/pirates.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\pirates.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>PDF</Class>
 		<Name>laser_wars.pdf</Name>
 		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex/gallery/laser_wars.pdf</URL>
 		<isZip>false</isZip>
@@ -313,6 +349,18 @@
 		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>pirates.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/pirates.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\pirates.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>PDF</Class>
 		<Name>Logo Manual</Name>
 		<URL>http://www.vectorzoa.com/logo/logoman.pdf</URL>
@@ -351,14 +399,16 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>All good things Download BIN</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/All%20Good%20Things%20by%20John%20Dondzila%20%282000%29%20%28PD%29.bin</URL>
-		<isZip>false</isZip>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\All Good Things (1996)(Dondzila, John)(PD).zip</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download\cartridges\agt.bin</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/agt.bin</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>PDF</Class>
@@ -411,6 +461,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\cartridges\bacteria.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>vectrexagon.bin</Name>
+		<URL>http://www.sdwdevelopments.com/files/vectrexagon_downloadable.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\vectrexagon_downloadable.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -467,38 +529,70 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Mail Plain Complete Bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Proto/MailPlane_full.bin</URL>
-		<isZip>false</isZip>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Mail Plane (1983)(GCE)(proto)[b].zip</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/MailPlane_full.bin</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/MailPlane_full.bin</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>Vectrexians.bin</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Vectrexians (1999)(Tuts, Kristof)(PD).zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download\cartridges\Vectrexians.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>SpaceFrenzy Download BIN</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/SpaceFrenzy.BIN</URL>
-		<isZip>false</isZip>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Space Frenzy (2006)(Dondzila, John).zip</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/SpaceFrenzy.BIN</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/SpaceFrenzy.BIN</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Vecmania 2 Download Bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Vecmania%20Part%202%20by%20John%20Dondzila%20%281999%29%20%28PD%29.bin</URL>
+		<URL>https://ia800500.us.archive.org/zip_dir.php?path=/5/items/vectrex-vecmania.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>VecmaniaPart2-1999-PD.vec</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/Vecmania2.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>PDF</Class>
+		<Name>castle_vs_castle.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/castle_vs_castle.pdf</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/Vecmania2.bin</DestinationDirAll>
+		<DestinationDirAll>download\cartridges\castle_vs_castle.pdf</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -511,6 +605,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\cartridges\SuperSimon_v101.BIN</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>dont_fall.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/dont_fall.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\dont_fall.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>PDF</Class>
@@ -541,7 +647,7 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>SinZ Download BIN</Name>
-		<URL>http://atariage.com/forums/index.php?app=core&amp;module=attach&amp;section=attach&amp;attach_id=387301</URL>
+		<URL>ftp://ftp.untergrund.net/users/havoc/POUET/vectrex/SINZ.BIN</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 			<FileInZip></FileInZip>
@@ -656,8 +762,22 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
+		<Name>Wormhole.bin</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Wormhole (2001)(Dondzila, John)(PD).zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download\cartridges\Wormhole.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
 		<Name>Vaboom Download Bin</Name>
-		<URL>http://vgcollect.freehosting.net/vaboom.bin</URL>
+		<URL>http://vgcollect.freehosting.net/vectrace.bin</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
@@ -680,20 +800,6 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
-		<Name>Wormhole.bin</Name>
-		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
-		<isZip>true</isZip>
-		<FileInZips>
-			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Wormhole (2001)(Dondzila, John)(PD).zip</FileInZip>
-		</FileInZips>
-		<FileUnpackeds>
-			<FileUnpacked>download\cartridges\Wormhole.bin</FileUnpacked>
-		</FileUnpackeds>
-		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll></DestinationDirAll>
-	</Downloader>
-	<Downloader>
-		<Class>Cartridge</Class>
 		<Name>Twistex Download BIN</Name>
 		<URL>http://www.ultrafex.de/twistex/Twistex.zip</URL>
 		<isZip>true</isZip>
@@ -708,6 +814,18 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
+		<Name>hole_run.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/hole_run.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\hole_run.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
 		<Name>Vector Pong Download BIN</Name>
 		<URL>http://binarystarsoftware.com/bin/VectorPong_v107.BIN</URL>
 		<isZip>false</isZip>
@@ -717,6 +835,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\cartridges\VectorPong_v107.BIN</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>asteroids.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2018/gallery/asteroids.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\asteroids.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>PDF</Class>
@@ -768,6 +898,18 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
+		<Name>Zodiac_v100.BIN</Name>
+		<URL>http://binarystarsoftware.com/bin/Zodiac_v100.BIN</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>Zodiac_v100.BIN</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
 		<Name>Magic8Ball.bin</Name>
 		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
 		<isZip>true</isZip>
@@ -796,6 +938,18 @@
 	</Downloader>
 	<Downloader>
 		<Class>PDF</Class>
+		<Name>hole_run.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/hole_run.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\hole_run.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>PDF</Class>
 		<Name>Star_Trek_Manual.pdf</Name>
 		<URL>http://www.vectrex.de/_static/2016/Star_Trek_Manual.pdf</URL>
 		<isZip>false</isZip>
@@ -805,18 +959,6 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\documents\games\Star_Trek_Manual.pdf</DestinationDirAll>
-	</Downloader>
-	<Downloader>
-		<Class>Cartridge</Class>
-		<Name>VFrogger Download bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Frogger.BIN</URL>
-		<isZip>false</isZip>
-		<FileInZips>
-		</FileInZips>
-		<FileUnpackeds>
-		</FileUnpackeds>
-		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/Frogger.BIN</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -845,6 +987,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>VFrogger Download bin</Name>
+		<URL>http://vectrex.malban.de/FROGGER.BIN</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download/cartridges/Frogger.BIN</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -927,6 +1081,20 @@
 		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>SpaceFrenzyNonBeta</Name>
+		<URL>http://vectrex.malban.de/ParaJVE_0.6.0_windows.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>ParaJVE\data\roms\homebrew\Space_Frenzy.bin</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download\cartridges\Space_FrenzyNoBeta.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>PDF</Class>
 		<Name>hextrex.pdf</Name>
 		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex/gallery/hextrex.pdf</URL>
@@ -941,7 +1109,7 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Logic Jumper Bin Download</Name>
-		<URL>https://www.medienwissenschaft.hu-berlin.de/de/medienwissenschaft/medientheorien/signallabor/the_j_game.zip</URL>
+		<URL>https://www.musikundmedien.hu-berlin.de/de/medienwissenschaft/medientheorien/signallabor/the_j_game.zip</URL>
 		<isZip>true</isZip>
 		<FileInZips>
 			<FileInZip>The J Game/jgame.bin</FileInZip>
@@ -989,6 +1157,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\cartridges\space_assault.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>thirsty_astronaut.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2018/gallery/thirsty_astronaut.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\thirsty_astronaut.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1077,14 +1257,16 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Spike is hopping Download bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Spike%20Hoppin%27%20by%20John%20Dondzila%20%281997%29%20%28PD%29.bin</URL>
-		<isZip>false</isZip>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Spike Hoppin&apos; (1998)(Dondzila, John)(PD).zip</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/spikeshopping.bin</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/spikeshopping.bin</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1101,14 +1283,16 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Revector Download bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Revector.bin</URL>
-		<isZip>false</isZip>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Revector (2004)(Aker, Craig)(PD).zip</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/Revector.bin</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/Revector.bin</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1125,14 +1309,16 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>MonnLander Download BIN</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Moonlander.bin</URL>
-		<isZip>false</isZip>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Moon Lander (demo) (1997)(Clay Cowgill)(PD)[a].zip</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/Moonlander.bin</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/Moonlander.bin</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1189,7 +1375,7 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Amen Live Download BIN</Name>
-		<URL>http://atariage.com/forums/index.php?app=core&amp;module=attach&amp;section=attach&amp;attach_id=432781</URL>
+		<URL>http://binarystarsoftware.com/bin/AmenLive_v100.BIN</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
@@ -1197,6 +1383,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download/cartridges/AmenLive.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>moon_shot.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/moon_shot.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\moon_shot.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1225,6 +1423,18 @@
 		<DestinationDirAll>download/documents/games/3D-Crazy_Coaster_Manual.pdf</DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>treasure_diver.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2018/gallery/treasure_diver.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\treasure_diver.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>PDF</Class>
 		<Name>hurdles.pdf</Name>
 		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex/gallery/hurdles.pdf</URL>
@@ -1235,6 +1445,34 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\documents\games\hurdles.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>BloxOrzCart</Name>
+		<URL>https://github.com/FrankBuss/bloxorz/blob/master/Vide/bin/Bloxorz.bin?raw=true</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+			<FileInZip></FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked></FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\Bloxorz.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>StarSlingCartridge</Name>
+		<URL>http://vectrex.malban.de/ParaJVE_0.6.0_windows.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>ParaJVE\data\roms\homebrew\SSlingTE.bin</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download\cartridges\SSlingTE.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1299,16 +1537,30 @@
 		<DestinationDirAll>download/documents/games/Melody_Master_Manual.pdf</DestinationDirAll>
 	</Downloader>
 	<Downloader>
-		<Class>Cartridge</Class>
-		<Name>Vectopia Download bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Vectopia%20by%20John%20Dondzila%20%282001%29%20%28PD%29.bin</URL>
+		<Class>PDF</Class>
+		<Name>moon_shot.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/moon_shot.pdf</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/Vectopia.bin</DestinationDirAll>
+		<DestinationDirAll>download\cartridges\moon_shot.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>Vectopia Download bin</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]/GCE Vectrex - Games (TOSEC 2012-02-27)/Vectopia (2001)(Dondzila, John)(PD).zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/Vectopia.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>PDF</Class>
@@ -1324,15 +1576,29 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
-		<Name>OmegaChase Bin Download</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Omega%20Chase%20%28Final%20Version%29%20%281998%29%20%28PD%29.bin</URL>
+		<Name>fencing_simulator.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/fencing_simulator.bin</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/omageChase.bin</DestinationDirAll>
+		<DestinationDirAll>download\cartridges\fencing_simulator.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>OmegaChase Bin Download</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Omega Chase (1998)(Tumber, Christopher)(PD)[final].zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/omageChase.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1475,6 +1741,18 @@
 		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>PDF</Class>
+		<Name>vectroid.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/vectroid.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\vectroid.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Philly3.bin</Name>
 		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
@@ -1489,6 +1767,30 @@
 		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>unknown.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/unknown.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\unknown.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>dino_runner.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/dino_runner.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\dino_runner.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>PDF</Class>
 		<Name>baseloot.pdf</Name>
 		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex/gallery/baseloot.pdf</URL>
@@ -1499,6 +1801,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\documents\games\baseloot.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>blox.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/blox.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\blox.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1566,6 +1880,20 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
+		<Name>Patriots3 Download bin</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Patriots III - BALListics Busters (2002)(Dondzila, John)(PD).zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/Patriots3.BIN</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
 		<Name>V-THEREMIN Download BIN</Name>
 		<URL>http://binarystarsoftware.com/bin/V-THEREMIN_v101.BIN</URL>
 		<isZip>false</isZip>
@@ -1589,6 +1917,18 @@
 		<DestinationDirAll>download\cartridges\Royal21.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>PDF</Class>
+		<Name>dino_runner.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/dino_runner.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\dino_runner.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Subwars Download BIN</Name>
 		<URL>https://github.com/mountaingoate/vectrex/archive/master.zip</URL>
@@ -1603,16 +1943,30 @@
 		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
-		<Class>Cartridge</Class>
-		<Name>Gravitrex Download BIN</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Gravitrex%20by%20John%20Dondzila%20%282002%29%20%28PD%29.bin</URL>
+		<Class>PDF</Class>
+		<Name>unknown.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/unknown.pdf</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/gravitrex.bin</DestinationDirAll>
+		<DestinationDirAll>download\cartridges\unknown.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>Gravitrex Download BIN</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Gravitrex (2002)(Dondzila, John)(PD).zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/gravitrex.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1668,15 +2022,29 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
-		<Name>Patriots Download bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Patriots.BIN</URL>
+		<Name>portal_fight.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2018/gallery/portal_fight.bin</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/Patriots.BIN</DestinationDirAll>
+		<DestinationDirAll>download\cartridges\portal_fight.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>Patriots Download bin</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Patriots (1996)(Dondzila, John)(PD).zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/Patriots.BIN</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1748,27 +2116,55 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
-		<Name>SkiesWaterBallons Download Bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Spike%27s%20Water%20Balloons%20%28Analog%29%20by%20John%20Dondzila%20%282001%29%20%28PD%29.bin</URL>
+		<Name>keyboard_hero.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2018/gallery/keyboard_hero.bin</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/spikesBalloons.bin</DestinationDirAll>
+		<DestinationDirAll>download\cartridges\keyboard_hero.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>SkiesWaterBallons Download Bin</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Spike&apos;s Water Balloons (19xx)(Dondzila, John)(PD)[analog version].zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/spikesBalloons.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>PDF</Class>
+		<Name>blox.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/blox.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\blox.pdf</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>RockaroidsRemix bin Download</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/RockaroidsRemix.BIN</URL>
-		<isZip>false</isZip>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Rockaroids Remix - 3rd Rock (1996)(Dondzila, John)(PD).zip</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/RockaroidsRemix.BIN</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/RockaroidsRemix.BIN</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1780,7 +2176,7 @@
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download\cartridges\WAM_v100.BIN</DestinationDirAll>
+		<DestinationDirAll>download/cartridges/WAM_v100.BIN</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1793,6 +2189,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\cartridges\Vector21.BIN</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>CROSSFIRE_v101.BIN</Name>
+		<URL>http://binarystarsoftware.com/bin/CROSSFIRE_v101.BIN</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download/cartridges/CROSSFIRE_v101.BIN</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1821,16 +2229,42 @@
 		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
-		<Class>Cartridge</Class>
-		<Name>Nebula Download BIN</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/NebulaCommander.BIN</URL>
+		<Class>PDF</Class>
+		<Name>space_defender.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/space_defender.pdf</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/NebulaCommander.BIN</DestinationDirAll>
+		<DestinationDirAll>download\cartridges\space_defender.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>Nebula Download BIN</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Nebula Commander (2005)(Aker, Craig)(PD).zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/NebulaCommander.BIN</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>yarg_no_overlay.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2018/gallery/yarg_no_overlay.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\yarg_no_overlay.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1847,16 +2281,42 @@
 		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
-		<Class>Cartridge</Class>
-		<Name>RonanHabot Download BIN</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Ronen%27s%20Game%20Cart%20by%20Ronen%20Habot%20%282001%29%20%28PD%29.bin</URL>
+		<Class>PDF</Class>
+		<Name>donkey_kong.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/donkey_kong.pdf</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/RonanHabotGame.bin</DestinationDirAll>
+		<DestinationDirAll>download\cartridges\donkey_kong.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>RonanHabot Download BIN</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Rounders (demo) (2001-02-24)(Habot, Ronen).zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/RonanHabotGame.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>donkey_kong.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/donkey_kong.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\donkey_kong.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1886,6 +2346,18 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
+		<Name>space_defender.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/space_defender.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\space_defender.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
 		<Name>Reactor Download BIN</Name>
 		<URL>http://users.tmok.com/~gauze/vectrex/wip/reactor.bin</URL>
 		<isZip>false</isZip>
@@ -1909,9 +2381,21 @@
 		<DestinationDirAll>download/cartridges/Wheevec.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>PDF</Class>
+		<Name>fencing_simulator.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/fencing_simulator.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\fencing_simulator.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>Sound</Class>
 		<Name>YM DOWNLOAD ZIP</Name>
-		<URL>http://pacidemo.planet-d.net/aldn/ym/ST%20synth%20musics.ym.zip</URL>
+		<URL>https://pacidemo.planet-d.net/aldn/ym/ST%20synth%20musics.ym.zip</URL>
 		<isZip>true</isZip>
 		<FileInZips>
 		</FileInZips>
@@ -1919,6 +2403,18 @@
 		</FileUnpackeds>
 		<UnpackAll>true</UnpackAll>
 		<DestinationDirAll>download/sound/ym</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>PDF</Class>
+		<Name>dont_fall.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/dont_fall.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\dont_fall.pdf</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -1935,14 +2431,14 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>ISTRIPES Download BIN</Name>
-		<URL>http://www.vectorzoa.com/pubbins/ISTRIPES.BIN</URL>
+		<URL>https://web.archive.org/web/20190429152521/http://www.vectorzoa.com/pubbins/ISTRIPES.BIN</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/ColorTest.bin</DestinationDirAll>
+		<DestinationDirAll>download/cartridges/ISTRIPES.BIN</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -2045,6 +2541,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>PDF</Class>
+		<Name>daisy_land.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/daisy_land.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>daisy_land.pdf</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -2178,15 +2686,41 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
-		<Name>Tsunami Download bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Tsunami.bin</URL>
+		<Name>StormStorm.bin</Name>
+		<URL>https://w3g3a5v6.ssl.hwcdn.net/upload2/game/184375/638116?GoogleAccessId=uploader@moonscript2.iam.gserviceaccount.com&amp;Expires=1543089860&amp;Signature=PavNbbLz7oeARG3PY5OuilaLcTfLlohP9p9NM%2FKE3sdqC7GR7MLvHH%2Bp74vYC0syqF9BddwZaT3uxKmJdddog5FS7vgZaOyYmCXcVSxvdaMUCH1Lznl3t72SnzO3yW2joWNSNh0%2BIwc93%2FcIvQK1U6TdO%2FbmW2j0ku84ojANos1fVIYX553cOUwzEVHb5UlGmiitai2GZOx3zqeodi3X6BtDWKrPoSaNWOX2mO1P38G%2BRlp3kwBeyogSaFA9ql9%2Fr3t2IIcJukSG%2FK6a5%2B9j6tRdtIEEV%2FVm39XiOQQ%2Bj%2FHvH8reRM5kw0q4ACt%2FflNqD18uIMP76FKAhYSelQTDcw==&amp;hwexp=1543090120&amp;hwsig=838199228013b5cae8fef59668dfdcb4</URL>
 		<isZip>false</isZip>
 		<FileInZips>
 		</FileInZips>
 		<FileUnpackeds>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/Tsunami.bin</DestinationDirAll>
+		<DestinationDirAll>StormStorm.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>Tsunami Download bin</Name>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
+		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Vix (2002)(Tumber, Christopher)(PD).zip</FileInZip>
+		</FileInZips>
+		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/Vix.bin</FileUnpacked>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>PDF</Class>
+		<Name>vec_man.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/vec_man.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\vec_man.pdf</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -2199,6 +2733,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download\cartridges\lumisade.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>daisy_land.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/daisy_land.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\daisy_land.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -2251,6 +2797,18 @@
 		<DestinationDirAll>download\cartridges\robhop.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>pyoro_chan.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2018/gallery/pyoro_chan.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\pyoro_chan.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>PDF</Class>
 		<Name>Pole Position Manual PDF</Name>
 		<URL>http://www.vectrex.de/_static/2015/Pole_Position_Manual.pdf</URL>
@@ -2261,6 +2819,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download/documents/games/Pole_Position_Manual.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>floor_is_lava_vector_war_v2.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2018/gallery/floor_is_lava_vector_war_v2.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\floor_is_lava.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>PDF</Class>
@@ -2288,6 +2858,18 @@
 	</Downloader>
 	<Downloader>
 		<Class>PDF</Class>
+		<Name>castle_defender.pdf</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/castle_defender.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\castle_defender.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>PDF</Class>
 		<Name>Armor Attack Manual PDF</Name>
 		<URL>http://www.digitpress.com/library/manuals/vectrex/armor_attack.pdf</URL>
 		<isZip>false</isZip>
@@ -2301,14 +2883,16 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Vector Vaders Download BIN</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/VectorVaders.BIN</URL>
-		<isZip>false</isZip>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Vector Vaders (1996)(Dondzila, John)(PD).zip</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/VectorVaders.BIN</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/VectorVaders.BIN</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -2361,14 +2945,16 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>Vecmania 1 Download Bin</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/Vecmania%20Part%201%20by%20John%20Dondzila%20%281999%29%20%28PD%29.bin</URL>
-		<isZip>false</isZip>
+		<URL>https://ia800500.us.archive.org/zip_dir.php?path=/5/items/vectrex-vecmania.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>VecmaniaPart1-1999-PD.vec</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/Vecmania1.bin</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/Vecmania1.bin</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -2398,6 +2984,30 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
+		<Name>split_personality.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2018/gallery/split_personality.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\split_personality.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>Vec-ManCrt</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/vec_man.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\vec_man.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
 		<Name>MissileLords.bin</Name>
 		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
 		<isZip>true</isZip>
@@ -2424,6 +3034,18 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
+		<Name>castle_defender.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/castle_defender.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\castle_defender.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
 		<Name>ClimaxSlideshow.bin</Name>
 		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
 		<isZip>true</isZip>
@@ -2439,14 +3061,16 @@
 	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>VecSports Boxing Download BIN</Name>
-		<URL>http://www.zinineenijsje.nl/roms/vectrex/Homebrew/VecSportBoxing.bin</URL>
-		<isZip>false</isZip>
+		<URL>https://archive.org/download/GCE_Vectrex_TOSEC_2012_04_23/GCE_Vectrex_TOSEC_2012_04_23.zip</URL>
+		<isZip>true</isZip>
 		<FileInZips>
+			<FileInZip>GCE Vectrex [TOSEC]\GCE Vectrex - Games (TOSEC 2012-02-27)\Vecsports Boxing (2002)(Parssinen, Manu).zip</FileInZip>
 		</FileInZips>
 		<FileUnpackeds>
+			<FileUnpacked>download/cartridges/VecSportBoxing.bin</FileUnpacked>
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
-		<DestinationDirAll>download/cartridges/VecSportBoxing.bin</DestinationDirAll>
+		<DestinationDirAll></DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -2459,6 +3083,18 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll>download/cartridges/getIntoVectrex.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>vectroid.bin</Name>
+		<URL>http://eitidaten.fh-pforzheim.de/daten/mitarbeiter/johannsen/vectrex_2019/download/vectroid.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\vectroid.bin</DestinationDirAll>
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
@@ -2485,5 +3121,41 @@
 		</FileUnpackeds>
 		<UnpackAll>false</UnpackAll>
 		<DestinationDirAll></DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>QuartzQuestCart</Name>
+		<URL>https://denebola-interactive.itch.io/download-proxy/itchio/upload2/game/342404/1493864?GoogleAccessId=uploader@moonscript2.iam.gserviceaccount.com&amp;Expires=1572441868&amp;Signature=gSipZ8EaRS%2FSJY8vx2k%2B0iFpM%2FxhevlZ5KcoyQjIG3D3uSgS6PpCjsmTyGj9THQJU9UxAMa%2FHuEUCRu4eCajpKKQFP5uzX35zdFM6%2FHvUgppTGH2eTX0EQWt5%2FwscyRsWiWvm1RbR5tQLbF8s3y%2B%2FASG8qiKR5TuuDelBeJMJR3mnPenCvM1SexbGYEImbfWoJU%2Bt3X1zb21ct28px0RCdPjb%2FWJrtcNwew0CqSND2YKNP8aEpcC4a0tCg%2FzAh6wSw1UXag0kwESgN%2FwlWqvLghWdTTcw4VablD%2FaypHCFEczr9RKmLtE4PAjEObY79qeZMgIUMuloO6cHKVVEqx4Q==</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\QuartzQuestCart.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>AsteroidsCowboy.bin</Name>
+		<URL>http://vectrex.malban.de/tmp/AsteroidsCowboy.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download\cartridges\asteroid_cowboy.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
+		<Name>aa_beta0118.bin</Name>
+		<URL>http://entropy.tmok.com/~gauze/vectrex/wip/aa_beta0118.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>aa_beta0118.bin</DestinationDirAll>
 	</Downloader>
 </AllDownloader>

@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160906151831" />
+<meta name="date" content="20181124222016" />
 <!-- created with HelpSetMaker, ID=ae7f11e6 -->
 <title>FAQ debugging/dissi</title>
 </head>
@@ -137,5 +137,20 @@ Dissi displays the REAL number of cycles, some official tables only show the "ba
 <h2>In dissi is a "Label" panel, what can I use that for?</h2>
 
 <p>As the name suggests, this is a listing of all known labels. The advantage of the list is, that you can use it as a "table of contents" and quickly move to locations, double click on any entry jumps dissi to the given address, shift double click moves dumpi to the given address.</p>
+<h2>Can I debug code that is lying in RAM?</h2>
+
+<ol><li>
+<p>in dissi switch "nu" (no unkown) to not selected (GUI checkbox)</p>
+</li><li>
+<p>better switch of "following" of dissi "df" (don't follow) (CLI command)</p>
+</li><li>
+<p>switch on disassemble ram with "dr" disasm RAM (CLI command)</p>
+</li></ol>
+
+<p>Now RAM will be viewable in dissi. But usually all RAM is configured as Data - so no code will be displayed. While dissi is not tracking (camera is OFF) - best done also in pause mode, mark a RAM memory region and via popup menu cast to code. Perhaps you habe to "shift" memory regions, with "cast to byte" and "ungroup" also, to access the addresses that need to be cast to code.</p>
+
+<p>Disassembling RAM takes many resources, since the DISASM is done for each RAM - poke. If you do not need to disasm RAM, you better leave it switched off.</p>
+
+<p>Also note - disasm RAM might be usefull for bankswitch disasm. The cast to disasm is only done for the current active bank in dissi. Upon a bankswitch the casts have to be redone for the other bank!</p>
 </body>
 </html>

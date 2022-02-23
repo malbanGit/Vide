@@ -96,7 +96,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     // adds a green"asterix" to the bottom, which lights up when Syntax scan is active!
     
     private String lastPath="";    
-    public static String SID = "codi";
+    public static String SID = "Code Examples";
     public String getID()
     {
         return SID;
@@ -122,8 +122,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Codi");
-
+        mParentMenuItem.setText(getID());
     }
     protected boolean closeRequested(String tabName)
     {

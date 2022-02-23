@@ -114,7 +114,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     }        
     BankMainTableModel model = new BankMainTableModel();
     
-    public static String SID = "cartPropEdit";
+    public static String SID = "Cartridge Editor";
     public String getID()
     {
         return SID;
@@ -141,7 +141,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("CartPropEdit");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

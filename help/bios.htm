@@ -2399,7 +2399,7 @@ Rot_VL:         PSHS    DP
 ; pointer to the vector list.  The U register contains a pointer to a   ;
 ; buffer into which the transformed points are to be saved.             ;
 ;                                                                       ;
-; ENTRY DP = $C8                                                        ;
+; ENTRY DP = $C8 (Rot_VL_M_dft only)                                                        ;
 ;       A-reg = rotation angle value (Rot_VL_Mode only)                 ;
 ;       X-reg points to original vector list                            ;
 ;       U-reg points to rotated vector list                             ;
@@ -2749,7 +2749,7 @@ LF793_RTS:      RTS
 ;       $C879 contains number of players selected                       ;
 ;       $C87A contains the game version selected                        ;
 ;                                                                       ;
-;       D-reg, X-reg, Y-reg trashed                                     ;
+;       D-reg, X-reg, U-reg, Y-reg trashed                                     ;
 ;-----------------------------------------------------------------------;
 
 Player_Str:     FDB     $20C0

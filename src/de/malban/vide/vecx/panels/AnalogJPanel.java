@@ -38,7 +38,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
     private javax.swing.JMenuItem mParentMenuItem = null;
     private int mClassSetting=0;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
-    public static String SID = "ani";
+    public static String SID = "Debug: Analog";
     public String getID()
     {
         return SID;
@@ -83,7 +83,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Analog Stuff");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

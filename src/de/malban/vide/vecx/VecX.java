@@ -4600,6 +4600,7 @@ pb6_out = npb6;
                                 if (r == 10) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 11) toWrite = (byte) (toWrite & 0xff);
                                 if (r == 12) toWrite = (byte) (toWrite & 0xff);
+// R 13 handled in     public void addSoundRecord()
  //                               if (r == 13) toWrite = (byte) (toWrite & 0x0f);
                                 if (r == 14) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 15) toWrite = 0;
@@ -4642,6 +4643,7 @@ pb6_out = npb6;
                                 if (r == 10) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 11) toWrite = (byte) (toWrite & 0xff);
                                 if (r == 12) toWrite = (byte) (toWrite & 0xff);
+// R 13 handled in     public void addSoundRecord()
 //                                if (r == 13) toWrite = (byte) (toWrite & 0x0f);
                                 if (r == 14) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 15) toWrite = 0;
@@ -4669,7 +4671,7 @@ pb6_out = npb6;
                         output.write(getLongBytes(recordData.size()));
                         output.write(getLongBytes(1));
                         output.write(getWordBytes(0));
-                        output.write(getLongBytes(2000000));
+                        output.write(getLongBytes(1500000));
                         output.write(getWordBytes(50));
                         output.write(getLongBytes(0));
                         output.write(getWordBytes(0));
@@ -4702,6 +4704,10 @@ pb6_out = npb6;
                                 if (r == 10) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 11) toWrite = (byte) (toWrite & 0xff);
                                 if (r == 12) toWrite = (byte) (toWrite & 0xff);
+                                
+// R 13 handled in     public void addSoundRecord()
+                                
+                                
 //                                if (r == 13) toWrite = (byte) (toWrite & 0x0f);
                                 if (r == 14) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 15) toWrite = 0;
@@ -4749,7 +4755,7 @@ pb6_out = npb6;
         synchronized(recordData)
         {
             byte[] psgData = new byte[16];
-            
+            if (recordData == null) return;
             int lastReg13 = 256;
             if (recordData.size()>0)
             {

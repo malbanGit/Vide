@@ -45,7 +45,7 @@ public class LabelJPanel extends javax.swing.JPanel implements
     private int mClassSetting=0;
     private DissiPanel dissi = null;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
-    public static String SID = "labi";
+    public static String SID = "Debug: Labels";
     boolean systemLabels = false;
     
     ArrayList<MemoryInformation> labels = new ArrayList<MemoryInformation>();
@@ -136,7 +136,7 @@ public class LabelJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Labels");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

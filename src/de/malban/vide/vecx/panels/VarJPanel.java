@@ -56,7 +56,7 @@ public class VarJPanel extends javax.swing.JPanel implements
     private int mClassSetting=0;
     private DissiPanel dissi = null;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
-    public static String SID = "vari";
+    public static String SID = "Debug: Variables";
     ArrayList<MemoryInformation> variables = new ArrayList<MemoryInformation>();
     Memory memory = null;
     boolean onlyUserRam = false;
@@ -145,7 +145,7 @@ public class VarJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Variables");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -752,13 +752,25 @@ public class VarJPanel extends javax.swing.JPanel implements
                         }
                         if (colIndex == 2) // 8 bit
                         {
+                            
                             tip += "decimal: "+val1+"(unsigned)<BR>";
                             tip += "decimal: "+(val1>128?val1-256:val1)+"(signed)<BR>";
+                            if ((val1>=32) && (val1<127))
+                               tip += "ascii: '"+(char) (val1)+"'<BR>";
+
                         }
                         if (colIndex == 3) // 16 bit
                         {
                             tip += "decimal: "+val2+"(unsigned)<BR>";
                             tip += "decimal: "+(val2>32768?val2-65536:val2)+"(signed)<BR>";
+
+                            int vhi = val2/256;
+                            int vlo = val2&0xff;
+                            if ((vhi>=32) && (vhi<127))
+                               tip += "ascii(1): '"+(char) (vhi)+"'<BR>";
+                            if ((vlo>=32) && (vlo<127))
+                              tip += "ascii(2): '"+(char) (vlo)+"'<BR>";
+
                         }
                         if (colIndex == 4) // comments
                         {

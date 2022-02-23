@@ -1355,7 +1355,7 @@ FORCE_SYMBOL $04A3 joy_x
 COMMENT $04A6 done
 COMMENT_LINE $04A7 the "you" string is shown with different intensity levels
 COMMENT_LINE $04A7 this is an offset table to the intensities used (16) -> blinking
-RANGE $0000-$0190 DP $D0
+RANGE $0017-$0190 DP $D0
 RANGE $0190-$01A1 DP $FF
 RANGE $01A1-$04B5 DP $D0
 RANGE $0000-$000B CHAR_DATA 11

@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222015" />
+<!-- created with HelpSetMaker, ID=09fd2777 -->
+<title>Emulation: Card LED</title>
+</head>
+<body class="doc">
+<h1>Emulation: Card LED</h1>
+
+<p>There are a couple of cartridges done by Chris Malcom aka Binarystar, that support a LED in the cartridge.</p>
+
+<p>To actually see the emulation, you need a ROM dump of the card, the "free" version does not contain the corresponding code sections.</p>
+
+<p>There is now a special cartridge flag for supporting this feature.</p>
+
+<p>The actual emulation of that is straight forward.  The LED is triggered by the "usual" PB6. If the line is 0, the LED is switched on, if the line is 1, the line is switched off.</p>
+<br/><p align="center">
+<img src="pics/Xmas.gif" width="320" height="427" /><br/>
+<em>Xmas example</em></p><br/>
+</body>
+</html>

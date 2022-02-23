@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160906151831" />
+<meta name="date" content="20181124222016" />
 <!-- created with HelpSetMaker, ID=5838f00b -->
 <title>VIA Versatile Interface Adapter  6522A MOS Technology</title>
 </head>
@@ -110,9 +110,22 @@ This signal indicates that the bus                             contains a regist
 </li><li>
 <p>a shift is started by reading and by writing to the shiftreg</p>
 </li></ul>
+
+<p><b>Note:</b><br />
+Why 18 cycles and 9 shifts?<br />
+This is because (most) VIA ships (all vectrex used ships to my knowledge) have a bug.<br />
+<br />
+<i>When shifting using Phi2 (System clock) [Mode 110, see below], VIA outputs 9 shift pulses, the last shifted value is repeated.</i></p>
+
+<p>[See: Synertek sy6522 Applications Information AN5 March 1982]</p>
 <h3>Register $b VIA Auxiliary control register</h3>
 
-<p>With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any since for vectrex).</p>
+<p>With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any sense for vectrex).</p>
+
+<p><tt> +---+---+---+---+---+---+---+---+<br />
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |<br />
++---+---+---+---+---+---+---+---+<br />
+|___T1__|T2_|___SHIFT___|PB_|PA_|                   </tt></p>
 
 <p>SHIFT Mode is contolled by bit 2-4 with these 3 bits 8 SHIFT mode can be configured<br />
 The first mode is DISABLE. The next 3 modes are SHIFT IN modes, which is not used by vectrex.</p>
@@ -165,6 +178,11 @@ CB2<br />
 
 <p>All control lines act as interrupt inputs or as handshake Outputs.</p>
 
+<p><tt> +---+---+---+---+---+---+---+---+<br />
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |<br />
++---+---+---+---+---+---+---+---+<br />
+|____CB2____|CB1|____CA2____|CA1|</tt></p>
+
 <p>For vectrex anlog parts (and for now) the lines CA2 (ZERO) and CB2 (BLANK) are <i>most</i> interesting.</p>
 
 <p>CA1<br />
@@ -201,6 +219,9 @@ Responsible bits are bit 5-7:
 <p>%110x111x = $ce means ZERO disabled, and BLANK enabled</p>
 </li></ul>
 </p>
+
+<p><b>Note:</b><br />
+The manual appliance to the BLANK singnal with the control register only has any effect if SHIFT is switched to OFF. </p>
 <h3>Via Interrupt Flag Reg $d</h3>
 
 <p>Write one to a bit resets the interrupt flag.</p>

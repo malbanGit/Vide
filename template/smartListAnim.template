@@ -1234,6 +1234,8 @@ SM_startMove_newY_eq_oldX_single_sj ;#isfunction
                     INIT_MOVE_SJ  
                     ADD_NOPS_NOU                          ; reduced by ldu ,u - 5 cycles 
                     pulu     b,x,pc 
+
+SM_startDraw_yd4_newY_eq_oldX_single:
 SM_startDraw_newY_eq_oldX_single:                       ;#isfunction  
                     sta      <VIA_port_b                  ; 4 
                     ldb      #SHITREG_POKE_VALUE 

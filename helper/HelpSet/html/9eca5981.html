@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222014" />
+<!-- created with HelpSetMaker, ID=9eca5981 -->
+<title>Debugging C</title>
+</head>
+<body class="doc">
+<h1>Debugging C</h1>
+
+<p><b>Note</b><br />
+The debugging in "C" is not that well tested, should errors occur while debugging (compiler errors?), than switch debugging off and tell me what happened, so I can enhance Vide!)<br />
+(In order to be able to show the "C" contents in the assembler listing, I internally change the "C" file and compile it with different settings - so there <i>might</i> be errors, that only occur while using debug settings!) (see also "Optimizing C" and search for "EnrichmentOff")</p>
+<h2>Using Vedi &amp; dissi</h2>
+
+<p>Vedi is able to generate additional "C" debug information. To enable this go to your current C-Project, open the project configuration and check the checkbox "C debugging".</p>
+
+<p>If enabled, Vide will generate for each "C"-File additional information.</p>
+
+<p><b>Note</b>:<br />
+As of now this only works for "*.c" files, included files are <b>not</b> processed in any way, even if included from in a "c" file that is otherwise processed.</p>
+
+<p>In dissi additional "C"-lines are places within the disassembled sources, like:</p>
+<br/><p align="center">
+<img src="pics/cdebug.png" width="1018" height="615" /><br/>
+<em>dissi with c-lines</em></p><br/>
+
+<p>Using Vide you can also set breakpoints to C-lines (if above restrictions are observed):</p>
+<br/><p align="center">
+<img src="pics/CBreakpoints.png" width="921" height="604" /><br/>
+<em>breakpoint from C-sources</em></p><br/>
+
+<p>That is all there is for now regarding debugging "C". The rest is the same a debugging assembler sources, mainly using dissi and its children.</p>
+<h2>Watches</h2>
+
+<p>It is not possible yet to define watches for C-variables using the editor (Vedi). However global variables can be viewed as always using dissi and vari.</p>
+
+<p>Just remember, that "C"-Variables have a leading underscore "_".</p>
+
+<p>Local variables are located on the stack - there is no "easy" way to watch them (yet). If you need to, you can determine their stack address and add a watch manually via dissi command line, like:<br />
+<tt><br />
+watch $CBC9 1</tt><br />
+</p>
+<h2>Stack frame</h2>
+
+<p>Using the debugger... There is no special stack frame display available for local "C" variables.</p>
+
+<p>This is mainly due to the fact, that local variables can have the same names on one stackframe - and to display the varnames as stack addresses could possibly have double meanings.</p>
+
+<p>Example: <tt><br />
+__INLINE void testFunc()<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int xx = 1;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
+}<br />
+int main(void)<br />
+{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int xx = 2;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testFunc();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>here</b><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
+}<br />
+</tt><br />
+</p>
+
+<p>At the position of <b>here</b> (well INSIDE the inline function that is) the variable "xx" would be two times on the stack, once from main(), and once from testFunc(). One would (example) accessed with <br />
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb 6,s</tt><br />
+the other possibly with <br />
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb 7,s</tt><br />
+or the like. Naming the offsets (6 and 7 in this case) like the variable would be crossly confusing.</p>
+
+<p>GCC generates comments, when accessing local variable. When you look at the comment section of dissi, you will see the variable name.</p>
+<br/><p align="center">
+<img src="pics/accessingxx.png" width="973" height="99" /><br/>
+<em>local var display in comment</em></p><br/>
+</body>
+</html>

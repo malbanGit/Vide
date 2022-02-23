@@ -41,7 +41,7 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
     private int mClassSetting=0;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
     private DissiPanel dissi = null;
-    public static String SID = "ProfilePanel";
+    public static String SID = "Debug: Profiler";
     boolean nameChanged = false;
     public String getID()
     {
@@ -92,7 +92,7 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Profiling");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -332,8 +332,9 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
         {
             boolean ok = true;
             if (profiler == null) ok = false;
-            if (vecxPanel == null) ok = false;
-            if (row >=profiler.routines.size()) ok = false;
+            if (ok) if (vecxPanel == null) ok = false;
+            if (ok) if (profiler.routines == null) ok = false;
+            if (ok) if (row >=profiler.routines.size()) ok = false;
             
             if (!ok)
             {

@@ -218,7 +218,7 @@ public class VecXPanel extends javax.swing.JPanel
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("VecX");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -1982,7 +1982,7 @@ waitAMoment = false;
 
     }
     
-    public static String SID = "vecxi";
+    public static String SID = "Emulator";
     public String getID()
     {
         return SID;

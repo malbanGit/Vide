@@ -64,7 +64,7 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Vecci Editor");
+        mParentMenuItem.setText("Vector: Editor single");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -352,7 +352,7 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         SingleVecciPanel panel = new SingleVecciPanel(v);
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 919, 387, "Vecci Editor");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 919, 387, "Vector: Editor single");
        return panel;
     }        
     public SingleVectorPanel getSVP()

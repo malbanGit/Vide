@@ -7,7 +7,7 @@ The vectrex BIOS stores a raster "image" of all characters supported, this can b
 
 :image dumpiChars.png|Dumpi
 
-Each char is represented by 7 bytes, each byte repressents one row of the character and each bit position one column. So the "pixel" size of one char is 8*7 (height * width).
+Each char is represented by 7 bytes, each byte repressents one row of the character and each bit position one column. So the "pixel" size of one char is 8*7 (width * height).
 
 If a string is to be printed, the BIOS loads the address of the bitmap, examines each character of the string and uses the char values as a lookup reference into the raster image and outputs in one long line the first row of all characters of the string.
 

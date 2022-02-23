@@ -114,7 +114,7 @@ public class VectorInfoJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Vector Information");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -524,7 +524,7 @@ public class VectorInfoJPanel extends javax.swing.JPanel implements
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 
-    public static String SID = "vinfi";
+    public static String SID = "Debug: Vector info";
     public String getID()
     {
         return SID;

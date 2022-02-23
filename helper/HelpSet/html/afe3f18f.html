@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222015" />
+<!-- created with HelpSetMaker, ID=afe3f18f -->
+<title>Input-Settings</title>
+</head>
+<body class="doc">
+<h1>Input-Settings</h1>
+<h1>Input</h1>
+<br/><p align="center">
+<img src="pics/jinput.png" width="582" height="948" /><br/>
+<em>input settings</em></p><br/>
+
+<p>Here you can configure additional input settings for different inout "hardware" for use with the emulator. The code is based on the "JInput" library.</p>
+
+<p>The tab is split into two halfs, the upper half representing the vectrex "side" the lower half representing the input device parameters.</p>
+
+<p>There are at the moment two types of vectrex input types:
+<ol><li>
+<p>Joystick</p>
+</li><li>
+<p>spinner (like atari driving paddle)</p>
+</li></ol>
+</p>
+
+<p>Pressing one button on the vectrex half enables "input chosing" - pressing (or moving) the actual hardware of the selected "real" input device - connects the two sides.</p>
+
+<p><b>Note</b>:<br />
+When the mouse is chosen as an input device - to configure buttons "other" than the left mouse button:
+<ul><li>
+<p>click button with left mousebutton and HOLD the left mouse button pressed</p>
+</li><li>
+<p>click the other button you want to use, after that release the left mouse button</p>
+</li><li>
+<p>the configuration is activated by a "button press" event and finished by the first "button release" event</p>
+</li><li>
+<p>thus the first button that is released is taken as the configured input button</p>
+</li></ul>
+</p>
+
+<p>Pressing <img src="pics/disk_add.png" alt="disk_add.png" /> saves the configuration (after a valid name was entered).</p>
+
+<p>Upon the next start of a vecxi window, the new input settings will be appear in the Joyport selection boxes.</p>
+
+<p>Devices will be remembered for the next vide-sessions, however should the device not be available, it won't appear in the combobox.</p>
+<br />
+
+<p><b>Note</b>:<br />
+There is a global setting for spinner emulation: "minimum cycles bewteen spinner events". Following an explanation where this value is derived from, and when you might want to change it:</p>
+
+<p>The driving atari-controller works thus, that the state of two switches form a 2 bit value, the actual spinner "rotates" the switch states 00 01 10 11 (binary).</p>
+
+<p>The direction of rotation is computed via two of such states:<br />
+
+<ul><li>
+<p>left direction is computed when following states succeed each other:<br />
+ 00 &rarr; 01 <br />
+ 01 &rarr; 11 <br />
+ 10 &rarr; 00 <br />
+ 11 &rarr; 10  </p>
+</li><li>
+<p>right direction is computed when following states succeed each other: <br />
+ 00 &rarr; 10 <br />
+ 01 &rarr; 00 <br />
+ 10 &rarr; 11 <br />
+ 11 &rarr; 01</p>
+</li></ul>
+</p>
+
+<p>All other succeeding "pairs" of states are "illegal" or no "movements" and are as such taken as "no movement".</p>
+
+<p>The emulated paddle sets these paddle "button" values (button 1+2 of the used joyport) in the correct order at "fixed" intervalls. The minimum intervall these values are set is the cycle count given in the parameter "minimum cycles bewteen spinner events".<br />
+(if you use analog emulation as input, than "slower" spinning is a multiple of that value)</p>
+
+<p>So...<br />
+If your vectrex game, refreshes once each 30000 cycles and you call the paddle "read"-routine every 30000 cycles everything is fine (default setting).</p>
+
+<p>But if your game refreshes each 20000 and also reads paddle values each 20000 cylces the above state-order will "hickup" and some states will be read as "no movement".</p>
+
+<p>Same happens if you read more paddle events per update round.</p>
+
+<p>I think for most games the 30000 will be ok, but with the value "minimum cycles bewteen spinner events" you can actually alter the emulation of the paddle to accomodate possible slower games or multiple update readings.</p>
+</body>
+</html>

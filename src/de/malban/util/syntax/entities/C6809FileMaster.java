@@ -9,6 +9,7 @@ import de.malban.Global;
 import de.malban.vide.vedi.EditorPanel;
 import java.io.File;
 import java.io.FileReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -139,6 +140,12 @@ public class C6809FileMaster
         try 
         {
             filename = de.malban.util.UtilityFiles.convertSeperator(filename);
+            if(!Files.exists(Paths.get(filename)))
+            {
+                return "";
+            }
+                    
+                    
             String edited = EditorPanel.getTextForFile(filename);
             if (edited != null) return edited;
             

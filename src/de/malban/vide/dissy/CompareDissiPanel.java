@@ -94,7 +94,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Dissi");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -1531,7 +1531,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
         return dasm.myMemory;
     }
     
-    public static String SID = "cdissi";
+    public static String SID = "Compare Disassembled";
     public String getID()
     {
         return SID;

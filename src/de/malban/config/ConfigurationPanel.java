@@ -63,7 +63,7 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Configuration");
+        mParentMenuItem.setText("Application configuration");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

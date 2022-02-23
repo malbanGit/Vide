@@ -701,12 +701,17 @@
 </DocumentNode>
 <DocumentNode>
 <Filename>eae1f853</Filename>
-<Title>Programming the Vectrex</Title>
+<Title>Vectrex programming</Title>
 <FullTextSearch>true</FullTextSearch>
 <DocumentNode>
 <Filename>a1c5ac89</Filename>
 <Title>Strings - Raster</Title>
 <FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>5048d125</Filename>
+<Title>BIOS Strings - Italic - Timing?</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
 </DocumentNode>
 <DocumentNode>
 <Filename>17fcdfd5</Filename>
@@ -828,6 +833,36 @@
 </DocumentNode>
 </DocumentNode>
 <DocumentNode>
+<Filename>28aeb1d2</Filename>
+<Title>Vectrex hardware</Title>
+<FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>5a3cfa62</Filename>
+<Title>Cartridge</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>6d35c308</Filename>
+<Title>Joystick/Joypad</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>44024f9b</Filename>
+<Title>Spinner</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>5dc001ee</Filename>
+<Title>Cap Kits</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>d4cf2740</Filename>
+<Title>Other</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+</DocumentNode>
+<DocumentNode>
 <Filename>81cde044</Filename>
 <Title>Thanks!</Title>
 <FullTextSearch>true</FullTextSearch>
@@ -899,6 +934,12 @@
 <ImageLibrary>
 <Root>C:\t\Vide\helper\Images</Root>
 <Root>C:\t\csa\Veccy\helper\Images</Root>
+<Image Name="2BitGray.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1533318464000</Timestamp>
+<Width>200</Width>
+<Height>200</Height>
+</Image>
 <Image Name="2dtools.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1476433994000</Timestamp>
@@ -1498,6 +1539,12 @@
 <Timestamp>1498812592000</Timestamp>
 <Width>407</Width>
 <Height>399</Height>
+</Image>
+<Image Name="String1.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1539463249963</Timestamp>
+<Width>529</Width>
+<Height>198</Height>
 </Image>
 <Image Name="Sweep2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -2633,6 +2680,7 @@
 <Width>1026</Width>
 <Height>599</Height>
 </Image>
+<ThumbName Image="2BitGray.png">92bfff5e</ThumbName>
 <ThumbName Image="2dtools.png">6ff3224a</ThumbName>
 <ThumbName Image="9bitnok.png">1069dbc9</ThumbName>
 <ThumbName Image="9bitok.png">f29b422c</ThumbName>
@@ -2733,6 +2781,7 @@
 <ThumbName Image="StertVedi.png">a4685d81</ThumbName>
 <ThumbName Image="Storyboard.png">b4f53eff</ThumbName>
 <ThumbName Image="Storyboard2.png">2555a5b1</ThumbName>
+<ThumbName Image="String1.png">5c4a7e8d</ThumbName>
 <ThumbName Image="Sweep2.png">437aa7a3</ThumbName>
 <ThumbName Image="ThrustShipExample.png">02672c43</ThumbName>
 <ThumbName Image="ThrustTitle.jpg">57205761</ThumbName>

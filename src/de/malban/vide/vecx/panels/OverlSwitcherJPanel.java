@@ -71,7 +71,7 @@ public class OverlSwitcherJPanel extends javax.swing.JPanel implements Windowabl
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Overlay Switcher");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

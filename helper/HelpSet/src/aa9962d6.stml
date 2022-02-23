@@ -264,13 +264,14 @@ The routines as they are, are prepared to generate wait statements for the scale
 
 Ah - well - just look at the routines you will figure out what I mean. 
 
-The UI in vecci includes some stuff I prepared for (but have not implemented yet), following things can be done:
-- default intensity (not implemented)
-- default scale (not implemented)
+The UI in vecci includes some stuff I prepared for, following things can be done:
+- default intensity 
+- default scale 
 - default factor - can be set to a number if the checkbox is set
 - name is the base name for the generated data
 - build list, generates a smart list output to the textarea of a single vector list
 - build anim list, generates a smart list output to the textarea of all animation vectorlists
+- build scenario list, generates a smart list output to the textarea of all scenario vectorlists
 - jump on last move~~
   if the last vector in a list is a move, than this option enables the "jump" to another smart list, the name given in the textfield below gives the destination name.~~
 Where this might be usefull:~~
@@ -279,6 +280,10 @@ In vectorblade all bonus items have a frame (circular/rectangle etc), with this 
 
 The other items (runnable, run, edit) are the same as for the other generators
 
-  
+**Note on Smartlists:~~**
+a) the "code section" of the smartlist is always for one scale only!~~If you want to use smartlists for different scales - you have to "double" and rename all smartlist functions and, also the generated names in the data section of the vectorlist 
+b) the generated sources for smartlist always include "calibration" (via joystick) whether you want to use calibratioin in your final "product" is up to you though (just remove the calibration code) 
+c) Smartlists output quality is "time based". That means for a certain amount the smartlist will output vector list fairly stable. A smarlist with scale 9 might be able to ouput 60-70 vectors stable. A Smartlist with a scale of 70 will probably only output 30 vectors stable - here you have to look for yourself and draw your lists accordingly. Greater scale vectorlists can be output via a scenario, the optimal "cutting" and "glueing" of a good scenario is up to the user though.
+d) If the scale of a smartlist is greater 9 - than wait statements in the form of NOPs are inserted. This can get "out of hand" code wise. For each two scale above 9 there will be one NOP inserted in each smartlist function. If you use a scale of 79 than 35 NOPs are inserted into every smartlist function. There are about 30 SM_xxx functions using high scales can easily insert hundredes and hundreds of NOPs. This is neither smart nor efficient. If you want to use smartlists with large scales - manually edit the "wait" statements and insert some more memory saving wait (jsr delayXX or something similar).
 
 

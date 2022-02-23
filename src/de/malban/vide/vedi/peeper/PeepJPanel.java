@@ -68,7 +68,7 @@ public class PeepJPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Peepconfig");
+        mParentMenuItem.setText("C: Peephole config");
 
     }
     @Override
@@ -277,7 +277,7 @@ public class PeepJPanel extends javax.swing.JPanel implements
         
         ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonOk);
-        ModalInternalFrame modal = new ModalInternalFrame("Peepconfig", frame.getRootPane(), frame, panel,null, null , eb);
+        ModalInternalFrame modal = new ModalInternalFrame("C: Peephole config", frame.getRootPane(), frame, panel,null, null , eb);
 
         
         panel.modelDialog = modal;

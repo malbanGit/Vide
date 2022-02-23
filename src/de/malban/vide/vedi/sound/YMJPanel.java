@@ -119,7 +119,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("YMPanel");
+        mParentMenuItem.setText("Sound: YM Editor/Converter");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -4888,7 +4888,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         YMJPanel panel = new YMJPanel(fileName, tl);
         panel.standalone = sa;
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1300, 800, "YMPanel");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1300, 800, "Sound: YM Editor/Converter");
        
        if (tl instanceof VediPanel32)
        {

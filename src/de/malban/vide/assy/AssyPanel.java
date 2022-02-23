@@ -11,10 +11,6 @@ import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  *
@@ -56,7 +52,7 @@ public class AssyPanel extends javax.swing.JPanel  implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Assy");
+        mParentMenuItem.setText("6809 Assembler");
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

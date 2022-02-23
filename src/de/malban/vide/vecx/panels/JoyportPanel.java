@@ -47,7 +47,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
     private int mClassSetting=0;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
     private DissiPanel dissi = null;
-    public static String SID = "device";
+    public static String SID = "Debug: Devices";
     boolean nameChanged = false;
     WheelData currentWheel = null;
     public String getID()
@@ -99,7 +99,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Device");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()

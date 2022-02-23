@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20181124222014" />
+<!-- created with HelpSetMaker, ID=a269302a -->
+<title>Linking</title>
+</head>
+<body class="doc">
+<h1>Linking</h1>
+
+<p>For now the vectrex C setup uses the complete toolchain Peer build. This means after the assemble stage the linker ASLINK is called.</p>
+
+<p>ASLINK is called with following options:
+<ul><li>
+<p>-n No echo of commands to stdout</p>
+</li><li>
+<p>-m Map output generated as (out)file[.map]</p>
+</li><li>
+<p>-u Update listing file(s) with link data as file(s)[.rst]</p>
+</li><li>
+<p>-w Wide listing format for map file</p>
+</li><li>
+<p>-s Motorola S Record as (out)file[.s--]</p>
+</li><li>
+<p>-k Library path specification, one per -k</p>
+</li></ul>
+</p>
+
+<p>-k is called with library path set to:<br />
+<br />
+<tt>".../Vide/C/PeerC/lib/"</tt><br />
+</p>
+
+<p>After these standard options, following libraries are passed:
+<ul><li>
+<p>-l libgcov.a</p>
+</li><li>
+<p>-l as-libgcc.a</p>
+</li><li>
+<p>-l libgcc.a<br />
+ <br />
+</p>
+</li><li>
+<p>"output" filename: "Projectname".s19<br />
+ <br />
+</p>
+</li><li>
+<p>all "*.rel" from the directory "<tt>.../Vide/C/PeerC/vectrex/lib/</tt>" starting with "<tt>crt0.rel</tt>"</p>
+</li><li>
+<p>all "*.rel" from the directory "<tt>YOUR_PROJECT/build/lib/</tt>"</p>
+</li><li>
+<p>all "*.rel" from the directory "<tt>YOUR_PROJECT/lib/</tt>"</p>
+</li></ul>
+</p>
+
+<p>These options can not be altered.</p>
+
+<p>     </p>
+</body>
+</html>

@@ -408,7 +408,14 @@ public class EditorPanel extends EditorPanelFoundation
         new HotKey("EditorSearchCut", javax.swing.text.DefaultEditorKit.cutAction,  jTextPane1);
         new HotKey("EditorSearchSelect", javax.swing.text.DefaultEditorKit.selectAllAction,  jTextPane1);
         
-        
+
+        if (Global.getOSName().toUpperCase().contains("MAC"))
+        {
+            new HotKey("FirstCharInLine", javax.swing.text.DefaultEditorKit.beginLineAction, jTextPane1);
+            new HotKey("LastCharInLine", javax.swing.text.DefaultEditorKit.endLineAction, jTextPane1);
+            new HotKey("FileStart", javax.swing.text.DefaultEditorKit.beginAction, jTextPane1);
+            new HotKey("FileEnd", javax.swing.text.DefaultEditorKit.endAction, jTextPane1);
+        }
         
         new HotKey("unindent", shiftTabAction, jTextPane1);
         new HotKey("indent", tabAction, jTextPane1);
@@ -1561,7 +1568,22 @@ e.printStackTrace();
             String text = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength()).substring(startSearchPos);
             if (ignoreCase) text = text.toLowerCase();
             int startPos = text.indexOf(toSearch);
-            if (startPos<0) return false;
+            if (startPos<0) 
+            {
+                // start from top again
+                if (startSearchPos>1)
+                {
+                    startSearchPos = 0;
+                    text = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength()).substring(startSearchPos);
+                    if (ignoreCase) text = text.toLowerCase();
+                    startPos = text.indexOf(toSearch);
+                    if (startPos<0) 
+                    {
+                        return false;
+                    }
+                    parent.wrapped = true;
+                }
+            }
 
             jTextPane1.setSelectionStart(startPos+startSearchPos);
             jTextPane1.setSelectionEnd(startPos+startSearchPos+toSearch.length());
@@ -1579,12 +1601,18 @@ e.printStackTrace();
     {
         try
         {
-            
             if (ignoreCase) toSearch = toSearch.toLowerCase();
             String text = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength()).substring(0,jTextPane1.getCaretPosition());
             if (ignoreCase) text = text.toLowerCase();
             int startPos = text.lastIndexOf(toSearch);
-            if (startPos<0) return false;
+            if (startPos<0) 
+            {
+                text = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength());
+                if (ignoreCase) text = text.toLowerCase();
+                startPos = text.lastIndexOf(toSearch);
+                if (startPos<0) return false;
+                parent.wrapped = true;
+            }
 
             jTextPane1.setSelectionStart(startPos);
             jTextPane1.setSelectionEnd(startPos+toSearch.length()-1); // -1 look shiity, but enables another previous search

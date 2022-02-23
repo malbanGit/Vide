@@ -191,7 +191,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     public void setMenuItem(javax.swing.JMenuItem item)
     {
         mParentMenuItem = item;
-        mParentMenuItem.setText("Memory dump");
+        mParentMenuItem.setText(SID);
     }
     @Override
     public javax.swing.JMenuItem getMenuItem()
@@ -1249,7 +1249,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     private de.malban.graphics.Single3dDisplayPanel single3dDisplayPanel1;
     // End of variables declaration//GEN-END:variables
    
-    public static String SID = "dumpi";
+    public static String SID = "Debug: Memory dump";
     public String getID()
     {
         return SID;
