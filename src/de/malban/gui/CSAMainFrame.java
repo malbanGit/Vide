@@ -24,6 +24,7 @@ import de.malban.gui.panels.TipOfDayGUI;
 import de.malban.gui.panels.WindowablePanel;
 import de.malban.jdbc.DBConnectionEdit;
 import de.malban.jdbc.StatementWindow;
+import de.malban.util.UtilityFiles;
 import de.malban.vide.assy.AssyPanel;
 import de.malban.vide.dissy.CompareDissiPanel;
 import de.malban.vide.vecx.panels.AnalogJPanel;
@@ -2132,7 +2133,6 @@ getMainPanel().remove(starter);
     // serialize the given object and save it to file
     public static boolean serialize(Object obj, String fileName)
     {
-        
         try
         {
             FileOutputStream fos = new FileOutputStream(fileName);
@@ -2761,10 +2761,10 @@ getMainPanel().remove(starter);
 
         try
         {
-            CSAMainFrame.serialize(s, Global.mainPathPrefix+"serialize"+File.separator+p.getID()+"Window.ser");
+            CSAMainFrame.serialize(s, Global.mainPathPrefix+"serialize"+File.separator+p.getFileID()+"Window.ser");
             Serializable ser =  p.getAdditionalStateinfo();
             if (ser != null)
-                CSAMainFrame.serialize(ser, Global.mainPathPrefix+"serialize"+File.separator+p.getID()+"Add"+"Window.ser");
+                CSAMainFrame.serialize(ser, Global.mainPathPrefix+"serialize"+File.separator+p.getFileID()+"Add"+"Window.ser");
         }
         catch (Throwable e)
         {
@@ -2780,7 +2780,7 @@ getMainPanel().remove(starter);
         {
             if (p.isLoadSettings())
             {
-                s = (SaveItem) deserialize(Global.mainPathPrefix+"serialize"+File.separator+p.getID()+"Window.ser");
+                s = (SaveItem) deserialize(Global.mainPathPrefix+"serialize"+File.separator+p.getFileID()+"Window.ser");
 
                 if (s == null) return false;
                 if (frame == null) return false;
@@ -2794,7 +2794,7 @@ getMainPanel().remove(starter);
                     
                 }
 
-                Serializable ser =  (Serializable) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+p.getID()+"Add"+"Window.ser");
+                Serializable ser =  (Serializable) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+p.getFileID()+"Add"+"Window.ser");
                 if (ser != null)
                 {
                     p.setAdditionalStateinfo(ser);

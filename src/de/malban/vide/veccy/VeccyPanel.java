@@ -179,6 +179,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
     {
         return SID;
     }
+    @Override public String getFileID()
+    {
+        return de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replaceWhiteSpaces(SID, ""),":",""),"(",""),")","") ;
+    }
     public VecciSettings settings = new VecciSettings();
     public Serializable getAdditionalStateinfo(){
         settings.gridSize = singleVectorPanel1.getGridWidth();
@@ -13324,7 +13328,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 if ((v.type & V_CHANGE_INTENSITY) == V_CHANGE_INTENSITY)
                 {
                     if (hiLoEnabled)
-                        ret += "\tdb "+db(v.intensity)+ ", "+0+ ", "+0 + ", hi("+functionPrefix+"LightOff_Intensity, lo("+functionPrefix+"LightOff_Intensity\n";
+                        ret += "\tdb "+db(v.intensity)+ ", "+0+ ", "+0 + ", hi("+functionPrefix+"LightOff_Intensity), lo("+functionPrefix+"LightOff_Intensity)\n";
                     else
                         ret += "\tdb "+db(v.intensity)+ ", "+0+ ", "+0 + "\n\tdw "+functionPrefix+"LightOff_Intensity\n";
                 }

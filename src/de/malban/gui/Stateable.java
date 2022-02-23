@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public interface Stateable {
     public String getID();
+    public String getFileID();
     public Serializable getAdditionalStateinfo();
     public void setAdditionalStateinfo(Serializable ser);
     public boolean isLoadSettings();

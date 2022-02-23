@@ -142,6 +142,10 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     {
         return SID;
     }
+    @Override public String getFileID()
+    {
+        return de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replaceWhiteSpaces(SID, ""),":",""),"(",""),")","") ;
+    }
     public Serializable getAdditionalStateinfo(){return null;}
     public void setAdditionalStateinfo(Serializable ser){}
     
@@ -202,7 +206,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
      */
     public WRTrackerJPanel() {
         initComponents();
-        loadSettings();
+//        loadSettings();
         if (Global.getOSName().toUpperCase().contains("MAC"))
         {
             HotKey.addMacDefaults(jTextField1);

@@ -1536,6 +1536,10 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
     {
         return SID;
     }
+    @Override public String getFileID()
+    {
+        return de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replaceWhiteSpaces(SID, ""),":","");
+    }
     JTable buildTable()
     {
         JTable table = new JTable();       

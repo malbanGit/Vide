@@ -378,6 +378,7 @@ public class UtilityString
     {
         String out = in;
 
+        out = replace(out," ",with);
         out = replace(out,"\u00A0",with);
         out = replace(out,"\u2007",with);
         out = replace(out,"\u202F",with);

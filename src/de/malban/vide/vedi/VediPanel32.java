@@ -278,6 +278,10 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     {
         return SID;
     }
+    @Override public String getFileID()
+    {
+        return de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replaceWhiteSpaces(SID, ""),":",""),"(",""),")","") ;
+    }
 
     public void init()
     {

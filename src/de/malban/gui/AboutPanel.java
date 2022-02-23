@@ -84,11 +84,11 @@ public class AboutPanel extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel2.setText("Vide");
 
-        jLabel8.setText("Written 2016-2020 by Malban.");
+        jLabel8.setText("Written 2016-2022 by Malban.");
 
         jLabel9.setText("Released under GPL 2.0.");
 
-        jLabel1.setText("2.6 RC 2");
+        jLabel1.setText("2.6 RC 3");
 
         jLabel3.setText("Homepage: ");
 

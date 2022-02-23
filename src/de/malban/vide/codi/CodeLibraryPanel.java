@@ -101,6 +101,10 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     {
         return SID;
     }
+    @Override public String getFileID()
+    {
+        return de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replaceWhiteSpaces(SID, ""),":","");
+    }
     /**
      * Creates new form RegisterJPanel
      */

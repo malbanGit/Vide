@@ -97,7 +97,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Written 2016-2020 by Malban."/>
+        <Property name="text" type="java.lang.String" value="Written 2016-2022 by Malban."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
@@ -107,7 +107,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="2.6 RC 2"/>
+        <Property name="text" type="java.lang.String" value="2.6 RC 3"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">

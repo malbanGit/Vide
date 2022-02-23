@@ -511,6 +511,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         return SID;
     }
+    @Override public String getFileID()
+    {
+        return de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replaceWhiteSpaces(SID, ""),":",""),"(",""),")","") ;
+    }
     
     int startTypeRun = START_TYPE_RUN;
 

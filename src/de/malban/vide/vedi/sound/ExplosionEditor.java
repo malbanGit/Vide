@@ -219,7 +219,6 @@ public class ExplosionEditor extends javax.swing.JPanel implements Windowable{
         jButtonAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play_blue.png"))); // NOI18N
         jButtonAssemble.setToolTipText("Animates through all images, animation is looped. Given delay is taken.");
         jButtonAssemble.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonAssemble.setPreferredSize(new java.awt.Dimension(21, 21));
         jButtonAssemble.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAssembleActionPerformed(evt);
@@ -414,7 +413,7 @@ public class ExplosionEditor extends javax.swing.JPanel implements Windowable{
                                 .addComponent(jButtonNewYM))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(157, 157, 157)
-                                .addComponent(jButtonAssemble, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonAssemble)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonEditInVedi))))
                     .addGroup(layout.createSequentialGroup()
@@ -467,7 +466,7 @@ public class ExplosionEditor extends javax.swing.JPanel implements Windowable{
                             .addComponent(jLabel4)
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,9 +528,9 @@ public class ExplosionEditor extends javax.swing.JPanel implements Windowable{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jButtonEditInVedi)
-                        .addComponent(jButtonAssemble, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButtonAssemble))
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -675,7 +674,7 @@ public class ExplosionEditor extends javax.swing.JPanel implements Windowable{
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ExplosionEditor panel = new ExplosionEditor(tl);
-        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  600, 400, "Sound: Explosion Editor");
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  600, 450, "Sound: Explosion Editor");
     }        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

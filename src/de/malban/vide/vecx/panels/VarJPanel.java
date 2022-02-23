@@ -64,6 +64,10 @@ public class VarJPanel extends javax.swing.JPanel implements
     {
         return SID;
     }
+    @Override public String getFileID()
+    {
+        return de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replaceWhiteSpaces(SID, ""),":",""),"(",""),")","") ;
+    }
     public Serializable getAdditionalStateinfo(){return null;}
     public void setAdditionalStateinfo(Serializable ser){}
     

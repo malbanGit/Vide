@@ -5,6 +5,7 @@
  */
 package de.malban.input;
 
+import com.sun.org.apache.bcel.internal.classfile.Utility;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
@@ -69,6 +70,10 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
     public String getID()
     {
         return SID;
+    }
+    @Override public String getFileID()
+    {
+        return de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replaceWhiteSpaces(SID, ""),":","");
     }
     @Override public boolean isIcon()
     {

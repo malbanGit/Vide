@@ -16,6 +16,7 @@ import de.malban.util.Downloader;
 import de.malban.util.DownloaderPanel;
 import de.malban.util.UtilityImage;
 import de.malban.vide.VideConfig;
+import static de.malban.vide.dissy.DissiFullPanel.SID;
 import static de.malban.vide.vecx.cartridge.Cartridge.*;
 import de.malban.vide.vedi.project.FileChooserCellEditor;
 import de.muntjak.tinylookandfeel.Theme;
@@ -118,6 +119,10 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     public String getID()
     {
         return SID;
+    }
+    @Override public String getFileID()
+    {
+        return de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replace(de.malban.util.UtilityString.replaceWhiteSpaces(SID, ""),":",""),"(",""),")","") ;
     }
     public Serializable getAdditionalStateinfo()
     {
