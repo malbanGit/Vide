@@ -1,10 +1,7 @@
 package de.malban.gui;
 
-import de.malban.config.Configuration;
-import de.malban.gui.panels.LogPanel;
 import de.malban.vide.VideConfig;
 import java.awt.event.KeyEvent;
-import static java.awt.event.KeyEvent.VK_DELETE;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -215,8 +212,26 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_A, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"SelectAllWin", "Vecci");
             HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.META_DOWN_MASK ,"CutMac", "Vecci");
             HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"CutWin", "Vecci");
-            
-           
+
+            HotKey.addMap(KeyEvent.VK_M, 0, "Mode change(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_DELETE, 0, "Delete selected(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.META_DOWN_MASK ,"UndoMac(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK ,"RedoMac(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"UndoWin(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_Z, java.awt.event.KeyEvent.CTRL_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK,"RedoWin(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_C, java.awt.event.KeyEvent.META_DOWN_MASK ,"CopyMac(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_V, java.awt.event.KeyEvent.META_DOWN_MASK ,"PasteMac(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_C, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"CopyWin(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_V, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"PasteWin(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_A, java.awt.event.KeyEvent.META_DOWN_MASK ,"SelectAllMac(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_A, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"SelectAllWin(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.META_DOWN_MASK ,"CutMac(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_X, java.awt.event.KeyEvent.CTRL_DOWN_MASK ,"CutWin(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_KP_LEFT, 0 ,"AnimLeftKP(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_KP_RIGHT, 0 ,"AnimRightKP(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_LEFT, 0 ,"AnimLeft(Window)", "SingleVecci");
+            HotKey.addMap(KeyEvent.VK_RIGHT, 0 ,"AnimRight(Window)", "SingleVecci");
+       
             
             HotKey.addMap(KeyEvent.VK_F3, 0, "Search next", "Editor");
             HotKey.addMap(KeyEvent.VK_F3, java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "Search previous", "Editor");

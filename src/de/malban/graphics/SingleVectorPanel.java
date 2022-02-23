@@ -58,8 +58,8 @@ public class SingleVectorPanel extends javax.swing.JPanel
         Vector<MouseMovedListener> mMovedListener= new Vector<MouseMovedListener>();
         Vector<MousePressedListener> mPressedListener= new Vector<MousePressedListener>();
         Vector<MouseReleasedListener> mReleasedListener= new Vector<MouseReleasedListener>();
-        
         Vector<VectorChangedListener> mVectorListener= new Vector<VectorChangedListener>();
+
         boolean shareRepaintEnabled = true;
         int gridWidth = 10;
         boolean displayGrid = true;
@@ -74,7 +74,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         int yOffset = 0;
         int zOffset = 0;
         
-        int workingMode = SVP_SET;
+        public int workingMode = SVP_SET;
         
         int POINT_HIGHLIGHT_RANGE = 10;
         int POINT_HIGHLIGHT_RADIUS = 5;
@@ -111,7 +111,6 @@ public class SingleVectorPanel extends javax.swing.JPanel
         {
             siblings.add(svp);
         }
-        
     }
     public void resetSharedVars()
     {
@@ -753,7 +752,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         mY=evt.getY();
         vars.crossColor = VECCI_CROSS_COLOR;
 
-        
+    
         // check for highliting
         if (vars.workingMode == SVP_SELECT_POINT)
         {

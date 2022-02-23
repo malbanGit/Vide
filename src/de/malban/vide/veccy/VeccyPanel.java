@@ -1002,8 +1002,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonSave2 = new javax.swing.JButton();
         jButtonAddCurrent = new javax.swing.JButton();
         jButtonLoad1 = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButtonAnimation = new javax.swing.JRadioButton();
+        jRadioButtonScenario = new javax.swing.JRadioButton();
         jButtonAddCurrent1 = new javax.swing.JButton();
         jButtonClearAnimation = new javax.swing.JButton();
         jButtonOneBack = new javax.swing.JButton();
@@ -5238,20 +5238,20 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
-        buttonGroup2.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("animation");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup2.add(jRadioButtonAnimation);
+        jRadioButtonAnimation.setSelected(true);
+        jRadioButtonAnimation.setText("animation");
+        jRadioButtonAnimation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                jRadioButtonAnimationActionPerformed(evt);
             }
         });
 
-        buttonGroup2.add(jRadioButton2);
-        jRadioButton2.setText("scenario");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup2.add(jRadioButtonScenario);
+        jRadioButtonScenario.setText("scenario");
+        jRadioButtonScenario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                jRadioButtonScenarioActionPerformed(evt);
             }
         });
 
@@ -5356,8 +5356,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jCheckBoxAutoEdit)))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2))
+                            .addComponent(jRadioButtonAnimation)
+                            .addComponent(jRadioButtonScenario))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButtonAddCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -5396,9 +5396,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel39Layout.createSequentialGroup()
                 .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel39Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
+                        .addComponent(jRadioButtonAnimation)
                         .addGap(1, 1, 1)
-                        .addComponent(jRadioButton2))
+                        .addComponent(jRadioButtonScenario))
                     .addGroup(jPanel39Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -6105,6 +6105,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPopupMenuLine.setVisible(false);
     }//GEN-LAST:event_jPopupMenuLineMouseExited
 
+    public void lineDeleteProxy()
+    {
+        jMenuItemLineDeleteActionPerformed(null);
+    }
     private void jMenuItemLineDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLineDeleteActionPerformed
         addHistory();
             // just delete it!
@@ -6286,7 +6290,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButtonAddCurrentActionPerformed
 
     private void jToggleButtonPlayAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonPlayAnimActionPerformed
-        if (jRadioButton1.isSelected())
+        if (jRadioButtonAnimation.isSelected())
             doAnimation();
         else
             doScenario();
@@ -6443,6 +6447,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         fillStatus();
     }//GEN-LAST:event_jButtonInsertVectorList
 
+    public void cutProxy()
+    {
+        jButtonCutActionPerformed(null);
+    }
     private void jButtonCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCutActionPerformed
         addHistory();
         jButtonCopyActionPerformed(null);
@@ -6450,6 +6458,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         fillStatus();
     }//GEN-LAST:event_jButtonCutActionPerformed
 
+    public void pasteProxy()
+    {
+        jButtonPasteActionPerformed(null);
+    }
+    
     private void jButtonPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasteActionPerformed
         addHistory();
        
@@ -6477,6 +6490,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
     }//GEN-LAST:event_jButtonPasteActionPerformed
 
+    public void copyProxy()
+    {
+        jButtonCopyActionPerformed(null);
+    }
     private void jButtonCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyActionPerformed
 
         // copy only selected
@@ -6549,12 +6566,29 @@ public class VeccyPanel extends javax.swing.JPanel implements
         single3dDisplayPanel.setDelay(de.malban.util.UtilityString.IntX(jTextFieldDelay.getText(),-1));
     }//GEN-LAST:event_jTextFieldDelayActionPerformed
 
+    public void selectAllProxy()
+    {
+        jButtonSelectAllActionPerformed(null);
+    }
     private void jButtonSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectAllActionPerformed
-        GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
-        for (int i=0; i<listNow.size(); i++)
+        if (jRadioButtonSelectPoint.isSelected())
         {
-            GFXVector v = listNow.get(i);
-            v.selected = true;
+            GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
+            for (int i=0; i<listNow.size(); i++)
+            {
+                GFXVector v = listNow.get(i);
+                v.start.selected = true;
+                v.end.selected = true;
+            }
+        }
+        else
+        {
+            GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
+            for (int i=0; i<listNow.size(); i++)
+            {
+                GFXVector v = listNow.get(i);
+                v.selected = true;
+            }
         }
         jTable1.repaint();
         singleVectorPanel1.sharedRepaint();
@@ -6599,23 +6633,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonFitByteRangeActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void jRadioButtonScenarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonScenarioActionPerformed
         if (mClassSetting>0) return;
         if (currentAnimation == null) return;
-        currentAnimation.isAnimation = !jRadioButton2.isSelected();
-        if (jRadioButton2.isSelected())
+        currentAnimation.isAnimation = !jRadioButtonScenario.isSelected();
+        if (jRadioButtonScenario.isSelected())
             doScenario();
         checkAnimExportButtons();        
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_jRadioButtonScenarioActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void jRadioButtonAnimationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonAnimationActionPerformed
         if (mClassSetting>0) return;
         if (currentAnimation == null) return;
-        currentAnimation.isAnimation = jRadioButton1.isSelected();
-        if (jRadioButton1.isSelected())
+        currentAnimation.isAnimation = jRadioButtonAnimation.isSelected();
+        if (jRadioButtonAnimation.isSelected())
             doAnimation();
         checkAnimExportButtons();
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_jRadioButtonAnimationActionPerformed
 
     private void jButtonSave3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSave3ActionPerformed
         savePatterns();
@@ -7151,6 +7185,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         }
 
     }//GEN-LAST:event_jButtonDraw_VL_modeAnimActionPerformed
+    public void undoProxy()
+    {
+        jButtonUndoActionPerformed(null);
+    }
 
     private void jButtonUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUndoActionPerformed
         int t=1;
@@ -7164,7 +7202,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jButtonUndoActionPerformed
-
+    public void redoProxy()
+    {
+        jButtonRedoActionPerformed(null);
+    }
     private void jButtonRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRedoActionPerformed
         int t=1;
         if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
@@ -7809,15 +7850,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
         loadObject(fullPath);
     }//GEN-LAST:event_jButtonLoad2ActionPerformed
 
-    SingleVecciPanel svp = null;
+    SingleVecciPanel singleVecciPanel = null;
     SingleVecciPanel3d svp3d = null;
     private void jButtonSingleEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSingleEditorActionPerformed
-        if (svp != null) return;
-        svp = SingleVecciPanel.showSingleVecciPanelNoModal(this);
-        singleVectorPanel1.addSibbling(svp.getSVP());
-        svp.initPart2();
-        svp.setSettings(settings);
-        svp.getSVP().setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldGridWidth.getText(),1));
+        if (singleVecciPanel != null) return;
+        singleVecciPanel = SingleVecciPanel.showSingleVecciPanelNoModal(this);
+        singleVectorPanel1.addSibbling(singleVecciPanel.getSVP());
+        singleVecciPanel.initPart2();
+        singleVecciPanel.setSettings(settings);
+        singleVecciPanel.getSVP().setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldGridWidth.getText(),1));
     }//GEN-LAST:event_jButtonSingleEditorActionPerformed
 
     private void jButtonUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpActionPerformed
@@ -8542,18 +8583,18 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     void closeSingleVecciPanel()
     {
-        if (svp != null)
+        if (singleVecciPanel != null)
         {
-            singleVectorPanel1.removeSibbling(svp.getSVP());
+            singleVectorPanel1.removeSibbling(singleVecciPanel.getSVP());
 
-            settings.singleVecciScaleSlider = svp.getScaleSlider();
+            settings.singleVecciScaleSlider = singleVecciPanel.getScaleSlider();
             
-            settings.singleVecciX = svp.xpos;
-            settings.singleVecciY = svp.ypos;
-            settings.singleVecciW = svp.w;
-            settings.singleVecciH = svp.h;
+            settings.singleVecciX = singleVecciPanel.xpos;
+            settings.singleVecciY = singleVecciPanel.ypos;
+            settings.singleVecciW = singleVecciPanel.w;
+            settings.singleVecciH = singleVecciPanel.h;
         }
-        svp = null;
+        singleVecciPanel = null;
     }
     void closeSingle3dVecciPanel()
     {
@@ -9332,12 +9373,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanelShortcutsCollection;
     private javax.swing.JPopupMenu jPopupMenuLine;
     private javax.swing.JPopupMenu jPopupMenuPoint;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JRadioButton jRadioButtonAnimation;
+    private javax.swing.JRadioButton jRadioButtonScenario;
     private javax.swing.JRadioButton jRadioButtonSelectLine;
     private javax.swing.JRadioButton jRadioButtonSelectPoint;
     private javax.swing.JRadioButton jRadioButtonSetPoint;
@@ -9599,8 +9640,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         }
         
         mClassSetting++;
-        jRadioButton1.setSelected(currentAnimation.isAnimation);
-        jRadioButton2.setSelected(!currentAnimation.isAnimation);
+        jRadioButtonAnimation.setSelected(currentAnimation.isAnimation);
+        jRadioButtonScenario.setSelected(!currentAnimation.isAnimation);
         mClassSetting--;
         
         checkAnimExportButtons();
@@ -10658,7 +10699,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         currentAnimation.isAnimation = false;
         redrawAnimation();
         mClassSetting++;
-        jRadioButton2.setSelected(true);
+        jRadioButtonScenario.setSelected(true);
         mClassSetting--;
         jTextFieldCount.setText(""+currentAnimation.size());
     }
@@ -13645,7 +13686,7 @@ shift0+
         text = de.malban.util.UtilityString.replace(text, "SM_", jTextField12.getText());
         jTextAreaResultSM.setText(text);
     }
-    private void cycleMode()
+    public void cycleMode()
     {
         if (jRadioButtonSetPoint.isSelected())
         {
@@ -13664,6 +13705,17 @@ shift0+
             jRadioButtonSetPoint.setSelected(true);
             jRadioButtonSetPointActionPerformed(null);                                                        
         }
+        if (singleVecciPanel != null) 
+            singleVecciPanel.updateMode();
+    }
+    
+    public void animLeft()
+    {
+        jButtonOneBackActionPerformed(null);
+    }
+    public void animRight()
+    {
+        jButtonOneForwardActionPerformed(null);
     }
 }
 

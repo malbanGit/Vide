@@ -738,7 +738,11 @@ public class VideConfig  implements Serializable{
             EventController.setPollResultion(jinputPolltime);
             
             Configuration.getConfiguration().setFullScrrenResString(fullscreenResolution);    
+
             
+// comment this out for one !go"
+// to add new keyboard configs to default!
+
             if (keySupport != null)
             {
                 if ( keySupport.allMappings.size()>0)

@@ -27,8 +27,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabelXO" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jLabelScale" max="32767" attributes="0"/>
-                  <Component id="jLabelScale1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jLabelMode" max="32767" attributes="0"/>
+                  <Component id="jLabelScale" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -46,9 +46,9 @@
           <Group type="102" attributes="0">
               <Component id="jSliderSourceScale" pref="370" max="32767" attributes="2"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabelScale1" min="-2" max="-2" attributes="0"/>
+              <Component id="jLabelScale" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jLabelScale" min="-2" pref="16" max="-2" attributes="0"/>
+              <Component id="jLabelMode" min="-2" pref="16" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
               <Component id="jPanelScroller" min="-2" pref="52" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -210,11 +210,17 @@
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderSourceScaleStateChanged"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabelScale">
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabelScale1">
+    <Component class="javax.swing.JLabel" name="jLabelMode">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Scale:"/>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="33" red="33" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Mode"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabelScale">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">

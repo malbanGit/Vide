@@ -9,13 +9,19 @@ import de.malban.config.Configuration;
 import de.malban.event.EditMouseEvent;
 import de.malban.graphics.MouseMovedListener;
 import de.malban.graphics.SingleVectorPanel;
+import static de.malban.graphics.SingleVectorPanel.SVP_SELECT_LINE;
+import static de.malban.graphics.SingleVectorPanel.SVP_SELECT_POINT;
+import static de.malban.graphics.SingleVectorPanel.SVP_SET;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAInternalFrame;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.panels.LogPanel;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
+import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -89,8 +95,38 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
         mClassSetting--;
 
         updateOutput();
+        
+        
+        new HotKey("Delete selected(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) 
+        { 
+            vecci.lineDeleteProxy();
+        }}, this);
+        new HotKey("Mode change(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.cycleMode();}}, this);
+        new HotKey("UndoMac(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.undoProxy();}}, this);
+        new HotKey("RedoMac(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.redoProxy();}}, this);
+        new HotKey("UndoWin(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.undoProxy();}}, this);
+        new HotKey("RedoWin(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.redoProxy();}}, this);
+        
+        new HotKey("SelectAllMac(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.selectAllProxy();}}, this);
+        new HotKey("SelectAllWin(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.selectAllProxy();}}, this);
+        new HotKey("CopyMac(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.copyProxy();}}, this);
+        new HotKey("CopyWin(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.copyProxy();}}, this);
+        new HotKey("PasteMac(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.pasteProxy();}}, this);
+        new HotKey("PasteWin(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.pasteProxy();}}, this);
+        new HotKey("CutMac(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.cutProxy();}}, this);
+        new HotKey("CutWin(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.cutProxy();}}, this);
+        
+
+        new HotKey("AnimLeftKP(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.animLeft();}}, this);
+        new HotKey("AnimRightKP(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.animRight();}}, this);
+        new HotKey("AnimLeft(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.animLeft();}}, this);
+        new HotKey("AnimRight(Window)", new AbstractAction() { public void actionPerformed(ActionEvent e) { vecci.animRight();}}, this);
+        
+        
+        updateMode();
+        
     }
-    // otherwise mouse listener is not added to "global" vars
+    // otherwise mouse listener is not added to "global" var
     public void initPart2()
     {
         singleVectorPanel1.addMouseMovedListener(this);
@@ -112,8 +148,8 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
         jButtonLeft = new javax.swing.JButton();
         jButtonRight = new javax.swing.JButton();
         jSliderSourceScale = new javax.swing.JSlider();
+        jLabelMode = new javax.swing.JLabel();
         jLabelScale = new javax.swing.JLabel();
-        jLabelScale1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabelXO = new javax.swing.JLabel();
@@ -216,7 +252,10 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
             }
         });
 
-        jLabelScale1.setText("Scale:");
+        jLabelMode.setForeground(new java.awt.Color(51, 51, 255));
+        jLabelMode.setText("Mode");
+
+        jLabelScale.setText(" ");
 
         jLabel1.setText("Y:");
 
@@ -237,8 +276,8 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelXO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelScale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelScale1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -252,9 +291,9 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jSliderSourceScale, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelScale1)
+                .addComponent(jLabelScale)
                 .addGap(0, 0, 0)
-                .addComponent(jLabelScale, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelMode, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(jPanelScroller, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -366,6 +405,7 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
         mClassSetting++;
 
         jLabelScale.setText(" "+new DecimalFormat("#.##").format(singleVectorPanel1.getScale()));
+        
         jLabelXO.setText(" "+singleVectorPanel1.getXOffset());
         jLabelYO.setText(" "+singleVectorPanel1.getYOffset());
         mClassSetting--;
@@ -377,8 +417,8 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
     private javax.swing.JButton jButtonUp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelMode;
     private javax.swing.JLabel jLabelScale;
-    private javax.swing.JLabel jLabelScale1;
     private javax.swing.JLabel jLabelXO;
     private javax.swing.JLabel jLabelYO;
     private javax.swing.JPanel jPanelScroller;
@@ -411,7 +451,7 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
             int invScale = ((max/2)+2)-value;
             scale = 1.0/invScale;
         }
-        jLabelScale.setText("Scale: "+new DecimalFormat("#.##").format(scale));
+        jLabelScale.setText(" " +new DecimalFormat("#.##").format(scale));
         final double val = scale;
         SwingUtilities.invokeLater(new Runnable()
         {
@@ -438,6 +478,15 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
         updateOutput();
     }
     public void deIconified() { }
+    
+    public void updateMode()
+    {
+        if (singleVectorPanel1.getSharedVars().workingMode == SVP_SET)
+            jLabelMode.setText("Set");
+        if (singleVectorPanel1.getSharedVars().workingMode == SVP_SELECT_LINE)
+            jLabelMode.setText("Vector");
+        if (singleVectorPanel1.getSharedVars().workingMode == SVP_SELECT_POINT)
+            jLabelMode.setText("Point");
+    }
+    
 }
-
-

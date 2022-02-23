@@ -1,63 +1,29 @@
-done? make c source code searchable in debugger
-
-select all in point mode -> select all points not all vetcors!!!
-
-in editor if more than one file name with the same name exists - ensure jumping to the right one after compile error
-
 
 
 add rgb support for imager???
 would have to look up if line was drawn before - and than add color up...
 
-C Multibank project
-it must be possible to enter names of main files
-otherwise the project won't compile!!!
--> done but not realy tested
-todo -> document this!
-name of the main files should be name of the project.
+@Malban here's the code that messes up button handling on real vectrex but not in VIDE
+                  lda      #7
+                  ldb      #%01101101
+                  jsr      Sound_Byte_raw
 
-2. How can I clear Bookmarks & Breakpoints? I can see some of yours but I cannot remove them (for Breakpoints, right-click > remove breakpoint does not work).
-
-
-
-
-done: added hi lo conversiojn to dw
-done: bugfix in dissy, upon bankswitch a different RAM layout was not loaded!
-
-CMD/Z does work in Vecci
-Arrgh... not in the big window... though... sorry
-
-DrawVLP with sequence not existent!
-
+???
 the big edit window in veccy
 perhaps I can make it auto resizable...
 
-
-Brett Wallach
-
-I do see where to look now so that will help... it shows some text VECTOR / SET / POINT to the right of the tool icons in the main Vecci window.  So that helps, but would be better if it were duplicated to the large window.
-
-I'm usually editing in the large window, and if I could just press V for "vector / selecting a vector", D for "points or dots", S for "set/drawing a vector", I could keep my left hand on the keyboard shortcuts and operate more easily I think.
-
-When in the large window... if you could also press LEFT ARROW / RIGHT ARROW to cycle through the animation frames, that could be a cheap way to add a psuedo-onion-skinning.  If you can quickly switch between frames and not move your mouse, you could tweak points into the right position.
-
-
-
-
+???
 keep position (draw_vlp) in C does not work!
 
+toDoc
 "C" - asm routinen must save U reg
 
-If you change the BIOS to anything other than the FASTBOOT BIOS then Dissi does not show the correct 'Content' in the BIOS memory range. I see the correct behaviour for what is really at the memory locations but the 'Content' fields are incorrect.
+If you change the BIOS to anything other than the FASTBOOT BIOS then Dissi does not show the correct 'Content' in the BIOS memory range. 
+I see the correct behaviour for what is really at the memory locations but the 'Content' fields are incorrect.
 
 Please can the 'Content' fields in the BIOS memory range be updated to reflect the actual content when a custom BIOS is used? Thanks!
 
 —
-
-
-I always wanted to provide a "C" bankswitch in Vide - but as of yet I always procrastinated - 
-and really did not implement it yet... Anyway some workaround, which I also 
-gave to Frank (Bloxorz).
 
 
 "Fixed" adresses of functions in "C" programs.
@@ -140,51 +106,25 @@ Am 29.07.2019 14:15 schrieb Frank Buss:
 
 
 
-@Malban here's the code that messes up button handling on real vectrex but not in VIDE
-lda      #7
-                  ldb      #%01101101
-                  jsr      Sound_Byte_raw
+Anyhoo, I made one with Vide text on it, and one without. 
+I've included the Photoshop file .PSD, .PNG's and the converted .ICNS 
+files here: https://www.dropbox.com/s/03muyd4eeeis6yh/vide-icons.zip?dl=1
 
 
-Anyhoo, I made one with Vide text on it, and one without. I've included the Photoshop file .PSD, .PNG's and the converted .ICNS files here: https://www.dropbox.com/s/03muyd4eeeis6yh/vide-icons.zip?dl=1
+???
+Aaaaaaaaa @Malban here's a new but old Vide bug to report  
+It used to mess up like this in the past, but now it seems more frequently occurring. 
+Eventually after doing a little editing, everywhere I 
+click puts an 'a' and it won't stop doing it unless I close Vide and reopen. 
+http://g.recordit.co/P7ZDl7d9fP.gif
 
 
-Aaaaaaaaa @Malban here's a new but old Vide bug to report  It used to mess up like this in the past, but now it seems more frequently occurring. Eventually after doing a little editing, everywhere I click puts an 'a' and it won't stop doing it unless I close Vide and reopen. http://g.recordit.co/P7ZDl7d9fP.gif
-
-
+???
 technoblyheute um 20:36 Uhr
-@gauze I'm not trying to sell you on CMD + SHIFT + arrows to switch to Sublime :smile: I'm wanting this feature in Vide.  How do you do similar operation in Vide now, and/or Vim?
-
-
-
-done: bank sizes of libraries to c000!
-
-First, in config/Keyboard, shortcuts about joystick 1 and 2 are duplicated.
-Then 'Button2_1_pressed' does not work anymore. It worked fine in Vide 2.51.
-Good luck for that ones.
-
+@gauze I'm not trying to sell you on CMD + SHIFT + arrows to switch to Sublime 
+:smile: I'm wanting this feature in Vide.  How do you do similar operation in Vide now, and/or Vim?
 
 curly bracket!
-
-done add new gcc lib!
-
-done
-    generater should generate source like
-    .bank rom(BASE=0x0000,SIZE=0x8000,FSFX=_rom) WITH C000!
-     -> is fine!
-
-
-Am 11.05.2020 um 17:05 schrieb Johannsen, Peer <peer.johannsen@hs-pforzheim.de>:
-
-… hehe, der Konflikt scheint aus dem Lode Runner Code zu kommen:
- 
-In scroll.s, song_026.s, aleste_1.s und VTK_TitleMusic.s wird die .rom bank mit size 0x8000 erwähnt J
- 
-Kann es sein, dass diese Source dort als reiner asm Code drin liegen und nicht neu aus C heraus compiliert werden?
- 
-Grüße,
-Peer
-
 
 done: mouse pointer
 done: Vide cartridge information file WITH bank switch IRQ
@@ -199,11 +139,6 @@ done:
 done: Brett Wallach Tab to spaces in editor
 
 analalog with keyboard
-
-
-
-
-
 
 DOC:
 Erster Entwurf, noch nicht auf Größe (ROM Verbrauch) optimiert. Die Dateien an folgenden Stellen ablegen (ggf. neue Unterordner anlegen):
@@ -239,6 +174,41 @@ a input is not a output!!!
 
 if I put 0e in port a in output mode, I will read 0e in output mode
 if I switch to input mode, I read whatever is "input" to a, but NOT the value I write in output mode!
+
+Cycle counts in Vecx checken und korrigieren.
+
+Vectorblade - remember diffivculty in SAVE
+
+todo 
+@Malban I haven't checked the Beta yet, but the main thing I would like to see fixed is that the last 
+directory opened gets saved somewhere and Vide doesn't keep defaulting to the directory it's running in.  
+This is mainly important for Vecxi and Vedi.  
+A lot of times I'll want to test some binary in Vecxi, and it's not very easy to browse to a new location 
+so I'll just copy files I want to try to the Vide main directory.  
+Would be nice if it would just remember that I opened the ~/Downloads folder though, etc..  
+Also when opening different projects I'm having to traverse through the tree, 
+but that one is not as bad since the projects/ folder is right there and not many projects to look through.
+
+
+todo
+  build a function "memoryHarmonize" that ensures dissi mem == emulator mem
+  a) must be called after changing memory in dissi 
+  b) must be called after emulator (flash) changed memory in cart!
+
+
+Douglas Peuker Algorythm
+Preview <-> final (like images)
+Edit Epsilon
+checkbox to "use" move as vectors
+
+
+PiTrex
+Lightpan Animaction "Menu"
+VecMania
+Coin in Asteroids
+Vectorblade update to 12
+WWW Vi
+
 
 
 

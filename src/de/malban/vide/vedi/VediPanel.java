@@ -1104,6 +1104,12 @@ class TransferableTreeNode implements Transferable {
         printMessage("Bookmark set: " + bm.toString());
         updateTables();
     }
+    void removeBookmark(int b)
+    {
+        settings.bookmarks.remove(b);
+        printMessage("Bookmark removed: " + 1);
+        updateTables();
+    }
     
     void goBookmark(int b)
     {
@@ -1400,6 +1406,8 @@ class TransferableTreeNode implements Transferable {
         jMenuItemRemoveBP = new javax.swing.JMenuItem();
         jPopupMenuWatch = new javax.swing.JPopupMenu();
         jMenuItemRemoveWatch = new javax.swing.JMenuItem();
+        jPopupMenuBM = new javax.swing.JPopupMenu();
+        jMenuItemRemoveBM = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jButtonCut = new javax.swing.JButton();
         jButtonPaste = new javax.swing.JButton();
@@ -1722,6 +1730,14 @@ class TransferableTreeNode implements Transferable {
             }
         });
         jPopupMenuWatch.add(jMenuItemRemoveWatch);
+
+        jMenuItemRemoveBM.setText("remove bookmark");
+        jMenuItemRemoveBM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRemoveBMActionPerformed(evt);
+            }
+        });
+        jPopupMenuBM.add(jMenuItemRemoveBM);
 
         setName("regi"); // NOI18N
 
@@ -4283,6 +4299,11 @@ boolean DELELTE_EMPTY_LINES = false;
         
         if (evt.getClickCount() == 2) 
             goBookmark(row);
+        if (evt.getButton() == MouseEvent.BUTTON3)
+        {
+            popupRow = row;
+            jPopupMenuBM.show(jTableBookmarks, evt.getX()-20,evt.getY()-20);
+        }        
         
     }//GEN-LAST:event_jTableBookmarksMousePressed
 
@@ -4579,6 +4600,11 @@ boolean DELELTE_EMPTY_LINES = false;
         refreshTree();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonAssembleOne5ActionPerformed
+
+    private void jMenuItemRemoveBMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRemoveBMActionPerformed
+        if (popupRow<0) return;
+        removeBookmark(popupRow);
+    }//GEN-LAST:event_jMenuItemRemoveBMActionPerformed
     
     @Override
     public void doQuickHelp(String word, String integer)
@@ -4715,6 +4741,7 @@ boolean DELELTE_EMPTY_LINES = false;
     private javax.swing.JMenuItem jMenuItemProjectProperties;
     private javax.swing.JMenuItem jMenuItemRaster;
     private javax.swing.JMenuItem jMenuItemRefresh;
+    private javax.swing.JMenuItem jMenuItemRemoveBM;
     private javax.swing.JMenuItem jMenuItemRemoveBP;
     private javax.swing.JMenuItem jMenuItemRemoveWatch;
     private javax.swing.JMenuItem jMenuItemRename;
@@ -4736,6 +4763,7 @@ boolean DELELTE_EMPTY_LINES = false;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenuBM;
     private javax.swing.JPopupMenu jPopupMenuBP;
     private javax.swing.JPopupMenu jPopupMenuProjectProperties;
     private javax.swing.JPopupMenu jPopupMenuTree;

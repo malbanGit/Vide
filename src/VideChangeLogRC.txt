@@ -1,0 +1,973 @@
+23th of February 2022
+Version 2.6 RC 03
+
+add:
+- bankswitching in C, with templates and working "generation"
+  for the generator to work, this must be enabled during project creation
+  if you add a second bank later, you probably better do a new project and copy/paste
+- vari: shows now "sensible" ascii values as well
+- BIOS.ASM: Phillip found some mistakes in the documentation of the source - changes now included
+- vedi: search now cycles back to the beginning
+- vedi: a couple of keyboard shortcuts added
+- vedi: ym is accessable now from the menu (was greyed out)
+- C: update to gcc lib
+- vecci: added hi lo conversion to dw
+- vecci: fixed hopefully - the vecci bug, where lists could be "shadow selected" 
+         and not be accessed anymore, that one has been around for YEARS
+- dissi: make c source code searchable in debugger
+- veccy: Brett wishlist:
+         large window now supports:
+         - arrow keys to switch animation frames
+         - "M" to cycle thru modes
+         - visble mode in window
+         - copy/paste/delete 
+- vedi: bookmarks can now be deleted (popup on table)
+- vedi: conversion assi<->AS6809 source code improved
+- vecci: added diverse input/output changes
+         - e.g. synclist can now by imported
+         - output of absolut lists is possible (needed this for PiTrex)
+- ... things I can't remember
+
+changed:
+- changed the name of nearly every window, to be more meaningfull!
+- added VecMulti support as development module (code by Vasily Kiniv - Thx!)
+  I have not had the opportunity to test that myself, I must add headers to my
+  vecMulti
+- ... things I can't remember
+
+bugs:
+- vecxi: for mac added support for retina displays (needs internal scaling, code by Vasily Kiniv - Thx!)
+- vecci: added DrawVLP for sequences
+- vecci: "select all" in point mode, now selects points, not vectors
+- vedi: if more than one file name with the same name is open - 
+        ensure jumping to the right one after compile error
+- vedi: allow multiple files with the same name (different directory) to be open at once
+        (say "hello" to multi banked "C" sources!)
+- dissi: upon bankswitch a different RAM layout was not loaded!
+- C: generated sources can cope better with 48kB rom support
+- dev: for development, I added Netbeans home directory to the search path of VIDE_HOME
+- vecci: some smartlist generation fixes (like old smartlist, did not respect the set scale)
+- PSG: sample emulation corrected, there could be an annoying "ticking noise"
+- vecci: fixed code export with templates
+- YM: fixed a bug where the length of ym2! and ym3! files were not correctly calculated!
+- ... things I can't remember
+
+open known issues/wishes:
+- vecxi: rgb support for imager?
+- vecxi: certain psg settings (reg 7) should mess up button handling - not emulated
+- C: document, that user needs to save U/Y reg, when using assembler routines, or set "ASM" flags when calling
+- vecxi: cycle count might not be 100% correct, I changed while developing Vectorblade... but it seems I made
+         it worse... one day I must look at this again.
+- ... see todo.txt
+
+11th of May 2020
+Version 2.6 RC 01
+
+- C: WARNING - code like does not work - even though dp_VIA_port_b is declared as volatile, it is not read again!
+            dp_VIA_port_b = 0x01;
+            if ((dp_VIA_port_b & 0x40) == 0x40)
+     Implementation of "volatile" is compiler dependend, to beon the save side explicit memory barriers should be set, like
+            asm volatile ("" ::: "memory");                 // memory barrier
+     before the if clause in above example!
+- C: WARNING - Code MIGHT be build wrongly if the second parameter of a function is 8 bit and the first is 16 bit, example:
+            -----
+            extern void foo(unsigned long int x, unsigned int b);
+            static unsigned int v;
+            void bar(void)
+            {
+                            foo(v, 0);
+            }
+            -----
+     This is a gcc bug, documented in: "https://gitlab.com/dfffffff/gcc6809/-/issues/6",
+     also documented methods to circumvent (usage of compile parameters!)!
+     For new C - projects the command line parameters "-fno-ipa-reference -ftree-ter" are added per default!
+- C: linkage changed (Peer) - only library/calls which are needed are linked, removed option to use RUM INLINED
+- C: new CRT0, which always has 48k support enabled
+- C: assert functionality added (Peer)
+     in "main" just add #inlude <assert.h>
+     Per default asserts are active, do switch them off use either in code: "#define NDEBUG",
+     or add the CCFLAG parameter (in project) "-D NDEBUG".
+     Active asserts use precious cycles!
+     If an asserts fires, a message with the assert parameters are output.
+     On a button press the program continues (at your own risk)!
+- misc: fixed download link for YM files (https now)
+- vecxi: added mouse Analog -> coordinate input method (Graham)
+  Note this is "hard" to get 1:1, either change the scale of drawing...
+  Or "zoom" in using configuration "emulated vectrex integrator max" (smaller values)
+- vedi: Add cmd A to editor (on OSX this has to be done manually for all field... I am certain I missed a few!)
+- vedi: add cmd A/X/C/V to search
+- vedi: all (in Vide added) tabs are now spaces
+- dissi/vecxi: added "nmi"
+- vecci: added hotkeys (standard) for delete (del) copy(meta c)/cut(meta x)/paste(meta v) undo(meta z)/redo(meta shift z) 
+         selectAll (meta a) and mode switch (M)
+         -> needs new config settings
+         Win -> meta = CTRL
+         Max -> meta = Command
+- vecxi: added "super" save to debug when "SHIFT" is pressed during save (takes quiet some time, depending on the backstep configuration)
+- all: added more debug info to startup and search of VIDE_HOME
+- util: added some vecVefer conversion modes (8)
+- test: for testing purposes added a vectrex color mode (Jason)
+- vecci: added (text-)import filter for synced lists
+- vecci: added import filter for Gyrock lists
+- vecci: added template for smartlist with NO SHIFT REGISTER usage
+- vedi: added "*.md" files to be editable
+- vedi: pretty print asm    if then else elseif ifdef ...    Only 1 space "insert"
+- vecxi: added "fauly" VIA mode
+- vedi: if resulting binray is too large - hit prints the size!
+- vecxi: added a faulty vectrex mode
+- vecxi: T1 timer one shot mode, now resets the timer to the latch times
+         "read" of VIA is always after the complete "cycle" run.
+-vecxi: Changes done in Vide for 100% cycle exact execution of VB
+        (it still is not 100%!)
+        - T1 timer one shot, was not "reset" with latch values after reaching 0, including one cycle "duration" of reset
+          reloaded value is shown "false" in vecxi since it shows "value+"
+          the real VIA shows hi ff, lo 0 and than the "real" value appears next round - >there is a delay of one cycle!
+        - t2 needa one cycle to START the actual timer, befor it counts down
+        - values read with "lda" kind of instructions are read AFTER all instruction cycles are processed (however strange that may be)
+        - STB direct, value is written after 3 of 4 cycles  (STA after 4 !?!?!?)
+        Falsly shown in Vide:
+        - State of CB1 (also interrupt flag CB1), vectrex has NO CB1
+        - half carry is "uncertain" emulated
+- dissi: load in dissi different configured disassemblings
+- vedi: file not found exception when trying to edit file properties
+- dissi: UNOWN data types were possible in dissi (not disassembled)
+- dissi: strings could be "closed" with any negative value (instead of only 0x80) - during a string scan!
+- vedi: include in subdirectories were not parsed correctly (sometimes)
+- vecci: corrected VBSmartlist generation 
+- vecxi: analog joystcik  vertical in relative mode had wrong directions
+- vecxi: better reconnect to joysticks that time out
+- vedi: lower upper character independency added in label jumping
+- ym/vedi: ym menu was not enabled correctly
+- vecxi: soft reset no does not delete/initialize RAM
+- vecx: joystick buttons must only be set, when PSG regs are in output mode
+
+3rd of April 2019
+Version 2.51
+bugs:
+- smartlist creation was buggy
+- added QI variants of div/mod to C compiler library
+
+20th of March 2019
+Version 2.50
+new:
+- vecci added settings to scale x,y,z seperately
+- vecci: added centerline tracing via external tool "autotrace"
+- vecci: load lists to VecFever directly
+- new SmartList creation (can also still switch to old)
+- tool: added tool to "build" Video movies from "extreme vectrex" fata files. The builds can be played on a vecFever
+- tool: to build "Wav" player for vecFever
+- WR: now also uses bank bank information
+- reverted Vedi back to Java 1.8 and distributed now as "native packaging"
+- added additional stack tracking
+  stack is shown in Vari: 
+  - current stack: blue background
+  - current WR low: pink background
+  - all time low stack: red background (is reset with tracki reset)
+- added breakpoint for stack, 
+  e.g. > B stack $c9a2
+  means break when register S contains a value lower equal to $c9a2
+- for "C": the highest used memory address is evaluated (via MAP file)
+  and put into the generated CNT file with e.g.
+  "HIGHEST_USED_RAM $C9A2"
+  (only when debugging is enabled)
+  Than dissi will also generate automatically a breakpoint of the above kind for that address, 
+  -> a stack overflow check!
+  Also a comment is added to the RAM address like:
+  "COMMENT $C9A2 not used RAM onword..." - so that you can discern that address easily in VARI
+
+bugs:
+- tinylaf and Java 10 seem to have problems when iconifying the window. Iconify disabled (and removed again by switching back to Java 1.8)
+- C debugging was not working, when a function parameter had a pointer to a struct -> hopefully corrected
+- corrected Pattern draw from vecci (mode)
+- changed all modal dialogs in Vide from "desktop internal modal" to "system modal" since the previous implementation caused problems
+  (Freezes) on some machines (Java 10 problem -> but System modal was not set to desktop internal modal again.
+- found a vectrex which has a T1 offset of 2 cycles -> all smartlist maximum scale without additional NOPS changed from 9 -> 7 :-(
+- some bugfixes for "C" debugging
+- exchanged all "C" compilers with builds made from the git repository at: https://gitlab.com/dfffffff/gcc6809
+  which has some changes/bugfixes
+  "internal" sources changed a bit but the user "should" not notice anything different.
+  If one uses extended ASM commands from "C", some constraint my throw a depricated warning.
+  In some example case Peer did, he had to change a constraint from "mi" to "gmi".
+  All gcc compilers are now static builds (Win also), Windows gcc differentiates now also between 32bit and 64bit.
+  Compile instructions and sources for gcc are included for all supported OS
+- corrected many sources to be compilable under Linux (small and capital letters in filenames)
+- if the lexer for syntax scanning encounters an exception, the syntax scanning is no longer exited with an exception
+  (and the whole document "srcewed", instead the lexer "ignores" one byte, and generates an ERROR token, so the rest of the
+  document is further correctly scanned.
+
+-----------------
+27th of December 2018
+Version 2.11
+new:
+ - vecx: on/off switch of Goggle/Lightpen in config
+ - vecx: added anaglyphic mode to imager
+
+
+24th of November 2018
+-----------------
+Version 2.1
+
+- added digital input device support for vecxi
+- vecci: added "int all" checkbox
+  ("normally" all vectors in vecci are internally kept as "double", if you scale a vectorlist, than beforehand "ints" can have non int values
+  you can see that be double clicking in the table and examining the value via the tableeditor. For some calculations it better to have PURE int values
+  if the swtch is "ON", than all values are always rounded and "ints")
+  
+- vecxi: std, stx, stu, sty were for the second part of the written byte written, one cycle to fast - corrected
+- assi: ds can now have a default filler value
+- vecxi: preliminary support of flash (SST39SF020A) introduced (vedi project only, no "saving", address and data BUS is very "hacky",)
+  since the emulation does not support a ~CE flag, and I do not really emulate a BUS, all "emulation" is handled in "cartridge" directly)
+  - supported: erase sector, get ID ($bf $b6), write byte (when used with "st..."
+  - only in debugging core!
+  - not supported is the "saving" of those changes to the binary though
+- dissi: breakpoints can be disabled, enabled, saved and loaded (in breaki)
+- vecci: smartlist support now "multiple ..._d"
+- vecxi: preliminary support of new bankswithcing PB6 combined with IRQ 
+  this can handle 4 banks each 48kb. = 192kB
+- vecci: added move to popup menu
+- vecci: added "move" and "solid" buttons
+- Sample: added option to save samples as unsigned data
+- Sample: added option for 4bit sample output (2 nibbles)
+- Sample: added two options and disabled them, because I now think they are not sensible...
+- Sample: added generator for PSG samples (automatic PSG samples are assumed if 4bit samples are chosen)
+- vecxi: PSG samples can be played by the emulator, 
+         quick hack to support samples played via PSG, this is not good! (only working in special siuations, and not really using the PSG)
+- vecxi: saved states are ADDITIONALLY saved with a timestap, to load a timestamped savestate - remove the timestamp
+- vide: added java version check on startup, at least 10 is required!
+
+BugFix:
+- break points in files with two banks (switched via if then else) did generate a false breakpoint in the "other" bank -> fixed
+- in vecci vectorlists in the file choser are now visible also for "just" vectorlists
+- scenario "preview" in play panel working correctly (again)
+- search and replace could "destroy" performace (dunno - some inner Java garbage), anyway - might be a little bit better
+- the "running cycle count" was not always updated with the correct cycle count of the instructions -> fixed
+- C-library added a couple of "Minestorm" functions
+
+
+12th of June 2018
+-----------------
+Version 2.02
+new:
+- added scenario generation for smartlists
+
+BugFix:
+- copy/paste error with 2.01 - Smart list generation did not work with "runnables"
+- also due to some stupidity lost some code - whatever that was that I fixed
+- small bug fix with paths garbled in codelib
+
+
+
+24th of May 2018
+----------------
+Version 2.01
+new:
+- changed the scaling done in vecci
+
+BugFix:
+- added some Java 10 compatabilities
+
+18th of May 2018
+----------------
+Version 2.0
+new:
+- integrator offset can be fractions, which are as of yet dumbly calculated - but works (more or less) for vector Patrol
+  todo -> RC/laws, setting of integrator offsets to fractions of "digital 1"  thru the use of RC laws
+  to compensate vector drift is fascinating, and bloody ingenious!
+- Integrator zero ofset realized with capacitor charge calculation. (at one point I have to also do that for 
+  s/h of integrators, integrators themselves and for zeroing)
+- RAM comments go to all banks
+- RAM breakpoints do not have banks
+- dissi table updates could be out of whack when to many Bankswitches occured (stuck)
+- internal t1 Ramp signal is also switched off, when interrupt does not occur, corrected
+  Vector Patrol Print String all but the first line were "off" a bit due to that (also background mountains)
+- T1 reset upon timer t1 LoLatch read IFlags must be reset
+- added emulation of AT24C02
+- added loading of non encrypted V4E files (File format invented by Thomas Sontaowski for VecFever)
+- with this also added 32k + 16K Bankswitch 
+- added smartlist vectorlist and animlist generation, also added output and runnables to Vecci
+- added warning dialog when a binary file is selected for load in vecxi and a cartridge definition is found for that name
+- some documentation updates
+
+BugFix:
+- typo in C lib fixed (thanks to Peer)
+- code library could throw exceptions while syntax highlighting
+- bank switch code must consider output bit of pb6 - not only state of ddrb
+- corrected vecflash bankswitching code (also template)
+- (saved) Master sound volume is now recognized on startup (without having to open config once)
+- Ramp Off fraction corrected - could be initialized to early and display would be slightly off
+- corrected some cycle values of machine code instructions, also some more cycle exact emulation
+- corrected some tooltips
+- switching from fullscreen to windowed mode in Windows could throw an exception which led to no
+  vide screen at all -> fixed
+- finishing a compile while vecxi was in fullscreen could lead to an exception -> fixed
+- configuration window now properly named configuration (before: Registers)
+
+January 9th 2018
+----------------
+new:
+Version 2.0_RC17
+- vedi: added a new peep
+- vecxi: added Blank Off timer
+- doc: documentation added on handling assembler calls from "C"
+
+BugFix:
+- laf: html color settings for LAFs werenot correctly handled -> fixed
+- compile: error messages of ASLINK and AS6809 were not always correctly handled -> fixed
+- sources: some soucres had wrong upper/lower cases in filenames, only noticable under linux
+- vedi: new projects resulted in null pointer exception
+
+December 29th 2017
+------------------
+new:
+Version 2.0_RC16
+- added "no framepointer needed" version of Peer's system headers
+
+BugFix:
+
+December 29th 2017
+------------------
+new:
+Version 2.0_RC15
+- vedi: added an additional configuration for deep syntax check (in conficguration).
+      with large files (larger than e.g. 100000 bytes, some syntax check need more time, since the
+      complete document is scanned. If handling large files makes the editor chunky 
+      this part of syntax checking highlighting can now be switched off.
+      Also added a "Threshold" - so the above can be configured "ON" but for file sizes larger than xxxxxx
+      the deep syntax is automatically "OFF"
+- dissi: DW_POINTER added in popup in dissi (was avilable in CNT always - but never manually configurable
+- diffi: profiling, added ability to "update" dissi window, without the table following current PC (new CLI command DoNotFollow - "df")
+- help: added an ascii table (e.g. type ascii in editor help textbox, or dissi cli)
+- dissi: profiling enhanced, that the dissi column display, also displayes the sums of subroutine executions
+- display: added import of chassis png from ParaJVE in config - images are not used yet.
+         Franck: I didn't violate any copyright, to spare you the search look at de.malban.util.extractor package.
+         (PS. I made contact with Franck and he is ok with reuse!)
+- cartridge: some config options can be overwritten by the cartridge information, the config stays overwritten till
+       next cartridge with "overwrite" is loaded, or config is reloaded/changed
+- display: added full JOGL (OpenGL support), since it was so much work - I'll list the different steps:
+  - rendering of lines, points and linestrips (last - splines)
+  - respecting movement speed, brightness and dotdwell
+  - blur/glow/spill shaders for more nice output
+  - linewidth, persitency and brightness can be adjusted (like everything on the fly)
+  - drawing done using openGL drawArray for speed (not "simple" line point commands)
+  - anitaliazing with/without MSAA supported
+  - overlays supported
+  - overlays can be "configured" to look nicer via special shader settings
+    a) alpha threshold
+    b) alpha "dim" if no vectors are drawn (direct adjustment of alpha values)
+    c) alpha "brighter" if vectors are drawn (adjustment via brightness factor of lines)
+  - 3d imager rendering supported
+  - lightpen supported
+  - debug outputs (messsages, vectors as arrows, integration position)
+  - LED (display)
+  - rotation
+  - raygun
+  - idea copied from ParaJVE, a "screen"-display can be added, and adjusted to ones likings
+- display: (JOGL only) screen "overflow" emulation now supported, e.g. frog demo "EmptyScreentro"
+- display: (JOGL only) added config to keep aspect ratio of emulator output
+- display: (JOGL only) added option to output emulator on complete window [in vecxi press SHIFT P to toggle]
+- display: (JOGL only) added option for fullscreen output (also rotated) [in vecxi press SHIFT F to toggle]
+- vecx: added a new vecx mode "no debug", than every debug "calling" are right from the start disabled.
+        This gives another speed increase. The mode is intended, when Vide is used as an emulator only.
+- Vide: support that Vide can be started from "any" directory, not from only the directory Vide resides in.
+        This was more complicated than it sounds, since ALL file accesses had to be changed. I am not sure that
+        I have got them all, there might be some errors with file accesses - please report if so. 
+        This was extensivly tested, but more than 100 classes had to be edited... - and humans make mistakes and 
+        overlook things!
+- support: added under utilities a new Window "Overlay Switcher", with that you can switch overlays easily on the fly
+           with currently running vecxi, without having the trouble to go to some configuration hassle each time.
+           (its not persistent though)
+- display: enhanced Catmul Rom Splines to be able to correctly draw Thomas new game (2048)
+- dissi: loading a saved state while in pause/debug mode - pauses/debugs the load directly after load
+- all: implemented a new default "LAF", some internal changes were necessary so that all necessary changes could be made,
+       to many to list here
+- vide: added a "message" of the day
+- vide: command line options started, following parameter working:
+        -help             -h        help
+        -configuration    -co (=)   name of the configuration file to load (e.g. developer.vsv)
+        -jogl             -jg (+/-) start with jogl graphics enabled
+        -oldJava          -oj (+/-) start with java graphics enabled
+        -keepAspectRatio  -ar (+/-) keep aspect ratio when size of vecxi changes
+        -exitAfterGame    -ex (+/-) shuts down vedi after exiting vecxi
+        -fullpanel        -fp (+/-) starts vecxi in fullpanel (only if vecxi runs)
+        -fullscreen       -fs (+/-) starts vecxi in fullscreen (only if vecxi runs)
+        -enableOverlay    -eo (+/-) whether to load an overlay, if available
+        -enableScreen     -es (+/-) whether to enable the 'screen' drawing
+        -port0Device      -p0 (=)   name of the configured input device (names as they appear in vecxi combobox)
+        -port1Device      -p1 (=)   name of the configured input device (names as they appear in vecxi combobox)
+        -rotation         -ro (=)   rotation (0, 90, 180, 270)
+        -binary           -bi (=)   loads a binary file and starts vecxi
+        -gameCartridge    -gc (=)   loads a cartridge definition and starts vecxi (name of the cart)
+        -resolution       -rs (=)   resolution of fullscreen, format like 800x600
+- dissi: added a small stack "view" in reg display (dissi only)
+- vedi: tree refresh now keeps the tree opened
+- vedi: added "mini" pretty print for C, also added autoindent for curly braces (1tab per brace)
+- config: saving a "no name" config - automatically now saves to "default"
+- vedi: double click on a file entry starts the OS default viewer (double click on a bin starts vecxi)
+- vedi: CTRL + Space gives a list of known vars/functions to chose
+- dissi: disassemble to code on an unkown binary, when PC "steps" to "data". This circumvents the need to do tedious "casts".
+         Only works, when "stepping" into the region, not when scrolling thru dissi (Thomas knows what I mean :-) ).
+- added binaries of Garry Grierson and Thomas' 2048 (for both I got permissions of the authors)
+- sound: added (in instrument editor) the opportunity to enter "songs" in vectrex format and play them back 
+- sound: new tool "Explosion editor" allows with a gui to edit explosion effects based on the explosion function provided by the BIOS
+- dissi: added (well hidden - see FAQ) the ability to also disasm RAM locations - for now this is a "Hack"
+- all: added support for 48k ROMs (must be configured for cartridge!)
+- C: CFLAGS can also be set via File properties
+- vedi: peepholes of Vide can be loaded and saved to "VidePeepholes.xml", if no file exists defaults are generated and saved,
+        as of yet there is no editor though. If you want to create your own peepholes look at directory "peeper" at the sources.
+- vedi: peepholes can (at least) be switched on and off seperately (project dialog)
+- config: added configuration section for peepholes
+- vedi: hopefully improved syntax check of copy/pasted/deleted varnames
+- vedi: C-breakpoints improved a little
+- vedi: new definitions of RAM/ROM/IO of Peer included now (enables direct page, and better "variable" usage (not indexed registers in -O0) )
+- vedi: hopefully slightly correcter {}
+- vedi: syntax highlite Var/Function definition is not "GLOBAL" but Vedi based. That means you can have independened Vedi instances open, without
+        their Var/function definitions interfere with each other (very good vor copy and paste :-) )
+- vedi: projects are now "independened" of their "home" directory, meaning - projects take the directory they  are loaded 
+        from as their home, no need to place them in exactly the same "vide - relative" position anymore.
+        Thus - projects can be much more easily be "transported" to other locations (computers) 
+- tracky: add "peek" counter in Tracky
+
+BugFix:
+- vecx: vector (drawings) get better updates when debugging
+- vedi: syntax check for macros had a bug, where a macro definition ending with the word "macro" was not recognized as such
+- cartridge: bug in cartridge config, where filesnames of instructions and critics might have been created wrong
+- overlay: rotation of overlay was not handled correctly
+- dissi: reinitializing after a dissi "destroy" now switches to the correct bank at startup
+- vecx: vecx bug fixed, TFR of register "A" (read) resulted ALWAYS in $ff -> fixed
+- vecx: vecx bug fixed, read word value was implemented with "(datahi << 8) | datalo" which
+        resulted in wrong values - correct it must be: (datahi << 8) | (datalo&0xff)
+- vecci: should export Draw_VLP with 0 pattern -> fixed
+- vedi: should start on vecFever, even if emulation is not started -> fixed
+- vedi: somewhere along the way breakpoints in enriched files were broken... corrected
+- vecx: BUG: load vecVox switches to vec Voice
+- vedi: BUG: fcw is red as syntax
+
+
+July 1st 2017
+-------------
+Version 1.20
+new: 
+- vecxi: reSid emulation included - now properly included in the
+         cartridge emulation. Registers visible on "carti", saving, loading and stepping forward
+         and backwards now work.
+         Setting in Configuration removed - it is now a cartridge option
+- xml: xml subsystem changed, so tags are case sensitive. This is an immense speedup, since now
+       I can use StringBuilder class to handle xml, not Strings anymore. Stringbuilder has no build in 
+       toUpper() that can be used to search/replace
+- vecci: internally vectorlists can now be given a "BLOW_UP" string. For the storyboard, giving this as a
+       parameter instead of replacing it afterwards is also an immense speedup
+- vecci: the storyboard sync generation has a "noAdditionalOptimization" switch.
+       If set, vecci upon creation of sync lists does not try to optimize further (which also uses quite some time
+       if large vectorlists). If the animation is optimized beforehand (new optimization buttons, which SHOULD be used)
+       this will not enhance anything, instead will cost time while generating only)
+- dissi: settings for VecFever for "TF" now in configuration - no need to have a Vedi window open all the time.
+- vecci: started version II of storyboard, might be easier to handle.
+- vecci: colors for vectordisplay are now configurable (in configuration->Miscellaneous)
+- vedi: added configuration options for the pretty print columns (in configuration->Assembler)
+- dissi: added first steps towards "profiling" (new dissi button)
+       switched on in configuration, must be switched on BEFORE vectrex program is started,
+       profiling data is not saved/loaded/influenced by load/save or stepping backwards and forwards while debugging,
+       if tracker is open and active one can also watch profiling data for one vectrex round (instead of complete runtime)
+       One can see how often subprograms are executed, and how much time (cycles) they need.
+       No drill down yet, not instruction based yet!
+- dissi: added executed cycles and instruction count into dissi table (when profiling is enabled)
+- vecx: mouse can be configured as analog input (relative movement translated to horizontal/vertical analog)
+- vecx: added first steps to emulating "X, Y integrator offset values"
+- starter: slightly changed download configuration
+- starter: added quite a few TOSEC binaries (+ download)
+- starter: added many images and texts
+           starter contains by now about 190 "directly" executable vectrex binaries 
+           (the majority of homebrews/schoolbrews are downloaded by starting the first time)
+- codi: I got the sources for Becky's message and Koko's retribution from Dan Siewers with the permission to 
+        include them with Vide -> can be found in the codelib!
+- config: new config item whether images should be loaded for starter table (takes quite some time) - default is OFF
+        can be changed under tab miscellaneous. Changes only respected with next opened starter window 
+- cartinfo: bug where text "edits" were not saved to textfile (instruction and critics)
+- vecxi: played around again with open GL - JOGL this time
+         seems to work much "easier" than LWJGL, it can be "preliminary" switched on in configuration (miscellaneous) [for next vecxi instance].
+         But output as of yet is absolutely PLAIN - no overlays, colors, brightness, antialiazing, curves etc...
+- vecxi: original bug in emulation code discovered - upon read of T2 low counter the iFlag must be resetted - that was falsly implemented
+         and could lead to vectrex games crashing (e.g. omega chase).
+- vecxi: added as config item for efficiency also an efficiency "threshold"
+         I define efficiency as the "efficiency" with that the integrators work. The higher the sum of the integrators, the less "efficient" the
+         integration works.
+         e.g. x integrator is 0, adding 100 results in the integrator being 100
+              x integrator is 20000, adding 100 results in the integrator being 20090
+         Efficiency threshold calculates in laymans terms "at what" integration value the "degrading" of the
+         summarizing kicks in. Default values roughly like my own vectrex (it usually kicks in wayout of the visibity range)
+- documentation update
+ 
+BugFix:
+- vecci: storyboard animations could not be loaded if saved on another platform - due to file seperator settings
+- vecci: bug with rotation, did rotate always twice the given angle!
+- vecci: in new shortcuts, there could be paths connected with moves > 127 -> garbled output!
+- source: in the file "VECTREX.I" the definition of "Rot_VL_Mode" was wrong!
+          if that was used, than a crash of your program would occur!
+- util: minor flaw in reading xml text corrected (leading and trailing spaces)
+- vecvoice: Slight change in vecVoice emulation code. Pythagorean triangle was not running ok,
+        the "buffer full" test is different than in my alex herberts code.
+        This was "fixed" with a "hack"
+        
+
+31st of May 2017
+----------------
+Version 1.19
+new: 
+- vecxi: reSid emulation included - sound still has some crackling noise though
+         expects a sid-"card" inserted, registers from $8000 - $8020 
+         (enabled in config - miscellaneous)
+
+BugFix:
+
+30th of May 2017
+----------------
+Version 1.18
+new: 
+- documentation update
+- vecci: again speedup of optimizations in vecci
+- vecci: also the size optimization now respects the resync
+- vecxi: started adding reSID - although this is as yet not tested and can not be used!
+- vecx: efficiency emulation slightly changed
+
+BugFix:
+- small bug/syntax/entity placing corrections
+
+29th of May 2017
+----------------
+Version 1.17
+new: 
+- vecci: added wavefront obj export
+- vecci: "optimization" buttons from 1.16 quite a bit more performant
+- documentation for all that is still pending...
+
+BugFix:
+
+28th of May 2017
+----------------
+Version 1.16
+new: 
+- vecci: added popup menu to delete vectors from the table
+- vecci: storyboard added - probably Isidro will be the only one to ever use it :-) 
+- vecci: corrected "remove dots" to 3d
+- vecci: added diverse "optimization" shortcauts (new tab shortcut 2)
+- vecci: added option to rotate selected vectors (in mode vector only)
+- documentation for all that is pending...
+
+BugFix:
+- vecci: Bug with grid/no grid. If no grid was selected new points were set at +100000
+- vecci: closing the 3d-extra window also reseted the 2d-extra window (vice versa) 
+- vecci: draw sync list now respects splitter settings
+- vecci: draw sync now works correctly with "BLOW UP"
+- vecci: some other bugfixes I can't remember
+
+9th of May 2017
+---------------
+Version 1.15 - codename Isidro
+new: 
+- vecci: 3d view/editor of vectorlists (as seperate window) - accessible thru new "window" button besides the main edit 
+         * you can not add vectors, only move and work with vectors
+         * CTRL mouse moves the viewport
+         * scaling is possible
+         * sliders for all 3 axis (independend of other views)
+         * checkboxes for "grid" for each axis 
+         * checkbox for "move allowed" for each axis 
+         * axis can be shown or hidden (independend of other views)
+         * byte "cube" (frame) can be shown/hidden
+- vecci: added option to not connect more than 2 vectors at one time
+
+BugFix:
+- morphing routines had a small bug, where after finished morphing sometimes the pattern of the resulting
+  vectorlists were not correctly set
+
+3rd of Mai 2017
+---------------
+Version 1.14
+new: 
+ - vecxi: finally added configuration to size the ringbuffer, user can give ANY (up to 50000) size, may result in OOM exception though,
+          user must know self how much memory he has available
+ - dissi: step forward and backward can step multiple times, + SHIFT 10 steps, + CTRL 100 steps  
+ - dissi: the enabling of ROM + PC breakpoints can be "ON" per default now (configuration setting)
+ - dissi, vecxi: added FRAME undo - step back 30000 instructions (every 30000 instructions a frame is saved, up to buffer size)
+          that way larger step backs are possible without MB collections of data
+ - config: moved sound configuration to miscellaneous instead of emulation
+ - ay: added new PSG emulation core: libayemu
+ - ay: added the option to chose between two PSG emulation cores, the "old" one (of MAME), and LibAYEmu
+ - vide: added on tree popup: "add new empty file" 
+ - aks: added to vide (in vedi) the ability to add and play back on vectrex Arkos Tracker files,
+        in vedi right click on the tree menu and select a Arkos Tracker "bin" song. And generate 
+        example source code.
+ - vedi: added to the vedi label selection, the macro definitions 
+ - vecci: Using CTRL mouse drag on a vector display window - DRAGS the viewport, much more "unsable" than the arrow buttons
+ - vari: added checkbox to switch of display of BIOS variable names
+ - vari: added checkbox to see ALL RAM locations (not only the "named" ones)
+ - dissi: double click on the "operand" column opens vari and places the selection in the correct row (if operand denotes a variable)
+ - dissi: added command line command to "dump" (development mode -> RAM disk) the current active ROM to FecVever
+          to get the correct VecFever settings a vedi window must be open, where the settings are correctly set
+ - help: updated
+ - vecci: added the ability to select +/- to the rotation (clockwise/anticlockwise)
+ - vecci: added a "extended" switch for sync draw lists. The extended version also respects intensities
+
+BugFix:
+- assi: include filenames did not correctly exchanged seperators accross different platforms
+- assi: an original bug fixed, std #address, generated a not possible mnemonic (without error or warning)
+- vedi: another one of those small syntax highlighting changes ("lost" vars might be refound)
+- vedi: include files in a subdirectory which included files in a subdirectory could not be
+        double clicked and opened - and a thread was spawned, that could not be shut down - corrected
+- ym: the ym recording now "sees" if register 13 was retriggered - and sets the value correctly - even it
+      is the same value as befor.
+- ym: streamed ym player sometimes did not set channel 7 correctly - corrected
+- vedi: assembling and executing single files (not objects) did sometimes not work (internal null pointer exception - not reported) - corrected
+- vedi: labels inside macros are now ALL macro labels, not only labels that end with \?
+- vecci: some corrections and beautifying to the User import/export dialogs, the syntax highliting could go astray and
+         the loadings and saving were "disturbing"
+- vecxi: multistep is finaly functioning like intended (not thread blocking after a few steps)
+- vecci: another small bug with grid display fixed
+- vedi: bug that one could not open include files via double click. Stupid Windows file separator - to do a RegExp one must use "\\\\"!
+- assi: fixed a bug, that could lead to an out of memory error while creating CNT files
+- codi: fixed a bug, where linenumbering was not correct upon opening a file
+- vecx: changed vector integrator max a bit. Protector does some "strange" death "reset" - there was a diagonal
+        line displayed. This was due to the integrators being to exact in the former emulation
+- vecx: bug, where efficiency could lead to negative vectorlengths -> black screen!
+
+31st of March 2017
+------------------
+Version 1.13
+
+new: 
+- vedi: navigation panel added to vedi. This includes two different functions:
+        a) a history of "editor-jumps" - you can no go back and forth in your jump history (arrow buttons)
+        b) added a table that shows all available labels of the current source, double click jumps to the
+           label. Also - it can be configured what types of labels are displayed
+- ym: added afx files to the lister table (playable upon double click to channel A)
+- vecx: added "intensity" drift
+- vecx: added option to allow ROM-write access (to find bugs...)
+- vecx: changed painting of "pause mode"
+- dissi: added cli command "rd"
+- dissi: added breakpoint type "PC" (dissi breaks on pc = weird address, 
+         weird = higher rom size and smaller 0xe000 - yes, also pc = RAM)
+- dissi: added breakpoint type "NZ" (dissi breaks on at the executed address integrators are non zero) - only meaningfull w/o drift
+         (also as hey dissi variant: ; hey dissi "break integratorzero")
+- dissi: changed assi warning of double defined variable to only warn if variable is defined differently 
+         (structs with same names gave warnings all the time)
+- dissi: user defined RAM labels have now precedence over BIOS (Tomlin style) labels
+- dissi: added dissi comand line "quiet" - to not print breakpoints in all verbosity
+- assi: added a "#pragma"tic approach - if you have a comment "; #noDoubleWarn" behind a label, 
+        than a double definition of that label does not result in a warning (pun intended :-)) 
+- assi+dissi: added two new CNT keywords:
+        FORCE_SYMBOL #adresse# label
+        FORCE_NO_SYMBOL #adresse#
+        Assi (as usual) automatically creates these entries while assembling. 
+        The "good" thing is, that the correct labels are used in dissi when a label is double defined.
+        (in coding release I double/tripple used some RAM locations, and I was annoyed by always reading in 
+         dissi exactly the wrong names).
+        Before the first "fitting" label was used - now the exact label (if possible).
+        Also if you use a number - dissi does not desperatly try to find a label, but uses a number where
+        a number was written in the source.
+- vedi+assi+dissi: watches can be added from vedi (right mouse click on label, select watches in popup)
+- starter: added most of the university project files
+- vedi: support to output 2 banks to VecFever (64k is built automatically after compile)
+
+BugFix:
+- vecci: bug introduced with grid optimiziation (if grid was not displayed, the cross was incorrect)
+- dissi: watch add from source code with hey dissi - "type 5" was not correctly interpreted
+- dissi: hey dissi breakpoints work now with banks too
+- vedi: gui breakpoints were saved to one line further... - corrected
+- vedi: syntax coloring again a little bit more stable...
+- vedi: linenumbers were sometimes "erratic" I think I fixed that 
+- vecxi: starting in debug mode now correctly works for banks
+- dumpi: in dumpi vectorlists can now be shown that were generated to RAM
+- vecci: updateting the 3d sliders did not update the preview anymore - lost it at some stage -> corrected
+
+21st of February 2017
+---------------------
+Version 1.12
+
+new: 
+- vedi: double middle click on a BIOS function now does not jump to the include file, but rather to
+        the BIOS disassembly itself, so one can examine the function more closely 
+- vedi: added to popup menu option to insert generated data (sin, cos, circle)
+- doc: corrections and additions
+- vecci: grid display optimized, grid is only displayed, if at most width/2 lines would be displayed
+         otherwise grid is not displayed at all (since you would not be able to discern a grid anyway)
+- dissi: for convenience added a "reg" tab to dissi, this actually is the SAME as regi,
+         due to "compatabilty" the old regi window is still available as before
+- vecx: option for cartridges if a rom file is > 32k and NOT a bankswitch cart
+        (e.g. programmer had forgotten an "org" with RAM)
+- vecx: additional default search directory for overlays "overlay/homemade"
+- util: added "truncate" to the file utils
+
+BugFix:
+- config: rotation-setting was not properly saved 
+- corrected html file for BIOS, "<" and ">" were not saved html conform
+- ym: uncompressed now also outputs reg 13 if it is $ff
+- ym: streamed now also supports regs 11,12,13
+- config: if config is called and no vecxi window open, there was a nullpointer exception
+- vedi: linenumbers were not correct after inserting vectorlists
+- vedi: selecting a filename in the tree did not always switch the tab if file was already open
+- vecci: removed possible deadlock in "fitByte"
+- vedi: trying to do better with variable scanning,
+        still not performant enough - but might be more plausibly now, I should
+        redesign the whole thing!
+- vecx: corrected sometimes faulty overlay load from cartridge 
+
+19th of January 2017
+--------------------
+Version 1.11
+
+new: 
+- vecci: added very basic support to export vector lists to SVG (lines only)
+- vedi: variables scanned respect capital and non capital letters
+- vedi: vectorpanel, has the option of "upscaling" an image (partial image)
+- assi: added option to enable warning on multiple "defines" of same symbol (default is ON)
+- vedi: added tooltip to "tab" that shows the full path of the edited file
+- vedi: added dialog if "injection" is chosen, and the running file has a different name
+- dissi: variable panel "table" is now sortable
+- dissi: variable panel, 8bit and 16 bit columns can be edited (and are written to memory)
+         therefor, double click on 16 bit column does not invoke dumpi, to invoke dumpy now
+         shift+double click is needed
+- vecxi: added configuration for "zeroing divider"
+- vecxi: added some thoughts about "zero retain"
+- vecxi: disabled emulation options I think are "wrongly" implemented (overflow)
+- vedi: added scheduler, that updates var definitions every 30 seconds
+- vedi: enabled saveAll button
+- vedi+assi: added "visual breakpoints", click on line number in vedi toggles breakpoint for that line 
+        (background of linenumber changes to red), technically a "hey dissi "break"" is added at compile time
+- raster: fixed a bug with generating "shiftreg9 bug" compatible raster lists
+- vedi: editor remembers the position of open and recent files
+- vedi: added a table to display all bookmarks (double click jumps to bookmark)
+- vedi: added a table to display all breakpoints (double click also jumps to breakpoints)
+- vecxi: added options to rotate display in 90° steps
+- vecxi: added in config a new combo box next to the "vectrex generation" to chose the "delay variant"
+
+BugFix:
+- dissi: possible crash when watches were "open" and vecxi was closed
+- all: a couple of size corrections in various windows
+- vedi: sizing of split panel in vedi "corrected"
+- vedi: vectorPanel, image is now in a scrollpane and can not "outsize" the dialog anymore
+- all: some spelling corrections
+- dumpi: possible crash in dumpy removed, where addresses could be negative
+- vedi: scan and jump to include files in subdirectories were not processed correctly
+
+25th of December 2016
+---------------------
+Version 1.10
+
+new: 
+- vecxi: Added another emulation to DS2430A "DS2430_READ_REGISTER", Alex Herberts original ProtectorLE reads values from
+         the chip, that were "write once" only written to it by him. With the above DS2430A instruction those values can be read.
+         (Edit of those internal values is possible in the "carti" window of dissi)
+- carti: added some more internal registers to DS2431 window
+- dissi: added "do not force iconify on run" as option
+- raster: added "invert" button
+- raster: for trial added some support for vertical lines
+- raster: added mirror settings
+- raster: added "fixed" for sizes
+- dissi: added 2 complement to cli calculator
+- vedi: added 2 complement to cli calculator
+- vecxi shortcuts added (1->save, 2->load, b->toggle ringbuffer)
+- dissi: windows which are already opened, pop to front if corresponding button is pressed in dissi
+- vedi: first VecFever support. Ejecting of USB devices for now only working under Win and Mac.
+        I have no "native" linux system atm, and all experiments using emulators have not worked out well.
+        Also I would love a way to eject the VecFever RAMDISK without a "sudo".  
+        This is not a MAJOR hassel, Linux users must press one button more on the vectrex side - thats all!
+ - config: LAF editor callable from config
+ - dissi: added watches, watches can be defined in source "hey dissi "watch $someVariable 0|1|2|3|4|5,x""
+          add via command line, add via popup
+          remove via command line/popup
+ - dumpi: memory locations can be directly edited in dumpi "table"
+ - dissi hey dissi "print $var [8|16]" - accepts additional parameter to display 16 bit vars
+ - vedi: immediate access to larger font selection
+ - vedi: changed line numbering implementation 
+ - vide: tried to "fix" vide to support larger font "lafs"
+ - many: many windows support larger font sizes (and still look sort of ok'ish)
+         To change windows to at least be workable with variable sized fonts was hard work, every
+         window was edited multiple times to accomodate Mac and Windows (did not check Linux)
+         While not all windows have been processed (some dissi panels were left out)
+         Most seem to work, awaiting bug reports about which other windows should be done, or corrected)
+- assi: output control files of assembled sources include "length" of data sections
+- vec32: added maximum (200,000) of files in tree -> prevent Vec32 from stalling
+- vedi: added example code generation in "Project" for eEprom2431
+- codelib: added VecZ
+
+BugFix:
+- vecxi: Thomas discovered a bug in Vide, RTI instruction was falsely emulated, the CC register was 
+         pulled after E-Flag check, should have been pulled before!
+- vedi: TAB for indent was not working correctly -> fixed
+- vedi: convenience added, CMD/F (or CTRL) now not only focuses the search textfield, but also selects the text
+- vecxi: fixed bug where it was possible in vecxi that the integration variables (doubles) could 
+         be NaN, once that was reached, no other value could be set, -> blank screen
+- vecxi: shift register timing for modes with T2 timer were also only half the original -> corrected
+- vedi: removed a bug where the syntax colorer, could be initiated twice - that was potentialy using to much CPU power
+- vide: image cache is per default switched off, images might load slower, but the "standing" memory usage is reduced by
+       about 200MB. Cache can be switched on in Application configuration though.
+       This should get rid of most OOM situations, now even with starter open, the memory imprint is about 16MB.
+- vecxi: keyboard "O" for overlay switch, now also loads overlays if they weren't previously loaded
+
+27th of November 2016
+---------------------
+Version 1.09
+
+new: 
+- vecci: added menu entry "switch orientation" for a selected vector
+- vecci: split where needed with need edit value
+- vecci: remove point (join two neighbouring vectors)
+- tracki: added delete button
+- tracki: added view to current cycle count (number based)
+- tracki: now ignores "0" minimum values, also skips unrealistic high values in min/max/avg
+- ym: three convenient buttons, to swap voices from one channel to another
+- ym: added option to multiply an amplitude of a channel
+- regi: added output of current running cycle count
+- dissi: added breakpoint ability in write access to ROM (only from CLI in dissi)
+- dissi: added to 'hey dissi "break"' an optional additional parameter 'once' -> 'hey dissi "break once"'
+- assi: option to output unused (but defined) symbols to CNT file
+- vecxi: added emulation of DS2431
+
+BugFix:
+- vecci: saving of vectorlist did not correctly respect double/single usage of vertex
+         using seperate vertex with the same position resulted in a single vertex after load -> fixed
+         (Vertex have now an ID tag in the xml - due to processing loading of xml files without id tag
+          takes a bit longer)
+- dissi: enlarging from iconified state sometimes did not update the table (== crooked display)
+         -> possibly fixed 
+- vecci: another bug fixed with vectorlist loaded, where different single vertex with the same coordinates
+         were falsely connected after a load from file
+- vecxi: corrected false state loading, where Keyboard 0 could be unset
+
+14th of November 2016
+---------------------
+Version 1.08
+
+BugFix:
+- vecci: Bug where joining of vectors could lose some vectors 
+
+14th of November 2016
+---------------------
+Version 1.07
+
+new: 
+- vecxi: added timing parameters for T1 and SHIFT - I am getting more and more unhappy with the current delay 
+         emulation features (see blog). With the current emulation NOT in all circumstances 
+		 (the more timing critical the more inaccurate) the results are like the real machine!
+- config: window is now scrollable
+- vecxi: HotKey Buttons "P" Pause/Unpause and "O" Overlay on/off
+- library: added/changed some documents
+
+BugFix:
+- vecci: removed <another> possible deadlock scenario in vecci with the animation preview (thread) - damn that is annoying 
+- vecci: fixed another vectorlist clone bug (vecci), that prevented (upon other things) to do a correct preview in the monitor
+- vecxi: "manual" setting of CB2 through the via control register is only possible if shift is not output to PB2, this
+         was not correctly emulated before
+- vecxi: changed drift emulation slightly
+- vecxi: efficiency emulation is now switched on per default
+
+18th of October 2016
+--------------------
+Version 1.06
+new: 
+- vedi: upon closing of an editor, the corresponding file in the tree gets unselected
+
+BugFix:
+- vecci: images converted to vectors, had a bad "border", when only a partial image was used
+- vecci: HLR z = -z
+- vecci: fixed bug, where "join here" resulted in a "lost" vertex
+- ym: fix to playing AYFX with disabled noise (was choppy) 
+- ym: streaming detecting of voice usage was flawed (always using 0 as target)
+
+14th of October 2016
+--------------------
+Version 1.05
+new:
+- vecx: psg emulation, changed internal data generation to 16 bit + oversampling
+- vecx: sound "lines" now inherent to psg section, not vecx, this makes it 
+        easier to update the output to the lines directly when psg registers change,
+        should be more acurate 
+- ym: added "import" of ym data lines (from ascii file)
+- dissi: added an ym 'line' to ayi
+- vecx: added all neccessary code to implement the LED of "BinaryStars" Xmas Cart 2015
+        to actually see the emulation, you need a ROM dump of the card, the "free" version does
+        not contain the corresponding code sections.
+- dissi: added to "hey dissi" #reg to print registers, e.g.: hey dissi "print #a #b", also $intx and $inty
+- ym: added asm vectrex player for "streamed" data, also enhanced coder,
+      streamed coder now analyses ym data and only encodes needed data, player is configured
+      to only decode needed data with "if" statements.
+      The player is without doubt the fastest, but also the one that does not - NOT pack very well...
+- vecci: added a button for an extra editor window, that window displays the standard "editor" and is resizable, so
+      larger editor areas are now available
+- vecci: settings are now persistent (grid and scale)
+- vecci: added a small scroll button section, you can now "move" in the editor window
+      sideways (displacement width = gridwidth)
+- all: allow open of multiple instances of vedi/codi/vecci (shift menu entry)
+- vecci: included settings for output, db/fcb, hex/dec
+
+BugFix:
+- vedi: the list of last opened files could get scrambled - fixed
+
+3rd of October 2016
+-------------------
+Version 1.04
+new:
+ - dissi: added 2 complement to register tooltip in reggi
+ - dissi: added enhanced tooltip to CC in reggi
+ - ym: added "player" mode
+ - ym: shift double click on column textfield, sets the value to the complete (register) column
+ - allow of envelopes in YM-file generation (in general)
+
+bugfixes:
+ - vedi: <again> seemingly fixed a bug, where the coloror was disabled
+ - ym: possible Nullpointer Exception fixed
+ - corrected ym-file generation output to respect reg13 as 0xff if no changes happened
+ - corrected ym player in respect to that as well (both on the java side in YMSound and asm player in generation (only the new one))
+ - corrected PSG emulation to correctly emulate envelope generation
+   (although someday I have to enhance sample rates, as it is it emulation sounds quite terrible!)
+
+1st of October 2016
+-------------------
+Version 1.03
+new:
+ - tracki: now also shows the average of the current timings
+ - ym: added a new mode to export, this one is the new preffered export "module"
+       also did bugfixing
+       "preprocessing" of ym files as options, default is off, whether it is worth switching these
+       on depends on the ym files themself
+
+bugfixes:
+- vecci: the last fixes disabled most of the source exports, this had to be fixed :-)
+
+27th of Septmber 2016
+---------------------
+Version 1.02
+new:
+- vec32: added a "utility" window to support editing/saving/running of Vectres32 (BASIC) programs
+         including editor (+ syntax highlighting) and a terminal
+- vecci: added support to import Wavefront OBJ files
+- vecci: support for hidden line removal and definition of faces
+- vecci: points can be selected (deselected) by clicking on the corresponding columns in the vectorlist table
+- vecci: export status reflects order of vectorlists
+- vecci: added export for vectorlists to BASIC (Draw_VL_Mode only)
+- vecxi: added emulation for the phenomenon, that integration is possible during "zero enable",
+         also added emulation that zeroing is not spontanous but a going down to zero over time
+- ym: added support to export data to BASIC (uncompressed only, and only "all" registers)
+- doc: documentation for most of the mentioned changes/enhancements
+- template: updated vectorlist templates to handle vectorlists > 8bit (length)
+- template: templates for BASIC YM-Play and vectorlist display
+
+bugfixes:
+- vecci: deadlock in animation fixed
+- vecci: shortcut buttons "order", "split", "connect" do not produce garbage when called with "deformed" vectorlists
+         (deformed here: vertice that are "relative"- used by more than two vectors)
+- dissi: CNT files a bit more robust in respect to "SPACES"
+- vedi: possibly solved another deadlock with syntax highlighting
+- vedi: bug where line numbering was not updated after "pasting" 
+- sound: added log output to TinySound
+- vecx: checks that TinySound is initialized (before null pointer exceptions were thrown)
+
+7th of Septmber 2016
+--------------------
+Version 1.01
+bugfixes:
+- dissi: double click on address row for small 16bit addresses did not work as intended
+
+
+6th of September 2016
+---------------------
+Vide version 1.0 release

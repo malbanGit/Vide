@@ -117,8 +117,8 @@ public class VediSettings implements Serializable
         edi.filename = fn;
         edi.position = pos;
         
-removeRecent(fn);
-addRecent(fn, pos);
+        removeRecent(fn);
+        addRecent(fn, pos);
         return edi;
     }
     public EditorFileSettings addRecent(String fn, int pos)
