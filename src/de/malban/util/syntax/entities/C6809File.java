@@ -157,6 +157,10 @@ public class C6809File
     // so I can use them as keys in a hashmap
     private synchronized EntityDefinition updateEntity(String oldLine, String line)
     {
+        return updateEntity(oldLine, line, true);
+    }
+    private synchronized EntityDefinition updateEntity(String oldLine, String line, boolean doInclude)
+    {
         if (line == null) return null;
         boolean existed = false;
         int status = ENTITY_UNCHANGED;
@@ -243,22 +247,25 @@ public class C6809File
         {
             if (entity.type == TYP_INCLUDE)
             {
-                String newFilename ="";
-                if (path != null)
+                if (doInclude)
                 {
-                    newFilename+=path+File.separator;
+                    String newFilename ="";
+                    if (path != null)
+                    {
+                        newFilename+=path+File.separator;
+                    }
+                    newFilename+=entity.name;
+                    if (master.inReset)
+                    {
+                        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(newFilename)).toLowerCase();
+                        master.allFileMap.remove(key);
+                    }
+
+                    // todo circumvent circlular includes
+                    // now they throw an stack overflow!
+                    if (!newFilename.equals(fullName))
+                        master.handleFile(newFilename, null);
                 }
-                newFilename+=entity.name;
-                if (master.inReset)
-                {
-                    String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(newFilename)).toLowerCase();
-                    master.allFileMap.remove(key);
-                }
-                
-                // todo circumvent circlular includes
-                // now they throw an stack overflow!
-                if (!newFilename.equals(fullName))
-                    master.handleFile(newFilename, null);
             }
             if (entity.type == TYP_LIB_INCLUDE)
             {
@@ -301,11 +308,15 @@ public class C6809File
     }
     synchronized void scanText(String text)
     {
+        scanText(text, true);
+    }
+    synchronized void scanText(String text, boolean doInclude)
+    {
         String[] lines = text.split("\n");
         int c = 0;
         for (String line : lines)
         {
-            updateEntity(line+";"+c, line+";"+c);
+            updateEntity(line+";"+c, line+";"+c, doInclude);
             c++;
         }
     }

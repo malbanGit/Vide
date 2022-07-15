@@ -339,6 +339,9 @@ public class Cartridge implements Serializable
     // fit the other parts of emulation
     public int readByte(int pos) 
     {
+//        if (pos == 20898)
+//            pos +=0;
+        
         // TODO move if away from EVERY CaARTRIDGE ACCESS!!!
         if (cart == null) return 0;
         
@@ -409,6 +412,8 @@ public class Cartridge implements Serializable
     }
     public void write(int address, byte data)
     {
+        if (address == 20898)
+            address +=0;
         if (sidEnabled)
         {
             if ((address>=0x8000) && (address <0x8020))
@@ -960,22 +965,54 @@ public class Cartridge implements Serializable
             byte[] data = Files.readAllBytes(path);
             loadLen = data.length;
 
-            if (loadLen > MAX_BANK_SIZE)
+            if (loadLen ==262144 )
             {
-                if (!_32kOnly)
-                    log.addLog("Cartridge size > 32k, bankswitching assumed!", WARN);
+                rom48KEnabled = true;
+                MAX_BANK_SIZE = 32768+32768/2;
+                isPB6IRQBankswitch = true;
+                bankMax=4;
+                bankLength = new int[bankMax]; // so many bank length we need
+                bankLength[0] = 262144/4;
+                bankLength[1] = 262144/4;
+                bankLength[2] = 262144/4;
+                bankLength[3] = 262144/4;
+
+                cart = new int[4][];     // and so many banks as memory data
+                cart[0] = new int[262144/4]; 
+                cart[1] = new int[262144/4]; 
+                cart[2] = new int[262144/4]; 
+                cart[3] = new int[262144/4]; 
+                
+                for (int i=0; i< 262144/4;i++)
+                {
+                    cart[0][i] = data[0*(262144/4)+i]&0xff;
+                    cart[1][i] = data[1*(262144/4)+i]&0xff;
+                    cart[2][i] = data[2*(262144/4)+i]&0xff;
+                    cart[3][i] = data[3*(262144/4)+i]&0xff;
+                }
+                
+                return true;
             }
-
-            bankMax=(data.length +(MAX_BANK_SIZE-1))/MAX_BANK_SIZE; // file chunks of 37268 size are banks
-
-            if (_32kOnly)
+            else
             {
                 if (loadLen > MAX_BANK_SIZE)
                 {
-                    loadLen = MAX_BANK_SIZE;
-                    bankMax = 1;
+                    if (!_32kOnly)
+                        log.addLog("Cartridge size > 32k, bankswitching assumed!", WARN);
+                }
+
+                bankMax=(data.length +(MAX_BANK_SIZE-1))/MAX_BANK_SIZE; // file chunks of 37268 size are banks
+
+                if (_32kOnly)
+                {
+                    if (loadLen > MAX_BANK_SIZE)
+                    {
+                        loadLen = MAX_BANK_SIZE;
+                        bankMax = 1;
+                    }
                 }
             }
+            
             
             cart = new int[bankMax][];     // and so many banks as memory data
             bankLength = new int[bankMax]; // so many bank length we need

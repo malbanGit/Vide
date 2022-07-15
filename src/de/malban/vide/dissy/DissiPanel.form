@@ -343,7 +343,7 @@
                   <Component id="jPanelDebug" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-              <Component id="jSplitPane1" pref="571" max="32767" attributes="0"/>
+              <Component id="jSplitPane1" pref="665" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -1426,7 +1426,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Courier" size="12" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value=" EFHI NZVC"/>
+                        <Property name="text" type="java.lang.String" value="_EFHI NZVC"/>
                         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;PRE&gt;&#xa;Entire flag (Bit 7, if set RTI~s=F)&#xa;FIRQ/IRQ interrupt mask (Bit 6/4)  &#xa;Half carry (Bit 5)                 &#xa;Negative (Bit 3)                   &#xa;Zero (Bit 2)                       &#xa;Overflow (Bit 1)                   &#xa;Carry/borrow (Bit 0)&#xa;&lt;/PRE&gt;&#xa;&lt;/html&gt;"/>
                       </Properties>
                     </Component>

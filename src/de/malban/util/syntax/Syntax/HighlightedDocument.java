@@ -105,6 +105,28 @@ public class HighlightedDocument extends DefaultStyledDocument
 		documentReader = new DocumentReader(this);
 		syntaxLexer = new JavaLexer(documentReader);
 	}
+	public HighlightedDocument(int id, String filename) {
+            vediId = id;
+            knownFilename = filename;
+		// Start the thread that does the coloring
+	//	colorer.start();
+                // malban, moved thread start to be
+                // started seperately,
+                // otherwise texts will on start ALLWAYs
+                // be colored twice!
+                // one on setting the highlighter
+                // thread snaps event and starts running
+                // two, since event queue is empty upon setting the actual text
+                
+                if (VideConfig.syntaxHighliteEnabled)
+                    colorer = new Colorer(this);
+                else
+                    colorer = null;
+
+		// create the new document.
+		documentReader = new DocumentReader(this);
+		syntaxLexer = new JavaLexer(documentReader);
+	}
         
         public void start()
         {

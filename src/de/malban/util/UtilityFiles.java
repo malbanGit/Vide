@@ -571,6 +571,7 @@ public class UtilityFiles
         {
             this.is = is;
             this.type = type;
+            this.setName("Exec StreamGobbler" );
         }
 
         public void run()

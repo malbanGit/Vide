@@ -1,3 +1,55 @@
+When generate noShift lists 
+in RUN mode - also gnerate noShift lists
+
+
+https://github.com/Threetwosevensixseven/ayfxedit-improved
+
+Brett Walach
+@Malban any idea why projects that built fine in 2.6-rc.2 have this preprocessor error in 2.6-rc.3?
+Cleaned...
+Preprocessing: /source/cartridge.c         Preprocessing failed
+Error preprocessing: /Applications/Vide.osx_2.6rc3/projects/SpikeGetsSquished/source/cartridge.c
+Hmm... C/include and C/lib folders were missing, but copying from 2.6-rc.2 and restarting Vide didn't help.
+
+
+
+
+
+
+
+
+
+I realize this might be too late, but a suggestion to support flash saving for the EPROM based carts.
+
+As Telengard will most likely be played only by a single player during a game controller port 2 would seem to be available. So I suggest using Controller Port 2 for supporting game and character saving via a device many people already have. in the AtarVox and AtarVox+ SaveKey storage feature. For those people who do not yet have an AtariVox, or want a lower cost device only to save a game data, then the standalone SaveKey device also exists.
+
+If a SaveKey feature is supported in Telegard I do think it will be the first Vectrex title to do so.
+
+Save Key, with allocation list.:
+https://atariage.com/store/index.php?l=product_detail&p=1194
+
+AtariVox+, has SaveKey feature:
+https://atariage.com/store/index.php?l=product_detail&p=1045
+
+AtariVox+ SaveKey Memory Storage Allocation list:
+https://atariage.com/atarivox/atarivox_mem_list.html
+
+
+pitrex bad apple
+pitrex some speedy ... not displaying correctly with december
+https://www.facebook.com/groups/vectrex/posts/1770498699827166/?__cft__[0]=AZVX-TCRTAH2Y66zf1_NXLN4jcoeZIqEap_LfDky5kzcHp7G268yoTxdMyQhQNMyTnxVT5tq5aUyogV37YusXXX8mBWeJi45ZNdvJkl0Ve7TGrqVYlvPzkk9MJZ9ajQBk6lNr_BA9S_JnhjpD9JUZvbAQxfCKaIEscwRVjuP-5IwAOz1k8LwzkKM2HFklapyZdQ&__tn__=%2CO%2CP-R
+
+
+done:
+@Malban I found a bug by accident... was looking for the large 2D vector editor window and opened the 3D one by accident.  
+If you move the scale all of the way up to 49 and back down when the window is resized larger, it crashes Vide, completely locking it up. 
+The 2D window is fine though.  Thanks for the shortcuts!  BTW: I had the log window open on a previous attempt and it didn't spit anything out.  
+
+
+
+
+
+
 
 
 add rgb support for imager???

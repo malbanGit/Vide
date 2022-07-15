@@ -107,7 +107,7 @@ public class EditorPanel extends EditorPanelFoundation
     }
     public void resetDocument()
     {
-        editorPaneDocument = new HighlightedDocument(vediId);
+        editorPaneDocument = new HighlightedDocument(vediId, getFilename());
     }
     protected boolean isInitError()
     {

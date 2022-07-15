@@ -5227,6 +5227,8 @@ boolean DELELTE_EMPTY_LINES = false;
         Path path = Paths.get(filename);
         name = path.getFileName().toString();
         
+        filename = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(filename));
+        
         int found = -1;
         for (int i=0; i < jTabbedPane1.getTabCount(); i++)
         {
@@ -5234,10 +5236,15 @@ boolean DELELTE_EMPTY_LINES = false;
 //            if (tabName.equalsIgnoreCase(name))
             {
                 jTabbedPane1.setSelectedComponent(jTabbedPane1.getComponentAt(i));
-                EditorPanel ed = (EditorPanel)jTabbedPane1.getComponentAt(i);
-                String t = ed.getFilename();
-                if (t.equals(filename))
-                    return ed;
+                if (jTabbedPane1.getComponentAt(i) instanceof EditorPanel)
+                {
+                    EditorPanel ed = (EditorPanel)jTabbedPane1.getComponentAt(i);
+                    String t = ed.getFilename();
+                    if (t.equals(filename))
+                        return ed;
+                }
+                
+                
             }
         }
         if (!create) return null;
@@ -6740,6 +6747,8 @@ tabChangeNotAllowed = false;
         // set Tree to location
         inProject = true;
         File projectFile = new File (de.malban.util.Utility.makeVideAbsolute(filename ));
+        if (currentProject==null) return false;
+        
         currentProject.projectPrefix = de.malban.util.Utility.makeVideRelative(projectFile.getAbsolutePath());
         currentProject.projectPrefix = de.malban.util.UtilityString.replace(currentProject.projectPrefix, projectFile.getName(), "");
         if (currentProject.projectPrefix.endsWith(File.separator)) 
@@ -7184,6 +7193,9 @@ tabChangeNotAllowed = false;
                 
         if (isPC)
         {
+            boolean twice = currentProject.getBankswitching().contains("2 bank standard");
+            String bankAdd = "";
+
             String targetFile = pathOnly+filenameBaseOnly+".c";
             if (!saveAYFXC(pathFull, targetFile))
             {
@@ -7194,16 +7206,14 @@ tabChangeNotAllowed = false;
             String nameOnly = Paths.get(targetFile).getFileName().toString();
             String barenameOnly = nameOnly.substring(0, nameOnly.length()-2); // is a ".c", tehrefor a -2 must work!
 
-            String pathSource = getProjectBase()+ File.separator+"source";
+//            String pathSource = getProjectBase()+ File.separator+"source";
 //            convertToCASM(targetFile, true);
-            de.malban.util.UtilityFiles.move(targetFile, pathSource+ File.separator+barenameOnly+".c");
- 
-            
-            
-            
-            String outName = pathSource+File.separator+barenameOnly+".h";
+//            de.malban.util.UtilityFiles.move(targetFile, pathSource+ File.separator+barenameOnly+".c");
+           
+            targetFile = de.malban.util.UtilityString.replace(targetFile, ".c", ".h");
+//            String outName = pathSource+File.separator+barenameOnly+".h";
             String body = "extern const unsigned int "+barenameOnly+"_data[];\n";
-            de.malban.util.UtilityFiles.createTextFile(outName, body);
+            de.malban.util.UtilityFiles.createTextFile(targetFile, body);
         }
         else
         {
@@ -7790,6 +7800,9 @@ tabChangeNotAllowed = false;
                 n2 += ".fil";
                 de.malban.util.UtilityFiles.concatFiles(n1, n2);
                 checkVec4EverFile(n1+".con");
+                
+                if (is48K)
+                    de.malban.util.UtilityFiles.concatFiles(n1+".con", n1+".con");
             }
             else if (cart.getFullFilename().size() == 4)
             {
@@ -8291,7 +8304,7 @@ tabChangeNotAllowed = false;
                                     {
                                         if ((config.deepSyntaxCheckThresholdActive) && (edi.getText().length()>config.deepSyntaxCheckThreshold))
                                             continue;
-                                        asmInfo.resetDefinitions(de.malban.util.Utility.makeVideAbsolute(edi.getFilename()), edi.getText());
+                                        asmInfo.resetDefinitions(de.malban.util.Utility.makeVideAbsolute(edi.getFilename()), edi.getText(), false);
                                         edi.hasChanged1 = false;
                                     }
                                 }
@@ -8301,7 +8314,7 @@ tabChangeNotAllowed = false;
                                     {
                                         if ((config.deepSyntaxCheckThresholdActive) && (edi.getText().length()>config.deepSyntaxCheckThreshold))
                                             continue;
-                                        cInfo.resetDefinitions(de.malban.util.Utility.makeVideAbsolute(edi.getFilename()), edi.getText());
+                                        cInfo.resetDefinitions(de.malban.util.Utility.makeVideAbsolute(edi.getFilename()), edi.getText(), false);
                                         edi.hasChanged1 = false;
                                     }
                                 }
@@ -10329,10 +10342,10 @@ tabChangeNotAllowed = false;
             }
 
             // if locally a lib directory exists - grab all rel files in there too
-            if (!twice)
+//            if (!twice)
                 directory = new File(baseProjectPath+ File.separator+"lib");
-            else
-                directory = new File(baseProjectPath+ File.separator+"lib."+banks);
+//            else
+//                directory = new File(baseProjectPath+ File.separator+"lib."+banks);
             if (directory.exists())
             {
                 fList = directory.listFiles();

@@ -136,7 +136,7 @@ class Colorer extends Thread
      */
     public Colorer(HighlightedDocument document) 
     {
-        this.setName("Colorer I will never die "+uid+"!");
+        this.setName("Colorer("+document.knownFilename+"): "+uid+"!");
         this.document = new WeakReference(document);
         this.setPriority(2); // normal is 5, max is 10 , min is 1
     }
@@ -592,6 +592,9 @@ log.addLog("unkown:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
                     dpEnd = new DocPosition(t.getCharEnd());
                 }
                 lastPosition = (t.getCharEnd() + change);
+if (lastPosition>stop)
+    break; // some error!!!
+                
                 // The other more complicated reason for doing no
                 // more highlighting
                 // is that all the colors are the same from here on

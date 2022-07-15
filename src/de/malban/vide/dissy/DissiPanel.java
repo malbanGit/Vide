@@ -1311,7 +1311,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jLabel19.setToolTipText("<html>\n<PRE>\nEntire flag (Bit 7, if set RTI~s=F)\nFIRQ/IRQ interrupt mask (Bit 6/4)  \nHalf carry (Bit 5)                 \nNegative (Bit 3)                   \nZero (Bit 2)                       \nOverflow (Bit 1)                   \nCarry/borrow (Bit 0)\n</PRE>\n</html>");
 
         jLabel21.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
-        jLabel21.setText(" EFHI NZVC");
+        jLabel21.setText("_EFHI NZVC");
         jLabel21.setToolTipText("<html>\n<PRE>\nEntire flag (Bit 7, if set RTI~s=F)\nFIRQ/IRQ interrupt mask (Bit 6/4)  \nHalf carry (Bit 5)                 \nNegative (Bit 3)                   \nZero (Bit 2)                       \nOverflow (Bit 1)                   \nCarry/borrow (Bit 0)\n</PRE>\n</html>");
 
         jLabel15.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
@@ -1635,7 +1635,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     .addComponent(jCheckBox3)
                     .addComponent(jPanelDebug, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(2, 2, 2)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
                 .addGap(2, 2, 2)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );

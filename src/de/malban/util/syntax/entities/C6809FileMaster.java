@@ -87,14 +87,14 @@ public class C6809FileMaster
     }
 
     // all included are also reset
-    public void resetDefinitions(String filename, String text)
+    public void resetDefinitions(String filename, String text, boolean doIncludes)
     {
         if (inUpdate>0) return;
         inUpdate++;
         inReset=true;
         String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeVideAbsolute(filename)).toLowerCase();
         allFileMap.remove(key);
-        handleFile(filename, text);
+        handleFile(filename, text, doIncludes);
         inReset=false;
         inUpdate--;
     }
@@ -172,6 +172,10 @@ public class C6809FileMaster
     // to be on the save side of line end definitions
     public C6809File handleFile(String _fullname, String _text)
     {
+        return handleFile(_fullname, _text, true);
+    }
+    public C6809File handleFile(String _fullname, String _text, boolean doInclude)
+    {
         if (_fullname.contains(Global.mainPathPrefix))
             _fullname = de .malban.util.UtilityString.replace(_fullname, Global.mainPathPrefix, "");
         String key = de.malban.util.Utility.makeVideAbsolute(Global.mainPathPrefix+de.malban.util.UtilityFiles.convertSeperator(_fullname)).toLowerCase();
@@ -194,7 +198,7 @@ public class C6809FileMaster
         }
         fileInfo.text = new StringBuffer(_text);
         fileInfo.lineCount = fileInfo.getLineCount(_text);
-        fileInfo.scanText(_text);
+        fileInfo.scanText(_text, doInclude);
         allFileMap.put(key, fileInfo);
 //        System.out.println("\""+fileInfo.name+"\" loaded!");
         return fileInfo;

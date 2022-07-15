@@ -15,5 +15,5 @@ public interface E6809Access {
     public void e6809_write8(int address, int data);
     public void vectrexNonCPUStep(int cycles);
     public void vectrexNonCPUStepDontAdd(int cycles);
-
+    
 }

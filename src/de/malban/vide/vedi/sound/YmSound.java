@@ -821,18 +821,36 @@ public class YmSound {
     }
     
     public boolean addRow(int row)
-    {
+    { 
+        if (out_buf == null)
+            out_buf = new byte[16][];
+
         byte[][] new_out_buf = new byte[16][];
         for (int i=0;i<16; i++)
         {
-            new_out_buf[i] = new byte[out_buf[i].length+1];
-            if (row >0)
-                System.arraycopy(out_buf[i], 0, new_out_buf[i], 0, row);
+            int len = 1;
+            if (out_buf[i] != null) len = out_buf[i].length+1;
+            
+            new_out_buf[i] = new byte[len];
+            
+            
+            if (out_buf[i] != null)
+            {
+                if (row >0) 
+                    System.arraycopy(out_buf[i], 0, new_out_buf[i], 0, row);
+            }
+
+
             if (i != 7)
                 new_out_buf[i][row] = 0;
             else
                 new_out_buf[i][row] = 255-128-64;
-            System.arraycopy(out_buf[i], row, new_out_buf[i], row+1, out_buf[i].length-row);
+
+            if (out_buf[i] != null)
+            {
+                System.arraycopy(out_buf[i], row, new_out_buf[i], row+1, out_buf[i].length-row);
+            }
+
             out_buf[i] = new_out_buf[i];
         }
         vbl_len++;

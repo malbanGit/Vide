@@ -253,7 +253,11 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     public static final int MAX_DATA_LEN = 32;
     
     public transient Cartridge cart;
+
+//    in protector cart from $462e PROTEC
     
+//    read PROTEC + serial is 18FB STA is first serial        
+            
     public static class EpromData implements Serializable
     {
         byte[] data = new byte[MAX_DATA_LEN];
@@ -800,7 +804,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     void initOutputNextRegByte()
     {
         highLevelState = HL_READ_BYTE_FROM_REG;
-        currentByteOutput = epromData.reg[currentRegAddress%(0x07)];
+        currentByteOutput = epromData.reg[currentRegAddress%(0x08)];
         currentWriteByteComplete = currentByteOutput;
         bitsOutputDone = 0;
         currentRegAddress=(currentRegAddress+1)%8;

@@ -795,7 +795,7 @@ public class SingleVector3dPanel  extends SingleVectorPanel
         if (minz!=1) max *=2;
         
         if (max > 10000) return ;//50*50*25) return;
-        
+        if (max <0) return; // overflow
         if (!gridx)minx = 1;
         if (!gridy)miny = 1;
         if (!gridz)minz = 1;

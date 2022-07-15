@@ -4066,15 +4066,18 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         if (fc.getSelectedFile() == null) return;
         
         lastPath = fc.getSelectedFile().getAbsolutePath();
-        initYM( lastPath);
+        if (initYM( lastPath))
+        {
+            ympos = 0;
+            workBufToSelection();
+            jTable1.tableChanged(null);
+            jTable2.tableChanged(null);
+            jTable1.repaint();
+            jTable2.repaint();
+            initLister();        
+        }
         
-        ympos = 0;
-        workBufToSelection();
-        jTable1.tableChanged(null);
-        jTable2.tableChanged(null);
-        jTable1.repaint();
-        jTable2.repaint();
-        initLister();
+
     }//GEN-LAST:event_jButtonLoadActionPerformed
     // 32 bit int as byte array in big endian
     byte[] getLongBytes(int l)
@@ -5531,9 +5534,13 @@ s
     {
         if (ymSound == null) return;
         if (ymSound.out_buf == null) return;
+        if (ymSound.out_buf[0] == null) return;
+        if (ympos>=ymSound.out_buf[0].length) ympos=ymSound.out_buf[0].length-1;
+        if (ympos<0) return;
         for (int r=0; r< 15; r++)
         {
             if (!usedRegs[r]) continue;
+            if (ymSound.out_buf[r] == null) continue;
             byte value = ymSound.out_buf[r][ympos];
             byte poker = value;
             int i=r;

@@ -1583,7 +1583,7 @@ waitAMoment = false;
         // paranoia!
         if (one != null) return;
         if (!stop) return;
-        one = new Thread() 
+        one = new Thread("Vecxi-emulation") 
         {
             public void run() 
             {

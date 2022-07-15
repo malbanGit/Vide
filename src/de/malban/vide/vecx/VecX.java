@@ -584,7 +584,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         if ((address & 0xe000) == 0xe000) 
         {
             /* rom */
-            return rom[address & 0x1fff];
+            return rom[address & 0x1fff]&0xff;
         } 
         else if ((address & 0xe000) == 0xc000) 
         {
@@ -597,7 +597,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 }
                 /* ram */
                 //data = ram[address & 0x3ff];
-                return ram[address & 0x3ff];
+                return ram[address & 0x3ff]&0xff;
             } 
             else if ((address & 0x1000) != 0)
             {
@@ -631,7 +631,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                                 data = data | 0x40;
                             }
                         }
-                        return data;
+                        return data&0xff;
                     case 0x1:
                         /* register 1 also performs handshakes if necessary */
                         if ((via_pcr & 0x0e) == 0x08) 
@@ -655,11 +655,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         else 
                         {
 //                            data = via_ora;
-                            return via_ora;
+                            return via_ora&0xff;
                         }
                     case 0x2:
                         //data = via_ddrb;
-                        return via_ddrb;
+                        return via_ddrb&0xff;
                     case 0x3:
                         //data = via_ddra;
                         return via_ddra;
@@ -670,7 +670,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 //                        via_t1int = 0; // THIS WAS original - and is wrong!
                         via_t1int = 1;
                         int_update ();
-                        return data;
+                        return data&0xff;
                     case 0x5:
                         /* T1 high order counter */
                         // data = (via_t1c >> 8);
@@ -678,11 +678,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     case 0x6:
                         /* T1 low order latch */
                         //data = via_t1ll;
-                        return via_t1ll;
+                        return via_t1ll&0xff;
                     case 0x7:
                         /* T1 high order latch */
                         //data = via_t1lh;
-                        return via_t1lh;
+                        return via_t1lh&0xff;
                     case 0x8:
                         /* T2 low order counter */
                         data = via_t2c;
@@ -697,7 +697,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         
                         
                         int_update ();
-                        return data;
+                        return data&0xff;
                     case 0x9:
                         /* T2 high order counter */
 //                        data = (via_t2c >> 8);
@@ -705,31 +705,31 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     case 0xa:
                         //data = via_sr;
                         timerAddItem(via_sr, null, TIMER_SHIFT_READ);
-                        return via_sr;
+                        return via_sr&0xff;
                     case 0xb:
                         //data = via_acr;
-                        return via_acr;
+                        return via_acr&0xff;
                     case 0xc:
                         //data = via_pcr;
-                        return via_pcr;
+                        return via_pcr&0xff;
                     case 0xd:
                         /* interrupt flag register */
                         //data = via_ifr;
-                        return via_ifr;
+                        return via_ifr&0xff;
                     case 0xe:
                         /* interrupt enable register */
                         //data = (via_ier | 0x80);
-                        return (via_ier | 0x80);
+                        return (via_ier | 0x80)&0xff;
                 }
             }
             else if (cart != null) 
             {
-                return cart.readByte(address);
+                return cart.readByte(address)&0xff;
             } 
         } 
         else if (cart != null) 
         {
-            return cart.readByte(address);
+            return cart.readByte(address)&0xff;
         } 
         return 0xff; // and return unsigned byte!
     }
@@ -748,6 +748,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         if ((address & 0xe000) == 0xe000) 
         {
             /* rom */
+
+            log.addLog("ROM write attempted! to: "+String.format("$%04X", address), ERROR);
+            
         } 
         else if ((address & 0xe000) == 0xc000) 
         {
@@ -1254,15 +1257,15 @@ pb6_out = npb6;
                     doCheckRamp(false);
                     /* reload counter */
 
-                    via_t1c = (via_t1lh << 8) | via_t1ll;
+                    via_t1c = ((via_t1lh << 8)&0xff00) | (via_t1ll&0xff);
                 } 
                 else 
                 {
                     /* one shot mode */
                     // reload timer
-                    via_t1c = (via_t1lh << 8) | via_t1ll;
+// CSA                    via_t1c = ((via_t1lh << 8)&0xff00) | (via_t1ll&0xff);
                     
-                    via_t1c++; // reloading takes one cycle?
+// CSA                    via_t1c++; // reloading takes one cycle?
                     // reloaded value is shown "false" in vecxi since it show "value+"
                     // the real VIA shows hi ff, lo 0 and than the "real" value appears next round
                     

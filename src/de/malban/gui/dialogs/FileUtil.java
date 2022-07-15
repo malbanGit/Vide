@@ -188,6 +188,13 @@ public class FileUtil extends javax.swing.JPanel {
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         jButton15 = new javax.swing.JButton();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel45 = new javax.swing.JLabel();
+        jTextFieldstart12 = new javax.swing.JTextField();
+        jButtonFileSelect14 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
+        jLabel46 = new javax.swing.JLabel();
+        jLabel47 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jButtonFileSelect12 = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
@@ -666,10 +673,10 @@ public class FileUtil extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createSequentialGroup()
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -732,6 +739,7 @@ public class FileUtil extends javax.swing.JPanel {
         });
 
         jButton9.setText("invert");
+        jButton9.setToolTipText("Reorders 32k block in 32k file, bank 1 becomes bank 0 vice versa");
         jButton9.setName("jButton9"); // NOI18N
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -871,7 +879,7 @@ public class FileUtil extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE))
+                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("2", jPanel7);
@@ -947,7 +955,7 @@ public class FileUtil extends javax.swing.JPanel {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("ROM to V4EB"));
@@ -1017,7 +1025,7 @@ public class FileUtil extends javax.swing.JPanel {
                         .addGap(70, 70, 70)
                         .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonFileSelect10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel35)
                     .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1191,6 +1199,76 @@ public class FileUtil extends javax.swing.JPanel {
 
         jLabel39.getAccessibleContext().setAccessibleName("Enter a \"music\" bin file...");
 
+        jPanel16.setBorder(javax.swing.BorderFactory.createTitledBorder("to 32k files"));
+        jPanel16.setMinimumSize(new java.awt.Dimension(619, 85));
+        jPanel16.setName("jPanel16"); // NOI18N
+        jPanel16.setPreferredSize(new java.awt.Dimension(503, 80));
+
+        jLabel45.setText("file ");
+        jLabel45.setName("jLabel45"); // NOI18N
+
+        jTextFieldstart12.setName("jTextFieldstart12"); // NOI18N
+
+        jButtonFileSelect14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
+        jButtonFileSelect14.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect14.setName("jButtonFileSelect14"); // NOI18N
+        jButtonFileSelect14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect14ActionPerformed(evt);
+            }
+        });
+
+        jButton17.setText("cut");
+        jButton17.setToolTipText("cuts the file in 32k pieces");
+        jButton17.setName("jButton17"); // NOI18N
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+
+        jLabel46.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel46.setText("output files -> + \".#.bin\"");
+        jLabel46.setName("jLabel46"); // NOI18N
+
+        jLabel47.setText("Ok");
+        jLabel47.setName("jLabel47"); // NOI18N
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addComponent(jLabel45)
+                .addGap(24, 24, 24)
+                .addComponent(jTextFieldstart12, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonFileSelect14)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel46)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel47)
+                    .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonFileSelect14)
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldstart12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -1199,6 +1277,7 @@ public class FileUtil extends javax.swing.JPanel {
             .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
             .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
             .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+            .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1210,8 +1289,12 @@ public class FileUtil extends javax.swing.JPanel {
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 230, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 145, Short.MAX_VALUE))
         );
+
+        jPanel16.getAccessibleContext().setAccessibleName("to 32k files");
 
         jTabbedPane1.addTab("3", jPanel10);
 
@@ -2617,6 +2700,65 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
         }
         jTextAreadbOutput.setText(b.toString());
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButtonFileSelect14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect14ActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String name = fc.getSelectedFile().getAbsolutePath();
+        jTextFieldstart12.setText(name);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonFileSelect14ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        String filename = jTextFieldstart12.getText();
+        
+        
+        File file = new File(filename);
+        long len = file.length();
+
+        try
+        {
+            int count = 0;
+            Path path = Paths.get(filename);
+            byte[] data = Files.readAllBytes(path);    
+            while (len>0)
+            {
+                FileOutputStream output = new FileOutputStream(filename+"."+count+".bin", true);
+                try 
+                {
+                    if (len-32768 > 0)
+                    {
+                        output.write(data,count*32768,count*32768+32768);
+                        len -=32768;
+                    }
+                    else
+                    {
+                        output.write(data,count*32768,(int)len);
+                        len = 0;
+                    }
+                } 
+                finally 
+                {
+                   output.close();
+                }
+                count++;
+            }
+        }
+        catch (Throwable e)
+        {
+            jLabel47.setText("error");
+            jLabel47.setVisible(true);
+            jLabel47.setForeground(Color.red);
+            return;
+        }
+        
+        jLabel47.setText("Ok");
+        jLabel47.setVisible(true);
+        jLabel47.setForeground(Color.green);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton17ActionPerformed
     String replaceFunctionCalls(String line)
     {
         // todo
@@ -2721,6 +2863,7 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -2734,6 +2877,7 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JButton jButtonFileSelect11;
     private javax.swing.JButton jButtonFileSelect12;
     private javax.swing.JButton jButtonFileSelect13;
+    private javax.swing.JButton jButtonFileSelect14;
     private javax.swing.JButton jButtonFileSelect2;
     private javax.swing.JButton jButtonFileSelect3;
     private javax.swing.JButton jButtonFileSelect4;
@@ -2783,6 +2927,9 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2795,6 +2942,7 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -2820,6 +2968,7 @@ banks += ((banks*SAMPLE_OVERFLOW_BUFFER)+(SAMPLE_OVERFLOW_BUFFER-1)) / (MAX_BANK
     private javax.swing.JTextField jTextFieldstart1;
     private javax.swing.JTextField jTextFieldstart10;
     private javax.swing.JTextField jTextFieldstart11;
+    private javax.swing.JTextField jTextFieldstart12;
     private javax.swing.JTextField jTextFieldstart2;
     private javax.swing.JTextField jTextFieldstart3;
     private javax.swing.JTextField jTextFieldstart4;

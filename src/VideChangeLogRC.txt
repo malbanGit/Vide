@@ -1,3 +1,18 @@
+done:
+Chess did not run correctly.
+Took me a while to find but this was actually a bug that was implemented, when porting
+Vecx to java. Some integers were not (& 0xff) to make them bytes - so negative numbers 
+could under special cases have a very negative effect!
+
+
+
+vecci: added smartMax
+
+
+fixed: additional "libraries" in 2 bank "C" projects were not linked
+
+
+
 23th of February 2022
 Version 2.6 RC 03
 

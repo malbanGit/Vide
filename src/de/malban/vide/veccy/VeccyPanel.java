@@ -6,6 +6,7 @@
  */
 package de.malban.vide.veccy;
 
+import com.sun.javafx.binding.StringFormatter;
 import de.malban.Global; 
 import de.malban.graphics.Face;
 import javax.swing.table.AbstractTableModel;
@@ -820,6 +821,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonInterprete = new javax.swing.JButton();
         jLabel49 = new javax.swing.JLabel();
         jCheckBoxMulti = new javax.swing.JCheckBox();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanel38 = new javax.swing.JPanel();
         jLabel56 = new javax.swing.JLabel();
         jButtonLoad2 = new javax.swing.JButton();
@@ -928,6 +931,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonBuildSmartList2 = new javax.swing.JButton();
         jTextField12 = new javax.swing.JTextField();
         jLabel76 = new javax.swing.JLabel();
+        jLabel80 = new javax.swing.JLabel();
+        jCheckBox14 = new javax.swing.JCheckBox();
         jPanel36 = new javax.swing.JPanel();
         jCheckBoxRunnable2 = new javax.swing.JCheckBox();
         jButtonAssembleSM = new javax.swing.JButton();
@@ -945,10 +950,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jCheckBox11 = new javax.swing.JCheckBox();
         jCheckBoxCompileForVB = new javax.swing.JCheckBox();
         jCheckBox13 = new javax.swing.JCheckBox();
-        jCheckBox14 = new javax.swing.JCheckBox();
+        jCheckBoxNoShift = new javax.swing.JCheckBox();
         jCheckBox15 = new javax.swing.JCheckBox();
         jTextField13 = new javax.swing.JTextField();
         jCheckBoxNoHiLo = new javax.swing.JCheckBox();
+        jLabel79 = new javax.swing.JLabel();
+        jTextFieldSmartMax = new javax.swing.JTextField();
         jPanel28 = new javax.swing.JPanel();
         jCheckBoxSameIntensity = new javax.swing.JCheckBox();
         jCheckBoxSamePattern = new javax.swing.JCheckBox();
@@ -3414,6 +3421,20 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabel49.setText("multi");
 
+        jButton11.setText("LoadFromHex");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setText("Level maze");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -3421,42 +3442,44 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel22)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel23)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel25)
-                            .addComponent(jLabel26)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButtonInterprete, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonSave3)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel49)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jCheckBoxMulti)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                    .addComponent(jLabel23)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel24)
-                            .addComponent(jLabel27))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldPatternName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxPatterns, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel25)
+                                    .addComponent(jLabel26)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jButtonInterprete, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonSave3)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel49)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jCheckBoxMulti)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel24)
+                                    .addComponent(jLabel27))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldPatternName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxPatterns, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButton12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3500,7 +3523,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addGap(6, 6, 6)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel24))))
+                            .addComponent(jLabel24))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton12)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(0, 0, 0))
         );
 
@@ -3530,7 +3558,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButtonLoad2)
                 .addGap(93, 93, 93)
                 .addComponent(jCheckBoxDontRemoveDoubles)
-                .addContainerGap(539, Short.MAX_VALUE))
+                .addContainerGap(547, Short.MAX_VALUE))
         );
         jPanel38Layout.setVerticalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3560,7 +3588,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(666, Short.MAX_VALUE))
+                .addContainerGap(674, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3576,7 +3604,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel25.setLayout(jPanel25Layout);
         jPanel25Layout.setHorizontalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
+            .addComponent(jTabbedPane7)
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4280,7 +4308,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(706, Short.MAX_VALUE))
+                .addContainerGap(714, Short.MAX_VALUE))
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4347,7 +4375,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel61)
                         .addGap(35, 35, 35)
                         .addComponent(jLabel62, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(510, Short.MAX_VALUE))
+                .addContainerGap(518, Short.MAX_VALUE))
         );
         jPanel40Layout.setVerticalGroup(
             jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4455,16 +4483,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel76.setText("function");
         jLabel76.setToolTipText("header to a smart draw function collection");
 
+        jLabel80.setText("no compensation");
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel27Layout.createSequentialGroup()
-                        .addComponent(jLabel76)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel27Layout.createSequentialGroup()
                         .addComponent(jLabel67)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -4496,8 +4522,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel69, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jTextFieldLabelStackJumpName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBoxNoInitialMove, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonBuildSmartList2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(6, 6, 6))
+                    .addComponent(jButtonBuildSmartList2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel27Layout.createSequentialGroup()
+                            .addComponent(jLabel80)
+                            .addGap(41, 41, 41)
+                            .addComponent(jCheckBox14))
+                        .addGroup(jPanel27Layout.createSequentialGroup()
+                            .addComponent(jLabel76)
+                            .addGap(18, 18, 18)
+                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(6, 10, Short.MAX_VALUE))
         );
         jPanel27Layout.setVerticalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4535,16 +4570,21 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBoxStackJump)
                     .addComponent(jLabel69))
                 .addGap(4, 4, 4)
-                .addComponent(jLabel68)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldLabelStackJumpName, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBoxNoInitialMove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel76))
-                .addContainerGap())
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(jLabel68)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldLabelStackJumpName, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBoxNoInitialMove)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel76))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCheckBox14))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jCheckBoxRunnable2.setText("runnable");
@@ -4634,7 +4674,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel75)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 125, Short.MAX_VALUE)))
+                        .addGap(0, 129, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel36Layout.setVerticalGroup(
@@ -4659,7 +4699,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jLabel73)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane8)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                 .addGap(1, 1, 1))
         );
 
@@ -4681,8 +4721,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jCheckBox13.setText("rts 2");
         jCheckBox13.setEnabled(false);
 
-        jCheckBox14.setText("no SHIFT");
-        jCheckBox14.setToolTipText("generate for usage without VIA SHIFT reg");
+        jCheckBoxNoShift.setText("no SHIFT");
+        jCheckBoxNoShift.setToolTipText("generate for usage without VIA SHIFT reg");
 
         jCheckBox15.setText("low y");
         jCheckBox15.setToolTipText("Test whether Y is \"very\" negative, if so - use different draw routine. (only VB)");
@@ -4692,6 +4732,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jCheckBoxNoHiLo.setText("no hil/lo");
         jCheckBoxNoHiLo.setToolTipText("generate for usage without VIA SHIFT reg");
+
+        jLabel79.setText("smartMax");
+
+        jTextFieldSmartMax.setText("127");
+        jTextFieldSmartMax.setToolTipText("maximum strength that will be generated (VB)");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -4711,15 +4756,22 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addGap(42, 42, 42)
                                 .addComponent(jCheckBox13)
                                 .addGap(36, 36, 36)
-                                .addComponent(jCheckBox14)
-                                .addGap(35, 35, 35)
-                                .addComponent(jCheckBox15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCheckBoxNoHiLo))
+                                .addComponent(jCheckBoxNoShift))
                             .addComponent(jCheckBox11))
-                        .addContainerGap(176, Short.MAX_VALUE))))
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addComponent(jCheckBox15)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextFieldSmartMax)
+                            .addComponent(jTextField13, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBoxNoHiLo)
+                        .addContainerGap(166, Short.MAX_VALUE))))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4730,12 +4782,16 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox11)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel79)
+                                .addComponent(jTextFieldSmartMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCheckBox11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jCheckBoxCompileForVB)
                             .addComponent(jCheckBox13)
-                            .addComponent(jCheckBox14)
+                            .addComponent(jCheckBoxNoShift)
                             .addComponent(jCheckBox15)
                             .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jCheckBoxNoHiLo))))
@@ -4748,7 +4804,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
+            .addComponent(jTabbedPane8)
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -8572,6 +8628,609 @@ public class VeccyPanel extends javax.swing.JPanel implements
         copy(text);
     }//GEN-LAST:event_jButtonDraw_absolutActionPerformed
 
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        String text = jTextArea1.getText();
+        text = de.malban.util.UtilityString.replaceWhiteSpaces(text, "");
+        text = de.malban.util.UtilityString.replace(text, "\"", "");
+        char[] letters = text.toCharArray();
+        StringBuffer out = new StringBuffer();
+        int i=0;
+        int formatCount =0;
+        
+        ArrayList<Integer> readVals = new ArrayList<Integer>();
+        
+        while (i<letters.length)
+        {
+            int val = 0;
+            if (letters[i]<='9') val = val+letters[i]-'0';
+            else if (letters[i]<='Z') val = val+letters[i]-'A'+10;
+            else if (letters[i]<='z') val = val+letters[i]-'a'+10;
+            i++;
+            if ((i>=letters.length))
+            {
+                out = out.append("\nERROR, length not even!");
+                break;
+            }
+            val*=16;
+            if (letters[i]<='9') val = val+letters[i]-'0';
+            else if (letters[i]<='Z') val = val+letters[i]-'A'+10;
+            else if (letters[i]<='z') val = val+letters[i]-'a'+10;
+            i++;
+            readVals.add(val);
+        }
+        i=0;
+        
+        int numLists = readVals.get(i++);
+	int curList = 0;
+	int numVertices;
+	int curVertex;
+        int lineCount = 0;
+        
+	while (curList < numLists)
+	{
+            out = out.append("; list\n");
+            numVertices = readVals.get(i++);
+            curVertex = 0;
+            while (curVertex < (numVertices - 1) )
+            {
+                int x0 = readVals.get(i)-128;
+                int y0 = readVals.get(i+1)-128;
+                int x1 = readVals.get(i+2)-128;
+                int y1 = readVals.get(i+3)-128;
+                i += 2;
+                ++curVertex;
+                lineCount++;
+                out = out.append("$"+String.format("%02X ",x0&0xff));
+                out = out.append("$"+String.format("%02X ",(-y0)&0xff));
+                out = out.append("$"+String.format("%02X ",x1&0xff));
+                out = out.append("$"+String.format("%02X ",(-y1)&0xff));
+                out = out.append("; x0, y0, x1, y1\n");
+            }
+            ++curList;
+            i += 2;
+	}
+        jTextArea1.setText("$"+String.format("%02X ; linecount\n",lineCount) + out.toString());
+        doInterpret();
+        fillStatus();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // This class is a port of Daggorath's custom RNG
+        class RNG
+        {
+            byte[] SEED = new byte[3];
+            int carry;
+            RNG()
+            {
+                    carry = 0;
+                    SEED[0] = 0;
+                    SEED[1] = 0;
+                    SEED[2] = 0;
+            }
+
+            // Accessors
+            byte RANDOM()
+            {
+                    int x, y;
+                    byte a, b;
+                    carry = 0;
+                    for (x = 8; x != 0; --x)
+                    {
+                            b = 0;
+                            a = (byte) (SEED[2] & 0xE1);
+                            for (y = 8; y != 0; --y)
+                            {
+                                    a = lsl(a);
+                                    if (carry != 0)
+                                            ++b;
+                            }
+                            b = lsr(b);
+                            SEED[0] = rol(SEED[0]);
+                            SEED[1] = rol(SEED[1]);
+                            SEED[2] = rol(SEED[2]);
+                    }
+                    return SEED[0];
+            }
+
+            byte getSEED(int idx)
+            {
+                    return SEED[idx];
+            }
+
+            // Mutators
+            void setSEED(int idx, byte val)
+            {
+                    SEED[idx] = val;
+            }
+
+            void setSEED(byte val0, byte val1, byte val2)
+            {
+                    SEED[0] = val0;
+                    SEED[1] = val1;
+                    SEED[2] = val2;
+            }
+
+
+            // Internal Implementation
+            byte lsl(byte c)
+            {
+                    carry = (((c & 128) == 128) ? 1 : 0);
+                    return (byte )(c << 1);
+            }
+
+            byte lsr(byte c)
+            {
+                    carry = (((c & 1) == 1) ? 1 : 0);
+                    return (byte) (c >> 1);
+            }
+
+            byte rol(byte c)
+            {
+                    int cry;
+                    cry = (((c & 128) == 128) ? 1 : 0);
+                    c <<= 1;
+                    c += carry;
+                    carry = cry;
+                    return c;
+            }
+        };
+        
+	// Constants
+        char N_WALL=0x03;
+        char E_WALL=0x0c;
+        char S_WALL=0x30;
+        char W_WALL=0xc0;
+        char HF_PAS=0;
+        char HF_DOR=1;
+        char HF_SDR=2;
+        char HF_WAL=3;
+
+        char VF_HOLE_UP=0;
+        char VF_LADDER_UP=1;
+        char VF_HOLE_DOWN=2;
+        char VF_LADDER_DOWN=3;
+        char VF_NULL=255;
+
+
+        char[] MSKTAB = new char[4];
+	MSKTAB[0] = 0x03;
+	MSKTAB[1] = 0x0C;
+	MSKTAB[2] = 0x30;
+	MSKTAB[3] = 0xC0;
+        
+        char[] LEVTAB = new char[7];
+	LEVTAB[0] = 0x73;
+	LEVTAB[1] = 0xC7;
+	LEVTAB[2] = 0x5D;
+	LEVTAB[3] = 0x97;
+	LEVTAB[4] = 0xF3;
+	LEVTAB[5] = 0x13;
+	LEVTAB[6] = 0x87;
+        
+        int[] VFTTAB = new int[42];
+	VFTTAB[0] = -1;
+	VFTTAB[1] = 1;
+	VFTTAB[2] = 0;
+	VFTTAB[3] = 23;
+	VFTTAB[4] = 0;
+	VFTTAB[5] = 15;
+	VFTTAB[6] = 4;
+	VFTTAB[7] = 0;
+	VFTTAB[8] = 20;
+	VFTTAB[9] = 17;
+	VFTTAB[10] = 1;
+	VFTTAB[11] = 28;
+	VFTTAB[12] = 30;
+	VFTTAB[13] = -1;
+	VFTTAB[14] = 1;
+	VFTTAB[15] = 2;
+	VFTTAB[16] = 3;
+	VFTTAB[17] = 0;
+	VFTTAB[18] = 3;
+	VFTTAB[19] = 31;
+	VFTTAB[20] = 0;
+	VFTTAB[21] = 19;
+	VFTTAB[22] = 20;
+	VFTTAB[23] = 0;
+	VFTTAB[24] = 31;
+	VFTTAB[25] = 0;
+	VFTTAB[26] = -1;
+	VFTTAB[27] = -1;
+	VFTTAB[28] = 0;
+	VFTTAB[29] = 0;
+	VFTTAB[30] = 31;
+	VFTTAB[31] = 0;
+	VFTTAB[32] = 5;
+	VFTTAB[33] = 0;
+	VFTTAB[34] = 0;
+	VFTTAB[35] = 22;
+	VFTTAB[36] = 28;
+	VFTTAB[37] = 0;
+	VFTTAB[38] = 31;
+	VFTTAB[39] = 16;
+	VFTTAB[40] = -1;
+	VFTTAB[41] = -1;
+        
+        int[] STPTAB = new int[8];
+	STPTAB[0] = -1;
+	STPTAB[1] = 0;
+	STPTAB[2] = 0;
+	STPTAB[3] = 1;
+	STPTAB[4] = 1;
+	STPTAB[5] = 0;
+	STPTAB[6] = 0;
+	STPTAB[7] = -1;
+
+        char[] NEIBOR = new char[9];		// The cells around the player
+        
+        int level=0;
+        RNG rng = new RNG();
+        rng.setSEED((byte)LEVTAB[level], (byte)LEVTAB[level+1], (byte)LEVTAB[level+2]);
+
+        
+        char[] MAZLND = new char[1024];
+        
+	/* Locals */
+	int		mzctr;
+	int		maz_idx;
+	int		cell_ctr;
+	byte	a_row;
+	byte	a_col;
+	byte	b_row;
+	byte	b_col;
+	byte	DIR;
+	byte	DST;
+	int	DROW;
+	int	ROW;
+        char val;
+        
+	char[] DORTAB = new char[4];
+	DORTAB[0] = (char)HF_DOR;
+	DORTAB[1] = (char)(HF_DOR << 2);
+	DORTAB[2] = (char)(HF_DOR << 4);
+	DORTAB[3] = (char)(HF_DOR << 6);
+
+	char[] SDRTAB = new char[4];
+	SDRTAB[0] = (char) HF_SDR;
+	SDRTAB[1] = (char)(HF_SDR << 2);
+	SDRTAB[2] = (char)(HF_SDR << 4);
+	SDRTAB[3] = (char)(HF_SDR << 6);
+        
+        
+	/* Phase 1: Create Maze */
+
+	/* Set Cells to 0xFF */
+	for (mzctr=0; mzctr<1024; ++mzctr)
+	{
+		MAZLND[mzctr] = 0xff;
+	}
+	cell_ctr = 500;  // Room Counter
+
+	/* Set Starting Room */
+        a_col = (byte) (rng.RANDOM() & 31);
+        a_row = (byte) (rng.RANDOM() & 31);
+        DROW = (int) ((a_row<<5) + a_col);
+
+//        RndDstDir(&DIR, &DST);
+	DIR = (byte) (rng.RANDOM() & 3);
+	DST = (byte) ((rng.RANDOM() & 7) + 1);
+
+
+	while (cell_ctr > 0)
+	{
+            /* Take a step */
+            b_row = (byte)((DROW & 0x3e0)>>5);
+            b_col = (byte)(DROW & 0x1f);
+            
+            b_row += STPTAB[DIR * 2];
+            b_col += STPTAB[(DIR * 2) + 1];
+
+            /* Check if it's out of bounds */
+            if (BORDER(b_row, b_col) == false)
+            {
+        //        RndDstDir(&DIR, &DST);
+                DIR = (byte) (rng.RANDOM() & 3);
+                DST = (byte) ((rng.RANDOM() & 7) + 1);
+                continue;
+            }
+
+            /* Store index and temp room */
+            maz_idx = RC2IDX(b_row, b_col);
+            ROW = (int) ((b_row<<5) + b_col);
+
+            /* If not yet touched */
+            if (MAZLND[maz_idx] == 0xFF)
+            {
+//                    FRIEND(ROW);
+                    
+                    // Finds surrounding cells
+                    //void Dungeon::FRIEND(RowCol RC)
+                    {
+                        int r3, c3;
+                        int u = 0;
+
+                        for (r3 = (int)((ROW&0x3e0)>>5); r3 <= ((int)((ROW&0x3e0)>>5)+2); ++r3)
+                        {
+                            for (c3 = (int)((ROW&0x01f)); c3 <= ((int)((ROW&0x01f))+2); ++c3)
+                            {
+                                if (BORDER((r3-1), (c3-1)) == false)
+                                {
+                                    NEIBOR[u] = 0xFF;
+                                }
+                                else
+                                {
+                                    NEIBOR[u] = MAZLND[RC2IDX((r3-1), (c3-1))];
+                                }
+                                ++u;
+                            }
+                        }
+                    }
+                    
+                    if (NEIBOR[3] + NEIBOR[0] + NEIBOR[1] == 0 ||
+                            NEIBOR[1] + NEIBOR[2] + NEIBOR[5] == 0 ||
+                            NEIBOR[5] + NEIBOR[8] + NEIBOR[7] == 0 ||
+                            NEIBOR[7] + NEIBOR[6] + NEIBOR[3] == 0)
+                    {
+                //        RndDstDir(&DIR, &DST);
+                        DIR = (byte) (rng.RANDOM() & 3);
+                        DST = (byte) ((rng.RANDOM() & 7) + 1);
+                        continue;
+                    }
+                    MAZLND[maz_idx] = 0;
+                    --cell_ctr;
+            }
+            if (cell_ctr > 0)
+            {
+                DROW = ROW;
+                --DST;
+                if (DST == 0)
+                {
+                //        RndDstDir(&DIR, &DST);
+                        DIR = (byte) (rng.RANDOM() & 3);
+                        DST = (byte) ((rng.RANDOM() & 7) + 1);
+                        continue;
+                }
+                else
+                {
+                        continue;
+                }
+            }
+	}
+
+	/* Phase 2: Create Walls */
+
+	for (int r=0; r<32;r++)
+	{
+            for (int c=0; c<32;c++)
+            {
+                DROW = (int)((r<<5)+c);
+                maz_idx = DROW;
+
+                if (MAZLND[maz_idx] != 0xFF)
+                {
+                    //FRIEND(DROW);
+                    // Finds surrounding cells
+                    //void Dungeon::FRIEND(RowCol RC)
+                    {
+                        int r3, c3;
+                        int u = 0;
+
+                        for (r3 = (int)((DROW&0x3e0)>>5); r3 <= ((int)((DROW&0x3e0)>>5)+2); ++r3)
+                        {
+                            for (c3 = (int)((DROW&0x01f)); c3 <= ((int)((DROW&0x01f))+2); ++c3)
+                            {
+                                if (BORDER((r3-1), (c3-1)) == false)
+                                {
+                                    NEIBOR[u] = 0xFF;
+                                }
+                                else
+                                {
+                                    NEIBOR[u] = MAZLND[RC2IDX((r3-1), (c3-1))];
+                                }
+                                ++u;
+                            }
+                        }
+                    }
+
+                    if (NEIBOR[1] == 0xFF)
+                            MAZLND[maz_idx] |= N_WALL;
+                    if (NEIBOR[3] == 0xFF)
+                            MAZLND[maz_idx] |= W_WALL;
+                    if (NEIBOR[5] == 0xFF)
+                            MAZLND[maz_idx] |= E_WALL;
+                    if (NEIBOR[7] == 0xFF)
+                            MAZLND[maz_idx] |= S_WALL;
+                }
+            }
+	}
+
+	/* Phase 3: Create Doors/Secret Doors */
+	for (mzctr = 0; mzctr < 70; ++mzctr)
+	{
+//          MAKDOR(this->DORTAB);
+            //void Dungeon::MAKDOR(dodBYTE * table)
+            {
+                do
+                {
+                    do
+                    {
+                        a_col = (byte)(rng.RANDOM() & 31);
+                        a_row = (byte)(rng.RANDOM() & 31);
+                        ROW = (int) (((a_row&0x1f)<<5) +(a_col&0x1f));
+                        //ROW.setRC(a_row, a_col);
+                        maz_idx = RC2IDX(a_row, a_col);
+                        val = MAZLND[maz_idx];
+                    } while (val == 0xFF);
+
+                    DIR =(byte) (rng.RANDOM() & 3);
+                } while ((val & MSKTAB[DIR]) != 0);
+
+                MAZLND[maz_idx] |= DORTAB[DIR];
+
+//                ROW.row += STPTAB[DIR * 2];
+//                ROW.col += STPTAB[(DIR * 2) + 1];
+                int h1 = ((ROW&0x3e0)>>5)+ STPTAB[DIR * 2];
+                int h2 = ((ROW&0x1f))+ STPTAB[(DIR * 2) + 1];
+
+                ROW = (int) ((h1<<5)+h2);
+                DIR += 2;
+                DIR &= 3;
+//                maz_idx = RC2IDX(ROW.row, ROW.col);
+                maz_idx = ROW;
+                MAZLND[maz_idx] |= DORTAB[DIR];
+            }
+            
+            
+            
+	}
+
+	for (mzctr = 0; mzctr < 45; ++mzctr)
+	{
+//            MAKDOR(this->SDRTAB);
+            {
+                do
+                {
+                    do
+                    {
+                        a_col = (byte)(rng.RANDOM() & 31);
+                        a_row = (byte)(rng.RANDOM() & 31);
+                        ROW = (int) (((a_row&0x1f)<<5) +(a_col&0x1f));
+                        //ROW.setRC(a_row, a_col);
+                        maz_idx = RC2IDX(a_row, a_col);
+                        val = MAZLND[maz_idx];
+                    } while (val == 0xFF);
+
+                    DIR =(byte) (rng.RANDOM() & 3);
+                } while ((val & MSKTAB[DIR]) != 0);
+
+                MAZLND[maz_idx] |= SDRTAB[DIR];
+
+//                ROW.row += STPTAB[DIR * 2];
+//                ROW.col += STPTAB[(DIR * 2) + 1];
+
+
+                int h1 = ((ROW&0x3e0)>>5)+ STPTAB[DIR * 2];
+                int h2 = ((ROW&0x1f))+ STPTAB[(DIR * 2) + 1];
+                ROW = (int) ((h1<<5)+h2);
+                DIR += 2;
+                DIR &= 3;
+//                maz_idx = RC2IDX(ROW.row, ROW.col);
+                maz_idx = ROW;
+                MAZLND[maz_idx] |= SDRTAB[DIR];
+            }
+	}
+        char[] NS = new char[4];
+	NS[3]='-';
+	NS[2]='=';
+	NS[1]='-';
+	NS[0]=' ';
+        
+        char[] EW = new char[4];
+	EW[3]='|';
+	EW[2]=')';
+	EW[1]='|';
+	EW[0]=' ';
+
+// Prints a text drawing of the maze
+//void Dungeon::printMaze()
+	int idx, row, x;
+	byte n, e, s, w;
+	for (idx=0; idx<1024; idx+=32)
+	{
+            for (x = 0; x < 3; ++x)
+            {
+                for (row = 0; row < 32; ++row)
+                {
+                    val = MAZLND[idx+row];
+                    n = (byte)((val & 0x03));
+                    e = (byte)((val & 0x0C) >> 2);
+                    s = (byte)((val & 0x30) >> 4);
+                    w = (byte)((val & 0xC0) >> 6);
+                    switch (x)
+                    {
+                    case 0:
+                            System.out.print("·" + NS[n]);
+                            if (row >= 31)
+                            {
+                                System.out.print("·");
+                            }
+                            break;
+                    case 1:
+                            System.out.print(EW[w]);
+                            if (val == 0xFF)
+                                System.out.print("#");
+                            else
+                                System.out.print(" ");
+                            if (row >= 31)
+                            {
+                                System.out.print(EW[e]);
+                            }
+                            break;
+                    case 2:
+                            if (idx >= 992)
+                            {
+                                    System.out.print("·" + NS[s]);
+                                    if (row >= 31)
+                                    {
+                                        System.out.print("·");
+                                    }
+                            }
+                    }
+                }
+                if (x < 2)
+                {
+                    System.out.print("\n");
+                }
+            }
+	}
+
+        StringBuffer b=new StringBuffer();
+        b.append("const unsigned char const level_"+level+"[1024] = \n{");
+        
+	for (mzctr=0; mzctr<1024; ++mzctr)
+	{
+            if ((mzctr & 0x1f) == 0) 
+                if (mzctr==0)
+                    b.append("\n     ");
+                else
+                    b.append(",\n     ");
+            else
+                b.append(", ");
+            b.append("0x"+String.format("%02X",(int)MAZLND[mzctr]));
+	}
+        b.append("\n};\n");
+        jTextArea1.setText(b.toString());
+        
+        
+
+    }//GEN-LAST:event_jButton12ActionPerformed
+// Adds doors
+
+boolean BORDER(int R, int C)
+{
+    if ((R & 224) != 0) return false;
+    if ((C & 224) != 0) return false;
+    return true;
+};
+boolean BORDER(byte R, byte C)
+{
+    if ((R & 224) != 0) return false;
+    if ((C & 224) != 0) return false;
+    return true;
+};
+ int RC2IDX(byte R, byte C)
+{
+    R &= 31;
+    C &= 31;
+    return (R * 32 + C);
+}
+int RC2IDX(int R, int C)
+{
+    R &= 31;
+    C &= 31;
+    return (R * 32 + C);
+}
+
   
     
     void checkAssemblerButtonSM()
@@ -9041,6 +9700,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton2dAxis;
     private javax.swing.JButton jButton3;
@@ -9194,6 +9855,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBoxMulti;
     private javax.swing.JCheckBox jCheckBoxNoHiLo;
     private javax.swing.JCheckBox jCheckBoxNoInitialMove;
+    private javax.swing.JCheckBox jCheckBoxNoShift;
     private javax.swing.JCheckBox jCheckBoxNoSyncOpt;
     private javax.swing.JCheckBox jCheckBoxOnePath;
     private javax.swing.JCheckBox jCheckBoxPCStyle;
@@ -9292,7 +9954,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelAnim;
     private javax.swing.JLabel jLabelCount;
@@ -9465,6 +10129,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextFieldSide;
     private javax.swing.JTextField jTextFieldSide1;
     private javax.swing.JTextField jTextFieldSide2;
+    private javax.swing.JTextField jTextFieldSmartMax;
     private javax.swing.JTextField jTextFieldStartX;
     private javax.swing.JTextField jTextFieldStartY;
     private javax.swing.JTextField jTextFieldStartZ;
@@ -11827,6 +12492,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 main = de.malban.util.UtilityString.replace(main, "##SCALE##", ""+jTextField2.getText());
                 main += "\n_SM_VectorList_ = "+name+"\n";
                 jTextAreaResultSM.setText(main + b.toString());
+                if (disableCalibration) main = de.malban.util.UtilityString.replace(main, "jsr      calibrationZero", ";jsr      calibrationZero");
             }
             else
             {
@@ -11834,8 +12500,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                 main = de.malban.util.UtilityString.replace(main, "##SCALE##", ""+jTextField2.getText());
                 main += "\n_SM_VectorList_ = "+name+"\n";
+                if (disableCalibration) main = de.malban.util.UtilityString.replace(main, "jsr      calibrationZero", ";jsr      calibrationZero");
                 jTextAreaResultSM.setText(main + b.toString());
             }
+            
 
         }
         else
@@ -12138,6 +12806,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 Path template = Paths.get(Global.mainPathPrefix, "template", "smartListAnimOld.template");
                 String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                 main = de.malban.util.UtilityString.replace(main, "##SCALE##", ""+jTextField2.getText());
+                if (disableCalibration) main = de.malban.util.UtilityString.replace(main, "jsr      calibrationZero", ";jsr      calibrationZero");
                 jTextAreaResultSM.setText(main + table.toString());
             }
             else
@@ -12145,6 +12814,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 Path template = Paths.get(Global.mainPathPrefix, "template", "smartListAnim.template");
                 String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                 main = de.malban.util.UtilityString.replace(main, "##SCALE##", ""+jTextField2.getText());
+                if (disableCalibration) main = de.malban.util.UtilityString.replace(main, "jsr      calibrationZero", ";jsr      calibrationZero");
                 jTextAreaResultSM.setText(main + table.toString());
             }
         }
@@ -12280,6 +12950,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 Path template = Paths.get(Global.mainPathPrefix, "template", "smartListScenarioOld.template");
                 String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                 main = de.malban.util.UtilityString.replace(main, "##SCALE##", ""+jTextField2.getText());
+                if (disableCalibration) main = de.malban.util.UtilityString.replace(main, "jsr      calibrationZero", ";jsr      calibrationZero");
                 jTextAreaResultSM.setText(main + table.toString());
             }
             else
@@ -12287,6 +12958,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 Path template = Paths.get(Global.mainPathPrefix, "template", "smartListScenario.template");
                 String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                 main = de.malban.util.UtilityString.replace(main, "##SCALE##", ""+jTextField2.getText());
+                if (disableCalibration) main = de.malban.util.UtilityString.replace(main, "jsr      calibrationZero", ";jsr      calibrationZero");
                 jTextAreaResultSM.setText(main + table.toString());
             }
             
@@ -12871,6 +13543,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         boolean testLowY = false;
         boolean hiLoEnabled = true;
         int ythreshold = -80;
+        int smartMax = 127;
+        boolean disableCalibration = false;
         void getParameters()
         {
             hiLoEnabled = !jCheckBoxNoHiLo.isSelected();
@@ -12879,6 +13553,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
             doIntensities = jCheckBox10.isSelected();
             intensityMax = DASM6809.toNumber(jTextField7.getText());
             intensityMin = DASM6809.toNumber(jTextField6.getText());
+            smartMax = DASM6809.toNumber(jTextFieldSmartMax.getText());
+            disableCalibration = jCheckBox14.isSelected();
             intensitySteps = DASM6809.toNumber(jTextField11.getText());
             if (jCheckBoxFactor.isSelected())
                 factorStringNew = jTextFieldLabelFactorName.getText()+"*";
@@ -12890,7 +13566,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             functionPrefix = jTextField12.getText();
             if (!jCheckBoxCompileForVB.isSelected())
                 functionPrefix = "SM_";
-            noShift = jCheckBox14.isSelected();
+            noShift = jCheckBoxNoShift.isSelected();
             MAX_EQUAL_TYPE = 7;
             lastWasMove = true;
             testLowY = jCheckBox15.isSelected();
@@ -12931,13 +13607,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
         // don't add 0 moves!
         if ((aX == 0) && (aY==0)) return;
         int max = aX>aY?aX:aY;
-        if (max<=127)
+        if (max<=smartMax)
         {
             sList.add(sv);
             return;
         }
         
-        if (max/2 <=127)
+        if (max/2 <=smartMax)
         {
             SmartVector sv1 = new SmartVector();
             sv1.type = sv.type;
@@ -12961,7 +13637,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             addToList2(sList, sv2);
             return;
         }
-        if (max/3 <=127)
+        if (max/3 <=smartMax)
         {
             SmartVector sv1 = new SmartVector();
             SmartVector sv2 = new SmartVector();
