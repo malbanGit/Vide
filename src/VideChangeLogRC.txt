@@ -45,7 +45,7 @@ add:
 
 changed:
 - changed the name of nearly every window, to be more meaningfull!
-- added VecMulti support as development module (code by Vasily Kiniv - Thx!)
+- added VecMulti support as development module (code by James H Ball - Thx!)
   I have not had the opportunity to test that myself, I must add headers to my
   vecMulti
 - ... things I can't remember
