@@ -244,6 +244,8 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
         jButtonaddLane1 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jTextFieldFrameCount2 = new javax.swing.JTextField();
+        jTextFieldUniqueID = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -731,24 +733,37 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
         jTextFieldFrameCount2.setEditable(false);
         jTextFieldFrameCount2.setText("0");
 
+        jTextFieldUniqueID.setToolTipText("Adds the id to all generated functions");
+        jTextFieldUniqueID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldUniqueIDActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setText("unique ID");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonaddLane, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
                         .addComponent(jButtonaddLane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel15)
                         .addGap(34, 34, 34)
-                        .addComponent(jTextFieldFrameCount2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
+                        .addComponent(jTextFieldFrameCount2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldUniqueID, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)))
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -761,7 +776,9 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(jTextFieldFrameCount2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldFrameCount2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldUniqueID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonaddLane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -802,7 +819,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
 
  // savety measure - save to tmp the current storyboard
         String filename =Global.mainPathPrefix+"tmp"+File.separator+"storyboard.tmp";
- File f =new File(filename);
+        File f =new File(filename);
         
         String saveName = f.getAbsolutePath();
 //        saveName = de.malban.util.Utility.makeRelative(saveName);
@@ -966,6 +983,10 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     private void jTextFieldRoundCountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldRoundCountKeyReleased
         currentElement.roundCount = de.malban.util.UtilityString.IntX(jTextFieldRoundCount.getText(), 20);
     }//GEN-LAST:event_jTextFieldRoundCountKeyReleased
+
+    private void jTextFieldUniqueIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUniqueIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldUniqueIDActionPerformed
     public void updateBounds()
     {
         int minW = jScrollPane1.getViewport().getBounds().width;
@@ -1061,11 +1082,24 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
 
             String fname = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.bin";
             vec.startUp(fname);
-            log.addLog("Vecci-Assembly successfull...", INFO);
+
+            if (veccy!=null)
+            {
+                if (veccy.jCheckBoxPiTrex.isSelected())
+                {
+                    boolean ok = veccy.checkVec4EverFile(fname);
+            
+                }
+                if (veccy.jCheckBoxVecFever.isSelected())
+                {
+                    boolean ok = veccy.checkVec4EverFile(fname);
+                }
+            }
+            log.addLog("Vecci-Assembly successful...", INFO);
         }
         else
         {
-            log.addLog("Vecci-Assembly not successfull, see ASM output...", WARN);
+            log.addLog("Vecci-Assembly not successful, see ASM output...", WARN);
         }
         jButtonAssemble.setEnabled(true);
     }
@@ -1088,6 +1122,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1118,6 +1153,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     private javax.swing.JTextField jTextFieldPosYTo;
     private javax.swing.JTextField jTextFieldResync;
     private javax.swing.JTextField jTextFieldRoundCount;
+    private javax.swing.JTextField jTextFieldUniqueID;
     private javax.swing.JPanel lanePanel;
     private de.malban.vide.veccy.StoryboardLanePanel storyboardLanePanel1;
     // End of variables declaration//GEN-END:variables
@@ -1711,6 +1747,10 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     // not done for Version II
     private void generateSource()
     {              
+        String with = jTextFieldUniqueID.getText();
+        if (with.length()!= 0)
+            with = "_"+with;
+
         StringBuilder text = new StringBuilder();
         HashMap<String, String> noDoubleAnimMap = new HashMap<String, String>();
         ArrayList<String> animData = new ArrayList<String>();
@@ -1741,7 +1781,6 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
         for (String li : laneInit)
             laneInitString.append(li);
         
-        
         Path template = Paths.get(Global.mainPathPrefix, "template", "storyboardDefines.template");
         String defines = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
@@ -1771,8 +1810,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
         for (String anim : animData)
             text.append(anim);
         
-        
-        jTextAreaResult.setText(text.toString());
+        jTextAreaResult.setText(de.malban.util.UtilityString.replace(text.toString(),"#_UNIQUE_ID#",with));
     }             
     
     void upladeLaneData()

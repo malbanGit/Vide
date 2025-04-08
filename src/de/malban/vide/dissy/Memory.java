@@ -152,6 +152,9 @@ public class Memory {
             if (memMap.get(adr).disType == MemoryInformation.DIS_TYPE_UNKOWN)
                 memMap.get(adr).disType = MemoryInformation.DIS_TYPE_LOADED;
         
+        if (adr > 0xc000) memMap.get(adr).disTypeCollectionMax = 1;
+        
+        
         return memMap.get(adr);
     }
     public void init()
@@ -168,7 +171,9 @@ public class Memory {
     {
         if (memMap.get(adr) == null) 
         {
-            memMap.put(adr, new MemoryInformation(adr, (byte)0));            
+            memMap.put(adr, new MemoryInformation(adr, (byte)0));   
+            if (adr > 0xc000) memMap.get(adr).disTypeCollectionMax = 1;
+            
         }
         return memMap.get(adr);
     }

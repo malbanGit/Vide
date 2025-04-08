@@ -140,12 +140,13 @@ public class C6809FileMaster
         try 
         {
             filename = de.malban.util.UtilityFiles.convertSeperator(filename);
-            if(!Files.exists(Paths.get(filename)))
-            {
+            File f = Paths.get(filename).toFile();
+            if (f == null)
                 return "";
-            }
-                    
-                    
+            
+            if (!f.exists())
+                return "";
+
             String edited = EditorPanel.getTextForFile(filename);
             if (edited != null) return edited;
             

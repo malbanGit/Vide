@@ -368,8 +368,8 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         {
             c.epromData.data[i] = epromData.data[i];
         }
-        if (epromData.reg[0] == 0)
-            System.out.println();
+//        if (epromData.reg[0] == 0)
+//            System.out.println();
         for (int i=0; i<8;i++)
         {
             c.epromData.reg[i] = epromData.reg[i];

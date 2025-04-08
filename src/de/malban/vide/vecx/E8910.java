@@ -17,7 +17,7 @@ import de.malban.vide.vecx.libayemu.AY;
  */
 public class E8910 extends E8910State implements E8910Statics
 {
-    int SAMPLE_THRESHOLD = 25;
+    int SAMPLE_THRESHOLD = 32;
     
     
     /***************************************************************************
@@ -1155,8 +1155,11 @@ public class E8910 extends E8910State implements E8910Statics
         }
         
 // small sample counts are ignored!
+// analog poll of second joystick otherwise makes a ton of noise!        
         else if ((digitByteCounter>SAMPLE_THRESHOLD) ) // are there any samples?
         {
+//System.out.println(digitByteCounter);            
+            
             double sampleScale = (((double)digitByteCounter) / ((double) lengthOrg)); // length is counter of buffer in words, samples are in bytes - so in this case they are equal
             int i=0;
             // we fill the needed sample buffer

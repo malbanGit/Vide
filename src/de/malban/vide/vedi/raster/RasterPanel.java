@@ -12,6 +12,7 @@ import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.vide.vedi.VediPanel;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Path;
@@ -21,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class RasterPanel extends javax.swing.JPanel implements 
@@ -34,7 +36,7 @@ public class RasterPanel extends javax.swing.JPanel implements
         jPanel1.setVisible(!modal);
         jButtonCancel.setVisible(modal);
     }
-    String orgName = "";
+    String orgName = "Default";
 
     private int mClassSetting=0;
 
@@ -180,7 +182,7 @@ public class RasterPanel extends javax.swing.JPanel implements
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jButtonLoad = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        jButtonLoad1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(700, 600));
 
@@ -377,6 +379,11 @@ public class RasterPanel extends javax.swing.JPanel implements
         });
 
         jCheckBoxFix.setText("fix");
+        jCheckBoxFix.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxFixActionPerformed(evt);
+            }
+        });
 
         jCheckBoxXMirror.setText("xMirror");
         jCheckBoxXMirror.addActionListener(new java.awt.event.ActionListener() {
@@ -686,7 +693,7 @@ public class RasterPanel extends javax.swing.JPanel implements
                             .addComponent(jRadioButtonVertical)
                             .addComponent(jRadioButtonAlphaAsGrayscale)
                             .addComponent(jCheckBoxYMirror))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonCancel)
                             .addComponent(jButtonCreate))))
@@ -706,10 +713,12 @@ public class RasterPanel extends javax.swing.JPanel implements
             }
         });
 
-        jButton9.setText("jButton9");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLoad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/paste_plain.png"))); // NOI18N
+        jButtonLoad1.setToolTipText("Paste from clipboard");
+        jButtonLoad1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                jButtonLoad1ActionPerformed(evt);
             }
         });
 
@@ -721,19 +730,18 @@ public class RasterPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonLoad)
-                .addGap(71, 71, 71)
-                .addComponent(jButton9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonLoad1)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButtonLoad)
-                        .addComponent(jLabel8))
-                    .addComponent(jButton9))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonLoad)
+                    .addComponent(jLabel8)
+                    .addComponent(jButtonLoad1))
+                .addGap(2, 2, 2))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -741,7 +749,7 @@ public class RasterPanel extends javax.swing.JPanel implements
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -822,10 +830,8 @@ public class RasterPanel extends javax.swing.JPanel implements
         if (orgImage == null) return;
         int x = ((int)((double)((double)evt.getX())/1));
         int y = ((int)((double)((double)evt.getY())/1));
-        
         int sX = singleImagePanel1.getPressedStartX();
         int sY = singleImagePanel1.getPressedStartY();
-        
         if (x<0) x = 0;
         if (sX<0) sX = 0;
         if (y<0) y = 0;
@@ -835,7 +841,7 @@ public class RasterPanel extends javax.swing.JPanel implements
         if (sX>orgImage.getWidth()) sX = orgImage.getWidth();
         if (y>orgImage.getHeight()) y = orgImage.getHeight();
         if (sY>orgImage.getHeight()) sY = orgImage.getHeight();
-        
+
         if (x < sX)
         {
             int tmp = sX;
@@ -848,9 +854,15 @@ public class RasterPanel extends javax.swing.JPanel implements
             sY = y;
             y = tmp;
         }
-        
         int w = x-sX;
         int h = y-sY;
+
+        if (singleImagePanel1.isLocked())
+        {
+            Dimension wh = singleImagePanel1.getSelectionLock();
+            w = wh.width;
+            h = wh.height;
+        }
         
         jTextFieldStartX.setText(""+sX);
         jTextFieldStartY.setText(""+sY);
@@ -1027,15 +1039,48 @@ public class RasterPanel extends javax.swing.JPanel implements
         buildVectors();
     }//GEN-LAST:event_jSliderGridSizeStateChanged
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void jButtonLoad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoad1ActionPerformed
+        singleImagePanel1.setImageFromClipboard();
+
+        if ((singleImagePanel1.getSourceWidth()>320) || (singleImagePanel1.getSourceHeight()>320))
+            singleImagePanel1.scaleToFit();
         
-                createASMFile();
+        jTextFieldWidth.setText(""+singleImagePanel1.getSourceWidth());
+        jTextFieldHeight.setText(""+singleImagePanel1.getSourceHeight());
+        
+        if (jRadioButtonHorizontalVectors.isSelected())
+        {
+            jTextFieldVectorWitdh.setText(""+singleImagePanel1.getSourceWidth());
+            jTextFieldVectorHeight.setText(""+singleImagePanel1.getSourceHeight());
+        }
+        jSliderSourceScaleStateChanged(null);
         buildVectors();
 
         
-        
-        
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_jButtonLoad1ActionPerformed
+    int getI(JTextField t)
+    {
+        return getI(t.getText());
+    }
+
+    int getI(String t)
+    {
+        return  getI(t, 0);
+    }
+    int getI(String t, int _default)
+    {
+        int i=_default;
+        try
+        {
+            i = Integer.parseInt(t);
+        }
+        catch (Throwable e){ }
+        return i;
+    }
+    private void jCheckBoxFixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxFixActionPerformed
+        singleImagePanel1.setSelectionLock(jCheckBoxFix.isSelected(), getI(jTextFieldWidth), getI(jTextFieldHeight));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxFixActionPerformed
 
     
    // boolean wasMainSetManually = false;
@@ -1051,10 +1096,10 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCreate;
     private javax.swing.JButton jButtonLoad;
+    private javax.swing.JButton jButtonLoad1;
     private javax.swing.JCheckBox jCheckBoxAssume9Bit;
     private javax.swing.JCheckBox jCheckBoxBiDirectionalData;
     private javax.swing.JCheckBox jCheckBoxFix;

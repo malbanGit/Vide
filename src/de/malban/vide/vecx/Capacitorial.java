@@ -23,6 +23,9 @@ public class Capacitorial implements Serializable
     double supplyVoltage=0;
     double timeConstant;
 
+    
+    double offsetUnloadValue;
+    
     double percentageDifChangePerCycle;
     
     // Perhaps
@@ -53,6 +56,13 @@ public class Capacitorial implements Serializable
         timeConstant = r*c;
         
         percentageDifChangePerCycle = Math.exp(-VECTREX_CYCLE_TIME/timeConstant);
+/*
+        System.out.print("resistorOhm = " + resistorOhm+"\n");
+        System.out.print("capacitorFarad = " + capacitorFarad+"\n");
+        System.out.print("VECTREX_CYCLE_TIME = " + VECTREX_CYCLE_TIME+"\n");
+        System.out.print("timeConstant = " + timeConstant+"\n");
+        System.out.print("percentageDifChangePerCycle = " + percentageDifChangePerCycle+"\n");
+*/
     }
     public int getIntVoltageValue()
     {
@@ -68,7 +78,7 @@ public class Capacitorial implements Serializable
     }
     public int getDigitalIntValue()
     {
-        return (int)(currentVoltage/5.0*128.0);
+        return (int)(((currentVoltage+offsetUnloadValue)/5.0*128.0));
     }
             
     public void doStep()
@@ -83,11 +93,15 @@ public class Capacitorial implements Serializable
         {
             currentVoltage += percentageDifChangePerCycle*dif;
         }
-
+    }
+    public void doDischargeStep()
+    {
+        currentVoltage -=0.000000008;
     }
     // -128 - +127
     public void setDigitalVoltage(int v)
     {
+        offsetUnloadValue=0;
         if (v<=127)
         {
             supplyVoltage = (((double)v)/127.0)*5.0;

@@ -594,7 +594,7 @@ ADD_NOPS_NOU        macro
 
 
 
-
+; VIDE_RM_START - do not delete!
 
 ;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
 ;***************************************************************************
@@ -667,7 +667,7 @@ left_move
 joyDone 
                     JSR      Wait_Recal                   ; Vectrex BIOS recalibration 
                     jsr      Intensity_5F 
-                    jsr      calibrationZero 
+;                    jsr      calibrationZero 
 redoFromStart 
                     CLRA     
                     LDB      animationCounter             ; current animation frame 
@@ -692,6 +692,7 @@ notEndYet
                     INC      animationCounter 
                     BRA      main                         ; and repeat forever 
 
+; VIDE_RM_END - do not delete!
 
 ;***************************************************************************
 ; ROUTINE SECTION
@@ -807,6 +808,9 @@ INIT_MOVE_SJ        macro
 drawSmart                                            ;#isfunction  
                     clra     
                     pulu     b,x,pc 
+
+; VIDE_RM_START - do not delete!
+
 ;***************************************************************************
 ;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
 SM_setScale:                                            ;#isfunction  
@@ -831,6 +835,7 @@ SM_LightOff_Intensity:                                      ;#isfunction
                     stb      <VIA_port_b 
  clra
                     pulu     b,x,pc 
+; VIDE_RM_END - do not delete!
 
 
 SM_continue_yd4_yStays_single ;#isfunction  
@@ -956,6 +961,13 @@ SM_continue_quadro                                      ;#isfunction
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
                     jmp      cont3 
+SM_continue_quint                                      ;#isfunction  
+                    SET_Y_INT  
+                    Y_DELAY                               ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    jmp      cont4
 SM_continue_hex ;#isfunction 
                     SET_Y_INT  
                     Y_DELAY                               ; 4 
@@ -963,6 +975,7 @@ SM_continue_hex ;#isfunction
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
                     jmp      cont5 
+SM_continue_yd4_octo
 SM_continue_octo                                        ;#isfunction  
                     SET_Y_INT  
                     Y_DELAY                               ; 4 
@@ -1020,6 +1033,33 @@ SM_continue_yd4_double;#isfunction
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
                     jmp      SM_repeat_same 
+SM_continue_yd4_quadro
+
+                    stb      <VIA_port_a                  ; 4 shift not changed, move might also be a draw 
+                    sta      <VIA_port_b                  ; 4 
+                    Y_DELAY_4                             ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    jmp      cont3 
+SM_continue_yd4_tripple
+
+                    stb      <VIA_port_a                  ; 4 shift not changed, move might also be a draw 
+                    sta      <VIA_port_b                  ; 4 
+                    Y_DELAY_4                             ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    jmp      cont2 
+					
+SM_continue_yd4_hex
+                    stb      <VIA_port_a                  ; 4 shift not changed, move might also be a draw 
+                    sta      <VIA_port_b                  ; 4 
+                    Y_DELAY_4                             ; 4 
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    jmp      cont5 
 
 SM_startMove_yd4_single ;#isfunction 
 SM_startMove_single:                                    ;#isfunction  
@@ -1049,6 +1089,8 @@ SM_startMove_double:                                    ;#isfunction
                     INIT_MOVE  
                     ADD_NOPS  
                     jmp      SM_repeat_same2 
+					
+SM_startDraw_yd4_tripple					
 SM_startDraw_tripple ;#isfunction 
                     SET_Y_INT  
                     ldb      #SHITREG_POKE_VALUE          ; 2 
@@ -1068,7 +1110,36 @@ SM_startDraw_double ;#isfunction
                     sta      <VIA_t1_cnt_hi               ; 4 
                     ADD_NOPS  
                     jmp      SM_repeat_same2 
+SM_startDraw_quadro ;#isfunction 
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    jmp      cont3 
+SM_startDraw_yd4_hex					
+SM_startDraw_hex ;#isfunction 
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    jmp      cont5
 
+SM_startDraw_octo ;#isfunction 
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    jmp      cont7 
+					
 SM_startMove_tripple ;#isfunction 
                     SET_Y_INT  
                     INIT_MOVE  
@@ -1080,6 +1151,36 @@ SM_startMove_quadro ;#isfunction
                     INIT_MOVE  
                     ADD_NOPS  
                     bra      move3 
+SM_startMove_yd4_octo:
+SM_startMove_octo ;#isfunction 
+                    SET_Y_INT  
+                    INIT_MOVE  
+                    ADD_NOPS  
+                    bra      move7
+
+move7
+                    WAIT_AFTER  
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    WAIT_BEFORE  
+
+move6
+                    WAIT_AFTER  
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    WAIT_BEFORE  
+
+move5
+                    WAIT_AFTER  
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    WAIT_BEFORE  
+
+move4
+                    WAIT_AFTER  
+                    clr      <VIA_t1_cnt_hi 
+                    ADD_NOPS  
+                    WAIT_BEFORE  
 
 move3 
                     WAIT_AFTER  
@@ -1245,6 +1346,38 @@ SM_startDraw_newY_eq_oldX_single:                       ;#isfunction
                     sta      <VIA_t1_cnt_hi 
                     ADD_NOPS  
                     pulu     b,x,pc 
+
+SM_startDraw_yd4_double
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    jmp      SM_repeat_same2 
+
+SM_startDraw_yd4_quadro
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    jmp      cont3 
+
+SM_startDraw_yd4_octo
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    jmp      cont7
+
+
 SM_startDraw_newY_eq_oldX_single_sj:                    ;#isfunction  
                     sta      <VIA_port_b                  ; 4 
                     ldb      #SHITREG_POKE_VALUE 
@@ -1263,10 +1396,16 @@ SM_FlagWait:
                     beq      SM_FlagWait 
                     sta      <VIA_shift_reg 
 SM_rts:                                                 ;#isfunction  
+; nop 2
+; VIDE_RM_START - do not delete!
                     ldb      gameScale 
+; VIDE_RM_END - do not delete!
                     LDA      #$CC 
                     STA      VIA_cntl                     ;/BLANK low and /ZERO low 
+; nop 2
+; VIDE_RM_START - do not delete!
                     stB      VIA_t1_cnt_lo 
+; VIDE_RM_END - do not delete!
 ; and ensures integrators are clean (good positioning!)
 ;                    ldd      #0 
                     stx      <VIA_port_b 
@@ -1303,8 +1442,11 @@ SM_lastDraw_rts2                                        ;#isfunction
 ;                    ldb      #$f0 
                     nop      
                     stb      <VIA_shift_reg 
+; n_op 4
+; V_IDE_RM_START - do not delete!
                     lda      gameScale 
                     sta      <VIA_t1_cnt_lo 
+; V_IDE_RM_END - do not delete!
 ; extended on purpose to gain one cycle of time
 ; to reset to 
 ; a) swithc light off before zeroing
@@ -1312,9 +1454,25 @@ SM_lastDraw_rts2                                        ;#isfunction
 SM_rts2:                                                ;#isfunction  
                     ldb      #$cc 
                     STb      >VIA_cntl                    ;/BLANK low and /ZERO low 
-                    stx      >VIA_port_b 
-; nop 10
+					
+;Reset_Pen:      
+				LDD     #$0302
+                CLR     <VIA_port_a     ;clear D/A register
+                STA     <VIA_port_b     ;mux=1, disable mux
+                STB     <VIA_port_b     ;mux=1, enable mux
+                STB     <VIA_port_b     ;do it again
+                LDB     #$01
+                STB     <VIA_port_b     ;disable mux
+					
+					
+					
+;                    stx      >VIA_port_b 
+
+
+
+; -nop 10
                     puls     d,pc                         ; (D = y,x, pc = next object) 
+; VIDE_RM_START - do not delete!
 calibrationZero                                          ;#isfunction  
                     ldb      #$CC 
                     stb      <VIA_cntl 
@@ -1343,3 +1501,5 @@ SM_Shift0_Intensity:                                      ;#isfunction
 ; DATA SECTION
 ;***************************************************************************
 _SM_animData 
+
+; VIDE_RM_END - do not delete!

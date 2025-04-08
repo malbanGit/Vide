@@ -41,6 +41,7 @@ public class VediSettings implements Serializable
     
     public String v4eVolumeName = ""; // not used anymore! - we use "config" now
     public boolean v4eEnabled = false;
+    public boolean piTrexEnabled = false;
 
     int fontSize = 12;
     public HashMap <Integer, Bookmark> bookmarks = new HashMap<Integer, Bookmark>();

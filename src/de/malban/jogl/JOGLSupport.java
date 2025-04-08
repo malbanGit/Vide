@@ -17,6 +17,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLJPanel;
+import static de.malban.Global.JOGL_ENABLE;
 import de.malban.gui.panels.LogPanel;
 import de.malban.vide.VideConfig;
 import java.lang.reflect.Field;
@@ -65,9 +66,14 @@ public class JOGLSupport
     }
     public static boolean isJOGLSupported()
     {
+        if (!JOGL_ENABLE)
+            return false;
+        if (!VideConfig.getConfig().tryJOGL) 
+        {
+            Configuration.getConfiguration().getDebugEntity().addLog("JOGL: configured off", INFO);
+            return false;
+        }
         boolean canJOGL = getJOGLSupport().isInit();
-        
-        if (!VideConfig.getConfig().tryJOGL) return false;
         return canJOGL;
     }
     public static void setJOGLSupported(boolean b)
@@ -81,6 +87,7 @@ public class JOGLSupport
         if (!Global.JOGL_ENABLE) 
         {
             //init = true;
+            Configuration.getConfiguration().getDebugEntity().addLog("JOGL: forbidden globally", INFO);            
             return isSupported = false;
         }
         if (!init) 
@@ -88,12 +95,14 @@ public class JOGLSupport
             init = true;
             try
             {
+
                 glprofile = GLProfile.getDefault();
                 glcapabilities = new GLCapabilities( glprofile );
+
             }
             catch (Throwable e)
             {
-       //         Configuration.getConfiguration().getDebugEntity().addLog("JOGL is not supported", ERROR);
+                Configuration.getConfiguration().getDebugEntity().addLog("JOGL: is not supported", ERROR);
                 return isSupported = false;
             }
                 
@@ -109,7 +118,7 @@ public class JOGLSupport
                 Configuration.getConfiguration().getDebugEntity().addLog(e, WARN);
                 return false;
             }
-//            Configuration.getConfiguration().getDebugEntity().addLog("JOGL is supported", INFO);
+            Configuration.getConfiguration().getDebugEntity().addLog("JOGL is supported", INFO);
         }   
         return isSupported;
     }
@@ -147,7 +156,7 @@ public class JOGLSupport
             {
                 ByteBuffer byteBuffer = ByteBuffer.allocate(size);
                 gl2.glGetShaderInfoLog(shaderId, size, intBuffer, byteBuffer);
-                System.out.println(new String(byteBuffer.array()));
+                //System.out.println(new String(byteBuffer.array()));
             }
             throw new Exception("Error compiling shader!");
         }
@@ -179,7 +188,7 @@ public class JOGLSupport
             {
                 ByteBuffer byteBuffer = ByteBuffer.allocate(size);
                 gl2.glGetProgramInfoLog(programId, size, intBuffer, byteBuffer);
-                System.out.println(new String(byteBuffer.array()));
+                //System.out.println(new String(byteBuffer.array()));
             }
             throw new Exception("Error linking shader program!");
         }
@@ -197,7 +206,7 @@ public class JOGLSupport
             {
                 ByteBuffer byteBuffer = ByteBuffer.allocate(size);
                 gl2.glGetProgramInfoLog(programId, size, intBuffer, byteBuffer);
-                System.out.println(new String(byteBuffer.array()));
+                //System.out.println(new String(byteBuffer.array()));
             }
             throw new Exception("Error validating shader program!");
         }

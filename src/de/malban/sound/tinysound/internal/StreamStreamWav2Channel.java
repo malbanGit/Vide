@@ -174,7 +174,7 @@ public class StreamStreamWav2Channel implements Stream {
                     }
                     catch (Throwable e)
                     {
-                        System.out.println("Buh");
+                        //System.out.println("Buh");
                     }
                     inbufferUsed-=countInModFrames*MOD_FRAME_LENGTH;
                     return countInModFrames;

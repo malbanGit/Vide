@@ -1440,15 +1440,15 @@ int e6809_sstep (int irq_i, int irq_f)
             cycles.intValue += 6;
             break;
         case 0x40:
+            vecx.vectrexNonCPUStep(2);
             reg_a = inst_neg (reg_a)&0xff;
             // dont care analog
-            vecx.vectrexNonCPUStep(2);
             cycles.intValue += 2;
             break;
         case 0x50:
+            vecx.vectrexNonCPUStep(2);
             reg_b = inst_neg (reg_b)&0xff;
             // dont care analog
-            vecx.vectrexNonCPUStep(2);
             cycles.intValue += 2;
             break;
         case 0x60:

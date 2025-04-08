@@ -1,4 +1,4 @@
-NO_OF_LANES = (#LANE_COUNT# +1) ; plus one for ZERO
+NO_OF_LANES#_UNIQUE_ID# = (#LANE_COUNT# +1) ; plus one for ZERO
 
 BEHAVIOUR_NONE equ 0
 BEHAVIOUR_PAUSE equ 4
@@ -79,8 +79,8 @@ ELEMENT_GOTO EQU 4
 
 
 
-laneRAM ds laneData*NO_OF_LANES
+laneRAM#_UNIQUE_ID# ds laneData*NO_OF_LANES#_UNIQUE_ID#
 
-roundCounter ds 2
+roundCounter#_UNIQUE_ID# ds 2
 
 

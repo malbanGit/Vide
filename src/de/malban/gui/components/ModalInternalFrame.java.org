@@ -492,7 +492,7 @@ public class ModalInternalFrame extends JInternalFrame {
     } catch (InterruptedException ignored)
     {
     }
-    System.out.println();
+    //System.out.println();
   }
 
   private synchronized void stopModal()

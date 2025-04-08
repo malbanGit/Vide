@@ -5,12 +5,20 @@
  */
 package de.malban.vide.dissy;
 
+import de.malban.util.syntax.Syntax.TokenStyles;
+import de.malban.util.UtilityString;
 import de.malban.vide.VideConfig;
 import static de.malban.vide.dissy.DASMStatics.pgpointers;
+import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_DECIMAL;
+import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_UNKOWN;
 import de.malban.vide.vecx.Profiler;
+import de.malban.vide.vecx.VecXPanel;
 import java.awt.Color;
 import java.util.ArrayList;
+import javax.security.auth.login.Configuration;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.StyleConstants;
 
 /**
  *
@@ -24,20 +32,33 @@ public class MemoryInformationTableModel extends AbstractTableModel
         {
             columnVisible[i] = columnVisibleALL[i];
         }
+        if (smallMode)
+        {
+            for (int i=5; i<columnVisibleALL.length; i++ )
+            {
+                columnVisible[i] = false;
+            }
+            columnVisible[6] = columnVisibleALL[6];
+            columnVisible[7] = columnVisibleALL[7];
+            columnVisible[10] = columnVisibleALL[10];
+        }
     }
         
     VideConfig config = VideConfig.getConfig();
+    DissiPanel dissi = null;
     
     public Profiler profiler = null;
     
     public static Boolean[] columnVisibleALL = {true, true,true, true,true,true, true,true, true, true,true ,true, true, true, true, true};
     public Boolean[] columnVisible =           {true, true,true, true,true,true, true,true, true, true,true ,true, true, true, true, true};
-    public static int[] columnWidthSmall =    {20       , 50    , 150      , 30        , 100       ,10       ,20  , 10 , 10, 10 };
+    public static int[] columnWidthSmall =    {20       , 50    , 150      , 30        , 100       ,10       ,20};
     public static int[] columnWidth =    {10       , 100     , 150      , 30        , 100   ,  10      ,10      , 50   , 30        , 50    , 10      , 150    , 5, 10, 10, 10};
-
-    boolean smallMode = false;
-    String[] columnNamesSmall = {"Address", "Label", "Content", "Mnemonic","Operand", "Cycles", "Mode","Length","Pr access","Pr cycles","Pr csum" };
-    String[] columnNames = {"Address", "Label","Content", "Mnemonic","Operand","Page", "Cycles","Mode", "->Address", "Type","Length" ,"Comments", "DP","PR access","PR cycles","Pr csum"};
+    public static boolean wasInit = false;
+    
+    private boolean smallMode = false;
+//    String[] columnNamesSmall = {"Address", "Label", "Content", "Mnemonic","Operand", "Cycles", "Mode","Length"};
+    String[] columnNamesSmall = {"Address", "Label","Content", "Mnemonic", "Operand", "Page", "Cycles", "Mode", "->Address", "Type","Length" ,"Comments", "DP","PR access","PR cycles","Pr csum"};
+    String[] columnNames =      {"Address", "Label","Content", "Mnemonic", "Operand", "Page", "Cycles", "Mode", "->Address", "Type","Length" ,"Comments", "DP","PR access","PR cycles","Pr csum"};
     private ArrayList<MemoryInformation> visible = new ArrayList<MemoryInformation>();
     Memory orgData = null; // this is NO copy, this is a reference to the DASM memory map!
 
@@ -251,13 +272,19 @@ public class MemoryInformationTableModel extends AbstractTableModel
         return -1;
     }
     
+    public void setSmallMode(boolean b)
+    {
+        smallMode = b;
+        initVisibity();
+    }
+    
     // in visible column number
     // out model columnNumber
     // -1 if oob
     // todo "caching"
     public int convertViewToModel(int col)
     {
-        if (smallMode) return col;
+//        if (smallMode) return col;
 
         int ret =-1;
         int counter =0;
@@ -280,7 +307,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
     }
     public int convertModelToView(int col)
     {
-        if (smallMode) return col;
+//        if (smallMode) return col;
         int ret = 0;
         for (int i=0; i<columnVisible.length; i++)
         {
@@ -295,7 +322,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
     // todo "caching"
     public int getViewColumnCount()
     {
-        if (smallMode) return columnNamesSmall.length;
+//        if (smallMode) return columnNamesSmall.length;
         int ret = 0;
         for (int i=0; i<columnVisible.length; i++)
         {
@@ -334,11 +361,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
     // input model column!
     public boolean isVisible(int col)
     {
-        
-        if (smallMode)
-        {
-            return true;
-        }
+//        if (smallMode) return true;
         
         if (!isProfiling())
         {
@@ -367,14 +390,22 @@ public class MemoryInformationTableModel extends AbstractTableModel
     // input data column
     public Object getValueAt(int row, int col)
     {
-        MemoryInformation minfo = getValueAt(row);
+        MemoryInformation minfo;
+        try
+        {
+            minfo = getValueAt(row);
+        }
+        catch (Throwable e)
+        {
+            return "";
+        }
         if (minfo.isCInfo(row))
         {
             if (col == 0) return "$"+String.format("%04X", minfo.address);
             if (col == 1) return minfo.cInfo.lineString;
             return "";
         }
-        
+/*        
         
         if (smallMode)
         {
@@ -492,7 +523,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
 
             return "-";
         }
-
+*/
         // full mode
         if (col == 0) return "$"+String.format("%04X", minfo.address);
         if (col == 1) 
@@ -547,6 +578,22 @@ public class MemoryInformationTableModel extends AbstractTableModel
                 return "???";
                 
             }
+            
+            if (minfo.disType==DIS_TYPE_UNKOWN)
+            {
+                // not loaded from cart
+                // this might still be references in some way - e.g. flash support
+                // therefor lets display what the emulator sees
+                
+                if (dissi!=null)
+                {
+                    VecXPanel vecxPanel = dissi.getVecXPanel();
+                
+                return "$"+String.format("%02X", vecxPanel.getVecXMem8(minfo.address));
+                }
+                
+            }
+            
             StringBuilder l = new StringBuilder();
           
             for (int i = 0;i< minfo.length; i++)
@@ -568,6 +615,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
         if (col == 4) // operand(s)
         {
             String l = minfo.disassembledOperand;
+            l=toHTML(l, minfo, row);
             return l;
         }
         if (col == 5) //page
@@ -638,7 +686,11 @@ public class MemoryInformationTableModel extends AbstractTableModel
                 return "LOADED";
             if (minfo.disType == -1)
                 return "CODE";
-            return MemoryInformation.disTypeString[minfo.disType];
+            if (minfo.disType>=0)
+                return MemoryInformation.disTypeString[minfo.disType];
+            if (minfo.disType==DIS_TYPE_DATA_DECIMAL)
+                return "DB DEC";
+            return "UNKOWN";
         }
         if (col == 10) 
         {
@@ -888,4 +940,232 @@ public class MemoryInformationTableModel extends AbstractTableModel
         if (profiler == null) return false;
         return config.doProfile;
     }
+    String toHTML(String l, MemoryInformation minfo, int row)
+    {
+        l = UtilityString.replace(l,"dp","^~|");
+        l = UtilityString.replace(l,"DP","|~^");
+
+        l = UtilityString.replace(l,"0","~0!");
+        l = UtilityString.replace(l,"1","~1!");
+        l = UtilityString.replace(l,"2","~2!");
+        l = UtilityString.replace(l,"3","~3!");
+        l = UtilityString.replace(l,"4","~4!");
+        l = UtilityString.replace(l,"5","~5!");
+        l = UtilityString.replace(l,"6","~6!");
+        l = UtilityString.replace(l,"7","~7!");
+        l = UtilityString.replace(l,"8","~8!");
+        l = UtilityString.replace(l,"9","~9!");
+        l = UtilityString.replace(l,"a","~a!");
+        l = UtilityString.replace(l,"b","~b!");
+        l = UtilityString.replace(l,"c","~c!");
+        l = UtilityString.replace(l,"d","~d!");
+        l = UtilityString.replace(l,"e","~e!");
+        l = UtilityString.replace(l,"f","~f!");
+        l = UtilityString.replace(l,"A","~A!");
+        l = UtilityString.replace(l,"B","~B!");
+        l = UtilityString.replace(l,"C","~C!");
+        l = UtilityString.replace(l,"D","~D!");
+        l = UtilityString.replace(l,"E","~E!");
+        l = UtilityString.replace(l,"F","~F!");
+        
+        
+        Object o = getValueAt(row,3);
+        String mnemonic = "";
+        boolean isAddress = (minfo.referingToAddress != -1);
+        if (o!=null)mnemonic = o.toString().toLowerCase();
+        Color c;
+        
+        AttributeSet _operator = TokenStyles.getStyle("operator");
+        c = StyleConstants.getForeground(_operator);
+        String operatorColor = "???HASH???"+ String.format("%02X", c.getRed()&0xff)+ String.format("%02X", c.getGreen()&0xff)+ String.format("%02X", c.getBlue()&0xff);
+
+        AttributeSet _variable = TokenStyles.getStyle("literalVariable");
+        c = StyleConstants.getForeground(_variable);
+        String variableColor = "???HASH???"+ String.format("%02X", c.getRed()&0xff)+ String.format("%02X", c.getGreen()&0xff)+ String.format("%02X", c.getBlue()&0xff);
+
+        AttributeSet _register = TokenStyles.getStyle("register");
+        c = StyleConstants.getForeground(_register);
+        String registerColor = "???HASH???"+ String.format("%02X", c.getRed()&0xff)+ String.format("%02X", c.getGreen()&0xff)+ String.format("%02X", c.getBlue()&0xff);
+
+        AttributeSet _literal = TokenStyles.getStyle("literal");
+        c = StyleConstants.getForeground(_literal);
+        String literalColor = "???HASH???"+ String.format("%02X", c.getRed()&0xff)+ String.format("%02X", c.getGreen()&0xff)+ String.format("%02X", c.getBlue()&0xff);
+
+        AttributeSet _preprop = TokenStyles.getStyle("preprocessor");
+        c = StyleConstants.getForeground(_preprop);
+        String prepropColor = "???HASH???"+ String.format("%02X", c.getRed()&0xff)+ String.format("%02X", c.getGreen()&0xff)+ String.format("%02X", c.getBlue()&0xff);
+
+        AttributeSet _literalString = TokenStyles.getStyle("literalstring");
+        c = StyleConstants.getForeground(_literalString);
+        String literalStringColor = "???HASH???"+ String.format("%02X", c.getRed()&0xff)+ String.format("%02X", c.getGreen()&0xff)+ String.format("%02X", c.getBlue()&0xff);
+
+        boolean isStringValue = false;
+        String innerStringValue = "";        
+        if (mnemonic.equals("db"))
+        {
+            if (l.trim().startsWith("\"") ) 
+            {
+                innerStringValue = l.substring(1,l.lastIndexOf("\""));
+                l = UtilityString.replace(l,innerStringValue,"---INNER_STRING_VALUE---");
+
+                innerStringValue = UtilityString.toXML(UtilityString.onlyXMLVisibleASCII(innerStringValue));
+
+
+                isStringValue = true;
+            }
+        }
+        String r = l;
+        
+        r = UtilityString.replace(r,"#","!!!HASH!!!");
+        r = "<html>"+UtilityString.toXML(UtilityString.onlyXMLVisibleASCII(r))+"</html>";
+        
+        String sl = UtilityString.replace(l,"<", "");
+        sl = UtilityString.replace(sl,">", "");
+        sl = UtilityString.replace(sl,"#","");
+        r = UtilityString.replace(r,sl,"<font color='"+variableColor+"'>"+sl+"</font>");
+
+        if ((mnemonic.equals("db")) || (mnemonic.equals("dw")))
+        {
+            sl = UtilityString.replace(l,"\"", "&quot;");
+            if (mnemonic.equals("db"))
+            {
+                r = UtilityString.replace(r,sl,"<font color='"+literalColor+"'>"+sl+"</font>");
+                /*
+                if (l.contains("\""))
+                {
+                    if (!l.substring(1,l.lastIndexOf("\"")).equals("&"))
+                        r = UtilityString.replace(r,l.substring(1,l.lastIndexOf("\"")),"<font color='"+literalStringColor+"'>"+l.substring(1,l.lastIndexOf("\""))+"</font>");
+                }
+                */
+            }
+            else
+            {
+                if (l.contains("$"))
+                    r = UtilityString.replace(r,sl,"<font color='"+literalColor+"'>"+sl+"</font>");
+            }
+        }
+        else if (isAddress)
+        {
+            o = getValueAt(row,8);
+            if (o!=null)
+            {
+                String os = o.toString();
+                        
+                r = UtilityString.replace(r,os,"<font color='"+literalColor+"'>"+os+"</font>");
+            }
+        }
+        else // register or immediate
+        {
+            
+            sl = UtilityString.replace(l,"<<", "");
+            sl = UtilityString.replace(sl,"<", "");
+            sl = UtilityString.replace(sl,">", "");
+            sl = UtilityString.replace(sl,"-", "");
+            if (sl.contains(","))
+            {
+                // this is an indexed address
+                sl = sl.substring(0, sl.indexOf(","));
+                if (sl.length() != 0)
+                {
+                    r = UtilityString.replace(r,sl,"<font color='"+literalColor+"'>"+sl+"</font>");
+                }
+            }
+            
+            
+            
+            if (!l.startsWith("#"))
+            {
+//                r = UtilityString.replace(r,"a","<font color='"+registerColor+"'>"+"a"+"</font>");
+//                r = UtilityString.replace(r,"b","<font color='"+registerColor+"'>"+"b"+"</font>");
+//                r = UtilityString.replace(r,"d","<font color='"+registerColor+"'>"+"d"+"</font>");
+                r = UtilityString.replace(r,"~a!","<font color='"+registerColor+"'>"+"~a!"+"</font>");
+                r = UtilityString.replace(r,"~b!","<font color='"+registerColor+"'>"+"~b!"+"</font>");
+                r = UtilityString.replace(r,"~d!","<font color='"+registerColor+"'>"+"~d!"+"</font>");
+
+                
+                
+        r = UtilityString.replace(r,"^~|","dp");
+        r = UtilityString.replace(r,"|~^","DP");
+
+                
+                r = UtilityString.replace(r,"dp","<font color='"+registerColor+"'>"+"dp"+"</font>");
+                r = UtilityString.replace(r,"x","<font color='"+registerColor+"'>"+"x"+"</font>");
+                r = UtilityString.replace(r,"y","<font color='"+registerColor+"'>"+"y"+"</font>");
+                r = UtilityString.replace(r,"u","<font color='"+registerColor+"'>"+"u"+"</font>");
+                r = UtilityString.replace(r,"s","<font color='"+registerColor+"'>"+"s"+"</font>");
+                r = UtilityString.replace(r,"pc","<font color='"+registerColor+"'>"+"pc"+"</font>");
+                r = UtilityString.replace(r,"cc","<font color='"+registerColor+"'>"+"cc"+"</font>");
+            }
+            else
+            {
+                if ((l.substring(1).startsWith("$")) || (l.substring(1).startsWith("%")))
+                    r = UtilityString.replace(r,l.substring(1),"<font color='"+literalColor+"'>"+l.substring(1)+"</font>");
+            }
+        }
+
+if (isStringValue)     
+{
+    innerStringValue = UtilityString.replace(innerStringValue,"&#x20;", " ");
+//    r = UtilityString.replace(l,"---INNER_STRING_VALUE---", innerStringValue);
+    r = UtilityString.replace(r,"---INNER_STRING_VALUE---", "<font color='"+literalStringColor+"'>"+innerStringValue+"</font>");
+}
+        
+        
+        r = UtilityString.replace(r,"!!!HASH!!!","<font color='"+operatorColor+"'>"+"#"+"</font>");
+        r = UtilityString.replace(r,"[","<font color='"+operatorColor+"'>"+"["+"</font>");
+        r = UtilityString.replace(r,"]","<font color='"+operatorColor+"'>"+"]"+"</font>");
+        r = UtilityString.replace(r,"+","<font color='"+operatorColor+"'>"+"+"+"</font>");
+        r = UtilityString.replace(r,"-","<font color='"+operatorColor+"'>"+"-"+"</font>");
+        r = UtilityString.replace(r,"&quot;","<font color='"+operatorColor+"'>"+"&quot;"+"</font>");
+
+
+        r = UtilityString.replace(r,",","<font color='"+operatorColor+"'>"+","+"</font>");
+        r = UtilityString.replace(r,"&lt;","<font color='"+operatorColor+"'>"+"&lt;"+"</font>");
+        r = UtilityString.replace(r,"&gt;","<font color='"+operatorColor+"'>"+"&gt;"+"</font>");
+
+        r = UtilityString.replace(r,"???HASH???","#");
+        r = UtilityString.replace(r,"font color", "font face='Monospaced' color");
+
+        r = UtilityString.replace(r,"_", "<u>&nbsp;</u>");
+        r = UtilityString.replace(r,"<html>", "<html><nobr>");
+        r = UtilityString.replace(r,"</html>", "</nobr></html>");
+
+        r = UtilityString.replace(r,"&apos;","'");
+        r = UtilityString.replace(r,"&quot;","\"");
+        r = UtilityString.replace(r,"&amp;","&");
+
+		
+        r = UtilityString.replace(r,"^~|","dp");
+        r = UtilityString.replace(r,"|~^","DP");
+
+//        r = UtilityString.replace(r,"]~[","dp");
+//        r = UtilityString.replace(r,"[~]","DP");
+        r = UtilityString.replace(r,"~0!","0");
+        r = UtilityString.replace(r,"~1!","1");
+        r = UtilityString.replace(r,"~2!","2");
+        r = UtilityString.replace(r,"~3!","3");
+        r = UtilityString.replace(r,"~4!","4");
+        r = UtilityString.replace(r,"~5!","5");
+        r = UtilityString.replace(r,"~6!","6");
+        r = UtilityString.replace(r,"~7!","7");
+        r = UtilityString.replace(r,"~8!","8");
+        r = UtilityString.replace(r,"~9!","9");
+        r = UtilityString.replace(r,"~a!","a");
+        r = UtilityString.replace(r,"~b!","b");
+        r = UtilityString.replace(r,"~c!","c");
+        r = UtilityString.replace(r,"~d!","d");
+        r = UtilityString.replace(r,"~e!","e");
+        r = UtilityString.replace(r,"~f!","f");
+        r = UtilityString.replace(r,"~A!","A");
+        r = UtilityString.replace(r,"~B!","B");
+        r = UtilityString.replace(r,"~C!","C");
+        r = UtilityString.replace(r,"~D!","D");
+        r = UtilityString.replace(r,"~E!","E");
+        r = UtilityString.replace(r,"~F!","F");
+        
+        
+        return r;
+    }
+
+
 }

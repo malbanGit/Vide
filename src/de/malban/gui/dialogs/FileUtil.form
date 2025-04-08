@@ -1706,9 +1706,6 @@
                   <Dimension value="[503, 80]"/>
                 </Property>
               </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="to 32k files"/>
-              </AccessibilityProperties>
 
               <Layout>
                 <DimensionLayout dim="0">

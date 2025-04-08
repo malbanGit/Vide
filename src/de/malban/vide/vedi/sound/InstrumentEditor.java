@@ -2437,11 +2437,11 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
 
             String fname = Global.mainPathPrefix+"tmp"+File.separator+"musictmp.bin";
             vec.startUp(fname);
-            log.addLog("Music-Assembly successfull...", INFO);
+            log.addLog("Music-Assembly successful...", INFO);
         }
         else
         {
-            log.addLog("Music-Assembly not successfull, see ASM output...", WARN);
+            log.addLog("Music-Assembly not successful, see ASM output...", WARN);
         }
         jButtonAssemble.setEnabled(true);
     }    

@@ -16,7 +16,6 @@ import java.io.Serializable;
  */
 public class VectrexJoyport  implements Serializable
 {
-    
     int port = 0;
     
     private boolean outputFromVectrexButton[] = new boolean[4];
@@ -187,8 +186,13 @@ public class VectrexJoyport  implements Serializable
         }  
         if ((fromVectrex) && (outputMode)) 
         {
+            // PSG is output mode, meaning it SENDS data to the joystick
+            // the Vectrex is ASKING the button state (from Vectrex)
+            
             // att!
             // berzerk arena needs input in output???
+if (port == 0) return true;
+            
             return outputFromDeviceButton[no];  
 //            return true; // verified
         } 

@@ -1,3 +1,461 @@
+https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers
+
+
+
+done
+remove multiple middle points
+
+
+bug veccy
+when switching to "not edit on select" and then "new" -> then the last selected vectorlist can not be selected again while in that mode
+
+todo impleement: Search in RAM or rom
+
+Bookmarks werden nicht immer am Rand angezeigt
+
+STILL BUG
+Vide does for whatever reason not support switching the imager off!
+See c sources done for graham
+
+Peer DRIFT see emails
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+done 
+ raster panel copy and paste
+ vector panel copy and paste
+ pitrex terminal and what goes with it (availablility in all windows)
+
+
+done:
+imager support pitrex
+
+done
+to do scan for serial pitrex, when a com port is selected every x seconds and autoconnect
+
+done
+Unkown memory - dissi shows 0 - emulator gets $ff
+
+done: RESET Button on terminal
+
+done:
+   48k roms -> automatically to 48 mode when loaded
+
+
+->
+
+
+Done:
+- changed so that the profiler is not reset at the start of each emulation period
+- added a profiler reset button
+
+
+DONE:
+(((((((((((((((((((((((((( INCLUDED
+… Habe meine Meinung inzwischen geändert. Das ist doch ein (weiterer) Bug im gcc6809 und hat nichts mit undefined behavior bei overflow zu tun,
+ wie ich zunächst dachte. Der Bug ist in der Optimierung -ftree-vrp, die ab Stufe -O2 aktiv ist. 
+Also nehme man ab jetzt noch eine weitere Compiler Option hinzu, um diese Optimierung auszuschalten: -fno-tree-vrp
+
+Viele Grüße,
+Peer
+
+________________________________
+Von: Johannsen, Peer <peer.johannsen@hs-pforzheim.de>
+ hier ein kleiner "Bug" Brain Teaser aus der Vectrex Welt. Der gcc6809 übersetzt (mit Optimierung -O2) folgenden C-Code (einfache Kopier-Routine)
+
+      unsigned int* s = (unsigned int*) 0xa000;
+      unsigned int* d = (unsigned int*) 0xf000;
+      long unsigned int c = 4096;
+      do
+      {
+            *(d++) = *(s++);
+      }
+      while (--c);
+
+in folgenden Assembler-Code
+
+      ldu #0xa000
+      ldx #0xf000
+loop: ldb ,u+
+      stb ,x+
+      bra loop
+
+Argh! So was Blödes! Und das Allerschlimmste, das ist noch nicht einmal ein Bug!!! Mehr als ärgerlich ☹
+
+Viele Grüße,
+Peer
+((((((((((((((((((((((((
+
+DONE:
+Peer Mail 6.12.2023
+Moin mal wieder,
+
+zur Info: Habe einen weiteren Bug im gcc6809 entdeckt. 
+Wenn man C-Labels und goto statements verwendet, dann kann es in bestimmten Fällen ab 
+Optimierungsstufe -O2 dazu kommen, dass falsch optimierter Code entsteht. 
+Liegt an der „common subexpression elimination“. Ganz grob:
+
+ <code>;
+label:
+do
+{
+ <common subexpression>;
+  <code>;
+}
+while (whatever);
+<code>;
+goto label;
+
+kann zu folgendem fehloptimiert werden:
+<code>;
+<common subexpression>;
+label:
+do
+{
+  <code>;
+}
+while (whatever);
+<code>;
+
+goto label;
+
+Sollte sein:
+<code>;
+label:
+<common subexpression>;
+do
+{
+  <code>;
+}
+while (whatever);
+<code>;
+goto label;
+
+Hat mich jetzt eine Stunde gekostet, herauszufinden, dass es nicht an meinem Code lag, 
+sondern am gcc6809. Workaround: man unterdrücke die entsprechende Optimierung.
+
+gcc6809 -O2 -fno-gcse …
+
+
+Habe das jetzt mal in meine Skripte mit aufgenommen. 
+Kannst da überlegen, ob Du das auch so in Vide einbrennen willst. 
+Zusätzlich habe ich dort übrigens auch noch die Option -fno-ipa-reference, 
+da auch hier der gcc6809 bei der zugehörigen Optimierung einen Bug hat. 
+Habe die Details vergessen, aber das müsste ich Dir auch schon vor längerer Zeit mal 
+geschickt habe und ist in Vide wahrscheinlich auch schon so drin.
+
+Ceterum censeo: Wie geht’s, wie steht’s, und was machst Du so? 😉
+Viele Grüße,
+Peer
+
+
+---
+
+done:
+-> Included in C Directory
+Peer Mail -> PrintShips Reg U in C!!!
+
+Siehe Mail 18.11.2023
+Neue Linker dateien!
+
+
+---
+
+Frage, bzw. Suggestion: In der Config kann man ja das „Startup-Binary“ einstellen, 
+welches beim Starten von Vide in den Emulator geladen wird. 
+Gibt es hier auch den Modus „nimm einfach das Binary, welches als letztes im Emulator gelaufen ist“?
+
+ 
+
+
+done:
+Better late than never feedback... you know this feature where you can essentially RESET the VECX by holding SHIFT when you click PLAY?  
+If you do that with an Akalabeth or Telengard cart, it just loops at the boot screen.  
+I'm guessing it doesn't load the banks correctly or something, but it is just one binary file.  
+Must not retain the bankswitching scheme to use?
+Bild
+
+Is there a way to set the default directory?  Or to make it start at the last directory it opened a project from?
+Telengard compiles, now hopefully I can reprogram the cart from my special adapter like I can with Vectorblade 😄 Testing on the real vec in a sec.
+
+
+done:
+telengard text...One issue I noticed with Telengard is that if you enter that stats? menu while music is playing, the last note kind of plays continuously until you exit.
+
+done
+telengard -> name enter also digital
+
+
+done:
+telengard , when file not in "structure" (outside of vide that is) than after a compile it does not sart
+
+
+
+CLI from ini file -> disable
+
+done: ldd #$0000        anstelle von       ldd #$00 
+
+done: Art break-point setzen, der die Ausführung anhält, sobald eine bestimmte Adresse gelesen oder geschrieben wird?
+
+done: untested
+- in Vecci add "quicksave" buttons - to save to the already known name without file choser
+
+done:
+- p.p.s. it could be nice if you add jumping from one bookmarks to another using Ctrl Arrow Up/Down. 
+         And also please highlight lines with bookmarks (or mark them somehow).
+            HotKey.addMap(KeyEvent.VK_UP, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "NextBookmark", "Editor");
+            HotKey.addMap(KeyEvent.VK_DOWN, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "PreviousBookmark", "Editor");
+
+- TODO:
+    Moin!
+
+    > Es ist ziemlich selten, dass man Branches tatsächlich als ZAHLEN angibt - und noch seltener, dass man diese Zahlen mit anderen
+    Assemblern vergleicht.
+    Ich  weiß. Nur ich mache solch einen Quatsch und interessiere mich dann auch noch dafür 😉
+    Hier gleich noch eine Frage/Beobachtung von diesem Kaliber: Als (inoffizielle) Unter-Einsprungpunkte von Rot_VL_Mode gibt es anscheinend 
+    Rot_VL_M_dft und Rot_VL_dft. Allerdings nicht einheitlich dokumentiert, wenn man Vide und die Tomlin Sourcen vergleicht:
+
+    In Vide:
+    Rot_VL_Mode == F61F
+    Rot_VL_M_dft == nicht definiert
+    Rot_VL_dft == F637
+
+    Bruce Tomlin:
+    Rot_VL_Mode == F61F
+    Rot_VL_M_dft == F62B
+    Rot_VL_dft == nicht definiert
+
+    Vectrex Programmer Manual Part 2 (ebenso das RUM auf Roadsidethoughts):
+
+    Rot_VL_Mode == F61F
+    Rot_VL_M_dft == nicht definiert
+    Rot_VL_dft == nicht definiert
+
+    Nirgends(?) erwähnt: Sowohl Rot_VL_M_dft als auch Rot_VL_dft gehen davon aus, dass vor dem Einsprung das DP 
+     Register auf den Stack gepushed wurde. Rot_VL_Mode macht dieses zu Beginn. Alle drei enden mit demselben puls DP,PC. Wer die *_dft Routinen aufruft, ohne vorher DP gepushed zu haben, bekommt einen corrupted stack.
+    Evtl. sinnvoll: Rot_VL_M_dft mit in Vide aufnehmen?
+    Viele Grüße,
+    Peer
+
+done: new Command(D_CMD_STACK_WATCH, "StackWatch", "sw", 1,1,"\"StackWatch\"\t\tWatch for stack changes at current location.",""),
+done: if (type.trim().toUpperCase().equals("DEC_DATA"))
+done: wait recal baseline
+
+done:
+    Is there a way to empty Table 1 and 2 of dissi so that I only am getting update messages when I am actively using dissi. It will be awhile before I get to that usage as I have a whole bunch of unknown files to sort through
+    -> empty textfield of file
+done:
+    Anmerkungen von Scott wegen Helligkeit -> siehe Mail
+
+done:
+    DISSI
+    Moin,
+    hier ein kleiner Bug in Dissi, siehe Bild.
+    Viele Grüße, PEER
+
+
+done:
+    noticing is that when I restart with a new set of *.asm files, there is no *.bin in 
+    the directory as I start from scratch. Seems like the "Compare Disassembled" should 
+    see the bins it is comparing aren't there and "let the user know" by deleting the 
+    contents so that the disassembly only reappears when the new bin is created. 
+    I think this is not worth doing anything about until you have an evening when you are "looking for 
+
+
+Assi
+- added setdp
+- added opt for 0,u+
+- added hexadecimal as 16afH
+
+Vedi
+- edit files (asm,s,c,i,h,txt)
+
+ 
+done
+danke für die Lektüre. Habe daraufhin mal das LST File mit zu dem Binary gepackt (ich hatte mir die Listings schon immer generieren lassen, aber an einem anderen Ort als das Binary), und das funktioniert eigentlich ganz gut. Allerdings werden die Label-Namen offenbar nur dann übernommen, wenn sie in einer separaten Zeile stehen. Soll heißen, bei
+
+ 
+
+done
+Track speichert nicht
+
+
+Done
+Vide hat sich jetzt mehrfach in Folge bei mir aufgehängt. Im Sinne von, plötzlich steht alles still, die Fenster reagieren auf gar nichts mehr, und Vide brät mir einen Prozessor zu 100% zu, bis ich den kompletten Prozess per Kill abwürge.
+
+
+
+done:
+  dissy - switch type was doing the switch up to 29 bytes to many...
+
+done:
+DAC tolerance added!
+
+done: 
+Syntax coloring in Disasm and disasm compare
+
+done: PAN
+I noticed while running these tests that whenever I compile a binary, a new *.asm is written. 
+Actually, I've seen that message all the time but didn't realize its impact. 
+I think this has to do the idea that Vide.asm is optimizing the *.asm so it needs to write it out. 
+However, I have opt turned off, it should not be doing anything to the source *.asm. 
+This is actually important as archiving software doing delta offsets often looks for the timestamp of a 
+file to determine if it has potentially changed. There are other uses for timestamp. 
+Can you please change your code to only write out a new *.asm if the file has changed.
+
+
+
+done?
+The compiler works with the TFR command and I get a working binary. 
+However, the change has not made it to the disassembler. 
+I have no code in my Vectrex collection which tests EXG so I going to assume that it is doing the same.
+
+I will do the zip of serialize directory in a different email
+
+
+cant reproduce
+Here's a very small annoyance. VIDE doesn't remember the project when restarted if the project is somewhere else on the disk.
+Only projects within the VIDE hierarchy on disk are in the 'last projects' tab.   Every time I have to navigate to p:\projects\myProject when I load Vide. 
+This is not a big deal but I thought I'd point it out for your list if you ever have time again to make minor fixes.
+
+nope:
+Manello — 10.12.2022 11:54
+Ah and another bit of feedback: It would be cool if breakpoints would be saved even after reloading a game. 
+Every time I restart it will loose all breakpoints at the moment
+
+same as: hey dissi?
+gauze — 10.12.2022 21:12
+I was thinking there could be a pseudo op or whatever like 'break' so it's preserved across restarts
+
+
+
+
+
+
+
+
+
+
+done:
+added different sized register TFR/EXG
+    (Variables in Asmj and DASM6809 to allow/forbid - but as of now not configurable)
+    Syntax checking shows this as illegal (red) -> but assembling is possible, this is on purpose.
+
+done
+in compare dissi the adress fields for difs were not always the same in both tables (!?!?!)
+
+done
+When I have a Compare Disassemblies up with two files that have differences, 
+I am seeing that the "{n,p} should always go to {bottom,top}" isn't true when there are differences. 
+I hit 'n' and it goes to the next change. And so on and so on until it is on the last difference. 
+When I click 'n' again, I expect to it go to the last line in the file to show me there are no other differences. 
+Same for 'p'.
+
+done
+Given that the Compare Disassemblies only want to have binary files as input, 
+the default should be that it only gives you the choice of binary files.
+
+Waiting for reply
+The Compare Disassemblies doesn't use the Project directory set in Config and, in many ways, I need 
+that more than the emulator (though let me say I kinda need the emulator and all other windows to see it)
+
+toTest
+When I load two 1K game binaries into the Compare Disassemblies, the 'n' and 'p' work great. 
+But if I load two 2k game binaries in, the 'n' doesn't work. 
+If I scroll to the end at 0x1fff and push 'p', it does go back to the start. 
+
+done
+    The Compare Disassembler tool is not remembered if it is onscreen when the Vide is closed. My sense is that Vide 
+    ought to open exactly as you left it. The only exception would be if 
+    someone really wanted a button to say "don't remember what was onscreen" but that is not something I am interested in.
+
+done + lastDir
+The Source Editor uses the "project directory" that I have set. But the emulator still starts in Vide.app home directory. 
+I think anything I open (file or binary or whatever) should come from the same project directory ... does that make sense to you? 
+
+Walach
+done
+technobly — heute um 16:08 Uhr
+Hi @Malban, while you are thinking about VIDE, would you mind logging this feature request if it's not present already?  
+Some way to use a VERSION string in your code that gets picked up in the filename creation.  So we can do this
+- added that version number is part of the compiled filename
+- version number always is taken from the project version
+- all *.c and *.h files in src are scanned for
+  #define VERSION XXX
+  if that is found, the project version is set to XXX
+- added new pseudo opcode to ASM 
+  version XXX
+  also sets version information in the project
+
+PAN
+?
+1) if I am seeing things correctly, the check box for "opt" is not remembered -- as a developer I want to see what I compiled and not have and changes so that once things are running, I can then turn on the opt and evaluate what it wants/suggests
+
+?
+3) I see there isn't a scroll bar in the source ... that would be nice to have for navigation purposes
+
+done:
+2) the files that were last in the Compare Disassemblies are not remembered ... would be helpful so I don't have to reload each time
+
+done:
+4) would it be possible to have a way to have a master "use this directory" so all 
+   "enter filename" windows would go right to there rather than having to navigate 
+   in each one from Vide home directory
+
+-> use VIDE_HOME
+5) and what would be very nice would be to allow my project directory outside of the Vide tree so I 
+   could have multiple Vide packages based on the different updates you give that all use the same 
+   directory for *.asm and *.bin --- it would also allow me to easily archive my material with 
+   everything else in my home directory (I run daily rsyncs with hourly deltas and don't want 
+   to include the @2.4G of Vide (higher than usual as I am storing original and updates as I haven't 
+   sorted out a "proper organization" while in the code turnaround time.
+
+done: PAN: Dissi compare
+If there is any one thing I would add to your compare disassembles, it would be to borrow from xxdiff the use of the keys 'n' and 'p' to 'go to next difference' 
+and 'go to previous difference'. If you already have that feature in there somewhere, I didn't find it. 
+
+done: dissi compare also as binary variant
+
+done: PAN: othr BIOS variants for disassembling
+
+done: PAN: disassm somtimes ignored locations after scanning
+
+done: PAN: fixed optimize loop for bra > JMP
+
+done: add breakpoint at write to T2 (to find WR)
+
+Peer
+done:
+    Schlangengrube gcc6809: Bin heute Morgen mal wieder über eine gcc6809 Spezialität gestolpert. 
+    Ohne Optimierung hat mein Code funktioniert, mit Optimierung nicht. Lag daran, dass laut C Standard 
+    Overflow- und Underflow-Semantik undefiniert ist, und folglich der gcc beim Optimieren dieses auch annehmen darf. 
+    Vereinfachtes Beispiel: unsigned int x = 0; while(1) { if (++x == 0) do_something(); } Hier darf potentiell 
+    do_something() weg-optimiert werden, da beim Inkrementieren der Wert 0 nie wieder erreicht wird, da 255 + 1 undefiniert ist. 
+    Lösung: -fno-strict-overflow als zusätzliche Compiler-Option unterdrückt diese Art von „Optimierung“ und behält das 
+    „normale“ Hardware Overflow und Underflow Verhalten bei. Wundert mich, dass ich da erst jetzt drüber gestolpert bin, 
+    da ich die Art von Bit-Level Verhalten ständig ausnutze.
+
+ done: added speedLimit %
+
+
+Check all old "C" source whether they still work (because of CRT0 changeds)
+ demo3d
+ demo 4
+demo 6
+demo7 not working correctly
+
 When generate noShift lists 
 in RUN mode - also gnerate noShift lists
 
@@ -142,9 +600,7 @@ Am 29.07.2019 14:15 schrieb Frank Buss:
 > Hallo Chris,
 >
 > meine Lösung geht aber nur deswegen, weil das Programm in beiden Bänken identisch ist, bis auf die Daten. Eine eigene Section definieren zu können, deren Adresse und Größe man angeben kann, wäre noch besser. Dann könnte ich alle Bankwitching-Funktionen dort unterbringen, und auch verschiedene Programme umschalten.
->
 > Habe mal gesucht aber nichts gefunden, gibt es eine Linker Definition Datei in Vide?
->
 > Wollte übrigens noch ein Bonusspiel mit ausliefern. Hast du was dagegen, wenn ich Karl Quappe mit auf mein Cartridge flashe?
 >
 > Viele Grüße

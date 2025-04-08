@@ -173,17 +173,21 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         jLabel19 = new javax.swing.JLabel();
         jSliderCombineUpscale = new javax.swing.JSlider();
         jLabel14 = new javax.swing.JLabel();
+        jButtonShrink = new javax.swing.JButton();
+        jButtonEnlarge = new javax.swing.JButton();
+        jTextFieldScaleFactor = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jRadioButtonPotrace = new javax.swing.JRadioButton();
         jRadioButtonAutotrace = new javax.swing.JRadioButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField4 = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
+        jButtonLoad1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(960, 537));
 
         jButtonLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
-        jButtonLoad.setToolTipText("load YM");
+        jButtonLoad.setToolTipText("load from disk");
         jButtonLoad.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -425,6 +429,26 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
 
         jLabel14.setText("upscaling");
 
+        jButtonShrink.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
+        jButtonShrink.setToolTipText("shrink vectorlist");
+        jButtonShrink.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonShrink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonShrinkActionPerformed(evt);
+            }
+        });
+
+        jButtonEnlarge.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
+        jButtonEnlarge.setToolTipText("expand vectorlist");
+        jButtonEnlarge.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonEnlarge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnlargeActionPerformed(evt);
+            }
+        });
+
+        jTextFieldScaleFactor.setText("1.5");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -476,11 +500,20 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jButtonShrink)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonEnlarge)
+                                        .addGap(13, 13, 13)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -563,13 +596,33 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                                 .addComponent(jLabel17)
                                 .addComponent(jLabel16))
                             .addComponent(jCheckBox1))
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel3))
+                                .addGap(13, 13, 13)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(44, 44, 44)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton1)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jCheckBoxGenerateData)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBoxGenerateExampleCode)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel14))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButtonShrink)
+                                    .addComponent(jButtonEnlarge)
+                                    .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(2, 2, 2)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jSliderCombinePixelLen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jSliderThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -584,22 +637,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSliderBlurRadius, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(44, 44, 44)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton1)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBoxGenerateData)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBoxGenerateExampleCode)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel14)))
+                                .addComponent(jSliderBlurRadius, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -654,6 +692,15 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
 
         jLabel20.setText("error-Threshold");
 
+        jButtonLoad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/paste_plain.png"))); // NOI18N
+        jButtonLoad1.setToolTipText("Paste from clipboard");
+        jButtonLoad1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoad1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -663,7 +710,9 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonLoad)
-                .addGap(33, 33, 33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonLoad1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRadioButtonPotrace)
                 .addGap(35, 35, 35)
                 .addComponent(jRadioButtonAutotrace)
@@ -679,20 +728,16 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonLoad)
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jRadioButtonPotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jRadioButtonAutotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel20))
-                        .addGap(0, 0, 0)))
+                    .addComponent(jButtonLoad)
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jRadioButtonPotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRadioButtonAutotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel20))
+                    .addComponent(jButtonLoad1))
                 .addComponent(jTabbedPane1))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -868,13 +913,54 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         buildVectors();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jButtonLoad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoad1ActionPerformed
+        singleImagePanel1.setImageFromClipboard();
+
+        baseImage = singleImagePanel1.getImage();
+        if ((singleImagePanel1.getSourceWidth()>320) || (singleImagePanel1.getSourceHeight()>320))
+            singleImagePanel1.scaleToFit();
+        jTextFieldWidth.setText(""+singleImagePanel1.getSourceWidth());
+        jTextFieldHeight.setText(""+singleImagePanel1.getSourceHeight());
+        jSliderSourceScaleStateChanged(null);
+        buildVectors();
+    }//GEN-LAST:event_jButtonLoad1ActionPerformed
+
+    private void jButtonShrinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonShrinkActionPerformed
+        double scale = 1.0/de.malban.util.UtilityString.FloatX(jTextFieldScaleFactor.getText(), 2);
+        singleImagePanel1.setScale(scale);
+        singleImagePanel1.bakeScale();
+        baseImage = singleImagePanel1.getImage();
+        if ((singleImagePanel1.getSourceWidth()>320) || (singleImagePanel1.getSourceHeight()>320))
+            singleImagePanel1.scaleToFit();
+        jTextFieldWidth.setText(""+singleImagePanel1.getSourceWidth());
+        jTextFieldHeight.setText(""+singleImagePanel1.getSourceHeight());
+        jSliderSourceScaleStateChanged(null);
+        buildVectors();
+    }//GEN-LAST:event_jButtonShrinkActionPerformed
+
+    private void jButtonEnlargeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnlargeActionPerformed
+        double scale = de.malban.util.UtilityString.FloatX(jTextFieldScaleFactor.getText(), 2);
+        singleImagePanel1.setScale(scale);
+        singleImagePanel1.bakeScale();
+        baseImage = singleImagePanel1.getImage();
+        if ((singleImagePanel1.getSourceWidth()>320) || (singleImagePanel1.getSourceHeight()>320))
+            singleImagePanel1.scaleToFit();
+        jTextFieldWidth.setText(""+singleImagePanel1.getSourceWidth());
+        jTextFieldHeight.setText(""+singleImagePanel1.getSourceHeight());
+        jSliderSourceScaleStateChanged(null);
+        buildVectors();
+    }//GEN-LAST:event_jButtonEnlargeActionPerformed
+
     double xFactor = 1.0;
     double yFactor = 1.0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonEnlarge;
     private javax.swing.JButton jButtonLoad;
+    private javax.swing.JButton jButtonLoad1;
+    private javax.swing.JButton jButtonShrink;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBoxGenerateData;
     private javax.swing.JCheckBox jCheckBoxGenerateExampleCode;
@@ -921,6 +1007,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextFieldHeight;
+    private javax.swing.JTextField jTextFieldScaleFactor;
     private javax.swing.JTextField jTextFieldStartX;
     private javax.swing.JTextField jTextFieldStartY;
     private javax.swing.JTextField jTextFieldWidth;
@@ -2007,8 +2094,5 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             return null;
         }
         return features;
-    }
-	
-	
+    }	
 }
-

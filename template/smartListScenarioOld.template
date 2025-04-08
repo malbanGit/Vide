@@ -1,4 +1,4 @@
-SPRITE_SCALE        =        60 
+SPRITE_SCALE        =        ##SCALE##
 ;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
 ;***************************************************************************
 ; DEFINE SECTION

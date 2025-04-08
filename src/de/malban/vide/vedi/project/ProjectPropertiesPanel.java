@@ -8,6 +8,7 @@ import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
+import de.malban.vide.VideConfig;
 import de.malban.vide.script.ExecutionDescriptor;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_PROJECT_POST;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_PROJECT_PRE;
@@ -191,7 +192,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             HotKey.addMacDefaults(jTextFieldPath);
             HotKey.addMacDefaults(jTextFieldMainFile);
             HotKey.addMacDefaults(jTextFieldVersion);
-            HotKey.addMacDefaults(jTextFieldMainFile);
+//            HotKey.addMacDefaults(jTextFieldMainFile);
             HotKey.addMacDefaults(jTextFieldAuthor);
             HotKey.addMacDefaults(jTextAreaDescription);
             HotKey.addMacDefaults(jTextFieldCFLAGS);
@@ -1344,9 +1345,11 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jComboBoxNameActionPerformed
 
     private void jButtonFileSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect1ActionPerformed
+    VideConfig config = VideConfig.getConfig();
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         fc.setDialogTitle("Select project parent directory");
-        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        
+        fc.setCurrentDirectory(new java.io.File(config.fileRequestHome));
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
@@ -1539,7 +1542,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBoxCRumInlined.setEnabled(false);//jCheckBoxCProject1.isSelected());
         
         mClassSetting--;
-        jTextFieldCFLAGS.setText("-quiet -fno-ipa-reference -ftree-ter -fno-gcse -fverbose-asm -W -Wall -Wextra -Wconversion -Werror -fomit-frame-pointer -fno-toplevel-reorder -mint8 -msoft-reg-count=0 -std=gnu99 -fno-time-report -IC/PeerC/vectrex/include");
+        jTextFieldCFLAGS.setText("-quiet -fno-tree-vrp -fno-ipa-reference -ftree-ter -fno-gcse -fverbose-asm -W -Wall -Wextra -Wconversion -Werror -fno-strict-overflow -fomit-frame-pointer -fno-toplevel-reorder -mint8 -msoft-reg-count=0 -std=gnu99 -fno-time-report -IC/PeerC/vectrex/include");
         
         enableASM(!jCheckBoxCProject1.isSelected());
         

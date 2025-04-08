@@ -79,6 +79,9 @@ if (source.rest.startsWith(">"))
                                 source.op="BRA";
                                 Instruction i = (Instruction)Asmj.processor.instructionSet.get(source.op );
                                 source.setInstruction(i);
+//source.
+//source = bra offset?
+        source.rest = ""+offset;
                                 i.source = source;
                                 i.pass1( address, symtab );
                                 Asmj.optimize( source, "Optimization changing \""+old+"\" to \""+source.op+"\" (NOP inserted)");                            

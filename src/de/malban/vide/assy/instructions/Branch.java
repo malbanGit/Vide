@@ -54,6 +54,9 @@ public class Branch extends InstructionGroup {
                     offset = (dest - pc);
 		len = getDataLength();
 
+//                if (!source.isOptimize())
+//System.out.println();
+                
                 if (source.isOptimize())
                 {
                     boolean isShort = false;

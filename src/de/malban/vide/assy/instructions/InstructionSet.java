@@ -44,6 +44,7 @@ public class InstructionSet extends Hashtable
             org       = "org",
             psmacro   = "psmacro",
             direct    = "direct",
+            setdp     = "setdp",
             rmb       = "rmb",
             noopt     = "noopt",
             opt       = "opt",
@@ -58,7 +59,8 @@ public class InstructionSet extends Hashtable
             bank      = "bank",
             multibank = "64kBanked",
             struct    = "struct",
-            cmap      = "cmap";
+            cmap      = "cmap",
+            asm_version = "version";
 
     
     
@@ -93,6 +95,7 @@ public class InstructionSet extends Hashtable
             groupmap.put( org ,    org.class    );
             groupmap.put( psmacro,    psmacro.class    );
             groupmap.put( direct,    direct.class    );
+            groupmap.put( setdp,    setdp.class    );
             groupmap.put( noopt,    noopt.class    );
             groupmap.put( opt,    opt.class    );
             groupmap.put( data,    data.class    );
@@ -107,6 +110,7 @@ public class InstructionSet extends Hashtable
             groupmap.put( struct,    struct.class    );
             groupmap.put( bank,    bank.class    );
             groupmap.put( cmap,    cmap.class    );
+            groupmap.put( asm_version,    version.class    );
     }
 
     // During initialization, we will load this info into a Hashtable,
@@ -292,6 +296,7 @@ public class InstructionSet extends Hashtable
             "macro",   "psmacro",   "", "0", "",
             "org",     "org",       "", "0", "",
             "direct",  "direct",    "", "0", "",
+            "setdp",  "setdp",    "", "0", "",
             "noopt",   "noopt",     "", "0", "",
             "opt",     "opt",       "", "0", "",
             "data",    "data",      "", "0", "",
@@ -309,9 +314,8 @@ public class InstructionSet extends Hashtable
             "cmap",    "cmap",      "", "0", "",
             
             "ds",      "rmb",       "", "0", "",
-            "fcw",     "fdb",       "", "0", ""
-            
-            
+            "fcw",     "fdb",       "", "0", "",
+            "version", "version",   "", "0", ""
             
     };
 

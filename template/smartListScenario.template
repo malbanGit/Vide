@@ -1087,7 +1087,7 @@ SM_startDraw_double ;#isfunction
                     sta      <VIA_t1_cnt_hi               ; 4 
                     ADD_NOPS  
                     jmp      SM_repeat_same2 
-SMVB_startDraw_octo ;#isfunction 
+SM_startDraw_octo ;#isfunction 
                     SET_Y_INT  
                     ldb      #SHITREG_POKE_VALUE          ; 2 
                     stb      <VIA_shift_reg               ; 4 
@@ -1096,7 +1096,7 @@ SMVB_startDraw_octo ;#isfunction
                     sta      <VIA_t1_cnt_hi               ; 4 
                     ADD_NOPS  
                     jmp      cont7 
-SMVB_startDraw_quadro ;#isfunction 
+SM_startDraw_quadro ;#isfunction 
                     SET_Y_INT  
                     ldb      #SHITREG_POKE_VALUE          ; 2 
                     stb      <VIA_shift_reg               ; 4 
@@ -1106,7 +1106,7 @@ SMVB_startDraw_quadro ;#isfunction
                     ADD_NOPS  
                     jmp      cont3 
 
-SMVB_startDraw_hex ;#isfunction 
+SM_startDraw_hex ;#isfunction 
                     SET_Y_INT  
                     ldb      #SHITREG_POKE_VALUE          ; 2 
                     stb      <VIA_shift_reg               ; 4 
@@ -1139,12 +1139,12 @@ move2
                     ADD_NOPS  
                     jmp      SM_repeat_same2 
 
-SMVB_startMove_octo ;#isfunction 
+SM_startMove_octo ;#isfunction 
                     SET_Y_INT  
                     INIT_MOVE  
                     ADD_NOPS  
                     jmp      cont7 
-SMVB_startMove_hex ;#isfunction 
+SM_startMove_hex ;#isfunction 
                     SET_Y_INT  
                     INIT_MOVE  
                     ADD_NOPS  

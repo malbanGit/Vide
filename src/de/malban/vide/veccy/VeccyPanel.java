@@ -6,7 +6,6 @@
  */
 package de.malban.vide.veccy;
 
-import com.sun.javafx.binding.StringFormatter;
 import de.malban.Global; 
 import de.malban.graphics.Face;
 import javax.swing.table.AbstractTableModel;
@@ -40,11 +39,13 @@ import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
+import de.malban.vide.PiTrex.PiTrexSingleton;
 import de.malban.vide.VideConfig;
 import de.malban.vide.assy.Asmj;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.script.ExportFrame;
 import de.malban.vide.script.ImportFrame;
+import static de.malban.vide.veccy.GameGenerator.MAX_NUM_GEN;
 import de.malban.vide.veccy.gtest.HLines;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vedi.VediPanel;
@@ -91,6 +92,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
 {
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public boolean isLoadSettings() { return true; }
+
+    String lastLoadedAnimation = "";
+    String lastLoadedList = "";
 
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
@@ -541,6 +545,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
     {
         sbPanel = sb;
     }
+    
+    GamePanel gamePanel = null;
+    public void setGamePanel(GamePanel gp)
+    {
+        gamePanel = gp;
+    }
+    
+    
     public void removeSBPanel()
     {
         if (sbPanel != null)
@@ -744,7 +756,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonLoad = new javax.swing.JButton();
         jButtonOneForwardSelection1 = new javax.swing.JButton();
         jLabelMode = new javax.swing.JLabel();
-        jCheckBox12 = new javax.swing.JCheckBox();
+        jCheckBoxVecFever = new javax.swing.JCheckBox();
+        jCheckBoxPiTrex = new javax.swing.JCheckBox();
         jButtonSingleEditor = new javax.swing.JButton();
         jButtonSingleEditor1 = new javax.swing.JButton();
         jTabbedPane5 = new javax.swing.JTabbedPane();
@@ -1019,6 +1032,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jCheckBoxAutoApply = new javax.swing.JCheckBox();
         jButtonJoin1 = new javax.swing.JButton();
         jButtonJoin2 = new javax.swing.JButton();
+        jButtonJoin3 = new javax.swing.JButton();
 
         jPopupMenuPoint.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -1203,7 +1217,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jButtonSetMove, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
                                 .addComponent(jButtonSetSolid, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                        .addGap(0, 150, Short.MAX_VALUE))))
+                        .addGap(0, 267, Short.MAX_VALUE))))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1350,7 +1364,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addGap(18, 18, 18)
                                 .addComponent(jCheckBox8))
                             .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 78, Short.MAX_VALUE))
+                .addGap(0, 198, Short.MAX_VALUE))
         );
         jPanel35Layout.setVerticalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1500,7 +1514,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(181, Short.MAX_VALUE))
             .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel37Layout.setVerticalGroup(
@@ -1629,8 +1643,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addGap(32, 32, 32)
                         .addGroup(jPanelModeSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelModeSelectLayout.createSequentialGroup()
-                                .addComponent(jCheckBoxMoves, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                                .addContainerGap(127, Short.MAX_VALUE))
+                                .addComponent(jCheckBoxMoves, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                                .addContainerGap(185, Short.MAX_VALUE))
                             .addGroup(jPanelModeSelectLayout.createSequentialGroup()
                                 .addGroup(jPanelModeSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jCheckBoxPointsOk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1810,7 +1824,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelShortCuts1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonConnectWherePossible1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                    .addComponent(jButtonConnectWherePossible1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                     .addGroup(jPanelShortCuts1Layout.createSequentialGroup()
                         .addGroup(jPanelShortCuts1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelShortCuts1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1818,7 +1832,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jCheckBoxLine)
                                 .addGroup(jPanelShortCuts1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jTextFieldNeedSplit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jCheckBox3dDots, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(jCheckBox3dDots, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)))
                             .addComponent(jCheckBoxAvoidMoreThan2))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -1970,7 +1984,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addGap(6, 6, 6)
                         .addGroup(jPanelShortCuts2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonOptimizeSize, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                            .addComponent(jButtonLongestPaths, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                            .addComponent(jButtonLongestPaths, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
                             .addGroup(jPanelShortCuts2Layout.createSequentialGroup()
                                 .addComponent(jLabelFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -2075,7 +2089,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanelShortcutsCollectionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonShrink1)
                     .addComponent(jButtonEnlarge1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("shortcut collection", jPanelShortcutsCollection);
@@ -2707,7 +2721,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jButtonSave1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButtonSave1.setToolTipText("save vectorlist");
+        jButtonSave1.setToolTipText("Save vectorlist, + SHIFT -> use last name;");
         jButtonSave1.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonSave1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2737,7 +2751,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabelMode.setForeground(new java.awt.Color(51, 51, 255));
         jLabelMode.setText("SET");
 
-        jCheckBox12.setToolTipText("TF :-) [send generated sources directly to VecFever - if available]");
+        jCheckBoxVecFever.setToolTipText("TF :-) [send generated sources directly to VecFever - if available]");
+
+        jCheckBoxPiTrex.setToolTipText("PT :-) [send generated sources directly to PiTrex - if available]");
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
@@ -2768,7 +2784,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGap(27, 27, 27)
                 .addComponent(jLabelMode, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jCheckBox12))
+                .addComponent(jCheckBoxPiTrex)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBoxVecFever))
         );
         jPanel31Layout.setVerticalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -2788,8 +2806,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButtonRedo)
                         .addComponent(jButtonUndo))))
-            .addComponent(jButtonSelectAll, javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jCheckBox12, javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel31Layout.createSequentialGroup()
+                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonSelectAll, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxVecFever, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxPiTrex, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jButtonSingleEditor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/application_get.png"))); // NOI18N
@@ -3026,7 +3048,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jSliderSide, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldFront, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(jTextFieldFront, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
                     .addComponent(jTextFieldSide, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextFieldTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(114, Short.MAX_VALUE))
@@ -3135,7 +3157,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jSliderFrontTranslocationY, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldFront1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(jTextFieldFront1, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
                     .addComponent(jTextFieldSide1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextFieldTop1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -3255,7 +3277,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jSliderSide1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldFront2, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                            .addComponent(jTextFieldFront2, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
                             .addComponent(jTextFieldSide2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextFieldTop2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(116, Short.MAX_VALUE))
@@ -3479,7 +3501,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jButton12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(315, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3558,7 +3580,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButtonLoad2)
                 .addGap(93, 93, 93)
                 .addComponent(jCheckBoxDontRemoveDoubles)
-                .addContainerGap(547, Short.MAX_VALUE))
+                .addContainerGap(770, Short.MAX_VALUE))
         );
         jPanel38Layout.setVerticalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3588,7 +3610,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(674, Short.MAX_VALUE))
+                .addContainerGap(913, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4308,7 +4330,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(714, Short.MAX_VALUE))
+                .addContainerGap(953, Short.MAX_VALUE))
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4375,7 +4397,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel61)
                         .addGap(35, 35, 35)
                         .addComponent(jLabel62, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(518, Short.MAX_VALUE))
+                .addContainerGap(750, Short.MAX_VALUE))
         );
         jPanel40Layout.setVerticalGroup(
             jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4483,7 +4505,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel76.setText("function");
         jLabel76.setToolTipText("header to a smart draw function collection");
 
-        jLabel80.setText("no compensation");
+        jLabel80.setText("no calibration");
 
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
@@ -4523,9 +4545,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jTextFieldLabelStackJumpName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBoxNoInitialMove, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonBuildSmartList2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel27Layout.createSequentialGroup()
-                            .addComponent(jLabel80)
+                            .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(41, 41, 41)
                             .addComponent(jCheckBox14))
                         .addGroup(jPanel27Layout.createSequentialGroup()
@@ -4584,7 +4606,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCheckBox14))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(32, 32, 32))
         );
 
         jCheckBoxRunnable2.setText("runnable");
@@ -4674,7 +4696,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel75)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 129, Short.MAX_VALUE)))
+                        .addGap(0, 331, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel36Layout.setVerticalGroup(
@@ -4768,17 +4790,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextFieldSmartMax)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
+                            .addComponent(jTextField13))
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBoxNoHiLo)
-                        .addContainerGap(166, Short.MAX_VALUE))))
+                        .addContainerGap(433, Short.MAX_VALUE))))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -4794,8 +4816,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jCheckBoxNoShift)
                             .addComponent(jCheckBox15)
                             .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxNoHiLo))))
-                .addContainerGap())
+                            .addComponent(jCheckBoxNoHiLo))
+                        .addContainerGap())))
         );
 
         jTabbedPane8.addTab("SmartList", jPanel9);
@@ -5266,7 +5288,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jButtonSave2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButtonSave2.setToolTipText("save animation");
+        jButtonSave2.setToolTipText("Save current Animation/Scenario. SHIFT - save with last loaded name.");
         jButtonSave2.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonSave2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5386,6 +5408,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
+        jButtonJoin3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/user_red.png"))); // NOI18N
+        jButtonJoin3.setText("game");
+        jButtonJoin3.setToolTipText("<html>\n<body>\nopens the storyboard window.\n</body>\n</html>\n");
+        jButtonJoin3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonJoin3.setPreferredSize(new java.awt.Dimension(120, 21));
+        jButtonJoin3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonJoin3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel39Layout = new javax.swing.GroupLayout(jPanel39);
         jPanel39.setLayout(jPanel39Layout);
         jPanel39Layout.setHorizontalGroup(
@@ -5435,7 +5468,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jButtonDeleteOne, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonJoin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButtonClearAnimation, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addComponent(jButtonClearAnimation, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonJoin3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel39Layout.createSequentialGroup()
@@ -5487,7 +5523,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                     .addComponent(jCheckBoxAutoApply)
                                     .addComponent(jLabelSelSize)
                                     .addComponent(jButtonClearAnimation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonJoin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jButtonJoin2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonJoin3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel39Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonOneForward, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -6185,6 +6222,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonOneForwardSelection1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOneForwardSelection1ActionPerformed
         addHistory();
+        lastLoadedList = "";
         singleVectorPanel1.clearVectors();
         jTable1.tableChanged(null);
         initFaces();
@@ -6264,6 +6302,18 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButtonExport1ActionPerformed
 
     private void jButtonSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSave1ActionPerformed
+
+        boolean shift = false;
+        shift = ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)) ;
+
+        if (shift)
+        {
+            if ((lastLoadedList != null) && (lastLoadedList.length()!=0))
+            {
+                saveCurrentList(lastLoadedList);
+                return;
+            }
+        }
         String filename =Global.mainPathPrefix+"xml"+File.separator+"vectorlist";
         String saveName = VectorListFileChoserJPanel.showSavePanel(filename, "Save Vectorlist", false);
         if (saveName != null)
@@ -6333,7 +6383,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jCheckBox2dOnlyActionPerformed
 
     private void jButtonSave2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSave2ActionPerformed
-        saveAnimation();
+        boolean shift = false;
+        shift = ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)) ;
+
+        saveAnimation(shift);
     }//GEN-LAST:event_jButtonSave2ActionPerformed
 
     private void jButtonApplyCurrentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyCurrentActionPerformed
@@ -6426,6 +6479,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButtonClearAnimationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearAnimationActionPerformed
+        lastLoadedAnimation = "";
         GFXVectorList copy = singleVectorPanel1.getForegroundVectorList().clone();
         currentAnimation = new GFXVectorAnimation();
         singleVectorPanel1.setForegroundVectorList(new GFXVectorList());
@@ -7819,7 +7873,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
 //                else
                     jMenuItemLineDelete.setEnabled(true);
                 
-                jMenuItemRemovePoint.setEnabled(svp.getSelectedVectors().size() == 2);
+                jMenuItemRemovePoint.setEnabled(svp.getSelectedVectors().size() > 1);
+//                jMenuItemRemovePoint.setEnabled(svp.getSelectedVectors().size() == 2);
                 jPopupMenuLine.show(table, evt.getX()-10,evt.getY()-10);
             }
             return;
@@ -7993,12 +8048,33 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jMenuItemRemovePointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRemovePointActionPerformed
         
         ArrayList<GFXVector> vlist = singleVectorPanel1.getSelectedVectors();
-        if (vlist.size() != 2) return;
+        //if (vlist.size() != 2) return;
         addHistory();
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
 
-        vl.joinVectors(vlist);
+        // find two connected
+        ArrayList<GFXVector> vlist2 = new ArrayList<GFXVector>();
+        int times = vlist.size()-1;
+        int counter=0;
+        while (times!=0)
+        {
+            counter++;
+            vlist2.clear();
+            vlist2.add(vlist.get(0));
+            vlist2.add(vlist.get(counter));
+            boolean success = vl.joinVectors(vlist2);
+            if (!success)
+            {
+                log.addLog("Join not completed.");
+            }
+            times--;
+        }
         
+        
+        
+        
+//        vl.joinVectors(vlist);
+//        d
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
@@ -8433,7 +8509,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonBuildSmartList1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuildSmartList1ActionPerformed
         getParameters();
-        buildSmartAnimlist();
+        buildSmartAnimlist(true, currentAnimation, null);
     }//GEN-LAST:event_jButtonBuildSmartList1ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -8478,7 +8554,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonBuildSmartList2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuildSmartList2ActionPerformed
         getParameters();
-        buildSmartScenarioList();
+        buildSmartScenarioList(true, currentAnimation, null);
     }//GEN-LAST:event_jButtonBuildSmartList2ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -9204,6 +9280,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
 
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButtonJoin3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJoin3ActionPerformed
+        GamePanel.showModPanelNoModal(this);
+    }//GEN-LAST:event_jButtonJoin3ActionPerformed
 // Adds doors
 
 boolean BORDER(int R, int C)
@@ -9386,7 +9466,8 @@ int RC2IDX(int R, int C)
                 else
                     jMenuItemLineDelete.setEnabled(true);
                 
-                jMenuItemRemovePoint.setEnabled(svp.getSelectedVectors().size() == 2);
+                jMenuItemRemovePoint.setEnabled(svp.getSelectedVectors().size() > 1);
+//                jMenuItemRemovePoint.setEnabled(svp.getSelectedVectors().size() == 2);
                 jPopupMenuLine.show(svp, evt.evt.getX()-10,evt.evt.getY()-10);
             }
         }
@@ -9760,6 +9841,7 @@ int RC2IDX(int R, int C)
     private javax.swing.JButton jButtonJoin;
     private javax.swing.JButton jButtonJoin1;
     private javax.swing.JButton jButtonJoin2;
+    private javax.swing.JButton jButtonJoin3;
     private javax.swing.JButton jButtonLeft;
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JButton jButtonLoad1;
@@ -9809,7 +9891,6 @@ int RC2IDX(int R, int C)
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox10;
     private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox12;
     private javax.swing.JCheckBox jCheckBox13;
     private javax.swing.JCheckBox jCheckBox14;
     private javax.swing.JCheckBox jCheckBox15;
@@ -9859,6 +9940,7 @@ int RC2IDX(int R, int C)
     private javax.swing.JCheckBox jCheckBoxNoSyncOpt;
     private javax.swing.JCheckBox jCheckBoxOnePath;
     private javax.swing.JCheckBox jCheckBoxPCStyle;
+    protected javax.swing.JCheckBox jCheckBoxPiTrex;
     private javax.swing.JCheckBox jCheckBoxPointsOk;
     private javax.swing.JCheckBox jCheckBoxPosition;
     private javax.swing.JCheckBox jCheckBoxRespectZero;
@@ -9870,6 +9952,7 @@ int RC2IDX(int R, int C)
     private javax.swing.JCheckBox jCheckBoxScaleToByte;
     private javax.swing.JCheckBox jCheckBoxStackJump;
     private javax.swing.JCheckBox jCheckBoxVec32;
+    protected javax.swing.JCheckBox jCheckBoxVecFever;
     private javax.swing.JCheckBox jCheckBoxVectorClosedPolygon;
     private javax.swing.JCheckBox jCheckBoxVectorOrderedClosedPolygon;
     private javax.swing.JCheckBox jCheckBoxVectorsContinuous;
@@ -10412,8 +10495,16 @@ int RC2IDX(int R, int C)
         single3dDisplayPanel.repaint();
     }
     
-    boolean saveAnimation()
+    boolean saveAnimation(boolean shift)
     {
+        if (shift)
+        {
+            if ((lastLoadedAnimation != null) && (lastLoadedAnimation.length() != 0))
+            {
+                return currentAnimation.saveAsXML(lastLoadedAnimation);
+            }
+        }
+
         String filename =Global.mainPathPrefix+"xml"+File.separator+"vectoranimation";
         String saveName = VectorListFileChoserJPanel.showSavePanel(filename, "Save Vector-Animation", true);
         if (saveName != null)
@@ -10448,8 +10539,10 @@ int RC2IDX(int R, int C)
             
         }
     }
+
     boolean loadAnimation()
     {
+        lastLoadedList = "";
         String filename =Global.mainPathPrefix+"xml"+File.separator+"vectoranimation";
         String loadName = VectorListFileChoserJPanel.showSavePanel(filename, "Load Vector-Animation", true);
         selectedAnimationFrameUID = -1;
@@ -10470,7 +10563,7 @@ int RC2IDX(int R, int C)
                 }
             }
         }
-        
+        if (ok) lastLoadedAnimation = loadName;
         redrawAnimation();
         return ok;
     }
@@ -11424,7 +11517,7 @@ int RC2IDX(int R, int C)
                         {
                             public void run()
                             {
-                                asmResult(asmOk);
+                                asmResult(asmOk, filenameASM);
                             }
                         });                    
                     }
@@ -11435,7 +11528,7 @@ int RC2IDX(int R, int C)
                             public void run()
                             {
                                 log.addLog(e, WARN);
-                                asmResult(false);
+                                asmResult(false, filenameASM);
                             }
                         });                    
                     }
@@ -11453,24 +11546,30 @@ int RC2IDX(int R, int C)
         one.setName("Run ASMJ with: "+filenameASM);
         one.start();           
     }    
-    protected void asmResult(boolean asmOk)
+    protected void asmResult(boolean asmOk, String compileName)
     {
         if (asmOk)
         {
             VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
             ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
-            String fname = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.bin";
+            // String fname = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.bin";
+            String fname = de.malban.util.UtilityString.replaceLastOccurrence(compileName, ".asm", ".bin"); 
+
             vec.startUp(fname);
-            log.addLog("Vecci-Assembly successfull...", INFO);
-            if (jCheckBox12.isSelected())
+            log.addLog("Vecci-Assembly successful...", INFO);
+            if (jCheckBoxVecFever.isSelected())
+            {
+                boolean ok = checkVec4EverFile(fname);
+            }
+            if (jCheckBoxPiTrex.isSelected())
             {
                 boolean ok = checkVec4EverFile(fname);
             }
         }
         else
         {
-            log.addLog("Vecci-Assembly not successfull, see ASM output...", WARN);
+            log.addLog("Vecci-Assembly not successful, see ASM output...", WARN);
         }
         checkAssemblerButton();
         checkAssemblerButton2();
@@ -11479,6 +11578,11 @@ int RC2IDX(int R, int C)
     
     public boolean checkVec4EverFile(String fname)
     {
+        if (PiTrexSingleton.getPiTrex().isReady())
+        {
+            PiTrexSingleton.getPiTrex().fileToPiTrex(fname);
+            log.addLog("PiTrex: bin file copied", INFO);
+        }
         
         if (!checkVec4EverVolume(false)) return false;
         boolean ok = de.malban.util.UtilityFiles.copyOneFile(fname, config.v4eVolumeName+File.separator+"cart.bin");
@@ -12432,7 +12536,7 @@ int RC2IDX(int R, int C)
             {
                 if (hiLoEnabled)
                 {
-                    if (jCheckBox13.isSelected())
+                    if (rts2)
                         if (lastWasMove)
                            b.append("\tdb  $00, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
                         else
@@ -12442,7 +12546,7 @@ int RC2IDX(int R, int C)
                 }
                 else
                 {
-                    if (jCheckBox13.isSelected())
+                    if (rts2)
                         if (lastWasMove)
                            b.append("\tdb  $00, $00,  $00\n\tdw "+functionPrefix+"lastDraw_rts2\n");
                         else
@@ -12499,6 +12603,7 @@ int RC2IDX(int R, int C)
                 Path template = Paths.get(Global.mainPathPrefix, "template", "smartListDraw.template");
                 String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                 main = de.malban.util.UtilityString.replace(main, "##SCALE##", ""+jTextField2.getText());
+
                 main += "\n_SM_VectorList_ = "+name+"\n";
                 if (disableCalibration) main = de.malban.util.UtilityString.replace(main, "jsr      calibrationZero", ";jsr      calibrationZero");
                 jTextAreaResultSM.setText(main + b.toString());
@@ -12514,11 +12619,13 @@ int RC2IDX(int R, int C)
         checkAssemblerButtonSM();
     }        
     
-    String testForDoubleContinue(String in)
+
+    String testForDoubleContinue(String in, HashMap<String, String> smartlistCollector)
     {
         StringBuilder b = new StringBuilder();
         String[] ins = in.split("\n");
         ArrayList<String> backlog = new ArrayList<String>();
+        if (smartlistCollector==null) smartlistCollector = new HashMap<String, String>();
         if (hiLoEnabled)
         {
             for (String line: ins)
@@ -12550,9 +12657,15 @@ int RC2IDX(int R, int C)
                             if (i==0)
                             {
                                 if (useOldSmartlist)
+                                {
                                     l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)", "hi("+functionPrefix+"continue_d"+(backlog.size())+"), lo("+functionPrefix+"continue_d"+(backlog.size())+")");
+                                    smartlistCollector.put(functionPrefix+"continue_d"+(backlog.size()), functionPrefix+"continue_d"+(backlog.size()));
+                                }
                                 else
+                                {
                                     l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)", "hi("+functionPrefix+"continue_d"+(backlog.size()-1)+"), lo("+functionPrefix+"continue_d"+(backlog.size()-1)+")");
+                                    smartlistCollector.put(functionPrefix+"continue_d"+(backlog.size()-1), functionPrefix+"continue_d"+(backlog.size()-1));
+                                }
                             }
                             else
                             {
@@ -12560,6 +12673,7 @@ int RC2IDX(int R, int C)
                                     l = de.malban.util.UtilityString.replace(l, ", hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
                                 else
                                     l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
+                                smartlistCollector.put(functionPrefix+"continue_d", functionPrefix+"continue_d");
                             }
                             b.append(l).append("\n");
                         }
@@ -12588,9 +12702,15 @@ int RC2IDX(int R, int C)
                         if (i==0)
                         {
                             if (useOldSmartlist)
+                            {
                                 l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)", "hi("+functionPrefix+"continue_d"+(backlog.size())+"), lo("+functionPrefix+"continue_d"+(backlog.size())+")");
+                                smartlistCollector.put(functionPrefix+"continue_d"+(backlog.size()), functionPrefix+"continue_d"+(backlog.size()));
+                            }
                             else
+                            {
                                 l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)", "hi("+functionPrefix+"continue_d"+(backlog.size()-1)+"), lo("+functionPrefix+"continue_d"+(backlog.size()-1)+")");
+                                smartlistCollector.put(functionPrefix+"continue_d"+(backlog.size()-1), functionPrefix+"continue_d"+(backlog.size()-1));
+                            }
                         }
                         else
                         {
@@ -12598,6 +12718,7 @@ int RC2IDX(int R, int C)
                                 l = de.malban.util.UtilityString.replace(l, ", hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
                             else
                                 l = de.malban.util.UtilityString.replace(l, "hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)","");
+                            smartlistCollector.put(functionPrefix+"continue_d", functionPrefix+"continue_d");
                         }
                         b.append(l).append("\n");
                     }
@@ -12636,9 +12757,15 @@ int RC2IDX(int R, int C)
                             if (i==0)
                             {
                                 if (useOldSmartlist)
+                                {
                                     l = de.malban.util.UtilityString.replace(l, "dw "+functionPrefix+"continue_d", "dw "+functionPrefix+"continue_d"+(backlog.size())+"");
+                                    smartlistCollector.put(functionPrefix+"continue_d"+(backlog.size()), functionPrefix+"continue_d"+(backlog.size()));
+                                }
                                 else
+                                {
                                     l = de.malban.util.UtilityString.replace(l, "dw "+functionPrefix+"continue_d", "dw "+functionPrefix+"continue_d"+(backlog.size()-1)+"");
+                                    smartlistCollector.put(functionPrefix+"continue_d"+(backlog.size()-1), functionPrefix+"continue_d"+(backlog.size()-1));
+                                }
                             }
                             else
                             {
@@ -12646,6 +12773,7 @@ int RC2IDX(int R, int C)
                                     l = de.malban.util.UtilityString.replace(l, "\tdw "+functionPrefix+"continue_d","");
                                 else
                                     l = de.malban.util.UtilityString.replace(l, "\tdw "+functionPrefix+"continue_d","");
+                                smartlistCollector.put(functionPrefix+"continue_d", functionPrefix+"continue_d");
                             }
                             b.append(l).append("\n");
                         }
@@ -12674,9 +12802,15 @@ int RC2IDX(int R, int C)
                         if (i==0)
                         {
                             if (useOldSmartlist)
+                            {
                                 l = de.malban.util.UtilityString.replace(l, "dw "+functionPrefix+"continue_d", "dw "+functionPrefix+"continue_d"+(backlog.size())+"");
+                                smartlistCollector.put(functionPrefix+"continue_d"+(backlog.size()), functionPrefix+"continue_d"+(backlog.size()));
+                            }
                             else
+                            {
                                 l = de.malban.util.UtilityString.replace(l, "dw "+functionPrefix+"continue_d", "dw "+functionPrefix+"continue_d"+(backlog.size()-1)+"");
+                                smartlistCollector.put(functionPrefix+"continue_d"+(backlog.size()-1), functionPrefix+"continue_d"+(backlog.size()-1));
+                            }
                         }
                         else
                         {
@@ -12684,6 +12818,7 @@ int RC2IDX(int R, int C)
                                 l = de.malban.util.UtilityString.replace(l, "\tdw "+functionPrefix+"continue_d","");
                             else
                                 l = de.malban.util.UtilityString.replace(l, "\tdw "+functionPrefix+"continue_d","");
+                            smartlistCollector.put(functionPrefix+"continue_d", functionPrefix+"continue_d");
                         }
                         b.append(l).append("\n");
                     }
@@ -12695,56 +12830,59 @@ int RC2IDX(int R, int C)
     }
 		
 		
-    void buildSmartAnimlist()
+    String buildSmartAnimlist(boolean internal, GFXVectorAnimation usedAnimation, HashMap<String, String> smartlistCollector)
     {
-        String orgName = jTextFieldLabelListname2.getText();
+        String ret="";
+        String orgName = paraName;
         String name = "AnimList";
         if (orgName.length()!=0) name = orgName;
 
         StringBuilder table = new StringBuilder();
         StringBuilder source = new StringBuilder();
-        
+        if (smartlistCollector == null) smartlistCollector = new HashMap<String, String>();
         
         int count = 0;
-        for (GFXVectorList vl : currentAnimation.list)
+        for (GFXVectorList vl : usedAnimation.list)
         {
             table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
             
-      //      jTextFieldLabelListname2.setText(name+"_"+count);
-            /*** ***/
             StringBuilder b = new StringBuilder();
 
             b.append(name+"_"+count+"\n");
 
-            if (jCheckBoxFactor.isSelected()) // factor
-            {
-                int factor = DASM6809.toNumber(jTextField3.getText());
-                b.append(jTextFieldLabelFactorName.getText()+" EQU "+"$"+String.format("%02X",factor)+"\n");
-            }
-            int intensity = DASM6809.toNumber(jTextField1.getText());
-            int scale = DASM6809.toNumber(jTextField2.getText());
 
-            if (jCheckBoxIntensity.isSelected()) // intensity
+            if (useFactors) // factor
+            {
+                int factor = actualFactor;
+                b.append(factorName+" EQU "+"$"+String.format("%02X",factor)+"\n");
+            }
+            int intensity = actualIntensity;
+            int scale = actualScale;
+
+            if (useIntensity) // intensity
             {
                 if (hiLoEnabled)
                     b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi("+functionPrefix+"setIntensity), lo("+functionPrefix+"setIntensity)"+"\n");
                 else
                     b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + "\n\tdw "+functionPrefix+"setIntensity\n");
+                smartlistCollector.put(functionPrefix+"setIntensity", functionPrefix+"setIntensity");
             }
             if (compileForVB)
             {
-                boolean printFinal = doSmartListOutputVB(b,jCheckBoxFactor.isSelected(), vl, count);
+                boolean printFinal = doSmartListOutputVB(b,useFactors, vl, count, smartlistCollector);
                 if (!printFinal)
-                    if (jCheckBox13.isSelected())
+                    if (rts2)
+                    {
                         if (lastWasMove)
                         {
                             if (hiLoEnabled)
                                 b.append("\tdb  $00, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
                             else
                                 b.append("\tdb  $00, $00,  $00\n\tdw "+functionPrefix+"lastDraw_rts2\n");
+                            smartlistCollector.put(functionPrefix+"lastDraw_rts2", functionPrefix+"lastDraw_rts2");
                         }
                         else
                         {
@@ -12752,13 +12890,16 @@ int RC2IDX(int R, int C)
                                 b.append("\tdb  $fe, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
                             else
                                 b.append("\tdb  $fe, $00,  $00\n\tdw "+functionPrefix+"lastDraw_rts2\n");
+                            smartlistCollector.put(functionPrefix+"lastDraw_rts2", functionPrefix+"lastDraw_rts2");
                         }
+                    }
                     else
                     {
                         if (hiLoEnabled)
                             b.append("\tdb  $40, $00,  $00, hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
                         else
                             b.append("\tdb  $40, $00,  $00\n\tdw "+functionPrefix+"lastDraw_rts\n");
+                        smartlistCollector.put(functionPrefix+"lastDraw_rts", functionPrefix+"lastDraw_rts");
                     }
             }
             else
@@ -12766,24 +12907,26 @@ int RC2IDX(int R, int C)
 
                 if (useOldSmartlist)
                 {
-                    boolean printFinal = doSmartListOutput_Org(b,jCheckBoxFactor.isSelected(), vl, count);
+                    boolean printFinal = doSmartListOutput_Org(b,useFactors, vl, count, smartlistCollector);
                     if (!printFinal)
                     {
                         if (hiLoEnabled)
                             b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
                         else
                             b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + "\n\tdw "+functionPrefix+"lastDraw_rts\n");
+                        smartlistCollector.put(functionPrefix+"lastDraw_rts", functionPrefix+"lastDraw_rts");
                     }
                 }
                 else
                 {
-                    boolean printFinal = doSmartListOutput(b,jCheckBoxFactor.isSelected(), vl, count);
+                    boolean printFinal = doSmartListOutput(b,useFactors, vl, count, smartlistCollector);
                     if (!printFinal)
                     {
                         if (hiLoEnabled)
                             b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
                         else
                             b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + "\n\tdw "+functionPrefix+"lastDraw_rts\n");
+                        smartlistCollector.put(functionPrefix+"lastDraw_rts", functionPrefix+"lastDraw_rts");
                     }
                 }
             }
@@ -12791,14 +12934,12 @@ int RC2IDX(int R, int C)
             /*** ***/
             
             source.append( b.toString() );
-            
             count++;
         }
         table.append(" DW 0\n\n");
         table.append(source);
         
-        
-        if (jCheckBoxRunnable2.isSelected())
+        if ((jCheckBoxRunnable2.isSelected()) && (internal))
         {
 
             if (useOldSmartlist)
@@ -12818,26 +12959,35 @@ int RC2IDX(int R, int C)
                 jTextAreaResultSM.setText(main + table.toString());
             }
         }
-        else
+        else if (internal)
         {
             jTextAreaResultSM.setText(table.toString());
         }
+        else 
+        {
+            ret = table.toString();
+        }
         updateResult();
-        checkAssemblerButtonSM();        
+        if (internal)
+            checkAssemblerButtonSM();        
+        return ret;
     }
 
-    void buildSmartScenarioList()
+
+    String buildSmartScenarioList(boolean internal, GFXVectorAnimation usedAnimation, HashMap<String, String> smartlistCollector)
     {
-        String orgName = jTextFieldLabelListname2.getText();
+        String ret="";
+        String orgName = paraName;
         String name = "ScenList";
         if (orgName.length()!=0) name = orgName;
 
         StringBuilder table = new StringBuilder();
         StringBuilder source = new StringBuilder();
+        if (smartlistCollector == null) smartlistCollector = new HashMap<String, String>();
         
         
         int count = 0;
-        for (GFXVectorList vl : currentAnimation.list)
+        for (GFXVectorList vl : usedAnimation.list)
         {
             table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
             if (count == 0)
@@ -12848,16 +12998,16 @@ int RC2IDX(int R, int C)
             StringBuilder b = new StringBuilder();
 
             b.append(name+"_"+count+"\n");
-
-            if (jCheckBoxFactor.isSelected()) // factor
+            
+            if (useFactors) // factor
             {
-                int factor = DASM6809.toNumber(jTextField3.getText());
-                b.append(jTextFieldLabelFactorName.getText()+" EQU "+"$"+String.format("%02X",factor)+"\n");
+                int factor = actualFactor;
+                b.append(factorName+" EQU "+"$"+String.format("%02X",factor)+"\n");
             }
-            int intensity = DASM6809.toNumber(jTextField1.getText());
-            int scale = DASM6809.toNumber(jTextField2.getText());
+            int intensity = actualIntensity;
+            int scale = actualScale;
 
-            if (jCheckBoxIntensity.isSelected()) // intensity
+            if (useIntensity) // intensity
             {
                 if (compileForVB)
                 {
@@ -12865,6 +13015,7 @@ int RC2IDX(int R, int C)
                         b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0)+ ",  $" +String.format("%02X", 0) + ", hi("+functionPrefix+"setIntensity), lo("+functionPrefix+"setIntensity)"+"\n");
                     else
                         b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0)+ ",  $" +String.format("%02X", 0) + "\n\t dw"+functionPrefix+"setIntensity\n");
+                    smartlistCollector.put(functionPrefix+"setIntensity", functionPrefix+"setIntensity");
                 }
                 else
                 {
@@ -12872,21 +13023,23 @@ int RC2IDX(int R, int C)
                         b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + ", hi("+functionPrefix+"setIntensity), lo("+functionPrefix+"setIntensity)"+"\n");
                     else
                         b.append("\tdb  $"+String.format("%02X",intensity)+ ",  $" +String.format("%02X", 0) + "\n\tdw "+functionPrefix+"setIntensity\n");
+                    smartlistCollector.put(functionPrefix+"setIntensity", functionPrefix+"setIntensity");
                 }
             }
             
             if (compileForVB)
             {
-                boolean printFinal = doSmartListOutputVB(b,jCheckBoxFactor.isSelected(), vl, count);
+                boolean printFinal = doSmartListOutputVB(b,useFactors, vl, count, smartlistCollector);
                 if (!printFinal)
                 {
-                    if (jCheckBox13.isSelected())
+                    if (rts2)
                         if (lastWasMove)
                         {
                             if (hiLoEnabled)
                                 b.append("\tdb  $00, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
                             else
                                 b.append("\tdb  $00, $00,  $00\n\tdw "+functionPrefix+"lastDraw_rts2\n");
+                            smartlistCollector.put(functionPrefix+"lastDraw_rts2", functionPrefix+"lastDraw_rts2");
                         }
                         else
                         {
@@ -12894,6 +13047,7 @@ int RC2IDX(int R, int C)
                                b.append("\tdb  $fe, $00,  $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
                             else
                                b.append("\tdb  $fe, $00,  $00 \n\tdw "+functionPrefix+"lastDraw_rts2\n");
+                            smartlistCollector.put(functionPrefix+"lastDraw_rts2", functionPrefix+"lastDraw_rts2");
                         }
                     else
                     {
@@ -12901,6 +13055,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb  $40, $00,  $00, hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
                         else
                             b.append("\tdb  $40, $00,  $00\n\tdw "+functionPrefix+"lastDraw_rts\n");
+                        smartlistCollector.put(functionPrefix+"lastDraw_rts", functionPrefix+"lastDraw_rts");
                     }
                 }
             }
@@ -12909,24 +13064,26 @@ int RC2IDX(int R, int C)
 
                 if (useOldSmartlist)
                 {
-                    boolean printFinal = doSmartListOutput_Org(b,jCheckBoxFactor.isSelected(), vl, count);
+                    boolean printFinal = doSmartListOutput_Org(b,jCheckBoxFactor.isSelected(), vl, count, smartlistCollector);
                     if (!printFinal)
                     {
                         if (hiLoEnabled)
                             b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
                         else
                             b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + "\n\tdw "+functionPrefix+"lastDraw_rts\n");
+                        smartlistCollector.put(functionPrefix+"lastDraw_rts", functionPrefix+"lastDraw_rts");
                     }
                 }
                 else
                 {
-                    boolean printFinal = doSmartListOutput(b,jCheckBoxFactor.isSelected(), vl, count);
+                    boolean printFinal = doSmartListOutput(b,jCheckBoxFactor.isSelected(), vl, count, smartlistCollector);
                     if (!printFinal)
                     {
                         if (hiLoEnabled)
                             b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + ", hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
                         else
                             b.append("\tdb  $"+String.format("%02X",0)+ ",  $" +String.format("%02X",0) + "\n\tdw "+functionPrefix+"lastDraw_rts\n");
+                        smartlistCollector.put(functionPrefix+"lastDraw_rts", functionPrefix+"lastDraw_rts");
                     }
                 }
             }            
@@ -12943,7 +13100,7 @@ int RC2IDX(int R, int C)
         
         
         
-        if (jCheckBoxRunnable2.isSelected())
+        if ((jCheckBoxRunnable2.isSelected()) && (internal))
         {
             if (useOldSmartlist)
             {
@@ -12963,15 +13120,19 @@ int RC2IDX(int R, int C)
             }
             
         }
-        else
+        else if (internal)
         {
             jTextAreaResultSM.setText(table.toString());
         }
+        else 
+        {
+            ret = table.toString();
+        }
         updateResult();
-        checkAssemblerButtonSM();        
+        if (internal)
+            checkAssemblerButtonSM();        
+        return ret;
     }
-
-
     
     class SVector
     {
@@ -13026,6 +13187,11 @@ int RC2IDX(int R, int C)
     // returns true if a stackjump happened
     boolean doSmartListOutput_Org(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count)
     {
+        return doSmartListOutput_Org(b, hasFactor, vl, count, null);
+    }
+    boolean doSmartListOutput_Org(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count, HashMap<String, String> smartlistCollector)
+    {
+        if (smartlistCollector == null) smartlistCollector = new HashMap<String, String>();
         
         // list of delta vectors
         ArrayList<SVector> sList = new ArrayList<SVector>();
@@ -13060,7 +13226,7 @@ int RC2IDX(int R, int C)
                     
                 sv.isVisible = false;
 
-                if ((jCheckBoxNoInitialMove.isSelected()) && (isInitialMove))
+                if ((doNoPositionMove) && (isInitialMove))
                 {
 
                 }
@@ -13120,7 +13286,7 @@ int RC2IDX(int R, int C)
             }
             if (v.isVisible) isInitialMove=false;
             
-            boolean skipMove = isInitialMove && jCheckBoxNoInitialMove.isSelected();
+            boolean skipMove = isInitialMove && doNoPositionMove;
             
             String stackJumpAdd1 = "";
             String stackJumpAdd2 = "";
@@ -13199,6 +13365,7 @@ int RC2IDX(int R, int C)
                                 b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_double_x0), lo("+functionPrefix+"continue_d_double_x0)"+"\n");
                             else
                                 b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_d_double_x0\n");
+                            smartlistCollector.put(functionPrefix+"continue_d_double_x0", functionPrefix+"continue_d_double_x0");
                         }
                     }
                     else
@@ -13211,6 +13378,7 @@ int RC2IDX(int R, int C)
                                     b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_double_y0), lo("+functionPrefix+"continue_d_double_y0)"+"\n");
                                 else
                                     b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_d_double_y0\n");
+                                smartlistCollector.put(functionPrefix+"continue_d_double_y0", functionPrefix+"continue_d_double_y0");
                             }
                         }
                         else
@@ -13221,6 +13389,7 @@ int RC2IDX(int R, int C)
                                     b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_double), lo("+functionPrefix+"continue_d_double)"+"\n");
                                 else
                                     b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_d_double\n");
+                                smartlistCollector.put(functionPrefix+"continue_d_double", functionPrefix+"continue_d_double");
                             }
                         }
                     }
@@ -13235,6 +13404,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startDraw_d_double"+stackJumpAdd1Local+"), lo("+functionPrefix+"startDraw_d_double"+stackJumpAdd1Local+")"+stackJumpAdd2Local+"\n");
                         else
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"startDraw_d_double"+stackJumpAdd1Local+""+stackJumpAdd2Local+"\n");
+                        smartlistCollector.put(functionPrefix+"startDraw_d_double", functionPrefix+"startDraw_d_double");
                     }
                     else
                     {
@@ -13242,6 +13412,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startMove_d_double"+stackJumpAdd1Local+"), lo("+functionPrefix+"startMove_d_double"+stackJumpAdd1Local+")"+stackJumpAdd2Local+"\n");
                         else
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"startMove_d_double"+stackJumpAdd1Local+""+stackJumpAdd2Local+"\n");
+                        smartlistCollector.put(functionPrefix+"startMove_d_double", functionPrefix+"startMove_d_double");
                     }
                     doStackJump = localStackJump;
                 }
@@ -13266,6 +13437,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"draw_only_XChanges), lo("+functionPrefix+"draw_only_XChanges)"+"; y was "+db(v.y)+"\n");
                         else
                             b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"draw_only_XChanges; y was "+db(v.y)+"\n");
+                        smartlistCollector.put(functionPrefix+"draw_only_XChanges", functionPrefix+"draw_only_XChanges");
                     }
                 }
                 else
@@ -13277,6 +13449,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"draw_only_XChanges), lo("+functionPrefix+"draw_only_XChanges)"+"; y was "+db(v.y)+"\n");
                         else
                             b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"draw_only_XChanges; y was "+db(v.y)+"\n");
+                        smartlistCollector.put(functionPrefix+"draw_only_XChanges", functionPrefix+"draw_only_XChanges");
                     }
                 }
             }
@@ -13298,6 +13471,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_yEqx), lo("+functionPrefix+"continue_yEqx)"+"; y was "+db(v.y)+"\n");
                         else
                             b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_yEqx; y was "+db(v.y)+"\n");
+                        smartlistCollector.put(functionPrefix+"continue_yEqx", functionPrefix+"continue_yEqx");
                         done = true;
                     }
                 }
@@ -13320,6 +13494,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_newY_eq_oldX), lo("+functionPrefix+"continue_newY_eq_oldX)"+"; y was "+db(v.y)+"\n");
                         else
                             b.append("\tdb "+factorString+db(0)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_newY_eq_oldX; y was "+db(v.y)+"\n");
+                        smartlistCollector.put(functionPrefix+"continue_newY_eq_oldX", functionPrefix+"continue_newY_eq_oldX");
                         done = true;
                     }
                 }
@@ -13345,6 +13520,7 @@ int RC2IDX(int R, int C)
                                 b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_x0"+stackJumpAdd1+"), lo("+functionPrefix+"continue_d_x0"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                             else
                                 b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_d_x0"+stackJumpAdd1+""+stackJumpAdd2+"\n");
+                            smartlistCollector.put(functionPrefix+"continue_d_x0", functionPrefix+"continue_d_x0");
                         }
                         else
                         {
@@ -13352,6 +13528,7 @@ int RC2IDX(int R, int C)
                                 b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_x0), lo("+functionPrefix+"continue_d_x0)"+"\n");
                             else
                                 b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_d_x0\n");
+                            smartlistCollector.put(functionPrefix+"continue_d_x0", functionPrefix+"continue_d_x0");
                         }
                         done = true;
                     }
@@ -13365,6 +13542,7 @@ int RC2IDX(int R, int C)
                         else
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"startDraw_d_x0\n");
                         done = true;
+                        smartlistCollector.put(functionPrefix+"startDraw_d_x0", functionPrefix+"startDraw_d_x0");
                     }
                     else
                     {
@@ -13372,6 +13550,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startMove_d_x0"+stackJumpAdd1+"), lo("+functionPrefix+"startMove_d_x0"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                         else
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"startMove_d_x0"+stackJumpAdd1+""+stackJumpAdd2+"\n");
+                        smartlistCollector.put(functionPrefix+"startMove_d_x0", functionPrefix+"startMove_d_x0");
                         done = true;
                     }
                 }
@@ -13394,6 +13573,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d_y0), lo("+functionPrefix+"continue_d_y0)"+"\n");
                         else
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_d_y0\n");
+                        smartlistCollector.put(functionPrefix+"continue_d_y0", functionPrefix+"continue_d_y0");
                         done = true;
                     }
                 }
@@ -13406,6 +13586,7 @@ int RC2IDX(int R, int C)
                         else
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"startDraw_d_y0\n");
                         done = true;
+                        smartlistCollector.put(functionPrefix+"startDraw_d_y0", functionPrefix+"startDraw_d_y0");
                     }
                     else
                     {
@@ -13413,6 +13594,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startMove_d_y0"+stackJumpAdd1+"), lo("+functionPrefix+"startMove_d_y0"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                         else
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"startMove_d_y0"+stackJumpAdd1+""+stackJumpAdd2+"\n");
+                        smartlistCollector.put(functionPrefix+"startMove_d_y0", functionPrefix+"startMove_d_y0");
                         done = true;
                     }
                 }
@@ -13435,6 +13617,7 @@ int RC2IDX(int R, int C)
                         b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)"+"\n");
                     else
                         b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_d\n");
+                    smartlistCollector.put(functionPrefix+"continue_d", functionPrefix+"continue_d");
                 }
                 else
                 {
@@ -13442,6 +13625,7 @@ int RC2IDX(int R, int C)
                         b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startDraw_d"+stackJumpAdd1+"), lo("+functionPrefix+"startDraw_d"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                     else
                         b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"startDraw_d"+stackJumpAdd1+""+stackJumpAdd2+"\n");
+                    smartlistCollector.put(functionPrefix+"startDraw_d", functionPrefix+"startDraw_d");
                 }
             }
             else
@@ -13452,6 +13636,7 @@ int RC2IDX(int R, int C)
                         b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"startMove_d"+stackJumpAdd1+"), lo("+functionPrefix+"startMove_d"+stackJumpAdd1+")"+stackJumpAdd2+"\n");
                     else
                         b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"startMove_d"+stackJumpAdd1+""+stackJumpAdd2+"\n");
+                    smartlistCollector.put(functionPrefix+"startMove_d", functionPrefix+"startMove_d");
                 }
                 else
                 {
@@ -13461,6 +13646,7 @@ int RC2IDX(int R, int C)
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + ", hi("+functionPrefix+"continue_d), lo("+functionPrefix+"continue_d)"+"\n");
                         else
                             b.append("\tdb "+factorString+db(v.y)+ ", "+factorString +db(v.x) + "\n\tdw "+functionPrefix+"continue_d\n");
+                        smartlistCollector.put(functionPrefix+"continue_d", functionPrefix+"continue_d");
                     }
                 }
             }
@@ -13472,7 +13658,7 @@ int RC2IDX(int R, int C)
 //BYTE_ADR macro pointer
 // hi(pointer), lo(pointer)
 // endm
-        String fin = testForDoubleContinue(b.toString());
+        String fin = testForDoubleContinue(b.toString(), smartlistCollector);
         b.replace(0, b.length(), fin);
         
         // SM_startMove_d
@@ -13521,6 +13707,10 @@ int RC2IDX(int R, int C)
         final int V_START_SEQUENCE =2048; // value in scount
         final int V_CONTINNUE_SEQUENCE =4096;
         final int V_HIGH_NEGATIVE_Y =8192;
+        
+        // final int V_IS_DRAW =8192*2;
+        // final int V_IS_MOVE =8192*2*2;
+        
 
 
 	
@@ -13545,6 +13735,17 @@ int RC2IDX(int R, int C)
         int ythreshold = -80;
         int smartMax = 127;
         boolean disableCalibration = false;
+
+        boolean useFactors = false;
+        int actualFactor = 1;
+        String factorName = "VL_BLOW_UP";
+        int actualIntensity = 0x7f;
+        int actualScale = 9;
+        boolean useIntensity = false;
+        String paraName = "";
+        boolean rts2 = false;
+        boolean doNoPositionMove = true;
+
         void getParameters()
         {
             hiLoEnabled = !jCheckBoxNoHiLo.isSelected();
@@ -13571,8 +13772,51 @@ int RC2IDX(int R, int C)
             lastWasMove = true;
             testLowY = jCheckBox15.isSelected();
             ythreshold = DASM6809.toNumber(jTextField13.getText(), true);
+
+            useFactors = jCheckBoxFactor.isSelected();
+            actualFactor = DASM6809.toNumber(jTextField3.getText());
+            factorName = jTextFieldLabelFactorName.getText();
+            actualIntensity = DASM6809.toNumber(jTextField1.getText());
+            actualScale = DASM6809.toNumber(jTextField2.getText());
+            useIntensity = jCheckBoxIntensity.isSelected();
+            paraName = jTextFieldLabelListname2.getText();
+            
+            rts2 = jCheckBox13.isSelected();
+            doNoPositionMove = jCheckBoxNoInitialMove.isSelected();
+            
         }
-        
+        void setParameters(GenerationParameters p)
+        {
+            hiLoEnabled = p.hiLoEnabled;
+            divideEqually = p.divideEqually;
+            doIntensities = p.doIntensities;
+            intensityMax = p.intensityMax;
+            intensityMin = p.intensityMin;
+            smartMax = p.smartMax;
+            disableCalibration = p.disableCalibration;
+            intensitySteps = p.intensitySteps;
+            factorStringNew = p.factorStringNew;
+            useOldSmartlist = p.useOldSmartlist;
+            usedScale = p.usedScale;
+            currentIntensity = p.currentIntensity;
+            compileForVB = p.compileForVB;
+            functionPrefix = p.functionPrefix;
+            noShift = p.noShift;
+            MAX_EQUAL_TYPE = p.MAX_EQUAL_TYPE;
+            lastWasMove = p.lastWasMove;
+            testLowY = p.testLowY;
+            ythreshold = p.ythreshold;
+
+            useFactors = p.useFactors;
+            actualFactor = p.actualFactor;
+            factorName = p.factorName;
+            actualIntensity = p.actualIntensity;
+            actualScale = p.actualScale;
+            useIntensity = p.useIntensity;
+            paraName = p.paraName;
+            rts2 = p.rts2;
+            doNoPositionMove = p.doNoPositionMove;
+        }
         
 	int getIntensity(int len, int iMin, int iMax, int iSteps)
 	{
@@ -13708,17 +13952,29 @@ int RC2IDX(int R, int C)
 
     boolean doNewStackJump  = false;
     // returns true if a stackjump happened
+   
+    
+    boolean doSmartListOutputVB(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count, HashMap<String, String> smartlistCollector)
+    {
+        return doSmartListOutput_( b,  hasFactor,  vl,  count, true, smartlistCollector);
+    }
     boolean doSmartListOutputVB(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count)
     {
-        return doSmartListOutput_( b,  hasFactor,  vl,  count, true);
+        return doSmartListOutput_( b,  hasFactor,  vl,  count, true, null);
     }
     boolean doSmartListOutput(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count)
     {
-        return doSmartListOutput_( b,  hasFactor,  vl,  count, false);
+        return doSmartListOutput_( b,  hasFactor,  vl,  count, false, null);
     }
-    boolean doSmartListOutput_(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count, boolean vb)
+    boolean doSmartListOutput(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count, HashMap<String, String> smartlistCollector)
     {
+        return doSmartListOutput_( b,  hasFactor,  vl,  count, false, smartlistCollector);
+    }
+    boolean doSmartListOutput_(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count, boolean vb, HashMap<String, String> smartlistCollector)
+    {
+        if (smartlistCollector==null) smartlistCollector = new HashMap<String, String>();
 		// list of delta vectors
+                
         ArrayList<SmartVector> sList = new ArrayList<SmartVector>();
         doNewStackJump = false;
         int lastUID = -1;
@@ -13753,7 +14009,7 @@ int RC2IDX(int R, int C)
                     
                 sv.type = sv.type & (V_ALLTYPES - V_VISIBLE);
 
-                if ((jCheckBoxNoInitialMove.isSelected()) && (isInitialMove))
+                if ((doNoPositionMove) && (isInitialMove))
                 {
 
                 }
@@ -14006,7 +14262,7 @@ int RC2IDX(int R, int C)
         for (; listIndex<sList.size(); listIndex++)
         {
             SmartVector v = sList.get(listIndex);
-            b.append(genOutput(v, count, vb));
+            b.append(genOutput(v, count, vb, smartlistCollector));
         }
 
 
@@ -14014,13 +14270,15 @@ int RC2IDX(int R, int C)
         // WAIT2 WAIT3 WAIT4 ...
 
         // perhaps a "good" RTS with every possibly smartlist?
-        String fin = testForDoubleContinue(b.toString());
+        String fin = testForDoubleContinue(b.toString(), smartlistCollector);
         b.replace(0, b.length(), fin);
-        
+
         return doNewStackJump;
     }
-    String genOutput(SmartVector v, int count, boolean vb)
+
+    String genOutput(SmartVector v, int count, boolean vb, HashMap<String, String> smartlistCollector)
     {
+        if (smartlistCollector==null) smartlistCollector = new HashMap<String, String>();
         String stackJumpAdd1 = "";
         String stackJumpAdd2 = "";
         String ret = "";
@@ -14048,6 +14306,7 @@ int RC2IDX(int R, int C)
                         ret += "\tdb "+db(v.intensity)+ ", "+0+ ", "+0 + ", hi("+functionPrefix+"LightOff_Intensity), lo("+functionPrefix+"LightOff_Intensity)\n";
                     else
                         ret += "\tdb "+db(v.intensity)+ ", "+0+ ", "+0 + "\n\tdw "+functionPrefix+"LightOff_Intensity\n";
+                    smartlistCollector.put(functionPrefix+"LightOff_Intensity", functionPrefix+"LightOff_Intensity");
                 }
             }
             
@@ -14148,6 +14407,7 @@ int RC2IDX(int R, int C)
                                 ret += "\tdb $ee"+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now $ee\n";
                             else
                                 ret += "\tdb $ee"+vbAdd+ ", "+factorStringNew +db(v.relX) + "\n\tdw "+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2+" ; y was "+db(v.relY)+", now $ee\n";
+                            smartlistCollector.put(functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                         }
                         else
                         {
@@ -14155,6 +14415,7 @@ int RC2IDX(int R, int C)
                                 ret += "\tdb SHITREG_POKE_VALUE"+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now SHIFT\n";
                             else
                                 ret += "\tdb SHITREG_POKE_VALUE"+vbAdd+ ", "+factorStringNew +db(v.relX) + "\n\tdw "+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2+" ; y was "+db(v.relY)+", now SHIFT\n";
+                            smartlistCollector.put(functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                         }
                     }
                     else if (drawType.indexOf("startMove")>=0)
@@ -14165,6 +14426,7 @@ int RC2IDX(int R, int C)
                                 ret += "\tdb  $ce"+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now $ce\n";
                             else
                                 ret += "\tdb  $ce"+vbAdd+ ", "+factorStringNew +db(v.relX) + "\n\tdw "+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2+" ; y was "+db(v.relY)+", now $ce\n";
+                            smartlistCollector.put(functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                         }
                         else
                         {
@@ -14172,6 +14434,7 @@ int RC2IDX(int R, int C)
                                 ret += "\tdb  $00"+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now 0\n";
                             else
                                 ret += "\tdb  $00"+vbAdd+ ", "+factorStringNew +db(v.relX) + "\n\tdw "+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2+" ; y was "+db(v.relY)+", now 0\n";
+                            smartlistCollector.put(functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                         }
                     }
                     else
@@ -14180,6 +14443,7 @@ int RC2IDX(int R, int C)
                             ret += "\tdb "+factorStringNew +db(v.relY)+vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y is "+db(v.relY)+"\n";
                         else
                             ret += "\tdb "+factorStringNew +db(v.relY)+vbAdd+ ", "+factorStringNew +db(v.relX) + "\n\tdw "+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2+" ; y is "+db(v.relY)+"\n";
+                        smartlistCollector.put(functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                     }
                     done = true;
                 }
@@ -14189,6 +14453,7 @@ int RC2IDX(int R, int C)
                         ret += "\tdb "+factorStringNew +db(v.relY)+vbAdd+ ", "+factorStringNew +db(v.relX) +  ", hi("+functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y is "+db(v.relY)+"\n";
                     else
                         ret += "\tdb "+factorStringNew +db(v.relY)+vbAdd+ ", "+factorStringNew +db(v.relX) +  "\n\tdw "+functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y is "+db(v.relY)+"\n";
+                    smartlistCollector.put(functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                     done = true;
                 }
                 else if ((v.relX == 0) && (!vb))
@@ -14197,6 +14462,7 @@ int RC2IDX(int R, int C)
                         ret += "\tdb "+factorStringNew+db(v.relY) + vbAdd+ ", "+factorStringNew +db(v.relX)  + ", hi("+functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
                     else
                         ret += "\tdb "+factorStringNew+db(v.relY) + vbAdd+ ", "+factorStringNew +db(v.relX)  + "\n\tdw "+functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"\n";
+                    smartlistCollector.put(functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                     done = true;
                 }
                 else if ((v.relY == 0) && (!vb))
@@ -14205,6 +14471,7 @@ int RC2IDX(int R, int C)
                         ret += "\tdb "+factorStringNew+db(v.relY) + vbAdd+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
                     else
                         ret += "\tdb "+factorStringNew+db(v.relY) + vbAdd+ ", "+factorStringNew +db(v.relX) + "\n\tdw "+functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"\n";
+                    smartlistCollector.put(functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                     done = true;
                 }
                 else if ((v.type & V_SAME_Y) == V_SAME_Y)
@@ -14219,6 +14486,7 @@ int RC2IDX(int R, int C)
                                     ret += "\tdb  $ce"+vbAdd +", $ce , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"; y now $CE\n";
                                 else
                                     ret += "\tdb  $ce"+vbAdd +", $ce \n\tdw "+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"; y now $CE\n";
+                                smartlistCollector.put(functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                             }
                             else
                             {
@@ -14226,6 +14494,7 @@ int RC2IDX(int R, int C)
                                     ret += "\tdb  $00"+vbAdd +", $ce , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
                                 else
                                     ret += "\tdb  $00"+vbAdd +", $ce \n\tdw "+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
+                                smartlistCollector.put(functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                             }
                         }
                         else if (drawType.indexOf("startDraw")>=0)
@@ -14236,6 +14505,7 @@ int RC2IDX(int R, int C)
                                     ret += "\tdb  $ee"+vbAdd +", $ee , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+", y now $ee\n";
                                 else
                                     ret += "\tdb  $ee"+vbAdd +", $ee \n\tdw "+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+", y now $ee\n";
+                                smartlistCollector.put(functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                             }
                             else
                             {
@@ -14243,6 +14513,7 @@ int RC2IDX(int R, int C)
                                     ret += "\tdb  SHITREG_POKE_VALUE"+vbAdd +", $ee , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+", y now SHIFTREG\n";
                                 else
                                     ret += "\tdb  SHITREG_POKE_VALUE"+vbAdd +", $ee \n\tdw "+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+", y now SHIFTREG\n";
+                                smartlistCollector.put(functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                             }
                         }
                         else
@@ -14251,6 +14522,7 @@ int RC2IDX(int R, int C)
                                 ret += "\tdb  $00"+vbAdd +", $01 , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
                             else
                                 ret += "\tdb  $00"+vbAdd +", $01 \n\tdw "+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
+                            smartlistCollector.put(functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                         }
                         done = true;
                     }
@@ -14264,6 +14536,7 @@ int RC2IDX(int R, int C)
                                     ret += "\tdb  $ee" + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+", now $ee\n";
                                 else
                                     ret += "\tdb  $ee" + vbAdd+", "+factorStringNew +db(v.relX) +"\n\tdw "+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y was "+db(v.relY)+", now $ee\n";
+                               smartlistCollector.put(functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                             }
                             else
                             {
@@ -14271,6 +14544,7 @@ int RC2IDX(int R, int C)
                                     ret += "\tdb  SHITREG_POKE_VALUE" + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+", now SHIFT Poke\n";
                                 else
                                     ret += "\tdb  SHITREG_POKE_VALUE" + vbAdd+", "+factorStringNew +db(v.relX) +"\n\tdw "+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y was "+db(v.relY)+", now SHIFT Poke\n";
+                               smartlistCollector.put(functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                             }
                         }
                         else if (drawType.contains("startMove"))
@@ -14281,6 +14555,7 @@ int RC2IDX(int R, int C)
                                     ret += "\tdb  $ce" + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+", now $ce\n";
                                 else
                                     ret += "\tdb  $ce" + vbAdd+", "+factorStringNew +db(v.relX) +"\n\tdw "+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y was "+db(v.relY)+", now $ce\n";
+                               smartlistCollector.put(functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                             }
                             else
                             {
@@ -14288,6 +14563,7 @@ int RC2IDX(int R, int C)
                                     ret += "\tdb  $00" + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+", now 0\n";
                                 else
                                     ret += "\tdb  $00" + vbAdd+", "+factorStringNew +db(v.relX) +"\n\tdw "+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y was "+db(v.relY)+", now 0\n";
+                               smartlistCollector.put(functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                             }
                         }
                         else 
@@ -14296,6 +14572,7 @@ int RC2IDX(int R, int C)
                                 ret += "\tdb "+factorStringNew +db(v.relY) + vbAdd+", "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y is "+db(v.relY)+"\n";
                             else
                                 ret += "\tdb "+factorStringNew +db(v.relY) + vbAdd+", "+factorStringNew +db(v.relX) +"\n\tdw "+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2+"; y is "+db(v.relY)+"\n";
+                            smartlistCollector.put(functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                         }
                         done = true;
                     }
@@ -14313,8 +14590,9 @@ int RC2IDX(int R, int C)
                         ret += "\tdb "+factorStringNew+db(v.relY)+ vbAdd +", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
                     else
                         ret += "\tdb "+factorStringNew+db(v.relY)+ vbAdd +", "+factorStringNew +db(v.relX) + "\n\tdw "+functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+""+stackJumpAdd2+"\n";
+                    smartlistCollector.put(functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+""+stackJumpAdd2);
                 }
-                
+
             }
 
             if (equalVectorCount>0)
@@ -14393,6 +14671,587 @@ shift0+
     {
         jButtonOneForwardActionPerformed(null);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    String buildSmartScenarioListG(boolean internal, GFXVectorAnimation usedAnimation, HashMap<String, String> smartlistCollector)
+    {
+        String ret="";
+        String orgName = paraName;
+        String name = "ScenList";
+        if (orgName.length()!=0) name = orgName;
+
+        StringBuilder table = new StringBuilder();
+        StringBuilder source = new StringBuilder();
+        if (smartlistCollector == null) smartlistCollector = new HashMap<String, String>();
+        
+        
+        int count = 0;
+        for (GFXVectorList vl : usedAnimation.list)
+        {
+            table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
+            if (count == 0)
+                table.append(" ; list of all single vectorlists in this");
+            table.append("\n");
+            
+            /*** ***/
+            StringBuilder b = new StringBuilder();
+
+            b.append(name+"_"+count+"\n");
+            
+            int intensity = actualIntensity;
+            int scale = actualScale;
+
+            boolean printFinal = buildSmartAnimlistG2(b,useFactors, vl, count, true, smartlistCollector);
+
+            if (!printFinal)
+            {
+                b.append("\tdb  $00, $00, hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
+                smartlistCollector.put(functionPrefix+"lastDraw_rts", functionPrefix+"lastDraw_rts");
+            }
+            
+            source.append( b.toString() );
+            
+            count++;
+        }
+        table.append(" DW 0\n\n");
+        table.append(source);
+        
+        ret = table.toString();
+        updateResult();
+        return ret;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    String buildSmartAnimlistG(boolean internal, GFXVectorAnimation usedAnimation, HashMap<String, String> smartlistCollector)
+    {
+        String ret="";
+        String orgName = paraName;
+        String name = "AnimList";
+        if (orgName.length()!=0) name = orgName;
+
+        StringBuilder table = new StringBuilder();
+        StringBuilder source = new StringBuilder();
+        if (smartlistCollector == null) smartlistCollector = new HashMap<String, String>();
+        
+        int count = 0;
+        for (GFXVectorList vl : usedAnimation.list)
+        {
+            table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
+            if (count == 0)
+                table.append(" ; list of all single vectorlists in this");
+            table.append("\n");
+            
+            StringBuilder b = new StringBuilder();
+
+            b.append(name+"_"+count+"\n");
+
+
+            if (useFactors) // factor
+            {
+                int factor = actualFactor;
+                b.append(factorName+" EQU "+"$"+String.format("%02X",factor)+"\n");
+            }
+            int intensity = actualIntensity;
+            int scale = actualScale;
+
+            boolean printFinal = buildSmartAnimlistG2( b,  useFactors,  vl,  count, true, smartlistCollector);
+            if (!printFinal)
+                if (rts2)
+                {
+                    b.append("\tdb  $00, $00, hi("+functionPrefix+"lastDraw_rts2), lo("+functionPrefix+"lastDraw_rts2)"+"\n");
+                    smartlistCollector.put(functionPrefix+"lastDraw_rts2", functionPrefix+"lastDraw_rts2");
+                }
+                else
+                {
+                    b.append("\tdb  $00,  $00, hi("+functionPrefix+"lastDraw_rts), lo("+functionPrefix+"lastDraw_rts)"+"\n");
+                    smartlistCollector.put(functionPrefix+"lastDraw_rts", functionPrefix+"lastDraw_rts");
+                }
+            
+            source.append( b.toString() );
+            count++;
+        }
+        table.append(" DW 0\n\n");
+        table.append(source);
+        
+        ret = table.toString();
+        updateResult();
+        return ret;
+    }
+
+    boolean buildSmartAnimlistG2(StringBuilder b, boolean hasFactor, GFXVectorList vl, int count, boolean vb, HashMap<String, String> smartlistCollector)
+    {
+        if (smartlistCollector==null) smartlistCollector = new HashMap<String, String>(); // list of delta vectors
+                
+        ArrayList<SmartVector> sList = new ArrayList<SmartVector>();
+        doNewStackJump = false;
+        int lastUID = -1;
+        String factorString ="";
+        
+        if (jCheckBoxFactor.isSelected())
+            if (hasFactor) factorString =jTextFieldLabelFactorName.getText()+"*";
+        
+        // first  step build a relative vector coordinate list from
+        // current vector list
+        // list in SVectors
+        boolean isInitialMove = true;
+
+        int lastX = 0;
+        int lastY = 0;
+        for (GFXVector v: vl.list)
+        {
+            SmartVector sv = new SmartVector();
+            Vertex start = v.start;
+            Vertex end = v.end;
+            
+            boolean cont = (start.uid == lastUID);
+            
+            if (!cont)
+            {
+                // than we must move to location of V1
+                // either from current location
+                // or by zeroing
+                // smartlists don't zero -> therefore from current location
+                sv.relX = (int) (start.x() - lastX);
+                sv.relY = (int) (start.y() - lastY);
+                    
+                sv.type = sv.type & (V_ALLTYPES - V_VISIBLE);
+
+                if ((doNoPositionMove) && (isInitialMove))
+                {
+
+                }
+                else
+                {
+                    addToList2(sList, sv);
+                }
+                sv = new SmartVector();
+                lastX = (int) start.x();
+                lastY = (int) start.y();
+            }
+                
+            sv.relX = (int) (end.x() - start.x());
+            sv.relY = (int) (end.y() - start.y());
+            if (v.pattern != 0)
+                sv.type = sv.type | V_VISIBLE;
+            addToList2(sList, sv);
+            lastX = (int) end.x();
+            lastY = (int) end.y();
+            
+            if (end != null)
+                lastUID = end.uid;
+            else
+                lastUID = -1;
+            isInitialMove = false;
+        }
+
+        boolean finished = false;
+
+        // insertCounts
+        do
+        {
+            lastX = 256; // impossible values
+            lastY = 256;
+            int listIndex = 0;
+            for (; listIndex<sList.size(); listIndex++)
+            {
+                boolean done = false;
+                SmartVector v = sList.get(listIndex);
+
+                int nextX = 256; // impossible values
+                int nextY = 256;
+                boolean thisVisibility = (v.type & V_VISIBLE) == V_VISIBLE;
+                
+                boolean nextVisible = thisVisibility; // default current
+                if (listIndex+1<sList.size())
+                {
+                    nextX = sList.get(listIndex+1).relX;
+                    nextY = sList.get(listIndex+1).relY;
+                    nextVisible = (sList.get(listIndex+1).type & V_VISIBLE)== V_VISIBLE;
+                }
+                if (((nextY == v.relY) && (nextX == v.relX)) && (nextVisible == thisVisibility))
+                {
+                    v.count++;
+                    sList.remove(listIndex+1);
+                    break;
+                }
+            }
+            finished = listIndex==sList.size();
+
+        } while (!finished);
+
+        // now the final vectors WERE generated, look further for similarities
+        lastX = 256; // impossible values
+        lastY = 256;
+        int listIndex = 0;
+
+        if (sList.size()>0)
+        {
+            // first is continue move/ or start draw
+            boolean thisVisibility = (sList.get(0).type & V_VISIBLE) == V_VISIBLE;
+            if (thisVisibility)
+            {
+                sList.get(0).type = sList.get(0).type | V_START_DRAW;
+                sList.get(0).type = sList.get(0).type & (V_ALLTYPES - V_CONTINUE);
+            }
+            else
+            {
+                sList.get(0).type = sList.get(0).type | V_CONTINUE;
+                sList.get(0).type = sList.get(0).type & (V_ALLTYPES - V_START_DRAW);
+            }
+            sList.get(sList.size()-1).type = sList.get(sList.size()-1).type | V_LAST;
+        }
+        
+        int lastYTest = 0;
+        for (; listIndex<sList.size(); listIndex++)
+        {
+            SmartVector v = sList.get(listIndex);
+
+            if (testLowY)
+            {
+                if (v.relY - lastYTest< ythreshold)
+                {
+                    v.type = v.type | V_HIGH_NEGATIVE_Y;
+                }
+                lastYTest = v.relY;
+            }
+            
+            int nextX = 256; // impossible values
+            int nextY = 256;
+            boolean thisVisibility = (v.type & V_VISIBLE) == V_VISIBLE;
+            boolean nextVisible = thisVisibility; // default current
+            if (listIndex+1<sList.size())
+            {
+                nextX = sList.get(listIndex+1).relX;
+                nextY = sList.get(listIndex+1).relY;
+                nextVisible = (sList.get(listIndex+1).type & V_VISIBLE)== V_VISIBLE;
+            }
+
+            if (nextVisible != thisVisibility)
+            {
+                if (nextVisible)
+                {
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type | V_START_DRAW;
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type & (V_ALLTYPES - V_CONTINUE);
+                }
+                else
+                {
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type | V_START_MOVE;
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type & (V_ALLTYPES - V_CONTINUE);
+                }
+            }
+            else
+            {
+                if (listIndex+1<sList.size())
+                {
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type & (V_ALLTYPES - V_START_DRAW);
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type & (V_ALLTYPES - V_START_MOVE);
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type | V_CONTINUE;
+                }
+            }
+
+            if (nextY == v.relY)
+            {
+                if (listIndex+1<sList.size())
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type | V_SAME_Y;
+            }
+            if (nextX == v.relX)
+            {
+                if (listIndex+1<sList.size())
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type | V_SAME_X;
+            }
+            if (nextY == v.relX)
+            {
+                if (listIndex+1<sList.size())
+                    sList.get(listIndex+1).type = sList.get(listIndex+1).type | V_Y_SAME_OLDX;
+            }
+            
+            if (jCheckBoxStackJump.isSelected())
+            {
+                if (listIndex+1>=sList.size())
+                {
+                    v.type = v.type | V_STACKJUMP;
+                }
+            }
+            
+            v.len = Math.abs(v.relY)>Math.abs(v.relX)?Math.abs(v.relY):Math.abs(v.relX);
+            v.intensity = getIntensity(v.len, intensityMin, intensityMax, intensitySteps);
+        }
+
+        // loop thru intensity changes if wante4d
+        if (doIntensities)
+        {
+            // assuming last intensity is max
+            listIndex = 0;
+            for (; listIndex<sList.size(); listIndex++)
+            {
+                SmartVector v = sList.get(listIndex);
+                
+                boolean thisVisibility = (v.type & V_VISIBLE) == V_VISIBLE;
+                if (!thisVisibility) continue;
+                if (v.intensity == currentIntensity) continue;
+
+                currentIntensity = v.intensity;
+ 
+                v.type = v.type | V_CHANGE_INTENSITY;
+                v.type = v.type | V_START_DRAW;
+                v.type = v.type & (V_ALLTYPES - V_CONTINUE);
+                
+                // also remove same as old X
+                // since X is changed while doing a new intensity
+                v.type = v.type & (V_ALLTYPES - V_Y_SAME_OLDX);
+            }
+        }
+
+        // do same types (d1, - d7)
+        listIndex = 0;
+        for (; listIndex<sList.size(); listIndex++)
+        {
+            SmartVector v = sList.get(listIndex);
+
+            int thisType = v.type;
+            // not relevant
+            thisType = thisType | V_SAME_X;
+            thisType = thisType | V_SAME_Y;
+            thisType = thisType | V_LAST;
+            thisType = thisType | V_Y_SAME_OLDX;
+            thisType = thisType | V_WAS_DIVIDED;
+            int sequence = 1;
+            if (((thisType & V_CONTINUE) == V_CONTINUE)&&(v.count==1))
+            {
+                while (listIndex+sequence<sList.size())
+                {
+                    int nextType = sList.get(listIndex+sequence).type;
+                    
+                    if ((nextType & V_HIGH_NEGATIVE_Y) == V_HIGH_NEGATIVE_Y) break;
+                    // not relevant
+                    nextType = nextType | V_SAME_X;
+                    nextType = nextType | V_SAME_Y;
+                    nextType = nextType | V_LAST;
+                    nextType = nextType | V_Y_SAME_OLDX;
+                    nextType = nextType | V_WAS_DIVIDED;
+                    if (sList.get(listIndex+sequence).count != 1)
+                        nextType = 0;
+                    
+                    
+                    if (nextType == thisType)
+                    {
+                        sequence++;
+                        if (sequence==MAX_EQUAL_TYPE) 
+                            break;
+                        continue;
+                    }
+                    break;
+                }
+                if (sequence>1)
+                {
+                    v.type = v.type | V_START_SEQUENCE;
+                    v.sequenceCount = sequence;
+                    for (int i=listIndex+1; i<listIndex+sequence; i++)
+                    {
+                        sList.get(i).type = sList.get(i).type | V_CONTINNUE_SEQUENCE;
+                    }
+                    listIndex += (sequence-1);
+                }
+            }
+        }
+        
+        
+        // above this - everything is the same!
+
+        listIndex = 0;
+        for (; listIndex<sList.size(); listIndex++)
+        {
+            SmartVector v = sList.get(listIndex);
+            b.append(genOutput_G(v, count, vb, smartlistCollector));
+        }
+
+
+        // do WAIT with corrected Macros
+        // WAIT2 WAIT3 WAIT4 ...
+
+        // perhaps a "good" RTS with every possibly smartlist?
+//        String fin = testForDoubleContinue(b.toString(), smartlistCollector);
+//        b.replace(0, b.length(), fin);
+
+        return doNewStackJump;
+    }
+
+    String genOutput_G(SmartVector v, int count, boolean vb, HashMap<String, String> smartlistCollector)
+    {
+        if (smartlistCollector==null) smartlistCollector = new HashMap<String, String>();
+        String stackJumpAdd1 = "";
+        String stackJumpAdd2 = "";
+        String ret = "";
+        boolean doneARound = false;
+        int equalVectorCount = v.count;
+        int initialEqualCount = equalVectorCount;
+
+        boolean lastVisible = false;
+        
+        String delayInfo = "";
+        if (testLowY)
+        {
+            if ((v.type & V_HIGH_NEGATIVE_Y) == V_HIGH_NEGATIVE_Y)
+            {
+                delayInfo = "_yd4";
+            }
+        }
+        
+        while (equalVectorCount>0)
+        {
+            String countAdd = "";
+            
+            if (equalVectorCount>1)
+            {
+                if (equalVectorCount>MAX_NUM_GEN)
+                {
+                    countAdd = "_multi" +MAX_NUM_GEN;
+                    equalVectorCount -= MAX_NUM_GEN;
+                }
+                else
+                {
+                    countAdd = "_multi" +equalVectorCount;
+                    equalVectorCount = 0;
+                }
+            }
+            else
+            {
+                equalVectorCount = 0;
+            }
+
+            
+            
+            String drawType ="";
+            if ((v.type & V_START_MOVE) == V_START_MOVE)
+            {
+                drawType = "startMove"+delayInfo;
+            }
+            else if ((v.type & V_START_DRAW) == V_START_DRAW)
+            {
+                drawType = "startDraw"+delayInfo;
+            }
+            else if ((v.type & V_CONTINUE) == V_CONTINUE)
+            {
+                if ((v.type & V_VISIBLE) == V_VISIBLE)
+                    drawType = "continue_draw"+delayInfo;
+                else
+                    drawType = "continue_move"+delayInfo;
+            }
+            boolean done = false;
+            if (initialEqualCount == 1)
+            {
+                if ((v.type & V_Y_SAME_OLDX) == V_Y_SAME_OLDX)
+                {
+                    if (drawType.indexOf("startDraw")>=0)
+                    {
+                        ret += "\tdb  $00"+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now SHIFT\n";
+                        smartlistCollector.put(functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
+                    }
+                    else if (drawType.indexOf("startMove")>=0)
+                    {
+                        ret += "\tdb  $00"+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y was "+db(v.relY)+", now 0\n";
+                        smartlistCollector.put(functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
+                    }
+                    else
+                    {
+                        ret += "\tdb $00"+ ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+" ; y is "+db(v.relY)+"\n";
+                        smartlistCollector.put(functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_newY_eq_oldX"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
+                    }
+                    done = true;
+                }
+                else if (v.relX == v.relY)
+                {
+                    ret += "\tdb $00"+ ", "+factorStringNew +db(v.relX) +  ", hi("+functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y is "+db(v.relY)+"\n";
+                    smartlistCollector.put(functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_yEqx"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
+                    done = true;
+                }
+                else if ((v.relX == 0) && (!vb))
+                {
+                    ret += "\tdb "+factorStringNew+db(v.relY) + ", "+factorStringNew +db(v.relX)  + ", hi("+functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
+                    smartlistCollector.put(functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_x0"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
+                    done = true;
+                }
+                else if ((v.relY == 0) && (!vb))
+                {
+                    ret += "\tdb "+factorStringNew+db(v.relY) + ", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
+                    smartlistCollector.put(functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_y0"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
+                    done = true;
+                }
+                else if ((v.type & V_SAME_Y) == V_SAME_Y)
+                {
+                    if ((v.type & V_SAME_X) == V_SAME_X)
+                    {
+                        ret += "\tdb  $00, $00 , hi("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+"; x was "+db(v.relX)+"\n";
+                        smartlistCollector.put(functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_xyStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
+                        done = true;
+                    }
+                    else
+                    {
+                        ret += "\tdb  $00, "+factorStringNew +db(v.relX) +", hi("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"; y was "+db(v.relY)+", now SHIFT Poke\n";
+                        smartlistCollector.put(functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+"_yStays"+countAdd+stackJumpAdd1+""+stackJumpAdd2);
+                        done = true;
+                    }
+                }
+            }
+            if (done == false)
+            {
+                ret += "\tdb "+factorStringNew+db(v.relY) +", "+factorStringNew +db(v.relX) + ", hi("+functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+"), lo("+functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+")"+stackJumpAdd2+"\n";
+                smartlistCollector.put(functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+""+stackJumpAdd2, functionPrefix+""+drawType+""+countAdd+stackJumpAdd1+""+stackJumpAdd2);
+
+            }
+
+            if (equalVectorCount>0)
+            {
+                // if the # of same types is not enought
+                // remove "start" flag
+                if ((v.type & V_START_MOVE) == V_START_MOVE)
+                {
+                    v.type = v.type & (V_ALLTYPES - V_START_MOVE);
+                    v.type = v.type | V_CONTINUE;
+                }
+                else if ((v.type & V_START_DRAW) == V_START_DRAW)
+                {
+                    v.type = v.type & (V_ALLTYPES - V_START_DRAW);
+                    v.type = v.type | V_CONTINUE;
+                }
+            }
+            if ((v.type & V_START_DRAW) == V_START_DRAW)
+                lastWasMove = false;
+            if ((v.type & V_START_MOVE) == V_START_MOVE)
+                lastWasMove = true;
+            lastVisible = ((v.type & V_VISIBLE) == V_VISIBLE);
+            doneARound = true;
+        }
+
+        return ret;
+    }
+
 }
 
 

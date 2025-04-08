@@ -33,7 +33,7 @@ import de.malban.vide.vecx.E8910;
 import de.malban.vide.vedi.GetJumpValuePanel;
 import de.malban.vide.vedi.VediPanel;
 import static de.malban.vide.vedi.VediPanel.convertToCASM;
-import de.malban.vide.vedi.VediPanel32;
+import de.malban.vide.vedi.PiTrexTerminal;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -4893,7 +4893,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         panel.standalone = sa;
         ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1300, 800, "Sound: YM Editor/Converter");
        
-       if (tl instanceof VediPanel32)
+       if (tl instanceof PiTrexTerminal)
        {
            panel.initBASIC();
        }
@@ -7478,6 +7478,8 @@ s
                 int second = line.indexOf("#",1);
                 if (second != -1)
                     line = line.substring(second+1).trim();
+                line = de.malban.util.UtilityString.replace(line, "DB", " ");
+                line = de.malban.util.UtilityString.replace(line, "db", " ");
                 line = de.malban.util.UtilityString.replace(line, "\r", " ");
                 line = de.malban.util.UtilityString.replace(line, "\t", " ");
                 line = de.malban.util.UtilityString.replace(line, ",", " ");

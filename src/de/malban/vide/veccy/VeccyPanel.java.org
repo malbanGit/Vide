@@ -10291,11 +10291,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
             String fname = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.bin";
             vec.startUp(fname);
-            log.addLog("Vecci-Assembly successfull...", INFO);
+            log.addLog("Vecci-Assembly successful...", INFO);
         }
         else
         {
-            log.addLog("Vecci-Assembly not successfull, see ASM output...", WARN);
+            log.addLog("Vecci-Assembly not successful, see ASM output...", WARN);
         }
         checkAssemblerButton();
         checkAssemblerButton2();

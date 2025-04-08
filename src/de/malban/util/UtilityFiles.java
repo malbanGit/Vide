@@ -615,15 +615,20 @@ public class UtilityFiles
     public static volatile String lastError = "";
     
     
+    public static boolean executeOSCommandNoLog(String [] cmd)
+    {
+        return executeOSCommand(cmd, null, null, false);
+    }
+
     public static boolean executeOSCommand(String [] cmd)
     {
-        return executeOSCommand(cmd, null, null);
+        return executeOSCommand(cmd, null, null, true);
     }
     public static boolean executeOSCommand(String [] cmd, String [] envs)
     {
-        return executeOSCommand(cmd, envs, null);
+        return executeOSCommand(cmd, envs, null, true);
     }
-    public static boolean executeOSCommand(String [] cmd, String [] envs, File dir)
+    public static boolean executeOSCommand(String [] cmd, String [] envs, File dir, boolean loggingEnabled)
     {
         // any errors
         StreamGobbler errorGobbler=null;            
@@ -665,15 +670,25 @@ for (int i=0;i<cmd.length;i++)
                 {
                     while (errorGobbler.stillWorking) Thread.sleep(10);
                     lastError = errorGobbler.allMessages.toString().trim();
+
+                    lastError += "\n --- \n"+e.toString()+"\n"+e.getMessage();
+
                     while (outputGobbler.stillWorking) Thread.sleep(10);
                     lastMessage = outputGobbler.allMessages.toString().trim();
+                }
+                else
+                {
+                    lastError = "Gobbler is null, exception: \n"+e.toString()+"\n"+e.getMessage();
                 }
             }
             catch (Throwable ex)
             {}
 
-            Logable log = Configuration.getConfiguration().getDebugEntity();
-            log.addLog(e, ERROR);
+            if (loggingEnabled)
+            {
+                Logable log = Configuration.getConfiguration().getDebugEntity();
+                log.addLog(e, ERROR);
+            }
         }        
         return false;
     }        

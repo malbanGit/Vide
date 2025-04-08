@@ -361,15 +361,19 @@
                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jTextFieldCommand" min="-2" pref="139" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jLabel9" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                  <Component id="jCheckBoxIgnoreCase1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="264" max="-2" attributes="0"/>
+                  <Component id="jCheckBoxVecFever" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jLabel10" min="-2" pref="71" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jCheckBoxPiTrex" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="166" max="-2" attributes="0"/>
                   <Component id="jButtonDebugSyntax" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
                       <Component id="jSplitPane1" max="32767" attributes="0"/>
@@ -382,35 +386,32 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jCheckBoxIgnoreCase1" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButtonPaste" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonSave" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonCopy" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonSaveAll" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonLoad" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonCut" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonRedo" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonUndo" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonAssemble" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonNew" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonPrettyPrint" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonRefresh" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonDebug" max="-2" attributes="0"/>
-                              <Component id="jButtonInjectBin" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jTextFieldCommand" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jButtonDebugSyntax" max="-2" attributes="0"/>
-                              <Component id="jButtonAssembleOne" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                      <Component id="jCheckBoxVecFever" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonPaste" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonSave" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonCopy" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonSaveAll" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonLoad" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonCut" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonRedo" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonUndo" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonAssemble" max="32767" attributes="0"/>
+                      <Component id="jButtonNew" max="32767" attributes="0"/>
+                      <Component id="jButtonPrettyPrint" max="32767" attributes="0"/>
+                      <Component id="jButtonRefresh" max="32767" attributes="0"/>
+                      <Component id="jButtonDebug" max="32767" attributes="0"/>
+                      <Component id="jButtonInjectBin" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jTextFieldCommand" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jButtonDebugSyntax" max="32767" attributes="0"/>
+                      <Component id="jButtonAssembleOne" max="32767" attributes="0"/>
+                      <Component id="jCheckBoxPiTrex" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jLabel10" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jSplitPane1" pref="642" max="32767" attributes="0"/>
+                  <Component id="jSplitPane1" pref="637" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -523,7 +524,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/malban/vide/images/page_go.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Open file (+Shift -&gt; reload current file)"/>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;Open file &lt;BR&gt;&#xa;+Shift -&gt; reload current file &lt;BR&gt;&#xa;+Meta/CTRL/ALT -&gt; load file or project and start compilation &lt;BR&gt;&#xa;&#xa;&lt;/html&gt;"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>
             </Property>
@@ -839,7 +840,7 @@
                                       <Component id="jButtonLabelConfig" alignment="1" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane9" pref="47" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane9" pref="64" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1032,7 +1033,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane7" alignment="0" pref="200" max="32767" attributes="0"/>
+                              <Component id="jScrollPane7" alignment="0" pref="178" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -1080,7 +1081,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane8" alignment="0" pref="200" max="32767" attributes="0"/>
+                              <Component id="jScrollPane8" alignment="0" pref="178" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -1128,7 +1129,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane10" alignment="0" pref="200" max="32767" attributes="0"/>
+                              <Component id="jScrollPane10" alignment="0" pref="178" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -1722,15 +1723,16 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="11"/>
             <Property name="text" type="java.lang.String" value="V4E"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBoxIgnoreCase1">
+        <Component class="javax.swing.JCheckBox" name="jCheckBoxVecFever">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="ignore case (if selected)"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxIgnoreCase1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxVecFeverActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonDebugSyntax">
@@ -1760,6 +1762,20 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAssembleOneActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="jCheckBoxPiTrex">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="ignore case (if selected)"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxPiTrexActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel10">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="11"/>
+            <Property name="text" type="java.lang.String" value="PiTrex"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

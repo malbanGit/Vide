@@ -7,13 +7,11 @@ package de.malban;
 import de.malban.config.Configuration;
 import de.malban.config.Logable;
 import de.malban.gui.CSAMainFrame;
-import de.malban.gui.dialogs.ShowWarningDialog;
 import de.malban.gui.panels.LogPanel;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -30,6 +28,9 @@ import javax.swing.UIManager;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 
 
@@ -39,8 +40,10 @@ import javax.swing.text.html.StyleSheet;
  */
 public class Global {
     
+    public static final String VideVersion="Version 2.6 RC3 2025 Jan 23";
+
     // enabled so must be "-XstartOnFirstThread" upon run!
-    public static final boolean JOGL_ENABLE = true;
+    public static final boolean JOGL_ENABLE;
     
     public static final String OSNAME;
     public static final String NATIVES_PATH;
@@ -50,6 +53,8 @@ public class Global {
     public static final boolean MAC_OS_X;
     public static final boolean WINDOWS;
 
+    public static final int majorOSVersion;
+    
     public static boolean doTestJava = true;
     
     public static final String mainPathPrefix;
@@ -58,6 +63,8 @@ public class Global {
     public static PrintStream devNull;
     public static PrintStream devErr;
     public static PrintStream devOut;
+    
+    public static String bootString = "";
     static 
     {
         devErr = System.err;
@@ -80,7 +87,6 @@ public class Global {
         String home = "";
         if (VideHome != null)
         {
-   //         System.out.println("VIDE_HOME = "+VideHome);
             b.append("VIDE_HOME = "+VideHome+"\n");
             home = "";
             
@@ -88,13 +94,11 @@ public class Global {
             if (!home.endsWith(File.separator))
                 home = home + File.separator;
             mainPathPrefix = home;
-  //          System.out.println("VIDE_HOME found end read to: "+mainPathPrefix);
             b.append("VIDE_HOME found end read to: "+mainPathPrefix+"\n");
         }
         else
         {
-  //          System.out.println("VIDE_HOME = NOT FOUND! - Scanning directories!");
-            b.append("VIDE_HOME = NOT FOUND! - Scanning directories!"+"\n");
+            b.append("VIDE_HOME = NOT FOUND!\n - Scanning directories!"+"\n");
             // search current dir for "vide" sub dirs
             // if not found step one "up"
             boolean found = false;
@@ -107,7 +111,6 @@ public class Global {
             if (!currentDir.endsWith(File.separator)) currentDir = currentDir + File.separator;
             while (!found)
             {
- //           System.out.println("Searching vide home in: "+currentDir);
                 b.append("Searching vide home in: "+currentDir+"\n");
                 File t = new File(currentDir+"serialize");
                 if (t.exists())
@@ -270,7 +273,79 @@ public class Global {
           WINDOWS = false;
           SOLARIS = false;
         }
+        if (!MAC_OS_X)
+        {
+            String osVersion = System.getProperty("os.version");
+            String[] v = osVersion.split("\\.");
+            v = de.malban.util.UtilityString.cleanStringArray(v);
+            if (v.length >0)
+            {
+                majorOSVersion = de.malban.util.UtilityString.Int0(v[0]);
+            }
+            else
+                majorOSVersion = 0;
+        }
 
+        // get REAL version
+        // https://stackoverflow.com/questions/66026632/java-8-on-big-sur-reports-os-name-as-mac-os-x-and-os-version-as-10-16
+        else
+        {
+            String osVersion = "";
+            String[] cmd = new String[2];
+            cmd[0] = "/usr/bin/sw_vers";
+            cmd[1] = "-productVersion";
+            boolean ok = false;
+            
+            b.append("Mac OS ... trying to figure out correct version...");
+
+            try (
+                    InputStream inputStream = new ProcessBuilder( cmd ).start().getInputStream() ;
+                    Scanner s = new Scanner( inputStream ).useDelimiter( "\\A" ) ;
+            )
+            {
+                osVersion = s.hasNext() ? s.next() : "";
+                ok = true;
+            }
+            catch ( IOException e )
+            {
+                b.append(" failed.\n");
+                b.append("Exception: "+e.toString()+"\n");
+                b.append("Message: "+e.toString());
+                e.printStackTrace();
+            }            
+
+            String[] v = osVersion.split("\\.");
+            v = de.malban.util.UtilityString.cleanStringArray(v);
+            if (v.length >0)
+            {
+                majorOSVersion = de.malban.util.UtilityString.Int0(v[0]);
+            }
+            else
+                majorOSVersion = 0;
+
+            if (ok)
+            {
+                b.append(" success, version string: "+osVersion);
+                b.append("->^major version: "+majorOSVersion+"\n");
+            }
+            
+            
+        }
+        
+        
+        if ((MAC_OS_X) && (majorOSVersion>=13)) // ventura
+        {
+            b.append("JOGL disabled for Mac OS >= Ventura\n");
+            JOGL_ENABLE = false;
+        }
+        else
+        {
+            JOGL_ENABLE = true;
+        }
+
+
+        
+        
         // http://www.java-gaming.org/topics/setup-natives-from-code/32484/view.html
         if (WINDOWS) NATIVES_PATH = mainPathPrefix+"lib"+File.separator;
         else if(MAC_OS_X)NATIVES_PATH = mainPathPrefix+"lib";
@@ -308,7 +383,7 @@ public class Global {
                 return null;
             }
         });         
-        
+        bootString = b.toString();
     }
     
     public static String mBaseDir=mainPathPrefix+"xml"+java.io.File.separator;
@@ -531,7 +606,10 @@ public class Global {
             SwingUtilities.updateComponentTreeUI((LogPanel)d);
         
     }
-    
+    public static String getVersionString()
+    {
+        return VideVersion;
+    }
     
     
 }

@@ -291,7 +291,7 @@ public class StreamSound implements Sound {
 			else {
 				this.position += 2;
 			}
-                        System.out.println(""+data[0]);
+                        //System.out.println(""+data[0]);
 		}
 
 		/**

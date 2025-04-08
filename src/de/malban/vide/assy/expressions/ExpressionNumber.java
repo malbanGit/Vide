@@ -56,7 +56,17 @@ public class ExpressionNumber extends Expression {
 		int n;
 		String s2 = null;
 		
-		
+		if ((s.trimEndsWith("H")) && (s.startsWithNumber()))
+                {
+                    s.changeHexTypeH();
+                }
+                
+                else if ((s.trimLocalEndsWith("H")) && (s.startsWithNumber()))
+                {
+                    s.changeHexTypeH();
+                }
+                
+                
 		if (s.length() == 0) { parseError("missing numeric literal"); }
 		
 		ch0 = s.charAt(0);

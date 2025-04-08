@@ -674,18 +674,18 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 }
                 fname = fname + ".bin";
                 vec.startUp(fname, false);
-                printMessage("Assembly successfull, starting emulation...");
+                printMessage("Assembly successful, starting emulation...");
                 de.malban.util.UtilityFiles.cleanDirectory(Global.mainPathPrefix+"tmp"+File.separator);
             }
             else
             {
-                printMessage("Assembly successfull...");
+                printMessage("Assembly successful...");
             }
             
         }
         else
         {
-            printError("Assembly not successfull, see ASM output...");
+            printError("Assembly not successful, see ASM output...");
         }
     }
 
@@ -1179,17 +1179,17 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
 
                 CartridgeProperties cartProp = buildCart(project);
                 vec.startCartridge(cartProp, START_TYPE_RUN);
-                printMessage("Assembly successfull, starting emulation...");
+                printMessage("Assembly successful, starting emulation...");
             }
             else
             {
-                printMessage("Assembly successfull...");
+                printMessage("Assembly successful...");
             }
             
         }
         else
         {
-            printError("Assembly not successfull, see ASM output...");
+            printError("Assembly not successful, see ASM output...");
         }
     }
     CartridgeProperties buildCart(ProjectProperties project)

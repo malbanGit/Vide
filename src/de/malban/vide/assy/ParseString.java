@@ -14,7 +14,30 @@ public class ParseString {
 	String buffer;
 	int cursor, length;
 
-	public ParseString( char c ) {
+        // replace from current position assumed HEX
+        // trailing "H" with leading $
+        public void changeHexTypeH()
+        {
+            String s1= buffer.substring(0,cursor);
+            String s2= buffer.substring(cursor, buffer.indexOf("H"));
+            String s3= buffer.substring(buffer.indexOf("H")+1, buffer.length());
+            
+            buffer = s1+"$" +s2+s3;
+            length = buffer.length();
+        }
+        // cursor stays
+        public void insert(int startInsert, String what)
+        {
+            String s1= buffer.substring(0,cursor+startInsert);
+            String s2= buffer.substring(cursor+startInsert);
+
+            buffer = s1+what+s2;
+            length = buffer.length();
+        }
+
+        
+	
+        public ParseString( char c ) {
 		char[] buf = { c };
 		buffer = new String(buf);
 		length = 1;
@@ -70,6 +93,66 @@ public class ParseString {
 	public boolean endsWith(String s) {
 		return buffer.substring(cursor).endsWith(s);
 	}
+	public boolean trimEndsWith(String s) {
+		return buffer.trim().substring(cursor).endsWith(s);
+	}
+	
+        public boolean trimLocalEndsWith(String s) {
+            String l = buffer.substring(cursor).trim();
+            int li = l.indexOf(",");
+            if (li>=0) l = l.substring(0, li);
+            li = l.indexOf(")");
+            if (li>=0) l = l.substring(0, li);
+            li = l.indexOf("]");
+            if (li>=0) l = l.substring(0, li);
+            li = l.indexOf("+");
+            if (li>=0) l = l.substring(0, li);
+            li = l.indexOf("-");
+            if (li>=0) l = l.substring(0, li);
+            li = l.indexOf("*");
+            if (li>=0) l = l.substring(0, li);
+            li = l.indexOf("/");
+            if (li>=0) l = l.substring(0, li);
+            
+            return l.trim().endsWith(s);
+	}
+        
+        public boolean startsWithNumber()
+        {
+            String l = buffer.substring(cursor).trim();
+            int len = l.length();
+            if (len <= 0) return false;
+            
+            int p = 0;
+            String sub = l.substring(p, p+1);
+            if (!de.malban.util.UtilityString.isHexNumber(sub)) return false;
+
+            p++;
+            if (p==len) return true;
+            sub = l.substring(p, p+1);
+            if (!de.malban.util.UtilityString.isHexNumber(sub)) return false;
+
+            p++;
+            if (p==len) return true;
+            sub = l.substring(p, p+1);
+            if (!de.malban.util.UtilityString.isHexNumber(sub)) return false;
+
+            p++;
+            if (p==len) return true;
+            sub = l.substring(p, p+1);
+            if (!de.malban.util.UtilityString.isHexNumber(sub)) return false;
+            
+            return false;
+        }
+        
+        public String getCurrentString()
+        {
+            return buffer.substring(cursor);
+        }
+        
+        
+        
+        
 	public char charAt(int n) {
             if (cursor+n >= buffer.length()) return 0;
             return buffer.charAt(cursor+n);

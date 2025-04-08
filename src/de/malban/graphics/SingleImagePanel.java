@@ -11,12 +11,18 @@
 
 package de.malban.graphics;
 
+import de.malban.config.Configuration;
 import de.malban.event.EditMouseEvent;
 import de.malban.gui.ImageCache;
+import de.malban.gui.panels.LogPanel;
 import de.malban.util.KeyboardListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
 import static java.awt.event.ActionEvent.ALT_MASK;
 import static java.awt.event.ActionEvent.CTRL_MASK;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
@@ -33,6 +39,7 @@ import javax.imageio.ImageIO;
  */
 public class SingleImagePanel extends javax.swing.JPanel {
 
+    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     private Vector<MouseMovedListener> mMovedListener= new Vector<MouseMovedListener>();
     private Vector<MousePressedListener> mClickListener= new Vector<MousePressedListener>();
 
@@ -221,6 +228,45 @@ public class SingleImagePanel extends javax.swing.JPanel {
         repaint();
         inSetting--;
     }
+    
+
+ public boolean setImageFromClipboard()  {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+        try {
+            // Check if clipboard has an image
+            if (clipboard.isDataFlavorAvailable(DataFlavor.imageFlavor)) {
+                // Get the image from the clipboard
+                Image image = (Image) clipboard.getData(DataFlavor.imageFlavor);
+
+                // Convert the image to a BufferedImage
+                BufferedImage bufferedImage = new BufferedImage(
+                        image.getWidth(null),
+                        image.getHeight(null),
+                        BufferedImage.TYPE_INT_ARGB
+                );
+
+                // Draw the image onto the BufferedImage
+                bufferedImage.getGraphics().drawImage(image, 0, 0, null);
+                
+                sourceImage = bufferedImage;
+                if (sourceImage==null) return false;
+                sourceHeight=sourceImage.getHeight(null);
+                sourceWidth=sourceImage.getWidth(null);
+                setScale(1);
+                return true;
+                
+            } else {
+                log.addLog("No image available in clipboard.");
+//                throw new IOException("No image available in clipboard.");
+            }
+        } catch (Exception e) {
+//            throw new IOException("Failed to retrieve image from clipboard.", e);
+                log.addLog("Failed to retrieve image from clipboard.");
+        }
+        return false;
+    }    
+        
 
     public boolean setImage(String path)
     {
@@ -530,7 +576,6 @@ public class SingleImagePanel extends javax.swing.JPanel {
         fireMouseMoved(evt);
         
         repaint();
-
     }//GEN-LAST:event_formMouseDragged
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
@@ -679,7 +724,10 @@ public class SingleImagePanel extends javax.swing.JPanel {
         g.setColor(c);
     }
 
-
+    public boolean isLocked()
+    {
+        return selectionLock;
+    }
     public Dimension getSelectionLock()    
     {
         if (!selectionLock) return new Dimension(-1,-1);
@@ -804,6 +852,10 @@ public class SingleImagePanel extends javax.swing.JPanel {
         setScale(w,h);
         setVisible(true);
 
+    }
+    public void bakeScale()
+    {
+        setBaseImage(scaledImage);
     }
 
     // for example this might be a selection of an larger image

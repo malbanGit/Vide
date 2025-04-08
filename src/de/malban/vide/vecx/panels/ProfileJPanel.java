@@ -172,6 +172,7 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
         jPanel1 = new javax.swing.JPanel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jButtonApplyCodeScan = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -232,6 +233,15 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
             }
         });
 
+        jButtonApplyCodeScan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
+        jButtonApplyCodeScan.setToolTipText("Reset Profiler");
+        jButtonApplyCodeScan.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonApplyCodeScan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApplyCodeScanActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -240,12 +250,14 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox1)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonApplyCodeScan))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jCheckBox1)
+            .addComponent(jButtonApplyCodeScan)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -275,7 +287,12 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
         if (profiler != null) profiler.trackingOnly = jCheckBox1.isSelected();
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    private void jButtonApplyCodeScanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyCodeScanActionPerformed
+        vecxPanel.initProfiler();
+    }//GEN-LAST:event_jButtonApplyCodeScanActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonApplyCodeScan;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

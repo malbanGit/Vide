@@ -13,8 +13,14 @@ public class ParseException extends Exception {
 	boolean severe;
 	
 	public ParseException() { severe = true; }
-	public ParseException( String s ) { super(s); severe = true; }
-	public ParseException( String s, boolean b ) { super(s); severe = b; }
+	public ParseException( String s ) 
+        { 
+            super(s); severe = true; 
+        }
+	public ParseException( String s, boolean b ) 
+        { 
+            super(s); severe = b; 
+        }
 	
 	public boolean isSevere() { return severe; }
 }

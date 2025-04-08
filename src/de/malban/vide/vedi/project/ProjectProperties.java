@@ -35,7 +35,7 @@ public class  ProjectProperties
 	protected String mWheelName="";
 	protected boolean mIsCProject=false;
 	protected boolean mIsPeerCProject=false;
-	protected String mCFLAGS="-O3 -g -fverbose-asm -mint8 -msoft-reg-count=0 -quiet -IC/include";
+	protected String mCFLAGS="-O3 -g -fverbose-asm -mint8 -fno-strict-overflow -msoft-reg-count=0 -quiet -IC/include";
 	protected boolean mCDebugging=true;
 	protected boolean mCPeephole=true;
 	protected boolean mCKeepEnriched=false;

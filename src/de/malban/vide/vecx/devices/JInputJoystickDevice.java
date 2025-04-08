@@ -116,7 +116,7 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
                 Controller controller = SystemController.getControllerReload(cConfig.JInputId);
                 if (controller == null)
                 {
-                    return;// reconnect not successfull;
+                    return;// reconnect not successful;
                 }
 
                 // try reconnect
@@ -191,12 +191,18 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
                 }
                 else
                 {
+  /*
                     int value =(int) (e.currentAxisPercent*FACTOR);
                     
                     if (value == 0) value = 1;
                     value =(int) (value)&0xff;
                     
                     joyport.setVertical((int)(value*(-1))&0xff, true);
+*/                    
+                    
+                    int value = (int) ((e.currentValue+1F)*255F/2F);
+                    joyport.setHorizontal((int)(value)&0xff, true);
+                    
                 }
             }
             if (vectrexTarget.equals("horizontal"))  
@@ -216,7 +222,12 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
                 }
                 else
                 {
-                    joyport.setHorizontal((int)(e.currentAxisPercent*FACTOR)&0xff, true);
+                    
+//                    joyport.setHorizontal((int)(e.currentAxisPercent*FACTOR)&0xff, true);
+                    
+                    int value = (int) ((e.currentValue+1F)*255F/2F);
+                    joyport.setHorizontal((int)(value)&0xff, true);
+                    
                 }
 
             }

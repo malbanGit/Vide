@@ -1220,11 +1220,23 @@ public class StoryboardPanel extends javax.swing.JPanel  implements Windowable, 
 
             String fname = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.bin";
             vec.startUp(fname);
-            log.addLog("Vecci-Assembly successfull...", INFO);
+            if (veccy!=null)
+            {
+                if (veccy.jCheckBoxPiTrex.isSelected())
+                {
+                    boolean ok = veccy.checkVec4EverFile(fname);
+            
+                }
+                if (veccy.jCheckBoxVecFever.isSelected())
+                {
+                    boolean ok = veccy.checkVec4EverFile(fname);
+                }
+            }
+            log.addLog("Vecci-Assembly successful...", INFO);
         }
         else
         {
-            log.addLog("Vecci-Assembly not successfull, see ASM output...", WARN);
+            log.addLog("Vecci-Assembly not successful, see ASM output...", WARN);
         }
         jButtonAssemble.setEnabled(true);
     }
@@ -2046,8 +2058,9 @@ public class StoryboardPanel extends javax.swing.JPanel  implements Windowable, 
         for (String anim : animData)
             text.append(anim);
         
+        jTextAreaResult.setText(de.malban.util.UtilityString.replace(text.toString(),"#_UNIQUE_ID#",""));
         
-        jTextAreaResult.setText(text.toString());
+//        jTextAreaResult.setText(text.toString());
     }             
     
     void upladeLaneData()

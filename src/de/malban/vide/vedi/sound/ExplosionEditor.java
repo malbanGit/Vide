@@ -796,11 +796,11 @@ public class ExplosionEditor extends javax.swing.JPanel implements Windowable{
 
             String fname = Global.mainPathPrefix+"tmp"+File.separator+"expltmp.bin";
             vec.startUp(fname);
-            log.addLog("Explosion-Assembly successfull...", INFO);
+            log.addLog("Explosion-Assembly successful...", INFO);
         }
         else
         {
-            log.addLog("Explosion-Assembly not successfull, see ASM output...", WARN);
+            log.addLog("Explosion-Assembly not successful, see ASM output...", WARN);
         }
         jButtonAssemble.setEnabled(true);
     }    

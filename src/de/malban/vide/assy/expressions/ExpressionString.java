@@ -47,8 +47,8 @@ public class ExpressionString extends Expression {
 	{
 		char ch0, quote;
 		Vector v;
-		if (s.toString().contains("\\")) 
-                    System.out.println();
+//		if (s.toString().contains("\\")) 
+//                    System.out.println();
 		parseStart(s);
 		
 		if (s.length() == 0) {

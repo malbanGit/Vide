@@ -87,6 +87,9 @@ import de.malban.gui.CSAMainFrame;
 import de.malban.gui.dialogs.ShowWarningDialog;
 import de.malban.vide.vecx.cartridge.CartridgeListener;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.ERROR;
+import static de.malban.gui.panels.LogPanel.INFO;
+import static de.malban.gui.panels.LogPanel.WARN;
 import static de.malban.vide.vecx.CodeScanMemory.MemInfo.*;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import de.malban.vide.vecx.cartridge.CartridgePropertiesPanel;
@@ -95,11 +98,30 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import static de.malban.gui.panels.LogPanel.ERROR;
-import static de.malban.gui.panels.LogPanel.INFO;
-import static de.malban.gui.panels.LogPanel.WARN;
+import de.malban.vide.dissy.DASM6809;
+import de.malban.vide.dissy.DASMStatics;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.veccy.VectorListScanner;
+import static de.malban.vide.vecx.VecXStatics.EMU_EXIT_CYCLES_DONE;
+import static de.malban.vide.vecx.VecXStatics.FCYCLES_INIT;
+import static de.malban.vide.vecx.VecXStatics.JOYSTICK_CENTER;
+import static de.malban.vide.vecx.VecXStatics.TIMER_BLANK_OFF_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_BLANK_ON_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_MUX_R_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_MUX_SEL_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_MUX_S_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_MUX_Y_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_MUX_Z_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_RAMP_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_RAMP_OFF_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_SHIFT_READ;
+import static de.malban.vide.vecx.VecXStatics.TIMER_SHIFT_WRITE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_T1;
+import static de.malban.vide.vecx.VecXStatics.TIMER_T2;
+import static de.malban.vide.vecx.VecXStatics.TIMER_XSH_CHANGE;
+import static de.malban.vide.vecx.VecXStatics.TIMER_ZERO;
+import static de.malban.vide.vecx.VecXStatics.VECTOR_CNT;
+import static de.malban.vide.vecx.VecXStatics.VECTOR_HASH;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.devices.Imager3dDevice;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
@@ -111,6 +133,7 @@ import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -124,6 +147,128 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public static final int START_TYPE_INJECT = 3;
     public static final int START_TYPE_STOP = 4;
 
+    static double[] dacDeviation = new double[256];
+    
+    static
+    {
+        initDACDeviations();
+    }
+    
+    public static void initDACDeviations()
+    {
+        // +- 0.19% tolerance!
+        Random rand = new Random();
+
+        VideConfig c = VideConfig.getConfig();
+        
+        double bit0Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit1Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit2Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit3Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit4Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit5Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit6Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit7Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+
+        bit0Deviation/= 256;
+        bit1Deviation/= 128;
+        bit2Deviation/= 64;
+        bit3Deviation/= 32;
+        bit4Deviation/= 16;
+        bit5Deviation/= 8;
+        bit6Deviation/= 4;
+        bit7Deviation/= 2;
+
+        for (int i=-128; i<128;i++)
+        {
+            double oneValueDeviation = 0;
+            byte bits = (byte) (i&0xff);
+
+            // bit tolerances 
+            if ((bits & 0x01) == 0x01) oneValueDeviation+=bit0Deviation; 
+            if ((bits & 0x02) == 0x02) oneValueDeviation+=bit1Deviation; 
+            if ((bits & 0x04) == 0x04) oneValueDeviation+=bit2Deviation; 
+            if ((bits & 0x08) == 0x08) oneValueDeviation+=bit3Deviation; 
+            if ((bits & 0x10) == 0x10) oneValueDeviation+=bit4Deviation; 
+            if ((bits & 0x20) == 0x20) oneValueDeviation+=bit5Deviation; 
+            if ((bits & 0x40) == 0x40) oneValueDeviation+=bit6Deviation; 
+            if ((bits & 0x80) == 0x80) oneValueDeviation+=bit7Deviation; 
+
+            // overall tolerances 
+            double d = (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+            
+            oneValueDeviation = 1+ ((oneValueDeviation/10000) +d/10000)/2;
+            dacDeviation[i+128] = oneValueDeviation;
+        }
+    }
+
+    public static void initDACDeviations3()
+    {
+        // +- 0.19% tolerance!
+        Random rand = new Random();
+
+        VideConfig c = VideConfig.getConfig();
+        
+        double bit0Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit1Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit2Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit3Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit4Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit5Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit6Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        double bit7Deviation= (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+
+        bit0Deviation/= 8;
+        bit1Deviation/= 8;
+        bit2Deviation/= 8;
+        bit3Deviation/= 8;
+        bit4Deviation/= 8;
+        bit5Deviation/= 8;
+        bit6Deviation/= 8;
+        bit7Deviation/= 8;
+
+        
+        for (int i=-128; i<128;i++)
+        {
+            double oneValueDeviation = 0;
+            byte bits = (byte) (i&0xff);
+
+            // bit tolerances 
+            if ((bits & 0x01) == 0x01) oneValueDeviation+=bit0Deviation;
+            if ((bits & 0x02) == 0x02) oneValueDeviation+=bit1Deviation;
+            if ((bits & 0x04) == 0x04) oneValueDeviation+=bit2Deviation;
+            if ((bits & 0x08) == 0x08) oneValueDeviation+=bit3Deviation;
+            if ((bits & 0x10) == 0x10) oneValueDeviation+=bit4Deviation;
+            if ((bits & 0x20) == 0x20) oneValueDeviation+=bit5Deviation;
+            if ((bits & 0x40) == 0x40) oneValueDeviation+=bit6Deviation;
+            if ((bits & 0x80) == 0x80) oneValueDeviation+=bit7Deviation;
+
+            oneValueDeviation = 1+ (oneValueDeviation/10000);
+            dacDeviation[i+128] = oneValueDeviation;
+        }
+    }
+    
+    public static void initDACDeviations2()
+    {
+        VideConfig c = VideConfig.getConfig();
+        
+        // +- 0.19% tolerance!
+        Random rand = new Random();
+        for (int i=-128; i<128;i++)
+        {
+            dacDeviation[i+128] = (rand.nextDouble()*(c.DACTolerance*2)) -c.DACTolerance;
+        }
+        dacDeviation[128+64] = (c.DACTolerance*4)/5;
+        dacDeviation[128-64] = -(c.DACTolerance*4)/5;
+
+
+        for (int i=0; i<256;i++)
+        {
+            dacDeviation[i] = 1+(dacDeviation[i]/10000);
+        }
+
+    }
+    
     transient Profiler profiler = null;
     
     // for easier access from cart
@@ -174,7 +319,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public static int OVERFLOW_SAMPLE_MAX = 16;
     static class VectrexDisplayVectors
     {
-        vector_t[] vectrexVectors = new vector_t[VECTOR_CNT];
+        VecXState.vector_t[] vectrexVectors = new VecXState.vector_t[VECTOR_CNT];
         float[] left = new float[OVERFLOW_SAMPLE_MAX];
         float[] right = new float[OVERFLOW_SAMPLE_MAX];
         float[] top = new float[OVERFLOW_SAMPLE_MAX];
@@ -190,7 +335,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         VectrexDisplayVectors()
         {
             for(int i=0; i<VECTOR_CNT; i++ )
-                vectrexVectors[i] = new vector_t();
+                vectrexVectors[i] = new VecXState.vector_t();
         }
     }
 // following public
@@ -236,7 +381,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     transient long trackyCount = 0;
     transient long trackyAbove = 0;
 
-    ArrayList<TimerItem> timerHeap = new ArrayList<TimerItem>();
+    ArrayList<VecXState.TimerItem> timerHeap = new ArrayList<VecXState.TimerItem>();
 
     
     
@@ -279,17 +424,17 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     int wrStatus = WR_UNKOWN;
     public transient int allTimeLow = 65536;
     
-    ArrayList<TimerItem> timerRemoveList = new ArrayList<TimerItem>();
-    ArrayList<VecX.TimerItem> timerItemListClone = new ArrayList<TimerItem>();
+    ArrayList<VecXState.TimerItem> timerRemoveList = new ArrayList<VecXState.TimerItem>();
+    ArrayList<VecX.TimerItem> timerItemListClone = new ArrayList<VecXState.TimerItem>();
     long noiseCycles = 0;
     
     
     void timerAddItem(int when, int value, ValuePointer destination, int t)
     {
-        TimerItem titem;
+        VecXState.TimerItem titem;
         if (timerHeap.size() == 0)
         {
-            titem = new  TimerItem( when,  value,  destination, t);
+            titem = new  VecXState.TimerItem( when,  value,  destination, t);
         }
         else
         {
@@ -306,10 +451,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     }
     void timerAddItem(int value, ValuePointer destination, int t)
     {
-        TimerItem titem;
+        VecXState.TimerItem titem;
         if (timerHeap.size() == 0)
         {
-            titem = new  TimerItem(value,  destination, t);
+            titem = new  VecXState.TimerItem(value,  destination, t);
         }
         else
         {
@@ -609,6 +754,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         /* compare signal is an input so the value does not come from
                          * via_orb.
                          */
+if (config.DACCompareDelayEmulation) doCheckJoystick(); // calc alg_compare
                         if ((via_acr & 0x80) !=0)
                         {
                             /* timer 1 has control of bit 7 */
@@ -687,15 +833,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         /* T2 low order counter */
                         data = via_t2c;
                         via_ifr &= 0xdf; /* remove timer 2 interrupt flag */
-
-
-
-//                        via_t2int = 0; // THIS WAS original - and is wrong!
                         via_t2int = 1;
-                        
-                        
-                        
-                        
                         int_update ();
                         return data&0xff;
                     case 0x9:
@@ -767,8 +905,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 switch (address & 0xf) 
                 {
                     case 0x0:
-//            if ((data&0x40) == 0x40) 
-//                System.out.println("badOutFromVectrex pc = "  +e6809.reg_pc);
                         if (config.breakpointsActive) checkVIABreakpoint(0, via_orb, data);                  
                         boolean pb6 = setPB6FromVectrex(data, via_ddrb, true);
                         if ((data & 0x7) != (via_orb & 0x07)) // check if state of mux sel changed
@@ -803,14 +939,20 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         }
                         via_ifr = via_ifr & (0xff-0x02); // clear ca1 interrupt
                         if (cart != null) cart.setIRQFromVectrex(((via_ifr&0x80) !=0 ));
+                        
+                        lastORAWriteCycle = cyclesRunning;
+                        
+                        
                     /* fall through */
                     case 0xf:
                         /* output of port a feeds directly into the dac which then
                          * feeds the x axis sample and hold.
                          */
                         
+                        alg_oldDAC = alg_DAC.intValue;
                         alg_DAC.intValue = data;
                         via_ora = data;
+                        
                     
                         /* output of port a feeds directly into the dac which then
                          * feeds the x axis sample and hold.
@@ -851,13 +993,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     case 0x8:
                         /* T2 low order latch */
                         via_t2ll = data;
+                        if (config.breakpointsActive) checkVIABreakpoint(8, -1, data);                  
                         break;
                     case 0x9:
                         /* T2 high order latch/counter */
                         timerAddItem(data,null, TIMER_T2);
+                        if (config.breakpointsActive) checkVIABreakpoint(9, -1, data);                  
                         break;
                     case 0xa:
-                 
                         timerAddItem(data, via_shift, TIMER_SHIFT_WRITE);
                         break;
                     case 0xb:
@@ -866,19 +1009,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             // new CSA
                             if ((data & 0x1c) == 0) // shift reg is switched off - so take the manual value
                             {
-                                // removed to get the stalling of write shift correct
-                                // test with release explosion normal end - 
-                                // if this is IN scrolltext (e.g.) draws dots
-         //                       addTimerItem(new TimerItem(via_cb2hmanual, sig_blank, TIMER_BLANK_CHANGE));
-         // possibly this sets teh shift interrupt flag to disbaled!
-
-//                via_ifr &= (255-0x04); // 
-
-
                             }
                             else // use the last shift
                             {
-    //                            addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
                                 timerAddItem(0, sig_blank, TIMER_BLANK_ON_CHANGE);
                             }
                         }
@@ -1032,7 +1165,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         sig_blank.intValue = 0;
         alg_curr_x = config.ALG_MAX_X / 2;
         alg_curr_y = config.ALG_MAX_Y / 2;
-        
+        lastORAWriteCycle = 0;
+
+        alg_oldDAC = 0;
         alg_DAC.intValue = 0;
         alg_vectoring = 0;
 
@@ -1068,19 +1203,16 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
         e6809.e6809_reset();
         dissiMem.reset();
+        
+       
         if (cart!= null) cart.reset();
         resetBuffer();
         
     }
-    public void initDissi()
+    public void initDissi(boolean forcedInit)
     {
-        
         if ((config.doProfile) && (config.debugingCore))
         {
-            String name = "main";
-            if (cart != null) name = cart.cartName;
-            profiler = Profiler.buildProfiler(e6809.reg_pc, name);
-            e6809.profiler = profiler;
             
             if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
             {
@@ -1088,7 +1220,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 DissiPanel dissi = frame.checkDissi();
                 if (dissi != null)
                 {
-                    dissi.setProfilingNames(profiler);
+                    if ((dissi.getProfiler() == null) || (forcedInit))
+                    {
+                        String name = "main";
+                        if (cart != null) name = cart.cartName;
+                        profiler = Profiler.buildProfiler(e6809.reg_pc, name);
+                        e6809.profiler = profiler;
+                        dissi.setProfilingNames(profiler);
+                    }
                 }
             }
         }
@@ -1491,15 +1630,53 @@ pb6_out = npb6;
     void alg_addline (int x0, int y0, int x1, int y1, int color, boolean midChange, int speed, int left, int right)
     {
         
-        alg_curr_x= (int )alg_curr_x;
-        alg_curr_y= (int )alg_curr_y;
+        double factor = 0.80*   (((double)(config.brightness+100))/100);
+        if (factor>1) factor = 1;
+        int colorA = color;
+        if (color<0x60) colorA=(int)(colorA*factor);
+        if (color<0x58) colorA=(int)(colorA*factor);
+        if (color<0x50) colorA=(int)(colorA*factor);
+        if (color<0x48) colorA=(int)(colorA*factor);
+        if (color<0x40) colorA=(int)(colorA*factor);
+        if (color<0x38) colorA=(int)(colorA*factor);
+        if (color<0x30) colorA=(int)(colorA*factor);
+        if (color<0x28) colorA=(int)(colorA*factor);
+        if (color<0x20) colorA=(int)(colorA*factor);
+        if (color<0x18) colorA=(int)(colorA*factor);
+        if (color<0x10) colorA=(int)(colorA*factor);
+        color = colorA;
         
+        if (!noLineChange)
+        {
+            alg_curr_x= (int )alg_curr_x;
+            alg_curr_y= (int )alg_curr_y;
+        }
         
         if (config.useRayGun) return;
-        
-        
-        
-//        if ((cyclesRunning-lastAddLine<15) && (x0==x1) && (y0==y1))
+
+        if (config.enableWobble)
+        {
+            int sinOffsetX = 0;                    
+            int sinOffsetY = 0;                    
+            // sinus angle in 0 to 30000 (when 50 Hz)
+            float currentSinPos = cyclesRunning%config.cycle_sin_freq;
+            double currentSinPosMathX = currentSinPos / config.cycle_sin_freq * 2 * Math.PI; 
+            double currentSinPosMathY = ((currentSinPos+config.yOffsetToX) %config.cycle_sin_freq) / config.cycle_sin_freq * 2 * Math.PI; 
+
+            sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ));
+            sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ));
+
+            // sin(x * pi/15000) * cos(c * x * pi/15000)
+            // 0 <= x <= 30000 ist der cycle, und c eine konfigurierbare Konstante, z.B. c = 0.02
+
+
+            sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ) * Math.cos(config.constantC * currentSinPosMathX ));
+            sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ) * Math.cos(config.constantC * currentSinPosMathY ));
+
+            x1 += sinOffsetX;
+            y1 += sinOffsetY;
+        }
+                
         if (cyclesRunning-lastAddLine<15)
         {
             float driftXMax = 1+(float)Math.abs( (cyclesRunning-lastAddLine)*config.drift_x);
@@ -1515,13 +1692,10 @@ pb6_out = npb6;
         }
 
 
-        lastAddLine = cyclesRunning;
+        if (!noLineChange)
+            lastAddLine = cyclesRunning;
         int index;
 
-        x0+=zeroRetainX;
-        x1+=zeroRetainX;
-        y0+=zeroRetainY;
-        y1+=zeroRetainY;
         
         if (imagerMode)
         {
@@ -1540,8 +1714,10 @@ pb6_out = npb6;
         }
         toManyvectors = false;
         
-        vector_t v = vectorDisplay[displayedNext].vectrexVectors[vectorDisplay[displayedNext].count];
+        VecXState.vector_t v = vectorDisplay[displayedNext].vectrexVectors[vectorDisplay[displayedNext].count];
         v.speed = speed;
+
+        
         v.x0 = x0;
         v.y0 = y0;
         v.x1 = x1;
@@ -1551,14 +1727,15 @@ pb6_out = npb6;
         v.imagerColorLeft = left;
         v.imagerColorRight = right;
         v.intensityDrift = intensityDriftNow = 1;
-        if (intensityDrift>100000)
+        if (!noLineChange)
         {
-           double degradePercent = (180000000.0-((double)intensityDrift))/180000000.0; // two minutes
-           if (degradePercent<0) degradePercent = 0;
-           v.color = (int)(((double)color)*degradePercent);
-           v.intensityDrift = intensityDriftNow = degradePercent;
-//            v.imagerColorLeft =  (int)(((double)left)*degradePercent);
-//            v.imagerColorRight =  (int)(((double)right)*degradePercent);
+            if (intensityDrift>100000)
+            {
+               double degradePercent = (180000000.0-((double)intensityDrift))/180000000.0; // two minutes
+               if (degradePercent<0) degradePercent = 0;
+               v.color = (int)(((double)color)*degradePercent);
+               v.intensityDrift = intensityDriftNow = degradePercent;
+            }
         }
 
         if (config.vectorInformationCollectionActive)
@@ -1595,7 +1772,6 @@ pb6_out = npb6;
                 directDrawVector.imagerColorRight = right;
                 displayer.directDraw(directDrawVector);                
             }
-
         }
         vectorDisplay[displayedNext].count++;
     }
@@ -1805,9 +1981,12 @@ pb6_out = npb6;
             firq = 0;
             if (config.codeScanActive) 
             {
-                for (int i=0; i<icycles; i++)
+                dissiMem.mem[(oldAdr)%65536].addAccess(oldAdr, e6809.reg_dp, MEMORY_CODE);
+
+                int iLen = DASMStatics.getNumOpcodes((byte) e6809_readOnly8((oldAdr)%65536), (byte)e6809_readOnly8((oldAdr+1)%65536));
+                for (int i=0; i<iLen; i++)
                 {
-                    dissiMem.mem[(pc+i)%65536].addAccess(oldAdr, e6809.reg_dp, MEMORY_CODE);
+                    dissiMem.mem[(oldAdr+1+i)%65536].addAccess((oldAdr+1+i)%65536, e6809.reg_dp, MEMORY_CODE_PART);
                 }
             }
             if (config.doProfile)
@@ -2113,14 +2292,7 @@ pb6_out = npb6;
         cyclesDone=cyclesRunning-cyclesStart;
         return reason;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     public VectrexDisplayVectors getDisplayList()
     {
@@ -2250,53 +2422,83 @@ pb6_out = npb6;
     {
         return init(filenameRom, checkForCartridge, false);
     }
+    
     public boolean init(String filenameRom, boolean checkForCartridge, boolean fromPanel)
+    {
+        return init(filenameRom, checkForCartridge, fromPanel, false);
+    }
+    
+    public boolean init(String filenameRom, boolean checkForCartridge, boolean fromPanel, boolean doRestart)
     {
         initRam();
         config.resetCartChanges();
-        cart = new Cartridge();
-        /*
-        atmelEnabled = false;
-        ds2430Enabled = false;
-        ds2431Enabled = false;
-        microchipEnabled = false;
-        sidEnabled = false;
+        if (cart==null) doRestart = false;
         
-        isDualVec = false;
-        isDualVec = false;
-        */
-        joyport[0].deinit();
-        joyport[1].deinit();
-        romName = de.malban.util.UtilityFiles.convertSeperator(filenameRom);
-        if (checkForCartridge)
+        if (doRestart)
         {
-            CartridgeProperties cartProp = CartridgePropertiesPanel.getCartridgeProp(filenameRom);
-            if (cartProp != null)
+            if (cart.currentCardProp != null)
+                return init(cart.currentCardProp);
+        }
+        if (!doRestart)
+        {
+            cart = new Cartridge();
+            /*
+            atmelEnabled = false;
+            ds2430Enabled = false;
+            ds2431Enabled = false;
+            microchipEnabled = false;
+            sidEnabled = false;
+
+            isDualVec = false;
+            isDualVec = false;
+            */
+            joyport[0].deinit();
+            joyport[1].deinit();
+            romName = de.malban.util.UtilityFiles.convertSeperator(filenameRom);
+            if (checkForCartridge)
             {
-                boolean loadit = true;
-                File f = new File (filenameRom);
-                if (f.exists())
+                CartridgeProperties cartProp = CartridgePropertiesPanel.getCartridgeProp(filenameRom);
+                if (cartProp != null)
                 {
-                    Vector<String> f1 = cartProp.getFullFilename();
-                    if (f1 == null) loadit = false;
-                    else
+                    boolean loadit = true;
+                    File f = new File (filenameRom);
+                    if (f.exists())
                     {
-                        if (f1.size()<=0) loadit = false;
+                        Vector<String> f1 = cartProp.getFullFilename();
+                        if (f1 == null) loadit = false;
                         else
                         {
-                            String f2 = de.malban.util.UtilityFiles.convertSeperator(f1.elementAt(0));
-                            loadit = (filenameRom.contains(f2));
+                            if (f1.size()<=0) loadit = false;
+                            else
+                            {
+                                String f2 = de.malban.util.UtilityFiles.convertSeperator(f1.elementAt(0));
+                                loadit = (filenameRom.toLowerCase().contains(f2.toLowerCase()));
+                            }
                         }
+
                     }
-                    
-                }
-                if (loadit)
-                {
-                    if (fromPanel)
+                    if (loadit)
                     {
-                        ShowWarningDialog.showWarningDialog("Cartridge found!", "For the supplied vectrex binary\n(based on the name)\na cartridge definition was found.\n\nThe cartridge was loaded!");
+                        if (fromPanel)
+                        {
+                            // check if original rom, if so - don't talks
+                            String[] orgBins = {"3dczycst", "art", "armor", "animact", "bedlam", "berzerk", "blitz", "castle", "chasm", "dktower",
+                                                "headsup", "hyper", "melody", "mine3d", "mstorm2", "narrow", "polar", "pole", "ripoff", "scramble",
+                                                "solar", "space", "spike", "spinball", "starhawk", "sweep", "webwars"};
+                            boolean talk = true;
+                            for (int i=0;i<orgBins.length; i++)
+                            {
+                                if (filenameRom.toLowerCase().contains(orgBins[i]))
+                                {
+                                    talk = false;
+                                    break;
+                                }
+                            }
+                            if (talk)
+                                ShowWarningDialog.showWarningDialog("Cartridge found!", "For the supplied vectrex binary\n(based on the name)\na cartridge definition was found.\n\nThe cartridge was loaded!");
+                        }
+                        return init(cartProp);
                     }
-                    return init(cartProp);
                 }
             }
         }
@@ -2311,8 +2513,6 @@ pb6_out = npb6;
             cart.setVecx(this);
             // load Cartridge
             log.addLog("vecx: init rom: " + filenameRom, INFO);
-            
-            
             
             cart.load(filenameRom);
             e6809.e6809_reset();  
@@ -2699,10 +2899,10 @@ pb6_out = npb6;
         timerItemListClone.clear();
         synchronized (timerItemList)
         {
-            for (TimerItem t: timerItemList) timerItemListClone.add(t);
+            for (VecXState.TimerItem t: timerItemList) timerItemListClone.add(t);
         }
 
-        for (TimerItem t: timerItemListClone)
+        for (VecXState.TimerItem t: timerItemListClone)
         {
             t.countDown--;
             if (t.countDown <=0)
@@ -2859,7 +3059,7 @@ pb6_out = npb6;
         }
         synchronized (timerItemList)
         {
-            for (TimerItem t: timerRemoveList)
+            for (VecXState.TimerItem t: timerRemoveList)
             {
                 timerItemList.remove(t);
                 timerHeap.add(t);
@@ -2869,7 +3069,8 @@ pb6_out = npb6;
     /* update the various analog values when orb is written. */
     void doCheckMultiplexer()
     {
-        doCheckJoystick();
+        if (!config.DACCompareDelayEmulation) doCheckJoystick(); // calc alg_compare
+//            doCheckJoystick();
         if ((via_orb & 0x01) != 0) return;
         
         /* MUX has been enabled, state changed! */
@@ -2914,18 +3115,78 @@ pb6_out = npb6;
                 if (joyport[1] != null) alg_jsh = joyport[1].getVertical(); else alg_jsh = JOYSTICK_CENTER;
                 break;
         }                
-        
-        /* compare the current joystick direction with a reference */        
-        if ((alg_jsh) > (via_ora^0x80)) // current DAC , here ORA, the XSH can't be used, since it will be set by timer
+
+
+        // calc delay of DAC compare
+        // Peer suggests it is related to the number of bits flipped
+        // but I didn'T take that into account anymore
+        int dacCompValue = (via_ora^0x80)-1; // default value for compare if "DAC DELAY" is not switched on
+
+        if (config.DACCompareDelayEmulation)
+        {
+            float delayCycles = cyclesRunning - lastORAWriteCycle; // how many cycles ago was the value set
+            int newDAC = dacCompValue;
+            
+           
+            delayCycles+=.2;
+            
+            dacCompValue = 0; // comparator "DAC" starts with all bits set to zero
+            int bit = 128;
+
+            // theorie...
+            // DAC starts with all bits zero
+            // and sets bits when needed
+            
+            // funnily below it is implemented, that when it stays zero - it needs slightly more time
+            // than to set a bit to 1...
+            
+            
+            while ((delayCycles>0) && (bit!=0))
+            {
+                int newBit = (newDAC & bit);
+                int oldBit = (alg_oldDAC & bit);
+                // set bit
+                if (newBit==bit)
+                {
+                    dacCompValue = dacCompValue | bit;
+                    delayCycles-=0.9;
+                }
+                else // delete bit
+                {
+                    dacCompValue = dacCompValue & (255-bit);
+                    delayCycles-=1.1;
+                }
+
+                bit >>=1;
+            }
+        }
+
+        // No code change here
+        /* compare the current joystick direction with a reference */       
+
+        if (alg_jsh > dacCompValue) // current DAC , here ORA, the XSH can't be used, since it will be set by timer
         {
             alg_compare = 0x20;// bit 5 of ORB
-        } 
-        else 
+        }
+        else
         {
             alg_compare = 0x00;
         }        
-        
     }    
+    
+    int getBitsFlipped8(int v1, int v2)
+    {
+        int flipped =0;
+        int bitComp=1;
+        for (int i=0;i<8;i++)
+        {
+            if ((v1&bitComp) != (v2&bitComp))
+                flipped++;
+            bitComp = bitComp << 1;
+        }
+        return flipped;
+    }
+
     void doCheckRamp(boolean fromOrbWrite)
     {
         if (!fromOrbWrite)
@@ -3022,8 +3283,6 @@ pb6_out = npb6;
                     // value, because that might have been altered in the last "cycle"
                     // we must remember the last integration value and 
                     // use that instead of the current one!
-//                    alg_curr_x += (int)(((double)alg_xsh.intValue)*config.rampOffFractionValue);
-//                    alg_curr_y += -(int)(((double)alg_ysh.intValue)*config.rampOffFractionValue);
                     rampOffFraction = false;
                     alg_curr_x += (int)(((double)fractionSaveX)*config.rampOffFractionValue);
                     alg_curr_y += -(int)(((double)fractionSaveY)*config.rampOffFractionValue);
@@ -3032,7 +3291,7 @@ pb6_out = npb6;
                     
                     if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
                     {
-                        /* we're vectoring ... current point is still within limits so
+                                            /* we're vectoring ... current point is still within limits so
                          * extend the current vector.
                          */
                         alg_vector_x1 = (int)alg_curr_x;
@@ -3066,8 +3325,27 @@ pb6_out = npb6;
                     alg_vector_dx = alg_xsh.intValue;
                     alg_vector_dy = -alg_ysh.intValue;
 
-                    alg_vector_x0 = (int)alg_curr_x+(int)(config.blankOffDelay*alg_vector_dx);
-                    alg_vector_y0 = (int)alg_curr_y+(int)(config.blankOffDelay*alg_vector_dy);
+                    int sinOffsetX = 0;                    
+                    int sinOffsetY = 0;                    
+                    if (config.enableWobble)
+                    {
+                        // sinus angle in 0 to 30000 (when 50 Hz)
+                        float currentSinPos = cyclesRunning%config.cycle_sin_freq;
+                        double currentSinPosMathX = currentSinPos / config.cycle_sin_freq * 2 * Math.PI; 
+                        double currentSinPosMathY = ((currentSinPos+config.yOffsetToX) %config.cycle_sin_freq) / config.cycle_sin_freq * 2 * Math.PI; 
+
+                        sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ));
+                        sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ));
+
+                        sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ) * Math.cos(config.constantC * currentSinPosMathX ));
+                        sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ) * Math.cos(config.constantC * currentSinPosMathY ));
+
+                    }
+                    
+                    
+                    
+                    alg_vector_x0 = (int)alg_curr_x+(int)(config.blankOffDelay*alg_vector_dx)+sinOffsetX;
+                    alg_vector_y0 = (int)alg_curr_y+(int)(config.blankOffDelay*alg_vector_dy)+sinOffsetY;
                     alg_vector_x1 = (int)alg_curr_x;
                     alg_vector_y1 = (int)alg_curr_y;
 
@@ -3123,11 +3401,20 @@ pb6_out = npb6;
                     // ramping and blank just went enabled
                     // do a blank off delay
                     // make the vector a tiny bit longer!(sig_blank.intValue == 0)
-                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1+(int)(config.blankOnDelay*alg_vector_dx), alg_vector_y1+(int)(config.blankOnDelay*alg_vector_dy), alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                    
+                    alg_addline ((int)(alg_vector_x0+zeroRetainX), 
+                                 (int)(alg_vector_y0+zeroRetainY), 
+                                 alg_vector_x1+(int)((config.blankOnDelay*alg_vector_dx)+zeroRetainX), 
+                                 alg_vector_y1+(int)((config.blankOnDelay*alg_vector_dy)+zeroRetainY), 
+                                 alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
                 }
                 else
                 {
-                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                    alg_addline ((int)(alg_vector_x0+zeroRetainX), 
+                                 (int)(alg_vector_y0+zeroRetainY), 
+                                 (int)(alg_vector_x1+zeroRetainX), 
+                                 (int)(alg_vector_y1+zeroRetainY), 
+                                 alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
                 }
                 alg_vectoring = 0;
             } 
@@ -3150,7 +3437,13 @@ pb6_out = npb6;
                 // discard the first 0 vector if so
                 boolean rampStartCheck =  ((!alg_ramping) && (sig_ramp.intValue== 0));
                 if (!rampStartCheck)
-                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_vector_color, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                {
+                    alg_addline ((int)(alg_vector_x0+zeroRetainX), 
+                                 (int)(alg_vector_y0+zeroRetainY), 
+                                 (int)(alg_vector_x1+zeroRetainX), 
+                                 (int)(alg_vector_y1+zeroRetainY), 
+                                 alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                }
 
                 /* we continue vectoring with a new set of parameters if the
                  * current point is not out of limits.
@@ -3158,8 +3451,23 @@ pb6_out = npb6;
 
                 if  (inLimits)
                 {
-                    alg_vector_x0 = (int)alg_curr_x;
-                    alg_vector_y0 = (int)alg_curr_y;
+                    int sinOffsetX = 0;                    
+                    int sinOffsetY = 0;                    
+                    if (config.enableWobble)
+                    {
+                        // sinus angle in 0 to 30000 (when 50 Hz)
+                        float currentSinPos = cyclesRunning%config.cycle_sin_freq;
+                        double currentSinPosMathX = currentSinPos / config.cycle_sin_freq * 2 * Math.PI; 
+                        double currentSinPosMathY = ((currentSinPos+config.yOffsetToX) %config.cycle_sin_freq) / config.cycle_sin_freq * 2 * Math.PI; 
+
+                        sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ));
+                        sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ));
+
+                        sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ) * Math.cos(config.constantC * currentSinPosMathX ));
+                        sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ) * Math.cos(config.constantC * currentSinPosMathY ));
+                    }
+                    alg_vector_x0 = (int)alg_curr_x+sinOffsetX;
+                    alg_vector_y0 = (int)alg_curr_y+sinOffsetY;
                     alg_vector_x1 = (int)alg_curr_x;
                     alg_vector_y1 = (int)alg_curr_y;
                     if (sig_ramp.intValue==0)
@@ -3236,28 +3544,45 @@ pb6_out = npb6;
                 if (yEfficience<0.01) yEfficience = 0.01;
                 if (yTest*sig_dy<0)yEfficience = 1/yEfficience;
             }
-            alg_curr_x += ((double)sig_dx)*xEfficience;
-            alg_curr_y += ((double)sig_dy)*yEfficience;
+           if ((sig_dx+128 < 256) && (sig_dy+128 < 256) && (sig_dx+128 >= 0) && (sig_dy+128 >= 0))
+            {
+                alg_curr_x += ((double)sig_dx)*(dacDeviation[sig_dx+128])*xEfficience;
+                alg_curr_y += ((double)sig_dy)*(dacDeviation[sig_dy+128])*yEfficience;
+            }
+            else
+            {
+                alg_curr_x += ((double)sig_dx)*xEfficience;
+                alg_curr_y += ((double)sig_dy)*yEfficience;
+            }
 
             // actually do not go negative should be sufficient here!
             if (sig_dx != 0)
-            alg_curr_x += (config.scaleEfficiency / ((double)sig_dx))*xPercent;
+              alg_curr_x += (config.scaleEfficiency / ((double)sig_dx))*xPercent;
             if (sig_dy != 0)
-            alg_curr_y += (config.scaleEfficiency /((double)sig_dy))*yPercent;
+               alg_curr_y += (config.scaleEfficiency /((double)sig_dy))*yPercent;
         }
         else
         {
-            alg_curr_x += sig_dx;
-            alg_curr_y += sig_dy;
-        }        
-            if (sig_ramp.intValue== 0) 
+            if ((sig_dx+128 < 256) && (sig_dy+128 < 256) && (sig_dx+128 >= 0) && (sig_dy+128 >= 0))
             {
-        
-            alg_curr_x -= c_alg_rsh.getDigitalValue();
-            alg_curr_y += c_alg_rsh.getDigitalValue();
-//                sig_dx += - alg_rsh.intValue;
-//                sig_dy += + alg_rsh.intValue;
-            }        
+                alg_curr_x += ((double)sig_dx)*(dacDeviation[sig_dx+128]);
+                alg_curr_y += ((double)sig_dy)*(dacDeviation[sig_dy+128]);
+            }
+            else
+            {
+                alg_curr_x += sig_dx;
+                alg_curr_y += sig_dy;
+            }
+            
+        }        
+        // December 2024 - Offsets are ALWAYS added, not dependended on RAMP!!!
+        //if (sig_ramp.intValue== 0) 
+        {
+            //System.out.println(c_alg_rsh.getDigitalValue());
+            // also it seems RSH is reversed in effect
+            alg_curr_x -= 2*c_alg_rsh.getDigitalValue();
+            alg_curr_y -= -2*c_alg_rsh.getDigitalValue();
+        }        
         if (alg_curr_x>100000) alg_curr_x=100000;
         else if (alg_curr_x<-100000) alg_curr_x=-100000;
         if (alg_curr_y>100000) alg_curr_y=100000;
@@ -3285,8 +3610,6 @@ pb6_out = npb6;
             if (Math.abs(sig_dx)>100)
             {
                 double yOverflow = (  ((double)sig_dx)+((double)sig_dy) ) / config.overflowFactor;
-
-//            alg_curr_x+= xOverflow;
                 alg_curr_y+= yOverflow;
             }
         }
@@ -3440,6 +3763,27 @@ pb6_out = npb6;
         if (Double.isNaN(alg_curr_y)) 
             alg_curr_y = config.ALG_MAX_Y/2;        
     }
+    
+double pureDriftXStart = 0;    
+double pureDriftYStart = 0;    
+double pureDriftX = 0;    
+double pureDriftY = 0;    
+boolean noLineChange = false;
+
+int startAdjustX=0;
+int startAdjustY=0;
+
+ int x0Old=0;
+ int y0Old=0;
+ int x1Old=0;
+ int y1Old=0;
+
+ boolean retainChanged = false;
+double oldzeroRetainX = 0;
+double oldzeroRetainY = 0;
+
+int wayToZero = 1000;
+boolean startZero=false;
     void analogStep()
     {
         if (config.vectrexColorMode)
@@ -3447,9 +3791,16 @@ pb6_out = npb6;
             analogStepColor();
             return;
         }
+
+        int inverseBrightness = 0;
+        if (config.brightness>75)
+        {
+            inverseBrightness = config.brightness-75;
+        }
+
+        c_alg_rsh.doDischargeStep();
         if (((via_orb & 0x01) == 0) && ((alg_sel.intValue & 0x06) == 0x02))
             c_alg_rsh.doStep();
-        
         
         
         intensityDrift++;
@@ -3459,6 +3810,13 @@ pb6_out = npb6;
         {
             if (sig_zero.intValue == 0)
             {
+                startZero = true;
+                wayToZero = 0;
+
+                retainChanged = true;
+                oldzeroRetainX = zeroRetainX;
+                oldzeroRetainY = zeroRetainY;
+
                 // we start zeroing now
                 zeroRetainX = (((double)(alg_curr_x-(config.ALG_MAX_X/2))) *config.zeroRetainX);
                 zeroRetainY = (((double)(alg_curr_y-(config.ALG_MAX_Y/2))) *config.zeroRetainY);
@@ -3473,66 +3831,88 @@ pb6_out = npb6;
                 zeroRetainY = (((double)(zeroRetainY)) *0.99);
             }
         }
+/*
+        bei einem recal nach 29000 zyklen mit zero active
+        sind hier alle x,y werte GLEICH
+        im DRAW werden jedoch komplett andere zeroRetains geadded!
+*/        
+        
+        
         if (sig_zero.intValue == 0) 
         {
+            wayToZero++; 
             noiseCycles = cyclesRunning;
             /* need to force the current point to the 'orgin' so just
              * calculate distance to origin and use that as dx,dy.
              */
-            // on zero - do not zero immediatly but "degrade" "slowly"
+            int t = 1;
+            
+            
+            int  MAX_X = config.ALG_MAX_X;
+            int MAX_Y = config.ALG_MAX_Y;
+            
+            
             int absx = (int)Math.abs(alg_curr_x - (config.ALG_MAX_X / 2));
             int absy = (int)Math.abs(alg_curr_y - (config.ALG_MAX_Y / 2));
 
+            if (wayToZero==1)
+            {
+                 if (alg_curr_x - (config.ALG_MAX_X / 2)<0) absx = -absx;
+                 if (alg_curr_x - (config.ALG_MAX_X / 2)<0) absy = -absy;
+                 startAdjustX=absx;
+                 startAdjustY=absy;
+            }
+            int adjustX =  (t*(startAdjustX/15)/wayToZero) ;
+            int adjustY =  (t*(startAdjustY/15)/wayToZero) ;
+
             
-            sig_dx = (int)(((double)(config.ALG_MAX_X / 2 - (int)alg_curr_x))/config.zero_divider);
-            sig_dy = (int)(((double)(config.ALG_MAX_Y / 2 - (int)alg_curr_y))/config.zero_divider);
+            sig_dx = adjustX+(int)(((double)(MAX_X / 2 - (int)alg_curr_x))/config.zero_divider);
+            sig_dy = adjustY+(int)(((double)(MAX_Y / 2 - (int)alg_curr_y))/config.zero_divider);
+
             
         } 
-        //else 
-        // no else anymore, integrating can be done WHILE zeroing (see my discussion in forum Vectrex32)
+        else
         {
-            if (sig_ramp.intValue== 0) 
+            startZero=false;
+        }
+
+        if (sig_ramp.intValue== 0) 
+        {
+            sig_dx += alg_xsh.intValue;
+            sig_dy += -alg_ysh.intValue;
+            fractionSaveX = alg_xsh.intValue;
+            fractionSaveY = alg_ysh.intValue;
+
+            //fraction = false;
+            if (rampOnFraction)
             {
-                sig_dx += alg_xsh.intValue;
-                sig_dy += -alg_ysh.intValue;
-                fractionSaveX = alg_xsh.intValue;
-                fractionSaveY = alg_ysh.intValue;
+                rampOnFraction = false;
+                alg_curr_x -= (int)(((double)alg_xsh.intValue)*(config.rampOnFractionValue));
+                alg_curr_y -= -(int)(((double)alg_ysh.intValue)*(config.rampOnFractionValue));
 
-                //fraction = false;
-                if (rampOnFraction)
-                {
-                    rampOnFraction = false;
-                    alg_curr_x -= (int)(((double)alg_xsh.intValue)*(config.rampOnFractionValue));
-                    alg_curr_y -= -(int)(((double)alg_ysh.intValue)*(config.rampOnFractionValue));
-
-                }
-            } 
-            else 
+            }
+        } 
+        else 
+        {
+            //fraction = false;
+            if (rampOffFraction)
             {
-                //fraction = false;
-                if (rampOffFraction)
-                {
-                    // with cycle exact programming we are not allowed to use "alg_xsh.intValue" as fraction
-                    // value, because that might have been altered in the last "cycle"
-                    // we must remember the last integration value and 
-                    // use that instead of the current one!
-//                    alg_curr_x += (int)(((double)alg_xsh.intValue)*config.rampOffFractionValue);
-//                    alg_curr_y += -(int)(((double)alg_ysh.intValue)*config.rampOffFractionValue);
-                    rampOffFraction = false;
-                    alg_curr_x += (int)(((double)fractionSaveX)*config.rampOffFractionValue);
-                    alg_curr_y += -(int)(((double)fractionSaveY)*config.rampOffFractionValue);
+                // with cycle exact programming we are not allowed to use "alg_xsh.intValue" as fraction
+                // value, because that might have been altered in the last "cycle"
+                // we must remember the last integration value and 
+                // use that instead of the current one!
+                rampOffFraction = false;
+                alg_curr_x += (int)(((double)fractionSaveX)*config.rampOffFractionValue);
+                alg_curr_y += -(int)(((double)fractionSaveY)*config.rampOffFractionValue);
 
-                    
-                    
-                    if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
-                    {
-                        /* we're vectoring ... current point is still within limits so
-                         * extend the current vector.
-                         */
-                        alg_vector_x1 = (int)alg_curr_x;
-                        alg_vector_y1 = (int)alg_curr_y;
-                    }        
-                }
+                if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
+                {
+                    /* we're vectoring ... current point is still within limits so
+                     * extend the current vector.
+                     */
+                    alg_vector_x1 = (int)alg_curr_x;
+                    alg_vector_y1 = (int)alg_curr_y;
+                }        
             }
         }
 
@@ -3560,8 +3940,18 @@ pb6_out = npb6;
                     alg_vector_dx = alg_xsh.intValue;
                     alg_vector_dy = -alg_ysh.intValue;
 
-                    alg_vector_x0 = (int)alg_curr_x+(int)(config.blankOffDelay*alg_vector_dx);
-                    alg_vector_y0 = (int)alg_curr_y+(int)(config.blankOffDelay*alg_vector_dy);
+                    int sinOffset = 0;                    
+                    if (config.enableWobble)
+                    {
+                        // sinus angle in 0 to 30000 (when 50 Hz)
+                        float currentSinPos = cyclesRunning%config.cycle_sin_freq;
+                        double currentSinPosMath = currentSinPos / config.cycle_sin_freq * 2 * Math.PI; 
+
+                        sinOffset = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMath ));
+                    }
+                    
+                    alg_vector_x0 = (int)alg_curr_x+(int)(config.blankOffDelay*alg_vector_dx)+sinOffset;
+                    alg_vector_y0 = (int)alg_curr_y+(int)(config.blankOffDelay*alg_vector_dy)+sinOffset;
                     alg_vector_x1 = (int)alg_curr_x;
                     alg_vector_y1 = (int)alg_curr_y;
 
@@ -3585,7 +3975,6 @@ pb6_out = npb6;
                 }
                 else
                 {
-// OUT OF BOUNDS                    
                     // OUT OF BOUNDS VECTOR START
                 }
             }
@@ -3617,12 +4006,23 @@ pb6_out = npb6;
                     // ramping and blank just went enabled
                     // do a blank off delay
                     // make the vector a tiny bit longer!(sig_blank.intValue == 0)
-                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1+(int)(config.blankOnDelay*alg_vector_dx), alg_vector_y1+(int)(config.blankOnDelay*alg_vector_dy), alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                    alg_addline ((int)(alg_vector_x0+zeroRetainX), 
+                                 (int)(alg_vector_y0+zeroRetainY), 
+                                 alg_vector_x1+(int)((config.blankOnDelay*alg_vector_dx)+zeroRetainX), 
+                                 alg_vector_y1+(int)((config.blankOnDelay*alg_vector_dy)+zeroRetainY), 
+                                 alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                    retainChanged = false;
                 }
                 else
                 {
-                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                    alg_addline ((int)(alg_vector_x0+zeroRetainX), 
+                                 (int)(alg_vector_y0+zeroRetainY), 
+                                 (int)(alg_vector_x1+zeroRetainX), 
+                                 (int)(alg_vector_y1+zeroRetainY), 
+                                 alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                                retainChanged = false;
                 }
+
                 alg_vectoring = 0;
             } 
             else if (imagerColorChanged || xChanged || yChanged || alg_zsh.intValue != alg_vector_color /*||  (sig_zero.intValue == 0)*/ || ((sig_ramp.intValue== 0) != alg_ramping) ) 
@@ -3644,16 +4044,38 @@ pb6_out = npb6;
                 // discard the first 0 vector if so
                 boolean rampStartCheck =  ((!alg_ramping) && (sig_ramp.intValue== 0));
                 if (!rampStartCheck)
-                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_vector_color, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                {
+                    alg_addline ((int)(alg_vector_x0+zeroRetainX), 
+                                 (int)(alg_vector_y0+zeroRetainY), 
+                                 (int)(alg_vector_x1+zeroRetainX), 
+                                 (int)(alg_vector_y1+zeroRetainY), 
+                                 alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
+                    retainChanged = false;
+                }
 
                 /* we continue vectoring with a new set of parameters if the
                  * current point is not out of limits.
                  */
-
                 if  (inLimits)
                 {
-                    alg_vector_x0 = (int)alg_curr_x;
-                    alg_vector_y0 = (int)alg_curr_y;
+                    int sinOffsetX = 0;                    
+                    int sinOffsetY = 0;                    
+                    if (config.enableWobble)
+                    {
+                        // sinus angle in 0 to 30000 (when 50 Hz)
+                        float currentSinPos = cyclesRunning%config.cycle_sin_freq;
+                        double currentSinPosMathX = currentSinPos / config.cycle_sin_freq * 2 * Math.PI; 
+                        double currentSinPosMathY = ((currentSinPos+config.yOffsetToX) %config.cycle_sin_freq) / config.cycle_sin_freq * 2 * Math.PI; 
+
+                        sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ));
+                        sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ));
+
+                        sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ) * Math.cos(config.constantC * currentSinPosMathX ));
+                        sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ) * Math.cos(config.constantC * currentSinPosMathY ));
+                    }
+
+                    alg_vector_x0 = (int)alg_curr_x+sinOffsetX;
+                    alg_vector_y0 = (int)alg_curr_y+sinOffsetY;
                     alg_vector_x1 = (int)alg_curr_x;
                     alg_vector_y1 = (int)alg_curr_y;
                     if (sig_ramp.intValue==0)
@@ -3686,7 +4108,7 @@ pb6_out = npb6;
                 } 
                 else 
                 {
-// OUT OF BOUNDS        
+                    // OUT OF BOUNDS        
                     // an active vector was FINISHED OUT OF BOUNDS!
                     // and a new vector should start                    
                     alg_vectoring = 0;
@@ -3702,7 +4124,389 @@ pb6_out = npb6;
                 }
             }
         }
-        
+
+        /////////////////// inverse vector draw start
+        ///Drift
+        ///zeroing with splines
+        if (inverseBrightness>0)
+        {
+
+            if (ialg_vectoring == 0) 
+            {
+                if (sig_blank.intValue == 0 || ((alg_zsh.intValue &0x80) == 0x80) ||  ((alg_zsh.intValue &0x7f) ==0) ) 
+                {
+                   if (alg_curr_x >= (0-20000) && alg_curr_x < (config.ALG_MAX_X+20000) && alg_curr_y >= (0-20000) && alg_curr_y < (config.ALG_MAX_Y+20000))
+                    {
+                        if (imagerMode)
+                        {
+                            if (joyport[1].getDevice() instanceof Imager3dDevice)
+                            {
+                                Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
+                                leftEyeColor = i3d.getLeftColor();
+                                rightEyeColor = i3d.getRightColor();
+                            }
+                        }
+
+                        /* start a new vector */
+                        ialg_vectoring = 1;
+
+                        ialg_vector_dx = alg_xsh.intValue;
+                        ialg_vector_dy = -alg_ysh.intValue;
+
+                        int sinOffset = 0;                    
+                        if (config.enableWobble)
+                        {
+                            // sinus angle in 0 to 30000 (when 50 Hz)
+                            float currentSinPos = cyclesRunning%config.cycle_sin_freq;
+                            double currentSinPosMath = currentSinPos / config.cycle_sin_freq * 2 * Math.PI; 
+                            sinOffset = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMath ));
+                        }
+
+
+                        ialg_vector_x0 = (int)alg_curr_x+(int)(config.blankOffDelay*ialg_vector_dx)+sinOffset;
+                        ialg_vector_y0 = (int)alg_curr_y+(int)(config.blankOffDelay*ialg_vector_dy)+sinOffset;
+                        ialg_vector_x1 = (int)alg_curr_x;
+                        ialg_vector_y1 = (int)alg_curr_y;
+
+                        ialg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
+
+                        ialg_leftEye = leftEyeColor;
+                        ialg_rightEye = rightEyeColor;
+
+                        ialg_vector_color = alg_zsh.intValue;
+                        ialg_ramping = (sig_ramp.intValue== 0);
+                        if ((ialg_ramping) || (sig_zero.intValue == 0)) 
+                        {
+                            ialg_spline_compare_dx = sig_dx;
+                            ialg_spline_compare_dy = sig_dy;
+                        }
+                        else
+                        {
+                            ialg_spline_compare_dx = Integer.MAX_VALUE;
+                            ialg_spline_compare_dy = Integer.MAX_VALUE;
+                        }                    
+                    }
+                    else
+                    {
+                        // OUT OF BOUNDS VECTOR START
+                    }
+                }
+            } 
+            else // vectoring == 1
+            {
+                //DOES NOT FADE IN TIME
+                if (imagerMode)
+                {
+                    if (joyport[1].getDevice() instanceof Imager3dDevice)
+                    {
+                        Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
+                        leftEyeColor = i3d.getLeftColor();
+                        rightEyeColor = i3d.getRightColor();
+                    }
+                }
+                boolean yChanged = (-alg_ysh.intValue != ialg_vector_dy) && (sig_ramp.intValue== 0);
+                boolean xChanged = (alg_xsh.intValue != ialg_vector_dx) && (sig_ramp.intValue== 0);
+                boolean imagerColorChanged = (imagerMode) && ((leftEyeColor!=alg_leftEye)||(rightEyeColor!=alg_rightEye));
+
+                //if (sig_zero.intValue == 0) 
+                if ((sig_zero.intValue == 0) || (sig_blank.intValue == 0))
+                {
+                    yChanged = true;
+                    xChanged = true;
+                }
+
+                /* already drawing a vector ... check if we need to turn it on */
+                if ((sig_blank.intValue == 1) && ((alg_zsh.intValue &0x80) ==0) && ((alg_zsh.intValue &0x7f) !=0))
+                {
+                    /* blank just went on, vectoring turns off, and we've got a
+                     * new line.
+                     */
+
+                    if (/*(sig_ramp.intValue== 0)     && */(sig_blank.intValue == 1))     
+                    {
+                        // ramping and blank just went disabled
+                        // do a blank off delay
+                        // make the vector a tiny bit longer!(sig_blank.intValue == 0)
+                        doDriftLine();
+                        if (inverseBrightness>0)
+                        {
+                            noLineChange = true;
+                            ialg_curved = true;
+                            int tspeed = 10;
+
+                            if (retainChanged)
+                            {
+                                if (((int)(ialg_vector_x0+zeroRetainX)!=x1Old) || ((int)(ialg_vector_y0+zeroRetainY)!=y1Old))
+                                {
+                                    alg_addline (
+                                            (int)(x1Old), 
+                                            (int)(y1Old), 
+                                            (int)(ialg_vector_x0+zeroRetainX), 
+                                            (int)(ialg_vector_y0+zeroRetainY), 
+                                            inverseBrightness, ialg_curved, tspeed, ialg_leftEye, ialg_rightEye);
+                                }
+                            }
+                            retainChanged = false;
+
+
+
+
+                            if (!(      ((int)(ialg_vector_x0+zeroRetainX)==x0Old) 
+                                      &&((int)(ialg_vector_y0+zeroRetainY)==y0Old)
+                                      &&((int)(ialg_vector_x1+zeroRetainX)==x1Old)
+                                      &&((int)(ialg_vector_y1+zeroRetainY)==y1Old)))
+                            {
+                                alg_addline (
+                                        (int)(ialg_vector_x0+zeroRetainX), 
+                                        (int)(ialg_vector_y0+zeroRetainY), 
+                                        (int)(ialg_vector_x1+zeroRetainX), 
+                                        (int)(ialg_vector_y1+zeroRetainY), 
+                                        inverseBrightness, ialg_curved, tspeed, ialg_leftEye, ialg_rightEye);
+                                x0Old = (int)(ialg_vector_x0+zeroRetainX);
+                                y0Old = (int)(ialg_vector_y0+zeroRetainY);
+                                x1Old = (int)(ialg_vector_x1+zeroRetainX);
+                                y1Old = (int)(ialg_vector_y1+zeroRetainY);
+                                noLineChange = false;
+                            }
+
+                        }
+                        ialg_vectoring = 0;
+                    }
+                    else
+                    {
+                        doDriftLine();
+                        if (inverseBrightness>0)
+                        {
+                            noLineChange = true;
+                            ialg_curved = true;
+                            int tspeed = 10;
+
+                            if (retainChanged)
+                            {
+                                if (((int)(ialg_vector_x0+zeroRetainX)!=x1Old) || ((int)(ialg_vector_y0+zeroRetainY)!=y1Old))
+                                {
+                                    alg_addline (
+                                            (int)(x1Old), 
+                                            (int)(y1Old), 
+                                            (int)(ialg_vector_x0+zeroRetainX), 
+                                            (int)(ialg_vector_y0+zeroRetainY), 
+                                            inverseBrightness, ialg_curved, tspeed, ialg_leftEye, ialg_rightEye);
+                                }
+                            }
+                            retainChanged = false;
+                            if (!(      ((int)(ialg_vector_x0+zeroRetainX)==x0Old) 
+                                      &&((int)(ialg_vector_y0+zeroRetainY)==y0Old)
+                                      &&((int)(ialg_vector_x1+zeroRetainX)==x1Old)
+                                      &&((int)(ialg_vector_y1+zeroRetainY)==y1Old)))
+                            {
+                                alg_addline (
+                                        (int)(ialg_vector_x0+zeroRetainX), 
+                                        (int)(ialg_vector_y0+zeroRetainY), 
+                                        (int)(ialg_vector_x1+zeroRetainX), 
+                                        (int)(ialg_vector_y1+zeroRetainY), 
+                                        inverseBrightness, ialg_curved, tspeed, ialg_leftEye, ialg_rightEye);
+                                x0Old = (int)(ialg_vector_x0+zeroRetainX);
+                                y0Old = (int)(ialg_vector_y0+zeroRetainY);
+                                x1Old = (int)(ialg_vector_x1+zeroRetainX);
+                                y1Old = (int)(ialg_vector_y1+zeroRetainY);
+                                noLineChange = false;
+                            }
+                        }
+                        boolean inLimits = (alg_curr_x >= 0-20000 && alg_curr_x < config.ALG_MAX_X+20000 && alg_curr_y >= 0-20000 && alg_curr_y < config.ALG_MAX_Y+20000);
+                        if  (inLimits)
+                        {
+                            int sinOffsetX = 0;                    
+                            int sinOffsetY = 0;                    
+                            if (config.enableWobble)
+                            {
+                                    // sinus angle in 0 to 30000 (when 50 Hz)
+                                    float currentSinPos = cyclesRunning%config.cycle_sin_freq;
+                                    double currentSinPosMathX = currentSinPos / config.cycle_sin_freq * 2 * Math.PI; 
+                                    double currentSinPosMathY = ((currentSinPos+config.yOffsetToX) %config.cycle_sin_freq) / config.cycle_sin_freq * 2 * Math.PI; 
+
+                                    sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ));
+                                    sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ));
+
+                                    sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ) * Math.cos(config.constantC * currentSinPosMathX ));
+                                    sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ) * Math.cos(config.constantC * currentSinPosMathY ));
+                            }
+
+                            ialg_vector_x0 = (int)alg_curr_x+sinOffsetX;
+                            ialg_vector_y0 = (int)alg_curr_y+sinOffsetY;
+
+                            ialg_vector_x1 = (int)ialg_vector_x0;
+                            ialg_vector_y1 = (int)ialg_vector_y0;
+                            if (sig_ramp.intValue==0)
+                            {
+                                ialg_vector_dx = alg_xsh.intValue;
+                                ialg_vector_dy = -alg_ysh.intValue;
+                            }
+                            else
+                            {
+                                ialg_vector_dx = 0;
+                                ialg_vector_dy = 0;
+                                ialg_curved = false;
+                            }
+                            ialg_vector_color = alg_zsh.intValue;
+                            ialg_leftEye = leftEyeColor;
+                            ialg_rightEye = rightEyeColor;
+                            ialg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
+
+                            ialg_ramping = (sig_ramp.intValue== 0);
+                            if ((ialg_ramping)||  (sig_zero.intValue == 0))
+                            {
+                                ialg_spline_compare_dx = sig_dx;
+                                ialg_spline_compare_dy = sig_dy;
+                            }
+                            else
+                            {
+                                ialg_spline_compare_dx = Integer.MAX_VALUE;
+                                ialg_spline_compare_dy = Integer.MAX_VALUE;
+                            }
+                            ialg_vectoring = 1;
+                        } 
+                        else
+                            ialg_vectoring = 0;
+                    }
+                } 
+                else if (imagerColorChanged || xChanged || yChanged || 
+                            alg_zsh.intValue != ialg_vector_color /*||  (sig_zero.intValue == 0)*/ || ((sig_ramp.intValue== 0) != ialg_ramping) ) 
+                {
+                    /* the parameters of the vectoring processing has changed.
+                     * so end the current line.
+                     */
+                    boolean inLimits = (alg_curr_x >= 0-20000 && alg_curr_x < config.ALG_MAX_X+20000 && alg_curr_y >= 0-20000 && alg_curr_y < config.ALG_MAX_Y+20000);
+
+                    if ((ialg_ramping) ||  (sig_zero.intValue == 0))
+                    {
+                        if ((sig_dx != ialg_spline_compare_dx || sig_dy != ialg_spline_compare_dy) && (inLimits) && (sig_dy != 0))
+                        {
+                            ialg_curved = true;
+                        }
+                    }
+                    // check if this is just the start of a movement,
+                    // discard the first 0 vector if so
+                    boolean rampStartCheck =  ((!ialg_ramping) && (sig_ramp.intValue== 0));
+
+                    if (!rampStartCheck)
+                    {
+                        doDriftLine();
+                        if (inverseBrightness>0)
+                        {
+                            noLineChange = true;
+                            ialg_curved = true;
+                            int tspeed = 10;
+
+                            if (retainChanged)
+                            {
+                                if (((int)(ialg_vector_x0+zeroRetainX)!=x1Old) || ((int)(ialg_vector_y0+zeroRetainY)!=y1Old))
+                                {
+                                    alg_addline (
+                                            (int)(x1Old), 
+                                            (int)(y1Old), 
+                                            (int)(ialg_vector_x0+zeroRetainX), 
+                                            (int)(ialg_vector_y0+zeroRetainY), 
+                                            inverseBrightness, ialg_curved, tspeed, ialg_leftEye, ialg_rightEye);
+                                }
+                            }
+                            retainChanged = false;
+                            if (!(      ((int)(ialg_vector_x0+zeroRetainX)==x0Old) 
+                                      &&((int)(ialg_vector_y0+zeroRetainY)==y0Old)
+                                      &&((int)(ialg_vector_x1+zeroRetainX)==x1Old)
+                                      &&((int)(ialg_vector_y1+zeroRetainY)==y1Old)))
+                            {
+                                alg_addline (
+                                        (int)(ialg_vector_x0+zeroRetainX), 
+                                        (int)(ialg_vector_y0+zeroRetainY), 
+                                        (int)(ialg_vector_x1+zeroRetainX), 
+                                        (int)(ialg_vector_y1+zeroRetainY), 
+                                        inverseBrightness, ialg_curved, tspeed, ialg_leftEye, ialg_rightEye);
+                                x0Old = (int)(ialg_vector_x0+zeroRetainX);
+                                y0Old = (int)(ialg_vector_y0+zeroRetainY);
+                                x1Old = (int)(ialg_vector_x1+zeroRetainX);
+                                y1Old = (int)(ialg_vector_y1+zeroRetainY);
+                                noLineChange = false;
+                            }
+                        }
+                    }
+
+
+                    /* we continue vectoring with a new set of parameters if the
+                     * current point is not out of limits.
+                     */
+                    if  (inLimits)
+                    {
+                        int sinOffsetX = 0;                    
+                        int sinOffsetY = 0;                    
+                        if (config.enableWobble)
+                        {
+                                // sinus angle in 0 to 30000 (when 50 Hz)
+                                float currentSinPos = cyclesRunning%config.cycle_sin_freq;
+                                double currentSinPosMathX = currentSinPos / config.cycle_sin_freq * 2 * Math.PI; 
+                                double currentSinPosMathY = ((currentSinPos+config.yOffsetToX) %config.cycle_sin_freq) / config.cycle_sin_freq * 2 * Math.PI; 
+
+                                sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ));
+                                sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ));
+
+                                sinOffsetX = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathX ) * Math.cos(config.constantC * currentSinPosMathX ));
+                                sinOffsetY = (int) (config.MAX_SIN_POSITION_OFFSET * Math.sin( currentSinPosMathY ) * Math.cos(config.constantC * currentSinPosMathY ));
+                        }
+
+                        ialg_vector_x0 = (int)alg_curr_x+sinOffsetX;
+                        ialg_vector_y0 = (int)alg_curr_y+sinOffsetY;
+
+
+                        ialg_vector_x1 = (int)alg_curr_x;
+                        ialg_vector_y1 = (int)alg_curr_y;
+                        if (sig_ramp.intValue==0)
+                        {
+                            ialg_vector_dx = alg_xsh.intValue;
+                            ialg_vector_dy = -alg_ysh.intValue;
+                        }
+                        else
+                        {
+                            ialg_vector_dx = 0;
+                            ialg_vector_dy = 0;
+                            ialg_curved = false;
+                        }
+                        ialg_vector_color = alg_zsh.intValue;
+                        ialg_leftEye = leftEyeColor;
+                        ialg_rightEye = rightEyeColor;
+                        ialg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
+
+                        ialg_ramping = (sig_ramp.intValue== 0);
+                        if ((ialg_ramping)||  (sig_zero.intValue == 0))
+                        {
+                            ialg_spline_compare_dx = sig_dx;
+                            ialg_spline_compare_dy = sig_dy;
+                        }
+                        else
+                        {
+                            ialg_spline_compare_dx = Integer.MAX_VALUE;
+                            ialg_spline_compare_dy = Integer.MAX_VALUE;
+                        }
+                    } 
+                    else 
+                    {
+                        // OUT OF BOUNDS        
+                        // an active vector was FINISHED OUT OF BOUNDS!
+                        // and a new vector should start                    
+                        ialg_vectoring = 0;
+                    }
+                }
+                else // alg vectoring == 1, but nothing changed
+                {
+                    if ((sig_dx == 0) && (sig_dy == 0))
+                    {
+                        // dot dwell realized with a zero movement and a high speed
+                        if (ialg_vector_speed<128) ialg_vector_speed = 128;
+                        ialg_vector_speed += 0x4;
+                    }
+                }
+            }
+            /////////////////// inverse vector draw end
+        }
+
         // efficiency only active when non zeroing!
         if ((config.efficiencyEnabled) && (sig_zero.intValue!=0))
         {
@@ -3730,8 +4534,17 @@ pb6_out = npb6;
                 if (yEfficience<0.01) yEfficience = 0.01;
                 if (yTest*sig_dy<0)yEfficience = 1/yEfficience;
             }
-            alg_curr_x += ((double)sig_dx)*xEfficience;
-            alg_curr_y += ((double)sig_dy)*yEfficience;
+
+            if ((sig_dx+128 < 256) && (sig_dy+128 < 256) && (sig_dx+128 >= 0) && (sig_dy+128 >= 0))
+            {
+                alg_curr_x += ((double)sig_dx)*(dacDeviation[sig_dx+128])*xEfficience;
+                alg_curr_y += ((double)sig_dy)*(dacDeviation[sig_dy+128])*yEfficience;
+            }
+            else
+            {
+                alg_curr_x += ((double)sig_dx)*xEfficience;
+                alg_curr_y += ((double)sig_dy)*yEfficience;
+            }
 
             // actually do not go negative should be sufficient here!
             if (sig_dx != 0)
@@ -3741,17 +4554,28 @@ pb6_out = npb6;
         }
         else
         {
-            alg_curr_x += sig_dx;
-            alg_curr_y += sig_dy;
-        }        
-            if (sig_ramp.intValue== 0) 
+            if ((sig_dx+128 < 256) && (sig_dy+128 < 256) && (sig_dx+128 >= 0) && (sig_dy+128 >= 0))
             {
+                alg_curr_x += ((double)sig_dx)*(dacDeviation[sig_dx+128]);
+                alg_curr_y += ((double)sig_dy)*(dacDeviation[sig_dy+128]);
+            }
+            else
+            {
+                alg_curr_x += sig_dx;
+                alg_curr_y += sig_dy;
+            }
+        } 
+        // December 2024 - Offsets are ALWAYS added, not dependended on RAMP!!!
+        //if (sig_ramp.intValue== 0) 
+        {
         
-            alg_curr_x -= c_alg_rsh.getDigitalValue();
-            alg_curr_y += c_alg_rsh.getDigitalValue();
-//                sig_dx += - alg_rsh.intValue;
-//                sig_dy += + alg_rsh.intValue;
-            }        
+            //System.out.println(c_alg_rsh.getDigitalValue());
+            // also it seems RSH is reversed in effect
+            alg_curr_x -= 2*c_alg_rsh.getDigitalValue();
+            alg_curr_y -= -2*c_alg_rsh.getDigitalValue();
+            
+            
+        }        
         if (alg_curr_x>100000) alg_curr_x=100000;
         else if (alg_curr_x<-100000) alg_curr_x=-100000;
         if (alg_curr_y>100000) alg_curr_y=100000;
@@ -3766,11 +4590,15 @@ pb6_out = npb6;
             {
                 alg_curr_x-= config.drift_x;
                 alg_curr_y-= config.drift_y;
+                pureDriftY += config.drift_y;
+                pureDriftX += config.drift_x;
             }
             else
             {
                 alg_curr_x-= config.drift_x/5.0;
                 alg_curr_y-= config.drift_y/5.0;
+                pureDriftY += config.drift_y;
+                pureDriftX += config.drift_x;
             }
         }
         
@@ -3779,8 +4607,6 @@ pb6_out = npb6;
             if (Math.abs(sig_dx)>100)
             {
                 double yOverflow = (  ((double)sig_dx)+((double)sig_dy) ) / config.overflowFactor;
-
-//            alg_curr_x+= xOverflow;
                 alg_curr_y+= yOverflow;
             }
         }
@@ -3843,10 +4669,30 @@ pb6_out = npb6;
             }
             else
             {
-// OUT OF BOUNDS        
+                // OUT OF BOUNDS        
                 // add values that are out of bounds if light is shining!
             }
         }
+        if (inverseBrightness>0)
+        {
+            if (ialg_vectoring == 1)
+            {
+                if( alg_curr_x >= 0-20000 && alg_curr_x < config.ALG_MAX_X+20000 && alg_curr_y >= 0-20000 && alg_curr_y < config.ALG_MAX_Y+20000) 
+                {
+                    /* we're vectoring ... current point is still within limits so
+                     * extend the current vector.
+                     */
+                    ialg_vector_x1 = (int)alg_curr_x;
+                    ialg_vector_y1 = (int)alg_curr_y;
+                }
+                else
+                {
+                    // OUT OF BOUNDS        
+                    // add values that are out of bounds if light is shining!
+                }
+            }
+        }
+
         if (config.emulateBorders)
         {
             boolean inLimits = (alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y);
@@ -3922,8 +4768,18 @@ pb6_out = npb6;
             alg_old_x = alg_curr_x;
             alg_old_y = alg_curr_y;
         }
-        
-        
+        if (inverseBrightness>0)
+        {
+
+            if (sig_ramp.intValue== 0) 
+            {
+                doDriftLine();
+            }
+            if (sig_zero.intValue == 0) 
+            {
+                doDriftLine();
+            }
+        }        
         
         if ((sig_ramp.intValue!= 0) || (sig_blank.intValue == 0))
         {
@@ -3933,6 +4789,30 @@ pb6_out = npb6;
             alg_curr_x = config.ALG_MAX_X/2;
         if (Double.isNaN(alg_curr_y)) 
             alg_curr_y = config.ALG_MAX_Y/2;
+    }
+    void doDriftLine()
+    {
+        int inverseBrightness = 0;
+        if (config.brightness>60)
+        {
+            inverseBrightness = config.brightness-60;
+        }
+
+        if ((Math.abs(pureDriftY) >100) || (Math.abs(pureDriftX)>100))
+        {
+            if (inverseBrightness>0)
+            {
+                noLineChange = true;
+                alg_addline ((int)pureDriftXStart, (int)(pureDriftYStart), (int)(pureDriftXStart-pureDriftX), (int)(pureDriftYStart-pureDriftY),  inverseBrightness*=3, false, 10, 0, 0);
+//System.out.println("Driftline: X0: "+(int)pureDriftXStart+", Y0: "+(int)pureDriftYStart+", X1: "+(int)(pureDriftXStart-pureDriftX)+", Y1: " +(int)(pureDriftYStart-pureDriftY));
+
+                noLineChange = false;
+            }
+        }
+        pureDriftY = 0;
+        pureDriftX = 0;
+        pureDriftXStart = alg_curr_x;
+        pureDriftYStart = alg_curr_y;
     }
     
     public void resetAllTimeLowStack()
@@ -4096,6 +4976,27 @@ pb6_out = npb6;
                         }
                     }
                 }
+
+
+                if (bp.targetSubType  == Breakpoint.BP_SUBTARGET_CPU_STACKCHANGE)
+                {
+                    if ((e6809.reg_pc == bp.targetAddress) && (cart.getCurrentBank() == bp.targetBank))
+                    
+                    if ((bp.type & Breakpoint.BP_COMPARE) == Breakpoint.BP_COMPARE)
+                    {
+                        if (e6809.reg_s.intValue!=bp.compareValue)
+                        {
+                            if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                            {
+                                tmp.add(bp);
+                            }
+                            activeBreakpoint.add(bp);
+                            if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                        }
+                    }
+                }
+
+
                 if (bp.targetSubType  == Breakpoint.BP_SUBTARGET_CPU_SPECIAL)
                 {
                     if ((bp.type & Breakpoint.BP_COMPARE) == Breakpoint.BP_COMPARE)
@@ -4177,6 +5078,7 @@ pb6_out = npb6;
     }
     void checkMemReadBreakpoint(int address)
     {
+        
         if (!config.breakpointsActive) return;
         synchronized (breakpoints[Breakpoint.BP_TARGET_MEMORY])
         {
@@ -4288,6 +5190,16 @@ pb6_out = npb6;
                         activeBreakpoint.add(bp);
                         if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
                     }
+                }
+
+                else if ((bp.targetSubType  == Breakpoint.BP_SUBTARGET_VIA_T2) && ((register == 8)||(register == 9))   )
+                {
+                    if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                    {
+                        tmp.add(bp);
+                    }
+                    activeBreakpoint.add(bp);
+                    if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
                 }
             }                 
         }
@@ -4438,6 +5350,39 @@ pb6_out = npb6;
         romBreakpoints.add(bp);
         return true;
     }
+
+    protected void toggleBreakpoint(Breakpoint bp)
+    {
+        boolean removed = false;
+        if (bp.memInfo != null)
+        {
+            removed = bp.memInfo.removeSameBreakPoint(bp);
+            if (!removed)
+                bp.memInfo.addBreakpoint(bp);
+        }
+        synchronized (breakpoints[bp.targetType])
+        {
+            if (!removed)
+            {
+                breakpoints[bp.targetType].add(bp);
+            }
+            else
+            {
+                ArrayList<Breakpoint> memBreakPoints = breakpoints[bp.targetType];
+                ArrayList<Breakpoint> toRemove = new ArrayList<Breakpoint>();
+                for (Breakpoint b: memBreakPoints)
+                {
+                    if (b.equals(bp))
+                    {
+                        toRemove.add(b);
+                    }
+                }
+                for (Breakpoint b: toRemove)
+                    memBreakPoints.remove(b);
+            }
+        }    
+    }
+    
     protected void addBreakpoint(Breakpoint bp)
     {
         if (bp.memInfo != null)

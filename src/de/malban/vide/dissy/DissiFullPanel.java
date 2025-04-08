@@ -12,8 +12,10 @@ import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
+import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.VecXPanel;
 import java.io.Serializable;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -242,8 +244,13 @@ public class DissiFullPanel extends javax.swing.JPanel  implements
     }//GEN-LAST:event_jTextFieldTileFileActionPerformed
 
     private void jButtonFileSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect1ActionPerformed
+    VideConfig config = VideConfig.getConfig();
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
-        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+        fc.setCurrentDirectory(new java.io.File(config.fileRequestHome));
+
+        FileNameExtensionFilter  filter = new  FileNameExtensionFilter("Binaries (bin, vec, img)", "bin", "vec", "img");
+        fc.setFileFilter(filter);
+
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
         String name = fc.getSelectedFile().getAbsolutePath();

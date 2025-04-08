@@ -297,6 +297,9 @@ public class LogPanel extends javax.swing.JPanel implements Windowable, Logable,
         {
             try
             {
+                jTextPaneLog.setCaretPosition(jTextPaneLog.getDocument().getLength());
+                
+                
                 jTextPaneLog.replaceSelection(text+"\n");
                 jTextPaneLog.setCaretPosition(jTextPaneLog.getDocument().getLength());
             }

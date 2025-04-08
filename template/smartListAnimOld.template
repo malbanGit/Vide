@@ -1,4 +1,5 @@
-SPRITE_SCALE        =        9
+SPRITE_SCALE        =        ##SCALE##
+
 ;/* HIGHEST SCALE FOR SMARTLIST + CONTINUE is 16!
 ;***************************************************************************
 delayReset          EQU      5 

@@ -7,6 +7,7 @@ package de.malban.vide;
 
 import de.malban.Global;
 import de.malban.config.Configuration;
+import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.vide.ConfigJPanel.buildStringForMode;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import de.malban.vide.vecx.cartridge.CartridgePropertiesPool;
@@ -99,22 +100,24 @@ public class CLI {
         addKnownCommand("-syntaxhighlite  ","-sy","(+/-) enable/disable use syntaxhighlite (for debugging purposes only, default: enable)");
         addKnownCommand("-undo            ","-un","(+/-) enable/disable use undo in editor (for debugging purposes only, default: enable)");
         addKnownCommand("-versionTest     ","-vt","(+/-) do test for java version (default: enable)");
-     
-        
     }
     private static void addKnownCommand(String l, String s, String h)
     {
         CLICommand c = new CLICommand(l, s, h);
-        knownCommandShort.put(s.trim(), c);
-        knownCommandLong.put(l.trim(), c);
+        knownCommandShort.put(s.trim().toLowerCase(), c);
+        knownCommandLong.put(l.trim().toLowerCase(), c);
         knownCommands.add(c);
     }
-    
+
+    // loads now an ini file from Vide directory
+    // which now acts as input as command line 
     public boolean parseArguments(String[] args)
     {
         String v;
         String c;
         int i = 0;
+
+
         for (String a:args)
         {
 //System.out.println("arg["+(i++)+"]: "+a);
@@ -145,6 +148,9 @@ public class CLI {
             if (com == null) continue;
 //System.out.println("found...");
             com.value=v;
+            
+            Configuration.getConfiguration().getDebugEntity().addLog("CLI: "+com.longCommand.trim()+" "+ v, INFO);
+            
             activeCommands.add(com);
             activeCommandsMap.put(com.shortCommand, com);
         }
@@ -169,14 +175,17 @@ public class CLI {
         if (CLI.activeCommandsMap.get("-un") != null) VideConfig.editorUndoEnabled = CLI.activeCommandsMap.get("-un").isEnabled();
         if (CLI.activeCommandsMap.get("-vt") != null) Global.doTestJava = CLI.activeCommandsMap.get("-vt").isEnabled();
         
-        if (CLI.activeCommandsMap.get("-jg") != null) config.tryJOGL = CLI.activeCommandsMap.get("-jg").isEnabled();
-        if (CLI.activeCommandsMap.get("-oj") != null) config.tryJOGL = !CLI.activeCommandsMap.get("-oj").isEnabled();
+        if (CLI.activeCommandsMap.get("-jg") != null) 
+            config.tryJOGL = CLI.activeCommandsMap.get("-jg").isEnabled();
+        if (CLI.activeCommandsMap.get("-oj") != null) 
+            config.tryJOGL = !CLI.activeCommandsMap.get("-oj").isEnabled();
         if (CLI.activeCommandsMap.get("-ar") != null) config.keepAspectRatio = CLI.activeCommandsMap.get("-ar").isEnabled();
         if (CLI.activeCommandsMap.get("-ex") != null) config.doExitAfterVecxi = CLI.activeCommandsMap.get("-ex").isEnabled();
         if (CLI.activeCommandsMap.get("-fp") != null) config.startInFullPanelMode = CLI.activeCommandsMap.get("-fp").isEnabled();
         if (CLI.activeCommandsMap.get("-fs") != null) config.startInFullScreenMode = CLI.activeCommandsMap.get("-fs").isEnabled();
         if (CLI.activeCommandsMap.get("-eo") != null) config.overlayEnabled = CLI.activeCommandsMap.get("-eo").isEnabled();
-        if (CLI.activeCommandsMap.get("-es") != null) config.JOGLScreen = CLI.activeCommandsMap.get("-es").isEnabled();
+        if (CLI.activeCommandsMap.get("-es") != null) 
+            config.JOGLScreen = CLI.activeCommandsMap.get("-es").isEnabled();
         if (CLI.activeCommandsMap.get("-p0") != null) config.devicePort0 = CLI.activeCommandsMap.get("-p0").getValue();
         if (CLI.activeCommandsMap.get("-p1") != null) config.devicePort1 = CLI.activeCommandsMap.get("-p1").getValue();
         
@@ -270,7 +279,4 @@ public class CLI {
 
         return true;
     }
-    
-    
-    
 }

@@ -354,29 +354,29 @@ public class StoryboardLanePanel extends javax.swing.JPanel {
                 if (element.drawType.equals("synced extended"))
                 {
                     // synced extended!
-                    String name = "AnimList_"+(uidcount++);
+                    String name = "AnimList_"+(uidcount++)+"#_UNIQUE_ID#";
                     noDoubleAnimMap.put(element.listName, name);
                     int resync = element.resyncMax;
                     if (resync == 0) resync = 20;
-                    element.getAnimation().createASMDraw_syncList(t1, name, true, resync, true, 127, sb.isNoAdditionalSyncOptimization(), "BLOW_UP_"+uidcount);
+                    element.getAnimation().createASMDraw_syncList(t1, name, true, resync, true, 127, sb.isNoAdditionalSyncOptimization(), "BLOW_UP_"+uidcount+"#_UNIQUE_ID#");
                     String text = "";
 //                    text = de.malban.util.UtilityString.replace(text, "BLOW_UP", "BLOW_UP_"+uidcount);
                     if (element.factor == 0) element.factor = 1;
-                    text = "BLOW_UP_"+uidcount+" EQU "+element.factor+"\n\n"+t1.toString();
+                    text = "BLOW_UP_"+uidcount+"#_UNIQUE_ID#"+" EQU "+element.factor+"\n\n"+t1.toString();
                     animData.add(text);
                 }
                 else if (element.drawType.equals("synced"))
                 {
                     // synced !
-                    String name = "AnimList_"+(uidcount++);
+                    String name = "AnimList_"+(uidcount++)+"#_UNIQUE_ID#";
                     noDoubleAnimMap.put(element.listName, name);
                     int resync = element.resyncMax;
                     if (resync == 0) resync = 20;
                     String text = "";
-                    element.getAnimation().createASMDraw_syncList(t1, name, true, resync, false, 127, sb.isNoAdditionalSyncOptimization(), "BLOW_UP_"+uidcount);
+                    element.getAnimation().createASMDraw_syncList(t1, name, true, resync, false, 127, sb.isNoAdditionalSyncOptimization(), "BLOW_UP_"+uidcount+"#_UNIQUE_ID#");
 //                    text = de.malban.util.UtilityString.replace(text, "BLOW_UP", "BLOW_UP_"+uidcount);
                     if (element.factor == 0) element.factor = 1;
-                    text = "BLOW_UP_"+uidcount+" EQU "+element.factor+"\n\n"+t1.toString();
+                    text = "BLOW_UP_"+uidcount+"#_UNIQUE_ID#"+" EQU "+element.factor+"\n\n"+t1.toString();
                     animData.add(text);
                 }
                 else if (element.drawType.equals("Mov_Draw_VLc_a"))
@@ -446,22 +446,22 @@ public class StoryboardLanePanel extends javax.swing.JPanel {
     {
         String t = "\n";
         t+= " leau laneData,u \n";
-        t+= " ldx #lane"+uid+"Data \n";
-        t+= " jsr initLane \n";
+        t+= " ldx #lane"+uid+"Data#_UNIQUE_ID# \n";
+        t+= " jsr initLane\n";
         initCode.add(t);
      }
     void getLaneData(ArrayList<String> laneCode, HashMap<String, String> noDoubleAnimMap)
     {
         StringBuilder t = new StringBuilder();
         t.append("\n");
-        t.append("lane"+uid+"Data: \n");
+        t.append("lane"+uid+"Data#_UNIQUE_ID#: \n");
         int count = 1;
 
         for (StoryboardElement element : elements)
         {
             if (element.disabled) continue;
             if (element.getAnimation() == null) continue;
-            t.append(" dw element_"+uid+""+(count++)+"\n");
+            t.append(" dw element_"+uid+""+(count++)+"#_UNIQUE_ID#\n");
         }
         t.append(" dw 0\n");
 
@@ -487,7 +487,7 @@ public class StoryboardLanePanel extends javax.swing.JPanel {
     void getElementDataV1(StringBuilder t, StoryboardElement element, int count, HashMap<String, String> noDoubleAnimMap)
     {
         t.append("\n");
-        t.append("element_"+uid+""+(count)+":\n");
+        t.append("element_"+uid+""+(count)+"#_UNIQUE_ID#:\n");
         if (element.pause)
             t.append(" dw 0\n");
         else
@@ -554,7 +554,7 @@ public class StoryboardLanePanel extends javax.swing.JPanel {
     {
         element.calculateV2();
         t.append("\n");
-        t.append("element_"+uid+""+(count)+":\n");
+        t.append("element_"+uid+""+(count)+"#_UNIQUE_ID#:\n");
         if (element.pause)
             t.append(" dw 0\n");
         else

@@ -17,7 +17,10 @@ import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.jogl.JOGLSupport;
 import de.malban.util.syntax.Syntax.TokenStyles;
+import de.malban.vide.PiTrex.PiTrexSingleton;
 import de.malban.vide.VideConfig;
+import static de.malban.vide.dissy.Command.D_CMD_EXPORT_DATA;
+import static de.malban.vide.dissy.Command.D_CMD_TO_PITREX;
 import static de.malban.vide.dissy.DASM6809.printbinary;
 import de.malban.vide.dissy.DissiPanel.DissiSwitchData.WatchTableModel;
 import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_BYTE;
@@ -37,6 +40,7 @@ import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.cartridge.CartridgeListener;
 import de.malban.vide.vecx.CodeScanMemory;
+import static de.malban.vide.vecx.CodeScanMemory.MemInfo.MEMORY_CODE_PART;
 import de.malban.vide.vecx.E6809;
 import de.malban.vide.vecx.Profiler;
 import de.malban.vide.vecx.Updatable;
@@ -69,6 +73,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.AbstractAction;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import static javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN;
 import static javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS;
@@ -87,6 +92,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.StyleConstants;
 
 /**
  *
@@ -124,6 +131,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         public final int uid = UID_BASE++;
         public void removeWatchByAddress(int address)
         {
+            
             int size;
             do 
             {
@@ -366,6 +374,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuItemCode = new javax.swing.JMenuItem();
         jMenuItemByte = new javax.swing.JMenuItem();
+        jMenuItemDec = new javax.swing.JMenuItem();
         jMenuItemWord = new javax.swing.JMenuItem();
         jMenuItemWord1 = new javax.swing.JMenuItem();
         jMenuItemChar = new javax.swing.JMenuItem();
@@ -478,6 +487,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jScrollPane5 = new javax.swing.JScrollPane();
         jTableStack = new javax.swing.JTable();
         jCheckBox3 = new javax.swing.JCheckBox();
+        jCheckBox4 = new javax.swing.JCheckBox();
 
         jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -500,6 +510,14 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
         jPopupMenu1.add(jMenuItemByte);
+
+        jMenuItemDec.setText("cast to decimal");
+        jMenuItemDec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemDecActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItemDec);
 
         jMenuItemWord.setText("cast to word");
         jMenuItemWord.addActionListener(new java.awt.event.ActionListener() {
@@ -975,7 +993,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         });
 
         jButtonDASMOutput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButtonDASMOutput.setToolTipText("save dissi as asm file");
+        jButtonDASMOutput.setToolTipText("<html>\nsave dissi as asm file<BR>\n+SHIFT - save dissi as asm file short<BR>\n+CTRL - save dissi as asm of BIOS<BR>\n+ALT - save dissi as asm of ROM<BR>\n</html>");
         jButtonDASMOutput.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonDASMOutput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1223,8 +1241,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         ));
         jTableSource.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        jTableSource.setShowHorizontalLines(false);
-        jTableSource.setShowVerticalLines(false);
         jTableSource.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 jTableSourceMouseDragged(evt);
@@ -1496,8 +1512,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
                                     .addComponent(jLabel20)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel23)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel24))))
                             .addComponent(jLabel7))))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1610,6 +1626,14 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
 
+        jCheckBox4.setText("dump RAM");
+        jCheckBox4.setToolTipText("Include current RAM in asm dump");
+        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -1623,14 +1647,18 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 .addComponent(jCheckBox1)
                 .addGap(6, 6, 6)
                 .addComponent(jCheckBox2)
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox4)
+                .addContainerGap(182, Short.MAX_VALUE))
             .addComponent(jSplitPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCheckBox2)
+                        .addComponent(jCheckBox4))
                     .addComponent(jCheckBox1)
                     .addComponent(jCheckBox3)
                     .addComponent(jPanelDebug, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1747,9 +1775,13 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     a += current+memInfo.length; // offsets are calculated AFTER the instruction!
                 }
 
+                    
+
 
                 displayRAM(op, a&0xffff);
-                VediPanel.displayHelp(op);
+                
+//                VediPanel.displayHelp(op);
+                VediPanel.displayHelp(DASM6809.BIOS_TOMLIN_FUNCTIONS.get(a));
             }
         }
         else if (evt.getClickCount() == 1) 
@@ -2110,15 +2142,22 @@ public class DissiPanel extends javax.swing.JPanel  implements
         while (posNow++<upTo) s.append(" ");
         return posNow;
     }
+    void outputMINE()
+    {
+        outputROM(0xe000, 0xefff, "ROM");
+    }
+
     void outputBIOS()
+    {
+        outputROM(0xf000, 0xffff, "BIOS");
+    }
+    void outputROM(int start, int end, String nameAdd)
     {
         if (currentDissi.loadedName==null) return;
         if (currentDissi.loadedName.trim().length()==0) return;
         
         {
             StringBuilder s = new StringBuilder();
-            int start = 0xf000;
-            int end = 0xffff;
             ArrayList<String> comments;
             ArrayList<String> labels;
             HashMap<String, String> doneLabels = new HashMap<String, String>();
@@ -2131,16 +2170,13 @@ public class DissiPanel extends javax.swing.JPanel  implements
 
             for (int m = start; m<end; )
             {
-                /*
-                if (m==0x0765)
-                    System.out.println("");
-                */
                 breakable = false;
                 c = 0;
                 MemoryInformation memInfo = getMemory().memMap.get(m);
                 int length = memInfo.length;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_BINARY) breakable = true;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_BYTE) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_DECIMAL) breakable = true;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_CHAR) breakable = true;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_WORD) breakable = true;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_WORD_POINTER) breakable = true;
@@ -2284,7 +2320,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 String name = currentDissi.loadedName;
                 int li = name.lastIndexOf(".");
                 if (li<0) return;
-                name = name.substring(0,li)+".dasm.asm";
+                name = name.substring(0,li)+nameAdd+".dasm.asm";
                 PrintWriter out = new PrintWriter(name);
                 out.println(s2.toString());
                 out.close();
@@ -2300,6 +2336,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
     {
         if (currentDissi.loadedName==null) return;
         if (currentDissi.loadedName.trim().length()==0) return;
+        
+        
         
         int currentBank = getMemory().currentBank;
 // todo disasm olny to loadlen        int loadLen = ;
@@ -2322,16 +2360,13 @@ public class DissiPanel extends javax.swing.JPanel  implements
 
             for (int m = start; m<end; )
             {
-                /*
-                if (m==0x0765)
-                    System.out.println("");
-                */
                 breakable = false;
                 c = 0;
                 MemoryInformation memInfo = getMemory().memMap.get(m);
                 int length = memInfo.length;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_BINARY) breakable = true;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_BYTE) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_DECIMAL) breakable = true;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_CHAR) breakable = true;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_WORD) breakable = true;
                 if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_WORD_POINTER) breakable = true;
@@ -2488,6 +2523,122 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
         getMemory().setBank(currentBank);
 
+        if (jCheckBox4.isSelected())
+        {
+            //dumpRAM
+
+            StringBuilder s = new StringBuilder();
+            int start = 0xc800;
+            int end = 0xc800+1024;
+            ArrayList<String> comments;
+            ArrayList<String> labels;
+            HashMap<String, String> doneLabels = new HashMap<String, String>();
+            int dp = 0;
+            int brokenLength = 0;
+            boolean breakable = false;
+            int c = 0;
+
+            spaceTo(s, c, TAB_MNEMONIC);
+            s.append("; RAM DUMP\n");
+
+            for (int m = start; m<end; )
+            {
+                breakable = false;
+                c = 0;
+                MemoryInformation memInfo = getMemory().memMap.get(m);
+                int length = memInfo.length;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_BINARY) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_BYTE) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_DECIMAL) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_CHAR) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_WORD) breakable = true;
+                if (memInfo.disType == MemoryInformation.DIS_TYPE_DATA_WORD_POINTER) breakable = true;
+
+                if (memInfo.directPageAddress != dp)
+                {
+                    dp = memInfo.directPageAddress;
+                    spaceTo(s, c, TAB_MNEMONIC);
+                    s.append("direct $").append(String.format("%02X",((byte)memInfo.directPageAddress)) ).append("\n");
+                    c=0;
+                }
+                // if (memInfo.memType == MEM_TYPE_ROM)
+                {
+//                    if (memInfo.disType == DIS_TYPE_UNKOWN) 
+//                    {
+//                        m++;
+//                        continue;
+//                    }
+                    comments = memInfo.comments;
+                    labels = memInfo.labels;
+                    if (comments.size()>1)
+                    {
+                        for (int i=1; i<comments.size(); i++)
+                        {
+                            s.append("; ").append(comments.get(i)).append("\n");
+                        }
+                    }
+                    if (labels.size()>0)
+                    {
+                        for (int i=0; i<labels.size(); i++)
+                        {
+                            if (i!=0) s.append("\n");
+                            s.append(labels.get(i)).append(":");
+                            doneLabels.put(labels.get(i), labels.get(i));
+                            c=spaceTo(s, 1+labels.get(i).length(), TAB_MNEMONIC);
+                        }
+                    }
+                    else
+                    {
+                        s.append(String.format("_%04X",m)+":");
+                        c=spaceTo(s, 6, TAB_MNEMONIC);
+                    }
+
+                    s.append(memInfo.disassembledMnemonic);
+                    c+=memInfo.disassembledMnemonic.length();
+
+                    c=spaceTo(s, c, TAB_OP);
+                    s.append(memInfo.disassembledOperand);
+                    c+=memInfo.disassembledOperand.length();
+
+                    if (comments.size()>0)
+                    {
+                        spaceTo(s, c, TAB_COMMENT);
+                        String cc = comments.get(0);
+                        s.append("; ").append(cc);
+                        if (!cc.endsWith("\n"))
+                            s.append("\n");
+                    }
+                    else
+                    {
+                        s.append("\n");
+                    }
+                    m+=length;
+                    if (length==0) m++;
+                }
+//                else
+//                {
+//                    m++;
+//                }
+            }
+
+            try
+            {
+                String name = currentDissi.loadedName;
+                int li = name.lastIndexOf(".");
+                if (li<0) return;
+                name = name.substring(0,li)+".RAM.dasm.asm";
+                PrintWriter out = new PrintWriter(name);
+                out.println(s.toString());
+                out.close();
+                printMessage("DASM output saved to \""+name+"\"", MESSAGE_INFO);
+            }
+            catch (Throwable e)
+            {
+                printMessage("Error saving DASM file...", MESSAGE_ERR);
+            }        
+        }
+        
+        
     }
     void outputDASMShort()
     {
@@ -2682,6 +2833,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
             outputDASMShort();
         if ((evt != null ) && ((evt.getModifiers() & CTRL_MASK) == CTRL_MASK))
             outputBIOS();
+        if ((evt != null ) && ((evt.getModifiers() & ALT_MASK) == ALT_MASK))
+            outputMINE();
         else
             outputDASM();
         
@@ -3067,6 +3220,15 @@ public class DissiPanel extends javax.swing.JPanel  implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jTableStackMousePressed
 
+    private void jMenuItemDecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDecActionPerformed
+        updateToNewType(MemoryInformation.DIS_TYPE_DATA_DECIMAL, 1);
+        
+    }//GEN-LAST:event_jMenuItemDecActionPerformed
+
+    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox4ActionPerformed
+
     private int searchForString(int start, String text, boolean forward)
     {
         int foundAt = -1;
@@ -3174,6 +3336,10 @@ public class DissiPanel extends javax.swing.JPanel  implements
         int lastCollection = -1;
         int previousLength=-1;
         int previousStart=-1;
+        MemoryInformation memInfolMax = model.getValueAt(selected[selected.length-1]);
+        int localMax = memInfolMax.length;
+        int maxMax = memInfolMax.address+localMax;
+        
         for (int row: selected)
         {
             MemoryInformation memInfo = model.getValueAt(row);
@@ -3185,7 +3351,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
             boolean didRam = false;
             
-            for (int a=memInfo.address; a<memInfo.address+len; a++)
+            for (int a=memInfo.address; (a<(memInfo.address+len) && (a<maxMax)); a++)
             {
                 if (start == -1) start = memInfo.address;
                 
@@ -3212,7 +3378,10 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 currentDissi.dasm.myMemory.memMap.get(a).done = false;
                 currentDissi.dasm.myMemory.memMap.get(a).familyBytes.clear();
             }
-            end = memInfo.address+len;
+            if (memInfo.address+len>maxMax)
+                end = maxMax;
+            else
+                end = memInfo.address+len;
         }
         if (type==DIS_TYPE_DATA_INSTRUCTION_GENERAL)
         {
@@ -3265,6 +3434,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         
         currentDissi.dasm.reDisassemble(end>0xc000);
         updateTable();        
+        goAddress(start, false, true, true);
     }
     void resetToCode(int addressNotCode, int addressToCode)
     {
@@ -3342,7 +3512,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
 
     void resetFollowers(MemoryInformation memInfo)
     {
-        
+        if (memInfo==null) return;
         if (memInfo.disassembledOperand.length() == 0) return;
         // of 0, than changing this one does not change followers
         
@@ -3379,6 +3549,11 @@ public class DissiPanel extends javax.swing.JPanel  implements
         int end = 0;
         int start = -1;
         int lastCollection = -1;
+
+        MemoryInformation bmemInfo = model.getValueAt(selected[0]);
+         if ((bmemInfo.disType == DIS_TYPE_DATA_WORD) || (bmemInfo.disType == DIS_TYPE_DATA_WORD_POINTER) ) ll*=2;
+         
+         
         
         // first reset "all" data
         for (int row: selected)
@@ -3452,19 +3627,14 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     memInfo.familyBytes.clear();
                 }
             }
-            
-            
-            
-            
-
-            
         }
 
+        currentDissi.dasm.reDisassemble(end>0xc000);
         
-        
-        currentDissi.dasm.reDisassemble(end>0xe000);
+//        currentDissi.dasm.reDisassemble(end>0xe000);
 
         updateTable();            
+        goAddress(start, false, true, true);
     }
     
     private void updateTable()
@@ -3507,6 +3677,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBoxVectorSelect;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
@@ -3559,6 +3730,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     private javax.swing.JMenuItem jMenuItemC9;
     private javax.swing.JMenuItem jMenuItemChar;
     private javax.swing.JMenuItem jMenuItemCode;
+    private javax.swing.JMenuItem jMenuItemDec;
     private javax.swing.JMenuItem jMenuItemJoin;
     private javax.swing.JMenuItem jMenuItemLabelAsData;
     private javax.swing.JMenuItem jMenuItemUngroup;
@@ -3615,10 +3787,20 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 {
                     getMemoryInformation(i, b).disType = MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_GENERAL;
                     getMemoryInformation(i, b).directPageAddress = codeScanMemInfo.dp;
+                    
+                    int iLen = DASMStatics.getNumOpcodes(getMemoryInformation(i, b).content, getMemoryInformation((i+1)%65536, b).content);
+                    for (int il=0; il<iLen; il++)
+                    {
+                        getMemoryInformation(il, b).disType = MemoryInformation.DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_1+il;
+                    }
                     code++;
                     continue;
                 }
-                if ((codeScanMemInfo.codeScanType & CodeScanMemory.MemInfo.MEMORY_READ ) == CodeScanMemory.MemInfo.MEMORY_READ)
+                else if ((codeScanMemInfo.codeScanType & CodeScanMemory.MemInfo.MEMORY_CODE_PART ) == CodeScanMemory.MemInfo.MEMORY_CODE_PART)
+                {
+                    continue;
+                }
+                else if ((codeScanMemInfo.codeScanType & CodeScanMemory.MemInfo.MEMORY_READ ) == CodeScanMemory.MemInfo.MEMORY_READ)
                 {
                     getMemoryInformation(i, b).disType = MemoryInformation.DIS_TYPE_DATA_BYTE;
                     data++;
@@ -3720,7 +3902,10 @@ public class DissiPanel extends javax.swing.JPanel  implements
         cart.addCartridgeListener(this);
         
         String lastName = cart.getBankeRomName(0);
+        
+        
 
+        
         String ret = "";
         if ((lastName == null) || (cart.getBankCount()==0))
         {
@@ -3840,8 +4025,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
             int ci = getColumnNameIndex(n);
 
             jTableSource.getColumnModel().getColumn(i).setPreferredWidth(currentDissi.model.getColWidth(ci));    
-            
-            
             jTableSource.getColumnModel().getColumn(i).setWidth(currentDissi.model.getColWidth(ci));  
         }
         jTableSource.setAutoResizeMode(AUTO_RESIZE_SUBSEQUENT_COLUMNS);
@@ -3885,6 +4068,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     {
         goAddress(address, forceTopRow, userGo, forceUpdate, false, false);
     }
+    int recursionSave = 0;
     public void goAddress(int address, boolean forceTopRow, boolean userGo, boolean forceUpdate, boolean jumpMayBeDiscarded, boolean recall)
     {
         if (!currentDissi.init) return;
@@ -3913,7 +4097,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
 
         int rowAddress = currentDissi.model.getValueAt(row).address;
         MemoryInformation rowMemInfo = mem.memMap.get(rowAddress);
-        
         if (address<0xc000)
         {
             if ((exactRow == -1) && (row != exactRow))
@@ -3921,9 +4104,14 @@ public class DissiPanel extends javax.swing.JPanel  implements
 
                 if ((!memInfo.typeWasSet) && (!rowMemInfo.typeWasSet))
                 {
-                    // true false true false
-                    resetToCode(rowAddress, address);
-                    goAddress(address, forceTopRow, userGo, forceUpdate, jumpMayBeDiscarded);
+                    if (recursionSave != 1)
+                    {
+        recursionSave=1;
+                        // true false true false
+                        resetToCode(rowAddress, address);
+                        goAddress(address, forceTopRow, userGo, forceUpdate, jumpMayBeDiscarded);
+        recursionSave=0;
+                    }
                     return;
                 }
             }
@@ -3946,10 +4134,18 @@ public class DissiPanel extends javax.swing.JPanel  implements
             if ((!isInstruction) && (!recall))
             {
                 // but it is NO code
-                resetToCode(rowAddress, rowAddress);
-                goAddress(address, forceTopRow, userGo, forceUpdate, jumpMayBeDiscarded, true);
+                if (recursionSave != 1)
+                {
+    recursionSave=1;
+                    // true false true false
+                    resetToCode(rowAddress, address);
+                    goAddress(address, forceTopRow, userGo, forceUpdate, jumpMayBeDiscarded, true);
+    recursionSave=0;
+                }
                 return;
             }
+            
+            
         }
         if (exactRow!=-1)
         {
@@ -4059,7 +4255,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
     private void initTable()
     {
         currentDissi.model = currentDissi.dasm.getTableModel();
-     
+        currentDissi.model.dissi = this;
+        
         jTableSource.setModel(currentDissi.model);
         jTableSource.tableChanged(null);
         jTableSource.setAutoResizeMode(AUTO_RESIZE_SUBSEQUENT_COLUMNS);
@@ -4138,6 +4335,37 @@ public class DissiPanel extends javax.swing.JPanel  implements
                             else
                                 setForeground(table.getForeground());
                         }
+                        if (col == 1)
+                        {
+                            AttributeSet s = TokenStyles.getStyle("identifier");
+                            this.setForeground(StyleConstants.getForeground(s));
+                        }
+
+                        if (col == 3)
+                        {
+                            AttributeSet s = TokenStyles.getStyle("reservedWord");
+                            AttributeSet _preprop = TokenStyles.getStyle("preprocessor");
+                            String mnemonic = "";
+                            if (value!=null)
+                            {
+                                mnemonic = value.toString().toLowerCase();
+                            }
+                            if ((mnemonic.equals("db")) || (mnemonic.equals("dw")))
+                            {
+                                this.setForeground(StyleConstants.getForeground(_preprop));
+                            }
+                            else
+                                this.setForeground(StyleConstants.getForeground(s));
+                            
+                            
+                        }
+/*                        
+                        if (col == 4)
+                        {
+                            AttributeSet s = TokenStyles.getStyle("reservedWord");
+                            this.setForeground(StyleConstants.getForeground(s));
+                        }
+*/                        
                     }       
                 }
                 return this;
@@ -4838,9 +5066,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
             TableColumn tcol = jTableSource.getColumnModel().getColumn(i);
             String n = jTableSource.getColumnModel().getColumn(i).getHeaderValue().toString();
             int ci = getColumnNameIndex(n);
-           
-            
-            
             model.columnWidth[ci] = tcol.getWidth();
         }
     }
@@ -4866,6 +5091,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     {
         DissiStateInfo sl = (DissiStateInfo) ser;
         jSplitPane1.setDividerLocation(sl.pos);
+        
         MemoryInformationTableModel.columnVisibleALL = new Boolean[MemoryInformationTableModel.columnVisibleALL.length];// = new Boolean[sl.columnVisible.length];
         MemoryInformationTableModel.columnWidth = new int[MemoryInformationTableModel.columnWidth.length];//new int[sl.columnWidth.length];
         MemoryInformationTableModel.columnWidthSmall = new int[MemoryInformationTableModel.columnWidthSmall.length];//= new int[sl.columnWidthSmall.length];
@@ -4875,7 +5101,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         {
             MemoryInformationTableModel.columnWidth[i]= 100;
         }
-        
+
 
 
         for (int i=0;i<sl.columnVisible.length; i++)
@@ -4886,6 +5112,10 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
         for (int i=0;i<sl.columnWidthSmall.length; i++)
             MemoryInformationTableModel.columnWidthSmall[i]= sl.columnWidthSmall[i];
+
+        MemoryInformationTableModel.wasInit = true;
+               
+
         correctModel();
     }
     public static boolean specialDebugMode = false;
@@ -4970,7 +5200,134 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
         switch (command.ID)
         {
+            case Command.D_CMD_EXPORT_DATA:
+            {
+                String filename;
+                int start;
+                int end;
+                int format;
+                int itemsPerLine;
+                if (param.length!=6) 
+                {
+                    printMessage("Out of Data error!...", MESSAGE_WARN);
+                    return;
+                }
+                filename = param[1];
+                start = DASM6809.toNumber(param[2]);
+                end = DASM6809.toNumber(param[3]);
+                format = DASM6809.toNumber(param[4]);
+                itemsPerLine = DASM6809.toNumber(param[5]);
+                
+                printMessage("Data Export to file: "+filename+
+                             ", range: "+String.format("$%04X", start )+"-"+String.format("$%04X", end )+
+                             ", format: "+format+
+                             ", items per line: "+itemsPerLine
+                            , MESSAGE_WARN);
+                StringBuilder b = new StringBuilder();
+                boolean newLine = true;
+                int inLineCount =0;
+                int s = start;
+// support fpr 0,1,2                
+//    public static int WATCHTYPE_BINARY = 0; // 1 byte as binary
+//    public static int WATCHTYPE_BYTE_8 = 1; // 1 byte as dec/hex/2 complement dec
+//    public static int WATCHTYPE_BYTE_16 = 2;// 1 word as dec/hex/2 complement dec
+//    public static int WATCHTYPE_STRING = 3; // till 0 or complement negative is found
+//    public static int WATCHTYPE_BYTE_PAIR = 4;// 2 byte as dec/hex/2 complement dec
+//    public static int WATCHTYPE_BYTE_SEQUENCE = 5; // x number of bytes as hex
+                
+                for (int i=start; i<end;i++)
+                {
+                    int b1 = currentDissi.vecxPanel.getVecXMem8(i) & 0xff;
+                    int b2 = currentDissi.vecxPanel.getVecXMem8((i+1)&0xffff) & 0xff;
+
+                    if (newLine)
+                    {
+                        newLine = false;
+                        if (format <2) b.append("\tDB\t");
+                        if (format >=2) b.append("\tDW\t");
+                    }
+                    else
+                        b.append(", ");
+
+                    if (format == 0) 
+                        b.append("%"+DASM6809.printbinary(b1));
+                    if (format == 1) 
+                        b.append("$"+String.format("%02X", b1 ));
+                    if (format == 2) 
+                    {
+                        b.append("$"+String.format("%04X", b1*256+b2 ));
+                        i++;
+                    }
+                    inLineCount++;
+                    if (inLineCount==itemsPerLine) 
+                    {
+                        b.append(" ; ");
+                        b.append(String.format("$%04X-", s ));
+                        b.append(String.format("$%04X", i ));
+                        s = i+1;
+                        inLineCount =0;
+                        b.append("\n");
+                        newLine = true;
+                    }
+                    Path path = Paths.get(currentDissi.loadedName);
+                    String p1 = path.getParent().toString();
+                    
+                   
+                    de.malban.util.UtilityString.writeToTextFile(b.toString(), new File(p1+File.separator+filename));
+                }
+                break;
+            }
             
+            case Command.D_CMD_STACK_WATCH:
+            {
+                int adr =0;
+                int stackValue = 0;
+                if (param.length==1)
+                {
+                    ;
+                }
+                else if (param.length==2) 
+                {
+                    printMessage("Out of Data error!...", MESSAGE_WARN);
+                    return;
+                }
+                else
+                {
+                    adr = DASM6809.toNumber(param[1]);
+                    stackValue = DASM6809.toNumber(param[2]);
+                }
+                
+                if ((adr==0) ||(stackValue==0))
+                {
+                    printMessage("Adr $0000? - MURDER!", MESSAGE_WARN);
+                    return;
+                }
+
+                Breakpoint bp = new Breakpoint();
+                bp.targetAddress = adr;
+                bp.compareValue = stackValue;
+                bp.name = "watch stack";
+                bp.targetType = Breakpoint.BP_TARGET_CPU;
+                bp.targetSubType = Breakpoint.BP_SUBTARGET_CPU_STACKCHANGE;
+                bp.type = Breakpoint.BP_COMPARE;
+                currentDissi.vecxPanel.breakpointSet(bp);
+                printMessage("Waiting for stack change at address "+String.format("$%04X", adr )+" other than: "+String.format("$%04X", stackValue ), MESSAGE_INFO);
+                break;
+            }
+            case Command.D_CMD_JUMP_DATA:
+            {
+                int adr =0;
+                if (param.length==1)
+                {
+                    ;
+                }
+                else if (param.length==2) 
+                {
+                    adr = DASM6809.toNumber(param[1]);
+                }
+                goAddress(adr, false, true, true);
+                break;
+            }
             case Command.D_CMD_DO_NMI:
             {
                 currentDissi.vecxPanel.doNMI();
@@ -5189,6 +5546,53 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     boolean added = currentDissi.vecxPanel.breakpointVIAToggle(bp);
                     if (added) printMessage("Breakpoint for weird AUX != $80/$89 added.", MESSAGE_INFO);
                     else printMessage("Breakpoint for weird AUX != $80/$89 removed.", MESSAGE_INFO);
+                    break;
+                }
+                else if (param1.toLowerCase().contains("READ".toLowerCase()))
+                {
+                    if (param.length>2)
+                    {
+                        String param2 = param[2];
+                        int from = DASM6809.toNumber(param2);
+                        int to = from+1;
+                        if (param.length>3)
+                            to = DASM6809.toNumber(param[3]);
+                        for (int adr=from;adr<to;adr++)
+                        {
+                            Breakpoint bp = new Breakpoint();
+                            bp.compareValue = 0; // 
+                            bp.targetBank = getCurrentBank();
+                            if (adr<0xc800)
+                                bp.name = "ROM READ";
+                            else
+                                bp.name = "RAM READ";
+                            bp.targetType = Breakpoint.BP_TARGET_MEMORY;
+                            bp.type = Breakpoint.BP_READ | Breakpoint.BP_MULTI ;
+                            bp.targetAddress = adr;
+
+                            //bp.targetSubType = Breakpoint.BP_SUBTARGET_MEMORY_ROM;
+                            bp.targetSubType = 0;
+                            currentDissi.vecxPanel.breakpointAddressToggle(bp);
+                        }
+                        printMessage("Breakpoint at ROM READ address "+String.format("$%04X", from )+"-"+String.format("$%04X", (to-1) )+", bank "+getCurrentBank()+" toggled.", MESSAGE_INFO);
+                        
+                    }
+                    
+                    break;
+                }
+                else if (param1.toLowerCase().contains("T2".toLowerCase()))
+                {
+                    Breakpoint bp = new Breakpoint();
+                    bp.compareValue = 0; // inherect: write
+                    // ensure bit0-7
+                    bp.targetBank = getCurrentBank();
+                    bp.name = "T2 write";
+                    bp.targetType = Breakpoint.BP_TARGET_VIA;
+                    bp.targetSubType = Breakpoint.BP_SUBTARGET_VIA_T2;
+                    bp.type = Breakpoint.BP_MULTI;
+                    boolean added = currentDissi.vecxPanel.breakpointVIAToggle(bp);
+                    if (added) printMessage("Breakpoint for T2 write added.", MESSAGE_INFO);
+                    else printMessage("Breakpoint for T2 write removed.", MESSAGE_INFO);
                     break;
                 }
                 else if (param1.toLowerCase().contains("ROM".toLowerCase()))
@@ -5485,6 +5889,10 @@ public class DissiPanel extends javax.swing.JPanel  implements
             case Command.D_CMD_TOGGLE_DISASM_RAM:
             {
                 currentDissi.doDisRAM = !currentDissi.doDisRAM;
+                initRAM();
+                
+                currentDissi.dasm.reDisassemble(true);
+                updateTable();        
                 
                 printMessage("Disassamble RAM: "+(currentDissi.doDisRAM?"on":"off"), MESSAGE_INFO);
                 break;
@@ -5544,6 +5952,26 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 boolean ok = checkVec4EverFile(dump);
                 if (ok)
                     printMessage("ROM dumped to VecFever", MESSAGE_INFO);
+                else
+                    printMessage("Some error occured - more information -> log.", MESSAGE_WARN);
+
+                break;
+            }
+            case Command.D_CMD_TO_PITREX:
+            {
+                String dump = currentDissi.vecxPanel.dumpCurrentROM();
+                if (dump == null)
+                {
+                    printMessage("ROM not dumped.", MESSAGE_WARN);
+                    return;
+                }
+                
+                if (PiTrexSingleton.getPiTrex().isReady())
+                {
+                    if (PiTrexSingleton.getPiTrex().fileToPiTrex(dump)==0)
+                        printMessage("PiTrex: bin file copied.", MESSAGE_INFO);
+                    return;
+                }
                 else
                     printMessage("Some error occured - more information -> log.", MESSAGE_WARN);
 
@@ -5666,7 +6094,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
 
         updateTable();        
         currentDissi.vecxPanel.poke(address, (byte)value);
-        currentDissi.vecxPanel.updateAvailableWindows(false, false, true);
+        currentDissi.vecxPanel.updateAvailableWindows(false, false, true, currentDissi.vecxPanel.getPCReg());
     }
     
     // called byRAM update,
@@ -5712,6 +6140,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         updateTable();            
         currentDissi.vecxPanel.initLabels();
     }    
+    
     public boolean outputCNT()
     {
         
@@ -5811,6 +6240,11 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 {
                     s.append("RANGE ").append(String.format("$%04X", (m&0xffff))).append("-").append(String.format("$%04X", ((m+len)&0xffff))).append(" DB_DATA"+" ").append(count +"\n");
                 }
+                else if ((type == MemoryInformation.DIS_TYPE_DATA_DECIMAL))
+                {
+                    s.append("RANGE ").append(String.format("$%04X", (m&0xffff))).append("-").append(String.format("$%04X", ((m+len)&0xffff))).append(" DEC_DATA"+" ").append(count +"\n");
+                }
+                
                 else if ((type == MemoryInformation.DIS_TYPE_DATA_BINARY))
                 {
                     s.append("RANGE ").append(String.format("$%04X", (m&0xffff))).append("-").append(String.format("$%04X", ((m+len)&0xffff))).append(" BIN_DATA"+" ").append(count +"\n");
@@ -5972,6 +6406,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             p.setUpTableColumns();
                 
     }
+
     void initOldBreakPoints()
     {
         if (currentDissi.vecxPanel == null) return;
@@ -5996,9 +6431,21 @@ public class DissiPanel extends javax.swing.JPanel  implements
                         bp.memInfo = memInfo;
                     }
                 }
+                
+                if (bp.targetType == Breakpoint.BP_TARGET_MEMORY)
+                {
+                    int address = bp.targetAddress;
+                    int bank = bp.targetBank;
+                    bp.memInfo = null;
+                    MemoryInformation memInfo = getMemoryInformation(address, bank);
+                    memInfo.removeBreakpoint(bp); // ensure no doubles
+                    memInfo.addBreakpoint(bp);
+                    bp.memInfo = memInfo;
+                }
+                
+                
             }
         }        
-
         if (config.romAndPcBreakpoints)
         {
             Breakpoint bp = new Breakpoint();
@@ -6765,6 +7212,18 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
         return false;
     }
+    
+    public Profiler getProfiler()
+    {
+        if (currentDissi.vecxPanel != null)
+        {
+            if (currentDissi.model != null)
+            {
+                return currentDissi.model.profiler;
+            }
+        }
+        return null;
+    }
     boolean systemLabels = true;
     public void setProfilingNames(Profiler profiler)
     {
@@ -6837,8 +7296,43 @@ public class DissiPanel extends javax.swing.JPanel  implements
         for (int i=0xc800; i< 0xcc00; i++)
         {
             getMemory().setToAllBanks((byte)currentDissi.vecxPanel.getVecXMem8(i), i);
-            MemoryInformation memInfo = getMemory().memMap.get(i);
-            memInfo.done = false;
+            
+            if (!getMemory().memMap.get(i).ramInit)
+            {
+                MemoryInformation memInfo = getMemory().memMap.get(i);
+                memInfo.disTypeCollectionMax = 1;
+                memInfo.disType = MemoryInformation.DIS_TYPE_DATA_BYTE;
+
+                memInfo.ramInit = true;
+
+                int len = 1;
+
+                currentDissi.dasm.myMemory.memMap.get(i).disType = MemoryInformation.DIS_TYPE_DATA_BYTE;
+                currentDissi.dasm.myMemory.memMap.get(i).belongsToInstruction = null;
+                currentDissi.dasm.myMemory.memMap.get(i).disassembledMnemonic = "";
+                currentDissi.dasm.myMemory.memMap.get(i).disassembledOperand = "";
+                currentDissi.dasm.myMemory.memMap.get(i).page = -1;
+                currentDissi.dasm.myMemory.memMap.get(i).hexDump = "";
+                currentDissi.dasm.myMemory.memMap.get(i).isInstructionByte = 0;
+                currentDissi.dasm.myMemory.memMap.get(i).referingToAddress = -1;
+                currentDissi.dasm.myMemory.memMap.get(i).referingAddressMode = -1;
+                currentDissi.dasm.myMemory.memMap.get(i).length = 1;
+                currentDissi.dasm.myMemory.memMap.get(i).done = false;
+                currentDissi.dasm.myMemory.memMap.get(i).familyBytes.clear();
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+            
         }
     }
     
@@ -6866,6 +7360,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
 //        jTableSource.repaint();
         goAddress(reg_pc, false, false, true);
     }
-    
-    
+    void _addStackWatch()
+    {
+    }
 }

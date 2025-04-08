@@ -1,10 +1,12 @@
 package de.malban.gui;
 
 import de.malban.vide.VideConfig;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 import javax.swing.JPanel;
@@ -89,8 +91,12 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_RIGHT, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "LastCharInLine", "Editor");
             HotKey.addMap(KeyEvent.VK_UP, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "FileStart", "Editor");
             HotKey.addMap(KeyEvent.VK_DOWN, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "FileEnd", "Editor");
-*/            
-            
+*/    
+//            HotKey.addMap(KeyEvent.VK_UP, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "NextBookmark", "Editor");
+
+            HotKey.addMap(KeyEvent.VK_UP, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "PreviousBookmark", "Editor");
+            HotKey.addMap(KeyEvent.VK_DOWN, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "NextBookmark", "Editor");
+
             HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.META_DOWN_MASK, "GoBookmark1Mac", "Editor");
             HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.CTRL_DOWN_MASK, "GoBookmark1Win", "Editor");
             HotKey.addMap(KeyEvent.VK_1, java.awt.event.KeyEvent.META_DOWN_MASK|java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "SetBookmark1Mac", "Editor");
@@ -232,6 +238,12 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_LEFT, 0 ,"AnimLeft(Window)", "SingleVecci");
             HotKey.addMap(KeyEvent.VK_RIGHT, 0 ,"AnimRight(Window)", "SingleVecci");
        
+    
+//        new HotKey("dif next", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jButtonDifNextActionPerformed(null); }}, this);
+//        new HotKey("dif previous", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jButtonDifPreviousActionPerformed(null); }}, this);
+            
+            HotKey.addMap(KeyEvent.VK_N, 0 ,"dif next", "DIS_compare");
+            HotKey.addMap(KeyEvent.VK_P, 0 ,"dif previous", "DIS_compare");
             
             HotKey.addMap(KeyEvent.VK_F3, 0, "Search next", "Editor");
             HotKey.addMap(KeyEvent.VK_F3, java.awt.event.KeyEvent.SHIFT_DOWN_MASK, "Search previous", "Editor");

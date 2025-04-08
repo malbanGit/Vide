@@ -414,18 +414,12 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
         caps.setGreenBits(8);
         caps.setAlphaBits(8);
         caps.setDepthBits(16);
-//        caps.setDoubleBuffered(true);
         VecxiPanel_JOGL gljpanel = new VecxiPanel_JOGL(vp, caps);
-//gljpanel.setAutoSwapBufferMode(true);
-        
 
         gljpanel.forceResize();
 
         if (gljpanel.config.JOGLAutoDisplay)
             gljpanel.animator = new FPSAnimator(gljpanel, REFRESH_FPS, true); 
-        
-        
-        
         
         return gljpanel;
     }
@@ -442,7 +436,6 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
     private VecxiPanel_JOGL(VecXPanel vp, GLCapabilities caps)
     {
         super(caps);
-//        if (config.JOGLScreen) Extractor.testChassisFromPara();
         vpanel = vp;
         vertexBufferObject.put(0,0);
         lineBufferObject.put(0,0);
@@ -450,8 +443,6 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
         fboMSAATextureObject.put(0,0);
         overlayTextureObject.put(0,0);
         screenTextureObject.put(0,0);
-
-        
         
         lineFBO[0] = new LineFBO();
         lineFBO[1] = new LineFBO();
@@ -487,13 +478,6 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
             }
         };
         addGLEventListener( glListener );
-        /*
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                getCorrectFocus();
-            }
-        });
-        */
         isInit = true;        
     }
         
@@ -1611,21 +1595,7 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                         pointsData = new float[MAXBUFFERSIZE_POINT*(2+3)];
                         pointsDataBuffer = FloatBuffer.wrap(pointsData);
                     }
-                    /*
-                    do
-                    {
-                        // point
-                        // coordinate 1
-                        pointsData[pointCount++] =x0;
-                        pointsData[pointCount++] =y0;
 
-                        // color 1
-                        pointsData[pointCount++] =((float)drawColor.getRed())*bAdjust; // R G B
-                        pointsData[pointCount++] =((float)drawColor.getGreen())*bAdjust;;
-                        pointsData[pointCount++] =((float)drawColor.getBlue())*bAdjust;;
-                    }
-                    while (--dotDwell>0);
-                    */
                     // point
                     // coordinate 1
                     pointsData[pointCount++] =x0;
@@ -1671,14 +1641,8 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 cs.addPoint(pt);
             }
             
-            
             cs.caculate();
             ArrayList<Pt> pts = cs.getPoints();
-            
-            //ArrayList<Pt> pts = ParrabolicAproximation.getAproximation(spline);
-            
-         
-            
             if (pts.size() == 0) return;
 
             LineStripBuffer lineStripBuffer = lineStrips[splineCount];
@@ -1697,8 +1661,16 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
 
                 // color 1
                 lineStripBuffer.lineStripData[lineStripBuffer.dataCount++] = ((float)drawColor.getRed())*bAdjust; // R G B
+// MALBAN
                 lineStripBuffer.lineStripData[lineStripBuffer.dataCount++] = ((float)drawColor.getGreen())*bAdjust;
                 lineStripBuffer.lineStripData[lineStripBuffer.dataCount++] = ((float)drawColor.getBlue())*bAdjust;
+/*
+                float a  = lineStripBuffer.lineStripData[lineStripBuffer.dataCount-2] = ((float)drawColor.getRed())*bAdjust;
+      a += lineStripBuffer.lineStripData[lineStripBuffer.dataCount-1] = ((float)drawColor.getBlue())*bAdjust;
+if (a>2)
+      System.out.println("Col: "+a);      
+*/
+
             }
         }
     }
@@ -1776,13 +1748,15 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                                 && (list[v].y1 == list[v+1].y0)
                                         )
                             {
-                                // start Spline
-                                spline.clear();
-                                spline.add(new Point(list[v].x0,list[v].y0 ));
-                                splineColor = (int)(list[v].color); 
-                                inSpline = true;
-                                continue;
-                                
+                                if (list[v+1].color == list[v].color)
+                                {
+                                    // start Spline
+                                    spline.clear();
+                                    spline.add(new Point(list[v].x0,list[v].y0 ));
+                                    splineColor = (int)(list[v].color); 
+                                    inSpline = true;
+                                    continue;
+                                }
                             }
                         }
                     }
@@ -1791,6 +1765,7 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                         if ((list[v].midChange)
                                 && (list[v-1].x1 == list[v].x0)
                                 && (list[v-1].y1 == list[v].y0)
+                                && (list[v-1].color == list[v].color)
                                         )
                         {
                             // add point Spline
@@ -1805,7 +1780,11 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                             }
 
                         }
-                        else if ((list[v].midChange) && (( Math.abs(list[v-1].x1 - list[v].x0)<config.DRIFT_CURVE_THRESHOLD) &&  (Math.abs(list[v-1].y1 - list[v].y0)<config.DRIFT_CURVE_THRESHOLD)))
+                        else if ((list[v].midChange) && 
+                                 (( Math.abs(list[v-1].x1 - list[v].x0)<config.DRIFT_CURVE_THRESHOLD) &&  
+                                  (Math.abs(list[v-1].y1 - list[v].y0)<config.DRIFT_CURVE_THRESHOLD))
+                                  && (list[v-1].color == list[v].color)
+                                )
                         {
                             // add point Spline
                             spline.add(new Point(list[v-1].x1,list[v-1].y1 ));
@@ -1817,9 +1796,8 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                                 inSpline = false;
                                 continue;
                             }
-
                         }
-                        else
+                        else 
                         {
                             // 0 -> 1 von -1 und aktuell als line
                             spline.add(new Point(list[v-1].x1,list[v-1].y1 ));
@@ -1829,7 +1807,8 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                             // check if next vector is again the beginning of a spline
                             if (v != count-1)
                             {
-                                if (list[v+1].midChange)
+                                if ((list[v+1].midChange) && (list[v].midChange)
+                                    && (list[v].color == list[v+1].color))
                                 {
                                     // start Spline
                                     spline.clear();
@@ -1841,6 +1820,7 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                                 }
                             }
                         }
+//i must stop splines that are in the middle of being drawn                        
                     }
                 }
             }
@@ -1880,6 +1860,7 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 if (config.JOGLuseSpillShader) 
                     bAdjust = (float)(bAdjust/config.JOGLInitialSpillDivisor);
                 
+//bAdjust = 1;
                 
                 if (vector.speed >= 128) 
                 {
@@ -1915,6 +1896,7 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                     float speed = vector.speed;
                     float speedFactor = SPEED_FACTOR_MAX-config.JOGL_speedMaxReduce *(speed/127); //max slow down 0,5
                     bAdjust *= speedFactor;
+//bAdjust = 1;
                     // point
                     // coordinate 1
                     pointsData[pointCount++] =Scaler.scaleFloatToFloat(vector.x0-config.ALG_MAX_X/2, scaleWidthGL);
@@ -1948,6 +1930,7 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
                 
                 float speedFactor = SPEED_FACTOR_MAX-config.JOGL_speedMaxReduce *(speed/127); //max slow down 0,5
                 bAdjust *= speedFactor;
+//bAdjust = 1;
 
                 // line
                 // coordinate 1
@@ -2663,7 +2646,9 @@ public class VecxiPanel_JOGL extends com.jogamp.opengl.awt.GLJPanel implements D
 
         // clear the GL "screen"
         gl2.glClear(GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_COLOR_BUFFER_BIT);
-
+        
+//System.out.println("Count: "+(pointCount + lineCount));
+        
         prepareData();
         preDataRender(gl2);
         renderPoints(gl2);

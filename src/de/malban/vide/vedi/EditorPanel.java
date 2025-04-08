@@ -39,8 +39,6 @@ import java.awt.event.ActionEvent;
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -53,6 +51,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.CRC32;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JPanel;
@@ -108,6 +107,7 @@ public class EditorPanel extends EditorPanelFoundation
     public void resetDocument()
     {
         editorPaneDocument = new HighlightedDocument(vediId, getFilename());
+        resetCRC();
     }
     protected boolean isInitError()
     {
@@ -163,6 +163,7 @@ public class EditorPanel extends EditorPanelFoundation
             FileReader fr = new FileReader(getFilename());
             jTextPane1.read(fr, null);
             fr.close();
+            resetCRC();
         }
         catch (IOException e) 
         {
@@ -196,6 +197,7 @@ public class EditorPanel extends EditorPanelFoundation
         String t = de.malban.util.UtilityString.readTextFileToOneString(new File(getFilename()));
         t = UtilityString.replace(t, "\r\n", "\n");
         jTextPane1.setText(t);
+        resetCRC();
         if (recolor)
         {
             startColoring();
@@ -330,6 +332,7 @@ public class EditorPanel extends EditorPanelFoundation
         }
         resetDocument();
         jTextPane1.setDocument(editorPaneDocument);
+        resetCRC();
         
         if ((getFilename().toLowerCase().endsWith(".template") )
                 ||(getFilename().toLowerCase().endsWith(".s") ) 
@@ -387,6 +390,7 @@ public class EditorPanel extends EditorPanelFoundation
         
         if (t != null) jTextPane1.setText(t);
         editorPaneDocument.start(getFilename());
+        resetCRC();
         if (VideConfig.editorUndoEnabled)
         {
             editorPaneDocument.addUndoableEditListener(undoManager);
@@ -484,7 +488,7 @@ public class EditorPanel extends EditorPanelFoundation
         editorPaneDocument = null;
         if (parent instanceof VediPanel)
             parent.settings.setOpenPosition(getFilename(), getPosition());
-        if (parent instanceof VediPanel32)
+        if (parent instanceof PiTrexTerminal)
             parent.settings.setOpenPosition(getFilename(), getPosition());
         if (filename != null)
             openEditorMap.remove(filename.toLowerCase());
@@ -506,6 +510,8 @@ public class EditorPanel extends EditorPanelFoundation
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemWatchBinary = new javax.swing.JMenuItem();
         jMenuItemWatchByte = new javax.swing.JMenuItem();
@@ -573,6 +579,22 @@ public class EditorPanel extends EditorPanelFoundation
             }
         });
         jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setText("sin dif");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
+
+        jMenuItem5.setText("Faller 256");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
 
         jPopupMenu1.add(jMenu1);
 
@@ -662,11 +684,11 @@ public class EditorPanel extends EditorPanelFoundation
             }
         });
         jTextPane1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextPane1KeyTyped(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextPane1KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextPane1KeyTyped(evt);
             }
         });
         jScrollPane2.setViewportView(jTextPane1);
@@ -1163,9 +1185,7 @@ e.printStackTrace();
         {
             
         }
-        
         startColoring();
-
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -1206,18 +1226,18 @@ e.printStackTrace();
         double radius = GetRadiusValuePanel.showEnterValueDialog();
         if (count == 0) return;
         
-        StringBuilder builder = new StringBuilder();
-        double adds = 360.0/((double)count);
-        double angle = 0.0;
-        builder.append("; circle generated 0°-360° in ").append(count).append(" steps (cos, -sin), radius: "+((int)radius)+"\n");
-        for (int i=0; i< count; i++)
-        {
-            // value ranging in SIN from -127 to + 127
-            int cos = ((int)(Math.cos( Math.toRadians(angle)) *radius))&0xff;
-            int sin = (((int)(-Math.sin( Math.toRadians(angle)) *radius))&0xff);
-            builder.append(" ").append("db ").append("$").append(String.format("%02X",cos)).append(", $").append(String.format("%02X",sin)).append(" ; degrees: ").append((int)angle).append("°\n");
-            angle += adds;
-        }
+            StringBuilder builder = new StringBuilder();
+            double adds = 360.0/((double)count);
+            double angle = 0.0;
+            builder.append("; circle generated 0°-360° in ").append(count).append(" steps (cos, -sin), radius: "+((int)radius)+"\n");
+            for (int i=0; i< count; i++)
+            {
+                // value ranging in SIN from -127 to + 127
+                int cos = ((int)(Math.cos( Math.toRadians(angle)) *radius))&0xff;
+                int sin = (((int)(-Math.sin( Math.toRadians(angle)) *radius))&0xff);
+                builder.append(" ").append("db ").append("$").append(String.format("%02X",cos)).append(", $").append(String.format("%02X",sin)).append(" ; degrees: ").append((int)angle).append("°\n");
+                angle += adds;
+            }
         
         stopColoring();
         try
@@ -1257,6 +1277,83 @@ e.printStackTrace();
     private void jMenuItemWatchSequenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchSequenceActionPerformed
         addWatch(popUpTextPos, SUB_WATCH_SEQUENCE,5);
     }//GEN-LAST:event_jMenuItemWatchSequenceActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // add a sin dif data
+        int count = GetSinValuePanel.showEnterValueDialog();
+        double radius = GetRadiusValuePanel.showEnterValueDialog();
+        if (count == 0) return;
+        
+        StringBuilder builder = new StringBuilder();
+        double adds = 360.0/((double)count);
+        double angle = 0.0;
+        builder.append("; sin generated 0°-360° in ").append(count).append(" steps, radius: "+((int)radius)+"\n");
+
+        int oldValue = 0;
+        for (int i=0; i< count; i++)
+        {
+            // value ranging in SIN from -127 to + 127
+            int v = ((int)(Math.sin( Math.toRadians(angle)) *radius))&0xff;
+            int difValue = v-oldValue;
+            
+            oldValue = v;
+            builder.append(" ").append("db ").append("$").append(String.format("%02X",(difValue&0xff))).append(" ; degrees: ").append((int)angle).append("°\n");
+            angle += adds;
+        }
+        
+        stopColoring();
+        try
+        {
+            jTextPane1.getDocument().insertString(popUpTextPos, builder.toString(), null);
+            correctLineNumbers(false);
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        
+        startColoring();
+
+
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+
+        // add a cos data
+        int count = GetSinValuePanel.showEnterValueDialog();
+        double radius = GetRadiusValuePanel.showEnterValueDialog();
+        if (count == 0) return;
+        
+            StringBuilder builder = new StringBuilder();
+            double adds = 360.0/((double)count);
+            double angle = 270.0;
+            builder.append("; circle generated 0°-360° in ").append(count).append(" steps (cos, -sin), radius: "+((int)radius)+"\n");
+            double anglePrint = 0;
+            for (int i=0; i< count; i++)
+            {
+                // value ranging in SIN from -127 to + 127
+                int cos = ((int)(Math.cos( Math.toRadians(angle)) *radius))&0xff;
+                int sin = (((int)(-Math.sin( Math.toRadians(angle)) *radius))&0xff);
+                builder.append(" ").append("db ").append("$").append(String.format("%02X",cos)).append(", $").append(String.format("%02X",sin)).append(" ; degrees: ").append((int)anglePrint).append("° ("+i+")\n");
+                angle -= adds;
+                anglePrint += adds;
+                if (angle <0) angle+=360;
+            }
+        
+        stopColoring();
+        try
+        {
+            jTextPane1.getDocument().insertString(popUpTextPos, builder.toString(), null);
+            correctLineNumbers(false);
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        
+        startColoring();
+
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
     int getCurrentLineNumber()
     {
         return getLineOfPos(jTextPane1.getCaretPosition());
@@ -1441,6 +1538,8 @@ e.printStackTrace();
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItemAddAnim;
     private javax.swing.JMenuItem jMenuItemAddVectorlist;
     private javax.swing.JMenuItem jMenuItemWatchBinary;
@@ -1507,8 +1606,9 @@ e.printStackTrace();
     public void  setText(String text) 
     {
         jTextPane1.setText(text);
+        // pretty print and to assi
     }
-    
+
      public void setFilename(String ff) 
      {
         openEditorMap.remove(this.filename.toLowerCase());
@@ -1849,7 +1949,7 @@ e.printStackTrace();
         boolean ret = true;
         String newFilename = filename;            
         String oldFilename = filename;
-        
+
         if (saveAs)
         {
             InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
@@ -1859,14 +1959,13 @@ e.printStackTrace();
             int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
             if (r != InternalFrameFileChoser.APPROVE_OPTION) return false;
             newFilename = fc.getSelectedFile().getAbsolutePath();            
-
-            
             filename = newFilename;
         }
         if (_0d0a)
         {
             if (saveAs)
                 parent.changeFileName(oldFilename, newFilename);
+            tinyLog.printMessage("Saving file: "+ filename);
             try
             {
                 String text = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength());
@@ -1877,7 +1976,6 @@ e.printStackTrace();
             {
                 tinyLog.printError("Error saving file: "+ filename);
                 tinyLog.printError(de.malban.util.Utility.getCurrentStackTrace());
- 
             }
             return ret;
         }
@@ -1887,8 +1985,10 @@ e.printStackTrace();
         {
             writer = new FileWriter(getFilename());
             jTextPane1.write(writer);
+            tinyLog.printMessage("Saving file: "+ getFilename());
             if (saveAs)
                 parent.changeFileName(oldFilename, newFilename);
+            resetCRC();
         }
         catch (IOException e) 
         {
@@ -1907,12 +2007,8 @@ e.printStackTrace();
                 {
                     
                 }
-                
             }
-            
         }
-        
-        
         return ret;
     }
     String getTABString()
@@ -2107,6 +2203,7 @@ e.printStackTrace();
         try
         {
             AttributeSet normal = TokenStyles.getStyle("comment");
+            AttributeSet bookmark = TokenStyles.getStyle("bookmark");
             AttributeSet breakpoint = TokenStyles.getStyle("breakpoint");
             int lineCountOrg = getLineCount(jTextPane1);
             int lineCountNow = getLineCount(jTextPane2);
@@ -2204,11 +2301,16 @@ e.printStackTrace();
                 while (lineCountNow <lineCountOrg)
                 {
                     AttributeSet currentStyle =  normal;
+                    if (hasBookmark(lineCountNow, getFilename()))
+                    {
+                        currentStyle = bookmark;
+                    }
                     if (list!=null)
                     {
                         if (list.getBreakpoint(lineCountNow) != null)
                             currentStyle = breakpoint;
                     }
+                    
                     lineCountNow++;
 
 
@@ -2224,8 +2326,22 @@ e.printStackTrace();
         }
         catch (Throwable e)
         {
-            log.addLog("LineNumbers:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
+            log.addLog("LineNumbers (bp1):\n"+de.malban.util.Utility.getStackTrace(e), INFO);
         }
+
+
+
+        
+
+        
+        
+        
+        
+        
+        
+
+        
+
         syncViewports();
     }
     
@@ -2395,6 +2511,21 @@ e.printStackTrace();
                         correctLine(c.beforLineNo);
                     }
                 }
+
+                Set entries = parent.settings.bookmarks.entrySet();
+                Iterator it = entries.iterator();
+                while (it.hasNext())
+                {
+                    Map.Entry entry = (Map.Entry) it.next();
+                    Bookmark bm = (Bookmark) entry.getValue();
+                    int lineNumber = bm.lineNumber;
+                    String filename = bm.fullFilename;
+                    if (filename.equals(getFilename()))
+                    {
+                        correctLine(lineNumber);
+                    }
+
+                }        
             }
         });
     }
@@ -2474,13 +2605,97 @@ e.printStackTrace();
                     continue;
                 }
                 doc.setCharacterAttributes(pos, num.length(), currentStyle, true);
+                break;
+            }
+        }
+        catch (Throwable e)
+        {
+log.addLog("Correct Line (bp):\n"+de.malban.util.Utility.getStackTrace(e), INFO);
+        }
+        
+        String name = getFilename();
+        try
+        {
+            AttributeSet normal = TokenStyles.getStyle("comment");
+            AttributeSet bookmark = TokenStyles.getStyle("bookmark");
+            int lineCountOrg = getLineCount(jTextPane1);
+            int lineCountNow = 0;
+//            jTextPane2.setText("");
+
+            DefaultStyledDocument doc = (DefaultStyledDocument)jTextPane2.getDocument();
+            int pos = 0;
+            while (lineCountNow <lineCountOrg)
+            {
+                AttributeSet currentStyle =  normal;
+
+                lineCountNow++;
+                String num; 
+                if (lineCountNow==1)
+                    num = ""+(lineCountNow);
+                else
+                    num = "\n"+(lineCountNow);
+                
+                if (line+1 != lineCountNow)
+                {
+                    pos += num.length();
+                    continue;
+                }
+
+                if (hasBookmark(lineCountNow-1, name))
+                {
+                    currentStyle = bookmark;
+                    doc.setCharacterAttributes(pos, num.length(), currentStyle, true);
+                }
                 return;
             }
         }
         catch (Throwable e)
         {
-log.addLog("Correct Line:\n"+de.malban.util.Utility.getStackTrace(e), INFO);
+log.addLog("Correct Line (bm):\n"+de.malban.util.Utility.getStackTrace(e), INFO);
         }
     }
+    
+    boolean hasBookmark(int line, String name)
+    {
+        Set entries = parent.settings.bookmarks.entrySet();
+        Iterator it = entries.iterator();
+        line++;
+        while (it.hasNext())
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            Bookmark bm = (Bookmark) entry.getValue();
+            int lineNumber = bm.lineNumber;
+            String filename = bm.fullFilename;
+            if (name.endsWith(filename))
+            {
+                if (line == lineNumber)
+                    return true;
+            }
+        }        
+        return false;
+    }
+    
+    
+    CRC32 loadCRC32 = new CRC32();
+    public void resetCRC()
+    {
+        String s = getText();
+        loadCRC32 = new CRC32();
+        for (int i=0; i<s.length(); i++)
+            loadCRC32.update(s.charAt(i));
+    }
+    public boolean hasChanged()
+    {
+        String s = getText();
+        CRC32 localCRC32 = new CRC32();
+        for (int i=0; i<s.length(); i++)
+            localCRC32.update(s.charAt(i));
+        
+        long org = loadCRC32.getValue();
+        long now = localCRC32.getValue();
+        
+        return !(org == now);
+    }
+    
 }
 

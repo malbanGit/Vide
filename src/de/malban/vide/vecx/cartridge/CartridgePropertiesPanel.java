@@ -2307,7 +2307,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             }
             catch (Exception x)
             {
-                System.out.println("Paste not successfull");
+                System.out.println("Paste not successful");
             }
         }
     }//GEN-LAST:event_jButtonNew1ActionPerformed
@@ -2337,7 +2337,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             }
             catch (Exception x)
             {
-                System.out.println("Paste not successfull");
+                System.out.println("Paste not successful");
             }
         }
     }//GEN-LAST:event_jButtonNew2ActionPerformed
@@ -2390,7 +2390,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             }
             catch (Exception x)
             {
-                System.out.println("Paste not successfull");
+                System.out.println("Paste not successful");
             }
         }
     }//GEN-LAST:event_jButtonNew3ActionPerformed

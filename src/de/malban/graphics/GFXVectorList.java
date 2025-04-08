@@ -3355,7 +3355,6 @@ public class GFXVectorList {
 
     public void splitWhereNeeded(int splitValue)
     {
-//        int splitValue = 127;
         for (int i=0; i< list.size(); i++)
         {
             boolean didSplit;
@@ -4010,9 +4009,9 @@ public class GFXVectorList {
 
     // assumes that there are NO other connections in the
     // vectorlist that connect to vector 2
-    public void joinVectors(ArrayList<GFXVector> vlist)
+    public boolean joinVectors(ArrayList<GFXVector> vlist)
     {
-        if (vlist.size() != 2) return;
+        if (vlist.size() != 2) return false;
         GFXVector v1 = vlist.get(0);
         GFXVector v2 = vlist.get(1);
         
@@ -4124,5 +4123,10 @@ public class GFXVectorList {
                 }
             }
         }
+        else
+        {
+            return false;
+        }
+        return true;
     }
 }

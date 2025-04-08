@@ -9,6 +9,7 @@
 // registers as arguments.
 package de.malban.vide.assy.instructions;
 
+import de.malban.vide.assy.Asmj;
 import de.malban.vide.assy.instructions.InstructionGroup;
 import de.malban.vide.assy.arguments.ArgumentRegisterList;
 import de.malban.vide.assy.Memory;
@@ -27,10 +28,14 @@ public class RegReg extends InstructionGroup {
 		}
 		src = rl.getReg(0);
 		dst = rl.getReg(1);
-		if ( src.getSize() != dst.getSize() ) {
-			src = dst = null;
-			throw new ParseException("size mismatch");
-		}
+		/* TFR / EXG of different sized registers */
+                if (!Asmj.ALLOW_DIF_TRANSFER)
+                {
+                    if ( src.getSize() != dst.getSize() ) {
+                            src = dst = null;
+                            throw new ParseException("size mismatch");
+                    }
+                }
 		setLength( 2 );
 		return true;
 	}

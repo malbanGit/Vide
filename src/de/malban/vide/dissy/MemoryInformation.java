@@ -28,6 +28,7 @@ public class MemoryInformation
     public static final int MEM_TYPE_IO = 2;
     public static final int MEM_TYPE_BAD = 3;
     
+    public static final int DIS_TYPE_DATA_DECIMAL = -3; 
     public static final int DIS_TYPE_LOADED = -2; 
     public static final int DIS_TYPE_CODE = -1; 
     public static final int DIS_TYPE_UNKOWN = 0; 
@@ -64,6 +65,7 @@ public class MemoryInformation
     public boolean visible = true; // only for cdissi, convenience lazyness
     public int directPageAddress = -1;
     public String disassemblerInfoText = ""; // if an error occured disassembling this address - an error text will be provided here
+    public boolean ramInit = false;
     
     public int disTypeCollectionMax = 4;  // how many bytes (when byte7word/char) can be collected on a single assembler instruction line
     public int referingAddressMode=-1;    // what kind of adressing mode is used by this instruction
@@ -153,6 +155,33 @@ public class MemoryInformation
         if (breakpoints==null) return false;
         return breakpoints.size()!=0;
     }
+    public boolean removeSameBreakPoint(Breakpoint bp)
+    {
+        boolean ret = false;
+        ArrayList<Breakpoint> toRemove = new ArrayList<Breakpoint>();
+        if (breakpoints==null) breakpoints = new ArrayList<Breakpoint>();
+        for (Breakpoint p: breakpoints)
+        {
+            if (   (bp.targetAddress == p.targetAddress)
+                && (bp.targetBank == p.targetBank)
+                && (bp.targetType == p.targetType)
+                && (bp.targetSubType == p.targetSubType)
+                && (bp.type == p.type)
+                && (bp.compareValue == p.compareValue)
+                )
+            {
+                toRemove.add(p);
+                ret = true;
+            }
+        }
+        for (Breakpoint p: toRemove)
+        {
+            breakpoints.remove(p);
+        }        
+        return ret;
+    }
+    
+    
     public ArrayList<Breakpoint> getBreakpoints()
     {
         return breakpoints;

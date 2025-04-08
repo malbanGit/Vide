@@ -61,9 +61,6 @@ public class RegArg extends InstructionGroup {
 		m.eval(symtab); // throws SymbolDoesNotExistException
                // malban
 
-            if (source.inputLine.contains("font_count,X"))
-                    //if (pline.lineNumber ==282)
-                        System.out.println("BU");
                         
                 if (m.getMode() == EXTENDED_MODE)
                 {

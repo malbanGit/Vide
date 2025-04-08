@@ -70,24 +70,25 @@ public class TokenStyles
         Color darkGreen = Color.GREEN.darker();
         Color orange = new Color(0xff8000);
         Color darkerGreen = new Color(0x105010);
+
         addStyle("register", Color.WHITE, Color.BLACK, true, false);
-    addStyle("tag", Color.WHITE, Color.BLUE, true, false);
-    addStyle("reference", Color.WHITE, Color.BLACK, false, false);
-    addStyle("name", Color.WHITE, darkerGreen, true, false);
-    addStyle("value", Color.WHITE, maroon, false, true);
-    addStyle("text", Color.WHITE, Color.BLACK, true, false);
-    addStyle("default", Color.WHITE, Color.BLACK, true, false);
+        addStyle("tag", Color.WHITE, Color.BLUE, true, false);
+        addStyle("reference", Color.WHITE, Color.BLACK, false, false);
+        addStyle("name", Color.WHITE, darkerGreen, true, false);
+        addStyle("value", Color.WHITE, maroon, false, true);
+        addStyle("text", Color.WHITE, Color.BLACK, true, false);
+        addStyle("default", Color.WHITE, Color.BLACK, true, false);
         addStyle("reservedWord", Color.WHITE, Color.BLUE, false, false);
         addStyle("identifier", Color.WHITE, darkerGreen, false, false);
         addStyle("literal", Color.WHITE, maroon, false, false);
         addStyle("literalstring", Color.WHITE, orange, false, false);
-    addStyle("separator", Color.WHITE, darkBlue, false, false);
+        addStyle("separator", Color.WHITE, darkBlue, false, false);
         addStyle("operator", Color.WHITE, Color.BLACK, false, false);
         addStyle("comment", Color.WHITE, darkGreen, false, false);
         addStyle("preprocessor", Color.WHITE, darkBlue, false, false);
         addStyle("whitespace", Color.WHITE, Color.BLACK, false, false);
         addStyle("error", Color.WHITE, Color.RED, false, false);
-     addStyle("unknown", Color.WHITE, Color.RED.darker(), true, false);
+        addStyle("unknown", Color.WHITE, Color.RED.darker(), true, false);
         addStyle("grayedOut", Color.WHITE, Color.GRAY, false, false);
         addStyle("literalVariable", Color.WHITE, darkerGreen, false, false);
         addStyle("editLogMessage", Color.WHITE, Color.BLACK, false, false);
@@ -97,6 +98,7 @@ public class TokenStyles
 
 
         addStyle("breakpoint", Color.red, darkGreen, false, false);
+        addStyle("bookmark", Color.BLUE, darkGreen, false, false);
         
     }
     

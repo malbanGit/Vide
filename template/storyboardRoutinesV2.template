@@ -75,7 +75,7 @@ not_gotoElement:
  ldx LANE_ROM_DATA,y
  asla
  ldx a,x
- bne not_last_element 
+ bne not_last_element
  lda #$ff
  sta LANE_CURRENT_ELEMENT,y
  bra not_gotoElement
@@ -136,7 +136,7 @@ drawCurrentAnimationFrame:
  bne scale_final_not_reached 
  clr LANE_SCALE_INCREASE,y ; zero means no change
  bra noScaleChange
-scale_final_not_reached 
+scale_final_not_reached
  lda ELEMENT_SCALE_DELAY,x
  sta LANE_SCALE_DELAY,y
 noScaleChange
@@ -148,7 +148,7 @@ noScaleChange
  adda LANE_CURRENT_INTENSITY,y
  sta LANE_CURRENT_INTENSITY,y
  suba LANE_INTENSITY_TO,y
- bne intensity_final_not_reached 
+ bne intensity_final_not_reached
  clr LANE_INTENSITY_INCREASE,y ; zero means no change
  bra noIntensityChange
 intensity_final_not_reached 
@@ -163,10 +163,10 @@ noIntensityChange
  adda LANE_CURRENT_POSITION_X,y
  sta LANE_CURRENT_POSITION_X,y
  suba LANE_POS_X_TO,y
- bne X_final_not_reached 
+ bne X_final_not_reached
  clr LANE_POS_INCREASE_X,y ; zero means no change
  bra noXChange
-X_final_not_reached 
+X_final_not_reached
  lda  ELEMENT_POS_DELAY_X,x
  sta LANE_POS_DELAY_X,y
 noXChange
@@ -178,10 +178,10 @@ noXChange
  adda LANE_CURRENT_POSITION_Y,y
  sta LANE_CURRENT_POSITION_Y,y
  suba LANE_POS_Y_TO,y
- bne Y_final_not_reached 
+ bne Y_final_not_reached
  clr LANE_POS_INCREASE_Y,y ; zero means no change
  bra noYChange
-Y_final_not_reached 
+Y_final_not_reached
  lda ELEMENT_POS_DELAY_Y,x
  sta LANE_POS_DELAY_Y,y
 noYChange

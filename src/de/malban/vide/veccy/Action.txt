@@ -1,0 +1,24 @@
+Trigger (old)
+
+Cause -> sprite collision, joystick, button, time (ticks)
+Y,X -> sprite at a position, check variables
+
+	protected Vector<Integer> mtriggerByY=new Vector<Integer>();
+	protected Vector<Integer> mtriggerByX=new Vector<Integer>();
+	protected Vector<String> mtriggerByTicks=new Vector<String>();
+Ticks -> time expired tick
+Target -> action to do when trigger is true
+
+spriteID -> when col detect, than other sprite
+            when not col detect, than a new sprite 
+
+
+TODO
+
+The current action must be divided in
+
+a) Triggers (which can be AND combined) and consist of arbitraty count of triggers
+   (OR combination may be implemented, but can also be just another action)
+b) Results (which consists of 1..n possible results which take place if [triggers] = true
+
+c) There can be trivial actions with 1 Trigger and 1 result, which are in principle the current implementation

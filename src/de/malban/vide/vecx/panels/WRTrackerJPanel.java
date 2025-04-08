@@ -14,6 +14,8 @@ import de.malban.gui.Scaler;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.gui.components.ModalInternalFrame;
+import de.malban.gui.dialogs.InputDialog;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.vecx.Updatable;
 import java.awt.Color;
@@ -24,6 +26,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 
 /**
  *
@@ -37,7 +40,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     private int mClassSetting=0;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
     public static String SID = "Debug: Tracker";
-
+    int baseline = 30000;
     BufferedImage[] image = new BufferedImage[2];
     int imageSwitch = 0;
     int displayWidth = 0;
@@ -55,6 +58,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     
     public static class TrackiInfo implements Serializable
     {
+        int baseline = 30000;
         int start;
         int end;
         int bank;
@@ -99,6 +103,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     protected boolean saveSettings(boolean fromDelete)
     {
         int oldIndex = jComboBox1.getSelectedIndex();
+        String oldText = jTextField5.getText();
         TrackiInfo ti = new TrackiInfo();
         if (!fromDelete)
         {
@@ -107,6 +112,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
             ti.start = DASM6809.toNumber(jTextField3.getText());
             ti.end = DASM6809.toNumber(jTextField4.getText());
             ti.bank = DASM6809.toNumber(jTextField7.getText());
+            ti.baseline = baseline;
 
             for (int i=0; i< persistentInfo.size(); i++)
             {
@@ -135,6 +141,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
         jComboBox1.setSelectedIndex(oldIndex);
         if (!fromDelete)
             mClassSetting--;
+        setFields(oldText);
         return true;
     }    
     
@@ -206,7 +213,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
      */
     public WRTrackerJPanel() {
         initComponents();
-//        loadSettings();
+        loadSettings();
         if (Global.getOSName().toUpperCase().contains("MAC"))
         {
             HotKey.addMacDefaults(jTextField1);
@@ -253,8 +260,8 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
             if (avg == 0) skip = false;
             if (height<=0) skip = true;
             if (height > 1000000) skip = true;
- 
-            String tt = "Samples: "+vecxPanel.getTrackiCount()+", >30000: "+vecxPanel.getTrackiAbove();
+
+            String tt = "Samples: "+vecxPanel.getTrackiCount()+", >"+baseline+": "+vecxPanel.getTrackiAbove();
 jTextField2.setToolTipText(tt);
 jTextFieldCurrent.setToolTipText(tt);
 jTextField1.setToolTipText(tt);
@@ -316,6 +323,7 @@ jTextField6.setToolTipText(tt);
         jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jTextField7 = new javax.swing.JTextField();
+        jButtonBaseline = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jButtonDelete = new javax.swing.JButton();
         jButtonSave = new javax.swing.JButton();
@@ -379,28 +387,41 @@ jTextField6.setToolTipText(tt);
             }
         });
 
+        jButtonBaseline.setText("b");
+        jButtonBaseline.setToolTipText("enter baseline (default 30000)");
+        jButtonBaseline.setMargin(new java.awt.Insets(0, 0, 0, -1));
+        jButtonBaseline.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBaselineActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jButtonBaseline)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonBaseline, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -486,19 +507,19 @@ jTextField6.setToolTipText(tt);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jTextFieldCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextFieldCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
-                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
-                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         jPanel4Layout.setVerticalGroup(
@@ -540,7 +561,7 @@ jTextField6.setToolTipText(tt);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -588,12 +609,7 @@ jTextField6.setToolTipText(tt);
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         if (mClassSetting>0) return;
         if (jComboBox1.getSelectedIndex() == -1) return;
-        TrackiInfo info = (TrackiInfo)jComboBox1.getSelectedItem();
-        jTextField5.setText(info.name);
-        jTextField3.setText("$"+String.format("%04X",info.start&0xffff));
-        jTextField4.setText("$"+String.format("%04X",info.end&0xffff));
-        
-        jTextField7.setText(""+info.bank);
+        setFields(jComboBox1.getSelectedItem().toString());
         
         // reset
         jButton1ActionPerformed(null);        
@@ -625,10 +641,28 @@ jTextField6.setToolTipText(tt);
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField7ActionPerformed
+    
+    private void jButtonBaselineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBaselineActionPerformed
+
+        Configuration C = Configuration.getConfiguration();
+        if (C.getMainFrame() == null) {
+            return;
+        }
+        JFrame frame = Configuration.getConfiguration().getMainFrame();
+        GetBaseline si = new GetBaseline(Configuration.getConfiguration().getMainFrame(), vecxPanel, baseline);
+        
+        si.modal = new ModalInternalFrame("Input Dialog", frame.getRootPane(), frame, si, si.jButton1);
+        si.modal.setVisible(true);      
+
+        baseline = si.getBaseline();
+        
+        frame = Configuration.getConfiguration().getMainFrame();
+    }//GEN-LAST:event_jButtonBaselineActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    javax.swing.JButton jButtonBaseline;
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonSave;
     private javax.swing.JComboBox jComboBox1;
@@ -679,14 +713,14 @@ jTextField6.setToolTipText(tt);
         {
             g.drawImage(image[imageSwitch], 0, jPanel1.getHeight(), null);
 
-            double y=SCALE_WR_MAX_CYCLES-30000;
+            double y=SCALE_WR_MAX_CYCLES-baseline;
 
             y =Scaler.scaleDoubleToInt(y, scaleHeight)+jPanel1.getHeight();
 
             Color c = new Color(0,255,0,255);
             g.setColor(c);
             g.drawLine(((int) 0), ((int) y), displayWidth,((int) y));
-            g.drawString("30000", 10, ((int) y-20));
+            g.drawString(""+baseline, 10, ((int) y-20));
             c = new Color(255,0,0,255);
             g.setColor(c);
             g.drawString(""+SCALE_WR_MAX_CYCLES, 10, 10+jPanel1.getHeight());
@@ -705,4 +739,30 @@ jTextField6.setToolTipText(tt);
         updateEnabled = b;
     }
     public void deIconified() { }
+
+    void setFields(String oldText)
+    {
+        TrackiInfo info = (TrackiInfo)jComboBox1.getSelectedItem();
+        if ((oldText != null) && (oldText.length()!=0))
+        {
+            for (int i=0;i<persistentInfo.size(); i++)
+            {
+                if (persistentInfo.elementAt(i).name.equals(oldText))
+                {
+                    info = persistentInfo.elementAt(i);
+                    mClassSetting++;
+                    jComboBox1.setSelectedIndex(i);
+                    mClassSetting--;
+                    break;
+                }
+            }
+        }
+        jTextField5.setText(info.name);
+        jTextField3.setText("$"+String.format("%04X",info.start&0xffff));
+        jTextField4.setText("$"+String.format("%04X",info.end&0xffff));
+        jTextField7.setText(""+info.bank);
+        baseline = info.baseline;
+    }
+
+
 }

@@ -10,6 +10,7 @@ import de.malban.gui.TimingTriggerer;
 import de.malban.gui.TriggerCallback;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.input.ControllerEvent.CONTROLLER_DISCONNECT;
+import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.VecXPanel;
 import java.util.ArrayList;
 import net.java.games.input.Component;
@@ -22,7 +23,7 @@ import net.java.games.input.Controller;
 public class EventController 
 {
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
-    public static int POLL_RESOLUTION = 50; // each 50 milliseconds -> 20 timres per second
+    public static int POLL_RESOLUTION = 50;//50; // each 50 milliseconds -> 20 timres per second
     private static int pollResultion = POLL_RESOLUTION;
     
     static class ComponentWithHistory 
@@ -201,8 +202,13 @@ public class EventController
         for (int i=0; i< getAxisCount(); i++)
         {
             int last = mAxis.get(i).lastAxisPercent;
+            int current = getAxisPercent(i);
             float lastValue = mAxis.get(i).lastValue;
-            if (last != getAxisPercent(i))
+
+            // not events based
+            // pure forced polling
+            // otherwise we somehow do not get the resolution right
+            if (VideConfig.getConfig().DACCompareDelayEmulation)
             {
                 ControllerEvent event = new ControllerEvent();
                 event.component = mAxis.get(i).component;
@@ -210,7 +216,20 @@ public class EventController
                 event.componentId = getAxisId(i);
                 event.lastValue = lastValue;
                 event.lastAxisPercent = last;
-                event.currentAxisPercent = mAxis.get(i).lastAxisPercent;
+                event.currentAxisPercent = current;
+                event.currentValue = mAxis.get(i).lastValue;
+                event.index = i;
+                fireControllerChanged(event);
+            }
+            else if (last != current)
+            {
+                ControllerEvent event = new ControllerEvent();
+                event.component = mAxis.get(i).component;
+                event.type = ControllerEvent.CONTROLLER_AXIS_CHANGED;
+                event.componentId = getAxisId(i);
+                event.lastValue = lastValue;
+                event.lastAxisPercent = last;
+                event.currentAxisPercent = current;
                 event.currentValue = mAxis.get(i).lastValue;
                 event.index = i;
                 fireControllerChanged(event);

@@ -56,6 +56,7 @@ public class CodeScanMemory {
         public static final int MEMORY_CODE = 1;  // pc was here
         public static final int MEMORY_READ = 2;  // memory was read, this will also be set, if mem is code, since code is always read!
         public static final int MEMORY_WRITE = 4; // memory (tried) write
+        public static final int MEMORY_CODE_PART = 8;  // pc was here
         public ArrayList<Integer> readAccess; 
         public ArrayList<Integer> writeAccess; 
         public int codeScanType = MEMORY_UNKOWN;
@@ -66,6 +67,16 @@ public class CodeScanMemory {
             this.dp = dp;
             if ((type & MEMORY_CODE) == MEMORY_CODE)
             {
+                codeScanType = codeScanType & (~MEMORY_READ);
+
+                if (readAccess==null) readAccess = new ArrayList<Integer>();
+                if (!readAccess.contains(address)) readAccess.add(address);
+            }
+            if ((type & MEMORY_CODE) == MEMORY_CODE_PART)
+            {
+                codeScanType = codeScanType & (~MEMORY_READ);
+                codeScanType = codeScanType & (~MEMORY_CODE);
+
                 if (readAccess==null) readAccess = new ArrayList<Integer>();
                 if (!readAccess.contains(address)) readAccess.add(address);
             }

@@ -8,9 +8,9 @@ S ___Print_Ships Ref0000
 S .__.ABS. Def0000
 A _CODE size 0 flags CC80 bank 0
 A _DATA size 0 flags CCC0 bank 1
-A .text size 5 flags D00
+A .text size 9 flags D00
 S __Print_Ships Def0000
 T 00 00
 R 00 00 00 02
-T 00 00 A6 62 7E 00 00
-R 00 00 00 02 81 05 00 00
+T 00 00 34 40 A6 64 BD 00 00 35 C0
+R 00 00 00 02 81 07 00 00

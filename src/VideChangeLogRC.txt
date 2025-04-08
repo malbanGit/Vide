@@ -1,3 +1,83 @@
+
+
+latest changes [21.12.2024]
+
+... at least the things I remember...
+- when loading a rom with a size between 32k and 48k - Vide now automatically assumes it is a "extended" rom, up to 48k
+- implemented PiTrex support, serial connection
+  The terminal supports "PiTrex" commands, uploading and resetting - and of course displays the output of PiTrex.
+  The Serial connection can/must be configured in Config (misc).
+  When a serial device is selected, use the connect button to connect. Save config.
+  Unless changed, vide will try to autoconnect/disconnect the device.
+- support for "sending" roms to PiTrex added in:
+  Editor, Vector-Editor, Storyboards, Debugger...
+- dissi Update
+  unkown "memory" was always displayed as "0", although the emulator always used $ff
+  Now unkown memory is in dissi always displayed as what the emulator sees.
+  When emulating flash roms, now dissi also sees the rom changes (even in "unkown" rom).
+  Before writes to flash could only be seen by the emulator and the rom dump panel
+- emulation of integrator offsets slightly improved.
+  a) offsets are ALWAYS added, not just when ramping
+  b) sign of the offset emulation was wrong
+- in the raster image / vector image creation dialogs
+  you can now paste images from the system clipboard, no need to always load images from disk anymore
+- corrected a bug in one of the smartlist templates... can't remember which though
+- changed the layout of VecxPanel slightly
+- added (as a quick and dirty solution) - a config option to double the size of all image buttons.
+  for a quick hack (half an hour) it works surprisingly well - though does not always look good.
+  But this was a special request... and if I can help a little in such a short time... you are welcome!
+
+
+
+
+latest changes [21.12.2024]
+- REMEMBER!
+  gcc uses the flags in the order they are set - so make sure, that - if you add -O2, that the
+  -O2 is set "before" the following flags, because otherwise the flags are resetted by the -O2 definition
+- bug in gcc6809 discovered by Peer when -O2 is active, prevented by setting "-fno-tree-vrp"
+  added to default flags
+- bug in gcc6809 discovered by Peer when -O2 is active, prevented by setting "-fno-gcse"
+  added to default flags
+- not delivered with the "Vide.jar", but sources are available for those who want them:
+  Definition of PrintShip - function used a wrong register, new CLib definitions/linker files were supplied by Peer
+- corrected the "SHIFT" play feature of the emulator to work correctly with multiple banks
+- added DAC timing emulation, a "feature" Peer discovered when analysing the Joy_Analog BIOS functions
+  The implementation of this feature is largely untested (can be switched on/off in config)
+- added quick save button in Vecci
+- added memory export function to dissi
+- added breakpoint for memory read in dissi
+- added "fake" command line support, if a file "vide.cli" is found, it is taken as command line input
+- in Vedi, bookmarked lines are now marked with a color
+- you can jump "up" / "down" thru the bookmarks with CTRL Up, CTRL down
+  Note: you must delete the "default.ser" file and redo all configuration for this.
+        adding new entities to the default Keyboard definition serialization, is not possible!
+- added new dissi command StackWatch
+- color formatting in dissi, corrected several times (Thanks Peer)
+- probably more things I can't remember, and of course things listed in: http://vide.malban.de/9th-of-february-2023-vide-list-of-changes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 done:
 Chess did not run correctly.
 Took me a while to find but this was actually a bug that was implemented, when porting
@@ -45,7 +125,7 @@ add:
 
 changed:
 - changed the name of nearly every window, to be more meaningfull!
-- added VecMulti support as development module (code by James H Ball - Thx!)
+- added VecMulti support as development module (code by Vasily Kiniv - Thx!)
   I have not had the opportunity to test that myself, I must add headers to my
   vecMulti
 - ... things I can't remember

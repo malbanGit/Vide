@@ -43,6 +43,10 @@ public class Command
     public static final int D_CMD_DUMP_JOGL = 29;
     public static final int D_CMD_TOGGLE_DISASM_RAM = 30;
     public static final int D_CMD_DO_NMI = 31;
+    public static final int D_CMD_STACK_WATCH = 32;
+    public static final int D_CMD_EXPORT_DATA = 33;
+    public static final int D_CMD_JUMP_DATA = 34;
+    public static final int D_CMD_TO_PITREX = 35;
 
     public static final Command[] commands = 
     {
@@ -54,7 +58,7 @@ public class Command
         new Command(D_CMD_CYCLES_MEASURE, "CountCycles", "cc", 0,0,"\"CountCycles $xxxx $yyyy\"\tnext time pc executed $xxxx it starts counting cycles \n\t\t\tand prints out the count after $yyyy is executed(only in currently emulated bank!) ",""),
         new Command(D_CMD_PRINT, "Print", "p", 1,1,"\"Print $xxxx|$label [8|16]\"\tprint content of an address or label, \n\t\t\t8 as 8bit (default), 16 as 16bit",""),
         new Command(D_CMD_WATCH, "Watch", "w", 1,1,"\"Watch $xxxx|$label [0|1|2|3|4|5 x]\"\twatch content of an address or label, \n\t\t\t0 - binary\n\t\t\t1 - byte\n\t\t\t2 - word\n\t\t\t3 - string\n\t\t\t4 - byte pair\n\t\t\t5,x - byte sequence",""),
-        new Command(D_CMD_BREAKPOINT, "Breakpoint", "b", 1,0,"\"Breakpoint $xxxx\"\t\ttoggle breakpoint to address\n\t\t\tROM\n\t\t\tPC\n\t\t\tNZ [,compareValue]\n\t\t\tSTACK, compareValue\n\t\t\tbankswitch\n\t\t\tVIA_ORB $0-7 (bit )\n\t\t\tWEIRD_AUX (!= $80 & != $98)","SPACE"),
+        new Command(D_CMD_BREAKPOINT, "Breakpoint", "b", 1,0,"\"Breakpoint $xxxx\"\t\ttoggle breakpoint to address\n\t\t\tROM\n\t\t\tPC\n\t\t\tNZ [,compareValue]\n\t\t\tSTACK, compareValue\n\t\t\tbankswitch\n\t\t\tVIA_ORB $0-7 (bit )\n\t\t\tWEIRD_AUX (!= $80 & != $98)\n\t\t\tT2 (write)\n\t\t\tREAD (from / to)","SPACE"),
         new Command(D_CMD_BREAKPOINT_RESET, "ClearBreakpoint", "cb", 0,0,"\"ClearBreakpoint\"\tclears all breakpoints",""),
         new Command(D_CMD_LABEL_RESET, "LabelReset", "lr", 0,0,"\"LabelReset\"\t\tResets all automatically build labels",""),
         new Command(D_CMD_INFO, "Info", "i", 0,0,"\"Info\"\t\t\tPrint information about current cartridge",""),
@@ -77,7 +81,16 @@ public class Command
         new Command(D_CMD_DONOT_FOLLOW, "DoNotFollow", "df", 1,1,"\"DoNotFollow\"\t\tIf update is switched - do not follow within table (just update columns).\n\t\t\t\tAlso sets print final track values to true.",""),
         new Command(D_CMD_DUMP_JOGL, "DumpJOGL", "dj", 1,1,"\"DumpJOGL\"\t\tDump JOGL OpenGL infos.",""),
         new Command(D_CMD_TOGGLE_DISASM_RAM, "DisasmRAM", "dr", 1,1,"\"DisasmRAM\"\t\tActively disassemble RAM memory.",""),
-        new Command(D_CMD_DO_NMI, "NMI", "NMI", 1,1,"\"NMI\"\t\tDo one NMI.",""),
+        new Command(D_CMD_DO_NMI, "NMI", "NMI", 1,1,"\"NMI\"\t\t\tDo one NMI.",""),
+        new Command(D_CMD_JUMP_DATA, "VIEW", "v", 1,1,"\"VIEW\"\t\t\tJump view to address $xxxx.",""),
+        new Command(D_CMD_TO_PITREX, "ToPiTrex", "tp", 1,1,"\"ToPiTrex\"\t\tpush the current active ROM to the development mode of PiTrex (config in configuration)",""),
+
+        // the following looks whether the stack pointer has a different address at a certain memory location
+        // if so it causes a breakpoint
+        // usefull for detecting stack leaks
+        new Command(D_CMD_STACK_WATCH, "StackWatch", "sw", 1,1,"\"StackWatch\"\t\tWatch $xxxx $value for stack changes.",""),
+
+        new Command(D_CMD_EXPORT_DATA, "ExportData", "ed", 5,0,"\"ExportData\"\t\tExport memory range as DB statements.\n\t\t\t\tfilename\n\t\t\t\tstartaddress\n\t\t\t\tendaddress\n\t\t\t\tformat(as in watch)\n\t\t\t\titems per line",""),
     };
     
     public String fullname ="";

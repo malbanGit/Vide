@@ -66,6 +66,11 @@ public class DASMStatics {
     protected static final Opcodeinfo[] pg1opcodes=new Opcodeinfo[NUMPG1OPS];
     protected static final Opcodeinfo[] pg2opcodes=new Opcodeinfo[NUMPG2OPS];
     protected static final Opcodeinfo[] pg3opcodes=new Opcodeinfo[NUMPG3OPS];
+    
+    static int[] iLenPage0 = new int[256];
+    static int[] iLenPage1 = new int[256];
+    static int[] iLenPage2 = new int[256];
+    
     static
     {
         int i=0;
@@ -371,12 +376,53 @@ public class DASMStatics {
         pg3opcodes[i++] = new Opcodeinfo(172,2,"cmps",IND,7);
         pg3opcodes[i++] = new Opcodeinfo(179,3,"cmpu",EXT,8);
         pg3opcodes[i++] = new Opcodeinfo(188,3,"cmps",EXT,8);
+
+        for (int l=0;l<256; l++)
+        {
+            iLenPage0[l] = 0;
+            iLenPage1[l] = 0;
+            iLenPage2[l] = 0;
+        }
+        for (int l=0;l<NUMPG1OPS; l++)
+        {
+            Opcodeinfo info = pg1opcodes[l];
+            iLenPage0[info.opcode] = info.numoperands;
+        }
+        for (int l=0;l<NUMPG2OPS; l++)
+        {
+            Opcodeinfo info = pg2opcodes[l];
+            iLenPage1[info.opcode] = info.numoperands;
+        }
+        for (int l=0;l<NUMPG3OPS; l++)
+        {
+            Opcodeinfo info = pg3opcodes[l];
+            iLenPage2[info.opcode] = info.numoperands;
+        }
     }
     protected static final Opcodeinfo[][] pgpointers=
     {
         pg1opcodes, pg2opcodes, pg3opcodes
     };
 
+    public static int getNumOpcodes(byte byte1, byte byte2)
+    {
+        int len = 0;
+        if (byte1 == 0x10)
+        {
+            len = iLenPage1[(int)(byte2&0xff)];
+        }
+        else if (byte1 == 0x11)
+        {
+            len = iLenPage2[(int)(byte2&0xff)];
+        }
+        else 
+        {
+            len = iLenPage0[(int)(byte1&0xff)];
+        }
+        return len;
+    }
+    
+    
     protected static final int[] numops= { NUMPG1OPS,NUMPG2OPS,NUMPG3OPS};
     protected static final String[] modenames=
     {

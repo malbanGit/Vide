@@ -31,6 +31,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -444,6 +447,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         jButton9 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
+        jButtonCopy = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = buildTable();
         jPanel2 = new javax.swing.JPanel();
@@ -482,7 +486,6 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
         jToggleButton4.setToolTipText("Toggle Update (always or only while debug)");
         jToggleButton4.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jToggleButton4.setPreferredSize(new java.awt.Dimension(21, 21));
         jToggleButton4.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcamSelect.png"))); // NOI18N
         jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -576,12 +579,21 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
 
         jLabel5.setText("bank always same as emulation (not dissi)");
 
+        jButtonCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_copy.png"))); // NOI18N
+        jButtonCopy.setToolTipText("copy (selection to clipboard)");
+        jButtonCopy.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCopyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -600,27 +612,33 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                 .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(4, 4, 4)
+                .addComponent(jButtonCopy)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
                 .addGap(44, 44, 44)
                 .addComponent(jLabel5)
-                .addGap(0, 421, Short.MAX_VALUE))
+                .addGap(0, 472, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToggleButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel5))
+            .addComponent(jToggleButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5))
+                    .addComponent(jButtonCopy))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTable1.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
@@ -848,7 +866,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                     .addComponent(jTextFieldPatternName, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                     .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                     .addComponent(jComboBoxPatterns, 0, 177, Short.MAX_VALUE)))
-            .addComponent(jSliderSourceScale1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jSliderSourceScale1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -907,7 +925,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                         .addGap(34, 34, 34)
                         .addComponent(jCheckBoxActive)
                         .addContainerGap(237, Short.MAX_VALUE))
-                    .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 862, Short.MAX_VALUE)))
+                    .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1198,6 +1216,11 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         bitmapWidth =  de.malban.util.UtilityString.Int0(wi);
         selectionChanged();
     }//GEN-LAST:event_jSpinnerRasterWidthFocusLost
+
+    private void jButtonCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyActionPerformed
+
+        toClipboard();
+    }//GEN-LAST:event_jButtonCopyActionPerformed
     public void updateTable()
     {
         jTable1.repaint();
@@ -1215,6 +1238,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JButton jButtonCopy;
     private javax.swing.JButton jButtonInterprete;
     private javax.swing.JButton jButtonSave3;
     private javax.swing.JCheckBox jCheckBox1;
@@ -1457,5 +1481,77 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         return true;
     }        
     public void deIconified() { }
+    
+    private static Clipboard getSystemClipboard()
+    {
+        Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+        Clipboard systemClipboard = defaultToolkit.getSystemClipboard();
+
+        return systemClipboard;
+    }    
+    public void toClipboard()
+    {
+//        if (info == null) return;
+        if (startAddress==-1) return;
+        if (endAddress==-1) return;
+        if (endAddress<startAddress) return;
+        
+        StringBuffer b = new StringBuffer();
+        try
+        {
+            startAddress = startAddress / 16;
+            startAddress = startAddress * 16;
+            endAddress += 15;
+            endAddress = endAddress / 16;
+            endAddress = endAddress * 16;
+            if ((startAddress>= 0xc800) && (endAddress<=0xcbff))
+            {
+                boolean somethingDone = false;
+                for(int i=startAddress; i<=endAddress; i++)
+                {
+                    if ((i%16) == 0)
+                    {
+                        if (somethingDone) b.append("\n");
+                        b.append(String.format("%04X     ",i));
+                        somethingDone = true;
+                    }
+
+                    MemoryInformation memInfo = dissi.getMemoryInformation(i, vecxPanel.getCurrentBank());
+                    b.append(String.format("%02X ",vecxPanel.getVecXMem8(i)) );
+                }
+            }
+            else
+            {
+                for(int i=startAddress; i<=endAddress; i++)
+                {
+                    boolean somethingDone = false;
+                    MemoryInformation memInfo = dissi.getMemoryInformation(i, vecxPanel.getCurrentBank());
+                    if ((i%16) == 0)
+                    {
+                        if (somethingDone) b.append("\n");
+                        b.append(String.format("%04X     ",i));
+                        somethingDone = true;
+                    }
+
+                    b.append(String.format("%02X ",memInfo.content) );
+                }
+            }
+        }
+        catch  (Exception ex)
+        {
+            ;
+        }
+       
+        
+        Clipboard clipboard = getSystemClipboard();
+        try
+        {
+            clipboard.setContents(new StringSelection(b.toString()), null);
+        }
+        catch (Throwable e)
+        {} // don't bother
+    }    
+
+    
 }
 

@@ -79,6 +79,70 @@ public class ArgumentMemoryLocation extends Argument6809
         this( new ParseString(s), st, instr );
     }
 
+    boolean correctStartWithIndexRegister(ParseString s, Instruction instr)
+    {
+        int len =0;
+        String reg = "";
+        String l = s.getCurrentString();
+        int startInsert = 0;
+        if (l.startsWith("["))
+        {
+            l = l.substring(1);
+            startInsert = 1;
+        }
+        if (l.startsWith("-"))
+        {
+            l = l.substring(1);
+//            startInsert++;
+        }
+        if (l.startsWith("-"))
+        {
+            l = l.substring(1);
+//            startInsert++;
+        }
+        
+        if (l.toLowerCase().trim().startsWith("y"))
+        {
+            reg = "y";
+            len = 1;
+        }
+        else if (l.toLowerCase().trim().startsWith("x"))
+        {
+            reg = "x";
+            len = 1;
+        }
+        else if (l.toLowerCase().trim().startsWith("s"))
+        {
+            reg = "s";
+            len = 1;
+        }
+        else if (l.toLowerCase().trim().startsWith("u"))
+        {
+            reg = "u";
+            len = 1;
+        }
+        else if (l.toLowerCase().trim().startsWith("pcr"))
+        {
+            reg = "pcr";
+            len = 3;
+        }
+        else if (l.toLowerCase().trim().startsWith("pc"))
+        {
+            reg = "pc";
+            len = 2;
+        }
+        if (len == 0) return false;
+        String rest = l.substring(len);
+
+        if (rest.length()>0)
+            if (de.malban.util.UtilityString.isAlphaNumeric(rest.charAt(0))) return false; // it is a lable rather than a reg
+
+        // replace index register with "," register
+        s.insert(startInsert, ",");
+        Asmj.warning(instr.getSource(), "Indexed addressing without \",\" found - inserted!");
+        return true;
+    }
+    
     public ArgumentMemoryLocation( ParseString s, SymbolTable st,
             Instruction instr )
             throws ParseException
@@ -97,6 +161,27 @@ public class ArgumentMemoryLocation extends Argument6809
         constantOffset = registerOffset = autoincrement = false;
         num_postbytes = 1;
 
+        correctStartWithIndexRegister(s, instr);
+        
+        
+        
+        if ((s.toString().contains("+")) && (s.toString().contains(",")))
+        {
+            if (s.toString().startsWith("0"))
+            {
+                s.skip("0");
+                Asmj.warning(instr.getSource(), "0 offset with increment found, 0 removed!");
+            }
+        }
+        if ((s.toString().contains("-")) && (s.toString().contains(",")))
+        {
+            if (s.toString().startsWith("0"))
+            {
+                s.skip("0");
+                Asmj.warning(instr.getSource(), "0 offset with decrement found, 0 removed!");
+            }
+        }
+        
         if (s.startsWith("#")) 
         {
             mode = checkMode( instr, mode, IMMEDIATE_MODE );

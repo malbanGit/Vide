@@ -47,6 +47,7 @@ public class Utility
     }
     public static boolean isFilenameRelative(String relName)
     {
+        if (relName==null) return false;
         if (isWin)
         {
             if (relName.contains(":"+File.separator)) return false;

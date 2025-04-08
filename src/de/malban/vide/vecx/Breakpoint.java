@@ -48,9 +48,9 @@ public class Breakpoint implements Serializable
 
     public static String[][] bp_subtarget={
         /* Memory*/     {"none","RAM","ROM"}, 
-        /* CPU*/        {"none","PC","A", "B", "D","X", "Y","U","S", "CC", "DP", "CYCLES", "SPECIAL" }, 
+        /* CPU*/        {"none","PC","A", "B", "D","X", "Y","U","S", "CC", "DP", "CYCLES", "SPECIAL", "STACK CHANGE" }, 
         /* Analog*/     {"none","RAMP"}, 
-        /* VIA*/        {"none","ORB","CA1", "AUX"}, 
+        /* VIA*/        {"none","ORB","CA1", "AUX", "T2"}, 
         /* PSG*/        {"none","PSG 0"}, 
         /* CARTRIDGE*/  {"none","BANKSWITCH", "PB6"}, 
         /* PORT*/       {"none","IN", "OUT"}
@@ -73,6 +73,7 @@ public class Breakpoint implements Serializable
     public static int BP_SUBTARGET_CPU_DP = 10;
     public static int BP_SUBTARGET_CPU_CYCLES = 11;
     public static int BP_SUBTARGET_CPU_SPECIAL = 12;
+    public static int BP_SUBTARGET_CPU_STACKCHANGE = 13;
     
     public static int BP_SUBTARGET_ANALOG_NONE = 0; // .. not implemented
     public static int BP_SUBTARGET_ANALOG_RAMP = 1; // .. not implemented
@@ -81,6 +82,7 @@ public class Breakpoint implements Serializable
     public static int BP_SUBTARGET_VIA_ORB = 1; // 
     public static int BP_SUBTARGET_VIA_CA1 = 2; // 
     public static int BP_SUBTARGET_VIA_AUX = 3; // 
+    public static int BP_SUBTARGET_VIA_T2 = 4; // 
     
     public static int BP_SUBTARGET_PSG_NONE = 0; // .. not implemented
     public static int BP_SUBTARGET_PSG_0 = 1; // .. not implemented

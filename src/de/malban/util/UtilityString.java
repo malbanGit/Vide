@@ -7,6 +7,7 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import java.util.Vector;
 import java.text.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  */
@@ -17,6 +18,79 @@ public class UtilityString
     {
         String out = toXML(in);
         out = replace(out,"&apos;","&#39;");
+        return out;
+    }
+    public static String onlyXMLVisibleASCII(String in)
+    {
+        String ret="";
+        char[] c = in.toCharArray();
+        for (int i=0; i<c.length;i++)
+        {
+//            if (c[i]==0x26) {ret += '.'; continue;}
+//            if (c[i]==0x27) {ret += '.'; continue;}
+//            if (c[i]==0x60) {ret += '.'; continue;}
+
+            if (c[i]>=32)
+            {
+                if (c[i]<=126)
+                {
+                    ret = ret + c[i];
+                }
+                else
+                {
+                    ret = ret + '.';
+                }
+            }
+            else
+            {
+                ret = ret + '.';
+            }
+        }
+        return ret;
+    }
+    // no quotes
+    public static String toXML2(String in)
+    {
+        String out = in;
+        
+        if (in.equals(" ")) return "&#x20;";
+        
+        if (out.startsWith(" "))
+        {
+            out = "&#x20;"+out.substring(1);
+            return toXML(out);
+        }
+        if (out.endsWith(" "))
+        {
+            out = out.substring(0,out.length()-1)+"&#x20;";
+            return toXML(out);
+        }
+        
+        
+        out = replace(out,"&","___TO#OT#OO__amp;");
+        out = replace(out,"___TO#OT#OO__amp;","&amp;");
+        out = replace(out,"'","&apos;");
+        out = replace(out,"'","&apos;");
+        out = replace(out,"´","&apos;");
+        out = replace(out,"`","&apos;");
+        out = replace(out,"\t","&#009;");
+        out = replace(out,"<","&lt;");
+        out = replace(out,">","&gt;");
+        out = replace(out,"≤","&le;");
+        out = replace(out,"≥","&ge;");
+        out = replace(out,"\"","&quot;");
+
+        out = replace(out,"Ä","&#196;");
+        out = replace(out,"Ö","&#214;");
+        out = replace(out,"Ü","&#220;");
+        out = replace(out,"ä","&#228;");
+        out = replace(out,"ö","&#246;");
+        out = replace(out,"ü","&#252;");
+        out = replace(out,"ß","&#223;");
+//        out = replace(out,"_","&#95;");
+//        out = replace(out,"_","&#x5f;");
+        
+        
         return out;
     }
 
@@ -58,6 +132,10 @@ public class UtilityString
         out = replace(out,"ö","&#246;");
         out = replace(out,"ü","&#252;");
         out = replace(out,"ß","&#223;");
+//        out = replace(out,"_","&#95;");
+//        out = replace(out,"_","&#x5f;");
+        
+        
         return out;
     }
 
@@ -205,6 +283,16 @@ public class UtilityString
         }
         return true;
     }    
+    public static boolean isAlphaNumeric(char c)
+    {
+        boolean ret = false;
+        if ((c>='0') && (c<='9')) ret = true;
+        if ((c>='A') && (c<='Z')) ret = true;
+        if ((c>='a') && (c<='z')) ret = true;
+        if (c=='_') ret = true;
+        return ret;
+    }
+
     static public boolean isDecNumber(String a)
     {
         if (a.startsWith("+")) a = a.substring(1);
@@ -408,6 +496,23 @@ public class UtilityString
         out = replace(out,"'","´");
         return out;
     }
+    public static String[] cleanCSV(String in)
+    {
+        ArrayList result1 = new ArrayList();
+        String[] parts = in.split(",");
+        for (int i=0;i<parts.length;i++)
+        {
+            String t = parts[i].trim();
+            if (t.length() != 0) result1.add(t);
+        }
+        String[] r = new String[result1.size()];
+
+        for (int i=0;i<result1.size();i++)
+        {
+            r[i] = (String) result1.get(i);
+        }
+        return r;
+    }
 
     public static String cleanStringSpace(String in)
     {
@@ -427,6 +532,36 @@ public class UtilityString
         out = replace(out,"(","");
         out = replace(out,")","");
         out = replace(out,".","");
+        out = replace(out,"…","");
+
+        out = replace(out,"Ä","Ae");
+        out = replace(out,"Ö","Oe");
+        out = replace(out,"Ü","Ue");
+        out = replace(out,"ä","ae");
+        out = replace(out,"ö","oe");
+        out = replace(out,"ü","ue");
+        out = replace(out,"ß","ss");
+        out = replace(out,"  "," ");
+        out = out.toUpperCase();
+        return out.trim();
+    }
+    public static String cleanStringSpaceDotOk(String in)
+    {
+        String out = replaceWhiteSpaces(in, " ");
+        out = replace(out,"&","");
+        out = replace(out,"'","");
+        out = replace(out,"´","");
+        out = replace(out,"`","");
+        out = replace(out,"<","");
+        out = replace(out,">","");
+        out = replace(out,"≥","");
+        out = replace(out,"≤","");
+        out = replace(out,"\"","");
+        out = replace(out,"/","");
+        out = replace(out,"-","");
+        out = replace(out," "," ");
+        out = replace(out,"(","");
+        out = replace(out,")","");
         out = replace(out,"…","");
 
         out = replace(out,"Ä","Ae");
@@ -501,6 +636,29 @@ public class UtilityString
             if (c[i]>64)
             {
                 if (c[i]<=90)
+                {
+                    ret = ret + c[i];
+                }
+            }
+        }
+        return ret;
+    }
+    public static String onlyUpperASCIINo(String in)
+    {
+        String ret="";
+        char[] c = in.toUpperCase().toCharArray();
+        for (int i=0; i<c.length;i++)
+        {
+            if (c[i]>64)
+            {
+                if (c[i]<=90)
+                {
+                    ret = ret + c[i];
+                }
+            }
+            if (c[i]>=48)
+            {
+                if (c[i]<=57)
                 {
                     ret = ret + c[i];
                 }
@@ -1054,5 +1212,50 @@ public class UtilityString
         }
         return result.toString();
     }
+    
+    // returns from a multiline string
+    // non zero length "lines" that were
+    // terminated by a "\n"
+    public static String[] cleanSplitNL(String in)
+    {
+        String t = replace(in,"\t"," ");
+        t = replace(t,"  "," ");
+        t = replace(t,"\r","\n");
+        t = replace(t,"\n\n","\n");
+        String[] s = t.split("\n");
+        int count = 0;
+        ArrayList ss = new ArrayList();
+        for (int i=0;i<s.length;i++)
+        {
+            String tt = s[i].trim();
+            if (tt.length()>0)
+                ss.add(tt);
+        }
+        s = new String[ss.size()];
 
+        for (int i=0;i<ss.size();i++)
+        {
+            s[i] = (String) ss.get(i);
+        }
+        return s;
+    }
+
+    public static String[] cleanStringArray(String[] in)
+    {
+        ArrayList ss = new ArrayList();
+        for (int i=0;i<in.length;i++)
+        {
+            String tt = in[i].trim();
+            if (tt.length()>0)
+                ss.add(tt);
+        }
+        String[] s = new String[ss.size()];
+
+        for (int i=0;i<ss.size();i++)
+        {
+            s[i] = (String) ss.get(i);
+        }
+        return s;
+    }
+    
 }

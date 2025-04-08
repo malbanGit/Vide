@@ -135,7 +135,7 @@ public class VecXState implements Serializable
      public int alg_oldZero = 0;
      public int alg_oldBlank = 0;
      public int alg_oldDAC = 0;
-     public ValuePointer alg_DAC  = new ValuePointer();   
+     public ValuePointer alg_DAC  = new ValuePointer();  
 
      public int alg_jsh = 0;  /* joystick sample and hold */
      public int alg_compare = 0;
@@ -167,6 +167,34 @@ public class VecXState implements Serializable
     public int alg_vector_dy = 0;
     public int alg_vector_color = 0;
     public int alg_vector_speed = 0;
+
+
+//////////////////////////////////////
+
+    public boolean ialg_curved = false;
+     public boolean ialg_ramping = false;
+     public int ialg_spline_compare_dx = Integer.MAX_VALUE;
+     public int ialg_spline_compare_dy = Integer.MAX_VALUE;
+
+     public int ialg_leftEye = -1;// index of color of wheel
+     public int ialg_rightEye = -1;
+     
+     public int ialg_vectoring = 0;
+     
+    // vectors not saved
+    public int ialg_vector_x0 = 0; 
+    public int ialg_vector_y0 = 0;
+    public int ialg_vector_x1 = 0;
+    public int ialg_vector_y1 = 0;
+    public int ialg_vector_dx = 0;
+    public int ialg_vector_dy = 0;
+    public int ialg_vector_color = 0;
+    public int ialg_vector_speed = 0;
+
+//////////////////////////////////////
+    
+    public long lastORAWriteCycle; // for dac timing emulation
+
     public int currentBank = 0;
     public long cyclesRunning=0;
 /*
@@ -261,9 +289,10 @@ public class VecXState implements Serializable
         to.pb6_in= from.pb6_in;  
         to.pb6_out= from.pb6_out;  
 
-        
+        to.lastORAWriteCycle = from.lastORAWriteCycle;
         
         to.alg_DAC.intValue= from.alg_DAC.intValue;  
+        
         to.alg_oldDAC= from.alg_oldDAC;  
 
         to.alg_sel.intValue= from.alg_sel.intValue;  
@@ -428,6 +457,7 @@ public class VecXState implements Serializable
 
         
         
+        to.lastORAWriteCycle = from.lastORAWriteCycle;
         to.alg_DAC.intValue= from.alg_DAC.intValue;  
         to.alg_oldDAC= from.alg_oldDAC;  
 

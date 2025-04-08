@@ -317,7 +317,7 @@ shifting_done:
 
 init_ym_sound: 
                     ldx      #ym_data_start 
-                    ldd      #(STRUCTURE_LENGTH*11) 
+                    ldd      #(STRUCTURE_LENGTH*11)-1
                     jsr      Clear_x_d 
                     ldy      ,u++ 
                     ldd      ,y 

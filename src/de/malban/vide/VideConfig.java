@@ -6,6 +6,8 @@
 package de.malban.vide;
 
 import com.fazecast.jSerialComm.SerialPort;
+import static com.fazecast.jSerialComm.SerialPort.NO_PARITY;
+import static com.fazecast.jSerialComm.SerialPort.ONE_STOP_BIT;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.graphics.VectorColors;
@@ -17,6 +19,8 @@ import de.malban.input.EventController;
 import de.malban.input.SystemController;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.util.syntax.Syntax.TokenStyles;
+import de.malban.vide.PiTrex.PiTrexSingleton;
+import de.malban.vide.dissy.DASM6809;
 import static de.malban.vide.vecx.VecXStatics.TIMER_T2;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import de.muntjak.tinylookandfeel.Theme;
@@ -294,9 +298,34 @@ class ConfigStatic2 implements Serializable
    public boolean isFaultyVIA = false;
    public int SHORT_TAB_OP = 1;
    public int t2Delay = 1;
+   public int speedLimitPercent = 100;
 
    public boolean invokeVecMultiAfterAssembly = false;
    public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
+
+   // wobble
+    public boolean enableWobble = true; 
+    public int SIN_FREQ = 50; // sinus frequency in HZ
+    public int MAX_SIN_POSITION_OFFSET = 30;
+    public int yOffsetToX = 7500;
+    public double constantC = 0.2;
+    
+    public boolean usefilebasedBIOSConstants = true; // cnt/lst
+    public boolean useTomlinConstants = true; // only used if above is false, false means WT constants
+
+    public String fileRequestHome = "."+File.separator;
+    public boolean useLastKnownDir = false;
+    public boolean onlyManualSaveInEditor = false;
+
+    public int DACTolerance = 19; // in 0.01 percent steps
+    public boolean DACCompareDelayEmulation = true; 
+    
+    public String piTrexSerialName="";
+    public int piTrexBaud=921600;
+    public int piDataBits=8;
+    public int piParity=NO_PARITY;
+    public int piStopBit=ONE_STOP_BIT;
+    public boolean doubleButton=false;
 }
 
 public class VideConfig  implements Serializable{
@@ -553,13 +582,40 @@ public class VideConfig  implements Serializable{
    public int SHORT_TAB_OP = 1;
 
    public boolean invokeVecMultiAfterAssembly = false;
-    public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
+   public String vecMultiPortDescriptor = SerialPort.getCommPorts().length == 0 ? null : SerialPort.getCommPorts()[0].getSystemPortName();
+   public int speedLimitPercent = 100;
+    
+   // wobble
+    public boolean enableWobble = true; 
+    public int SIN_FREQ = 50; // sinus frequency in HZ
+    public int MAX_SIN_POSITION_OFFSET = 30;
+    public int yOffsetToX = 30;
+    public double constantC = 0.2;
 /////////////
+    public boolean doubleButton=false;
+
+    public int DACTolerance = 19; // in 0.01 percent steps
+    public boolean DACCompareDelayEmulation = true; 
+
+    public String piTrexSerialName="";
+    public int piTrexBaud=921600;
+    public int piDataBits=8;
+    public int piParity=NO_PARITY;
+    public int piStopBit=ONE_STOP_BIT;
+    
+    
+    public int cycle_sin_freq = 1500000 / SIN_FREQ; // cycles a sinus wave does its full "turnaround", 360°
+
+    public boolean usefilebasedBIOSConstants = false; // cnt/lst
+    public boolean useTomlinConstants = false; // only used if above is false, false means WT constants
     
     
     
     private static VideConfig theOneConfig = new VideConfig();
     public static String loadedConfig="";
+    public String fileRequestHome = "."+File.separator;
+    public boolean useLastKnownDir = false;
+    public boolean onlyManualSaveInEditor = false;
     
     
     //// cli only
@@ -697,7 +753,6 @@ public class VideConfig  implements Serializable{
                 initControllers();
             }   
             
-            
             String loadfilename = de.malban.util.UtilityString.replace(filename, "vsv", "vs1");
             ConfigStatic1 loadStatic1 =  (ConfigStatic1) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+loadfilename);
             if (loadStatic1 != null) 
@@ -727,9 +782,7 @@ public class VideConfig  implements Serializable{
             {
                 copyFromStaticToConfig(loadStatic2, this);
             }
-            
-         
-            
+            cycle_sin_freq = 1500000 / SIN_FREQ; // cycles a sinus wave does its full "turnaround", 360°
             
             this.resetCLIOnly();
             loadedConfig = filename;
@@ -738,7 +791,6 @@ public class VideConfig  implements Serializable{
             EventController.setPollResultion(jinputPolltime);
             
             Configuration.getConfiguration().setFullScrrenResString(fullscreenResolution);    
-
             
 // comment this out for one !go"
 // to add new keyboard configs to default!
@@ -809,7 +861,9 @@ public class VideConfig  implements Serializable{
                 styleSheet.addRule("a {color:#"+Global.getHTMLColor(linkColor)+";}");
                 styleSheet.addRule("body {color:#"+Global.getHTMLColor(htmltext)+";}");
             }
-            
+            theOneConfig = this; // this must be set before the DASM6809 styles - since that asks for "the config"
+            PiTrexSingleton.getPiTrex();
+            DASM6809.setStyle();
         }
         catch (Throwable e)
         {
@@ -1037,6 +1091,8 @@ public class VideConfig  implements Serializable{
         to.TAB_OP = from.TAB_OP;
         to.TAB_COMMENT = from.TAB_COMMENT;
 
+    
+        
     }
     private void copyFromConfigToStatic(VideConfig from, ConfigStatic1 to)
     {
@@ -1252,6 +1308,8 @@ public class VideConfig  implements Serializable{
         to.TAB_MNEMONIC = from.TAB_MNEMONIC;
         to.TAB_OP = from.TAB_OP;
         to.TAB_COMMENT = from.TAB_COMMENT;
+
+
     }
     private void copyFromStaticToConfig(ConfigStatic2 from, VideConfig to)
     {
@@ -1266,6 +1324,29 @@ public class VideConfig  implements Serializable{
 
         to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
         to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
+        to.speedLimitPercent = from.speedLimitPercent;
+        
+        // wobble
+         to.enableWobble = from.enableWobble; 
+         to.yOffsetToX = from.yOffsetToX;
+         to.SIN_FREQ = from.SIN_FREQ; // sinus frequency in HZ
+         to.MAX_SIN_POSITION_OFFSET = from.MAX_SIN_POSITION_OFFSET;
+         to.constantC = from.constantC;
+
+        to.usefilebasedBIOSConstants = from.usefilebasedBIOSConstants;
+        to.useTomlinConstants = from.useTomlinConstants;
+        to.fileRequestHome = from.fileRequestHome;
+        to.useLastKnownDir = from.useLastKnownDir;
+        to.onlyManualSaveInEditor = from.onlyManualSaveInEditor;
+        to.DACTolerance = from.DACTolerance;
+        to.DACCompareDelayEmulation = from.DACCompareDelayEmulation;
+        
+        to.piTrexSerialName = from.piTrexSerialName;
+        to.piTrexBaud = from.piTrexBaud;
+        to.piDataBits = from.piDataBits;
+        to.piParity = from.piParity;
+        to.piStopBit = from.piStopBit;
+        to.doubleButton = from.doubleButton;
     }
     private void copyFromConfigToStatic(VideConfig from, ConfigStatic2 to)
     {
@@ -1280,6 +1361,30 @@ public class VideConfig  implements Serializable{
 
         to.invokeVecMultiAfterAssembly = from.invokeVecMultiAfterAssembly;
         to.vecMultiPortDescriptor = from.vecMultiPortDescriptor;
+        to.speedLimitPercent = from.speedLimitPercent;
+
+        // wobble
+         to.enableWobble = from.enableWobble; 
+         to.yOffsetToX = from.yOffsetToX;
+         to.SIN_FREQ = from.SIN_FREQ; // sinus frequency in HZ
+         to.MAX_SIN_POSITION_OFFSET = from.MAX_SIN_POSITION_OFFSET;
+         to.constantC = from.constantC;
+
+         to.usefilebasedBIOSConstants = from.usefilebasedBIOSConstants;
+        to.useTomlinConstants = from.useTomlinConstants;
+        to.fileRequestHome = from.fileRequestHome;
+        to.useLastKnownDir = from.useLastKnownDir;
+        to.onlyManualSaveInEditor = from.onlyManualSaveInEditor;
+
+        to.DACTolerance = from.DACTolerance;
+        to.DACCompareDelayEmulation = from.DACCompareDelayEmulation;
+
+        to.piTrexSerialName = from.piTrexSerialName;
+        to.piTrexBaud = from.piTrexBaud;
+        to.piDataBits = from.piDataBits;
+        to.piParity = from.piParity;
+        to.piStopBit = from.piStopBit;
+        to.doubleButton = from.doubleButton;
     }
     
     public static File[] getConfigs()

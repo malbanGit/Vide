@@ -300,7 +300,7 @@ sdone:
 
 init_ym_sound:
                 ldx     #ym_data_start        ; load start address of ram buffer for YM play
-                ldd     #(STRUCT_LEN*11)      ; load length of buffer
+                ldd     #(STRUCT_LEN*11)-1      ; load length of buffer
                 jsr     Clear_x_d             ; clear buffer
                 clr     ym_regs_used          ; count of registers that are used by the player - reset
 

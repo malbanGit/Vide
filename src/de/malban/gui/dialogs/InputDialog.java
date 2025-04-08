@@ -42,8 +42,8 @@ public class InputDialog extends javax.swing.JPanel {
     
     /** Creates new form GetStringDialog */
     public InputDialog(JFrame frame, String text) {
-        jLabel1.setText(text);
         initComponents();
+        jLabel1.setText(text);
     }
 
     /** This method is called from within the constructor to

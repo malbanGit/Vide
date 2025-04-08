@@ -92,6 +92,7 @@ import java.time.LocalDateTime;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -246,7 +247,7 @@ public class VecXPanel extends javax.swing.JPanel
         AbstractDevice.exitSync = false;
         DualVec.exitSync = false;
         initComponents();
-        //jCheckBox1.setVisible(false);
+        jCheckBox1.setVisible(false);
         vecx = new VecX();
         ensureDevices();
         initJoyportsFromFlag();
@@ -325,6 +326,8 @@ public class VecXPanel extends javax.swing.JPanel
             }
         });
         setLayout(null);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(470, 90));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/Port.png"))); // NOI18N
         jLabel1.setText("1");
@@ -424,6 +427,7 @@ public class VecXPanel extends javax.swing.JPanel
 
         jButtonStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play.png"))); // NOI18N
         jButtonStart.setToolTipText("<html>Starts selected ROM, no effect if running!<BR>\nSHIFT click resets and starts new!\n</html>\n"); // NOI18N
+        jButtonStart.setAlignmentY(0.0F);
         jButtonStart.setFocusable(false);
         jButtonStart.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonStart.addActionListener(new java.awt.event.ActionListener() {
@@ -445,86 +449,71 @@ public class VecXPanel extends javax.swing.JPanel
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonFileSelect1)
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jButtonStart)
-                        .addGap(5, 5, 5)
-                        .addComponent(jButtonPause))
-                    .addComponent(jComboBoxJoyport1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxJoyport0, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jButtonStop)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonSaveState)
-                        .addGap(6, 6, 6)
-                        .addComponent(jButtonLoadState)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonDebug))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonFileSelect1)
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(jButtonStart)
+                                .addGap(5, 5, 5)
+                                .addComponent(jButtonPause)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonStop)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonSaveState)
+                                .addGap(6, 6, 6)
+                                .addComponent(jButtonLoadState)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonDebug)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jComboBoxJoyport0, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBoxJoyport1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButtonDebug, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButtonLoadState, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButtonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButtonStart, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(1, 1, 1)))
-                            .addComponent(jButtonStop, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonSaveState, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxJoyport0, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jCheckBox1)))
-                .addGap(1, 1, 1)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxJoyport1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextFieldstart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonLoadState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonSaveState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonStop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonPause, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonStart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelFPS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDebug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(2, 2, 2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxJoyport0, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxJoyport1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 23, Short.MAX_VALUE))
+            .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         add(jPanel1);
-        jPanel1.setBounds(0, 0, 380, 65);
+        jPanel1.setBounds(0, 0, 380, 90);
         jPanel1.getAccessibleContext().setAccessibleDescription("");
     }// </editor-fold>//GEN-END:initComponents
 
     static String lastOpenedDir = Global.mainPathPrefix;
-    private void jButtonFileSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect1ActionPerformed
-        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
-        fc.setCurrentDirectory(new java.io.File(lastOpenedDir));
-        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
-        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
-        String name = fc.getSelectedFile().getAbsolutePath();
-        lastOpenedDir = new File(name).getAbsolutePath();
-        jTextFieldstart.setText(name);
-    }//GEN-LAST:event_jButtonFileSelect1ActionPerformed
-
     public void resetCurrent()
     {
         jButtonStopActionPerformed(null); // stop
@@ -541,103 +530,7 @@ public class VecXPanel extends javax.swing.JPanel
             jButtonPauseActionPerformed(null);
         }
     }
-    
-    private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
-        updatefinished = true;
-        usedCDebug = null;
-
-        if (evt != null)
-        {
-            if (((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
-            {
-                jButtonStopActionPerformed(evt); // stop
-                // ... and run :-)... meaning go on...
-            }
-        }
-
-        if (startTypeRun != START_TYPE_INJECT)
-        {
-            if (stepping) 
-            {
-                debugMultistepAction();
-            }
-            if (isDebuging())
-            {
-                oneStep();
-                return;
-            }
-            if (isPausing())
-            {
-                cont();
-                return;
-            }
-            if (isRunning()) return;
-        }
-        else
-        {
-            stop = true;
-            while (running);
-        }
-        if (config.debugingCore)
-        {
-            if (dissi == null)
-            {
-                createDissi();
-                if (dissi == null) return; 
-            }
-            setDissi(dissi);
-        }
-        
-
-        
-        if (startTypeRun != START_TYPE_INJECT)
-        {
-            boolean ok = vecx.init(jTextFieldstart.getText(), cartProp, true);
-            if (!ok)
-                return;
-            if (dissi != null)
-            {
-                dissi.dis(vecx.cart);
-                if (startTypeRun == VecX.START_TYPE_DEBUG)
-                    dissi.setStartbreakpoint();
-            }
-            if (config.overlayEnabled)
-                loadOverlay(jTextFieldstart.getText()); // ensure overlay in scaled form is available
-            checkWindows();
-            initJoyportsFromFlag();
-        }
-        else
-        {
-            vecx.inject(jTextFieldstart.getText(), cartProp);
-            if (dissi != null)
-                dissi.dis(vecx.cart);
-        }
-        
-        if (config.debugingCore)
-        {
-            dissiInit = true;
-            dissi.processHeyDissis();
-        }        
-        
-        stop = true;
-        setLED(0);
-        changeDisplay();
-        updatePorts();
-        if (startTypeRun != START_TYPE_INJECT)
-        {
-            start();            
-        }
-        else
-        {
-            if (!isDebuging())
-            {
-                if (!stepping)
-                    start();            
-            }
-        }
-
-    }//GEN-LAST:event_jButtonStartActionPerformed
-    public void startUp(String path)
+        public void startUp(String path)
     {
         startUp(path, true);
     }
@@ -736,16 +629,6 @@ public class VecXPanel extends javax.swing.JPanel
         return true;
     }
     
-    private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
-        updatefinished = true;
-        if (isPausing())
-        {
-            cont();
-            return;
-        }
-        pause();
-    }//GEN-LAST:event_jButtonPauseActionPerformed
-
     
     private void createDissi()
     {
@@ -824,16 +707,6 @@ public class VecXPanel extends javax.swing.JPanel
             ((CSAMainFrame)mParent).doExit();
         }
     }
-    private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
-        updatefinished = true;
-        stop();
-        if (dissi != null)
-            dissi.deinit();
-        dissiInit = false;
-        overlayImageOrg = null;
-        overlayChanged();
-
-    }//GEN-LAST:event_jButtonStopActionPerformed
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         forceResize();
         SwingUtilities.invokeLater(new Runnable()
@@ -860,251 +733,7 @@ public class VecXPanel extends javax.swing.JPanel
         int ringFrameBufferNext = 0;
         CompleteState[] goFrameBackRingBuffer;
     }
- 
-    private void jButtonSaveStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveStateActionPerformed
-        LocalDateTime ldt = LocalDateTime.now(); 
-        VeryCompleteState vcs = null;
-
-        if (evt != null)
-        {
-            shiftPressed = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
-
-            if (shiftPressed)
-            {
-                vcs = new VeryCompleteState();
-                vcs.breakpoints = vecx.breakpoints;
-                vcs.SS_RING_BUFFER_SIZE = vecx.SS_RING_BUFFER_SIZE;
-                vcs.ringSSWalkStep = vecx.ringSSWalkStep;
-                vcs.ringSSBufferNext = vecx.ringSSBufferNext;
-                vcs.goSSBackRingBuffer = vecx.goSSBackRingBuffer;
-
-                vcs.FRAME_RING_BUFFER_SIZE = vecx.FRAME_RING_BUFFER_SIZE;
-                vcs.ringFrameWalkStep = vecx.ringFrameWalkStep;
-                vcs.ringFrameBufferNext = vecx.ringFrameBufferNext;
-                vcs.goFrameBackRingBuffer = vecx.goFrameBackRingBuffer;
-            }
-        }
-        
-        
-        if ((!running)&& (!debuging)) return;
-        if (stop) 
-        {
-            if (debuging)
-            {
-                CompleteState state = vecx.getState();
-                state.additional = vcs;
-
-                
-                if (vecx.joyport[0]!=null)
-                {
-                    if (vecx.joyport[0].getDevice()!=null)
-                    {
-                        state.deviceID0 = vecx.joyport[0].getDevice().getDeviceID();
-                        state.deviceName0 = vecx.joyport[0].getDevice().getDeviceName();
-
-                    }
-                }
-                if (vecx.joyport[1]!=null)
-                {
-                    if (vecx.joyport[1].getDevice()!=null)
-                    {
-                        state.deviceID1 = vecx.joyport[1].getDevice().getDeviceID();
-                        state.deviceName1 = vecx.joyport[1].getDevice().getDeviceName();
-
-                    }
-                }
-                CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
-                CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString().replace(':','_')+".ser");
-                state.additional = null;
-            }
-            return;
-        } 
-        if (!isPausing())
-        {
-            pause();
-            while (!pauseMode)
-            {
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(VecXPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            CompleteState state = vecx.getState();
-            state.additional = vcs;
-            
-            if (vecx.joyport[0]!=null)
-            {
-                if (vecx.joyport[0].getDevice()!=null)
-                {
-                    state.deviceID0 = vecx.joyport[0].getDevice().getDeviceID();
-                    state.deviceName0 = vecx.joyport[0].getDevice().getDeviceName();
-                    
-                }
-            }
-            if (vecx.joyport[1]!=null)
-            {
-                if (vecx.joyport[1].getDevice()!=null)
-                {
-                    state.deviceID1 = vecx.joyport[1].getDevice().getDeviceID();
-                    state.deviceName1 = vecx.joyport[1].getDevice().getDeviceName();
-                    
-                }
-            }
-            CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
-            CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString()+".ser");
-            state.additional = null;
-            cont();
-            return;
-        }
-        CompleteState state = vecx.getState();
-        state.additional = vcs;
-        if (vecx.joyport[0]!=null)
-        {
-            if (vecx.joyport[0].getDevice()!=null)
-            {
-                state.deviceID0 = vecx.joyport[0].getDevice().getDeviceID();
-                state.deviceName0 = vecx.joyport[0].getDevice().getDeviceName();
-
-            }
-        }
-        if (vecx.joyport[1]!=null)
-        {
-            if (vecx.joyport[1].getDevice()!=null)
-            {
-                state.deviceID1 = vecx.joyport[1].getDevice().getDeviceID();
-                state.deviceName1 = vecx.joyport[1].getDevice().getDeviceName();
-
-            }
-        }
-        CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
-        CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString()+".ser");
-        state.additional = null;
-
-    }//GEN-LAST:event_jButtonSaveStateActionPerformed
-    private void jButtonLoadStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadStateActionPerformed
-        boolean oldPause = isPausing();
-        boolean oldDebug = debuging;
-        updatefinished = true;
-        stop();
-        dissiInit = false;
-
-        CompleteState state = (CompleteState) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
-        if (state == null) return;
-        
-        if (!vecx.putState(state)) return;
-//        if (!vecx.loadStateFromFile("")) return;
-
-        mClassSetting++;
-        if (state.deviceID0 != -1)
-        {
-            JoyportDevice device = getDevice(state.deviceID0, state.deviceName0);
-            vecx.joyport[0].plugIn(device);
-            if (device == null)
-            {
-                jComboBoxJoyport0.setSelectedIndex(-1);
-            }
-            else
-            {
-                jComboBoxJoyport0.setSelectedItem(device);
-            }
-        }
-        if (state.deviceID1 != -1)
-        {
-            JoyportDevice device1;
-            if (state.deviceID1 == DEVICE_IMAGER)
-            {
-                device1 = vecx.joyport[1].getDevice();
-                if (device1 != null)
-                {
-                    if (device1 instanceof Imager3dDevice)
-                    {
-                        replaceDeviceInList(device1);
-                        jComboBoxJoyport1.setSelectedItem(vecx.joyport[1].getDevice());
-                    }
-                }
-            }
-            else
-            {
-                device1 = getDevice(state.deviceID1, state.deviceName1);
-                vecx.joyport[1].plugIn(device1);
-            }
-            if (device1 == null)
-            {
-                jComboBoxJoyport1.setSelectedIndex(-1);
-            }
-            else
-            {
-                jComboBoxJoyport1.setSelectedItem(device1);
-            }
-        }
-        mClassSetting--;
-
-        
-        if (state.additional != null)
-        {
-            if (state.additional instanceof VeryCompleteState)
-            {
-                VeryCompleteState vcs = (VeryCompleteState) state.additional;
-                vecx.breakpoints = vcs.breakpoints;
-        setAllBreakpoints(vcs.breakpoints);
-
-                vecx.SS_RING_BUFFER_SIZE = vcs.SS_RING_BUFFER_SIZE;
-                vecx.ringSSWalkStep = vcs.ringSSWalkStep;
-                vecx.ringSSBufferNext = vcs.ringSSBufferNext;
-                vecx.goSSBackRingBuffer = vcs.goSSBackRingBuffer;
-                
-                vecx.FRAME_RING_BUFFER_SIZE = vcs.FRAME_RING_BUFFER_SIZE;
-                vecx.ringFrameWalkStep = vcs.ringFrameWalkStep;
-                vecx.ringFrameBufferNext = vcs.ringFrameBufferNext;
-                vecx.goFrameBackRingBuffer = vcs.goFrameBackRingBuffer;
-            }
-        }
-        
-        
-        
-        
-        jTextFieldstart.setText(vecx.romName);
-        overlayImageOrg = null;
-        if (config.overlayEnabled)
-            loadOverlay(vecx.romName);
-        
-        if (dissi == null)
-        {
-            createDissi();
-            if (dissi == null) return; 
-        }
-        setDissi(dissi);
-        dissi.dis(vecx.cart);
-        
-        dissi.setDissiBank(vecx.cart.getCurrentBank());
-        dissiInit = true;
-        if (config.overlayEnabled)
-            loadOverlay(jTextFieldstart.getText()); // ensure overlay in scaled form is available
-        dissi.processHeyDissis();
-        
-        checkWindows();
-        changeDisplay();
-        
-waitAMoment = true;        
- start();
- 
-        if (oldPause) 
-        {
- while (!running); // this is bad!
-            pause();
-        }
-       
-        if (oldDebug) 
-        {
- while (!running); // this is bad!
-            
-            debugAction();
-        }
-waitAMoment = false;        
-
-    }//GEN-LAST:event_jButtonLoadStateActionPerformed
-    public void debugFrameUndoAction(int s)
+     public void debugFrameUndoAction(int s)
     {
         updatefinished = true;
         if (!isDebuging())
@@ -1113,7 +742,8 @@ waitAMoment = false;
         vecx.stepBackInFrameRingbuffer(s);
         updateDisplay();
         repaint();
-        updateAvailableWindows(true, false, true);
+        int PC = 0; try { PC = vecx.e6809.reg_pc; } catch (Throwable e) {}
+        updateAvailableWindows(true, false, true, PC);
     }    
     public void debugFrameRedoAction(int s)
     {
@@ -1124,7 +754,8 @@ waitAMoment = false;
         vecx.stepForwardInFrameRingbuffer(s);
         updateDisplay();
         repaint();
-        updateAvailableWindows(true, false, true);
+        int PC = 0; try { PC = vecx.e6809.reg_pc; } catch (Throwable e) {}
+        updateAvailableWindows(true, false, true, PC);
     }    
 
     public void debugUndoAction(int s)
@@ -1135,7 +766,8 @@ waitAMoment = false;
         vecx.stepBackInSSRingbuffer(s);
         updateDisplay();
         repaint();
-        updateAvailableWindows(true, false, true);
+        int PC = 0; try { PC = vecx.e6809.reg_pc; } catch (Throwable e) {}
+        updateAvailableWindows(true, false, true, PC);
     }    
     public void debugRedoAction(int s)
     {
@@ -1145,7 +777,8 @@ waitAMoment = false;
         vecx.stepForwardInSSRingbuffer(s);
         updateDisplay();
         repaint();
-        updateAvailableWindows(true, false, true);
+        int PC = 0; try { PC = vecx.e6809.reg_pc; } catch (Throwable e) {}
+        updateAvailableWindows(true, false, true, PC);
     }    
     
     public void debugStepoutAction()
@@ -1366,12 +999,387 @@ waitAMoment = false;
         repaint();
     }//GEN-LAST:event_formMouseDragged
 
-    private void jComboBoxJoyport1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxJoyport1ActionPerformed
-        if (mClassSetting>0) return;
-        vecx.joyport[1].plugIn((JoyportDevice)jComboBoxJoyport1.getSelectedItem());
-        AbstractDevice.exitSync = false;
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        vecx.setPeerOutputEnabled(jCheckBox1.isSelected());
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
+        updatefinished = true;
+        usedCDebug = null;
+        boolean doRestart = false;
+
+        if (evt != null)
+        {
+            if (((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
+            {
+                jButtonStopActionPerformed(evt); // stop
+                // ... and run :-)... meaning go on...
+                doRestart = true;
+            }
+        }
+
+        if (startTypeRun != START_TYPE_INJECT)
+        {
+            if (stepping)
+            {
+                debugMultistepAction();
+            }
+            if (isDebuging())
+            {
+                oneStep();
+                return;
+            }
+            if (isPausing())
+            {
+                cont();
+                return;
+            }
+            if (isRunning()) return;
+        }
+        else
+        {
+            stop = true;
+            while (running);
+        }
+        if (config.debugingCore)
+        {
+            if (dissi == null)
+            {
+                createDissi();
+                if (dissi == null) return;
+            }
+            setDissi(dissi);
+        }
+
+        if (startTypeRun != START_TYPE_INJECT)
+        {
+            boolean ok = vecx.init(jTextFieldstart.getText(), cartProp, true, doRestart);
+            if (!ok)
+            return;
+            if (dissi != null)
+            {
+                dissi.dis(vecx.cart);
+                if (startTypeRun == VecX.START_TYPE_DEBUG)
+                dissi.setStartbreakpoint();
+            }
+            if (config.overlayEnabled)
+            loadOverlay(jTextFieldstart.getText()); // ensure overlay in scaled form is available
+            checkWindows();
+            initJoyportsFromFlag();
+        }
+        else
+        {
+            vecx.inject(jTextFieldstart.getText(), cartProp);
+            if (dissi != null)
+            dissi.dis(vecx.cart);
+        }
+
+        if (config.debugingCore)
+        {
+            dissiInit = true;
+            dissi.processHeyDissis();
+        }
+
+        stop = true;
+        setLED(0);
+        changeDisplay();
         updatePorts();
-    }//GEN-LAST:event_jComboBoxJoyport1ActionPerformed
+        if (startTypeRun != START_TYPE_INJECT)
+        {
+            start();
+        }
+        else
+        {
+            if (!isDebuging())
+            {
+                if (!stepping)
+                start();
+            }
+        }
+    }//GEN-LAST:event_jButtonStartActionPerformed
+
+    private void jButtonSaveStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveStateActionPerformed
+        LocalDateTime ldt = LocalDateTime.now();
+        VeryCompleteState vcs = null;
+
+        if (evt != null)
+        {
+            shiftPressed = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
+
+            if (shiftPressed)
+            {
+                vcs = new VeryCompleteState();
+                vcs.breakpoints = vecx.breakpoints;
+                vcs.SS_RING_BUFFER_SIZE = vecx.SS_RING_BUFFER_SIZE;
+                vcs.ringSSWalkStep = vecx.ringSSWalkStep;
+                vcs.ringSSBufferNext = vecx.ringSSBufferNext;
+                vcs.goSSBackRingBuffer = vecx.goSSBackRingBuffer;
+
+                vcs.FRAME_RING_BUFFER_SIZE = vecx.FRAME_RING_BUFFER_SIZE;
+                vcs.ringFrameWalkStep = vecx.ringFrameWalkStep;
+                vcs.ringFrameBufferNext = vecx.ringFrameBufferNext;
+                vcs.goFrameBackRingBuffer = vecx.goFrameBackRingBuffer;
+            }
+        }
+
+        if ((!running)&& (!debuging)) return;
+        if (stop)
+        {
+            if (debuging)
+            {
+                CompleteState state = vecx.getState();
+                state.additional = vcs;
+
+                if (vecx.joyport[0]!=null)
+                {
+                    if (vecx.joyport[0].getDevice()!=null)
+                    {
+                        state.deviceID0 = vecx.joyport[0].getDevice().getDeviceID();
+                        state.deviceName0 = vecx.joyport[0].getDevice().getDeviceName();
+
+                    }
+                }
+                if (vecx.joyport[1]!=null)
+                {
+                    if (vecx.joyport[1].getDevice()!=null)
+                    {
+                        state.deviceID1 = vecx.joyport[1].getDevice().getDeviceID();
+                        state.deviceName1 = vecx.joyport[1].getDevice().getDeviceName();
+
+                    }
+                }
+                CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
+                CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString().replace(':','_')+".ser");
+                state.additional = null;
+            }
+            return;
+        }
+        if (!isPausing())
+        {
+            pause();
+            while (!pauseMode)
+            {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(VecXPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            CompleteState state = vecx.getState();
+            state.additional = vcs;
+
+            if (vecx.joyport[0]!=null)
+            {
+                if (vecx.joyport[0].getDevice()!=null)
+                {
+                    state.deviceID0 = vecx.joyport[0].getDevice().getDeviceID();
+                    state.deviceName0 = vecx.joyport[0].getDevice().getDeviceName();
+
+                }
+            }
+            if (vecx.joyport[1]!=null)
+            {
+                if (vecx.joyport[1].getDevice()!=null)
+                {
+                    state.deviceID1 = vecx.joyport[1].getDevice().getDeviceID();
+                    state.deviceName1 = vecx.joyport[1].getDevice().getDeviceName();
+
+                }
+            }
+            CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
+            CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString()+".ser");
+            state.additional = null;
+            cont();
+            return;
+        }
+        CompleteState state = vecx.getState();
+        state.additional = vcs;
+        if (vecx.joyport[0]!=null)
+        {
+            if (vecx.joyport[0].getDevice()!=null)
+            {
+                state.deviceID0 = vecx.joyport[0].getDevice().getDeviceID();
+                state.deviceName0 = vecx.joyport[0].getDevice().getDeviceName();
+
+            }
+        }
+        if (vecx.joyport[1]!=null)
+        {
+            if (vecx.joyport[1].getDevice()!=null)
+            {
+                state.deviceID1 = vecx.joyport[1].getDevice().getDeviceID();
+                state.deviceName1 = vecx.joyport[1].getDevice().getDeviceName();
+
+            }
+        }
+        CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
+        CSAMainFrame.serialize(state, Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest_"+ldt.toString()+".ser");
+        state.additional = null;
+    }//GEN-LAST:event_jButtonSaveStateActionPerformed
+
+    private void jButtonLoadStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadStateActionPerformed
+        boolean oldPause = isPausing();
+        boolean oldDebug = debuging;
+        updatefinished = true;
+        stop();
+        dissiInit = false;
+
+        CompleteState state = (CompleteState) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+"StateSaveTest.ser");
+        if (state == null) return;
+
+        if (!vecx.putState(state)) return;
+        //        if (!vecx.loadStateFromFile("")) return;
+
+        mClassSetting++;
+        if (state.deviceID0 != -1)
+        {
+            JoyportDevice device = getDevice(state.deviceID0, state.deviceName0);
+            vecx.joyport[0].plugIn(device);
+            if (device == null)
+            {
+                jComboBoxJoyport0.setSelectedIndex(-1);
+            }
+            else
+            {
+                jComboBoxJoyport0.setSelectedItem(device);
+            }
+        }
+        if (state.deviceID1 != -1)
+        {
+            JoyportDevice device1;
+            if (state.deviceID1 == DEVICE_IMAGER)
+            {
+                device1 = vecx.joyport[1].getDevice();
+                if (device1 != null)
+                {
+                    if (device1 instanceof Imager3dDevice)
+                    {
+                        replaceDeviceInList(device1);
+                        jComboBoxJoyport1.setSelectedItem(vecx.joyport[1].getDevice());
+                    }
+                }
+            }
+            else
+            {
+                device1 = getDevice(state.deviceID1, state.deviceName1);
+                vecx.joyport[1].plugIn(device1);
+            }
+            if (device1 == null)
+            {
+                jComboBoxJoyport1.setSelectedIndex(-1);
+            }
+            else
+            {
+                jComboBoxJoyport1.setSelectedItem(device1);
+            }
+        }
+        mClassSetting--;
+
+        if (state.additional != null)
+        {
+            if (state.additional instanceof VeryCompleteState)
+            {
+                VeryCompleteState vcs = (VeryCompleteState) state.additional;
+                vecx.breakpoints = vcs.breakpoints;
+                setAllBreakpoints(vcs.breakpoints);
+
+                vecx.SS_RING_BUFFER_SIZE = vcs.SS_RING_BUFFER_SIZE;
+                vecx.ringSSWalkStep = vcs.ringSSWalkStep;
+                vecx.ringSSBufferNext = vcs.ringSSBufferNext;
+                vecx.goSSBackRingBuffer = vcs.goSSBackRingBuffer;
+
+                vecx.FRAME_RING_BUFFER_SIZE = vcs.FRAME_RING_BUFFER_SIZE;
+                vecx.ringFrameWalkStep = vcs.ringFrameWalkStep;
+                vecx.ringFrameBufferNext = vcs.ringFrameBufferNext;
+                vecx.goFrameBackRingBuffer = vcs.goFrameBackRingBuffer;
+            }
+        }
+
+        jTextFieldstart.setText(vecx.romName);
+        overlayImageOrg = null;
+        if (config.overlayEnabled)
+        loadOverlay(vecx.romName);
+
+        if (dissi == null)
+        {
+            createDissi();
+            if (dissi == null) return;
+        }
+        setDissi(dissi);
+        dissi.dis(vecx.cart);
+
+        dissi.setDissiBank(vecx.cart.getCurrentBank());
+        dissiInit = true;
+        if (config.overlayEnabled)
+        loadOverlay(jTextFieldstart.getText()); // ensure overlay in scaled form is available
+        dissi.processHeyDissis();
+
+        checkWindows();
+        changeDisplay();
+
+        waitAMoment = true;
+        start();
+
+        if (oldPause)
+        {
+            while (!running); // this is bad!
+            pause();
+        }
+
+        if (oldDebug)
+        {
+            while (!running); // this is bad!
+
+            debugAction();
+        }
+        waitAMoment = false;
+    }//GEN-LAST:event_jButtonLoadStateActionPerformed
+
+    private void jButtonDebugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDebugActionPerformed
+        ensureMyDissi();
+    }//GEN-LAST:event_jButtonDebugActionPerformed
+
+    private void jButtonFileSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect1ActionPerformed
+
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+
+        if ((!config.useLastKnownDir) || ((lastOpenedDir == null) || (lastOpenedDir.length()==0)))
+        {
+            fc.setCurrentDirectory(new java.io.File(config.fileRequestHome));
+        }
+        else
+        {
+            fc.setCurrentDirectory(new java.io.File(lastOpenedDir));
+        }
+        FileNameExtensionFilter  filter = new  FileNameExtensionFilter("Binaries (bin, vec, img)", "bin", "vec", "img");
+        fc.setFileFilter(filter);
+
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String name = fc.getSelectedFile().getAbsolutePath();
+        lastOpenedDir = new File(name).getAbsolutePath();
+        jTextFieldstart.setText(name);
+    }//GEN-LAST:event_jButtonFileSelect1ActionPerformed
+
+    private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
+        updatefinished = true;
+        stop();
+        if (dissi != null)
+        dissi.deinit();
+        dissiInit = false;
+        overlayImageOrg = null;
+        overlayChanged();
+    }//GEN-LAST:event_jButtonStopActionPerformed
+
+    private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
+        updatefinished = true;
+        if (isPausing())
+        {
+            cont();
+            return;
+        }
+        pause();
+    }//GEN-LAST:event_jButtonPauseActionPerformed
 
     private void jComboBoxJoyport0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxJoyport0ActionPerformed
         if (mClassSetting>0) return;
@@ -1380,13 +1388,12 @@ waitAMoment = false;
         updatePorts();
     }//GEN-LAST:event_jComboBoxJoyport0ActionPerformed
 
-    private void jButtonDebugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDebugActionPerformed
-        ensureMyDissi();
-    }//GEN-LAST:event_jButtonDebugActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        vecx.setPeerOutputEnabled(jCheckBox1.isSelected());
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    private void jComboBoxJoyport1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxJoyport1ActionPerformed
+        if (mClassSetting>0) return;
+        vecx.joyport[1].plugIn((JoyportDevice)jComboBoxJoyport1.getSelectedItem());
+        AbstractDevice.exitSync = false;
+        updatePorts();
+    }//GEN-LAST:event_jComboBoxJoyport1ActionPerformed
 
     
     public void setUpdateAllways(boolean b)
@@ -1572,7 +1579,7 @@ waitAMoment = false;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelFPS;
-    protected javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextFieldstart;
     // End of variables declaration//GEN-END:variables
 
@@ -1652,13 +1659,14 @@ waitAMoment = false;
                     {
                         try 
                         {
+                            int PC1 = 0; try { PC1 = vecx.e6809.reg_pc; } catch (Throwable e) {} final int PC = PC1;
                             updatefinished = false;
                             SwingUtilities.invokeLater(new Runnable()
                             {
                                 public void run()
                                 {
                                     updateDisplay();
-                                    updateAvailableWindows(true, false, true, false);
+                                    updateAvailableWindows(true, false, true, false, PC);
                                     updatefinished = true;
                                     
                                 }
@@ -1674,22 +1682,29 @@ waitAMoment = false;
                     }
                     else
                     {
+                        int PC1 = 0; try { PC1 = vecx.e6809.reg_pc; } catch (Throwable e) {} final int PC = PC1;
                         SwingUtilities.invokeLater(new Runnable()
                         {
                             public void run()
                             {
-                                updateAvailableWindows(true, false, false, true);
+                                updateAvailableWindows(true, false, false, true, PC);
                             }
                         });                    
                         if (config.speedLimit) 
                         {
                             long duration = System.currentTimeMillis() - startTime;
-
-                            if (duration < EMU_TIMER-1)
+                            double muli = (double)(((double)config.speedLimitPercent) / ((double)100.0));
+                            double waitInMilli = 1000;
+                            double divider = 50; // 100%
+                            divider = divider*muli;
+                            int waiter = (int) (((double)waitInMilli) / divider);
+         
+                            
+                            if (duration < waiter-1)
                             {
                                 try 
                                 {
-                                    Thread.sleep(EMU_TIMER-1-duration);
+                                    Thread.sleep(waiter-1-duration);
                                 } 
                                 catch(InterruptedException v) 
                                 {
@@ -1710,12 +1725,13 @@ waitAMoment = false;
                 running = false;
                 if (exitReason == EMU_EXIT_BREAKPOINT_BREAK)
                 {
+                    int PC1 = 0; try { PC1 = vecx.e6809.reg_pc; } catch (Throwable e) {} final int PC = PC1;
                     // meaning a breakpoint occured
                     SwingUtilities.invokeLater(new Runnable()
                     {
                         public void run()
                         {
-                            updateAvailableWindows(true, noDissiFirstLine, true);
+                            updateAvailableWindows(true, noDissiFirstLine, true, PC);
                             startDebug();
                             noDissiFirstLine = false;
                             breakpointHandleBreak();
@@ -1724,10 +1740,16 @@ waitAMoment = false;
                 }
             }  
         };
-        vecx.initDissi();
+        vecx.initDissi(false);
 
         one.start();           
     }
+    public void initProfiler()
+    {
+        vecx.initDissi(true);
+    }
+    
+    
     boolean updatefinished=false;
     public void startDebug()
     {
@@ -1756,7 +1778,7 @@ waitAMoment = false;
         }
         if (dissi != null)
         {
-            vecx.initDissi();
+            vecx.initDissi(false);
             dissi.goAddress(vecx.e6809.reg_pc, true, false, true);
         }
         updateDisplay();
@@ -1779,7 +1801,8 @@ waitAMoment = false;
         vecx.vecx_emu(1); // only one instruction!
         updateDisplay();
         repaint();
-        updateAvailableWindows(true, false, true);
+        int PC = 0; try { PC = vecx.e6809.reg_pc; } catch (Throwable e) {}
+        updateAvailableWindows(true, false, true, PC);
     }
     
     private void stopThreading()
@@ -2019,17 +2042,17 @@ waitAMoment = false;
         displayPanel.setLightPen();
     }
     
-    public void updateAvailableWindows(boolean jumpInDissi, boolean moveDissiToFirst, boolean forceUpdate)
+    public void updateAvailableWindows(boolean jumpInDissi, boolean moveDissiToFirst, boolean forceUpdate, int PC)
     {
-        updateAvailableWindows(jumpInDissi, moveDissiToFirst, forceUpdate, false);
+        updateAvailableWindows(jumpInDissi, moveDissiToFirst, forceUpdate, false, PC);
     }
-    public void updateAvailableWindows(boolean jumpInDissi, boolean moveDissiToFirst, boolean forceUpdate, boolean jumpMayBeDiscarded)
+    public void updateAvailableWindows(boolean jumpInDissi, boolean moveDissiToFirst, boolean forceUpdate, boolean jumpMayBeDiscarded, int PC)
     {
         if (!dissiActive) return;
         if (dissi != null)
         {
             if ((jumpInDissi) && (!pausing))
-                dissi.goAddress(vecx.e6809.reg_pc, moveDissiToFirst, false, forceUpdate, jumpMayBeDiscarded);
+                dissi.goAddress(PC, moveDissiToFirst, false, forceUpdate, jumpMayBeDiscarded);
             dissi.updateValues(forceUpdate);
             
         }
@@ -2159,6 +2182,10 @@ waitAMoment = false;
     {
         breaki = null;
     }
+    public DissiPanel getDissi()
+    {
+        return dissi;
+    }
     public void resetDissi()
     {
         dissi = null;
@@ -2287,7 +2314,19 @@ waitAMoment = false;
     }
     
     // RAM access// read//write// value
-    public void breakpointVarSet(Breakpoint bp)
+    public void breakpointVarToggle(Breakpoint bp)
+    {
+        if (dissi == null) return;
+        //bp.memInfo = null;
+        vecx.toggleBreakpoint(bp);
+        dissi.updateTableOnly();
+        vari.updateValues(true);
+        if (breaki != null) breaki.updateValues(true);
+    }
+
+    // RAM access// read//write// value
+    // depricated
+    public void _breakpointVarSet(Breakpoint bp)
     {
         if (dissi == null) return;
         bp.memInfo = null;
@@ -2413,10 +2452,6 @@ waitAMoment = false;
         return b;
     }
     
-    
-    
-    
-
     public void breakpointRemove(Breakpoint bp)
     {
         if (dissi == null) return;
@@ -2452,8 +2487,8 @@ waitAMoment = false;
     }
     public void breakpointClearAll()
     {
-        vecx.clearAllBreakpoints();        
-        dissi.updateTableOnly();
+        if (vecx != null) vecx.clearAllBreakpoints();        
+        if (dissi != null) dissi.updateTableOnly();
         if (breaki != null) breaki.updateValues(true);
     }
     
@@ -3098,7 +3133,7 @@ waitAMoment = false;
                     dissi.dis(vecx.cart);
                     dissi.processHeyDissis();
                     dissiInit = true;
-                    vecx.initDissi();
+                    vecx.initDissi(false);
                 }
             }
             else
@@ -3139,7 +3174,8 @@ waitAMoment = false;
         if (profi != null) profi.setDissi(dissi);
 
         
-        updateAvailableWindows(false, false, true);
+        int PC = 0; try { PC = vecx.e6809.reg_pc; } catch (Throwable e) {}
+        updateAvailableWindows(false, false, true, PC);
     }
     // if my own "panels" are null and they were opened meanwhile for antother panel - find them
     // if my own panels are now closed -> null them
@@ -3245,12 +3281,13 @@ waitAMoment = false;
         {
             try 
             {
+                int PC1 = 0; try { PC1 = vecx.e6809.reg_pc; } catch (Throwable e) {} final int PC = PC1;
                 SwingUtilities.invokeLater(new Runnable()
                 {
                     public void run()
                     {
                         updateDisplay();
-                        updateAvailableWindows(true, false, true);
+                        updateAvailableWindows(true, false, true, PC);
 
                     }
                 });                    
@@ -3263,11 +3300,12 @@ waitAMoment = false;
         }
         else
         {
+            int PC1 = 0; try { PC1 = vecx.e6809.reg_pc; } catch (Throwable e) {} final int PC = PC1;
             SwingUtilities.invokeLater(new Runnable()
             {
                 public void run()
                 {
-                    updateAvailableWindows(true, false, false);
+                    updateAvailableWindows(true, false, false, PC);
                 }
             });
         }
@@ -3309,7 +3347,8 @@ waitAMoment = false;
     public boolean setRegister(String register, int value)
     {
         boolean ok = vecx.setRegister(register, value);
-        updateAvailableWindows(true, false, true);
+        int PC = 0; try { PC = vecx.e6809.reg_pc; } catch (Throwable e) {}
+        updateAvailableWindows(true, false, true, PC);
         return ok;
     }
     
@@ -3645,6 +3684,11 @@ waitAMoment = false;
         }
         event.x=old_x;
         event.y=old_y;
+    }
+
+    public ArrayList<Breakpoint>[] getBreakpoints()
+    {
+        return vecx.breakpoints;
     }
     
 }

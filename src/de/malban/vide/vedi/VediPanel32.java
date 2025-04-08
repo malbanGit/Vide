@@ -1149,7 +1149,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonShowPSG))
                 .addGap(1, 1, 1)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -1256,7 +1256,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 812, Short.MAX_VALUE)))
+                    .addGap(0, 495, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1318,9 +1318,9 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         
-        if (lastPath.length()==0)
+        if ((!config.useLastKnownDir) || ((lastPath == null) || (lastPath.length()==0)))
         {
-            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+            fc.setCurrentDirectory(new java.io.File(config.fileRequestHome));
         }
         else
         {
@@ -1361,8 +1361,13 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         EditorPanel edit = getSelectedEditor();
         if (edit == null) return;
         edit.setODOA(true);
-        edit.save(false);
-        
+        if (edit.hasChanged())
+        {
+            if (!config.onlyManualSaveInEditor)
+            {
+                edit.save(false);
+            }
+        }
         try
         {
             Thread.sleep(1000);
@@ -1557,9 +1562,9 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         {
             lastPath = jTextFieldPath.getText();
         }
-        if (lastPath.length()==0)
+        if ((!config.useLastKnownDir) || ((lastPath == null) || (lastPath.length()==0)))
         {
-            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
+            fc.setCurrentDirectory(new java.io.File(config.fileRequestHome));
         }
         else
         {
@@ -2770,7 +2775,10 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             if (jTabbedPane1.getComponentAt(i) instanceof EditorPanel)
             {
                 EditorPanel ep = (EditorPanel) jTabbedPane1.getComponentAt(i);
-                ep.save(false);
+                if (ep.hasChanged())
+                {
+                    ep.save(false);
+                }
             }
         }
     }
@@ -3254,7 +3262,15 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     }
     protected void deselectInTree(String tabName)
     {
-        DefaultMutableTreeNode node =  (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent() ;
+        DefaultMutableTreeNode node = null;
+        try
+        {
+            node =  (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent() ;
+        }
+        catch (Exception x)
+        {
+            return;
+        }
         if (node == null) return;
         VediPanel32.TreeEntry entry = (VediPanel32.TreeEntry) node.getUserObject();
         if (entry == null) return;

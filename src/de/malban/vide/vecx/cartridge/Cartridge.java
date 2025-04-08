@@ -14,8 +14,10 @@ import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.VERBOSE;
 import de.malban.util.DownloaderPanel;
 import de.malban.vide.VideConfig;
+import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.DisplayerInterface;
 import de.malban.vide.vecx.VecX;
+import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vecx.cartridge.resid.SID.State;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -412,93 +414,118 @@ public class Cartridge implements Serializable
     }
     public void write(int address, byte data)
     {
-        if (address == 20898)
-            address +=0;
-        if (sidEnabled)
+        try
         {
-            if ((address>=0x8000) && (address <0x8020))
+    //        if (address == 20898)
+    //            address +=0;
+            if (sidEnabled)
             {
-                if (vecx != null)
+                if ((address>=0x8000) && (address <0x8020))
                 {
-                    vsid.performWrite(address, data, vecx.getCycles());
+                    if (vecx != null)
+                    {
+                        vsid.performWrite(address, data, vecx.getCycles());
+                    }
+                    return;
                 }
+            }
+
+
+            if (extremeMulti)
+            {
+                writeExtreme(address, data);
                 return;
             }
-        }
-        
-        
-        if (extremeMulti)
-        {
-            writeExtreme(address, data);
-            return;
-        }
-        if ((address >= 0x2000) && (address < 0x2800) && (extraRam2000_2800_2k_Enabled))
-        {
-            extraRam[address-0x2000] = data;
-        }
-        boolean flashDone = false;
-        if (flashSupport)
-        {
-            if ((writeSequenceAddress >= 3) && (writeSequenceData >= 3))
+            if ((address >= 0x2000) && (address < 0x2800) && (extraRam2000_2800_2k_Enabled))
             {
-                if (address!=0x5555) 
+                extraRam[address-0x2000] = data;
+            }
+            boolean flashDone = false;
+            if (flashSupport)
+            {
+                if ((writeSequenceAddress >= 3) && (writeSequenceData >= 3))
                 {
-                    flashDone = true;
-                    writeSequenceAddress = 0;
-                    writeSequenceData = 0;
-                    if (cart.length<=currentBank) return;
-
-                    if ((address%MAX_BANK_SIZE)>=cart[currentBank].length) return;
-                    byte oldData = (byte) cart[currentBank][address%MAX_BANK_SIZE];
-
-                    // only erase of bit is allowed!
-                    byte newData = (byte) (data & oldData);
-                    cart[currentBank][address%MAX_BANK_SIZE] = newData;
-                    log.addLog("FLASH write ("+currentBank+","+(address%MAX_BANK_SIZE)+"->"+newData+")", INFO);
-                }
-            }
-        }
-        if (!flashDone)
-        {
-            if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800_2k_Enabled))  
-            {
-                extraRam[address-0x8000] = data;
-            }
-            else if ((address == 0xa000) && (extraRam8000_8800_2k_Enabled))  
-            {
-                spectrumByte = data;
-            }
-            else if ((address >= 0x6000) && (address < 0x6000+8192) && (extraRam6000_7fff_8k_Enabled))  
-            {
-                extraRam[address-0x6000] = data;
-            }
-            else
-            {
-                if (v4e_16k_bankswitch)
-                {
-                    if ((pos&0xc000) == 0xc000)
+                    if (address!=0x5555) 
                     {
-                        int b = pos & 0xc000; // for now 4 banks only
-                        if (b==0) setBank(0);
-                        if (b==1) setBank(1);
-                        if (b==2) setBank(2);
-                        if (b==3) setBank(3);
+                        flashDone = true;
+                        writeSequenceAddress = 0;
+                        writeSequenceData = 0;
+                        if (cart.length<=currentBank) return;
+
+                        if ((address%MAX_BANK_SIZE)>=cart[currentBank].length) return;
+                        byte oldData = (byte) cart[currentBank][address%MAX_BANK_SIZE];
+
+                        // only erase of bit is allowed!
+                        byte newData = (byte) (data & oldData);
+                        cart[currentBank][address%MAX_BANK_SIZE] = newData;
+                        
+                        log.addLog("FLASH write ("+currentBank+","+(address%MAX_BANK_SIZE)+"->"+newData+")", INFO);
+                        
+                        if (vecx!=null)
+                        {
+                            if (vecx.getDisplay() instanceof VecXPanel)
+                            {
+                                VecXPanel vecXPanel = (VecXPanel) vecx.getDisplay();
+                                DissiPanel dissi = vecXPanel.getDissi();
+                                if (dissi != null)
+                                {
+                                    dissi.doThePoke(address, newData);
+                                }
+                            }
+                                
+                        }
+                          
+
+                        
                     }
                 }
-                if (cart == null) return;
-                if (cart.length<=currentBank) return;
-
-                if (vecx.config.ramAccessAllowed)
+            }
+            if (!flashDone)
+            {
+                if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800_2k_Enabled))  
                 {
-                    if ((address%MAX_BANK_SIZE)>=cart[currentBank].length) return;
-                    cart[currentBank][address%MAX_BANK_SIZE] = data;
+                    extraRam[address-0x8000] = data;
+                }
+                else if ((address == 0xa000) && (extraRam8000_8800_2k_Enabled))  
+                {
+                    spectrumByte = data;
+                }
+                else if ((address >= 0x6000) && (address < 0x6000+8192) && (extraRam6000_7fff_8k_Enabled))  
+                {
+                    extraRam[address-0x6000] = data;
                 }
                 else
                 {
-                    log.addLog("ROM write-access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", vecx.getPC()), VERBOSE);
-                    if (vecx.config.breakpointsActive) vecx.checkROMBreakPoint(address, data);
-                }
-            }            
+                    if (v4e_16k_bankswitch)
+                    {
+                        if ((pos&0xc000) == 0xc000)
+                        {
+                            int b = pos & 0xc000; // for now 4 banks only
+                            if (b==0) setBank(0);
+                            if (b==1) setBank(1);
+                            if (b==2) setBank(2);
+                            if (b==3) setBank(3);
+                        }
+                    }
+                    if (cart == null) return;
+                    if (cart.length<=currentBank) return;
+
+                    if (vecx.config.ramAccessAllowed)
+                    {
+                        if ((address%MAX_BANK_SIZE)>=cart[currentBank].length) return;
+                        cart[currentBank][address%MAX_BANK_SIZE] = data;
+                    }
+                    else
+                    {
+                        log.addLog("ROM write-access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", vecx.getPC()), VERBOSE);
+                        if (vecx.config.breakpointsActive) vecx.checkROMBreakPoint(address, data);
+                    }
+                }            
+            }
+        }
+        catch (Exception xx)
+        {
+            log.addLog("Rom Write Expetion" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", vecx.getPC())+"\n" + de.malban.util.Utility.getCurrentStackTrace(), ERROR);
         }
 
     }
@@ -527,7 +554,7 @@ public class Cartridge implements Serializable
                     big++;
                     if (big>1) 
                     {
-                        System.out.println("Buh");
+//                        System.out.println("Buh");
                     }
                 }
                 else
@@ -1012,6 +1039,14 @@ public class Cartridge implements Serializable
                     }
                 }
             }
+            if ((loadLen>32768) && (loadLen<=32768+32768/2))
+            {
+                // assume 48k
+                log.addLog("Assume 48k CART", WARN);
+                rom48KEnabled = true;
+                MAX_BANK_SIZE = 32768+32768/2;
+                bankMax=2;
+            }
             
             
             cart = new int[bankMax][];     // and so many banks as memory data
@@ -1023,6 +1058,8 @@ public class Cartridge implements Serializable
                 log.addLog("Cartridge not loaded, loadLen = 0", WARN);
                 return false;
             }
+            
+            
             int length = loadLen;
             for (int b=0;b<bankMax;b++)
             {
@@ -1046,7 +1083,29 @@ public class Cartridge implements Serializable
                         cart[b][i] = data[b*MAX_BANK_SIZE+i]&0xff;
                 }
             }
-            
+            if (bankMax==2)
+            {
+                if (bankLength[1] == 0)
+                {
+                    // double the banks, when the upper bank have zero length
+                    for (int i=0; i< MAX_BANK_SIZE;i++)
+                    {
+                        cart[1][i] = cart[0][i]; 
+                    }
+                }
+            }
+            if (bankMax==4)
+            {
+                if (bankLength[2] == 0)
+                {
+                    // double the banks, when the upper bank have zero length
+                    for (int i=0; i< MAX_BANK_SIZE;i++) cart[2][i] = cart[0][i]; 
+                }
+                if (bankLength[3] == 0)
+                {
+                    for (int i=0; i< MAX_BANK_SIZE;i++) cart[3][i] = cart[1][i]; 
+                }
+            }            
             if (bankMax>1)
             {
                 if (getBankCount()<3) 

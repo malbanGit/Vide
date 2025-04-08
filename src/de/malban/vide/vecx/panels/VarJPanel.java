@@ -88,7 +88,7 @@ public class VarJPanel extends javax.swing.JPanel implements
     {
         if (vecxPanel == null) return;
         if (memory == null) return;
-        onlyUserRam = jCheckBox1.isSelected();
+        onlyUserRam = jCheckBoxOnlyUserRAM.isSelected();
         variables = new ArrayList<MemoryInformation>();
         int start = 0;
         int end = 65536;
@@ -97,22 +97,28 @@ public class VarJPanel extends javax.swing.JPanel implements
             start = 0xc880;
             end = 0xcbff;
         }
+        else
+        {
+            if (!jCheckBoxShowAllMem.isSelected())
+            {
+                start = 0xc800;
+                end = 0xcbff;
+            }
+        }
+
+
         for (int m = start; m<end; m++)
         {
             //MemoryInformation memInfo = memory.memMap.get(m);
             MemoryInformation memInfo = memory.getBankMemory(dissi.getCurrentBank()).get(m);
             jLabel1.setText("Ram Layout from bank: "+dissi.getCurrentBank());
+            if (jCheckBoxShowAllMem.isSelected())
+            {
+                variables.add(memInfo);
+            }
             if (memInfo.memType == MEM_TYPE_RAM)
             {
-                if (jCheckBoxShowAllRAM.isSelected())
-                {
-                    variables.add(memInfo);
-                }
-                else
-                {
-                    if (memInfo.labels.size()>0)
-                        variables.add(memInfo);
-                }
+                variables.add(memInfo);
             }
         }
         correctTable();
@@ -171,7 +177,7 @@ public class VarJPanel extends javax.swing.JPanel implements
      */
     public VarJPanel() {
         initComponents();
-        onlyUserRam = jCheckBox1.isSelected();
+        onlyUserRam = jCheckBoxOnlyUserRAM.isSelected();
 
         VariablesTableModel model = new VariablesTableModel();
         jTable1.setModel(model);
@@ -198,14 +204,33 @@ public class VarJPanel extends javax.swing.JPanel implements
                 if (table.getModel() instanceof VariablesTableModel)
                 {
                     VariablesTableModel model = (VariablesTableModel)table.getModel();
+                    int address = DASM6809.toNumber(model.getValueAt(row, 0).toString());
+                    boolean backgroundDone = false;
+                    if (memory != null)
+                    {
+                        MemoryInformation memInfo = memory.getBankMemory(0).get(address);
+                        if (memInfo.hasBreakpoint())
+                        {
+                            boolean enabled = false;
+                            ArrayList<Breakpoint> bp = memInfo.getBreakpoints();
+                            for (Breakpoint b: bp)
+                            {
+                                if (b.enabled) enabled = true;
+                            }
 
+                            if (enabled)
+                            {
+                                setBackground(config.valueChanged);//Color.RED);
+                                backgroundDone = true;
+                            }
+                        }
+                    }
+//aa
 //back groud of address
 //        a) current stack
 //        b) lowest stack
-                    boolean backgroundDone = false;
                     if (vecxPanel!=null)
                     {
-                        int address = DASM6809.toNumber(model.getValueAt(row, 0).toString());
                         int currentStack = vecxPanel.getSReg();
                         int lowestStack = vecxPanel.get6809().lowestStackValue;
                         int allTimeLow = vecxPanel.getAllTimeLowStack();
@@ -226,7 +251,8 @@ public class VarJPanel extends javax.swing.JPanel implements
                             backgroundDone = true;
                         }
                         else     
-                            setBackground(table.getBackground());                        
+                            if (!backgroundDone)
+                                setBackground(table.getBackground());                        
                     }
                     
                     if (isSelected)
@@ -296,13 +322,13 @@ public class VarJPanel extends javax.swing.JPanel implements
         jToggleButton4 = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = buildTable();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBoxOnlyUserRAM = new javax.swing.JCheckBox();
         jButtonAddVariable = new javax.swing.JButton();
-        jCheckBoxShowAllRAM = new javax.swing.JCheckBox();
+        jCheckBoxShowAllMem = new javax.swing.JCheckBox();
         jCheckBoxHideBIOSNames = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
 
-        jMenuItemBreakpointRead.setText("add Breakpoint read");
+        jMenuItemBreakpointRead.setText("toggle Breakpoint read");
         jMenuItemBreakpointRead.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemBreakpointReadActionPerformed(evt);
@@ -310,7 +336,7 @@ public class VarJPanel extends javax.swing.JPanel implements
         });
         jPopupMenu1.add(jMenuItemBreakpointRead);
 
-        jMenuItemBreakpointWrite.setText("add breakpoint write");
+        jMenuItemBreakpointWrite.setText("toggle breakpoint write");
         jMenuItemBreakpointWrite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemBreakpointWriteActionPerformed(evt);
@@ -318,7 +344,7 @@ public class VarJPanel extends javax.swing.JPanel implements
         });
         jPopupMenu1.add(jMenuItemBreakpointWrite);
 
-        jMenuItemBreakpointValue.setText("add breakpoint value");
+        jMenuItemBreakpointValue.setText("toggle breakpoint value");
         jMenuItemBreakpointValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemBreakpointValueActionPerformed(evt);
@@ -417,10 +443,10 @@ public class VarJPanel extends javax.swing.JPanel implements
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jCheckBox1.setText("only user RAM (from $c880)");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBoxOnlyUserRAM.setText("only user RAM (from $c880)");
+        jCheckBoxOnlyUserRAM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                jCheckBoxOnlyUserRAMActionPerformed(evt);
             }
         });
 
@@ -433,11 +459,10 @@ public class VarJPanel extends javax.swing.JPanel implements
             }
         });
 
-        jCheckBoxShowAllRAM.setSelected(true);
-        jCheckBoxShowAllRAM.setText("show all RAM");
-        jCheckBoxShowAllRAM.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBoxShowAllMem.setText(" all memory");
+        jCheckBoxShowAllMem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxShowAllRAMActionPerformed(evt);
+                jCheckBoxShowAllMemActionPerformed(evt);
             }
         });
 
@@ -458,16 +483,16 @@ public class VarJPanel extends javax.swing.JPanel implements
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(jCheckBoxOnlyUserRAM)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBoxShowAllRAM)
+                .addComponent(jCheckBoxShowAllMem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxHideBIOSNames)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonAddVariable))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -475,8 +500,8 @@ public class VarJPanel extends javax.swing.JPanel implements
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jCheckBoxShowAllRAM)
+                        .addComponent(jCheckBoxOnlyUserRAM, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBoxShowAllMem)
                         .addComponent(jCheckBoxHideBIOSNames)
                         .addComponent(jLabel1))
                     .addComponent(jButtonAddVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -485,9 +510,9 @@ public class VarJPanel extends javax.swing.JPanel implements
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void jCheckBoxOnlyUserRAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxOnlyUserRAMActionPerformed
         initVariables();
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_jCheckBoxOnlyUserRAMActionPerformed
 
     private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
         updateEnabled = jToggleButton4.isSelected();
@@ -527,42 +552,64 @@ public class VarJPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jTable1MousePressed
 
     private void jMenuItemBreakpointReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBreakpointReadActionPerformed
-        Breakpoint bp = new Breakpoint();
-        bp.targetAddress = popUpAddress;
-        bp.targetBank = -1; // allways no bank in RAM vecxPanel.getCurrentBank();
-        bp.targetType = Breakpoint.BP_TARGET_MEMORY;
-        bp.name = popUpName;
-        bp.targetSubType = 0;
-        bp.type = Breakpoint.BP_READ | Breakpoint.BP_MULTI ;
-        vecxPanel.breakpointVarSet(bp);
+        
+        if (dissi == null) return;
+        for (int b = 0; b<dissi.getMemory().getMaxBank(); b++)
+        {
+            Breakpoint bp = new Breakpoint();
+            MemoryInformation memInfo = memory.getBankMemory(b).get(popUpAddress);
+            bp.memInfo = memInfo;
+            bp.targetAddress = popUpAddress;
+            bp.targetBank = b; // allways no bank in RAM vecxPanel.getCurrentBank();
+            bp.targetType = Breakpoint.BP_TARGET_MEMORY;
+            bp.name = popUpName;
+            bp.targetSubType = 0;
+            bp.compareValue = 0;
+            bp.type = Breakpoint.BP_READ | Breakpoint.BP_MULTI ;
+            vecxPanel.breakpointVarToggle(bp);
+        }
+        
         popUpAddress = -1;
         popUpName = "";
     }//GEN-LAST:event_jMenuItemBreakpointReadActionPerformed
 
     private void jMenuItemBreakpointWriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBreakpointWriteActionPerformed
-        Breakpoint bp = new Breakpoint();
-        bp.targetAddress = popUpAddress;
-        bp.targetBank = -1; // allways no bank in RAM vecxPanel.getCurrentBank();
-        bp.targetType = Breakpoint.BP_TARGET_MEMORY;
-        bp.targetSubType = 0;
-        bp.name = popUpName;
-        bp.type = Breakpoint.BP_WRITE | Breakpoint.BP_MULTI ;
-        vecxPanel.breakpointVarSet(bp);
+        if (dissi == null) return;
+        for (int b = 0; b<dissi.getMemory().getMaxBank(); b++)
+        {
+            Breakpoint bp = new Breakpoint();
+            MemoryInformation memInfo = memory.getBankMemory(b).get(popUpAddress);
+            bp.memInfo = memInfo;
+            bp.targetAddress = popUpAddress;
+            bp.targetBank = b; // allways no bank in RAM vecxPanel.getCurrentBank();
+            bp.targetType = Breakpoint.BP_TARGET_MEMORY;
+            bp.targetSubType = 0;
+            bp.name = popUpName;
+            bp.compareValue = 0;
+            bp.type = Breakpoint.BP_WRITE | Breakpoint.BP_MULTI ;
+            vecxPanel.breakpointVarToggle(bp);
+        }
         popUpAddress = -1;
         popUpName = "";
     }//GEN-LAST:event_jMenuItemBreakpointWriteActionPerformed
 
     private void jMenuItemBreakpointValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBreakpointValueActionPerformed
         int value =GetValuePanel.showEnterValueDialog() & 0xff;
-        Breakpoint bp = new Breakpoint();
-        bp.targetAddress = popUpAddress;
-        bp.targetBank = -1; // allways no bank in RAM vecxPanel.getCurrentBank();
-        bp.targetType = Breakpoint.BP_TARGET_MEMORY;
-        bp.targetSubType = 0;
-        bp.compareValue = value;
-        bp.name = popUpName;
-        bp.type = Breakpoint.BP_WRITE | Breakpoint.BP_MULTI | Breakpoint.BP_COMPARE;
-        vecxPanel.breakpointVarSet(bp);
+        if (dissi == null) return;
+        for (int b = 0; b<dissi.getMemory().getMaxBank(); b++)
+        {
+            Breakpoint bp = new Breakpoint();
+            MemoryInformation memInfo = memory.getBankMemory(b).get(popUpAddress);
+            bp.memInfo = memInfo;
+            bp.targetAddress = popUpAddress;
+            bp.targetBank = b; // allways no bank in RAM vecxPanel.getCurrentBank();
+            bp.targetType = Breakpoint.BP_TARGET_MEMORY;
+            bp.targetSubType = 0;
+            bp.compareValue = value;
+            bp.name = popUpName;
+            bp.type = Breakpoint.BP_WRITE | Breakpoint.BP_MULTI | Breakpoint.BP_COMPARE;
+            vecxPanel.breakpointVarToggle(bp);
+        }
         popUpAddress = -1;
         popUpName = "";
     }//GEN-LAST:event_jMenuItemBreakpointValueActionPerformed
@@ -606,9 +653,9 @@ public class VarJPanel extends javax.swing.JPanel implements
         initVariables();
     }//GEN-LAST:event_jCheckBoxHideBIOSNamesActionPerformed
 
-    private void jCheckBoxShowAllRAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxShowAllRAMActionPerformed
+    private void jCheckBoxShowAllMemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxShowAllMemActionPerformed
         initVariables();
-    }//GEN-LAST:event_jCheckBoxShowAllRAMActionPerformed
+    }//GEN-LAST:event_jCheckBoxShowAllMemActionPerformed
     int getPopupWatchAddress()
     {
         return popUpAddress;
@@ -700,9 +747,9 @@ public class VarJPanel extends javax.swing.JPanel implements
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddVariable;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBoxHideBIOSNames;
-    private javax.swing.JCheckBox jCheckBoxShowAllRAM;
+    private javax.swing.JCheckBox jCheckBoxOnlyUserRAM;
+    private javax.swing.JCheckBox jCheckBoxShowAllMem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem1;
@@ -802,11 +849,16 @@ public class VarJPanel extends javax.swing.JPanel implements
     {
         public int getRowCount()
         {
-            if (jCheckBoxShowAllRAM.isSelected())
+            if (jCheckBoxOnlyUserRAM.isSelected())
             {
-                return 1024;
+                return 1024-128;
             }
-            return variables.size();
+            if (jCheckBoxShowAllMem.isSelected())
+            {
+                return 65536;
+            }
+            return 1024;
+            
         }
         public int getColumnCount()
         {
@@ -1025,13 +1077,13 @@ public class VarJPanel extends javax.swing.JPanel implements
         }
         if (row == -1)
         {
-            jCheckBoxShowAllRAM.setSelected(true);
+            jCheckBoxShowAllMem.setSelected(true);
             initVariables();
 
-            row = 0xc800-address;
+//            row = 0xc800-address;
             if (row <0) return;
-            if (row >1024) return;
-            if (row >variables.size()) return;
+            if (row >65536) return;
+//            if (row >variables.size()) return;
         }
         jTable1.setRowSelectionInterval(row, row);
         scrollToVisibleMid(jTable1, row,0);

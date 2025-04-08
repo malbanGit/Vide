@@ -72,6 +72,8 @@ public class Asmj {
     public static final int MAX_MACRO_DEPTH = 65536;
     public static ProcessorDependencies processor;
 
+    public static String version = "";
+
     public static int bank = 0;
     public static boolean multibank = false; // is a multibannk asm 64k in one file
     public static boolean inBSS = false;
@@ -81,6 +83,9 @@ public class Asmj {
     public static final int SEGMENT_CODE = 0;
     public static final int SEGMENT_DATA = 1;
     public static final int SEGMENT_BSS = 2;
+
+    public static boolean ALLOW_DIF_TRANSFER = true; // exg and tfr allow transfer from 8->16 vice versa
+            
     public int currentSegment = SEGMENT_CODE;
     public int currentCodeOrg =0;
     public int currentBSSOrg =0;
@@ -412,6 +417,7 @@ public class Asmj {
     
     public Asmj(String filename, OutputStream errOut, OutputStream result)
     {
+        version = "";
         initReplacement();
         clearLineInfo();
         mainFile = filename;
@@ -550,6 +556,7 @@ public class Asmj {
     }
     public Asmj( String filename, OutputStream errOut, OutputStream listOut, OutputStream symOut, OutputStream infoOut , String defines, HashMap <String, DebugCommentList> adc, boolean is48k) 
     {
+        version = "";
         Asmj.is48k = is48k;
         initReplacement();
         allDebugComments = adc; // make comments accessable to all 
@@ -882,6 +889,7 @@ public class Asmj {
         symtab.define( "FALSE", 0,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU, null );
         symtab.define( "TRUE", 1,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU , null);
         
+        localOpt = config.opt;
         try 
         {
             ctx = new LineContext( new SourceLine("","",-1) );
@@ -1033,6 +1041,8 @@ public class Asmj {
         return (instr == null || !instr.isEnd());
     }
 
+    public static boolean localOpt = true;
+
     // Pass 1 figures out sizes, defines symbols, and also handles
     // conditionals, macro definition, and macro expansion.
     private void pass1( LineContext ctx, SymbolTable symtab, int address ) 
@@ -1051,9 +1061,10 @@ public class Asmj {
 
         for (pline=ctx.first; pline!=null; pline=pline.getNext()) 
         {
-            //System.out.println("1line: "+pline.inputLine);
+            
+            
             pline.dp_value = LineContext.directRegister;
-            pline.setOptimize(config.opt);
+            pline.setOptimize(localOpt);
             
             
             // Cache a ref to the enclosing conditional/macro
@@ -1233,6 +1244,8 @@ public class Asmj {
                 && instr.isElseIf() )    // instruction is elseif
             ) 
             {
+//            if (pline.inputLine.contains("JMP   >$094C"))
+//                System.out.println("DEBUG");
                 if (instr != null) 
                 {
                     if (ctx.currentStruct == null)

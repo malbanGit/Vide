@@ -915,7 +915,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
                 .addComponent(jCheckBox2))
             .addGroup(imagerWheel1Layout.createSequentialGroup()
                 .addComponent(jCheckBox4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
                 .addComponent(jCheckBoxAnaglyphic))
         );
         imagerWheel1Layout.setVerticalGroup(
@@ -1092,6 +1092,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
             }
         });
 
+        jLabel56.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
         jLabel56.setText("0x0000");
         jLabel56.setToolTipText("start at cycles [relation to index whole]");
 
@@ -1101,18 +1102,23 @@ public class JoyportPanel extends javax.swing.JPanel implements
         jLabel58.setText("left");
         jLabel58.setToolTipText("start at cycles [relation to index whole]");
 
+        jLabel59.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
         jLabel59.setText("0x0000");
         jLabel59.setToolTipText("start at cycles [relation to index whole]");
 
+        jLabel60.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
         jLabel60.setText("0x0000");
         jLabel60.setToolTipText("start at cycles [relation to index whole]");
 
+        jLabel61.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
         jLabel61.setText("0x0000");
         jLabel61.setToolTipText("start at cycles [relation to index whole]");
 
+        jLabel62.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
         jLabel62.setText("0x0000");
         jLabel62.setToolTipText("start at cycles [relation to index whole]");
 
+        jLabel63.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
         jLabel63.setText("0x0000");
         jLabel63.setToolTipText("start at cycles [relation to index whole]");
 
@@ -1140,33 +1146,26 @@ public class JoyportPanel extends javax.swing.JPanel implements
                             .addComponent(jLabel57)
                             .addComponent(jLabel58))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel52)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jSlider4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField47, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel53)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel61)
-                                    .addComponent(jLabel60))
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jSlider5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField48, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel59)
                     .addComponent(jLabel56)
-                    .addComponent(jLabel59))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel63)
+                    .addComponent(jTextField47, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(jLabel52)
+                    .addComponent(jSlider4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel61)
+                    .addComponent(jLabel60)
+                    .addComponent(jTextField48, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(jLabel53)
+                    .addComponent(jSlider5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel62)
+                    .addComponent(jLabel63)
                     .addComponent(jLabel54)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jSlider6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField50, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextField50)
+                    .addComponent(jSlider6, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -1205,24 +1204,17 @@ public class JoyportPanel extends javax.swing.JPanel implements
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jSlider4, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addComponent(jLabel56)
-                            .addGap(4, 4, 4)
-                            .addComponent(jLabel59))
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addComponent(jLabel61)
-                            .addGap(4, 4, 4)
-                            .addComponent(jLabel60)))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel63)
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel62))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel57)
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel58))))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel56, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel61, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel63, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel57, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(2, 2, 2)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel62, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel60, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel59, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel58, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
         jLabel55.setText("%");
@@ -2077,7 +2069,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
         double anglePerCycle = imager.getAnglePerCycle();
 
         double cycles = angle / anglePerCycle;
-        label.setText("0x"+String.format("%04X", ((int)cycles)));
+        label.setText("0x"+String.format("%04X", (((int)(cycles)) &0xffff)));
     }
     public void deIconified() { }
 }

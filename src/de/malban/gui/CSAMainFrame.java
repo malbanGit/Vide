@@ -4,6 +4,7 @@
  */
 package de.malban.gui;
 
+import com.jogamp.opengl.GLProfile;
 import de.malban.vide.veccy.VeccyPanel;
 import de.malban.Global;
 import de.malban.config.ConfigChangedListener;
@@ -53,6 +54,7 @@ import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import de.malban.vide.vecx.panels.WheelEdit;
 import de.malban.vide.vedi.VediPanel;
+import de.malban.vide.vedi.PiTrexTerminal;
 import de.malban.vide.vedi.VediPanel32;
 import de.malban.vide.vedi.raster.RasterPanel;
 import de.malban.vide.vedi.raster.VectorJPanel;
@@ -229,6 +231,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         Global.mMainWindow = this;
         
          
+
         
         ToolTipManager.sharedInstance().setDismissDelay(15000);
         Theme t = Configuration.getConfiguration().getCurrentTheme();
@@ -255,8 +258,8 @@ this.setIconImages(images);
         jMenuItem15.setVisible(false);
 //jMenuItem5.setVisible(false);
 jCheckBoxMenuItem1.setVisible(false);
-//        jMenuItemDissy.setVisible(false);
         jMenuItemAssi.setVisible(false);
+//        jMenuItemDissy.setVisible(false);
         mainPanel.removeAll();
         mainPanel.setLayout(new java.awt.BorderLayout());
         mainPanel.add(mDesktop, java.awt.BorderLayout.CENTER);
@@ -280,10 +283,15 @@ jCheckBoxMenuItem1.setVisible(false);
         {
             if (config.startFile.trim().length() != 0)
             {
-                File file = new File(de.malban.util.UtilityFiles.convertSeperator(Global.mainPathPrefix+config.startFile));
+                String n = config.startFile;
+                if (!n.startsWith(Global.mainPathPrefix)) 
+                {
+                    n = Global.mainPathPrefix+n;
+                }
+                File file = new File(de.malban.util.UtilityFiles.convertSeperator(n));
                 if (file.exists())
                 {
-                    startFile = de.malban.util.UtilityFiles.convertSeperator(Global.mainPathPrefix+config.startFile);
+                    startFile = de.malban.util.UtilityFiles.convertSeperator(n);
                 }
             }
         }
@@ -358,6 +366,7 @@ jCheckBoxMenuItem1.setVisible(false);
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem7 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         toolsMenu = new javax.swing.JMenu();
@@ -366,8 +375,8 @@ jCheckBoxMenuItem1.setVisible(false);
         jMenuItemVedi = new javax.swing.JMenuItem();
         jMenuItemCodi = new javax.swing.JMenuItem();
         jMenuItemVeccy = new javax.swing.JMenuItem();
-        jMenuItemDissy = new javax.swing.JMenuItem();
         jMenuItemAssi = new javax.swing.JMenuItem();
+        jMenuItemDissy = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem38 = new javax.swing.JMenuItem();
@@ -385,6 +394,7 @@ jCheckBoxMenuItem1.setVisible(false);
         jMenuItem44 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemVec32 = new javax.swing.JMenuItem();
+        jMenuItemPiTrexTerminal = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItemConfig = new javax.swing.JMenuItem();
         jMenuLibrary = new javax.swing.JMenu();
@@ -456,6 +466,14 @@ jCheckBoxMenuItem1.setVisible(false);
         jMenu2.add(jMenuItem1);
         jMenu2.add(jSeparator2);
 
+        jMenuItem7.setText("Double Buttons");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
+
         fileMenu.add(jMenu2);
 
         exitMenuItem.setText("Exit");
@@ -520,14 +538,6 @@ jCheckBoxMenuItem1.setVisible(false);
         });
         toolsMenu.add(jMenuItemVeccy);
 
-        jMenuItemDissy.setText("Disassembler (standalone)");
-        jMenuItemDissy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemDissyActionPerformed(evt);
-            }
-        });
-        toolsMenu.add(jMenuItemDissy);
-
         jMenuItemAssi.setText("6809 Assembler");
         jMenuItemAssi.setEnabled(false);
         jMenuItemAssi.addActionListener(new java.awt.event.ActionListener() {
@@ -536,6 +546,14 @@ jCheckBoxMenuItem1.setVisible(false);
             }
         });
         toolsMenu.add(jMenuItemAssi);
+
+        jMenuItemDissy.setText("Disassembler (standalone)");
+        jMenuItemDissy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemDissyActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(jMenuItemDissy);
         toolsMenu.add(jSeparator1);
 
         jMenu8.setText("Utilities");
@@ -654,6 +672,14 @@ jCheckBoxMenuItem1.setVisible(false);
             }
         });
         toolsMenu.add(jMenuItemVec32);
+
+        jMenuItemPiTrexTerminal.setText("PiTrex Terminal");
+        jMenuItemPiTrexTerminal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPiTrexTerminalActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(jMenuItemPiTrexTerminal);
         toolsMenu.add(jSeparator3);
 
         jMenuItemConfig.setText("Configuration");
@@ -1125,6 +1151,26 @@ jCheckBoxMenuItem1.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_formMousePressed
 
+    private void jMenuItemPiTrexTerminalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPiTrexTerminalActionPerformed
+        Windowable p = getPiTrex();
+        CSAInternalFrame frame = getInternalFrame(p);
+        try
+        {
+            if (frame.isIcon()) frame.setIcon(false);
+        }
+        catch (Throwable ex) { }
+    }//GEN-LAST:event_jMenuItemPiTrexTerminalActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        for (int i=0; i<mFrames.size(); i++)
+        {
+            JInternalFrame f = mFrames.elementAt(i);
+            resizeButtons(f);
+        }
+        
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    
     boolean gameMode = false;
     de.malban.event.MasterEventListener keyListener = null;    
     
@@ -1240,6 +1286,7 @@ jCheckBoxMenuItem1.setVisible(false);
     private javax.swing.JMenuItem jMenuItem45;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItemAssi;
     private javax.swing.JMenuItem jMenuItemCartridgeEdit;
     private javax.swing.JMenuItem jMenuItemCloseWin;
@@ -1248,6 +1295,7 @@ jCheckBoxMenuItem1.setVisible(false);
     private javax.swing.JMenuItem jMenuItemDebug;
     private javax.swing.JMenuItem jMenuItemDissy;
     private javax.swing.JMenuItem jMenuItemHelp;
+    private javax.swing.JMenuItem jMenuItemPiTrexTerminal;
     private javax.swing.JMenuItem jMenuItemStarter;
     private javax.swing.JMenuItem jMenuItemVec32;
     private javax.swing.JMenuItem jMenuItemVeccy;
@@ -2390,7 +2438,42 @@ getMainPanel().remove(starter);
         addAsWindow(p, 600, 600, p.SID);
         return p;
     }
-    
+            
+    public PiTrexTerminal getPiTrex()
+    {
+        PiTrexTerminal v =checkPiTrex();
+        if (v == null) v = createPiTrex();
+        return v;
+    }
+    public PiTrexTerminal checkPiTrex()
+    {
+        // get any panel that is called by name dissi
+        for (JPanel p: mPanels )
+        {
+            if (p instanceof Stateable)
+            {
+                if (((Stateable)p).getID().equals(PiTrexTerminal.SID))
+                    return (PiTrexTerminal)p;
+            }
+        }
+        for(JInternalFrame frame: mFrames)
+        {
+            CSAInternalFrame f = (CSAInternalFrame)frame;
+            if (!(f.getPanel() instanceof Stateable)) continue;
+            if (((Stateable)f.getPanel()).getID().equals(PiTrexTerminal.SID))
+                return (PiTrexTerminal)f.getPanel();
+        }
+        return null;
+    }
+    public PiTrexTerminal createPiTrex()
+    {
+        PiTrexTerminal p = new PiTrexTerminal();        
+        addAsWindow(p, 600, 600, p.SID);
+        return p;
+    }
+            
+            
+            
     public VediPanel32 getVec32()
     {
         VediPanel32 v =checkVec32();
@@ -2908,7 +2991,9 @@ getMainPanel().remove(starter);
                     if (id.equals(StarterJPanel.SID)) getStarter();
                     if (id.equals(VeccyPanel.SID)) getVeccy();
                     if (id.equals(VediPanel32.SID)) getVec32();
-                    
+                    if (id.equals(PiTrexTerminal.SID)) getPiTrex();
+                    if (id.equals(CompareDissiPanel.SID)) getCompareDissiPanel();
+                     
                 }
             }
         }
@@ -3331,6 +3416,12 @@ getMainPanel().remove(starter);
 
     public CSAInternalFrame addAsWindow(final Windowable p, int w, int h, String title)
     {
+        try
+        {
+            if (VideConfig.getConfig().doubleButton)
+                resizeButtons((Container)p);
+        }
+        catch (Exception x) {}
         ((JPanel)p).setVisible(false);
         if (mPanels.contains(p.getPanel()))
         {
@@ -3810,5 +3901,92 @@ getMainPanel().remove(starter);
         addAsWindow(p, 320, 200, p.SID);
         return p;
     }
+
+    public CompareDissiPanel getCompareDissiPanel()
+    {
+        CompareDissiPanel v =checkCompareDissiPanel();
+        if (v == null) v = createCompareDissiPanel();
+        return v;
+    }
+    public CompareDissiPanel checkCompareDissiPanel()
+    {
+        // get any panel that is called by name dissi
+        for (JPanel p: mPanels )
+        {
+            if (p instanceof Stateable)
+            {
+                if (((Stateable)p).getID().equals(CompareDissiPanel.SID))
+                    return (CompareDissiPanel)p;
+            }
+        }
+        for(JInternalFrame frame: mFrames)
+        {
+            CSAInternalFrame f = (CSAInternalFrame)frame;
+            if (!(f.getPanel() instanceof Stateable)) continue;
+            if (((Stateable)f.getPanel()).getID().equals(CompareDissiPanel.SID))
+                return (CompareDissiPanel)f.getPanel();
+        }
+        return null;
+    }
+    public CompareDissiPanel createCompareDissiPanel()
+    {
+        CompareDissiPanel p = new CompareDissiPanel();        
+        addAsWindow(p, 331, 514, p.SID);
+        return p;
+    }
+
+public static void resizeButtons(Container container) {
+        // Iterate through all components recursively
+        for (Component component : container.getComponents()) {
+            if (component instanceof JButton) {
+                JButton button = (JButton) component;
+
+                // Check if the button size is 21x21
+                Dimension size = button.getPreferredSize();
+//                if ((size.width == 21)|| (size.width == 20)) && size.height == 21) 
+//                    (size.width == 21 && size.height == 21)
+                {
+                    Icon icon = button.getIcon();
+
+                    
+                    
+                    // If the button has an icon, double the size of the icon
+                    if (icon instanceof ImageIcon) {
+                        
+                        ImageIcon imageIcon = (ImageIcon) icon;
+                        Image image = imageIcon.getImage();
+                        if ((image.getWidth(null)==16) && image.getHeight(null)==16)
+                        {
+                            int newWidth = image.getWidth(null) * 2;
+                            int newHeight = image.getHeight(null) * 2;
+                            Image scaledImage = image.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+                            button.setIcon(new ImageIcon(scaledImage));
+                    // Double the size of the button
+                    button.setPreferredSize(new Dimension(size.width * 2, size.height * 2));
+                        }
+                        
+                    }
+
+                }
+            } else if (component instanceof Container) {
+                // If the component is a container, recursively call this method
+                resizeButtons((Container) component);
+            }
+        }
+
+        // Revalidate and repaint the container to apply changes
+        container.revalidate();
+        container.repaint();
+    }    
+    public void doubleAllButtons()
+    {
+        for (int i=0; i<mFrames.size(); i++)
+        {
+            JInternalFrame f = mFrames.elementAt(i);
+            resizeButtons(f);
+        }
+    }
+
+
 }
 

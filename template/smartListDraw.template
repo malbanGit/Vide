@@ -1076,6 +1076,15 @@ SM_startDraw_double ;#isfunction
                     sta      <VIA_t1_cnt_hi               ; 4 
                     ADD_NOPS  
                     jmp      SM_repeat_same2 
+SMVB_startDraw_octo ;#isfunction 
+                    SET_Y_INT  
+                    ldb      #SHITREG_POKE_VALUE          ; 2 
+                    stb      <VIA_shift_reg               ; 4 
+ DELAY_NONE
+                    stx      <VIA_port_b                  ; 5 
+                    sta      <VIA_t1_cnt_hi               ; 4 
+                    ADD_NOPS  
+                    jmp      cont7 
 
 SM_startDraw_hex ;#isfunction 
                     SET_Y_INT  

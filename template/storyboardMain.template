@@ -18,31 +18,31 @@
 ;***************************************************************************
 ; here the cartridge program starts off
 
- ldu #(laneRAM-laneData)
+ ldu #(laneRAM#_UNIQUE_ID#-laneData)
 
 ;INSERT LANE INIT CODE
 
  ldd #0
- std roundCounter
+ std roundCounter#_UNIQUE_ID#
  leau laneData,u
  std ,u
 
-main: 
+main#_UNIQUE_ID#: 
                     JSR      Wait_Recal           ; Vectrex BIOS recalibration 
 
- ldy #laneRAM
-doNextLane
+ ldy #laneRAM#_UNIQUE_ID#
+doNextLane#_UNIQUE_ID#
  ldd ,y
- beq lanesDone
+ beq lanesDone#_UNIQUE_ID#
  jsr doLane
  leay laneData,y
- bra doNextLane
-lanesDone:
+ bra doNextLane#_UNIQUE_ID#
+lanesDone#_UNIQUE_ID#:
 
 ; increase round counter!
- ldx roundCounter
+ ldx roundCounter#_UNIQUE_ID#
  leax 1,x
- stx roundCounter
-                    BRA      main                 ; and repeat forever 
+ stx roundCounter#_UNIQUE_ID#
+                    BRA      main#_UNIQUE_ID#                 ; and repeat forever 
 
 

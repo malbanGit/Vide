@@ -373,10 +373,6 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
             w = ((CSAInternalFrame)cc).getBounds().width;
             h = ((CSAInternalFrame)cc).getBounds().height;
         }
-        else
-        {
-            System.out.println("");
-        }
     }//GEN-LAST:event_formComponentResized
 
     public int xpos = 0;
@@ -437,10 +433,6 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
              ypos = ((CSAInternalFrame)cc).getBounds().y;
              w = ((CSAInternalFrame)cc).getBounds().width;
              h = ((CSAInternalFrame)cc).getBounds().height;
-        }
-        else
-        {
-            System.out.println("");
         }
         jSliderSourceScale.setValue(settings.singleVecciScaleSlider);
         int value = jSliderSourceScale.getValue();

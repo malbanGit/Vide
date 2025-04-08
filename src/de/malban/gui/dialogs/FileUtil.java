@@ -1943,11 +1943,13 @@ public class FileUtil extends javax.swing.JPanel {
                 byte[] data2 = new byte[1024*(16)];
                 for (int i=0; i<1024*(32);i++ )
                 {
-                    data1[i] = data[i];
+                    if (i < data.length)
+                        data1[i] = data[i];
                 }
                 for (int i=0; i<1024*(16);i++ )
                 {
-                    data2[i] = data[i+1024*(32)];
+                    if (i+1024*(32) < data.length)
+                        data2[i] = data[i+1024*(32)];
                 }
                 
                 
@@ -2004,13 +2006,17 @@ public class FileUtil extends javax.swing.JPanel {
                 byte[] data3 = new byte[1024*(32)]; // 16k bank 0 + 16k bank 1
                 for (int i=0; i<1024*(32);i++ )
                 {
-                    data1[i] = data[i]; // bank 0, 32k
-                    data2[i] = data[i+1024*64];// bank 1, 32k
+                    if (i < data.length)
+                        data1[i] = data[i]; // bank 0, 32k
+                    if (i+1024*64 < data.length)
+                        data2[i] = data[i+1024*64];// bank 1, 32k
                 }
                 for (int i=0; i<1024*(16);i++ )
                 {
-                    data3[i] = data[i+32*1024]; // bank 0, 16k
-                    data3[i+16*1024] = data[i+1024*(64+32)];// bank 1, 16k
+                    if (i+32*1024 < data.length)
+                        data3[i] = data[i+32*1024]; // bank 0, 16k
+                    if (i+1024*(64+32) < data.length)
+                        data3[i+16*1024] = data[i+1024*(64+32)];// bank 1, 16k
                 }
                 
                 
