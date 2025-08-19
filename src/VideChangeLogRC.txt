@@ -1,4 +1,8 @@
-
+30 April
+- added Support for a special "peer" Mode
+  44k ROM, upper 4 k is RAM, Dondzilla bankswitching (2x44k)
+  RAM stays the same during banskwitch
+- slightly changed behaviour regarding update of dissi during bankswitch and "doNoFollow"
 
 latest changes [21.12.2024]
 

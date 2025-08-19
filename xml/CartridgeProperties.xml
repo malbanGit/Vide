@@ -1093,7 +1093,7 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CRC>0</CRC>
 		<TypeFlags>1024</TypeFlags>
 		<FullFilenames>
-			<FullFilename>C1Main_0.bin</FullFilename>
+			<FullFilename>projects\WelcomeToVide\C1Main_0.bin</FullFilename>
 		</FullFilenames>
 		<Information>Malban</Information>
 		<Cheats></Cheats>
@@ -1122,10 +1122,10 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CF_AutoSync>false</CF_AutoSync>
 		<CF_AllowROMWrite>false</CF_AllowROMWrite>
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
-		<CF_IntegratorMaxX>0</CF_IntegratorMaxX>
-		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
-		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
-		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -2403,6 +2403,49 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
 		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>__newApple</Name>
+		<CartName>__newApple</CartName>
+		<Author></Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>4</TypeFlags>
+		<FullFilenames>
+			<FullFilename>MovieGen\player.bin</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage>MovieGen\vec.bin</extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>true</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>40000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>40000</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
@@ -3847,6 +3890,49 @@ http://www.vectorzoa.com/games.html
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
 		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Chompr48</Name>
+		<CartName>Chomper</CartName>
+		<Author></Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>524288</TypeFlags>
+		<FullFilenames>
+			<FullFilename>..\..\Users\salom\Downloads\chomper38-48k.bin</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
@@ -5442,6 +5528,49 @@ Limited production by Rob Mitchell. Originally available for $10.</Eastereggs>
 		<CF_IntegratorMaxY>0</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.0</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>0</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>SeaPup</Name>
+		<CartName>SeaPup</CartName>
+		<Author></Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>1</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Sea_Pub_2banks.bin</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
@@ -7328,6 +7457,49 @@ https://web.archive.org/web/20190405200307/http://www.vectorzoa.com/ssling/gi_ss
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>+++player</Name>
+		<CartName>+++player</CartName>
+		<Author></Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>4</TypeFlags>
+		<FullFilenames>
+			<FullFilename>..\..\t\t\MovieGen\player.bin</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage>..\..\t\t\MovieGen\vec.bin</extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>40000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>40000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Revector</Name>
 		<CartName>Revector</CartName>
 		<Author>Craig Aker</Author>
@@ -8873,6 +9045,50 @@ Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and ful
 		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
 		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
 		<CF_IntegratorMaxY>48000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>PeerTest44n4</Name>
+		<CartName>PeerTest44n4</CartName>
+		<Author></Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>67633153</TypeFlags>
+		<FullFilenames>
+			<FullFilename>PeerTest\test_44_4_bank_0.bin</FullFilename>
+			<FullFilename>PeerTest\test_44_4_bank_1.bin</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
 		<CF_OverlayThreshold>0.7</CF_OverlayThreshold>
 		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
 	</CartridgeProperties>
@@ -10512,6 +10728,49 @@ In late 2012, it became known that bassist Rudy Sarzo (who has played in the hea
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Rock&apos; Saucers</Name>
+		<CartName>Rock&apos; Saucers</CartName>
+		<Author>Tomas Sontowski</Author>
+		<Year>2019</Year>
+		<CRC>0</CRC>
+		<TypeFlags>65536</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Tomas\RNS.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Tomas Sontowski</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+		<ConfigOverwrite>false</ConfigOverwrite>
+		<CF_AutoSync>false</CF_AutoSync>
+		<CF_AllowROMWrite>false</CF_AllowROMWrite>
+		<CF_ROM_PC_BreakPoints>false</CF_ROM_PC_BreakPoints>
+		<CF_IntegratorMaxX>43000</CF_IntegratorMaxX>
+		<CF_IntegratorMaxY>45000</CF_IntegratorMaxY>
+		<CF_OverlayThreshold>0.5</CF_OverlayThreshold>
+		<CF_DotdwellDivisor>25</CF_DotdwellDivisor>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Rainy</Name>
 		<CartName>Rainy</CartName>
 		<Author>Frog</Author>
@@ -10646,7 +10905,7 @@ In late 2012, it became known that bassist Rudy Sarzo (who has played in the hea
 		<Author></Author>
 		<Year></Year>
 		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
+		<TypeFlags>32</TypeFlags>
 		<FullFilenames>
 			<FullFilename>Dumped/ProtectorOrg.BIN</FullFilename>
 		</FullFilenames>

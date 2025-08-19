@@ -436,7 +436,8 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBox9.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_SID) == Cartridge.FLAG_SID);
         jCheckBox10.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_48K) == Cartridge.FLAG_48K);
         jCheckBoxFlashSupport.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_FLASH_SUPPORT) == Cartridge.FLAG_FLASH_SUPPORT);
-
+        jCheckBox11.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_44_PEER_BS) == Cartridge.FLAG_44_PEER_BS);
+        
         jCheckBoxCProject1.setSelected(mProjectProperties.mIsPeerCProject);
         
         jComboBoxImager.setEnabled(jCheckBox5.isSelected());
@@ -559,6 +560,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         if (jCheckBox9.isSelected()) extra+= Cartridge.FLAG_SID;
         if (jCheckBox10.isSelected()) extra+= Cartridge.FLAG_48K;
         if (jCheckBoxFlashSupport.isSelected()) extra+= Cartridge.FLAG_FLASH_SUPPORT;
+        if (jCheckBox11.isSelected()) extra+= Cartridge.FLAG_44_PEER_BS;
         
         if (jComboBoxBankswitch.getSelectedIndex()==2)
             extra+= Cartridge.FLAG_BS_PB6_IRQ;
@@ -628,6 +630,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBoxCKeepEnriched = new javax.swing.JCheckBox();
         jCheckBoxCRumInlined = new javax.swing.JCheckBox();
         jCheckBoxFlashSupport = new javax.swing.JCheckBox();
+        jCheckBox11 = new javax.swing.JCheckBox();
         jButtonPre = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jComboBoxPostName = new javax.swing.JComboBox();
@@ -773,11 +776,11 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                     .addComponent(jLabel3))
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextFieldName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                    .addComponent(jTextFieldName, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextFieldKlasse, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxKlasse, 0, 46, Short.MAX_VALUE)
+                    .addComponent(jComboBoxKlasse, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -826,14 +829,16 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
 
-        jCheckBox3.setText("Lightpen Port 1");
+        jCheckBox3.setText("Lightpen 1");
+        jCheckBox3.setToolTipText("Lightpen Port 1");
         jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox3ActionPerformed(evt);
             }
         });
 
-        jCheckBox4.setText("Lightpen Port 2");
+        jCheckBox4.setText("Lightpen 2");
+        jCheckBox4.setToolTipText("Lightpen Port 2");
         jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox4ActionPerformed(evt);
@@ -856,7 +861,8 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jCheckBox7.setText("VecVox");
 
-        jCheckBox16.setText("Microchip 11AA010");
+        jCheckBox16.setText("11AA010");
+        jCheckBox16.setToolTipText("Microchip 11AA010");
         jCheckBox16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox16ActionPerformed(evt);
@@ -931,22 +937,20 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBox11.setText("44k+4 BS");
+        jCheckBox11.setToolTipText("Special Peer Mode, 48k usage, PB6 bankswitched, 4 kB shared RAM");
+        jCheckBox11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox11ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jCheckBox7))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox9)
-                            .addComponent(jCheckBoxFlashSupport, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBox6)
@@ -958,9 +962,20 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBox8)
                     .addComponent(jCheckBox4)
                     .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox16)
                     .addComponent(jCheckBoxCKeepEnriched)
-                    .addComponent(jCheckBoxCPeepholing))
+                    .addComponent(jCheckBoxCPeepholing)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox2)
+                            .addComponent(jCheckBox1)
+                            .addComponent(jCheckBox7)
+                            .addComponent(jCheckBox16))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox9)
+                            .addComponent(jCheckBoxFlashSupport, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -978,7 +993,9 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBox2)
                     .addComponent(jCheckBoxFlashSupport))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox16)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox16)
+                    .addComponent(jCheckBox11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1572,6 +1589,10 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxFlashSupportActionPerformed
 
+    private void jCheckBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox11ActionPerformed
+
     boolean wasMainSetManually = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1586,6 +1607,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonSaveAsNew;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox10;
+    private javax.swing.JCheckBox jCheckBox11;
     private javax.swing.JCheckBox jCheckBox16;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;

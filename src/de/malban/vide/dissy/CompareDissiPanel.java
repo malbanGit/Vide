@@ -1579,7 +1579,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
             loadedName = name;
             Path path = Paths.get(name);
 
-            dasm.tryLoadList(name);
+            dasm.tryLoadList(name,0);
             dasm.tryLoadCNT(name);
 
             dasm.setCreateLabels(createUnkownLabels);
@@ -1629,7 +1629,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
         String ret = "";
         if (path != null)
         {
-            dasm1.tryLoadList(name);
+            dasm1.tryLoadList(name,0);
             dasm1.tryLoadCNT(name);
 
             dasm1.setCreateLabels(createUnkownLabels);

@@ -40,6 +40,7 @@ public class PiTrexSingleton implements PortListener
         return instance;
     }    
 
+    boolean noSerialEvents = false; // prevent serial events while transfering data
     
     VideConfig config = VideConfig.getConfig();
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
@@ -305,6 +306,187 @@ public class PiTrexSingleton implements PortListener
             log.addLog(e);
         }
     }
+    byte crc8(byte[] data, int len) 
+    {
+        byte crc = 0;
+        for (int i = 0; i < len; i++) 
+        {
+            crc ^= data[i];
+        
+            for (int j = 0; j < 8; j++) 
+            {
+                if ((crc & 0x80) != 0)
+                    crc = (byte) ((crc << 1) ^ 0x07);
+                else
+                    crc = (byte) (crc << 1);
+            }
+        }
+        return crc;
+    }
+ static int MRP_CHUNK_SIZE = 128;
+ static char MRP_MAX_RETRIES   = 5;
+
+ static byte MRP_START_DATA   =  (byte)0xA5;
+ static byte MRP_ACK          =  (byte)0xAC;
+ static byte MRP_NACK         =  (byte)0xAF;
+
+    void sendByte(byte b)
+    {
+        byte data[] = new byte[1];
+        data[0] = b;
+        try
+        {
+            ubxPort.writeBytes(data, 1);
+            ubxPort.getOutputStream().flush();
+            Thread.sleep(1);
+        }
+        catch (Throwable e)
+        {
+            log.addLog(e);
+        }
+    }
+    
+    void sendBytes(byte chunk[], int chunkLen)
+    {
+        try
+        {
+            ubxPort.writeBytes(chunk, chunkLen);
+            ubxPort.getOutputStream().flush();
+            Thread.sleep(1);
+        }
+        catch (Throwable e)
+        {
+            log.addLog(e);
+        }
+    }
+    
+    char getByteBlocking()
+    {
+        int available = 0;
+
+        while (available<=0)
+            available = ubxPort.bytesAvailable();
+
+        byte[] newData = new byte[1];
+        int numRead = ubxPort.readBytes(newData, newData.length);
+        return (char) newData[0];
+    }
+
+    boolean toCardSepFastSecure(byte[] data)
+    {
+        int len = data.length;
+        byte seq = 0;
+        int offset = 0;
+    //printf("Len to send: %i\n", len);
+        noSerialEvents = true;
+
+        while (offset < len /*+ 2*/) 
+	{ // +2 für Längeninfo im ersten Paket
+
+//printf("(offset < len + 2) ::  %i < %i+2\n", offset, len);
+
+//printf("Send next Chunk part!\n");
+
+        int retries = 0;
+        byte chunk[] = new byte[MRP_CHUNK_SIZE];
+        int chunkLen;
+
+        if (seq == 0) 
+        {
+            // Erster Chunk enthält Längeninfo
+            chunk[0] = (byte) ((len >>24) & 0xFF);
+            chunk[1] = (byte) ((len >>16) & 0xFF);
+            chunk[2] = (byte) ((len >>8) & 0xFF);
+            chunk[3] = (byte) (len & 0xFF);
+
+            int toCopy = Math.min(len, MRP_CHUNK_SIZE - 4);
+            System.arraycopy(data, 0, chunk, 4, toCopy);
+            chunkLen = toCopy + 4;            
+        } 
+        else 
+        {
+            int remaining = len - offset;
+            chunkLen = Math.min(remaining, MRP_CHUNK_SIZE);
+            System.arraycopy(data, offset, chunk, 0, chunkLen);            
+        }
+
+    
+        while (retries++ < MRP_MAX_RETRIES) 
+	{
+            sendByte((byte)MRP_START_DATA);
+            
+            
+            //printf("Start byte sent\n");
+
+            sendByte((byte)seq);
+//            printf("Seq: %i\n", seq);
+
+            sendByte((byte) ((chunkLen>>8) & 0xFF));
+            sendByte((byte) ((chunkLen) & 0xFF));
+//printf("ChunkLen: %i\n", chunk_len);
+
+beim 2. vdb gehts?
+
+vpb not working
+starting original minestorm instead        
+
+            byte crc = crc8(chunk, chunkLen);
+            //System.out.printf("CRC: %d\n", crc);
+            sendByte(crc);
+
+            sendBytes(chunk, chunkLen);
+//printf("%i Bytes sent.\n", chunk_len);
+
+            System.out.println("Waiting for confirmation...");
+//            long startTime = System.nanoTime();
+
+            byte ack = (byte) getByteBlocking();
+            byte ackSeq = (byte)getByteBlocking();
+
+//            long endTime = System.nanoTime();
+//            double elapsedMs = (endTime - startTime) / 1_000_000.0;
+//            System.out.printf("One ACK Time: %.3f ms\n", elapsedMs);
+            if (ack == MRP_ACK && ackSeq == (byte)seq) 
+            {
+                    System.out.printf("Chunk Ack ok!: $%02x - %d\n", ack& 0xFF, ((byte)ackSeq)& 0xFF);
+                    break; // chunkSent
+            } 
+            else 
+            {
+                System.out.printf("Chunk Ack NOK!: $%02x - %d\n", ack& 0xFF, ((byte)ackSeq)& 0xFF);
+
+                String why = "";
+                while (ubxPort.bytesAvailable()>0)
+                {
+                    byte[] newData = new byte[1];
+                    int numRead = ubxPort.readBytes(newData, 1);
+                    why += (char)newData[0];
+                }
+                System.out.printf("Why: %s\n", why);
+            }
+        }
+        if (retries >= MRP_MAX_RETRIES) 
+        {
+            System.out.printf("Retries done - giving up!\n");
+            noSerialEvents = false;
+            return false;
+
+        }	
+		
+		
+        System.out.printf("Offset old: %d\n", offset);
+        offset += (seq == 0) ? (chunkLen - 4) : chunkLen;
+        System.out.printf("Offset new: %d\n", offset);
+
+        seq++;
+        if (seq == 0) seq = 1; // upon wrapping - do not start at 0!
+    }
+
+    noSerialEvents = false;
+    return true;
+}
+        
+        
     void toCardSep(String buffer)
     {
         String ret = "" + ((char)0x0a);
@@ -321,8 +503,13 @@ public class PiTrexSingleton implements PortListener
                 toCardSep(""+((char)0x0a)); // clear possible wrong buffer
                 toCardSep("vlb"+((char)0x0a)); 
                 writeSerialNumAscii(size);
+outputReceivedData(); 
+// input should be empty
 
-                writeSerialBinary(data, size);
+
+//                writeSerialBinary(data, size);
+                writeSerialBinarySecure(data, size);
+outputReceivedData(); 
                 log.addLog("Transfer done");
                 toCardSep("vpb"+((char)0x0a)); // 
             }  
@@ -338,6 +525,7 @@ public class PiTrexSingleton implements PortListener
         @Override
         synchronized public void serialEvent(SerialPortEvent event)
         {
+            if (noSerialEvents) return;
             SerialPort comPort = event.getSerialPort();
             int available = comPort.bytesAvailable();
             if (available<0) return;
@@ -356,6 +544,12 @@ public class PiTrexSingleton implements PortListener
         byte[] b = new byte[loadLen];
         for(int i=0;i<loadLen; i++) b[i] = data[i];
         toCardSepFast(b);
+    }
+    void writeSerialBinarySecure(byte[] data, int loadLen)
+    {
+        byte[] b = new byte[loadLen];
+        for(int i=0;i<loadLen; i++) b[i] = data[i];
+        toCardSepFastSecure(b);
     }
     
     public int romToPiTrex(byte[] data, int size)
@@ -449,4 +643,25 @@ public class PiTrexSingleton implements PortListener
             disconnect();
         }
     }
+
+    void outputReceivedData()
+    {
+        try
+        {
+            Thread.sleep(100);
+        }
+        catch (Throwable e)
+        {
+        }
+        String why = "";
+        while (ubxPort.bytesAvailable()>0)
+        {
+            byte[] newData = new byte[1];
+            int numRead = ubxPort.readBytes(newData, 1);
+            why += (char)newData[0];
+        }
+        System.out.printf("%s\n", why);
+    }
+
+
 }

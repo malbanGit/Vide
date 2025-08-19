@@ -66,6 +66,9 @@ import de.malban.vide.vedi.sound.VecSpeechPanel;
 import de.malban.vide.vedi.sound.YMJPanel;
 import java.awt.*;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.io.File;
@@ -225,6 +228,20 @@ public class CSAMainFrame extends javax.swing.JFrame
     /**
      * Creates new form CSAMainFrame
      */
+    
+    public void updateDesktopSize() 
+    {
+        int maxX = 0, maxY = 0;
+        for (JInternalFrame frame : mDesktop.getAllFrames()) {
+            Rectangle bounds = frame.getBounds();
+            maxX = Math.max(maxX, bounds.x + bounds.width);
+            maxY = Math.max(maxY, bounds.y + bounds.height);
+        }
+        mDesktop.setPreferredSize(new Dimension(maxX + 20, maxY + 20));
+        mDesktop.revalidate();
+    }
+
+
     public CSAMainFrame() {
         //initComponents();
         initLibraryMapping();
@@ -262,7 +279,9 @@ jCheckBoxMenuItem1.setVisible(false);
 //        jMenuItemDissy.setVisible(false);
         mainPanel.removeAll();
         mainPanel.setLayout(new java.awt.BorderLayout());
-        mainPanel.add(mDesktop, java.awt.BorderLayout.CENTER);
+JScrollPane scrollPane = new JScrollPane(mDesktop);
+//        mainPanel.add(mDesktop, java.awt.BorderLayout.CENTER);
+        mainPanel.add(scrollPane, java.awt.BorderLayout.CENTER);
         resetMainPanel();
 
         Configuration.getConfiguration().init();
@@ -357,6 +376,7 @@ jCheckBoxMenuItem1.setVisible(false);
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         fileMenu = new JM();
@@ -417,6 +437,11 @@ jCheckBoxMenuItem1.setVisible(false);
                 formMousePressed(evt);
             }
         });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -427,6 +452,11 @@ jCheckBoxMenuItem1.setVisible(false);
         });
 
         mainPanel.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        mainPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
         fileMenu.setText("System");
@@ -1170,6 +1200,11 @@ jCheckBoxMenuItem1.setVisible(false);
         
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+    updateDesktopSize();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formComponentResized
+
     
     boolean gameMode = false;
     de.malban.event.MasterEventListener keyListener = null;    
@@ -1302,6 +1337,7 @@ jCheckBoxMenuItem1.setVisible(false);
     private javax.swing.JMenuItem jMenuItemVecxi;
     private javax.swing.JMenuItem jMenuItemVedi;
     private javax.swing.JMenu jMenuLibrary;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -3413,6 +3449,22 @@ getMainPanel().remove(starter);
         return frame;
     }
 
+    private void attachFrameListeners(CSAInternalFrame frame) {
+        // For MOVE and RESIZE events
+        ComponentListener resizeMoveListener = new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                updateDesktopSize();
+            }
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                updateDesktopSize();
+            }
+        };
+
+        frame.addComponentListener(resizeMoveListener);
+    }        
 
     public CSAInternalFrame addAsWindow(final Windowable p, int w, int h, String title)
     {
@@ -3525,6 +3577,8 @@ getMainPanel().remove(starter);
         if (!fullDesktopDefault)
             frame.setIconifiable(true);
         
+        attachFrameListeners(frame);
+        
         addInternalFrame(frame);
         
         frame.setTitle(title);
@@ -3543,6 +3597,8 @@ getMainPanel().remove(starter);
         {
             loadState((Stateable)p, frame);
         }
+        updateDesktopSize();
+        
         return frame;
     }
 

@@ -2884,7 +2884,7 @@ public class DASM6809 extends DASMStatics {
     }
     
 
-    public boolean tryLoadList(String name)
+    public boolean tryLoadList(String name, int bank)
     {
         if (name == null) return false;
         int li = name.lastIndexOf(".");
@@ -2892,6 +2892,11 @@ public class DASM6809 extends DASMStatics {
         name = name.substring(0,li)+".lst";
         File f = new File(name);
         if (!f.exists()) return false;
+
+// peer label hack to read labels from list to two banks        
+currentCNTScanBank = bank;
+myMemory.setBank(currentCNTScanBank, true);
+
         readLSTFile(name, false);
         return true;
     }

@@ -1868,6 +1868,10 @@ public class VecXPanel extends javax.swing.JPanel
     {
         return pausing;
     }
+    public boolean isStepping()
+    {
+        return stepping;
+    }
     public boolean isDebuging()
     {
         return debuging;

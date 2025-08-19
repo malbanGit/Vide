@@ -40,7 +40,7 @@ import java.util.*;
  */
 public class Global {
     
-    public static final String VideVersion="Version 2.6 RC3 2025 Jan 23";
+    public static final String VideVersion="Version 2.6 RC3 2025 June 30th";
 
     // enabled so must be "-XstartOnFirstThread" upon run!
     public static final boolean JOGL_ENABLE;

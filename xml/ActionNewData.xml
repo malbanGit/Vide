@@ -1,0 +1,3283 @@
+<?xml version="1.0"?>
+<AllActionNewData>
+	<ActionNewData>
+		<Class>Main2_Actions</Class>
+		<Name>PacciDown_Main2</Name>
+		<animationFile>xml\vectoranimation\_MH_Org_Falling.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>-2</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 2 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick up</triggerName>
+			<triggerName>2.joystick left</triggerName>
+			<triggerName>3.joystick right</triggerName>
+			<triggerName>4.button pressed 1 Sprite_Shot</triggerName>
+			<triggerName>5.sprite collision Main1</triggerName>
+			<triggerName>6.sprite collision DummySprite</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacciCenter_Main2</resultName>
+			<resultName>1.action change PacUp_Main2</resultName>
+			<resultName>2.action change PacciLeft_Main2</resultName>
+			<resultName>3.action change PacciRight_Main2</resultName>
+			<resultName>4.spawn sprite Sprite:Sprite_Shot Y:d0 X:d0</resultName>
+			<resultName>5.block movement Sprite:Main1</resultName>
+			<resultName>6.block movement Sprite:DummySprite</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>#6</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>#10</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+			<eventName>6</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>cb6be74c-aea9-41e3-afb8-d73f3768701f</eventUID>
+			<eventUID>fee38ef8-b8a6-48fb-8a97-f5116d28f1fd</eventUID>
+			<eventUID>b88f9f92-6fc6-40d4-b10f-4cdeb9445876</eventUID>
+			<eventUID>32bf7474-0a00-4364-b159-92dfdd6e4beb</eventUID>
+			<eventUID>d358f419-a042-41ac-8886-1c2970eb4f3c</eventUID>
+			<eventUID>341debd0-40bb-49c4-8113-d1cabc20535a</eventUID>
+			<eventUID>5cf2f5a0-0fcc-4c1b-b816-8fa996941ec2</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>J_RUN_Actions</Class>
+		<Name>Left</Name>
+		<animationFile>xml\vectoranimation\____T_RunLeftB.xml</animationFile>
+		<changeWhileActiveX>-1</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.position &lt; X X:10</triggerName>
+			<triggerName>1.timer expired Help Ticks50</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change Right</resultName>
+			<resultName>1.spawn sprite Sprite:Help</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>5e3c1bc2-e0dc-4601-ad39-e316a5f99c2a</eventUID>
+			<eventUID>44a1346e-af5f-4851-b2b2-4a7cecd7ce61</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>MansionPlayer_Actions</Class>
+		<Name>MansionPlayerCenter</Name>
+		<animationFile>xml\vectoranimation\__MH_juststand.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick right</triggerName>
+			<triggerName>1.joystick left</triggerName>
+			<triggerName>2.joystick down</triggerName>
+			<triggerName>3.joystick up</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change MansionPlayerRight</resultName>
+			<resultName>1.action change MansionPlayerLeft</resultName>
+			<resultName>2.action change MansionPlayerDown</resultName>
+			<resultName>3.action change MansionPlayerUp</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>9059cd25-961e-4255-be92-c64b492dc0df</eventUID>
+			<eventUID>c076a9c7-8986-4580-8e80-87f80ff28185</eventUID>
+			<eventUID>30c6baac-9acd-40f8-ab6c-4a280e04a529</eventUID>
+			<eventUID>bfea0968-8467-4c41-a89c-6e52797d68d1</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main1_Actions</Class>
+		<Name>PacciDown_Main1</Name>
+		<animationFile>xml\vectoranimation\_MH_Org_Falling.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>-2</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick up</triggerName>
+			<triggerName>2.joystick left</triggerName>
+			<triggerName>3.joystick right</triggerName>
+			<triggerName>4.button pressed 1 Sprite_Shot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacciCenter_Main1</resultName>
+			<resultName>1.action change PacUp_Main1</resultName>
+			<resultName>2.action change PacciLeft_Main1</resultName>
+			<resultName>3.action change PacciRight_Main1</resultName>
+			<resultName>4.spawn sprite Sprite:Sprite_Shot Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>5291b3b8-f5aa-4ce5-a652-f31cafedeb6b</eventUID>
+			<eventUID>58d6fd50-7e22-4c06-811a-c174b30bbeb4</eventUID>
+			<eventUID>45bd0461-efc7-4d89-8474-f9874ad7f22f</eventUID>
+			<eventUID>49b01f22-5527-4bbf-ba07-a3587d528577</eventUID>
+			<eventUID>ab98f00f-679d-482d-8c97-4701c2e8dbe9</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Brick_Actions</Class>
+		<Name>ZombiBrick</Name>
+		<animationFile>xml\vectoranimation\_Brick.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>fixed position</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Y:30 Ticks2</triggerName>
+			<triggerName>1.timer expired BonusE Y:30 Ticks2</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+			<resultName>1.random spawn sprite Sprite:BonusE Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>a80b62bb-3b1d-4300-87f0-905841e72e5d</eventUID>
+			<eventUID>0763165f-3c7f-4d2c-8abc-28183a6265b0</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>playerShot_Actions</Class>
+		<Name>pshotty</Name>
+		<animationFile>xml\vectoranimation\WarpShot.xml</animationFile>
+		<changeWhileActiveX>5</changeWhileActiveX>
+		<changeWhileActiveY>5</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>parent direction</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Ticks50</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>c48f515f-18c2-4c36-b60e-1a27eb8ffea5</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main_Actions</Class>
+		<Name>PacciDown</Name>
+		<animationFile>xml\vectoranimation\_MH_Org_Falling.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>-2</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick up</triggerName>
+			<triggerName>2.joystick left</triggerName>
+			<triggerName>3.joystick right</triggerName>
+			<triggerName>4.sprite collision Enemy</triggerName>
+			<triggerName>5.button pressed 1 playerShot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacciCenter</resultName>
+			<resultName>1.action change PacUp</resultName>
+			<resultName>2.action change PacciLeft</resultName>
+			<resultName>3.action change PacciRight</resultName>
+			<resultName>4.action change PacciDeath Sprite:Enemy</resultName>
+			<resultName>5.spawn sprite Sprite:playerShot Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>e567bd21-11bb-44e1-9981-f7847d16c82c</eventUID>
+			<eventUID>0f866da1-683b-41f7-a6bc-fd95d279a149</eventUID>
+			<eventUID>ff611374-dd1b-4cae-a012-78bb00017e4f</eventUID>
+			<eventUID>a2ef15c7-c80c-46d2-b7cc-f48eb10c8ed5</eventUID>
+			<eventUID>95ebef66-7ee6-436a-a65c-d9ee43db50d6</eventUID>
+			<eventUID>106e1a6e-dbd6-4571-a768-f63ff9bb4e32</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Shippy_Actions</Class>
+		<Name>Vader</Name>
+		<animationFile>xml\vectoranimation\_ngE_VaderBig.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour></Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType></textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main_Actions</Class>
+		<Name>PacciCenter</Name>
+		<animationFile>xml\vectoranimation\__MH_juststand.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick up</triggerName>
+			<triggerName>1.joystick left</triggerName>
+			<triggerName>2.joystick down</triggerName>
+			<triggerName>3.joystick right</triggerName>
+			<triggerName>4.sprite collision Enemy</triggerName>
+			<triggerName>5.sprite collision shotWarp</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacUp</resultName>
+			<resultName>1.action change PacciLeft</resultName>
+			<resultName>2.action change PacciDown</resultName>
+			<resultName>3.action change PacciRight</resultName>
+			<resultName>4.action change PacciDeath Sprite:Enemy</resultName>
+			<resultName>5.action change PacciDeath Sprite:shotWarp</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>bee7ee6c-b7bd-4b81-9b64-658ace77e8be</eventUID>
+			<eventUID>5e054559-64ba-4109-a6f4-0fcaf0ad8479</eventUID>
+			<eventUID>de6da107-8707-410f-aa18-abfb16601168</eventUID>
+			<eventUID>13ea77c5-3c8d-4cb6-98f3-dc1c54db6eeb</eventUID>
+			<eventUID>84fdb799-d8cd-49f3-91ab-61ede175f568</eventUID>
+			<eventUID>45e916a4-67dd-429e-949e-60280f8ca6f0</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>MansionPlayer_Actions</Class>
+		<Name>MansionPlayerDeath</Name>
+		<animationFile>xml\vectoranimation\_MH_Org_Death.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Ball_Actions</Class>
+		<Name>PaddleSound</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile>C:\Dev\Vide\download\sound\ayfxedit04\sfxcollection\zxgames\fireandice_3.afx</soundFile>
+		<Behaviour>trigger only</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>InvaderSpawner_Actions</Class>
+		<Name>InvaderSpawner</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX></changeWhileActiveX>
+		<changeWhileActiveY></changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>trigger only</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Invader1 Ticks50</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.spawn sprite Sprite:Invader1 Y:100 X:rand(+120)</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>cab571f4-4997-4720-837e-4b21017fac1c</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main2_Actions</Class>
+		<Name>PacciLeft_Main2</Name>
+		<animationFile>xml\vectoranimation\__MH1.xml</animationFile>
+		<changeWhileActiveX>-2</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 2 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick up</triggerName>
+			<triggerName>1.joystick down</triggerName>
+			<triggerName>2.joystick right</triggerName>
+			<triggerName>3.joystick center</triggerName>
+			<triggerName>4.button pressed 1 Sprite_Shot</triggerName>
+			<triggerName>5.sprite collision Main1</triggerName>
+			<triggerName>6.sprite collision DummySprite</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacUp_Main2</resultName>
+			<resultName>1.action change PacciDown_Main2</resultName>
+			<resultName>2.action change PacciRight_Main2</resultName>
+			<resultName>3.action change PacciCenter_Main2</resultName>
+			<resultName>4.spawn sprite Sprite:Sprite_Shot Y:d0 X:d0</resultName>
+			<resultName>5.block movement Sprite:Main1</resultName>
+			<resultName>6.block movement Sprite:DummySprite</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>#6</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>#10</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+			<eventName>6</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>d15bd499-810e-48df-9fcc-a69bab3cfc7f</eventUID>
+			<eventUID>be73c56f-0e8b-4966-8648-03f1b1dead46</eventUID>
+			<eventUID>2da53899-6d1b-449f-ac48-05b997f4ff16</eventUID>
+			<eventUID>25e21270-eb5d-42f5-9d92-7964aac996b0</eventUID>
+			<eventUID>b37cd93c-e5d1-4051-95cd-316f378dbc0d</eventUID>
+			<eventUID>b1ef3c09-21b9-49bf-b04b-85fc096b4498</eventUID>
+			<eventUID>9bc3819b-fc69-4783-977a-eb56d95ff4be</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main1_Actions</Class>
+		<Name>PacciLeft_Main1</Name>
+		<animationFile>xml\vectoranimation\__MH1.xml</animationFile>
+		<changeWhileActiveX>-2</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick up</triggerName>
+			<triggerName>1.joystick down</triggerName>
+			<triggerName>2.joystick right</triggerName>
+			<triggerName>3.joystick center</triggerName>
+			<triggerName>4.button pressed 1 Sprite_Shot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacUp_Main1</resultName>
+			<resultName>1.action change PacciDown_Main1</resultName>
+			<resultName>2.action change PacciRight_Main1</resultName>
+			<resultName>3.action change PacciCenter_Main1</resultName>
+			<resultName>4.spawn sprite Sprite:Sprite_Shot Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>ed7863b0-1b57-474d-89d2-e504cdbf58c5</eventUID>
+			<eventUID>898dd45e-d7d9-4449-b638-5a81229ed892</eventUID>
+			<eventUID>9939252f-cb5d-4f16-8042-e0750f3fcdd5</eventUID>
+			<eventUID>a9869be4-6221-41e3-b32b-7c15d6b30284</eventUID>
+			<eventUID>0fb05ebc-558c-4df2-8e5e-c0a77741a688</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Intro_1_Actions</Class>
+		<Name>BallerText</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>text</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>BALLER</text>
+		<textType>5 font</textType>
+		<textHeight>2</textHeight>
+		<textWidth>50</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>GoNorth_Actions</Class>
+		<Name>GoNorth</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>text</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>GO NORTH</text>
+		<textType>standard font</textType>
+		<textHeight>1</textHeight>
+		<textWidth>40</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Sprite_Shot_Actions</Class>
+		<Name>Sprite_Shot</Name>
+		<animationFile>xml\vectoranimation\WarpShot.xml</animationFile>
+		<changeWhileActiveX>5</changeWhileActiveX>
+		<changeWhileActiveY>5</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>parent direction</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Ticks50</triggerName>
+			<triggerName>1.sprite collision DummySprite</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+			<resultName>1.block movement Sprite:DummySprite</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>true</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>65cbb04b-7aae-4f3f-a656-61514df77bb0</eventUID>
+			<eventUID>de576692-159e-4e94-ad04-b3e839a084b6</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main2_Actions</Class>
+		<Name>PacUp_Main2</Name>
+		<animationFile>xml\vectoranimation\_MH_Climb.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>2</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 2 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick left</triggerName>
+			<triggerName>2.joystick down</triggerName>
+			<triggerName>3.joystick right</triggerName>
+			<triggerName>4.button pressed 1 Sprite_Shot</triggerName>
+			<triggerName>5.sprite collision Main1</triggerName>
+			<triggerName>6.sprite collision DummySprite</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacciCenter_Main2</resultName>
+			<resultName>1.action change PacciLeft_Main2</resultName>
+			<resultName>2.action change PacciDown_Main2</resultName>
+			<resultName>3.action change PacciRight_Main2</resultName>
+			<resultName>4.spawn sprite Sprite:Sprite_Shot Y:d0 X:d0</resultName>
+			<resultName>5.block movement Sprite:Main1</resultName>
+			<resultName>6.block movement Sprite:DummySprite</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>#6</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>#10</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+			<eventName>6</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>631c879b-5e3b-475d-baad-1adcae61b672</eventUID>
+			<eventUID>dd0e4c86-a95f-4008-9d01-9211f9dcd663</eventUID>
+			<eventUID>0c6becc9-439c-4dbb-a269-6ecd52d1a151</eventUID>
+			<eventUID>c3f6f8a5-6056-4648-a9cc-c8be8d8299a1</eventUID>
+			<eventUID>936fde26-d93d-42f8-a091-3ec3dbad2645</eventUID>
+			<eventUID>bf3e75b6-4625-49e2-b866-13e010e36348</eventUID>
+			<eventUID>5a357b03-ca47-4f8d-a009-6a81a84e6d28</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main1_Actions</Class>
+		<Name>PacUp_Main1</Name>
+		<animationFile>xml\vectoranimation\_MH_Climb.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>2</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>target player 1</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>4.button pressed 1 Sprite_Shot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>4.spawn sprite Sprite:Sprite_Shot Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>4</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>deb33b14-d05c-40f0-a00f-9b83497e9358</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Text1_Actions</Class>
+		<Name>GameOn</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>1</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>text</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.position equals Y:-100</triggerName>
+			<triggerName>1.position equals Main Y:100</triggerName>
+			<triggerName>2.position equals playerShot Y:-100</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.speed change Y:2 X:x</resultName>
+			<resultName>1.speed change Sprite:Main Y:-2 X:x</resultName>
+			<resultName>2.spawn sprite Sprite:playerShot</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>GAME ON!</text>
+		<textType>5 font</textType>
+		<textHeight>2</textHeight>
+		<textWidth>50</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>a6bf987a-732d-43d6-838d-96ca67e64b42</eventUID>
+			<eventUID>30370c75-ca6a-4bea-8cd0-b7c1731aaa50</eventUID>
+			<eventUID>8c2c8742-b58b-49ab-8302-beccdcfb3fba</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>shotWarp2_Actions</Class>
+		<Name>shotWarp2</Name>
+		<animationFile>xml\vectoranimation\WarpShot.xml</animationFile>
+		<changeWhileActiveX>-3</changeWhileActiveX>
+		<changeWhileActiveY>-3</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>shoot at player 1</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.position &gt; Y shotWarp Y:120</triggerName>
+			<triggerName>1.position &lt; Y shotWarp Y:-120</triggerName>
+			<triggerName>2.position &gt; X shotWarp X:120</triggerName>
+			<triggerName>3.position &lt; X shotWarp X:-120</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.spawn sprite Sprite:shotWarp</resultName>
+			<resultName>1.spawn sprite Sprite:shotWarp</resultName>
+			<resultName>2.spawn sprite Sprite:shotWarp</resultName>
+			<resultName>3.spawn sprite Sprite:shotWarp</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType></textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>7f1cb256-bdbc-43bc-a2b0-f0c271b275a1</eventUID>
+			<eventUID>5b0f666a-ea9d-4829-851b-ac66ed822c4a</eventUID>
+			<eventUID>c64f0bf4-2b08-40c5-ac5e-859baf6b8730</eventUID>
+			<eventUID>63579f0b-5871-41d5-bfd9-9bf58a35513a</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>BonusE_Actions</Class>
+		<Name>Bonus</Name>
+		<animationFile>xml\vectoranimation\_BonusE.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>-1</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.position &lt; Y Y:-120</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>6db43cb6-846d-4bd3-9ad0-7a00e51be5de</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>HorizontalLine_Actions</Class>
+		<Name>HorizontalLine</Name>
+		<animationFile>xml\vectoranimation\_horizontalLine.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>fixed position</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>-12</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Hi2_Actions</Class>
+		<Name>Hi2</Name>
+		<animationFile>xml\vectoranimation\HighLight1.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>fixed position</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.sprite collision Pointer</triggerName>
+			<triggerName>1.sprite no collision Pointer</triggerName>
+			<triggerName>2.sprite collision Pointer</triggerName>
+			<triggerName>3.sprite no collision Pointer</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.intensity change Sprite:Pointer Y:120</resultName>
+			<resultName>1.intensity change Sprite:Pointer Y:30</resultName>
+			<resultName>2.variable change Sprite:Pointer Y:=ADVdirection X:2</resultName>
+			<resultName>3.variable change Sprite:Pointer Y:=ADVdirection X:x</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>-18</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>-4</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity>30</intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>53605e9f-2ad2-4ad8-81a2-f4cf81c586a7</eventUID>
+			<eventUID>ab2be698-2c51-42f8-933a-eadfdd0b0ea7</eventUID>
+			<eventUID>622851a9-3bfb-47b1-97cc-3f9d9e57efe1</eventUID>
+			<eventUID>57c3cc2f-3605-4853-b36b-4d0cc6cba4e9</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Hi1_Actions</Class>
+		<Name>Hi1</Name>
+		<animationFile>xml\vectoranimation\HighLight1.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>fixed position</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.sprite collision Pointer</triggerName>
+			<triggerName>1.sprite no collision Pointer</triggerName>
+			<triggerName>2.sprite collision Pointer</triggerName>
+			<triggerName>3.sprite no collision Pointer</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.intensity change Sprite:Pointer Y:120</resultName>
+			<resultName>1.intensity change Sprite:Pointer Y:30</resultName>
+			<resultName>2.variable change Sprite:Pointer Y:=ADVdirection X:2</resultName>
+			<resultName>3.variable change Sprite:Pointer Y:=ADVdirection X:x</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>-18</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>-4</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity>30</intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>bd1080a8-0289-4edd-afaa-335dc2753bc6</eventUID>
+			<eventUID>e9fa86de-5570-434e-8699-1c16238e2ba5</eventUID>
+			<eventUID>db89353a-8a45-4bb3-978e-9e242cae2bae</eventUID>
+			<eventUID>e713aee7-0f46-46b2-8741-ce25b44e90cc</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main1_Actions</Class>
+		<Name>PacciDeath_Main1</Name>
+		<animationFile>xml\vectoranimation\_MH_Org_Death.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Ticks50</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType></textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>00214980-f805-4332-825a-7d9584da965f</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main2_Actions</Class>
+		<Name>PacciDeath_Main2</Name>
+		<animationFile>xml\vectoranimation\_MH_Org_Death.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 2 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Ticks50</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>adbe4130-9417-4206-8ab5-fcc4172b6f07</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>VerticalLine_Actions</Class>
+		<Name>VerticalLine</Name>
+		<animationFile>xml\vectoranimation\_verticalLine.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>fixed position</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>-12</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>BATRR_Actions</Class>
+		<Name>BATRR</Name>
+		<animationFile>xml\vectoranimation\_BatRR.xml</animationFile>
+		<changeWhileActiveX>30</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>follow sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>-2</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>MansionPlayer_Actions</Class>
+		<Name>MansionPlayerRight</Name>
+		<animationFile>xml\vectoranimation\__MH1r.xml</animationFile>
+		<changeWhileActiveX>1</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick down</triggerName>
+			<triggerName>2.joystick left</triggerName>
+			<triggerName>3.joystick up</triggerName>
+			<triggerName>4.sprite collision VerticalLine</triggerName>
+			<triggerName>5.sprite collision verticalSpecial</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change MansionPlayerCenter</resultName>
+			<resultName>1.action change MansionPlayerDown</resultName>
+			<resultName>2.action change MansionPlayerLeft</resultName>
+			<resultName>3.action change MansionPlayerUp</resultName>
+			<resultName>4.block movement Sprite:VerticalLine</resultName>
+			<resultName>5.block movement Sprite:verticalSpecial</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>44f32ec2-779b-49e5-adda-380464b01e56</eventUID>
+			<eventUID>66098156-cbcd-4a9a-b493-96e4d45c5cb3</eventUID>
+			<eventUID>08450929-8d6a-4d36-957c-6d5810d95c2b</eventUID>
+			<eventUID>30713e10-e6e8-402b-8d64-d3950d10d527</eventUID>
+			<eventUID>8bbd8498-f9a4-4175-9e16-5d33fd916124</eventUID>
+			<eventUID>a79beb7f-1113-41d2-8407-2793e218fdab</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main_Actions</Class>
+		<Name>PacUp</Name>
+		<animationFile>xml\vectoranimation\_MH_Climb.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>2</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick left</triggerName>
+			<triggerName>2.joystick down</triggerName>
+			<triggerName>3.joystick right</triggerName>
+			<triggerName>4.sprite collision Enemy</triggerName>
+			<triggerName>5.button pressed 1 playerShot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacciCenter</resultName>
+			<resultName>1.action change PacciLeft</resultName>
+			<resultName>2.action change PacciDown</resultName>
+			<resultName>3.action change PacciRight</resultName>
+			<resultName>4.action change PacciDeath Sprite:Enemy</resultName>
+			<resultName>5.spawn sprite Sprite:playerShot Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>b4885605-7ac7-433b-8223-677dfc3c4aac</eventUID>
+			<eventUID>bc6fa88b-0686-4312-ad9f-fde7836372bb</eventUID>
+			<eventUID>580dae5d-8487-4008-8952-bf5bd7e10e79</eventUID>
+			<eventUID>d2165aad-e386-4b51-9d9d-7c917302329b</eventUID>
+			<eventUID>89a7c254-8631-4d4a-91b3-5fa990f99a04</eventUID>
+			<eventUID>c455271e-da22-4d26-9764-e47ca084fb9a</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Intro_3_Actions</Class>
+		<Name>Malban</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.button down 4</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.next level</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>MALBAN!</text>
+		<textType>standard font</textType>
+		<textHeight>2</textHeight>
+		<textWidth>80</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>a445ab5f-806f-4891-b473-7fbe59580f86</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>GoWest_Actions</Class>
+		<Name>GoWest</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>text</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>GO WEST</text>
+		<textType>standard font</textType>
+		<textHeight>1</textHeight>
+		<textWidth>50</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>shotWarp_Actions</Class>
+		<Name>shotWarp1</Name>
+		<animationFile>xml\vectoranimation\_ngE_WarperBig.xml</animationFile>
+		<changeWhileActiveX>3</changeWhileActiveX>
+		<changeWhileActiveY>3</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile>C:\Dev\Vide\download\sound\ayfxedit04\sfxcollection\zxmsxdemo\firebird_26.afx</soundFile>
+		<Behaviour>target player 1</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.position &gt; Y shotWarp2 Y:120</triggerName>
+			<triggerName>1.position &lt; Y shotWarp2 Y:-120</triggerName>
+			<triggerName>2.position &gt; X shotWarp2 X:120</triggerName>
+			<triggerName>3.position &lt; X shotWarp2 X:-120</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove warpShotDown Sprite:shotWarp2</resultName>
+			<resultName>1.remove warpShotDown Sprite:shotWarp2</resultName>
+			<resultName>2.remove warpShotDown Sprite:shotWarp2</resultName>
+			<resultName>3.remove warpShotDown Sprite:shotWarp2</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType></textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>69876221-6a65-4427-b305-fc32c1f02a71</eventUID>
+			<eventUID>418ad561-a036-4fbf-9a93-42593ab454bf</eventUID>
+			<eventUID>9667c270-74a0-466d-bc35-9fe03b578ec2</eventUID>
+			<eventUID>c3a16113-ccb0-4c04-9bdb-898aa20d248c</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Ball_Actions</Class>
+		<Name>OutOfBoundsSound</Name>
+		<animationFile>xml\vectoranimation\_ball.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile>C:\Dev\Vide\download\sound\ayfxedit04\sfxcollection\zxgames\cybernoid2_4.afx</soundFile>
+		<Behaviour>sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Ticks2</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>44e58d77-436f-43dd-b3c3-9f3c14480270</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Help_Actions</Class>
+		<Name>Help</Name>
+		<animationFile>xml\vectoranimation\_Help.xml</animationFile>
+		<changeWhileActiveX>15</changeWhileActiveX>
+		<changeWhileActiveY>15</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>follow sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Ticks300</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>1</textHeight>
+		<textWidth>30</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>86b8129a-0f8c-4699-b531-f3a390f5c836</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main_Actions</Class>
+		<Name>PacciRight</Name>
+		<animationFile>xml\vectoranimation\__MH1r.xml</animationFile>
+		<changeWhileActiveX>2</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick up</triggerName>
+			<triggerName>2.joystick left</triggerName>
+			<triggerName>3.joystick down</triggerName>
+			<triggerName>4.sprite collision Enemy</triggerName>
+			<triggerName>5.button pressed 1 playerShot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacciCenter</resultName>
+			<resultName>1.action change PacUp</resultName>
+			<resultName>2.action change PacciLeft</resultName>
+			<resultName>3.action change PacciDown</resultName>
+			<resultName>4.action change PacciDeath Sprite:Enemy</resultName>
+			<resultName>5.spawn sprite Sprite:playerShot Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>4b55bddf-ce02-4dbf-b947-4fec060cb3e7</eventUID>
+			<eventUID>dc4160f6-55b9-4fa9-8c54-4bf516ccee6e</eventUID>
+			<eventUID>8d135c07-331d-4c58-8b84-69782110d973</eventUID>
+			<eventUID>73286933-731f-4ccd-8d88-9675222af5e4</eventUID>
+			<eventUID>b5ef23e6-127f-4ca2-83bf-62557e0d40e8</eventUID>
+			<eventUID>f9bdd28d-759f-4fb9-8ed5-334fcdfe4242</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>BrickHit_Actions</Class>
+		<Name>BrickSound</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile>C:\Dev\Vide\download\sound\ayfxedit04\sfxcollection\zxgames\arcanoid2_1.afx</soundFile>
+		<Behaviour>trigger only</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Ticks2</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>cb694353-3fbf-4f77-adcb-2241018f3b89</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>J_RUN_Actions</Class>
+		<Name>Right</Name>
+		<animationFile>xml\vectoranimation\____T_RunRightB.xml</animationFile>
+		<changeWhileActiveX>1</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.position &gt; X X:70</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change Left</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>4f4ad446-5501-4cc6-815e-99ad26d50b2b</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>InvaderShot_Actions</Class>
+		<Name>InvadersShot</Name>
+		<animationFile>xml\vectoranimation\_InvaderShot.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>-2</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.position &lt; Y Y:-120</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>790f8d93-6207-4fe5-9c8c-31e216753ddb</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Pointer_Actions</Class>
+		<Name>Pointer</Name>
+		<animationFile>xml\vectoranimation\_Pointer.xml</animationFile>
+		<changeWhileActiveX>ax</changeWhileActiveX>
+		<changeWhileActiveY>ay</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.button down 1</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.set level Y:=ADVdirection</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>#1</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>#1</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>48d5bea7-3ef9-4b59-8aaa-6373bebbcb1c</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>SpecialKeyDeath_Actions</Class>
+		<Name>SpecialKeyDeath</Name>
+		<animationFile>xml\vectoranimation\_G_MoneyMothership.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>fixed position</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired verticalSpecial Ticks2</triggerName>
+			<triggerName>1. Ticks2</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove all Sprite:verticalSpecial</resultName>
+			<resultName>1.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>70ffccfc-9255-4fec-a834-2adfa87fe149</eventUID>
+			<eventUID>b709b6dc-9a6a-4353-9290-15d189c14955</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Ball_Actions</Class>
+		<Name>BrickHitSound</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>2</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile>C:\Dev\Vide\download\sound\ayfxedit04\sfxcollection\zxgames\arcanoid2_1.afx</soundFile>
+		<Behaviour>trigger only</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Ball_Actions</Class>
+		<Name>BallMain</Name>
+		<animationFile>xml\vectoranimation\_ball.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>2</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.sprite collision Brick</triggerName>
+			<triggerName>1.sprite collision BATC</triggerName>
+			<triggerName>2.sprite collision BATL</triggerName>
+			<triggerName>3.sprite collision BATLL</triggerName>
+			<triggerName>4.sprite collision BATR</triggerName>
+			<triggerName>5.sprite collision BATRR</triggerName>
+			<triggerName>6.position &lt; X X:-120</triggerName>
+			<triggerName>7.position &gt; X X:120</triggerName>
+			<triggerName>8.position &gt; Y Y:120</triggerName>
+			<triggerName>9.position &lt; Y Y:-120</triggerName>
+			<triggerName>10.position &lt; Y Y:-120</triggerName>
+			<triggerName>11.sprite collision BATC</triggerName>
+			<triggerName>12.sprite collision BATL</triggerName>
+			<triggerName>13.sprite collision BATLL</triggerName>
+			<triggerName>14.sprite collision BATR</triggerName>
+			<triggerName>15.sprite collision BATRR</triggerName>
+			<triggerName>16.sprite collision Brick</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.speed change Sprite:Brick Y:neg X:rand(+-3)</resultName>
+			<resultName>1.speed change Sprite:BATC Y:neg X:x</resultName>
+			<resultName>2.speed change Sprite:BATL Y:neg X:-1</resultName>
+			<resultName>3.speed change Sprite:BATLL Y:neg X:-2</resultName>
+			<resultName>4.speed change Sprite:BATR Y:neg X:1</resultName>
+			<resultName>5.speed change Sprite:BATRR Y:neg X:2</resultName>
+			<resultName>6.speed change Y:x X:neg</resultName>
+			<resultName>7.speed change Y:x X:neg</resultName>
+			<resultName>8.speed change Y:neg X:x</resultName>
+			<resultName>9.play sfx OutOfBoundsSound</resultName>
+			<resultName>10.remove</resultName>
+			<resultName>11.play sfx BrickHitSound Sprite:BATC</resultName>
+			<resultName>12.play sfx BrickHitSound Sprite:BATL</resultName>
+			<resultName>13.play sfx BrickHitSound Sprite:BATLL</resultName>
+			<resultName>14.play sfx BrickHitSound Sprite:BATR</resultName>
+			<resultName>15.play sfx BrickHitSound Sprite:BATRR</resultName>
+			<resultName>16.play sfx PaddleSound Sprite:Brick</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+			<eventName>6</eventName>
+			<eventName>7</eventName>
+			<eventName>8</eventName>
+			<eventName>9</eventName>
+			<eventName>10</eventName>
+			<eventName>11</eventName>
+			<eventName>12</eventName>
+			<eventName>13</eventName>
+			<eventName>14</eventName>
+			<eventName>15</eventName>
+			<eventName>16</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>b5c5a3f6-8341-4f99-a200-1a7088eab44b</eventUID>
+			<eventUID>46d1946c-028c-472e-a117-1017290a24a7</eventUID>
+			<eventUID>1087cefe-289b-44da-bfa5-1ea70f58c80c</eventUID>
+			<eventUID>37e9ed17-cab0-4985-a435-7755b746d0b7</eventUID>
+			<eventUID>b35df2a0-a221-4c8b-a54d-cc0356dcf0b3</eventUID>
+			<eventUID>b907a875-c72a-4310-addb-f6e2b7453843</eventUID>
+			<eventUID>81d098de-50a1-441a-9c24-5959d230b5fc</eventUID>
+			<eventUID>f07b7462-5b87-4eea-8129-145f55ac9a75</eventUID>
+			<eventUID>bbff4341-ec6e-4896-b046-e52282a250a6</eventUID>
+			<eventUID>c7d1a343-c821-49e7-8e8d-83b778c0b4de</eventUID>
+			<eventUID>18e40b1f-26b0-447e-813a-10da99425cc0</eventUID>
+			<eventUID>11ffc21c-e450-4c77-969b-bea44af49c56</eventUID>
+			<eventUID>7d71975b-4b8c-4e73-a247-4bbbd8515113</eventUID>
+			<eventUID>5aa958a9-db32-46f8-9766-0ae14a15b001</eventUID>
+			<eventUID>504ec8a2-2ea3-4da5-8761-a92a45b55e96</eventUID>
+			<eventUID>f18e5eff-db2e-4e56-ac25-bb5e0440b21c</eventUID>
+			<eventUID>64adc712-e8ae-4fa1-abeb-cd824bd07491</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>SpecialKey_Actions</Class>
+		<Name>SpecialKey</Name>
+		<animationFile>xml\vectoranimation\_G_MoneyMothership.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>fixed position</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.sprite collision BATC</triggerName>
+			<triggerName>1.button down 1 Bat</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove SpecialKey Sprite:BATC</resultName>
+			<resultName>1.action change SpecialKey Sprite:Bat</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>-10</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>-10</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>bc1c1420-2883-4fa1-a424-7456bcc174a9</eventUID>
+			<eventUID>c135ce7d-df21-4132-926a-bdfdc05fc462</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Enemy_Actions</Class>
+		<Name>MineShip</Name>
+		<animationFile>xml\vectoranimation\_ngE_WarperBig.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>patrol</Behaviour>
+		<Positionings>
+			<Positioning>10</Positioning>
+			<Positioning>1</Positioning>
+			<Positioning>1</Positioning>
+			<Positioning>10</Positioning>
+			<Positioning>-1</Positioning>
+			<Positioning>-1</Positioning>
+			<Positioning>10</Positioning>
+			<Positioning>-2</Positioning>
+			<Positioning>0</Positioning>
+			<Positioning>10</Positioning>
+			<Positioning>0</Positioning>
+			<Positioning>-2</Positioning>
+			<Positioning>10</Positioning>
+			<Positioning>1</Positioning>
+			<Positioning>1</Positioning>
+			<Positioning>10</Positioning>
+			<Positioning>1</Positioning>
+			<Positioning>1</Positioning>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.sprite collision playerShot</triggerName>
+			<triggerName>1.timer expired shotWarp Ticks=loadTimer</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove Sprite:playerShot</resultName>
+			<resultName>1.spawn sprite Sprite:shotWarp Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>true</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>6dc2c686-d4a2-4738-8587-5f3621a18c3e</eventUID>
+			<eventUID>1171926d-8caa-4a52-93d6-28252cf02663</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main2_Actions</Class>
+		<Name>PacciRight_Main2</Name>
+		<animationFile>xml\vectoranimation\__MH1r.xml</animationFile>
+		<changeWhileActiveX>2</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 2 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick up</triggerName>
+			<triggerName>2.joystick left</triggerName>
+			<triggerName>3.joystick down</triggerName>
+			<triggerName>4.button pressed 1 Sprite_Shot</triggerName>
+			<triggerName>5.sprite collision Main1</triggerName>
+			<triggerName>6.sprite collision DummySprite</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacciCenter_Main2</resultName>
+			<resultName>1.action change PacUp_Main2</resultName>
+			<resultName>2.action change PacciLeft_Main2</resultName>
+			<resultName>3.action change PacciDown_Main2</resultName>
+			<resultName>4.spawn sprite Sprite:Sprite_Shot Y:d0 X:d0</resultName>
+			<resultName>5.block movement Sprite:Main1</resultName>
+			<resultName>6.block movement Sprite:DummySprite</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>#6</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>#10</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+			<eventName>6</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>b924968b-101d-4a52-81c9-e3c5c507f438</eventUID>
+			<eventUID>83c1c3f3-12a7-4532-98d7-98065cfc0ef3</eventUID>
+			<eventUID>01b923c3-f76c-4be0-b064-1953ff9883e3</eventUID>
+			<eventUID>c2e41bba-828b-4131-b6f8-8f8182b0a367</eventUID>
+			<eventUID>d895c403-3cfa-4284-a423-f82343c229cf</eventUID>
+			<eventUID>4db8b532-a114-4638-970f-06f0da483086</eventUID>
+			<eventUID>56503510-3fc7-4be0-8ec8-2d767caa100b</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>test_kristof_Actions</Class>
+		<Name>t_kristof</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>1</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>trigger only</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.position &gt; X X:-10</triggerName>
+			<triggerName>1.position &lt; X X:-80</triggerName>
+			<triggerName>2.button down 1</triggerName>
+			<triggerName>3.button down 1</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.speed change Y:x X:-1</resultName>
+			<resultName>1.speed change Y:x X:1</resultName>
+			<resultName>2.next level</resultName>
+			<resultName>3.variable change Y:=ADVdirection X:1</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>KRISTOF TUTS?</text>
+		<textType>standard font</textType>
+		<textHeight>2</textHeight>
+		<textWidth>60</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>ba9d8a4d-f554-4eed-bd90-f718e57b4815</eventUID>
+			<eventUID>7d9ba778-2361-47a7-b13d-74746bc14ead</eventUID>
+			<eventUID>ac466e60-4f55-44d2-8468-9d8a068a319f</eventUID>
+			<eventUID>b6df61b1-d276-48cf-aa31-bd25e2de2921</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Brick_Actions</Class>
+		<Name>Stay</Name>
+		<animationFile>xml\vectoranimation\_Brick.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>fixed position</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.sprite receive collision Ball</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change ZombiBrick Sprite:Ball</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>true</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>0f9a2aa7-4656-4de0-9f23-1f76723cf8dd</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main1_Actions</Class>
+		<Name>PacciRight_Main1</Name>
+		<animationFile>xml\vectoranimation\__MH1r.xml</animationFile>
+		<changeWhileActiveX>2</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick up</triggerName>
+			<triggerName>2.joystick left</triggerName>
+			<triggerName>3.joystick down</triggerName>
+			<triggerName>4.button pressed 1 Sprite_Shot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacciCenter_Main1</resultName>
+			<resultName>1.action change PacUp_Main1</resultName>
+			<resultName>2.action change PacciLeft_Main1</resultName>
+			<resultName>3.action change PacciDown_Main1</resultName>
+			<resultName>4.spawn sprite Sprite:Sprite_Shot Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>5b1a6cea-8272-44b4-a8ee-41a8ca73232c</eventUID>
+			<eventUID>4bff1be7-7337-4e5d-b42b-bac7f3e4d926</eventUID>
+			<eventUID>5eb069fe-5242-458b-a93b-4adb71187a6b</eventUID>
+			<eventUID>a1b7a399-e106-4c25-a7f6-5bb05ebb2e97</eventUID>
+			<eventUID>56f89a32-c530-4d78-a812-4a7903788312</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>MansionPlayer_Actions</Class>
+		<Name>MansionPlayerLeft</Name>
+		<animationFile>xml\vectoranimation\__MH1.xml</animationFile>
+		<changeWhileActiveX>-1</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick down</triggerName>
+			<triggerName>2.joystick up</triggerName>
+			<triggerName>3.joystick right</triggerName>
+			<triggerName>4.sprite collision VerticalLine</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change MansionPlayerCenter</resultName>
+			<resultName>1.action change MansionPlayerDown</resultName>
+			<resultName>2.action change MansionPlayerUp</resultName>
+			<resultName>3.action change MansionPlayerRight</resultName>
+			<resultName>4.block movement Sprite:VerticalLine</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>71ea3e38-fc6e-4e5c-b827-cf531952d554</eventUID>
+			<eventUID>e6377d12-e905-499c-8f18-43c3edac99c7</eventUID>
+			<eventUID>f7cd2303-79e2-4de3-8c11-e82185174c6a</eventUID>
+			<eventUID>ce9b13f3-9121-4075-a626-bcfb9f97a407</eventUID>
+			<eventUID>4e8f7b4d-ebb3-434b-89d9-66920450005e</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main2_Actions</Class>
+		<Name>PacciCenter_Main2</Name>
+		<animationFile>xml\vectoranimation\__MH_juststand.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 2 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick up</triggerName>
+			<triggerName>1.joystick left</triggerName>
+			<triggerName>2.joystick down</triggerName>
+			<triggerName>3.joystick right</triggerName>
+			<triggerName>4.sprite collision Sprite_Shot</triggerName>
+			<triggerName>5.sprite collision Main1</triggerName>
+			<triggerName>6.sprite collision DummySprite</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacUp_Main2</resultName>
+			<resultName>1.action change PacciLeft_Main2</resultName>
+			<resultName>2.action change PacciDown_Main2</resultName>
+			<resultName>3.action change PacciRight_Main2</resultName>
+			<resultName>4.set position Sprite:Sprite_Shot</resultName>
+			<resultName>5.block movement Sprite:Main1</resultName>
+			<resultName>6.block movement Sprite:DummySprite</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>#6</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>true</isEnemy>
+		<boundingBoxOffsetY>#10</boundingBoxOffsetY>
+		<isPlayerShot>true</isPlayerShot>
+		<isEnemyShot>true</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+			<eventName>6</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>c5ba22d9-ae07-4278-b824-5cb140c149a9</eventUID>
+			<eventUID>30881784-cd15-4e68-8487-c403e9e7fb97</eventUID>
+			<eventUID>6f20f47e-0beb-4c8c-83de-82370e4134b9</eventUID>
+			<eventUID>9299e1b9-edb5-44c3-ac7c-cc736c0f86a7</eventUID>
+			<eventUID>10d98a64-7f6f-4812-ba05-ffc5f638a92a</eventUID>
+			<eventUID>d14b6f3a-615f-4ef7-b596-a6bf62fddc95</eventUID>
+			<eventUID>24eb6715-0813-49b0-9e80-cabd43fd9d22</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main1_Actions</Class>
+		<Name>PacciCenter_Main1</Name>
+		<animationFile>xml\vectoranimation\__MH_juststand.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick up</triggerName>
+			<triggerName>1.joystick left</triggerName>
+			<triggerName>2.joystick down</triggerName>
+			<triggerName>3.joystick right</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacUp_Main1</resultName>
+			<resultName>1.action change PacciLeft_Main1</resultName>
+			<resultName>2.action change PacciDown_Main1</resultName>
+			<resultName>3.action change PacciRight_Main1</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>2515fbf1-b5cc-46ca-8ca3-e9ccc398038b</eventUID>
+			<eventUID>3959b990-f8ea-499c-8158-4e14b848735d</eventUID>
+			<eventUID>deb4562e-584c-4cfa-811f-12d89a63a458</eventUID>
+			<eventUID>202ba736-ed5e-480d-baa2-eb063fda7ef0</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>BATR_Actions</Class>
+		<Name>BATR</Name>
+		<animationFile>xml\vectoranimation\_BatR.xml</animationFile>
+		<changeWhileActiveX>15</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>follow sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>-2</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main_Actions</Class>
+		<Name>PacciDeath</Name>
+		<animationFile>xml\vectoranimation\_MH_Org_Death.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired Ticks50</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType></textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>8d81f0ef-8524-4fc5-8c56-f1364acac31c</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Main_Actions</Class>
+		<Name>PacciLeft</Name>
+		<animationFile>xml\vectoranimation\__MH1.xml</animationFile>
+		<changeWhileActiveX>-2</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick up</triggerName>
+			<triggerName>1.joystick down</triggerName>
+			<triggerName>2.joystick right</triggerName>
+			<triggerName>3.joystick center</triggerName>
+			<triggerName>4.sprite collision Enemy</triggerName>
+			<triggerName>5.button pressed 1 playerShot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change PacUp</resultName>
+			<resultName>1.action change PacciDown</resultName>
+			<resultName>2.action change PacciRight</resultName>
+			<resultName>3.action change PacciCenter</resultName>
+			<resultName>4.action change PacciDeath Sprite:Enemy</resultName>
+			<resultName>5.spawn sprite Sprite:playerShot Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+			<eventName>5</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>62048aea-b112-4870-8485-2c9e09778a5f</eventUID>
+			<eventUID>6b170840-bae2-4bed-b642-6b4e4764d53b</eventUID>
+			<eventUID>ee14432e-3f2d-4859-b28d-b13c5c71647a</eventUID>
+			<eventUID>c7319a2f-33aa-4a64-9d0e-b7f0700b2332</eventUID>
+			<eventUID>8ef873ed-6d91-4ed5-8e26-aa84d0994567</eventUID>
+			<eventUID>1c2b70fa-6493-4f9f-959c-4130464a8994</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>text_in_Actions</Class>
+		<Name>t_in</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>text</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>IS</text>
+		<textType>standard font</textType>
+		<textHeight>2</textHeight>
+		<textWidth>60</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>MansionPlayer_Actions</Class>
+		<Name>MansionPlayerUp</Name>
+		<animationFile>xml\vectoranimation\_MH_Climb.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>1</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick down</triggerName>
+			<triggerName>2.joystick left</triggerName>
+			<triggerName>3.joystick right</triggerName>
+			<triggerName>4.sprite collision HorizontalLine</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change MansionPlayerCenter</resultName>
+			<resultName>1.action change MansionPlayerDown</resultName>
+			<resultName>2.action change MansionPlayerLeft</resultName>
+			<resultName>3.action change MansionPlayerRight</resultName>
+			<resultName>4.block movement Sprite:HorizontalLine</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>5516c8c4-53cd-4b87-a3a3-7e41fd561228</eventUID>
+			<eventUID>013a5aeb-ea0a-491f-9eae-0469ede534a2</eventUID>
+			<eventUID>69bfae17-b471-4014-9e3f-a17a2cb479fe</eventUID>
+			<eventUID>ae46b73e-8dcd-4572-b3da-13f659b12147</eventUID>
+			<eventUID>0f4d62e7-197d-471c-bec6-6379edc20ce1</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>static_Actions</Class>
+		<Name>timerDummy</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>trigger only</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.long timer expired</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.next level</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>f391f2fe-19a5-4888-8e5a-e6e37101009c</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>BATL_Actions</Class>
+		<Name>BATL</Name>
+		<animationFile>xml\vectoranimation\_BatL.xml</animationFile>
+		<changeWhileActiveX>-15</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>follow sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>-2</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Location1_Actions</Class>
+		<Name>Location1</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>text</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>YOU SEE AN EAGLE TRANSPORTER,
+POSSIBLY RIPPED FROM
+VECTOR PATROL.
+WHERE IS KRISTOF?</text>
+		<textType>5 font</textType>
+		<textHeight>1</textHeight>
+		<textWidth>50</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Location2_Actions</Class>
+		<Name>Location2</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>text</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>OOPS - WRONG SPACEPORT!!!
+IS THERE AN ENTERPRISE ALSO?</text>
+		<textType>5 font</textType>
+		<textHeight>1</textHeight>
+		<textWidth>50</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>text_WHERE_Actions</Class>
+		<Name>t_where</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>text</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>WHERE IN THE WORLD</text>
+		<textType>standard font</textType>
+		<textHeight>2</textHeight>
+		<textWidth>60</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>BATC_Actions</Class>
+		<Name>BATC</Name>
+		<animationFile>xml\vectoranimation\_BatC.xml</animationFile>
+		<changeWhileActiveX>ax90</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.button down 1 Ball</triggerName>
+			<triggerName>1.on creation BATR</triggerName>
+			<triggerName>2.on creation BATRR</triggerName>
+			<triggerName>3.on creation BATL</triggerName>
+			<triggerName>4.on creation BATLL</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.spawn sprite Sprite:Ball Y:d20 X:d0</resultName>
+			<resultName>1.spawn sprite Sprite:BATR</resultName>
+			<resultName>2.spawn sprite Sprite:BATRR</resultName>
+			<resultName>3.spawn sprite Sprite:BATL</resultName>
+			<resultName>4.spawn sprite Sprite:BATLL</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>c52d18cd-b081-4ab5-badd-18783c0b4cc4</eventUID>
+			<eventUID>a2db62ff-9234-4cb7-8909-beb65156fe45</eventUID>
+			<eventUID>1fdc130d-4591-4e53-bf67-ba3792ec1410</eventUID>
+			<eventUID>38c46522-8927-47a0-85e3-d0b23698051c</eventUID>
+			<eventUID>28697c0b-5190-4cff-aace-67d0c708ce8f</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>FighterShot_Actions</Class>
+		<Name>FighterShot</Name>
+		<animationFile>xml\vectoranimation\_FighterShot.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>3</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.position &gt; Y Y:120</triggerName>
+			<triggerName>1.sprite collision Invader1</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.remove</resultName>
+			<resultName>1.remove Sprite:Invader1</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>true</isEnemy>
+		<boundingBoxOffsetY>-5</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>6c090344-134e-4c00-88fa-b496bcb4e2a2</eventUID>
+			<eventUID>c730c900-e38c-4659-91d7-4bd4f13e0951</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Bat_Actions</Class>
+		<Name>Bat</Name>
+		<animationFile>xml\vectoranimation\_Bat.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 2 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick left</triggerName>
+			<triggerName>1.joystick right</triggerName>
+			<triggerName>2.position &gt; X X:110</triggerName>
+			<triggerName>3.position &lt; X X:-110</triggerName>
+			<triggerName>4.button down 4 Ball</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.set position Y:x X:--</resultName>
+			<resultName>1.set position Y:x X:++</resultName>
+			<resultName>2.set position Y:x X:--</resultName>
+			<resultName>3.set position Y:x X:++</resultName>
+			<resultName>4.spawn sprite Sprite:Ball Y:20</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>-22</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>275b6202-5a07-4c25-9edf-3ba000cff0d1</eventUID>
+			<eventUID>53ef5fff-281c-4730-a057-7809983c3ffb</eventUID>
+			<eventUID>f7d5bcc3-74c9-4412-8f22-4506e8d1146a</eventUID>
+			<eventUID>44ea1911-f631-4e40-aebf-1ad95413ba1f</eventUID>
+			<eventUID>c391cdc5-ebd7-461b-824a-c3877924cdd9</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Intro_2_Actions</Class>
+		<Name>BUILDER</Name>
+		<animationFile>.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>text</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text>A BUILDER GAME BY</text>
+		<textType>5 font</textType>
+		<textHeight>2</textHeight>
+		<textWidth>50</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>BATLL_Actions</Class>
+		<Name>BATLL</Name>
+		<animationFile>xml\vectoranimation\_BatLL.xml</animationFile>
+		<changeWhileActiveX>-30</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>follow sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>-2</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Invader1_Actions</Class>
+		<Name>Invader1</Name>
+		<animationFile>xml\vectoranimation\_Invader.xml</animationFile>
+		<changeWhileActiveX>1</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.timer expired InvaderShot Ticks50</triggerName>
+			<triggerName>1.sprite receive collision FighterShot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.spawn sprite Sprite:InvaderShot Y:d0 X:d0</resultName>
+			<resultName>1.remove Sprite:FighterShot</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>-2</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>true</isEnemy>
+		<boundingBoxOffsetY>-5</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>0c5406bc-2f63-41bc-9f8e-b87f70aeadc4</eventUID>
+			<eventUID>89d69406-3633-40b8-8b09-04ad6ab8d450</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>Fighter_Actions</Class>
+		<Name>FighterA</Name>
+		<animationFile>xml\vectoranimation\_Fighter.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick left</triggerName>
+			<triggerName>1.joystick right</triggerName>
+			<triggerName>2.button down 1 FighterShot</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.set position Y:x X:-=2</resultName>
+			<resultName>1.set position Y:x X:+=2</resultName>
+			<resultName>2.spawn sprite Sprite:FighterShot Y:d0 X:d0</resultName>
+		</resultNames>
+		<boundingBoxOffsetX>0</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>0</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>3ee27381-66d1-4c4f-9b18-677d0a1f25ef</eventUID>
+			<eventUID>d6088e57-b135-41d7-9384-b33194a7bd7f</eventUID>
+			<eventUID>13b79eb9-f906-49d7-9c93-32c6e4bb4961</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>MansionPlayer_Actions</Class>
+		<Name>MansionPlayerDown</Name>
+		<animationFile>xml\vectoranimation\_MH_Org_Falling.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>-1</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>player 1 controlled</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+			<triggerName>0.joystick center</triggerName>
+			<triggerName>1.joystick left</triggerName>
+			<triggerName>2.joystick right</triggerName>
+			<triggerName>3.joystick up</triggerName>
+			<triggerName>4.sprite collision HorizontalLine</triggerName>
+		</triggerNames>
+		<resultNames>
+			<resultName>0.action change MansionPlayerCenter</resultName>
+			<resultName>1.action change MansionPlayerLeft</resultName>
+			<resultName>2.action change MansionPlayerRight</resultName>
+			<resultName>3.action change MansionPlayerUp</resultName>
+			<resultName>4.block movement Sprite:HorizontalLine</resultName>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>5 font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY></boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+			<eventName>0</eventName>
+			<eventName>1</eventName>
+			<eventName>2</eventName>
+			<eventName>3</eventName>
+			<eventName>4</eventName>
+		</eventNames>
+		<eventUIDs>
+			<eventUID>046b86a1-bf97-4e5f-a2ea-a1b9db61470f</eventUID>
+			<eventUID>b3fd46ff-0aeb-4212-86a1-fd7abfce9a47</eventUID>
+			<eventUID>3cb21e43-b84a-4c3d-a1fb-d4c6e05b2bab</eventUID>
+			<eventUID>5a754d72-9204-40f9-af84-b7cefc75439d</eventUID>
+			<eventUID>6fd89f0b-c17b-48ed-9f73-1da67a502cb7</eventUID>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>DummySprite_Actions</Class>
+		<Name>Dummy</Name>
+		<animationFile>xml\vectoranimation\_Fighter.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>sprite</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX>-3</boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>-11</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+	<ActionNewData>
+		<Class>verticalSpecial_Actions</Class>
+		<Name>verticalSpecial</Name>
+		<animationFile>xml\vectoranimation\_verticalLine.xml</animationFile>
+		<changeWhileActiveX>0</changeWhileActiveX>
+		<changeWhileActiveY>0</changeWhileActiveY>
+		<soundLoop>false</soundLoop>
+		<soundFile></soundFile>
+		<Behaviour>fixed position</Behaviour>
+		<Positionings>
+		</Positionings>
+		<triggerNames>
+		</triggerNames>
+		<resultNames>
+		</resultNames>
+		<boundingBoxOffsetX></boundingBoxOffsetX>
+		<deltaPerStepXs>
+		</deltaPerStepXs>
+		<deltaPerStepYs>
+		</deltaPerStepYs>
+		<text></text>
+		<textType>standard font</textType>
+		<textHeight>0</textHeight>
+		<textWidth>0</textWidth>
+		<isEnemy>false</isEnemy>
+		<boundingBoxOffsetY>-12</boundingBoxOffsetY>
+		<isPlayerShot>false</isPlayerShot>
+		<isEnemyShot>false</isEnemyShot>
+		<intensity></intensity>
+		<eventNames>
+		</eventNames>
+		<eventUIDs>
+		</eventUIDs>
+	</ActionNewData>
+</AllActionNewData>

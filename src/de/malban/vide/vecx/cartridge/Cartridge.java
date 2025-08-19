@@ -73,6 +73,9 @@ public class Cartridge implements Serializable
     //
     public static int FLAG_FLASH_SUPPORT = FLAG_KEYBOARD*2; // 
     public static int FLAG_BS_PB6_IRQ = FLAG_FLASH_SUPPORT*2; // 
+
+    public static int FLAG_44_PEER_BS= FLAG_BS_PB6_IRQ*2; // 
+
     
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
 
@@ -85,6 +88,9 @@ public class Cartridge implements Serializable
     boolean extraRam8000_8800_2k_Enabled = false;
     boolean extraRam6000_7fff_8k_Enabled = false;
 
+    public boolean peer44_4_enabled = false;
+    
+    
     public boolean currentIRQ = true;
     public boolean currentPB6 = true;
     public boolean flashSupport = true;
@@ -124,38 +130,54 @@ public class Cartridge implements Serializable
     public String getTypInfoString()
     {
         String ret = "";
-        if (currentCardProp == null) return ret;
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_BANKSWITCH_DONDZILA)!=0) ret+="Dondzila Bankswitch  ";
+        if (currentCardProp == null) 
+        {
+            ret+="(values guessed) ";
+            if (currentPB6) ret+="Dondzila Bankswitch  ";
+            if (extremeMulti) ret+="Extreme Multi  ";
+            if (extraRam2000_2800_2k_Enabled) ret+="$2000 2k extra RAM  ";
+            if (extraRam8000_8800_2k_Enabled) ret+="$8000 2k extra RAM + LED at $A000  ";
+            if (is2430a) ret+="eEprom DS2430A  ";
+            if (isMicrochip) ret+="eEprom MICROCHIP  ";
+            if (isDualVec) ret+="DualVec ";
+            if (extraRam6000_7fff_8k_Enabled) ret+="$6000 8k extra RAM  ";
+            if (isXmas) ret+="XMas LED  ";
+            if (isDS2431) ret+="eEprom DS2431  ";
+            if (sidEnabled) ret+="SID extension  ";
+            if (rom48KEnabled) ret+="48k ROM  ";
+            if (peer44_4_enabled) ret+="44k ROM (BS) +4k RAM ($b000-$bfff) ";
+            if (v4e_16k_bankswitch) ret+="V4E 16k BS  ";
+            if (isAtmel) ret+="eEprom atmel  ";
+            if (isPB6IRQBankswitch) ret+="Quad BS ";
+            return ret;
+        }
+        if ((currentPB6)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_BANKSWITCH_DONDZILA)!=0)) ret+="Dondzila Bankswitch  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_BANKSWITCH_VECFLASH)!=0) ret+="VecFlash Bankswitch  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_EXTREME_MULTI)!=0) ret+="Extreme Multi  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0) ret+="$2000 2k extra RAM  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0) ret+="$8000 2k extra RAM + LED at $A000  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2430A)!=0) ret+="eEprom DS2430A  ";
+        if ((extremeMulti)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_EXTREME_MULTI)!=0)) ret+="Extreme Multi  ";
+        if ((extraRam2000_2800_2k_Enabled)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0)) ret+="$2000 2k extra RAM  ";
+        if ((extraRam8000_8800_2k_Enabled)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0)) ret+="$8000 2k extra RAM + LED at $A000  ";
+        if ((is2430a)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2430A)!=0)) ret+="eEprom DS2430A  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_VEC_VOICE)!=0) ret+="VecVoice  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LIGHTPEN1)!=0) ret+="Lightpen Port 0  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LIGHTPEN2)!=0) ret+="Lightpen Port 1  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_IMAGER)!=0) ret+="3d Imager  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_VEC_VOX)!=0) ret+="VecVox  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_MICROCHIP)!=0) ret+="eEprom MICROCHIP  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) ret+="DualVec1  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0) ret+="DualVec2  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0) ret+="$6000 8k extra RAM  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0) ret+="XMas LED  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2431)!=0) ret+="eEprom DS2431  ";
+        if ((isMicrochip)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_MICROCHIP)!=0)) ret+="eEprom MICROCHIP  ";
+        if ((isDualVec)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0)) ret+="DualVec1  ";
+        if ((isDualVec)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0)) ret+="DualVec2  ";
+        if ((extraRam6000_7fff_8k_Enabled)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0)) ret+="$6000 8k extra RAM  ";
+        if ((isXmas)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0)) ret+="XMas LED  ";
+        if ((isDS2431)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2431)!=0)) ret+="eEprom DS2431  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_32K_ONLY)!=0) ret+="32k forced  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_SID)!=0) ret+="SID extension  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_48K)!=0) ret+="48k ROM  ";
-        
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_V4E_16K_BS)!=0) ret+="V4E 16k BS  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_ATMEL_EEPROM)!=0) ret+="eEprom atmel  ";
+        if ((sidEnabled)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_SID)!=0)) ret+="SID extension  ";
+        if ((rom48KEnabled)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_48K)!=0)) ret+="48k ROM  ";
+        if ((peer44_4_enabled)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_44_PEER_BS)!=0)) ret+="44k ROM (BS) +4k RAM ($b000-$bfff) ";
+        if ((v4e_16k_bankswitch)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_V4E_16K_BS)!=0)) ret+="V4E 16k BS  ";
+        if ((isAtmel)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_ATMEL_EEPROM)!=0)) ret+="eEprom atmel  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_PIC_EEPROM)!=0) ret+="eEprom PIC  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_KEYBOARD)!=0) ret+="Keyboard  ";
-
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_FLASH_SUPPORT)!=0) ret+="Flash support  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_BS_PB6_IRQ)!=0) ret+="Quad BS ";
-
-        
-        
+        if ((isPB6IRQBankswitch)||((currentCardProp.getTypeFlags()&Cartridge.FLAG_BS_PB6_IRQ)!=0)) ret+="Quad BS ";
         
         ret = ret.trim();
         ret = de.malban.util.UtilityString.replace(ret, "  ", ", ");
@@ -221,6 +243,11 @@ public class Cartridge implements Serializable
     public boolean isExtra8000Ram2k()
     {
         return extraRam8000_8800_2k_Enabled;
+    }
+    
+    public boolean ispeer44_4()
+    {
+        return peer44_4_enabled;
     }
     public boolean isExtra6000Ram8k()
     {
@@ -364,7 +391,13 @@ public class Cartridge implements Serializable
             }
 
         }
-        
+                
+        if (peer44_4_enabled)
+        {
+            if ((pos>=0xb000) && (pos <0xc000))
+                return extraRam[pos-0xb000]&0xff;
+        }
+                
         if (extraRam2000_2800_2k_Enabled)
         {
             if ((pos>=0x2000) && (pos <0x2800))
@@ -407,6 +440,21 @@ public class Cartridge implements Serializable
         if ((pos%MAX_BANK_SIZE)>=cart[currentBank].length) return 0xff;
         return cart[currentBank][pos%MAX_BANK_SIZE];
     }
+    public int readByteDirect(int adr, int bank) 
+    {
+        if (cart == null) return 0xff;
+        if (cart.length<=bank) return 0xff;
+        if (cart[bank] == null) return 0xff;
+
+        if (peer44_4_enabled)
+        {
+            if ((adr>=0xb000) && (adr <0xc000))
+                return extraRam[adr-0xb000]&0xff;
+        }
+
+        if ((adr%MAX_BANK_SIZE)>=cart[bank].length) return 0xff;
+        return cart[bank][adr%MAX_BANK_SIZE] &0xff;
+    }
 
     public boolean isExtremeMulti()
     {
@@ -436,6 +484,11 @@ public class Cartridge implements Serializable
                 writeExtreme(address, data);
                 return;
             }
+            if ((address >= 0xb000) && (address < 0xc000) && (peer44_4_enabled))
+            {
+                extraRam[address-0xb000] = data;
+            }
+            
             if ((address >= 0x2000) && (address < 0x2800) && (extraRam2000_2800_2k_Enabled))
             {
                 extraRam[address-0x2000] = data;
@@ -678,10 +731,14 @@ public class Cartridge implements Serializable
     public boolean init(CartridgeProperties cartProp)
     {
         currentCardProp = cartProp;
+        peer44_4_enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_44_PEER_BS)!=0;
+
         extraRam2000_2800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
         extraRam8000_8800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
         extraRam6000_7fff_8k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0;
         rom48KEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_48K)!=0;
+        if (peer44_4_enabled) rom48KEnabled = true;
+
         MAX_BANK_SIZE = 32768;
         if (rom48KEnabled) MAX_BANK_SIZE = 32768+32768/2;
         
@@ -786,7 +843,10 @@ public class Cartridge implements Serializable
                 }
             }
         }
-        
+        if (peer44_4_enabled)
+        {
+            extraRam = new byte[4096];
+        }
         if (extraRam2000_2800_2k_Enabled)
         {
             extraRam = new byte[2048];
@@ -968,6 +1028,7 @@ public class Cartridge implements Serializable
     {
         previousExternalLineB = false;
         oldCycles = 0;
+        boolean irregularBanksize=false;
         if (filenameRom.toLowerCase().endsWith(".v4e"))
         {
             // do something
@@ -1025,11 +1086,17 @@ public class Cartridge implements Serializable
                 if (loadLen > MAX_BANK_SIZE)
                 {
                     if (!_32kOnly)
-                        log.addLog("Cartridge size > 32k, bankswitching assumed!", WARN);
+                        log.addLog("Cartridge size > bank size, bankswitching assumed!", WARN);
                 }
 
                 bankMax=(data.length +(MAX_BANK_SIZE-1))/MAX_BANK_SIZE; // file chunks of 37268 size are banks
-
+                if (bankMax == 3) 
+                {
+                    bankMax = 2; // prevent 3 banks in a 48k setting with 128k loaded
+                    irregularBanksize = true;
+                }
+                
+                
                 if (_32kOnly)
                 {
                     if (loadLen > MAX_BANK_SIZE)
@@ -1047,7 +1114,17 @@ public class Cartridge implements Serializable
                 MAX_BANK_SIZE = 32768+32768/2;
                 bankMax=2;
             }
-            
+            if (loadLen==32768*4) // assume Peer 44k +4
+            {
+                log.addLog("Assume 44+4k CART", WARN);
+                peer44_4_enabled = true;
+                rom48KEnabled=true;
+                MAX_BANK_SIZE = 32768+32768/2;
+                extraRam = new byte[4096];
+                bankMax = 2; // prevent 3 banks in a 48k setting with 128k loaded
+                irregularBanksize = true;
+            }
+
             
             cart = new int[bankMax][];     // and so many banks as memory data
             bankLength = new int[bankMax]; // so many bank length we need
@@ -1060,7 +1137,18 @@ public class Cartridge implements Serializable
             }
             
             
+            
+            
+            
             int length = loadLen;
+            
+            int additionalFillLength = 0;
+            
+            
+            // 128k are read into two 48k banks
+            if (irregularBanksize)
+                additionalFillLength = 0x10000-0xc000;
+            
             for (int b=0;b<bankMax;b++)
             {
                 bankFileNames[b] = filenameRom;
@@ -1072,7 +1160,7 @@ public class Cartridge implements Serializable
                 cart[b] = new int[MAX_BANK_SIZE]; // memory of a bank is allways 32768, since we need fillers
                 for (int i=0; i< MAX_BANK_SIZE;i++)
                 {
-                    if (b*MAX_BANK_SIZE+i>=data.length)
+                    if (b*(MAX_BANK_SIZE+additionalFillLength)+i>=data.length)
                     {
                         if (i<0x8000)
                             cart[b][i] = 1; // polar rescue needs this!
@@ -1080,7 +1168,7 @@ public class Cartridge implements Serializable
                             cart[b][i] = 0xff; // test for flash programming -> erased/new data
                     }
                     else
-                        cart[b][i] = data[b*MAX_BANK_SIZE+i]&0xff;
+                        cart[b][i] = data[b*(MAX_BANK_SIZE+additionalFillLength)+i]&0xff;
                 }
             }
             if (bankMax==2)

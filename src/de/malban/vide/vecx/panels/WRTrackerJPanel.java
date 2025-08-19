@@ -18,6 +18,7 @@ import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.dialogs.InputDialog;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.vecx.Updatable;
+import de.malban.vide.vecx.cartridge.Cartridge;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -159,6 +160,10 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     public void setVecxy(VecXPanel v)
     {
         vecxPanel = v;
+        auto_adrLower=0;
+        auto_adrHigher=0;
+        auto_bank=0;
+        oldFound = false;
     }
 
     @Override public boolean isIcon()
@@ -262,10 +267,10 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
             if (height > 1000000) skip = true;
 
             String tt = "Samples: "+vecxPanel.getTrackiCount()+", >"+baseline+": "+vecxPanel.getTrackiAbove();
-jTextField2.setToolTipText(tt);
-jTextFieldCurrent.setToolTipText(tt);
-jTextField1.setToolTipText(tt);
-jTextField6.setToolTipText(tt);
+            jTextField2.setToolTipText(tt);
+            jTextFieldCurrent.setToolTipText(tt);
+            jTextField1.setToolTipText(tt);
+            jTextField6.setToolTipText(tt);
             
             
             if (!skip)
@@ -324,6 +329,7 @@ jTextField6.setToolTipText(tt);
         jButton1 = new javax.swing.JButton();
         jTextField7 = new javax.swing.JTextField();
         jButtonBaseline = new javax.swing.JButton();
+        jButtonDelete1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jButtonDelete = new javax.swing.JButton();
         jButtonSave = new javax.swing.JButton();
@@ -396,6 +402,15 @@ jTextField6.setToolTipText(tt);
             }
         });
 
+        jButtonDelete1.setText("A");
+        jButtonDelete1.setToolTipText("<html>\nSearch for the next WR code.<BR>\nThe search only works with code exactly like:<BR>\nrepeat:<BR>\n<PRE>\n&nbsp;&nbsp;&nbsp;lda #$20\n&nbsp;&nbsp;&nbsp;bita <VIA_int_flags\n&nbsp;&nbsp;&nbsp;beq repeat\n</PRE>\n</html>");
+        jButtonDelete1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonDelete1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDelete1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -404,17 +419,18 @@ jTextField6.setToolTipText(tt);
                 .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(jButtonBaseline)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addGap(2, 2, 2)
+                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
+                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
+                .addComponent(jButton1)
+                .addGap(2, 2, 2)
+                .addComponent(jButtonDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,6 +443,7 @@ jTextField6.setToolTipText(tt);
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jButtonDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jButtonDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
@@ -460,12 +477,12 @@ jTextField6.setToolTipText(tt);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jTextField5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
+                .addComponent(jComboBox1, 0, 193, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
                 .addComponent(jButtonSave)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jButtonDelete)
                 .addGap(0, 0, 0))
         );
@@ -507,19 +524,19 @@ jTextField6.setToolTipText(tt);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jTextFieldCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                .addComponent(jTextFieldCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
-                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
-                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         jPanel4Layout.setVerticalGroup(
@@ -561,7 +578,7 @@ jTextField6.setToolTipText(tt);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -610,6 +627,10 @@ jTextField6.setToolTipText(tt);
         if (mClassSetting>0) return;
         if (jComboBox1.getSelectedIndex() == -1) return;
         setFields(jComboBox1.getSelectedItem().toString());
+        auto_adrLower=0;
+        auto_adrHigher=0;
+        auto_bank=0;
+        oldFound = false;
         
         // reset
         jButton1ActionPerformed(null);        
@@ -659,11 +680,16 @@ jTextField6.setToolTipText(tt);
         frame = Configuration.getConfiguration().getMainFrame();
     }//GEN-LAST:event_jButtonBaselineActionPerformed
 
+    private void jButtonDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDelete1ActionPerformed
+        searchAndSetWR();
+    }//GEN-LAST:event_jButtonDelete1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     javax.swing.JButton jButtonBaseline;
     private javax.swing.JButton jButtonDelete;
+    private javax.swing.JButton jButtonDelete1;
     private javax.swing.JButton jButtonSave;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -764,5 +790,102 @@ jTextField6.setToolTipText(tt);
         baseline = info.baseline;
     }
 
+
+    int auto_adrLower=0;
+    int auto_adrHigher=0;
+    int auto_bank=0;
+    boolean oldFound = false;
+    void searchAndSetWR()
+    {
+        boolean found=false;
+        boolean rollOver=false;
+
+        if (auto_adrLower == 0xF192)
+        {
+            auto_adrLower = 0;
+            auto_bank = 0;
+        }
+        int bStart = auto_bank;
+        int lowerStart = auto_adrHigher;
+        int lowerRealStart = lowerStart;
+        if (vecxPanel==null) return;
+
+        Cartridge cart = vecxPanel.getCartridge();
+        if (cart == null)
+        {
+            // no cart - no search
+            return;
+        }
+        
+        for (int b=auto_bank;b<cart.getBankCount(); b++)
+        {
+            int bSize= cart.getBankSize(b);
+            for (int a = lowerStart+1;a<bSize;a++)
+            {
+                if ((b==bStart) && (a==lowerRealStart) ) rollOver=true;
+                if (rollOver) break;
+
+                // 0x95, 0x0d BITA   <$0d
+                // 0x27, 0xFC BEQ    -3
+                int aByte1 = cart.readByteDirect(a+0, b);
+                int aByte2 = cart.readByteDirect(a+1, b);
+                int aByte3 = cart.readByteDirect(a+2, b);
+                int aByte4 = cart.readByteDirect(a+3, b);
+                if ((aByte1==0x95) &&
+                    (aByte2==0x0d) &&           
+                    (aByte3==0x27) &&                
+                    (aByte4==0xFC))
+                {
+                    int MAXBACK = 20;
+                    for (int aa=a-MAXBACK;aa!=a;aa++)
+                    {
+                        if (aa<0) continue;
+
+                        // 0x86, 0x20 LDA    #$20
+                        int aaByte1 = cart.readByteDirect(aa+0, b);
+                        int aaByte2 = cart.readByteDirect(aa+1, b);
+
+                        if ((aaByte1==0x86) && (aaByte2==0x20))
+                        {
+                            found = true;
+                            auto_adrLower = aa;
+                            auto_adrHigher = a+4;
+                            auto_bank = b;
+                            break;
+                        }    
+
+                    }
+                    if (found) break;
+                }
+            }
+            lowerStart = -1;
+            if (found) break;
+            if (rollOver) break;
+        }
+        
+        if (rollOver) 
+        {
+            if (!found) 
+            {
+                auto_adrHigher=0xF1A2;
+                auto_adrLower=0xF192;
+                auto_bank=0;
+            }
+        
+        }
+        else if (!found) 
+        {
+            auto_adrHigher=0xF1A2;
+            auto_adrLower=0xF192;
+            auto_bank=0;
+        }
+        if (found) oldFound = true;
+        
+        jTextField3.setText("$"+String.format("%04X",auto_adrHigher&0xffff));
+        jTextField4.setText("$"+String.format("%04X",auto_adrLower&0xffff));
+        jTextField7.setText(""+auto_bank);
+
+        jButton1ActionPerformed(null);
+    }
 
 }

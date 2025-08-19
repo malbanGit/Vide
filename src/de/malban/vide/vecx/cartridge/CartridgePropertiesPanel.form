@@ -368,8 +368,7 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jCheckBox24" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jCheckBox25" alignment="0" pref="105" max="32767" attributes="0"/>
+                                          <Component id="jCheckBox25" alignment="0" max="32767" attributes="0"/>
                                           <Component id="jCheckBoxPB6IRQ" alignment="0" max="32767" attributes="0"/>
                                           <Group type="102" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -382,8 +381,10 @@
                                                   <Component id="jCheckBox22" alignment="0" min="-2" pref="96" max="-2" attributes="0"/>
                                                   <Component id="jCheckBox20" alignment="0" max="-2" attributes="0"/>
                                                   <Component id="jCheckBox15" alignment="0" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox27" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox24" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              <EmptySpace min="0" pref="9" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -468,7 +469,10 @@
                                   <Component id="jCheckBox18" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox19" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCheckBox19" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox27" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                               <Component id="jComboBoxImager" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
@@ -605,6 +609,7 @@
                     <Component class="javax.swing.JCheckBox" name="jCheckBox18">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="2"/>
+                        <Property name="toolTipText" type="java.lang.String" value="DualVec 2"/>
                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                           <Insets value="[0, 2, 1, 0]"/>
                         </Property>
@@ -780,6 +785,18 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxPB6IRQActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBox27">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="44k+4 BS"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Special Peer Mode, 48k usage, PB6 bankswitched, 4 kB shared RAM"/>
+                        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                          <Insets value="[0, 2, 1, 0]"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox27ActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -1853,7 +1870,7 @@
                                               </Group>
                                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                                   <Component id="jTextField29" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="jTextField30" alignment="0" pref="48" max="32767" attributes="0"/>
+                                                  <Component id="jTextField30" alignment="0" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>

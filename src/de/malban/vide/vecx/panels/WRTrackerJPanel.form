@@ -22,7 +22,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" pref="371" max="32767" attributes="0"/>
+          <Component id="jPanel1" alignment="0" pref="447" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -79,17 +79,18 @@
                       <Component id="jToggleButton4" min="-2" pref="20" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                       <Component id="jButtonBaseline" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" pref="69" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="jTextField7" min="-2" pref="20" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField4" pref="65" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField3" pref="65" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton1" pref="79" max="32767" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Component id="jTextField4" pref="84" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Component id="jTextField3" pref="86" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Component id="jButtonDelete1" min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -106,6 +107,7 @@
                       <Component id="jButton1" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="jTextField7" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jButtonDelete1" alignment="0" min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -180,6 +182,18 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
               </AuxValues>
             </Component>
+            <Component class="javax.swing.JButton" name="jButtonDelete1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="A"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;Search for the next WR code.&lt;BR&gt;&#xa;The search only works with code exactly like:&lt;BR&gt;&#xa;repeat:&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;&amp;nbsp;&amp;nbsp;&amp;nbsp;lda #$20&#xa;&amp;nbsp;&amp;nbsp;&amp;nbsp;bita &lt;VIA_int_flags&#xa;&amp;nbsp;&amp;nbsp;&amp;nbsp;beq repeat&#xa;&lt;/PRE&gt;&#xa;&lt;/html&gt;"/>
+                <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                  <Insets value="[0, 1, 0, -1]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDelete1ActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -188,12 +202,12 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jTextField5" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jComboBox1" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTextField5" pref="142" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Component id="jComboBox1" pref="193" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                       <Component id="jButtonSave" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                       <Component id="jButtonDelete" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
@@ -265,19 +279,19 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jTextFieldCurrent" pref="70" max="32767" attributes="0"/>
+                      <Component id="jTextFieldCurrent" pref="75" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="jLabel1" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                      <Component id="jTextField1" pref="70" max="32767" attributes="0"/>
+                      <Component id="jTextField1" pref="75" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="jLabel2" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                      <Component id="jTextField2" pref="70" max="32767" attributes="0"/>
+                      <Component id="jTextField2" pref="75" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="jLabel4" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                      <Component id="jTextField6" pref="70" max="32767" attributes="0"/>
+                      <Component id="jTextField6" pref="75" max="32767" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
               </Group>

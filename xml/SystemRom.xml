@@ -37,6 +37,13 @@
 	</SystemRom>
 	<SystemRom>
 		<Class>SystemRom</Class>
+		<Name>ttttest</Name>
+		<CartName>M.bin</CartName>
+		<Version></Version>
+		<Comment></Comment>
+	</SystemRom>
+	<SystemRom>
+		<Class>SystemRom</Class>
 		<Name>System_7931</Name>
 		<CartName>system/7931.bin</CartName>
 		<Version></Version>

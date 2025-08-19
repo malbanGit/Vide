@@ -409,6 +409,10 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jCheckBox20.setSelected((flag&FLAG_DS2431)!=0);
         jCheckBox21.setSelected((flag&FLAG_32K_ONLY)!=0);
         jCheckBox22.setSelected((flag&FLAG_SID)!=0);
+        
+        jCheckBox27.setSelected((flag&FLAG_44_PEER_BS)!=0);
+        if ((flag&FLAG_44_PEER_BS)!=0) flag = flag | (FLAG_48K);
+
         jCheckBox23.setSelected((flag&FLAG_48K)!=0);
         
         jCheckBoxPB6IRQ.setSelected((flag&FLAG_BS_PB6_IRQ)!=0);
@@ -639,6 +643,8 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
         if (jCheckBox21.isSelected()) flag+=FLAG_32K_ONLY;
         if (jCheckBox22.isSelected()) flag+=FLAG_SID;
         if (jCheckBox23.isSelected()) flag+=FLAG_48K;
+        if (jCheckBox27.isSelected()) flag+=FLAG_44_PEER_BS;
+        if ((flag&FLAG_44_PEER_BS)!=0) flag = flag | (FLAG_48K);
         
         if (jCheckBox26.isSelected()) flag+=FLAG_ATMEL_EEPROM;
         if (jCheckBox25.isSelected()) flag+=FLAG_PIC_EEPROM;
@@ -716,6 +722,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
         jCheckBox25 = new javax.swing.JCheckBox();
         jCheckBox26 = new javax.swing.JCheckBox();
         jCheckBoxPB6IRQ = new javax.swing.JCheckBox();
+        jCheckBox27 = new javax.swing.JCheckBox();
         jButtonFileSelect1 = new javax.swing.JButton();
         jTextFieldPath = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -1011,6 +1018,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
         jCheckBox17.setMargin(new java.awt.Insets(0, 2, 1, 0));
 
         jCheckBox18.setText("2");
+        jCheckBox18.setToolTipText("DualVec 2");
         jCheckBox18.setMargin(new java.awt.Insets(0, 2, 1, 0));
         jCheckBox18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1123,6 +1131,15 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             }
         });
 
+        jCheckBox27.setText("44k+4 BS");
+        jCheckBox27.setToolTipText("Special Peer Mode, 48k usage, PB6 bankswitched, 4 kB shared RAM");
+        jCheckBox27.setMargin(new java.awt.Insets(0, 2, 1, 0));
+        jCheckBox27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox27ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -1147,8 +1164,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
                             .addComponent(jCheckBox4))
                         .addGap(14, 14, 14)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBox25, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                            .addComponent(jCheckBox25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jCheckBoxPB6IRQ, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1160,8 +1176,10 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
                                     .addComponent(jCheckBox21, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jCheckBox22, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jCheckBox20)
-                                    .addComponent(jCheckBox15))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addComponent(jCheckBox15)
+                                    .addComponent(jCheckBox27, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBox24, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 9, Short.MAX_VALUE))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1224,7 +1242,9 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
                     .addComponent(jCheckBox17)
                     .addComponent(jCheckBox18))
                 .addGap(0, 0, 0)
-                .addComponent(jCheckBox19)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox19)
+                    .addComponent(jCheckBox27))
                 .addGap(4, 4, 4)
                 .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
@@ -1248,7 +1268,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             }
         });
         jPanel3.add(jButtonFileSelect1);
-        jButtonFileSelect1.setBounds(350, 70, 20, 20);
+        jButtonFileSelect1.setBounds(350, 70, 18, 18);
         jPanel3.add(jTextFieldPath);
         jTextFieldPath.setBounds(110, 70, 234, 21);
 
@@ -1311,7 +1331,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             }
         });
         jPanel3.add(jButtonFileSelect3);
-        jButtonFileSelect3.setBounds(350, 233, 20, 20);
+        jButtonFileSelect3.setBounds(350, 233, 18, 18);
 
         jLabel11.setText("Rights");
         jLabel11.setPreferredSize(new java.awt.Dimension(0, 21));
@@ -1338,7 +1358,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             }
         });
         jPanel3.add(jButtonFileSelect10);
-        jButtonFileSelect10.setBounds(80, 160, 20, 20);
+        jButtonFileSelect10.setBounds(80, 160, 18, 18);
 
         jButtonFileSelect11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
         jButtonFileSelect11.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -1348,7 +1368,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             }
         });
         jPanel3.add(jButtonFileSelect11);
-        jButtonFileSelect11.setBounds(80, 180, 20, 20);
+        jButtonFileSelect11.setBounds(80, 180, 18, 18);
 
         jButtonDownloadConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_link.png"))); // NOI18N
         jButtonDownloadConfig.setToolTipText("if link to a binary is given, the link the binary is downloaded");
@@ -1359,23 +1379,23 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
             }
         });
         jPanel3.add(jButtonDownloadConfig);
-        jButtonDownloadConfig.setBounds(350, 100, 20, 20);
+        jButtonDownloadConfig.setBounds(350, 100, 18, 18);
 
         jCheckBox11.setText("Complete game");
         jPanel3.add(jCheckBox11);
-        jCheckBox11.setBounds(110, 490, 120, 19);
+        jCheckBox11.setBounds(110, 490, 120, 20);
 
         jCheckBox12.setText("Demo");
         jPanel3.add(jCheckBox12);
-        jCheckBox12.setBounds(110, 510, 120, 19);
+        jCheckBox12.setBounds(110, 510, 120, 20);
 
         jCheckBox13.setText("Snippet");
         jPanel3.add(jCheckBox13);
-        jCheckBox13.setBounds(230, 490, 140, 19);
+        jCheckBox13.setBounds(230, 490, 140, 20);
 
         jCheckBox14.setText("Homebrew");
         jPanel3.add(jCheckBox14);
-        jCheckBox14.setBounds(230, 510, 140, 19);
+        jCheckBox14.setBounds(230, 510, 140, 20);
 
         jTabbedPane1.addTab("General", jPanel3);
 
@@ -1930,7 +1950,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
                                         .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(jTextField29, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextField30, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)))))))
+                                        .addComponent(jTextField30, javax.swing.GroupLayout.Alignment.LEADING)))))))
                 .addContainerGap(131, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -2601,6 +2621,10 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxPB6IRQActionPerformed
 
+    private void jCheckBox27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox27ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox27ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDelete;
@@ -2645,6 +2669,7 @@ jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
     private javax.swing.JCheckBox jCheckBox24;
     private javax.swing.JCheckBox jCheckBox25;
     private javax.swing.JCheckBox jCheckBox26;
+    private javax.swing.JCheckBox jCheckBox27;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;

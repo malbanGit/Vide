@@ -124,9 +124,13 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="singleImagePanel3" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jCheckBox22" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox21" alignment="0" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jCheckBox21" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jCheckBox44k" max="-2" attributes="0"/>
+                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jCheckBox19" alignment="0" max="-2" attributes="0"/>
@@ -248,6 +252,7 @@
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jCheckBox21" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jCheckBoxXmas1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox44k" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -267,7 +272,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="49" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -492,7 +497,7 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="jCheckBox21">
               <Properties>
-                <Property name="text" type="java.lang.String" value="eEprom DS2431"/>
+                <Property name="text" type="java.lang.String" value="DS2431"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="jCheckBox22">
@@ -564,6 +569,12 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxPB6IRQActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBox44k">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="44k+4 BS"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

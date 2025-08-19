@@ -2906,8 +2906,12 @@ class TransferableTreeNode implements Transferable {
                     try
                     {
                         boolean is48K = false;
+                        boolean is44K = false;
                         if (currentProject != null)
+                        {
                             is48K= (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
+                            is44K = (currentProject.getExtras() & Cartridge.FLAG_44_PEER_BS) != 0;
+                        }
                         Asmj asm = new Asmj(filenameASM, asmErrorOut, null, null, asmMessagesOut, "", settings.allDebugComments,is48K);
                         if (asm.version.length() != 0)
                         {
@@ -6556,6 +6560,7 @@ tabChangeNotAllowed = false;
             {
                 boolean asmOk = true;
                 boolean is48K = (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
+                boolean is44K = (currentProject.getExtras() & Cartridge.FLAG_44_PEER_BS) != 0;
 
                 try
                 {
@@ -8046,6 +8051,7 @@ if ((new File(filenameVideRelCNT).exists()) && (s.length()>0))
             if (cart.getFullFilename().size() == 2)
             {
                 boolean is48K = (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
+                boolean is44K = (currentProject.getExtras() & Cartridge.FLAG_44_PEER_BS) != 0;
                 int memSize = 32768;
                 if (is48K) memSize+=32768;
                 
@@ -8060,11 +8066,13 @@ if ((new File(filenameVideRelCNT).exists()) && (s.length()>0))
                 checkVec4EverFile(n1+".con");
                 
                 if (is48K)
-                    de.malban.util.UtilityFiles.concatFiles(n1+".con", n1+".con");
+                    if (!is44K)
+                        de.malban.util.UtilityFiles.concatFiles(n1+".con", n1+".con");
             }
             else if (cart.getFullFilename().size() == 4)
             {
                 boolean is48K = (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
+                boolean is44K = (currentProject.getExtras() & Cartridge.FLAG_44_PEER_BS) != 0;
                 int memSize = 32768;
                 if (is48K) memSize+=32768;
                 
@@ -9970,7 +9978,8 @@ if ((new File(filenameVideRelCNT).exists()) && (s.length()>0))
             }
             boolean twice = currentProject.getBankswitching().contains("2 bank standard");
             boolean is48K = (currentProject.getExtras() & Cartridge.FLAG_48K) != 0;
-
+            boolean is44K = (currentProject.getExtras() & Cartridge.FLAG_44_PEER_BS) != 0;
+ 
             CartridgeProperties cartProp = buildCart(currentProject, twice);
 
             checkVec4EverProject(cartProp);
@@ -10576,7 +10585,8 @@ for (int i=0;i<flags.length; i++) log.addLog("SingleFlag Out: \""+flags[i]+"\"",
         if (currentProject == null) return new String[0];
         int extras = currentProject.getExtras();
         boolean is48K = (extras & Cartridge.FLAG_48K) != 0;
-        
+        boolean is44K = (extras & Cartridge.FLAG_44_PEER_BS) != 0;
+         
         
   //      String options="-n -m -u -w -s -k GCCLIB -l libgcov.a -l as-libgcc.a -l libgcc.a PROJECTS19 GCCLIBREL";
         
@@ -11147,6 +11157,7 @@ for (int i=0;i<flags.length; i++) log.addLog("SingleFlag Out: \""+flags[i]+"\"",
 
             int extras = currentProject.getExtras();
             boolean is48K = (extras & Cartridge.FLAG_48K) != 0;
+            boolean is44K = (extras & Cartridge.FLAG_44_PEER_BS) != 0;
 
 
             int maxSize = 32768;

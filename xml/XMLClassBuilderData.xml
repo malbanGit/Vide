@@ -1,15 +1,6 @@
 <?xml version="1.0"?>
 <AllXMLClassBuilderData>
 	<XMLClassBuilderData>
-		<Class></Class>
-		<Name></Name>
-		<PACKAGENAME>de.malban.veccy.codi</PACKAGENAME>
-		<CLASSNAME>CodeLibraryData</CLASSNAME>
-		<FIELDNAMEs>		<FIELDNAME>Filenames</FIELDNAME>
-		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>Filenames</XMLNAME>
-		</XMLNAMEs>		<TYPEs>		<TYPE>Vector&lt;String></TYPE>
-		</TYPEs>	</XMLClassBuilderData>
-	<XMLClassBuilderData>
 		<Class>VIDE</Class>
 		<Name>Cartridge</Name>
 		<PACKAGENAME>de.malban.vide.vecx.cartridge</PACKAGENAME>
@@ -93,7 +84,7 @@
 		<TYPE>String</TYPE>
 		<TYPE>int</TYPE>
 		<TYPE>int</TYPE>
-		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
@@ -181,6 +172,144 @@
 		<TYPE>boolean</TYPE>
 		</TYPEs>	</XMLClassBuilderData>
 	<XMLClassBuilderData>
+		<Class>Vide</Class>
+		<Name>Action</Name>
+		<PACKAGENAME>de.malban.vide.veccy</PACKAGENAME>
+		<CLASSNAME>ActionData</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>animationFile</FIELDNAME>
+		<FIELDNAME>changeWhileActiveX</FIELDNAME>
+		<FIELDNAME>changeWhileActiveY</FIELDNAME>
+		<FIELDNAME>soundLoop</FIELDNAME>
+		<FIELDNAME>soundFile</FIELDNAME>
+		<FIELDNAME>behaviour</FIELDNAME>
+		<FIELDNAME>positioning</FIELDNAME>
+		<FIELDNAME>triggerByCause</FIELDNAME>
+		<FIELDNAME>triggerByTarget</FIELDNAME>
+		<FIELDNAME>triggerByY</FIELDNAME>
+		<FIELDNAME>triggerByX</FIELDNAME>
+		<FIELDNAME>triggerByTicks</FIELDNAME>
+		<FIELDNAME>triggerBySpriteID</FIELDNAME>
+		<FIELDNAME>triggerByActionID</FIELDNAME>
+		<FIELDNAME>boundingBoxOffsetX</FIELDNAME>
+		<FIELDNAME>deltaPerStepX</FIELDNAME>
+		<FIELDNAME>deltaPerStepY</FIELDNAME>
+		<FIELDNAME>text</FIELDNAME>
+		<FIELDNAME>textType</FIELDNAME>
+		<FIELDNAME>textHeight</FIELDNAME>
+		<FIELDNAME>textWidth</FIELDNAME>
+		<FIELDNAME>triggerResultY</FIELDNAME>
+		<FIELDNAME>triggerResultX</FIELDNAME>
+		<FIELDNAME>isEnemy</FIELDNAME>
+		<FIELDNAME>boundingBoxOffsetY</FIELDNAME>
+		<FIELDNAME>isPlayerShot</FIELDNAME>
+		<FIELDNAME>isEnemyShot</FIELDNAME>
+		<FIELDNAME>intensity</FIELDNAME>
+		<FIELDNAME>triggerBySpriteIDOrigin</FIELDNAME>
+		<FIELDNAME>triggerBySpriteIDTarget</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>animationFile</XMLNAME>
+		<XMLNAME>changeWhileActiveX</XMLNAME>
+		<XMLNAME>changeWhileActiveY</XMLNAME>
+		<XMLNAME>soundLoop</XMLNAME>
+		<XMLNAME>soundFile</XMLNAME>
+		<XMLNAME>Behaviour</XMLNAME>
+		<XMLNAME>Positioning</XMLNAME>
+		<XMLNAME>triggerByCause</XMLNAME>
+		<XMLNAME>triggerByTarget</XMLNAME>
+		<XMLNAME>triggerByY</XMLNAME>
+		<XMLNAME>triggerByX</XMLNAME>
+		<XMLNAME>triggerByTicks</XMLNAME>
+		<XMLNAME>triggerBySpriteID</XMLNAME>
+		<XMLNAME>triggerByActionID</XMLNAME>
+		<XMLNAME>boundingBoxOffsetX</XMLNAME>
+		<XMLNAME>deltaPerStepX</XMLNAME>
+		<XMLNAME>deltaPerStepY</XMLNAME>
+		<XMLNAME>text</XMLNAME>
+		<XMLNAME>textType</XMLNAME>
+		<XMLNAME>textHeight</XMLNAME>
+		<XMLNAME>textWidth</XMLNAME>
+		<XMLNAME>triggerResultY</XMLNAME>
+		<XMLNAME>triggerResultX</XMLNAME>
+		<XMLNAME>isEnemy</XMLNAME>
+		<XMLNAME>boundingBoxOffsetY</XMLNAME>
+		<XMLNAME>isPlayerShot</XMLNAME>
+		<XMLNAME>isEnemyShot</XMLNAME>
+		<XMLNAME>intensity</XMLNAME>
+		<XMLNAME>triggerBySpriteIDOrigin</XMLNAME>
+		<XMLNAME>triggerBySpriteIDTarget</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>Vide</Class>
+		<Name>LevelObject</Name>
+		<PACKAGENAME>de.malban.vide.veccy</PACKAGENAME>
+		<CLASSNAME>LevelObjectData</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>Type</FIELDNAME>
+		<FIELDNAME>SpriteID</FIELDNAME>
+		<FIELDNAME>xPos</FIELDNAME>
+		<FIELDNAME>yPos</FIELDNAME>
+		<FIELDNAME>Scene</FIELDNAME>
+		<FIELDNAME>MaxLiveObjects</FIELDNAME>
+		<FIELDNAME>LiveOnInit</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>Type</XMLNAME>
+		<XMLNAME>SpriteID</XMLNAME>
+		<XMLNAME>xPos</XMLNAME>
+		<XMLNAME>yPos</XMLNAME>
+		<XMLNAME>Scene</XMLNAME>
+		<XMLNAME>MaxLiveObjects</XMLNAME>
+		<XMLNAME>LiveOnInit</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>boolean</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>Vide</Class>
+		<Name>Sprite</Name>
+		<PACKAGENAME>de.malban.vide.veccy</PACKAGENAME>
+		<CLASSNAME>SpriteData</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>ActionID</FIELDNAME>
+		<FIELDNAME>DefaultActionID</FIELDNAME>
+		<FIELDNAME>spriteUID</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>ActionID</XMLNAME>
+		<XMLNAME>DefaultActionID</XMLNAME>
+		<XMLNAME>spriteUID</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>int</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
 		<Class>VIDE</Class>
 		<Name>Downloader</Name>
 		<PACKAGENAME>de.malban.util</PACKAGENAME>
@@ -199,10 +328,85 @@
 		<XMLNAME>DestinationDirAll</XMLNAME>
 		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
 		<TYPE>boolean</TYPE>
-		<TYPE>Vector&lt;String></TYPE>
-		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
 		<TYPE>boolean</TYPE>
 		<TYPE>String</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>Vide</Class>
+		<Name>ActionNew</Name>
+		<PACKAGENAME>de.malban.vide.veccy</PACKAGENAME>
+		<CLASSNAME>ActionNewData</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>animationFile</FIELDNAME>
+		<FIELDNAME>changeWhileActiveX</FIELDNAME>
+		<FIELDNAME>changeWhileActiveY</FIELDNAME>
+		<FIELDNAME>soundLoop</FIELDNAME>
+		<FIELDNAME>soundFile</FIELDNAME>
+		<FIELDNAME>behaviour</FIELDNAME>
+		<FIELDNAME>positioning</FIELDNAME>
+		<FIELDNAME>triggerName</FIELDNAME>
+		<FIELDNAME>resultName</FIELDNAME>
+		<FIELDNAME>boundingBoxOffsetX</FIELDNAME>
+		<FIELDNAME>deltaPerStepX</FIELDNAME>
+		<FIELDNAME>deltaPerStepY</FIELDNAME>
+		<FIELDNAME>text</FIELDNAME>
+		<FIELDNAME>textType</FIELDNAME>
+		<FIELDNAME>textHeight</FIELDNAME>
+		<FIELDNAME>textWidth</FIELDNAME>
+		<FIELDNAME>isEnemy</FIELDNAME>
+		<FIELDNAME>boundingBoxOffsetY</FIELDNAME>
+		<FIELDNAME>isPlayerShot</FIELDNAME>
+		<FIELDNAME>isEnemyShot</FIELDNAME>
+		<FIELDNAME>intensity</FIELDNAME>
+		<FIELDNAME>eventName</FIELDNAME>
+		<FIELDNAME>eventUID</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>animationFile</XMLNAME>
+		<XMLNAME>changeWhileActiveX</XMLNAME>
+		<XMLNAME>changeWhileActiveY</XMLNAME>
+		<XMLNAME>soundLoop</XMLNAME>
+		<XMLNAME>soundFile</XMLNAME>
+		<XMLNAME>Behaviour</XMLNAME>
+		<XMLNAME>Positioning</XMLNAME>
+		<XMLNAME>triggerName</XMLNAME>
+		<XMLNAME>resultName</XMLNAME>
+		<XMLNAME>boundingBoxOffsetX</XMLNAME>
+		<XMLNAME>deltaPerStepX</XMLNAME>
+		<XMLNAME>deltaPerStepY</XMLNAME>
+		<XMLNAME>text</XMLNAME>
+		<XMLNAME>textType</XMLNAME>
+		<XMLNAME>textHeight</XMLNAME>
+		<XMLNAME>textWidth</XMLNAME>
+		<XMLNAME>isEnemy</XMLNAME>
+		<XMLNAME>boundingBoxOffsetY</XMLNAME>
+		<XMLNAME>isPlayerShot</XMLNAME>
+		<XMLNAME>isEnemyShot</XMLNAME>
+		<XMLNAME>intensity</XMLNAME>
+		<XMLNAME>eventName</XMLNAME>
+		<XMLNAME>eventUID</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
 		</TYPEs>	</XMLClassBuilderData>
 	<XMLClassBuilderData>
 		<Class>VIDE</Class>
@@ -262,13 +466,13 @@
 		<TYPE>boolean</TYPE>
 		<TYPE>boolean</TYPE>
 		<TYPE>int</TYPE>
-		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
 		<TYPE>int</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
-		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>boolean</TYPE>
 		<TYPE>String</TYPE>
@@ -287,5 +491,89 @@
 		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>Vide</Class>
+		<Name>Game</Name>
+		<PACKAGENAME>de.malban.vide.veccy</PACKAGENAME>
+		<CLASSNAME>GameData</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>Level</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>Level</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>Vector&lt;String&gt;</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>Vide</Class>
+		<Name>ActionTrigger</Name>
+		<PACKAGENAME>de.malban.vide.veccy</PACKAGENAME>
+		<CLASSNAME>ActionTriggerData</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>triggerByCause</FIELDNAME>
+		<FIELDNAME>triggerByY</FIELDNAME>
+		<FIELDNAME>triggerByX</FIELDNAME>
+		<FIELDNAME>triggerByTicks</FIELDNAME>
+		<FIELDNAME>triggerBySpriteID</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>triggerByCause</XMLNAME>
+		<XMLNAME>triggerByY</XMLNAME>
+		<XMLNAME>triggerByX</XMLNAME>
+		<XMLNAME>triggerByTicks</XMLNAME>
+		<XMLNAME>triggerBySpriteID</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>Vector&lt;int&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>Vide</Class>
+		<Name>ActionResult</Name>
+		<PACKAGENAME>de.malban.vide.veccy</PACKAGENAME>
+		<CLASSNAME>ActionResultData</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>resultType</FIELDNAME>
+		<FIELDNAME>resultActionID</FIELDNAME>
+		<FIELDNAME>resultSpriteID</FIELDNAME>
+		<FIELDNAME>resultY</FIELDNAME>
+		<FIELDNAME>resultX</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>resultType</XMLNAME>
+		<XMLNAME>resultActionID</XMLNAME>
+		<XMLNAME>resultSpriteID</XMLNAME>
+		<XMLNAME>resultY</XMLNAME>
+		<XMLNAME>resultX</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		<TYPE>Vector&lt;String&gt;</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>Vide</Class>
+		<Name>BackgroundScene</Name>
+		<PACKAGENAME>de.malban.vide.veccy</PACKAGENAME>
+		<CLASSNAME>BackGroundScene</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>sceneFile</FIELDNAME>
+		<FIELDNAME>yPos</FIELDNAME>
+		<FIELDNAME>xPos</FIELDNAME>
+		<FIELDNAME>scale</FIELDNAME>
+		<FIELDNAME>intensity</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>sceneFile</XMLNAME>
+		<XMLNAME>yPos</XMLNAME>
+		<XMLNAME>xPos</XMLNAME>
+		<XMLNAME>scale</XMLNAME>
+		<XMLNAME>intensity</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>int</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>Vide</Class>
+		<Name>Level</Name>
+		<PACKAGENAME>de.malban.vide.veccy</PACKAGENAME>
+		<CLASSNAME>LevelData</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>LevelOrder</FIELDNAME>
+		<FIELDNAME>UseSmartList</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>LevelOrder</XMLNAME>
+		<XMLNAME>UseSmartList</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>int</TYPE>
+		<TYPE>boolean</TYPE>
 		</TYPEs>	</XMLClassBuilderData>
 </AllXMLClassBuilderData>
