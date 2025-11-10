@@ -101,6 +101,12 @@ import java.util.ArrayList;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DASMStatics;
 import de.malban.vide.dissy.DissiPanel;
+import de.malban.vide.dissy.MemoryInformation;
+import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_BYTE;
+import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_CHAR;
+import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_WORD;
+import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_WORD_POINTER;
+import de.malban.vide.dissy.MemoryInformationTableModel;
 import de.malban.vide.veccy.VectorListScanner;
 import static de.malban.vide.vecx.VecXStatics.EMU_EXIT_CYCLES_DONE;
 import static de.malban.vide.vecx.VecXStatics.FCYCLES_INIT;
@@ -5937,5 +5943,937 @@ boolean startZero=false;
         return false;
 */
     }
-}
+    public void checkFunctionEntry()
+    {
+        int address = e6809.reg_pc;
+        int Y = e6809.reg_y;
+        int X = e6809.reg_x;
+        int U = e6809.reg_u.intValue;
+        int A = e6809.reg_a;
+        int B = e6809.reg_b;
+        int D = A*256+B;
+        
+//address in comment as hex
+//correct count, label and diss        
+        
+        switch (address)
+        {
+            case 0xF410: // "Draw_VLp"
+            {
+                int a = X;
+                int mode;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
 
+                do
+                {
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, "mode, y, x");
+                    }
+                    mode = e6809_readOnly8(a);
+                    a++;
+
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                    }
+                    a++;
+
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                    }
+                    a++;
+
+                    times++;
+                }
+                while (mode != 01);
+
+                dis_setCount(X, times, 3);
+                dis_addLabel(X, "List_Draw_VLp_"+String.format("0x%04X", X));
+                dis_refresh();
+                break;
+            }
+
+            case 0xF3AD: // "Mov_Draw_VLc_a"
+            {
+                int a = X;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
+
+                dis_set8BitHex(a);
+                dis_codeScanDone(a);
+                dis_addLabel(X, "List_Mov_Draw_VLc_a_"+String.format("0x%04X", X));
+                dis_addComment(a, "count");
+                dis_setCount(X, 1, 1);
+                dis_refresh();
+                // rest should be done by Mov_Draw_VL 
+                break;
+            }
+
+            case 0xF3B5: // "Mov_Draw_VLcs"
+            {
+                int a = X;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
+
+                if (!dis_isCodeScanDone(a))
+                {
+                    dis_set8BitHex(a);
+                    dis_codeScanDone(a);
+                    dis_addLabel(X, "List_Mov_Draw_VLcs_"+String.format("0x%04X", X));
+                    dis_addComment(a, "count, scale");
+                }
+                a++;
+                if (!dis_isCodeScanDone(a))
+                {
+                    dis_set8BitHex(a);
+                    dis_codeScanDone(a);
+                    dis_addLabel(a, null);
+                    dis_addComment(a, null);
+                }
+
+                dis_setCount(X, 1, 2);
+                dis_refresh();
+                // rest should be done by Mov_Draw_VL 
+                break;
+            }
+
+            case 0xF3BC: // "Mov_Draw_VL"
+            {
+                int a = X;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
+
+                int count = e6809_readOnly8(0xc823);
+                boolean first = true;
+                while (count>=0)
+                {
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        if (first)
+                            dis_addComment(a, "MOVE: rel y, rel x");
+                        else
+                            dis_addComment(a, "DRAW: rel y, rel x");
+                    }
+                    a++;
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                    }
+                    first = false;
+                    a++;
+                    times++;
+                    count--;
+                }
+                dis_addLabel(X, "List_Mov_Draw_VL_"+String.format("0x%04X", X));
+                dis_setCount(X, times+1, 2);
+                dis_refresh();
+
+                break;
+            }
+            case 0xF3CE: // "Draw_VLc"
+            {
+                int a = X;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
+
+                int count = e6809_readOnly8(a);
+                dis_set8BitHex(a);
+                dis_codeScanDone(a);
+                dis_addLabel(a, "List_Draw_VLc_"+String.format("0x%04X", X));
+                dis_addComment(a, "count");
+/*
+                Should be done by Draw_VL
+                while (count>=0)
+                {
+                    a++;
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, "rel y, rel x");
+                    }
+                    a++;
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                    }
+                    times++;
+                    count--;
+                }
+
+                dis_setCount(X+1, times+1, 2);
+*/
+                dis_refresh();
+                break;
+            }
+            case 0xF3DD: // "Draw_VL"
+            {
+                int a = X;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
+
+                int count = e6809_readOnly8(0xc823);
+                while (count>=0)
+                {
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, "rel y, rel x");
+                    }
+                    a++;
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                    }
+                    a++;
+                    times++;
+                    count--;
+                }
+                dis_addLabel(X, "List_Draw_VL_"+String.format("0x%04X", X));
+                dis_setCount(X, times+1, 2);
+                dis_refresh();
+                break;
+            }
+
+            case 0xF2D5: // "Dot_List"
+            {
+                int a = X;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
+
+                int count = e6809_readOnly8(0xc823);
+                while (count>=0)
+                {
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, "rel y, rel x");
+                    }
+                    a++;
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                    }
+                    a++;
+                    times++;
+                    count--;
+                }
+                dis_addLabel(X, "List_Dot_"+String.format("0x%04X", X));
+                dis_setCount(X, times+1, 2);
+                dis_refresh();
+                break;
+            }
+                
+            case 0xF27D: // "Sound_Bytes"
+            {
+                int a = X;
+                int mode;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
+
+                do
+                {
+                    mode = e6809_readOnly8(a);
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, "register number, music data");
+                    }
+                    a++;
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                    }
+                    a++;
+                    times++;
+                }
+                while (mode != 0xff);
+
+                dis_setCount(X, times, 2);
+                dis_addLabel(X, "Sound_Bytes_"+String.format("0x%04X", X));
+                dis_refresh();
+                break;
+            }
+                        
+            case 0xF46E: // "Draw_VL_mode"
+            {
+                int a = X;
+                int mode,x,y;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
+
+                do
+                {
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, "mode, y, x");
+                    }
+
+                    mode = e6809_readOnly8(a++);
+                    if (mode != 1)
+                    {
+                        if (!dis_isCodeScanDone(a))
+                        {
+                            dis_set8BitHex(a);
+                            dis_codeScanDone(a);
+                            dis_addLabel(a, null);
+                            dis_addComment(a, null);
+                        }
+
+                        y = e6809_readOnly8(a++);
+                        if (!dis_isCodeScanDone(a))
+                        {
+                            dis_set8BitHex(a);
+                            dis_codeScanDone(a);
+                            dis_addLabel(a, null);
+                            dis_addComment(a, null);
+                        }
+                    }
+
+                    x = e6809_readOnly8(a++);
+                    times++;
+                }
+                while (mode != 01);
+
+                dis_setCount(X, times-1, 3);
+                dis_addLabel(X, "List_Draw_Mode_"+String.format("0x%04X", X));
+                dis_refresh();
+                break;
+            }
+            case 0xF437: // "Draw_Pat_VL"
+            {
+                int a = X;
+                int times=0;
+                if (dis_isKown(X)) break;
+                if (dis_isCodeScanDone(X)) break;
+
+                int count = e6809_readOnly8(0xc823);
+                while (count>=0)
+                {
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, "rel y, rel x");
+                    }
+                    a++;
+                    if (!dis_isCodeScanDone(a))
+                    {
+                        dis_set8BitHex(a);
+                        dis_codeScanDone(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                    }
+                    a++;
+                    times++;
+                    count--;
+                }
+                dis_addLabel(X, "List_Draw_Pat_VL_"+String.format("0x%04X", X));
+                dis_setCount(X, times+1, 2);
+                dis_refresh();
+                break;
+            }
+            
+            case 0xF37A: // "Print_Str_d"
+            {
+                int a = U;
+                int c;
+                int count=1;
+                if (dis_isKown(U)) break;
+                
+                if (dis_isCodeScanDone(U)) break;
+                dis_setChar(U);
+                dis_addLabel(U, "StringData_d_"+String.format("0x%04X", U));
+                dis_addComment(U, null);
+
+                do
+                {
+                    a++;
+                    c = e6809_readOnly8(a);
+                    dis_setChar(a);
+                    dis_addLabel(a, null);
+                    dis_addComment(a, null);
+                    dis_codeScanDone(a);
+                    count++;
+                }
+                while (c != 0x80);
+                dis_setCount(U, 1, count);
+                dis_codeScanDone(U);
+                dis_refresh();
+
+                break;
+            }
+            case 0xF373: // "Print_Str_hwyx"
+            {
+                int a = U;
+                int c;
+                int count=1;
+                if (dis_isKown(U)) break;
+                
+                if (dis_isCodeScanDone(U)) break;
+                dis_set8BitHex(U);
+                dis_addLabel(U, "StringData_hwyx_"+String.format("0x%04X", U));
+                dis_addComment(U, "height, width, rel y, rel x");
+
+                // height
+                dis_set8BitHex(a);
+
+                a++;                
+                // width
+                dis_set8BitHex(a);
+                dis_addLabel(a, null);
+                dis_addComment(a, null);
+                
+                a++;                
+                // rel y
+                dis_set8BitHex(a);
+                dis_addLabel(a, null);
+                dis_addComment(a, null);
+                
+                a++;                
+                // rel x
+                dis_set8BitHex(a);
+                dis_addLabel(a, null);
+                dis_addComment(a, null);
+                dis_setCount(U, 1, 4);
+                dis_codeScanDone(U);
+                
+                U = a;
+
+                do
+                {
+                    a++;
+                    c = e6809_readOnly8(a);
+                    dis_setChar(a);
+                    dis_addLabel(a, null);
+                    dis_addComment(a, null);
+                    dis_codeScanDone(a);
+                    count++;
+                }
+                while (c != 0x80);
+                dis_setCount(U, 1, count);
+                dis_codeScanDone(U);
+                dis_refresh();
+
+                break;
+            }
+            case 0xF378: // "Print_Str_yx"
+            {
+                int a = U;
+                int c;
+                int count=1;
+                if (dis_isKown(U)) break;
+                
+                if (dis_isCodeScanDone(U)) break;
+                dis_set8BitHex(U);
+                dis_addLabel(U, "StringData_yx_"+String.format("0x%04X", U));
+                dis_addComment(U, "rel y, rel x");
+
+                // rel y
+                dis_set8BitHex(a);
+                dis_addLabel(a, null);
+                dis_addComment(a, null);
+                
+                a++;                
+                // rel x
+                dis_set8BitHex(a);
+                dis_addLabel(a, null);
+                dis_addComment(a, null);
+                dis_setCount(U, 1, 4);
+                dis_codeScanDone(U);
+                
+                U = a;
+
+                do
+                {
+                    a++;
+                    c = e6809_readOnly8(a);
+                    dis_setChar(a);
+                    dis_addLabel(a, null);
+                    dis_addComment(a, null);
+                    dis_codeScanDone(a);
+                    count++;
+                }
+                while (c != 0x80);
+                dis_setCount(U, 1, count);
+                dis_codeScanDone(U);
+                dis_refresh();
+
+                break;
+            }
+            
+            case 0xF92E: // "Explosion_Snd"
+            {
+                int a = U;
+                int c;
+                int count=1;
+                if (dis_isKown(U)) break;
+                
+                if (dis_isCodeScanDone(U)) break;
+                dis_set8BitHex(U);
+                dis_addLabel(U, "Explosion_Snd_"+String.format("0x%04X", U));
+                dis_addComment(U, "Explosion Data (4 bytes)");
+
+                dis_set8BitHex(a+1);
+                dis_addLabel(a+1, null);
+                dis_addComment(a+1, null);
+                dis_codeScanDone(a+1);
+                
+                dis_set8BitHex(a+2);
+                dis_addLabel(a+2, null);
+                dis_addComment(a+2, null);
+                dis_codeScanDone(a+2);
+
+                dis_set8BitHex(a+3);
+                dis_addLabel(a+3, null);
+                dis_addComment(a+3, null);
+                dis_codeScanDone(a+3);
+
+                dis_setCount(U, 1, 4);
+                dis_codeScanDone(U);
+                dis_refresh();
+                break;
+            }
+
+            case 0xF68D: // "Init_Music"
+            {
+                int a = U;
+                int c;
+                int count=1;
+                if (dis_isKown(U)) break;
+                if (dis_isCodeScanDone(U)) break;
+
+                dis_set16BitHex(a);
+                dis_addLabel(a, "Init_Music"+String.format("0x%04X", a));
+                dis_addComment(a, "ADSR pointer, TWANG pointer");
+                
+                a+=2;
+                dis_set16BitHex(a);
+                dis_addLabel(a, null);
+                dis_addComment(a, null);
+                dis_codeScanDone(a);
+                dis_setCount(U, 1, 2*2); // times two because of word
+                dis_isCodeScanDone(U);
+                a+=2;
+
+                boolean endOfSong = false;
+                do
+                {
+                    // max 4 bytes per "row"
+                    int startAdr = a;
+                    count = 1;
+                    String comment = "";
+
+                    dis_set8BitHex(a);
+                    dis_addLabel(a, null);
+                    dis_addComment(a, null);
+                    dis_codeScanDone(a);
+                    int b = e6809_readOnly8(a);
+                    int freq = b & (1+2+4+8+16+32);
+                    boolean noise = ((b & 64) == 64);
+                    boolean tone = !noise;
+                    boolean nextChannel = ((b & 128) == 128);
+                    boolean endNote = !nextChannel;
+
+                    comment += "1. Freq: "+freq;
+                    if (noise) comment += ", 1. noise";
+                    else comment += ", 1. tone";
+                    
+                    if (nextChannel)
+                    {
+                        a++;
+                        count++;
+                        dis_set8BitHex(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                        dis_codeScanDone(a);
+                        b = e6809_readOnly8(a);
+                        freq = b & (1+2+4+8+16+32);
+                        noise = ((b & 64) == 64);
+                        tone = !noise;
+                        nextChannel = ((b & 128) == 128);
+                        endNote = !nextChannel;
+                    
+                        comment += " 2. Freq: "+freq;
+                        if (noise) comment += ", 2. noise";
+                        else comment += ", 2. tone";
+                    }
+
+                    if (nextChannel)
+                    {
+                        a++;
+                        count++;
+                        dis_set8BitHex(a);
+                        dis_addLabel(a, null);
+                        dis_addComment(a, null);
+                        dis_codeScanDone(a);
+                        b = e6809_readOnly8(a);
+                        freq = b & (1+2+4+8+16+32);
+                        noise = ((b & 64) == 64);
+                        tone = !noise;
+                        nextChannel = ((b & 128) == 128);
+                        endNote = !nextChannel;
+                    
+                        comment += " 3. Freq: "+freq;
+                        if (noise) comment += ", 3. noise";
+                        else comment += ", 3. tone";
+                    }
+
+                    a++;
+                    count++;
+                    dis_set8BitHex(a);
+                    dis_addLabel(a, null);
+                    dis_addComment(a, null);
+                    dis_codeScanDone(a);
+                    b = e6809_readOnly8(a);
+                    int duration = b & (1+2+4+8+16+32);
+                    comment += " -> duration "+ duration;
+                    endOfSong = ((b & 128) == 128);
+                    
+                    dis_addComment(startAdr, comment);
+                    dis_setCount(startAdr, 1, count);
+                    a++;
+                }
+                while (!endOfSong);
+
+                dis_refresh();
+                break;
+            }
+
+// todo
+// add
+/*
+        BIOS_TOMLIN_FUNCTIONS.put(0xF2BE, "Dot_ix_b");
+        BIOS_TOMLIN_FUNCTIONS.put(0xF2C1, "Dot_ix");
+        BIOS_TOMLIN_FUNCTIONS.put(0xF2C3, "Dot_d");
+        BIOS_TOMLIN_FUNCTIONS.put(0xF2C5, "Dot_here");
+        BIOS_TOMLIN_FUNCTIONS.put(0xF2D5, "Dot_List");
+        BIOS_TOMLIN_FUNCTIONS.put(0xF2DE, "Dot_List_Reset");
+        BIOS_TOMLIN_FUNCTIONS.put(0xF385, "Print_List_hw");
+        BIOS_TOMLIN_FUNCTIONS.put(0xF38A, "Print_List");
+        BIOS_TOMLIN_FUNCTIONS.put(0xF38C, "Print_List_chk");
+*/
+            
+
+
+
+
+            default:
+            {
+                break;
+            }
+        }
+    }
+    void dis_refresh()
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return;
+        dissi.refreshCodeScan();
+    }
+    
+
+    boolean dis_isCodeScanDone(int address)
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return true;
+        MemoryInformation memInfo = dissi.getMemInfo(address);
+        if (memInfo == null) return true;
+        return memInfo.codeScanDone;
+    }
+    void dis_codeScanDone(int address)
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return;
+        MemoryInformation memInfo = dissi.getMemInfo(address);
+        if (memInfo == null) return;
+        memInfo.codeScanDone = true;
+    }
+        
+    // ensures only 1 label - or null, if label null
+    // not respecting CodeScanDone
+    void dis_addLabel(int address, String label)
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return;
+        MemoryInformation memInfo = dissi.getMemInfo(address);
+        if (memInfo == null) return;
+        
+        if (memInfo.labels == null)
+            memInfo.labels = new ArrayList<String>();
+
+        if (label != null) memInfo.labels.add(label);
+        
+    }
+    
+    // ensures only 1 comment - or null, if comment null
+    // not respecting CodeScanDone
+    void dis_addComment(int address, String comment)
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return;
+        MemoryInformation memInfo = dissi.getMemInfo(address);
+        if (memInfo == null) return;
+        memInfo.comments = new ArrayList<String>();
+        if (comment != null) memInfo.comments.add(comment);
+    }
+    
+    boolean dis_isKown(int address)
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return false;
+        MemoryInformation memInfo = dissi.getMemInfo(address);
+        if (memInfo == null) return false;
+        return memInfo.typeWasSet;
+    }
+    // not respecting CodeScanDone
+    void dis_setChar(int address)
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return;
+        MemoryInformation memInfo = dissi.getMemInfo(address);
+
+        if (memInfo == null) return;
+
+        MemoryInformation kin = memInfo.belongsToInstruction;
+        if (kin != null) 
+        {
+            kin.reset();
+            kin.disType = DIS_TYPE_DATA_BYTE;
+            kin.typeWasSet = true;
+            kin.disTypeCollectionMax = 1;
+        }
+        memInfo.reset();
+        
+        dissi.resetFollowers(memInfo);
+        memInfo.disType = DIS_TYPE_DATA_CHAR;
+        memInfo.typeWasSet = true;
+        memInfo.disTypeCollectionMax = 1;
+        memInfo.belongsToInstruction = null;
+        memInfo.disassembledMnemonic = "";
+        memInfo.disassembledOperand = "";
+        memInfo.page = -1;
+        memInfo.hexDump = "";
+        memInfo.isInstructionByte = 0;
+        memInfo.referingToAddress = -1;
+        memInfo.referingAddressMode = -1;
+        memInfo.length = 1;
+        memInfo.done = false;
+        memInfo.familyBytes.clear();
+    }
+
+    // not respecting CodeScanDone
+    void dis_set8BitHex(int address)
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return;
+        MemoryInformation memInfo = dissi.getMemInfo(address);
+        if (memInfo == null) return;
+        
+        MemoryInformation kin = memInfo.belongsToInstruction;
+        if (kin != null) 
+        {
+            kin.reset();
+            kin.disType = DIS_TYPE_DATA_BYTE;
+            kin.disTypeCollectionMax = 1;
+            kin.typeWasSet = true;
+        }
+        memInfo.reset();
+        
+        dissi.resetFollowers(memInfo);
+        memInfo.disType = DIS_TYPE_DATA_BYTE;
+        memInfo.typeWasSet = true;
+        memInfo.disTypeCollectionMax = 1;
+        memInfo.belongsToInstruction = null;
+        memInfo.disassembledMnemonic = "";
+        memInfo.disassembledOperand = "";
+        memInfo.page = -1;
+        memInfo.hexDump = "";
+        memInfo.isInstructionByte = 0;
+        memInfo.referingToAddress = -1;
+        memInfo.referingAddressMode = -1;
+        memInfo.length = 1;
+        memInfo.done = false;
+        memInfo.familyBytes.clear();
+    }
+
+        // not respecting CodeScanDone
+    void dis_set16BitHex(int address)
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return;
+        MemoryInformation memInfo = dissi.getMemInfo(address);
+        if (memInfo == null) return;
+        
+        MemoryInformation kin = memInfo.belongsToInstruction;
+        if (kin != null) 
+        {
+            kin.reset();
+            kin.disType = DIS_TYPE_DATA_BYTE;
+            kin.disTypeCollectionMax = 1;
+            kin.typeWasSet = true;
+        }
+        memInfo.reset();
+        
+        dissi.resetFollowers(memInfo);
+        memInfo.disType = MemoryInformation.DIS_TYPE_DATA_WORD_POINTER;
+        memInfo.typeWasSet = true;
+        memInfo.disTypeCollectionMax = 1;
+        memInfo.belongsToInstruction = null;
+        memInfo.disassembledMnemonic = "";
+        memInfo.disassembledOperand = "";
+        memInfo.page = -1;
+        memInfo.hexDump = "";
+        memInfo.isInstructionByte = 0;
+        memInfo.referingToAddress = -1;
+        memInfo.referingAddressMode = -1;
+        memInfo.length = 2;
+        memInfo.done = false;
+        memInfo.familyBytes.clear();
+    }
+
+    
+    // not respecting CodeScanDone
+    // count = count for grouping
+    // done from address times times
+    void dis_setCount(int address, int times, int count)
+    {
+        DissiPanel dissi = null;
+        if (config.debugingCore)
+        {
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                dissi = frame.checkDissi();
+            }
+        }
+        if (dissi == null) return;
+
+        for (int a=address; a<address+times*count; a++)
+        {
+            MemoryInformation memInfo = dissi.getMemInfo(a);
+            memInfo.disTypeCollectionMax = count;
+        }
+    }
+}

@@ -87,6 +87,8 @@ public class MemoryInformation
     public String disassembledMnemonic="";
     public String disassembledOperand="";
     public boolean done = false;          // set when this memory location is fully disassembled, to prevent a "second" pass
+    public boolean codeScanDone = false;
+    
     
     public int isInstructionByte = 0;     // set to instructions with a length >1 to the following bytes, a counter within each opcodes and its operands
     public MemoryInformation belongsToInstruction = null; // if a multi-byte opcode, than here is the memory information of the root byte (the first)
@@ -214,6 +216,8 @@ public class MemoryInformation
             disType = MemoryInformation.DIS_TYPE_LOADED;
         disassembledMnemonic = "";
         disassembledOperand = "";
+        disTypeCollectionMax = 1;
+
         done = false;
         length = 1;
         indexInOpcodeTablePage0 = -1;
@@ -228,7 +232,7 @@ public class MemoryInformation
             mi.hexDump = "";
             mi.belongsToInstruction = null;
             mi.disType = MemoryInformation.DIS_TYPE_LOADED;
-            
+            mi.disTypeCollectionMax = 1;
         }
         familyBytes.clear();
         disassemblerInfoText="";

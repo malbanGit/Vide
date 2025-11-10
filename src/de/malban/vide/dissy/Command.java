@@ -47,6 +47,7 @@ public class Command
     public static final int D_CMD_EXPORT_DATA = 33;
     public static final int D_CMD_JUMP_DATA = 34;
     public static final int D_CMD_TO_PITREX = 35;
+    public static final int D_CMD_DUMP_BIN = 36;
 
     public static final Command[] commands = 
     {
@@ -84,7 +85,10 @@ public class Command
         new Command(D_CMD_DO_NMI, "NMI", "NMI", 1,1,"\"NMI\"\t\t\tDo one NMI.",""),
         new Command(D_CMD_JUMP_DATA, "VIEW", "v", 1,1,"\"VIEW\"\t\t\tJump view to address $xxxx.",""),
         new Command(D_CMD_TO_PITREX, "ToPiTrex", "tp", 1,1,"\"ToPiTrex\"\t\tpush the current active ROM to the development mode of PiTrex (config in configuration)",""),
+        new Command(D_CMD_DUMP_BIN, "DumpBin", "dp", 1,1,"\"DumpBin\"\t\t\tDump current cartridge ROM to a bin file",""),
 
+
+        
         // the following looks whether the stack pointer has a different address at a certain memory location
         // if so it causes a breakpoint
         // usefull for detecting stack leaks

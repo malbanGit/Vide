@@ -1,5 +1,9 @@
+
 /*
- * To change this license header, choose License Headers in Project Properties.
+
+TODO 432
+
+* To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -425,10 +429,10 @@ public class PiTrexSingleton implements PortListener
             sendByte((byte) ((chunkLen) & 0xFF));
 //printf("ChunkLen: %i\n", chunk_len);
 
-beim 2. vdb gehts?
+//beim 2. vdb gehts?
 
-vpb not working
-starting original minestorm instead        
+//vpb not working
+//starting original minestorm instead        
 
             byte crc = crc8(chunk, chunkLen);
             //System.out.printf("CRC: %d\n", crc);

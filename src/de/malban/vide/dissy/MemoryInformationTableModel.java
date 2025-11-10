@@ -658,6 +658,8 @@ public class MemoryInformationTableModel extends AbstractTableModel
         }
         if (col == 8) // address
         {
+//            if (minfo.address == 0x4c0)
+//                col+=0;
             if (minfo.referingToAddress == -1) return "";
             if (minfo.referingAddressMode == DASMStatics.REL)
             {

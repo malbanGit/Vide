@@ -14,6 +14,9 @@ package de.malban.vide.vecx;
 
 // java does not know about "unsigned"
 
+import de.malban.vide.VideConfig;
+
+
 // all data is kept as INT
 // of smaller values are needed, they must be converted where USED!
 
@@ -1424,6 +1427,7 @@ int e6809_sstep (int irq_i, int irq_f)
         return cycles.intValue + 1;
     }
     
+    if (VideConfig.getConfig().codeScanActive) vecx.checkFunctionEntry();
     op = pc_read8 ();
 //    op =vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
 
@@ -3053,6 +3057,7 @@ dataBUS = reg_b;
             vecx.vectrexNonCPUStep(7);
             reg_pc = ea;
             cycles.intValue += 7;
+
             break;
         case 0xad:
             ea = ea_indexed (cycles);
@@ -3653,7 +3658,7 @@ dataBUS = reg_b;
             break;
             
         default:
-            System.out.println ("unknown page-0 op code: "+op+"PC: "+reg_pc+"\n");
+            System.out.println ("unknown page-0 op code: "+op+" PC: "+reg_pc+"\n");
             break;
 	}
         cyclesRunning += cycles.intValue;
@@ -6002,7 +6007,7 @@ int e6809_sstep_opt (int irq_i, int irq_f)
             break;
             
         default:
-            System.out.println ("unknown page-0 op code: "+op+"PC: "+reg_pc+"\n");
+            System.out.println ("unknown page-0 op code: "+op+" PC: "+reg_pc+"\n");
             break;
 	}
         cyclesRunning += cycles.intValue;

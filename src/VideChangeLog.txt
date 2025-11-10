@@ -1,3 +1,8 @@
+- added dump
+- added multiple commands per line seperated by ";"
+- added extensive code scan things
+
+
 -----------------
 no fixed date
 Version 2.12

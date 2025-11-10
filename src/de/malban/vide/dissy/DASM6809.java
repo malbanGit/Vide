@@ -1194,9 +1194,12 @@ public class DASM6809 extends DASMStatics {
             // dont create labels for DIR mode
             if (((info != null) && (createLabels)) && ((mode == REL)||(mode == LREL)/*||(mode == DIR)*/||(mode == EXT)) )
             {
-                labtemp = "_"+String.format("%04X", (address & 0xFFFF));
-                info.labels.add(labtemp);
-                hasLabel = true;
+                if (!info.codeScanDone)
+                {
+                    labtemp = "_"+String.format("%04X", (address & 0xFFFF));
+                    info.labels.add(labtemp);
+                    hasLabel = true;
+                }
             }
             else
             {
@@ -2073,6 +2076,17 @@ public class DASM6809 extends DASMStatics {
                     else
                     {
                         memInfo.disassembledOperand += opAdd;
+                        
+                        if (opAdd.startsWith(DEF.immediatePrefix))
+                        {
+                            if (pg1opcodes[i].numoperands==2) // immediately 16 bit
+                            {
+                                int im16 = operand[0]*256+operand[1];
+                                memInfo.referingToShort = false;
+                                memInfo.referingToAddress=im16;
+                            }
+                        }
+                        
                         memInfo.length = 1 + memInfo.familyBytes.size();
                     }
                 }

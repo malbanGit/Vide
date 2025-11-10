@@ -1,3 +1,14 @@
+You know how when Vide's emulator detects vectors being drawn offscreen, and it draws a bloom of light on the edge of the screen... well today I was writing code to reduce the intensity of vectors as the object they were in approached and crossed the edge of the display... and I noticed that even with the line brightness way down approaching zero, the off-screen bloom remained at full intensity rather than adapting to the actual intensity of the lines that were being drawn off-screen...
+
+It's a very minor discrepancy between the emulation and the real hardware, and probably not worth the time to implement, but maybe it is worth a comment at the foot of the 'to do' list...
+
+By the way I started another effort at drawing tailgunner ships and I'm actually making some progress this time.  Not quite fast enough yet but sufficiently faster than previous efforts that I see light at the end of the tunnel.
+
+G
+
+
+
+
 https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers
 
 
